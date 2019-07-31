@@ -1,0 +1,53 @@
+{
+    "name": "duets",
+    "version": "0.1.0",
+    "description": "🎸 An open-source music simulation game",
+    "author": {
+        "name": "Fran González",
+        "email": "fgonzaleva@icloud.com",
+        "url": "https://github.com/sleepyfran"
+    },
+    "private": true,
+    "main": "public/electron.js",
+    "scripts": {
+        "start": "rescripts start",
+        "build": "rescripts build",
+        "test": "rescripts test",
+        "electron:dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
+        "lint": "eslint './src/**/*.{ts,tsx}' --fix"
+    },
+    "dependencies": {
+        "@types/jest": "24.0.16",
+        "@types/node": "12.6.8",
+        "@types/react": "16.8.23",
+        "@types/react-dom": "16.8.5",
+        "node-sass": "^4.12.0",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
+        "react-scripts": "3.0.1",
+        "typescript": "3.5.3"
+    },
+    "devDependencies": {
+        "@rescripts/cli": "0.0.11",
+        "@rescripts/rescript-env": "0.0.10",
+        "concurrently": "^4.1.1",
+        "electron": "^6.0.0",
+        "electron-builder": "^21.1.5",
+        "eslint-config-prettier": "^6.0.0",
+        "eslint-plugin-prettier": "^3.1.0",
+        "prettier": "^1.18.2",
+        "wait-on": "^3.3.0"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}
