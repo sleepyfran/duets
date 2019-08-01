@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./src",
+        "paths": {
+            "@ui/*": ["ui/*"],
+            "@core/*": ["core/*"],
+            "@persistence/*": ["persistence/*"],
+            "@infrastructure/*": ["infrastructure/*"]
+        }
+    }
+}

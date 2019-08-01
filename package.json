@@ -8,7 +8,7 @@
         "url": "https://github.com/sleepyfran"
     },
     "private": true,
-    "main": "public/electron.js",
+    "main": "src/renderer.js",
     "scripts": {
         "start": "rescripts start",
         "build": "rescripts build",
@@ -30,6 +30,7 @@
     "devDependencies": {
         "@rescripts/cli": "0.0.11",
         "@rescripts/rescript-env": "0.0.10",
+        "babel-plugin-module-resolver": "^3.2.0",
         "concurrently": "^4.1.1",
         "electron": "^6.0.0",
         "electron-builder": "^21.1.5",
