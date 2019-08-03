@@ -21,6 +21,15 @@ const devMode = (() => {
 const appUrl = (() => (devMode ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`))()
 
 /**
+ * Returns whether the app should be started in windowed mode or not.
+ */
+const windowedMode = (() => {
+    const args = process.argv
+    const windowMode = args.length > 2 && args[2]
+    return windowMode === 'windowed'
+})()
+
+/**
  * Creates a new window into duetsWindow.
  */
 let duetsWindow
@@ -29,7 +38,7 @@ const createWindow = () => {
         width: 1280,
         height: 720,
         frame: false,
-        fullscreen: true,
+        fullscreen: !windowedMode,
         webPreferences: {
             nodeIntegration: true,
         },

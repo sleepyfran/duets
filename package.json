@@ -14,6 +14,7 @@
         "build": "rescripts build",
         "test": "rescripts test",
         "electron:dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
+        "electron:dev-windowed": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron . windowed\"",
         "lint": "eslint './src/**/*.{ts,tsx}' --fix"
     },
     "dependencies": {
