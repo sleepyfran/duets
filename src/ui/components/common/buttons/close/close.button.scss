@@ -1,0 +1,12 @@
+@import 'src/ui/styles/_colors.scss';
+@import 'src/ui/styles/_utils.scss';
+
+.close-button-circle {
+    border: none !important;
+
+    @include style-button($red, $white);
+
+    &:hover {
+        @include style-button($black, $white);
+    }
+}

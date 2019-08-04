@@ -1,0 +1,14 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+
+    &.default {
+        & > :first-child {
+            width: 25%;
+        }
+
+        & > :nth-child(2) {
+            width: 75%;
+        }
+    }
+}

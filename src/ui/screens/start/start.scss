@@ -1,0 +1,39 @@
+@import 'src/ui/styles/_sizes.scss';
+
+.main-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    & .top {
+        & .exit-button {
+            align-self: flex-start;
+            padding: $space-small;
+        }
+
+        & .logo {
+            font-size: $font-bigger;
+        }
+
+        & .saves-buttons {
+            display: flex;
+            justify-content: center;
+
+            & .play-button {
+                align-self: center;
+            }
+        }
+    }
+
+    & footer {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0 $space-medium;
+
+        & .external-url:first-child {
+            margin: 0 $space-medium;
+        }
+    }
+}

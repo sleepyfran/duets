@@ -1,9 +1,23 @@
+@import 'src/ui/styles/_colors.scss';
+
 @font-face {
     font-family: 'Duets';
     src: url(./assets/fonts/FredokaOne-Regular.ttf) format('truetype');
 }
 
+html,
 body {
+    height: 100%;
+}
+
+body {
+    background-color: $white;
+    color: $black;
     margin: 0;
     font-family: 'Duets';
+    user-select: none;
+}
+
+#root {
+    height: 100%;
 }

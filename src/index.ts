@@ -3,5 +3,10 @@
  * container and the initialization core parts of the game like the UI.
  */
 import InitializeUi from '@ui/main'
+import { version, homepage } from '../package.json'
 
-InitializeUi()
+InitializeUi({
+    homepageUrl: homepage,
+    sourceCodeUrl: homepage,
+    version,
+})

@@ -1,0 +1,7 @@
+@import 'src/ui/styles/_colors.scss';
+
+.full-size-sidebar {
+    background-color: $gray;
+    border-right: 2px solid $black;
+    height: 100%;
+}

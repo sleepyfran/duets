@@ -1,0 +1,7 @@
+@mixin style-button($backgroundColor, $color) {
+    background-color: $backgroundColor !important;
+
+    & svg {
+        fill: $color;
+    }
+}

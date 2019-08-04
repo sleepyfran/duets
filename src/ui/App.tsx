@@ -1,15 +1,20 @@
-import React from 'react'
-import './App.scss'
+import React, { FunctionComponent } from 'react'
+import './app.scss'
+import Routes from '@ui/screens/screens'
+import { Route } from 'react-router-dom'
 
-const App: React.FC = () => {
+const App: FunctionComponent = () => {
     return (
-        <div className="App">
-            <div className="App">
-                <header className="App-header">
-                    <p>Duets</p>
-                    <p>Under development.</p>
-                </header>
-            </div>
+        <div className="game">
+            {Routes.map((route, index) => (
+                <Route
+                    className="content"
+                    key={index}
+                    path={route.path}
+                    exact={route.exact}
+                    component={route.component}
+                />
+            ))}
         </div>
     )
 }

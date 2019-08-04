@@ -7,6 +7,8 @@
         "email": "fgonzaleva@icloud.com",
         "url": "https://github.com/sleepyfran"
     },
+    "homepage": "https://github.com/duets/game",
+    "license": "GPL-3.0",
     "private": true,
     "main": "src/renderer.js",
     "scripts": {
@@ -18,17 +20,19 @@
         "lint": "eslint './src/**/*.{ts,tsx}' --fix"
     },
     "dependencies": {
-        "@types/jest": "24.0.16",
-        "@types/node": "12.6.8",
-        "@types/react": "16.8.23",
-        "@types/react-dom": "16.8.5",
         "node-sass": "^4.12.0",
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
+        "react-router-dom": "^5.0.1",
         "react-scripts": "3.0.1",
         "typescript": "3.5.3"
     },
     "devDependencies": {
+        "@types/jest": "24.0.16",
+        "@types/node": "12.6.8",
+        "@types/react": "16.8.23",
+        "@types/react-dom": "16.8.5",
+        "@types/react-router-dom": "^4.3.4",
         "@rescripts/cli": "0.0.11",
         "@rescripts/rescript-env": "0.0.10",
         "babel-plugin-module-resolver": "^3.2.0",
