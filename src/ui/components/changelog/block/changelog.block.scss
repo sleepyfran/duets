@@ -1,0 +1,27 @@
+@import 'src/ui/styles/_sizes.scss';
+@import 'src/ui/styles/_colors.scss';
+
+.changelog-block {
+    border-bottom: 2px solid $black;
+    display: flex;
+    flex-direction: column;
+    margin: $space-big;
+
+    & .header {
+        display: flex;
+        align-items: center;
+        padding-left: $space-bigger;
+
+        & :nth-child(2) {
+            color: $dark-gray;
+            margin-left: $space-big;
+            margin-top: 5px; // Center the date with the header.
+        }
+    }
+
+    & .changes {
+        & li {
+            text-align: start;
+        }
+    }
+}

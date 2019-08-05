@@ -3,6 +3,7 @@ import FullSizeSidebar from '@ui/components/sidebars/full-size-sidebar/full-size
 import Layout from '@ui/components/layout/layout'
 import CloseButton from '@ui/components/buttons/close/close.button'
 import PlayButton from '@ui/components/buttons/play/play.button'
+import Changelog from '@ui/components/changelog/changelog'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
 import './start.scss'
 
@@ -33,6 +34,10 @@ const Start: FunctionComponent = () => {
                     </div>
                 </footer>
             </FullSizeSidebar>
+
+            <div className="changelog">
+                <Changelog changelogBlocks={[]} />
+            </div>
         </Layout>
     )
 }
