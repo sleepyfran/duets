@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useContext } from 'react'
-import FullSizeSidebar from '@ui/components/common/sidebars/full-size-sidebar/full-size.sidebar'
-import Layout from '@ui/components/common/layout/layout'
-import CloseButton from '@ui/components/common/buttons/close/close.button'
-import PlayButton from '@ui/components/common/buttons/play/play.button'
+import FullSizeSidebar from '@ui/components/sidebars/full-size-sidebar/full-size.sidebar'
+import Layout from '@ui/components/layout/layout'
+import CloseButton from '@ui/components/buttons/close/close.button'
+import PlayButton from '@ui/components/buttons/play/play.button'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
 import './start.scss'
 
