@@ -15,9 +15,16 @@
         "start": "rescripts start",
         "build": "rescripts build",
         "test": "rescripts test",
+        "test:ci": "rescripts test --watchAll=false",
         "electron:dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
         "electron:dev-windowed": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron . windowed\"",
-        "lint": "eslint './src/**/*.{ts,tsx}' --fix"
+        "lint:check": "eslint './src/**/*.{ts,tsx}'",
+        "lint:fix": "eslint './src/**/*.{ts,tsx}' --fix"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run lint:check && npm run test:ci"
+        }
     },
     "dependencies": {
         "fp-ts": "^2.0.3",
@@ -47,6 +54,7 @@
         "electron-builder": "^21.1.5",
         "eslint-config-prettier": "^6.0.0",
         "eslint-plugin-prettier": "^3.1.0",
+        "husky": "^3.0.2",
         "prettier": "^1.18.2",
         "wait-on": "^3.3.0"
     },
