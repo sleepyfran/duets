@@ -1,14 +1,24 @@
-import React, { FunctionComponent, useContext } from 'react'
+import React, { FunctionComponent, useContext, useEffect } from 'react'
 import FullSizeSidebar from '@ui/components/sidebars/full-size-sidebar/full-size.sidebar'
 import Layout from '@ui/components/layout/layout'
 import CloseButton from '@ui/components/buttons/close/close.button'
 import PlayButton from '@ui/components/buttons/play/play.button'
 import Changelog from '@ui/components/changelog/changelog'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
+import { useChangelogs } from '@ui/hooks/injections.hooks'
+import { useSelector } from 'react-redux'
+import { State } from '@persistence/store/store'
+import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
 import './start.scss'
 
 const Start: FunctionComponent = () => {
     const gameInfo = useContext(GameInfoContext)
+
+    const { fetchAndSave: fetchAndSaveChangelogs } = useChangelogs()
+    const changelogs = useSelector<State, ChangelogsState>(state => state.changelogs)
+    useEffect(() => {
+        fetchAndSaveChangelogs()
+    })
 
     return (
         <Layout>
@@ -36,7 +46,13 @@ const Start: FunctionComponent = () => {
             </FullSizeSidebar>
 
             <div className="changelog">
-                <Changelog changelogBlocks={[]} />
+                {changelogs === 'loading' ? (
+                    'Loading...'
+                ) : changelogs instanceof Error ? (
+                    'There was an error loading the changelog'
+                ) : (
+                    <Changelog changelogList={changelogs} />
+                )}
             </div>
         </Layout>
     )

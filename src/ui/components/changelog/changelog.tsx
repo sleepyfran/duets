@@ -1,23 +1,17 @@
 import React, { FunctionComponent } from 'react'
 import './changelog.scss'
-import ChangelogBlock, { ChangelogBlockProps } from './block/changelog.block'
+import ChangelogBlock from './block/changelog.block'
+import { ChangelogList } from '@core/entities/changelog'
 
 type ChangelogProps = {
-    changelogBlocks: ChangelogBlockProps[]
+    changelogList: ChangelogList
 }
 
 const Changelog: FunctionComponent<ChangelogProps> = props => {
     return (
         <div className="changelog">
-            {props.changelogBlocks.length ? (
-                props.changelogBlocks.map((change, index) => (
-                    <ChangelogBlock
-                        key={index}
-                        version={change.version}
-                        releaseDate={change.releaseDate}
-                        changesMarkdown={change.changesMarkdown}
-                    />
-                ))
+            {props.changelogList.length ? (
+                props.changelogList.map((changelog, index) => <ChangelogBlock key={index} changelog={changelog} />)
             ) : (
                 <p>No versions released yet.</p>
             )}

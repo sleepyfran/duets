@@ -4,9 +4,14 @@
  */
 import InitializeUi from '@ui/main'
 import { version, homepage } from '../package.json'
+import Store from '@persistence/store/store'
+import { GameInfo } from '@ui/types/game-info.js'
+import Injections from './injections'
 
-InitializeUi({
+const gameInfo: GameInfo = {
     homepageUrl: homepage,
     sourceCodeUrl: homepage,
     version,
-})
+}
+
+InitializeUi(gameInfo, Injections, Store)
