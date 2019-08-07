@@ -5,6 +5,7 @@ type CircularButtonProps = {
     className?: string
     circleClassName?: string
     size?: string
+    onClick?: () => void
 }
 
 const CircularButton: FunctionComponent<CircularButtonProps> = props => {
@@ -15,7 +16,7 @@ const CircularButton: FunctionComponent<CircularButtonProps> = props => {
     }
 
     return (
-        <div className={`circular-button ${props.className}`} style={style}>
+        <div className={`circular-button ${props.className}`} style={style} onClick={props.onClick}>
             <div className={`circle ${props.circleClassName}`}>{props.children}</div>
         </div>
     )

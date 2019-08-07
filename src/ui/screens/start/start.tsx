@@ -5,7 +5,7 @@ import CloseButton from '@ui/components/buttons/close/close.button'
 import PlayButton from '@ui/components/buttons/play/play.button'
 import Changelog from '@ui/components/changelog/changelog'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
-import { useChangelogs } from '@ui/hooks/injections.hooks'
+import { useChangelogs, useWindow } from '@ui/hooks/injections.hooks'
 import { useSelector } from 'react-redux'
 import { State } from '@persistence/store/store'
 import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
@@ -20,11 +20,13 @@ const Start: FunctionComponent = () => {
         fetchAndSaveChangelogs()
     })
 
+    const { exit } = useWindow()
+
     return (
         <Layout>
             <FullSizeSidebar className="main-menu">
                 <div className="top">
-                    <CloseButton className="exit-button" />
+                    <CloseButton className="exit-button" onClick={exit} />
                     <h1 className="logo">Duets</h1>
 
                     <div className="saves-buttons">
