@@ -5,7 +5,7 @@ import CloseButton from '@ui/components/buttons/close/close.button'
 import PlayButton from '@ui/components/buttons/play/play.button'
 import Changelog from '@ui/components/changelog/changelog'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
-import { useChangelogs, useWindow } from '@ui/hooks/injections.hooks'
+import { useCommands, useQueries } from '@ui/hooks/injections.hooks'
 import { useSelector } from 'react-redux'
 import { State } from '@persistence/store/store'
 import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
@@ -14,13 +14,13 @@ import './start.scss'
 const Start: FunctionComponent = () => {
     const gameInfo = useContext(GameInfoContext)
 
-    const { fetchAndSave: fetchAndSaveChangelogs } = useChangelogs()
+    const { fetchAndSave: fetchAndSaveChangelogs } = useQueries().changelogs
     const changelogs = useSelector<State, ChangelogsState>(state => state.changelogs)
     useEffect(() => {
         fetchAndSaveChangelogs()
     })
 
-    const { exit, openInBrowser } = useWindow()
+    const { exit, openInBrowser } = useCommands().window
 
     return (
         <Layout>

@@ -13,4 +13,4 @@ export type Injections = {
 /**
  * Context in which we'll have access to the injections provided to the UI.
  */
-export const InjectionsContext = React.createContext<Partial<Injections>>({})
+export const InjectionsContext = React.createContext<Injections>({} as Injections)
