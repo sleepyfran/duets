@@ -20,7 +20,7 @@ const Start: FunctionComponent = () => {
         fetchAndSaveChangelogs()
     })
 
-    const { exit } = useWindow()
+    const { exit, openInBrowser } = useWindow()
 
     return (
         <Layout>
@@ -37,10 +37,10 @@ const Start: FunctionComponent = () => {
                 <footer>
                     <h3>v{gameInfo.version}</h3>
                     <div>
-                        <a className="external-url" href={gameInfo.sourceCodeUrl}>
+                        <a className="external-url" onClick={() => openInBrowser(gameInfo.sourceCodeUrl)}>
                             source code
                         </a>
-                        <a className="external-url" href={gameInfo.homepageUrl}>
+                        <a className="external-url" onClick={() => openInBrowser(gameInfo.homepageUrl)}>
                             homepage
                         </a>
                     </div>
