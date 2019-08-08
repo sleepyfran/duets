@@ -1,6 +1,6 @@
 import { of } from 'fp-ts/lib/IO'
 import { remote, shell } from 'electron'
-import WindowInteractor from '@core/interfaces/window/window'
+import WindowInteractor from '@core/interfaces/window'
 
 const window: WindowInteractor = {
     exit: () => remote.getCurrentWindow().close(),

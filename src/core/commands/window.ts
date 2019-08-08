@@ -1,5 +1,5 @@
 import { IO } from 'fp-ts/lib/IO'
-import WindowInteractor from '@core/interfaces/window/window'
+import WindowInteractor from '@core/interfaces/window'
 
 export interface WindowCommands {
     exit: IO<void>
