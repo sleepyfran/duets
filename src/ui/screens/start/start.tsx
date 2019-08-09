@@ -33,7 +33,7 @@ const Start: FunctionComponent = () => {
     const attemptLoadPreviousSavegame = () => {
         pipe(
             attemptLoad,
-            fold(error => of(history.push(CharacterCreationScreen.path)), content => of(alert('Coming soon.'))),
+            fold(() => of(history.push(CharacterCreationScreen.path)), () => of(alert('Coming soon.'))),
         )()
     }
 
