@@ -1,0 +1,12 @@
+@import 'src/ui/styles/colors';
+@import 'src/ui/styles/utils';
+
+.back-button-circle {
+    border: none !important;
+
+    @include style-button($blue, $white);
+
+    &:hover {
+        @include style-button($black, $white);
+    }
+}

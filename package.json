@@ -36,7 +36,8 @@
         "react-scripts": "3.0.1",
         "redux": "^4.0.4",
         "showdown": "^1.9.0",
-        "typescript": "3.5.3"
+        "typescript": "3.5.3",
+        "use-react-router": "^1.0.7"
     },
     "devDependencies": {
         "@rescripts/cli": "0.0.11",

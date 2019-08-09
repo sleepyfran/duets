@@ -1,5 +1,6 @@
-import StartComponent from './start/start'
 import { FunctionComponent } from 'react'
+import StartComponent from './start/start'
+import CharacterCreation from '@ui/screens/character-creation/character-creation'
 
 type Screen = {
     name: string
@@ -11,10 +12,17 @@ type Screen = {
 export const StartScreen: Screen = {
     name: 'Start',
     path: '/',
+    exact: true,
     component: StartComponent,
+}
+
+export const CharacterCreationScreen: Screen = {
+    name: 'CharacterCreation',
+    path: '/character-creation',
+    component: CharacterCreation,
 }
 
 /**
  * Screens available in the game. This translates to routes in the app.
  */
-export default [StartScreen]
+export default [StartScreen, CharacterCreationScreen]
