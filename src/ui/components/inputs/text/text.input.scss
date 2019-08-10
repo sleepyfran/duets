@@ -1,0 +1,23 @@
+@import 'src/ui/styles/_colors.scss';
+@import 'src/ui/styles/_sizes.scss';
+
+.text-input {
+    align-items: flex-start;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: $space-small $space-medium;
+    width: 100%;
+
+    & label {
+        text-transform: uppercase;
+    }
+
+    & input[type='text'] {
+        border: 2px solid $black;
+        box-sizing: border-box;
+        font-size: $font-small;
+        padding: $space-small;
+        width: 100%;
+    }
+}

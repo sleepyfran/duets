@@ -12,10 +12,20 @@ body {
 
 body {
     background-color: $white;
-    color: $black;
     margin: 0;
-    font-family: 'Duets';
     user-select: none;
+
+    & textarea,
+    & select,
+    & input,
+    & button {
+        outline: none;
+    }
+
+    & * {
+        color: $black;
+        font-family: 'Duets';
+    }
 }
 
 #root {

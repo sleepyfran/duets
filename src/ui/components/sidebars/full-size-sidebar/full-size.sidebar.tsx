@@ -1,12 +1,39 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, ReactNode } from 'react'
 import './full-size.sidebar.scss'
+import { NavButton } from '@ui/components/buttons/nav/navButton'
+import BackButton from '@ui/components/buttons/nav/back/back.button'
+import CloseButton from '@ui/components/buttons/nav/close/close.button'
 
 type FullSizeSidebarProps = {
     className: string
+    header?: ReactNode
+    footer?: ReactNode
+    navButton: NavButton
+    onNavButtonClick: () => void
 }
 
 const FullSizeSidebar: FunctionComponent<FullSizeSidebarProps> = props => {
-    return <div className={`full-size-sidebar ${props.className}`}>{props.children}</div>
+    const navButton = () => {
+        switch (props.navButton) {
+            case NavButton.hide:
+                return <></>
+            case NavButton.close:
+                return <CloseButton className="nav" onClick={props.onNavButtonClick} />
+            case NavButton.back:
+                return <BackButton className="nav" onClick={props.onNavButtonClick} />
+        }
+    }
+
+    return (
+        <div className={`full-size-sidebar ${props.className}`}>
+            <header>
+                {navButton()}
+                {props.header}
+            </header>
+
+            <footer>{props.footer}</footer>
+        </div>
+    )
 }
 
 export default FullSizeSidebar

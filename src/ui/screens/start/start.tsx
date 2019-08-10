@@ -6,13 +6,13 @@ import { of } from 'fp-ts/lib/Task'
 import { useSelector } from 'react-redux'
 import FullSizeSidebar from '@ui/components/sidebars/full-size-sidebar/full-size.sidebar'
 import Layout from '@ui/components/layout/layout'
-import CloseButton from '@ui/components/buttons/nav/close/close.button'
 import PlayButton from '@ui/components/buttons/play/play.button'
 import Changelog from '@ui/components/changelog/changelog'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
 import { useCommands, useQueries } from '@ui/hooks/injections.hooks'
 import { State } from '@persistence/store/store'
 import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
+import { NavButton } from '@ui/components/buttons/nav/navButton'
 import { CharacterCreationScreen } from '@ui/screens/screens'
 import './start.scss'
 
@@ -39,28 +39,33 @@ const Start: FunctionComponent = () => {
 
     return (
         <Layout>
-            <FullSizeSidebar className="main-menu">
-                <header>
-                    <CloseButton className="exit-button" onClick={exit} />
-                    <h1 className="logo">Duets</h1>
+            <FullSizeSidebar
+                className="main-menu"
+                header={
+                    <>
+                        <h1 className="logo">Duets</h1>
 
-                    <div className="saves-buttons">
-                        <PlayButton onClick={attemptLoadPreviousSavegame} />
-                    </div>
-                </header>
-
-                <footer>
-                    <h3>v{gameInfo.version}</h3>
-                    <div>
-                        <a className="external-url" onClick={() => openInBrowser(gameInfo.sourceCodeUrl)}>
-                            source code
-                        </a>
-                        <a className="external-url" onClick={() => openInBrowser(gameInfo.homepageUrl)}>
-                            homepage
-                        </a>
-                    </div>
-                </footer>
-            </FullSizeSidebar>
+                        <div className="saves-buttons">
+                            <PlayButton onClick={attemptLoadPreviousSavegame} />
+                        </div>
+                    </>
+                }
+                footer={
+                    <>
+                        <h3>v{gameInfo.version}</h3>
+                        <div>
+                            <a className="external-url" onClick={() => openInBrowser(gameInfo.sourceCodeUrl)}>
+                                source code
+                            </a>
+                            <a className="external-url" onClick={() => openInBrowser(gameInfo.homepageUrl)}>
+                                homepage
+                            </a>
+                        </div>
+                    </>
+                }
+                navButton={NavButton.close}
+                onNavButtonClick={exit}
+            />
 
             <div className="changelog">
                 {changelogs === 'loading' ? (
