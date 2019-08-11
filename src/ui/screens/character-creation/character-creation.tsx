@@ -10,19 +10,22 @@ const CharacterCreation: FunctionComponent = () => {
     const { history } = useRouter()
 
     return (
-        <Layout>
-            <FullSizeSidebar
-                className="main-menu"
-                header={
-                    <div>
-                        <h1>Character creation</h1>
-                        <TextInput label="Name" />
-                    </div>
-                }
-                navButton={NavButton.back}
-                onNavButtonClick={history.goBack}
-            />
-        </Layout>
+        <Layout
+            left={
+                <FullSizeSidebar
+                    className="main-menu"
+                    header={
+                        <div>
+                            <h1>Character creation</h1>
+                            <TextInput label="Name" />
+                        </div>
+                    }
+                    navButton={NavButton.back}
+                    onNavButtonClick={history.goBack}
+                />
+            }
+            right={<></>}
+        />
     )
 }
 

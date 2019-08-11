@@ -38,45 +38,48 @@ const Start: FunctionComponent = () => {
     }
 
     return (
-        <Layout>
-            <FullSizeSidebar
-                className="main-menu"
-                header={
-                    <>
-                        <h1 className="logo">Duets</h1>
+        <Layout
+            left={
+                <FullSizeSidebar
+                    className="main-menu"
+                    header={
+                        <>
+                            <h1 className="logo">Duets</h1>
 
-                        <div className="saves-buttons">
-                            <PlayButton onClick={attemptLoadPreviousSavegame} />
-                        </div>
-                    </>
-                }
-                footer={
-                    <>
-                        <h3>v{gameInfo.version}</h3>
-                        <div>
-                            <a className="external-url" onClick={() => openInBrowser(gameInfo.sourceCodeUrl)}>
-                                source code
-                            </a>
-                            <a className="external-url" onClick={() => openInBrowser(gameInfo.homepageUrl)}>
-                                homepage
-                            </a>
-                        </div>
-                    </>
-                }
-                navButton={NavButton.close}
-                onNavButtonClick={exit}
-            />
-
-            <div className="changelog">
-                {changelogs === 'loading' ? (
-                    'Loading...'
-                ) : changelogs instanceof Error ? (
-                    'There was an error loading the changelog'
-                ) : (
-                    <Changelog changelogList={changelogs} />
-                )}
-            </div>
-        </Layout>
+                            <div className="saves-buttons">
+                                <PlayButton onClick={attemptLoadPreviousSavegame} />
+                            </div>
+                        </>
+                    }
+                    footer={
+                        <>
+                            <h3>v{gameInfo.version}</h3>
+                            <div>
+                                <a className="external-url" onClick={() => openInBrowser(gameInfo.sourceCodeUrl)}>
+                                    source code
+                                </a>
+                                <a className="external-url" onClick={() => openInBrowser(gameInfo.homepageUrl)}>
+                                    homepage
+                                </a>
+                            </div>
+                        </>
+                    }
+                    navButton={NavButton.close}
+                    onNavButtonClick={exit}
+                />
+            }
+            right={
+                <div className="changelog">
+                    {changelogs === 'loading' ? (
+                        'Loading...'
+                    ) : changelogs instanceof Error ? (
+                        'There was an error loading the changelog'
+                    ) : (
+                        <Changelog changelogList={changelogs} />
+                    )}
+                </div>
+            }
+        />
     )
 }
 
