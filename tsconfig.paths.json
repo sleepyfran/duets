@@ -4,6 +4,7 @@
         "paths": {
             "@ui/*": ["ui/*"],
             "@core/*": ["core/*"],
+            "@engine/*": ["engine/*"],
             "@persistence/*": ["persistence/*"],
             "@infrastructure/*": ["infrastructure/*"]
         }

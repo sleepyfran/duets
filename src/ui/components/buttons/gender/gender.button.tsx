@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import CircularButton from '@ui/components/buttons/circular/circular.button'
 import { ReactComponent as MaleIcon } from '@ui/assets/icons/male.svg'
 import { ReactComponent as FemaleIcon } from '@ui/assets/icons/female.svg'
-import { Gender } from '@core/types/gender'
+import { Gender } from '@engine/entities/gender'
 import './gender.button.scss'
 
 type PlayButtonProps = {

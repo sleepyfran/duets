@@ -13,6 +13,7 @@ module.exports = {
                 alias: {
                     '@ui': './src/ui',
                     '@core': './src/core',
+                    '@engine': './src/engine',
                     '@infrastructure': './src/infrastructure',
                     '@persistence': './src/persistence',
                 },
