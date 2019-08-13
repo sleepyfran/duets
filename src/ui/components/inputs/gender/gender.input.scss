@@ -1,0 +1,10 @@
+@import 'src/ui/styles/_sizes.scss';
+
+.gender-options {
+    display: flex;
+    margin-top: $space-small;
+
+    & > :first-child {
+        margin-right: $space-big;
+    }
+}
