@@ -2,21 +2,21 @@
 @import 'src/ui/styles/_utils.scss';
 
 .gender-button-circle {
+    @include style-button(transparent, $black);
+
     & svg {
         height: 75%;
         padding-top: calc(75% / 10);
     }
 
-    &.male {
-        @include style-button($blue, $black);
-    }
-
-    &.female {
-        @include style-button($pink, $black);
-    }
-
     &:hover,
     &.selected {
-        @include style-button($black, $white);
+        &.male {
+            @include style-button($blue, $black);
+        }
+
+        &.female {
+            @include style-button($pink, $black);
+        }
     }
 }

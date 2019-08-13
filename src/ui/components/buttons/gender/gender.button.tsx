@@ -13,10 +13,15 @@ type PlayButtonProps = {
 
 const PlayButton: FunctionComponent<PlayButtonProps> = props => {
     const icon = props.gender === Gender.male ? <MaleIcon /> : <FemaleIcon />
-    const colorClass = props.selected ? 'selected' : props.gender === Gender.male ? 'male' : 'female'
+    const colorClass = props.gender === Gender.male ? 'male' : 'female'
+    const selectedClass = props.selected ? 'selected' : ''
 
     return (
-        <CircularButton circleClassName={`gender-button-circle ${colorClass}`} size="35" onClick={props.onClick}>
+        <CircularButton
+            circleClassName={`gender-button-circle ${selectedClass} ${colorClass}`}
+            size="35"
+            onClick={props.onClick}
+        >
             {icon}
         </CircularButton>
     )
