@@ -1,6 +1,6 @@
-import { fold } from 'fp-ts/lib/TaskEither'
 import { fromIO, Task } from 'fp-ts/lib/Task'
 import { pipe } from 'fp-ts/lib/pipeable'
+import { fold } from 'fp-ts/lib/TaskEither'
 import ChangelogsFetcher from '@core/interfaces/changelogs/changelogs.fetcher'
 import ChangelogsData from '@core/interfaces/changelogs/changelogs.data'
 

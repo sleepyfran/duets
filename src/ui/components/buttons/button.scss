@@ -1,0 +1,25 @@
+@import 'src/ui/styles/_colors.scss';
+@import 'src/ui/styles/_sizes.scss';
+
+@mixin style-button($background-color) {
+    background-color: $background-color;
+
+    &:hover {
+        background-color: darken($background-color, 10%);
+    }
+}
+
+.button {
+    color: $white;
+    padding: $space-medium;
+    text-align: center;
+    width: 100%;
+
+    &.normal {
+        @include style-button($blue);
+    }
+
+    &.warn {
+        @include style-button($red);
+    }
+}

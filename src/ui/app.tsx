@@ -1,11 +1,13 @@
 import React, { FunctionComponent } from 'react'
-import './app.scss'
-import Routes from '@ui/screens/screens'
 import { Route } from 'react-router-dom'
+import Routes from '@ui/screens/screens'
+import DialogOverlay from '@ui/dialogs/dialog.overlay'
+import './app.scss'
 
 const App: FunctionComponent = () => {
     return (
         <div className="game">
+            <DialogOverlay />
             {Routes.map((route, index) => (
                 <Route
                     className="content"

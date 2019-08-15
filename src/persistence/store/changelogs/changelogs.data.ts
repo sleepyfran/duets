@@ -3,7 +3,8 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import { Dispatch } from 'redux'
 import ChangelogsData from '@core/interfaces/changelogs/changelogs.data'
 import { ChangelogList } from '@core/entities/changelog'
-import { ChangelogsAction, createSaveChangelogsAction, createSaveErrorAction } from './changelogs.actions'
+import { ChangelogsAction, createSaveChangelogsAction } from './changelogs.actions'
+import { createSaveErrorAction } from '@persistence/store/common'
 
 /**
  * Implementation of ChangelogsData that saves the changelogs into a Redux store.

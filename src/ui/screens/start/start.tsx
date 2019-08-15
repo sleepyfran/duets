@@ -10,10 +10,13 @@ import PlayButton from '@ui/components/buttons/play/play.button'
 import Changelog from '@ui/components/changelog/changelog'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
 import { useCommands, useQueries } from '@ui/hooks/injections.hooks'
+import { useMountEffect } from '@ui/hooks/mount.hooks'
 import { State } from '@persistence/store/store'
 import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
 import { NavButton } from '@ui/components/buttons/nav/navButton'
 import { CharacterCreationScreen } from '@ui/screens/screens'
+import { useDialog } from '@ui/hooks/dialog.hooks'
+import { DialogType } from '@persistence/store/ui/ui.state'
 import './start.scss'
 
 const Start: FunctionComponent = () => {
@@ -25,6 +28,15 @@ const Start: FunctionComponent = () => {
     const changelogs = useSelector<State, ChangelogsState>(state => state.changelogs)
     useEffect(() => {
         fetchAndSaveChangelogs()
+    })
+
+    const { loadFromCacheAndSaveCities } = useCommands().init
+    const { showDialog } = useDialog()
+    useMountEffect(() => {
+        pipe(
+            loadFromCacheAndSaveCities,
+            fold(() => of(showDialog(DialogType.databaseDownload)), () => of(console.log('Database loaded'))),
+        )()
     })
 
     const { attemptLoad } = useCommands().savegames

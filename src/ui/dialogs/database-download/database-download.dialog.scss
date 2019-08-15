@@ -1,0 +1,21 @@
+@import 'src/ui/styles/colors';
+@import 'src/ui/styles/sizes';
+
+.database-download-dialog {
+    padding: $space-bigger;
+
+    & > p {
+        color: $dark-gray;
+        text-align: start;
+    }
+
+    & > .choice {
+        display: flex;
+        flex-direction: row;
+        padding: 0 $space-bigger;
+
+        & :first-child {
+            margin-right: $space-medium;
+        }
+    }
+}

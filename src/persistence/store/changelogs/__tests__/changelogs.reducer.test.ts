@@ -1,6 +1,7 @@
 import ChangelogsReducer from '../changelogs.reducer'
-import { createSaveErrorAction, createSaveChangelogsAction } from '../changelogs.actions'
+import { createSaveChangelogsAction } from '../changelogs.actions'
 import { Changelog } from '@core/entities/changelog'
+import { createSaveErrorAction } from '../../common'
 
 describe('ChangelogsReducer', () => {
     it('should return an empty list when the saveChangelogsAction with an empty list is given', () => {

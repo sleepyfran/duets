@@ -10,4 +10,4 @@ export type Changelog = {
 /**
  * Defines a list of the previously defined changelog.
  */
-export type ChangelogList = Changelog[]
+export type ChangelogList = ReadonlyArray<Changelog>

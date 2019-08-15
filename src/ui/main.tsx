@@ -2,13 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import './index.scss'
+import { AnyAction, Store } from 'redux'
 import App from './app'
 import { GameInfo } from '@ui/types/game-info'
 import { Injections } from '@ui/contexts/injections.context'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
 import { InjectionsContext } from './contexts/injections.context'
-import { AnyAction, Store } from 'redux'
+import './index.scss'
 
 /**
  * Renders the app with the game information.
