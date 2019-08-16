@@ -40,4 +40,11 @@
             width: 100%;
         }
     }
+
+    & hr {
+        background-color: $black;
+        border: none;
+        height: 2px;
+        margin: $space-bigger $space-small;
+    }
 }

@@ -22,6 +22,9 @@ const CharacterCreation: FunctionComponent = () => {
                             <TextInput label="Name" />
                             <DateInput label="Birthday" />
                             <GenderInput label="Gender" />
+
+                            <hr />
+                            <DateInput label="Game start year" maxDate={new Date()} />
                         </div>
                     }
                     navButton={NavButton.back}
