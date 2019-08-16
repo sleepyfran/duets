@@ -4,11 +4,11 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import SavegameFetcher from '@core/interfaces/savegames/savegame.fetcher'
 import SavegameParser from '@core/interfaces/savegames/savegame.parser'
 
-export interface SaveGameCommands {
+export interface SaveGameActions {
     attemptLoad: TaskEither<Error, Game>
 }
 
-export default (savegameFetcher: SavegameFetcher, savegameParser: SavegameParser): SaveGameCommands => ({
+export default (savegameFetcher: SavegameFetcher, savegameParser: SavegameParser): SaveGameActions => ({
     attemptLoad: pipe(
         savegameFetcher.getDefault,
         map(savegameString => savegameParser.parse(savegameString)),

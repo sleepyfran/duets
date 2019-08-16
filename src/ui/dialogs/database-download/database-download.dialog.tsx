@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react'
 import Button, { ButtonType } from '@ui/components/buttons/button'
-import { useCommands } from '@ui/hooks/injections.hooks'
+import { useActions } from '@ui/hooks/injections.hooks'
 import { useDialog } from '@ui/hooks/dialog.hooks'
 import './database-download.dialog.scss'
 
 const DatabaseDownloadDialog: FunctionComponent = () => {
-    const { exit } = useCommands().window
+    const { exit } = useActions().window
     const { hideDialog } = useDialog()
 
     return (

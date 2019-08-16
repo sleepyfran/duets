@@ -9,7 +9,7 @@ import Layout from '@ui/components/layout/layout'
 import PlayButton from '@ui/components/buttons/play/play.button'
 import Changelog from '@ui/components/changelog/changelog'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
-import { useCommands, useQueries } from '@ui/hooks/injections.hooks'
+import { useActions } from '@ui/hooks/injections.hooks'
 import { useMountEffect } from '@ui/hooks/mount.hooks'
 import { State } from '@persistence/store/store'
 import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
@@ -24,13 +24,13 @@ const Start: FunctionComponent = () => {
 
     const gameInfo = useContext(GameInfoContext)
 
-    const { fetchAndSave: fetchAndSaveChangelogs } = useQueries().changelogs
+    const { fetchAndSave: fetchAndSaveChangelogs } = useActions().changelogs
     const changelogs = useSelector<State, ChangelogsState>(state => state.changelogs)
     useEffect(() => {
         fetchAndSaveChangelogs()
     })
 
-    const { loadFromCacheAndSaveCities } = useCommands().init
+    const { loadFromCacheAndSaveCities } = useActions().init
     const { showDialog } = useDialog()
     useMountEffect(() => {
         pipe(
@@ -39,8 +39,8 @@ const Start: FunctionComponent = () => {
         )()
     })
 
-    const { attemptLoad } = useCommands().savegames
-    const { exit, openInBrowser } = useCommands().window
+    const { attemptLoad } = useActions().savegames
+    const { exit, openInBrowser } = useActions().window
 
     const attemptLoadPreviousSavegame = () => {
         pipe(

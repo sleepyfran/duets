@@ -6,30 +6,23 @@ import GitHubDatabase from '@infrastructure/github.database'
 import FileDatabase from '@infrastructure/file.database'
 import ReduxDatabase from '@persistence/store/database/redux.database'
 import ChangelogsData from '@persistence/store/changelogs/changelogs.data'
-import CreateChangelogsQuery from '@core/queries/changelogs'
-import CreateWindowCommands from '@core/commands/window'
-import CreateSavegameCommands from '@core/commands/savegame'
-import CreateInitializationCommands from '@core/commands/initialization'
+import CreateChangelogsActions from '@core/actions/changelogs'
+import CreateWindowActions from '@core/actions/window'
+import CreateSavegameActions from '@core/actions/savegame'
+import CreateInitializationActions from '@core/actions/initialization'
 import ElectronWindow from '@infrastructure/electron.window'
 import { Injections } from '@ui/contexts/injections.context'
 
-/* Commands. */
-const savegameCommands = CreateSavegameCommands(ElectronSavegameFetcher, SavegameParser)
-const initializationCommands = CreateInitializationCommands(GitHubDatabase, FileDatabase, ReduxDatabase(Store.dispatch))
-const windowCommands = CreateWindowCommands(ElectronWindow)
-
-/* Queries. */
-const changelogsQuery = CreateChangelogsQuery(ChangelogsFetcher, ChangelogsData(Store.dispatch))
+const changelogsActions = CreateChangelogsActions(ChangelogsFetcher, ChangelogsData(Store.dispatch))
+const savegameActions = CreateSavegameActions(ElectronSavegameFetcher, SavegameParser)
+const initializationActions = CreateInitializationActions(GitHubDatabase, FileDatabase, ReduxDatabase(Store.dispatch))
+const windowActions = CreateWindowActions(ElectronWindow)
 
 const injections: Injections = {
-    queries: {
-        changelogs: changelogsQuery,
-    },
-    commands: {
-        init: initializationCommands,
-        savegames: savegameCommands,
-        window: windowCommands,
-    },
+    changelogs: changelogsActions,
+    init: initializationActions,
+    savegames: savegameActions,
+    window: windowActions,
 }
 
 export default injections

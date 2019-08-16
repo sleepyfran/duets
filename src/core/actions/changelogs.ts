@@ -4,11 +4,11 @@ import { fold } from 'fp-ts/lib/TaskEither'
 import ChangelogsFetcher from '@core/interfaces/changelogs/changelogs.fetcher'
 import ChangelogsData from '@core/interfaces/changelogs/changelogs.data'
 
-export interface ChangelogsQuery {
+export interface ChangelogsActions {
     fetchAndSave: Task<void>
 }
 
-export default (fetcher: ChangelogsFetcher, data: ChangelogsData): ChangelogsQuery => ({
+export default (fetcher: ChangelogsFetcher, data: ChangelogsData): ChangelogsActions => ({
     fetchAndSave: pipe(
         fetcher.getLatest(),
         fold(error => fromIO(data.saveError(error)), changelogs => fromIO(data.saveChangelogs(changelogs))),
