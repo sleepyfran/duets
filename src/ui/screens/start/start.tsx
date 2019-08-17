@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect } from 'react'
+import React, { FunctionComponent, useContext } from 'react'
 import useReactRouter from 'use-react-router'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { fold } from 'fp-ts/lib/TaskEither'
@@ -26,7 +26,7 @@ const Start: FunctionComponent = () => {
 
     const { fetchAndSave: fetchAndSaveChangelogs } = useActions().changelogs
     const changelogs = useSelector<State, ChangelogsState>(state => state.changelogs)
-    useEffect(() => {
+    useMountEffect(() => {
         fetchAndSaveChangelogs()
     })
 
