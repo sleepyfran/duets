@@ -18,4 +18,9 @@ export type State = {
     ui: UiState
 }
 
-export default createStore(rootReducer)
+export default createStore(
+    rootReducer,
+    {},
+    // Needed by the Redux DevTools to detect the game's store.
+    (window as any).devToolsExtension ? (window as any).devToolsExtension() : (f: any) => f,
+)

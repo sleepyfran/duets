@@ -1,5 +1,6 @@
 const electron = require('electron')
 const path = require('path')
+const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer')
 
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
@@ -48,6 +49,11 @@ const createWindow = () => {
 
     if (devMode) {
         duetsWindow.webContents.openDevTools()
+
+        // Install the Redux DevTools for easier debugging.
+        installExtension(REDUX_DEVTOOLS)
+            .then(name => console.log(`Added Extension:  ${name}`))
+            .catch(err => console.log('An error occurred: ', err))
     }
 
     duetsWindow.on('closed', () => (duetsWindow = null))
