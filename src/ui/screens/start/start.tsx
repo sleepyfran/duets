@@ -35,7 +35,7 @@ const Start: FunctionComponent = () => {
     useMountEffect(() => {
         pipe(
             loadFromCacheAndSaveCities,
-            fold(() => of(showDialog(DialogType.databaseDownload)), () => of(console.log('Database loaded'))),
+            fold(() => of(showDialog(DialogType.databaseDownloadPrompt)), () => of(console.log('Database loaded'))),
         )()
     })
 

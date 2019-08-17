@@ -1,23 +1,39 @@
 import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
-import DatabaseDownloadDialog from '@ui/dialogs/database-download/database-download.dialog'
 import { State } from '@persistence/store/store'
 import { DialogType } from '@persistence/store/ui/ui.state'
+import DatabaseDownloadPromptDialog from '@ui/dialogs/database-download/prompt/database-download-prompt.dialog'
+import DatabaseDownloadProgressDialog from '@ui/dialogs/database-download/progress/database-download-progress.dialog'
 import './dialog.overlay.scss'
 
-const Dialog: FunctionComponent = () => {
-    const type = useSelector((state: State) => state.ui.dialog)
+type DialogProps = {
+    type: DialogType
+}
 
+const Dialog: FunctionComponent<DialogProps> = props => {
+    switch (props.type) {
+        case DialogType.databaseDownloadPrompt:
+            return <DatabaseDownloadPromptDialog />
+        case DialogType.databaseDownloadProgress:
+            return <DatabaseDownloadProgressDialog />
+        default:
+            return <></>
+    }
+}
+
+const DialogOverlay: FunctionComponent = () => {
+    const type = useSelector((state: State) => state.ui.dialog)
     const hideDialog = type === DialogType.hide
-    const dialogContent = type === DialogType.databaseDownload ? <DatabaseDownloadDialog /> : <></>
 
     return hideDialog ? (
         <></>
     ) : (
         <div className="overlay">
-            <div className="dialog">{dialogContent}</div>
+            <div className="dialog">
+                <Dialog type={type} />
+            </div>
         </div>
     )
 }
 
-export default Dialog
+export default DialogOverlay

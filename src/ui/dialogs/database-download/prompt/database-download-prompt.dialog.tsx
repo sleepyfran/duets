@@ -2,11 +2,14 @@ import React, { FunctionComponent } from 'react'
 import Button, { ButtonType } from '@ui/components/buttons/button'
 import { useActions } from '@ui/hooks/injections.hooks'
 import { useDialog } from '@ui/hooks/dialog.hooks'
-import './database-download.dialog.scss'
+import { DialogType } from '@persistence/store/ui/ui.state'
+import './database-download-prompt.dialog.scss'
 
-const DatabaseDownloadDialog: FunctionComponent = () => {
+const DatabaseDownloadPromptDialog: FunctionComponent = () => {
     const { exit } = useActions().window
-    const { hideDialog } = useDialog()
+    const { showDialog } = useDialog()
+
+    const handleDownload = () => showDialog(DialogType.databaseDownloadProgress)
 
     return (
         <div className="database-download-dialog">
@@ -20,10 +23,10 @@ const DatabaseDownloadDialog: FunctionComponent = () => {
                 <Button buttonType={ButtonType.warn} onClick={exit}>
                     No, exit
                 </Button>
-                <Button onClick={hideDialog}>Download</Button>
+                <Button onClick={handleDownload}>Download</Button>
             </div>
         </div>
     )
 }
 
-export default DatabaseDownloadDialog
+export default DatabaseDownloadPromptDialog

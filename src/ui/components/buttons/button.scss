@@ -10,6 +10,7 @@
 }
 
 .button {
+    box-sizing: border-box;
     color: $white;
     padding: $space-medium;
     text-align: center;

@@ -1,6 +1,7 @@
 export enum DialogType {
     hide,
-    databaseDownload,
+    databaseDownloadPrompt,
+    databaseDownloadProgress,
 }
 
 export type UiState = {
