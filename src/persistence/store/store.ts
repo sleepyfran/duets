@@ -8,7 +8,9 @@ import { UiState } from '@persistence/store/ui/ui.state'
 
 const rootReducer = combineReducers({
     changelogs: ChangelogsReducer,
-    cities: CitiesReducer,
+    database: combineReducers({
+        cities: CitiesReducer,
+    }),
     ui: UiReducer,
 })
 
