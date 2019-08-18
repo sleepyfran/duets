@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { fold } from 'fp-ts/lib/TaskEither'
 import { of } from 'fp-ts/lib/Task'
@@ -6,6 +6,7 @@ import Button from '@ui/components/buttons/button'
 import { useActions } from '@ui/hooks/injections.hooks'
 import { useDialog } from '@ui/hooks/dialog.hooks'
 import './database-download-progress.dialog.scss'
+import { useMountEffect } from '@ui/hooks/mount.hooks'
 
 enum StatusType {
     done,
@@ -44,7 +45,7 @@ const DatabaseDownloadProgressDialog: FunctionComponent = () => {
     const [status, setStatus] = useState(StatusType.downloading)
 
     const { fetchCacheAndSaveCities } = useActions().init
-    useEffect(() => {
+    useMountEffect(() => {
         pipe(
             fetchCacheAndSaveCities,
             fold(() => of(setStatus(StatusType.error)), () => of(setStatus(StatusType.done))),

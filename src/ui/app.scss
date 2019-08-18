@@ -31,13 +31,24 @@
             text-transform: uppercase;
         }
 
-        & input {
-            border: 2px solid $black;
+        @mixin base_style() {
             box-sizing: border-box;
             font-size: $font-small;
             height: 2.5rem;
             padding: $space-small;
             width: 100%;
+        }
+
+        & input {
+            @include base_style();
+            border: 2px solid $black;
+        }
+
+        & select {
+            @include base_style();
+            border: 0;
+            outline: 2px solid $black;
+            outline-offset: -2px; // Needed for the select to be the same size as the inputs.
         }
     }
 
