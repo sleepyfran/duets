@@ -7,6 +7,7 @@ export enum LayoutMode {
 }
 
 type LayoutProps = {
+    className?: string
     mode?: LayoutMode
     left: ReactNode
     right: ReactNode

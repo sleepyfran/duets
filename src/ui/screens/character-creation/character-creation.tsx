@@ -14,16 +14,25 @@ import { State } from '@persistence/store/store'
 const CharacterCreation: FunctionComponent = () => {
     const { history } = useRouter()
 
-    const cities = useSelector((state: State) => state.database.cities).map(city => ({
+    const database = useSelector((state: State) => state.database)
+    const cities = database.cities.map(city => ({
         label: `${city.country.flagEmoji} ${city.name}, ${city.country.name}`,
         value: city.name,
     }))
 
+    const instruments = database.instruments.map(instrument => ({
+        label: instrument.name,
+        value: instrument.name.toLowerCase(),
+    }))
+
     return (
         <Layout
+            className="character-creation"
             left={
                 <FullSizeSidebar
                     className="main-menu"
+                    navButton={NavButton.back}
+                    onNavButtonClick={history.goBack}
                     header={
                         <div>
                             <h1>Character creation</h1>
@@ -33,14 +42,19 @@ const CharacterCreation: FunctionComponent = () => {
                             <SelectInput label="Origin City" options={cities} />
 
                             <hr />
-                            <DateInput label="Game start year" maxDate={new Date()} />
+                            <DateInput label="Game start" maxDate={new Date()} />
                         </div>
                     }
-                    navButton={NavButton.back}
-                    onNavButtonClick={history.goBack}
                 />
             }
-            right={<></>}
+            right={
+                <div className="instruments-skills">
+                    <h1>My instrument and skills</h1>
+                    <div className="instrument">
+                        <SelectInput label="First instrument" options={instruments} />
+                    </div>
+                </div>
+            }
         />
     )
 }

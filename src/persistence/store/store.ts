@@ -1,5 +1,6 @@
 import { createStore, combineReducers } from 'redux'
 import ChangelogsReducer from '@persistence/store/changelogs/changelogs.reducer'
+import InstrumentsReducer from '@persistence/store/database/instruments/instruments.reducer'
 import CitiesReducer from '@persistence/store/database/cities/cities.reducer'
 import UiReducer from '@persistence/store/ui/ui.reducer'
 import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
     changelogs: ChangelogsReducer,
     database: combineReducers({
         cities: CitiesReducer,
+        instruments: InstrumentsReducer,
     }),
     ui: UiReducer,
 })

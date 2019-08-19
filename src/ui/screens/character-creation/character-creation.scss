@@ -1,0 +1,11 @@
+.character-creation {
+    & > .instruments-skills {
+        display: flex;
+        flex-direction: column;
+
+        & > .instrument {
+            display: flex;
+            flex-direction: row;
+        }
+    }
+}
