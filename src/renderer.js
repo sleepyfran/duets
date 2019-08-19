@@ -1,9 +1,15 @@
 const electron = require('electron')
 const path = require('path')
+const rimraf = require('rimraf')
 const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer')
 
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
+
+/**
+ * Checks if the app is running withe the cleanup option on.
+ */
+const cleanupMode = (() => process.argv.includes('cleanup'))()
 
 /**
  * Checks if the app is running in dev mode or not.
@@ -35,6 +41,15 @@ const windowedMode = (() => {
  */
 let duetsWindow
 const createWindow = () => {
+    // If we're in dev mode and the cleanup flag is on, clean the Duets folder and exit.
+    if (devMode && cleanupMode) {
+        const duetsFolder = app.getPath('userData')
+        rimraf.sync(duetsFolder)
+
+        console.log('Data folder removed successfully; exiting...')
+        return process.exit(0)
+    }
+
     duetsWindow = new BrowserWindow({
         width: 1280,
         height: 720,
