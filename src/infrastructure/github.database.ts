@@ -3,12 +3,26 @@ import RemoteDatabase from '@core/interfaces/database/remote.database'
 
 const githubDatabase: RemoteDatabase = {
     // TODO: Implement.
-    getCities: tryCatch(
+    get: tryCatch(
         () =>
             new Promise(resolve =>
                 setTimeout(
                     () =>
-                        resolve([{ name: 'Madrid', population: 3600000, country: { name: 'Spain', flagEmoji: '🇪🇸' } }]),
+                        resolve({
+                            cities: [
+                                { name: 'Madrid', population: 3600000, country: { name: 'Spain', flagEmoji: '🇪🇸' } },
+                            ],
+                            instruments: [
+                                {
+                                    name: 'Guitar',
+                                    allowsAnotherInstrument: false,
+                                },
+                                {
+                                    name: 'Vocals',
+                                    allowsAnotherInstrument: true,
+                                },
+                            ],
+                        }),
                     3000,
                 ),
             ),

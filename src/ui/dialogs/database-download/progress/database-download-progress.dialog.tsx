@@ -44,10 +44,10 @@ const Status: FunctionComponent<StatusComponentProps> = props => {
 const DatabaseDownloadProgressDialog: FunctionComponent = () => {
     const [status, setStatus] = useState(StatusType.downloading)
 
-    const { fetchCacheAndSaveCities } = useActions().init
+    const { fetchCacheAndSaveDatabase } = useActions().init
     useMountEffect(() => {
         pipe(
-            fetchCacheAndSaveCities,
+            fetchCacheAndSaveDatabase,
             fold(() => of(setStatus(StatusType.error)), () => of(setStatus(StatusType.done))),
         )()
     })

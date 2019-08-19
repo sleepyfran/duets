@@ -2,23 +2,23 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import { flatten, fromEither, map, tryCatch } from 'fp-ts/lib/TaskEither'
 import { duetsDataPath, readFile } from '@infrastructure/electron.files'
 import { tryParseJson } from '@infrastructure/json.utils'
-import { City } from '@engine/entities/city'
 import CachedDatabase from '@core/interfaces/database/cached.database'
+import { Database } from '@core/entities/database'
 
 const fileDatabase: CachedDatabase = {
-    getCities: pipe(
+    get: pipe(
         duetsDataPath,
         duetsDataPath => `${duetsDataPath}/cities.duets`,
         readFile,
         map(tryParseJson),
         map(fromEither),
         flatten,
-        map(json => json as ReadonlyArray<City>),
+        map(json => json as Database),
     ),
 
     // TODO: Implement.
-    saveCities: (cities: ReadonlyArray<City>) =>
-        tryCatch(() => new Promise(resolve => resolve(cities)), error => new Error(String(error))),
+    save: (database: Database) =>
+        tryCatch(() => new Promise(resolve => resolve(database)), error => new Error(String(error))),
 }
 
 export default fileDatabase

@@ -1,16 +1,20 @@
 import CitiesReducer from '../cities.reducer'
 import { createSaveCitiesAction } from '../cities.actions'
 import { City } from '@engine/entities/city'
+import { Database } from '@core/entities/database'
+
+const createDatabaseWithCities = (cities: ReadonlyArray<City>) => (({ cities } as unknown) as Database)
 
 describe('CitiesReducer', () => {
     it('should return an empty list when the saveCitiesAction with an empty list is given', () => {
-        const result = CitiesReducer('loading', createSaveCitiesAction([]))
+        const database = createDatabaseWithCities([])
+        const result = CitiesReducer([], createSaveCitiesAction(database))
 
         expect(result).toHaveLength(0)
     })
 
     it('should return a given list when the saveCitiesAction with such list is given', () => {
-        const list: ReadonlyArray<City> = [
+        const database = createDatabaseWithCities([
             {
                 name: 'Test City',
                 population: 100,
@@ -19,9 +23,9 @@ describe('CitiesReducer', () => {
                     flagEmoji: '😎',
                 },
             },
-        ]
-        const result = CitiesReducer('loading', createSaveCitiesAction(list))
+        ])
+        const result = CitiesReducer([], createSaveCitiesAction(database))
 
-        expect(result).toEqual(list)
+        expect(result).toEqual(database.cities)
     })
 })

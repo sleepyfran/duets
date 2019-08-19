@@ -30,11 +30,11 @@ const Start: FunctionComponent = () => {
         fetchAndSaveChangelogs()
     })
 
-    const { loadFromCacheAndSaveCities } = useActions().init
+    const { loadFromCache: loadDatabaseFromCache } = useActions().init
     const { showDialog } = useDialog()
     useMountEffect(() => {
         pipe(
-            loadFromCacheAndSaveCities,
+            loadDatabaseFromCache,
             fold(() => of(showDialog(DialogType.databaseDownloadPrompt)), () => of(console.log('Database loaded'))),
         )()
     })

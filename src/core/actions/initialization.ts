@@ -3,11 +3,11 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import RemoteDatabase from '@core/interfaces/database/remote.database'
 import InMemoryDatabase from '@core/interfaces/database/inmemory.database'
 import CachedDatabase from '@core/interfaces/database/cached.database'
-import { City } from '@engine/entities/city'
+import { Database } from '@core/entities/database'
 
 export interface InitializationActions {
-    fetchCacheAndSaveCities: TaskEither<Error, ReadonlyArray<City>>
-    loadFromCacheAndSaveCities: TaskEither<Error, ReadonlyArray<City>>
+    fetchCacheAndSaveDatabase: TaskEither<Error, Database>
+    loadFromCache: TaskEither<Error, Database>
 }
 
 export default (
@@ -15,15 +15,15 @@ export default (
     cachedDatabase: CachedDatabase,
     inMemoryDatabase: InMemoryDatabase,
 ): InitializationActions => ({
-    fetchCacheAndSaveCities: pipe(
-        remoteDatabase.getCities,
-        map(cachedDatabase.saveCities),
+    fetchCacheAndSaveDatabase: pipe(
+        remoteDatabase.get,
+        map(cachedDatabase.save),
         flatten,
-        chain(cities => rightIO(inMemoryDatabase.saveCities(cities))),
+        chain(database => rightIO(inMemoryDatabase.save(database))),
     ),
 
-    loadFromCacheAndSaveCities: pipe(
-        cachedDatabase.getCities,
-        chain(cities => rightIO(inMemoryDatabase.saveCities(cities))),
+    loadFromCache: pipe(
+        cachedDatabase.get,
+        chain(database => rightIO(inMemoryDatabase.save(database))),
     ),
 })
