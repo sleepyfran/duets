@@ -1,6 +1,6 @@
 const electron = require('electron')
 const path = require('path')
-const rimraf = require('rimraf')
+const fs = require('fs')
 const { default: installExtension, REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer')
 
 const app = electron.app
@@ -44,9 +44,10 @@ const createWindow = () => {
     // If we're in dev mode and the cleanup flag is on, clean the Duets folder and exit.
     if (devMode && cleanupMode) {
         const duetsFolder = app.getPath('userData')
-        rimraf.sync(duetsFolder)
 
-        console.log('Data folder removed successfully; exiting...')
+        ;['duets.db'].forEach(file => fs.unlinkSync(`${duetsFolder}/${file}`))
+
+        console.log('Data removed successfully; exiting...')
         return process.exit(0)
     }
 
