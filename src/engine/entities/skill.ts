@@ -6,6 +6,5 @@ export enum SkillType {
 
 export type Skill = {
     name: string
-    level: number
     type: SkillType
 }

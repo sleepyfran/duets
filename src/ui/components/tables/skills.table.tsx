@@ -25,7 +25,8 @@ const SkillsTable: FunctionComponent<SkillsTableProps> = props => {
         pipe(modifySkillLevel(skill, newLevel))
     }
 
-    const getCharacterSkill = (skill: Skill) => characterSkills.find(s => s.name === skill.name) || { ...skill }
+    const getCharacterSkill = (skill: Skill) =>
+        characterSkills.find(s => s.name === skill.name) || { ...skill, level: 0 }
     const getCharacterSkillLevel = (skill: Skill) => getCharacterSkill(skill).level
 
     return (

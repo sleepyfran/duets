@@ -1,6 +1,6 @@
 import { IO } from 'fp-ts/lib/IO'
-import { Skill } from '@engine/entities/skill'
+import { CharacterSkill } from '@engine/entities/character-skill'
 
 export interface SkillsData {
-    saveSkill(skill: Skill): IO<void>
+    saveSkill(skill: CharacterSkill): IO<void>
 }
