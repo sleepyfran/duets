@@ -53,7 +53,7 @@ const CharacterCreation: FunctionComponent = () => {
                             <SelectInput label="Origin City" options={cities} />
 
                             <hr />
-                            <DateInput label="Game start" maxDate={new Date()} />
+                            <DateInput label="Game start date" maxDate={new Date()} />
                         </div>
                     }
                 />
