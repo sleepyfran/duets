@@ -7,6 +7,7 @@ export enum ButtonType {
 }
 
 type ButtonProps = {
+    className?: string
     buttonType?: ButtonType
     onClick: () => void
 }
@@ -15,7 +16,7 @@ const button: FunctionComponent<ButtonProps> = props => {
     const buttonClass = props.buttonType === ButtonType.warn ? 'warn' : 'normal'
 
     return (
-        <div className={`button ${buttonClass}`} onClick={props.onClick}>
+        <div className={`button ${buttonClass} ${props.className}`} onClick={props.onClick}>
             {props.children}
         </div>
     )

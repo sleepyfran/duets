@@ -1,3 +1,5 @@
+@import 'src/ui/styles/_sizes.scss';
+
 .character-creation {
     & > .instruments-skills {
         display: flex;
@@ -6,6 +8,13 @@
         & > .instrument {
             display: flex;
             flex-direction: row;
+            width: 50%;
+        }
+
+        & .button {
+            align-self: flex-end;
+            margin: $space-medium;
+            width: 25%;
         }
     }
 }

@@ -1,0 +1,20 @@
+@import 'src/ui/styles/_colors.scss';
+@import 'src/ui/styles/_sizes.scss';
+
+table {
+    border-collapse: collapse;
+    margin: auto;
+    width: calc(100% - #{$space-bigger});
+
+    & td,
+    & th {
+        border: $border-small solid $black;
+        padding: $space-big;
+
+        & > input[type='number'] {
+            border: none;
+            font-size: $font-medium;
+            text-align: center;
+        }
+    }
+}

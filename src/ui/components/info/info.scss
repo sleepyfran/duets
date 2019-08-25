@@ -1,0 +1,9 @@
+@import 'src/ui/styles/_colors.scss';
+@import 'src/ui/styles/_sizes.scss';
+
+.info {
+    background-color: $gray;
+    border: $border-small solid $black;
+    margin: $space-medium;
+    padding: $space-medium;
+}

@@ -6,6 +6,7 @@ import { createSaveCitiesAction } from '@persistence/store/database/cities/citie
 import { Database } from '@core/entities/database'
 import { createSaveInstrumentsAction } from '@persistence/store/database/instruments/instruments.actions'
 import { DatabaseActions } from '@persistence/store/database/database.actions'
+import { createSaveSkillsAction } from '@persistence/store/database/skills/skills.actions'
 
 export default (dispatch: Dispatch<DatabaseActions>): InMemoryDatabase => ({
     save(database: Database): IO<Database> {
@@ -16,6 +17,9 @@ export default (dispatch: Dispatch<DatabaseActions>): InMemoryDatabase => ({
                 dispatch,
                 of(database),
                 createSaveInstrumentsAction,
+                dispatch,
+                of(database),
+                createSaveSkillsAction,
                 dispatch,
                 of(database),
             )

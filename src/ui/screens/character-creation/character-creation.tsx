@@ -1,15 +1,18 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import useRouter from 'use-react-router'
 import Layout from '@ui/components/layout/layout'
-import './character-creation.scss'
 import FullSizeSidebar from '@ui/components/sidebars/full-size-sidebar/full-size.sidebar'
 import TextInput from '@ui/components/inputs/text.input'
 import DateInput from '@ui/components/inputs/date.input'
 import GenderInput from '@ui/components/inputs/gender/gender.input'
 import SelectInput from '@ui/components/inputs/select.input'
+import SkillsTable from '@ui/components/tables/skills.table'
+import Info from '@ui/components/info/info'
 import { NavButton } from '@ui/components/buttons/nav/navButton'
+import Button from '@ui/components/buttons/button'
 import { useSelector } from 'react-redux'
 import { State } from '@persistence/store/store'
+import './character-creation.scss'
 
 const CharacterCreation: FunctionComponent = () => {
     const { history } = useRouter()
@@ -24,6 +27,14 @@ const CharacterCreation: FunctionComponent = () => {
         label: instrument.name,
         value: instrument.name.toLowerCase(),
     }))
+
+    const initialPoints = 40
+    const [pointsLeft, setPointsLeft] = useState(initialPoints)
+    const characterSkills = useSelector((state: State) => state.gameplay.skills)
+    useEffect(() => {
+        const assigned = characterSkills.reduce((prev, curr) => prev + curr.level, 0)
+        setPointsLeft(initialPoints - assigned)
+    }, [characterSkills])
 
     return (
         <Layout
@@ -51,8 +62,13 @@ const CharacterCreation: FunctionComponent = () => {
                 <div className="instruments-skills">
                     <h1>My instrument and skills</h1>
                     <div className="instrument">
-                        <SelectInput label="First instrument" options={instruments} />
+                        <SelectInput label="Initial instrument" options={instruments} />
                     </div>
+                    <Info text={`You can assign ${pointsLeft} more points to these skills`} />
+                    <SkillsTable pointsLeft={pointsLeft} />
+                    <Button className="go-button" onClick={() => console.log('Going on.')}>
+                        Go on
+                    </Button>
                 </div>
             }
         />

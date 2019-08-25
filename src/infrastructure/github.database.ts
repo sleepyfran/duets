@@ -1,5 +1,6 @@
 import { tryCatch } from 'fp-ts/lib/TaskEither'
 import RemoteDatabase from '@core/interfaces/database/remote.database'
+import { SkillType } from '@engine/entities/skill'
 
 const githubDatabase: RemoteDatabase = {
     // TODO: Implement.
@@ -20,6 +21,48 @@ const githubDatabase: RemoteDatabase = {
                                 {
                                     name: 'Vocals',
                                     allowsAnotherInstrument: true,
+                                },
+                            ],
+                            skills: [
+                                {
+                                    name: 'Composition',
+                                    level: 0,
+                                    type: SkillType.music,
+                                },
+                                {
+                                    name: 'Lyrics writing',
+                                    level: 0,
+                                    type: SkillType.music,
+                                },
+                                {
+                                    name: 'Improvisation',
+                                    level: 0,
+                                    type: SkillType.music,
+                                },
+                                {
+                                    name: 'Genre',
+                                    level: 0,
+                                    type: SkillType.music,
+                                },
+                                {
+                                    name: 'Instrument',
+                                    level: 0,
+                                    type: SkillType.music,
+                                },
+                                {
+                                    name: 'Recording',
+                                    level: 0,
+                                    type: SkillType.production,
+                                },
+                                {
+                                    name: 'Mixing',
+                                    level: 0,
+                                    type: SkillType.production,
+                                },
+                                {
+                                    name: 'Mastering',
+                                    level: 0,
+                                    type: SkillType.production,
                                 },
                             ],
                         }),

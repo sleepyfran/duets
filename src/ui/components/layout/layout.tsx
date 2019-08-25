@@ -17,7 +17,7 @@ const Layout: FunctionComponent<LayoutProps> = props => {
     const halfMode = props.mode === LayoutMode.half
 
     return (
-        <div className={`layout ${halfMode ? 'half' : 'default'}`}>
+        <div className={`layout ${halfMode ? 'half' : 'default'} ${props.className}`}>
             {props.left}
             {props.right}
         </div>
