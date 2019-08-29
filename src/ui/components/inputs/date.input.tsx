@@ -5,6 +5,7 @@ type DateInputProps = {
     label: string
     minDate?: Date
     maxDate?: Date
+    onChange: (value: string) => void
 }
 
 const formattedDate = (date: Date) => Moment(date).format('YYYY-MM-DD')
@@ -16,7 +17,12 @@ const DateInput: FunctionComponent<DateInputProps> = props => {
     return (
         <div className="input">
             <label>{props.label}</label>
-            <input type="date" max={formattedMaxDate} min={formattedMinDate} />
+            <input
+                type="date"
+                max={formattedMaxDate}
+                min={formattedMinDate}
+                onChange={event => props.onChange(event.target.value)}
+            />
         </div>
     )
 }
