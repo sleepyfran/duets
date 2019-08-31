@@ -8,6 +8,7 @@ type Option = {
 type SelectInputProps = {
     label: string
     options: ReadonlyArray<Option>
+    error: boolean
     onChange: (value: string) => void
 }
 
@@ -15,7 +16,7 @@ const SelectInput: FunctionComponent<SelectInputProps> = props => {
     return (
         <div className="input">
             <label>{props.label}</label>
-            <select onChange={event => props.onChange(event.target.value)}>
+            <select onChange={event => props.onChange(event.target.value)} className={props.error ? 'error' : ''}>
                 {props.options.map(option => (
                     <option value={option.value}>{option.label}</option>
                 ))}

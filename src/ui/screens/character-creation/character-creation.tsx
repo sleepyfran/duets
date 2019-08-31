@@ -1,4 +1,6 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
+import { head } from 'fp-ts/lib/Array'
+import { isNone, some } from 'fp-ts/lib/Option'
 import {
     stringToMaybeCity,
     stringToMaybeDate,
@@ -20,10 +22,9 @@ import Button from '@ui/components/buttons/button'
 import { useSelector } from 'react-redux'
 import { State } from '@persistence/store/store'
 import { useInput } from '@ui/hooks/input.hooks'
-import './character-creation.scss'
-import { some } from 'fp-ts/lib/Option'
 import { Gender } from '@engine/entities/gender'
-import { head } from 'fp-ts/lib/Array'
+import { FormContext, formContextConsumer } from '@ui/contexts/form.context'
+import './character-creation.scss'
 
 const CharacterCreation: FunctionComponent = () => {
     const { history } = useRouter()
@@ -41,15 +42,15 @@ const CharacterCreation: FunctionComponent = () => {
         value: instrument.name,
     }))
 
-    const { content: name, bind: bindName } = useInput(stringToString)
-    const { content: birthday, bind: bindBirthday } = useInput(stringToMaybeDate)
+    const { content: name, bind: bindName, setError: setNameError } = useInput(stringToString)
+    const { content: birthday, bind: bindBirthday, setError: setBirthdayError } = useInput(stringToMaybeDate)
     const { content: gender, bind: bindGender } = useInput(stringToMaybeGender, some(Gender.male))
-    const { content: originCity, bind: bindOriginCity } = useInput(
+    const { content: originCity, bind: bindOriginCity, setError: setOriginCityError } = useInput(
         value => stringToMaybeCity(value, cities),
         head([...cities]),
     )
-    const { content: startDate, bind: bindStartDate } = useInput(stringToMaybeDate)
-    const { content: instrument, bind: bindInstrument } = useInput(
+    const { content: startDate, bind: bindStartDate, setError: setStartDateError } = useInput(stringToMaybeDate)
+    const { content: instrument, bind: bindInstrument, setError: setInstrumentError } = useInput(
         value => stringToMaybeInstrument(value, instruments),
         head([...instruments]),
     )
@@ -62,51 +63,55 @@ const CharacterCreation: FunctionComponent = () => {
         setPointsLeft(initialPoints - assigned)
     }, [characterSkills])
 
+    const form = useContext(FormContext)
     const handleGoOn = () => {
-        console.log('name', name)
-        console.log('birthday', birthday)
-        console.log('gender', gender)
-        console.log('origin city', originCity)
-        console.log('start date', startDate)
-        console.log('instrument', instrument)
+        form.clearErrors()
+
+        if (!name) setNameError(true)
+        if (isNone(birthday)) setBirthdayError(true)
+        if (isNone(originCity)) setOriginCityError(true)
+        if (isNone(startDate)) setStartDateError(true)
+        if (isNone(instrument)) setInstrumentError(true)
     }
 
     return (
-        <Layout
-            className="character-creation"
-            left={
-                <FullSizeSidebar
-                    className="main-menu"
-                    navButton={NavButton.back}
-                    onNavButtonClick={history.goBack}
-                    header={
-                        <div>
-                            <h1>Character creation</h1>
-                            <TextInput label="Name" {...bindName} />
-                            <DateInput label="Birthday" {...bindBirthday} />
-                            <GenderInput label="Gender" {...bindGender} />
-                            <SelectInput label="Origin City" options={citiesSelect} {...bindOriginCity} />
+        <FormContext.Provider value={formContextConsumer}>
+            <Layout
+                className="character-creation"
+                left={
+                    <FullSizeSidebar
+                        className="main-menu"
+                        navButton={NavButton.back}
+                        onNavButtonClick={history.goBack}
+                        header={
+                            <div>
+                                <h1>Character creation</h1>
+                                <TextInput label="Name" {...bindName} />
+                                <DateInput label="Birthday" {...bindBirthday} />
+                                <GenderInput label="Gender" {...bindGender} />
+                                <SelectInput label="Origin City" options={citiesSelect} {...bindOriginCity} />
 
-                            <hr />
-                            <DateInput label="Game start date" maxDate={new Date()} {...bindStartDate} />
+                                <hr />
+                                <DateInput label="Game start date" maxDate={new Date()} {...bindStartDate} />
+                            </div>
+                        }
+                    />
+                }
+                right={
+                    <div className="instruments-skills">
+                        <h1>My instrument and skills</h1>
+                        <div className="instrument">
+                            <SelectInput label="Initial instrument" options={instrumentsSelect} {...bindInstrument} />
                         </div>
-                    }
-                />
-            }
-            right={
-                <div className="instruments-skills">
-                    <h1>My instrument and skills</h1>
-                    <div className="instrument">
-                        <SelectInput label="Initial instrument" options={instrumentsSelect} {...bindInstrument} />
+                        <Info text={`You can assign ${pointsLeft} more points to these skills`} />
+                        <SkillsTable pointsLeft={pointsLeft} />
+                        <Button className="go-button" onClick={handleGoOn}>
+                            Go on
+                        </Button>
                     </div>
-                    <Info text={`You can assign ${pointsLeft} more points to these skills`} />
-                    <SkillsTable pointsLeft={pointsLeft} />
-                    <Button className="go-button" onClick={handleGoOn}>
-                        Go on
-                    </Button>
-                </div>
-            }
-        />
+                }
+            />
+        </FormContext.Provider>
     )
 }
 

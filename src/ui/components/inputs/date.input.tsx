@@ -5,6 +5,7 @@ type DateInputProps = {
     label: string
     minDate?: Date
     maxDate?: Date
+    error: boolean
     onChange: (value: string) => void
 }
 
@@ -22,6 +23,7 @@ const DateInput: FunctionComponent<DateInputProps> = props => {
                 max={formattedMaxDate}
                 min={formattedMinDate}
                 onChange={event => props.onChange(event.target.value)}
+                className={props.error ? 'error' : ''}
             />
         </div>
     )

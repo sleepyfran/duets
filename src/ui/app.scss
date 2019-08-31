@@ -42,6 +42,10 @@
         & input {
             @include base_style();
             border: 2px solid $black;
+
+            &.error {
+                border: 2px solid $red;
+            }
         }
 
         & select {
@@ -49,6 +53,10 @@
             border: 0;
             outline: 2px solid $black;
             outline-offset: -2px; // Needed for the select to be the same size as the inputs.
+
+            &.error {
+                outline: 2px solid $red;
+            }
         }
     }
 
