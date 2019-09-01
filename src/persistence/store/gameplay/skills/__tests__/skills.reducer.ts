@@ -6,7 +6,7 @@ import { CharacterSkill } from '../../../../../engine/entities/character-skill'
 describe('ChangelogsReducer', () => {
     it('should return a list with one skill when createSaveSkillAction with such skill is given', () => {
         const skill: CharacterSkill = {
-            type: SkillType.music,
+            type: SkillType.Music,
             name: 'test',
             level: 0,
         }
@@ -18,7 +18,7 @@ describe('ChangelogsReducer', () => {
 
     it('should return a list with one modified skill when createSaveSkillAction with a modified skill is given', () => {
         const previousSkill: CharacterSkill = {
-            type: SkillType.music,
+            type: SkillType.Music,
             name: 'test',
             level: 0,
         }
@@ -33,13 +33,13 @@ describe('ChangelogsReducer', () => {
 
     it('should modify only the skills with the same name when createSaveSkillAction with a pre-existing skill is given', () => {
         const existingSkill: CharacterSkill = {
-            type: SkillType.music,
+            type: SkillType.Music,
             name: 'existing',
             level: 0,
         }
 
         const modifiableSkill: CharacterSkill = {
-            type: SkillType.music,
+            type: SkillType.Music,
             name: 'modifiable',
             level: 0,
         }

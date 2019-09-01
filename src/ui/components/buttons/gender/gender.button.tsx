@@ -12,8 +12,8 @@ type PlayButtonProps = {
 }
 
 const PlayButton: FunctionComponent<PlayButtonProps> = props => {
-    const icon = props.gender === Gender.male ? <MaleIcon /> : <FemaleIcon />
-    const colorClass = props.gender === Gender.male ? 'male' : 'female'
+    const icon = props.gender === Gender.Male ? <MaleIcon /> : <FemaleIcon />
+    const colorClass = props.gender === Gender.Male ? 'male' : 'female'
     const selectedClass = props.selected ? 'selected' : ''
 
     return (

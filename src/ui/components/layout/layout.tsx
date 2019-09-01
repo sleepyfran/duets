@@ -2,8 +2,8 @@ import React, { FunctionComponent, ReactNode } from 'react'
 import './layout.scss'
 
 export enum LayoutMode {
-    half,
-    default,
+    Half,
+    Default,
 }
 
 type LayoutProps = {
@@ -14,7 +14,7 @@ type LayoutProps = {
 }
 
 const Layout: FunctionComponent<LayoutProps> = props => {
-    const halfMode = props.mode === LayoutMode.half
+    const halfMode = props.mode === LayoutMode.Half
 
     return (
         <div className={`layout ${halfMode ? 'half' : 'default'} ${props.className}`}>

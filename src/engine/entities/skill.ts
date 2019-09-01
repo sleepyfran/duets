@@ -1,7 +1,7 @@
 export enum SkillType {
-    music = 'Music',
-    production = 'Production',
-    social = 'Social',
+    Music = 'Music',
+    Production = 'Production',
+    Social = 'Social',
 }
 
 export type Skill = {

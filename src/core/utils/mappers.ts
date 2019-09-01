@@ -12,9 +12,9 @@ export const stringToMaybeDate = (value: string): Option<Date> => getOptionFromD
 export const stringToMaybeGender = (value: string): Option<Gender> => {
     switch (value) {
         case 'male':
-            return some(Gender.male)
+            return some(Gender.Male)
         case 'female':
-            return some(Gender.female)
+            return some(Gender.Female)
         default:
             return none
     }

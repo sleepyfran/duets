@@ -2,7 +2,7 @@ import { DialogType, UiState } from './ui.state'
 import { UiActions } from './ui.actions'
 
 const initialState: UiState = {
-    dialog: DialogType.hide,
+    dialog: DialogType.Hide,
 }
 
 export default (state: UiState = initialState, action: UiActions) => {
@@ -10,7 +10,7 @@ export default (state: UiState = initialState, action: UiActions) => {
         case 'hideDialog':
             return {
                 ...state,
-                dialog: DialogType.hide,
+                dialog: DialogType.Hide,
             }
         case 'showDialog':
             return {

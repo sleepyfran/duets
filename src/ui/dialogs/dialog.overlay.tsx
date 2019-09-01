@@ -12,9 +12,9 @@ type DialogProps = {
 
 const Dialog: FunctionComponent<DialogProps> = props => {
     switch (props.type) {
-        case DialogType.databaseDownloadPrompt:
+        case DialogType.DatabaseDownloadPrompt:
             return <DatabaseDownloadPromptDialog />
-        case DialogType.databaseDownloadProgress:
+        case DialogType.DatabaseDownloadProgress:
             return <DatabaseDownloadProgressDialog />
         default:
             return <></>
@@ -23,7 +23,7 @@ const Dialog: FunctionComponent<DialogProps> = props => {
 
 const DialogOverlay: FunctionComponent = () => {
     const type = useSelector((state: State) => state.ui.dialog)
-    const hideDialog = type === DialogType.hide
+    const hideDialog = type === DialogType.Hide
 
     return hideDialog ? (
         <></>

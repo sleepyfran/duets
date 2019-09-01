@@ -17,7 +17,7 @@ describe('SkillsReducer', () => {
         const database = createDatabaseWithSkills([
             {
                 name: 'test',
-                type: SkillType.music,
+                type: SkillType.Music,
                 level: 0,
             },
         ])

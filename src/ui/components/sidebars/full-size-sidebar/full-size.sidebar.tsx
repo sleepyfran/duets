@@ -15,11 +15,11 @@ type FullSizeSidebarProps = {
 const FullSizeSidebar: FunctionComponent<FullSizeSidebarProps> = props => {
     const navButton = () => {
         switch (props.navButton) {
-            case NavButton.hide:
+            case NavButton.Hide:
                 return <></>
-            case NavButton.close:
+            case NavButton.Close:
                 return <CloseButton className="nav" onClick={props.onNavButtonClick} />
-            case NavButton.back:
+            case NavButton.Back:
                 return <BackButton className="nav" onClick={props.onNavButtonClick} />
         }
     }

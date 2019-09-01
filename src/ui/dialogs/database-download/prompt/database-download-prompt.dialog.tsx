@@ -9,7 +9,7 @@ const DatabaseDownloadPromptDialog: FunctionComponent = () => {
     const { exit } = useActions().window
     const { showDialog } = useDialog()
 
-    const handleDownload = () => showDialog(DialogType.databaseDownloadProgress)
+    const handleDownload = () => showDialog(DialogType.DatabaseDownloadProgress)
 
     return (
         <div className="database-download-dialog">
@@ -20,7 +20,7 @@ const DatabaseDownloadPromptDialog: FunctionComponent = () => {
             </p>
             <p>Would you like to download the latest database now?</p>
             <div className="choice">
-                <Button buttonType={ButtonType.warn} onClick={exit}>
+                <Button buttonType={ButtonType.Warn} onClick={exit}>
                     No, exit
                 </Button>
                 <Button onClick={handleDownload}>Download</Button>

@@ -35,7 +35,7 @@ const Start: FunctionComponent = () => {
     useMountEffect(() => {
         pipe(
             loadDatabaseFromCache,
-            fold(() => of(showDialog(DialogType.databaseDownloadPrompt)), () => of(console.log('Database loaded'))),
+            fold(() => of(showDialog(DialogType.DatabaseDownloadPrompt)), () => of(console.log('Database loaded'))),
         )()
     })
 
@@ -76,7 +76,7 @@ const Start: FunctionComponent = () => {
                             </div>
                         </>
                     }
-                    navButton={NavButton.close}
+                    navButton={NavButton.Close}
                     onNavButtonClick={exit}
                 />
             }

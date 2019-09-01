@@ -44,7 +44,7 @@ const CharacterCreation: FunctionComponent = () => {
 
     const { content: name, bind: bindName, setError: setNameError } = useInput(stringToString)
     const { content: birthday, bind: bindBirthday, setError: setBirthdayError } = useInput(stringToMaybeDate)
-    const { content: gender, bind: bindGender } = useInput(stringToMaybeGender, some(Gender.male))
+    const { content: gender, bind: bindGender } = useInput(stringToMaybeGender, some(Gender.Male))
     const { content: originCity, bind: bindOriginCity, setError: setOriginCityError } = useInput(
         value => stringToMaybeCity(value, cities),
         head([...cities]),
@@ -81,7 +81,7 @@ const CharacterCreation: FunctionComponent = () => {
                 left={
                     <FullSizeSidebar
                         className="main-menu"
-                        navButton={NavButton.back}
+                        navButton={NavButton.Back}
                         onNavButtonClick={history.goBack}
                         header={
                             <div>

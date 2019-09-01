@@ -1,5 +1,5 @@
 export enum NavButton {
-    hide,
-    back,
-    close,
+    Hide,
+    Back,
+    Close,
 }

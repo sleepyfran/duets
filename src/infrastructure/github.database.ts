@@ -26,35 +26,35 @@ const githubDatabase: RemoteDatabase = {
                             skills: [
                                 {
                                     name: 'Composition',
-                                    type: SkillType.music,
+                                    type: SkillType.Music,
                                 },
                                 {
                                     name: 'Lyrics writing',
-                                    type: SkillType.music,
+                                    type: SkillType.Music,
                                 },
                                 {
                                     name: 'Improvisation',
-                                    type: SkillType.music,
+                                    type: SkillType.Music,
                                 },
                                 {
                                     name: 'Genre',
-                                    type: SkillType.music,
+                                    type: SkillType.Music,
                                 },
                                 {
                                     name: 'Instrument',
-                                    type: SkillType.music,
+                                    type: SkillType.Music,
                                 },
                                 {
                                     name: 'Recording',
-                                    type: SkillType.production,
+                                    type: SkillType.Production,
                                 },
                                 {
                                     name: 'Mixing',
-                                    type: SkillType.production,
+                                    type: SkillType.Production,
                                 },
                                 {
                                     name: 'Mastering',
-                                    type: SkillType.production,
+                                    type: SkillType.Production,
                                 },
                             ],
                         }),

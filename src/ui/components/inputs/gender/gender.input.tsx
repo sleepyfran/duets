@@ -9,7 +9,7 @@ type GenderInputProps = {
 }
 
 const GenderInput: FunctionComponent<GenderInputProps> = props => {
-    const [selection, setSelection] = useState(Gender.male)
+    const [selection, setSelection] = useState(Gender.Male)
 
     const handleOnClick = (gender: Gender) => {
         setSelection(gender)
@@ -21,14 +21,14 @@ const GenderInput: FunctionComponent<GenderInputProps> = props => {
             <label>{props.label}</label>
             <div className="gender-options">
                 <GenderButton
-                    onClick={() => handleOnClick(Gender.male)}
-                    selected={selection === Gender.male}
-                    gender={Gender.male}
+                    onClick={() => handleOnClick(Gender.Male)}
+                    selected={selection === Gender.Male}
+                    gender={Gender.Male}
                 />
                 <GenderButton
-                    onClick={() => handleOnClick(Gender.female)}
-                    selected={selection === Gender.female}
-                    gender={Gender.female}
+                    onClick={() => handleOnClick(Gender.Female)}
+                    selected={selection === Gender.Female}
+                    gender={Gender.Female}
                 />
             </div>
         </div>

@@ -2,8 +2,8 @@ import React, { FunctionComponent } from 'react'
 import './button.scss'
 
 export enum ButtonType {
-    normal,
-    warn,
+    Normal,
+    Warn,
 }
 
 type ButtonProps = {
@@ -13,7 +13,7 @@ type ButtonProps = {
 }
 
 const button: FunctionComponent<ButtonProps> = props => {
-    const buttonClass = props.buttonType === ButtonType.warn ? 'warn' : 'normal'
+    const buttonClass = props.buttonType === ButtonType.Warn ? 'warn' : 'normal'
 
     return (
         <div className={`button ${buttonClass} ${props.className}`} onClick={props.onClick}>
