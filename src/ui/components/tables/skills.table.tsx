@@ -13,16 +13,17 @@ type SkillsTableProps = {
 }
 
 const SkillsTable: FunctionComponent<SkillsTableProps> = props => {
-    const characterSkills = useSelector((state: State) => state.gameplay.skills)
+    const characterSkills = useSelector((state: State) => state.gameplay.character.skills)
     const skills = useSelector((state: State) => state.database.skills)
     const skillsByType = toArray(groupBy((skill: Skill) => skill.type)([...skills]))
 
     const { modifySkillLevel } = useActions().gameplay.skills
     const handleSkillLevelChange = (skill: Skill, event: ChangeEvent<HTMLInputElement>) => {
+        // TODO: Move this check to core and check that the event is incrementing or decrementing.
         if (props.pointsLeft === 0) return
 
         const newLevel = Number.parseInt(event.target.value)
-        pipe(modifySkillLevel(skill, newLevel))
+        pipe(modifySkillLevel(skill, newLevel))()
     }
 
     const getCharacterSkill = (skill: Skill) =>

@@ -57,7 +57,7 @@ const CharacterCreation: FunctionComponent = () => {
 
     const initialPoints = 40
     const [pointsLeft, setPointsLeft] = useState(initialPoints)
-    const characterSkills = useSelector((state: State) => state.gameplay.skills)
+    const characterSkills = useSelector((state: State) => state.gameplay.character.skills)
     useEffect(() => {
         const assigned = characterSkills.reduce((prev, curr) => prev + curr.level, 0)
         setPointsLeft(initialPoints - assigned)

@@ -1,16 +1,21 @@
-import { IO } from 'fp-ts/lib/IO'
+import { map, IO, chain } from 'fp-ts/lib/IO'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Skill } from '@engine/entities/skill'
-import { SkillsData } from '@core/interfaces/gameplay/skills.data'
+import { GameData } from '@core/interfaces/gameplay/game.data'
+import { updateCharacterSkill } from '@engine/operations/character.operations'
 
 export interface SkillsActions {
     modifySkillLevel(skill: Skill, level: number): IO<void>
 }
 
-export default (skillsData: SkillsData): SkillsActions => ({
+export default (gameData: GameData): SkillsActions => ({
     modifySkillLevel: (skill, level) =>
         pipe(
-            { ...skill, level },
-            skillsData.saveSkill,
+            gameData.getGame(),
+            map(game => ({
+                ...game,
+                character: updateCharacterSkill(game.character, { ...skill, level }),
+            })),
+            chain(gameData.saveGame),
         ),
 })

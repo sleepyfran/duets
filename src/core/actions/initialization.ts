@@ -7,7 +7,7 @@ import { Database } from '@core/entities/database'
 
 export interface InitializationActions {
     fetchCacheAndSaveDatabase: TaskEither<Error, Database>
-    loadFromCache: TaskEither<Error, Database>
+    loadDatabaseFromCache: TaskEither<Error, Database>
 }
 
 export default (
@@ -22,7 +22,7 @@ export default (
         chain(database => rightIO(inMemoryDatabase.save(database))),
     ),
 
-    loadFromCache: pipe(
+    loadDatabaseFromCache: pipe(
         cachedDatabase.get,
         chain(database => rightIO(inMemoryDatabase.save(database))),
     ),

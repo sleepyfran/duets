@@ -5,7 +5,7 @@
 import InitializeUi from '@ui/main'
 import { version, homepage } from '../package.json'
 import Store from '@persistence/store/store'
-import { GameInfo } from '@ui/types/game-info.js'
+import { GameInfo } from '@ui/types/game-info'
 import Injections from './injections'
 
 const gameInfo: GameInfo = {
