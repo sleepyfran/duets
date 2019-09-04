@@ -9,7 +9,7 @@ import './table.scss'
 import { toArray } from 'fp-ts/lib/Record'
 
 type SkillsTableProps = {
-    pointsLeft: number
+    assignedPoints: number
 }
 
 const SkillsTable: FunctionComponent<SkillsTableProps> = props => {
@@ -17,18 +17,15 @@ const SkillsTable: FunctionComponent<SkillsTableProps> = props => {
     const skills = useSelector((state: State) => state.database.skills)
     const skillsByType = toArray(groupBy((skill: Skill) => skill.type)([...skills]))
 
-    const { modifySkillLevel } = useActions().gameplay.skills
-    const handleSkillLevelChange = (skill: Skill, event: ChangeEvent<HTMLInputElement>) => {
-        // TODO: Move this check to core and check that the event is incrementing or decrementing.
-        if (props.pointsLeft === 0) return
-
-        const newLevel = Number.parseInt(event.target.value)
-        pipe(modifySkillLevel(skill, newLevel))()
-    }
-
     const getCharacterSkill = (skill: Skill) =>
         characterSkills.find(s => s.name === skill.name) || { ...skill, level: 0 }
     const getCharacterSkillLevel = (skill: Skill) => getCharacterSkill(skill).level
+
+    const { modifySkillLevel } = useActions().gameplay.skills
+    const handleSkillLevelChange = (skill: Skill, event: ChangeEvent<HTMLInputElement>) => {
+        const newLevel = Number.parseInt(event.target.value) || 0
+        pipe(modifySkillLevel(getCharacterSkill(skill), newLevel, props.assignedPoints))()
+    }
 
     return (
         <table>

@@ -24,6 +24,7 @@ import { State } from '@persistence/store/store'
 import { useInput } from '@ui/hooks/input.hooks'
 import { Gender } from '@engine/entities/gender'
 import { FormContext, formContextConsumer } from '@ui/contexts/form.context'
+import { MAX_ASSIGNABLE_LEVEL_POINTS } from '@engine/operations/skill.operations'
 import './character-creation.scss'
 
 const CharacterCreation: FunctionComponent = () => {
@@ -55,12 +56,12 @@ const CharacterCreation: FunctionComponent = () => {
         head([...instruments]),
     )
 
-    const initialPoints = 40
-    const [pointsLeft, setPointsLeft] = useState(initialPoints)
+    const [assignedPoints, setAssignedPoints] = useState(0)
+    const pointsLeft = MAX_ASSIGNABLE_LEVEL_POINTS - assignedPoints
     const characterSkills = useSelector((state: State) => state.gameplay.character.skills)
     useEffect(() => {
         const assigned = characterSkills.reduce((prev, curr) => prev + curr.level, 0)
-        setPointsLeft(initialPoints - assigned)
+        setAssignedPoints(assigned)
     }, [characterSkills])
 
     const form = useContext(FormContext)
@@ -104,7 +105,7 @@ const CharacterCreation: FunctionComponent = () => {
                             <SelectInput label="Initial instrument" options={instrumentsSelect} {...bindInstrument} />
                         </div>
                         <Info text={`You can assign ${pointsLeft} more points to these skills`} />
-                        <SkillsTable pointsLeft={pointsLeft} />
+                        <SkillsTable assignedPoints={assignedPoints} />
                         <Button className="go-button" onClick={handleGoOn}>
                             Go on
                         </Button>
