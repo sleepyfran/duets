@@ -8,12 +8,13 @@ import './gender.button.scss'
 type PlayButtonProps = {
     onClick: () => void
     selected: boolean
+    error?: boolean
     gender: Gender
 }
 
 const PlayButton: FunctionComponent<PlayButtonProps> = props => {
     const icon = props.gender === Gender.Male ? <MaleIcon /> : <FemaleIcon />
-    const colorClass = props.gender === Gender.Male ? 'male' : 'female'
+    const colorClass = props.error ? 'error' : props.gender === Gender.Male ? 'male' : 'female'
     const selectedClass = props.selected ? 'selected' : ''
 
     return (

@@ -45,7 +45,10 @@ const CharacterCreation: FunctionComponent = () => {
 
     const { content: name, bind: bindName, setError: setNameError } = useInput(stringToString)
     const { content: birthday, bind: bindBirthday, setError: setBirthdayError } = useInput(stringToMaybeDate)
-    const { content: gender, bind: bindGender } = useInput(stringToMaybeGender, some(Gender.Male))
+    const { content: gender, bind: bindGender, setError: setGenderError } = useInput(
+        stringToMaybeGender,
+        some(Gender.Male),
+    )
     const { content: originCity, bind: bindOriginCity, setError: setOriginCityError } = useInput(
         value => stringToMaybeCity(value, cities),
         head([...cities]),
@@ -70,6 +73,7 @@ const CharacterCreation: FunctionComponent = () => {
 
         if (!name) setNameError(true)
         if (isNone(birthday)) setBirthdayError(true)
+        if (isNone(gender)) setGenderError(true)
         if (isNone(originCity)) setOriginCityError(true)
         if (isNone(startDate)) setStartDateError(true)
         if (isNone(instrument)) setInstrumentError(true)

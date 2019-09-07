@@ -5,6 +5,7 @@ import './gender.input.scss'
 
 type GenderInputProps = {
     label: string
+    error: boolean
     onChange: (value: string) => void
 }
 
@@ -24,11 +25,13 @@ const GenderInput: FunctionComponent<GenderInputProps> = props => {
                     onClick={() => handleOnClick(Gender.Male)}
                     selected={selection === Gender.Male}
                     gender={Gender.Male}
+                    error={props.error}
                 />
                 <GenderButton
                     onClick={() => handleOnClick(Gender.Female)}
                     selected={selection === Gender.Female}
                     gender={Gender.Female}
+                    error={props.error}
                 />
             </div>
         </div>

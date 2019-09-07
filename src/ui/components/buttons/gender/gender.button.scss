@@ -2,7 +2,13 @@
 @import 'src/ui/styles/_utils.scss';
 
 .gender-button-circle {
-    @include style-button(transparent, $black);
+    &.error {
+        @include style-button($red, $black);
+    }
+
+    &:not(.error) {
+        @include style-button(transparent, $black);
+    }
 
     & svg {
         height: 75%;
