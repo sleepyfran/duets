@@ -49,4 +49,15 @@ describe('boundSkillLevel', () => {
         const result = boundSkillLevel(skill, 1, MAX_ASSIGNABLE_LEVEL_POINTS)
         expect(result).toEqual(0)
     })
+
+    it('should allow incrementing until all the assignable points have been assigned', () => {
+        const skill: CharacterSkill = {
+            name: 'test',
+            type: SkillType.Music,
+            level: 20,
+        }
+
+        const result = boundSkillLevel(skill, 21, 20)
+        expect(result).toEqual(21)
+    })
 })
