@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
 import { State } from '@persistence/store/store'
 import { DialogType } from '@persistence/store/ui/ui.state'
-import DatabaseDownloadPromptDialog from '@ui/dialogs/database-download/prompt/database-download-prompt.dialog'
+import DatabaseDownloadPromptDialog from '@ui/dialogs/database-download/database-download-prompt.dialog'
 import DatabaseDownloadProgressDialog from '@ui/dialogs/database-download/progress/database-download-progress.dialog'
 import './dialog.overlay.scss'
 
