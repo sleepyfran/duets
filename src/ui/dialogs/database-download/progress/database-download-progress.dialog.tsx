@@ -23,20 +23,20 @@ const Status: FunctionComponent<StatusComponentProps> = props => {
 
     switch (props.status) {
         case StatusType.downloading:
-            return <h5>Updating...</h5>
+            return <h3>Updating...</h3>
         case StatusType.error:
             return (
-                <>
-                    <h5>There was an error downloading the database. Try again later.</h5>
+                <div className="finished">
+                    <h3>There was an error downloading the database. Try again later.</h3>
                     <Button onClick={hideDialog}>Exit</Button>
-                </>
+                </div>
             )
         case StatusType.done:
             return (
-                <>
-                    <h5>Updated successfully</h5>
+                <div className="finished">
+                    <h3>Updated successfully</h3>
                     <Button onClick={hideDialog}>Done</Button>
-                </>
+                </div>
             )
     }
 }
@@ -54,7 +54,6 @@ const DatabaseDownloadProgressDialog: FunctionComponent = () => {
 
     return (
         <div className="database-download-progress-dialog">
-            <h1>Updating database</h1>
             <Status status={status} />
         </div>
     )
