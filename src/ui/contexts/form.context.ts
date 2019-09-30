@@ -1,6 +1,9 @@
 import React, { Dispatch, SetStateAction } from 'react'
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { ValidationError } from '@core/entities/error'
 
 type Input = {
+    id: string
     setError: Dispatch<SetStateAction<boolean>>
 }
 
@@ -8,6 +11,8 @@ type FormContextConsumer = {
     inputs: Input[]
     register: (input: Input) => void
     clearErrors: () => void
+    setErrorFor: (inputId: string) => void
+    markAllValidationErrors: (validationErrors: NonEmptyArray<ValidationError>) => void
 }
 
 export const formContextConsumer: FormContextConsumer = {
@@ -17,6 +22,14 @@ export const formContextConsumer: FormContextConsumer = {
     },
     clearErrors: function() {
         this.inputs.forEach(input => input.setError(false))
+    },
+    setErrorFor: function(inputId: string) {
+        this.inputs
+            .filter(input => input.id === inputId) //
+            .forEach(input => input.setError(true))
+    },
+    markAllValidationErrors: function(validationErrors: NonEmptyArray<ValidationError>) {
+        validationErrors.forEach(error => this.setErrorFor(error.property))
     },
 }
 

@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
 import { head } from 'fp-ts/lib/Array'
-import { isNone, some } from 'fp-ts/lib/Option'
+import { some } from 'fp-ts/lib/Option'
 import {
     stringToMaybeCity,
     stringToMaybeDate,
@@ -26,6 +26,10 @@ import { Gender } from '@engine/entities/gender'
 import { FormContext, formContextConsumer } from '@ui/contexts/form.context'
 import { MAX_ASSIGNABLE_LEVEL_POINTS } from '@engine/operations/skill.operations'
 import './character-creation.scss'
+import { CharacterInput } from '@core/inputs/character.input'
+import { useActions } from '@ui/hooks/injections.hooks'
+import { pipe } from 'fp-ts/lib/pipeable'
+import { fold } from 'fp-ts/lib/Either'
 
 const CharacterCreation: FunctionComponent = () => {
     const { history } = useRouter()
@@ -43,18 +47,22 @@ const CharacterCreation: FunctionComponent = () => {
         value: instrument.name,
     }))
 
-    const { content: name, bind: bindName, setError: setNameError } = useInput(stringToString)
-    const { content: birthday, bind: bindBirthday, setError: setBirthdayError } = useInput(stringToMaybeDate)
-    const { content: gender, bind: bindGender, setError: setGenderError } = useInput(
-        stringToMaybeGender,
-        some(Gender.Male),
-    )
-    const { content: originCity, bind: bindOriginCity, setError: setOriginCityError } = useInput(
+    const { content: name, bind: bindName } = useInput('name', stringToString)
+
+    const { content: birthday, bind: bindBirthday } = useInput('birthday', stringToMaybeDate)
+
+    const { content: gender, bind: bindGender } = useInput('gender', stringToMaybeGender, some(Gender.Male))
+
+    const { content: originCity, bind: bindOriginCity } = useInput(
+        'originCity',
         value => stringToMaybeCity(value, cities),
         head([...cities]),
     )
-    const { content: startDate, bind: bindStartDate, setError: setStartDateError } = useInput(stringToMaybeDate)
-    const { content: instrument, bind: bindInstrument, setError: setInstrumentError } = useInput(
+
+    const { content: startDate, bind: bindStartDate } = useInput('startDate', stringToMaybeDate)
+
+    const { content: instrument, bind: bindInstrument } = useInput(
+        'instrument',
         value => stringToMaybeInstrument(value, instruments),
         head([...instruments]),
     )
@@ -68,15 +76,28 @@ const CharacterCreation: FunctionComponent = () => {
     }, [characterSkills])
 
     const form = useContext(FormContext)
+    const creation = useActions().creation
     const handleGoOn = () => {
         form.clearErrors()
 
-        if (!name) setNameError(true)
-        if (isNone(birthday)) setBirthdayError(true)
-        if (isNone(gender)) setGenderError(true)
-        if (isNone(originCity)) setOriginCityError(true)
-        if (isNone(startDate)) setStartDateError(true)
-        if (isNone(instrument)) setInstrumentError(true)
+        const characterInput: CharacterInput = {
+            name,
+            birthday,
+            gender,
+            instrument,
+            originCity,
+        }
+
+        pipe(
+            creation.createCharacter({
+                character: characterInput,
+                startDate,
+            }),
+            fold(
+                validationErrors => form.markAllValidationErrors(validationErrors),
+                () => console.log('Everything is alright :)'),
+            ),
+        )
     }
 
     return (
@@ -91,13 +112,12 @@ const CharacterCreation: FunctionComponent = () => {
                         header={
                             <div>
                                 <h1>Character creation</h1>
+                                <DateInput label="Game start date" maxDate={new Date()} {...bindStartDate} />
+                                <hr />
                                 <TextInput label="Name" {...bindName} />
                                 <DateInput label="Birthday" {...bindBirthday} />
                                 <GenderInput label="Gender" {...bindGender} />
                                 <SelectInput label="Origin City" options={citiesSelect} {...bindOriginCity} />
-
-                                <hr />
-                                <DateInput label="Game start date" maxDate={new Date()} {...bindStartDate} />
                             </div>
                         }
                     />

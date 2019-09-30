@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { FormContext } from '@ui/contexts/form.context'
 
-export const useInput = <T>(map: (content: string) => T, initial: T | undefined = undefined) => {
+export const useInput = <T>(id: string, map: (content: string) => T, initial: T | undefined = undefined) => {
     const [content, setContent] = useState<T>(initial || map(''))
     const [error, setError] = useState(false)
     const [dirty, setDirty] = useState(false)
@@ -13,7 +13,7 @@ export const useInput = <T>(map: (content: string) => T, initial: T | undefined 
     }
 
     // Register the current input in the FormContext.
-    formContext.register({ setError })
+    formContext.register({ setError, id })
 
     const set = (content: T) => {
         setContent(content)

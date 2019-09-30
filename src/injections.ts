@@ -10,6 +10,7 @@ import GameData from '@persistence/store/gameplay/game.data'
 import CreateChangelogsActions from '@core/actions/changelogs'
 import CreateWindowActions from '@core/actions/window'
 import CreateSavegameActions from '@core/actions/savegame'
+import CreateCreationActions from '@core/actions/creation'
 import CreateInitializationActions from '@core/actions/initialization'
 import CreateSkillActions from '@core/actions/skills'
 import ElectronWindow from '@infrastructure/electron.window'
@@ -17,6 +18,7 @@ import { Injections } from '@ui/contexts/injections.context'
 
 const changelogsActions = CreateChangelogsActions(ChangelogsFetcher, ChangelogsData(Store.dispatch))
 const savegameActions = CreateSavegameActions(ElectronSavegameFetcher, SavegameParser)
+const creationActions = CreateCreationActions()
 const initializationActions = CreateInitializationActions(GitHubDatabase, FileDatabase, ReduxDatabase(Store.dispatch))
 const skillActions = CreateSkillActions(GameData(Store.dispatch))
 const windowActions = CreateWindowActions(ElectronWindow)
@@ -26,6 +28,7 @@ const injections: Injections = {
     gameplay: {
         skills: skillActions,
     },
+    creation: creationActions,
     init: initializationActions,
     savegames: savegameActions,
     window: windowActions,
