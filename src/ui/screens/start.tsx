@@ -15,8 +15,6 @@ import { State } from '@persistence/store/store'
 import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
 import { NavButton } from '@ui/components/buttons/nav/navButton'
 import { CharacterCreationScreen } from '@ui/screens/screens'
-import { useDialog } from '@ui/hooks/dialog.hooks'
-import { DialogType } from '@persistence/store/ui/ui.state'
 import '@ui/styles/screens/start.scss'
 
 const Start: FunctionComponent = () => {
@@ -28,15 +26,6 @@ const Start: FunctionComponent = () => {
     const changelogs = useSelector<State, ChangelogsState>(state => state.changelogs)
     useMountEffect(() => {
         fetchAndSaveChangelogs()
-    })
-
-    const { loadDatabaseFromCache } = useActions().init
-    const { showDialog } = useDialog()
-    useMountEffect(() => {
-        pipe(
-            loadDatabaseFromCache,
-            fold(() => of(showDialog(DialogType.DatabaseDownloadPrompt)), () => of(console.log('Database loaded'))),
-        )()
     })
 
     const { attemptLoad } = useActions().savegames
