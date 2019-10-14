@@ -3,11 +3,19 @@
 
 .gender-button-circle {
     &.error {
-        @include style-button($red, $black);
+        @include style-button(
+            var(--button-destructive-color),
+            var(--button-destructive-hover-color),
+            var(--fill-color)
+        );
     }
 
     &:not(.error) {
-        @include style-button(transparent, $black);
+        @include style-button(
+            var(--button-transparent-color),
+            var(--button-transparent-hover-color),
+            var(--fill-color)
+        );
     }
 
     & svg {
@@ -18,11 +26,11 @@
     &:hover,
     &.selected {
         &.male {
-            @include style-button($blue, $black);
+            @include style-button(var(--male-color), var(--male-hover-color), var(--fill-color));
         }
 
         &.female {
-            @include style-button($pink, $black);
+            @include style-button(var(--female-color), var(--female-hover-color), var(--fill-color));
         }
     }
 }

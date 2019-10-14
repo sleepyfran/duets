@@ -14,6 +14,12 @@ import './index.scss'
  * Renders the app with the game information.
  */
 export default (appInfo: GameInfo, injections: Injections, store: Store<any, AnyAction>) => {
+    const root = document.getElementById('root')
+
+    if (root) {
+        root.dataset.theme = 'dark'
+    }
+
     return ReactDOM.render(
         <GameInfoContext.Provider value={appInfo}>
             <InjectionsContext.Provider value={injections}>
@@ -24,6 +30,6 @@ export default (appInfo: GameInfo, injections: Injections, store: Store<any, Any
                 </Provider>
             </InjectionsContext.Provider>
         </GameInfoContext.Provider>,
-        document.getElementById('root'),
+        root,
     )
 }

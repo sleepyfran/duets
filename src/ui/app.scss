@@ -10,12 +10,12 @@
     }
 
     & a {
-        color: $blue;
+        color: var(--link-color);
         cursor: default;
         text-decoration: none;
 
         &:hover {
-            color: $black;
+            color: var(--link-hover-color);
         }
     }
 
@@ -32,6 +32,7 @@
         }
 
         @mixin base_style() {
+            background-color: var(--background-color);
             box-sizing: border-box;
             font-size: $font-small;
             height: 2.5rem;
@@ -41,27 +42,27 @@
 
         & input {
             @include base_style();
-            border: 2px solid $black;
+            border: 2px solid var(--border-color);
 
             &.error {
-                border: 2px solid $red;
+                border: 2px solid var(--error-color);
             }
         }
 
         & select {
             @include base_style();
             border: 0;
-            outline: 2px solid $black;
+            outline: 2px solid var(--border-color);
             outline-offset: -2px; // Needed for the select to be the same size as the inputs.
 
             &.error {
-                outline: 2px solid $red;
+                outline: 2px solid var(--error-color);
             }
         }
     }
 
     & hr {
-        background-color: $black;
+        background-color: var(--separator-color);
         border: none;
         height: 2px;
         margin: $space-bigger $space-small;

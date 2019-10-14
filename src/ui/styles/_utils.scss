@@ -1,7 +1,12 @@
-@mixin style-button($backgroundColor, $color) {
+@mixin style-button($backgroundColor, $hoverColor, $fillColor: var(--fill-element-color)) {
     background-color: $backgroundColor !important;
+    color: var(--text-element-color);
 
     & svg {
-        fill: $color;
+        fill: $fillColor;
+    }
+
+    &:hover {
+        background-color: $hoverColor !important;
     }
 }

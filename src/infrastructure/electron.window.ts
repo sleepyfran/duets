@@ -4,7 +4,7 @@ import WindowInteractor from '@core/interfaces/window'
 
 const window: WindowInteractor = {
     exit: () => remote.getCurrentWindow().close(),
-    openInBrowser: (url: string) => of(shell.openExternalSync(url)),
+    openInBrowser: (url: string) => of(shell.openExternal(url)),
 }
 
 export default window

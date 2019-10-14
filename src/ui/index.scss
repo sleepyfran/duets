@@ -1,4 +1,21 @@
 @import 'src/ui/styles/_colors.scss';
+@import 'src/ui/styles/_themes.scss';
+
+/* Default light theme. */
+:root {
+    @each $name, $color in $light-theme {
+        --#{$name}: #{$color};
+    }
+}
+
+/* Dark theme. */
+@media (prefers-color-scheme: dark) {
+    :root {
+        @each $name, $color in $dark-theme {
+            --#{$name}: #{$color};
+        }
+    }
+}
 
 @font-face {
     font-family: 'Duets';
@@ -11,7 +28,7 @@ body {
 }
 
 body {
-    background-color: $white;
+    background-color: var(--background-color);
     margin: 0;
     user-select: none;
 
@@ -23,7 +40,7 @@ body {
     }
 
     & * {
-        color: $black;
+        color: var(--text-color);
         font-family: 'Duets';
     }
 }

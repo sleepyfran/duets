@@ -2,13 +2,9 @@
 @import 'utils';
 
 .play-button-circle {
-    @include style-button($gray, $black);
+    @include style-button(var(--button-dark-color), var(--button-dark-hover-color));
 
     & svg {
         padding-left: 5px; // Button seems off-centered without this.
-    }
-
-    &:hover {
-        @include style-button($black, $white);
     }
 }

@@ -2,10 +2,10 @@
 
 .circular-button {
     & .circle {
-        background-color: $gray;
-        border: 4px solid $black;
+        background-color: var(--background-color);
+        border: 4px solid var(--border-color);
         border-radius: 50%;
-        fill: $black;
+        fill: var(--fill-color);
         height: 100%;
         width: 100%;
     }

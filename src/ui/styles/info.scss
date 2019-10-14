@@ -2,8 +2,8 @@
 @import 'sizes';
 
 .info {
-    background-color: $gray;
-    border: $border-small solid $black;
+    background-color: var(--background-color);
+    border: $border-small solid var(--border-color);
     margin: $space-medium;
     padding: $space-medium;
 }

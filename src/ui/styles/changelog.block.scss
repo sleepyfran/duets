@@ -12,8 +12,8 @@
         align-items: center;
         padding-left: $space-bigger;
 
-        & :nth-child(2) {
-            color: $dark-gray;
+        & .date {
+            color: var(--text-subtitle-color);
             margin-left: $space-big;
             margin-top: 5px; // Center the date with the header.
         }

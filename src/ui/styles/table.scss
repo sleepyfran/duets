@@ -8,10 +8,11 @@ table {
 
     & td,
     & th {
-        border: $border-small solid $black;
+        border: $border-small solid var(--border-color);
         padding: $space-big;
 
         & > input[type='number'] {
+            background-color: var(--background-color);
             border: none;
             font-size: $font-medium;
             text-align: center;

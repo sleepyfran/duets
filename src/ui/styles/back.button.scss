@@ -4,9 +4,5 @@
 .back-button-circle {
     border: none !important;
 
-    @include style-button($blue, $white);
-
-    &:hover {
-        @include style-button($black, $white);
-    }
+    @include style-button(var(--button-color), var(--button-hover-color));
 }

@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react'
-import '@ui/styles/changelog.scss'
 import ChangelogBlock from './block/changelog.block'
 import { ChangelogList } from '@core/entities/changelog'
 
