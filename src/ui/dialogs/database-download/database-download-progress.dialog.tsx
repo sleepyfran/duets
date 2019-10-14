@@ -5,7 +5,7 @@ import { of } from 'fp-ts/lib/Task'
 import Button from '@ui/components/buttons/button'
 import { useActions } from '@ui/hooks/injections.hooks'
 import { useDialog } from '@ui/hooks/dialog.hooks'
-import './database-download-progress.dialog.scss'
+import '@ui/styles/dialogs/database-download-progress.dialog.scss'
 import { useMountEffect } from '@ui/hooks/mount.hooks'
 
 enum StatusType {

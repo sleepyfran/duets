@@ -1,5 +1,5 @@
-@import 'src/ui/styles/colors';
-@import 'src/ui/styles/sizes';
+@import '../colors';
+@import '../sizes';
 
 .database-download-progress-dialog {
     padding: $space-bigger;

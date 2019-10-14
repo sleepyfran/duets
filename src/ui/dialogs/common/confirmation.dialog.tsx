@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactNode } from 'react'
-import './confirmation.dialog.scss'
+import '@ui/styles/dialogs/confirmation.dialog.scss'
 
 export type ConfirmationDialogProps = {
     title: string
