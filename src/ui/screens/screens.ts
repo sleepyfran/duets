@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
-import StartComponent from './start/start'
-import CharacterCreation from '@ui/screens/character-creation/character-creation'
+import StartComponent from './start'
+import CharacterCreation from '@ui/screens/character-creation'
 
 type Screen = {
     name: string

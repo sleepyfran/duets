@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
-import CircularButton from '@ui/components/buttons/circular/circular.button'
+import CircularButton from '@ui/components/buttons/circular.button'
 import { ReactComponent as BackIcon } from '@ui/assets/icons/back.svg'
-import './back.button.scss'
+import '@ui/styles/back.button.scss'
 
 type BackButtonProps = {
     className?: string

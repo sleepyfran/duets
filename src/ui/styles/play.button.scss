@@ -1,5 +1,5 @@
-@import 'src/ui/styles/_colors.scss';
-@import 'src/ui/styles/_utils.scss';
+@import 'colors';
+@import 'utils';
 
 .play-button-circle {
     @include style-button($gray, $black);

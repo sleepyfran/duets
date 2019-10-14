@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import './circular.button.scss'
+import '@ui/styles/circular.button.scss'
 
 type CircularButtonProps = {
     className?: string

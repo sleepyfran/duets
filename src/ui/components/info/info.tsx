@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import './info.scss'
+import '@ui/styles/info.scss'
 
 type InfoProps = {
     text: string

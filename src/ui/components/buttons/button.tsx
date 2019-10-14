@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import './button.scss'
+import '@ui/styles/button.scss'
 
 export enum ButtonType {
     Normal,

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactNode } from 'react'
-import './layout.scss'
+import '@ui/styles/layout.scss'
 
 export enum LayoutMode {
     Half,

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
-import './play.button.scss'
-import CircularButton from '@ui/components/buttons/circular/circular.button'
+import CircularButton from '@ui/components/buttons/circular.button'
 import { ReactComponent as PlayIcon } from '@ui/assets/icons/play.svg'
+import '@ui/styles/play.button.scss'
 
 type PlayButtonProps = {
     className?: string

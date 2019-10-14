@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import './close.button.scss'
-import CircularButton from '@ui/components/buttons/circular/circular.button'
+import '@ui/styles/close.button.scss'
+import CircularButton from '@ui/components/buttons/circular.button'
 import { ReactComponent as CloseIcon } from '@ui/assets/icons/close.svg'
 
 type CloseButtonProps = {

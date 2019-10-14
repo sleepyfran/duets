@@ -1,8 +1,8 @@
 import React, { FunctionComponent, ReactNode } from 'react'
-import './full-size.sidebar.scss'
+import '@ui/styles/full-size.sidebar.scss'
 import { NavButton } from '@ui/components/buttons/nav/navButton'
-import BackButton from '@ui/components/buttons/nav/back/back.button'
-import CloseButton from '@ui/components/buttons/nav/close/close.button'
+import BackButton from '@ui/components/buttons/nav/back.button'
+import CloseButton from '@ui/components/buttons/nav/close.button'
 
 type FullSizeSidebarProps = {
     className: string

@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react'
-import GenderButton from '@ui/components/buttons/gender/gender.button'
+import GenderButton from '@ui/components/buttons/gender.button'
 import { Gender } from '@engine/entities/gender'
-import './gender.input.scss'
+import '@ui/styles/gender.input.scss'
 
 type GenderInputProps = {
     label: string

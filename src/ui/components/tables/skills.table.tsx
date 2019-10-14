@@ -1,12 +1,12 @@
 import React, { ChangeEvent, FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
 import { pipe } from 'fp-ts/lib/pipeable'
+import { toArray } from 'fp-ts/lib/Record'
 import { groupBy } from 'fp-ts/lib/NonEmptyArray'
 import { State } from '@persistence/store/store'
 import { Skill } from '@engine/entities/skill'
 import { useActions } from '@ui/hooks/injections.hooks'
-import './table.scss'
-import { toArray } from 'fp-ts/lib/Record'
+import '@ui/styles/table.scss'
 
 type SkillsTableProps = {
     assignedPoints: number

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import './changelog.block.scss'
+import '@ui/styles/changelog.block.scss'
 import markdownToHtml from '@ui/utils/markdown-to-html'
 import { Changelog } from '@core/entities/changelog'
 
