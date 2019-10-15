@@ -5,7 +5,7 @@
     padding: $space-bigger;
 
     & > p {
-        color: $dark-gray;
+        color: var(--text-color);
         text-align: start;
     }
 

@@ -5,6 +5,7 @@ import { DialogType } from '@persistence/store/ui/ui.state'
 import DatabaseDownloadPromptDialog from '@ui/dialogs/database-download/database-download-prompt.dialog'
 import DatabaseDownloadProgressDialog from '@ui/dialogs/database-download/database-download-progress.dialog'
 import '@ui/styles/dialogs/dialog.overlay.scss'
+import StartDateSelectionDialog from '@ui/dialogs/start-date-selection.dialog'
 
 type DialogProps = {
     type: DialogType
@@ -16,6 +17,8 @@ const Dialog: FunctionComponent<DialogProps> = props => {
             return <DatabaseDownloadPromptDialog />
         case DialogType.DatabaseDownloadProgress:
             return <DatabaseDownloadProgressDialog />
+        case DialogType.StartDateSelection:
+            return <StartDateSelectionDialog />
         default:
             return <></>
     }

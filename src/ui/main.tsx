@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { HashRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { AnyAction, Store } from 'redux'
 import App from './app'
@@ -24,9 +24,9 @@ export default (appInfo: GameInfo, injections: Injections, store: Store<any, Any
         <GameInfoContext.Provider value={appInfo}>
             <InjectionsContext.Provider value={injections}>
                 <Provider store={store}>
-                    <HashRouter>
+                    <BrowserRouter>
                         <App />
-                    </HashRouter>
+                    </BrowserRouter>
                 </Provider>
             </InjectionsContext.Provider>
         </GameInfoContext.Provider>,

@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useContext } from 'react'
-import useReactRouter from 'use-react-router'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { fold } from 'fp-ts/lib/TaskEither'
 import { of } from 'fp-ts/lib/Task'
@@ -14,12 +13,11 @@ import { useMountEffect } from '@ui/hooks/mount.hooks'
 import { State } from '@persistence/store/store'
 import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
 import { NavButton } from '@ui/components/buttons/nav/navButton'
-import { CharacterCreationScreen } from '@ui/screens/screens'
 import '@ui/styles/screens/start.scss'
+import { useDialog } from '@ui/hooks/dialog.hooks'
+import { DialogType } from '@persistence/store/ui/ui.state'
 
 const Start: FunctionComponent = () => {
-    const { history } = useReactRouter()
-
     const gameInfo = useContext(GameInfoContext)
 
     const { fetchAndSave: fetchAndSaveChangelogs } = useActions().changelogs
@@ -30,11 +28,12 @@ const Start: FunctionComponent = () => {
 
     const { attemptLoad } = useActions().savegames
     const { exit, openInBrowser } = useActions().window
+    const { showDialog } = useDialog()
 
     const attemptLoadPreviousSavegame = () => {
         pipe(
             attemptLoad,
-            fold(() => of(history.push(CharacterCreationScreen.path)), () => of(alert('Coming soon.'))),
+            fold(() => of(showDialog(DialogType.StartDateSelection)), () => of(alert('Coming soon.'))),
         )()
     }
 

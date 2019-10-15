@@ -35,12 +35,11 @@
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
         "react-redux": "^7.1.0",
-        "react-router-dom": "^5.0.1",
+        "react-router-dom": "^5.1.2",
         "react-scripts": "3.0.1",
         "redux": "^4.0.4",
         "showdown": "^1.9.0",
-        "typescript": "3.5.3",
-        "use-react-router": "^1.0.7"
+        "typescript": "3.5.3"
     },
     "devDependencies": {
         "@rescripts/cli": "0.0.11",
@@ -51,7 +50,7 @@
         "@types/react": "16.8.23",
         "@types/react-dom": "16.8.5",
         "@types/react-redux": "^7.1.1",
-        "@types/react-router-dom": "^4.3.4",
+        "@types/react-router-dom": "^5.1.0",
         "@types/showdown": "^1.9.3",
         "babel-plugin-module-resolver": "^3.2.0",
         "concurrently": "^4.1.1",

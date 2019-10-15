@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
 import { head } from 'fp-ts/lib/Array'
-import { some } from 'fp-ts/lib/Option'
+import { getOrElse, some } from 'fp-ts/lib/Option'
 import {
     stringToMaybeCity,
     stringToMaybeDate,
@@ -8,7 +8,6 @@ import {
     stringToMaybeInstrument,
     stringToString,
 } from '@core/utils/mappers'
-import useRouter from 'use-react-router'
 import Layout from '@ui/components/layout/layout'
 import FullSizeSidebar from '@ui/components/sidebars/full-size.sidebar'
 import TextInput from '@ui/components/inputs/text.input'
@@ -30,9 +29,16 @@ import { CharacterInput } from '@core/inputs/character.input'
 import { useActions } from '@ui/hooks/injections.hooks'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { fold } from 'fp-ts/lib/Either'
+import { useHistory, useLocation } from 'react-router-dom'
 
 const CharacterCreation: FunctionComponent = () => {
-    const { history } = useRouter()
+    const history = useHistory()
+    const startDateParam = useLocation().state
+    const startDate = pipe(
+        startDateParam || '',
+        stringToMaybeDate,
+        getOrElse(() => new Date()),
+    )
 
     const database = useSelector((state: State) => state.database)
     const cities = database.cities
@@ -58,8 +64,6 @@ const CharacterCreation: FunctionComponent = () => {
         value => stringToMaybeCity(value, cities),
         head([...cities]),
     )
-
-    const { content: startDate, bind: bindStartDate } = useInput('startDate', stringToMaybeDate)
 
     const { content: instrument, bind: bindInstrument } = useInput(
         'instrument',
@@ -112,8 +116,6 @@ const CharacterCreation: FunctionComponent = () => {
                         header={
                             <div>
                                 <h1>Character creation</h1>
-                                <DateInput label="Game start date" maxDate={new Date()} {...bindStartDate} />
-                                <hr />
                                 <TextInput label="Name" {...bindName} />
                                 <DateInput label="Birthday" {...bindBirthday} />
                                 <GenderInput label="Gender" {...bindGender} />
