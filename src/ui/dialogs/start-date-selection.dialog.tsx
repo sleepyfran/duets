@@ -14,7 +14,6 @@ import { useHistory } from 'react-router-dom'
 
 const StartDateSelectionDialog: FunctionComponent = () => {
     const history = useHistory()
-    const { exit } = useActions().window
     const { hideDialog } = useDialog()
 
     const { content: startDate, bind: bindStartDate } = useInput('startDate', stringToMaybeDate)
@@ -48,7 +47,7 @@ const StartDateSelectionDialog: FunctionComponent = () => {
             }
             choice={
                 <>
-                    <Button buttonType={ButtonType.Warn} onClick={exit}>
+                    <Button buttonType={ButtonType.Warn} onClick={hideDialog}>
                         Cancel
                     </Button>
                     <Button onClick={handleConfirm}>Set start date</Button>
