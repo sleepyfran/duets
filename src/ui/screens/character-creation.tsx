@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { head } from 'fp-ts/lib/Array'
 import { getOrElse, some } from 'fp-ts/lib/Option'
 import {
@@ -20,9 +20,7 @@ import { NavButton } from '@ui/components/buttons/nav/navButton'
 import Button from '@ui/components/buttons/button'
 import { useSelector } from 'react-redux'
 import { State } from '@persistence/store/store'
-import { useInput } from '@ui/hooks/input.hooks'
 import { Gender } from '@engine/entities/gender'
-import { FormContext, formContextConsumer } from '@ui/contexts/form.context'
 import { MAX_ASSIGNABLE_LEVEL_POINTS } from '@engine/operations/skill.operations'
 import '@ui/styles/screens/character-creation.scss'
 import { CharacterInput } from '@core/inputs/character.input'
@@ -30,6 +28,7 @@ import { useActions } from '@ui/hooks/injections.hooks'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { fold } from 'fp-ts/lib/Either'
 import { useHistory, useLocation } from 'react-router-dom'
+import { useForm } from '@ui/hooks/form.hooks'
 
 const CharacterCreation: FunctionComponent = () => {
     const history = useHistory()
@@ -53,24 +52,6 @@ const CharacterCreation: FunctionComponent = () => {
         value: instrument.name,
     }))
 
-    const { content: name, bind: bindName } = useInput('name', stringToString)
-
-    const { content: birthday, bind: bindBirthday } = useInput('birthday', stringToMaybeDate)
-
-    const { content: gender, bind: bindGender } = useInput('gender', stringToMaybeGender, some(Gender.Male))
-
-    const { content: originCity, bind: bindOriginCity } = useInput(
-        'originCity',
-        value => stringToMaybeCity(value, cities),
-        head([...cities]),
-    )
-
-    const { content: instrument, bind: bindInstrument } = useInput(
-        'instrument',
-        value => stringToMaybeInstrument(value, instruments),
-        head([...instruments]),
-    )
-
     const [assignedPoints, setAssignedPoints] = useState(0)
     const pointsLeft = MAX_ASSIGNABLE_LEVEL_POINTS - assignedPoints
     const characterSkills = useSelector((state: State) => state.gameplay.character.skills)
@@ -79,10 +60,24 @@ const CharacterCreation: FunctionComponent = () => {
         setAssignedPoints(assigned)
     }, [characterSkills])
 
-    const form = useContext(FormContext)
+    const form = useForm()
+    const { content: name, bind: bindName } = form.withInput('name', stringToString)
+    const { content: birthday, bind: bindBirthday } = form.withInput('birthday', stringToMaybeDate)
+    const { content: gender, bind: bindGender } = form.withInput('gender', stringToMaybeGender, some(Gender.Male))
+    const { content: originCity, bind: bindOriginCity } = form.withInput(
+        'originCity',
+        value => stringToMaybeCity(value, cities),
+        head([...cities]),
+    )
+    const { content: instrument, bind: bindInstrument } = form.withInput(
+        'instrument',
+        value => stringToMaybeInstrument(value, instruments),
+        head([...instruments]),
+    )
+
     const creation = useActions().creation
     const handleGoOn = () => {
-        form.clearErrors()
+        form.clear()
 
         const characterInput: CharacterInput = {
             name,
@@ -98,47 +93,45 @@ const CharacterCreation: FunctionComponent = () => {
                 startDate,
             }),
             fold(
-                validationErrors => form.markAllValidationErrors(validationErrors),
+                validationErrors => form.markValidationErrors(validationErrors),
                 () => console.log('Everything is alright :)'),
             ),
         )
     }
 
     return (
-        <FormContext.Provider value={formContextConsumer}>
-            <Layout
-                className="character-creation"
-                left={
-                    <FullSizeSidebar
-                        className="main-menu"
-                        navButton={NavButton.Back}
-                        onNavButtonClick={history.goBack}
-                        header={
-                            <div>
-                                <h1>Character creation</h1>
-                                <TextInput label="Name" {...bindName} />
-                                <DateInput label="Birthday" {...bindBirthday} />
-                                <GenderInput label="Gender" {...bindGender} />
-                                <SelectInput label="Origin City" options={citiesSelect} {...bindOriginCity} />
-                            </div>
-                        }
-                    />
-                }
-                right={
-                    <div className="instruments-skills">
-                        <h1>My instrument and skills</h1>
-                        <div className="instrument">
-                            <SelectInput label="Initial instrument" options={instrumentsSelect} {...bindInstrument} />
+        <Layout
+            className="character-creation"
+            left={
+                <FullSizeSidebar
+                    className="main-menu"
+                    navButton={NavButton.Back}
+                    onNavButtonClick={history.goBack}
+                    header={
+                        <div>
+                            <h1>Character creation</h1>
+                            <TextInput label="Name" {...bindName} />
+                            <DateInput label="Birthday" {...bindBirthday} />
+                            <GenderInput label="Gender" {...bindGender} />
+                            <SelectInput label="Origin City" options={citiesSelect} {...bindOriginCity} />
                         </div>
-                        <Info text={`You can assign ${pointsLeft} more points to these skills`} />
-                        <SkillsTable assignedPoints={assignedPoints} />
-                        <Button className="go-button" onClick={handleGoOn}>
-                            Go on
-                        </Button>
+                    }
+                />
+            }
+            right={
+                <div className="instruments-skills">
+                    <h1>My instrument and skills</h1>
+                    <div className="instrument">
+                        <SelectInput label="Initial instrument" options={instrumentsSelect} {...bindInstrument} />
                     </div>
-                }
-            />
-        </FormContext.Provider>
+                    <Info text={`You can assign ${pointsLeft} more points to these skills`} />
+                    <SkillsTable assignedPoints={assignedPoints} />
+                    <Button className="go-button" onClick={handleGoOn}>
+                        Go on
+                    </Button>
+                </div>
+            }
+        />
     )
 }
 
