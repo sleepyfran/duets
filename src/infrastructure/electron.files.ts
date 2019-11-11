@@ -1,20 +1,18 @@
-import { tryCatch } from 'fp-ts/lib/TaskEither'
 import { promises as fs } from 'fs'
 import { remote } from 'electron'
 
 /**
- * Transforms a call to fs.readFile into a TaskEither.
+ * Wraps a fs.readFile call.
  * @param path Path of the file to read.
  */
-export const readFile = (path: string) => tryCatch(() => fs.readFile(path, 'utf8'), error => new Error(String(error)))
+export const readFile = (path: string) => fs.readFile(path, 'utf8')
 
 /**
- * Transforms a call to fs.writeFile into a TaskEither.
+ * Wraps a fs.writeFile call.
  * @param path Path of the file to read.
  * @param content Content to write to the file.
  */
-export const writeFile = (path: string, content: string) =>
-    tryCatch(() => fs.writeFile(path, content, 'utf-8'), error => new Error(String(error)))
+export const writeFile = (path: string, content: string) => fs.writeFile(path, content, 'utf-8')
 
 /**
  * Returns the userData folder path.

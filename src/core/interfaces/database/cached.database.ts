@@ -1,4 +1,3 @@
-import { TaskEither } from 'fp-ts/lib/TaskEither'
 import RemoteDatabase from '@core/interfaces/database/remote.database'
 import { Database } from '@core/entities/database'
 
@@ -7,5 +6,5 @@ import { Database } from '@core/entities/database'
  * to save the fetched resources.
  */
 export default interface CachedDatabase extends RemoteDatabase {
-    save(database: Database): TaskEither<Error, Database>
+    save: (database: Database) => Promise<Database>
 }

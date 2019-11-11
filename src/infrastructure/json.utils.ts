@@ -1,5 +1,9 @@
-import { tryCatch } from 'fp-ts/lib/Either'
-
-export const tryParseJson = (json: string) => {
-    return tryCatch(() => JSON.parse(json), error => new Error(String(error)))
+export const tryParseJson = (json: string): Promise<any> => {
+    return new Promise((resolve, reject) => {
+        try {
+            return resolve(JSON.parse(json))
+        } catch (err) {
+            reject(err)
+        }
+    })
 }

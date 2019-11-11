@@ -1,14 +1,11 @@
 import React, { FunctionComponent, useContext } from 'react'
-import { pipe } from 'fp-ts/lib/pipeable'
-import { fold } from 'fp-ts/lib/TaskEither'
-import { of } from 'fp-ts/lib/Task'
 import { useSelector } from 'react-redux'
 import FullSizeSidebar from '@ui/components/sidebars/full-size.sidebar'
 import Layout from '@ui/components/layout/layout'
 import PlayButton from '@ui/components/buttons/play.button'
 import Changelog from '@ui/components/changelog/changelog'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
-import { useActions } from '@ui/hooks/injections.hooks'
+import { useActions, useCommands } from '@ui/hooks/injections.hooks'
 import { useMountEffect } from '@ui/hooks/mount.hooks'
 import { State } from '@persistence/store/store'
 import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
@@ -26,15 +23,14 @@ const Start: FunctionComponent = () => {
         fetchAndSaveChangelogs()
     })
 
-    const { attemptLoad } = useActions().savegames
     const { exit, openInBrowser } = useActions().window
     const { showDialog } = useDialog()
+    const { loadSavegame } = useCommands()
 
     const attemptLoadPreviousSavegame = () => {
-        pipe(
-            attemptLoad,
-            fold(() => of(showDialog(DialogType.StartDateSelection)), () => of(alert('Coming soon.'))),
-        )()
+        loadSavegame()
+            .then(() => alert('Coming soon'))
+            .catch(() => showDialog(DialogType.StartDateSelection))
     }
 
     return (

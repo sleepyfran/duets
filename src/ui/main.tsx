@@ -5,15 +5,16 @@ import { Provider } from 'react-redux'
 import { AnyAction, Store } from 'redux'
 import App from './app'
 import { GameInfo } from '@ui/types/game-info'
-import { Injections } from '@ui/contexts/injections.context'
+import { CommandsContext, Injections } from '@ui/contexts/injections.context'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
 import { InjectionsContext } from './contexts/injections.context'
 import './index.scss'
+import { Commands } from '@core/commands/commands'
 
 /**
  * Renders the app with the game information.
  */
-export default (appInfo: GameInfo, injections: Injections, store: Store<any, AnyAction>) => {
+export default (appInfo: GameInfo, commands: Commands, injections: Injections, store: Store<any, AnyAction>) => {
     const root = document.getElementById('root')
 
     if (root) {
@@ -22,13 +23,15 @@ export default (appInfo: GameInfo, injections: Injections, store: Store<any, Any
 
     return ReactDOM.render(
         <GameInfoContext.Provider value={appInfo}>
-            <InjectionsContext.Provider value={injections}>
-                <Provider store={store}>
-                    <BrowserRouter>
-                        <App />
-                    </BrowserRouter>
-                </Provider>
-            </InjectionsContext.Provider>
+            <CommandsContext.Provider value={commands}>
+                <InjectionsContext.Provider value={injections}>
+                    <Provider store={store}>
+                        <BrowserRouter>
+                            <App />
+                        </BrowserRouter>
+                    </Provider>
+                </InjectionsContext.Provider>
+            </CommandsContext.Provider>
         </GameInfoContext.Provider>,
         root,
     )
