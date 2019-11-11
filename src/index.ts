@@ -7,7 +7,7 @@ import { version, homepage } from '../package.json'
 import Store from '@persistence/store/store'
 import { GameInfo } from '@ui/types/game-info'
 import Injections from './injections'
-import Commands from './command-injections'
+import Commands from './injections/commands'
 
 const gameInfo: GameInfo = {
     homepageUrl: homepage,

@@ -23,7 +23,7 @@ const Start: FunctionComponent = () => {
         fetchAndSaveChangelogs()
     })
 
-    const { exit, openInBrowser } = useActions().window
+    const { exit, openBrowser } = useCommands().window
     const { showDialog } = useDialog()
     const { loadSavegame } = useCommands()
 
@@ -51,10 +51,10 @@ const Start: FunctionComponent = () => {
                         <>
                             <h3>v{gameInfo.version}</h3>
                             <div>
-                                <a className="external-url" onClick={() => openInBrowser(gameInfo.sourceCodeUrl)}>
+                                <a className="external-url" onClick={() => openBrowser(gameInfo.sourceCodeUrl)}>
                                     source code
                                 </a>
-                                <a className="external-url" onClick={() => openInBrowser(gameInfo.homepageUrl)}>
+                                <a className="external-url" onClick={() => openBrowser(gameInfo.homepageUrl)}>
                                     homepage
                                 </a>
                             </div>

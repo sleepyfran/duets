@@ -1,4 +1,3 @@
-import { WindowActions } from './window'
 import { SkillsActions } from '@core/actions/skills'
 import { ChangelogsActions } from './changelogs'
 import { CreationActions } from './creation'
@@ -9,5 +8,4 @@ export type Actions = {
         skills: SkillsActions
     }
     creation: CreationActions
-    window: WindowActions
 }

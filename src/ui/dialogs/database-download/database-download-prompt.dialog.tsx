@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import Button, { ButtonType } from '@ui/components/buttons/button'
-import { useActions } from '@ui/hooks/injections.hooks'
+import { useCommands } from '@ui/hooks/injections.hooks'
 import { useDialog } from '@ui/hooks/dialog.hooks'
 import { DialogType } from '@persistence/store/ui/ui.state'
 import ConfirmationDialog from '@ui/dialogs/common/confirmation.dialog'
 
 const DatabaseDownloadPromptDialog: FunctionComponent = () => {
-    const { exit } = useActions().window
+    const { exit } = useCommands().window
     const { showDialog } = useDialog()
 
     const handleDownload = () => showDialog(DialogType.DatabaseDownloadProgress)

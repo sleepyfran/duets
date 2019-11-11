@@ -7,6 +7,7 @@ import ReduxDatabase from '@persistence/store/database/redux.database'
 import createDownloadDatabaseCommand from '@core/commands/init/download-database'
 import createStartupCommand from '@core/commands/init/startup'
 import createLoadSavegameCommand from '@core/commands/savegame/load'
+import WindowCommands from './window-commands'
 import { Commands } from '@core/commands/commands'
 
 const downloadDatabaseCommand = createDownloadDatabaseCommand(
@@ -23,6 +24,7 @@ const commands: Commands = {
     downloadDatabase: downloadDatabaseCommand,
     startup: startupCommand,
     loadSavegame: loadSavegameCommand,
+    window: WindowCommands,
 }
 
 export default commands
