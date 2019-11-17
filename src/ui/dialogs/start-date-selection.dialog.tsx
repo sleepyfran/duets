@@ -1,12 +1,10 @@
 import React, { FunctionComponent } from 'react'
 import Button, { ButtonType } from '@ui/components/buttons/button'
-import { useActions } from '@ui/hooks/injections.hooks'
+import { useCommands } from '@ui/hooks/injections.hooks'
 import { useDialog } from '@ui/hooks/dialog.hooks'
 import ConfirmationDialog from '@ui/dialogs/common/confirmation.dialog'
 import DateInput from '@ui/components/inputs/date.input'
-import { stringToMaybeDate } from '@core/utils/mappers'
-import { pipe } from 'fp-ts/es6/pipeable'
-import { fold } from 'fp-ts/lib/Either'
+import { stringToDate } from '@core/utils/mappers'
 import { CharacterCreationScreen } from '@ui/screens/screens'
 import { useHistory } from 'react-router-dom'
 import { useForm } from '@ui/hooks/form.hooks'
@@ -15,23 +13,21 @@ const StartDateSelectionDialog: FunctionComponent = () => {
     const history = useHistory()
     const { hideDialog } = useDialog()
 
-    const { setStartDate } = useActions().creation
+    const { validateStartDate } = useCommands().forms.creation
     const form = useForm()
-    const { content: startDate, bind: bindStartDate } = form.withInput('startDate', stringToMaybeDate)
+    const { content: startDate, bind: bindStartDate } = form.withInput('startDate', stringToDate, new Date())
 
     const handleConfirm = () => {
         form.clear()
 
-        pipe(
-            startDate,
-            setStartDate,
-            fold(
-                validationErrors => form.markValidationErrors(validationErrors),
-                date => {
-                    hideDialog()
-                    history.push(CharacterCreationScreen.path, date)
-                },
-            ),
+        console.log(startDate)
+        const result = validateStartDate(startDate, 'startDate')
+        result.fold(
+            errors => form.markValidationErrors(errors),
+            date => {
+                hideDialog()
+                history.push(CharacterCreationScreen.path, date)
+            },
         )
     }
 

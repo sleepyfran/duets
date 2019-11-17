@@ -7,7 +7,7 @@ import differenceInCalendarYears from 'date-fns/differenceInCalendarYears'
 import { liftA2Validation, liftValidation } from '@core/utils/lifters'
 import { missingPropertyError, propertyNotNone } from '@core/validations/common.validation'
 import { createNameOfType } from '@core/utils/nameof'
-import { ErrorType, ValidationError } from '@core/entities/error'
+import { ValidationError } from '@core/entities/error'
 
 export type CharacterValidation = Either<ValidationError, CharacterInput>
 export type CharacterValidationResult = Either<NonEmptyArray<ValidationError>, CharacterInput>
@@ -18,8 +18,7 @@ const nameMinLength = (character: CharacterInput): CharacterValidation =>
     character.name && character.name.length > 0
         ? right(character)
         : left({
-              type: ErrorType.MissingValue,
-              description: 'Name cannot be empty',
+              message: 'Name cannot be empty',
               property: nameOfCharacterProperty('name'),
           })
 
@@ -31,8 +30,7 @@ const over18YearsOld = (character: CharacterInput, gameStartDate: Date): Charact
             differenceInCalendarYears(gameStartDate, birthday) >= 18
                 ? right(character)
                 : left({
-                      type: ErrorType.InvalidValue,
-                      description: 'The character must be 18 years older since the game start',
+                      message: 'The character must be 18 years older since the game start',
                       property: nameOfCharacterProperty('birthday'),
                   }),
         ),

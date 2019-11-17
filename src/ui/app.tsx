@@ -10,9 +10,9 @@ import './app.scss'
 
 const App: FunctionComponent = () => {
     const { showDialog } = useDialog()
-    const { startup: startupCommand } = useCommands()
+    const { startup } = useCommands().init
     useMountEffect(() => {
-        startupCommand()
+        startup()
             .then(() => console.log('Database downloaded'))
             .catch(() => showDialog(DialogType.DatabaseDownloadPrompt))
     })

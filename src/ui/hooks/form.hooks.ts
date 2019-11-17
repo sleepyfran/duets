@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction } from 'react'
 import { useInput } from '@ui/hooks/input.hooks'
-import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { ValidationError } from '@core/entities/error'
 
 type Input = {
@@ -43,7 +42,7 @@ export const useForm = () => {
      * Marks error as true for a given list of validation errors.
      * @param validationErrors List of validation errors.
      */
-    const markValidationErrors = (validationErrors: NonEmptyArray<ValidationError>) => {
+    const markValidationErrors = (validationErrors: ValidationError[]) => {
         validationErrors.forEach(validationError => markErrorFor(validationError.property))
     }
 

@@ -1,6 +1,6 @@
 import { fold, isNone, Option } from 'fp-ts/lib/Option'
 import { Either, left, right } from 'fp-ts/lib/Either'
-import { ErrorType, ValidationError } from '@core/entities/error'
+import { ValidationError } from '@core/entities/error'
 import { pipe } from 'fp-ts/lib/pipeable'
 
 /**
@@ -8,8 +8,7 @@ import { pipe } from 'fp-ts/lib/pipeable'
  * @param property Property name for the description.
  */
 export const missingPropertyStringError = (property: string): ValidationError => ({
-    type: ErrorType.MissingValue,
-    description: `Property ${property} should be present in the input`,
+    message: `Property ${property} should be present in the input`,
     property: property,
 })
 

@@ -5,7 +5,7 @@ import Layout from '@ui/components/layout/layout'
 import PlayButton from '@ui/components/buttons/play.button'
 import Changelog from '@ui/components/changelog/changelog'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
-import { useActions, useCommands } from '@ui/hooks/injections.hooks'
+import { useCommands } from '@ui/hooks/injections.hooks'
 import { useMountEffect } from '@ui/hooks/mount.hooks'
 import { State } from '@persistence/store/store'
 import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
@@ -17,15 +17,15 @@ import { DialogType } from '@persistence/store/ui/ui.state'
 const Start: FunctionComponent = () => {
     const gameInfo = useContext(GameInfoContext)
 
-    const { fetchAndSave: fetchAndSaveChangelogs } = useActions().changelogs
+    const { loadChangelog } = useCommands().init
     const changelogs = useSelector<State, ChangelogsState>(state => state.changelogs)
     useMountEffect(() => {
-        fetchAndSaveChangelogs()
+        loadChangelog()
     })
 
     const { exit, openBrowser } = useCommands().window
     const { showDialog } = useDialog()
-    const { loadSavegame } = useCommands()
+    const { loadSavegame } = useCommands().init
 
     const attemptLoadPreviousSavegame = () => {
         loadSavegame()

@@ -36,9 +36,9 @@ const Status: FunctionComponent<StatusComponentProps> = props => {
 const DatabaseDownloadProgressDialog: FunctionComponent = () => {
     const [status, setStatus] = useState(RequestStatus.downloading)
 
-    const { downloadDatabase: downloadDatabaseCommand } = useCommands()
+    const { downloadDatabase } = useCommands().init
     useMountEffect(() => {
-        downloadDatabaseCommand()
+        downloadDatabase()
             .then(() => setStatus(RequestStatus.done))
             .catch(() => setStatus(RequestStatus.error))
     })
