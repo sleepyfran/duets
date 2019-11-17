@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { keysOf } from '@ui/utils/utils'
+import { keysOf } from '@utils/utils'
 import { lens } from 'lens.ts'
 
 export type InputHookProps<T> = {

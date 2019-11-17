@@ -9,6 +9,7 @@ module.exports = [
             return {
                 ...config,
                 moduleNameMapper: {
+                    '@config': '<rootDir>/src/config.ts',
                     '@ui/(.*)': '<rootDir>/src/ui/$1',
                     '@core/(.*)': '<rootDir>/src/core/$1',
                     '@engine/(.*)': '<rootDir>/src/engine/$1',

@@ -1,11 +1,10 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import Layout from '@ui/components/layout/layout'
 import FullSizeSidebar from '@ui/components/sidebars/full-size.sidebar'
 import { NavButton } from '@ui/components/buttons/nav/navButton'
 import Button from '@ui/components/buttons/button'
 import { useSelector } from 'react-redux'
 import { State } from '@persistence/store/store'
-import { MAX_ASSIGNABLE_LEVEL_POINTS } from '@engine/operations/skill.operations'
 import { useCommands } from '@ui/hooks/injections.hooks'
 import { useHistory, useLocation } from 'react-router-dom'
 import { stringToDate } from '@core/utils/mappers'
@@ -23,6 +22,7 @@ const CharacterCreation: FunctionComponent = () => {
     const database = useSelector((state: State) => state.database)
     const cities = database.cities
     const instruments = database.instruments
+    const skills = database.skills
 
     const [characterInput, updateCharacterInput] = useState<CharacterFormInput>({
         name: '',
@@ -32,17 +32,10 @@ const CharacterCreation: FunctionComponent = () => {
     })
     const [skillsInput, updateSkillInput] = useState<SkillsFormInput>({
         instrument: instruments[0],
+        characterSkills: [],
     })
 
     const form = useForm()
-
-    const [assignedPoints, setAssignedPoints] = useState(0)
-    const pointsLeft = MAX_ASSIGNABLE_LEVEL_POINTS - assignedPoints
-    const characterSkills = useSelector((state: State) => state.gameplay.character.skills)
-    useEffect(() => {
-        const assigned = characterSkills.reduce((prev, curr) => prev + curr.level, 0)
-        setAssignedPoints(assigned)
-    }, [characterSkills])
 
     const { createGame } = useCommands().forms.creation
     const handleGoOn = () => {
@@ -80,7 +73,8 @@ const CharacterCreation: FunctionComponent = () => {
                     <SkillsForm
                         form={form}
                         instruments={instruments}
-                        pointsLeft={pointsLeft}
+                        skills={skills}
+                        pointsLeft={0}
                         input={skillsInput}
                         onUpdate={updateSkillInput}
                     />

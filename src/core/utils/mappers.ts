@@ -1,7 +1,7 @@
 import { Gender } from '@engine/entities/gender'
 import { City } from '@engine/entities/city'
 import { Instrument } from '@engine/entities/instrument'
-import { parseDateOrDefault } from '@ui/utils/utils'
+import { parseDateOrDefault } from '@utils/utils'
 
 /**
  * Identity mapper for a string.

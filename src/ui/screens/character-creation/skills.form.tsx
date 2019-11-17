@@ -6,15 +6,20 @@ import { Instrument } from '@engine/entities/instrument'
 import Info from '@ui/components/info/info'
 import SkillsTable from '@ui/components/tables/skills.table'
 import { useInputChange } from '@ui/hooks/input.hooks'
+import { Skill } from '@engine/entities/skill'
+import { CharacterSkill } from '@engine/entities/character-skill'
+import { createOrUpdate } from '@utils/utils'
 
 export type SkillsFormInput = {
     instrument: Instrument
+    characterSkills: ReadonlyArray<CharacterSkill>
 }
 
 type FormProps = {
     form: Form
     input: SkillsFormInput
     instruments: ReadonlyArray<Instrument>
+    skills: ReadonlyArray<Skill>
     pointsLeft: number
     onUpdate: (input: SkillsFormInput) => void
 }
@@ -25,7 +30,7 @@ const SkillsForm: FunctionComponent<FormProps> = (props: FormProps) => {
         value: instrument.name,
     }))
 
-    const { instrument: onUpdateInstrument } = useInputChange({
+    const { instrument: onUpdateInstrument, characterSkills: onUpdateCharacterSkills } = useInputChange({
         input: props.input,
         onChange: props.onUpdate,
     })
@@ -37,6 +42,10 @@ const SkillsForm: FunctionComponent<FormProps> = (props: FormProps) => {
         initial: props.input.instrument,
     })
 
+    const onUpdateCharacterSkill = (characterSkill: CharacterSkill) => {
+        onUpdateCharacterSkills(createOrUpdate(props.input.characterSkills, characterSkill, 'name'))
+    }
+
     return (
         <>
             <h1>My instrument and skills</h1>
@@ -44,7 +53,12 @@ const SkillsForm: FunctionComponent<FormProps> = (props: FormProps) => {
                 <SelectInput label="Initial instrument" options={instrumentsSelect} {...bindInstrument} />
             </div>
             <Info text={`You can assign ${props.pointsLeft} more points to these skills`} />
-            <SkillsTable assignedPoints={0} />
+            <SkillsTable
+                input={props.input.characterSkills}
+                assignedPoints={0}
+                skills={props.skills}
+                onUpdate={onUpdateCharacterSkill}
+            />
         </>
     )
 }

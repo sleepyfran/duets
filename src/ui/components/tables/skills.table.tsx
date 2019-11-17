@@ -1,30 +1,27 @@
 import React, { ChangeEvent, FunctionComponent } from 'react'
-import { useSelector } from 'react-redux'
-import { pipe } from 'fp-ts/lib/pipeable'
-import { toArray } from 'fp-ts/lib/Record'
-import { groupBy } from 'fp-ts/lib/NonEmptyArray'
-import { State } from '@persistence/store/store'
 import { Skill } from '@engine/entities/skill'
-import { useActions } from '@ui/hooks/injections.hooks'
+import { CharacterSkill } from '@engine/entities/character-skill'
+import { groupBy } from '@utils/utils'
 import '@ui/styles/table.scss'
 
 type SkillsTableProps = {
+    input: ReadonlyArray<CharacterSkill>
     assignedPoints: number
+    skills: ReadonlyArray<Skill>
+    onUpdate: (skills: CharacterSkill) => void
 }
 
 const SkillsTable: FunctionComponent<SkillsTableProps> = props => {
-    const characterSkills = useSelector((state: State) => state.gameplay.character.skills)
-    const skills = useSelector((state: State) => state.database.skills)
-    const skillsByType = toArray(groupBy((skill: Skill) => skill.type)([...skills]))
+    const skillsByType = groupBy(props.skills, 'type')
 
-    const getCharacterSkill = (skill: Skill) =>
-        characterSkills.find(s => s.name === skill.name) || { ...skill, level: 0 }
+    const getCharacterSkill = (skill: Skill) => props.input.find(s => s.name === skill.name) || { ...skill, level: 0 }
     const getCharacterSkillLevel = (skill: Skill) => getCharacterSkill(skill).level
 
-    const { modifySkillLevel } = useActions().gameplay.skills
     const handleSkillLevelChange = (skill: Skill, event: ChangeEvent<HTMLInputElement>) => {
-        const newLevel = Number.parseInt(event.target.value) || 0
-        pipe(modifySkillLevel(getCharacterSkill(skill), newLevel, props.assignedPoints))()
+        props.onUpdate({
+            ...skill,
+            level: Number(event.target.value),
+        })
     }
 
     return (

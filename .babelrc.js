@@ -11,6 +11,7 @@ module.exports = {
             {
                 root: '.',
                 alias: {
+                    '@config': './src/config.ts',
                     '@ui': './src/ui',
                     '@core': './src/core',
                     '@engine': './src/engine',
