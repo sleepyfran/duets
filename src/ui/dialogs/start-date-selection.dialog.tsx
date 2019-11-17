@@ -15,7 +15,10 @@ const StartDateSelectionDialog: FunctionComponent = () => {
 
     const { validateStartDate } = useCommands().forms.creation
     const form = useForm()
-    const { content: startDate, bind: bindStartDate } = form.withInput('startDate', stringToDate, new Date())
+    const { content: startDate, bind: bindStartDate } = form.withInput({
+        id: 'startDate',
+        map: stringToDate,
+    })
 
     const handleConfirm = () => {
         form.clear()

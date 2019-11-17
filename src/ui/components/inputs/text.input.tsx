@@ -15,6 +15,7 @@ const TextInput: FunctionComponent<TextInputProps> = props => {
                 type="text"
                 onChange={event => props.onChange(event.target.value)}
                 className={props.error ? 'error' : ''}
+                value={props.value}
             />
         </div>
     )

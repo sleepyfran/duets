@@ -1,34 +1,48 @@
-import { fromPredicate, none, Option, some } from 'fp-ts/lib/Option'
-import { findFirst } from 'fp-ts/lib/Array'
 import { Gender } from '@engine/entities/gender'
 import { City } from '@engine/entities/city'
 import { Instrument } from '@engine/entities/instrument'
-import { parse } from 'date-fns'
-
-export const stringToString = (value: string) => value
-
-const getOptionFromDate = fromPredicate((date: Date) => !isNaN(date.getDate()))
-export const stringToMaybeDate = (value: string): Option<Date> => getOptionFromDate(new Date(value))
+import { parseDateOrDefault } from '@ui/utils/utils'
 
 /**
- * Attempts to parse a string from the given input.
+ * Identity mapper for a string.
+ * @param value Value to return.
+ */
+export const stringToString = (value: string) => value
+
+/**
+ * Attempts to parse a date from a given string. Returns a default date if the input is not valid.
  * @param value Value to parse.
  */
-export const stringToDate = (value: string): Date => parse(value, 'E..EEE LLL MM YYYY', new Date())
+export const stringToDate = (value: string): Date => parseDateOrDefault(value)
 
-export const stringToMaybeGender = (value: string): Option<Gender> => {
+/**
+ * Attempts to parse a Gender from a given string. Defaults to Male if the gender is not recognized.
+ * @param value Value to parse.
+ */
+export const stringToGender = (value: string): Gender => {
     switch (value) {
         case 'male':
-            return some(Gender.Male)
+            return Gender.Male
         case 'female':
-            return some(Gender.Female)
+            return Gender.Female
         default:
-            return none
+            return Gender.Male
     }
 }
 
-export const stringToMaybeCity = (value: string, cities: ReadonlyArray<City>) =>
-    findFirst((city: City) => city.name === value)([...cities])
+/**
+ * Attempts to parse a city from a given string. Defaults to the first element of the cities list if it's not recognized.
+ * @param value Value to parse.
+ * @param cities List of cities available.
+ */
+export const stringToCity = (value: string, cities: ReadonlyArray<City>) =>
+    cities.find(city => city.name === value) || cities[0]
 
-export const stringToMaybeInstrument = (value: string, instruments: ReadonlyArray<Instrument>) =>
-    findFirst((instrument: Instrument) => instrument.name === value)([...instruments])
+/**
+ * Attempts to parse an instrument from a given string. Defaults to the first element of the cities list if it's not
+ * recognized.
+ * @param value Value to parse.
+ * @param instruments List of instruments available.
+ */
+export const stringToInstrument = (value: string, instruments: ReadonlyArray<Instrument>) =>
+    instruments.find(instrument => instrument.name === value) || instruments[0]

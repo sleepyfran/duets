@@ -1,32 +1,36 @@
 import { Dispatch, SetStateAction } from 'react'
-import { useInput } from '@ui/hooks/input.hooks'
+import { Input, InputHookProps, useInput } from '@ui/hooks/input.hooks'
 import { ValidationError } from '@core/entities/error'
 
-type Input = {
+type InputRef = {
     id: string
     setError: Dispatch<SetStateAction<boolean>>
+}
+
+export type Form = {
+    withInput: <T>(props: InputHookProps<T>) => Input<T>
+    clear: () => void
+    markValidationErrors: (validationErrors: ValidationError[]) => void
 }
 
 /**
  * An utility hook to quickly create forms containing different inputs that can show an error state.
  */
-export const useForm = () => {
+export const useForm = (): Form => {
     /**
      * List of inputs that the form will handle. The reason why we use a normal const instead of a React state is
      * because we *don't* want to trigger a re-render every time a new input is added to the form, since that creates
      * an infinite loop of re-renders.
      */
-    const inputs: Input[] = []
+    const inputs: InputRef[] = []
 
     /**
      * Creates a new input with `useInput` and adds it to the list of inputs of the form.
-     * @param id Unique ID that will be used in the validation to indicate which field has errors.
-     * @param map Mapping from a string into the input's type.
-     * @param initial Initial value of the input.
+     * @param props Props of the input.
      */
-    const WithInput = <T>(id: string, map: (content: string) => T, initial: T | undefined = undefined) => {
-        const input = useInput(id, map, initial)
-        inputs.push({ id, setError: input.setError })
+    const WithInput = <T>(props: InputHookProps<T>) => {
+        const input = useInput(props)
+        inputs.push({ id: props.id, setError: input.setError })
         return input
     }
 

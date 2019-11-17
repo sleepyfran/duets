@@ -4,13 +4,14 @@ import { Gender } from '@engine/entities/gender'
 import '@ui/styles/gender.input.scss'
 
 type GenderInputProps = {
+    value: Gender
     label: string
     error: boolean
     onChange: (value: string) => void
 }
 
 const GenderInput: FunctionComponent<GenderInputProps> = props => {
-    const [selection, setSelection] = useState(Gender.Male)
+    const [selection, setSelection] = useState(props.value)
 
     const handleOnClick = (gender: Gender) => {
         setSelection(gender)

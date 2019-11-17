@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react'
 import Moment from 'moment'
 
 type DateInputProps = {
+    value: Date
     label: string
     minDate?: Date
     maxDate?: Date
@@ -9,11 +10,11 @@ type DateInputProps = {
     onChange: (value: string) => void
 }
 
-const formattedDate = (date: Date) => Moment(date).format('YYYY-MM-DD')
+const formatDate = (date: Date) => Moment(date).format('YYYY-MM-DD')
 
 const DateInput: FunctionComponent<DateInputProps> = props => {
-    const formattedMaxDate = props.maxDate && formattedDate(props.maxDate)
-    const formattedMinDate = props.minDate && formattedDate(props.minDate)
+    const formattedMaxDate = props.maxDate && formatDate(props.maxDate)
+    const formattedMinDate = props.minDate && formatDate(props.minDate)
 
     return (
         <div className="input">
@@ -24,6 +25,7 @@ const DateInput: FunctionComponent<DateInputProps> = props => {
                 min={formattedMinDate}
                 onChange={event => props.onChange(event.target.value)}
                 className={props.error ? 'error' : ''}
+                value={formatDate(props.value)}
             />
         </div>
     )
