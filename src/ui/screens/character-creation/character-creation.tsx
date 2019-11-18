@@ -12,6 +12,7 @@ import CharacterForm, { CharacterFormInput } from '@ui/screens/character-creatio
 import SkillsForm, { SkillsFormInput } from '@ui/screens/character-creation/skills.form'
 import { Gender } from '@engine/entities/gender'
 import { useForm } from '@ui/hooks/form.hooks'
+import Config from '@config'
 import '@ui/styles/screens/character-creation.scss'
 
 const CharacterCreation: FunctionComponent = () => {
@@ -24,6 +25,8 @@ const CharacterCreation: FunctionComponent = () => {
     const instruments = database.instruments
     const skills = database.skills
 
+    const form = useForm()
+
     const [characterInput, updateCharacterInput] = useState<CharacterFormInput>({
         name: '',
         gender: Gender.Male,
@@ -33,10 +36,8 @@ const CharacterCreation: FunctionComponent = () => {
     const [skillsInput, updateSkillInput] = useState<SkillsFormInput>({
         instrument: instruments[0],
         characterSkills: [],
-        pointsLeft: 0,
+        pointsLeft: Config.maxAssignablePoints,
     })
-
-    const form = useForm()
 
     const { createGame } = useCommands().forms.creation
     const handleGoOn = () => {

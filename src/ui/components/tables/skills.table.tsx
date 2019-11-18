@@ -8,7 +8,7 @@ type SkillsTableProps = {
     input: ReadonlyArray<CharacterSkill>
     assignedPoints: number
     skills: ReadonlyArray<Skill>
-    onUpdate: (skills: CharacterSkill) => void
+    onUpdate: (skills: CharacterSkill, level: number) => void
 }
 
 const SkillsTable: FunctionComponent<SkillsTableProps> = props => {
@@ -18,10 +18,7 @@ const SkillsTable: FunctionComponent<SkillsTableProps> = props => {
     const getCharacterSkillLevel = (skill: Skill) => getCharacterSkill(skill).level
 
     const handleSkillLevelChange = (skill: Skill, event: ChangeEvent<HTMLInputElement>) => {
-        props.onUpdate({
-            ...skill,
-            level: Number(event.target.value),
-        })
+        props.onUpdate(getCharacterSkill(skill), Number(event.target.value))
     }
 
     return (

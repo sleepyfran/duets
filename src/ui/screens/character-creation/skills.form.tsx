@@ -8,7 +8,7 @@ import SkillsTable from '@ui/components/tables/skills.table'
 import { useInputChange } from '@ui/hooks/input.hooks'
 import { Skill } from '@engine/entities/skill'
 import { CharacterSkill } from '@engine/entities/character-skill'
-import { createOrUpdate } from '@utils/utils'
+import { useCommands } from '@ui/hooks/injections.hooks'
 
 export type SkillsFormInput = {
     instrument: Instrument
@@ -30,7 +30,7 @@ const SkillsForm: FunctionComponent<FormProps> = (props: FormProps) => {
         value: instrument.name,
     }))
 
-    const { instrument: onUpdateInstrument, characterSkills: onUpdateCharacterSkills } = useInputChange({
+    const { instrument: onUpdateInstrument } = useInputChange({
         input: props.input,
         onChange: props.onUpdate,
     })
@@ -42,8 +42,20 @@ const SkillsForm: FunctionComponent<FormProps> = (props: FormProps) => {
         initial: props.input.instrument,
     })
 
-    const onUpdateCharacterSkill = (characterSkill: CharacterSkill) => {
-        onUpdateCharacterSkills(createOrUpdate(props.input.characterSkills, characterSkill, 'name'))
+    const { skillUpdate } = useCommands().forms.creation
+    const onUpdateCharacterSkill = (characterSkill: CharacterSkill, level: number) => {
+        const updateResult = skillUpdate({
+            skills: props.input.characterSkills,
+            skill: characterSkill,
+            level: level,
+            pointsLeft: props.input.pointsLeft,
+        })
+
+        props.onUpdate({
+            ...props.input,
+            characterSkills: updateResult.skills,
+            pointsLeft: updateResult.pointsLeft,
+        })
     }
 
     return (
