@@ -12,6 +12,7 @@ import { createOrUpdate } from '@utils/utils'
 
 export type SkillsFormInput = {
     instrument: Instrument
+    pointsLeft: number
     characterSkills: ReadonlyArray<CharacterSkill>
 }
 
@@ -20,7 +21,6 @@ type FormProps = {
     input: SkillsFormInput
     instruments: ReadonlyArray<Instrument>
     skills: ReadonlyArray<Skill>
-    pointsLeft: number
     onUpdate: (input: SkillsFormInput) => void
 }
 
@@ -52,7 +52,7 @@ const SkillsForm: FunctionComponent<FormProps> = (props: FormProps) => {
             <div className="instrument">
                 <SelectInput label="Initial instrument" options={instrumentsSelect} {...bindInstrument} />
             </div>
-            <Info text={`You can assign ${props.pointsLeft} more points to these skills`} />
+            <Info text={`You can assign ${props.input.pointsLeft} more points to these skills`} />
             <SkillsTable
                 input={props.input.characterSkills}
                 assignedPoints={0}

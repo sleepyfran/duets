@@ -33,6 +33,7 @@ const CharacterCreation: FunctionComponent = () => {
     const [skillsInput, updateSkillInput] = useState<SkillsFormInput>({
         instrument: instruments[0],
         characterSkills: [],
+        pointsLeft: 0,
     })
 
     const form = useForm()
@@ -74,7 +75,6 @@ const CharacterCreation: FunctionComponent = () => {
                         form={form}
                         instruments={instruments}
                         skills={skills}
-                        pointsLeft={0}
                         input={skillsInput}
                         onUpdate={updateSkillInput}
                     />
