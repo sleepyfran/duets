@@ -23,7 +23,6 @@ const StartDateSelectionDialog: FunctionComponent = () => {
     const handleConfirm = () => {
         form.clear()
 
-        console.log(startDate)
         const result = validateStartDate(startDate, 'startDate')
         result.fold(
             errors => form.markValidationErrors(errors),
