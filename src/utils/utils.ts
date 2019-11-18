@@ -45,17 +45,14 @@ type Grouped<T, K extends keyof T> = [T[K], T[]][]
  * @param key Key to use in the grouping.
  */
 export const groupBy = <T, K extends keyof T>(input: T[] | ReadonlyArray<T>, key: K): Grouped<T, K> =>
-    input.reduce(
-        (result, item) => {
-            const itemKey = item[key]
-            const existingValue = result.find(it => it[0] === itemKey)
-            if (!existingValue) {
-                result.push([itemKey, [item]])
-            } else {
-                existingValue[1].push(item)
-            }
+    input.reduce((result, item) => {
+        const itemKey = item[key]
+        const existingValue = result.find(it => it[0] === itemKey)
+        if (!existingValue) {
+            result.push([itemKey, [item]])
+        } else {
+            existingValue[1].push(item)
+        }
 
-            return result
-        },
-        [] as Grouped<T, K>,
-    )
+        return result
+    }, [] as Grouped<T, K>)

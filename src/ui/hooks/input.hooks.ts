@@ -88,11 +88,8 @@ export const useInputChange = <T, K extends keyof T>(props: InputChangeProps<T>)
 
     const keys = keysOf(props.input)
 
-    return keys.reduce(
-        (result, key) => {
-            result[key] = (updated: T[K]) => props.onChange(typeLens.k(key).set(updated)(props.input))
-            return result
-        },
-        {} as any,
-    )
+    return keys.reduce((result, key) => {
+        result[key] = (updated: T[K]) => props.onChange(typeLens.k(key).set(updated)(props.input))
+        return result
+    }, {} as any)
 }
