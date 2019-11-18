@@ -12,7 +12,8 @@ export const readFile = (path: string) => fs.readFile(path, 'utf8')
  * @param path Path of the file to read.
  * @param content Content to write to the file.
  */
-export const writeFile = (path: string, content: string) => fs.writeFile(path, content, 'utf-8')
+export const writeFile = (path: string, content: string) =>
+    fs.writeFile(path, content, { encoding: 'utf-8', flag: 'w' })
 
 /**
  * Returns the userData folder path.
@@ -23,3 +24,8 @@ export const duetsDataPath = () => remote.app.getPath('userData')
  * Returns the cached database file path.
  */
 export const duetsCachedDatabasePath = () => `${duetsDataPath()}/duets.db`
+
+/**
+ * Returns the savegame file path.
+ */
+export const duetsSavegamePath = () => `${duetsDataPath()}/duets.save`

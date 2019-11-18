@@ -3,6 +3,11 @@ import Moment from 'moment'
 import { Gender } from '@engine/entities/gender'
 import { City } from '@engine/entities/city'
 import { Instrument } from '@engine/entities/instrument'
+import { Game } from '@core/entities/game'
+import { CharacterSkill } from '@engine/entities/character-skill'
+import { TimeOfDay } from '@engine/entities/calendar'
+import { InMemoryGameData } from '@core/interfaces/gameplay/in-memory-game-data'
+import Savegame from '@core/interfaces/savegame'
 
 export type CreateGameInput = {
     name: string
@@ -11,11 +16,12 @@ export type CreateGameInput = {
     originCity: City
     instrument: Instrument
     gameStartDate: Date
+    skills: ReadonlyArray<CharacterSkill>
 }
 
-export type CreateGame = (creationFormInput: CreateGameInput) => Result<CreateGameInput>
+export type CreateGame = (creationFormInput: CreateGameInput) => Promise<Result<CreateGameInput>>
 
-export default (): CreateGame => creationFormInput => {
+export default (gameData: InMemoryGameData, savegame: Savegame): CreateGame => creationFormInput => {
     const result = Validation.of(creationFormInput)
         .property('name')
         .notEmpty()
@@ -31,10 +37,25 @@ export default (): CreateGame => creationFormInput => {
         .truthy()
         .result()
 
-    if (result.hasErrors()) return result
+    if (result.hasErrors()) return Promise.resolve(result)
 
-    // TODO: Create the character
-    console.log('Everything is fine, continue!')
+    const initialGame: Game = {
+        character: {
+            name: creationFormInput.name,
+            birthday: creationFormInput.birthday,
+            gender: creationFormInput.gender,
+            skills: creationFormInput.skills,
+            fame: 0,
+            health: 100,
+            mood: 100,
+        },
+        calendar: {
+            date: creationFormInput.gameStartDate,
+            time: TimeOfDay.Morning,
+        },
+    }
 
-    return result
+    gameData.save(initialGame)
+
+    return savegame.save(initialGame).then(() => result)
 }

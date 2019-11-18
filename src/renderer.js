@@ -45,7 +45,7 @@ const createWindow = () => {
     if (devMode && cleanupMode) {
         const duetsFolder = app.getPath('userData')
 
-        ;['duets.db'].forEach(file => fs.unlinkSync(`${duetsFolder}/${file}`))
+        ;['duets.db', 'duets.save'].forEach(file => fs.unlinkSync(`${duetsFolder}/${file}`))
 
         console.log('Data removed successfully; exiting...')
         return process.exit(0)

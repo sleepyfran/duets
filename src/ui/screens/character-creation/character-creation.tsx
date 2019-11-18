@@ -43,13 +43,14 @@ const CharacterCreation: FunctionComponent = () => {
     const handleGoOn = () => {
         form.clear()
 
-        const result = createGame({
+        createGame({
             ...characterInput,
             ...skillsInput,
+            skills: skillsInput.characterSkills,
             gameStartDate,
+        }).then(result => {
+            form.markValidationErrors(result.errors())
         })
-
-        form.markValidationErrors(result.errors())
     }
 
     return (

@@ -13,5 +13,5 @@ export type Character = {
     mood: Mood
     health: Health
     fame: Fame
-    skills: CharacterSkill[]
+    skills: ReadonlyArray<CharacterSkill>
 }
