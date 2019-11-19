@@ -17,6 +17,7 @@ const initialState: GameState = {
         mood: 0,
         gender: Gender.Male,
     },
+    band: undefined,
 }
 
 export default (state: GameState = initialState, action: GameActions) => {

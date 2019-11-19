@@ -13,8 +13,9 @@ import { NavButton } from '@ui/components/buttons/nav/navButton'
 import { useDialog } from '@ui/hooks/dialog.hooks'
 import { DialogType } from '@persistence/store/ui/ui.state'
 import { useHistory } from 'react-router-dom'
-import { BandCreationScreen } from '@ui/screens/screens'
 import '@ui/styles/screens/start.scss'
+import { SavegameState } from '@core/commands/savegame/check'
+import { BandCreationScreen } from '@ui/screens/screens'
 
 const Start: FunctionComponent = () => {
     const history = useHistory()
@@ -28,11 +29,25 @@ const Start: FunctionComponent = () => {
 
     const { exit, openBrowser } = useCommands().window
     const { showDialog } = useDialog()
-    const { loadSavegame } = useCommands().init
+    const savegame = useCommands().savegame
 
     const attemptLoadPreviousSavegame = () => {
-        loadSavegame()
-            .then(() => history.push(BandCreationScreen.path))
+        savegame
+            .load()
+            .then(savegame.check)
+            .then(status => {
+                switch (status) {
+                    case SavegameState.CharacterMissing:
+                        showDialog(DialogType.StartDateSelection)
+                        break
+                    case SavegameState.BandMissing:
+                        history.push(BandCreationScreen.path)
+                        break
+                    case SavegameState.Ready:
+                    default:
+                        alert('Coming soon :)')
+                }
+            })
             .catch(() => showDialog(DialogType.StartDateSelection))
     }
 

@@ -6,6 +6,7 @@ import { stringToGenre, stringToRole, stringToString } from '@core/utils/mappers
 import { State } from '@persistence/store/store'
 import SelectInput from '@ui/components/inputs/select.input'
 import Button from '@ui/components/buttons/button'
+import { useCommands } from '@ui/hooks/injections.hooks'
 
 const NewBandForm: FunctionComponent = () => {
     const database = useSelector((state: State) => state.database)
@@ -24,18 +25,25 @@ const NewBandForm: FunctionComponent = () => {
 
     const form = useForm()
 
-    const { bind: bindName } = form.withInput({ id: 'name', map: stringToString })
-    const { bind: bindGenre } = form.withInput({
+    const { content: name, bind: bindName } = form.withInput({ id: 'name', map: stringToString })
+    const { content: genre, bind: bindGenre } = form.withInput({
         id: 'genre',
         map: value => stringToGenre(value, genres),
     })
-    const { bind: bindRole } = form.withInput({
+    const { content: role, bind: bindRole } = form.withInput({
         id: 'role',
         map: value => stringToRole(value, roles),
     })
 
+    const { createBand } = useCommands().forms.creation
     const handleCreate = () => {
-        console.log('Band created! Well...not yet, but you know the drill :)')
+        createBand({
+            name,
+            genre,
+            role,
+        }).then(result =>
+            result.fold(form.markValidationErrors, () => alert('Created successfully, the rest will come soon!')),
+        )
     }
 
     return (

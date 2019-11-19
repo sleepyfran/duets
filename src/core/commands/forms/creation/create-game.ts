@@ -53,6 +53,7 @@ export default (gameData: InMemoryGameData, savegame: Savegame): CreateGame => c
             date: creationFormInput.gameStartDate,
             time: TimeOfDay.Morning,
         },
+        band: undefined,
     }
 
     gameData.save(initialGame)
