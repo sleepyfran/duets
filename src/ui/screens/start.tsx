@@ -10,11 +10,14 @@ import { useMountEffect } from '@ui/hooks/mount.hooks'
 import { State } from '@persistence/store/store'
 import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
 import { NavButton } from '@ui/components/buttons/nav/navButton'
-import '@ui/styles/screens/start.scss'
 import { useDialog } from '@ui/hooks/dialog.hooks'
 import { DialogType } from '@persistence/store/ui/ui.state'
+import { useHistory } from 'react-router-dom'
+import { BandCreationScreen } from '@ui/screens/screens'
+import '@ui/styles/screens/start.scss'
 
 const Start: FunctionComponent = () => {
+    const history = useHistory()
     const gameInfo = useContext(GameInfoContext)
 
     const { loadChangelog } = useCommands().init
@@ -29,7 +32,7 @@ const Start: FunctionComponent = () => {
 
     const attemptLoadPreviousSavegame = () => {
         loadSavegame()
-            .then(() => alert('Coming soon'))
+            .then(() => history.push(BandCreationScreen.path))
             .catch(() => showDialog(DialogType.StartDateSelection))
     }
 

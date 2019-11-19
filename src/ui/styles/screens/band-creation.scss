@@ -1,0 +1,14 @@
+@import '../sizes';
+
+.band-creation {
+    .band-form {
+        display: flex;
+        flex-direction: column;
+
+        & .create-button {
+            align-self: center;
+            margin-top: $space-medium;
+            width: 50%;
+        }
+    }
+}

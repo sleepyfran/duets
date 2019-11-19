@@ -13,6 +13,7 @@ import SkillsForm, { SkillsFormInput } from '@ui/screens/character-creation/skil
 import { Gender } from '@engine/entities/gender'
 import { useForm } from '@ui/hooks/form.hooks'
 import Config from '@config'
+import { BandCreationScreen } from '@ui/screens/screens'
 import '@ui/styles/screens/character-creation.scss'
 
 const CharacterCreation: FunctionComponent = () => {
@@ -49,7 +50,7 @@ const CharacterCreation: FunctionComponent = () => {
             skills: skillsInput.characterSkills,
             gameStartDate,
         }).then(result => {
-            form.markValidationErrors(result.errors())
+            result.fold(form.markValidationErrors, () => history.push(BandCreationScreen.path))
         })
     }
 
@@ -80,9 +81,7 @@ const CharacterCreation: FunctionComponent = () => {
                         input={skillsInput}
                         onUpdate={updateSkillInput}
                     />
-                    <Button className="go-button" onClick={handleGoOn}>
-                        Go on
-                    </Button>
+                    <Button onClick={handleGoOn}>Go on</Button>
                 </div>
             }
         />

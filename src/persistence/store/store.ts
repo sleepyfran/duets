@@ -1,21 +1,26 @@
 import { createStore, combineReducers } from 'redux'
 import ChangelogsReducer from '@persistence/store/changelogs/changelogs.reducer'
-import InstrumentsReducer from '@persistence/store/database/instruments/instruments.reducer'
-import CitiesReducer from '@persistence/store/database/cities/cities.reducer'
-import DatabaseSkillsReducer from '@persistence/store/database/skills/skills.reducer'
 import GameReducer from '@persistence/store/gameplay/game.reducer'
 import UiReducer from '@persistence/store/ui/ui.reducer'
 import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
 import { DatabaseState } from '@persistence/store/database/database.state'
 import { UiState } from '@persistence/store/ui/ui.state'
 import { GameState } from '@persistence/store/gameplay/game.state'
+import { createReducerFor } from '@persistence/store/generator'
+import { City } from '@engine/entities/city'
+import { Instrument } from '@engine/entities/instrument'
+import { Skill } from '@engine/entities/skill'
+import { Genre } from '@engine/entities/genre'
+import { Role } from '@engine/entities/role'
 
 const rootReducer = combineReducers({
     changelogs: ChangelogsReducer,
     database: combineReducers({
-        cities: CitiesReducer,
-        instruments: InstrumentsReducer,
-        skills: DatabaseSkillsReducer,
+        cities: createReducerFor<ReadonlyArray<City>>('cities', []),
+        instruments: createReducerFor<ReadonlyArray<Instrument>>('instruments', []),
+        skills: createReducerFor<ReadonlyArray<Skill>>('skills', []),
+        genres: createReducerFor<ReadonlyArray<Genre>>('genres', []),
+        roles: createReducerFor<ReadonlyArray<Role>>('roles', []),
     }),
     gameplay: GameReducer,
     ui: UiReducer,

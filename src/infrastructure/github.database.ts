@@ -53,6 +53,22 @@ const githubDatabase: RemoteDatabase = {
                                 type: SkillType.Production,
                             },
                         ],
+                        genres: [
+                            {
+                                name: 'Avant-Garde',
+                                compatibleWith: [],
+                            },
+                            {
+                                name: 'Blackgaze',
+                                compatibleWith: [],
+                            },
+                        ],
+                        roles: [
+                            {
+                                name: 'Guitarist',
+                                forInstruments: [{ name: 'Guitar', allowsAnotherInstrument: false }],
+                            },
+                        ],
                     }),
                 3000,
             ),
