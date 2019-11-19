@@ -19,7 +19,7 @@ const SelectInput: FunctionComponent<SelectInputProps> = props => {
             <label>{props.label}</label>
             <select onChange={event => props.onChange(event.target.value)} className={props.error ? 'error' : ''}>
                 {props.options.map(option => (
-                    <option defaultValue={props.value} value={option.value}>
+                    <option key={option.label} defaultValue={props.value} value={option.value}>
                         {option.label}
                     </option>
                 ))}
