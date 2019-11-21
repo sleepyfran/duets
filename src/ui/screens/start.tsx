@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react'
 import { useSelector } from 'react-redux'
 import FullSizeSidebar from '@ui/components/sidebars/full-size.sidebar'
-import Layout from '@ui/components/layout/layout'
+import HorizontalLayout from '@ui/components/layout/horizontal-layout'
 import PlayButton from '@ui/components/buttons/play.button'
 import Changelog from '@ui/components/changelog/changelog'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
@@ -52,7 +52,7 @@ const Start: FunctionComponent = () => {
     }
 
     return (
-        <Layout
+        <HorizontalLayout
             left={
                 <FullSizeSidebar
                     className="main-menu"

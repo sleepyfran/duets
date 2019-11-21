@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import Layout from '@ui/components/layout/layout'
+import HorizontalLayout from '@ui/components/layout/horizontal-layout'
 import FullSizeSidebar from '@ui/components/sidebars/full-size.sidebar'
 import { NavButton } from '@ui/components/buttons/nav/navButton'
 import Button from '@ui/components/buttons/button'
@@ -55,7 +55,7 @@ const CharacterCreation: FunctionComponent = () => {
     }
 
     return (
-        <Layout
+        <HorizontalLayout
             className="character-creation"
             left={
                 <FullSizeSidebar

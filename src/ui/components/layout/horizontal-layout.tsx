@@ -13,7 +13,7 @@ type LayoutProps = {
     right: ReactNode
 }
 
-const Layout: FunctionComponent<LayoutProps> = props => {
+const HorizontalLayout: FunctionComponent<LayoutProps> = props => {
     const halfMode = props.mode === LayoutMode.Half
 
     return (
@@ -24,4 +24,4 @@ const Layout: FunctionComponent<LayoutProps> = props => {
     )
 }
 
-export default Layout
+export default HorizontalLayout

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import Layout, { LayoutMode } from '@ui/components/layout/layout'
+import HorizontalLayout, { LayoutMode } from '@ui/components/layout/horizontal-layout'
 import FullSizeSidebar from '@ui/components/sidebars/full-size.sidebar'
 import { NavButton } from '@ui/components/buttons/nav/navButton'
 import { useHistory } from 'react-router'
@@ -11,7 +11,7 @@ const BandCreation: FunctionComponent = () => {
     const history = useHistory()
 
     return (
-        <Layout
+        <HorizontalLayout
             className="band-creation"
             mode={LayoutMode.Half}
             left={
