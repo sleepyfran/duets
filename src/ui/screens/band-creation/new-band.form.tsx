@@ -7,8 +7,12 @@ import { State } from '@persistence/store/store'
 import SelectInput from '@ui/components/inputs/select.input'
 import Button from '@ui/components/buttons/button'
 import { useCommands } from '@ui/hooks/injections.hooks'
+import { HomeScreen } from '@ui/screens/screens'
+import { useHistory } from 'react-router-dom'
 
 const NewBandForm: FunctionComponent = () => {
+    const history = useHistory()
+
     const database = useSelector((state: State) => state.database)
     const genres = database.genres
     const roles = database.roles
@@ -41,9 +45,7 @@ const NewBandForm: FunctionComponent = () => {
             name,
             genre,
             role,
-        }).then(result =>
-            result.fold(form.markValidationErrors, () => alert('Created successfully, the rest will come soon!')),
-        )
+        }).then(result => result.fold(form.markValidationErrors, () => history.push(HomeScreen.path)))
     }
 
     return (

@@ -9,13 +9,13 @@ import { useCommands } from '@ui/hooks/injections.hooks'
 import { useMountEffect } from '@ui/hooks/mount.hooks'
 import { State } from '@persistence/store/store'
 import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
-import { NavButton } from '@ui/components/buttons/nav/navButton'
+import { NavButton } from '@ui/components/buttons/nav/nav-button-type'
 import { useDialog } from '@ui/hooks/dialog.hooks'
 import { DialogType } from '@persistence/store/ui/ui.state'
 import { useHistory } from 'react-router-dom'
 import '@ui/styles/screens/start.scss'
 import { SavegameState } from '@core/commands/savegame/check'
-import { BandCreationScreen } from '@ui/screens/screens'
+import { BandCreationScreen, HomeScreen } from '@ui/screens/screens'
 
 const Start: FunctionComponent = () => {
     const history = useHistory()
@@ -45,7 +45,7 @@ const Start: FunctionComponent = () => {
                         break
                     case SavegameState.Ready:
                     default:
-                        alert('Coming soon :)')
+                        history.push(HomeScreen.path)
                 }
             })
             .catch(() => showDialog(DialogType.StartDateSelection))

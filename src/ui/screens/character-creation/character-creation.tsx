@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react'
 import HorizontalLayout from '@ui/components/layout/horizontal-layout'
 import FullSizeSidebar from '@ui/components/sidebars/full-size.sidebar'
-import { NavButton } from '@ui/components/buttons/nav/navButton'
+import { NavButton } from '@ui/components/buttons/nav/nav-button-type'
 import Button from '@ui/components/buttons/button'
 import { useSelector } from 'react-redux'
 import { State } from '@persistence/store/store'

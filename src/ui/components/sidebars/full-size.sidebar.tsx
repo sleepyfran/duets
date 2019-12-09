@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode } from 'react'
 import '@ui/styles/full-size.sidebar.scss'
-import { NavButton } from '@ui/components/buttons/nav/navButton'
+import { NavButton } from '@ui/components/buttons/nav/nav-button-type'
 import BackButton from '@ui/components/buttons/nav/back.button'
 import CloseButton from '@ui/components/buttons/nav/close.button'
 
