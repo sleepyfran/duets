@@ -3,8 +3,6 @@ import HorizontalLayout from '@ui/components/layout/horizontal-layout'
 import FullSizeSidebar from '@ui/components/sidebars/full-size.sidebar'
 import { NavButton } from '@ui/components/buttons/nav/nav-button-type'
 import Button from '@ui/components/buttons/button'
-import { useSelector } from 'react-redux'
-import { State } from '@persistence/store/store'
 import { useCommands } from '@ui/hooks/injections.hooks'
 import { useHistory, useLocation } from 'react-router-dom'
 import { stringToDate } from '@core/utils/mappers'
@@ -14,14 +12,17 @@ import { Gender } from '@engine/entities/gender'
 import { useForm } from '@ui/hooks/form.hooks'
 import Config from '@config'
 import { BandCreationScreen } from '@ui/screens/screens'
+import { useStorage } from '@ui/hooks/storage.hooks'
 import '@ui/styles/screens/character-creation.scss'
 
 const CharacterCreation: FunctionComponent = () => {
     const history = useHistory()
     const startDateParam = useLocation().state
     const gameStartDate = stringToDate(startDateParam)
+    const [getStorage] = useStorage()
+    const store = getStorage()
 
-    const database = useSelector((state: State) => state.database)
+    const database = store.database
     const cities = database.cities
     const instruments = database.instruments
     const skills = database.skills

@@ -6,8 +6,8 @@ import { Instrument } from '@engine/entities/instrument'
 import { Game } from '@core/entities/game'
 import { CharacterSkill } from '@engine/entities/character-skill'
 import { TimeOfDay } from '@engine/entities/calendar'
-import { InMemoryGameData } from '@core/interfaces/gameplay/in-memory-game-data'
 import Savegame from '@core/interfaces/savegame'
+import { MemoryStorage } from '@core/interfaces/memory-storage'
 
 export type CreateGameInput = {
     name: string
@@ -21,7 +21,7 @@ export type CreateGameInput = {
 
 export type CreateGame = (creationFormInput: CreateGameInput) => Promise<Result<CreateGameInput>>
 
-export default (gameData: InMemoryGameData, savegame: Savegame): CreateGame => creationFormInput => {
+export default (memoryStorage: MemoryStorage, savegame: Savegame): CreateGame => creationFormInput => {
     const result = Validation.of(creationFormInput)
         .property('name')
         .notEmpty()
@@ -56,7 +56,9 @@ export default (gameData: InMemoryGameData, savegame: Savegame): CreateGame => c
         band: undefined,
     }
 
-    gameData.save(initialGame)
+    const storage = memoryStorage.get()
+    storage.game = initialGame
+    memoryStorage.set(storage)
 
     return savegame.save(initialGame).then(() => result)
 }

@@ -1,18 +1,20 @@
-import { useDispatch } from 'react-redux'
-import { DialogType } from '@persistence/store/ui/ui.state'
-import { createHideDialogAction, createShowDialogAction } from '@persistence/store/ui/ui.actions'
+import { Dialog } from '@core/entities/dialog'
+import { useStorage } from './storage.hooks'
 
 /**
  * Defines a hook that exports utility methods to show and hide dialogs in the app.
  */
 export const useDialog = () => {
-    const dispatch = useDispatch()
+    const [getStorage, setStorage] = useStorage()
+    const storage = getStorage()
 
-    const showDialog = (dialog: DialogType) => {
-        dispatch(createShowDialogAction(dialog))
+    const showDialog = (dialog: Dialog) => {
+        storage.ui.dialog = dialog
+        setStorage(storage)
     }
     const hideDialog = () => {
-        dispatch(createHideDialogAction())
+        storage.ui.dialog = Dialog.Hide
+        setStorage(storage)
     }
 
     return { showDialog, hideDialog }

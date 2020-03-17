@@ -6,7 +6,7 @@
             "@ui/*": ["ui/*"],
             "@core/*": ["core/*"],
             "@engine/*": ["engine/*"],
-            "@persistence/*": ["persistence/*"],
+            "@storage/*": ["storage/*"],
             "@infrastructure/*": ["infrastructure/*"],
             "@utils/*": ["utils/*"]
         }

@@ -1,10 +1,6 @@
-export enum DialogType {
+export enum Dialog {
     Hide,
     DatabaseDownloadPrompt,
     DatabaseDownloadProgress,
     StartDateSelection,
-}
-
-export type UiState = {
-    dialog: DialogType
 }

@@ -16,7 +16,7 @@ module.exports = {
                     '@core': './src/core',
                     '@engine': './src/engine',
                     '@infrastructure': './src/infrastructure',
-                    '@persistence': './src/persistence',
+                    '@storage': './src/storage',
                     '@utils': './src/utils',
                 },
             },

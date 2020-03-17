@@ -1,9 +1,8 @@
 import Validation, { Result } from 'validum'
-import { InMemoryGameData } from '@core/interfaces/gameplay/in-memory-game-data'
 import Savegame from '@core/interfaces/savegame'
 import { Genre } from '@engine/entities/genre'
 import { Role } from '@engine/entities/role'
-import { GameLenses } from '@core/lenses'
+import { MemoryStorage } from '@core/interfaces/memory-storage'
 
 export type CreateBandInput = {
     name: string
@@ -13,7 +12,7 @@ export type CreateBandInput = {
 
 export type CreateBand = (formInput: CreateBandInput) => Promise<Result<CreateBandInput>>
 
-export default (gameData: InMemoryGameData, savegame: Savegame): CreateBand => formInput => {
+export default (memoryStorage: MemoryStorage, savegame: Savegame): CreateBand => formInput => {
     const result = Validation.of(formInput)
         .property('name')
         .notEmpty()
@@ -25,21 +24,21 @@ export default (gameData: InMemoryGameData, savegame: Savegame): CreateBand => f
 
     if (result.hasErrors()) return Promise.resolve(result)
 
-    const game = gameData.get()
+    const storage = memoryStorage.get()
 
-    const updatedGame = GameLenses.band.set({
+    storage.game.band = {
         name: formInput.name,
         genre: formInput.genre,
         members: [
             {
-                character: game.character,
-                from: game.calendar.date,
+                character: storage.game.character,
+                from: storage.game.calendar.date,
                 until: undefined,
             },
         ],
-    })(game)
+    }
 
-    gameData.save(updatedGame)
+    memoryStorage.set(storage)
 
-    return savegame.save(updatedGame).then(() => result)
+    return savegame.save(storage.game).then(() => result)
 }

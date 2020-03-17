@@ -13,7 +13,7 @@ module.exports = [
                     '@ui/(.*)': '<rootDir>/src/ui/$1',
                     '@core/(.*)': '<rootDir>/src/core/$1',
                     '@engine/(.*)': '<rootDir>/src/engine/$1',
-                    '@persistence/(.*)': '<rootDir>/src/persistence/$1',
+                    '@storage/(.*)': '<rootDir>/src/storage/$1',
                     '@infrastructure/(.*)': '<rootDir>/src/infrastructure/$1',
                     '@utils/(.*)': '<rootDir>/src/utils/$1',
                 },

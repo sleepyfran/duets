@@ -1,19 +1,20 @@
 import React, { FunctionComponent } from 'react'
-import { useSelector } from 'react-redux'
 import TextInput from '@ui/components/inputs/text.input'
 import { useForm } from '@ui/hooks/form.hooks'
 import { stringToGenre, stringToRole, stringToString } from '@core/utils/mappers'
-import { State } from '@persistence/store/store'
 import SelectInput from '@ui/components/inputs/select.input'
 import Button from '@ui/components/buttons/button'
 import { useCommands } from '@ui/hooks/injections.hooks'
 import { HomeScreen } from '@ui/screens/screens'
 import { useHistory } from 'react-router-dom'
+import { useStorage } from '@ui/hooks/storage.hooks'
 
 const NewBandForm: FunctionComponent = () => {
     const history = useHistory()
+    const [getStorage] = useStorage()
+    const store = getStorage()
 
-    const database = useSelector((state: State) => state.database)
+    const database = store.database
     const genres = database.genres
     const roles = database.roles
 

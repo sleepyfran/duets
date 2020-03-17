@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useContext } from 'react'
-import { useSelector } from 'react-redux'
 import FullSizeSidebar from '@ui/components/sidebars/full-size.sidebar'
 import HorizontalLayout from '@ui/components/layout/horizontal-layout'
 import PlayButton from '@ui/components/buttons/play.button'
@@ -7,22 +6,23 @@ import Changelog from '@ui/components/changelog/changelog'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
 import { useCommands } from '@ui/hooks/injections.hooks'
 import { useMountEffect } from '@ui/hooks/mount.hooks'
-import { State } from '@persistence/store/store'
-import { ChangelogsState } from '@persistence/store/changelogs/changelogs.state'
 import { NavButton } from '@ui/components/buttons/nav/nav-button-type'
 import { useDialog } from '@ui/hooks/dialog.hooks'
-import { DialogType } from '@persistence/store/ui/ui.state'
+import { Dialog } from '@core/entities/dialog'
 import { useHistory } from 'react-router-dom'
 import '@ui/styles/screens/start.scss'
 import { SavegameState } from '@core/commands/savegame/check'
 import { BandCreationScreen, HomeScreen } from '@ui/screens/screens'
+import { useStorage } from '@ui/hooks/storage.hooks'
 
 const Start: FunctionComponent = () => {
     const history = useHistory()
     const gameInfo = useContext(GameInfoContext)
+    const [getStorage] = useStorage()
+    const store = getStorage()
 
     const { loadChangelog } = useCommands().init
-    const changelogs = useSelector<State, ChangelogsState>(state => state.changelogs)
+    const changelogs = store.ui.changelogList
     useMountEffect(() => {
         loadChangelog()
     })
@@ -38,7 +38,7 @@ const Start: FunctionComponent = () => {
             .then(status => {
                 switch (status) {
                     case SavegameState.CharacterMissing:
-                        showDialog(DialogType.StartDateSelection)
+                        showDialog(Dialog.StartDateSelection)
                         break
                     case SavegameState.BandMissing:
                         history.push(BandCreationScreen.path)
@@ -48,7 +48,7 @@ const Start: FunctionComponent = () => {
                         history.push(HomeScreen.path)
                 }
             })
-            .catch(() => showDialog(DialogType.StartDateSelection))
+            .catch(() => showDialog(Dialog.StartDateSelection))
     }
 
     return (
