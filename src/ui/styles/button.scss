@@ -3,6 +3,8 @@
 @import 'utils';
 
 @mixin circular-button($showBorder) {
+    padding: $space-small;
+
     & .circle {
         @if $showBorder {
             border: 4px solid var(--border-color);
