@@ -16,11 +16,6 @@
         padding: 5px;
         height: 100%;
         width: 100%;
-
-        & svg {
-            height: 100%;
-            width: 100%;
-        }
     }
 
     &.smaller {
@@ -54,6 +49,16 @@
     color: var(--text-element-color);
     padding: $space-medium;
     text-align: center;
+
+    & svg {
+        height: 100%;
+        width: 100%;
+    }
+
+    &.transparent,
+    .transparent {
+        @include style-button(transparent, transparent, var(--fill-element-color), var(--button-color));
+    }
 
     &.normal,
     .normal {

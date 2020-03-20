@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react'
 import '@ui/styles/button.scss'
 
 export enum ButtonType {
+    transparent,
     normal,
     warn,
     male,
@@ -10,7 +11,6 @@ export enum ButtonType {
 
 export enum ButtonStyle {
     square,
-    transparent,
     circular,
     circularBorderless,
 }
@@ -36,6 +36,7 @@ type ButtonProps = {
 } & BaseButtonProps
 
 const buttonTypeMap = new Map([
+    [ButtonType.transparent, 'transparent'],
     [ButtonType.normal, 'normal'],
     [ButtonType.warn, 'warn'],
     [ButtonType.male, 'male'],
@@ -44,7 +45,6 @@ const buttonTypeMap = new Map([
 
 const buttonStyleMap = new Map([
     [ButtonStyle.square, 'square'],
-    [ButtonStyle.transparent, 'transparent'],
     [ButtonStyle.circular, 'circular'],
     [ButtonStyle.circularBorderless, 'circular-borderless'],
 ])
@@ -59,18 +59,18 @@ const buttonSizeMap = new Map([
 
 const button: FunctionComponent<ButtonProps> = props => {
     const buttonClass = props.className || ''
-    const buttonColor = buttonTypeMap.get(props.type || ButtonType.normal)
-    const buttonStyle = buttonStyleMap.get(props.style || ButtonStyle.square)
-    const buttonSize = buttonSizeMap.get(props.size || ButtonSize.regular)
+    const buttonType = buttonTypeMap.get(props.type !== undefined ? props.type : ButtonType.normal)
+    const buttonStyle = buttonStyleMap.get(props.style !== undefined ? props.style : ButtonStyle.square)
+    const buttonSize = buttonSizeMap.get(props.size !== undefined ? props.size : ButtonSize.regular)
     const selectedClass = props.selected ? 'selected' : ''
 
     return props.style === ButtonStyle.circular || props.style === ButtonStyle.circularBorderless ? (
         <div className={`button ${buttonClass} ${buttonStyle} ${buttonSize}`} onClick={props.onClick}>
-            <div className={`circle ${buttonColor} ${selectedClass}`}>{props.children}</div>
+            <div className={`circle ${buttonType} ${selectedClass}`}>{props.children}</div>
         </div>
     ) : (
         <div
-            className={`button ${buttonClass} ${buttonColor} ${buttonStyle} ${buttonSize} ${selectedClass}`}
+            className={`button ${buttonClass} ${buttonType} ${buttonStyle} ${buttonSize} ${selectedClass}`}
             onClick={props.onClick}
         >
             {props.children}

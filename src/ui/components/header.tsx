@@ -5,11 +5,8 @@ import MenuButton from '@ui/components/buttons/nav/menu.button'
 import CalendarButton from '@ui/components/buttons/nav/calendar.button'
 import { TimeOfDay } from '@engine/entities/calendar'
 import { StartScreen } from '@ui/screens/screens'
-import { ReactComponent as CityIcon } from '@ui/assets/icons/city.svg'
-import { ReactComponent as ArtistIcon } from '@ui/assets/icons/artist.svg'
-import { ReactComponent as BandIcon } from '@ui/assets/icons/band.svg'
-import { ReactComponent as PhoneIcon } from '@ui/assets/icons/phone.svg'
 import '@ui/styles/header.scss'
+import HomeButton, { HomeButtonType } from './buttons/nav/home.button'
 
 type HeaderProps = {
     gameDate: Date
@@ -29,10 +26,10 @@ const Header: FunctionComponent<HeaderProps> = props => {
             </div>
 
             <div className="center side">
-                <CityIcon />
-                <ArtistIcon />
-                <BandIcon />
-                <PhoneIcon />
+                <HomeButton type={HomeButtonType.city} onClick={() => {}} />
+                <HomeButton type={HomeButtonType.character} onClick={() => {}} />
+                <HomeButton type={HomeButtonType.band} onClick={() => {}} />
+                <HomeButton type={HomeButtonType.phone} onClick={() => {}} />
             </div>
 
             <div className="right side">Forward to -></div>
