@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ReactNode } from 'react'
 import '@ui/styles/full-size.sidebar.scss'
-import { NavButton } from '@ui/components/buttons/nav/nav-button-type'
+import { NavButton } from '@ui/components/buttons/nav/nav.button'
 import BackButton from '@ui/components/buttons/nav/back.button'
 import CloseButton from '@ui/components/buttons/nav/close.button'
 
@@ -15,11 +15,11 @@ type FullSizeSidebarProps = {
 const FullSizeSidebar: FunctionComponent<FullSizeSidebarProps> = props => {
     const navButton = () => {
         switch (props.navButton) {
-            case NavButton.Hide:
+            case NavButton.hide:
                 return <></>
-            case NavButton.Close:
+            case NavButton.close:
                 return <CloseButton className="nav" onClick={props.onNavButtonClick} />
-            case NavButton.Back:
+            case NavButton.back:
                 return <BackButton className="nav" onClick={props.onNavButtonClick} />
         }
     }

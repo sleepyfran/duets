@@ -6,7 +6,7 @@ import Changelog from '@ui/components/changelog/changelog'
 import { GameInfoContext } from '@ui/contexts/game-info.context'
 import { useCommands } from '@ui/hooks/injections.hooks'
 import { useMountEffect } from '@ui/hooks/mount.hooks'
-import { NavButton } from '@ui/components/buttons/nav/nav-button-type'
+import { NavButton } from '@ui/components/buttons/nav/nav.button'
 import { useDialog } from '@ui/hooks/dialog.hooks'
 import { Dialog } from '@core/entities/dialog'
 import { useHistory } from 'react-router-dom'
@@ -78,7 +78,7 @@ const Start: FunctionComponent = () => {
                             </div>
                         </>
                     }
-                    navButton={NavButton.Close}
+                    navButton={NavButton.close}
                     onNavButtonClick={exit}
                 />
             }

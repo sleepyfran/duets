@@ -2,17 +2,82 @@
 @import 'sizes';
 @import 'utils';
 
+@mixin circular-button($showBorder) {
+    & .circle {
+        @if $showBorder {
+            border: 4px solid var(--border-color);
+        }
+
+        box-sizing: border-box;
+        border-radius: 50%;
+        fill: var(--fill-color);
+        padding: 5px;
+        height: 100%;
+        width: 100%;
+
+        & svg {
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    &.smaller {
+        height: 35px;
+        width: 35px;
+    }
+
+    &.small {
+        height: 50px;
+        width: 50px;
+    }
+
+    &.regular {
+        height: 60px;
+        width: 60px;
+    }
+
+    &.big {
+        height: 100px;
+        width: 100px;
+    }
+
+    &.bigger {
+        height: 150px;
+        width: 150px;
+    }
+}
+
 .button {
     box-sizing: border-box;
     color: var(--text-element-color);
     padding: $space-medium;
     text-align: center;
 
-    &.normal {
+    &.normal,
+    .normal {
         @include style-button(var(--button-color), var(--button-hover-color));
     }
 
-    &.warn {
+    &.warn,
+    .warn {
         @include style-button(var(--button-destructive-color), var(--button-destructive-hover-color));
+    }
+
+    &.male,
+    .male {
+        @include style-button(var(--male-color), var(--male-hover-color));
+    }
+
+    &.female,
+    .female {
+        @include style-button(var(--female-color), var(--female-hover-color));
+    }
+
+    &.circular {
+        @include circular-button(true);
+    }
+
+    &.circular-borderless {
+        @include circular-button(false);
     }
 }

@@ -25,7 +25,7 @@ const DatabaseDownloadPromptDialog: FunctionComponent = () => {
             }
             choice={
                 <>
-                    <Button buttonType={ButtonType.Warn} onClick={exit}>
+                    <Button type={ButtonType.warn} onClick={exit}>
                         No, exit
                     </Button>
                     <Button onClick={handleDownload}>Download</Button>

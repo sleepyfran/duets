@@ -44,7 +44,7 @@ const StartDateSelectionDialog: FunctionComponent = () => {
             }
             choice={
                 <>
-                    <Button buttonType={ButtonType.Warn} onClick={hideDialog}>
+                    <Button type={ButtonType.warn} onClick={hideDialog}>
                         Cancel
                     </Button>
                     <Button onClick={handleConfirm}>Set start date</Button>

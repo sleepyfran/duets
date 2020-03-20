@@ -6,7 +6,8 @@
         fill: $fillColor;
     }
 
-    &:hover {
+    &:hover,
+    &.selected {
         background-color: $hoverColor !important;
     }
 }

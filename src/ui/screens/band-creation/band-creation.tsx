@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import HorizontalLayout, { LayoutMode } from '@ui/components/layout/horizontal-layout'
 import FullSizeSidebar from '@ui/components/sidebars/full-size.sidebar'
-import { NavButton } from '@ui/components/buttons/nav/nav-button-type'
+import { NavButton } from '@ui/components/buttons/nav/nav.button'
 import { useHistory } from 'react-router'
 import NewBandForm from '@ui/screens/band-creation/new-band.form'
 import JoinExistingForm from '@ui/screens/band-creation/join-existing.form'
@@ -17,7 +17,7 @@ const BandCreation: FunctionComponent = () => {
             left={
                 <FullSizeSidebar
                     className="main-menu"
-                    navButton={NavButton.Back}
+                    navButton={NavButton.back}
                     onNavButtonClick={history.goBack}
                     header={<NewBandForm />}
                 />

@@ -5,6 +5,10 @@ import MenuButton from '@ui/components/buttons/nav/menu.button'
 import CalendarButton from '@ui/components/buttons/nav/calendar.button'
 import { TimeOfDay } from '@engine/entities/calendar'
 import { StartScreen } from '@ui/screens/screens'
+import { ReactComponent as CityIcon } from '@ui/assets/icons/city.svg'
+import { ReactComponent as ArtistIcon } from '@ui/assets/icons/artist.svg'
+import { ReactComponent as BandIcon } from '@ui/assets/icons/band.svg'
+import { ReactComponent as PhoneIcon } from '@ui/assets/icons/phone.svg'
 import '@ui/styles/header.scss'
 
 type HeaderProps = {
@@ -24,7 +28,12 @@ const Header: FunctionComponent<HeaderProps> = props => {
                 <h3 className="time">{TimeOfDay[props.gameTime]}</h3>
             </div>
 
-            <div className="center side">Main menu icons</div>
+            <div className="center side">
+                <CityIcon />
+                <ArtistIcon />
+                <BandIcon />
+                <PhoneIcon />
+            </div>
 
             <div className="right side">Forward to -></div>
         </div>

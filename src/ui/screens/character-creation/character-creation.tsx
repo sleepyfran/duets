@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react'
 import HorizontalLayout from '@ui/components/layout/horizontal-layout'
 import FullSizeSidebar from '@ui/components/sidebars/full-size.sidebar'
-import { NavButton } from '@ui/components/buttons/nav/nav-button-type'
+import { NavButton } from '@ui/components/buttons/nav/nav.button'
 import Button from '@ui/components/buttons/button'
 import { useCommands } from '@ui/hooks/injections.hooks'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -61,7 +61,7 @@ const CharacterCreation: FunctionComponent = () => {
             left={
                 <FullSizeSidebar
                     className="main-menu"
-                    navButton={NavButton.Back}
+                    navButton={NavButton.back}
                     onNavButtonClick={history.goBack}
                     header={
                         <CharacterForm
