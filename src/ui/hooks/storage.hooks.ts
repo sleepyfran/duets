@@ -7,12 +7,13 @@ import { Storage } from '@core/entities/storage'
  */
 export const useStorage = (): [() => Storage, (storage: Storage) => void] => {
     const [, update] = useState({})
+    const subscription = () => update({})
 
     useEffect(() => {
-        Store.subscribe(() => update({}))
+        Store.subscribe(subscription)
 
         return () => {
-            Store.unsubscribe(() => update({}))
+            Store.unsubscribe(subscription)
         }
     }, [update])
 
