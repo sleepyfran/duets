@@ -1,8 +1,0 @@
-@import 'colors';
-@import 'utils';
-
-.back-button-circle {
-    border: none !important;
-
-    @include style-button(var(--button-color), var(--button-hover-color));
-}

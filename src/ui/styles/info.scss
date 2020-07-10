@@ -1,9 +1,0 @@
-@import 'colors';
-@import 'sizes';
-
-.info {
-    background-color: var(--background-color);
-    border: $border-small solid var(--border-color);
-    margin: $space-medium;
-    padding: $space-medium;
-}

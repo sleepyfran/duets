@@ -1,0 +1,8 @@
+[workspace]
+members = [
+  "modules/app",
+  "modules/cli",
+  "modules/common",
+  "modules/engine",
+  "modules/storage",
+]
