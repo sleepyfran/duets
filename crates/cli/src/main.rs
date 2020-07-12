@@ -1,25 +1,41 @@
 mod common;
 mod effects;
+mod screens;
 
 use common::action::Action;
+use common::action::Choice;
+use common::screen::Screen;
+use screens::main_menu;
 
 fn main() {
-    println!("Hello, world!");
-    let action = Action::TextInput {
-        on_action: |input, _screen| {
-            print!("{}", input);
-            return effects::exit();
-        },
-    };
+    let main_menu_screen = main_menu::create_main_screen();
+    print!("{}", main_menu_screen.name);
 
-    match action {
-        Action::TextInput { on_action } => drop(on_action(
-            "test".to_string(),
-            common::screen::Screen {
-                name: "test".to_string(),
-                action: Action::NoOp,
-            },
-        )),
-        _ => print!("Welcome to the new age! :O"),
+    match main_menu_screen.action {
+        Action::ChoiceInput {
+            text,
+            choices,
+            on_action,
+        } => {
+            println!("{}", text);
+            for choice in choices {
+                println!("{}, {}", choice.id, choice.text);
+            }
+
+            on_action(
+                &Choice {
+                    id: 0,
+                    text: String::from("Test"),
+                },
+                &Screen {
+                    name: String::from("Nothing"),
+                    action: Action::NoOp,
+                },
+            );
+        }
+        _ => {
+            println!("No match in actions");
+            std::process::exit(0);
+        }
     }
 }

@@ -19,14 +19,17 @@ pub enum ActionResult {
 /// to a certain screen.
 pub enum Action {
   TextInput {
-    on_action: fn(String, Screen) -> ActionResult,
+    text: String,
+    on_action: fn(&String, &Screen) -> ActionResult,
   },
   CommandInput {
-    on_action: fn(String, Screen) -> ActionResult,
+    text: String,
+    on_action: fn(&String, &Screen) -> ActionResult,
     available_commands: Vec<Command>,
   },
   ChoiceInput {
-    on_action: fn(Choice, Screen) -> ActionResult,
+    text: String,
+    on_action: fn(&Choice, &Screen) -> ActionResult,
     choices: Vec<Choice>,
   },
   NoOp,
