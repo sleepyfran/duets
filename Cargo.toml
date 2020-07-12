@@ -1,8 +1,8 @@
 [workspace]
 members = [
-  "modules/app",
-  "modules/cli",
-  "modules/common",
-  "modules/engine",
-  "modules/storage",
+  "crates/app",
+  "crates/cli",
+  "crates/common",
+  "crates/engine",
+  "crates/storage",
 ]
