@@ -3,7 +3,7 @@ use crate::common::screen::Screen;
 
 /// Defines a choice that the user can make.
 pub struct Choice {
-  pub id: i32,
+  pub id: usize,
   pub text: String,
 }
 

@@ -1,4 +1,5 @@
 use crate::common::action::Action;
+use crate::common::action::ActionResult;
 use crate::common::action::Choice;
 use crate::common::screen::Screen;
 use crate::effects;
@@ -26,7 +27,7 @@ pub fn create_main_screen() -> Screen {
                 0 => effects::exit(),
                 1 => effects::exit(),
                 2 => effects::exit(),
-                _ => panic!("Invalid input!"),
+                _ => ActionResult::Action(Action::NoOp),
             },
         },
     };
