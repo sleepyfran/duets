@@ -1,4 +1,4 @@
-use crate::common::command::Command;
+use crate::common::commands::Command;
 use crate::common::screen::Screen;
 
 /// Defines a choice that the user can make.
@@ -24,7 +24,7 @@ pub enum Action {
   },
   CommandInput {
     text: String,
-    on_action: fn(&String, &Screen) -> ActionResult,
+    on_action: fn(&Command, &Screen) -> ActionResult,
     available_commands: Vec<Command>,
   },
   ChoiceInput {

@@ -1,4 +1,5 @@
 mod choice_input_display;
+mod command_input_display;
 mod common;
 mod text_input_display;
 
@@ -16,6 +17,11 @@ pub fn show(screen: &Screen) -> ActionResult {
             choices,
             on_action,
         } => choice_input_display::handle(screen, text, choices, on_action),
-        _ => ActionResult::Action(Action::NoOp),
+        Action::CommandInput {
+            text,
+            available_commands,
+            on_action,
+        } => command_input_display::handle(screen, text, available_commands, on_action),
+        Action::NoOp => ActionResult::Action(Action::NoOp),
     }
 }

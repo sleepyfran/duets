@@ -1,5 +1,5 @@
 pub mod action;
-pub mod command;
+pub mod commands;
 pub mod display;
 pub mod input;
 pub mod screen;
