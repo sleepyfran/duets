@@ -4,22 +4,24 @@ Duets will be a music simulation focused on allowing the player to be the leader
 
 # 🛠 Run it locally
 
-Running the game locally is rather simple if you have previous experience with any other JavaScript project:
+Duets is built with Rust. Right the game only has a CLI and later, once the engine of the game is finalized, a UI will be added for it.
+
+You can clone and run the CLI like this:
 
 ```bash
 git clone https://github.com/duets/game.git duets
 cd duets
-npm install
-npm run electro:dev # Runs the game in full-screen.
-npm run electron:dev-windowed # Runs the game in window mode.
+cargo run -p cli
 ```
+
+Remember you need Rust to run this. Follow the installation details [here](https://www.rust-lang.org/learn/get-started).
 
 # 🧪 Testing
 
-The game has a basic set of tests right now that you can run with the integrated NPM command:
+You can run the tests with:
 
 ```bash
-npm test
+cargo test
 ```
 
 # 😄 Contributions
