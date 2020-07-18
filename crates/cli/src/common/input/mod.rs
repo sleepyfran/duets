@@ -1,3 +1,6 @@
+pub mod read_choice;
+pub use read_choice::read_choice;
+
 use chrono::{NaiveDate, ParseError};
 
 use crate::common::action::Choice;
