@@ -1,4 +1,5 @@
 pub mod prompts;
+pub mod styles;
 
 use crate::common::action::CliAction;
 use crate::common::screen::Screen;
