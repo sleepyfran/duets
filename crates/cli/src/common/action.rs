@@ -12,14 +12,14 @@ pub struct Choice {
 /// Defines the result of an action, which can be a screen to redirect to,
 /// another action to execute or another kind of side effect.
 pub enum ActionResult {
-  UserAction(UserAction),
+  Prompt(Prompt),
   Screen(Screen),
   SideEffect(fn() -> Option<ActionResult>),
 }
 
 /// Defines the different kinds of actions that the user can do as a response
 /// to a certain screen.
-pub enum UserAction {
+pub enum Prompt {
   /// Represents a simple free text input.
   TextInput {
     text: String,

@@ -1,11 +1,11 @@
-use crate::common::action::{ActionResult, Choice, UserAction};
+use crate::common::action::{ActionResult, Choice, Prompt};
 use crate::common::screen::Screen;
 use crate::effects;
 
 pub fn create_new_game_screen() -> Screen {
     return Screen {
         name: String::from("New game"),
-        action: UserAction::TextInput {
+        action: Prompt::TextInput {
             text: String::from("Creating a new game. What's the name of your character?"),
             on_action: |_input| continue_to_gender_input(),
         },
@@ -13,7 +13,7 @@ pub fn create_new_game_screen() -> Screen {
 }
 
 fn continue_to_gender_input() -> ActionResult {
-    ActionResult::UserAction(UserAction::TextChoiceInput {
+    ActionResult::Prompt(Prompt::TextChoiceInput {
         text: String::from("What's their gender?"),
         choices: vec![
             Choice {
@@ -34,7 +34,7 @@ fn continue_to_gender_input() -> ActionResult {
 }
 
 fn continue_to_birthday_input() -> ActionResult {
-    ActionResult::UserAction(UserAction::DateInput {
+    ActionResult::Prompt(Prompt::DateInput {
         text: String::from("When was its birthday?"),
         on_action: |_birthday| ActionResult::SideEffect(effects::exit),
     })
