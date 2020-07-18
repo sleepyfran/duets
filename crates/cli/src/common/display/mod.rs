@@ -1,13 +1,13 @@
 pub mod prompts;
 
-use crate::common::action::ActionResult;
+use crate::common::action::CliAction;
 use crate::common::screen::Screen;
 
 /// Shows the specified screen. Since screens (at least as of right now) have
 /// no other thing that just an identifier and an associated action, this simply
 /// calls the show function in the prompts module to handle the inner
 /// action of the screen.
-pub fn show(screen: Screen) -> ActionResult {
+pub fn show(screen: Screen) -> CliAction {
     prompts::show(screen.action)
 }
 

@@ -1,6 +1,6 @@
 use super::common;
-use crate::common::action::ActionResult;
 use crate::common::action::Choice;
+use crate::common::action::CliAction;
 use crate::common::input;
 
 /// Handles the display of a choice input, showing the screen's text first, then
@@ -9,8 +9,8 @@ use crate::common::input;
 pub fn handle(
     text: &String,
     choices: &Vec<Choice>,
-    on_action: &fn(&Choice) -> ActionResult,
-) -> ActionResult {
+    on_action: &fn(&Choice) -> CliAction,
+) -> CliAction {
     let input = show_text_choice_input_action(text, choices);
     on_action(&input)
 }

@@ -9,12 +9,12 @@ pub struct Choice {
   pub text: String,
 }
 
-/// Defines the result of an action, which can be a screen to redirect to,
-/// another action to execute or another kind of side effect.
-pub enum ActionResult {
+/// Defines an action to be performed by the CLI, whether it's to show a
+/// prompt to the user, a screen or perform a side effect.
+pub enum CliAction {
   Prompt(Prompt),
   Screen(Screen),
-  SideEffect(fn() -> Option<ActionResult>),
+  SideEffect(fn() -> Option<CliAction>),
 }
 
 /// Defines the different kinds of actions that the user can do as a response
@@ -23,32 +23,32 @@ pub enum Prompt {
   /// Represents a simple free text input.
   TextInput {
     text: String,
-    on_action: fn(&String) -> ActionResult,
+    on_action: fn(&String) -> CliAction,
   },
   /// Represents an input that only accepts a set of commands.
   CommandInput {
     text: String,
     available_commands: Vec<Command>,
-    on_action: fn(&Command) -> ActionResult,
+    on_action: fn(&Command) -> CliAction,
   },
   /// Represents an input that only accepts a set of choices by asking the user
   /// to input its ID (a number).
   ChoiceInput {
     text: String,
     choices: Vec<Choice>,
-    on_action: fn(&Choice) -> ActionResult,
+    on_action: fn(&Choice) -> CliAction,
   },
   /// Represents an input that accepts a set of predefined strings. For example
   /// a yes/no input.
   TextChoiceInput {
     text: String,
     choices: Vec<Choice>,
-    on_action: fn(&Choice) -> ActionResult,
+    on_action: fn(&Choice) -> CliAction,
   },
   /// Represents a NaiveDate input.
   DateInput {
     text: String,
-    on_action: fn(&NaiveDate) -> ActionResult,
+    on_action: fn(&NaiveDate) -> CliAction,
   },
   /// Represents a no operation. Basically tells the program to stop.
   NoOp,

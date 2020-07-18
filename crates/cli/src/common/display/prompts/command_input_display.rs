@@ -1,5 +1,5 @@
 use super::common;
-use crate::common::action::ActionResult;
+use crate::common::action::CliAction;
 use crate::common::commands::Command;
 use crate::common::input;
 
@@ -9,8 +9,8 @@ use crate::common::input;
 pub fn handle(
     text: &String,
     available_commands: &Vec<Command>,
-    on_action: &fn(&Command) -> ActionResult,
-) -> ActionResult {
+    on_action: &fn(&Command) -> CliAction,
+) -> CliAction {
     let command = show_command_input_action(text, available_commands);
     on_action(&command)
 }

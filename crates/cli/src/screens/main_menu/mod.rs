@@ -1,6 +1,6 @@
 use super::new_game;
-use crate::common::action::ActionResult;
 use crate::common::action::Choice;
+use crate::common::action::CliAction;
 use crate::common::action::Prompt;
 use crate::common::screen::Screen;
 use crate::effects;
@@ -25,10 +25,10 @@ pub fn create_main_screen() -> Screen {
                 },
             ],
             on_action: |choice| match choice.id {
-                0 => ActionResult::Screen(new_game::create_new_game_screen()),
-                1 => ActionResult::SideEffect(effects::exit),
-                2 => ActionResult::SideEffect(effects::exit),
-                _ => ActionResult::Prompt(Prompt::NoOp),
+                0 => CliAction::Screen(new_game::create_new_game_screen()),
+                1 => CliAction::SideEffect(effects::exit),
+                2 => CliAction::SideEffect(effects::exit),
+                _ => CliAction::Prompt(Prompt::NoOp),
             },
         },
     };

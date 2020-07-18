@@ -1,4 +1,4 @@
-use crate::common::action::{ActionResult, Choice, Prompt};
+use crate::common::action::{Choice, CliAction, Prompt};
 use crate::common::screen::Screen;
 use crate::effects;
 
@@ -12,8 +12,8 @@ pub fn create_new_game_screen() -> Screen {
     };
 }
 
-fn continue_to_gender_input() -> ActionResult {
-    ActionResult::Prompt(Prompt::TextChoiceInput {
+fn continue_to_gender_input() -> CliAction {
+    CliAction::Prompt(Prompt::TextChoiceInput {
         text: String::from("What's their gender?"),
         choices: vec![
             Choice {
@@ -33,9 +33,9 @@ fn continue_to_gender_input() -> ActionResult {
     })
 }
 
-fn continue_to_birthday_input() -> ActionResult {
-    ActionResult::Prompt(Prompt::DateInput {
+fn continue_to_birthday_input() -> CliAction {
+    CliAction::Prompt(Prompt::DateInput {
         text: String::from("When was its birthday?"),
-        on_action: |_birthday| ActionResult::SideEffect(effects::exit),
+        on_action: |_birthday| CliAction::SideEffect(effects::exit),
     })
 }
