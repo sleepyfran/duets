@@ -19,7 +19,7 @@ fn show_choice_input_action<'a>(text: &String, choices: &'a Vec<Choice>) -> &'a 
     common::show_start_text_with_new_line(text);
 
     for choice in choices {
-        println!("{}. {}", get_display_index(choice.id), choice.text);
+        println!("{}: {}", get_display_index(choice.id), choice.text);
     }
 
     get_choice(choices)
