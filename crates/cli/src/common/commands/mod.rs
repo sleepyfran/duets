@@ -4,7 +4,7 @@ use crate::common::screen::Screen;
 
 /// General error for when we couldn't match the given user input with an
 /// exiting command.
-pub struct InvalidCommandError;
+pub struct InvalidInputError;
 
 /// Defines the common fields that any command should have.
 pub struct Command {

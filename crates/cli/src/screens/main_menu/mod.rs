@@ -1,13 +1,14 @@
-use crate::common::action::Action;
+use super::new_game;
 use crate::common::action::ActionResult;
 use crate::common::action::Choice;
+use crate::common::action::UserAction;
 use crate::common::screen::Screen;
 use crate::effects;
 
 pub fn create_main_screen() -> Screen {
     return Screen {
         name: String::from("Main Menu"),
-        action: Action::ChoiceInput {
+        action: UserAction::ChoiceInput {
             text: String::from("Welcome to Duets! Select an option to begin"),
             choices: vec![
                 Choice {
@@ -23,11 +24,11 @@ pub fn create_main_screen() -> Screen {
                     text: String::from("Exit"),
                 },
             ],
-            on_action: |choice, _screen| match choice.id {
-                0 => effects::exit(),
-                1 => effects::exit(),
-                2 => effects::exit(),
-                _ => ActionResult::Action(Action::NoOp),
+            on_action: |choice| match choice.id {
+                0 => ActionResult::Screen(new_game::create_new_game_screen()),
+                1 => ActionResult::SideEffect(effects::exit),
+                2 => ActionResult::SideEffect(effects::exit),
+                _ => ActionResult::UserAction(UserAction::NoOp),
             },
         },
     };

@@ -1,27 +1,22 @@
-mod choice_input_display;
-mod command_input_display;
-mod common;
-mod text_input_display;
+pub mod user_actions;
 
-use crate::common::action::Action;
 use crate::common::action::ActionResult;
 use crate::common::screen::Screen;
 
-pub fn show(screen: &Screen) -> ActionResult {
-    match &screen.action {
-        Action::TextInput { text, on_action } => {
-            text_input_display::handle(screen, text, on_action)
-        }
-        Action::ChoiceInput {
-            text,
-            choices,
-            on_action,
-        } => choice_input_display::handle(screen, text, choices, on_action),
-        Action::CommandInput {
-            text,
-            available_commands,
-            on_action,
-        } => command_input_display::handle(screen, text, available_commands, on_action),
-        Action::NoOp => ActionResult::Action(Action::NoOp),
-    }
+/// Shows the specified screen. Since screens (at least as of right now) have
+/// no other thing that just an identifier and an associated action, this simply
+/// calls the show function in the user_actions module to handle the inner
+/// action of the screen.
+pub fn show(screen: Screen) -> ActionResult {
+    user_actions::show(screen.action)
+}
+
+/// Prints a new line to separate content.
+pub fn show_line_break() {
+    println!();
+}
+
+/// Shows a predefined exit message.
+pub fn show_exit_message() {
+    println!("Bye!");
 }
