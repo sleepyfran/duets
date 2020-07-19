@@ -23,32 +23,32 @@ pub enum Prompt {
   /// Represents a simple free text input.
   TextInput {
     text: String,
-    on_action: fn(&String) -> CliAction,
+    on_action: Box<dyn FnOnce(String) -> CliAction>,
   },
   /// Represents an input that only accepts a set of commands.
   CommandInput {
     text: String,
     available_commands: Vec<Command>,
-    on_action: fn(&Command) -> CliAction,
+    on_action: Box<dyn FnOnce(&Command) -> CliAction>,
   },
   /// Represents an input that only accepts a set of choices by asking the user
   /// to input its ID (a number).
   ChoiceInput {
     text: String,
     choices: Vec<Choice>,
-    on_action: fn(&Choice) -> CliAction,
+    on_action: Box<dyn FnOnce(&Choice) -> CliAction>,
   },
   /// Represents an input that accepts a set of predefined strings. For example
   /// a yes/no input.
   TextChoiceInput {
     text: String,
     choices: Vec<Choice>,
-    on_action: fn(&Choice) -> CliAction,
+    on_action: Box<dyn FnOnce(&Choice) -> CliAction>,
   },
   /// Represents a NaiveDate input.
   DateInput {
     text: String,
-    on_action: fn(&NaiveDate) -> CliAction,
+    on_action: Box<dyn FnOnce(NaiveDate) -> CliAction>,
   },
   /// Represents a no operation. Basically tells the program to stop.
   NoOp,

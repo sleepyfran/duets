@@ -7,12 +7,12 @@ use crate::common::input;
 /// the different choices available and getting the input of an user making sure
 /// that it's inside of the possible choices.
 pub fn handle(
-    text: &String,
-    choices: &Vec<Choice>,
-    on_action: &fn(&Choice) -> CliAction,
+    text: String,
+    choices: Vec<Choice>,
+    on_action: Box<dyn FnOnce(&Choice) -> CliAction>,
 ) -> CliAction {
-    let input = show_choice_input_action(text, choices);
-    on_action(&input)
+    let input = show_choice_input_action(&text, &choices);
+    on_action(input)
 }
 
 fn show_choice_input_action<'a>(text: &String, choices: &'a Vec<Choice>) -> &'a Choice {

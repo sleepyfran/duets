@@ -31,6 +31,7 @@ dependencies = [
  "chrono 0.4.13 (registry+https://github.com/rust-lang/crates.io-index)",
  "console 0.11.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "dialoguer 0.6.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "engine 0.1.0",
 ]
 
 [[package]]
@@ -71,6 +72,9 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "engine"
 version = "0.1.0"
+dependencies = [
+ "chrono 0.4.13 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [[package]]
 name = "getrandom"

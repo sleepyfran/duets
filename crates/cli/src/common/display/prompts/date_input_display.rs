@@ -6,13 +6,13 @@ use crate::common::input;
 
 /// Shows the initial text of the screen, takes the user input as a string and
 /// calls the given on_action with the provided input.
-pub fn handle(text: &String, on_action: &fn(&NaiveDate) -> CliAction) -> CliAction {
+pub fn handle(text: String, on_action: Box<dyn FnOnce(NaiveDate) -> CliAction>) -> CliAction {
     let input = show_date_input_action(text);
-    on_action(&input)
+    on_action(input)
 }
 
-fn show_date_input_action(text: &String) -> NaiveDate {
-    common::show_start_text(text);
+fn show_date_input_action(text: String) -> NaiveDate {
+    common::show_start_text(&text);
     print!(" Format: dd-mm-YYYY");
     println!();
 
