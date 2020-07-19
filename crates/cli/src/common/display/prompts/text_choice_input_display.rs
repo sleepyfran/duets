@@ -32,8 +32,8 @@ fn show_text_choice_input_action<'a>(text: &String, choices: &'a Vec<Choice>) ->
 fn get_choice(choices: &Vec<Choice>) -> &Choice {
     let choice_or_error = input::read_text_choice(choices);
     match choice_or_error {
-        Ok(choice) => choice,
-        Err(_) => get_choice_with_error(choices),
+        Some(choice) => choice,
+        _ => get_choice_with_error(choices),
     }
 }
 

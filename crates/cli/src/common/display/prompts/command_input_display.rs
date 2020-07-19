@@ -27,7 +27,7 @@ fn get_command(available_commands: &Vec<Command>) -> &Command {
     let command_or_error = input::read_command(available_commands);
 
     match command_or_error {
-        Ok(command) => command,
+        Some(command) => command,
         _ => {
             show_help(available_commands);
             get_command(available_commands)

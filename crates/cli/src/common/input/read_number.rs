@@ -4,5 +4,5 @@ use super::common;
 /// to do so, returns an error.
 pub fn read_number() -> Result<i32, std::num::ParseIntError> {
     let input = common::read_from_stdin();
-    return input.trim().parse::<i32>();
+    input.trim().parse::<i32>()
 }

@@ -3,13 +3,13 @@ use crate::common::screen::Screen;
 use crate::effects;
 
 pub fn create_new_game_screen() -> Screen {
-    return Screen {
+    Screen {
         name: String::from("New game"),
         action: Prompt::TextInput {
             text: String::from("Creating a new game. What's the name of your character?"),
             on_action: |_input| continue_to_gender_input(),
         },
-    };
+    }
 }
 
 fn continue_to_gender_input() -> CliAction {

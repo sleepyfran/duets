@@ -6,7 +6,7 @@ use crate::common::screen::Screen;
 use crate::effects;
 
 pub fn create_main_screen() -> Screen {
-    return Screen {
+    Screen {
         name: String::from("Main Menu"),
         action: Prompt::ChoiceInput {
             text: String::from("Welcome to Duets! Select an option to begin"),
@@ -31,5 +31,5 @@ pub fn create_main_screen() -> Screen {
                 _ => CliAction::Prompt(Prompt::NoOp),
             },
         },
-    };
+    }
 }
