@@ -13,20 +13,20 @@ pub fn create_new_game_screen() -> Screen {
 }
 
 fn continue_to_gender_input() -> CliAction {
-    CliAction::Prompt(Prompt::TextChoiceInput {
+    CliAction::Prompt(Prompt::ChoiceInput {
         text: String::from("What's their gender?"),
         choices: vec![
             Choice {
                 id: 0,
-                text: String::from("male"),
+                text: String::from("Male"),
             },
             Choice {
                 id: 1,
-                text: String::from("female"),
+                text: String::from("Female"),
             },
             Choice {
                 id: 2,
-                text: String::from("other"),
+                text: String::from("Other"),
             },
         ],
         on_action: |_choice| continue_to_birthday_input(),
