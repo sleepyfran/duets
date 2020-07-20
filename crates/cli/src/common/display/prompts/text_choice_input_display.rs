@@ -1,6 +1,6 @@
-use super::common;
 use crate::common::action::Choice;
 use crate::common::action::CliAction;
+use crate::common::display;
 use crate::common::input;
 
 /// Handles the display of a choice input, showing the screen's text first, then
@@ -16,15 +16,15 @@ pub fn handle(
 }
 
 fn show_text_choice_input_action<'a>(text: &String, choices: &'a Vec<Choice>) -> &'a Choice {
-    common::show_start_text(&text);
-    print!(" [");
+    display::show_start_text(&text);
+    display::show_text(&String::from(" ["));
 
     for (index, choice) in choices.iter().enumerate() {
         let separator = if index == choices.len() - 1 { "" } else { "|" };
         print!("{}{}", choice.text, separator);
     }
 
-    println!("]");
+    display::show_text_with_new_line(&String::from("]"));
 
     get_choice(choices)
 }
@@ -38,6 +38,6 @@ fn get_choice(choices: &Vec<Choice>) -> &Choice {
 }
 
 fn get_choice_with_error(choices: &Vec<Choice>) -> &Choice {
-    println!("Invalid option. Try again:");
+    display::show_error(&String::from("Invalid option. Try again:"));
     get_choice(choices)
 }

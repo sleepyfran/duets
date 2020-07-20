@@ -6,3 +6,8 @@ type StyledString<'a> = console::StyledObject<&'a String>;
 pub fn title(text: &String) -> StyledString {
     style(text).cyan().bold()
 }
+
+/// Default style for errors.
+pub fn error(text: &String) -> StyledString {
+    style(text).red().bold()
+}

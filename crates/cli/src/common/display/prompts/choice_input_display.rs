@@ -1,6 +1,6 @@
-use super::common;
 use crate::common::action::Choice;
 use crate::common::action::CliAction;
+use crate::common::display;
 use crate::common::input;
 
 /// Handles the display of a choice input, showing the screen's text first, then
@@ -16,6 +16,6 @@ pub fn handle(
 }
 
 fn show_choice_input_action<'a>(text: &String, choices: &'a Vec<Choice>) -> &'a Choice {
-    common::show_start_text_with_new_line(text);
+    display::show_start_text_with_new_line(text);
     input::read_choice(choices)
 }

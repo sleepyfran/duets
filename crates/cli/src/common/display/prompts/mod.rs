@@ -1,6 +1,5 @@
 mod choice_input_display;
 mod command_input_display;
-mod common;
 mod date_input_display;
 mod text_choice_input_display;
 mod text_input_display;

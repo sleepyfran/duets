@@ -9,5 +9,6 @@ pub use read_choice::read_choice;
 pub use read_command::read_command;
 pub use read_date::read_date;
 pub use read_line::read_line;
+pub use read_line::read_line_trimmed;
 pub use read_number::read_number;
 pub use read_text_choice::read_text_choice;

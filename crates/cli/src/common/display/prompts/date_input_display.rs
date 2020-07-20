@@ -1,7 +1,7 @@
 use chrono::NaiveDate;
 
-use super::common;
 use crate::common::action::CliAction;
+use crate::common::display;
 use crate::common::input;
 
 /// Shows the initial text of the screen, takes the user input as a string and
@@ -12,9 +12,9 @@ pub fn handle(text: String, on_action: Box<dyn FnOnce(NaiveDate) -> CliAction>) 
 }
 
 fn show_date_input_action(text: String) -> NaiveDate {
-    common::show_start_text(&text);
+    display::show_start_text(&text);
     print!(" Format: dd-mm-YYYY");
-    println!();
+    display::show_line_break();
 
     get_date()
 }
@@ -28,6 +28,8 @@ fn get_date() -> NaiveDate {
 }
 
 fn get_date_with_error() -> NaiveDate {
-    println!("Did not recognize a valid date, remember the format is dd-mm-YYYY. Try again:");
+    display::show_error(&String::from(
+        "Did not recognize a valid date, remember the format is dd-mm-YYYY. Try again:",
+    ));
     get_date()
 }

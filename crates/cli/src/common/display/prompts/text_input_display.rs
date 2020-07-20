@@ -1,5 +1,5 @@
-use super::common;
 use crate::common::action::CliAction;
+use crate::common::display;
 use crate::common::input;
 
 /// Shows the initial text of the screen, takes the user input as a string and
@@ -10,6 +10,21 @@ pub fn handle(text: String, on_action: Box<dyn FnOnce(String) -> CliAction>) -> 
 }
 
 fn show_text_input_action(text: String) -> String {
-    common::show_start_text_with_new_line(&text);
-    input::read_line()
+    display::show_start_text_with_new_line(&text);
+    get_input()
+}
+
+fn get_input() -> String {
+    let input = input::read_line_trimmed();
+
+    if input.is_empty() {
+        get_input_with_error()
+    } else {
+        input
+    }
+}
+
+fn get_input_with_error() -> String {
+    display::show_error(&String::from("An empty input is not valid. Try again:"));
+    get_input()
 }
