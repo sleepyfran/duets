@@ -4,9 +4,9 @@ Duets will be a music simulation focused on allowing the player to be the leader
 
 # 🛠 Run it locally
 
-Duets is built with Rust. Right the game only has a CLI and later, once the engine of the game is finalized, a UI will be added for it.
+Duets is built with Rust. Right now the game only has a basic CLI for interacting with it. Once the game logic is done I'll start implementing a UI for it.
 
-You can clone and run the CLI like this:
+You can clone and run the CLI with:
 
 ```bash
 git clone https://github.com/duets/game.git duets
@@ -14,7 +14,7 @@ cd duets
 cargo run -p cli
 ```
 
-Remember you need Rust to run this. Follow the installation details [here](https://www.rust-lang.org/learn/get-started).
+You need Rust to run this. You can follow the installation details [here](https://www.rust-lang.org/learn/get-started).
 
 # 🧪 Testing
 
