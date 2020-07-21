@@ -1,5 +1,6 @@
 use crate::common::action::CliAction;
 use crate::common::commands::Command;
+use crate::common::context::Context;
 use crate::common::display;
 use crate::common::input;
 
@@ -9,10 +10,11 @@ use crate::common::input;
 pub fn handle(
     text: String,
     available_commands: Vec<Command>,
-    on_action: Box<dyn FnOnce(&Command) -> CliAction>,
+    on_action: Box<dyn FnOnce(&Command, &Context) -> CliAction>,
+    context: &Context,
 ) -> CliAction {
     let command = show_command_input_action(&text, &available_commands);
-    on_action(command)
+    on_action(command, context)
 }
 
 fn show_command_input_action<'a>(

@@ -1,5 +1,6 @@
 use crate::common::action::Choice;
 use crate::common::action::CliAction;
+use crate::common::context::Context;
 use crate::common::display;
 use crate::common::input;
 
@@ -9,10 +10,11 @@ use crate::common::input;
 pub fn handle(
     text: String,
     choices: Vec<Choice>,
-    on_action: Box<dyn FnOnce(&Choice) -> CliAction>,
+    on_action: Box<dyn FnOnce(&Choice, &Context) -> CliAction>,
+    context: &Context,
 ) -> CliAction {
     let input = show_choice_input_action(&text, &choices);
-    on_action(input)
+    on_action(input, context)
 }
 
 fn show_choice_input_action<'a>(text: &String, choices: &'a Vec<Choice>) -> &'a Choice {

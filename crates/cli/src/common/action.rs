@@ -1,6 +1,7 @@
 use chrono::NaiveDate;
 
 use crate::common::commands::Command;
+use crate::common::context::Context;
 use crate::common::screen::Screen;
 
 /// Defines a choice that the user can make.
@@ -23,32 +24,32 @@ pub enum Prompt {
   /// Represents a simple free text input.
   TextInput {
     text: String,
-    on_action: Box<dyn FnOnce(String) -> CliAction>,
+    on_action: Box<dyn FnOnce(String, &Context) -> CliAction>,
   },
   /// Represents an input that only accepts a set of commands.
   CommandInput {
     text: String,
     available_commands: Vec<Command>,
-    on_action: Box<dyn FnOnce(&Command) -> CliAction>,
+    on_action: Box<dyn FnOnce(&Command, &Context) -> CliAction>,
   },
   /// Represents an input that only accepts a set of choices by asking the user
   /// to input its ID (a number).
   ChoiceInput {
     text: String,
     choices: Vec<Choice>,
-    on_action: Box<dyn FnOnce(&Choice) -> CliAction>,
+    on_action: Box<dyn FnOnce(&Choice, &Context) -> CliAction>,
   },
   /// Represents an input that accepts a set of predefined strings. For example
   /// a yes/no input.
   TextChoiceInput {
     text: String,
     choices: Vec<Choice>,
-    on_action: Box<dyn FnOnce(&Choice) -> CliAction>,
+    on_action: Box<dyn FnOnce(&Choice, &Context) -> CliAction>,
   },
   /// Represents a NaiveDate input.
   DateInput {
     text: String,
-    on_action: Box<dyn FnOnce(NaiveDate) -> CliAction>,
+    on_action: Box<dyn FnOnce(NaiveDate, &Context) -> CliAction>,
   },
   /// Represents a no operation. Basically tells the program to stop.
   NoOp,
