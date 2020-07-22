@@ -13,6 +13,10 @@ pub struct CountryDef {
     pub population: i32,
 }
 
+/// We need to define a custom deserializer because Serde does not support containers right now.
+///
+/// Tracking issue: https://github.com/serde-rs/serde/issues/723
+/// Taken from: https://github.com/serde-rs/serde/issues/723#issuecomment-382501277
 fn vec_city<'de, D>(deserializer: D) -> Result<Vec<City>, D::Error>
 where
     D: Deserializer<'de>,

@@ -16,9 +16,9 @@ use crate::serializables::CountryDef;
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Database {
-    compatible_with: String,
+    pub compatible_with: String,
     #[serde(deserialize_with = "vec_country")]
-    countries: Vec<Country>,
+    pub countries: Vec<Country>,
 }
 
 /// Generic error when loading the database.
@@ -27,6 +27,10 @@ pub struct DatabaseLoadError {
     description: String,
 }
 
+/// We need to define a custom deserializer because Serde does not support containers right now.
+///
+/// Tracking issue: https://github.com/serde-rs/serde/issues/723
+/// Taken from: https://github.com/serde-rs/serde/issues/723#issuecomment-382501277
 fn vec_country<'de, D>(deserializer: D) -> Result<Vec<Country>, D::Error>
 where
     D: Deserializer<'de>,
