@@ -1,6 +1,8 @@
-use engine::entities::{Character, Gender};
+use app::builders::GameBuilder;
+use engine::entities::{Character, City, Country, Gender};
 
 use crate::common::action::{Choice, CliAction, Prompt};
+use crate::common::context::Context;
 use crate::common::screen::Screen;
 use crate::effects;
 
@@ -46,6 +48,41 @@ fn continue_to_gender_input(character: Character) -> CliAction {
 fn continue_to_birthday_input(character: Character) -> CliAction {
     CliAction::Prompt(Prompt::DateInput {
         text: String::from("When was its birthday?"),
-        on_action: Box::new(|_birthday, _context| CliAction::SideEffect(effects::exit)),
+        on_action: Box::new(|birthday, context| {
+            continue_to_city_input(character.with_birthday(birthday), context)
+        }),
+    })
+}
+
+fn continue_to_city_input(character: Character, context: &Context) -> CliAction {
+    let cities_from_countries = |countries: Vec<Country>| -> Vec<City> {
+        countries
+            .iter()
+            .map(|c| c.cities.clone())
+            .flatten()
+            .collect()
+    };
+
+    let available_cities = cities_from_countries(context.database.countries.clone());
+
+    CliAction::Prompt(Prompt::ChoiceInput {
+        text: String::from("Where are they from?"),
+        choices: available_cities
+            .iter()
+            .enumerate()
+            .map(|(index, city)| Choice {
+                id: index,
+                text: format!("{}, {}", city.name, city.country_name),
+            })
+            .collect(),
+        on_action: Box::new(move |choice, context| {
+            let cities = cities_from_countries(context.database.countries.clone());
+
+            let game_builder = GameBuilder::new()
+                .with_character(character)
+                .with_starting_city(cities[choice.id].to_owned());
+
+            CliAction::Prompt(Prompt::NoOp)
+        }),
     })
 }

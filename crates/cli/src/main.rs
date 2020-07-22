@@ -22,6 +22,7 @@ fn main() {
                         "cities": [
                             {
                                 "name": "Prague",
+                                "countryName": "Czech Republic",
                                 "population": 1309000
                             }
                         ]

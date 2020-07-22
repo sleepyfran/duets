@@ -20,13 +20,9 @@ where
     pub starting_year: i16,
 }
 
-impl<CharacterPresent, CityPresent> GameBuilder<CharacterPresent, CityPresent>
-where
-    CharacterPresent: Assignable,
-    CityPresent: Assignable,
-{
-    /// Creates a new game with no field specified. With this default fields calling `build` will
-    /// result in a None as well.
+impl GameBuilder<Unassigned, Unassigned> {
+    /// Creates a new game with no field specified. Character and Starting City need to be set
+    /// in order for the create function to be available.
     pub fn new() -> GameBuilder<Unassigned, Unassigned> {
         GameBuilder {
             character_present_assigned: PhantomData {},
@@ -36,7 +32,13 @@ where
             starting_year: 1995,
         }
     }
+}
 
+impl<CharacterPresent, CityPresent> GameBuilder<CharacterPresent, CityPresent>
+where
+    CharacterPresent: Assignable,
+    CityPresent: Assignable,
+{
     /// Includes the character in the builder.
     pub fn with_character(self, character: Character) -> GameBuilder<Assigned, CityPresent> {
         GameBuilder {
