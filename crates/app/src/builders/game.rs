@@ -1,8 +1,9 @@
 use std::marker::PhantomData;
 
 use common::builders::{Assignable, Assigned, Unassigned};
+use engine::entities::{Character, City};
 
-use crate::entities::{Character, City, Savegame};
+use crate::serializables::GameState;
 
 /// Builder that allows to create new games containing the bare bones data needed to start playing.
 #[derive(Default)]
@@ -37,7 +38,7 @@ where
     }
 
     /// Includes the character in the builder.
-    pub fn with_character(mut self, character: Character) -> GameBuilder<Assigned, CityPresent> {
+    pub fn with_character(self, character: Character) -> GameBuilder<Assigned, CityPresent> {
         GameBuilder {
             character_present_assigned: PhantomData {},
             city_present_assigned: PhantomData {},
@@ -79,5 +80,10 @@ where
 impl GameBuilder<Assigned, Assigned> {
     /// Creates an initial savegame with the fields assigned from the initial wizard and the rest
     /// set to the default option.
-    pub fn create() -> Savegame {}
+    pub fn create(self) -> GameState {
+        GameState {
+            character: self.character.unwrap(),
+            current_city: self.starting_city.unwrap(),
+        }
+    }
 }

@@ -12,15 +12,15 @@ pub enum SkillCategory {
 /// Defines a skill with no level attached to it. Used mainly for representing
 /// a skill that is not referenced by any character.
 pub struct Skill {
-    name: String,
-    category: SkillCategory,
+    pub name: String,
+    pub category: SkillCategory,
 }
 
 /// Skill used by a character to represent its level in it.
 pub struct SkillWithLevel {
-    name: String,
-    category: SkillCategory,
-    level: i8,
+    pub name: String,
+    pub category: SkillCategory,
+    pub level: i8,
 }
 
 impl SkillWithLevel {

@@ -5,12 +5,12 @@
 mod character;
 mod city;
 mod country;
-mod deserializers;
-mod savegame;
+mod game_state;
+mod naivedate;
 mod skill;
 
-pub use character::Character;
-pub use city::City;
-pub use country::Country;
-pub use savegame::Savegame;
-pub use skill::{Skill, SkillCategory, SkillWithLevel};
+pub use character::CharacterDef;
+pub use city::CityDef;
+pub use country::CountryDef;
+pub use game_state::GameState;
+pub use skill::{SkillCategoryDef, SkillDef, SkillWithLevelDef};

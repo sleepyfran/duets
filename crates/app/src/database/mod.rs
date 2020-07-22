@@ -2,10 +2,12 @@ mod loader;
 
 pub use loader::*;
 
-use serde::Deserialize;
+use serde::{Deserialize, Deserializer};
 use serde_json;
 
-use crate::entities::Country;
+use engine::entities::Country;
+
+use crate::serializables::CountryDef;
 
 /// The game database represents the read only data that is remotely fetched and that holds the
 /// static data of the game such as countries, cities, instruments, etc. This should be initialized
@@ -15,6 +17,7 @@ use crate::entities::Country;
 #[serde(rename_all = "camelCase")]
 pub struct Database {
     compatible_with: String,
+    #[serde(deserialize_with = "vec_country")]
     countries: Vec<Country>,
 }
 
@@ -22,6 +25,17 @@ pub struct Database {
 #[derive(Debug, Clone)]
 pub struct DatabaseLoadError {
     description: String,
+}
+
+fn vec_country<'de, D>(deserializer: D) -> Result<Vec<Country>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    #[derive(Deserialize)]
+    struct Wrapper(#[serde(with = "CountryDef")] Country);
+
+    let v = Vec::deserialize(deserializer)?;
+    Ok(v.into_iter().map(|Wrapper(a)| a).collect())
 }
 
 impl Database {

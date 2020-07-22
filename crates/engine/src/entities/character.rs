@@ -13,13 +13,13 @@ pub enum Gender {
 
 /// Defines both playable and non-playable characters in the game.
 pub struct Character {
-    name: String,
-    birthday: NaiveDate,
-    gender: Gender,
-    mood: i8,
-    health: i8,
-    fame: i8,
-    skills: Vec<SkillWithLevel>,
+    pub name: String,
+    pub birthday: NaiveDate,
+    pub gender: Gender,
+    pub mood: i8,
+    pub health: i8,
+    pub fame: i8,
+    pub skills: Vec<SkillWithLevel>,
 }
 
 impl Character {
