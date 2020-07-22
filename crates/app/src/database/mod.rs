@@ -1,4 +1,3 @@
-mod entities;
 mod loader;
 
 pub use loader::*;
@@ -6,7 +5,7 @@ pub use loader::*;
 use serde::Deserialize;
 use serde_json;
 
-use self::entities::Country;
+use crate::entities::Country;
 
 /// The game database represents the read only data that is remotely fetched and that holds the
 /// static data of the game such as countries, cities, instruments, etc. This should be initialized
