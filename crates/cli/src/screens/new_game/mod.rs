@@ -1,4 +1,6 @@
-use app::builders::GameBuilder;
+use chrono::Datelike;
+
+use app::builders::{GameBuilder, GameBuilderCompleted};
 use engine::entities::{Character, City, Country, Gender};
 
 use crate::common::action::{Choice, CliAction, Prompt};
@@ -81,6 +83,17 @@ fn continue_to_city_input(character: Character, context: &Context) -> CliAction 
             let game_builder = GameBuilder::new()
                 .with_character(character)
                 .with_starting_city(cities[choice.id].to_owned());
+
+            continue_to_start_year_input(game_builder)
+        }),
+    })
+}
+
+fn continue_to_start_year_input(game_builder: GameBuilderCompleted) -> CliAction {
+    CliAction::Prompt(Prompt::DateInput {
+        text: String::from("What year should the game start from?"),
+        on_action: Box::new(|date, _context| {
+            game_builder.with_starting_year(date.year() as i16);
 
             CliAction::Prompt(Prompt::NoOp)
         }),

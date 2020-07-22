@@ -20,6 +20,8 @@ where
     pub starting_year: i16,
 }
 
+pub type GameBuilderCompleted = GameBuilder<Assigned, Assigned>;
+
 impl GameBuilder<Unassigned, Unassigned> {
     /// Creates a new game with no field specified. Character and Starting City need to be set
     /// in order for the create function to be available.
@@ -54,7 +56,7 @@ where
     pub fn with_starting_city(
         self,
         starting_city: City,
-    ) -> GameBuilder<CharacterPresent, Unassigned> {
+    ) -> GameBuilder<CharacterPresent, Assigned> {
         GameBuilder {
             character_present_assigned: PhantomData {},
             city_present_assigned: PhantomData {},

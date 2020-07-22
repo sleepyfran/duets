@@ -1,3 +1,3 @@
 mod game;
 
-pub use game::GameBuilder;
+pub use game::{GameBuilder, GameBuilderCompleted};
