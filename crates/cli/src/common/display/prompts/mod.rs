@@ -29,9 +29,11 @@ pub fn show(user_action: Prompt, context: &Context) -> CliAction {
             choices,
             on_action,
         } => text_choice_input_display::handle(text, choices, on_action, context),
-        Prompt::DateInput { text, on_action } => {
-            date_input_display::handle(text, on_action, context)
-        }
+        Prompt::DateInput {
+            text,
+            format,
+            on_action,
+        } => date_input_display::handle(text, format, on_action, context),
         Prompt::NoOp => CliAction::Prompt(Prompt::NoOp),
     }
 }

@@ -3,7 +3,7 @@ use chrono::Datelike;
 use app::builders::{GameBuilder, GameBuilderCompleted};
 use engine::entities::{Character, City, Country, Gender};
 
-use crate::common::action::{Choice, CliAction, Prompt};
+use crate::common::action::{Choice, CliAction, DateFormat, Prompt};
 use crate::common::context::Context;
 use crate::common::screen::Screen;
 use crate::effects;
@@ -50,6 +50,7 @@ fn continue_to_gender_input(character: Character) -> CliAction {
 fn continue_to_birthday_input(character: Character) -> CliAction {
     CliAction::Prompt(Prompt::DateInput {
         text: String::from("When was its birthday?"),
+        format: DateFormat::Full,
         on_action: Box::new(|birthday, context| {
             continue_to_city_input(character.with_birthday(birthday), context)
         }),
@@ -92,6 +93,7 @@ fn continue_to_city_input(character: Character, context: &Context) -> CliAction 
 fn continue_to_start_year_input(game_builder: GameBuilderCompleted) -> CliAction {
     CliAction::Prompt(Prompt::DateInput {
         text: String::from("What year should the game start from?"),
+        format: DateFormat::Year,
         on_action: Box::new(|date, _context| {
             game_builder.with_starting_year(date.year() as i16);
 
