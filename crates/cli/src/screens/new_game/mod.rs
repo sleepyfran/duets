@@ -175,8 +175,9 @@ fn continue_to_confirmation(context: NewGameContext) -> CliAction {
     display::show_text_with_new_line(&String::from("We have everything!"));
     display::show_line_break();
     display::show_warning(&format!(
-        "This will create a character named {} who was born in the year {} and lives in {}",
+        "This will create a character named {}, {}, who was born in the year {} and lives in {}",
         game_state.character.name,
+        game_state.character.gender_str(),
         game_state.character.birthday.year(),
         game_state.current_city.name,
     ));

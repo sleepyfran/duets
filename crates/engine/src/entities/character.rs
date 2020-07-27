@@ -80,4 +80,12 @@ impl Character {
     pub fn with_skills(self, skills: Vec<SkillWithLevel>) -> Character {
         Character { skills, ..self }
     }
+
+    pub fn gender_str(&self) -> String {
+        match self.gender {
+            Gender::Female => String::from("female"),
+            Gender::Male => String::from("male"),
+            Gender::Other => String::from("other"),
+        }
+    }
 }
