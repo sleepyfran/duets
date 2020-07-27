@@ -51,3 +51,8 @@ pub fn show_prompt_text(text: &String) {
 pub fn show_error(text: &String) {
     println!("❌ {}", styles::error(text))
 }
+
+/// Clears the screen completely.
+pub fn clear() {
+    print!("{}[2J", 27 as char)
+}

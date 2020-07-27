@@ -6,6 +6,7 @@ use app::database::Database;
 
 use common::action::CliAction;
 use common::context::Context;
+use common::display;
 use common::orchestrator;
 use screens::main_menu;
 
@@ -38,5 +39,6 @@ fn main() {
     };
 
     let main_menu_screen = main_menu::create_main_screen();
+    display::clear();
     orchestrator::start_with(CliAction::Screen(main_menu_screen), context);
 }
