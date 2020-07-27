@@ -18,7 +18,7 @@ pub fn handle(
 }
 
 fn show_date_input_action(text: String, format: &DateFormat) -> NaiveDate {
-    display::show_start_text(&text);
+    display::show_prompt_text(&text);
     display::show_text(&format!(" Format: {}", get_format_string(format)));
     display::show_line_break();
 

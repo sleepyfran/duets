@@ -21,7 +21,7 @@ fn show_command_input_action<'a>(
     text: &String,
     available_commands: &'a Vec<Command>,
 ) -> &'a Command {
-    display::show_start_text_with_new_line(&text);
+    display::show_prompt_text_with_new_line(&text);
     get_command(available_commands)
 }
 

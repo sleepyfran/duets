@@ -173,13 +173,18 @@ fn continue_to_confirmation(context: NewGameContext) -> CliAction {
 
     display::show_line_break();
     display::show_text_with_new_line(&String::from("We have everything!"));
-    display::show_text(&format!(
-        "This will create a character named {} who was born in {} and lives in {}",
-        game_state.character.name, game_state.character.birthday, game_state.current_city.name,
+    display::show_line_break();
+    display::show_warning(&format!(
+        "This will create a character named {} who was born in the year {} and lives in {}",
+        game_state.character.name,
+        game_state.character.birthday.year(),
+        game_state.current_city.name,
     ));
 
     CliAction::Prompt(Prompt::ChoiceInput {
-        text: String::from(""),
+        text: String::from(
+            "Do you want to create it? You won't be able to change the origin city or birthday later",
+        ),
         choices: vec![
             Choice {
                 id: 0,

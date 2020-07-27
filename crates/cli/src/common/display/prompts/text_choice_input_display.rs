@@ -18,7 +18,7 @@ pub fn handle(
 }
 
 fn show_text_choice_input_action<'a>(text: &String, choices: &'a Vec<Choice>) -> &'a Choice {
-    display::show_start_text(&text);
+    display::show_prompt_text(&text);
     display::show_text(&String::from(" ["));
 
     for (index, choice) in choices.iter().enumerate() {

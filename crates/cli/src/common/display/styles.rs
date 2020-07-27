@@ -11,3 +11,8 @@ pub fn title(text: &String) -> StyledString {
 pub fn error(text: &String) -> StyledString {
     style(text).red().bold()
 }
+
+/// Default style for info messages.
+pub fn warning(text: &String) -> StyledString {
+    style(text).yellow().bold()
+}

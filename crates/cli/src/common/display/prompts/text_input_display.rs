@@ -15,7 +15,7 @@ pub fn handle(
 }
 
 fn show_text_input_action(text: String) -> String {
-    display::show_start_text_with_new_line(&text);
+    display::show_prompt_text_with_new_line(&text);
     get_input()
 }
 
