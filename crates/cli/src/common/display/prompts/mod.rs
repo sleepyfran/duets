@@ -1,5 +1,6 @@
 mod choice_input_display;
 mod command_input_display;
+mod confirmation_input_display;
 mod date_input_display;
 mod text_choice_input_display;
 mod text_input_display;
@@ -29,6 +30,9 @@ pub fn show(user_action: Prompt, context: &Context) -> CliAction {
             choices,
             on_action,
         } => text_choice_input_display::handle(text, choices, on_action, context),
+        Prompt::ConfirmationInput { text, on_action } => {
+            confirmation_input_display::handle(text, on_action, context)
+        }
         Prompt::DateInput {
             text,
             format,

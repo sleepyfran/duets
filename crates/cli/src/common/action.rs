@@ -18,6 +18,12 @@ pub struct Choice {
     pub text: String,
 }
 
+/// Defines a choice that the user can make in a confirmation input.
+pub enum ConfirmationChoice {
+    Yes,
+    No,
+}
+
 /// Defines the different formats that we can retrieve with a DateInput.
 pub enum DateFormat {
     Year,
@@ -51,6 +57,11 @@ pub enum Prompt {
         text: String,
         choices: Vec<Choice>,
         on_action: Box<dyn FnOnce(&Choice, &Context) -> CliAction>,
+    },
+    /// Basic yes/no input.
+    ConfirmationInput {
+        text: String,
+        on_action: Box<dyn FnOnce(&ConfirmationChoice, &Context) -> CliAction>,
     },
     /// Represents a NaiveDate input.
     DateInput {

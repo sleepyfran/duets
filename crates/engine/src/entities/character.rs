@@ -1,10 +1,11 @@
-use chrono::{Duration, NaiveDate, Utc};
+use chrono::{Datelike, Duration, NaiveDate, Utc};
 
 use crate::common::bound;
 
 use crate::entities::skill::SkillWithLevel;
 
 /// Defines the gender of the character.
+#[derive(Clone)]
 pub enum Gender {
     Male,
     Female,
@@ -12,6 +13,7 @@ pub enum Gender {
 }
 
 /// Defines both playable and non-playable characters in the game.
+#[derive(Clone)]
 pub struct Character {
     pub name: String,
     pub birthday: NaiveDate,

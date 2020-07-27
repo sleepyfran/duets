@@ -13,7 +13,7 @@ use crate::serializables::CountryDef;
 /// static data of the game such as countries, cities, instruments, etc. This should be initialized
 /// when starting the game and cached so the user doesn't have to constantly download the database
 /// every time they open the game.
-#[derive(Deserialize)]
+#[derive(Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Database {
     pub compatible_with: String,

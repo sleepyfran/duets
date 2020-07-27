@@ -1,3 +1,3 @@
-mod game;
+mod game_start;
 
-pub use game::{GameBuilder, GameBuilderCompleted};
+pub use game_start::{GameStart, GameStartBuilder, ValidationError};
