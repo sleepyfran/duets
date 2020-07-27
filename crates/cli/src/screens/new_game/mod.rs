@@ -10,6 +10,8 @@ use crate::common::screen::Screen;
 
 type NewGameContext = ScreenContext<GameStartBuilder>;
 
+/// Creates a new game screen that handles the creation of the character as well as the first
+/// band of the character.
 pub fn create_new_game_screen() -> Screen {
     Screen {
         name: String::from("New game"),
@@ -129,17 +131,17 @@ fn continue_to_validation(context: NewGameContext) -> CliAction {
             continue_to_birthday_input(NewGameContext {
                 global_context: context.global_context.clone(),
                 game_builder: context.game_builder.clone(),
-                next_action: Some(Box::new(continue_to_start_year_input)),
+                next_action: Some(Box::new(continue_to_validation)),
             })
         }
         Err(ValidationError::CharacterNot18WhenGameStarts) => {
             display::show_error(&String::from(
                 "The character has to be 18 by the time the game starts",
             ));
-            continue_to_birthday_input(NewGameContext {
+            continue_to_start_year_input(NewGameContext {
                 global_context: context.global_context.clone(),
                 game_builder: context.game_builder.clone(),
-                next_action: Some(Box::new(continue_to_start_year_input)),
+                next_action: Some(Box::new(continue_to_validation)),
             })
         }
         Err(ValidationError::InvalidName) => {
