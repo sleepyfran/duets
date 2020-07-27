@@ -4,7 +4,7 @@ use app::builders::{GameStartBuilder, ValidationError};
 use engine::entities::{City, Country, Gender};
 
 use crate::common::action::{Choice, CliAction, DateFormat, Prompt};
-use crate::common::context::ScreenContext;
+use crate::common::context::{Context, ScreenContext};
 use crate::common::display;
 use crate::common::screen::Screen;
 
@@ -12,20 +12,32 @@ type NewGameContext = ScreenContext<GameStartBuilder>;
 
 /// Creates a new game screen that handles the creation of the character as well as the first
 /// band of the character.
-pub fn create_new_game_screen() -> Screen {
+pub fn create_new_game_screen(global_context: &Context) -> Screen {
     Screen {
         name: String::from("New game"),
-        action: Prompt::TextInput {
-            text: String::from("Creating a new game. What's the name of your character?"),
-            on_action: Box::new(|input, global_context| {
-                continue_to_gender_input(NewGameContext {
-                    global_context: global_context.clone(),
-                    game_builder: GameStartBuilder::default().name(input),
-                    next_action: Some(Box::new(continue_to_birthday_input)),
-                })
-            }),
-        },
+        action: create_name_input(NewGameContext {
+            global_context: global_context.clone(),
+            game_builder: GameStartBuilder::default(),
+            next_action: Some(Box::new(continue_to_gender_input)),
+        }),
     }
+}
+
+fn create_name_input(context: NewGameContext) -> Prompt {
+    Prompt::TextInput {
+        text: String::from("Creating a new game. What's the name of your character?"),
+        on_action: Box::new(|input, global_context| {
+            context.next_action.unwrap()(NewGameContext {
+                global_context: global_context.clone(),
+                game_builder: GameStartBuilder::default().name(input),
+                next_action: Some(Box::new(continue_to_birthday_input)),
+            })
+        }),
+    }
+}
+
+fn restart_with_name_input(context: NewGameContext) -> CliAction {
+    CliAction::Prompt(create_name_input(context))
 }
 
 fn continue_to_gender_input(context: NewGameContext) -> CliAction {
@@ -178,14 +190,18 @@ fn continue_to_confirmation(context: NewGameContext) -> CliAction {
                 text: String::from("No, let me start again"),
             },
         ],
-        on_action: Box::new(|choice, _global_context| match choice.id {
+        on_action: Box::new(|choice, global_context| match choice.id {
             0 => {
                 display::show_text(&String::from("Awesome!"));
                 CliAction::Prompt(Prompt::NoOp)
             }
             1 => {
                 display::show_text(&String::from("Let's get to it"));
-                CliAction::Prompt(Prompt::NoOp)
+                restart_with_name_input(NewGameContext {
+                    global_context: global_context.clone(),
+                    game_builder: GameStartBuilder::default(),
+                    next_action: Some(Box::new(continue_to_gender_input)),
+                })
             }
             _ => CliAction::Prompt(Prompt::NoOp),
         }),

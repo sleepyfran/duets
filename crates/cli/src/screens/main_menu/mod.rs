@@ -24,8 +24,8 @@ pub fn create_main_screen() -> Screen {
                     text: String::from("Exit"),
                 },
             ],
-            on_action: Box::new(|choice, _context| match choice.id {
-                0 => CliAction::Screen(new_game::create_new_game_screen()),
+            on_action: Box::new(|choice, global_context| match choice.id {
+                0 => CliAction::Screen(new_game::create_new_game_screen(global_context)),
                 1 => CliAction::SideEffect(effects::exit),
                 2 => CliAction::SideEffect(effects::exit),
                 _ => CliAction::Prompt(Prompt::NoOp),
