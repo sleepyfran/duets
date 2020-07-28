@@ -1,4 +1,5 @@
 use app::database::Database;
+use app::serializables::GameState;
 
 use crate::common::action::CliAction;
 
@@ -7,6 +8,7 @@ use crate::common::action::CliAction;
 #[derive(Clone)]
 pub struct Context {
     pub database: Database,
+    pub game_state: GameState,
 }
 
 /// Context that each step will hold to have quick access to the global context and other goodies

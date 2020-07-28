@@ -1,3 +1,4 @@
+mod create_band;
 mod create_character;
 
 use crate::common::context::Context;

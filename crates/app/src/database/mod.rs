@@ -5,9 +5,9 @@ pub use loader::*;
 use serde::{Deserialize, Deserializer};
 use serde_json;
 
-use engine::entities::Country;
+use engine::entities::{Country, Genre, Instrument};
 
-use crate::serializables::CountryDef;
+use crate::serializables::{CountryDef, GenreDef, InstrumentDef};
 
 /// The game database represents the read only data that is remotely fetched and that holds the
 /// static data of the game such as countries, cities, instruments, etc. This should be initialized
@@ -19,6 +19,10 @@ pub struct Database {
     pub compatible_with: String,
     #[serde(deserialize_with = "vec_country")]
     pub countries: Vec<Country>,
+    #[serde(deserialize_with = "vec_genre")]
+    pub genres: Vec<Genre>,
+    #[serde(deserialize_with = "vec_instrument")]
+    pub instruments: Vec<Instrument>,
 }
 
 /// Generic error when loading the database.
@@ -37,6 +41,28 @@ where
 {
     #[derive(Deserialize)]
     struct Wrapper(#[serde(with = "CountryDef")] Country);
+
+    let v = Vec::deserialize(deserializer)?;
+    Ok(v.into_iter().map(|Wrapper(a)| a).collect())
+}
+
+fn vec_genre<'de, D>(deserializer: D) -> Result<Vec<Genre>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    #[derive(Deserialize)]
+    struct Wrapper(#[serde(with = "GenreDef")] Genre);
+
+    let v = Vec::deserialize(deserializer)?;
+    Ok(v.into_iter().map(|Wrapper(a)| a).collect())
+}
+
+fn vec_instrument<'de, D>(deserializer: D) -> Result<Vec<Instrument>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    #[derive(Deserialize)]
+    struct Wrapper(#[serde(with = "InstrumentDef")] Instrument);
 
     let v = Vec::deserialize(deserializer)?;
     Ok(v.into_iter().map(|Wrapper(a)| a).collect())

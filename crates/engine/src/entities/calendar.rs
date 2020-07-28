@@ -21,6 +21,15 @@ pub struct Calendar {
     pub time: TimeOfDay,
 }
 
+impl Default for Calendar {
+    fn default() -> Calendar {
+        Calendar {
+            date: NaiveDate::from_yo(2010, 1),
+            time: TimeOfDay::Morning,
+        }
+    }
+}
+
 impl Calendar {
     pub fn from_year(year: i16) -> Calendar {
         Calendar {

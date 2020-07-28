@@ -6,6 +6,8 @@ mod character;
 mod city;
 mod country;
 mod game_state;
+mod genre;
+mod instrument;
 mod naivedate;
 mod skill;
 
@@ -13,4 +15,6 @@ pub use character::CharacterDef;
 pub use city::CityDef;
 pub use country::CountryDef;
 pub use game_state::{GameState, GameStateBuilder};
+pub use genre::GenreDef;
+pub use instrument::InstrumentDef;
 pub use skill::{SkillCategoryDef, SkillDef, SkillWithLevelDef};

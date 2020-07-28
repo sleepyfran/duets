@@ -1,8 +1,9 @@
 use chrono::Datelike;
 
-use app::builders::{GameStartBuilder, ValidationError};
+use app::builders::start::{GameStartBuilder, ValidationError};
 use engine::entities::{City, Country, Gender};
 
+use super::create_band;
 use crate::common::action::{Choice, CliAction, DateFormat, Prompt};
 use crate::common::context::{Context, ScreenContext};
 use crate::common::display;
@@ -194,8 +195,13 @@ fn continue_to_confirmation(context: NewGameContext) -> CliAction {
         ],
         on_action: Box::new(|choice, global_context| match choice.id {
             0 => {
+                display::show_line_break();
                 display::show_text(&String::from("Awesome!"));
-                CliAction::Prompt(Prompt::NoOp)
+
+                // TODO: Save details up until now.
+                create_band::start_with_name_input(
+                    create_band::create_starting_context(global_context)
+                )
             }
             1 => {
                 display::show_text(&String::from("Let's get to it"));

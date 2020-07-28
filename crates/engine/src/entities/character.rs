@@ -1,4 +1,4 @@
-use chrono::{Datelike, Duration, NaiveDate, Utc};
+use chrono::{Duration, NaiveDate, Utc};
 
 use crate::common::bound;
 
@@ -22,6 +22,20 @@ pub struct Character {
     pub health: i8,
     pub fame: i8,
     pub skills: Vec<SkillWithLevel>,
+}
+
+impl Default for Character {
+    fn default() -> Character {
+        Character {
+            name: String::default(),
+            birthday: NaiveDate::from_yo(1990, 1),
+            gender: Gender::Other,
+            mood: 100,
+            health: 100,
+            fame: 0,
+            skills: vec![],
+        }
+    }
 }
 
 impl Character {
