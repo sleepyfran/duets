@@ -8,7 +8,7 @@ mod instrument;
 mod skill;
 
 pub use band::{Band, BandMember};
-pub use calendar::Calendar;
+pub use calendar::{Calendar, TimeOfDay};
 pub use character::{Character, Gender};
 pub use city::City;
 pub use country::Country;

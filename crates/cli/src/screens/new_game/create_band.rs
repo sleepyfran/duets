@@ -1,6 +1,7 @@
 use app::builders::start::BandStartBuilder;
 use engine::entities::{Genre, Instrument};
 
+use super::super::home;
 use crate::common::action::{Choice, CliAction, Prompt};
 use crate::common::context::{Context, ScreenContext};
 use crate::common::display;
@@ -133,7 +134,7 @@ fn continue_to_confirmation(context: NewBandContext) -> CliAction {
                 display::show_text(&String::from("Awesome!"));
 
                 // TODO: Save details up until now.
-                CliAction::Prompt(Prompt::NoOp)
+                CliAction::Screen(home::create_home_screen(global_context))
             }
             1 => {
                 display::show_text(&String::from("Let's get to it"));

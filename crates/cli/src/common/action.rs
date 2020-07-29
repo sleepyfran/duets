@@ -41,6 +41,7 @@ pub enum Prompt {
     /// Represents an input that only accepts a set of commands.
     CommandInput {
         text: String,
+        show_prompt_emoji: bool,
         available_commands: Vec<Command>,
     },
     /// Represents an input that only accepts a set of choices by asking the user

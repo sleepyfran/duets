@@ -1,9 +1,10 @@
 use chrono::NaiveDate;
+use std::fmt::{Debug, Display, Formatter, Result};
 
 /// Allowed times in the day. Instead of implementing a full 24-hour clock, we'll just have a
 /// different list of allowed times. Since there are plenty it should be enough to make the game
 /// feel quicker than with a 24-hour clock but also slower than just having an action per day.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum TimeOfDay {
     Dawn,
     Morning,
@@ -12,6 +13,12 @@ pub enum TimeOfDay {
     Dusk,
     Night,
     Midnight,
+}
+
+impl Display for TimeOfDay {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        Debug::fmt(self, f)
+    }
 }
 
 /// Defines the calendar of the game in a specific point of time.

@@ -1,9 +1,13 @@
-mod help;
+pub mod exit;
+pub mod help;
+
+use std::sync::Arc;
 
 use crate::common::action::CliAction;
 use crate::common::context::Context;
 
 /// Defines the common fields that any command should have.
+#[derive(Clone)]
 pub struct Command {
     /// Friendly name of the command. Example: help, install.
     pub name: String,
@@ -16,5 +20,5 @@ pub struct Command {
 
     /// Function to call when the command is executed. The args passed to the command will be passed
     /// plus the current global context of the game.
-    pub execute: Box<dyn Fn(Vec<String>, &Context) -> CliAction>,
+    pub execute: Arc<dyn Fn(Vec<String>, &Context) -> CliAction>,
 }
