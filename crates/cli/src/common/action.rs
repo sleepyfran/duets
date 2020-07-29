@@ -10,6 +10,7 @@ pub enum CliAction {
     Prompt(Prompt),
     Screen(Screen),
     SideEffect(fn() -> Option<CliAction>),
+    NoOp,
 }
 
 /// Defines a choice that the user can make.
@@ -69,6 +70,4 @@ pub enum Prompt {
         format: DateFormat,
         on_action: Box<dyn FnOnce(NaiveDate, &Context) -> CliAction>,
     },
-    /// Represents a no operation. Basically tells the program to stop.
-    NoOp,
 }

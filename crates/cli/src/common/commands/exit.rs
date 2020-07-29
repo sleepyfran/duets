@@ -9,6 +9,6 @@ pub fn create_exit_command() -> Command {
         name: String::from("exit"),
         matching_names: vec![],
         explanation: String::from("Exits from the game saving the progress"),
-        execute: Arc::new(move |_args, _global_context| CliAction::Prompt(Prompt::NoOp)),
+        execute: Arc::new(move |_args, _global_context| CliAction::NoOp),
     }
 }

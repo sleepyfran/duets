@@ -38,6 +38,5 @@ pub fn show(user_action: Prompt, context: &Context) -> CliAction {
             format,
             on_action,
         } => date_input_display::handle(text, format, on_action, context),
-        Prompt::NoOp => CliAction::Prompt(Prompt::NoOp),
     }
 }

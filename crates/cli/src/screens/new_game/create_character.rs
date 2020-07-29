@@ -155,7 +155,7 @@ fn continue_to_validation(context: NewGameContext) -> CliAction {
         }
         Err(ValidationError::InvalidName) => {
             display::show_error(&String::from("The given name is not valid"));
-            CliAction::Prompt(Prompt::NoOp)
+            CliAction::NoOp
         }
         Ok(()) => continue_to_confirmation(NewGameContext {
             global_context: context.global_context.clone(),
@@ -211,7 +211,7 @@ fn continue_to_confirmation(context: NewGameContext) -> CliAction {
                     next_action: Some(Box::new(continue_to_gender_input)),
                 })
             }
-            _ => CliAction::Prompt(Prompt::NoOp),
+            _ => CliAction::NoOp,
         }),
     })
 }

@@ -1,5 +1,4 @@
 use crate::common::action::CliAction;
-use crate::common::action::Prompt;
 use crate::common::context::Context;
 use crate::common::display;
 use crate::common::display::prompts;
@@ -12,12 +11,13 @@ pub fn start_with(action: CliAction, context: Context) {
         CliAction::Screen(screen) => Some(display::show(screen, &context)),
         CliAction::SideEffect(effect) => effect(),
         CliAction::Prompt(user_action) => Some(prompts::show(user_action, &context)),
+        CliAction::NoOp => Some(CliAction::NoOp),
     };
 
     display::show_line_break();
 
     match result {
-        Some(CliAction::Prompt(Prompt::NoOp)) => display::show_exit_message(),
+        Some(CliAction::NoOp) => display::show_exit_message(),
         Some(action_result) => continue_with(action_result, context),
         None => display::show_exit_message(),
     }

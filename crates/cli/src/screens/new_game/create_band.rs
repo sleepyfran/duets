@@ -144,7 +144,7 @@ fn continue_to_confirmation(context: NewBandContext) -> CliAction {
                     next_action: Some(Box::new(continue_to_genre_input)),
                 })
             }
-            _ => CliAction::Prompt(Prompt::NoOp),
+            _ => CliAction::NoOp,
         }),
     })
 }

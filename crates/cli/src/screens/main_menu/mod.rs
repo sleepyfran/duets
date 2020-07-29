@@ -28,7 +28,7 @@ pub fn create_main_screen() -> Screen {
                 0 => CliAction::Screen(new_game::create_new_game_screen(global_context)),
                 1 => CliAction::SideEffect(effects::exit),
                 2 => CliAction::SideEffect(effects::exit),
-                _ => CliAction::Prompt(Prompt::NoOp),
+                _ => CliAction::NoOp,
             }),
         },
     }
