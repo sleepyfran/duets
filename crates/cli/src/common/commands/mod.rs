@@ -1,6 +1,7 @@
 mod help;
 
-use crate::common::screen::Screen;
+use crate::common::action::CliAction;
+use crate::common::context::Context;
 
 /// Defines the common fields that any command should have.
 pub struct Command {
@@ -13,8 +14,7 @@ pub struct Command {
     /// List of matching names that can invoke the command. Example: help, h.
     pub matching_names: Vec<String>,
 
-    /// Function to call when the command is executed. The args passed to the
-    /// command will be passed plus a Screen that defines the current context
-    /// in which the game is in.
-    pub execute: Box<dyn Fn(Vec<String>, Screen)>,
+    /// Function to call when the command is executed. The args passed to the command will be passed
+    /// plus the current global context of the game.
+    pub execute: Box<dyn Fn(Vec<String>, &Context) -> CliAction>,
 }

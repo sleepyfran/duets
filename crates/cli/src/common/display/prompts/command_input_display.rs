@@ -7,29 +7,24 @@ use crate::common::input;
 /// Handles the display of a choice input, showing the screen's text first, then
 /// the different choices available and getting the input of an user making sure
 /// that it's inside of the possible choices.
-pub fn handle(
-    text: String,
-    available_commands: Vec<Command>,
-    on_action: Box<dyn FnOnce(&Command, &Context) -> CliAction>,
-    context: &Context,
-) -> CliAction {
-    let command = show_command_input_action(&text, &available_commands);
-    on_action(command, context)
+pub fn handle(text: String, available_commands: Vec<Command>, context: &Context) -> CliAction {
+    let (command, args) = show_command_input_action(&text, &available_commands);
+    (command.execute)(args, context)
 }
 
 fn show_command_input_action<'a>(
     text: &String,
     available_commands: &'a Vec<Command>,
-) -> &'a Command {
+) -> (&'a Command, Vec<String>) {
     display::show_prompt_text_with_new_line(&text);
     get_command(available_commands)
 }
 
-fn get_command(available_commands: &Vec<Command>) -> &Command {
+fn get_command(available_commands: &Vec<Command>) -> (&Command, Vec<String>) {
     let command_or_error = input::read_command(&available_commands);
 
     match command_or_error {
-        Some(command) => command,
+        Some((command, args)) => (command, args),
         _ => {
             show_help(available_commands);
             get_command(available_commands)

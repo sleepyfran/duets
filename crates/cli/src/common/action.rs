@@ -42,7 +42,6 @@ pub enum Prompt {
     CommandInput {
         text: String,
         available_commands: Vec<Command>,
-        on_action: Box<dyn FnOnce(&Command, &Context) -> CliAction>,
     },
     /// Represents an input that only accepts a set of choices by asking the user
     /// to input its ID (a number).
