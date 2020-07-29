@@ -157,7 +157,7 @@ fn continue_to_validation(context: NewGameContext) -> CliAction {
             display::show_error(&String::from("The given name is not valid"));
             CliAction::Prompt(Prompt::NoOp)
         }
-        Ok(()) => context.next_action.unwrap()(NewGameContext {
+        Ok(()) => continue_to_confirmation(NewGameContext {
             global_context: context.global_context.clone(),
             game_builder: context.game_builder,
             next_action: None,
