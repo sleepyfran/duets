@@ -7,6 +7,7 @@ use super::create_band;
 use crate::common::action::{Choice, CliAction, DateFormat, Prompt};
 use crate::common::context::{Context, ScreenContext};
 use crate::common::display;
+use crate::effects;
 
 pub type NewGameContext = ScreenContext<GameStartBuilder>;
 
@@ -198,7 +199,8 @@ fn continue_to_confirmation(context: NewGameContext) -> CliAction {
                 display::show_line_break();
                 display::show_text(&String::from("Awesome!"));
 
-                // TODO: Save details up until now.
+                effects::set_state(game_state);
+
                 create_band::start_with_name_input(
                     create_band::create_starting_context(global_context)
                 )

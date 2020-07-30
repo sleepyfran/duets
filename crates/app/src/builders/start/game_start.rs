@@ -1,6 +1,6 @@
 use chrono::{Datelike, NaiveDate};
 
-use engine::entities::{Calendar, Character, City, Gender};
+use engine::entities::{Band, Calendar, Character, City, Gender};
 
 use crate::serializables::GameState;
 
@@ -27,6 +27,7 @@ impl GameStart {
     /// Returns a game state based on the current parameters of the builder.
     pub fn to_game_state(self) -> GameState {
         GameState {
+            band: Band::default(),
             character: Character::new(self.name)
                 .with_gender(self.gender)
                 .with_birthday(self.birthday),

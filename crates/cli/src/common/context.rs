@@ -1,11 +1,33 @@
+use std::sync::Mutex;
+
 use app::database::Database;
 use app::serializables::GameState;
 
 use crate::common::action::CliAction;
 
+lazy_static! {
+    pub static ref CONTEXT_CONTAINER: Mutex<Context> = Mutex::new(Context::default());
+}
+
+/// Retrieves a clone of the current global context.
+pub fn get_global_context() -> Context {
+    CONTEXT_CONTAINER.lock().unwrap().clone()
+}
+
+/// Sets the current global context.
+pub fn set_global_context(context: Context) {
+    *CONTEXT_CONTAINER.lock().unwrap() = context
+}
+
+/// Modifies the content from the global context by passing the current one to a function that will
+/// return a modified one.
+pub fn modify_global_context(modify_fn: Box<dyn FnOnce(Context) -> Context>) {
+    set_global_context(modify_fn(get_global_context()))
+}
+
 /// Context passed to every action performed in the CLI. Contains any stateful values that might
 /// be necessary during execution.
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub struct Context {
     pub database: Database,
     pub game_state: GameState,

@@ -5,6 +5,7 @@ use super::super::home;
 use crate::common::action::{Choice, CliAction, Prompt};
 use crate::common::context::{Context, ScreenContext};
 use crate::common::display;
+use crate::effects;
 
 pub type NewBandContext = ScreenContext<BandStartBuilder>;
 
@@ -133,7 +134,7 @@ fn continue_to_confirmation(context: NewBandContext) -> CliAction {
                 display::show_line_break();
                 display::show_text(&String::from("Awesome!"));
 
-                // TODO: Save details up until now.
+                effects::modify_state(Box::new(|game_state| game_state.with_band(band)));
                 CliAction::Screen(home::create_home_screen(global_context))
             }
             1 => {
