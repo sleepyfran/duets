@@ -7,6 +7,7 @@ mod shared;
 
 use app::database::Database;
 use common::serializables::GameState;
+use storage;
 
 use screens::main_menu;
 use shared::action::CliAction;
@@ -50,15 +51,16 @@ fn main() {
         .to_string(),
     );
 
-    // Set the initial context. TODO: Load real values.
+    let game_state_option = storage::retrieve_game_state().ok();
+
     let context = context::Context {
         database: database_or_error.unwrap(),
-        game_state: GameState::default(),
+        game_state: game_state_option.clone().unwrap_or_default(),
     };
 
     context::set_global_context(context);
 
-    let main_menu_screen = main_menu::create_main_screen();
+    let main_menu_screen = main_menu::create_main_screen(game_state_option);
     display::clear();
     orchestrator::start_with(CliAction::Screen(main_menu_screen));
 }

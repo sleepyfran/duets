@@ -45,6 +45,11 @@ pub fn show_warning(text: &String) {
     print_and_flush(format!("⚠️ {}", styles::warning(text)))
 }
 
+/// Prints an error to the screen.
+pub fn show_error(text: &String) {
+    print_and_flush(format!("❌ {}", styles::error(text)))
+}
+
 /// Prints the start text of a prompt.
 pub fn show_prompt_text_with_new_line(text: &String) {
     println!("💬 {}", styles::title(text))
@@ -63,11 +68,6 @@ pub fn show_prompt_text_with_new_line_no_emoji(text: &String) {
 // Prints the start text of a prompt without a new line and no emoji.
 pub fn show_prompt_text_no_emoji(text: &String) {
     print_and_flush(format!("{}", styles::title(text)))
-}
-
-/// Prints an error to the screen.
-pub fn show_error(text: &String) {
-    println!("❌ {}", styles::error(text))
 }
 
 /// Clears the screen completely.
