@@ -5,9 +5,8 @@ pub use loader::*;
 use serde::{Deserialize, Deserializer};
 use serde_json;
 
+use common::serializables::{CountryDef, GenreDef, InstrumentDef};
 use engine::entities::{Country, Genre, Instrument};
-
-use crate::serializables::{CountryDef, GenreDef, InstrumentDef};
 
 /// The game database represents the read only data that is remotely fetched and that holds the
 /// static data of the game such as countries, cities, instruments, etc. This should be initialized

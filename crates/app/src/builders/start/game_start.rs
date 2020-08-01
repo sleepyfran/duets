@@ -1,8 +1,7 @@
 use chrono::{Datelike, NaiveDate};
 
+use common::serializables::GameState;
 use engine::entities::{Band, Calendar, Character, City, Gender};
-
-use crate::serializables::GameState;
 
 pub enum ValidationError {
     InvalidName,

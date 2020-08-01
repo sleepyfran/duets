@@ -1,18 +1,18 @@
 #[macro_use]
 extern crate lazy_static;
 
-mod common;
 mod effects;
 mod screens;
+mod shared;
 
 use app::database::Database;
-use app::serializables::GameState;
+use common::serializables::GameState;
 
-use common::action::CliAction;
-use common::context;
-use common::display;
-use common::orchestrator;
 use screens::main_menu;
+use shared::action::CliAction;
+use shared::context;
+use shared::display;
+use shared::orchestrator;
 
 fn main() {
     // TODO: Init the app loading the database from the server and not from the mocks.

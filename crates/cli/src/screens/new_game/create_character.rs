@@ -1,13 +1,12 @@
-use chrono::Datelike;
-
 use app::builders::start::{GameStartBuilder, ValidationError};
+use chrono::Datelike;
 use engine::entities::{City, Country, Gender};
 
 use super::create_band;
-use crate::common::action::{Choice, CliAction, DateFormat, Prompt};
-use crate::common::context::{Context, ScreenContext};
-use crate::common::display;
 use crate::effects;
+use crate::shared::action::{Choice, CliAction, DateFormat, Prompt};
+use crate::shared::context::{Context, ScreenContext};
+use crate::shared::display;
 
 pub type NewGameContext = ScreenContext<GameStartBuilder>;
 

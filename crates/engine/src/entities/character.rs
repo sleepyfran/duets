@@ -1,6 +1,6 @@
 use chrono::{Duration, NaiveDate, Utc};
 
-use crate::common::bound;
+use crate::shared::bound;
 
 use crate::entities::skill::SkillWithLevel;
 

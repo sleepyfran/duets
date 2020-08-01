@@ -1,3 +1,3 @@
 pub mod entities;
 
-mod common;
+mod shared;

@@ -1,9 +1,9 @@
 use super::new_game;
-use crate::common::action::Choice;
-use crate::common::action::CliAction;
-use crate::common::action::Prompt;
-use crate::common::screen::Screen;
 use crate::effects;
+use crate::shared::action::Choice;
+use crate::shared::action::CliAction;
+use crate::shared::action::Prompt;
+use crate::shared::screen::Screen;
 
 pub fn create_main_screen() -> Screen {
     Screen {

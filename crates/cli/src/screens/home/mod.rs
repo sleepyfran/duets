@@ -1,7 +1,7 @@
-use crate::common::action::Prompt;
-use crate::common::context::Context;
-use crate::common::emoji;
-use crate::common::screen::Screen;
+use crate::shared::action::Prompt;
+use crate::shared::context::Context;
+use crate::shared::emoji;
+use crate::shared::screen::Screen;
 
 /// Home screen is the main place where the user can interact with the rest of the game by giving
 /// different commands.

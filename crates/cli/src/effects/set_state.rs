@@ -1,7 +1,7 @@
-use app::serializables::GameState;
+use common::serializables::GameState;
 
-use crate::common::action::CliAction;
-use crate::common::context;
+use crate::shared::action::CliAction;
+use crate::shared::context;
 
 /// Sets the current global state.
 pub fn set_state(game_state: GameState) -> Option<CliAction> {

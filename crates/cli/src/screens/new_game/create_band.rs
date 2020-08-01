@@ -2,10 +2,10 @@ use app::builders::start::BandStartBuilder;
 use engine::entities::{Genre, Instrument};
 
 use super::super::home;
-use crate::common::action::{Choice, CliAction, Prompt};
-use crate::common::context::{Context, ScreenContext};
-use crate::common::display;
 use crate::effects;
+use crate::shared::action::{Choice, CliAction, Prompt};
+use crate::shared::context::{Context, ScreenContext};
+use crate::shared::display;
 
 pub type NewBandContext = ScreenContext<BandStartBuilder>;
 

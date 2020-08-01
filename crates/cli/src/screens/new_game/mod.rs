@@ -1,8 +1,8 @@
 mod create_band;
 mod create_character;
 
-use crate::common::context::Context;
-use crate::common::screen::Screen;
+use crate::shared::context::Context;
+use crate::shared::screen::Screen;
 
 /// Creates a new game screen that handles the creation of the character as well as the first
 /// band of the character.

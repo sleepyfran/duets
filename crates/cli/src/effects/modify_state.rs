@@ -1,7 +1,7 @@
-use app::serializables::GameState;
+use common::serializables::GameState;
 
-use crate::common::action::CliAction;
-use crate::common::context;
+use crate::shared::action::CliAction;
+use crate::shared::context;
 
 /// Sets the current global state.
 pub fn modify_state(modify_fn: Box<dyn FnOnce(GameState) -> GameState>) -> Option<CliAction> {
