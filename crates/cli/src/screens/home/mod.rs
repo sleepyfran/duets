@@ -17,11 +17,13 @@ pub fn create_home_screen(global_context: &Context) -> Screen {
 }
 
 fn home_current_info_text(global_context: &Context) -> String {
+    let date = global_context.game_state.calendar.date.clone();
     let time = global_context.game_state.calendar.time.clone();
     let time_info = format!(
-        "{} It's currently {}",
+        "{} It's currently {}; {}",
         emoji::clock_emoji_for_time(&time),
-        time.to_string().to_lowercase()
+        time.to_string().to_lowercase(),
+        date.format("%A,%e %B %Y")
     );
 
     let position_info = format!(
