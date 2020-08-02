@@ -1,17 +1,20 @@
-use crate::shared::action::Prompt;
+use crate::shared::action::{CliAction, Prompt};
 use crate::shared::context::Context;
 use crate::shared::emoji;
 use crate::shared::screen::Screen;
 
 /// Home screen is the main place where the user can interact with the rest of the game by giving
 /// different commands.
-pub fn create_home_screen(global_context: &Context) -> Screen {
+pub fn create_home_screen(previous_global_context: &Context) -> Screen {
     Screen {
         name: String::from("Home"),
         action: Prompt::CommandInput {
-            text: home_current_info_text(global_context),
+            text: home_current_info_text(previous_global_context),
             show_prompt_emoji: false,
             available_commands: vec![],
+            after_action: Box::new(|_command, global_context| {
+                CliAction::Screen(create_home_screen(global_context))
+            }),
         },
     }
 }

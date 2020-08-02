@@ -12,10 +12,16 @@ pub fn handle(
     text: String,
     show_prompt_emoji: bool,
     available_commands: Vec<Command>,
+    after_action: Box<dyn FnOnce(&Command, &Context) -> CliAction>,
     context: &Context,
 ) -> CliAction {
     let (command, args) = show_command_input_action(&text, show_prompt_emoji, &available_commands);
-    (command.execute)(args, context)
+    let result = (command.execute)(args, context);
+
+    match result {
+        CliAction::Continue => after_action(&command, context),
+        _ => result,
+    }
 }
 
 fn show_command_input_action(

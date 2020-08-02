@@ -24,7 +24,14 @@ pub fn show(user_action: Prompt, context: &Context) -> CliAction {
             text,
             show_prompt_emoji,
             available_commands,
-        } => command_input_display::handle(text, show_prompt_emoji, available_commands, context),
+            after_action,
+        } => command_input_display::handle(
+            text,
+            show_prompt_emoji,
+            available_commands,
+            after_action,
+            context,
+        ),
         Prompt::TextChoiceInput {
             text,
             choices,

@@ -45,6 +45,9 @@ pub enum Prompt {
         text: String,
         show_prompt_emoji: bool,
         available_commands: Vec<Command>,
+        /// Closure to be called in case the command has a return action of Continue, which
+        /// basically delegates to the called of this command the action to be returned.
+        after_action: Box<dyn FnOnce(&Command, &Context) -> CliAction>,
     },
     /// Represents an input that only accepts a set of choices by asking the user
     /// to input its ID (a number).

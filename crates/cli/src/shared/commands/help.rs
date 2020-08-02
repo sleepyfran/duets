@@ -19,11 +19,7 @@ pub fn create_help_command(available_commands: Vec<Command>) -> Command {
                 show_command(command);
             }
 
-            CliAction::Prompt(Prompt::CommandInput {
-                text: String::default(),
-                show_prompt_emoji: false,
-                available_commands: available_commands.clone(),
-            })
+            CliAction::Continue
         }),
     }
 }
