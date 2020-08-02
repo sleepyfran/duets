@@ -1,4 +1,5 @@
 use crate::shared::action::{CliAction, Prompt};
+use crate::shared::commands::character;
 use crate::shared::context::Context;
 use crate::shared::emoji;
 use crate::shared::screen::Screen;
@@ -11,7 +12,7 @@ pub fn create_home_screen(previous_global_context: &Context) -> Screen {
         action: Prompt::CommandInput {
             text: home_current_info_text(previous_global_context),
             show_prompt_emoji: false,
-            available_commands: vec![],
+            available_commands: vec![character::create_character_command()],
             after_action: Box::new(|_command, global_context| {
                 CliAction::Screen(create_home_screen(global_context))
             }),
@@ -24,7 +25,7 @@ fn home_current_info_text(global_context: &Context) -> String {
     let time = global_context.game_state.calendar.time.clone();
     let time_info = format!(
         "{} It's currently {}; {}",
-        emoji::clock_emoji_for_time(&time),
+        emoji::for_time(&time),
         time.to_string().to_lowercase(),
         date.format("%A,%e %B %Y")
     );
