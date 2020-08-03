@@ -37,20 +37,21 @@ pub fn create_main_screen(savegame: Option<GameState>) -> Screen {
 }
 
 fn new_game_selected(savegame: Option<GameState>, global_context: &Context) -> CliAction {
-    display::show_warning(&String::from(
-        "You already have a savegame, continuing with this will override it",
-    ));
-
     match &savegame {
-        Some(_) => CliAction::Prompt(Prompt::ConfirmationInput {
-            text: String::from("Are you sure you want to create a new game?"),
-            on_action: Box::new(|choice, global_context| match choice {
-                ConfirmationChoice::Yes => {
-                    CliAction::Screen(new_game::create_new_game_screen(global_context))
-                }
-                ConfirmationChoice::No => CliAction::Screen(create_main_screen(savegame)),
-            }),
-        }),
+        Some(_) => {
+            display::show_warning(&String::from(
+                "You already have a savegame, continuing with this will override it",
+            ));
+            CliAction::Prompt(Prompt::ConfirmationInput {
+                text: String::from("Are you sure you want to create a new game?"),
+                on_action: Box::new(|choice, global_context| match choice {
+                    ConfirmationChoice::Yes => {
+                        CliAction::Screen(new_game::create_new_game_screen(global_context))
+                    }
+                    ConfirmationChoice::No => CliAction::Screen(create_main_screen(savegame)),
+                }),
+            })
+        }
         None => CliAction::Screen(new_game::create_new_game_screen(global_context)),
     }
 }
