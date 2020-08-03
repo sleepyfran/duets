@@ -1,6 +1,6 @@
 use crate::shared::action::CliAction;
 use crate::shared::commands;
-use crate::shared::commands::Command;
+use crate::shared::commands::{Command, CommandCollection};
 use crate::shared::context::Context;
 use crate::shared::display;
 use crate::shared::input;
@@ -11,7 +11,7 @@ use crate::shared::input;
 pub fn handle(
     text: String,
     show_prompt_emoji: bool,
-    available_commands: Vec<Command>,
+    available_commands: CommandCollection,
     after_action: Box<dyn FnOnce(&Command, &Context) -> CliAction>,
     context: &Context,
 ) -> CliAction {
@@ -27,7 +27,7 @@ pub fn handle(
 fn show_command_input_action(
     text: &String,
     show_prompt_emoji: bool,
-    available_commands: &Vec<Command>,
+    available_commands: &CommandCollection,
 ) -> (Command, Vec<String>) {
     if show_prompt_emoji {
         display::show_prompt_text_with_new_line(&text);
@@ -38,8 +38,8 @@ fn show_command_input_action(
     get_command(available_commands)
 }
 
-fn get_command(available_commands: &Vec<Command>) -> (Command, Vec<String>) {
-    let commands_with_defaults = get_commands_with_defaults(available_commands);
+fn get_command(available_commands: &CommandCollection) -> (Command, Vec<String>) {
+    let commands_with_defaults = get_commands_with_defaults(&available_commands);
 
     display::show_text(&String::from("> "));
     let command_or_error = input::read_command(&commands_with_defaults);
@@ -53,33 +53,31 @@ fn get_command(available_commands: &Vec<Command>) -> (Command, Vec<String>) {
     }
 }
 
-fn get_commands_with_defaults(available_commands: &Vec<Command>) -> Vec<Command> {
+fn get_commands_with_defaults(available_commands: &CommandCollection) -> CommandCollection {
     // We might get called from a command that previously added the defaults already, so skip if
     // this is the case.
+    let mut clonned = available_commands.clone();
     let commands_with_defaults = if includes_default_commands(available_commands) {
-        available_commands.to_vec()
+        clonned
     } else {
-        available_commands
-            .clone()
-            .into_iter()
+        clonned
             .chain(vec![
                 commands::exit::create_exit_command(),
                 commands::save::create_save_command(),
             ])
-            .collect()
+            .clone()
     };
 
     commands_with_defaults
         .clone()
-        .into_iter()
         .chain(vec![commands::help::create_help_command(
-            commands_with_defaults,
+            commands_with_defaults.clone(),
         )])
-        .collect()
+        .clone()
 }
 
-fn includes_default_commands(commands: &Vec<Command>) -> bool {
-    commands.iter().any(|command| command.name == "exit")
+fn includes_default_commands(commands: &CommandCollection) -> bool {
+    commands.find_by_name(&String::from("exit")).is_some()
 }
 
 fn show_help() {

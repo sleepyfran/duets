@@ -1,6 +1,6 @@
 use chrono::NaiveDate;
 
-use crate::shared::commands::Command;
+use crate::shared::commands::{Command, CommandCollection};
 use crate::shared::context::Context;
 use crate::shared::screen::Screen;
 
@@ -44,7 +44,7 @@ pub enum Prompt {
     CommandInput {
         text: String,
         show_prompt_emoji: bool,
-        available_commands: Vec<Command>,
+        available_commands: CommandCollection,
         /// Closure to be called in case the command has a return action of Continue, which
         /// basically delegates to the called of this command the action to be returned.
         after_action: Box<dyn FnOnce(&Command, &Context) -> CliAction>,

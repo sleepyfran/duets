@@ -11,6 +11,12 @@ pub fn create_character_command() -> Command {
         name: String::from("character"),
         matching_names: vec![String::from("c")],
         explanation: String::from("Shows information about the character"),
+        help: r#"
+character
+----
+Shows the current status of the character.
+        "#
+        .into(),
         execute: Arc::new(move |_args, global_context| {
             let character = &global_context.game_state.character;
 
