@@ -1,4 +1,4 @@
-use app_dirs;
+use app_dirs2;
 use std::fs;
 use std::fs::File;
 use std::io::Read;
@@ -33,20 +33,20 @@ pub fn save_file(content: String, file_type: FileType) -> IoResult<()> {
 
 fn path_from_file_type(file: FileType) -> IoResult<String> {
     match file {
-        FileType::Savegame => app_dirs::app_root(app_dirs::AppDataType::UserData, &app_info())
+        FileType::Savegame => app_dirs2::app_root(app_dirs2::AppDataType::UserData, &app_info())
             .map(|buff| buff.into_os_string().into_string().unwrap() + "/savegame.json")
             .map_err(|_err| Error::PathFindingError),
     }
 }
 
-fn app_info() -> app_dirs::AppInfo {
+fn app_info() -> app_dirs2::AppInfo {
     let game_info = get_game_info();
 
-    // The creators of app_dirs made the questionable choice of accepting only a &'static str when
+    // The creators of app_dirs2 made the questionable choice of accepting only a &'static str when
     // creating the AppInfo struct. Since I don't want to hardcode the name of the app nor the
     // author and instead load them from the crate itself, there's no other choice but to leak the
     // string. TODO: Revisit this sometime in the future?
-    app_dirs::AppInfo {
+    app_dirs2::AppInfo {
         name: Box::leak(game_info.name.into_boxed_str()),
         author: Box::leak(game_info.author.into_boxed_str()),
     }
