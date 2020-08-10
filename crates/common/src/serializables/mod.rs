@@ -11,6 +11,9 @@ mod game_state;
 mod genre;
 mod instrument;
 mod naivedate;
+mod place;
+mod position;
+mod room;
 mod skill;
 
 pub use band::{BandDef, BandMemberDef};
@@ -21,4 +24,7 @@ pub use country::CountryDef;
 pub use game_state::GameState;
 pub use genre::GenreDef;
 pub use instrument::InstrumentDef;
+pub use place::PlaceDef;
+pub use position::Position;
+pub use room::RoomDef;
 pub use skill::{SkillCategoryDef, SkillDef, SkillWithLevelDef};

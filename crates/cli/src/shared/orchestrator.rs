@@ -19,7 +19,11 @@ pub fn start_with(action: CliAction) {
     display::show_line_break();
 
     match result {
-        Some(CliAction::NoOp) => display::show_exit_message(),
+        Some(CliAction::Chain(first, second)) => {
+            continue_with(*first);
+            continue_with(*second)
+        }
+        Some(CliAction::NoOp) => {}
         Some(action_result) => continue_with(action_result),
         None => display::show_exit_message(),
     }

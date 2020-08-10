@@ -7,6 +7,7 @@ use crate::shared::screen::Screen;
 /// Defines an action to be performed by the CLI, whether it's to show a
 /// prompt to the user, a screen or perform a side effect.
 pub enum CliAction {
+    Chain(Box<CliAction>, Box<CliAction>),
     Prompt(Prompt),
     Screen(Screen),
     SideEffect(fn() -> Option<CliAction>),
@@ -32,6 +33,18 @@ pub enum DateFormat {
     Full,
 }
 
+/// Defines how many repetitions are allowed when invoking a command input.
+pub enum CommandInputRepetition {
+    One,
+    Until(Box<dyn FnOnce(&CliAction) -> Repeat>),
+}
+
+/// Defines whether the command input should repeat taking commands or not.
+pub enum Repeat {
+    Yes,
+    No,
+}
+
 /// Defines the different kinds of actions that the user can do as a response
 /// to a certain screen.
 pub enum Prompt {
@@ -45,9 +58,10 @@ pub enum Prompt {
         text: String,
         show_prompt_emoji: bool,
         available_commands: CommandCollection,
-        /// Closure to be called in case the command has a return action of Continue, which
-        /// basically delegates to the called of this command the action to be returned.
-        after_action: Box<dyn FnOnce(&Command, &Context) -> CliAction>,
+        repetition: CommandInputRepetition,
+        /// Closure to be called with the result of the command in case the calling action needs
+        /// to override it when repetition is set to Until.
+        after_action: Box<dyn FnOnce(CliAction, &Context) -> CliAction>,
     },
     /// Represents an input that only accepts a set of choices by asking the user
     /// to input its ID (a number).

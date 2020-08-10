@@ -28,8 +28,25 @@ fn main() {
                         "cities": [
                             {
                                 "name": "Prague",
-                                "countryName": "Czech Republic",
-                                "population": 1309000
+                                "population": 1309000,
+                                "places": [
+                                    {
+                                        "name": "Test Place",
+                                        "rooms": [
+                                            {
+                                                "description": "A dark room just to test"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "Test Place 2",
+                                        "rooms": [
+                                            {
+                                                "description": "A dark room just to test, but again"
+                                            }
+                                        ]
+                                    }
+                                ]
                             }
                         ]
                     }

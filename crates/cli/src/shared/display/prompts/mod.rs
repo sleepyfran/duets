@@ -24,11 +24,13 @@ pub fn show(user_action: Prompt, context: &Context) -> CliAction {
             text,
             show_prompt_emoji,
             available_commands,
+            repetition,
             after_action,
         } => command_input_display::handle(
             text,
             show_prompt_emoji,
             available_commands,
+            repetition,
             after_action,
             context,
         ),

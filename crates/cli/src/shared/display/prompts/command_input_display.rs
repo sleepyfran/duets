@@ -1,4 +1,4 @@
-use crate::shared::action::CliAction;
+use crate::shared::action::{CliAction, CommandInputRepetition, Repeat};
 use crate::shared::commands;
 use crate::shared::commands::{Command, CommandCollection};
 use crate::shared::context::Context;
@@ -12,15 +12,19 @@ pub fn handle(
     text: String,
     show_prompt_emoji: bool,
     available_commands: CommandCollection,
-    after_action: Box<dyn FnOnce(&Command, &Context) -> CliAction>,
+    repetition: CommandInputRepetition,
+    after_action: Box<dyn FnOnce(CliAction, &Context) -> CliAction>,
     context: &Context,
 ) -> CliAction {
     let (command, args) = show_command_input_action(&text, show_prompt_emoji, &available_commands);
     let result = (command.execute)(args, context);
 
-    match result {
-        CliAction::Continue => after_action(&command, context),
-        _ => result,
+    match repetition {
+        CommandInputRepetition::One => result,
+        CommandInputRepetition::Until(should_repeat) => match should_repeat(&result) {
+            Repeat::No => result,
+            Repeat::Yes => after_action(result, context),
+        },
     }
 }
 

@@ -5,6 +5,8 @@ mod city;
 mod country;
 mod genre;
 mod instrument;
+mod place;
+mod room;
 mod skill;
 
 pub use band::{Band, BandMember};
@@ -14,4 +16,6 @@ pub use city::City;
 pub use country::Country;
 pub use genre::Genre;
 pub use instrument::Instrument;
+pub use place::Place;
+pub use room::Room;
 pub use skill::{Skill, SkillCategory, SkillWithLevel};

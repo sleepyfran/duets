@@ -1,7 +1,7 @@
 use chrono::{Datelike, NaiveDate};
 
-use common::serializables::GameState;
-use engine::entities::{Band, Calendar, Character, City, Gender};
+use common::serializables::{GameState, Position};
+use engine::entities::{Band, Calendar, Character, Gender};
 
 pub enum ValidationError {
     InvalidName,
@@ -18,7 +18,7 @@ pub struct GameStart {
     pub name: String,
     pub birthday: NaiveDate,
     pub gender: Gender,
-    pub start_city: City,
+    pub start_position: Position,
     pub start_year: i16,
 }
 
@@ -30,8 +30,8 @@ impl GameStart {
             character: Character::new(self.name)
                 .with_gender(self.gender)
                 .with_birthday(self.birthday),
-            current_city: self.start_city,
             calendar: Calendar::from_year(self.start_year),
+            position: self.start_position,
         }
     }
 }

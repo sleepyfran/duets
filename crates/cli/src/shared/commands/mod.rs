@@ -2,6 +2,7 @@ pub mod character;
 mod command_collection;
 pub mod exit;
 pub mod help;
+pub mod map;
 pub mod save;
 pub mod time;
 

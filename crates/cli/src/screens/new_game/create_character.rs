@@ -1,5 +1,6 @@
 use app::builders::start::{GameStartBuilder, ValidationError};
 use chrono::Datelike;
+use common::serializables::Position;
 use engine::entities::{City, Country, Gender};
 
 use super::create_band;
@@ -82,35 +83,50 @@ fn continue_to_birthday_input(context: NewGameContext) -> CliAction {
     })
 }
 
+#[derive(Clone)]
+struct CityInputData {
+    pub country: Country,
+    pub city: City,
+}
+
 fn continue_to_city_input(context: NewGameContext) -> CliAction {
-    let cities_from_countries = |countries: Vec<Country>| -> Vec<City> {
+    let data_from_countries = |countries: Vec<Country>| -> Vec<CityInputData> {
         countries
             .iter()
-            .map(|c| c.cities.clone())
+            .map(|country| {
+                country.cities.iter().map(move |city| CityInputData {
+                    country: country.clone(),
+                    city: city.clone(),
+                })
+            })
             .flatten()
             .collect()
     };
 
-    let available_cities = cities_from_countries(context.global_context.database.countries.clone());
+    let available_cities = data_from_countries(context.global_context.database.countries.clone());
 
     CliAction::Prompt(Prompt::ChoiceInput {
         text: String::from("Where are they from?"),
         choices: available_cities
             .iter()
             .enumerate()
-            .map(|(index, city)| Choice {
+            .map(|(index, data)| Choice {
                 id: index,
-                text: format!("{}, {}", city.name, city.country_name),
+                text: format!("{}, {}", data.city.name, data.country.name),
             })
             .collect(),
         on_action: Box::new(move |choice, global_context| {
-            let cities = cities_from_countries(global_context.database.countries.clone());
+            let data = data_from_countries(global_context.database.countries.clone());
+            let selected_position = data[choice.id].clone();
 
             context.next_action.unwrap()(NewGameContext {
                 global_context: global_context.clone(),
-                game_builder: context
-                    .game_builder
-                    .start_city(cities[choice.id].to_owned()),
+                game_builder: context.game_builder.start_position(Position {
+                    country: selected_position.country.clone(),
+                    city: selected_position.city.clone(),
+                    place: selected_position.city.places[0].clone(),
+                    room: selected_position.city.places[0].rooms[0].clone(),
+                }),
                 next_action: Some(Box::new(continue_to_validation)),
             })
         }),
@@ -172,11 +188,12 @@ fn continue_to_confirmation(context: NewGameContext) -> CliAction {
     display::show_text_with_new_line(&String::from("We have everything!"));
     display::show_line_break();
     display::show_warning(&format!(
-        "This will create a character named {}, {}, who was born in the year {} and lives in {}",
+        "This will create a character named {}, {}, who was born in the year {} and lives in {}, {}",
         game_state.character.name,
         game_state.character.gender_str(),
         game_state.character.birthday.year(),
-        game_state.current_city.name,
+        game_state.position.city.name,
+        game_state.position.country.name
     ));
 
     CliAction::Prompt(Prompt::ChoiceInput {
