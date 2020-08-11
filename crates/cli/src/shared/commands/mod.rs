@@ -1,4 +1,5 @@
 pub mod character;
+pub mod clear;
 mod command_collection;
 pub mod exit;
 pub mod help;

@@ -68,6 +68,7 @@ fn get_commands_with_defaults(available_commands: &CommandCollection) -> Command
             .chain(vec![
                 commands::exit::create_exit_command(),
                 commands::save::create_save_command(),
+                commands::clear::create_clear_command(),
             ])
             .clone()
     };
