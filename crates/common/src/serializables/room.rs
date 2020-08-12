@@ -6,5 +6,6 @@ use engine::entities::Room;
 #[serde(remote = "Room")]
 #[serde(rename_all = "camelCase")]
 pub struct RoomDef {
+    pub id: String,
     pub description: String,
 }

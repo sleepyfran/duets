@@ -1,7 +1,5 @@
 use std::sync::Arc;
 
-use app::extensions::GameStateExt;
-
 use super::Command;
 use crate::effects;
 use crate::shared::action::{Choice, CliAction, ConfirmationChoice, Prompt};
@@ -46,7 +44,7 @@ to another place in the city.
 }
 
 fn show_place_choice(global_context: &Context) -> CliAction {
-    let places = global_context.game_state.get_places().clone();
+    let places = global_context.get_places_of_city();
 
     CliAction::Prompt(Prompt::ChoiceInput {
         text: String::from("Where do you want to go?"),

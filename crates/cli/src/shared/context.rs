@@ -1,7 +1,6 @@
 use std::sync::Mutex;
 
-use app::database::Database;
-use common::serializables::GameState;
+pub use app::context::Context;
 
 use crate::shared::action::CliAction;
 
@@ -23,14 +22,6 @@ pub fn set_global_context(context: Context) {
 /// return a modified one.
 pub fn modify_global_context(modify_fn: Box<dyn FnOnce(Context) -> Context>) {
     set_global_context(modify_fn(get_global_context()))
-}
-
-/// Context passed to every action performed in the CLI. Contains any stateful values that might
-/// be necessary during execution.
-#[derive(Clone, Default)]
-pub struct Context {
-    pub database: Database,
-    pub game_state: GameState,
 }
 
 /// Context that each step will hold to have quick access to the global context and other goodies

@@ -5,6 +5,7 @@ use engine::entities::{City, Country};
 #[derive(Deserialize, Serialize)]
 #[serde(remote = "Country")]
 pub struct CountryDef {
+    pub id: String,
     pub name: String,
     #[serde(with = "city_vec")]
     pub cities: Vec<City>,

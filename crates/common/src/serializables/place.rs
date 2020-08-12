@@ -5,6 +5,7 @@ use engine::entities::{Place, Room};
 #[derive(Deserialize, Serialize)]
 #[serde(remote = "Place")]
 pub struct PlaceDef {
+    pub id: String,
     pub name: String,
     #[serde(with = "room_vec")]
     pub rooms: Vec<Room>,

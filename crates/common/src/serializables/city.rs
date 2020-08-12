@@ -6,6 +6,7 @@ use engine::entities::{City, Place};
 #[serde(remote = "City")]
 #[serde(rename_all = "camelCase")]
 pub struct CityDef {
+    pub id: String,
     pub name: String,
     pub population: i32,
     #[serde(with = "place_vec")]
