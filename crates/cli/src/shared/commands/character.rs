@@ -27,11 +27,13 @@ Shows the current status of the character.
                 character.name,
             ));
 
+            display::show_line_break();
+
             display::show_prompt_text_no_emoji(&format!(
-                "\n{} | {} | {}\n",
+                "{} | {} | {}\n",
                 format!("{} {}", emoji::for_mood(character.mood), character.mood),
-                format!("{}  {}", "♥️", character.health),
-                format!("{} {}", "⭐️", character.fame),
+                format!("{} {}", emoji::for_health(), character.health),
+                format!("{} {}", emoji::for_fame(), character.fame),
             ));
 
             CliAction::Continue

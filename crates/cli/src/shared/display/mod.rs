@@ -5,6 +5,7 @@ use std::io::Write;
 
 use crate::shared::action::CliAction;
 use crate::shared::context::Context;
+use crate::shared::emoji;
 use crate::shared::screen::Screen;
 
 /// Shows the specified screen. Since screens (at least as of right now) have
@@ -37,27 +38,35 @@ pub fn show_text(text: &String) {
 
 /// Prints some info to the screen.
 pub fn show_info(text: &String) {
-    print_and_flush(format!("ℹ️ {}", styles::info(text)))
+    print_and_flush(format!("{} {}", emoji::for_info(), styles::info(text)))
 }
 
 /// Prints a warning to the screen.
 pub fn show_warning(text: &String) {
-    print_and_flush(format!("⚠️ {}", styles::warning(text)))
+    print_and_flush(format!(
+        "{} {}",
+        emoji::for_warning(),
+        styles::warning(text)
+    ))
 }
 
 /// Prints an error to the screen.
 pub fn show_error(text: &String) {
-    print_and_flush(format!("❌ {}", styles::error(text)))
+    print_and_flush(format!("{} {}", emoji::for_error(), styles::error(text)))
 }
 
 /// Prints the start text of a prompt.
 pub fn show_prompt_text_with_new_line(text: &String) {
-    println!("💬 {}", styles::title(text))
+    println!("{} {}", emoji::for_speech_bubble(), styles::title(text))
 }
 
 // Prints the start text of a prompt without a new line.
 pub fn show_prompt_text(text: &String) {
-    print_and_flush(format!("💬 {}", styles::title(text)))
+    print_and_flush(format!(
+        "{} {}",
+        emoji::for_speech_bubble(),
+        styles::title(text)
+    ))
 }
 
 /// Prints the start text of a prompt with a new line and no emoji.

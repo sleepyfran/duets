@@ -1,6 +1,7 @@
 use crate::shared::action::{CliAction, CommandInputRepetition, Prompt, Repeat};
 use crate::shared::commands::{character, map, time, CommandCollection};
 use crate::shared::context::Context;
+use crate::shared::emoji;
 use crate::shared::screen::Screen;
 
 /// Home screen is the main place where the user can interact with the rest of the game by giving
@@ -35,12 +36,14 @@ fn home_current_info_text(global_context: &Context) -> String {
     let time_info = time::get_time_info(global_context);
 
     let position_info = format!(
-        "📍 You're currently in {}",
+        "{} You're currently in {}",
+        emoji::for_place(),
         global_context.game_state.position.city.name,
     );
 
     let command_info = format!(
-        "💬 Write some command to execute an action! You can also write help to show the list of available commands"
+        "{} Write some command to execute an action! You can also write help to show the list of available commands",
+        emoji::for_speech_bubble(),
     );
 
     format!("{}\n{}\n{}", time_info, position_info, command_info)
