@@ -20,7 +20,6 @@ Shows the current status of the character.
         execute: Arc::new(move |_args, global_context| {
             let character = &global_context.game_state.character;
 
-            display::show_line_break();
             display::show_prompt_text_no_emoji(&format!(
                 "{} {}",
                 emoji::for_gender(&character.gender),
@@ -30,7 +29,7 @@ Shows the current status of the character.
             display::show_line_break();
 
             display::show_prompt_text_no_emoji(&format!(
-                "{} | {} | {}\n",
+                "{} | {} | {}",
                 format!("{} {}", emoji::for_mood(character.mood), character.mood),
                 format!("{} {}", emoji::for_health(), character.health),
                 format!("{} {}", emoji::for_fame(), character.fame),

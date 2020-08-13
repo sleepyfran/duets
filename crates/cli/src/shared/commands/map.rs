@@ -4,7 +4,6 @@ use super::Command;
 use crate::effects;
 use crate::shared::action::{Choice, CliAction, ConfirmationChoice, Prompt};
 use crate::shared::context::Context;
-use crate::shared::display;
 
 /// Allows the user to get info about the character's position and go to other places.
 pub fn create_map_command() -> Command {
@@ -22,8 +21,6 @@ to another place in the city.
         execute: Arc::new(move |_args, global_context| {
             let character_name = &global_context.game_state.character.name;
             let position = &global_context.game_state.position;
-
-            display::show_line_break();
 
             CliAction::Prompt(Prompt::ConfirmationInput {
                 text: format!(

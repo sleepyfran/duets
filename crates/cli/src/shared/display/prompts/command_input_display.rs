@@ -17,6 +17,7 @@ pub fn handle(
     context: &Context,
 ) -> CliAction {
     let (command, args) = show_command_input_action(&text, show_prompt_emoji, &available_commands);
+    display::show_line_break();
     let result = (command.execute)(args, context);
 
     match repetition {

@@ -40,6 +40,7 @@ pub fn create_main_screen(savegame: SavegameState) -> Screen {
 fn new_game_selected(savegame: SavegameState, global_context: &Context) -> CliAction {
     match &savegame {
         SavegameState::Ok(_) => {
+            display::show_line_break();
             display::show_warning(&String::from(
                 "You already have a savegame, continuing with this will override it",
             ));
