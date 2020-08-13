@@ -1,3 +1,5 @@
+use app::operations::start::SavegameState;
+
 use super::home;
 use super::new_game;
 use crate::effects;
@@ -5,9 +7,8 @@ use crate::shared::action::{Choice, CliAction, ConfirmationChoice, Prompt};
 use crate::shared::context::Context;
 use crate::shared::display;
 use crate::shared::screen::Screen;
-use common::serializables::GameState;
 
-pub fn create_main_screen(savegame: Option<GameState>) -> Screen {
+pub fn create_main_screen(savegame: SavegameState) -> Screen {
     Screen {
         name: String::from("Main Menu"),
         action: Prompt::ChoiceInput {
@@ -36,9 +37,9 @@ pub fn create_main_screen(savegame: Option<GameState>) -> Screen {
     }
 }
 
-fn new_game_selected(savegame: Option<GameState>, global_context: &Context) -> CliAction {
+fn new_game_selected(savegame: SavegameState, global_context: &Context) -> CliAction {
     match &savegame {
-        Some(_) => {
+        SavegameState::Ok(_) => {
             display::show_warning(&String::from(
                 "You already have a savegame, continuing with this will override it",
             ));
@@ -52,18 +53,22 @@ fn new_game_selected(savegame: Option<GameState>, global_context: &Context) -> C
                 }),
             })
         }
-        None => CliAction::Screen(new_game::create_new_game_screen(global_context)),
+        SavegameState::None(_) => {
+            CliAction::Screen(new_game::create_new_game_screen(global_context))
+        }
+        _ => unreachable!(),
     }
 }
 
-fn load_game_selected(savegame: Option<GameState>, global_context: &Context) -> CliAction {
+fn load_game_selected(savegame: SavegameState, global_context: &Context) -> CliAction {
     match &savegame {
-        Some(_) => CliAction::Screen(home::create_home_screen(global_context)),
-        None => {
+        SavegameState::Ok(_) => CliAction::Screen(home::create_home_screen(global_context)),
+        SavegameState::None(_) => {
             display::show_error(&String::from(
                 "You don't have any savegame currently. Create a new one",
             ));
             CliAction::Screen(create_main_screen(savegame))
         }
+        _ => unreachable!(),
     }
 }

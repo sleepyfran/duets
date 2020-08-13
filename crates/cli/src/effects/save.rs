@@ -1,5 +1,5 @@
-use storage;
-use storage::Error;
+use app::operations;
+use app::operations::savegame::Error;
 
 use crate::shared::action::CliAction;
 use crate::shared::context::Context;
@@ -7,7 +7,7 @@ use crate::shared::display;
 
 /// Saves the current game state into the savegame file.
 pub fn save(context: &Context) -> Option<CliAction> {
-    let save_result = storage::save_game_state(context.game_state.clone());
+    let save_result = operations::savegame::save(context.game_state.clone());
 
     match save_result {
         Err(error) => match error {

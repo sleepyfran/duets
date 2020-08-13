@@ -28,6 +28,7 @@ dependencies = [
  "engine 0.1.0",
  "serde 1.0.114 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_json 1.0.56 (registry+https://github.com/rust-lang/crates.io-index)",
+ "storage 0.1.0",
 ]
 
 [[package]]
@@ -101,7 +102,6 @@ dependencies = [
  "dialoguer 0.6.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "engine 0.1.0",
  "lazy_static 1.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "storage 0.1.0",
 ]
 
 [[package]]

@@ -10,7 +10,6 @@ edition = "2018"
 app = { path = "../app" }
 common = { path = "../common" }
 engine = { path = "../engine" }
-storage = { path = "../storage" }
 
 chrono = "0.4"
 console = "0.11.3"
