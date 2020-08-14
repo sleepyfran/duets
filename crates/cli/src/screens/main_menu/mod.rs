@@ -12,7 +12,17 @@ pub fn create_main_screen(savegame: SavegameState) -> Screen {
     Screen {
         name: String::from("Main Menu"),
         action: Prompt::ChoiceInput {
-            text: String::from("Welcome to Duets! Select an option to begin"),
+            text: r#"
+.:::::                        .::         
+.::   .::                     .::         
+.::    .::.::  .::   .::    .:.: .: .:::: 
+.::    .::.::  .:: .:   .::   .::  .::    
+.::    .::.::  .::.::::: .::  .::    .::: 
+.::   .:: .::  .::.:          .::      .::
+.:::::      .::.::  .::::      .:: .:: .::
+
+Welcome to Duets! Select an option to begin:
+            "#.into(),
             choices: vec![
                 Choice {
                     id: 0,
