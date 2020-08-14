@@ -36,9 +36,10 @@ fn home_current_info_text(global_context: &Context) -> String {
     let time_info = time::get_time_info(global_context);
 
     let position_info = format!(
-        "{} You're currently in {}",
+        "{} You're currently located in {} at {}",
         emoji::for_place(),
         global_context.game_state.position.city.name,
+        global_context.game_state.position.place.name,
     );
 
     let command_info = format!(
