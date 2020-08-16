@@ -1,5 +1,5 @@
 use common::serializables::GameState;
-use engine::entities::{City, Country, Place, Room};
+use engine::entities::{City, Country, Object, Place, Room};
 
 use crate::constants;
 use crate::database::Database;
@@ -86,5 +86,10 @@ impl Context {
     /// Returns the current room in which the character is located.
     pub fn get_current_room(&self) -> Room {
         self.get_current_room_opt().unwrap()
+    }
+
+    /// Returns all the objects in the current room.
+    pub fn get_objects_in_room(&self) -> Vec<Object> {
+        self.get_current_room().objects
     }
 }

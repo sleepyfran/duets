@@ -47,7 +47,31 @@ fn load_database() -> Result<Database, DatabaseLoadError> {
                                         "rooms": [
                                             {
                                                 "id": "test_1",
-                                                "description": "A dark room just to test"
+                                                "description": "A dark room just to test",
+                                                "objects": [
+                                                    {
+                                                        "id": "test_obj_1",
+                                                        "name": "guitar",
+                                                        "description": "A simple guitar for testing",
+                                                        "type": {
+                                                            "Instrument": {
+                                                                "name": "Guitar",
+                                                                "allowsAnotherInstrument": true
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "id": "test_obj_2",
+                                                        "name": "fake guitar",
+                                                        "description": "A fake guitar to test spaces in names",
+                                                        "type": {
+                                                            "Instrument": {
+                                                                "name": "Guitar",
+                                                                "allowsAnotherInstrument": true
+                                                            }
+                                                        }
+                                                    }
+                                                ]
                                             }
                                         ]
                                     },
@@ -57,7 +81,8 @@ fn load_database() -> Result<Database, DatabaseLoadError> {
                                         "rooms": [
                                             {
                                                 "id": "test_1",
-                                                "description": "A dark room just to test, but again"
+                                                "description": "A dark room just to test, but again",
+                                                "objects": []
                                             }
                                         ]
                                     },
@@ -67,7 +92,8 @@ fn load_database() -> Result<Database, DatabaseLoadError> {
                                         "rooms": [
                                             {
                                                 "id": "test_1",
-                                                "description": "A dark room just to test, but again"
+                                                "description": "A dark room just to test, but again",
+                                                "objects": []
                                             }
                                         ]
                                     }
