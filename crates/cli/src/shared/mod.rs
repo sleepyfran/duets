@@ -6,4 +6,5 @@ pub mod emoji;
 pub mod input;
 pub mod lang;
 pub mod orchestrator;
+pub mod parsers;
 pub mod screen;

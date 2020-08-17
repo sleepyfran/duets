@@ -1,10 +1,10 @@
-use in_definite;
 use std::sync::Arc;
 
 use super::Command;
 use crate::shared::action::CliAction;
 use crate::shared::display;
 use crate::shared::lang;
+use crate::shared::parsers;
 
 /// Allows the user to get a list of all the objects available in the current room.
 pub fn create_look_command() -> Command {
@@ -25,16 +25,10 @@ parameters:
             let objects = global_context.get_objects_in_room();
 
             if !args.is_empty() {
-                let object_name = args.join(" ");
-
-                let object = objects.iter().find(|obj| obj.name == object_name);
-
+                let object = parsers::parse_object_from(args, global_context);
                 match object {
-                    None => display::show_error(&format!(
-                        "No element found with the name {}",
-                        object_name
-                    )),
                     Some(object) => display::show_text_with_new_line(&object.description),
+                    _ => {}
                 }
 
                 return CliAction::Continue;
