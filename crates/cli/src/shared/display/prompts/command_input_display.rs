@@ -87,7 +87,10 @@ fn includes_default_commands(commands: &CommandCollection) -> bool {
 }
 
 fn show_help() {
+    display::show_line_break();
     display::show_error(&String::from(
         "Unrecognized command. Use 'help' to show the list of all commands available right now",
-    ))
+    ));
+    display::show_line_break();
+    display::show_line_break()
 }
