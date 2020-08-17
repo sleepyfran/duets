@@ -4,6 +4,7 @@ extern crate lazy_static;
 mod effects;
 mod screens;
 mod shared;
+mod tests;
 
 use app::operations::start::SavegameState;
 

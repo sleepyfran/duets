@@ -1,8 +1,10 @@
+use in_definite;
 use std::sync::Arc;
 
 use super::Command;
 use crate::shared::action::CliAction;
 use crate::shared::display;
+use crate::shared::lang;
 
 /// Allows the user to get a list of all the objects available in the current room.
 pub fn create_look_command() -> Command {
@@ -41,14 +43,10 @@ parameters:
             if objects.is_empty() {
                 display::show_text_with_new_line(&"Seems like there are no objects in here".into());
             } else {
-                let objects_joined = objects
-                    .into_iter()
-                    .map(|obj| obj.name)
-                    .collect::<Vec<String>>()
-                    .join(", ");
+                let list_description = lang::list::describe(&objects);
                 display::show_text_with_new_line(&format!(
-                    "Objects you can see in the room: {}",
-                    objects_joined
+                    "You can see in the room {}",
+                    list_description
                 ));
             }
 

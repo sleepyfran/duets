@@ -101,6 +101,7 @@ dependencies = [
  "derive_builder 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "dialoguer 0.6.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "engine 0.1.0",
+ "in_definite 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "lazy_static 1.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -267,6 +268,11 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "ident_case"
 version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "in_definite"
+version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -591,6 +597,7 @@ name = "tests"
 version = "0.1.0"
 dependencies = [
  "app 0.1.0",
+ "cli 0.1.0",
  "common 0.1.0",
  "engine 0.1.0",
 ]
@@ -715,6 +722,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum getrandom 0.1.14 (registry+https://github.com/rust-lang/crates.io-index)" = "7abc8dd8451921606d809ba32e95b6111925cd2906060d2dcc29c070220503eb"
 "checksum gimli 0.22.0 (registry+https://github.com/rust-lang/crates.io-index)" = "aaf91faf136cb47367fa430cd46e37a788775e7fa104f8b4bcb3861dc389b724"
 "checksum ident_case 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)" = "b9e0384b61958566e926dc50660321d12159025e767c18e043daf26b70104c39"
+"checksum in_definite 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)" = "a657a3ec1685ce91ae301857c2d2f39fa70335020c5311227f04a61948428cf2"
 "checksum itoa 0.4.6 (registry+https://github.com/rust-lang/crates.io-index)" = "dc6f3ad7b9d11a0c00842ff8de1b60ee58661048eb8049ed33c73594f359d7e6"
 "checksum jni 0.14.0 (registry+https://github.com/rust-lang/crates.io-index)" = "1981310da491a4f0f815238097d0d43d8072732b5ae5f8bd0d8eadf5bf245402"
 "checksum jni-sys 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "8eaf4bc02d17cbdd7ff4c7438cafcdf7fb9a4613313ad11b4f8fefe7d3fa0130"

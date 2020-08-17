@@ -8,5 +8,6 @@ edition = "2018"
 
 [dependencies]
 app = { path = "../app" }
+cli = { path = "../cli" }
 common = { path = "../common" }
 engine = { path = "../engine" }

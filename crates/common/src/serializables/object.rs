@@ -7,6 +7,7 @@ use engine::entities::{Instrument, Object, ObjectType};
 pub enum ObjectTypeDef {
     #[serde(with = "super::InstrumentDef")]
     Instrument(Instrument),
+    Other,
 }
 
 #[derive(Deserialize, Serialize)]
