@@ -7,7 +7,7 @@ fn create_object_with_name(name: String) -> Object {
         id: "".into(),
         name,
         description: "".into(),
-        r#type: ObjectType::Other,
+        r#type: ObjectType::Computer,
     }
 }
 

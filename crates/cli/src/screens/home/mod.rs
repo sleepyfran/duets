@@ -1,5 +1,5 @@
 use crate::shared::action::{CliAction, CommandInputRepetition, Prompt, Repeat};
-use crate::shared::commands::{character, look, map, time, CommandCollection};
+use crate::shared::commands::{character, interact, look, map, time, CommandCollection};
 use crate::shared::context::Context;
 use crate::shared::emoji;
 use crate::shared::screen::Screen;
@@ -17,6 +17,7 @@ pub fn create_home_screen(previous_global_context: &Context) -> Screen {
                 .add(time::create_time_command())
                 .add(map::create_map_command())
                 .add(look::create_look_command())
+                .add(interact::create_interact_command())
                 .clone(),
             repetition: CommandInputRepetition::Until(Box::new(|action| match action {
                 CliAction::Screen(_) => Repeat::No,

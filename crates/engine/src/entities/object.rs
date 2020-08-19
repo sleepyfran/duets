@@ -5,7 +5,7 @@ use super::Instrument;
 #[derive(Clone)]
 pub enum ObjectType {
     Instrument(Instrument),
-    Other,
+    Computer,
 }
 
 /// Defines an object that is positioned in the world and that can be interacted with.

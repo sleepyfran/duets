@@ -3,6 +3,7 @@ pub mod clear;
 mod command_collection;
 pub mod exit;
 pub mod help;
+pub mod interact;
 pub mod look;
 pub mod map;
 pub mod save;
