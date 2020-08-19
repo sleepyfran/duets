@@ -1,8 +1,10 @@
-use crate::shared::bound;
+use serde::{Deserialize, Serialize};
+
+use crate::shared::bound_to_positive_hundred;
 
 /// Defines the different types that a skill can belong to. Depending on this
 /// type, the skill will affect the character in a different way.
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Deserialize, Serialize)]
 pub enum SkillCategory {
     Music,
     Production,
@@ -11,14 +13,14 @@ pub enum SkillCategory {
 
 /// Defines a skill with no level attached to it. Used mainly for representing
 /// a skill that is not referenced by any character.
-#[derive(Clone)]
+#[derive(Clone, Deserialize, Serialize)]
 pub struct Skill {
     pub name: String,
     pub category: SkillCategory,
 }
 
 /// Skill used by a character to represent its level in it.
-#[derive(Clone)]
+#[derive(Clone, Deserialize, Serialize)]
 pub struct SkillWithLevel {
     pub name: String,
     pub category: SkillCategory,
@@ -31,7 +33,7 @@ impl SkillWithLevel {
         SkillWithLevel {
             name: skill.name.clone(),
             category: skill.category,
-            level: bound(level),
+            level: bound_to_positive_hundred(level),
         }
     }
 }

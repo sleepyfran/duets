@@ -1,4 +1,4 @@
-use common::serializables::GameState;
+use common::entities::GameState;
 use storage;
 
 use crate::context::Context;
@@ -56,7 +56,11 @@ fn load_database() -> Result<Database, DatabaseLoadError> {
                                                         "type": {
                                                             "Instrument": {
                                                                 "name": "Guitar",
-                                                                "allowsAnotherInstrument": true
+                                                                "allowsAnotherInstrument": true,
+                                                                "associatedSkill": {
+                                                                    "name": "Test",
+                                                                    "category": "Social"
+                                                                }
                                                             }
                                                         }
                                                     },
@@ -67,7 +71,11 @@ fn load_database() -> Result<Database, DatabaseLoadError> {
                                                         "type": {
                                                             "Instrument": {
                                                                 "name": "Guitar",
-                                                                "allowsAnotherInstrument": true
+                                                                "allowsAnotherInstrument": true,
+                                                                "associatedSkill": {
+                                                                    "name": "Test",
+                                                                    "category": "Social"
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -111,7 +119,11 @@ fn load_database() -> Result<Database, DatabaseLoadError> {
                 "instruments": [
                     {
                         "name": "Guitar",
-                        "allowsAnotherInstrument": true
+                        "allowsAnotherInstrument": true,
+                        "associatedSkill": {
+                            "name": "Test",
+                            "category": "Social"
+                        }
                     }
                 ]
             }

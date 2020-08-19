@@ -1,7 +1,6 @@
 use app::context::Context;
 use app::database::Database;
-use common::serializables::{GameState, Position};
-use engine::entities::{City, Country, Place, Room};
+use common::entities::{City, Country, GameState, Place, Position, Room};
 
 #[test]
 fn validate_integrity_errors_when_game_state_is_default() {

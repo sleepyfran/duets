@@ -1,11 +1,12 @@
 use chrono::{Duration, NaiveDate, Utc};
+use serde::{Deserialize, Serialize};
 
-use crate::shared::bound;
+use crate::shared::bound_to_positive_hundred;
 
 use crate::entities::skill::SkillWithLevel;
 
 /// Defines the gender of the character.
-#[derive(Clone)]
+#[derive(Clone, Deserialize, Serialize)]
 pub enum Gender {
     Male,
     Female,
@@ -13,9 +14,10 @@ pub enum Gender {
 }
 
 /// Defines both playable and non-playable characters in the game.
-#[derive(Clone)]
+#[derive(Clone, Deserialize, Serialize)]
 pub struct Character {
     pub name: String,
+    #[serde(with = "crate::serializables::naivedate::date")]
     pub birthday: NaiveDate,
     pub gender: Gender,
     pub mood: i8,
@@ -67,7 +69,7 @@ impl Character {
     /// below or above.
     pub fn with_fame(self, fame: i8) -> Character {
         Character {
-            fame: bound(fame),
+            fame: bound_to_positive_hundred(fame),
             ..self
         }
     }
@@ -76,7 +78,7 @@ impl Character {
     /// below or above.
     pub fn with_health(self, health: i8) -> Character {
         Character {
-            health: bound(health),
+            health: bound_to_positive_hundred(health),
             ..self
         }
     }
@@ -85,7 +87,7 @@ impl Character {
     /// below or above.
     pub fn with_mood(self, mood: i8) -> Character {
         Character {
-            mood: bound(mood),
+            mood: bound_to_positive_hundred(mood),
             ..self
         }
     }

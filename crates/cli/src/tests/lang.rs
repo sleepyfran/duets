@@ -1,4 +1,4 @@
-use engine::entities::{Object, ObjectType};
+use common::entities::{Object, ObjectType};
 
 use crate::shared::lang;
 

@@ -1,7 +1,6 @@
 use chrono::{Datelike, NaiveDate};
 
-use common::serializables::{GameState, Position};
-use engine::entities::{Band, Calendar, Character, Gender};
+use common::entities::{Band, Calendar, Character, GameState, Gender, Position};
 
 pub enum ValidationError {
     InvalidName,

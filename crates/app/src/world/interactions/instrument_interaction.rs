@@ -2,7 +2,7 @@ use std::str::FromStr;
 use strum::{EnumProperty, IntoEnumIterator};
 use strum_macros::{EnumIter, EnumString};
 
-use engine::entities::{Instrument, Object};
+use common::entities::{Instrument, Object};
 
 use super::interact::{Interact, InteractResult, Interaction, Interactions};
 use crate::context::Context;

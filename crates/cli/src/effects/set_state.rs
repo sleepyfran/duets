@@ -1,4 +1,4 @@
-use common::serializables::GameState;
+use common::entities::GameState;
 
 use crate::shared::action::CliAction;
 use crate::shared::context;

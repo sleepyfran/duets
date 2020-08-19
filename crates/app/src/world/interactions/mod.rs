@@ -4,7 +4,7 @@ mod interact;
 pub use instrument_interaction::*;
 pub use interact::*;
 
-use engine::entities::{Instrument, Object, ObjectType};
+use common::entities::{Instrument, Object, ObjectType, Skill, SkillCategory};
 
 use crate::context::Context;
 
@@ -27,6 +27,10 @@ pub fn interact_with(interaction: Interaction, context: &Context) -> InteractRes
             instrument: Instrument {
                 name: "TODO: Remove".into(),
                 allows_another_instrument: true,
+                associated_skill: Skill {
+                    name: "TODO: Remove".into(),
+                    category: SkillCategory::Social,
+                },
             },
             interaction,
         },

@@ -1,4 +1,4 @@
-use engine::entities::Object;
+use common::entities::Object;
 
 use crate::context::Context;
 use crate::shared::display;

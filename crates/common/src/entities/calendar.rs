@@ -1,10 +1,11 @@
 use chrono::NaiveDate;
+use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Display, Formatter, Result};
 
 /// Allowed times in the day. Instead of implementing a full 24-hour clock, we'll just have a
 /// different list of allowed times. Since there are plenty it should be enough to make the game
 /// feel quicker than with a 24-hour clock but also slower than just having an action per day.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub enum TimeOfDay {
     Dawn,
     Morning,
@@ -22,8 +23,9 @@ impl Display for TimeOfDay {
 }
 
 /// Defines the calendar of the game in a specific point of time.
-#[derive(Clone)]
+#[derive(Clone, Deserialize, Serialize)]
 pub struct Calendar {
+    #[serde(with = "crate::serializables::naivedate::date")]
     pub date: NaiveDate,
     pub time: TimeOfDay,
 }

@@ -1,4 +1,4 @@
-use engine::entities::{Band, BandMember, Calendar, Character, Genre, Instrument};
+use common::entities::{Band, BandMember, Calendar, Character, Genre, Instrument};
 
 /// Generates a new builder that allows easy creation of bands.
 #[derive(Builder)]

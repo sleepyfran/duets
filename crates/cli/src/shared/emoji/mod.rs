@@ -1,4 +1,4 @@
-use engine::entities::{Gender, TimeOfDay};
+use common::entities::{Gender, TimeOfDay};
 
 /// Returns the appropiate clock emoji for the current time of the day.
 pub fn for_time(time: &TimeOfDay) -> String {

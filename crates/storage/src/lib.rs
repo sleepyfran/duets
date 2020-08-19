@@ -2,7 +2,7 @@ mod file_system;
 
 use serde_json;
 
-use common::serializables::GameState;
+use common::entities::GameState;
 
 use file_system::FileType;
 
