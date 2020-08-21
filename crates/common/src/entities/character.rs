@@ -97,6 +97,7 @@ impl Character {
         Character { skills, ..self }
     }
 
+    /// Transforms the gender of the character to a readable string.
     pub fn gender_str(&self) -> String {
         match self.gender {
             Gender::Female => String::from("female"),
