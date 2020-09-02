@@ -22,7 +22,8 @@ pub fn create_main_screen(savegame: SavegameState) -> Screen {
 .:::::      .::.::  .::::      .:: .:: .::
 
 Welcome to Duets! Select an option to begin:
-            "#.into(),
+            "#
+            .into(),
             choices: vec![
                 Choice {
                     id: 0,
@@ -75,9 +76,11 @@ fn load_game_selected(savegame: SavegameState, global_context: &Context) -> CliA
     match &savegame {
         SavegameState::Ok(_) => CliAction::Screen(home::create_home_screen(global_context)),
         SavegameState::None(_) => {
+            display::show_line_break();
             display::show_error(&String::from(
                 "You don't have any savegame currently. Create a new one",
             ));
+            display::show_line_break();
             CliAction::Screen(create_main_screen(savegame))
         }
         _ => unreachable!(),
