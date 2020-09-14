@@ -18,3 +18,14 @@ pub struct Object {
     pub description: String,
     pub r#type: ObjectType,
 }
+
+impl Default for Object {
+    fn default() -> Self {
+        Object {
+            id: String::default(),
+            name: String::default(),
+            description: String::default(),
+            r#type: ObjectType::Computer,
+        }
+    }
+}

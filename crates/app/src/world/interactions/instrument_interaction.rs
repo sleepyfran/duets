@@ -1,22 +1,15 @@
 use std::str::FromStr;
-use strum::{EnumProperty, IntoEnumIterator};
-use strum_macros::{EnumIter, EnumString};
+use strum_macros::EnumString;
 
 use common::entities::{Instrument, Object};
 
-use super::interact::{Interact, InteractResult, Interaction, Interactions};
+use super::interact::{Interact, InteractResult, Interaction, Interactions, Requirement};
 use crate::context::Context;
 
 /// Represents the different types of interactions that the character can do with the instrument.
-#[derive(Display, EnumProperty, EnumString, EnumIter)]
+#[derive(Display, EnumString)]
 pub enum InstrumentInteractionType {
-    #[strum(props(
-        Description = "Playing the instrument will advance the time by one time unit and increase the skill moderately"
-    ))]
     Play,
-    #[strum(props(
-        Description = "Composing will create a new song and generate some ideas for it which you can improve later"
-    ))]
     Compose,
 }
 
@@ -28,13 +21,26 @@ pub struct InstrumentInteraction {
 
 impl Interactions for InstrumentInteraction {
     fn interactions(object: Object) -> Vec<Interaction> {
-        InstrumentInteractionType::iter()
-            .map(|interaction| Interaction {
-                name: interaction.to_string(),
-                description: interaction.get_str("Description").unwrap().to_string(),
+        vec![
+            Interaction {
+                name: InstrumentInteractionType::Play.to_string(),
+                description: "Playing the instrument will advance the time by one time unit and increase the skill moderately".into(),
                 object: object.clone(),
-            })
-            .collect()
+                requirements: vec![
+                    Requirement::Health(20),
+                    Requirement::Mood(20),
+                ]
+            },
+            Interaction {
+                name: InstrumentInteractionType::Compose.to_string(),
+                description: "Composing will create a new song and generate some ideas for it which you can improve later".into(),
+                object: object.clone(),
+                requirements: vec![
+                    Requirement::Health(20),
+                    Requirement::Mood(20),
+                ],
+            }
+        ]
     }
 }
 
@@ -45,14 +51,12 @@ impl Interact for InstrumentInteraction {
 
         // TODO: Actually do something useful here.
         match interaction {
-            InstrumentInteractionType::Play => InteractResult {
-                description: "You played some things".into(),
-                context: context.clone(),
-            },
-            InstrumentInteractionType::Compose => InteractResult {
-                description: "You composed some things".into(),
-                context: context.clone(),
-            },
+            InstrumentInteractionType::Play => {
+                Ok(("You played some things".into(), context.clone()))
+            }
+            InstrumentInteractionType::Compose => {
+                Ok(("You composed some things".into(), context.clone()))
+            }
         }
     }
 }

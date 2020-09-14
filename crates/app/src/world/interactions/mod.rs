@@ -1,7 +1,7 @@
 mod instrument_interaction;
 mod interact;
 
-pub use instrument_interaction::*;
+use instrument_interaction::*;
 pub use interact::*;
 
 use common::entities::{Instrument, Object, ObjectType, Skill, SkillCategory};
@@ -18,6 +18,8 @@ pub fn r#for(object: &Object) -> Vec<Interaction> {
 
 /// Performs the given interaction.
 pub fn interact_with(interaction: Interaction, context: &Context) -> InteractResult {
+    check_requirements(context, interaction.requirements.clone())?;
+
     let interaction = match &interaction.object.r#type {
         ObjectType::Instrument(instrument) => InstrumentInteraction {
             instrument: instrument.clone(),
@@ -32,7 +34,7 @@ pub fn interact_with(interaction: Interaction, context: &Context) -> InteractRes
                     category: SkillCategory::Social,
                 },
             },
-            interaction,
+            interaction: interaction,
         },
     };
 

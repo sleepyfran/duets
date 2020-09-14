@@ -58,7 +58,12 @@ fn show_interactions(object: Object) -> CliAction {
                 interactions::interact_with(chosen_interaction, global_context);
 
             display::show_line_break();
-            display::show_info(&interaction_result.description);
+
+            match interaction_result {
+                Ok((description, _)) => display::show_info(&description),
+                Err(description) => display::show_error(&description),
+            }
+
             display::show_line_break();
 
             CliAction::Continue
