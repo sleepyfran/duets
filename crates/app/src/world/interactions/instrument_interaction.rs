@@ -3,7 +3,8 @@ use strum_macros::EnumString;
 
 use common::entities::{Instrument, Object};
 
-use super::interact::{Interact, InteractResult, Interaction, Interactions, Requirement};
+use super::interact::{Interact, InteractResult, Interaction, Interactions};
+use super::requirement::Requirement;
 use crate::context::Context;
 
 /// Represents the different types of interactions that the character can do with the instrument.

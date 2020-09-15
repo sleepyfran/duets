@@ -1,8 +1,10 @@
 mod instrument_interaction;
 mod interact;
+mod requirement;
 
 use instrument_interaction::*;
 pub use interact::*;
+pub use requirement::*;
 
 use common::entities::{Instrument, Object, ObjectType, Skill, SkillCategory};
 
