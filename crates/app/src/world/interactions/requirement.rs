@@ -1,10 +1,17 @@
-use crate::context::Context;
+use boolinator::Boolinator;
+
+use engine::operations::character;
 
 use super::InteractResult;
+use crate::context::Context;
 
 /// Creates an empty ok result for InteractResult.
 fn empty_result(context: &Context) -> InteractResult {
-    Ok((String::default(), context.clone()))
+    Ok(empty_tuple(context))
+}
+
+fn empty_tuple(context: &Context) -> (String, Context) {
+    (String::default(), context.clone())
 }
 
 /// Defines the different set of requirements that can be possibly added to an interaction.
@@ -29,21 +36,16 @@ pub fn check_requirements(context: &Context, requirements: Vec<Requirement>) -> 
 fn check_requirement(context: &Context, requirement: Requirement) -> InteractResult {
     match requirement {
         Requirement::Health(min_health) => {
-            if context.game_state.character.health <= min_health {
-                Err(format!(
-                    "Your health should be at least {} to do this",
-                    min_health
-                ))
-            } else {
-                empty_result(context)
-            }
+            character::health_above(&context.game_state.character, min_health).as_result(
+                empty_tuple(context),
+                format!("Your health should be at least {} to do this", min_health),
+            )
         }
         Requirement::Mood(min_mood) => {
-            if context.game_state.character.mood <= min_mood {
-                Err(format!("Your mood should be at least {} to do this", min_mood).into())
-            } else {
-                empty_result(context)
-            }
+            character::mood_above(&context.game_state.character, min_mood).as_result(
+                empty_tuple(context),
+                format!("Your mood should be at least {} to do this", min_mood),
+            )
         }
     }
 }
