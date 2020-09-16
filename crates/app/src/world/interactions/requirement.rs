@@ -1,6 +1,6 @@
 use boolinator::Boolinator;
 
-use engine::operations::character;
+use engine::operations::character::CharacterOperations;
 
 use super::InteractResult;
 use crate::context::Context;
@@ -36,13 +36,13 @@ pub fn check_requirements(context: &Context, requirements: Vec<Requirement>) -> 
 fn check_requirement(context: &Context, requirement: Requirement) -> InteractResult {
     match requirement {
         Requirement::Health(min_health) => {
-            character::health_above(&context.game_state.character, min_health).as_result(
+            context.game_state.character.health_above(min_health).as_result(
                 empty_tuple(context),
                 format!("Your health should be at least {} to do this", min_health),
             )
         }
         Requirement::Mood(min_mood) => {
-            character::mood_above(&context.game_state.character, min_mood).as_result(
+            context.game_state.character.mood_above(min_mood).as_result(
                 empty_tuple(context),
                 format!("Your mood should be at least {} to do this", min_mood),
             )

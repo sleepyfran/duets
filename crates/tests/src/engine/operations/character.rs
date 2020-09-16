@@ -1,5 +1,5 @@
 use common::entities::Character;
-use engine::operations;
+use engine::operations::character::CharacterOperations;
 
 #[test]
 fn check_health_should_return_false_if_health_below_min() {
@@ -8,7 +8,7 @@ fn check_health_should_return_false_if_health_below_min() {
         ..Character::default()
     };
 
-    assert_eq!(operations::character::health_above(&character, 20), false);
+    assert_eq!(character.health_above(20), false);
 }
 
 #[test]
@@ -18,7 +18,7 @@ fn check_health_should_return_false_if_health_equals_min() {
         ..Character::default()
     };
 
-    assert_eq!(operations::character::health_above(&character, 20), false);
+    assert_eq!(character.health_above(20), false);
 }
 
 #[test]
@@ -28,7 +28,7 @@ fn check_health_should_return_true_if_health_above_min() {
         ..Character::default()
     };
 
-    assert_eq!(operations::character::health_above(&character, 20), true);
+    assert_eq!(character.health_above(20), true);
 }
 
 #[test]
@@ -38,7 +38,7 @@ fn check_mood_should_return_false_if_mood_below_min() {
         ..Character::default()
     };
 
-    assert_eq!(operations::character::mood_above(&character, 20), false);
+    assert_eq!(character.mood_above(20), false);
 }
 
 #[test]
@@ -48,7 +48,7 @@ fn check_mood_should_return_false_if_mood_equals_min() {
         ..Character::default()
     };
 
-    assert_eq!(operations::character::mood_above(&character, 20), false);
+    assert_eq!(character.mood_above(20), false);
 }
 
 #[test]
@@ -58,5 +58,5 @@ fn check_mood_should_return_true_if_mood_above_min() {
         ..Character::default()
     };
 
-    assert_eq!(operations::character::mood_above(&character, 20), true);
+    assert_eq!(character.mood_above(20), true);
 }
