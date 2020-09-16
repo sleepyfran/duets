@@ -28,8 +28,8 @@ impl Interactions for InstrumentInteraction {
                 description: "Playing the instrument will advance the time by one time unit and increase the skill moderately".into(),
                 object: object.clone(),
                 requirements: vec![
-                    Requirement::Health(20),
-                    Requirement::Mood(20),
+                    Requirement::HealthAbove(20),
+                    Requirement::MoodAbove(20),
                 ]
             },
             Interaction {
@@ -37,8 +37,8 @@ impl Interactions for InstrumentInteraction {
                 description: "Composing will create a new song and generate some ideas for it which you can improve later".into(),
                 object: object.clone(),
                 requirements: vec![
-                    Requirement::Health(20),
-                    Requirement::Mood(20),
+                    Requirement::HealthAbove(20),
+                    Requirement::MoodAbove(20),
                 ],
             }
         ]

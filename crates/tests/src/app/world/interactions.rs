@@ -15,7 +15,7 @@ fn get_interaction() -> Interaction {
 fn interact_with_should_fail_if_requirements_not_met() {
     let context = Context::default();
     let interaction = Interaction {
-        requirements: vec![Requirement::Health(101)],
+        requirements: vec![Requirement::HealthAbove(101)],
         ..get_interaction()
     };
     let interact_result = interact_with(interaction, &context);
