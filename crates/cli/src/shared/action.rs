@@ -1,15 +1,15 @@
 use chrono::NaiveDate;
 
-use crate::shared::commands::{Command, CommandCollection};
+use crate::shared::commands::{CommandCollection};
 use crate::shared::context::Context;
-use crate::shared::screen::Screen;
+use crate::screens::GameScreen;
 
 /// Defines an action to be performed by the CLI, whether it's to show a
 /// prompt to the user, a screen or perform a side effect.
 pub enum CliAction {
     Chain(Box<CliAction>, Box<CliAction>),
     Prompt(Prompt),
-    Screen(Screen),
+    Screen(GameScreen),
     SideEffect(fn() -> Option<CliAction>),
     Continue,
     NoOp,

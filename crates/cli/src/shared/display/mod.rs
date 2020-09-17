@@ -6,13 +6,14 @@ use std::io::Write;
 use crate::shared::action::CliAction;
 use crate::shared::context::Context;
 use crate::shared::emoji;
-use crate::shared::screen::Screen;
+use crate::screens;
 
 /// Shows the specified screen. Since screens (at least as of right now) have
 /// no other thing that just an identifier and an associated action, this simply
 /// calls the show function in the prompts module to handle the inner
 /// action of the screen.
-pub fn show(screen: Screen, context: &Context) -> CliAction {
+pub fn show(game_screen: screens::GameScreen, context: &Context) -> CliAction {
+    let screen = screens::create(game_screen, context);
     prompts::show(screen.action, context)
 }
 

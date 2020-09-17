@@ -1,7 +1,7 @@
 use app::builders::start::BandStartBuilder;
 use common::entities::{Genre, Instrument};
 
-use super::super::home;
+use super::super::GameScreen;
 use crate::effects;
 use crate::shared::action::{Choice, CliAction, Prompt};
 use crate::shared::context::{Context, ScreenContext};
@@ -135,7 +135,7 @@ fn continue_to_confirmation(context: NewBandContext) -> CliAction {
                 display::show_text(&String::from("Awesome!"));
 
                 effects::modify_state(Box::new(|game_state| game_state.with_band(band)));
-                CliAction::Screen(home::create_home_screen(global_context))
+                CliAction::Screen(GameScreen::Home)
             }
             1 => {
                 display::show_text(&String::from("Let's get to it"));

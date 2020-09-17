@@ -1,7 +1,6 @@
 use app::operations::start::SavegameState;
 
-use super::home;
-use super::new_game;
+use super::GameScreen;
 use crate::effects;
 use crate::shared::action::{Choice, CliAction, ConfirmationChoice, Prompt};
 use crate::shared::context::Context;
@@ -59,14 +58,14 @@ fn new_game_selected(savegame: SavegameState, global_context: &Context) -> CliAc
                 text: String::from("Are you sure you want to create a new game?"),
                 on_action: Box::new(|choice, global_context| match choice {
                     ConfirmationChoice::Yes => {
-                        CliAction::Screen(new_game::create_new_game_screen(global_context))
+                        CliAction::Screen(GameScreen::NewGame)
                     }
-                    ConfirmationChoice::No => CliAction::Screen(create_main_screen(savegame)),
+                    ConfirmationChoice::No => CliAction::Screen(GameScreen::MainMenu(savegame)),
                 }),
             })
         }
         SavegameState::None(_) => {
-            CliAction::Screen(new_game::create_new_game_screen(global_context))
+            CliAction::Screen(GameScreen::NewGame)
         }
         _ => unreachable!(),
     }
@@ -74,14 +73,14 @@ fn new_game_selected(savegame: SavegameState, global_context: &Context) -> CliAc
 
 fn load_game_selected(savegame: SavegameState, global_context: &Context) -> CliAction {
     match &savegame {
-        SavegameState::Ok(_) => CliAction::Screen(home::create_home_screen(global_context)),
+        SavegameState::Ok(_) => CliAction::Screen(GameScreen::Home),
         SavegameState::None(_) => {
             display::show_line_break();
             display::show_error(&String::from(
                 "You don't have any savegame currently. Create a new one",
             ));
             display::show_line_break();
-            CliAction::Screen(create_main_screen(savegame))
+            CliAction::Screen(GameScreen::MainMenu(savegame))
         }
         _ => unreachable!(),
     }

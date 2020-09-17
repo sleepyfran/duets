@@ -1,3 +1,4 @@
+use super::GameScreen;
 use crate::shared::action::{CliAction, CommandInputRepetition, Prompt, Repeat};
 use crate::shared::commands::{character, interact, look, map, time, CommandCollection};
 use crate::shared::context::Context;
@@ -27,7 +28,7 @@ pub fn create_home_screen(previous_global_context: &Context) -> Screen {
                 // Execute whatever action the command returned and then show the home screen.
                 CliAction::Chain(
                     Box::new(action),
-                    Box::new(CliAction::Screen(create_home_screen(global_context))),
+                    Box::new(CliAction::Screen(GameScreen::Home)),
                 )
             }),
         },

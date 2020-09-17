@@ -8,7 +8,7 @@ mod tests;
 
 use app::operations::start::SavegameState;
 
-use screens::main_menu;
+use screens::{GameScreen};
 use shared::action::CliAction;
 use shared::context;
 use shared::display;
@@ -22,9 +22,8 @@ fn main() {
         SavegameState::None(context) | SavegameState::Ok(context) => {
             context::set_global_context(context.clone());
 
-            let main_menu_screen = main_menu::create_main_screen(savegame_state);
             display::clear();
-            orchestrator::start_with(CliAction::Screen(main_menu_screen));
+            orchestrator::start_with(CliAction::Screen(GameScreen::MainMenu(savegame_state)));
         }
     }
 }
