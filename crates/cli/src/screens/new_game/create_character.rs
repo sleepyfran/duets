@@ -215,10 +215,11 @@ fn continue_to_confirmation(context: NewGameContext) -> CliAction {
                 display::show_line_break();
                 display::show_text(&String::from("Awesome!"));
 
-                effects::set_state(game_state);
-
-                create_band::start_with_name_input(
-                    create_band::create_starting_context(global_context)
+                CliAction::Chain(
+                    Box::new(effects::set_state(game_state)),
+                    Box::new(create_band::start_with_name_input(
+                        create_band::create_starting_context(global_context)
+                    ))
                 )
             }
             1 => {

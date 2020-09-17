@@ -10,7 +10,7 @@ pub enum CliAction {
     Chain(Box<CliAction>, Box<CliAction>),
     Prompt(Prompt),
     Screen(GameScreen),
-    SideEffect(fn() -> Option<CliAction>),
+    SideEffect(Box<dyn FnOnce() -> CliAction>),
     Continue,
     NoOp,
 }

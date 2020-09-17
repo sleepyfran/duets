@@ -1,6 +1,6 @@
 use crate::shared::action::CliAction;
 
 /// Exits completely from the CLI.
-pub fn exit() -> Option<CliAction> {
+pub fn exit() -> CliAction {
     std::process::exit(0);
 }

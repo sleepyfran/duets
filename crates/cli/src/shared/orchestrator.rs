@@ -10,22 +10,21 @@ pub fn start_with(action: CliAction) {
     let global_context = context::get_global_context();
 
     let result = match action {
-        CliAction::Screen(screen) => Some(display::show(screen, &global_context)),
+        CliAction::Screen(screen) => display::show(screen, &global_context),
         CliAction::SideEffect(effect) => effect(),
-        CliAction::Prompt(user_action) => Some(prompts::show(user_action, &global_context)),
-        _ => Some(CliAction::NoOp),
+        CliAction::Prompt(user_action) => prompts::show(user_action, &global_context),
+        _ => CliAction::NoOp,
     };
 
     display::show_line_break();
 
     match result {
-        Some(CliAction::Chain(first, second)) => {
+        CliAction::Chain(first, second) => {
             continue_with(*first);
             continue_with(*second)
         }
-        Some(CliAction::NoOp) => {}
-        Some(action_result) => continue_with(action_result),
-        None => display::show_exit_message(),
+        CliAction::NoOp => {}
+        action_result => continue_with(action_result),
     }
 }
 

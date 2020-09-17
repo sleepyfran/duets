@@ -40,7 +40,7 @@ Welcome to Duets! Select an option to begin:
             on_action: Box::new(|choice, global_context| match choice.id {
                 0 => new_game_selected(savegame, global_context),
                 1 => load_game_selected(savegame, global_context),
-                2 => CliAction::SideEffect(effects::exit),
+                2 => CliAction::SideEffect(Box::new(effects::exit)),
                 _ => CliAction::NoOp,
             }),
         },

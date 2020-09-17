@@ -1,5 +1,7 @@
 use std::sync::Arc;
 
+use app::world::movement;
+
 use super::Command;
 use crate::effects;
 use crate::shared::action::{Choice, CliAction, ConfirmationChoice, Prompt};
@@ -54,12 +56,12 @@ fn show_place_choice(global_context: &Context) -> CliAction {
                 text: place.name.clone(),
             })
             .collect(),
-        on_action: Box::new(move |choice, _global_context| {
+        on_action: Box::new(move |choice, global_context| {
             let selected_place = places[choice.id].clone();
-
-            effects::modify_state(Box::new(|game_state| game_state.with_place(selected_place)));
-
-            CliAction::Continue
+            
+            effects::set_state(
+                movement::go_to_place(selected_place, global_context.clone()).game_state
+            )
         }),
     })
 }

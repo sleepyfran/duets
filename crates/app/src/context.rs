@@ -26,6 +26,14 @@ impl Context {
             .ok_or(constants::errors::savegame::INVALID_ID_REFERENCE.into())
     }
 
+    /// Returns a copy of the current context with the game state modified by the given function.
+    pub fn modify_game_state<F: FnOnce(GameState) -> GameState>(self, modify_fn: F) -> Context {
+        Context {
+            game_state: modify_fn(self.game_state),
+            ..self
+        }
+    }
+
     fn get_current_country_opt(&self) -> Option<Country> {
         self.database
             .countries

@@ -6,7 +6,7 @@ use crate::shared::context::Context;
 use crate::shared::display;
 
 /// Saves the current game state into the savegame file.
-pub fn save(context: &Context) -> Option<CliAction> {
+pub fn save(context: &Context) -> CliAction {
     let save_result = operations::savegame::save(context.game_state.clone());
 
     match save_result {
@@ -22,5 +22,5 @@ pub fn save(context: &Context) -> Option<CliAction> {
         _ => display::show_info(&String::from("Game saved correctly")),
     }
 
-    None
+    CliAction::Continue
 }
