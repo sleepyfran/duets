@@ -10,13 +10,19 @@ pub fn start_with(action: CliAction) {
     let global_context = context::get_global_context();
 
     let result = match action {
-        CliAction::Screen(screen) => display::show(screen, &global_context),
+        CliAction::Screen(screen) => {
+            let screen = display::show(screen, &global_context);
+            display::show_line_break();
+            screen
+        },
         CliAction::SideEffect(effect) => effect(),
-        CliAction::Prompt(user_action) => prompts::show(user_action, &global_context),
+        CliAction::Prompt(user_action) => {
+            let prompt = prompts::show(user_action, &global_context);
+            display::show_line_break();
+            prompt
+        },
         _ => CliAction::NoOp,
     };
-
-    display::show_line_break();
 
     match result {
         CliAction::Chain(first, second) => {
