@@ -8,7 +8,7 @@ mod tests;
 
 use app::operations::start::SavegameState;
 
-use screens::{GameScreen};
+use screens::GameScreen;
 use shared::action::CliAction;
 use shared::context;
 use shared::display;

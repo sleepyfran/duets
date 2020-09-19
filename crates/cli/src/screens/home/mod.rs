@@ -1,6 +1,6 @@
 use super::GameScreen;
 use crate::shared::action::{CliAction, CommandInputRepetition, Prompt, Repeat};
-use crate::shared::commands::{character, interact, look, map, time, CommandCollection};
+use crate::shared::commands::{character, enter, interact, look, map, time, CommandCollection};
 use crate::shared::context::Context;
 use crate::shared::emoji;
 use crate::shared::screen::Screen;
@@ -19,6 +19,7 @@ pub fn create_home_screen(previous_global_context: &Context) -> Screen {
                 .add(map::create_map_command())
                 .add(look::create_look_command())
                 .add(interact::create_interact_command())
+                .add(enter::create_enter_command())
                 .clone(),
             repetition: CommandInputRepetition::Until(Box::new(|action| match action {
                 CliAction::Screen(_) => Repeat::No,
@@ -39,10 +40,11 @@ fn home_current_info_text(global_context: &Context) -> String {
     let time_info = time::get_time_info(global_context);
 
     let position_info = format!(
-        "{} You're currently located in {} at {}",
+        "{} You're currently located in {} at {}, inside the {}",
         emoji::for_place(),
         global_context.game_state.position.city.name,
         global_context.game_state.position.place.name,
+        global_context.game_state.position.room.name,
     );
 
     let command_info = format!(

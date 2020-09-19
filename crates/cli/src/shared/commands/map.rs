@@ -58,9 +58,9 @@ fn show_place_choice(global_context: &Context) -> CliAction {
             .collect(),
         on_action: Box::new(move |choice, global_context| {
             let selected_place = places[choice.id].clone();
-            
+
             effects::set_state(
-                movement::go_to_place(selected_place, global_context.clone()).game_state
+                movement::go_to_place(selected_place, global_context.clone()).game_state,
             )
         }),
     })

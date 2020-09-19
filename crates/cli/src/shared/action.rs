@@ -1,8 +1,8 @@
 use chrono::NaiveDate;
 
-use crate::shared::commands::{CommandCollection};
-use crate::shared::context::Context;
 use crate::screens::GameScreen;
+use crate::shared::commands::CommandCollection;
+use crate::shared::context::Context;
 
 /// Defines an action to be performed by the CLI, whether it's to show a
 /// prompt to the user, a screen or perform a side effect.

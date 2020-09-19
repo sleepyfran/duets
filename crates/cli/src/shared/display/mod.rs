@@ -3,10 +3,10 @@ pub mod styles;
 
 use std::io::Write;
 
+use crate::screens;
 use crate::shared::action::CliAction;
 use crate::shared::context::Context;
 use crate::shared::emoji;
-use crate::screens;
 
 /// Shows the specified screen. Since screens (at least as of right now) have
 /// no other thing that just an identifier and an associated action, this simply

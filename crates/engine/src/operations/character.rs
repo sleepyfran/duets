@@ -11,7 +11,7 @@ impl CharacterOperations for Character {
     fn health_above(&self, min_health: i8) -> bool {
         self.health > min_health
     }
-    
+
     fn mood_above(&self, min_mood: i8) -> bool {
         self.mood > min_mood
     }

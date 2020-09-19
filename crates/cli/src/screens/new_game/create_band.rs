@@ -135,8 +135,10 @@ fn continue_to_confirmation(context: NewBandContext) -> CliAction {
                 display::show_text(&String::from("Awesome!"));
 
                 CliAction::Chain(
-                    Box::new(effects::set_state(global_context.clone().game_state.with_band(band))),
-                    Box::new(CliAction::Screen(GameScreen::Home))
+                    Box::new(effects::set_state(
+                        global_context.clone().game_state.with_band(band),
+                    )),
+                    Box::new(CliAction::Screen(GameScreen::Home)),
                 )
             }
             1 => {

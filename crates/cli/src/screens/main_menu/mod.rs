@@ -57,16 +57,12 @@ fn new_game_selected(savegame: SavegameState, global_context: &Context) -> CliAc
             CliAction::Prompt(Prompt::ConfirmationInput {
                 text: String::from("Are you sure you want to create a new game?"),
                 on_action: Box::new(|choice, global_context| match choice {
-                    ConfirmationChoice::Yes => {
-                        CliAction::Screen(GameScreen::NewGame)
-                    }
+                    ConfirmationChoice::Yes => CliAction::Screen(GameScreen::NewGame),
                     ConfirmationChoice::No => CliAction::Screen(GameScreen::MainMenu(savegame)),
                 }),
             })
         }
-        SavegameState::None(_) => {
-            CliAction::Screen(GameScreen::NewGame)
-        }
+        SavegameState::None(_) => CliAction::Screen(GameScreen::NewGame),
         _ => unreachable!(),
     }
 }

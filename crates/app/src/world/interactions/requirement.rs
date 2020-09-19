@@ -35,12 +35,14 @@ pub fn check_requirements(context: &Context, requirements: Vec<Requirement>) -> 
 /// Checks that the given requirement is met.
 fn check_requirement(context: &Context, requirement: Requirement) -> InteractResult {
     match requirement {
-        Requirement::HealthAbove(min_health) => {
-            context.game_state.character.health_above(min_health).as_result(
+        Requirement::HealthAbove(min_health) => context
+            .game_state
+            .character
+            .health_above(min_health)
+            .as_result(
                 empty_tuple(context),
                 format!("Your health should be at least {} to do this", min_health),
-            )
-        }
+            ),
         Requirement::MoodAbove(min_mood) => {
             context.game_state.character.mood_above(min_mood).as_result(
                 empty_tuple(context),

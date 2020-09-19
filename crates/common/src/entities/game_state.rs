@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use super::{Band, Calendar, Character, Place, Position};
+use super::{Band, Calendar, Character, Place, Position, Room};
 
 /// Defines the content of a savegame that can be saved and loaded.
 #[derive(Builder, Clone, Deserialize, Serialize, Default)]
@@ -25,6 +25,19 @@ impl GameState {
                 city: self.position.city.clone(),
                 place: place.clone(),
                 room: place.rooms[0].clone(),
+            },
+            ..self
+        }
+    }
+
+    /// Returns a clone of the current game state with the room set to the given one.
+    pub fn with_room(self, room: Room) -> GameState {
+        GameState {
+            position: Position {
+                country: self.position.country.clone(),
+                city: self.position.city.clone(),
+                place: self.position.place.clone(),
+                room: room.clone(),
             },
             ..self
         }

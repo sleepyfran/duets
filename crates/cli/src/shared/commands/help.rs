@@ -39,8 +39,8 @@ fn show_command_list(available_commands: &CommandCollection) {
 }
 
 fn show_command(command: &Command) {
-    display::show_text_with_new_line(
-        &format!("{}: {}",
+    display::show_text_with_new_line(&format!(
+        "{}: {}",
         display::styles::title(&command.name),
         command.explanation
     ));

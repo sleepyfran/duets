@@ -2,8 +2,8 @@ mod home;
 mod main_menu;
 mod new_game;
 
-use app::operations::start::SavegameState;
 use app::context::Context;
+use app::operations::start::SavegameState;
 
 use crate::shared::screen::Screen;
 
@@ -12,7 +12,7 @@ use crate::shared::screen::Screen;
 pub enum GameScreen {
     MainMenu(SavegameState),
     NewGame,
-    Home
+    Home,
 }
 
 /// Given a screen to instantiate and the current context, creates the given screen with the proper

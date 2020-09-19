@@ -1,14 +1,14 @@
 use app::context::Context;
 use app::operations::start::SavegameState;
 
-use crate::screens::GameScreen;
 use crate::screens::create;
+use crate::screens::GameScreen;
 
 #[test]
 fn create_should_return_main_menu_when_given_main_menu() {
     let screen = create(
         GameScreen::MainMenu(SavegameState::None(Context::default())),
-        &Context::default()
+        &Context::default(),
     );
     assert_eq!(screen.name, "Main Menu");
 }
