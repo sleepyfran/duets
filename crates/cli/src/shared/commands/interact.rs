@@ -6,6 +6,7 @@ use common::entities::Object;
 use super::Command;
 use crate::shared::action::{Choice, CliAction, Prompt};
 use crate::shared::display;
+use crate::shared::lang;
 use crate::shared::parsers;
 
 /// Allows the user to get a list of all the objects available in the current room.
@@ -25,10 +26,16 @@ least one parameters which is the name of the object to interact with.
         .into(),
         execute: Arc::new(move |args, global_context| {
             if !args.is_empty() {
-                let object = parsers::parse_object_from(args, global_context);
+                let object = parsers::parse_object_from(&args, global_context);
                 match object {
                     Some(object) => show_interactions(object),
-                    _ => CliAction::Continue,
+                    _ => {
+                        display::show_error(&format!(
+                            "No object found with the name {}",
+                            lang::transformations::join_vec(&args)
+                        ));
+                        CliAction::Continue
+                    }
                 }
             } else {
                 display::show_error(&"No object given. What do you want to interact with?".into());

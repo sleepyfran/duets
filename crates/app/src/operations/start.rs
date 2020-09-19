@@ -47,6 +47,7 @@ fn load_database() -> Result<Database, DatabaseLoadError> {
                                         "rooms": [
                                             {
                                                 "id": "test_1",
+                                                "name": "bathroom",
                                                 "description": "A dark room just to test",
                                                 "objects": [
                                                     {
@@ -89,6 +90,7 @@ fn load_database() -> Result<Database, DatabaseLoadError> {
                                         "rooms": [
                                             {
                                                 "id": "test_1",
+                                                "name": "kitchen",
                                                 "description": "A dark room just to test, but again",
                                                 "objects": []
                                             }
@@ -100,6 +102,7 @@ fn load_database() -> Result<Database, DatabaseLoadError> {
                                         "rooms": [
                                             {
                                                 "id": "test_1",
+                                                "name": "kitchen",
                                                 "description": "A dark room just to test, but again",
                                                 "objects": []
                                             }

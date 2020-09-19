@@ -15,20 +15,31 @@ pub fn create_look_command() -> Command {
         help: r#"
 look
 ----
-Shows a list of all the objects in the current room. Can also be invoked with the following
+Shows a list of all the objects in the current room and other rooms that are accesible from here.
+Can also be invoked with the following
 parameters:
 
 [object name] - Describes the object with the given name. Example: look guitar
+[room name] - Describes the room with the given name. Example: look bathroom
         "#
         .into(),
         execute: Arc::new(move |args, global_context| {
+            let rooms = global_context.get_rooms_of_place();
             let objects = global_context.get_objects_in_room();
 
             if !args.is_empty() {
-                let object = parsers::parse_object_from(args, global_context);
-                match object {
-                    Some(object) => display::show_text_with_new_line(&object.description),
-                    _ => {}
+                let description = parsers::parse_object_from(&args, global_context)
+                    .map(|obj| obj.description)
+                    .or_else(|| {
+                        parsers::parse_room_from(&args, global_context).map(|room| room.description)
+                    });
+
+                match description {
+                    Some(description) => display::show_text_with_new_line(&description),
+                    None => display::show_error(&format!(
+                        "No object or room found with the name {}",
+                        lang::transformations::join_vec(&args)
+                    )),
                 }
 
                 return CliAction::Continue;
@@ -37,10 +48,22 @@ parameters:
             if objects.is_empty() {
                 display::show_text_with_new_line(&"Seems like there are no objects in here".into());
             } else {
-                let list_description = lang::list::describe(&objects);
+                let objects_description = lang::list::describe_objects(&objects);
                 display::show_text_with_new_line(&format!(
                     "You can see in the room {}",
-                    list_description
+                    objects_description
+                ));
+            }
+
+            if rooms.is_empty() {
+                display::show_text_with_new_line(
+                    &"Seems like there are no other rooms in here".into(),
+                );
+            } else {
+                let rooms_description = lang::list::describe_rooms(&rooms);
+                display::show_text_with_new_line(&format!(
+                    "You can also see {}",
+                    rooms_description
                 ));
             }
 
