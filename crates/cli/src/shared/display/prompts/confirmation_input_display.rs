@@ -1,6 +1,6 @@
-use super::text_choice_input_display;
+use dialoguer::Confirm;
 
-use crate::shared::action::{Choice, CliAction, ConfirmationChoice};
+use crate::shared::action::{CliAction, ConfirmationChoice};
 use crate::shared::context::Context;
 
 /// Reuses the text_choice_input_display module to avoid repeating the cumbersome process of
@@ -10,27 +10,15 @@ pub fn handle(
     on_action: Box<dyn FnOnce(&ConfirmationChoice, &Context) -> CliAction>,
     context: &Context,
 ) -> CliAction {
-    text_choice_input_display::handle(
-        text,
-        vec![
-            Choice {
-                id: 0,
-                text: String::from("Yes"),
-            },
-            Choice {
-                id: 1,
-                text: String::from("No"),
-            },
-        ],
-        Box::new(|choice, global_context| {
-            let confirmation_choice = if choice.id == 0 {
-                ConfirmationChoice::Yes
-            } else {
-                ConfirmationChoice::No
-            };
+    let confirmed = Confirm::new()
+        .with_prompt(text)
+        .interact()
+        .unwrap_or_default();
+    let confirmation_choice = if confirmed {
+        ConfirmationChoice::Yes
+    } else {
+        ConfirmationChoice::No
+    };
 
-            on_action(&confirmation_choice, global_context)
-        }),
-        context,
-    )
+    on_action(&confirmation_choice, context)
 }
