@@ -1,5 +1,7 @@
 use std::sync::Arc;
 
+use app::world::World;
+
 use super::Command;
 use crate::shared::action::CliAction;
 use crate::shared::display;

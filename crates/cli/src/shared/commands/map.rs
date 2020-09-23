@@ -1,6 +1,7 @@
 use std::sync::Arc;
 
 use app::world::movement;
+use app::world::World;
 
 use super::Command;
 use crate::effects;

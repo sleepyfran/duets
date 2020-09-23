@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+use super::Identity;
 use super::Instrument;
 
 /// Defines the different types of objects that can be in the world. This type will be used to
@@ -17,6 +18,12 @@ pub struct Object {
     pub name: String,
     pub description: String,
     pub r#type: ObjectType,
+}
+
+impl Identity for Object {
+    fn id(&self) -> String {
+        self.id.clone()
+    }
 }
 
 impl Default for Object {

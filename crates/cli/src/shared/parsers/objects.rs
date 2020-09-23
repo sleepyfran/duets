@@ -1,3 +1,4 @@
+use app::world::World;
 use common::entities::Object;
 
 use crate::context::Context;

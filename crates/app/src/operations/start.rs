@@ -1,8 +1,8 @@
 use common::entities::GameState;
-use storage;
 
 use crate::context::Context;
-use crate::database::{Database, DatabaseLoadError};
+use crate::data::database::{Database, DatabaseLoadError};
+use crate::data::integrity;
 
 /// Different states in which a savegame can be once it is loaded from disc. If None it means that
 /// there is no savegame that can be loaded. When InvalidReferences it indicates that the savegame
@@ -136,20 +136,18 @@ fn load_database() -> Result<Database, DatabaseLoadError> {
 }
 
 fn from_savegame(database: Database, game_state: GameState) -> SavegameState {
-    let context = Context {
-        database: database,
-        game_state: game_state.clone(),
-    };
-
-    match context.validate_integrity() {
+    match integrity::validate(&database, &game_state) {
         Err(error) => SavegameState::InvalidReferences(error),
-        _ => SavegameState::Ok(context),
+        _ => SavegameState::Ok(Context {
+            database,
+            game_state,
+        }),
     }
 }
 
 fn from_scratch(database: Database) -> SavegameState {
     let context = Context {
-        database: database,
+        database,
         game_state: GameState::default(),
     };
 
