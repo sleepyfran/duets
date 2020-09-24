@@ -1,5 +1,5 @@
 use common::entities::Character;
-use engine::operations::character::CharacterOperations;
+use simulation::queries::character::Status;
 
 #[test]
 fn check_health_should_return_false_if_health_below_min() {

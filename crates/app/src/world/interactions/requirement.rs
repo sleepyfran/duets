@@ -1,6 +1,6 @@
 use boolinator::Boolinator;
 
-use engine::operations::character::CharacterOperations;
+use simulation::queries::character::Status;
 
 use super::InteractResult;
 use crate::context::Context;

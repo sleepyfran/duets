@@ -8,7 +8,7 @@ edition = "2018"
 
 [dependencies]
 common = { path = "../common" }
-engine = { path = "../engine" }
+simulation= { path = "../simulation" }
 storage = { path = "../storage" }
 
 chrono = "0.4"

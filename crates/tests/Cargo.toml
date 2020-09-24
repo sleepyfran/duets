@@ -10,4 +10,4 @@ edition = "2018"
 app = { path = "../app" }
 cli = { path = "../cli" }
 common = { path = "../common" }
-engine = { path = "../engine" }
+simulation = { path = "../simulation" }
