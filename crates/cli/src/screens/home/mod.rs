@@ -1,5 +1,5 @@
 use super::GameScreen;
-use crate::shared::action::{CliAction, CommandInputRepetition, Prompt, Repeat};
+use crate::shared::action::{CliAction, CommandInputRepetition, Prompt, PromptText, Repeat};
 use crate::shared::commands::{character, enter, interact, look, map, time, CommandCollection};
 use crate::shared::context::Context;
 use crate::shared::emoji;
@@ -11,8 +11,7 @@ pub fn create_home_screen(previous_global_context: &Context) -> Screen {
     Screen {
         name: String::from("Home"),
         action: Prompt::CommandInput {
-            text: home_current_info_text(previous_global_context),
-            show_prompt_emoji: false,
+            text: PromptText::WithoutEmoji(home_current_info_text(previous_global_context)),
             available_commands: CommandCollection::default()
                 .add(character::create_character_command())
                 .add(time::create_time_command())

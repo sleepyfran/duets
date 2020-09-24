@@ -1,4 +1,4 @@
-use crate::shared::action::{CliAction, DateFormat};
+use crate::shared::action::{CliAction, DateFormat, PromptText};
 use crate::shared::context::Context;
 use crate::shared::display;
 use crate::shared::input;
@@ -7,7 +7,7 @@ use chrono::NaiveDate;
 /// Shows the initial text of the screen, takes the user input as a string and
 /// calls the given on_action with the provided input.
 pub fn handle(
-    text: String,
+    text: PromptText,
     format: DateFormat,
     on_action: Box<dyn FnOnce(NaiveDate, &Context) -> CliAction>,
     context: &Context,
@@ -16,8 +16,8 @@ pub fn handle(
     on_action(input, context)
 }
 
-fn show_date_input_action(text: String, format: &DateFormat) -> NaiveDate {
-    display::show_prompt_text(&text);
+fn show_date_input_action(text: PromptText, format: &DateFormat) -> NaiveDate {
+    display::show_prompt_text(text);
     display::show_text(&format!(" Format: {}", get_format_string(format)));
     display::show_line_break();
 

@@ -4,7 +4,7 @@ use app::world::interactions;
 use common::entities::Object;
 
 use super::Command;
-use crate::shared::action::{Choice, CliAction, Prompt};
+use crate::shared::action::{Choice, CliAction, Prompt, PromptText};
 use crate::shared::display;
 use crate::shared::lang;
 use crate::shared::parsers;
@@ -49,7 +49,7 @@ fn show_interactions(object: Object) -> CliAction {
     let object_interactions = interactions::r#for(&object);
 
     CliAction::Prompt(Prompt::ChoiceInput {
-        text: format!("What do you want to do with the {}?", object.name),
+        text: PromptText::WithEmoji(format!("What do you want to do with the {}?", object.name)),
         choices: object_interactions
             .iter()
             .cloned()

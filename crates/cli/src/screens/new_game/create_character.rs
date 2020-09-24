@@ -5,7 +5,7 @@ use common::entities::{City, Country, Gender};
 
 use super::create_band;
 use crate::effects;
-use crate::shared::action::{Choice, CliAction, DateFormat, Prompt};
+use crate::shared::action::{Choice, CliAction, DateFormat, Prompt, PromptText};
 use crate::shared::context::{Context, ScreenContext};
 use crate::shared::display;
 
@@ -23,7 +23,9 @@ pub fn create_starting_context(global_context: &Context) -> NewGameContext {
 /// Creates an input chain that asks for all the details necessary to create a character.
 pub fn start_with_name_input(context: NewGameContext) -> Prompt {
     Prompt::TextInput {
-        text: String::from("Creating a new game. What's the name of your character?"),
+        text: PromptText::WithEmoji(String::from(
+            "Creating a new game. What's the name of your character?",
+        )),
         on_action: Box::new(|input, global_context| {
             context.next_action.unwrap()(NewGameContext {
                 global_context: global_context.clone(),
@@ -40,7 +42,7 @@ fn restart_with_name_input(context: NewGameContext) -> CliAction {
 
 fn continue_to_gender_input(context: NewGameContext) -> CliAction {
     CliAction::Prompt(Prompt::ChoiceInput {
-        text: String::from("What's their gender?"),
+        text: PromptText::WithEmoji(String::from("What's their gender?")),
         choices: vec![
             Choice {
                 id: 0,
@@ -71,7 +73,7 @@ fn continue_to_gender_input(context: NewGameContext) -> CliAction {
 
 fn continue_to_birthday_input(context: NewGameContext) -> CliAction {
     CliAction::Prompt(Prompt::DateInput {
-        text: String::from("When was its birthday?"),
+        text: PromptText::WithEmoji(String::from("When was its birthday?")),
         format: DateFormat::Full,
         on_action: Box::new(|birthday, global_context| {
             context.next_action.unwrap()(NewGameContext {
@@ -106,7 +108,7 @@ fn continue_to_city_input(context: NewGameContext) -> CliAction {
     let available_cities = data_from_countries(context.global_context.database.countries.clone());
 
     CliAction::Prompt(Prompt::ChoiceInput {
-        text: String::from("Where are they from?"),
+        text: PromptText::WithEmoji(String::from("Where are they from?")),
         choices: available_cities
             .iter()
             .enumerate()
@@ -135,7 +137,7 @@ fn continue_to_city_input(context: NewGameContext) -> CliAction {
 
 fn continue_to_start_year_input(context: NewGameContext) -> CliAction {
     CliAction::Prompt(Prompt::DateInput {
-        text: String::from("What year should the game start from?"),
+        text: PromptText::WithEmoji(String::from("What year should the game start from?")),
         format: DateFormat::Year,
         on_action: Box::new(move |date, global_context| {
             context.next_action.unwrap()(NewGameContext {
@@ -197,9 +199,9 @@ fn continue_to_confirmation(context: NewGameContext) -> CliAction {
     ));
 
     CliAction::Prompt(Prompt::ChoiceInput {
-        text: String::from(
+        text: PromptText::WithEmoji(String::from(
             "Do you want to create it? You won't be able to change the origin city or birthday later",
-        ),
+        )),
         choices: vec![
             Choice {
                 id: 0,

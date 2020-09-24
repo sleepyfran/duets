@@ -1,5 +1,4 @@
-use crate::shared::action::Choice;
-use crate::shared::action::CliAction;
+use crate::shared::action::{Choice, CliAction, PromptText};
 use crate::shared::context::Context;
 use crate::shared::display;
 use crate::shared::input;
@@ -8,17 +7,17 @@ use crate::shared::input;
 /// the different choices available and getting the input of an user making sure
 /// that it's inside of the possible choices.
 pub fn handle(
-    text: String,
+    text: PromptText,
     choices: Vec<Choice>,
     on_action: Box<dyn FnOnce(&Choice, &Context) -> CliAction>,
     context: &Context,
 ) -> CliAction {
-    let input = show_text_choice_input_action(&text, &choices);
+    let input = show_text_choice_input_action(text, &choices);
     on_action(input, context)
 }
 
-fn show_text_choice_input_action<'a>(text: &str, choices: &'a [Choice]) -> &'a Choice {
-    display::show_prompt_text(&text);
+fn show_text_choice_input_action<'a>(text: PromptText, choices: &'a [Choice]) -> &'a Choice {
+    display::show_prompt_text(text);
     display::show_text(&String::from(" ["));
 
     for (index, choice) in choices.iter().enumerate() {

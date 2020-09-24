@@ -1,4 +1,4 @@
-use crate::shared::action::{CliAction, CommandInputRepetition, Repeat};
+use crate::shared::action::{CliAction, CommandInputRepetition, PromptText, Repeat};
 use crate::shared::commands;
 use crate::shared::commands::{Command, CommandCollection};
 use crate::shared::context::Context;
@@ -9,14 +9,13 @@ use crate::shared::input;
 /// the different choices available and getting the input of an user making sure
 /// that it's inside of the possible choices.
 pub fn handle(
-    text: String,
-    show_prompt_emoji: bool,
+    text: PromptText,
     available_commands: CommandCollection,
     repetition: CommandInputRepetition,
     after_action: Box<dyn FnOnce(CliAction, &Context) -> CliAction>,
     context: &Context,
 ) -> CliAction {
-    let (command, args) = show_command_input_action(&text, show_prompt_emoji, &available_commands);
+    let (command, args) = show_command_input_action(text, &available_commands);
     display::show_line_break();
     let result = (command.execute)(args, context);
 
@@ -30,16 +29,10 @@ pub fn handle(
 }
 
 fn show_command_input_action(
-    text: &str,
-    show_prompt_emoji: bool,
+    text: PromptText,
     available_commands: &CommandCollection,
 ) -> (Command, Vec<String>) {
-    if show_prompt_emoji {
-        display::show_prompt_text_with_new_line(&text);
-    } else {
-        display::show_prompt_text_with_new_line_no_emoji(&text);
-    }
-
+    display::show_prompt_text_with_new_line(text);
     get_command(available_commands)
 }
 

@@ -45,18 +45,23 @@ pub enum Repeat {
     No,
 }
 
+/// Defines the different types of prompt texts that can be shown.
+pub enum PromptText {
+    WithEmoji(String),
+    WithoutEmoji(String),
+}
+
 /// Defines the different kinds of actions that the user can do as a response
 /// to a certain screen.
 pub enum Prompt {
     /// Represents a simple free text input.
     TextInput {
-        text: String,
+        text: PromptText,
         on_action: Box<dyn FnOnce(String, &Context) -> CliAction>,
     },
     /// Represents an input that only accepts a set of commands.
     CommandInput {
-        text: String,
-        show_prompt_emoji: bool,
+        text: PromptText,
         available_commands: CommandCollection,
         repetition: CommandInputRepetition,
         /// Closure to be called with the result of the command in case the calling action needs
@@ -66,25 +71,25 @@ pub enum Prompt {
     /// Represents an input that only accepts a set of choices by asking the user
     /// to input its ID (a number).
     ChoiceInput {
-        text: String,
+        text: PromptText,
         choices: Vec<Choice>,
         on_action: Box<dyn FnOnce(&Choice, &Context) -> CliAction>,
     },
     /// Represents an input that accepts a set of predefined strings. For example
     /// a yes/no input.
     TextChoiceInput {
-        text: String,
+        text: PromptText,
         choices: Vec<Choice>,
         on_action: Box<dyn FnOnce(&Choice, &Context) -> CliAction>,
     },
     /// Basic yes/no input.
     ConfirmationInput {
-        text: String,
+        text: PromptText,
         on_action: Box<dyn FnOnce(&ConfirmationChoice, &Context) -> CliAction>,
     },
     /// Represents a NaiveDate input.
     DateInput {
-        text: String,
+        text: PromptText,
         format: DateFormat,
         on_action: Box<dyn FnOnce(NaiveDate, &Context) -> CliAction>,
     },

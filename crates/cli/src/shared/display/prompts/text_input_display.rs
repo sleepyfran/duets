@@ -1,4 +1,4 @@
-use crate::shared::action::CliAction;
+use crate::shared::action::{CliAction, PromptText};
 use crate::shared::context::Context;
 use crate::shared::display;
 use crate::shared::input;
@@ -6,7 +6,7 @@ use crate::shared::input;
 /// Shows the initial text of the screen, takes the user input as a string and
 /// calls the given on_action with the provided input.
 pub fn handle(
-    text: String,
+    text: PromptText,
     on_action: Box<dyn FnOnce(String, &Context) -> CliAction>,
     context: &Context,
 ) -> CliAction {
@@ -14,8 +14,8 @@ pub fn handle(
     on_action(input, context)
 }
 
-fn show_text_input_action(text: String) -> String {
-    display::show_prompt_text_with_new_line(&text);
+fn show_text_input_action(text: PromptText) -> String {
+    display::show_prompt_text_with_new_line(text);
     get_input()
 }
 

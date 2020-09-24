@@ -3,7 +3,7 @@ use common::entities::{Genre, Instrument};
 
 use super::super::GameScreen;
 use crate::effects;
-use crate::shared::action::{Choice, CliAction, Prompt};
+use crate::shared::action::{Choice, CliAction, Prompt, PromptText};
 use crate::shared::context::{Context, ScreenContext};
 use crate::shared::display;
 
@@ -20,7 +20,9 @@ pub fn create_starting_context(global_context: &Context) -> NewBandContext {
 /// Creates an input chain that asks for all the details necessary to create a band.
 pub fn start_with_name_input(context: NewBandContext) -> CliAction {
     CliAction::Prompt(Prompt::TextInput {
-        text: String::from("Let's create your first band. What's the band's name?"),
+        text: PromptText::WithEmoji(String::from(
+            "Let's create your first band. What's the band's name?",
+        )),
         on_action: Box::new(|input, global_context| {
             context.next_action.unwrap()(NewBandContext {
                 global_context: global_context.clone(),
@@ -42,9 +44,9 @@ pub fn continue_to_genre_input(context: NewBandContext) -> CliAction {
         .collect();
 
     CliAction::Prompt(Prompt::ChoiceInput {
-        text: String::from(
+        text: PromptText::WithEmoji(String::from(
             "What genre are they going to play? You'll be able to change this later",
-        ),
+        )),
         choices: genres
             .clone()
             .into_iter()
@@ -75,9 +77,9 @@ pub fn continue_to_instrument_input(context: NewBandContext) -> CliAction {
         .collect();
 
     CliAction::Prompt(Prompt::ChoiceInput {
-        text: String::from(
+        text: PromptText::WithEmoji(String::from(
             "What instrument are you going to play? You'll be able to learn more later and use them when giving concerts or composing",
-        ),
+        )),
         choices: instruments
             .clone()
             .into_iter()
@@ -90,7 +92,9 @@ pub fn continue_to_instrument_input(context: NewBandContext) -> CliAction {
             let selected_instrument = instruments[choice.id].1.clone();
             context.next_action.unwrap()(NewBandContext {
                 global_context: global_context.clone(),
-                game_builder: context.game_builder.starting_instrument(selected_instrument),
+                game_builder: context
+                    .game_builder
+                    .starting_instrument(selected_instrument),
                 next_action: None,
             })
         }),
@@ -116,9 +120,9 @@ fn continue_to_confirmation(context: NewBandContext) -> CliAction {
     ));
 
     CliAction::Prompt(Prompt::ChoiceInput {
-        text: String::from(
+        text: PromptText::WithEmoji(String::from(
             "Do you want to create it? You will be able to edit any of these details later",
-        ),
+        )),
         choices: vec![
             Choice {
                 id: 0,

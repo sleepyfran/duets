@@ -4,7 +4,7 @@ pub mod styles;
 use std::io::Write;
 
 use crate::screens;
-use crate::shared::action::CliAction;
+use crate::shared::action::{CliAction, PromptText};
 use crate::shared::context::Context;
 use crate::shared::emoji;
 
@@ -52,22 +52,25 @@ pub fn show_error(text: &str) {
 }
 
 /// Prints the start text of a prompt.
-pub fn show_prompt_text_with_new_line(text: &str) {
-    println!("{} {}", emoji::for_speech_bubble(), styles::title(text))
+pub fn show_prompt_text_with_new_line(text: PromptText) {
+    match text {
+        PromptText::WithEmoji(text) => {
+            println!("{} {}", emoji::for_speech_bubble(), styles::title(&text))
+        }
+        PromptText::WithoutEmoji(text) => println!("{}", styles::title(&text)),
+    }
 }
 
 // Prints the start text of a prompt without a new line.
-pub fn show_prompt_text(text: &str) {
-    print_and_flush(&format!(
-        "{} {}",
-        emoji::for_speech_bubble(),
-        styles::title(text)
-    ))
-}
-
-/// Prints the start text of a prompt with a new line and no emoji.
-pub fn show_prompt_text_with_new_line_no_emoji(text: &str) {
-    println!("{}", styles::title(text))
+pub fn show_prompt_text(text: PromptText) {
+    match text {
+        PromptText::WithEmoji(text) => print_and_flush(&format!(
+            "{} {}",
+            emoji::for_speech_bubble(),
+            styles::title(&text)
+        )),
+        PromptText::WithoutEmoji(text) => print_and_flush(&format!("{}", styles::title(&text))),
+    }
 }
 
 // Prints the start text of a prompt without a new line and no emoji.

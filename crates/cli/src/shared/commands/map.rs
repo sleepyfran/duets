@@ -5,7 +5,7 @@ use app::world::World;
 
 use super::Command;
 use crate::effects;
-use crate::shared::action::{Choice, CliAction, ConfirmationChoice, Prompt};
+use crate::shared::action::{Choice, CliAction, ConfirmationChoice, Prompt, PromptText};
 use crate::shared::context::Context;
 
 /// Allows the user to get info about the character's position and go to other places.
@@ -26,12 +26,12 @@ to another place in the city.
             let position = &global_context.game_state.position;
 
             CliAction::Prompt(Prompt::ConfirmationInput {
-                text: format!(
+                text: PromptText::WithEmoji(format!(
                     "{} is currently in {}, in the city of {}. Do you want to go to another place?",
                     character_name,
                     position.place.name,
                     position.city.name,
-                ),
+                )),
                 on_action: Box::new(|choice, inner_global_context| {
                     match choice {
                         ConfirmationChoice::Yes => show_place_choice(inner_global_context),
@@ -47,7 +47,7 @@ fn show_place_choice(global_context: &Context) -> CliAction {
     let places = global_context.get_places_of_city();
 
     CliAction::Prompt(Prompt::ChoiceInput {
-        text: String::from("Where do you want to go?"),
+        text: PromptText::WithEmoji(String::from("Where do you want to go?")),
         choices: places
             .iter()
             .enumerate()

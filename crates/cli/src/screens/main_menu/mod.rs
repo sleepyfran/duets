@@ -2,7 +2,7 @@ use app::operations::start::SavegameState;
 
 use super::GameScreen;
 use crate::effects;
-use crate::shared::action::{Choice, CliAction, ConfirmationChoice, Prompt};
+use crate::shared::action::{Choice, CliAction, ConfirmationChoice, Prompt, PromptText};
 use crate::shared::context::Context;
 use crate::shared::display;
 use crate::shared::screen::Screen;
@@ -11,18 +11,20 @@ pub fn create_main_screen(savegame: SavegameState) -> Screen {
     Screen {
         name: String::from("Main Menu"),
         action: Prompt::ChoiceInput {
-            text: r#"
-.:::::                        .::         
-.::   .::                     .::         
-.::    .::.::  .::   .::    .:.: .: .:::: 
-.::    .::.::  .:: .:   .::   .::  .::    
-.::    .::.::  .::.::::: .::  .::    .::: 
-.::   .:: .::  .::.:          .::      .::
-.:::::      .::.::  .::::      .:: .:: .::
-
-Welcome to Duets! Select an option to begin:
-            "#
-            .into(),
+            text: PromptText::WithoutEmoji(
+                r#"
+            .:::::                        .::         
+            .::   .::                     .::         
+            .::    .::.::  .::   .::    .:.: .: .:::: 
+            .::    .::.::  .:: .:   .::   .::  .::    
+            .::    .::.::  .::.::::: .::  .::    .::: 
+            .::   .:: .::  .::.:          .::      .::
+            .:::::      .::.::  .::::      .:: .:: .::
+            
+            Welcome to Duets! Select an option to begin:
+                        "#
+                .into(),
+            ),
             choices: vec![
                 Choice {
                     id: 0,
@@ -55,7 +57,9 @@ fn new_game_selected(savegame: SavegameState, _global_context: &Context) -> CliA
                 "You already have a savegame, continuing with this will override it",
             ));
             CliAction::Prompt(Prompt::ConfirmationInput {
-                text: String::from("Are you sure you want to create a new game?"),
+                text: PromptText::WithEmoji(String::from(
+                    "Are you sure you want to create a new game?",
+                )),
                 on_action: Box::new(|choice, _global_context| match choice {
                     ConfirmationChoice::Yes => CliAction::Screen(GameScreen::NewGame),
                     ConfirmationChoice::No => CliAction::Screen(GameScreen::MainMenu(savegame)),
