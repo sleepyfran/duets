@@ -25,7 +25,7 @@ pub fn create_home_screen(previous_global_context: &Context) -> Screen {
                 CliAction::Screen(_) => Repeat::No,
                 _ => Repeat::Yes,
             })),
-            after_action: Box::new(|action, global_context| {
+            after_action: Box::new(|action, _global_context| {
                 // Execute whatever action the command returned and then show the home screen.
                 CliAction::Chain(
                     Box::new(action),

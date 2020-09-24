@@ -17,7 +17,7 @@ pub fn handle(
     on_action(input, context)
 }
 
-fn show_text_choice_input_action<'a>(text: &String, choices: &'a Vec<Choice>) -> &'a Choice {
+fn show_text_choice_input_action<'a>(text: &str, choices: &'a [Choice]) -> &'a Choice {
     display::show_prompt_text(&text);
     display::show_text(&String::from(" ["));
 
@@ -31,7 +31,7 @@ fn show_text_choice_input_action<'a>(text: &String, choices: &'a Vec<Choice>) ->
     get_choice(choices)
 }
 
-fn get_choice(choices: &Vec<Choice>) -> &Choice {
+fn get_choice(choices: &[Choice]) -> &Choice {
     let choice_or_error = input::read_text_choice(&choices);
     match choice_or_error {
         Some(choice) => choice,
@@ -39,7 +39,7 @@ fn get_choice(choices: &Vec<Choice>) -> &Choice {
     }
 }
 
-fn get_choice_with_error(choices: &Vec<Choice>) -> &Choice {
+fn get_choice_with_error(choices: &[Choice]) -> &Choice {
     display::show_error(&String::from("Invalid option. Try again:"));
     get_choice(choices)
 }

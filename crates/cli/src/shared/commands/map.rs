@@ -31,7 +31,7 @@ to another place in the city.
                     character_name,
                     position.place.name,
                     position.city.name,
-                ).into(),
+                ),
                 on_action: Box::new(|choice, inner_global_context| {
                     match choice {
                         ConfirmationChoice::Yes => show_place_choice(inner_global_context),
@@ -49,7 +49,6 @@ fn show_place_choice(global_context: &Context) -> CliAction {
     CliAction::Prompt(Prompt::ChoiceInput {
         text: String::from("Where do you want to go?"),
         choices: places
-            .clone()
             .iter()
             .enumerate()
             .map(|(index, place)| Choice {

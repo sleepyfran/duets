@@ -17,7 +17,7 @@ pub fn handle(
     on_action(input, context)
 }
 
-fn show_choice_input_action<'a>(text: &String, choices: &'a Vec<Choice>) -> &'a Choice {
+fn show_choice_input_action<'a>(text: &str, choices: &'a [Choice]) -> &'a Choice {
     display::show_prompt_text_with_new_line(text);
     input::read_choice(choices)
 }

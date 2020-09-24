@@ -47,7 +47,7 @@ Welcome to Duets! Select an option to begin:
     }
 }
 
-fn new_game_selected(savegame: SavegameState, global_context: &Context) -> CliAction {
+fn new_game_selected(savegame: SavegameState, _global_context: &Context) -> CliAction {
     match &savegame {
         SavegameState::Ok(_) => {
             display::show_line_break();
@@ -56,7 +56,7 @@ fn new_game_selected(savegame: SavegameState, global_context: &Context) -> CliAc
             ));
             CliAction::Prompt(Prompt::ConfirmationInput {
                 text: String::from("Are you sure you want to create a new game?"),
-                on_action: Box::new(|choice, global_context| match choice {
+                on_action: Box::new(|choice, _global_context| match choice {
                     ConfirmationChoice::Yes => CliAction::Screen(GameScreen::NewGame),
                     ConfirmationChoice::No => CliAction::Screen(GameScreen::MainMenu(savegame)),
                 }),
@@ -67,7 +67,7 @@ fn new_game_selected(savegame: SavegameState, global_context: &Context) -> CliAc
     }
 }
 
-fn load_game_selected(savegame: SavegameState, global_context: &Context) -> CliAction {
+fn load_game_selected(savegame: SavegameState, _global_context: &Context) -> CliAction {
     match &savegame {
         SavegameState::Ok(_) => CliAction::Screen(GameScreen::Home),
         SavegameState::None(_) => {

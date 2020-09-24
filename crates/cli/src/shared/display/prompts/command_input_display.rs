@@ -30,7 +30,7 @@ pub fn handle(
 }
 
 fn show_command_input_action(
-    text: &String,
+    text: &str,
     show_prompt_emoji: bool,
     available_commands: &CommandCollection,
 ) -> (Command, Vec<String>) {
@@ -50,7 +50,7 @@ fn get_command(available_commands: &CommandCollection) -> (Command, Vec<String>)
     let command_or_error = input::read_command(&commands_with_defaults);
 
     match command_or_error {
-        Some((command, args)) => (command.clone(), args),
+        Some((command, args)) => (command, args),
         _ => {
             show_help();
             get_command(available_commands)
@@ -77,7 +77,7 @@ fn get_commands_with_defaults(available_commands: &CommandCollection) -> Command
     commands_with_defaults
         .clone()
         .chain(vec![commands::help::create_help_command(
-            commands_with_defaults.clone(),
+            commands_with_defaults,
         )])
         .clone()
 }

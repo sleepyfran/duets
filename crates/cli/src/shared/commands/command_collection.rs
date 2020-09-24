@@ -14,11 +14,10 @@ impl CommandCollection {
     }
 
     /// Attempts to find a command with the given name.
-    pub fn find_by_name(&self, name: &String) -> Option<Command> {
+    pub fn find_by_name(&self, name: &str) -> Option<Command> {
         self.commands
             .iter()
-            .filter(|command| matches_command(name, command))
-            .nth(0)
+            .find(|command| matches_command(name, command))
             .cloned()
     }
 

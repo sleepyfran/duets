@@ -1,7 +1,6 @@
 use std::sync::Arc;
 
 use app::world::movement;
-use app::world::World;
 
 use super::Command;
 use crate::effects;
@@ -25,8 +24,6 @@ Allows to navigate different rooms in the current place. Can be called with:
         "#
         .into(),
         execute: Arc::new(move |args, global_context| {
-            let rooms = global_context.get_rooms_of_place();
-
             if args.is_empty() {
                 display::show_error(
                     "No room specified. Invoke look to see a list of all available rooms",

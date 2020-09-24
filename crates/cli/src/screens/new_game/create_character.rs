@@ -155,7 +155,7 @@ fn continue_to_validation(context: NewGameContext) -> CliAction {
             ));
             continue_to_birthday_input(NewGameContext {
                 global_context: context.global_context.clone(),
-                game_builder: context.game_builder.clone(),
+                game_builder: context.game_builder,
                 next_action: Some(Box::new(continue_to_validation)),
             })
         }
@@ -165,7 +165,7 @@ fn continue_to_validation(context: NewGameContext) -> CliAction {
             ));
             continue_to_start_year_input(NewGameContext {
                 global_context: context.global_context.clone(),
-                game_builder: context.game_builder.clone(),
+                game_builder: context.game_builder,
                 next_action: Some(Box::new(continue_to_validation)),
             })
         }

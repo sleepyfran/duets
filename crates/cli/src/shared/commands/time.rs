@@ -39,7 +39,7 @@ fn show_time_info(global_context: &Context) {
 
 /// Returns the current time info formatted.
 pub fn get_time_info(global_context: &Context) -> String {
-    let date = global_context.game_state.calendar.date.clone();
+    let date = global_context.game_state.calendar.date;
     let time = global_context.game_state.calendar.time.clone();
 
     format!(
