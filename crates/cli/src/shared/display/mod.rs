@@ -22,11 +22,6 @@ pub fn show_line_break() {
     println!();
 }
 
-/// Shows a predefined exit message.
-pub fn show_exit_message() {
-    println!("Bye!");
-}
-
 /// Shows a default line of text (no title, no error) with a new line.
 pub fn show_text_with_new_line(text: &String) {
     println!("{}", text)
