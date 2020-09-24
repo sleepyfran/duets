@@ -1,69 +1,69 @@
 use common::entities::{Gender, TimeOfDay};
 
 /// Returns the appropiate clock emoji for the current time of the day.
-pub fn for_time(time: &TimeOfDay) -> String {
+pub fn for_time<'a>(time: &TimeOfDay) -> &'a str {
     match time {
-        TimeOfDay::Dawn => "🕔".into(),
-        TimeOfDay::Morning => "🕗".into(),
-        TimeOfDay::Midday => "🕛".into(),
-        TimeOfDay::Sunset => "🕡".into(),
-        TimeOfDay::Dusk => "🕗".into(),
-        TimeOfDay::Night => "🕙".into(),
-        TimeOfDay::Midnight => "🕛".into(),
+        TimeOfDay::Dawn => "🕔",
+        TimeOfDay::Morning => "🕗",
+        TimeOfDay::Midday => "🕛",
+        TimeOfDay::Sunset => "🕡",
+        TimeOfDay::Dusk => "🕗",
+        TimeOfDay::Night => "🕙",
+        TimeOfDay::Midnight => "🕛",
     }
 }
 
 /// Returns the appropiate emoji for the gender of the character.
-pub fn for_gender(gender: &Gender) -> String {
+pub fn for_gender<'a>(gender: &Gender) -> &'a str {
     match gender {
-        Gender::Female => "👩".into(),
-        Gender::Male => "🧔".into(),
-        Gender::Other => "👤".into(),
+        Gender::Female => "👩",
+        Gender::Male => "🧔",
+        Gender::Other => "👤",
     }
 }
 
 /// Returns a happy, neutral or sad face depending on the mood of the character.
-pub fn for_mood(mood: i8) -> String {
+pub fn for_mood<'a>(mood: i8) -> &'a str {
     match mood {
-        0..=35 => "🙁".into(),
-        36..=50 => "😐".into(),
-        51..=65 => "🙂".into(),
-        66..=100 => "😀".into(),
-        _ => "🥴".into(),
+        0..=35 => "🙁",
+        36..=50 => "😐",
+        51..=65 => "🙂",
+        66..=100 => "😀",
+        _ => "🥴",
     }
 }
 
 /// Returns the assigned emoji for info.
-pub fn for_info() -> String {
-    "✅".into()
+pub fn for_info<'a>() -> &'a str {
+    "✅"
 }
 
 /// Returns the assigned emoji for warnings.
-pub fn for_warning() -> String {
-    "⚠️".into()
+pub fn for_warning<'a>() -> &'a str {
+    "⚠️"
 }
 
 /// Returns the assigned emoji for errors.
-pub fn for_error() -> String {
-    "❌".into()
+pub fn for_error<'a>() -> &'a str {
+    "❌"
 }
 
 /// Returns the assigned emoji for describing places in the game.
-pub fn for_place() -> String {
-    "📍".into()
+pub fn for_place<'a>() -> &'a str {
+    "📍"
 }
 
 /// Returns the assigned emoji for interacting with the user.
-pub fn for_speech_bubble() -> String {
-    "💬".into()
+pub fn for_speech_bubble<'a>() -> &'a str {
+    "💬"
 }
 
 /// Returns the assigned emoji for showing the character's health.
-pub fn for_health() -> String {
-    "❤️".into()
+pub fn for_health<'a>() -> &'a str {
+    "❤️"
 }
 
 /// Returns the assigned emoji for showing the character's fame.
-pub fn for_fame() -> String {
-    "🌟".into()
+pub fn for_fame<'a>() -> &'a str {
+    "🌟"
 }

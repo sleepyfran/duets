@@ -29,7 +29,7 @@ Allows to navigate different rooms in the current place. Can be called with:
 
             if args.is_empty() {
                 display::show_error(
-                    &"No room specified. Invoke look to see a list of all available rooms".into(),
+                    "No room specified. Invoke look to see a list of all available rooms",
                 );
                 CliAction::Continue
             } else {

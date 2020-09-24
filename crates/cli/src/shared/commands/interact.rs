@@ -38,7 +38,7 @@ least one parameters which is the name of the object to interact with.
                     }
                 }
             } else {
-                display::show_error(&"No object given. What do you want to interact with?".into());
+                display::show_error("No object given. What do you want to interact with?");
                 CliAction::Continue
             }
         }),

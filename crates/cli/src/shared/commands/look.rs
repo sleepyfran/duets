@@ -48,7 +48,7 @@ parameters:
             }
 
             if objects.is_empty() {
-                display::show_text_with_new_line(&"Seems like there are no objects in here".into());
+                display::show_text_with_new_line("Seems like there are no objects in here");
             } else {
                 let objects_description = lang::list::describe_objects(&objects);
                 display::show_text_with_new_line(&format!(
@@ -58,9 +58,7 @@ parameters:
             }
 
             if rooms.is_empty() {
-                display::show_text_with_new_line(
-                    &"Seems like there are no other rooms in here".into(),
-                );
+                display::show_text_with_new_line("Seems like there are no other rooms in here");
             } else {
                 let rooms_description = lang::list::describe_rooms(&rooms);
                 display::show_text_with_new_line(&format!(
