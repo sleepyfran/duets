@@ -1,5 +1,5 @@
-use app::builders::start::BandStartBuilder;
 use common::entities::{Genre, Instrument};
+use game::builders::start::BandStartBuilder;
 
 use super::super::GameScreen;
 use crate::effects;

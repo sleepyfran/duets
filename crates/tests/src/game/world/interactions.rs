@@ -1,6 +1,6 @@
-use app::context::Context;
-use app::world::interactions::{interact_with, Interaction, Requirement};
 use common::entities::Object;
+use game::context::Context;
+use game::world::interactions::{interact_with, Interaction, Requirement};
 
 fn get_interaction() -> Interaction {
     Interaction {

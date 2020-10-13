@@ -1,7 +1,7 @@
-use app::context::Context;
-use app::data::database::Database;
-use app::data::integrity;
 use common::entities::{City, Country, GameState, Place, Position, Room};
+use game::context::Context;
+use game::data::database::Database;
+use game::data::integrity;
 
 #[test]
 fn validate_errors_when_game_state_is_default() {

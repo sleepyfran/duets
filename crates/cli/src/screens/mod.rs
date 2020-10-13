@@ -2,8 +2,8 @@ mod home;
 mod main_menu;
 mod new_game;
 
-use app::context::Context;
-use app::operations::start::SavegameState;
+use game::context::Context;
+use game::operations::start::SavegameState;
 
 use crate::shared::screen::Screen;
 

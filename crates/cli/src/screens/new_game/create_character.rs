@@ -1,7 +1,7 @@
-use app::builders::start::{GameStartBuilder, ValidationError};
 use chrono::Datelike;
 use common::entities::Position;
 use common::entities::{City, Country, Gender};
+use game::builders::start::{GameStartBuilder, ValidationError};
 
 use super::create_band;
 use crate::effects;

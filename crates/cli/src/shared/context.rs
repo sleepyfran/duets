@@ -1,6 +1,6 @@
 use std::sync::Mutex;
 
-pub use app::context::Context;
+pub use game::context::Context;
 
 use crate::shared::action::CliAction;
 

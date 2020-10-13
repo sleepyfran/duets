@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
-use app::world::interactions;
 use common::entities::Object;
+use game::world::interactions;
 
 use super::Command;
 use crate::shared::action::{Choice, CliAction, Prompt, PromptText};

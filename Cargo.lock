@@ -19,22 +19,6 @@ version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
-name = "app"
-version = "0.1.0"
-dependencies = [
- "boolinator 2.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "chrono 0.4.13 (registry+https://github.com/rust-lang/crates.io-index)",
- "common 0.1.0",
- "derive_builder 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde 1.0.114 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_json 1.0.56 (registry+https://github.com/rust-lang/crates.io-index)",
- "simulation 0.1.0",
- "storage 0.1.0",
- "strum 0.19.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "strum_macros 0.19.2 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
 name = "app_dirs2"
 version = "2.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -102,12 +86,12 @@ dependencies = [
 name = "cli"
 version = "0.1.0"
 dependencies = [
- "app 0.1.0",
  "chrono 0.4.13 (registry+https://github.com/rust-lang/crates.io-index)",
  "common 0.1.0",
  "console 0.11.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "derive_builder 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "dialoguer 0.6.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "game 0.1.0",
  "in_definite 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "lazy_static 1.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "simulation 0.1.0",
@@ -249,6 +233,22 @@ dependencies = [
 name = "fnv"
 version = "1.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "game"
+version = "0.1.0"
+dependencies = [
+ "boolinator 2.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "chrono 0.4.13 (registry+https://github.com/rust-lang/crates.io-index)",
+ "common 0.1.0",
+ "derive_builder 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde 1.0.114 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.56 (registry+https://github.com/rust-lang/crates.io-index)",
+ "simulation 0.1.0",
+ "storage 0.1.0",
+ "strum 0.19.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "strum_macros 0.19.2 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [[package]]
 name = "getrandom"
@@ -628,9 +628,9 @@ dependencies = [
 name = "tests"
 version = "0.1.0"
 dependencies = [
- "app 0.1.0",
  "cli 0.1.0",
  "common 0.1.0",
+ "game 0.1.0",
  "simulation 0.1.0",
 ]
 

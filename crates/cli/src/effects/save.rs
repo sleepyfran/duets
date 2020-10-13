@@ -1,5 +1,5 @@
-use app::operations;
-use app::operations::savegame::Error;
+use game::operations;
+use game::operations::savegame::Error;
 
 use crate::shared::action::CliAction;
 use crate::shared::context::Context;

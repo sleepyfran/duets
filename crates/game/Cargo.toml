@@ -1,5 +1,5 @@
 [package]
-name = "app"
+name = "game"
 version = "0.1.0"
 authors = ["Fran <fgzv@outlook.com>"]
 edition = "2018"

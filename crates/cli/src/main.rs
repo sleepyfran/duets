@@ -6,7 +6,7 @@ mod screens;
 mod shared;
 mod tests;
 
-use app::operations::start::SavegameState;
+use game::operations::start::SavegameState;
 
 use screens::GameScreen;
 use shared::action::CliAction;
@@ -15,7 +15,7 @@ use shared::display;
 use shared::orchestrator;
 
 fn main() {
-    let savegame_state = app::operations::start::load();
+    let savegame_state = game::operations::start::load();
 
     match &savegame_state {
         SavegameState::InvalidReferences(error) => display::show_error(&error),

@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use app::world::rooms::Rooms;
+use game::world::rooms::Rooms;
 
 use super::Command;
 use crate::shared::action::CliAction;

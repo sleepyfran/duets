@@ -1,5 +1,5 @@
-use app::world::rooms::Rooms;
 use common::entities::Object;
+use game::world::rooms::Rooms;
 
 use crate::context::Context;
 use crate::shared::lang;
