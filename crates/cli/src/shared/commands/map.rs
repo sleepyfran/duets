@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use app::world::movement;
-use app::world::World;
+use app::world::places::Places;
 
 use super::Command;
 use crate::effects;

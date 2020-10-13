@@ -1,4 +1,4 @@
-use app::world::World;
+use app::world::rooms::Rooms;
 use common::entities::Object;
 
 use crate::context::Context;

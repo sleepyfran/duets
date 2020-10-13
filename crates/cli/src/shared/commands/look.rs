@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use app::world::World;
+use app::world::rooms::Rooms;
 
 use super::Command;
 use crate::shared::action::CliAction;
@@ -26,7 +26,7 @@ parameters:
         "#
         .into(),
         execute: Arc::new(move |args, global_context| {
-            let rooms = global_context.get_rooms_of_place();
+            let rooms = global_context.get_reachable_rooms_of_place();
             let objects = global_context.get_objects_in_room();
 
             if !args.is_empty() {
