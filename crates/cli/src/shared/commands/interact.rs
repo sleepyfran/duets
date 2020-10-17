@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 use common::entities::Object;
 use game::world::interactions;
+use game::world::interactions::{InteractItem, Interaction, Requirement};
 
 use super::Command;
 use crate::shared::action::{Choice, CliAction, Prompt, PromptText};
@@ -46,7 +47,7 @@ least one parameters which is the name of the object to interact with.
 }
 
 fn show_interactions(object: Object) -> CliAction {
-    let object_interactions = interactions::r#for(&object);
+    let object_interactions = interactions::get_for(&object);
 
     CliAction::Prompt(Prompt::ChoiceInput {
         text: PromptText::WithEmoji(format!("What do you want to do with the {}?", object.name)),
@@ -56,19 +57,25 @@ fn show_interactions(object: Object) -> CliAction {
             .enumerate()
             .map(|(index, interaction)| Choice {
                 id: index,
-                text: format!("{} - {}", interaction.name, interaction.description),
+                text: format!("{} - {}", interaction.name(), interaction.description()),
             })
             .collect(),
         on_action: Box::new(move |choice, global_context| {
             let chosen_interaction = object_interactions[choice.id].clone();
-            let interaction_result =
-                interactions::interact_with(chosen_interaction, global_context);
+            let interaction_result = interactions::interact(chosen_interaction, &global_context);
 
             display::show_line_break();
 
             match interaction_result {
-                Ok((description, _)) => display::show_info(&description),
-                Err(description) => display::show_error(&description),
+                Ok(_) => display::show_info("It all went well"),
+                Err(requirement) => match requirement {
+                    Requirement::HealthAbove(_) => {
+                        display::show_error("You don't have enough health to do that")
+                    }
+                    Requirement::MoodAbove(_) => {
+                        display::show_error("You don't have enough mood to do that")
+                    }
+                },
             }
 
             display::show_line_break();
