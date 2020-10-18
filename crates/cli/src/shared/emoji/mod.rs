@@ -23,7 +23,7 @@ pub fn for_gender<'a>(gender: &Gender) -> &'a str {
 }
 
 /// Returns a happy, neutral or sad face depending on the mood of the character.
-pub fn for_mood<'a>(mood: i8) -> &'a str {
+pub fn for_mood<'a>(mood: u8) -> &'a str {
     match mood {
         0..=35 => "🙁",
         36..=50 => "😐",

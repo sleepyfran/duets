@@ -35,6 +35,21 @@ Shows the current status of the character.
                 format!("{} {}", emoji::for_fame(), character.fame),
             ));
 
+            if !character.skills.is_empty() {
+                display::show_line_break();
+
+                display::show_prompt_text_no_emoji(&format!(
+                    "Skills:{}",
+                    character
+                        .skills
+                        .iter()
+                        .map(|skill| format!("{} level {}", skill.name, skill.level))
+                        .fold(String::default(), |acc, curr| format!("{}\n{}", acc, curr))
+                ))
+            }
+
+            display::show_line_break();
+
             CliAction::Continue
         }),
     }

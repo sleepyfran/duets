@@ -1,6 +1,6 @@
 use chrono::{Datelike, NaiveDate};
 
-use common::entities::{Band, Calendar, Character, GameState, Gender, Position};
+use common::entities::{ActionRegistry, Band, Calendar, Character, GameState, Gender, Position};
 
 pub enum ValidationError {
     InvalidName,
@@ -31,6 +31,7 @@ impl GameStart {
                 .with_birthday(self.birthday),
             calendar: Calendar::from_year(self.start_year),
             position: self.start_position,
+            action_registry: ActionRegistry::default(),
         }
     }
 }

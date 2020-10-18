@@ -5,6 +5,7 @@ use game::world::interactions;
 use game::world::interactions::{InteractItem, Interaction, Requirement};
 
 use super::Command;
+use crate::effects;
 use crate::shared::action::{Choice, CliAction, Prompt, PromptText};
 use crate::shared::display;
 use crate::shared::lang;
@@ -66,21 +67,30 @@ fn show_interactions(object: Object) -> CliAction {
 
             display::show_line_break();
 
-            match interaction_result {
-                Ok(_) => display::show_info("It all went well"),
+            let action = match interaction_result {
+                Ok(sequence) => start_interaction_sequence(sequence),
                 Err(requirement) => match requirement {
                     Requirement::HealthAbove(_) => {
-                        display::show_error("You don't have enough health to do that")
+                        display::show_error("You don't have enough health to do that");
+                        CliAction::Continue
                     }
                     Requirement::MoodAbove(_) => {
-                        display::show_error("You don't have enough mood to do that")
+                        display::show_error("You don't have enough mood to do that");
+                        CliAction::Continue
                     }
                 },
-            }
+            };
 
             display::show_line_break();
 
-            CliAction::Continue
+            action
         }),
     })
+}
+
+fn start_interaction_sequence(sequence: InteractItem) -> CliAction {
+    match sequence {
+        InteractItem::Result(res) => effects::set_state(res.context.game_state),
+        InteractItem::NoOp => CliAction::Continue,
+    }
 }

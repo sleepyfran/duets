@@ -1,18 +1,21 @@
+use common::entities::Instrument;
+use common::results::InteractResult;
+use simulation::interactions::instruments::{play, PlayInteractionInput};
+
 use crate::context::Context;
 use crate::world::interactions::{
-    InteractItem, InteractResult, InteractSequence, Interaction, Requirement,
+    InteractEnd, InteractItem, InteractSequence, Interaction, Requirement,
 };
 
-pub enum PlayResult {
-    Success,
-    Failure,
+#[derive(Clone, Default)]
+pub struct PlayInteraction {
+    pub instrument: Instrument,
 }
 
-#[derive(Clone, Default)]
-pub struct PlayInteraction;
-
 impl Interaction for PlayInteraction {
-    type Result = PlayResult;
+    fn id(&self) -> String {
+        "play".into()
+    }
 
     fn name(&self) -> String {
         "Play".into()
@@ -26,10 +29,15 @@ impl Interaction for PlayInteraction {
         vec![Requirement::HealthAbove(20), Requirement::MoodAbove(20)]
     }
 
-    fn interact(&self, context: &Context) -> InteractSequence<Self::Result> {
-        Ok(InteractItem::Result(InteractResult {
-            result: PlayResult::Success,
-            context: context.clone(),
+    fn interact(&self, context: &Context) -> InteractSequence {
+        let result = play(PlayInteractionInput {
+            instrument: self.instrument.clone(),
+            interaction_id: self.id(),
+            game_state: context.game_state.clone(),
+        });
+        Ok(InteractItem::Result(InteractEnd {
+            result: result.0.clone(),
+            context: context.clone().modify_game_state(|_| result.1),
         }))
     }
 }

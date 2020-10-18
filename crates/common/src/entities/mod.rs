@@ -1,3 +1,4 @@
+mod action_registry;
 mod band;
 mod calendar;
 mod character;
@@ -13,6 +14,7 @@ mod position;
 mod room;
 mod skill;
 
+pub use action_registry::*;
 pub use band::{Band, BandMember};
 pub use calendar::{Calendar, TimeOfDay};
 pub use character::{Character, Gender};
