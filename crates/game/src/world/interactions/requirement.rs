@@ -11,12 +11,13 @@ fn empty_result(context: &Context) -> InteractSequence {
 }
 
 fn empty_item(context: &Context) -> InteractItem {
-    InteractItem::NoOp
+    InteractItem::End
 }
 
 /// Defines the different set of requirements that can be possibly added to an interaction.
 #[derive(Clone)]
 pub enum Requirement {
+    EnergyAbove(u8),
     HealthAbove(u8),
     MoodAbove(u8),
 }
@@ -35,6 +36,11 @@ pub fn check_requirements(context: &Context, requirements: Vec<Requirement>) -> 
 /// Checks that the given requirement is met.
 fn check_requirement(context: &Context, requirement: Requirement) -> InteractSequence {
     match requirement {
+        Requirement::EnergyAbove(min_energy) => context
+            .game_state
+            .character
+            .energy_above(min_energy)
+            .as_result(empty_item(context), requirement),
         Requirement::HealthAbove(min_health) => context
             .game_state
             .character

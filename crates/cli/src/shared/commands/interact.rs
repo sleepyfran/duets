@@ -1,6 +1,7 @@
 use std::sync::Arc;
 
 use common::entities::Object;
+use game::context::Context;
 use game::world::interactions;
 use game::world::interactions::{InteractItem, Interaction, Requirement};
 
@@ -63,12 +64,13 @@ fn show_interactions(object: Object) -> CliAction {
             .collect(),
         on_action: Box::new(move |choice, global_context| {
             let chosen_interaction = object_interactions[choice.id].clone();
-            let interaction_result = interactions::interact(chosen_interaction, &global_context);
+            let interaction_result =
+                interactions::sequence(chosen_interaction.clone(), &global_context);
 
             display::show_line_break();
 
             let action = match interaction_result {
-                Ok(sequence) => start_interaction_sequence(sequence),
+                Ok(sequence) => show_sequence(chosen_interaction, sequence, &global_context),
                 Err(requirement) => match requirement {
                     Requirement::HealthAbove(_) => {
                         display::show_error("You don't have enough health to do that");
@@ -76,6 +78,10 @@ fn show_interactions(object: Object) -> CliAction {
                     }
                     Requirement::MoodAbove(_) => {
                         display::show_error("You don't have enough mood to do that");
+                        CliAction::Continue
+                    }
+                    Requirement::EnergyAbove(_) => {
+                        display::show_error("You don't have enough energy to do that");
                         CliAction::Continue
                     }
                 },
@@ -88,9 +94,16 @@ fn show_interactions(object: Object) -> CliAction {
     })
 }
 
-fn start_interaction_sequence(sequence: InteractItem) -> CliAction {
+fn show_sequence(
+    interaction: impl Interaction,
+    sequence: InteractItem,
+    context: &Context,
+) -> CliAction {
     match sequence {
-        InteractItem::Result(res) => effects::set_state(res.context.game_state),
-        InteractItem::NoOp => CliAction::Continue,
+        InteractItem::End => {
+            let result = interactions::result(interaction, context);
+            display::show_info(&result.0);
+            effects::set_state(result.1.game_state)
+        }
     }
 }

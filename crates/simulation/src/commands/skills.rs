@@ -12,13 +12,13 @@ pub trait SkillCommands {
 impl SkillCommands for SkillWithLevel {
     fn increase_by(&self, amount: u8) -> SkillWithLevel {
         let mut cloned = self.clone();
-        cloned.level = bound_to_positive_hundred(cloned.level + amount);
+        cloned.level = cloned.level.saturating_add(amount);
         cloned
     }
 
     fn decrease_by(&self, amount: u8) -> SkillWithLevel {
         let mut cloned = self.clone();
-        cloned.level = bound_to_positive_hundred(cloned.level - amount);
+        cloned.level = cloned.level.saturating_sub(amount);
         cloned
     }
 }

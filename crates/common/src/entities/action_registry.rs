@@ -5,7 +5,7 @@ use std::collections::HashMap;
 use crate::entities::{Calendar, TimeOfDay};
 
 /// Represents the tracking of one action that was performed with time and date.
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Clone, Deserialize, Serialize, Debug)]
 pub struct ActionTrack {
     #[serde(with = "crate::serializables::naivedate::date")]
     pub date: NaiveDate,
@@ -32,16 +32,14 @@ impl ActionRegistry {
     /// to the registry with the updated value.
     pub fn register(&self, key: &str, calendar: &Calendar) -> ActionRegistry {
         let mut mutable = self.clone();
+        let action_track = ActionTrack {
+            time: calendar.time.clone(),
+            date: calendar.date,
+        };
         let updated_bucket = if let Some(bucket) = mutable.registry.remove(key) {
-            bucket
-                .into_iter()
-                .chain(vec![ActionTrack {
-                    time: calendar.time.clone(),
-                    date: calendar.date,
-                }])
-                .collect()
+            bucket.into_iter().chain(vec![action_track]).collect()
         } else {
-            vec![]
+            vec![action_track]
         };
 
         mutable.registry.insert(key.into(), updated_bucket);

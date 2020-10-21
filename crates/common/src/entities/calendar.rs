@@ -48,6 +48,19 @@ impl Calendar {
         }
     }
 
+    /// Increases the number of days keeping the time.
+    pub fn increase_days(self, days: u8) -> Calendar {
+        Calendar {
+            date: self.date + Duration::days(days.into()),
+            ..self
+        }
+    }
+
+    /// Increases the time by a given unit.
+    pub fn increase_time(self, times: u8) -> Calendar {
+        (1..times).fold(self, |cal, _| cal.increase_time_once())
+    }
+
     /// Increases the time by one unit.
     pub fn increase_time_once(self) -> Calendar {
         if self.time == TimeOfDay::Midnight {

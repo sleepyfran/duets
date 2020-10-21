@@ -1,22 +1,22 @@
-use common::entities::Instrument;
+use common::entities::{Identity, Instrument};
 use common::results::InteractResult;
-use simulation::interactions::instruments::{play, PlayInteractionInput};
 
+use crate::constants;
 use crate::context::Context;
-use crate::world::interactions::{
-    InteractEnd, InteractItem, InteractSequence, Interaction, Requirement,
-};
+use crate::world::interactions::*;
 
 #[derive(Clone, Default)]
 pub struct PlayInteraction {
     pub instrument: Instrument,
 }
 
-impl Interaction for PlayInteraction {
+impl Identity for PlayInteraction {
     fn id(&self) -> String {
         "play".into()
     }
+}
 
+impl Interaction for PlayInteraction {
     fn name(&self) -> String {
         "Play".into()
     }
@@ -29,15 +29,42 @@ impl Interaction for PlayInteraction {
         vec![Requirement::HealthAbove(20), Requirement::MoodAbove(20)]
     }
 
-    fn interact(&self, context: &Context) -> InteractSequence {
-        let result = play(PlayInteractionInput {
-            instrument: self.instrument.clone(),
-            interaction_id: self.id(),
-            game_state: context.game_state.clone(),
-        });
-        Ok(InteractItem::Result(InteractEnd {
-            result: result.0.clone(),
-            context: context.clone().modify_game_state(|_| result.1),
-        }))
+    fn track_action(&self) -> bool {
+        true
+    }
+
+    fn limit_daily_interactions(&self) -> InteractionTimes {
+        InteractionTimes::Multiple(2)
+    }
+
+    fn effects(&self) -> InteractionEffects {
+        InteractionEffects {
+            always_applied: vec![
+                InteractionEffect::Energy(EffectType::Negative(
+                    constants::effects::negative::HEALTH_NORMAL_INTERACTION,
+                )),
+                InteractionEffect::Time(TimeConsumption::TimeUnit(1)),
+            ],
+            applied_after_interaction: vec![InteractionEffect::Skill(
+                self.instrument.associated_skill.clone(),
+                EffectType::Positive(constants::effects::positive::SKILL_PLAY_INTERACTION),
+            )],
+        }
+    }
+
+    fn sequence(&self, context: &Context) -> InteractSequence {
+        Ok(InteractItem::End)
+    }
+
+    fn messages(&self) -> (String, String) {
+        (
+            format!(
+                "You successfully played the {}, that improved your skills by {}",
+                self.instrument.name,
+                constants::effects::positive::SKILL_PLAY_INTERACTION
+            ),
+            "Well, at least you tried... Maybe you should take a little break before trying again"
+                .into(),
+        )
     }
 }

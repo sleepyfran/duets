@@ -21,6 +21,7 @@ pub struct Character {
     #[serde(with = "crate::serializables::naivedate::date")]
     pub birthday: NaiveDate,
     pub gender: Gender,
+    pub energy: u8,
     pub mood: u8,
     pub health: u8,
     pub fame: u8,
@@ -33,6 +34,7 @@ impl Default for Character {
             name: String::default(),
             birthday: NaiveDate::from_yo(1990, 1),
             gender: Gender::Other,
+            energy: 100,
             mood: 100,
             health: 100,
             fame: 0,
@@ -50,6 +52,7 @@ impl Character {
             birthday: Utc::now().naive_utc().date() - Duration::days(365 * 20),
             gender: Gender::Other,
             fame: 0,
+            energy: 100,
             health: 100,
             mood: 100,
             skills: HashSet::new(),
@@ -80,6 +83,15 @@ impl Character {
     pub fn with_health(self, health: u8) -> Character {
         Character {
             health: bound_to_positive_hundred(health),
+            ..self
+        }
+    }
+
+    /// Sets the energy of the character. Bounds the given energy to 0 or 100 if
+    /// below or above.
+    pub fn with_energy(self, energy: u8) -> Character {
+        Character {
+            energy: bound_to_positive_hundred(energy),
             ..self
         }
     }
