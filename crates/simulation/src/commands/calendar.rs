@@ -2,7 +2,6 @@ use chrono::{Duration, NaiveDate};
 
 use common::entities::{Calendar, TimeOfDay};
 
-/// Adds a set of functions to increase and decrease skills.
 pub trait CalendarCommands {
     /// Increases the number of days keeping the time.
     fn increase_days(self, days: u8) -> Calendar;

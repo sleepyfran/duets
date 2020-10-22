@@ -1,6 +1,5 @@
 use common::entities::{Character, Skill, SkillWithLevel};
 
-/// Set of functions to query values related to the character's skills.
 pub trait SkillQueries {
     /// Given a skill, returns the skill with level of the character. If the character has not
     /// learned the skill yet, it'll return a new instance with a 0 level.

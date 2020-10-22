@@ -1,7 +1,6 @@
 use common::entities::SkillWithLevel;
 use common::shared::bound_to_positive_hundred;
 
-/// Adds a set of functions to increase and decrease skills.
 pub trait SkillCommands {
     /// Increases the skill by the given amount only if possible (< 100), otherwise sets it to 100.
     fn increase_by(&self, amount: u8) -> SkillWithLevel;

@@ -1,7 +1,5 @@
 use common::entities::Character;
-use common::shared::bound_to_positive_hundred;
 
-/// Adds a set of functions to increase and decrease skills.
 pub trait CharacterCommands {
     /// Increases health by the specified amount if possible (< 100)
     fn increase_health_by(self, amount: u8) -> Character;

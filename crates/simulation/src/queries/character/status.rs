@@ -1,6 +1,5 @@
 use common::entities::Character;
 
-/// Set of functions to query values related to the current character status.
 pub trait Status {
     /// Checks that the energy of the given character is at least the given min_energy.
     fn energy_above(&self, min_energy: u8) -> bool;

@@ -9,6 +9,8 @@ pub use interact::*;
 pub use requirement::*;
 
 use common::entities::{Object, ObjectType};
+use simulation::commands::action_registry::ActionRegistryCommands;
+use simulation::queries::action_registry::ActionRegistryQueries;
 
 use crate::context::Context;
 
