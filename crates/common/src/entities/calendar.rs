@@ -1,4 +1,4 @@
-use chrono::{Duration, NaiveDate};
+use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Display, Formatter, Result};
 
@@ -45,44 +45,6 @@ impl Calendar {
         Calendar {
             date: NaiveDate::parse_from_str(&format!("01-01-{}", year), "%d-%m-%Y").unwrap(),
             time: TimeOfDay::Morning,
-        }
-    }
-
-    /// Increases the number of days keeping the time.
-    pub fn increase_days(self, days: u8) -> Calendar {
-        Calendar {
-            date: self.date + Duration::days(days.into()),
-            ..self
-        }
-    }
-
-    /// Increases the time by a given unit.
-    pub fn increase_time(self, times: u8) -> Calendar {
-        (1..times).fold(self, |cal, _| cal.increase_time_once())
-    }
-
-    /// Increases the time by one unit.
-    pub fn increase_time_once(self) -> Calendar {
-        if self.time == TimeOfDay::Midnight {
-            return Calendar {
-                date: self.date + Duration::days(1),
-                time: TimeOfDay::Dawn,
-            };
-        }
-
-        let updated_time = match &self.time {
-            TimeOfDay::Dawn => TimeOfDay::Morning,
-            TimeOfDay::Morning => TimeOfDay::Midday,
-            TimeOfDay::Midday => TimeOfDay::Sunset,
-            TimeOfDay::Sunset => TimeOfDay::Dusk,
-            TimeOfDay::Dusk => TimeOfDay::Night,
-            TimeOfDay::Night => TimeOfDay::Midnight,
-            TimeOfDay::Midnight => unreachable!(),
-        };
-
-        Calendar {
-            time: updated_time,
-            ..self
         }
     }
 }
