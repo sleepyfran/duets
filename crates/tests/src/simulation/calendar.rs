@@ -1,6 +1,6 @@
 use chrono::Duration;
 
-use common::entities::{ActionRegistry, ActionTrack, Calendar, TimeOfDay};
+use common::entities::{Calendar, TimeOfDay};
 use simulation::commands::calendar::CalendarCommands;
 
 fn get_calendar() -> Calendar {
