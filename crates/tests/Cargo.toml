@@ -11,3 +11,5 @@ game = { path = "../game" }
 cli = { path = "../cli" }
 common = { path = "../common" }
 simulation = { path = "../simulation" }
+
+chrono = "0.4"
