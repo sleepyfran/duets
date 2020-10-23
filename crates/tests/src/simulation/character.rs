@@ -1,6 +1,7 @@
 use common::entities::Character;
 use simulation::queries::character::Status;
 
+/* QUERIES. */
 #[test]
 fn check_health_should_return_false_if_health_below_min() {
     let character = Character {
