@@ -1,28 +1,29 @@
 use common::entities::{Identity, Instrument};
 use common::results::InteractResult;
+use simulation::queries::character::SkillQueries;
 
 use crate::constants;
 use crate::context::Context;
 use crate::world::interactions::*;
 
 #[derive(Clone, Default)]
-pub struct PlayInteraction {
+pub struct ComposeInteraction {
     pub instrument: Instrument,
 }
 
-impl Identity for PlayInteraction {
+impl Identity for ComposeInteraction {
     fn id(&self) -> String {
-        "play".into()
+        "compose".into()
     }
 }
 
-impl Interaction for PlayInteraction {
+impl Interaction for ComposeInteraction {
     fn name(&self) -> String {
-        "Play".into()
+        "Compose".into()
     }
 
     fn description(&self) -> String {
-        "Playing the instrument will advance the time by one time unit and increase the skill moderately".into()
+        "Composing will allow you to create song ideas or improved previous ideas that you can later record".into()
     }
 
     fn requirements(&self) -> Vec<Requirement> {
@@ -38,17 +39,28 @@ impl Interaction for PlayInteraction {
     }
 
     fn effects(&self, context: &Context) -> InteractionEffects {
+        let instrument_skill = context
+            .game_state
+            .character
+            .get_skill_with_level(&self.instrument.associated_skill);
+
+        // Round up to 1 if it's zero, otherwise the song won't improve.
+        let instrument_skill_level = if instrument_skill.level == 0 {
+            1
+        } else {
+            instrument_skill.level
+        };
+
         InteractionEffects {
             always_applied: vec![
                 InteractionEffect::Energy(EffectType::Negative(
                     constants::effects::negative::HEALTH_NORMAL_INTERACTION,
                 )),
-                InteractionEffect::Time(TimeConsumption::TimeUnit(1)),
+                InteractionEffect::Time(TimeConsumption::TimeUnit(2)),
             ],
-            applied_after_interaction: vec![InteractionEffect::Skill(
-                self.instrument.associated_skill.clone(),
-                EffectType::Positive(constants::effects::positive::SKILL_PLAY_INTERACTION),
-            )],
+            applied_after_interaction: vec![InteractionEffect::Song(EffectType::Positive(
+                constants::effects::positive::SONG_COMPOSE_INTERACTION * instrument_skill_level,
+            ))],
         }
     }
 

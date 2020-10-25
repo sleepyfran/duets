@@ -55,7 +55,6 @@ fn show_interactions(object: Object) -> CliAction {
         text: PromptText::WithEmoji(format!("What do you want to do with the {}?", object.name)),
         choices: object_interactions
             .iter()
-            .cloned()
             .enumerate()
             .map(|(index, interaction)| Choice {
                 id: index,
@@ -63,9 +62,8 @@ fn show_interactions(object: Object) -> CliAction {
             })
             .collect(),
         on_action: Box::new(move |choice, global_context| {
-            let chosen_interaction = object_interactions[choice.id].clone();
-            let interaction_result =
-                interactions::sequence(chosen_interaction.clone(), &global_context);
+            let chosen_interaction = &*object_interactions[choice.id];
+            let interaction_result = interactions::sequence(chosen_interaction, &global_context);
 
             display::show_line_break();
 
@@ -95,7 +93,7 @@ fn show_interactions(object: Object) -> CliAction {
 }
 
 fn show_sequence(
-    interaction: impl Interaction,
+    interaction: &dyn Interaction,
     sequence: InteractItem,
     context: &Context,
 ) -> CliAction {

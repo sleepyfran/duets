@@ -15,7 +15,7 @@ use simulation::queries::action_registry::ActionRegistryQueries;
 use crate::context::Context;
 
 /// Returns all the available interactions for the given object.
-pub fn get_for(object: &Object) -> Vec<impl Interaction> {
+pub fn get_for(object: &Object) -> Vec<Box<dyn Interaction>> {
     match &object.r#type {
         ObjectType::Instrument(instrument) => instruments::get_interactions(instrument),
         _ => vec![],
@@ -24,26 +24,26 @@ pub fn get_for(object: &Object) -> Vec<impl Interaction> {
 
 /// Checks for all the requirements of the given interaction and, if all passed, returns the
 /// sequence needed to execute the interaction.
-pub fn sequence(interaction: impl Interaction, context: &Context) -> InteractSequence {
+pub fn sequence(interaction: &dyn Interaction, context: &Context) -> InteractSequence {
     check_requirements(context, interaction.requirements())?;
     interaction.sequence(context)
 }
 
 /// Applies all the effects given in the interaction to the context.
-pub fn result(interaction: impl Interaction, context: &Context) -> (String, Context) {
-    let can_interact = check_interacted_within_limit(interaction.clone(), context);
+pub fn result(interaction: &dyn Interaction, context: &Context) -> (String, Context) {
+    let can_interact = check_interacted_within_limit(interaction, context);
 
-    register_action(interaction.clone(), context)
-        .pipe(|ctx| process_always_applied_effects(interaction.clone(), &ctx))
+    register_action(interaction, context)
+        .pipe(|ctx| process_always_applied_effects(interaction, &ctx))
         .pipe(|ctx| {
             if can_interact {
-                process_applied_after_interaction_effects(interaction.clone(), &ctx)
+                process_applied_after_interaction_effects(interaction, &ctx)
             } else {
                 ctx
             }
         })
         .pipe(|ctx| {
-            let messages = interaction.messages();
+            let messages = interaction.messages(context);
             if can_interact {
                 (messages.0, ctx)
             } else {
@@ -52,7 +52,7 @@ pub fn result(interaction: impl Interaction, context: &Context) -> (String, Cont
         })
 }
 
-fn check_interacted_within_limit(interaction: impl Interaction, context: &Context) -> bool {
+fn check_interacted_within_limit(interaction: &dyn Interaction, context: &Context) -> bool {
     let tracking_available = interaction.track_action();
     if tracking_available {
         let interaction_limit = interaction.limit_daily_interactions();
@@ -70,7 +70,7 @@ fn check_interacted_within_limit(interaction: impl Interaction, context: &Contex
 
 fn check_interaction_performed_at_most(
     times: u8,
-    interaction: impl Interaction,
+    interaction: &dyn Interaction,
     context: &Context,
 ) -> bool {
     let today_actions = context
@@ -85,7 +85,7 @@ fn check_interaction_performed_at_most(
     }
 }
 
-fn register_action(interaction: impl Interaction, context: &Context) -> Context {
+fn register_action(interaction: &dyn Interaction, context: &Context) -> Context {
     let tracking_available = interaction.track_action();
     if tracking_available {
         context.clone().modify_game_state(|game_state| {
@@ -98,15 +98,18 @@ fn register_action(interaction: impl Interaction, context: &Context) -> Context 
     }
 }
 
-fn process_always_applied_effects(interaction: impl Interaction, context: &Context) -> Context {
-    process_effects(interaction.effects().always_applied, context)
+fn process_always_applied_effects(interaction: &dyn Interaction, context: &Context) -> Context {
+    process_effects(interaction.effects(context).always_applied, context)
 }
 
 fn process_applied_after_interaction_effects(
-    interaction: impl Interaction,
+    interaction: &dyn Interaction,
     context: &Context,
 ) -> Context {
-    process_effects(interaction.effects().applied_after_interaction, context)
+    process_effects(
+        interaction.effects(context).applied_after_interaction,
+        context,
+    )
 }
 
 fn process_effects(effects: Vec<InteractionEffect>, context: &Context) -> Context {
@@ -121,5 +124,6 @@ fn process_effect(effect: InteractionEffect, context: &Context) -> Context {
         InteractionEffect::Health(effect) => effects::health::apply(effect, context),
         InteractionEffect::Energy(effect) => effects::energy::apply(effect, context),
         InteractionEffect::Skill(skill, effect) => effects::skills::apply(skill, effect, context),
+        InteractionEffect::Song(effect) => context.clone(),
     }
 }

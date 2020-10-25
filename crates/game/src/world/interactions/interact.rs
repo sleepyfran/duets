@@ -44,6 +44,7 @@ pub enum InteractionEffect {
     Health(EffectType),
     Energy(EffectType),
     Skill(Skill, EffectType),
+    Song(EffectType),
 }
 
 /// Represents how the interaction affects the character and the environment.
@@ -62,7 +63,7 @@ pub enum InteractionTimes {
 }
 
 /// Defines a common interface for all interactions.
-pub trait Interaction: Clone + Identity {
+pub trait Interaction: Identity {
     /// Friendly name to show to the user.
     fn name(&self) -> String;
     /// Friendly description to show to the user.
@@ -79,11 +80,11 @@ pub trait Interaction: Clone + Identity {
     /// Indicates the effects that the interaction has on the character and the environment. The
     /// negative effects will always be applied while the positive will only be applied if the
     /// limit was not reached.
-    fn effects(&self) -> InteractionEffects;
+    fn effects(&self, context: &Context) -> InteractionEffects;
     /// Returns the sequence (if any) between the user and the interaction until reaching the end
     /// state that provides a result to compute.
     fn sequence(&self, context: &Context) -> InteractSequence;
     /// Returns the messages to show to the user, the first one indicates the message to show
     /// when the interaction is succesful and the second when one of the limits fails.
-    fn messages(&self) -> (String, String);
+    fn messages(&self, context: &Context) -> (String, String);
 }

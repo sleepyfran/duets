@@ -7,7 +7,7 @@ use crate::world::interactions::EffectType;
 
 /// Applies the given skill effect.
 pub fn apply(skill: Skill, effect_type: EffectType, context: &Context) -> Context {
-    let skill = context.game_state.character.get_skill_with_level(skill);
+    let skill = context.game_state.character.get_skill_with_level(&skill);
 
     context.clone().modify_game_state(|game_state| {
         game_state.modify_character(|character| match effect_type {
