@@ -12,7 +12,7 @@ pub type NewBandContext = ScreenContext<BandStartBuilder>;
 pub fn create_starting_context(global_context: &Context) -> NewBandContext {
     NewBandContext {
         global_context: global_context.clone(),
-        game_builder: BandStartBuilder::default(),
+        state: BandStartBuilder::default(),
         next_action: Some(Box::new(continue_to_genre_input)),
     }
 }
@@ -26,7 +26,7 @@ pub fn start_with_name_input(context: NewBandContext) -> CliAction {
         on_action: Box::new(|input, global_context| {
             context.next_action.unwrap()(NewBandContext {
                 global_context: global_context.clone(),
-                game_builder: BandStartBuilder::default().name(input),
+                state: BandStartBuilder::default().name(input),
                 next_action: Some(Box::new(continue_to_instrument_input)),
             })
         }),
@@ -59,7 +59,7 @@ pub fn continue_to_genre_input(context: NewBandContext) -> CliAction {
             let selected_genre = genres[choice.id].1.clone();
             context.next_action.unwrap()(NewBandContext {
                 global_context: global_context.clone(),
-                game_builder: context.game_builder.genre(selected_genre),
+                state: context.state.genre(selected_genre),
                 next_action: Some(Box::new(continue_to_confirmation)),
             })
         }),
@@ -92,8 +92,8 @@ pub fn continue_to_instrument_input(context: NewBandContext) -> CliAction {
             let selected_instrument = instruments[choice.id].1.clone();
             context.next_action.unwrap()(NewBandContext {
                 global_context: global_context.clone(),
-                game_builder: context
-                    .game_builder
+                state: context
+                    .state
                     .starting_instrument(selected_instrument),
                 next_action: None,
             })
@@ -103,7 +103,7 @@ pub fn continue_to_instrument_input(context: NewBandContext) -> CliAction {
 
 fn continue_to_confirmation(context: NewBandContext) -> CliAction {
     let band = context
-        .game_builder
+        .state
         .starting_character(context.global_context.game_state.character)
         .build()
         .unwrap()
@@ -149,7 +149,7 @@ fn continue_to_confirmation(context: NewBandContext) -> CliAction {
                 display::show_text(&String::from("Let's get to it"));
                 start_with_name_input(NewBandContext {
                     global_context: global_context.clone(),
-                    game_builder: BandStartBuilder::default(),
+                    state: BandStartBuilder::default(),
                     next_action: Some(Box::new(continue_to_genre_input)),
                 })
             }

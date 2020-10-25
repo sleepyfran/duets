@@ -4,7 +4,7 @@ use std::collections::HashSet;
 
 use crate::shared::bound_to_positive_hundred;
 
-use crate::entities::skill::SkillWithLevel;
+use super::{SkillWithLevel, Song};
 
 /// Defines the gender of the character.
 #[derive(Clone, Deserialize, Serialize, Debug)]
@@ -15,7 +15,7 @@ pub enum Gender {
 }
 
 /// Defines both playable and non-playable characters in the game.
-#[derive(Clone, Deserialize, Serialize, Debug)]
+#[derive(Clone, Deserialize, Serialize)]
 pub struct Character {
     pub name: String,
     #[serde(with = "crate::serializables::naivedate::date")]
@@ -26,6 +26,7 @@ pub struct Character {
     pub health: u8,
     pub fame: u8,
     pub skills: HashSet<SkillWithLevel>,
+    pub songs_in_progress: Vec<Song>,
 }
 
 impl Default for Character {
@@ -39,6 +40,7 @@ impl Default for Character {
             health: 100,
             fame: 0,
             skills: HashSet::new(),
+            songs_in_progress: vec![],
         }
     }
 }
@@ -56,6 +58,7 @@ impl Character {
             health: 100,
             mood: 100,
             skills: HashSet::new(),
+            songs_in_progress: vec![],
         }
     }
 

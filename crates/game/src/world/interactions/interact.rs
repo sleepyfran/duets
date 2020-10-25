@@ -13,8 +13,18 @@ pub struct InteractEnd {
     pub context: Context,
 }
 
+/// Represents an option that the user can choose from.
+pub struct InteractOption {
+    pub id: String,
+    pub text: String,
+}
+
 /// Holds the different types of actions that can be done in an interaction sequence.
 pub enum InteractItem {
+    /// Combines two or items.
+    Chain(Box<InteractItem>, Box<InteractItem>),
+    /// Asks the user to select between different options.
+    Options(Vec<InteractOption>),
     /// End action. Indicates the calling function to compute the result given the parameters of the
     /// interaction and the limitations.
     End,
@@ -60,6 +70,23 @@ pub enum InteractionTimes {
     Unlimited,
     Once,
     Multiple(u8),
+}
+
+/// Represents the different types of input that an user can give.
+pub enum InputType {
+    Text(String),
+    Option(InteractOption),
+    YesOrNo(bool),
+}
+
+/// Represents the input that has to be given to the result function in order to process both
+/// the effects associated with the interaction and the input given by the user.
+pub struct InteractInput {
+    /// Input given by the user (if any). This input is filled while processing the sequence given
+    /// by an interaction.
+    pub input: Vec<InputType>,
+    /// Current context.
+    pub context: Context,
 }
 
 /// Defines a common interface for all interactions.

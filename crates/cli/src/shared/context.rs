@@ -27,8 +27,8 @@ pub fn modify_global_context(modify_fn: Box<dyn FnOnce(Context) -> Context>) {
 /// Context that each step will hold to have quick access to the global context and other goodies
 /// that we might need. Also defines the next_action to execute so we can programatically come back
 /// to a certain step in case of failure.
-pub struct ScreenContext<Builder> {
+pub struct ScreenContext<State> {
     pub global_context: Context,
-    pub game_builder: Builder,
-    pub next_action: Option<Box<dyn FnOnce(ScreenContext<Builder>) -> CliAction>>,
+    pub state: State,
+    pub next_action: Option<Box<dyn FnOnce(ScreenContext<State>) -> CliAction>>,
 }

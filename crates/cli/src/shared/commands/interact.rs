@@ -6,11 +6,11 @@ use game::world::interactions;
 use game::world::interactions::{InteractItem, Interaction, Requirement};
 
 use super::Command;
-use crate::effects;
 use crate::shared::action::{Choice, CliAction, Prompt, PromptText};
 use crate::shared::display;
 use crate::shared::lang;
 use crate::shared::parsers;
+use crate::screens::GameScreen;
 
 /// Allows the user to get a list of all the objects available in the current room.
 pub fn create_interact_command() -> Command {
@@ -62,8 +62,8 @@ fn show_interactions(object: Object) -> CliAction {
             })
             .collect(),
         on_action: Box::new(move |choice, global_context| {
-            let chosen_interaction = &*object_interactions[choice.id];
-            let interaction_result = interactions::sequence(chosen_interaction, &global_context);
+            let chosen_interaction = object_interactions.into_iter().nth(choice.id).unwrap();
+            let interaction_result = interactions::sequence(&*chosen_interaction, &global_context);
 
             display::show_line_break();
 
@@ -93,15 +93,15 @@ fn show_interactions(object: Object) -> CliAction {
 }
 
 fn show_sequence(
-    interaction: &dyn Interaction,
+    interaction: Box<dyn Interaction>,
     sequence: InteractItem,
     context: &Context,
 ) -> CliAction {
-    match sequence {
-        InteractItem::End => {
-            let result = interactions::result(interaction, context);
-            display::show_info(&result.0);
-            effects::set_state(result.1.game_state)
+    CliAction::Screen(
+        GameScreen::Interaction {
+            interaction,
+            sequence,
+            context: context.clone(),
         }
-    }
+    )
 }

@@ -65,7 +65,24 @@ impl Interaction for ComposeInteraction {
     }
 
     fn sequence(&self, context: &Context) -> InteractSequence {
-        Ok(InteractItem::End)
+        let songs_in_progress = context.clone().game_state.character.songs_in_progress;
+        if !songs_in_progress.is_empty() {
+            Ok(InteractItem::Chain(
+                Box::new(InteractItem::Options(
+                    songs_in_progress
+                        .iter()
+                        .enumerate()
+                        .map(|(index, song)| InteractOption {
+                            id: index.to_string(),
+                            text: song.name.clone(),
+                        })
+                        .collect(),
+                )),
+                Box::new(common_sequence(context)),
+            ))
+        } else {
+            Ok(common_sequence(context))
+        }
     }
 
     fn messages(&self, context: &Context) -> (String, String) {
@@ -79,4 +96,8 @@ impl Interaction for ComposeInteraction {
                 .into(),
         )
     }
+}
+
+fn common_sequence(context: &Context) -> InteractItem {
+    InteractItem::End
 }

@@ -14,7 +14,7 @@ use crate::shared::emoji;
 /// action of the screen.
 pub fn show(game_screen: screens::GameScreen, context: &Context) -> CliAction {
     let screen = screens::create(game_screen, context);
-    prompts::show(screen.action, context)
+    screen.action
 }
 
 /// Prints a new line to separate content.

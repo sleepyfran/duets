@@ -10,42 +10,44 @@ use crate::shared::screen::Screen;
 pub fn create_main_screen(savegame: SavegameState) -> Screen {
     Screen {
         name: String::from("Main Menu"),
-        action: Prompt::ChoiceInput {
-            text: PromptText::WithoutEmoji(
-                r#"
-            .:::::                        .::         
-            .::   .::                     .::         
-            .::    .::.::  .::   .::    .:.: .: .:::: 
-            .::    .::.::  .:: .:   .::   .::  .::    
-            .::    .::.::  .::.::::: .::  .::    .::: 
-            .::   .:: .::  .::.:          .::      .::
-            .:::::      .::.::  .::::      .:: .:: .::
-            
-            Welcome to Duets! Select an option to begin:
-                        "#
-                .into(),
-            ),
-            choices: vec![
-                Choice {
-                    id: 0,
-                    text: String::from("Start new game"),
-                },
-                Choice {
-                    id: 1,
-                    text: String::from("Load game"),
-                },
-                Choice {
-                    id: 2,
-                    text: String::from("Exit"),
-                },
-            ],
-            on_action: Box::new(|choice, global_context| match choice.id {
-                0 => new_game_selected(savegame, global_context),
-                1 => load_game_selected(savegame, global_context),
-                2 => CliAction::SideEffect(Box::new(effects::exit)),
-                _ => CliAction::NoOp,
-            }),
-        },
+        action: CliAction::Prompt(
+            Prompt::ChoiceInput {
+                text: PromptText::WithoutEmoji(
+                    r#"
+                .:::::                        .::         
+                .::   .::                     .::         
+                .::    .::.::  .::   .::    .:.: .: .:::: 
+                .::    .::.::  .:: .:   .::   .::  .::    
+                .::    .::.::  .::.::::: .::  .::    .::: 
+                .::   .:: .::  .::.:          .::      .::
+                .:::::      .::.::  .::::      .:: .:: .::
+                
+                Welcome to Duets! Select an option to begin:
+                            "#
+                    .into(),
+                ),
+                choices: vec![
+                    Choice {
+                        id: 0,
+                        text: String::from("Start new game"),
+                    },
+                    Choice {
+                        id: 1,
+                        text: String::from("Load game"),
+                    },
+                    Choice {
+                        id: 2,
+                        text: String::from("Exit"),
+                    },
+                ],
+                on_action: Box::new(|choice, global_context| match choice.id {
+                    0 => new_game_selected(savegame, global_context),
+                    1 => load_game_selected(savegame, global_context),
+                    2 => CliAction::SideEffect(Box::new(effects::exit)),
+                    _ => CliAction::NoOp,
+                }),
+            }
+        ),
     }
 }
 
