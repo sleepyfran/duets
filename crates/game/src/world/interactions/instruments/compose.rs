@@ -117,14 +117,27 @@ fn build_new_song_sequence(context: &Context) -> InteractItem {
         )),
         Box::new(InteractItem::Chain(
             Box::new(InteractItem::Options {
-                question: "What vocal style is the song going to have?".into(),
-                options: VocalStyle::iter()
-                    .map(|style| InteractOption {
-                        text: style.to_string(),
+                question: "What genre is it going to have?".into(),
+                options: context
+                    .database
+                    .genres
+                    .iter()
+                    .map(|genre| InteractOption {
+                        text: genre.name.to_string(),
                     })
                     .collect(),
             }),
-            Box::new(InteractItem::End),
+            Box::new(InteractItem::Chain(
+                Box::new(InteractItem::Options {
+                    question: "What vocal style is the song going to have?".into(),
+                    options: VocalStyle::iter()
+                        .map(|style| InteractOption {
+                            text: style.to_string(),
+                        })
+                        .collect(),
+                }),
+                Box::new(InteractItem::End),
+            )),
         )),
     )
 }
