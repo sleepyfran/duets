@@ -1,17 +1,19 @@
 mod compose;
 mod play;
 
+use std::rc::Rc;
+
 use common::entities::Instrument;
 
 use super::Interaction;
 
 /// Returns all the available interactions for instruments.
-pub fn get_interactions(instrument: &Instrument) -> Vec<Box<dyn Interaction>> {
+pub fn get_interactions(instrument: &Instrument) -> Vec<Rc<dyn Interaction>> {
     vec![
-        Box::new(play::PlayInteraction {
+        Rc::new(play::PlayInteraction {
             instrument: instrument.clone(),
         }),
-        Box::new(compose::ComposeInteraction {
+        Rc::new(compose::ComposeInteraction {
             instrument: instrument.clone(),
         }),
     ]

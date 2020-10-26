@@ -4,6 +4,7 @@ mod interact;
 mod requirement;
 
 use pipe_trait::*;
+use std::rc::Rc;
 
 pub use interact::*;
 pub use requirement::*;
@@ -15,7 +16,7 @@ use simulation::queries::action_registry::ActionRegistryQueries;
 use crate::context::Context;
 
 /// Returns all the available interactions for the given object.
-pub fn get_for(object: &Object) -> Vec<Box<dyn Interaction>> {
+pub fn get_for(object: &Object) -> Vec<Rc<dyn Interaction>> {
     match &object.r#type {
         ObjectType::Instrument(instrument) => instruments::get_interactions(instrument),
         _ => vec![],
@@ -30,10 +31,10 @@ pub fn sequence(interaction: &dyn Interaction, context: &Context) -> InteractSeq
 }
 
 /// Applies all the effects given in the interaction to the context.
-pub fn result(interaction: &dyn Interaction, context: &Context) -> (String, Context) {
-    let can_interact = check_interacted_within_limit(interaction, context);
+pub fn result(interaction: &dyn Interaction, input: InteractInput) -> (String, Context) {
+    let can_interact = check_interacted_within_limit(interaction, &input.context);
 
-    register_action(interaction, context)
+    register_action(interaction, &input.context)
         .pipe(|ctx| process_always_applied_effects(interaction, &ctx))
         .pipe(|ctx| {
             if can_interact {
@@ -43,7 +44,7 @@ pub fn result(interaction: &dyn Interaction, context: &Context) -> (String, Cont
             }
         })
         .pipe(|ctx| {
-            let messages = interaction.messages(context);
+            let messages = interaction.messages(&input.context);
             if can_interact {
                 (messages.0, ctx)
             } else {

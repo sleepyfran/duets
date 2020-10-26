@@ -1,5 +1,4 @@
 use common::entities::{Identity, Instrument};
-use common::results::InteractResult;
 
 use crate::constants;
 use crate::context::Context;

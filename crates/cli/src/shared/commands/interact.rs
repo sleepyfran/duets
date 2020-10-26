@@ -1,3 +1,4 @@
+use std::rc::Rc;
 use std::sync::Arc;
 
 use common::entities::Object;
@@ -6,11 +7,11 @@ use game::world::interactions;
 use game::world::interactions::{InteractItem, Interaction, Requirement};
 
 use super::Command;
+use crate::screens::GameScreen;
 use crate::shared::action::{Choice, CliAction, Prompt, PromptText};
 use crate::shared::display;
 use crate::shared::lang;
 use crate::shared::parsers;
-use crate::screens::GameScreen;
 
 /// Allows the user to get a list of all the objects available in the current room.
 pub fn create_interact_command() -> Command {
@@ -93,15 +94,13 @@ fn show_interactions(object: Object) -> CliAction {
 }
 
 fn show_sequence(
-    interaction: Box<dyn Interaction>,
+    interaction: Rc<dyn Interaction>,
     sequence: InteractItem,
     context: &Context,
 ) -> CliAction {
-    CliAction::Screen(
-        GameScreen::Interaction {
-            interaction,
-            sequence,
-            context: context.clone(),
-        }
-    )
+    CliAction::Screen(GameScreen::Interaction {
+        interaction,
+        sequence,
+        context: context.clone(),
+    })
 }

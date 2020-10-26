@@ -1,11 +1,13 @@
 mod home;
+mod interaction;
 mod main_menu;
 mod new_game;
-mod interaction;
+
+use std::rc::Rc;
 
 use game::context::Context;
 use game::operations::start::SavegameState;
-use game::world::interactions::{Interaction, InteractItem};
+use game::world::interactions::{InteractItem, Interaction};
 
 use crate::shared::screen::Screen;
 
@@ -16,7 +18,7 @@ pub enum GameScreen {
     NewGame,
     Home,
     Interaction {
-        interaction: Box<dyn Interaction>,
+        interaction: Rc<dyn Interaction>,
         sequence: InteractItem,
         context: Context,
     },
@@ -32,7 +34,7 @@ pub fn create(screen: GameScreen, context: &Context) -> Screen {
         GameScreen::Interaction {
             interaction,
             sequence,
-            context
-        } => interaction::create_interaction_screen(&*interaction, sequence, context)
+            context,
+        } => interaction::create_interaction_screen(interaction, sequence, context),
     }
 }

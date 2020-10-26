@@ -30,5 +30,36 @@ pub fn modify_global_context(modify_fn: Box<dyn FnOnce(Context) -> Context>) {
 pub struct ScreenContext<State> {
     pub global_context: Context,
     pub state: State,
-    pub next_action: Option<Box<dyn FnOnce(ScreenContext<State>) -> CliAction>>,
+    pub next_action: NextAction<State>,
+}
+
+pub type NextAction<State> = Option<Box<dyn FnOnce(ScreenContext<State>) -> CliAction>>;
+
+impl<S> ScreenContext<S> {
+    /// Overrides the current context and returns a copy of the ScreenContext with it.
+    pub fn with_context(self, global_context: &Context) -> Self {
+        Self {
+            global_context: global_context.clone(),
+            ..self
+        }
+    }
+
+    /// Overrides the current next_action and returns a copy of the ScreenContext with it.
+    pub fn with_next_action(self, next_action: NextAction<S>) -> Self {
+        Self {
+            next_action,
+            ..self
+        }
+    }
+
+    /// Overrides the current state returning a copy of the context with the new state.
+    pub fn modify_state<F>(self, modify_fn: F) -> Self
+    where
+        F: FnOnce(S) -> S,
+    {
+        Self {
+            state: modify_fn(self.state),
+            ..self
+        }
+    }
 }

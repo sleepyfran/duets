@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
+use strum_macros::{Display, EnumIter};
 
 use super::Genre;
 
 /// Represents the different style of vocals that a song can have.
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Clone, Deserialize, Serialize, Display, EnumIter)]
 pub enum VocalStyle {
     Instrumental,
     Clean,

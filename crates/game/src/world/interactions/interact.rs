@@ -14,17 +14,31 @@ pub struct InteractEnd {
 }
 
 /// Represents an option that the user can choose from.
+#[derive(Clone)]
 pub struct InteractOption {
-    pub id: String,
     pub text: String,
 }
 
 /// Holds the different types of actions that can be done in an interaction sequence.
+#[derive(Clone)]
 pub enum InteractItem {
     /// Combines two or items.
     Chain(Box<InteractItem>, Box<InteractItem>),
     /// Asks the user to select between different options.
-    Options(Vec<InteractOption>),
+    Options {
+        question: String,
+        options: Vec<InteractOption>,
+    },
+    /// Asks the user to confirm something.
+    Confirmation {
+        question: String,
+        /// Represents the different branches that the item can get depending on the answer. If
+        /// the user answers yes then the first item will get executed, otherwise the second one
+        /// will be chosen.
+        branches: (Box<InteractItem>, Box<InteractItem>),
+    },
+    /// Asks the user to input some text.
+    TextInput(String),
     /// End action. Indicates the calling function to compute the result given the parameters of the
     /// interaction and the limitations.
     End,
@@ -73,14 +87,15 @@ pub enum InteractionTimes {
 }
 
 /// Represents the different types of input that an user can give.
+#[derive(Clone)]
 pub enum InputType {
     Text(String),
     Option(InteractOption),
-    YesOrNo(bool),
 }
 
 /// Represents the input that has to be given to the result function in order to process both
 /// the effects associated with the interaction and the input given by the user.
+#[derive(Clone)]
 pub struct InteractInput {
     /// Input given by the user (if any). This input is filled while processing the sequence given
     /// by an interaction.
@@ -89,8 +104,17 @@ pub struct InteractInput {
     pub context: Context,
 }
 
+impl InteractInput {
+    pub fn add_input(self, input: InputType) -> Self {
+        Self {
+            input: self.input.into_iter().chain(vec![input]).collect(),
+            ..self
+        }
+    }
+}
+
 /// Defines a common interface for all interactions.
-pub trait Interaction: Identity {
+pub trait Interaction: Identity + Send + Sync {
     /// Friendly name to show to the user.
     fn name(&self) -> String;
     /// Friendly description to show to the user.

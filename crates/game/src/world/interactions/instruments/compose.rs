@@ -1,5 +1,6 @@
-use common::entities::{Identity, Instrument};
-use common::results::InteractResult;
+use strum::IntoEnumIterator;
+
+use common::entities::{Identity, Instrument, Song, VocalStyle};
 use simulation::queries::character::SkillQueries;
 
 use crate::constants;
@@ -67,21 +68,9 @@ impl Interaction for ComposeInteraction {
     fn sequence(&self, context: &Context) -> InteractSequence {
         let songs_in_progress = context.clone().game_state.character.songs_in_progress;
         if !songs_in_progress.is_empty() {
-            Ok(InteractItem::Chain(
-                Box::new(InteractItem::Options(
-                    songs_in_progress
-                        .iter()
-                        .enumerate()
-                        .map(|(index, song)| InteractOption {
-                            id: index.to_string(),
-                            text: song.name.clone(),
-                        })
-                        .collect(),
-                )),
-                Box::new(common_sequence(context)),
-            ))
+            Ok(build_existing_song_sequence(songs_in_progress, context))
         } else {
-            Ok(common_sequence(context))
+            Ok(build_new_song_sequence(context))
         }
     }
 
@@ -98,6 +87,44 @@ impl Interaction for ComposeInteraction {
     }
 }
 
-fn common_sequence(context: &Context) -> InteractItem {
-    InteractItem::End
+fn build_existing_song_sequence(songs_in_progress: Vec<Song>, context: &Context) -> InteractItem {
+    InteractItem::Confirmation {
+        question:
+            "You have unfinished songs, do you want to continue one of them or create a new one?"
+                .into(),
+        branches: (
+            Box::new(InteractItem::Chain(
+                Box::new(InteractItem::Options {
+                    question: "Which song do you want to improve?".into(),
+                    options: songs_in_progress
+                        .iter()
+                        .map(|song| InteractOption {
+                            text: song.name.clone(),
+                        })
+                        .collect(),
+                }),
+                Box::new(InteractItem::End),
+            )),
+            Box::new(build_new_song_sequence(context)),
+        ),
+    }
+}
+
+fn build_new_song_sequence(context: &Context) -> InteractItem {
+    InteractItem::Chain(
+        Box::new(InteractItem::TextInput(
+            "Composing a new song. What name is it going to have?".into(),
+        )),
+        Box::new(InteractItem::Chain(
+            Box::new(InteractItem::Options {
+                question: "What vocal style is the song going to have?".into(),
+                options: VocalStyle::iter()
+                    .map(|style| InteractOption {
+                        text: style.to_string(),
+                    })
+                    .collect(),
+            }),
+            Box::new(InteractItem::End),
+        )),
+    )
 }
