@@ -104,7 +104,7 @@ fn continue_with_action(
 ) -> CliAction {
     match context.next_action {
         Some(action) => action(InteractionContext {
-            global_context: context.global_context.clone(),
+            global_context: updated_global_context.clone(),
             state: context.state.add_input(input),
             next_action: None,
         }),
