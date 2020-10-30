@@ -5,6 +5,7 @@ use uuid::Uuid;
 
 use super::Genre;
 use super::Identity;
+use crate::shared::bound_to_positive_hundred;
 
 /// Represents the different style of vocals that a song can have.
 #[derive(Clone, Deserialize, Serialize, Display, EnumIter, EnumString, PartialEq, Eq)]
@@ -57,7 +58,10 @@ impl Song {
     }
 
     pub fn with_quality(self, quality: u8) -> Self {
-        Self { quality, ..self }
+        Self {
+            quality: bound_to_positive_hundred(quality),
+            ..self
+        }
     }
 }
 
