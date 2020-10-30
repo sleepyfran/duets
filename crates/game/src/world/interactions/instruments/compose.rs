@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use strum::IntoEnumIterator;
 
 use common::entities::{Identity, Instrument, Song, VocalStyle};
@@ -87,7 +88,10 @@ impl Interaction for ComposeInteraction {
     }
 }
 
-fn build_existing_song_sequence(songs_in_progress: Vec<Song>, context: &Context) -> InteractItem {
+fn build_existing_song_sequence(
+    songs_in_progress: HashSet<Song>,
+    context: &Context,
+) -> InteractItem {
     InteractItem::Confirmation {
         question:
             "You have unfinished songs, do you want to continue one of them or create a new one?"
@@ -99,6 +103,7 @@ fn build_existing_song_sequence(songs_in_progress: Vec<Song>, context: &Context)
                     options: songs_in_progress
                         .iter()
                         .map(|song| InteractOption {
+                            id: song.id.to_string(),
                             text: song.name.clone(),
                         })
                         .collect(),
@@ -123,6 +128,7 @@ fn build_new_song_sequence(context: &Context) -> InteractItem {
                     .genres
                     .iter()
                     .map(|genre| InteractOption {
+                        id: genre.id.to_string(),
                         text: genre.name.to_string(),
                     })
                     .collect(),
@@ -132,6 +138,7 @@ fn build_new_song_sequence(context: &Context) -> InteractItem {
                     question: "What vocal style is the song going to have?".into(),
                     options: VocalStyle::iter()
                         .map(|style| InteractOption {
+                            id: style.to_string(),
                             text: style.to_string(),
                         })
                         .collect(),

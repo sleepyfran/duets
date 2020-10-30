@@ -115,6 +115,7 @@ fn load_database() -> Result<Database, DatabaseLoadError> {
                 ],
                 "genres": [
                     {
+                        "id": "not_blvck",
                         "name": "Blackgaze",
                         "compatibleWith": []
                     }

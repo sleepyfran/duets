@@ -16,6 +16,7 @@ pub struct InteractEnd {
 /// Represents an option that the user can choose from.
 #[derive(Clone)]
 pub struct InteractOption {
+    pub id: String,
     pub text: String,
 }
 
@@ -91,23 +92,70 @@ pub enum InteractionTimes {
 pub enum InputType {
     Text(String),
     Option(InteractOption),
+    Confirmation(bool),
+}
+
+impl InputType {
+    /// Forces the current input type as a text. Panics if the current type is not that variant.
+    pub fn as_text(self) -> String {
+        match self {
+            InputType::Text(text) => text,
+            _ => panic!("The variant was not a text. Better check that sequence :)"),
+        }
+    }
+
+    /// Forces the current input type as an option. Panics if the current type is not that variant.
+    pub fn as_option(self) -> InteractOption {
+        match self {
+            InputType::Option(option) => option,
+            _ => panic!("The variant was not an option. Better check that sequence :)"),
+        }
+    }
+
+    /// Forces the current input type as a confirmation. Panics if the current type is not that variant.
+    pub fn as_confirmation(self) -> bool {
+        match self {
+            InputType::Confirmation(confirmation) => confirmation,
+            _ => panic!("The variant was not a confirmation. Better check that sequence :)"),
+        }
+    }
 }
 
 /// Represents the input that has to be given to the result function in order to process both
 /// the effects associated with the interaction and the input given by the user.
 #[derive(Clone)]
-pub struct InteractInput {
+pub struct SequenceInput {
     /// Input given by the user (if any). This input is filled while processing the sequence given
     /// by an interaction.
-    pub input: Vec<InputType>,
+    pub values: Vec<InputType>,
     /// Current context.
     pub context: Context,
 }
 
-impl InteractInput {
+impl SequenceInput {
+    /// Adds input from the user into the list.
     pub fn add_input(self, input: InputType) -> Self {
         Self {
-            input: self.input.into_iter().chain(vec![input]).collect(),
+            values: self.values.into_iter().chain(vec![input]).collect(),
+            ..self
+        }
+    }
+
+    /// Returns a copy of itself with the input changed by the modify_fn.
+    pub fn modify_input<F>(self, modify_fn: F) -> Self
+    where
+        F: FnOnce(Vec<InputType>) -> Vec<InputType>,
+    {
+        Self {
+            values: modify_fn(self.values),
+            ..self
+        }
+    }
+
+    /// Changes the context and returns a copy of itself.
+    pub fn with_context(self, context: &Context) -> Self {
+        Self {
+            context: context.clone(),
             ..self
         }
     }
