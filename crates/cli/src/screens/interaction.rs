@@ -3,7 +3,7 @@ use std::rc::Rc;
 use game::world::interactions;
 use game::world::interactions::*;
 
-use crate::context::{Context, NextAction, ScreenContext};
+use crate::context::{Context, ScreenContext};
 use crate::effects;
 use crate::shared::action::{Choice, CliAction, ConfirmationChoice, Prompt, PromptText};
 use crate::shared::display;
