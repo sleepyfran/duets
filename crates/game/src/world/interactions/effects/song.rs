@@ -88,7 +88,7 @@ fn to_previous_song_input(input: &SequenceInput) -> SongInput {
         .game_state
         .character
         .songs_in_progress
-        .get(&Song::from_id(song_id))
+        .get(&song_id)
         .unwrap_cloned();
 
     SongInput::ImproveSong(song)

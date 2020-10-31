@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::borrow::Borrow;
 use std::hash::{Hash, Hasher};
 use strum_macros::{Display, EnumIter, EnumString};
 use uuid::Uuid;
@@ -47,21 +48,17 @@ impl Song {
         }
     }
 
-    pub fn from_id(id: String) -> Self {
-        Self {
-            id,
-            name: String::default(),
-            genre: Genre::default(),
-            vocal_style: VocalStyle::Instrumental,
-            quality: 0,
-        }
-    }
-
     pub fn with_quality(self, quality: u8) -> Self {
         Self {
             quality: bound_to_positive_hundred(quality),
             ..self
         }
+    }
+}
+
+impl Borrow<String> for Song {
+    fn borrow(&self) -> &String {
+        &self.id
     }
 }
 
