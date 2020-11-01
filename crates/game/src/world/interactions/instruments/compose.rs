@@ -75,7 +75,7 @@ impl Interaction for ComposeInteraction {
         }
     }
 
-    fn messages(&self, context: &Context) -> (String, String) {
+    fn messages(&self, _context: &Context) -> (String, String) {
         (
             format!(
                 "You successfully played the {}, that improved your skills by {}",
@@ -93,9 +93,7 @@ fn build_existing_song_sequence(
     context: &Context,
 ) -> InteractItem {
     InteractItem::Confirmation {
-        question:
-            "You have unfinished songs, do you want to continue one of them or create a new one?"
-                .into(),
+        question: "You have unfinished songs, do you want to continue one of them?".into(),
         branches: (
             Box::new(InteractItem::Chain(
                 Box::new(InteractItem::Options {

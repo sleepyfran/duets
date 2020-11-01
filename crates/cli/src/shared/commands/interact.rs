@@ -66,9 +66,7 @@ fn show_interactions(object: Object) -> CliAction {
             let chosen_interaction = object_interactions.into_iter().nth(choice.id).unwrap();
             let interaction_result = interactions::sequence(&*chosen_interaction, &global_context);
 
-            display::show_line_break();
-
-            let action = match interaction_result {
+            match interaction_result {
                 Ok(sequence) => show_sequence(chosen_interaction, sequence, &global_context),
                 Err(requirement) => match requirement {
                     Requirement::HealthAbove(_) => {
@@ -84,11 +82,7 @@ fn show_interactions(object: Object) -> CliAction {
                         CliAction::Continue
                     }
                 },
-            };
-
-            display::show_line_break();
-
-            action
+            }
         }),
     })
 }
