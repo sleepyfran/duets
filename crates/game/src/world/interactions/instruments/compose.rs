@@ -78,9 +78,8 @@ impl Interaction for ComposeInteraction {
     fn messages(&self, _context: &Context) -> (String, String) {
         (
             format!(
-                "You successfully played the {}, that improved your skills by {}",
-                self.instrument.name,
-                constants::effects::positive::SKILL_PLAY_INTERACTION
+                "The song quality improved by {}",
+                constants::effects::positive::SONG_COMPOSE_INTERACTION
             ),
             "Well, at least you tried... Maybe you should take a little break before trying again"
                 .into(),
