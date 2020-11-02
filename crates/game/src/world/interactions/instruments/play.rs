@@ -54,16 +54,4 @@ impl Interaction for PlayInteraction {
     fn sequence(&self, context: &Context) -> InteractSequence {
         Ok(InteractItem::End)
     }
-
-    fn messages(&self, context: &Context) -> (String, String) {
-        (
-            format!(
-                "You successfully played the {}, that improved your skills by {}",
-                self.instrument.name,
-                constants::effects::positive::SKILL_PLAY_INTERACTION
-            ),
-            "Well, at least you tried... Maybe you should take a little break before trying again"
-                .into(),
-        )
-    }
 }

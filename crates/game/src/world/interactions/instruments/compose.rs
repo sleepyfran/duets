@@ -74,17 +74,6 @@ impl Interaction for ComposeInteraction {
             Ok(build_new_song_sequence(context))
         }
     }
-
-    fn messages(&self, _context: &Context) -> (String, String) {
-        (
-            format!(
-                "The song quality improved by {}",
-                constants::effects::positive::SONG_COMPOSE_INTERACTION
-            ),
-            "Well, at least you tried... Maybe you should take a little break before trying again"
-                .into(),
-        )
-    }
 }
 
 fn build_existing_song_sequence(

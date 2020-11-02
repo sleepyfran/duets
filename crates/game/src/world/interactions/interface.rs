@@ -1,6 +1,7 @@
 use common::entities::{Identity, Skill};
 use common::results::InteractResult;
 
+use super::outcomes::*;
 use super::requirement::*;
 use crate::context::Context;
 
@@ -51,6 +52,7 @@ pub enum InteractItem {
 pub type InteractSequence = Result<InteractItem, Requirement>;
 
 /// Represents the amound of time that an interaction consumes.
+#[derive(Clone)]
 pub enum TimeConsumption {
     None,
     TimeUnit(u8),
@@ -128,7 +130,6 @@ pub struct SequenceInput {
     /// Input given by the user (if any). This input is filled while processing the sequence given
     /// by an interaction.
     pub values: Vec<InputType>,
-    /// Current context.
     pub context: Context,
 }
 
@@ -161,6 +162,43 @@ impl SequenceInput {
     }
 }
 
+/// Represents the output of the result function.
+#[derive(Clone)]
+pub struct SequenceOutput {
+    pub values: Vec<InputType>,
+    pub context: Context,
+    pub outcomes: InteractionOutcome,
+}
+
+impl SequenceOutput {
+    /// Returns a copy of itself with the values changed by the modify_fn.
+    pub fn modify_values<F>(&self, modify_fn: F) -> Self
+    where
+        F: FnOnce(Vec<InputType>) -> Vec<InputType>,
+    {
+        let mut mut_self = self.clone();
+        mut_self.values = modify_fn(mut_self.values);
+        mut_self
+    }
+
+    /// Returns a copy of itself with the context changed by the modify_fn.
+    pub fn modify_context<F>(&self, modify_fn: F) -> Self
+    where
+        F: FnOnce(Context) -> Context,
+    {
+        let mut mut_self = self.clone();
+        mut_self.context = modify_fn(mut_self.context);
+        mut_self
+    }
+
+    /// Adds a new outcome to the output.
+    pub fn add_outcome(&self, outcome: Outcome) -> Self {
+        let mut mut_self = self.clone();
+        mut_self.outcomes = mut_self.outcomes.into_iter().chain(vec![outcome]).collect();
+        mut_self
+    }
+}
+
 /// Defines a common interface for all interactions.
 pub trait Interaction: Identity + Send + Sync {
     /// Friendly name to show to the user.
@@ -183,7 +221,4 @@ pub trait Interaction: Identity + Send + Sync {
     /// Returns the sequence (if any) between the user and the interaction until reaching the end
     /// state that provides a result to compute.
     fn sequence(&self, context: &Context) -> InteractSequence;
-    /// Returns the messages to show to the user, the first one indicates the message to show
-    /// when the interaction is succesful and the second when one of the limits fails.
-    fn messages(&self, context: &Context) -> (String, String);
 }

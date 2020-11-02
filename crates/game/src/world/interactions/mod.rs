@@ -1,12 +1,14 @@
 mod effects;
 mod instruments;
 mod interface;
+mod outcomes;
 mod requirement;
 
 use pipe_trait::*;
 use std::rc::Rc;
 
 pub use interface::*;
+pub use outcomes::*;
 pub use requirement::*;
 
 use common::entities::{Object, ObjectType};
@@ -31,37 +33,34 @@ pub fn sequence(interaction: &dyn Interaction, context: &Context) -> InteractSeq
 }
 
 /// Applies all the effects given in the interaction to the context.
-pub fn result(interaction: &dyn Interaction, input: SequenceInput) -> (String, Context) {
-    let can_interact = check_interacted_within_limit(interaction, &input);
+pub fn result(interaction: &dyn Interaction, input: SequenceInput) -> SequenceOutput {
+    let output = SequenceOutput {
+        values: input.values,
+        context: input.context,
+        outcomes: vec![],
+    };
+    let can_interact = check_interacted_within_limit(interaction, &output);
 
-    register_action(interaction, &input)
-        .pipe(|input| process_always_applied_effects(interaction, &input))
-        .pipe(|input| {
+    register_action(interaction, &output)
+        .pipe(|_| process_always_applied_effects(interaction, &output))
+        .pipe(|output| {
             if can_interact {
-                process_applied_after_interaction_effects(interaction, &input)
+                process_applied_after_interaction_effects(interaction, &output)
             } else {
-                input
-            }
-        })
-        .pipe(|input| {
-            let messages = interaction.messages(&input.context);
-            if can_interact {
-                (messages.0, input.context)
-            } else {
-                (messages.1, input.context)
+                output.clone()
             }
         })
 }
 
-fn check_interacted_within_limit(interaction: &dyn Interaction, input: &SequenceInput) -> bool {
+fn check_interacted_within_limit(interaction: &dyn Interaction, output: &SequenceOutput) -> bool {
     let tracking_available = interaction.track_action();
     if tracking_available {
         let interaction_limit = interaction.limit_daily_interactions();
         match interaction_limit {
             InteractionTimes::Unlimited => true,
-            InteractionTimes::Once => check_interaction_performed_at_most(1, interaction, input),
+            InteractionTimes::Once => check_interaction_performed_at_most(1, interaction, output),
             InteractionTimes::Multiple(times) => {
-                check_interaction_performed_at_most(times, interaction, input)
+                check_interaction_performed_at_most(times, interaction, output)
             }
         }
     } else {
@@ -72,67 +71,63 @@ fn check_interacted_within_limit(interaction: &dyn Interaction, input: &Sequence
 fn check_interaction_performed_at_most(
     times: u8,
     interaction: &dyn Interaction,
-    input: &SequenceInput,
+    output: &SequenceOutput,
 ) -> bool {
-    let today_actions = input
+    let today_actions = output
         .context
         .game_state
         .action_registry
-        .get_from_date(&interaction.id(), input.context.game_state.calendar.date);
+        .get_from_date(&interaction.id(), output.context.game_state.calendar.date);
 
     today_actions.len() <= times.into()
 }
 
-fn register_action(interaction: &dyn Interaction, input: &SequenceInput) -> SequenceInput {
+fn register_action(interaction: &dyn Interaction, output: &SequenceOutput) -> SequenceOutput {
     let tracking_available = interaction.track_action();
     if tracking_available {
-        input
-            .clone()
-            .with_context(&input.context.clone().modify_game_state(|game_state| {
+        output.clone().modify_context(|context| {
+            context.modify_game_state(|game_state| {
                 game_state.modify_action_registry(|action_registry| {
-                    action_registry.register(&interaction.id(), &input.context.game_state.calendar)
+                    action_registry.register(&interaction.id(), &output.context.game_state.calendar)
                 })
-            }))
+            })
+        })
     } else {
-        input.clone()
+        output.clone()
     }
 }
 
 fn process_always_applied_effects(
     interaction: &dyn Interaction,
-    input: &SequenceInput,
-) -> SequenceInput {
-    process_effects(interaction.effects(&input.context).always_applied, input)
+    output: &SequenceOutput,
+) -> SequenceOutput {
+    process_effects(interaction.effects(&output.context).always_applied, output)
 }
 
 fn process_applied_after_interaction_effects(
     interaction: &dyn Interaction,
-    input: &SequenceInput,
-) -> SequenceInput {
+    output: &SequenceOutput,
+) -> SequenceOutput {
     process_effects(
         interaction
-            .effects(&input.context)
+            .effects(&output.context)
             .applied_after_interaction,
-        input,
+        output,
     )
 }
 
-fn process_effects(effects: Vec<InteractionEffect>, input: &SequenceInput) -> SequenceInput {
-    effects.into_iter().fold(input.clone(), |input, effect| {
-        process_effect(effect, &input)
+fn process_effects(effects: Vec<InteractionEffect>, output: &SequenceOutput) -> SequenceOutput {
+    effects.into_iter().fold(output.clone(), |output, effect| {
+        process_effect(effect, &output)
     })
 }
 
-fn process_effect(effect: InteractionEffect, input: &SequenceInput) -> SequenceInput {
-    let updated_context = match effect {
-        InteractionEffect::Time(consumption) => effects::time::apply(consumption, &input.context),
-        InteractionEffect::Health(effect) => effects::health::apply(effect, &input.context),
-        InteractionEffect::Energy(effect) => effects::energy::apply(effect, &input.context),
-        InteractionEffect::Skill(skill, effect) => {
-            effects::skills::apply(skill, effect, &input.context)
-        }
-        InteractionEffect::Song(effect) => effects::song::apply(effect, input),
-    };
-
-    input.clone().with_context(&updated_context)
+fn process_effect(effect: InteractionEffect, output: &SequenceOutput) -> SequenceOutput {
+    match effect {
+        InteractionEffect::Time(consumption) => effects::time::apply(consumption, &output),
+        InteractionEffect::Health(effect) => effects::health::apply(effect, &output),
+        InteractionEffect::Energy(effect) => effects::energy::apply(effect, &output),
+        InteractionEffect::Skill(skill, effect) => effects::skills::apply(skill, effect, &output),
+        InteractionEffect::Song(effect) => effects::song::apply(effect, &output),
+    }
 }

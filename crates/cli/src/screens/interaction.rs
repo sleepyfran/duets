@@ -96,8 +96,8 @@ fn action_from_sequence(
         }),
         InteractItem::End => {
             let result = interactions::result(&*interaction, context.state);
-            display::show_info(&result.0);
-            effects::set_state(result.1.game_state)
+            show_outcomes(&result.outcomes);
+            effects::set_state(result.context.game_state)
         }
     }
 }
@@ -114,5 +114,28 @@ fn continue_with_action(
             next_action: None,
         }),
         None => CliAction::Continue,
+    }
+}
+
+fn show_outcomes(outcomes: &[Outcome]) {
+    for outcome in outcomes {
+        show_outcome(outcome)
+    }
+}
+
+fn show_outcome(outcome: &Outcome) {
+    match outcome {
+        Outcome::Song(song) => show_song_outcome(song),
+    }
+}
+
+fn show_song_outcome(song_outcome: &SongOutcome) {
+    match song_outcome {
+        SongOutcome::NewSong { name, genre, vocal_style } => {
+            display::show_info(&format!("Started a new song called {}. You can improve it further by doing the same interaction", name))
+        },
+        SongOutcome::ImproveSong(song) => {
+            display::show_info(&format!("Improved the song {}. The current quality seems to be around {}", song.name, song.quality))
+        }
     }
 }

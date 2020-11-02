@@ -1,27 +1,17 @@
-use common::entities::{Genre, Song, VocalStyle};
-use common::extensions::option::OptionCloneExtensions;
+use common::entities::Song;
+
 use simulation::commands::songs::SongCommands;
-use std::str::FromStr;
 
-use crate::context::Context;
-use crate::data;
-use crate::world::interactions::{EffectType, InputType, SequenceInput};
+use crate::world::interactions::{
+    to_song_outcome, EffectType, Outcome, SequenceOutput, SongOutcome,
+};
 
-enum SongInput {
-    NewSong {
-        name: String,
-        genre: Genre,
-        vocal_style: VocalStyle,
-    },
-    ImproveSong(Song),
-}
+/// Creates a new song or improves a previously selected one and puts it into the context.
+pub fn apply(effect_type: EffectType, output: &SequenceOutput) -> SequenceOutput {
+    let song_outcome = to_song_outcome(output);
 
-/// Applies the given skill effect.
-pub fn apply(effect_type: EffectType, input: &SequenceInput) -> Context {
-    let song_input = to_song_input(input);
-
-    match song_input {
-        SongInput::NewSong {
+    match song_outcome.clone() {
+        SongOutcome::NewSong {
             name,
             genre,
             vocal_style,
@@ -29,10 +19,10 @@ pub fn apply(effect_type: EffectType, input: &SequenceInput) -> Context {
             let song = Song::create(name, genre, vocal_style);
             let updated_song = apply_effect_to(effect_type, song);
 
-            context_with_song(input.clone().context, updated_song)
+            output_with_song(output, updated_song, song_outcome)
         }
-        SongInput::ImproveSong(song) => {
-            context_with_song(input.clone().context, apply_effect_to(effect_type, song))
+        SongOutcome::ImproveSong(song) => {
+            output_with_song(output, apply_effect_to(effect_type, song), song_outcome)
         }
     }
 }
@@ -44,52 +34,17 @@ pub fn apply_effect_to(effect_type: EffectType, song: Song) -> Song {
     }
 }
 
-pub fn context_with_song(context: Context, song: Song) -> Context {
-    context.modify_game_state(|game_state| {
-        game_state.modify_character(|character| character.add_or_modify_song_in_progress(song))
-    })
-}
-
-fn to_song_input(input: &SequenceInput) -> SongInput {
-    let first_item = &input.values[0];
-
-    match first_item {
-        InputType::Confirmation(value) => {
-            if *value {
-                to_previous_song_input(&input.clone().modify_input(|input| input[1..].to_vec()))
-            } else {
-                to_new_song_input(&input.clone().modify_input(|values| values[1..].to_vec()))
-            }
-        }
-        _ => to_new_song_input(&input.clone().modify_input(|values| values[0..].to_vec())),
-    }
-}
-
-fn to_new_song_input(input: &SequenceInput) -> SongInput {
-    let mut sequence = input.values.to_vec();
-    let song_name = sequence.remove(0).as_text();
-    let genre_id = sequence.remove(0).as_option().id;
-    let genre = data::find_by_id(&input.context.database.genres, genre_id).unwrap_cloned();
-    let vocal_style_name = sequence.remove(0).as_option().id;
-    let vocal_style = VocalStyle::from_str(&vocal_style_name).unwrap();
-
-    SongInput::NewSong {
-        name: song_name,
-        genre,
-        vocal_style,
-    }
-}
-
-fn to_previous_song_input(input: &SequenceInput) -> SongInput {
-    let mut sequence = input.values.to_vec();
-    let song_id = sequence.remove(0).as_option().id;
-    let song = input
-        .context
-        .game_state
-        .character
-        .songs_in_progress
-        .get(&song_id)
-        .unwrap_cloned();
-
-    SongInput::ImproveSong(song)
+pub fn output_with_song(
+    output: &SequenceOutput,
+    song: Song,
+    outcome: SongOutcome,
+) -> SequenceOutput {
+    output
+        .modify_context(|context| {
+            context.modify_game_state(|game_state| {
+                game_state
+                    .modify_character(|character| character.add_or_modify_song_in_progress(song))
+            })
+        })
+        .add_outcome(Outcome::Song(outcome))
 }
