@@ -5,15 +5,6 @@ use super::outcomes::*;
 use super::requirement::*;
 use crate::context::Context;
 
-/// Result of the interaction with a generic type that represents the outcome of the interaction
-/// and the updated context.
-pub struct InteractEnd {
-    /// Generic result of the interaction. Depends on the specific interaction.
-    pub result: InteractResult,
-    /// Context with the changes that happened during the interaction.
-    pub context: Context,
-}
-
 /// Represents an option that the user can choose from.
 #[derive(Clone)]
 pub struct InteractOption {
