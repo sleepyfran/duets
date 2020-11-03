@@ -10,34 +10,33 @@ use crate::shared::screen::Screen;
 pub fn create_home_screen(previous_global_context: &Context) -> Screen {
     Screen {
         name: String::from("Home"),
-        action: CliAction::Prompt(
-            Prompt::CommandInput {
-                text: PromptText::WithoutEmoji(home_current_info_text(previous_global_context)),
-                available_commands: CommandCollection::default()
-                    .add(character::create_character_command())
-                    .add(time::create_time_command())
-                    .add(map::create_map_command())
-                    .add(look::create_look_command())
-                    .add(interact::create_interact_command())
-                    .add(enter::create_enter_command())
-                    .clone(),
-                repetition: CommandInputRepetition::Until(Box::new(|action| match action {
-                    CliAction::Screen(_) => Repeat::No,
-                    _ => Repeat::Yes,
-                })),
-                after_action: Box::new(|action, _global_context| {
-                    // Execute whatever action the command returned and then show the home screen.
-                    CliAction::Chain(
-                        Box::new(action),
-                        Box::new(CliAction::Screen(GameScreen::Home)),
-                    )
-                }),
-            }
-        ),
+        action: CliAction::Prompt(Prompt::CommandInput {
+            text: PromptText::WithoutEmoji(home_current_info_text(previous_global_context)),
+            available_commands: CommandCollection::default()
+                .add(character::create_character_command())
+                .add(time::create_time_command())
+                .add(map::create_map_command())
+                .add(look::create_look_command())
+                .add(interact::create_interact_command())
+                .add(enter::create_enter_command())
+                .clone(),
+            repetition: CommandInputRepetition::Until(Box::new(|action| match action {
+                CliAction::Screen(_) => Repeat::No,
+                _ => Repeat::Yes,
+            })),
+            after_action: Box::new(|action, _global_context| {
+                // Execute whatever action the command returned and then show the home screen.
+                CliAction::Chain(
+                    Box::new(action),
+                    Box::new(CliAction::Screen(GameScreen::Home)),
+                )
+            }),
+        }),
     }
 }
 
 fn home_current_info_text(global_context: &Context) -> String {
+    let character_info = character::get_character_info(global_context);
     let time_info = time::get_time_info(global_context);
 
     let position_info = format!(
@@ -53,5 +52,8 @@ fn home_current_info_text(global_context: &Context) -> String {
         emoji::for_speech_bubble(),
     );
 
-    format!("{}\n{}\n{}", time_info, position_info, command_info)
+    format!(
+        "{}\n{}\n{}\n{}",
+        character_info, time_info, position_info, command_info
+    )
 }
