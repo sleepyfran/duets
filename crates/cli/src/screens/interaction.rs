@@ -1,5 +1,6 @@
 use std::rc::Rc;
 
+use common::entities::SkillWithLevel;
 use game::world::interactions;
 use game::world::interactions::*;
 
@@ -126,16 +127,32 @@ fn show_outcomes(outcomes: &[Outcome]) {
 fn show_outcome(outcome: &Outcome) {
     match outcome {
         Outcome::Song(song) => show_song_outcome(song),
+        Outcome::SkillLevelModified(skill, effect_type) => {
+            show_skill_level_modified_outcome(skill, effect_type)
+        }
     }
 }
 
 fn show_song_outcome(song_outcome: &SongOutcome) {
     match song_outcome {
-        SongOutcome::NewSong { name, genre, vocal_style } => {
+        SongOutcome::NewSong { name, genre: _, vocal_style: _ } => {
             display::show_info(&format!("Started a new song called {}. You can improve it further by doing the same interaction", name))
         },
         SongOutcome::ImproveSong(song) => {
             display::show_info(&format!("Improved the song {}. The current quality seems to be around {}", song.name, song.quality))
         }
+    }
+}
+
+fn show_skill_level_modified_outcome(skill: &SkillWithLevel, effect_type: &EffectType) {
+    match effect_type {
+        EffectType::Negative(_) => display::show_error(&format!(
+            "Your level in {} has decreased to {}",
+            skill.name, skill.level
+        )),
+        EffectType::Positive(_) => display::show_info(&format!(
+            "Your level in {} has increased to {}",
+            skill.name, skill.level
+        )),
     }
 }

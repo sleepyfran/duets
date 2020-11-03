@@ -40,7 +40,7 @@ impl Interaction for PlayInteraction {
         InteractionTimes::Multiple(2)
     }
 
-    fn effects(&self, context: &Context) -> InteractionEffects {
+    fn effects(&self, _context: &Context) -> InteractionEffects {
         InteractionEffects {
             always_applied: vec![
                 InteractionEffect::Energy(EffectType::Negative(
@@ -55,7 +55,7 @@ impl Interaction for PlayInteraction {
         }
     }
 
-    fn sequence(&self, context: &Context) -> InteractSequence {
+    fn sequence(&self, _context: &Context) -> InteractSequence {
         Ok(InteractItem::End)
     }
 }

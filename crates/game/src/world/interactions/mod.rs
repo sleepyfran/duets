@@ -47,7 +47,7 @@ pub fn result(interaction: &dyn Interaction, input: SequenceInput) -> SequenceOu
             if can_interact {
                 process_applied_after_interaction_effects(interaction, &output)
             } else {
-                output.clone()
+                output
             }
         })
 }

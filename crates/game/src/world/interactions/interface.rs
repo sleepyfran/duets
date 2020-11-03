@@ -60,6 +60,7 @@ pub enum TimeConsumption {
 }
 
 /// Represents the type of effect over some resource.
+#[derive(Clone)]
 pub enum EffectType {
     Positive(u8),
     Negative(u8),
