@@ -29,7 +29,11 @@ impl Interaction for ComposeInteraction {
     }
 
     fn requirements(&self) -> Vec<Requirement> {
-        vec![Requirement::HealthAbove(20), Requirement::MoodAbove(20)]
+        vec![
+            Requirement::HealthAbove(20),
+            Requirement::MoodAbove(20),
+            Requirement::EnergyAbove(20),
+        ]
     }
 
     fn track_action(&self) -> bool {

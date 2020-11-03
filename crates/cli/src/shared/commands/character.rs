@@ -29,9 +29,10 @@ Shows the current status of the character.
             display::show_line_break();
 
             display::show_prompt_text_no_emoji(&format!(
-                "{} | {} | {}",
+                "{} | {} | {} | {}",
                 format!("{} {}", emoji::for_mood(character.mood), character.mood),
                 format!("{} {}", emoji::for_health(), character.health),
+                format!("{} {}", emoji::for_energy(), character.energy),
                 format!("{} {}", emoji::for_fame(), character.fame),
             ));
 

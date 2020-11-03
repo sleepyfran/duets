@@ -63,6 +63,11 @@ pub fn for_health<'a>() -> &'a str {
     "❤️"
 }
 
+/// Returns the assigned emoji for showing the character's energy.
+pub fn for_energy<'a>() -> &'a str {
+    "🔋"
+}
+
 /// Returns the assigned emoji for showing the character's fame.
 pub fn for_fame<'a>() -> &'a str {
     "🌟"
