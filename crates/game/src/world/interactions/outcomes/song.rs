@@ -15,23 +15,22 @@ pub enum SongOutcome {
     ImproveSong(Song),
 }
 
-/// Transforms a sequence input into a song.
 pub fn to_song_outcome(output: &SequenceOutput) -> SongOutcome {
     let first_item = &output.values[0];
 
     match first_item {
         InputType::Confirmation(value) => {
             if *value {
-                to_previous_song_input(&output.clone().modify_values(|input| input[1..].to_vec()))
+                to_improved_song_outcome(&output.clone().modify_values(|input| input[1..].to_vec()))
             } else {
-                to_new_song_input(&output.clone().modify_values(|values| values[1..].to_vec()))
+                to_new_song_outcome(&output.clone().modify_values(|values| values[1..].to_vec()))
             }
         }
-        _ => to_new_song_input(&output.clone().modify_values(|values| values[0..].to_vec())),
+        _ => to_new_song_outcome(&output.clone().modify_values(|values| values[0..].to_vec())),
     }
 }
 
-fn to_new_song_input(output: &SequenceOutput) -> SongOutcome {
+fn to_new_song_outcome(output: &SequenceOutput) -> SongOutcome {
     let mut sequence = output.values.to_vec();
     let song_name = sequence.remove(0).as_text();
     let genre_id = sequence.remove(0).as_option().id;
@@ -46,7 +45,7 @@ fn to_new_song_input(output: &SequenceOutput) -> SongOutcome {
     }
 }
 
-fn to_previous_song_input(output: &SequenceOutput) -> SongOutcome {
+fn to_improved_song_outcome(output: &SequenceOutput) -> SongOutcome {
     let mut sequence = output.values.to_vec();
     let song_id = sequence.remove(0).as_option().id;
     let song = output

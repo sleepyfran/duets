@@ -2,7 +2,6 @@ use simulation::commands::calendar::CalendarCommands;
 
 use crate::world::interactions::{SequenceOutput, TimeConsumption};
 
-/// Applies the time consumption to the given context.
 pub fn apply(consumption: TimeConsumption, output: &SequenceOutput) -> SequenceOutput {
     output.modify_context(|context| {
         context.modify_game_state(|game_state| {

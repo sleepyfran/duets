@@ -2,7 +2,6 @@ use simulation::commands::character::CharacterCommands;
 
 use crate::world::interactions::{EffectType, SequenceOutput};
 
-/// Applies the given health effect.
 pub fn apply(effect_type: EffectType, output: &SequenceOutput) -> SequenceOutput {
     output.modify_context(|context| {
         context.modify_game_state(|game_state| {

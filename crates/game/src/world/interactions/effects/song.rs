@@ -6,7 +6,6 @@ use crate::world::interactions::{
     to_song_outcome, EffectType, Outcome, SequenceOutput, SongOutcome,
 };
 
-/// Creates a new song or improves a previously selected one and puts it into the context.
 pub fn apply(effect_type: EffectType, output: &SequenceOutput) -> SequenceOutput {
     let song_outcome = to_song_outcome(output);
 

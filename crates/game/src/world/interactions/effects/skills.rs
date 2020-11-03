@@ -4,7 +4,6 @@ use simulation::queries::character::SkillQueries;
 
 use crate::world::interactions::{EffectType, Outcome, SequenceOutput};
 
-/// Applies the given skill effect.
 pub fn apply(skill: Skill, effect_type: EffectType, output: &SequenceOutput) -> SequenceOutput {
     let skill = output
         .context
