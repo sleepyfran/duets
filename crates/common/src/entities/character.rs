@@ -111,7 +111,7 @@ impl Character {
     /// Returns a copy of itself adding the given song as one in progress.
     pub fn add_or_modify_song_in_progress(self, song: Song) -> Character {
         let mut mutable_self = self;
-        mutable_self.songs_in_progress.insert(song);
+        mutable_self.songs_in_progress.replace(song);
         mutable_self
     }
 
