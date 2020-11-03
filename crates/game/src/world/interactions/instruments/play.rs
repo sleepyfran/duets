@@ -1,5 +1,4 @@
 use common::entities::{Identity, Instrument};
-use common::results::InteractResult;
 
 use crate::constants;
 use crate::context::Context;
@@ -26,7 +25,11 @@ impl Interaction for PlayInteraction {
     }
 
     fn requirements(&self) -> Vec<Requirement> {
-        vec![Requirement::HealthAbove(20), Requirement::MoodAbove(20)]
+        vec![
+            Requirement::HealthAbove(20),
+            Requirement::MoodAbove(20),
+            Requirement::EnergyAbove(20),
+        ]
     }
 
     fn track_action(&self) -> bool {
@@ -37,7 +40,7 @@ impl Interaction for PlayInteraction {
         InteractionTimes::Multiple(2)
     }
 
-    fn effects(&self) -> InteractionEffects {
+    fn effects(&self, _context: &Context) -> InteractionEffects {
         InteractionEffects {
             always_applied: vec![
                 InteractionEffect::Energy(EffectType::Negative(
@@ -52,19 +55,7 @@ impl Interaction for PlayInteraction {
         }
     }
 
-    fn sequence(&self, context: &Context) -> InteractSequence {
+    fn sequence(&self, _context: &Context) -> InteractSequence {
         Ok(InteractItem::End)
-    }
-
-    fn messages(&self) -> (String, String) {
-        (
-            format!(
-                "You successfully played the {}, that improved your skills by {}",
-                self.instrument.name,
-                constants::effects::positive::SKILL_PLAY_INTERACTION
-            ),
-            "Well, at least you tried... Maybe you should take a little break before trying again"
-                .into(),
-        )
     }
 }

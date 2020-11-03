@@ -1,3 +1,4 @@
+use std::rc::Rc;
 use std::sync::Arc;
 
 use common::entities::Object;
@@ -6,7 +7,7 @@ use game::world::interactions;
 use game::world::interactions::{InteractItem, Interaction, Requirement};
 
 use super::Command;
-use crate::effects;
+use crate::screens::GameScreen;
 use crate::shared::action::{Choice, CliAction, Prompt, PromptText};
 use crate::shared::display;
 use crate::shared::lang;
@@ -55,7 +56,6 @@ fn show_interactions(object: Object) -> CliAction {
         text: PromptText::WithEmoji(format!("What do you want to do with the {}?", object.name)),
         choices: object_interactions
             .iter()
-            .cloned()
             .enumerate()
             .map(|(index, interaction)| Choice {
                 id: index,
@@ -63,13 +63,10 @@ fn show_interactions(object: Object) -> CliAction {
             })
             .collect(),
         on_action: Box::new(move |choice, global_context| {
-            let chosen_interaction = object_interactions[choice.id].clone();
-            let interaction_result =
-                interactions::sequence(chosen_interaction.clone(), &global_context);
+            let chosen_interaction = object_interactions.into_iter().nth(choice.id).unwrap();
+            let interaction_result = interactions::sequence(&*chosen_interaction, &global_context);
 
-            display::show_line_break();
-
-            let action = match interaction_result {
+            match interaction_result {
                 Ok(sequence) => show_sequence(chosen_interaction, sequence, &global_context),
                 Err(requirement) => match requirement {
                     Requirement::HealthAbove(_) => {
@@ -85,25 +82,19 @@ fn show_interactions(object: Object) -> CliAction {
                         CliAction::Continue
                     }
                 },
-            };
-
-            display::show_line_break();
-
-            action
+            }
         }),
     })
 }
 
 fn show_sequence(
-    interaction: impl Interaction,
+    interaction: Rc<dyn Interaction>,
     sequence: InteractItem,
     context: &Context,
 ) -> CliAction {
-    match sequence {
-        InteractItem::End => {
-            let result = interactions::result(interaction, context);
-            display::show_info(&result.0);
-            effects::set_state(result.1.game_state)
-        }
-    }
+    CliAction::Screen(GameScreen::Interaction {
+        interaction,
+        sequence,
+        context: context.clone(),
+    })
 }

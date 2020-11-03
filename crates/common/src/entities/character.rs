@@ -4,7 +4,7 @@ use std::collections::HashSet;
 
 use crate::shared::bound_to_positive_hundred;
 
-use crate::entities::skill::SkillWithLevel;
+use super::{SkillWithLevel, Song};
 
 /// Defines the gender of the character.
 #[derive(Clone, Deserialize, Serialize, Debug)]
@@ -15,7 +15,7 @@ pub enum Gender {
 }
 
 /// Defines both playable and non-playable characters in the game.
-#[derive(Clone, Deserialize, Serialize, Debug)]
+#[derive(Clone, Deserialize, Serialize)]
 pub struct Character {
     pub name: String,
     #[serde(with = "crate::serializables::naivedate::date")]
@@ -26,6 +26,7 @@ pub struct Character {
     pub health: u8,
     pub fame: u8,
     pub skills: HashSet<SkillWithLevel>,
+    pub songs_in_progress: HashSet<Song>,
 }
 
 impl Default for Character {
@@ -39,6 +40,7 @@ impl Default for Character {
             health: 100,
             fame: 0,
             skills: HashSet::new(),
+            songs_in_progress: HashSet::new(),
         }
     }
 }
@@ -56,6 +58,7 @@ impl Character {
             health: 100,
             mood: 100,
             skills: HashSet::new(),
+            songs_in_progress: HashSet::new(),
         }
     }
 
@@ -103,6 +106,13 @@ impl Character {
             mood: bound_to_positive_hundred(mood),
             ..self
         }
+    }
+
+    /// Returns a copy of itself adding the given song as one in progress.
+    pub fn add_or_modify_song_in_progress(self, song: Song) -> Character {
+        let mut mutable_self = self;
+        mutable_self.songs_in_progress.replace(song);
+        mutable_self
     }
 
     /// Sets a particular skill of the character if it exists, otherwise it inserts it into the set.

@@ -68,8 +68,7 @@ pub enum Prompt {
         /// to override it when repetition is set to Until.
         after_action: Box<dyn FnOnce(CliAction, &Context) -> CliAction>,
     },
-    /// Represents an input that only accepts a set of choices by asking the user
-    /// to input its ID (a number).
+    /// Represents an input that only accepts a set of choices.
     ChoiceInput {
         text: PromptText,
         choices: Vec<Choice>,

@@ -1,6 +1,7 @@
 mod create_band;
 mod create_character;
 
+use crate::shared::action::CliAction;
 use crate::shared::context::Context;
 use crate::shared::screen::Screen;
 
@@ -9,8 +10,10 @@ use crate::shared::screen::Screen;
 pub fn create_new_game_screen(global_context: &Context) -> Screen {
     Screen {
         name: String::from("New game"),
-        action: create_character::start_with_name_input(create_character::create_starting_context(
-            global_context,
-        )),
+        action: CliAction::Prompt(
+            create_character::start_with_name_input(create_character::create_starting_context(
+                global_context,
+            ))
+        ),
     }
 }

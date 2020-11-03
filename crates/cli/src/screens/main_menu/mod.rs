@@ -10,19 +10,19 @@ use crate::shared::screen::Screen;
 pub fn create_main_screen(savegame: SavegameState) -> Screen {
     Screen {
         name: String::from("Main Menu"),
-        action: Prompt::ChoiceInput {
+        action: CliAction::Prompt(Prompt::ChoiceInput {
             text: PromptText::WithoutEmoji(
                 r#"
-            .:::::                        .::         
-            .::   .::                     .::         
-            .::    .::.::  .::   .::    .:.: .: .:::: 
-            .::    .::.::  .:: .:   .::   .::  .::    
-            .::    .::.::  .::.::::: .::  .::    .::: 
-            .::   .:: .::  .::.:          .::      .::
-            .:::::      .::.::  .::::      .:: .:: .::
-            
-            Welcome to Duets! Select an option to begin:
-                        "#
+                .:::::                        .::         
+                .::   .::                     .::         
+                .::    .::.::  .::   .::    .:.: .: .:::: 
+                .::    .::.::  .:: .:   .::   .::  .::    
+                .::    .::.::  .::.::::: .::  .::    .::: 
+                .::   .:: .::  .::.:          .::      .::
+                .:::::      .::.::  .::::      .:: .:: .::
+                
+                Welcome to Duets! Select an option to begin:
+                            "#
                 .into(),
             ),
             choices: vec![
@@ -45,7 +45,7 @@ pub fn create_main_screen(savegame: SavegameState) -> Screen {
                 2 => CliAction::SideEffect(Box::new(effects::exit)),
                 _ => CliAction::NoOp,
             }),
-        },
+        }),
     }
 }
 

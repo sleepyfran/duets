@@ -15,7 +15,7 @@ pub type NewGameContext = ScreenContext<GameStartBuilder>;
 pub fn create_starting_context(global_context: &Context) -> NewGameContext {
     NewGameContext {
         global_context: global_context.clone(),
-        game_builder: GameStartBuilder::default(),
+        state: GameStartBuilder::default(),
         next_action: Some(Box::new(continue_to_gender_input)),
     }
 }
@@ -29,7 +29,7 @@ pub fn start_with_name_input(context: NewGameContext) -> Prompt {
         on_action: Box::new(|input, global_context| {
             context.next_action.unwrap()(NewGameContext {
                 global_context: global_context.clone(),
-                game_builder: GameStartBuilder::default().name(input),
+                state: GameStartBuilder::default().name(input),
                 next_action: Some(Box::new(continue_to_birthday_input)),
             })
         }),
@@ -60,7 +60,7 @@ fn continue_to_gender_input(context: NewGameContext) -> CliAction {
         on_action: Box::new(|choice, global_context| {
             context.next_action.unwrap()(NewGameContext {
                 global_context: global_context.clone(),
-                game_builder: context.game_builder.gender(match choice.id {
+                state: context.state.gender(match choice.id {
                     0 => Gender::Male,
                     1 => Gender::Female,
                     _ => Gender::Other,
@@ -78,7 +78,7 @@ fn continue_to_birthday_input(context: NewGameContext) -> CliAction {
         on_action: Box::new(|birthday, global_context| {
             context.next_action.unwrap()(NewGameContext {
                 global_context: global_context.clone(),
-                game_builder: context.game_builder.birthday(birthday),
+                state: context.state.birthday(birthday),
                 next_action: Some(Box::new(continue_to_start_year_input)),
             })
         }),
@@ -123,7 +123,7 @@ fn continue_to_city_input(context: NewGameContext) -> CliAction {
 
             context.next_action.unwrap()(NewGameContext {
                 global_context: global_context.clone(),
-                game_builder: context.game_builder.start_position(Position {
+                state: context.state.start_position(Position {
                     country: selected_position.country.clone(),
                     city: selected_position.city.clone(),
                     place: selected_position.city.places[0].clone(),
@@ -142,7 +142,7 @@ fn continue_to_start_year_input(context: NewGameContext) -> CliAction {
         on_action: Box::new(move |date, global_context| {
             context.next_action.unwrap()(NewGameContext {
                 global_context: global_context.clone(),
-                game_builder: context.game_builder.start_year(date.year() as i16),
+                state: context.state.start_year(date.year() as i16),
                 next_action: Some(Box::new(continue_to_confirmation)),
             })
         }),
@@ -150,14 +150,14 @@ fn continue_to_start_year_input(context: NewGameContext) -> CliAction {
 }
 
 fn continue_to_validation(context: NewGameContext) -> CliAction {
-    match context.game_builder.clone().validate() {
+    match context.state.clone().validate() {
         Err(ValidationError::BirthdayTooEarly) => {
             display::show_error(&String::from(
                 "The character's birthday should be after 1950",
             ));
             continue_to_birthday_input(NewGameContext {
                 global_context: context.global_context.clone(),
-                game_builder: context.game_builder,
+                state: context.state,
                 next_action: Some(Box::new(continue_to_validation)),
             })
         }
@@ -167,7 +167,7 @@ fn continue_to_validation(context: NewGameContext) -> CliAction {
             ));
             continue_to_start_year_input(NewGameContext {
                 global_context: context.global_context.clone(),
-                game_builder: context.game_builder,
+                state: context.state,
                 next_action: Some(Box::new(continue_to_validation)),
             })
         }
@@ -177,14 +177,14 @@ fn continue_to_validation(context: NewGameContext) -> CliAction {
         }
         Ok(()) => continue_to_confirmation(NewGameContext {
             global_context: context.global_context.clone(),
-            game_builder: context.game_builder,
+            state: context.state,
             next_action: None,
         }),
     }
 }
 
 fn continue_to_confirmation(context: NewGameContext) -> CliAction {
-    let game_state = context.game_builder.build().unwrap().to_game_state();
+    let game_state = context.state.build().unwrap().to_game_state();
 
     display::show_line_break();
     display::show_text_with_new_line(&String::from("We have everything!"));
@@ -228,7 +228,7 @@ fn continue_to_confirmation(context: NewGameContext) -> CliAction {
                 display::show_text(&String::from("Let's get to it"));
                 restart_with_name_input(NewGameContext {
                     global_context: global_context.clone(),
-                    game_builder: GameStartBuilder::default(),
+                    state: GameStartBuilder::default(),
                     next_action: Some(Box::new(continue_to_gender_input)),
                 })
             }

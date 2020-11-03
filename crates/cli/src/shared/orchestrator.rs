@@ -14,13 +14,13 @@ pub fn start_with(action: CliAction) {
             let screen = display::show(screen, &global_context);
             display::show_line_break();
             screen
-        },
+        }
         CliAction::SideEffect(effect) => effect(),
         CliAction::Prompt(user_action) => {
             let prompt = prompts::show(user_action, &global_context);
             display::show_line_break();
             prompt
-        },
+        }
         _ => CliAction::NoOp,
     };
 
