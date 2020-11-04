@@ -4,7 +4,7 @@ use std::sync::Arc;
 use common::entities::Object;
 use game::context::Context;
 use game::world::interactions;
-use game::world::interactions::{InteractItem, Interaction, Requirement};
+use game::world::interactions::{Interaction, Requirement, Sequence};
 
 use super::Command;
 use crate::screens::GameScreen;
@@ -89,7 +89,7 @@ fn show_interactions(object: Object) -> CliAction {
 
 fn show_sequence(
     interaction: Rc<dyn Interaction>,
-    sequence: InteractItem,
+    sequence: Sequence,
     context: &Context,
 ) -> CliAction {
     CliAction::Screen(GameScreen::Interaction {

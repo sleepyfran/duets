@@ -2,7 +2,7 @@ use boolinator::Boolinator;
 
 use simulation::queries::character::Status;
 
-use super::{InteractItem, InteractSequence};
+use super::{InteractItem, InteractSequence, Sequence};
 use crate::context::Context;
 
 /// Creates an empty ok result for InteractSequence.
@@ -10,8 +10,8 @@ fn empty_result(context: &Context) -> InteractSequence {
     Ok(empty_item(context))
 }
 
-fn empty_item(context: &Context) -> InteractItem {
-    InteractItem::End
+fn empty_item(context: &Context) -> Sequence {
+    vec![]
 }
 
 /// Defines the different set of requirements that can be possibly added to an interaction.

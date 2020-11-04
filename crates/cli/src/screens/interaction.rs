@@ -14,7 +14,7 @@ pub type InteractionContext = ScreenContext<SequenceInput>;
 
 pub fn create_interaction_screen(
     interaction: Rc<dyn Interaction>,
-    sequence: InteractItem,
+    sequence: Sequence,
     context: Context,
 ) -> Screen {
     Screen {
@@ -36,17 +36,32 @@ pub fn create_interaction_screen(
 
 fn action_from_sequence(
     interaction: Rc<dyn Interaction>,
-    sequence: InteractItem,
+    sequence: Sequence,
     context: InteractionContext,
 ) -> CliAction {
-    match sequence {
-        InteractItem::Chain(first, second) => action_from_sequence(
-            Rc::clone(&interaction),
-            *first,
-            context.with_next_action(Some(Box::new(|context| {
-                action_from_sequence(interaction, *second, context)
+    let mut iterator = sequence.into_iter();
+    if let Some(item) = iterator.next() {
+        let cloned_interaction = Rc::clone(&interaction);
+        action_from_item(
+            cloned_interaction,
+            item,
+            context.with_next_action(Some(Box::new(|ctx| {
+                action_from_sequence(interaction, iterator.collect(), ctx)
             }))),
-        ),
+        )
+    } else {
+        let result = interactions::result(&*interaction, context.state);
+        show_outcomes(&result.outcomes);
+        effects::set_state(result.context.game_state)
+    }
+}
+
+fn action_from_item(
+    interaction: Rc<dyn Interaction>,
+    item: InteractItem,
+    context: InteractionContext,
+) -> CliAction {
+    match item {
         InteractItem::TextInput(text) => CliAction::Prompt(Prompt::TextInput {
             text: PromptText::WithEmoji(text),
             on_action: Box::new(|input, global_context| {
@@ -64,7 +79,7 @@ fn action_from_sequence(
 
                     action_from_sequence(
                         interaction,
-                        *branch_sequence,
+                        branch_sequence,
                         context
                             .with_context(global_context)
                             .modify_state(|state| state.add_input(input_type)),
@@ -95,11 +110,6 @@ fn action_from_sequence(
                 )
             }),
         }),
-        InteractItem::End => {
-            let result = interactions::result(&*interaction, context.state);
-            show_outcomes(&result.outcomes);
-            effects::set_state(result.context.game_state)
-        }
     }
 }
 

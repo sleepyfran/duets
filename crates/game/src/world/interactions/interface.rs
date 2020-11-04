@@ -15,8 +15,6 @@ pub struct InteractOption {
 /// Holds the different types of actions that can be done in an interaction sequence.
 #[derive(Clone)]
 pub enum InteractItem {
-    /// Combines two or items.
-    Chain(Box<InteractItem>, Box<InteractItem>),
     /// Asks the user to select between different options.
     Options {
         question: String,
@@ -28,19 +26,18 @@ pub enum InteractItem {
         /// Represents the different branches that the item can get depending on the answer. If
         /// the user answers yes then the first item will get executed, otherwise the second one
         /// will be chosen.
-        branches: (Box<InteractItem>, Box<InteractItem>),
+        branches: (Sequence, Sequence),
     },
     /// Asks the user to input some text.
     TextInput(String),
-    /// End action. Indicates the calling function to compute the result given the parameters of the
-    /// interaction and the limitations.
-    End,
 }
+
+pub type Sequence = Vec<InteractItem>;
 
 /// Represents a result that when on the ok state holds all the items in the sequence of actions
 /// that are required to perform a certain interaction. For example, for composing: asking if
 /// new song or continue -> if new song ask for title, style -> compose.
-pub type InteractSequence = Result<InteractItem, Requirement>;
+pub type InteractSequence = Result<Sequence, Requirement>;
 
 /// Represents the amound of time that an interaction consumes.
 #[derive(Clone)]

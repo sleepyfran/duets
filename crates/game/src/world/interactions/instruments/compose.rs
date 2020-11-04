@@ -83,58 +83,54 @@ impl Interaction for ComposeInteraction {
 fn build_existing_song_sequence(
     songs_in_progress: HashSet<Song>,
     context: &Context,
-) -> InteractItem {
-    InteractItem::Confirmation {
-        question: "You have unfinished songs, do you want to continue one of them?".into(),
-        branches: (
-            Box::new(InteractItem::Chain(
-                Box::new(InteractItem::Options {
-                    question: "Which song do you want to improve?".into(),
-                    options: songs_in_progress
-                        .iter()
-                        .map(|song| InteractOption {
-                            id: song.id.to_string(),
-                            text: song.name.clone(),
-                        })
-                        .collect(),
-                }),
-                Box::new(InteractItem::End),
-            )),
-            Box::new(build_new_song_sequence(context)),
-        ),
-    }
+) -> Sequence {
+    vec![
+        InteractItem::Confirmation {
+            question: "You have unfinished songs, do you want to continue one of them?".into(),
+            branches: (
+                vec![
+                    InteractItem::Options {
+                        question: "Which song do you want to improve?".into(),
+                        options: songs_in_progress
+                            .iter()
+                            .map(|song| InteractOption {
+                                id: song.id.to_string(),
+                                text: song.name.clone(),
+                            })
+                            .collect(),
+                    }
+                ],
+                build_new_song_sequence(context),
+            ),
+        }
+    ]
 }
 
-fn build_new_song_sequence(context: &Context) -> InteractItem {
-    InteractItem::Chain(
-        Box::new(InteractItem::TextInput(
+fn build_new_song_sequence(context: &Context) -> Sequence {
+    vec![
+        InteractItem::TextInput(
             "Composing a new song. What name is it going to have?".into(),
-        )),
-        Box::new(InteractItem::Chain(
-            Box::new(InteractItem::Options {
-                question: "What genre is it going to have?".into(),
-                options: context
-                    .database
-                    .genres
-                    .iter()
-                    .map(|genre| InteractOption {
-                        id: genre.id.to_string(),
-                        text: genre.name.to_string(),
-                    })
-                    .collect(),
-            }),
-            Box::new(InteractItem::Chain(
-                Box::new(InteractItem::Options {
-                    question: "What vocal style is the song going to have?".into(),
-                    options: VocalStyle::iter()
-                        .map(|style| InteractOption {
-                            id: style.to_string(),
-                            text: style.to_string(),
-                        })
-                        .collect(),
-                }),
-                Box::new(InteractItem::End),
-            )),
-        )),
-    )
+        ),
+        InteractItem::Options {
+            question: "What genre is it going to have?".into(),
+            options: context
+                .database
+                .genres
+                .iter()
+                .map(|genre| InteractOption {
+                    id: genre.id.to_string(),
+                    text: genre.name.to_string(),
+                })
+                .collect(),
+        },
+        InteractItem::Options {
+            question: "What vocal style is the song going to have?".into(),
+            options: VocalStyle::iter()
+                .map(|style| InteractOption {
+                    id: style.to_string(),
+                    text: style.to_string(),
+                })
+                .collect(),
+        }
+    ]
 }

@@ -56,6 +56,6 @@ impl Interaction for PlayInteraction {
     }
 
     fn sequence(&self, _context: &Context) -> InteractSequence {
-        Ok(InteractItem::End)
+        Ok(vec![])
     }
 }

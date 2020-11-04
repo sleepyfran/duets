@@ -41,7 +41,7 @@ fn create_should_return_interaction_when_given_interaction() {
         GameScreen::Interaction {
             context: Context::default(),
             interaction,
-            sequence: InteractItem::End,
+            sequence: vec![],
         },
         &Context::default(),
     );
