@@ -39,9 +39,14 @@ fn show_songs(unfinished_songs: &HashSet<Song>) {
         .max()
         .unwrap_or(0)
         + 4;
+
+    display::show_text_with_new_line("These are the songs you have unfinished:");
+    display::show_line_break();
     for (index, song) in unfinished_songs.iter().enumerate() {
         show_song(index, song, max_column_separator)
     }
+    display::show_line_break();
+    display::show_text("You can finish any of them at any time by recording them");
 }
 
 fn show_song(index: usize, song: &Song, name_padding: usize) {
