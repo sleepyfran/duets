@@ -8,6 +8,7 @@ pub mod interact;
 pub mod look;
 pub mod map;
 pub mod save;
+pub mod songs;
 pub mod time;
 
 pub use command_collection::CommandCollection;
