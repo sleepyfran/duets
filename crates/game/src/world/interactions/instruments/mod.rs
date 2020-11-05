@@ -1,5 +1,5 @@
-mod compose;
-mod play;
+pub mod compose;
+pub mod play;
 
 use std::rc::Rc;
 

@@ -1,5 +1,5 @@
 mod effects;
-mod instruments;
+pub mod instruments;
 mod interface;
 mod outcomes;
 mod requirement;

@@ -50,11 +50,13 @@ impl Interaction for ComposeInteraction {
             .character
             .get_skill_with_level(&self.instrument.associated_skill);
 
+        let skill_level_multiplier = instrument_skill.level / 10;
+
         // Round up to 1 if it's zero, otherwise the song won't improve.
-        let instrument_skill_level = if instrument_skill.level == 0 {
+        let instrument_skill_level = if skill_level_multiplier == 0 {
             1
         } else {
-            instrument_skill.level
+            skill_level_multiplier
         };
 
         InteractionEffects {
@@ -80,37 +82,28 @@ impl Interaction for ComposeInteraction {
     }
 }
 
-fn build_existing_song_sequence(
-    songs_in_progress: HashSet<Song>,
-    context: &Context,
-) -> Sequence {
-    vec![
-        InteractItem::Confirmation {
-            question: "You have unfinished songs, do you want to continue one of them?".into(),
-            branches: (
-                vec![
-                    InteractItem::Options {
-                        question: "Which song do you want to improve?".into(),
-                        options: songs_in_progress
-                            .iter()
-                            .map(|song| InteractOption {
-                                id: song.id.to_string(),
-                                text: song.name.clone(),
-                            })
-                            .collect(),
-                    }
-                ],
-                build_new_song_sequence(context),
-            ),
-        }
-    ]
+fn build_existing_song_sequence(songs_in_progress: HashSet<Song>, context: &Context) -> Sequence {
+    vec![InteractItem::Confirmation {
+        question: "You have unfinished songs, do you want to continue one of them?".into(),
+        branches: (
+            vec![InteractItem::Options {
+                question: "Which song do you want to improve?".into(),
+                options: songs_in_progress
+                    .iter()
+                    .map(|song| InteractOption {
+                        id: song.id.to_string(),
+                        text: song.name.clone(),
+                    })
+                    .collect(),
+            }],
+            build_new_song_sequence(context),
+        ),
+    }]
 }
 
 fn build_new_song_sequence(context: &Context) -> Sequence {
     vec![
-        InteractItem::TextInput(
-            "Composing a new song. What name is it going to have?".into(),
-        ),
+        InteractItem::TextInput("Composing a new song. What name is it going to have?".into()),
         InteractItem::Options {
             question: "What genre is it going to have?".into(),
             options: context
@@ -131,6 +124,6 @@ fn build_new_song_sequence(context: &Context) -> Sequence {
                     text: style.to_string(),
                 })
                 .collect(),
-        }
+        },
     ]
 }

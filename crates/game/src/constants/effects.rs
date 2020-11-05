@@ -4,5 +4,5 @@ pub mod negative {
 
 pub mod positive {
     pub const SKILL_PLAY_INTERACTION: u8 = 1;
-    pub const SONG_COMPOSE_INTERACTION: u8 = 5;
+    pub const SONG_COMPOSE_INTERACTION: u8 = 2;
 }
