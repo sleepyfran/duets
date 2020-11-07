@@ -22,8 +22,8 @@ songs
 ----
 When called with no paramaters will display all unfinished songs. Can also be called with:
 
-[edit] - Shows a list of songs to edit the name of
-[discard] - Shows a list of songs to remove
+[edit] - Shows the list of all unfinished songs and allows to choose one to edit
+[discard] - Shows the list of all unfinished songs and allows to choose one to remove
         "#
         .into(),
         execute: Arc::new(move |args, global_context| {
