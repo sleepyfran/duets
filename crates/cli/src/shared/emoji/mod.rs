@@ -73,6 +73,11 @@ pub fn for_fame<'a>() -> &'a str {
     "🌟"
 }
 
+/// Returns the assigned emoji for showing the character's skills;
+pub fn for_skills<'a>() -> &'a str {
+    "🏹"
+}
+
 /// Returns the assigned emoji for showing good quality.
 pub fn for_good_quality<'a>() -> &'a str {
     "🟢"

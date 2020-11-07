@@ -34,12 +34,13 @@ fn show_command_list(available_commands: &CommandCollection) {
     display::show_text_with_new_line(&String::from("Commands available in this screen:"));
 
     for command in available_commands.to_vec() {
+        display::show_line_break();
         show_command(&command);
     }
 }
 
 fn show_command(command: &Command) {
-    display::show_text_with_new_line(&format!(
+    display::show_text(&format!(
         "{}: {}",
         display::styles::title(&command.name),
         command.explanation

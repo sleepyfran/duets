@@ -58,13 +58,10 @@ parameters:
             }
 
             if rooms.is_empty() {
-                display::show_text_with_new_line("Seems like there are no other rooms in here");
+                display::show_text("Seems like there are no other rooms in here");
             } else {
                 let rooms_description = lang::list::describe_rooms(&rooms);
-                display::show_text_with_new_line(&format!(
-                    "You can also see {}",
-                    rooms_description
-                ));
+                display::show_text(&format!("You can also see {}", rooms_description));
             }
 
             CliAction::Continue

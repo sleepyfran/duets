@@ -135,6 +135,8 @@ fn show_outcomes(outcomes: &[Outcome]) {
 }
 
 fn show_outcome(outcome: &Outcome) {
+    display::show_line_break();
+
     match outcome {
         Outcome::Song(song) => show_song_outcome(song),
         Outcome::SkillLevelModified(skill, effect_type) => {

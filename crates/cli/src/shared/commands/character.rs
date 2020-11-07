@@ -21,22 +21,21 @@ Shows the current status of the character.
         execute: Arc::new(move |_args, global_context| {
             let character = &global_context.game_state.character;
 
-            display::show_prompt_text_no_emoji(&get_character_info(global_context));
+            display::show_text(&get_character_info(global_context));
 
             if !character.skills.is_empty() {
                 display::show_line_break();
 
-                display::show_prompt_text_no_emoji(&format!(
-                    "Skills:{}",
+                display::show_text(&format!(
+                    "{} Skills:{}",
+                    emoji::for_skills(),
                     character
                         .skills
                         .iter()
-                        .map(|skill| format!("{} level {}", skill.name, skill.level))
+                        .map(|skill| format!("{}, level {}", skill.name, skill.level))
                         .fold(String::default(), |acc, curr| format!("{}\n{}", acc, curr))
                 ))
             }
-
-            display::show_line_break();
 
             CliAction::Continue
         }),
