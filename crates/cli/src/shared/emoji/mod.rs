@@ -72,3 +72,18 @@ pub fn for_energy<'a>() -> &'a str {
 pub fn for_fame<'a>() -> &'a str {
     "🌟"
 }
+
+/// Returns the assigned emoji for showing good quality.
+pub fn for_good_quality<'a>() -> &'a str {
+    "🟢"
+}
+
+/// Returns the assigned emoji for showing medium quality.
+pub fn for_medium_quality<'a>() -> &'a str {
+    "🟡"
+}
+
+/// Returns the assigned emoji for showing bad quality.
+pub fn for_bad_quality<'a>() -> &'a str {
+    "🔴"
+}
