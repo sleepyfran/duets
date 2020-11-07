@@ -60,7 +60,9 @@ fn show_songs(unfinished_songs: HashSet<Song>) -> CliAction {
         show_song(index, song, max_column_separator)
     }
     display::show_line_break();
-    display::show_text_with_new_line("You can finish any of them at any time by recording them");
+    display::show_text_with_new_line(
+        "You can finish any of them by recording a song in a computer or a studio",
+    );
 
     CliAction::Continue
 }
