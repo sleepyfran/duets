@@ -1,6 +1,6 @@
 use common::entities::{Instrument, Object, ObjectType};
 use game::context::Context;
-use game::operations::start::SavegameState;
+use game::data::startup::SavegameState;
 use game::world::interactions::{get_for, InteractItem};
 
 use crate::screens::create;

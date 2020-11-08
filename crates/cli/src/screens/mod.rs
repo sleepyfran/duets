@@ -6,7 +6,7 @@ mod new_game;
 use std::rc::Rc;
 
 use game::context::Context;
-use game::operations::start::SavegameState;
+use game::data::startup::SavegameState;
 use game::world::interactions::{Interaction, Sequence};
 
 use crate::shared::screen::Screen;

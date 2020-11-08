@@ -1,8 +1,9 @@
 use common::entities::GameState;
 
+use super::database::{Database, DatabaseLoadError};
+use super::integrity;
+use super::savegame;
 use crate::context::Context;
-use crate::data::database::{Database, DatabaseLoadError};
-use crate::data::integrity;
 
 /// Different states in which a savegame can be once it is loaded from disc. If None it means that
 /// there is no savegame that can be loaded. When InvalidReferences it indicates that the savegame
@@ -16,7 +17,7 @@ pub enum SavegameState {
 /// Retrieves everything needed for the start of the game.
 pub fn load() -> SavegameState {
     let database = load_database().unwrap();
-    let game_state = storage::retrieve_game_state().ok();
+    let game_state = savegame::load().ok();
 
     match game_state {
         Some(game_state) => from_savegame(database, game_state),
