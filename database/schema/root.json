@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "root.json",
+  "title": "Database",
+  "description": "Root of the database",
+  "type": "object",
+  "required": ["countries", "genres", "instruments", "skills", "objects"],
+  "properties": {
+    "countries": {
+      "type": "array",
+      "items": {
+        "$ref": "country.json#definitions/country"
+      }
+    },
+    "genres": {
+      "type": "array",
+      "items": {
+        "$ref": "genre.json#definitions/genre"
+      }
+    },
+    "instruments": {
+      "type": "array",
+      "items": {
+        "$ref": "instrument.json#definitions/instrument"
+      }
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "$ref": "skill.json#definitions/skill"
+      }
+    },
+    "objects": {
+      "type": "array",
+      "items": {
+        "$ref": "object.json#definitions/object"
+      }
+    }
+  }
+}

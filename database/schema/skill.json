@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "skill": {
+      "type": "object",
+      "required": ["name", "category"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": {
+          "type": "string",
+          "enum": ["Music", "Production", "Social"]
+        }
+      }
+    }
+  }
+}

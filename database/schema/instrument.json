@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "instrument": {
+      "type": "object",
+      "required": ["id", "name", "allowsAnotherInstrument", "associatedSkill"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "allowsAnotherInstrument": { "type": "boolean" },
+        "associatedSkill": { "$ref": "reference.json#definitions/reference" }
+      }
+    }
+  }
+}

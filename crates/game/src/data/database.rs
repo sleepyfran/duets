@@ -1,11 +1,13 @@
-mod loader;
-
-pub use loader::*;
-
-use serde::{Deserialize, Deserializer};
-use serde_json;
+use serde::Deserialize;
 
 use common::entities::{Country, Genre, Instrument};
+
+/// Defines what went wrong while trying to load the database.
+#[derive(Debug, Clone)]
+pub enum DatabaseLoaderError {
+    NoConnection,
+    DatabaseCorrupted,
+}
 
 /// The game database represents the read only data that is remotely fetched and that holds the
 /// static data of the game such as countries, cities, instruments, etc. This should be initialized

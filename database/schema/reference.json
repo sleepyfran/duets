@@ -1,0 +1,9 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "reference": {
+      "type": "string",
+      "pattern": "\\$(countries|genres|instruments|skills|objects){1}_\\w+"
+    }
+  }
+}

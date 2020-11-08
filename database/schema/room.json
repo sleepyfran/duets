@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "room": {
+      "type": "object",
+      "required": ["id", "name", "description", "objects"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "objects": {
+          "type": "array",
+          "items": { "$ref": "reference.json#definitions/reference" }
+        }
+      }
+    }
+  }
+}
