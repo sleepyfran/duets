@@ -1,0 +1,44 @@
+{
+  "$schema": "../schema/root.json",
+  "countries": ["file:countries/cz/cz.json"],
+  "genres": [
+    {
+      "id": "not_blvck",
+      "name": "Blackgaze",
+      "compatibleWith": []
+    }
+  ],
+  "instruments": [
+    {
+      "id": "guitar",
+      "name": "Guitar",
+      "allowsAnotherInstrument": true,
+      "associatedSkill": "ref:skills_guitar"
+    }
+  ],
+  "skills": [
+    {
+      "id": "guitar",
+      "name": "Guitar",
+      "category": "Music"
+    }
+  ],
+  "objects": [
+    {
+      "id": "test1",
+      "name": "guitar",
+      "description": "A simple guitar for testing",
+      "type": {
+        "Instrument": "ref:instruments_guitar"
+      }
+    },
+    {
+      "id": "test2",
+      "name": "fake guitar",
+      "description": "A fake guitar to test spaces in names",
+      "type": {
+        "Instrument": "ref:instruments_guitar"
+      }
+    }
+  ]
+}

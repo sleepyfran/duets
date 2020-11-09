@@ -11,10 +11,18 @@
         "cities": {
           "type": "array",
           "items": {
-            "$ref": "city.json#definitions/city"
+            "oneOf": [
+              {
+                "$ref": "city.json#definitions/city"
+              },
+              {
+                "$ref": "file.json#definitions/file"
+              }
+            ]
           }
         }
       }
     }
-  }
+  },
+  "allOf": [{ "$ref": "#/definitions/country" }]
 }

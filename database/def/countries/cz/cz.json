@@ -1,0 +1,7 @@
+{
+  "$schema": "../../../schema/country.json",
+  "id": "cz",
+  "name": "Czech Republic",
+  "population": 10690000,
+  "cities": ["file:countries/cz/cities/prg.json"]
+}

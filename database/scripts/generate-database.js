@@ -5,11 +5,12 @@
 "use strict";
 
 const fs = require("fs");
+const REF_TOKEN = "ref:";
+const FILE_TOKEN = "file:";
 
 console.log("🗃 Opening & parsing file...");
-const databasePath = `${__dirname}/../database.json`;
-const jsonFileContent = fs.readFileSync(databasePath);
-const database = JSON.parse(jsonFileContent);
+const databasePath = `${__dirname}/../def/database.json`;
+const database = loadJsonContent(databasePath);
 
 console.log("🔍 Resolving references...");
 const result = resolveReferencesOf(database);
@@ -17,6 +18,11 @@ const result = resolveReferencesOf(database);
 const savePath = `${__dirname}/../generated/database.json`;
 fs.writeFileSync(savePath, JSON.stringify(result));
 console.log("✅ Done, saved in ", savePath);
+
+function loadJsonContent(path) {
+  const jsonFileContent = fs.readFileSync(path);
+  return JSON.parse(jsonFileContent);
+}
 
 function resolveReferencesOf(data) {
   if (isObject(data)) {
@@ -29,13 +35,13 @@ function resolveReferencesOf(data) {
     return data.map(resolveReferencesOf);
   }
 
-  return resolveReferenceOfField(data);
+  return resolveReferenceOfField(data) || resolveFileOfField(data);
 }
 
 function resolveReferenceOfField(field) {
-  if (!isReference(field)) return field;
+  if (!isReference(field)) return null;
 
-  const reference = field.slice(1);
+  const reference = field.replace(REF_TOKEN, "");
   const referenceTokens = reference.split("_");
   const referenceType = referenceTokens[0];
   const referenceId = referenceTokens[1];
@@ -55,8 +61,22 @@ function resolveReferenceOfField(field) {
   return resolveReferencesOf(databaseField);
 }
 
+function resolveFileOfField(field) {
+  if (!isFile(field)) return field;
+
+  const relativePath = field.replace(FILE_TOKEN, "");
+  const path = `${__dirname}/../def/${relativePath}`;
+  const jsonContent = loadJsonContent(path);
+
+  return resolveReferencesOf(jsonContent);
+}
+
 function isReference(val) {
-  return typeof val == "string" && val.startsWith("$");
+  return typeof val == "string" && val.startsWith(REF_TOKEN);
+}
+
+function isFile(val) {
+  return typeof val == "string" && val.startsWith(FILE_TOKEN);
 }
 
 function isObject(val) {

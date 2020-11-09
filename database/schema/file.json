@@ -1,0 +1,9 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "file": {
+      "type": "string",
+      "pattern": "file:(countries|genres|instruments|objects|places|rooms|skills){1}(/\\w+)*(/\\w+\\.json){1}"
+    }
+  }
+}

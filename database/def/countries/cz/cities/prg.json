@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../../schema/city.json",
+  "id": "prg",
+  "name": "Prague",
+  "population": 1309000,
+  "places": [
+    {
+      "id": "test_1",
+      "name": "Test Place",
+      "rooms": [
+        {
+          "id": "test_1",
+          "name": "bathroom",
+          "description": "A dark room just to test",
+          "objects": ["$objects_test1", "$objects_test2"]
+        }
+      ]
+    }
+  ]
+}

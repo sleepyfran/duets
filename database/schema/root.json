@@ -9,7 +9,10 @@
     "countries": {
       "type": "array",
       "items": {
-        "$ref": "country.json#definitions/country"
+        "oneOf": [
+          { "$ref": "country.json#definitions/country" },
+          { "$ref": "file.json#definitions/file" }
+        ]
       }
     },
     "genres": {

@@ -3,7 +3,7 @@
   "definitions": {
     "reference": {
       "type": "string",
-      "pattern": "\\$(countries|genres|instruments|skills|objects){1}_\\w+"
+      "pattern": "ref:(countries|genres|instruments|skills|objects){1}_\\w+"
     }
   }
 }
