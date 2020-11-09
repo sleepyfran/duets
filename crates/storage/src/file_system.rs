@@ -1,4 +1,3 @@
-use app_dirs2;
 use std::fs;
 use std::fs::File;
 use std::io::Read;

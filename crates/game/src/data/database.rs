@@ -16,7 +16,6 @@ pub enum DatabaseLoaderError {
 #[derive(Clone, Deserialize, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct Database {
-    pub compatible_with: String,
     pub countries: Vec<Country>,
     pub genres: Vec<Genre>,
     pub instruments: Vec<Instrument>,
@@ -25,7 +24,7 @@ pub struct Database {
 /// Generic error when loading the database.
 #[derive(Debug, Clone)]
 pub struct DatabaseLoadError {
-    description: String,
+    pub description: String,
 }
 
 impl Database {

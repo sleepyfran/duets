@@ -1,7 +1,5 @@
 mod file_system;
 
-use serde_json;
-
 use common::entities::GameState;
 
 use file_system::FileType;
@@ -15,6 +13,12 @@ pub enum Error {
 }
 
 pub type IoResult<T> = Result<T, Error>;
+
+/// Attempts to load the bundled database into a string.
+pub fn retrieve_database() -> IoResult<String> {
+    let file_content = include_bytes!("../../../database/generated/database.json");
+    String::from_utf8(file_content.to_vec()).map_err(|_| Error::FileParsingError)
+}
 
 /// Attempts to load the savegame file and parse its content.
 pub fn retrieve_game_state() -> IoResult<GameState> {

@@ -26,8 +26,11 @@ pub fn load() -> SavegameState {
 }
 
 fn load_database() -> Result<Database, DatabaseLoadError> {
-    // TODO: Load the database from the server and not from a mock.
-    Database::init_with()
+    storage::retrieve_database()
+        .map_err(|_| DatabaseLoadError {
+            description: "Error loading bundled database".into(),
+        })
+        .and_then(Database::init_with)
 }
 
 fn from_savegame(database: Database, game_state: GameState) -> SavegameState {
