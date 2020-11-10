@@ -1,13 +1,7 @@
 {
   "$schema": "../schema/root.json",
   "countries": ["file:countries/cz/cz.json"],
-  "genres": [
-    {
-      "id": "not_blvck",
-      "name": "Blackgaze",
-      "compatibleWith": []
-    }
-  ],
+  "genres": "file:genres/genres.json",
   "instruments": [
     {
       "id": "guitar",

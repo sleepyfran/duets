@@ -13,7 +13,8 @@ const databasePath = `${__dirname}/../def/database.json`;
 const database = loadJsonContent(databasePath);
 
 console.log("🔍 Resolving references...");
-const result = resolveReferencesOf(database);
+const joinedDatabase = resolveFilesOf(database);
+const result = resolveReferencesOf(joinedDatabase);
 
 const savePath = `${__dirname}/../generated/database.json`;
 fs.writeFileSync(savePath, JSON.stringify(result));
@@ -24,22 +25,40 @@ function loadJsonContent(path) {
   return JSON.parse(jsonFileContent);
 }
 
-function resolveReferencesOf(data) {
+function resolveWith(data, resolver) {
   if (isObject(data)) {
     const keys = Object.keys(data);
     return keys.reduce(
-      (acc, field) => ({ ...acc, [field]: resolveReferencesOf(data[field]) }),
+      (acc, field) => ({ ...acc, [field]: resolveWith(data[field], resolver) }),
       {}
     );
   } else if (isArray(data)) {
-    return data.map(resolveReferencesOf);
+    return data.map((item) => resolveWith(item, resolver));
   }
 
-  return resolveReferenceOfField(data) || resolveFileOfField(data);
+  return resolver(data);
 }
 
-function resolveReferenceOfField(field) {
-  if (!isReference(field)) return null;
+function resolveFilesOf(data) {
+  return resolveWith(data, resolveFileOf);
+}
+
+function resolveReferencesOf(data) {
+  return resolveWith(data, resolveReferenceOf);
+}
+
+function resolveFileOf(field) {
+  if (!isFile(field)) return field;
+
+  const relativePath = field.replace(FILE_TOKEN, "");
+  const path = `${__dirname}/../def/${relativePath}`;
+  const jsonContent = loadJsonContent(path);
+
+  return resolveFilesOf(jsonContent);
+}
+
+function resolveReferenceOf(field) {
+  if (!isReference(field)) return field;
 
   const reference = field.replace(REF_TOKEN, "");
   const referenceTokens = reference.split("_");
@@ -50,7 +69,7 @@ function resolveReferenceOfField(field) {
     throw `Unable to parse reference ${field}`;
   }
 
-  const databaseField = database[referenceType].find(
+  const databaseField = joinedDatabase[referenceType].find(
     (elem) => elem.id == referenceId
   );
 
@@ -59,16 +78,6 @@ function resolveReferenceOfField(field) {
   }
 
   return resolveReferencesOf(databaseField);
-}
-
-function resolveFileOfField(field) {
-  if (!isFile(field)) return field;
-
-  const relativePath = field.replace(FILE_TOKEN, "");
-  const path = `${__dirname}/../def/${relativePath}`;
-  const jsonContent = loadJsonContent(path);
-
-  return resolveReferencesOf(jsonContent);
 }
 
 function isReference(val) {

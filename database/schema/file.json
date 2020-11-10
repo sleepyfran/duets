@@ -3,7 +3,7 @@
   "definitions": {
     "file": {
       "type": "string",
-      "pattern": "file:(countries|genres|instruments|objects|places|rooms|skills){1}(/\\w+)*(/\\w+\\.json){1}"
+      "pattern": "file:(countries|genres|instruments|objects|places|rooms|skills){1}(((/\\w+)+|\\.json){1}|(/\\w+\\.json){1})+"
     }
   }
 }

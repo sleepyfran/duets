@@ -10,10 +10,11 @@
         "compatibleWith": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "reference.json#definitions/reference"
           }
         }
       }
     }
-  }
+  },
+  "allOf": [{ "$ref": "#/definitions/genre" }]
 }

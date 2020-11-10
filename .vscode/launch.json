@@ -5,15 +5,17 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug database generation script",
+      "program": "${workspaceFolder}/database/scripts/generate-database.js"
+    },
+    {
       "type": "lldb",
       "request": "launch",
       "name": "Debug executable 'cli'",
       "cargo": {
-        "args": [
-          "build",
-          "--bin=cli",
-          "--package=cli"
-        ],
+        "args": ["build", "--bin=cli", "--package=cli"],
         "filter": {
           "name": "cli",
           "kind": "bin"
@@ -27,12 +29,7 @@
       "request": "launch",
       "name": "Debug unit tests in executable 'cli'",
       "cargo": {
-        "args": [
-          "test",
-          "--no-run",
-          "--bin=cli",
-          "--package=cli"
-        ],
+        "args": ["test", "--no-run", "--bin=cli", "--package=cli"],
         "filter": {
           "name": "cli",
           "kind": "bin"
@@ -46,12 +43,7 @@
       "request": "launch",
       "name": "Debug unit tests in library 'common'",
       "cargo": {
-        "args": [
-          "test",
-          "--no-run",
-          "--lib",
-          "--package=common"
-        ],
+        "args": ["test", "--no-run", "--lib", "--package=common"],
         "filter": {
           "name": "common",
           "kind": "lib"
@@ -65,12 +57,7 @@
       "request": "launch",
       "name": "Debug unit tests in library 'game'",
       "cargo": {
-        "args": [
-          "test",
-          "--no-run",
-          "--lib",
-          "--package=game"
-        ],
+        "args": ["test", "--no-run", "--lib", "--package=game"],
         "filter": {
           "name": "game",
           "kind": "lib"
@@ -84,12 +71,7 @@
       "request": "launch",
       "name": "Debug unit tests in library 'simulation'",
       "cargo": {
-        "args": [
-          "test",
-          "--no-run",
-          "--lib",
-          "--package=simulation"
-        ],
+        "args": ["test", "--no-run", "--lib", "--package=simulation"],
         "filter": {
           "name": "simulation",
           "kind": "lib"
@@ -103,12 +85,7 @@
       "request": "launch",
       "name": "Debug unit tests in library 'storage'",
       "cargo": {
-        "args": [
-          "test",
-          "--no-run",
-          "--lib",
-          "--package=storage"
-        ],
+        "args": ["test", "--no-run", "--lib", "--package=storage"],
         "filter": {
           "name": "storage",
           "kind": "lib"
@@ -122,12 +99,7 @@
       "request": "launch",
       "name": "Debug unit tests in library 'tests'",
       "cargo": {
-        "args": [
-          "test",
-          "--no-run",
-          "--lib",
-          "--package=tests"
-        ],
+        "args": ["test", "--no-run", "--lib", "--package=tests"],
         "filter": {
           "name": "tests",
           "kind": "lib"

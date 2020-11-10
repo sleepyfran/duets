@@ -1,0 +1,6 @@
+{
+  "$schema": "../../schema/genre.json",
+  "id": "shoegaze",
+  "name": "Shoegaze",
+  "compatibleWith": []
+}

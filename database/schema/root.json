@@ -16,27 +16,33 @@
       }
     },
     "genres": {
-      "type": "array",
-      "items": {
-        "$ref": "genre.json#definitions/genre"
-      }
+      "$ref": "file.json#definitions/file"
     },
     "instruments": {
       "type": "array",
       "items": {
-        "$ref": "instrument.json#definitions/instrument"
+        "oneOf": [
+          { "$ref": "instrument.json#definitions/instrument" },
+          { "$ref": "file.json#definitions/file" }
+        ]
       }
     },
     "skills": {
       "type": "array",
       "items": {
-        "$ref": "skill.json#definitions/skill"
+        "oneOf": [
+          { "$ref": "skill.json#definitions/skill" },
+          { "$ref": "file.json#definitions/file" }
+        ]
       }
     },
     "objects": {
       "type": "array",
       "items": {
-        "$ref": "object.json#definitions/object"
+        "oneOf": [
+          { "$ref": "object.json#definitions/object" },
+          { "$ref": "file.json#definitions/file" }
+        ]
       }
     }
   }
