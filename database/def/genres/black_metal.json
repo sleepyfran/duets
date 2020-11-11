@@ -2,5 +2,5 @@
   "$schema": "../../schema/genre.json",
   "id": "black-metal",
   "name": "Black Metal",
-  "compatibleWith": ["ref:genres_blackgaze"]
+  "compatibleWith": ["blackgaze"]
 }

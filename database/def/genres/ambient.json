@@ -1,0 +1,6 @@
+{
+  "$schema": "../../schema/genre.json",
+  "id": "ambient",
+  "name": "Ambient",
+  "compatibleWith": ["blackgaze", "electronic"]
+}

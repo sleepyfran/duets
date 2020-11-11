@@ -8,7 +8,7 @@ use super::Identity;
 pub struct Genre {
     pub id: String,
     pub name: String,
-    pub compatible_with: Vec<Genre>,
+    pub compatible_with: Vec<String>,
 }
 
 impl PartialEq for Genre {

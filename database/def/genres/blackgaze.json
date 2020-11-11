@@ -2,5 +2,5 @@
   "$schema": "../../schema/genre.json",
   "id": "blackgaze",
   "name": "Blackgaze",
-  "compatibleWith": ["ref:genres_shoegaze"]
+  "compatibleWith": ["ambient", "shoegaze"]
 }

@@ -10,7 +10,7 @@
         "compatibleWith": {
           "type": "array",
           "items": {
-            "$ref": "reference.json#definitions/reference"
+            "type": "string"
           }
         }
       }
