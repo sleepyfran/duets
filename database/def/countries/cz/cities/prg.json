@@ -12,7 +12,7 @@
           "id": "test_1",
           "name": "bathroom",
           "description": "A dark room just to test",
-          "objects": ["ref:objects_test1", "ref:objects_test2"]
+          "objects": ["ref:objects_bass", "ref:objects_guitar"]
         }
       ]
     }
