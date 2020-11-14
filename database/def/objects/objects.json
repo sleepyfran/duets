@@ -1,5 +1,7 @@
 [
+  "file:objects/bedroom/bed.json",
   "file:objects/instruments/bass.json",
   "file:objects/instruments/drums.json",
-  "file:objects/instruments/guitar.json"
+  "file:objects/instruments/guitar.json",
+  "file:objects/studio/computer.json"
 ]

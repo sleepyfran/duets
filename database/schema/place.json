@@ -3,10 +3,14 @@
   "definitions": {
     "place": {
       "type": "object",
-      "required": ["id", "name", "rooms"],
+      "required": ["id", "name", "type", "rooms"],
       "properties": {
         "id": { "type": "string" },
         "name": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["house"]
+        },
         "rooms": {
           "type": "array",
           "items": {
@@ -15,5 +19,6 @@
         }
       }
     }
-  }
+  },
+  "allOf": [{ "$ref": "#/definitions/place" }]
 }

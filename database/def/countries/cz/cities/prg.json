@@ -5,14 +5,27 @@
   "population": 1309000,
   "places": [
     {
-      "id": "test_1",
-      "name": "Test Place",
+      "id": "home",
+      "name": "Home",
+      "type": "house",
       "rooms": [
         {
-          "id": "test_1",
-          "name": "bathroom",
-          "description": "A dark room just to test",
+          "id": "home_hall",
+          "name": "hall",
+          "description": "Main hall of the house",
           "objects": ["ref:objects_bass", "ref:objects_guitar"]
+        },
+        {
+          "id": "home_bedroom",
+          "name": "bedroom",
+          "description": "A place for resting",
+          "objects": ["ref:objects_bed"]
+        },
+        {
+          "id": "home_studio",
+          "name": "studio",
+          "description": "Here you can find a quiet place to focus on your projects",
+          "objects": ["ref:objects_computer"]
         }
       ]
     }

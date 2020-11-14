@@ -7,8 +7,9 @@ use super::Instrument;
 /// determine the different set of actions that the character can do with the object.
 #[derive(Clone, Deserialize, Serialize)]
 pub enum ObjectType {
-    Instrument(Instrument),
+    Bed,
     Computer,
+    Instrument(Instrument),
 }
 
 /// Defines an object that is positioned in the world and that can be interacted with.

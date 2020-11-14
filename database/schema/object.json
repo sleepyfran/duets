@@ -9,15 +9,26 @@
         "name": { "type": "string" },
         "description": { "type": "string" },
         "type": {
-          "type": "object",
-          "required": ["Instrument"],
-          "properties": {
-            "Instrument": {
-              "$ref": "reference.json#definitions/reference"
+          "oneOf": [
+            // Complex types that require properties.
+            {
+              "type": "object",
+              "required": ["Instrument"],
+              "properties": {
+                "Instrument": {
+                  "$ref": "reference.json#definitions/reference"
+                }
+              }
+            },
+            // Simple types that don't require any property.
+            {
+              "type": "string",
+              "enum": ["Bed", "Computer"]
             }
-          }
+          ]
         }
       }
     }
-  }
+  },
+  "allOf": [{ "$ref": "#/definitions/object" }]
 }

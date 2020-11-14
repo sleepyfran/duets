@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../schema/object.json",
   "id": "guitar",
   "name": "guitar",
   "description": "A shiny guitar ready to rock",
