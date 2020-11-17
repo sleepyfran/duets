@@ -1,0 +1,9 @@
+{
+  "$schema": "../../../schema/object.json",
+  "id": "drums",
+  "name": "drums",
+  "description": "Nice and heavy drums",
+  "type": {
+    "Instrument": "ref:instruments_drums"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "id": "drums",
+  "name": "Drums",
+  "allowsAnotherInstrument": false,
+  "associatedSkill": "ref:skills_drums"
+}

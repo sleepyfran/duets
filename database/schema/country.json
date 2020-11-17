@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "country": {
+      "type": "object",
+      "required": ["id", "name", "population", "cities"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "population": { "type": "number" },
+        "cities": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "city.json#definitions/city"
+              },
+              {
+                "$ref": "file.json#definitions/file"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "allOf": [{ "$ref": "#/definitions/country" }]
+}

@@ -1,11 +1,13 @@
-mod loader;
-
-pub use loader::*;
-
-use serde::{Deserialize, Deserializer};
-use serde_json;
+use serde::Deserialize;
 
 use common::entities::{Country, Genre, Instrument};
+
+/// Defines what went wrong while trying to load the database.
+#[derive(Debug, Clone)]
+pub enum DatabaseLoaderError {
+    NoConnection,
+    DatabaseCorrupted,
+}
 
 /// The game database represents the read only data that is remotely fetched and that holds the
 /// static data of the game such as countries, cities, instruments, etc. This should be initialized
@@ -14,7 +16,6 @@ use common::entities::{Country, Genre, Instrument};
 #[derive(Clone, Deserialize, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct Database {
-    pub compatible_with: String,
     pub countries: Vec<Country>,
     pub genres: Vec<Genre>,
     pub instruments: Vec<Instrument>,
@@ -23,7 +24,7 @@ pub struct Database {
 /// Generic error when loading the database.
 #[derive(Debug, Clone)]
 pub struct DatabaseLoadError {
-    description: String,
+    pub description: String,
 }
 
 impl Database {

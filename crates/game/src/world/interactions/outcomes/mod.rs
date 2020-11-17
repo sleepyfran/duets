@@ -9,6 +9,9 @@ use super::*;
 /// Defines the different types of outcomes of an interaction.
 #[derive(Clone)]
 pub enum Outcome {
+    Energy(EffectType),
+    Mood(EffectType),
+    Health(EffectType),
     Song(SongOutcome),
     SkillLevelModified(SkillWithLevel, EffectType),
 }
