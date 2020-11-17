@@ -138,6 +138,9 @@ fn show_outcome(outcome: &Outcome) {
     display::show_line_break();
 
     match outcome {
+        Outcome::Energy(effect_type) => show_generic_effect("energy".into(), effect_type),
+        Outcome::Health(effect_type) => show_generic_effect("health".into(), effect_type),
+        Outcome::Mood(effect_type) => show_generic_effect("mood".into(), effect_type),
         Outcome::Song(song) => show_song_outcome(song),
         Outcome::SkillLevelModified(skill, effect_type) => {
             show_skill_level_modified_outcome(skill, effect_type)
@@ -166,5 +169,16 @@ fn show_skill_level_modified_outcome(skill: &SkillWithLevel, effect_type: &Effec
             "Your level in {} has increased to {}",
             skill.name, skill.level
         )),
+    }
+}
+
+fn show_generic_effect(attribute: String, effect_type: &EffectType) {
+    match effect_type {
+        EffectType::Negative(amount) => {
+            display::show_error(&format!("Your {} has decreased by {}", attribute, amount))
+        }
+        EffectType::Positive(amount) => {
+            display::show_info(&format!("Your {} has increased by {}", attribute, amount))
+        }
     }
 }

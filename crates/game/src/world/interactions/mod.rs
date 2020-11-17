@@ -1,4 +1,5 @@
 mod effects;
+pub mod home;
 pub mod instruments;
 mod interface;
 mod outcomes;
@@ -21,7 +22,8 @@ use crate::context::Context;
 pub fn get_for(object: &Object) -> Vec<Rc<dyn Interaction>> {
     match &object.r#type {
         ObjectType::Instrument(instrument) => instruments::get_interactions(instrument),
-        _ => vec![],
+        ObjectType::Bed => home::bed::get_interactions(),
+        ObjectType::Computer => home::computer::get_interactions(),
     }
 }
 
@@ -127,6 +129,7 @@ fn process_effect(effect: InteractionEffect, output: &SequenceOutput) -> Sequenc
         InteractionEffect::Time(consumption) => effects::time::apply(consumption, &output),
         InteractionEffect::Health(effect) => effects::health::apply(effect, &output),
         InteractionEffect::Energy(effect) => effects::energy::apply(effect, &output),
+        InteractionEffect::Mood(effect) => effects::mood::apply(effect, &output),
         InteractionEffect::Skill(skill, effect) => effects::skills::apply(skill, effect, &output),
         InteractionEffect::Song(effect) => effects::song::apply(effect, &output),
     }

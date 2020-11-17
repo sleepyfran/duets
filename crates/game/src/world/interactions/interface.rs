@@ -59,6 +59,7 @@ pub enum InteractionEffect {
     Time(TimeConsumption),
     Health(EffectType),
     Energy(EffectType),
+    Mood(EffectType),
     Skill(Skill, EffectType),
     Song(EffectType),
 }

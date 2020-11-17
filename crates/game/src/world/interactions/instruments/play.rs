@@ -44,7 +44,7 @@ impl Interaction for PlayInteraction {
         InteractionEffects {
             always_applied: vec![
                 InteractionEffect::Energy(EffectType::Negative(
-                    constants::effects::negative::HEALTH_NORMAL_INTERACTION,
+                    constants::effects::negative::ENERGY_NORMAL_INTERACTION,
                 )),
                 InteractionEffect::Time(TimeConsumption::TimeUnit(1)),
             ],
