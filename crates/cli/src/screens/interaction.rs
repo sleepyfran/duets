@@ -151,21 +151,21 @@ fn show_outcome(outcome: &Outcome) {
 fn show_song_outcome(song_outcome: &SongOutcome) {
     match song_outcome {
         SongOutcome::NewSong { name, genre: _, vocal_style: _ } => {
-            display::show_info(&format!("Started a new song called {}. You can improve it further by doing the same interaction", name))
+            display::show_possitive_outcome(&format!("Started a new song called {}. You can improve it further by doing the same interaction", name))
         },
         SongOutcome::ImproveSong(song) => {
-            display::show_info(&format!("Improved the song {}. The current quality seems to be around {}", song.name, song.quality))
+            display::show_possitive_outcome(&format!("Improved the song {}. The current quality seems to be around {}", song.name, song.quality))
         }
     }
 }
 
 fn show_skill_level_modified_outcome(skill: &SkillWithLevel, effect_type: &EffectType) {
     match effect_type {
-        EffectType::Negative(_) => display::show_error(&format!(
+        EffectType::Negative(_) => display::show_negative_outcome(&format!(
             "Your level in {} has decreased to {}",
             skill.name, skill.level
         )),
-        EffectType::Positive(_) => display::show_info(&format!(
+        EffectType::Positive(_) => display::show_possitive_outcome(&format!(
             "Your level in {} has increased to {}",
             skill.name, skill.level
         )),
@@ -174,11 +174,13 @@ fn show_skill_level_modified_outcome(skill: &SkillWithLevel, effect_type: &Effec
 
 fn show_generic_effect(attribute: String, effect_type: &EffectType) {
     match effect_type {
-        EffectType::Negative(amount) => {
-            display::show_error(&format!("Your {} has decreased by {}", attribute, amount))
-        }
-        EffectType::Positive(amount) => {
-            display::show_info(&format!("Your {} has increased by {}", attribute, amount))
-        }
+        EffectType::Negative(amount) => display::show_negative_outcome(&format!(
+            "Your {} has decreased by {}",
+            attribute, amount
+        )),
+        EffectType::Positive(amount) => display::show_possitive_outcome(&format!(
+            "Your {} has increased by {}",
+            attribute, amount
+        )),
     }
 }
