@@ -37,6 +37,24 @@ pub fn show_info(text: &str) {
     print_and_flush(&format!("{} {}", emoji::for_info(), styles::info(text)))
 }
 
+/// Prints a possitive outcome.
+pub fn show_possitive_outcome(text: &str) {
+    print_and_flush(&format!(
+        "{} {}",
+        emoji::for_possitive_outcome(),
+        styles::info(text)
+    ))
+}
+
+/// Prints a negative outcome.
+pub fn show_negative_outcome(text: &str) {
+    print_and_flush(&format!(
+        "{} {}",
+        emoji::for_negative_outcome(),
+        styles::info(text)
+    ))
+}
+
 /// Prints a warning to the screen.
 pub fn show_warning(text: &str) {
     print_and_flush(&format!(

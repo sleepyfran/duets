@@ -43,6 +43,16 @@ pub fn for_warning<'a>() -> &'a str {
     "⚠️"
 }
 
+/// Returns the assigned emoji for a possitive outcome of an interaction.
+pub fn for_possitive_outcome<'a>() -> &'a str {
+    "🟢"
+}
+
+/// Returns the assigned emoji for a negative outcome of an interaction.
+pub fn for_negative_outcome<'a>() -> &'a str {
+    "🔴"
+}
+
 /// Returns the assigned emoji for errors.
 pub fn for_error<'a>() -> &'a str {
     "❌"
