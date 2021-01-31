@@ -1,6 +1,0 @@
-{
-  "$schema": "../../schema/genre.json",
-  "id": "black-metal",
-  "name": "Black Metal",
-  "compatibleWith": ["blackgaze"]
-}

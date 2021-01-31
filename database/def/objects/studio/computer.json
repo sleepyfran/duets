@@ -1,7 +1,0 @@
-{
-  "$schema": "../../../schema/object.json",
-  "id": "computer",
-  "name": "computer",
-  "description": "Allows you to surf the internet, record songs and lose time",
-  "type": "Computer"
-}

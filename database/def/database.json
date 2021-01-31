@@ -1,8 +1,0 @@
-{
-  "$schema": "../schema/root.json",
-  "countries": "file:countries/countries.json",
-  "genres": "file:genres/genres.json",
-  "instruments": "file:instruments/instruments.json",
-  "skills": "file:skills/skills.json",
-  "objects": "file:objects/objects.json"
-}

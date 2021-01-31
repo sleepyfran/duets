@@ -1,7 +1,0 @@
-{
-  "$schema": "../../../schema/object.json",
-  "id": "bed",
-  "name": "bed",
-  "description": "A cozy and warn bed to get some rest",
-  "type": "Bed"
-}

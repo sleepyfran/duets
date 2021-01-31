@@ -1,6 +1,0 @@
-{
-  "$schema": "../../schema/skill.json",
-  "id": "bass",
-  "name": "Bass",
-  "category": "Music"
-}

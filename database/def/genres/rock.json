@@ -1,6 +1,0 @@
-{
-  "$schema": "../../schema/genre.json",
-  "id": "rock",
-  "name": "Rock",
-  "compatibleWith": [""]
-}
