@@ -5,11 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Library.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Aether" Version="8.3.1" />
+    <Compile Include="Savegame.fs" />
   </ItemGroup>
 
 </Project>

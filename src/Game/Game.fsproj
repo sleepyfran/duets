@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Entities\State.fs" />
+    <Compile Include="Actions\Action.fs" />
+    <Compile Include="Orchestrator.fs" />
+    <Compile Include="Startup.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aether" Version="8.3.1" />
+  </ItemGroup>
+
+</Project>
