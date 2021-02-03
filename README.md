@@ -4,24 +4,25 @@ Duets will be a music simulation focused on allowing the player to be the leader
 
 # 🛠 Run it locally
 
-Duets is built with Rust. Right now the game only has a basic CLI for interacting with it. Once the game logic is done I'll start implementing a UI for it.
+Duets is built with F#. Right now the game only has a basic CLI for interacting with it. Once the game logic is done I'll start implementing a UI for it.
 
 You can clone and run the CLI with:
 
 ```bash
 git clone https://github.com/duets/game.git duets
 cd duets
-cargo run -p cli
+dotnet build
+dotnet run --project src/Cli/Cli.fsproj
 ```
 
-You need Rust to run this. You can follow the installation details [here](https://www.rust-lang.org/learn/get-started).
+You need .NET 5 to run this. You can follow the installation details [here](https://dotnet.microsoft.com/download).
 
 # 🧪 Testing
 
 You can run the tests with:
 
 ```bash
-cargo test
+dotnet test
 ```
 
 # 😄 Contributions
