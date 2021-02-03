@@ -1,6 +1,6 @@
-module Action
+module View.Action
 
-open State
+open Entities.State
 
 /// A choice to be made by the user from a pre-selected list of choices.
 type Choice = {

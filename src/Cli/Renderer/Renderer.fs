@@ -1,6 +1,6 @@
 module Renderer
 
-open Action
+open View.Action
 open Spectre.Console
 
 /// Writes a message into the buffer.

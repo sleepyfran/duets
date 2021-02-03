@@ -1,6 +1,6 @@
 module Orchestrator
 
-open Action
+open View.Action
 
 /// Given a renderer, a state and a chain of actions, recursively renders all
 /// the actions in the chain and applies any effects that come with them.

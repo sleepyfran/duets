@@ -1,7 +1,7 @@
 module Startup
 
-open Action
-open State
+open View.Action
+open Entities.State
 
 /// Given a savegame file, returns the current state of the game as well as the
 /// the corresponding screen.
