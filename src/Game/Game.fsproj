@@ -12,6 +12,7 @@
     <Compile Include="Entities\State.fs" />
     <Compile Include="Data\Queries\Genres.fs" />
     <Compile Include="Data\Queries\Roles.fs" />
+    <Compile Include="View\TextConstants.fs" />
     <Compile Include="View\Actions.fs" />
     <Compile Include="View\Scenes\MainMenu.fs" />
     <Compile Include="Orchestrator.fs" />

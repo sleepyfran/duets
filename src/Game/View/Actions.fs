@@ -1,12 +1,13 @@
 module View.Actions
 
 open Entities.State
+open View.TextConstants
 
 /// Actions are the bridge between the game core logic and the rendering layer.
 /// Each action represents something to be rendered with all the information
 /// to do so, without caring how it is processed.
 type Action =
-  | Message of string
+  | Message of TextConstant
   | Prompt of Prompt
   | Effect of (State -> State)
   | NoOp
@@ -16,7 +17,7 @@ and ActionChain = Action seq
 
 /// Indicates the need to prompt the user for information.
 and Prompt =
-  { Title: string
+  { Title: TextConstant
     Content: PromptContent }
 
 /// Specified the different types of prompts available.
@@ -31,4 +32,4 @@ and PromptHandler<'a> = 'a -> ActionChain
 /// Defines a list of choices that the user can select.
 and ChoicePrompt = Choice seq
 
-and Choice = { Id: string; Text: string }
+and Choice = { Id: string; Text: TextConstant }
