@@ -5,5 +5,5 @@ open Entities.Band
 
 /// Retrieves the name of all the roles available.
 let getNames () =
-    FSharpType.GetUnionCases typeof<Role>
-        |> Array.map (fun uc -> uc.Name)
+  FSharpType.GetUnionCases typeof<Role>
+  |> Array.map (fun uc -> uc.Name)

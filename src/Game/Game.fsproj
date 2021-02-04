@@ -13,6 +13,7 @@
     <Compile Include="Data\Queries\Genres.fs" />
     <Compile Include="Data\Queries\Roles.fs" />
     <Compile Include="View\Actions.fs" />
+    <Compile Include="View\Scenes\MainMenu.fs" />
     <Compile Include="Orchestrator.fs" />
     <Compile Include="Startup.fs" />
   </ItemGroup>

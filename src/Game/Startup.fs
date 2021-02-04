@@ -1,22 +1,11 @@
 module Startup
 
-open View.Action
+open View.Scenes.MainMenu
 open Entities.State
 
 /// Given a savegame file, returns the current state of the game as well as the
 /// the corresponding screen.
-let fromSavegame savegame  =
-    match savegame with
-    | Some(_) -> (empty (), {
-        Current = Message "Just a test"
-        Effects = Array.empty
-        Next = fun _ -> None
-    })
-    | None -> (empty (), {
-        Current = Prompt {
-            Title = "What?"
-            Content = TextPrompt
-        }
-        Effects = Array.empty
-        Next = fun _ -> None
-    })
+let fromSavegame savegame =
+  match savegame with
+  | Some (_) -> (empty (), mainMenu ())
+  | None -> (empty (), mainMenu ())
