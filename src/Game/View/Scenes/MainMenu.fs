@@ -1,6 +1,7 @@
 module View.Scenes.MainMenu
 
 open View.Actions
+open View.Scenes.Index
 open View.TextConstants
 
 let menuOptions =
@@ -27,7 +28,7 @@ let rec mainMenu () =
 and processSelection choice =
   seq {
     match choice.Id with
-    | "new_game" -> yield (Message MainMenuNewGame)
+    | "new_game" -> yield (Scene CharacterCreator)
     | "load_game" -> yield! []
     | "exit" -> yield NoOp
     | _ -> yield NoOp

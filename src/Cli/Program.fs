@@ -7,7 +7,7 @@ let main argv =
   Savegame.load ()
   |> Startup.fromSavegame
   |> fun (state, action) ->
-       Orchestrator.runWith renderMessage renderPrompt state action
+       Orchestrator.runWith renderMessage renderPrompt state (seq { action })
   |> ignore
 
   0

@@ -2,6 +2,7 @@ module View.Actions
 
 open Entities.State
 open View.TextConstants
+open View.Scenes.Index
 
 /// Actions are the bridge between the game core logic and the rendering layer.
 /// Each action represents something to be rendered with all the information
@@ -9,6 +10,7 @@ open View.TextConstants
 type Action =
   | Message of TextConstant
   | Prompt of Prompt
+  | Scene of Scene
   | Effect of (State -> State)
   | NoOp
 
