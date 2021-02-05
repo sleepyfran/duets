@@ -25,16 +25,10 @@ let rec mainMenu () =
   }
 
 and processSelection choice =
-  let validSelection =
-    List.contains choice.Id (idsFrom menuOptions)
-
   seq {
-    if validSelection then
-      match choice.Id with
-      | "new_game" -> yield! []
-      | "load_game" -> yield! []
-      | "exit" -> yield NoOp
-      | _ -> yield NoOp
-    else
-      yield! mainMenu ()
+    match choice.Id with
+    | "new_game" -> yield (Message MainMenuNewGame)
+    | "load_game" -> yield! []
+    | "exit" -> yield NoOp
+    | _ -> yield NoOp
   }

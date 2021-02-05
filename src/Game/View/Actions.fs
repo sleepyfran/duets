@@ -30,6 +30,9 @@ and PromptContent =
 and PromptHandler<'a> = 'a -> ActionChain
 
 /// Defines a list of choices that the user can select.
-and ChoicePrompt = Choice seq
+and ChoicePrompt = Choice list
 
 and Choice = { Id: string; Text: TextConstant }
+
+/// Returns a possible choice from a set of choices given its ID.
+let choiceById id = List.find (fun c -> c.Id = id)
