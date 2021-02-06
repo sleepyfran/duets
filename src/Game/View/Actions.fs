@@ -24,8 +24,10 @@ and Prompt =
 
 /// Specified the different types of prompts available.
 and PromptContent =
-  | TextPrompt of PromptHandler<string>
   | ChoicePrompt of ChoicePrompt * PromptHandler<Choice>
+  | ConfirmationPrompt of PromptHandler<bool>
+  | NumberPrompt of PromptHandler<int>
+  | TextPrompt of PromptHandler<string>
 
 /// Defines a handler that takes whatever result the prompt is giving out and
 /// returns another chain of actions.

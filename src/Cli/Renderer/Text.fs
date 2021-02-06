@@ -19,3 +19,10 @@ let toString constant =
   | MainMenuNewGame -> "New game"
   | MainMenuLoadGame -> "Load game"
   | MainMenuExit -> "Exit"
+  | CharacterCreatorInitialPrompt ->
+      "Creating a new game, what's the name of your character?"
+  | CharacterCreatorGenderPrompt -> "What's their gender?"
+  | CharacterCreatorGenderMale -> "Male"
+  | CharacterCreatorGenderFemale -> "Female"
+  | CharacterCreatorGenderOther -> "Other"
+  | CharacterCreatorAgePrompt -> "How old are they?"

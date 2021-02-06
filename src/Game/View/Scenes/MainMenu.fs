@@ -11,9 +11,6 @@ let menuOptions =
       Text = MainMenuLoadGame }
     { Id = "exit"; Text = MainMenuExit } ]
 
-let idsFrom options =
-  List.map (fun choice -> choice.Id) options
-
 /// Creates the main menu of the game as a sequence of actions.
 let rec mainMenu () =
   seq {

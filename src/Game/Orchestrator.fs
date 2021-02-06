@@ -1,15 +1,17 @@
 module Orchestrator
 
+open System
 open View.Actions
 open View.Scenes.Index
+open View.Scenes.CharacterCreator
 open View.Scenes.MainMenu
 
 /// Returns the sequence of actions associated with a screen given its name.
 let actionsFrom scene state =
-    match scene with
-    | MainMenu -> mainMenu ()
-    | CharacterCreator -> seq { NoOp }
-    | BandCreator -> seq { NoOp }
+  match scene with
+  | MainMenu -> mainMenu ()
+  | CharacterCreator -> characterCreator ()
+  | BandCreator character -> seq { NoOp }
 
 /// Given a renderer, a state and a chain of actions, recursively renders all
 /// the actions in the chain and applies any effects that come with them.
@@ -22,15 +24,18 @@ let rec runWith renderMessage renderPrompt state chain =
           renderPrompt prompt
           |> fun input ->
                match prompt.Content with
-               | TextPrompt handler -> handler input
                | ChoicePrompt (choices, handler) ->
                    handler (choiceById input choices)
+               | ConfirmationPrompt handler ->
+                   handler (input |> Convert.ToBoolean)
+               | NumberPrompt handler -> handler (input |> int)
+               | TextPrompt handler -> handler input
                |> runWith renderMessage renderPrompt state
       | Message message ->
           renderMessage message
           state
       | Scene scene ->
-        runWith renderMessage renderPrompt state (actionsFrom scene state)
+          runWith renderMessage renderPrompt state (actionsFrom scene state)
       | NoOp -> state)
     state
     chain

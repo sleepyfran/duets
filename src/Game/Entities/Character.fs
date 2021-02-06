@@ -1,6 +1,6 @@
 module Entities.Character
 
-type Sex =
+type Gender =
   | Male
   | Female
   | Other
@@ -9,10 +9,7 @@ type Sex =
 /// other NPC of the world.
 type Character =
   { Name: string
-    Birthday: Calendar.Date
-    Sex: Sex }
+    Age: int
+    Gender: Gender }
 
-let getDefault () =
-  { Name = ""
-    Birthday = Calendar.fromDayMonth 1 1
-    Sex = Other }
+let getDefault () = { Name = ""; Age = 0; Gender = Other }
