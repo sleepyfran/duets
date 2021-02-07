@@ -3,6 +3,7 @@ module Orchestrator
 open System
 open View.Actions
 open View.Scenes.Index
+open View.Scenes.BandCreator
 open View.Scenes.CharacterCreator
 open View.Scenes.MainMenu
 
@@ -11,7 +12,7 @@ let actionsFrom scene state =
   match scene with
   | MainMenu -> mainMenu ()
   | CharacterCreator -> characterCreator ()
-  | BandCreator character -> seq { NoOp }
+  | BandCreator character -> bandCreator character
 
 /// Given a renderer, a state and a chain of actions, recursively renders all
 /// the actions in the chain and applies any effects that come with them.

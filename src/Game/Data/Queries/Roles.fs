@@ -7,3 +7,4 @@ open Entities.Band
 let getNames () =
   FSharpType.GetUnionCases typeof<Role>
   |> Array.map (fun uc -> uc.Name)
+  |> List.ofArray

@@ -16,3 +16,11 @@ type TextConstant =
   | CharacterCreatorGenderFemale
   | CharacterCreatorGenderOther
   | CharacterCreatorAgePrompt
+  | BandCreatorInitialPrompt
+  | BandCreatorGenrePrompt
+  | BandCreatorInstrumentPrompt
+  | BandCreatorConfirmationPrompt of
+    characterName: string *
+    bandName: string *
+    bandGenre: string *
+    instrument: string

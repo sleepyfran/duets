@@ -6,19 +6,20 @@ open View.TextConstants
 
 let menuOptions =
   [ { Id = "new_game"
-      Text = MainMenuNewGame }
+      Text = TextConstant MainMenuNewGame }
     { Id = "load_game"
-      Text = MainMenuLoadGame }
-    { Id = "exit"; Text = MainMenuExit } ]
+      Text = TextConstant MainMenuLoadGame }
+    { Id = "exit"
+      Text = TextConstant MainMenuExit } ]
 
 /// Creates the main menu of the game as a sequence of actions.
 let rec mainMenu () =
   seq {
-    yield Message MainMenuTitle
+    yield Message <| TextConstant MainMenuTitle
 
     yield
       Prompt
-        { Title = MainMenuPrompt
+        { Title = TextConstant MainMenuPrompt
           Content = ChoicePrompt(menuOptions, processSelection) }
   }
 

@@ -19,7 +19,7 @@ type Member = Character * Role * Calendar.Period
 type Band =
   { Name: string
     Genre: Genre
-    Members: List<Member> }
+    Members: Member list }
 
 /// Returns default values for a band to serve as a placeholder.
 let getDefault () = { Name = ""; Genre = ""; Members = [] }

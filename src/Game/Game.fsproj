@@ -15,6 +15,7 @@
     <Compile Include="View\TextConstants.fs" />
     <Compile Include="View\Scenes\Scenes.fs" />
     <Compile Include="View\Actions.fs" />
+    <Compile Include="View\Scenes\BandCreator.fs" />
     <Compile Include="View\Scenes\CharacterCreator.fs" />
     <Compile Include="View\Scenes\MainMenu.fs" />
     <Compile Include="Orchestrator.fs" />

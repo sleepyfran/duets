@@ -7,17 +7,17 @@ open View.TextConstants
 
 let genderOptions =
   [ { Id = "male"
-      Text = CharacterCreatorGenderMale }
+      Text = TextConstant CharacterCreatorGenderMale }
     { Id = "female"
-      Text = CharacterCreatorGenderFemale }
+      Text = TextConstant CharacterCreatorGenderFemale }
     { Id = "other"
-      Text = CharacterCreatorGenderOther } ]
+      Text = TextConstant CharacterCreatorGenderOther } ]
 
 let rec characterCreator () =
   seq {
     yield
       Prompt
-        { Title = CharacterCreatorInitialPrompt
+        { Title = TextConstant CharacterCreatorInitialPrompt
           Content = TextPrompt handleName }
   }
 
@@ -27,7 +27,7 @@ and handleName name =
   seq {
     yield
       Prompt
-        { Title = CharacterCreatorGenderPrompt
+        { Title = TextConstant CharacterCreatorGenderPrompt
           Content = ChoicePrompt(genderOptions, handleGender character) }
   }
 
@@ -43,7 +43,7 @@ and handleGender character choice =
   seq {
     yield
       Prompt
-        { Title = CharacterCreatorAgePrompt
+        { Title = TextConstant CharacterCreatorAgePrompt
           Content = NumberPrompt <| handleAge character }
   }
 
