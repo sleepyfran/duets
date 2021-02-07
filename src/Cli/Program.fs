@@ -2,12 +2,14 @@ open Renderer.Render
 
 [<EntryPoint>]
 let main argv =
-  init ()
+  let renderer = CliRenderer() :> Orchestrator.IRenderer
+  renderer.Clear()
 
   Savegame.load ()
   |> Startup.fromSavegame
   |> fun (state, action) ->
-       Orchestrator.runWith renderMessage renderPrompt state (seq { action })
+       Orchestrator.runWith renderer state
+       <| seq { action }
   |> ignore
 
   0

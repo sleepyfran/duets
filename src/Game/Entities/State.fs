@@ -6,7 +6,8 @@ open Entities.Character
 /// Shared state of the game. Contains all state that is common to every part
 /// of the game.
 type State =
-  { Character: Character
+  { Initialized: bool
+    Character: Character
     Band: Band
     Today: Calendar.Date }
 
@@ -22,12 +23,14 @@ type State =
 /// Creates a default world with only the character set. The rest of
 /// the members will get default new game values.
 let createFor character =
-  { Character = character
+  { Initialized = true
+    Character = character
     Band = Band.getDefault ()
     Today = Calendar.fromDayMonth 1 1 }
 
 /// Creates an empty state for testing purposes only. TODO: Remove once not needed.
 let empty () =
-  { Character = Character.getDefault ()
+  { Initialized = false
+    Character = Character.getDefault ()
     Band = Band.getDefault ()
     Today = Calendar.fromDayMonth 1 1 }

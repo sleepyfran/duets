@@ -26,6 +26,8 @@ and fromConstant constant =
   | MainMenuNewGame -> "New game"
   | MainMenuLoadGame -> "Load game"
   | MainMenuExit -> "Exit"
+  | MainMenuSavegameNotAvailable ->
+      "[red]No savegame available. Create a new game[/]"
   | CharacterCreatorInitialPrompt ->
       "Creating a new game, what's the name of your character?"
   | CharacterCreatorGenderPrompt -> "What's their gender?"

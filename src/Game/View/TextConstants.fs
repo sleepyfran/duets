@@ -10,6 +10,7 @@ type TextConstant =
   | MainMenuNewGame
   | MainMenuLoadGame
   | MainMenuExit
+  | MainMenuSavegameNotAvailable
   | CharacterCreatorInitialPrompt
   | CharacterCreatorGenderPrompt
   | CharacterCreatorGenderMale
