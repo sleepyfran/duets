@@ -47,7 +47,7 @@ and handleRole character band role =
   let band =
     { band with
         Members =
-          [ (character, toRole role.Id, (fromDayMonth 1 1, PeriodEnd.Ongoing)) ] }
+          [ (character, toRole role.Id, (fromDayMonth 1 1, Ongoing)) ] }
 
   seq {
     yield
