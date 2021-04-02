@@ -1,14 +1,19 @@
-open Renderer.Render
+open Renderer
+open View.Actions
+open Mediator.Query
+open Mediator.Queries.Storage
 
 [<EntryPoint>]
 let main argv =
-  let renderer = CliRenderer() :> Orchestrator.IRenderer
-  renderer.Clear()
+  clear ()
 
-  Savegame.load ()
-  |> Startup.fromSavegame
+  query SavegameStateQuery
+  |> fun (savegameState) ->
+      match savegameState with
+      | NotAvailable -> (None, Scene MainMenu)
+      | Available -> (None, Scene MainMenu)
   |> fun (state, action) ->
-       Orchestrator.runWith renderer state
+       Orchestrator.runWith renderPrompt renderMessage state
        <| seq { action }
   |> ignore
 

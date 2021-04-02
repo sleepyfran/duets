@@ -11,5 +11,3 @@ type Character =
   { Name: string
     Age: int
     Gender: Gender }
-
-let getDefault () = { Name = ""; Age = 0; Gender = Other }

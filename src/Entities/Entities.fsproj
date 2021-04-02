@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Calendar.fs" />
+        <Compile Include="Genre.fs" />
+        <Compile Include="Character.fs" />
+        <Compile Include="Band.fs" />
+    </ItemGroup>
+
+</Project>

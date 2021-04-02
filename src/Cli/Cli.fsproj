@@ -6,8 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="View\TextConstants.fs" />
+    <Compile Include="View\Actions.fs" />
+    <Compile Include="View\Scenes\BandCreator.fs" />
+    <Compile Include="View\Scenes\CharacterCreator.fs" />
+    <Compile Include="View\Scenes\MainMenu.fs" />
     <Compile Include="Renderer\Text.fs" />
     <Compile Include="Renderer\Renderer.fs" />
+    <Compile Include="Orchestrator.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
@@ -16,8 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Game\Game.fsproj" />
-    <ProjectReference Include="..\Savegame\Savegame.fsproj" />
+    <ProjectReference Include="..\Mediator.Mutations\Mediator.Mutations.fsproj" />
+    <ProjectReference Include="..\Mediator.Queries\Mediator.Queries.fsproj" />
+    <ProjectReference Include="..\Mediator\Mediator.fsproj" />
   </ItemGroup>
 
 </Project>

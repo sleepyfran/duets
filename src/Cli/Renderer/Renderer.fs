@@ -1,22 +1,19 @@
-module Renderer.Render
+module Renderer
 
-open Orchestrator
 open View.Actions
 open Spectre.Console
 open Renderer.Text
 
-type CliRenderer() =
-  interface IRenderer with
-    /// Writes a message into the buffer.
-    member this.RenderMessage message =
-      AnsiConsole.MarkupLine(toString message) |> ignore
-
-    /// Renders the specified prompt and asks the user for a response depending
-    /// on the specified type of prompt. Returns a string which either represents
-    /// the raw user input (in case of a TextPrompt) or the ID of the choice that
-    /// the user chose (in case of a ChoicePrompt).
-    member this.RenderPrompt prompt =
-      match prompt.Content with
+/// Writes a message into the buffer.
+let renderMessage message =
+  AnsiConsole.MarkupLine(toString message) |> ignore
+  
+/// Renders the specified prompt and asks the user for a response depending
+/// on the specified type of prompt. Returns a string which either represents
+/// the raw user input (in case of a TextPrompt) or the ID of the choice that
+/// the user chose (in case of a ChoicePrompt).
+let renderPrompt prompt =
+  match prompt.Content with
       | ChoicePrompt (choices, handler) ->
           let mutable selectionPrompt = new SelectionPrompt<Choice>()
           selectionPrompt.Title <- toString prompt.Title
@@ -33,6 +30,6 @@ type CliRenderer() =
           AnsiConsole.Ask<int>(toString prompt.Title)
           |> string
       | TextPrompt handler -> AnsiConsole.Ask<string>(toString prompt.Title)
-
-    /// Clears the terminal console.
-    member this.Clear() = System.Console.Clear()
+      
+/// Clears the terminal console.
+let clear () = System.Console.Clear()

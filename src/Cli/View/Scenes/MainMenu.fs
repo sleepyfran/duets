@@ -1,8 +1,6 @@
 module View.Scenes.MainMenu
 
-open Entities.State
 open View.Actions
-open View.Scenes.Index
 open View.TextConstants
 
 let menuOptions =
@@ -24,18 +22,15 @@ let rec mainMenu state =
           Content = ChoicePrompt(menuOptions, processSelection state) }
   }
 
-and processSelection (state: State) choice =
+and processSelection (state: State option) choice =
   seq {
     match choice.Id with
     | "new_game" -> yield (Scene CharacterCreator)
     | "load_game" ->
-        if state.Initialized then
-          yield! []
-        else
-          yield
-            Message
-            <| TextConstant MainMenuSavegameNotAvailable
-
+        match state with
+        | Some _ -> yield! []
+        | None -> 
+          yield Message <| TextConstant MainMenuSavegameNotAvailable
           yield Scene MainMenu
     | "exit" -> yield NoOp
     | _ -> yield NoOp

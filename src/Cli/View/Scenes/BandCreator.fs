@@ -1,11 +1,8 @@
 module View.Scenes.BandCreator
 
-open Data.Queries
-open Entities.Band
-open Entities.Calendar
+open Mediator.Mutations.Setup
 open View.Actions
 open View.TextConstants
-open View.Scenes.Index
 
 let rec bandCreator character =
   seq {
@@ -16,8 +13,6 @@ let rec bandCreator character =
   }
 
 and handleName character name =
-  let band = { getDefault () with Name = name }
-
   let genreOptions =
     Genres.getAll ()
     |> List.map (fun genre -> { Id = genre; Text = String genre })
@@ -26,12 +21,10 @@ and handleName character name =
     yield
       Prompt
         { Title = TextConstant BandCreatorGenrePrompt
-          Content = ChoicePrompt(genreOptions, handleGenre character band) }
+          Content = ChoicePrompt(genreOptions, handleGenre character name) }
   }
 
-and handleGenre character band genre =
-  let band = { band with Genre = genre.Id }
-
+and handleGenre character name genre =
   let roleOptions =
     Roles.getNames ()
     |> List.map (fun role -> { Id = role; Text = String role })
@@ -40,15 +33,10 @@ and handleGenre character band genre =
     yield
       Prompt
         { Title = TextConstant BandCreatorInstrumentPrompt
-          Content = ChoicePrompt(roleOptions, handleRole character band) }
+          Content = ChoicePrompt(roleOptions, handleRole character name genre.Id) }
   }
 
-and handleRole character band role =
-  let band =
-    { band with
-        Members =
-          [ (character, toRole role.Id, (fromDayMonth 1 1, Ongoing)) ] }
-
+and handleRole character name genre role =
   seq {
     yield
       Prompt
@@ -56,18 +44,18 @@ and handleRole character band role =
             TextConstant
             <| BandCreatorConfirmationPrompt(
               character.Name,
-              band.Name,
-              band.Genre,
+              name,
+              genre,
               role.Id
             )
-          Content = ConfirmationPrompt <| handleConfirmation band }
+          Content = ConfirmationPrompt <| handleConfirmation character name genre role }
   }
 
-and handleConfirmation band confirmed =
+and handleConfirmation character name genre role confirmed =
   seq {
     if confirmed then
-      yield Effect <| fun state -> { state with Band = band }
-
+      // TODO: Call command on Mediator.
+      
       yield Message <| String "Welcome!"
     else
       yield Scene CharacterCreator
