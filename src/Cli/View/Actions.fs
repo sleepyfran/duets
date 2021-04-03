@@ -1,8 +1,15 @@
 module View.Actions
 
-open Entities.State
+open Mediator.Mutations.Setup
 open View.TextConstants
-open View.Scenes.Index
+
+/// Defines the index of all scenes available in the game that can be instantiated.
+type Scene =
+  | MainMenu
+  | CharacterCreator
+  // Band creator needs a character the character that was created in the
+  // previous step.
+  | BandCreator of CharacterInput
 
 /// Encapsulates text that can either be defined by a text constant, which is
 /// resolved by the UI layer, or a string constant that is just passed from this
@@ -18,7 +25,6 @@ type Action =
   | Message of Text
   | Prompt of Prompt
   | Scene of Scene
-  | Effect of (State -> State)
   | NoOp
 
 /// Sequence of actions to be executed.

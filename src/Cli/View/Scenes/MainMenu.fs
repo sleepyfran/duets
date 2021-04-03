@@ -1,8 +1,8 @@
 module View.Scenes.MainMenu
 
-open Entities.State
+open Mediator.Query
+open Mediator.Queries.Storage
 open View.Actions
-open View.Scenes.Index
 open View.TextConstants
 
 let menuOptions =
@@ -14,28 +14,27 @@ let menuOptions =
       Text = TextConstant MainMenuExit } ]
 
 /// Creates the main menu of the game as a sequence of actions.
-let rec mainMenu state =
+let rec mainMenu () =
   seq {
     yield Message <| TextConstant MainMenuTitle
 
     yield
       Prompt
         { Title = TextConstant MainMenuPrompt
-          Content = ChoicePrompt(menuOptions, processSelection state) }
+          Content = ChoicePrompt(menuOptions, processSelection) }
   }
 
-and processSelection (state: State) choice =
+and processSelection choice =
   seq {
     match choice.Id with
     | "new_game" -> yield (Scene CharacterCreator)
     | "load_game" ->
-        if state.Initialized then
-          yield! []
-        else
-          yield
-            Message
-            <| TextConstant MainMenuSavegameNotAvailable
-
+        let savegameAvailable = query SavegameStateQuery 
+        
+        match savegameAvailable with
+        | Available -> yield! []
+        | NotAvailable -> 
+          yield Message <| TextConstant MainMenuSavegameNotAvailable
           yield Scene MainMenu
     | "exit" -> yield NoOp
     | _ -> yield NoOp

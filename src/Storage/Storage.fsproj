@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Savegame</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="State.fs" />
+    <Compile Include="Data\Queries\Genres.fs" />
+    <Compile Include="Data\Queries\Roles.fs" />
+    <Compile Include="Resolvers\Savegame.fs" />
+    <Compile Include="Resolvers\Database.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Entities\Entities.fsproj" />
+    <ProjectReference Include="..\Mediator.Mutations\Mediator.Mutations.fsproj" />
+    <ProjectReference Include="..\Mediator.Queries\Mediator.Queries.fsproj" />
+  </ItemGroup>
+
+</Project>

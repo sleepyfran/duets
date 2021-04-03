@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="Query.fs" />
+      <Compile Include="Mutation.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Mediator.Mutations\Mediator.Mutations.fsproj" />
+      <ProjectReference Include="..\Mediator.Queries\Mediator.Queries.fsproj" />
+      <ProjectReference Include="..\Storage\Storage.fsproj" />
+    </ItemGroup>
+
+</Project>

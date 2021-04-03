@@ -1,8 +1,7 @@
 module View.Scenes.CharacterCreator
 
-open Entities.Character
+open Mediator.Mutations.Setup
 open View.Actions
-open View.Scenes.Index
 open View.TextConstants
 
 let genderOptions =
@@ -22,32 +21,26 @@ let rec characterCreator () =
   }
 
 and handleName name =
-  let character = { getDefault () with Name = name }
-
   seq {
     yield
       Prompt
         { Title = TextConstant CharacterCreatorGenderPrompt
-          Content = ChoicePrompt(genderOptions, handleGender character) }
+          Content = ChoicePrompt(genderOptions, handleGender name) }
   }
 
-and handleGender character choice =
-  let character =
-    { character with
-        Gender =
-          match choice.Id with
-          | "male" -> Male
-          | "female" -> Female
-          | _ -> Other }
-
+and handleGender name choice =
   seq {
     yield
       Prompt
         { Title = TextConstant CharacterCreatorAgePrompt
-          Content = NumberPrompt <| handleAge character }
+          Content = NumberPrompt <| handleAge name choice.Id }
   }
 
-and handleAge character age =
-  let character = { character with Age = age }
-
+and handleAge name gender age =
+  let character = {
+    Name = name
+    Age = age
+    Gender = gender
+  }
+  
   seq { yield Scene <| BandCreator character }
