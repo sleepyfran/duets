@@ -9,7 +9,6 @@ type CharacterInput = {
 }
 
 type BandInput = {
-  FirstMember: CharacterInput
   Name: string
   Genre: string
   Role: string
@@ -21,9 +20,9 @@ type StartGameMutationInput = {
 }
 
 /// Creates a new game with the specified character as the first member and band.
-let StartGameMutation character band = Mutation.WithParameter {
+let StartGameMutation character band : Mutation<StartGameMutationInput, unit> = {
   Id = MutationId.StartGame
-  Parameter = {
+  Parameter = Some {
     Character = character
     Band = band
   }

@@ -1,6 +1,5 @@
 module View.Actions
 
-open Entities.State
 open Mediator.Mutations.Setup
 open View.TextConstants
 
@@ -26,7 +25,6 @@ type Action =
   | Message of Text
   | Prompt of Prompt
   | Scene of Scene
-  | Effect of (State option -> State option)
   | NoOp
 
 /// Sequence of actions to be executed.

@@ -4,17 +4,16 @@ open Mediator.Query
 open Mediator.Queries.Storage
 
 [<EntryPoint>]
-let main argv =
+let main _ =
   clear ()
 
   query SavegameStateQuery
-  |> fun (savegameState) ->
-      match savegameState with
-      | NotAvailable -> (None, Scene MainMenu)
-      | Available -> (None, Scene MainMenu)
-  |> fun (state, action) ->
-       Orchestrator.runWith renderPrompt renderMessage state
+  |> fun savegameState ->
+       match savegameState with
+       | NotAvailable -> Scene MainMenu
+       | Available -> Scene MainMenu
+  |> fun action ->
+       Orchestrator.runWith renderPrompt renderMessage
        <| seq { action }
-  |> ignore
 
   0

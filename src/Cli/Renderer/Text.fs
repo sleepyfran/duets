@@ -1,4 +1,4 @@
-module Renderer.Text
+module Text
 
 open System
 open View.Actions
