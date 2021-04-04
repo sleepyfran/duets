@@ -9,6 +9,7 @@
         <Compile Include="Genre.fs" />
         <Compile Include="Character.fs" />
         <Compile Include="Band.fs" />
+        <Compile Include="State.fs" />
     </ItemGroup>
 
 </Project>

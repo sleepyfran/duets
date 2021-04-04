@@ -1,7 +1,7 @@
 module Mediator.Mutations.Types
 
 /// Contains all the IDs that can map to one mutation.
-type MutationId = StartGame
+type MutationId = StartGame | SetState
 
 /// Defines a mutation that can optionally take parameters and returns a result.
 type Mutation<'Parameter, 'Result> = {

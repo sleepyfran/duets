@@ -10,4 +10,8 @@
         <Content Include="README.md" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Entities\Entities.fsproj" />
+    </ItemGroup>
+
 </Project>

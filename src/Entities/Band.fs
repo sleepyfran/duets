@@ -22,7 +22,7 @@ type Band =
     Members: Member list }
 
 /// Returns default values for a band to serve as a placeholder.
-let getDefault () = { Name = ""; Genre = ""; Members = [] }
+let empty = { Name = ""; Genre = ""; Members = [] }
 
 /// Attempts to transform a string into a Role. Defaults to Singer if an
 /// invalid value is given.

@@ -8,6 +8,11 @@
         <Content Include="README.md" />
         <Compile Include="Types.fs" />
         <Compile Include="Setup.fs" />
+        <Compile Include="Storage.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Entities\Entities.fsproj" />
     </ItemGroup>
 
 </Project>

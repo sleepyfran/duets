@@ -2,18 +2,17 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Include="Query.fs" />
-      <Compile Include="Mutation.fs" />
+      <Compile Include="Setup\Mutations.fs" />
+      <Compile Include="Setup\Transformations.fs" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Core\Core.fsproj" />
       <ProjectReference Include="..\Mediator.Mutations\Mediator.Mutations.fsproj" />
       <ProjectReference Include="..\Mediator.Queries\Mediator.Queries.fsproj" />
-      <ProjectReference Include="..\Storage\Storage.fsproj" />
     </ItemGroup>
 
 </Project>

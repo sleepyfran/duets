@@ -1,4 +1,4 @@
-module Storage.State
+module Entities.State
 
 open Entities.Band
 open Entities.Calendar
@@ -8,5 +8,5 @@ open Entities.Character
 /// of the game.
 type State =
   { Character: Character
-    Band: Band
+    Bands: Band list
     Today: Date }

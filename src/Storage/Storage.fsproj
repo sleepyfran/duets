@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="State.fs" />
     <Compile Include="Data\Queries\Genres.fs" />
     <Compile Include="Data\Queries\Roles.fs" />
     <Compile Include="Resolvers\Savegame.fs" />
     <Compile Include="Resolvers\Database.fs" />
+    <Compile Include="Resolvers\State.fs" />
   </ItemGroup>
 
   <ItemGroup>

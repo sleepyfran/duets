@@ -61,9 +61,10 @@ and handleConfirmation character name genre role confirmed =
           Genre = genre
           Role = role.Id }
 
-      mutate <| StartGameMutation character band
-
-      yield Message <| String "Welcome!"
+      let result = mutate <| StartGameMutation character band
+      match result with
+      | Ok _ -> yield Message <| String "Welcome!"
+      | Error _ -> yield Message <| String "Something went wrong!"
     else
       yield Scene CharacterCreator
   }
