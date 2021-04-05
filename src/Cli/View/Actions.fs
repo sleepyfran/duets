@@ -1,7 +1,7 @@
-module View.Actions
+module Cli.View.Actions
 
 open Mediator.Mutations.Setup
-open View.TextConstants
+open Cli.View.TextConstants
 
 /// Defines the index of all scenes available in the game that can be instantiated.
 type Scene =
@@ -10,6 +10,7 @@ type Scene =
   // Band creator needs a character the character that was created in the
   // previous step.
   | BandCreator of CharacterInput
+  | RehearsalRoom
 
 /// Encapsulates text that can either be defined by a text constant, which is
 /// resolved by the UI layer, or a string constant that is just passed from this

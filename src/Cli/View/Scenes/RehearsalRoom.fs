@@ -1,0 +1,32 @@
+module Cli.View.Scenes.RehearsalRoom
+
+open Cli.View.Actions
+open Cli.View.TextConstants
+
+let rehearsalOptions =
+  [ { Id = "compose"
+      Text = TextConstant RehearsalRoomCompose }
+    { Id = "manage"
+      Text = TextConstant RehearsalRoomManage } ]
+
+/// Creates the rehearsal room which allows to access the compose and managing
+/// section.
+let rec rehearsalRoom () =
+  seq {
+    yield
+      Message
+      <| TextConstant(CommonYouAreIn "the rehearsal room")
+
+    yield
+      Prompt
+        { Title = TextConstant RehearsalRoomPrompt
+          Content = ChoicePrompt(rehearsalOptions, processSelection) }
+  }
+
+and processSelection choice =
+  seq {
+    match choice.Id with
+    | "compose" -> yield! []
+    | "manage" -> yield! []
+    | _ -> NoOp
+  }

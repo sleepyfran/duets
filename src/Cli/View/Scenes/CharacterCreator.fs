@@ -1,8 +1,8 @@
-module View.Scenes.CharacterCreator
+module Cli.View.Scenes.CharacterCreator
 
 open Mediator.Mutations.Setup
-open View.Actions
-open View.TextConstants
+open Cli.View.Actions
+open Cli.View.TextConstants
 
 let genderOptions =
   [ { Id = "male"

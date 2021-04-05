@@ -1,11 +1,11 @@
-module View.Scenes.BandCreator
+module Cli.View.Scenes.BandCreator
 
 open Mediator.Query
 open Mediator.Mutation
 open Mediator.Queries.Storage
 open Mediator.Mutations.Setup
-open View.Actions
-open View.TextConstants
+open Cli.View.Actions
+open Cli.View.TextConstants
 
 let rec bandCreator (character: CharacterInput) =
   seq {
@@ -61,9 +61,11 @@ and handleConfirmation character name genre role confirmed =
           Genre = genre
           Role = role.Id }
 
-      let result = mutate <| StartGameMutation character band
+      let result =
+        mutate <| StartGameMutation character band
+
       match result with
-      | Ok _ -> yield Message <| String "Welcome!"
+      | Ok _ -> yield Scene RehearsalRoom
       | Error _ -> yield Message <| String "Something went wrong!"
     else
       yield Scene CharacterCreator

@@ -1,6 +1,6 @@
 module Renderer
 
-open View.Actions
+open Cli.View.Actions
 open Spectre.Console
 open Text
 

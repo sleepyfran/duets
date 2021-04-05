@@ -1,5 +1,5 @@
 open Renderer
-open View.Actions
+open Cli.View.Actions
 open Mediator.Query
 open Mediator.Queries.Storage
 

@@ -10,6 +10,7 @@
         <Compile Include="Character.fs" />
         <Compile Include="Band.fs" />
         <Compile Include="State.fs" />
+        <Compile Include="Song.fs" />
     </ItemGroup>
 
 </Project>

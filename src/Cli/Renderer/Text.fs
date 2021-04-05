@@ -1,8 +1,8 @@
 module Text
 
 open System
-open View.Actions
-open View.TextConstants
+open Cli.View.Actions
+open Cli.View.TextConstants
 
 /// Transforms Game's TextConstants into strings.
 let rec toString text =
@@ -12,6 +12,7 @@ let rec toString text =
 
 and fromConstant constant =
   match constant with
+  | CommonYouAreIn (place) -> String.Format("You're currently in {0}", place)
   | MainMenuTitle ->
       "[blue]
 .:::::                        .::
@@ -44,10 +45,12 @@ and fromConstant constant =
                                    bandName,
                                    bandGenre,
                                    instrument) ->
-      String.Format(
-        "You'll be playing as {0} in the band {1} playing {2}",
-        characterName,
-        bandName,
-        bandGenre,
-        instrument
-      )
+      String.Format
+        ("You'll be playing as {0} in the band {1} playing {2}",
+         characterName,
+         bandName,
+         bandGenre,
+         instrument)
+  | RehearsalRoomCompose -> "Compose"
+  | RehearsalRoomManage -> "Manage band"
+  | RehearsalRoomPrompt -> "What do you want to do today?"
