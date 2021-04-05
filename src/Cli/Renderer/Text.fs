@@ -35,7 +35,7 @@ and fromConstant constant =
   | CharacterCreatorGenderMale -> "Male"
   | CharacterCreatorGenderFemale -> "Female"
   | CharacterCreatorGenderOther -> "Other"
-  | CharacterCreatorAgePrompt -> "How old are they?"
+  | CharacterCreatorAgePrompt -> "How old are they? (Minimum 18)"
   | BandCreatorInitialPrompt ->
       "Let's create your first band. What's the band's name?"
   | BandCreatorGenrePrompt ->
@@ -51,6 +51,15 @@ and fromConstant constant =
          bandName,
          bandGenre,
          instrument)
+  | CreatorErrorCharacterNameTooShort -> "[red]Your character's name is too short[/]"
+  | CreatorErrorCharacterNameTooLong -> "[red]Your character's name is too long[/]"
+  | CreatorErrorCharacterAgeTooYoung -> "[red]Your character is too young[/]"
+  | CreatorErrorCharacterAgeTooOld -> "[red]Your character is too old[/]"
+  | CreatorErrorCharacterGenderInvalid -> "[red]Your character's gender is invalid[/]"
+  | CreatorErrorBandNameTooShort -> "[red]Your band's name is too short[/]"
+  | CreatorErrorBandNameTooLong -> "[red]Your band's name is too long[/]"
+  | CreatorErrorBandGenreInvalid -> "[red]Your band's genre is invalid[/]"
+  | CreatorErrorBandRoleInvalid -> "[red]Your band's role is invalid[/]"
   | RehearsalRoomCompose -> "Compose"
   | RehearsalRoomManage -> "Manage band"
   | RehearsalRoomPrompt -> "What do you want to do today?"

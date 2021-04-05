@@ -26,6 +26,15 @@ type TextConstant =
     bandName: string *
     bandGenre: string *
     instrument: string
+  | CreatorErrorCharacterNameTooShort
+  | CreatorErrorCharacterNameTooLong
+  | CreatorErrorCharacterAgeTooYoung
+  | CreatorErrorCharacterAgeTooOld
+  | CreatorErrorCharacterGenderInvalid
+  | CreatorErrorBandNameTooShort
+  | CreatorErrorBandNameTooLong
+  | CreatorErrorBandGenreInvalid
+  | CreatorErrorBandRoleInvalid
   | RehearsalRoomCompose
   | RehearsalRoomManage
   | RehearsalRoomPrompt

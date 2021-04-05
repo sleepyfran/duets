@@ -66,7 +66,79 @@ and handleConfirmation character name genre role confirmed =
 
       match result with
       | Ok _ -> yield Scene RehearsalRoom
-      | Error _ -> yield Message <| String "Something went wrong!"
+      | Error CharacterNameTooShort ->
+          yield!
+            seq {
+              Message
+              <| TextConstant CreatorErrorCharacterNameTooShort
+
+              Scene CharacterCreator
+            }
+      | Error CharacterNameTooLong ->
+          yield!
+            seq {
+              Message
+              <| TextConstant CreatorErrorCharacterNameTooLong
+
+              Scene CharacterCreator
+            }
+      | Error CharacterAgeTooYoung ->
+          yield!
+            seq {
+              Message
+              <| TextConstant CreatorErrorCharacterAgeTooYoung
+
+              Scene CharacterCreator
+            }
+      | Error CharacterAgeTooOld ->
+          yield!
+            seq {
+              Message
+              <| TextConstant CreatorErrorCharacterAgeTooOld
+
+              Scene CharacterCreator
+            }
+      | Error CharacterGenderInvalid ->
+          yield!
+            seq {
+              Message
+              <| TextConstant CreatorErrorCharacterGenderInvalid
+
+              Scene CharacterCreator
+            }
+      | Error BandNameTooShort ->
+          yield!
+            seq {
+              Message
+              <| TextConstant CreatorErrorBandNameTooShort
+
+              yield! bandCreator character
+            }
+      | Error BandNameTooLong ->
+        yield!
+            seq {
+              Message
+              <| TextConstant CreatorErrorBandNameTooLong
+
+              yield! bandCreator character
+            }
+      | Error BandGenreInvalid ->
+          yield!
+            seq {
+              Message
+              <| TextConstant CreatorErrorBandGenreInvalid
+
+              yield! handleName character name
+            }
+      | Error BandRoleInvalid ->
+          yield!
+            seq {
+              Message
+              <| TextConstant CreatorErrorBandRoleInvalid
+
+              yield!
+                handleGenre character name { Id = genre; Text = String genre }
+            }
     else
       yield Scene CharacterCreator
   }
