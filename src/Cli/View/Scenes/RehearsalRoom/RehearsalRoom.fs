@@ -1,7 +1,8 @@
-module Cli.View.Scenes.RehearsalRoom
+module Cli.View.Scenes.RehearsalRoom.Root
 
 open Cli.View.Actions
 open Cli.View.TextConstants
+open Cli.View.Scenes.RehearsalRoom.Compose
 
 let rehearsalOptions =
   [ { Id = "compose"
@@ -26,7 +27,7 @@ let rec rehearsalRoom () =
 and processSelection choice =
   seq {
     match choice.Id with
-    | "compose" -> yield! []
+    | "compose" -> yield! compose ()
     | "manage" -> yield! []
     | _ -> NoOp
   }

@@ -29,3 +29,9 @@ type TextConstant =
   | RehearsalRoomCompose
   | RehearsalRoomManage
   | RehearsalRoomPrompt
+  | ComposePrompt
+  | ComposeSong
+  | ImproveSong
+  | FinishSong
+  | DiscardSong
+  | PracticeSong

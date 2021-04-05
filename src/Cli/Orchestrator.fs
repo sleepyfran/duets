@@ -5,7 +5,7 @@ open Cli.View.Actions
 open Cli.View.Scenes.BandCreator
 open Cli.View.Scenes.CharacterCreator
 open Cli.View.Scenes.MainMenu
-open Cli.View.Scenes.RehearsalRoom
+open Cli.View.Scenes.RehearsalRoom.Root
 
 /// Returns the sequence of actions associated with a screen given its name.
 let actionsFrom scene =
