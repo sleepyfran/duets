@@ -40,6 +40,15 @@ type TextConstant =
   | RehearsalRoomPrompt
   | ComposePrompt
   | ComposeSong
+  | ComposeSongTitlePrompt
+  | ComposeSongLengthPrompt
+  | ComposeSongVocalStylePrompt
+  | ComposeSongConfirmation of title: string
+  | ComposeSongErrorNameTooShort
+  | ComposeSongErrorNameTooLong
+  | ComposeSongErrorLengthTooShort
+  | ComposeSongErrorLengthTooLong
+  | ComposeSongErrorVocalStyleInvalid
   | ImproveSong
   | FinishSong
   | DiscardSong

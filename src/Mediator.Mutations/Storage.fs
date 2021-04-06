@@ -9,3 +9,9 @@ type SetStateMutationInput = State
 let SetStateMutation state: Mutation<SetStateMutationInput, unit> =
   { Id = MutationId.SetState
     Parameter = Some state }
+
+type ModifyStateMutationInput = State -> State
+
+let ModifyStateMutation modify: Mutation<ModifyStateMutationInput, unit> =
+  { Id = MutationId.ModifyState
+    Parameter = Some modify }

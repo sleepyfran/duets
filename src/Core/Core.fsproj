@@ -8,6 +8,8 @@
     <ItemGroup>
       <Compile Include="Setup\Mutations.fs" />
       <Compile Include="Setup\Transformations.fs" />
+      <Compile Include="Songs\Composition\Transformations.fs" />
+      <Compile Include="Songs\Composition\Mutations.fs" />
     </ItemGroup>
 
     <ItemGroup>

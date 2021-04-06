@@ -11,6 +11,9 @@ type StateWrapper =
     with get () = StateWrapper.state
     and set (value) = StateWrapper.state <- value
 
-let setState _ _ input = StateWrapper.State <- input
-
 let getState () = StateWrapper.State
+
+let modifyState _ _ modify =
+  StateWrapper.State <- modify StateWrapper.State
+
+let setState _ _ input = StateWrapper.State <- input

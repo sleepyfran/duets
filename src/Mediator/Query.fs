@@ -9,3 +9,4 @@ let query<'Parameter, 'Result> (definition: Query<'Parameter, 'Result>): 'Result
   | QueryId.SavegameState -> unbox Storage.Resolvers.Savegame.savegameState ()
   | QueryId.Genres -> unbox Database.Resolvers.Database.genres ()
   | QueryId.Roles -> unbox Database.Resolvers.Database.roles ()
+  | QueryId.VocalStyle -> unbox Database.Resolvers.Database.vocalStyles ()

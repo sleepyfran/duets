@@ -18,7 +18,7 @@ let rec bandCreator (character: CharacterInput) =
 and handleName character name =
   let genreOptions =
     query GenresQuery
-    |> List.map (fun genre -> { Id = genre; Text = String genre })
+    |> List.map (fun genre -> { Id = genre; Text = Literal genre })
 
   seq {
     yield
@@ -30,7 +30,7 @@ and handleName character name =
 and handleGenre character name genre =
   let roleOptions =
     query RolesQuery
-    |> List.map (fun role -> { Id = role; Text = String role })
+    |> List.map (fun role -> { Id = role; Text = Literal role })
 
   seq {
     yield
@@ -137,7 +137,7 @@ and handleConfirmation character name genre role confirmed =
               <| TextConstant CreatorErrorBandRoleInvalid
 
               yield!
-                handleGenre character name { Id = genre; Text = String genre }
+                handleGenre character name { Id = genre; Text = Literal genre }
             }
     else
       yield Scene CharacterCreator

@@ -19,8 +19,8 @@ let validateCharacterAge input =
 
 let validateCharacterGender input =
   match input.Character.Gender with
-  | "male" -> Ok Gender.Male
-  | "female" -> Ok Gender.Female
+  | "Male" -> Ok Gender.Male
+  | "Female" -> Ok Gender.Female
   | _ -> Ok Gender.Other
 
 let toCoreCharacter input =

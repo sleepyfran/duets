@@ -17,7 +17,7 @@ type Scene =
 /// layer into the UI.
 type Text =
   | TextConstant of TextConstant
-  | String of string
+  | Literal of string
 
 /// Actions are the bridge between the game core logic and the rendering layer.
 /// Each action represents something to be rendered with all the information

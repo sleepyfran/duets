@@ -21,6 +21,7 @@ let SavegameStateQuery: Query<unit, SavegameState> =
 
 type Role = string
 type Genre = string
+type VocalStyle = string
 
 /// Retrieves the static list of roles available in the game.
 let RolesQuery: Query<unit, Role list> =
@@ -33,3 +34,8 @@ let GenresQuery: Query<unit, Genre list> =
   { Id = QueryId.Genres
     Parameter = None
     ResultType = typeof<Genre list> }
+
+let VocalStylesQuery: Query<unit, VocalStyle list> =
+  { Id = QueryId.VocalStyle
+    Parameter = None
+    ResultType = typeof<VocalStyle list> }

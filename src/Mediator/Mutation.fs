@@ -20,3 +20,14 @@ let rec mutate<'Parameter, 'Result> (definition: Mutation<'Parameter, 'Result>)
       |> unbox
       |> Storage.Resolvers.State.setState query mutate
       |> unbox
+  | MutationId.ModifyState ->
+      Option.get definition.Parameter
+      |> unbox
+      |> Storage.Resolvers.State.modifyState query mutate
+      |> unbox
+  | MutationId.ComposeSong ->
+      Option.get definition.Parameter
+      |> unbox
+      |> Songs.Composition.Transformations.toValidatedSong
+      |> Result.map (Songs.Composition.Mutations.composeSong query mutate)
+      |> unbox

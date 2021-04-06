@@ -1,5 +1,10 @@
 module Entities.Song
 
+open System
+open Entities.Identity
+
+type SongId = SongId of Identity
+
 /// Defines the different styles of vocals that a song can have.
 type VocalStyle =
   | Instrumental
@@ -10,7 +15,8 @@ type VocalStyle =
 /// Defines a song composed by a band in its most basic form, there's more
 /// specific types depending on the type of information we want to query.
 type Song =
-  { Name: string
+  { Id: SongId
+    Name: string
     Length: int
     VocalStyle: VocalStyle }
 
@@ -29,3 +35,9 @@ type MaxQuality = MaxQuality of byte
 type UnfinishedWithQualities = UnfinishedSong * MaxQuality * Quality
 /// Shapes a relation between a finished song and its quality.
 type FinishedWithQuality = FinishedSong * Quality
+
+let empty =
+  { Id = SongId(Guid.NewGuid())
+    Name = ""
+    Length = 0
+    VocalStyle = VocalStyle.Instrumental }

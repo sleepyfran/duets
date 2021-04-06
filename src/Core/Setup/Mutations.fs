@@ -11,7 +11,9 @@ type ValidatedStartGameMutation = { Character: Character; Band: Band }
 let startGame _ mutate input =
   let state: State =
     { Character = input.Character
-      Bands = [ input.Band ]
+      Band = input.Band
+      UnfinishedSongs = Map.empty
+      FinishedSongs = Map.empty
       Today = Calendar.fromDayMonth 1 1 }
 
   mutate <| Storage.SetStateMutation state

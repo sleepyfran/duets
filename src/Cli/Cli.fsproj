@@ -11,6 +11,7 @@
     <Compile Include="View\Scenes\BandCreator.fs" />
     <Compile Include="View\Scenes\CharacterCreator.fs" />
     <Compile Include="View\Scenes\MainMenu.fs" />
+    <Compile Include="View\Scenes\RehearsalRoom\ComposeSong.fs" />
     <Compile Include="View\Scenes\RehearsalRoom\Compose.fs" />
     <Compile Include="View\Scenes\RehearsalRoom\RehearsalRoom.fs" />
     <Compile Include="Renderer\Text.fs" />
