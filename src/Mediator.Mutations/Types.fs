@@ -11,3 +11,5 @@ type MutationId =
 type Mutation<'Parameter, 'Result> =
   { Id: MutationId
     Parameter: 'Parameter option }
+
+type MutationFn<'Parameter, 'Result> = Mutation<'Parameter, 'Result> -> 'Result

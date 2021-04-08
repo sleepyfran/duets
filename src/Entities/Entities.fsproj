@@ -11,6 +11,8 @@
         <Compile Include="Character.fs" />
         <Compile Include="Band.fs" />
         <Compile Include="Song.fs" />
+        <Compile Include="Instrument.fs" />
+        <Compile Include="Skill.fs" />
         <Compile Include="State.fs" />
     </ItemGroup>
 

@@ -27,9 +27,9 @@ type UnfinishedSong = UnfinishedSong of Song
 type FinishedSong = FinishedSong of Song
 
 /// Defines the current quality of the song
-type Quality = Quality of byte
+type Quality = Quality of int
 /// Defines the max quality achievable by the band for this song.
-type MaxQuality = MaxQuality of byte
+type MaxQuality = MaxQuality of int
 /// Shapes a relation between an unfinished song, its max quality and the
 /// current quality.
 type UnfinishedWithQualities = UnfinishedSong * MaxQuality * Quality
