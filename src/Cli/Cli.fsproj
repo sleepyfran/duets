@@ -28,6 +28,7 @@
     <ProjectReference Include="..\Mediator.Mutations\Mediator.Mutations.fsproj" />
     <ProjectReference Include="..\Mediator.Queries\Mediator.Queries.fsproj" />
     <ProjectReference Include="..\Mediator\Mediator.fsproj" />
+    <ProjectReference Include="..\Resolvers.All\Resolvers.All.fsproj" />
   </ItemGroup>
 
 </Project>

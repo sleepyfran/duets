@@ -1,24 +1,28 @@
-module Core.Resolvers.Songs.Composition.Transformations
+module Resolvers.Core.Mutations.ComposeSong
 
+open Core.Songs.Composition.ComposeSong
 open Entities.Song
 open Mediator.Mutations.Songs
+open Mediator.Mutations.Types
+open Mediator.Registries
+open Resolvers.Common
 
-let validateName input =
+let private validateName input =
   match input.Name.Length with
   | length when length < 1 -> Error NameTooShort
   | length when length > 50 -> Error NameTooLong
   | _ -> Ok input
 
-let TwentySeconds = 20
-let ThirtyMinutes = 60 * 30
+let private TwentySeconds = 20
+let private ThirtyMinutes = 60 * 30
 
-let validateLength input =
+let private validateLength input =
   match input.Length with
   | length when length < TwentySeconds -> Error LengthTooShort
   | length when length > ThirtyMinutes -> Error LengthTooLong
   | _ -> Ok input
 
-let validateVocalStyle input =
+let private validateVocalStyle input =
   match input.VocalStyle with
   | "Instrumental" -> Ok VocalStyle.Instrumental
   | "Normal" -> Ok VocalStyle.Normal
@@ -26,7 +30,7 @@ let validateVocalStyle input =
   | "Screamo" -> Ok VocalStyle.Screamo
   | _ -> Error VocalStyleInvalid
 
-let toValidatedSong input: Result<Song, ValidationError> =
+let private toValidatedSong input: Result<Song, ValidationError> =
   input
   |> validateName
   |> Result.bind validateLength
@@ -37,3 +41,8 @@ let toValidatedSong input: Result<Song, ValidationError> =
              Name = input.Name
              Length = input.Length
              VocalStyle = vocalStyle })
+
+let register () =
+  Registries.MutationRegistry.AddHandler
+    MutationId.ComposeSong
+    (boxed (fun input -> input |> toValidatedSong |> Result.map composeSong))

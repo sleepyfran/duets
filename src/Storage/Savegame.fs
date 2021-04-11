@@ -1,4 +1,4 @@
-module Storage.Resolvers.Savegame
+module Storage.Savegame
 
 open Mediator.Queries.Storage
 

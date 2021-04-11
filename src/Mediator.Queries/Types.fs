@@ -13,5 +13,3 @@ type QueryId =
 type Query<'Parameter, 'Result> =
   { Id: QueryId
     Parameter: 'Parameter option }
-
-type QueryFn<'Parameter, 'Result> = Query<'Parameter, 'Result> -> 'Result

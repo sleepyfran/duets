@@ -1,4 +1,4 @@
-module Storage.Resolvers.State
+module Storage.State
 
 open Entities.State
 
@@ -13,7 +13,7 @@ type StateWrapper =
 
 let getState () = StateWrapper.State
 
-let modifyState _ _ modify =
+let modifyState modify =
   StateWrapper.State <- modify StateWrapper.State
 
-let setState _ _ input = StateWrapper.State <- input
+let setState input = StateWrapper.State <- input

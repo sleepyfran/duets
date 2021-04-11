@@ -5,6 +5,8 @@ open Mediator.Queries.Storage
 
 [<EntryPoint>]
 let main _ =
+  Resolvers.All.init ()
+
   clear ()
 
   query SavegameStateQuery

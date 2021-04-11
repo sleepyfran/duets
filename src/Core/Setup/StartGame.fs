@@ -1,14 +1,15 @@
-module Core.Resolvers.Setup.Mutations
+module Core.Setup
 
 open Entities
 open Entities.Band
 open Entities.Character
 open Entities.State
+open Mediator.Mutation
 open Mediator.Mutations
 
-type ValidatedStartGameMutation = { Character: Character; Band: Band }
+type SetupInput = { Character: Character; Band: Band }
 
-let startGame _ mutate input =
+let startGame input =
   let state : State =
     { Character = input.Character
       CharacterSkills = Map.empty
