@@ -1,7 +1,7 @@
 module Data.Queries.Roles
 
-open Microsoft.FSharp.Reflection
 open Entities.Band
+open Microsoft.FSharp.Reflection
 
 /// Retrieves the name of all the roles available.
 let getNames () =

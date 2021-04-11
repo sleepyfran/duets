@@ -2,7 +2,10 @@ module Mediator.Queries.Types
 
 /// Contains all the IDs that can map to one query.
 type QueryId =
-  | GetState
+  | Band
+  | Character
+  | CharacterSkills
+  | UnfinishedSongs
   | SavegameState
   | Roles
   | Genres

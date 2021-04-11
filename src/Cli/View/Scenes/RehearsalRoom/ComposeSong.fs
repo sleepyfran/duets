@@ -26,9 +26,10 @@ and handleName name =
 and handleLength name length =
   let vocalStyleOptions =
     query VocalStylesQuery
-    |> List.map (fun vocalStyle ->
-         { Id = vocalStyle
-           Text = Literal vocalStyle })
+    |> List.map
+         (fun vocalStyle ->
+           { Id = vocalStyle.ToString()
+             Text = Literal(vocalStyle.ToString()) })
 
   seq {
     yield

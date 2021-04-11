@@ -30,7 +30,10 @@ and handleName character name =
 and handleGenre character name genre =
   let roleOptions =
     query RolesQuery
-    |> List.map (fun role -> { Id = role; Text = Literal role })
+    |> List.map
+         (fun role ->
+           { Id = role.ToString()
+             Text = Literal(role.ToString()) })
 
   seq {
     yield
@@ -46,8 +49,12 @@ and handleRole character name genre role =
       Prompt
         { Title =
             TextConstant
-            <| BandCreatorConfirmationPrompt
-                 (character.Name, name, genre, role.Id)
+            <| BandCreatorConfirmationPrompt(
+              character.Name,
+              name,
+              genre,
+              role.Id
+            )
           Content =
             ConfirmationPrompt
             <| handleConfirmation character name genre role }
@@ -115,7 +122,7 @@ and handleConfirmation character name genre role confirmed =
               yield! bandCreator character
             }
       | Error BandNameTooLong ->
-        yield!
+          yield!
             seq {
               Message
               <| TextConstant CreatorErrorBandNameTooLong

@@ -6,8 +6,9 @@ open Entities.State
 open Entities.Skill
 open Entities.Song
 open Mediator.Mutations.Storage
-open Mediator.Queries.Core
 open Mediator.Mutation
+open Mediator.Queries.Core
+open Mediator.Queries.Storage
 open Mediator.Query
 
 /// Computes the score associated with each member of the band for the song.
@@ -37,23 +38,25 @@ let private scoreForBand band =
 /// Orchestrates the song composition, which calculates the qualities of a song
 /// and adds them with the song to the band's unfinished songs.
 let composeSong input =
+  let band = query BandQuery
+  let maximumScore = scoreForBand band
+  let initialScore = maximumScore / 20 * 100
+  let unfinishedSongs = query UnfinishedSongsQuery
+
+  let songWithQuality =
+    (UnfinishedSong input, MaxQuality maximumScore, Quality initialScore)
+
+  let unfinishedSongsByBand =
+    Map.tryFind band.Id unfinishedSongs
+    |> Option.defaultValue []
+
+  let unfinishedWithSong =
+    unfinishedSongsByBand
+    @ [ UnfinishedWithQualities songWithQuality ]
+
   mutate (
     ModifyStateMutation
       (fun state ->
-        let maximumScore = scoreForBand state.Band
-        let initialScore = maximumScore / 20 * 100
-
-        let songWithQuality =
-          (UnfinishedSong input, MaxQuality maximumScore, Quality initialScore)
-
-        let unfinishedSongsByBand =
-          Map.tryFind state.Band.Id state.UnfinishedSongs
-          |> Option.defaultValue []
-
-        let unfinishedWithSong =
-          unfinishedSongsByBand
-          @ [ UnfinishedWithQualities songWithQuality ]
-
         { state with
             UnfinishedSongs =
               Map.add state.Band.Id unfinishedWithSong state.UnfinishedSongs })

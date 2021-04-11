@@ -6,11 +6,14 @@ open Entities.Character
 open Entities.Skill
 open Entities.Song
 
+type CharacterSkills = Map<CharacterId, Map<SkillId, SkillWithLevel>>
+type UnfinishedSongs = Map<BandId, UnfinishedWithQualities list>
+
 /// Shared state of the game. Contains all state that is common to every part
 /// of the game.
 type State =
   { Band: Band
     Character: Character
-    CharacterSkills: Map<CharacterId, Map<SkillId, SkillWithLevel>>
-    UnfinishedSongs: Map<BandId, UnfinishedWithQualities list>
+    CharacterSkills: CharacterSkills
+    UnfinishedSongs: UnfinishedSongs
     Today: Date }

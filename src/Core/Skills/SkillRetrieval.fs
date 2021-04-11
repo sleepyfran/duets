@@ -9,8 +9,7 @@ open Mediator.Query
 /// the character has no skills associated with the given ID, the resolver
 /// will return a skill for the given ID with a level of 0.
 let getCharacterSkillWithLevel (characterId, skillId) =
-  query GetStateQuery
-  |> fun state -> state.CharacterSkills
+  query CharacterSkillsQuery
   |> Map.tryFind characterId
   |> Option.orElse (Some Map.empty)
   |> Option.bind (Map.tryFind skillId)
