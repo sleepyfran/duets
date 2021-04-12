@@ -22,7 +22,7 @@ let private scoreForMember genre ((character: Character), role, _) =
 
   influencingSkills
   |> List.map
-       (fun skillId -> query (CharacterSkillLevel(character.Id, skillId)))
+       (fun skillId -> query (CharacterSkillLevelQuery(character.Id, skillId)))
   |> List.map snd
   |> List.sum
   |> fun total -> total / influencingSkills.Length

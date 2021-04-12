@@ -1,5 +1,6 @@
 module Mediator.Queries.Storage
 
+open Entities.Character
 open Entities.Band
 open Entities.State
 open Mediator.Queries.Types
@@ -19,7 +20,7 @@ let SavegameStateQuery : Query<unit, SavegameState> =
 let BandQuery : Query<unit, Band> = { Id = QueryId.Band; Parameter = None }
 
 /// Returns the current character.
-let CharacterQuery : Query<unit, Band> =
+let CharacterQuery : Query<unit, Character> =
   { Id = QueryId.Character
     Parameter = None }
 
