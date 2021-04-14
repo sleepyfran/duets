@@ -2,7 +2,6 @@ module Resolvers.Storage.Queries.State
 
 open Mediator.Queries.Types
 open Mediator.Registries
-open Resolvers.Common
 open Storage.State
 
 let stateProperty accessor _ = getState () |> accessor |> box

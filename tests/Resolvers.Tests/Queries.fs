@@ -1,10 +1,9 @@
 module Resolvers.Tests
 
+open Test.Common
 open Entities
 open Entities.Character
 open Entities.Skill
-open Mediator.Mutation
-open Mediator.Mutations.Setup
 open Mediator.Query
 open Mediator.Queries.Core
 open Mediator.Queries.Storage
@@ -27,19 +26,7 @@ let queries =
 let nullCheck (result: 'a) = should not' (be null) result
 
 [<SetUp>]
-let Setup () =
-  All.init ()
-
-  mutate (
-    StartGameMutation
-      { Name = "Test"
-        Age = 18
-        Gender = "Male" }
-      { Name = "Test"
-        Genre = "Metal"
-        Role = "Drummer" }
-  )
-  |> ignore
+let Setup () = initStateWithDummies ()
 
 [<Test>]
 let QueriesShouldSuccessfullyExecute () =
