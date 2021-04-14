@@ -12,7 +12,7 @@ type UnfinishedSongs = Map<BandId, UnfinishedWithQualities list>
 /// Shared state of the game. Contains all state that is common to every part
 /// of the game.
 type State =
-  { Band: Band
+  { Bands: Band list
     Character: Character
     CharacterSkills: CharacterSkills
     UnfinishedSongs: UnfinishedSongs

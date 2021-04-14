@@ -16,7 +16,7 @@ let queries =
     <| (CharacterId <| Identity.create (), Composition)
     |> box
     SavegameStateQuery |> box
-    BandQuery |> box
+    CurrentBandQuery |> box
     CharacterQuery |> box
     CharacterSkillsQuery |> box
     UnfinishedSongsQuery |> box
@@ -48,7 +48,7 @@ let QueriesShouldSuccessfullyExecute () =
   |> nullCheck
 
   SavegameStateQuery |> query |> nullCheck
-  BandQuery |> query |> nullCheck
+  CurrentBandQuery |> query |> nullCheck
   CharacterQuery |> query |> nullCheck
   CharacterSkillsQuery |> query |> nullCheck
   UnfinishedSongsQuery |> query |> nullCheck

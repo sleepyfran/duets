@@ -13,7 +13,7 @@ let startGame input =
   let state : State =
     { Character = input.Character
       CharacterSkills = Map.empty
-      Band = input.Band
+      Bands = [input.Band]
       UnfinishedSongs = Map.empty
       Today = Calendar.fromDayMonth 1 1 }
 

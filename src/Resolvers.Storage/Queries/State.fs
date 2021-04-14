@@ -7,7 +7,7 @@ open Storage.State
 
 let stateProperty accessor _ = getState () |> accessor |> box
 
-let bandAccessor = stateProperty (fun state -> state.Band)
+let bandAccessor = stateProperty (fun state -> state.Bands.Head)
 
 let characterAccessor =
   stateProperty (fun state -> state.Character)

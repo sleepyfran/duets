@@ -17,7 +17,7 @@ let SavegameStateQuery : Query<unit, SavegameState> =
 // --- STATE QUERIES ---
 
 /// Returns the current band.
-let BandQuery : Query<unit, Band> = { Id = QueryId.Band; Parameter = None }
+let CurrentBandQuery : Query<unit, Band> = { Id = QueryId.Band; Parameter = None }
 
 /// Returns the current character.
 let CharacterQuery : Query<unit, Character> =

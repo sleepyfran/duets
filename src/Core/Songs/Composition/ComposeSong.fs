@@ -38,7 +38,7 @@ let private scoreForBand band =
 /// Orchestrates the song composition, which calculates the qualities of a song
 /// and adds them with the song to the band's unfinished songs.
 let composeSong input =
-  let band = query BandQuery
+  let band = query CurrentBandQuery
   let maximumScore = scoreForBand band
   let initialScore = maximumScore / 20 * 100
   let unfinishedSongs = query UnfinishedSongsQuery
@@ -59,5 +59,5 @@ let composeSong input =
       (fun state ->
         { state with
             UnfinishedSongs =
-              Map.add state.Band.Id unfinishedWithSong state.UnfinishedSongs })
+              Map.add band.Id unfinishedWithSong state.UnfinishedSongs })
   )
