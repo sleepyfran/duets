@@ -41,6 +41,10 @@ let categoryFor id =
 /// based on the type of skill given.
 let createSkill id = { Id = id; Category = categoryFor id }
 
+/// Creates a new skill for a given ID with the level set to the given level. Its
+/// category is automatically populated based on the type of skill given.
+let createSkillWithLevel id level = (createSkill id, level)
+
 /// Creates a new skill for a given ID with the level set to 0. Its category is
 /// automatically populated based on the type of skill given.
-let createSkillWithLevel id = (createSkill id, 0)
+let createSkillWithDefaultLevel id = createSkillWithLevel id 0

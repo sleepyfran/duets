@@ -11,6 +11,6 @@ open Mediator.Query
 let getCharacterSkillWithLevel (characterId, skillId) =
   query CharacterSkillsQuery
   |> Map.tryFind characterId
-  |> Option.orElse (Some Map.empty)
-  |> Option.bind (Map.tryFind skillId)
-  |> Option.defaultValue (Skill.createSkillWithLevel skillId)
+  |> Option.defaultValue Map.empty
+  |> Map.tryFind skillId
+  |> Option.defaultValue (Skill.createSkillWithDefaultLevel skillId)

@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Include="Songs\SongComposition.Tests.fs" />
+        <Compile Include="Songs\ComposeSong.Tests.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

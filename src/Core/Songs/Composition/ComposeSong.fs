@@ -13,14 +13,14 @@ open Mediator.Query
 /// and adds them with the song to the band's unfinished songs.
 let composeSong input =
   let band = query CurrentBandQuery
-  let maximumScore = scoreForBand band
+  let maximumQuality = qualityForBand band
 
-  let initialScore = calculateScoreIncreaseOf maximumScore
+  let initialQuality = calculateQualityIncreaseOf maximumQuality
 
   let unfinishedSongs = query UnfinishedSongsQuery
 
-  let songWithQuality =
-    (UnfinishedSong input, MaxQuality maximumScore, Quality initialScore)
+  let songWithQualities =
+    (UnfinishedSong input, MaxQuality maximumQuality, Quality initialQuality)
 
   let unfinishedSongsByBand =
     Map.tryFind band.Id unfinishedSongs
@@ -28,12 +28,12 @@ let composeSong input =
 
   let unfinishedWithSong =
     unfinishedSongsByBand
-    @ [ UnfinishedWithQualities songWithQuality ]
+    @ [ UnfinishedWithQualities songWithQualities ]
 
   mutate (
     ModifyStateMutation
       (fun state ->
         { state with
             UnfinishedSongs =
-              Map.add band.Id unfinishedWithSong state.UnfinishedSongs })
+              Map.add band.Id unfinishedWithSong unfinishedSongs })
   )
