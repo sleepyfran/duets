@@ -8,9 +8,10 @@
   <ItemGroup>
     <Compile Include="Data\Queries\Genres.fs" />
     <Compile Include="Data\Queries\Roles.fs" />
-    <Compile Include="Resolvers\Savegame.fs" />
-    <Compile Include="Resolvers\Database.fs" />
-    <Compile Include="Resolvers\State.fs" />
+    <Compile Include="Data\Queries\VocalStyles.fs" />
+    <Compile Include="Savegame.fs" />
+    <Compile Include="Database.fs" />
+    <Compile Include="State.fs" />
   </ItemGroup>
 
   <ItemGroup>

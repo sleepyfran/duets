@@ -1,17 +1,19 @@
 module Text
 
 open System
-open View.Actions
-open View.TextConstants
+open Cli.View.Actions
+open Cli.View.TextConstants
 
-/// Transforms Game's TextConstants into strings.
+/// Transforms TextConstants into strings.
+/// TODO: Move all this to a JSON file or other easier to edit format.
 let rec toString text =
   match text with
   | TextConstant constant -> fromConstant constant
-  | String string -> string
+  | Literal string -> string
 
 and fromConstant constant =
   match constant with
+  | CommonYouAreIn (place) -> String.Format("You're currently in {0}", place)
   | MainMenuTitle ->
       "[blue]
 .:::::                        .::
@@ -34,7 +36,7 @@ and fromConstant constant =
   | CharacterCreatorGenderMale -> "Male"
   | CharacterCreatorGenderFemale -> "Female"
   | CharacterCreatorGenderOther -> "Other"
-  | CharacterCreatorAgePrompt -> "How old are they?"
+  | CharacterCreatorAgePrompt -> "How old are they? (Minimum 18)"
   | BandCreatorInitialPrompt ->
       "Let's create your first band. What's the band's name?"
   | BandCreatorGenrePrompt ->
@@ -44,10 +46,45 @@ and fromConstant constant =
                                    bandName,
                                    bandGenre,
                                    instrument) ->
-      String.Format(
-        "You'll be playing as {0} in the band {1} playing {2}",
-        characterName,
-        bandName,
-        bandGenre,
-        instrument
-      )
+      String.Format
+        ("You'll be playing as {0} in the band {1} playing {2}",
+         characterName,
+         bandName,
+         bandGenre,
+         instrument)
+  | CreatorErrorCharacterNameTooShort ->
+      "[red]Your character's name is too short[/]"
+  | CreatorErrorCharacterNameTooLong ->
+      "[red]Your character's name is too long[/]"
+  | CreatorErrorCharacterAgeTooYoung -> "[red]Your character is too young[/]"
+  | CreatorErrorCharacterAgeTooOld -> "[red]Your character is too old[/]"
+  | CreatorErrorCharacterGenderInvalid ->
+      "[red]Your character's gender is invalid[/]"
+  | CreatorErrorBandNameTooShort -> "[red]Your band's name is too short[/]"
+  | CreatorErrorBandNameTooLong -> "[red]Your band's name is too long[/]"
+  | CreatorErrorBandGenreInvalid -> "[red]Your band's genre is invalid[/]"
+  | CreatorErrorBandRoleInvalid -> "[red]Your band's role is invalid[/]"
+  | RehearsalRoomCompose -> "Compose"
+  | RehearsalRoomManage -> "Manage band"
+  | RehearsalRoomPrompt -> "What do you want to do today?"
+  | ComposePrompt -> "What do you want to compose?"
+  | ComposeSong -> "Compose new song"
+  | ComposeSongTitlePrompt ->
+      "Creating a new song, how are you going to name it?"
+  | ComposeSongLengthPrompt -> "How long is it going to be? (in seconds)"
+  | ComposeSongVocalStylePrompt -> "What vocal style should it have?"
+  | ComposeSongConfirmation (title) ->
+      String.Format
+        ("Your band has started working on the song {0}. You can finish or improve it through the compose section in the rehearsal room",
+         title)
+  | ComposeSongErrorNameTooShort -> "[red]The name of the song is too short[/]"
+  | ComposeSongErrorNameTooLong -> "[red]The name of the song is too long[/]"
+  | ComposeSongErrorLengthTooShort ->
+      "[red]Songs can't be less than 20 seconds long[/]"
+  | ComposeSongErrorLengthTooLong ->
+      "[red]Songs can't be more than 30 minutes long[/]"
+  | ComposeSongErrorVocalStyleInvalid -> "[red]The vocal style is invalid[/]"
+  | ImproveSong -> "Improve an unfinished song"
+  | FinishSong -> "Finish an unfinished song"
+  | DiscardSong -> "Discard an unfinished song"
+  | PracticeSong -> "Practice a finished song"

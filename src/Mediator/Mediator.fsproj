@@ -5,15 +5,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Include="Registry.fs" />
+      <Compile Include="Mediator.fs" />
       <Compile Include="Query.fs" />
       <Compile Include="Mutation.fs" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Core\Core.fsproj" />
       <ProjectReference Include="..\Mediator.Mutations\Mediator.Mutations.fsproj" />
       <ProjectReference Include="..\Mediator.Queries\Mediator.Queries.fsproj" />
-      <ProjectReference Include="..\Storage\Storage.fsproj" />
     </ItemGroup>
 
 </Project>

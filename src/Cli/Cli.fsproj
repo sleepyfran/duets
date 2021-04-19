@@ -11,6 +11,9 @@
     <Compile Include="View\Scenes\BandCreator.fs" />
     <Compile Include="View\Scenes\CharacterCreator.fs" />
     <Compile Include="View\Scenes\MainMenu.fs" />
+    <Compile Include="View\Scenes\RehearsalRoom\ComposeSong.fs" />
+    <Compile Include="View\Scenes\RehearsalRoom\Compose.fs" />
+    <Compile Include="View\Scenes\RehearsalRoom\RehearsalRoom.fs" />
     <Compile Include="Renderer\Text.fs" />
     <Compile Include="Renderer\Renderer.fs" />
     <Compile Include="Orchestrator.fs" />
@@ -25,6 +28,7 @@
     <ProjectReference Include="..\Mediator.Mutations\Mediator.Mutations.fsproj" />
     <ProjectReference Include="..\Mediator.Queries\Mediator.Queries.fsproj" />
     <ProjectReference Include="..\Mediator\Mediator.fsproj" />
+    <ProjectReference Include="..\Resolvers.All\Resolvers.All.fsproj" />
   </ItemGroup>
 
 </Project>

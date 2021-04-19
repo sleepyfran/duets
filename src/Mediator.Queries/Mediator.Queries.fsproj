@@ -6,6 +6,7 @@
 
     <ItemGroup>
         <Compile Include="Types.fs" />
+        <Compile Include="Core.fs" />
         <Compile Include="Storage.fs" />
         <Content Include="README.md" />
     </ItemGroup>

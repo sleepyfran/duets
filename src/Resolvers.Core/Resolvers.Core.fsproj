@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <RootNamespace>Core.Resolvers</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Queries\Skills.fs" />
+        <Compile Include="Mutations\StartGameMutation.fs" />
+        <Compile Include="Mutations\ComposeSongMutation.fs" />
+        <Compile Include="Library.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Core\Core.fsproj" />
+      <ProjectReference Include="..\Mediator\Mediator.fsproj" />
+      <ProjectReference Include="..\Resolvers.Common\Resolvers.Common.fsproj" />
+    </ItemGroup>
+
+</Project>

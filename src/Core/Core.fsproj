@@ -6,13 +6,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Include="Setup\Mutations.fs" />
-      <Compile Include="Setup\Transformations.fs" />
+      <Compile Include="Setup\StartGame.fs" />
+      <Compile Include="Songs\Composition\Common.fs" />
+      <Compile Include="Songs\Composition\ComposeSong.fs" />
+      <Compile Include="Skills\SkillRetrieval.fs" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Mediator.Mutations\Mediator.Mutations.fsproj" />
       <ProjectReference Include="..\Mediator.Queries\Mediator.Queries.fsproj" />
+      <ProjectReference Include="..\Mediator\Mediator.fsproj" />
     </ItemGroup>
 
 </Project>
