@@ -10,6 +10,7 @@
         <Compile Include="Queries\Skills.fs" />
         <Compile Include="Mutations\StartGameMutation.fs" />
         <Compile Include="Mutations\ComposeSongMutation.fs" />
+        <Compile Include="Mutations\ImproveSongMutation.fs" />
         <Compile Include="Library.fs" />
     </ItemGroup>
 

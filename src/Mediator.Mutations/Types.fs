@@ -6,6 +6,7 @@ type MutationId =
   | SetState
   | ModifyState
   | ComposeSong
+  | ImproveSong
 
 /// Defines a mutation that can optionally take parameters and returns a result.
 type Mutation<'Parameter, 'Result> =

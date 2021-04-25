@@ -19,6 +19,11 @@ type Song =
     Name: string
     Length: int
     VocalStyle: VocalStyle }
+    
+/// Indicates whether the song can be further improved or if it has reached its
+/// maximum quality and thus cannot be improved. All variants wrap an int that
+/// hold the current value.
+type SongStatus = CanBeImproved of int | ReachedMaxQuality of int
 
 /// Defines a song that is still being developed by the band.
 type UnfinishedSong = UnfinishedSong of Song
@@ -32,7 +37,7 @@ type Quality = Quality of int
 type MaxQuality = MaxQuality of int
 /// Shapes a relation between an unfinished song, its max quality and the
 /// current quality.
-type UnfinishedWithQualities = UnfinishedSong * MaxQuality * Quality
+type UnfinishedSongWithQualities = UnfinishedSong * MaxQuality * Quality
 /// Shapes a relation between a finished song and its quality.
 type FinishedWithQuality = FinishedSong * Quality
 
