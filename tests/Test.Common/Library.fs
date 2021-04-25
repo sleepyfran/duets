@@ -1,5 +1,6 @@
 ﻿module Test.Common
 
+open Core.Songs.Composition
 open Entities.Band
 open Entities.Character
 open Entities.Skill
@@ -54,6 +55,18 @@ let unfinishedSongs (band: Band) =
 /// Adds a new song to the default band.
 let addSong song =
   ComposeSongMutation song |> mutate |> ignore
+
+/// Improves the given song for the default band.
+let improveSong song = ImproveSongMutation song |> mutate
+
+/// Retrieves the last unfinished song from the state.
+let lastUnfinishedSong () =
+  currentBand () |> unfinishedSongs |> List.head
+
+/// Improves the last unfinished song a given number of times.
+let improveLastUnfinishedSongTimes times =
+  for _ in 0 .. times do
+    lastUnfinishedSong () |> improveSong |> ignore
 
 /// Adds a given skill to the given character.
 let addSkillTo (character: Character) (skillWithLevel: SkillWithLevel) =

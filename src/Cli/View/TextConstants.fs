@@ -50,6 +50,8 @@ type TextConstant =
   | ComposeSongErrorLengthTooLong
   | ComposeSongErrorVocalStyleInvalid
   | ImproveSong
+  | ImproveSongNoSongAvailable
+  | ImproveSongSelection
   | FinishSong
   | DiscardSong
   | PracticeSong

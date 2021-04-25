@@ -1,5 +1,7 @@
 module Resolvers.Tests
 
+open Entities.Band
+open Entities.Song
 open Test.Common
 open Entities
 open Entities.Character
@@ -39,6 +41,17 @@ let QueriesShouldSuccessfullyExecute () =
   CharacterQuery |> query |> nullCheck
   CharacterSkillsQuery |> query |> nullCheck
   UnfinishedSongsQuery |> query |> nullCheck
+
+  UnfinishedSongByBandQuery(BandId(Identity.create ()))
+  |> query
+  |> nullCheck
+
+  UnfinishedSongByIdQuery
+    (BandId(Identity.create ()))
+    (SongId(Identity.create ()))
+  |> query
+  |> ignore
+
   RolesQuery |> query |> nullCheck
   GenresQuery |> query |> nullCheck
   VocalStylesQuery |> query |> nullCheck

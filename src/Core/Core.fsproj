@@ -9,6 +9,7 @@
       <Compile Include="Setup\StartGame.fs" />
       <Compile Include="Songs\Composition\Common.fs" />
       <Compile Include="Songs\Composition\ComposeSong.fs" />
+      <Compile Include="Songs\Composition\ImproveSong.fs" />
       <Compile Include="Skills\SkillRetrieval.fs" />
     </ItemGroup>
 

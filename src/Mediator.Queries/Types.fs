@@ -6,6 +6,8 @@ type QueryId =
   | Character
   | CharacterSkills
   | UnfinishedSongs
+  | UnfinishedSongsByBand
+  | UnfinishedSongById
   | SavegameState
   | Roles
   | Genres

@@ -7,7 +7,7 @@ open Entities.Skill
 open Entities.Song
 
 type CharacterSkills = Map<CharacterId, Map<SkillId, SkillWithLevel>>
-type UnfinishedSongs = Map<BandId, UnfinishedWithQualities list>
+type UnfinishedSongs = Map<BandId, UnfinishedSongWithQualities list>
 
 /// Shared state of the game. Contains all state that is common to every part
 /// of the game.

@@ -9,3 +9,4 @@ let init () =
   // Initialize all mutations.
   Mutations.StartGame.register ()
   Mutations.ComposeSong.register ()
+  Mutations.ImproveSong.register ()

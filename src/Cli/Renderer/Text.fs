@@ -85,6 +85,8 @@ and fromConstant constant =
       "[red]Songs can't be more than 30 minutes long[/]"
   | ComposeSongErrorVocalStyleInvalid -> "[red]The vocal style is invalid[/]"
   | ImproveSong -> "Improve an unfinished song"
+  | ImproveSongNoSongAvailable -> "There are no songs to improve, create a song first"
+  | ImproveSongSelection -> "Which song do you want to improve?"
   | FinishSong -> "Finish an unfinished song"
   | DiscardSong -> "Discard an unfinished song"
   | PracticeSong -> "Practice a finished song"

@@ -1,4 +1,4 @@
-module Core.Tests
+module Core.Tests.ComposeSong
 
 open Test.Common
 open NUnit.Framework
@@ -28,9 +28,7 @@ let ShouldAddSongToState () =
 let ShouldHaveAssignedProperties () =
   addSong dummySong
 
-  currentBand ()
-  |> unfinishedSongs
-  |> List.head
+  lastUnfinishedSong ()
   |> fun ((UnfinishedSong (s)), _, _) -> (s.Name, s.Length, s.VocalStyle)
   |> should equal (dummySong.Name, dummySong.Length, VocalStyle.Instrumental)
 
@@ -38,9 +36,7 @@ let ShouldHaveAssignedProperties () =
 let QualitiesShouldDefaultTo5MaxAndCurrent1IfLevelIs0 () =
   addSong dummySong
 
-  currentBand ()
-  |> unfinishedSongs
-  |> List.head
+  lastUnfinishedSong ()
   |> fun (_, (MaxQuality (mq)), (Quality (q))) -> (mq, q)
   |> should equal (5, 1)
 
@@ -51,8 +47,6 @@ let QualitiesShouldBeCalculatedBasedOnBandMemberSkills () =
   addSkillTo character (createSkillWithLevel (Genre dummyBand.Genre) 50)
   addSong dummySong
 
-  currentBand ()
-  |> unfinishedSongs
-  |> List.head
+  lastUnfinishedSong ()
   |> fun (_, (MaxQuality (mq)), (Quality (q))) -> (mq, q)
   |> should equal (33, 7)

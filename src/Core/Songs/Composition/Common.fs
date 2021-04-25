@@ -3,8 +3,12 @@ module Core.Songs.Composition.Common
 open Entities.Band
 open Entities.Character
 open Entities.Skill
+open Entities.State
+open Mediator.Mutation
+open Mediator.Mutations.Storage
 open Mediator.Query
 open Mediator.Queries.Core
+open Mediator.Queries.Storage
 
 /// Computes the score associated with each member of the band for the song.
 let qualityForMember genre ((character: Character), role, _) =
@@ -42,3 +46,19 @@ let calculateQualityIncreaseOf maximum =
   |> fun max -> max * 0.20
   |> ceil
   |> int
+
+/// Adds or modifies a given unfinished song into the given band's repertoire.
+let addUnfinishedSong songWithQualities (band: Band) =
+  let unfinished = query UnfinishedSongsQuery
+
+  unfinished
+  |> Map.tryFind band.Id
+  |> Option.defaultValue []
+  |> List.append [ songWithQualities ]
+  |> fun unfinishedWithSong -> Map.add band.Id unfinishedWithSong unfinished
+  |> fun unfinished ->
+       mutate
+       <| ModifyStateMutation
+            (fun state ->
+              { state with
+                  UnfinishedSongs = unfinished })

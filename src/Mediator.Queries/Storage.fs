@@ -3,6 +3,7 @@ module Mediator.Queries.Storage
 open Entities.Character
 open Entities.Band
 open Entities.State
+open Entities.Song
 open Mediator.Queries.Types
 
 type SavegameState =
@@ -17,7 +18,8 @@ let SavegameStateQuery : Query<unit, SavegameState> =
 // --- STATE QUERIES ---
 
 /// Returns the current band.
-let CurrentBandQuery : Query<unit, Band> = { Id = QueryId.Band; Parameter = None }
+let CurrentBandQuery : Query<unit, Band> =
+  { Id = QueryId.Band; Parameter = None }
 
 /// Returns the current character.
 let CharacterQuery : Query<unit, Character> =
@@ -33,6 +35,21 @@ let CharacterSkillsQuery : Query<unit, CharacterSkills> =
 let UnfinishedSongsQuery : Query<unit, UnfinishedSongs> =
   { Id = QueryId.UnfinishedSongs
     Parameter = None }
+
+/// Returns all unfinished songs by a specific band.
+let UnfinishedSongByBandQuery
+  bandId
+  : Query<BandId, UnfinishedSongWithQualities list> =
+  { Id = QueryId.UnfinishedSongsByBand
+    Parameter = Some bandId }
+
+/// Returns an unfinished song given a specific band and the song ID.
+let UnfinishedSongByIdQuery
+  bandId
+  songId
+  : Query<BandId * SongId, UnfinishedSongWithQualities option> =
+  { Id = QueryId.UnfinishedSongById
+    Parameter = Some(bandId, songId) }
 
 // --- STATIC DATA ---
 type LiteralRole = string
