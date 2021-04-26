@@ -15,7 +15,7 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Simulation", "src\Simulatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FDDB1410-F606-4415-9BAA-B4AAB9B635AF}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Core.Tests", "tests\Core.Tests\Core.Tests.fsproj", "{E8B8516E-F1AD-4BC2-A543-AFFC826B8FF8}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Simulation.Tests", "tests\Simulation.Tests\Simulation.Tests.fsproj", "{E8B8516E-F1AD-4BC2-A543-AFFC826B8FF8}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Test.Common", "tests\Test.Common\Test.Common.fsproj", "{7C770866-B3A4-4A83-9E01-4CD6175D90EE}"
 EndProject

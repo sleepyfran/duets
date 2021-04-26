@@ -5,6 +5,7 @@
 
         <IsPackable>false</IsPackable>
         <GenerateProgramFile>false</GenerateProgramFile>
+        <RootNamespace>Core.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

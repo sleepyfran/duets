@@ -6,19 +6,14 @@ open FsUnit
 
 open Entities.Song
 open Entities.Skill
-open Mediator.Mutations.Songs
-
-let dummySong =
-  { Name = "Test"
-    Length = 100
-    VocalStyle = "Instrumental" }
+open Simulation.Songs.Composition.ComposeSong
 
 [<SetUp>]
 let Setup () = initStateWithDummies ()
 
 [<Test>]
 let ShouldAddSongToState () =
-  addSong dummySong
+  composeSong dummySong
 
   currentBand ()
   |> unfinishedSongs
@@ -26,7 +21,7 @@ let ShouldAddSongToState () =
 
 [<Test>]
 let ShouldHaveAssignedProperties () =
-  addSong dummySong
+  composeSong dummySong
 
   lastUnfinishedSong ()
   |> fun ((UnfinishedSong (s)), _, _) -> (s.Name, s.Length, s.VocalStyle)
@@ -34,7 +29,7 @@ let ShouldHaveAssignedProperties () =
 
 [<Test>]
 let QualitiesShouldDefaultTo5MaxAndCurrent1IfLevelIs0 () =
-  addSong dummySong
+  composeSong dummySong
 
   lastUnfinishedSong ()
   |> fun (_, (MaxQuality (mq)), (Quality (q))) -> (mq, q)
@@ -45,7 +40,7 @@ let QualitiesShouldBeCalculatedBasedOnBandMemberSkills () =
   let character = currentCharacter ()
   addSkillTo character (createSkillWithLevel SkillId.Composition 50)
   addSkillTo character (createSkillWithLevel (Genre dummyBand.Genre) 50)
-  addSong dummySong
+  composeSong dummySong
 
   lastUnfinishedSong ()
   |> fun (_, (MaxQuality (mq)), (Quality (q))) -> (mq, q)

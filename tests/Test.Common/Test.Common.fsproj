@@ -10,10 +10,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Mediator.Mutations\Mediator.Mutations.fsproj" />
-      <ProjectReference Include="..\..\src\Mediator.Queries\Mediator.Queries.fsproj" />
-      <ProjectReference Include="..\..\src\Mediator\Mediator.fsproj" />
-      <ProjectReference Include="..\..\src\Resolvers.All\Resolvers.All.fsproj" />
+      <ProjectReference Include="..\..\src\Simulation\Simulation.fsproj" />
     </ItemGroup>
 
 </Project>
