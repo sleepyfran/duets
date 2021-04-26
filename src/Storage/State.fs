@@ -1,6 +1,6 @@
 module Storage.State
 
-open Entities.State
+open Entities
 
 type StateMessage =
   | Get of AsyncReplyChannel<State>
@@ -21,7 +21,7 @@ type StateAgent() =
              | Set value -> return! loop value
            }
 
-         loop empty
+         loop State.empty
 
   member this.Get() = state.PostAndReply Get
 

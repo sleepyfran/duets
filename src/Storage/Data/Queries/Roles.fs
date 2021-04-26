@@ -1,10 +1,10 @@
 module Data.Queries.Roles
 
-open Entities.Band
 open Microsoft.FSharp.Reflection
+open Entities
 
 /// Retrieves the name of all the roles available.
 let getNames () =
-  FSharpType.GetUnionCases typeof<Role>
+  FSharpType.GetUnionCases typeof<MemberRole>
   |> Array.map (fun uc -> uc.Name)
   |> List.ofArray

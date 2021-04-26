@@ -1,30 +1,5 @@
 module Entities.Calendar
 
-type Month =
-  | January
-  | February
-  | March
-  | April
-  | May
-  | June
-  | July
-  | August
-  | September
-  | October
-  | November
-  | December
-
-/// Defines a custom in-game date. All dates in the game start in a year 0 and
-/// go on from there instead of following real life years.
-type Date = { Day: int; Month: Month; Year: int }
-
-type PeriodEnd =
-  | Date of Date
-  | Ongoing
-
-/// Defines a period of time with a start and an optional end.
-type Period = Date * PeriodEnd
-
 /// Transforms an int into a Month. If the given number is outside the 1-12
 /// range it returns January as a default value.
 let monthFromInt monthIdx =

@@ -1,7 +1,6 @@
 module Simulation.Setup
 
 open Entities
-open Entities.State
 open Storage.State
 
 /// Sets up the initial game state based on the data provided by the user in

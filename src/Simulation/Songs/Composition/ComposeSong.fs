@@ -2,7 +2,7 @@ module Simulation.Songs.Composition.ComposeSong
 
 open Simulation.Songs.Composition.Common
 open Simulation.Bands.Queries
-open Entities.Song
+open Entities
 
 /// Orchestrates the song composition, which calculates the qualities of a song
 /// and adds them with the song to the band's unfinished songs.
@@ -14,6 +14,6 @@ let composeSong song =
     calculateQualityIncreaseOf maximumQuality
 
   let songWithQualities =
-    (UnfinishedSong song, MaxQuality maximumQuality, Quality initialQuality)
+    (UnfinishedSong song, maximumQuality, initialQuality)
 
   addUnfinishedSong songWithQualities band

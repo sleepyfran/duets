@@ -2,8 +2,9 @@ module Cli.View.Scenes.RehearsalRoom.ComposeSong
 
 open Cli.View.Actions
 open Cli.View.TextConstants
-open Simulation.Songs.Composition.ComposeSong
 open Entities
+open FSharp.Data.UnitSystems.SI.UnitNames
+open Simulation.Songs.Composition.ComposeSong
 open Storage.Database
 
 let rec composeSongScene () =
@@ -35,7 +36,10 @@ and handleLength name length =
       Prompt
         { Title = TextConstant ComposeSongVocalStylePrompt
           Content =
-            ChoicePrompt(vocalStyleOptions, handleVocalStyle name length) }
+            ChoicePrompt(
+              vocalStyleOptions,
+              handleVocalStyle name (length * 1<second>)
+            ) }
   }
 
 and handleVocalStyle name length selectedVocalStyle =

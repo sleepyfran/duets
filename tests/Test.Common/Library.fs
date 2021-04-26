@@ -1,9 +1,6 @@
 ﻿module Test.Common
 
 open Entities
-open Entities.Band
-open Entities.Character
-open Entities.Skill
 open Simulation.Setup
 open Simulation.Songs.Composition.ImproveSong
 open Storage
@@ -13,7 +10,7 @@ let dummyCharacter = Character.empty
 let dummyBand =
   { Band.empty with
       Members =
-        [ Member.from dummyCharacter Guitarist (Calendar.fromDayMonth 1 1) ] }
+        [ Band.Member.from dummyCharacter Guitarist (Calendar.fromDayMonth 1 1) ] }
 
 let dummySong = Song.empty
 

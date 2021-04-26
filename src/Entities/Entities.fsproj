@@ -5,9 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Types.fs" />
         <Compile Include="Identity.fs" />
         <Compile Include="Calendar.fs" />
-        <Compile Include="Genre.fs" />
         <Compile Include="Character.fs" />
         <Compile Include="Band.fs" />
         <Compile Include="Song.fs" />

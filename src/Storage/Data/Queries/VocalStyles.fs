@@ -1,7 +1,7 @@
 module Data.Queries.VocalStyles
 
 open Microsoft.FSharp.Reflection
-open Entities.Song
+open Entities
 
 /// Retrieves the name of all the roles available.
 let getNames () =

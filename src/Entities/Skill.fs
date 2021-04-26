@@ -1,26 +1,6 @@
 module Entities.Skill
 
-open Entities.Band
-open Entities.Genre
 open Entities.Instrument
-
-type SkillId =
-  | Composition
-  | Genre of Genre
-  | Instrument of Instrument
-
-/// Defines all possible categories to which skills can be related to.
-type Category =
-  | Music
-  | Production
-
-/// Represents a skill that the character can have. This only includes the base
-/// fields of the skill, more specific types are available depending on what
-/// information we need.
-type Skill = { Id: SkillId; Category: Category }
-
-/// Defines the relation between a skill and its level.
-type SkillWithLevel = Skill * int
 
 /// Maps each role that a member takes in a band with its related skill.
 let skillIdForRole role =
@@ -39,12 +19,12 @@ let categoryFor id =
 
 /// Creates a new skill for a given ID. Its category is automatically populated
 /// based on the type of skill given.
-let createSkill id = { Id = id; Category = categoryFor id }
+let create id = { Id = id; Category = categoryFor id }
 
 /// Creates a new skill for a given ID with the level set to the given level. Its
 /// category is automatically populated based on the type of skill given.
-let createSkillWithLevel id level = (createSkill id, level)
+let createWithLevel id level = (create id, level)
 
 /// Creates a new skill for a given ID with the level set to 0. Its category is
 /// automatically populated based on the type of skill given.
-let createSkillWithDefaultLevel id = createSkillWithLevel id 0
+let createWithDefaultLevel id = createWithLevel id 0

@@ -6,7 +6,7 @@ open Cli.View.TextConstants
 open Simulation.Bands.Queries
 open Simulation.Songs.Queries
 open Simulation.Songs.Composition.ImproveSong
-open Entities.Song
+open Entities
 
 let rec improveSongScene () =
   seq {

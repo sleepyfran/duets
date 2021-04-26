@@ -2,14 +2,13 @@ module Simulation.Songs.Composition.Common
 
 open Simulation.Skills.Queries
 open Simulation.Songs.Queries
-open Entities.Band
-open Entities.Character
+open Entities
 open Entities.Skill
 open Storage.State
 
 /// Computes the score associated with each member of the band for the song.
 let qualityForMember genre ((character: Character), role, _) =
-  let genreSkill = createSkill <| Genre(genre)
+  let genreSkill = create <| Genre(genre)
 
   let influencingSkills =
     [ Composition
@@ -31,17 +30,18 @@ let qualityForBand band =
   |> List.sum
   |> fun score ->
        match score with
-       | score when score < 5 -> 5
-       | _ -> score
+       | score when score < 5 -> 5<quality>
+       | _ -> score * 1<quality>
 
 /// Calculates at what rate the score of a song should increase based on its
 /// maximum quality.
-let calculateQualityIncreaseOf maximum =
+let calculateQualityIncreaseOf (maximum: MaxQuality) =
   maximum
   |> float
   |> fun max -> max * 0.20
   |> ceil
   |> int
+  |> fun increase -> increase * 1<quality>
 
 /// Adds or modifies a given unfinished song into the given band's repertoire.
 let addUnfinishedSong songWithQualities (band: Band) =

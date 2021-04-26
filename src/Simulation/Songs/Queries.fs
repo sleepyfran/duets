@@ -1,6 +1,6 @@
 module Simulation.Songs.Queries
 
-open Entities.Song
+open Entities
 open Storage.State
 
 /// Returns all unfinished songs by all bands from the character.

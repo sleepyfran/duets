@@ -15,4 +15,4 @@ let characterSkillWithLevel characterId skillId =
   |> Map.tryFind characterId
   |> Option.defaultValue Map.empty
   |> Map.tryFind skillId
-  |> Option.defaultValue (Skill.createSkillWithDefaultLevel skillId)
+  |> Option.defaultValue (Skill.createWithDefaultLevel skillId)

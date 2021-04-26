@@ -1,7 +1,7 @@
 module Cli.View.Actions
 
 open Cli.View.TextConstants
-open Entities.Character
+open Entities
 
 /// Defines the index of all scenes available in the game that can be instantiated.
 type Scene =
