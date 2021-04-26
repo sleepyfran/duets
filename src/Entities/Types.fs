@@ -1,6 +1,7 @@
 namespace Entities
 
 open FSharp.Data.UnitSystems.SI.UnitNames
+open Myriad.Plugins
 
 [<AutoOpen>]
 module Types =
@@ -176,12 +177,14 @@ module Types =
 
   /// Represents the repertoire of a band with its unfinished and finished songs.
   /// Only finished songs can be recorded and played live.
+  [<Generator.Lenses("lens", "Lenses.Lens")>]
   type BandRepertoire =
     { Unfinished: SongsByBand<UnfinishedSongWithQualities>
       Finished: SongsByBand<FinishedSongWithQuality> }
 
   /// Shared state of the game. Contains all state that is common to every part
   /// of the game.
+  [<Generator.Lenses("lens", "Lenses.Lens")>]
   type State =
     { Bands: Band list
       Character: Character

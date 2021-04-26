@@ -4,6 +4,7 @@ open Simulation.Skills.Queries
 open Simulation.Songs.Queries
 open Entities
 open Entities.Skill
+open Lenses
 open Storage.State
 
 /// Computes the score associated with each member of the band for the song.
@@ -51,9 +52,10 @@ let addUnfinishedSong songWithQualities (band: Band) =
   |> Map.add song.Id songWithQualities
   |> fun updatedSongs -> Map.add band.Id updatedSongs (unfinishedSongs ())
   |> fun updatedSongs ->
-       modifyState
-         (fun state ->
-           { state with
-               BandRepertoire =
-                 { state.BandRepertoire with
-                     Unfinished = updatedSongs } })
+       let unfinishedSongsLenses =
+         StateLenses.BandRepertoire
+         << BandRepertoireLenses.Unfinished
+       
+       updatedSongs
+       |> Lens.set unfinishedSongsLenses
+       |> modifyState
