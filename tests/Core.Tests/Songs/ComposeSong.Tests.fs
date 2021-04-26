@@ -1,4 +1,4 @@
-module Core.Tests.ComposeSong
+module Simulation.Tests.ComposeSong
 
 open Test.Common
 open NUnit.Framework

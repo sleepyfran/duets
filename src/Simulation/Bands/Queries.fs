@@ -1,4 +1,4 @@
-module Core.Bands.Queries
+module Simulation.Bands.Queries
 
 open Storage.State
 

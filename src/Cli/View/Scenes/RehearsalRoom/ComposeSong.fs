@@ -2,7 +2,7 @@ module Cli.View.Scenes.RehearsalRoom.ComposeSong
 
 open Cli.View.Actions
 open Cli.View.TextConstants
-open Core.Songs.Composition.ComposeSong
+open Simulation.Songs.Composition.ComposeSong
 open Entities
 open Storage.Database
 

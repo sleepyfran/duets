@@ -1,4 +1,4 @@
-module Core.Skills.Queries
+module Simulation.Skills.Queries
 
 open Entities
 open Storage.State

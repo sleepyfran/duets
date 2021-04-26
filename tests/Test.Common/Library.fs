@@ -1,6 +1,6 @@
 ﻿module Test.Common
 
-open Core.Songs.Composition
+open Simulation.Songs.Composition
 open Entities.Band
 open Entities.Character
 open Entities.Skill

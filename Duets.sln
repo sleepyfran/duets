@@ -11,7 +11,7 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Storage", "src\Storage\Stor
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Entities", "src\Entities\Entities.fsproj", "{D9280926-6073-4B96-8CFF-5CD4F3017E33}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Core", "src\Core\Core.fsproj", "{2DF6557C-C5B4-4083-943C-0C8D2F317A3D}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Simulation", "src\Simulation\Simulation.fsproj", "{2DF6557C-C5B4-4083-943C-0C8D2F317A3D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FDDB1410-F606-4415-9BAA-B4AAB9B635AF}"
 EndProject

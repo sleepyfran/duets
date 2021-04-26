@@ -1,4 +1,4 @@
-module Core.Songs.Queries
+module Simulation.Songs.Queries
 
 open Entities.Song
 open Storage.State

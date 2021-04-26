@@ -1,7 +1,7 @@
-module Core.Songs.Composition.Common
+module Simulation.Songs.Composition.Common
 
-open Core.Skills.Queries
-open Core.Songs.Queries
+open Simulation.Skills.Queries
+open Simulation.Songs.Queries
 open Entities.Band
 open Entities.Character
 open Entities.Skill

@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.fsproj" />
+    <ProjectReference Include="..\Simulation\Simulation.fsproj" />
   </ItemGroup>
 
 </Project>

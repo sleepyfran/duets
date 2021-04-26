@@ -1,4 +1,4 @@
-module Core.Setup
+module Simulation.Setup
 
 open Entities
 open Entities.State

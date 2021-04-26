@@ -1,7 +1,7 @@
-module Core.Songs.Composition.ImproveSong
+module Simulation.Songs.Composition.ImproveSong
 
-open Core.Bands.Queries
-open Core.Songs.Composition.Common
+open Simulation.Bands.Queries
+open Simulation.Songs.Composition.Common
 open Entities.Song
 
 let private doImprove song maxQuality quality =

@@ -1,7 +1,7 @@
-module Core.Songs.Composition.ComposeSong
+module Simulation.Songs.Composition.ComposeSong
 
-open Core.Songs.Composition.Common
-open Core.Bands.Queries
+open Simulation.Songs.Composition.Common
+open Simulation.Bands.Queries
 open Entities.Song
 
 /// Orchestrates the song composition, which calculates the qualities of a song

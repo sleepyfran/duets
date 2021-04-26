@@ -3,9 +3,9 @@ module Cli.View.Scenes.RehearsalRoom.ImproveSong
 open System
 open Cli.View.Actions
 open Cli.View.TextConstants
-open Core.Bands.Queries
-open Core.Songs.Queries
-open Core.Songs.Composition.ImproveSong
+open Simulation.Bands.Queries
+open Simulation.Songs.Queries
+open Simulation.Songs.Composition.ImproveSong
 open Entities.Song
 
 let rec improveSongScene () =

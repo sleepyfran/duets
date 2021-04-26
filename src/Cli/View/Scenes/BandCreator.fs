@@ -2,7 +2,7 @@ module Cli.View.Scenes.BandCreator
 
 open Cli.View.Actions
 open Cli.View.TextConstants
-open Core.Setup
+open Simulation.Setup
 open Entities
 open Entities.Character
 open Storage.Database
