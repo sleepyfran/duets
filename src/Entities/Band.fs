@@ -14,9 +14,24 @@ type Role =
   | Bassist
   | Drummer
 
+module Role =
+  /// Returns a role given its string representation. Defaults to singer if
+  /// given an invalid value.
+  let from str =
+    match str with
+    | "Guitarist" -> Guitarist
+    | "Bassist" -> Bassist
+    | "Drummer" -> Drummer
+    | _ -> Singer
+
 /// Relates a specific character with its role in the band for a specific
 /// region of time.
 type Member = Character * Role * Calendar.Period
+
+module Member =
+  /// Creates a member from a character and a role from today onwards.
+  let from character role today : Member =
+    (character, role, (today, Calendar.Ongoing))
 
 /// Represents any band inside the game, be it one that is controlled by the
 /// player or the ones that are created automatically to fill the game world.
@@ -26,20 +41,30 @@ type Band =
     Genre: Genre
     Members: Member list }
 
+type BandValidationError =
+  | NameTooShort
+  | NameTooLong
+  | NoMembersGiven
+
+/// Creates a band given its name, genre and members, if possible.
+let from name genre members =
+  if String.length name < 1 then
+    Error NameTooShort
+  else if String.length name > 35 then
+    Error NameTooLong
+  else if List.length members < 1 then
+    Error NoMembersGiven
+  else
+    Ok
+      { Id = BandId <| create ()
+        Name = name
+        Genre = genre
+        Members = members }
+
 /// Returns default values for a band to serve as a placeholder to build a band
 /// upon. Generates a valid ID.
 let empty =
-  { Id = BandId(Guid.NewGuid())
+  { Id = BandId <| create ()
     Name = ""
     Genre = ""
     Members = [] }
-
-/// Attempts to transform a string into a Role. Defaults to Singer if an
-/// invalid value is given.
-let toRole str =
-  match str with
-  | "Singer" -> Singer
-  | "Guitarist" -> Guitarist
-  | "Bassist" -> Bassist
-  | "Drummer" -> Drummer
-  | _ -> Singer

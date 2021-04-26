@@ -1,20 +1,19 @@
-module Core.Songs.Composition.ComposeSong
+module Simulation.Songs.Composition.ComposeSong
 
-open Core.Songs.Composition.Common
+open Simulation.Songs.Composition.Common
+open Simulation.Bands.Queries
 open Entities.Song
-open Mediator.Queries.Storage
-open Mediator.Query
 
 /// Orchestrates the song composition, which calculates the qualities of a song
 /// and adds them with the song to the band's unfinished songs.
-let composeSong input =
-  let band = query CurrentBandQuery
+let composeSong song =
+  let band = currentBand ()
   let maximumQuality = qualityForBand band
 
   let initialQuality =
     calculateQualityIncreaseOf maximumQuality
 
   let songWithQualities =
-    (UnfinishedSong input, MaxQuality maximumQuality, Quality initialQuality)
+    (UnfinishedSong song, MaxQuality maximumQuality, Quality initialQuality)
 
   addUnfinishedSong songWithQualities band

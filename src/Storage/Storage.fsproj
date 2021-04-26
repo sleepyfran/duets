@@ -16,8 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.fsproj" />
-    <ProjectReference Include="..\Mediator.Mutations\Mediator.Mutations.fsproj" />
-    <ProjectReference Include="..\Mediator.Queries\Mediator.Queries.fsproj" />
   </ItemGroup>
 
 </Project>

@@ -2,18 +2,39 @@ module Storage.State
 
 open Entities.State
 
-/// Holds the current state. TODO: Change to something less smelly.
-type StateWrapper =
-  [<DefaultValue>]
-  static val mutable private state: State
+type StateMessage =
+  | Get of AsyncReplyChannel<State>
+  | Set of State
 
-  static member State
-    with get () = StateWrapper.state
-    and set (value) = StateWrapper.state <- value
+type StateAgent() =
+  let state =
+    MailboxProcessor.Start
+    <| fun inbox ->
+         let rec loop state =
+           async {
+             let! msg = inbox.Receive()
 
-let getState () = StateWrapper.State
+             match msg with
+             | Get channel ->
+                 channel.Reply state
+                 return! loop state
+             | Set value -> return! loop value
+           }
 
-let modifyState modify =
-  StateWrapper.State <- modify StateWrapper.State
+         loop empty
 
-let setState input = StateWrapper.State <- input
+  member this.Get() = state.PostAndReply Get
+
+  member this.Set value = Set value |> state.Post
+
+let staticAgent = StateAgent()
+
+/// Returns the state of the game.
+let getState = staticAgent.Get
+
+/// Sets the state of the game to a given value.
+let setState = staticAgent.Set
+
+/// Passes the state of the game to the modify function and sets the state to
+/// the return value.
+let modifyState modify = getState () |> modify |> setState

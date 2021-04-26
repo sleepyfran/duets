@@ -1,31 +1,24 @@
 ﻿module Test.Common
 
-open Core.Songs.Composition
+open Entities
 open Entities.Band
 open Entities.Character
 open Entities.Skill
-open Mediator.Mutation
-open Mediator.Mutations.Setup
-open Mediator.Mutations.Songs
-open Mediator.Mutations.Storage
+open Simulation.Setup
+open Simulation.Songs.Composition.ImproveSong
 open Storage
 
-let dummyCharacter =
-  { Name = "Test"
-    Age = 18
-    Gender = "Male" }
+let dummyCharacter = Character.empty
 
 let dummyBand =
-  { Name = "Test"
-    Genre = "Metal"
-    Role = "Drummer" }
+  { Band.empty with
+      Members =
+        [ Member.from dummyCharacter Guitarist (Calendar.fromDayMonth 1 1) ] }
+
+let dummySong = Song.empty
 
 /// Initializes the state with a given character and band.
-let initStateWith character band =
-  Resolvers.All.init ()
-
-  mutate (StartGameMutation character band)
-  |> ignore
+let initStateWith character band = startGame character band
 
 /// Inits the state with a dummy character and band. Useful when we just want
 /// to test something that requires queries and mutations that are not directly
@@ -52,13 +45,6 @@ let unfinishedSongs (band: Band) =
   |> fun s -> s.UnfinishedSongs
   |> Map.find band.Id
 
-/// Adds a new song to the default band.
-let addSong song =
-  ComposeSongMutation song |> mutate |> ignore
-
-/// Improves the given song for the default band.
-let improveSong song = ImproveSongMutation song |> mutate
-
 /// Retrieves the last unfinished song from the state.
 let lastUnfinishedSong () =
   currentBand () |> unfinishedSongs |> List.head
@@ -72,7 +58,7 @@ let improveLastUnfinishedSongTimes times =
 let addSkillTo (character: Character) (skillWithLevel: SkillWithLevel) =
   let (skill, _) = skillWithLevel
 
-  ModifyStateMutation
+  State.modifyState
     (fun state ->
       state.CharacterSkills
       |> Map.tryFind character.Id
@@ -83,4 +69,3 @@ let addSkillTo (character: Character) (skillWithLevel: SkillWithLevel) =
       |> fun characterSkills ->
            { state with
                CharacterSkills = characterSkills })
-  |> mutate

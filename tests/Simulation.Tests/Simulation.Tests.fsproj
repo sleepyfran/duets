@@ -5,6 +5,7 @@
 
         <IsPackable>false</IsPackable>
         <GenerateProgramFile>false</GenerateProgramFile>
+        <RootNamespace>Core.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Core\Core.fsproj" />
+      <ProjectReference Include="..\..\src\Simulation\Simulation.fsproj" />
       <ProjectReference Include="..\Test.Common\Test.Common.fsproj" />
     </ItemGroup>
 

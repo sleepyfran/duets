@@ -3,18 +3,17 @@ module Cli.View.Scenes.RehearsalRoom.ImproveSong
 open System
 open Cli.View.Actions
 open Cli.View.TextConstants
+open Simulation.Bands.Queries
+open Simulation.Songs.Queries
+open Simulation.Songs.Composition.ImproveSong
 open Entities.Song
-open Mediator.Mutation
-open Mediator.Mutations.Songs
-open Mediator.Query
-open Mediator.Queries.Storage
 
-let rec improveSong () =
+let rec improveSongScene () =
   seq {
-    let currentBand = query CurrentBandQuery
+    let currentBand = currentBand ()
 
     let unfinishedSongsOptions =
-      query <| UnfinishedSongByBandQuery currentBand.Id
+      unfinishedSongsByBand currentBand.Id
       |> List.map
            (fun ((UnfinishedSong us), _, currentQuality) ->
              let (SongId id) = us.Id
@@ -38,16 +37,13 @@ let rec improveSong () =
 
 and processSongSelection band selection =
   seq {
-    let selectedSong =
+    let songStatus =
       selection.Id
       |> Guid.Parse
       |> SongId
-      |> UnfinishedSongByIdQuery band.Id
-      |> query
+      |> unfinishedSongByBandAndSongId band.Id
       |> Option.get
-
-    let songStatus =
-      selectedSong |> ImproveSongMutation |> mutate
+      |> improveSong
 
     match songStatus with
     | CanBeImproved quality ->

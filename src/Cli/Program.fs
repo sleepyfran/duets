@@ -1,19 +1,16 @@
 open Renderer
 open Cli.View.Actions
-open Mediator.Query
-open Mediator.Queries.Storage
+open Storage.Savegame
 
 [<EntryPoint>]
 let main _ =
-  Resolvers.All.init ()
-
   clear ()
 
-  query SavegameStateQuery
+  savegameState ()
   |> fun savegameState ->
        match savegameState with
-       | NotAvailable -> Scene MainMenu
        | Available -> Scene MainMenu
+       | NotAvailable -> Scene MainMenu
   |> fun action ->
        Orchestrator.runWith renderPrompt renderMessage
        <| seq { action }

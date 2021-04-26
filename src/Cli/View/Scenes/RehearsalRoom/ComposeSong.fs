@@ -2,12 +2,11 @@ module Cli.View.Scenes.RehearsalRoom.ComposeSong
 
 open Cli.View.Actions
 open Cli.View.TextConstants
-open Mediator.Mutation
-open Mediator.Mutations.Songs
-open Mediator.Query
-open Mediator.Queries.Storage
+open Simulation.Songs.Composition.ComposeSong
+open Entities
+open Storage.Database
 
-let rec composeSong () =
+let rec composeSongScene () =
   seq {
     yield
       Prompt
@@ -25,7 +24,7 @@ and handleName name =
 
 and handleLength name length =
   let vocalStyleOptions =
-    query VocalStylesQuery
+    vocalStyleNames ()
     |> List.map
          (fun vocalStyle ->
            { Id = vocalStyle.ToString()
@@ -39,17 +38,15 @@ and handleLength name length =
             ChoicePrompt(vocalStyleOptions, handleVocalStyle name length) }
   }
 
-and handleVocalStyle name length vocalStyle =
-  let result =
-    mutate
-    <| ComposeSongMutation
-         { Name = name
-           Length = length
-           VocalStyle = vocalStyle.Id }
+and handleVocalStyle name length selectedVocalStyle =
+  let vocalStyle =
+    Song.VocalStyle.from selectedVocalStyle.Id
 
   seq {
-    match result with
-    | Ok _ ->
+    match Song.from name length vocalStyle with
+    | Ok song ->
+        composeSong song
+
         yield!
           seq {
             yield
@@ -58,30 +55,26 @@ and handleVocalStyle name length vocalStyle =
 
             yield Scene RehearsalRoom
           }
-    | Error NameTooShort ->
+    | Error Song.NameTooShort ->
         yield!
           handleError
           <| TextConstant ComposeSongErrorNameTooShort
-    | Error NameTooLong ->
+    | Error Song.NameTooLong ->
         yield!
           handleError
           <| TextConstant ComposeSongErrorNameTooLong
-    | Error LengthTooShort ->
+    | Error Song.LengthTooShort ->
         yield!
           handleError
           <| TextConstant ComposeSongErrorLengthTooShort
-    | Error LengthTooLong ->
+    | Error Song.LengthTooLong ->
         yield!
           handleError
           <| TextConstant ComposeSongErrorLengthTooLong
-    | Error VocalStyleInvalid ->
-        yield!
-          handleError
-          <| TextConstant ComposeSongErrorVocalStyleInvalid
   }
 
 and handleError message =
   seq {
     yield Message <| message
-    yield! composeSong ()
+    yield! composeSongScene ()
   }

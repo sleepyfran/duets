@@ -1,8 +1,8 @@
 module Cli.View.Scenes.CharacterCreator
 
-open Mediator.Mutations.Setup
 open Cli.View.Actions
 open Cli.View.TextConstants
+open Entities
 
 let genderOptions =
   [ { Id = "male"
@@ -36,11 +36,42 @@ and handleGender name choice =
           Content = NumberPrompt <| handleAge name choice.Id }
   }
 
-and handleAge name gender age =
-  let character = {
-    Name = name
-    Age = age
-    Gender = gender
+and handleAge name genderChoiceId age =
+  let gender = Character.Gender.from genderChoiceId
+
+  seq {
+    match (Character.from name age gender) with
+    | Ok character -> yield Scene(BandCreator character)
+    | Error Character.NameTooShort ->
+        yield!
+          seq {
+            Message
+            <| TextConstant CreatorErrorCharacterNameTooShort
+
+            Scene CharacterCreator
+          }
+    | Error Character.NameTooLong ->
+        yield!
+          seq {
+            Message
+            <| TextConstant CreatorErrorCharacterNameTooLong
+
+            Scene CharacterCreator
+          }
+    | Error Character.AgeTooYoung ->
+        yield!
+          seq {
+            Message
+            <| TextConstant CreatorErrorCharacterAgeTooYoung
+
+            yield! handleName name
+          }
+    | Error Character.AgeTooOld ->
+        yield!
+          seq {
+            Message
+            <| TextConstant CreatorErrorCharacterAgeTooOld
+
+            yield! handleName name
+          }
   }
-  
-  seq { yield Scene <| BandCreator character }
