@@ -1,21 +1,15 @@
 module Core.Setup
 
 open Entities
-open Entities.Band
-open Entities.Character
 open Entities.State
-open Mediator.Mutation
-open Mediator.Mutations
+open Storage.State
 
-type SetupInput = { Character: Character; Band: Band }
-
-let startGame input =
-  let state : State =
-    { Character = input.Character
-      CharacterSkills = Map.empty
-      Bands = [input.Band]
-      UnfinishedSongs = Map.empty
-      Today = Calendar.fromDayMonth 1 1 }
-
-  mutate <| Storage.SetStateMutation state
-  ()
+/// Sets up the initial game state based on the data provided by the user in
+/// the setup wizard.
+let startGame character band =
+  { Character = character
+    CharacterSkills = Map.empty
+    Bands = [ band ]
+    UnfinishedSongs = Map.empty
+    Today = Calendar.fromDayMonth 1 1 }
+  |> setState

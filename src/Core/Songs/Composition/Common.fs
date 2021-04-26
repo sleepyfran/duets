@@ -1,14 +1,11 @@
 module Core.Songs.Composition.Common
 
+open Core.Skills.Queries
+open Core.Songs.Queries
 open Entities.Band
 open Entities.Character
 open Entities.Skill
-open Entities.State
-open Mediator.Mutation
-open Mediator.Mutations.Storage
-open Mediator.Query
-open Mediator.Queries.Core
-open Mediator.Queries.Storage
+open Storage.State
 
 /// Computes the score associated with each member of the band for the song.
 let qualityForMember genre ((character: Character), role, _) =
@@ -20,8 +17,7 @@ let qualityForMember genre ((character: Character), role, _) =
       genreSkill.Id ]
 
   influencingSkills
-  |> List.map
-       (fun skillId -> query (CharacterSkillLevelQuery(character.Id, skillId)))
+  |> List.map (characterSkillWithLevel character.Id)
   |> List.map snd
   |> List.sum
   |> fun total -> total / influencingSkills.Length
@@ -49,16 +45,13 @@ let calculateQualityIncreaseOf maximum =
 
 /// Adds or modifies a given unfinished song into the given band's repertoire.
 let addUnfinishedSong songWithQualities (band: Band) =
-  let unfinished = query UnfinishedSongsQuery
+  let allUnfinishedSongs = unfinishedSongs ()
 
-  unfinished
-  |> Map.tryFind band.Id
-  |> Option.defaultValue []
+  unfinishedSongsByBand band.Id
   |> List.append [ songWithQualities ]
-  |> fun unfinishedWithSong -> Map.add band.Id unfinishedWithSong unfinished
-  |> fun unfinished ->
-       mutate
-       <| ModifyStateMutation
-            (fun state ->
-              { state with
-                  UnfinishedSongs = unfinished })
+  |> fun updatedSongs -> Map.add band.Id updatedSongs allUnfinishedSongs
+  |> fun updatedSongs ->
+       modifyState
+         (fun state ->
+           { state with
+               UnfinishedSongs = updatedSongs })

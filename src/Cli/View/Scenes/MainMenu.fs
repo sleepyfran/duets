@@ -1,9 +1,8 @@
 module Cli.View.Scenes.MainMenu
 
-open Mediator.Query
-open Mediator.Queries.Storage
 open Cli.View.Actions
 open Cli.View.TextConstants
+open Storage.Savegame
 
 let menuOptions =
   [ { Id = "new_game"
@@ -29,7 +28,7 @@ and processSelection choice =
     match choice.Id with
     | "new_game" -> yield (Scene CharacterCreator)
     | "load_game" ->
-        let savegameAvailable = query SavegameStateQuery
+        let savegameAvailable = savegameState ()
 
         match savegameAvailable with
         | Available -> yield! []

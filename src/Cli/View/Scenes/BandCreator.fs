@@ -1,13 +1,13 @@
 module Cli.View.Scenes.BandCreator
 
-open Mediator.Query
-open Mediator.Mutation
-open Mediator.Queries.Storage
-open Mediator.Mutations.Setup
 open Cli.View.Actions
 open Cli.View.TextConstants
+open Core.Setup
+open Entities
+open Entities.Character
+open Storage.Database
 
-let rec bandCreator (character: CharacterInput) =
+let rec bandCreator (character: Character) =
   seq {
     yield
       Prompt
@@ -17,7 +17,7 @@ let rec bandCreator (character: CharacterInput) =
 
 and handleName character name =
   let genreOptions =
-    query GenresQuery
+    genres ()
     |> List.map (fun genre -> { Id = genre; Text = Literal genre })
 
   seq {
@@ -29,7 +29,7 @@ and handleName character name =
 
 and handleGenre character name genre =
   let roleOptions =
-    query RolesQuery
+    roles ()
     |> List.map
          (fun role ->
            { Id = role.ToString()
@@ -63,57 +63,17 @@ and handleRole character name genre role =
 and handleConfirmation character name genre role confirmed =
   seq {
     if confirmed then
-      let band =
-        { Name = name
-          Genre = genre
-          Role = role.Id }
+      let members =
+        [ Band.Member.from
+            character
+            (Band.Role.from role.Id)
+            (Calendar.fromDayMonth 1 1) ]
 
-      let result =
-        mutate <| StartGameMutation character band
-
-      match result with
-      | Ok _ -> yield Scene RehearsalRoom
-      | Error CharacterNameTooShort ->
-          yield!
-            seq {
-              Message
-              <| TextConstant CreatorErrorCharacterNameTooShort
-
-              Scene CharacterCreator
-            }
-      | Error CharacterNameTooLong ->
-          yield!
-            seq {
-              Message
-              <| TextConstant CreatorErrorCharacterNameTooLong
-
-              Scene CharacterCreator
-            }
-      | Error CharacterAgeTooYoung ->
-          yield!
-            seq {
-              Message
-              <| TextConstant CreatorErrorCharacterAgeTooYoung
-
-              Scene CharacterCreator
-            }
-      | Error CharacterAgeTooOld ->
-          yield!
-            seq {
-              Message
-              <| TextConstant CreatorErrorCharacterAgeTooOld
-
-              Scene CharacterCreator
-            }
-      | Error CharacterGenderInvalid ->
-          yield!
-            seq {
-              Message
-              <| TextConstant CreatorErrorCharacterGenderInvalid
-
-              Scene CharacterCreator
-            }
-      | Error BandNameTooShort ->
+      match (Band.from name genre members) with
+      | Ok band ->
+          startGame character band
+          yield Scene RehearsalRoom
+      | Error Band.NameTooShort ->
           yield!
             seq {
               Message
@@ -121,7 +81,7 @@ and handleConfirmation character name genre role confirmed =
 
               yield! bandCreator character
             }
-      | Error BandNameTooLong ->
+      | Error Band.NameTooLong ->
           yield!
             seq {
               Message
@@ -129,23 +89,7 @@ and handleConfirmation character name genre role confirmed =
 
               yield! bandCreator character
             }
-      | Error BandGenreInvalid ->
-          yield!
-            seq {
-              Message
-              <| TextConstant CreatorErrorBandGenreInvalid
-
-              yield! handleName character name
-            }
-      | Error BandRoleInvalid ->
-          yield!
-            seq {
-              Message
-              <| TextConstant CreatorErrorBandRoleInvalid
-
-              yield!
-                handleGenre character name { Id = genre; Text = Literal genre }
-            }
+      | Error Band.NoMembersGiven -> yield! [] // Dead end, should never happen.
     else
       yield Scene CharacterCreator
   }

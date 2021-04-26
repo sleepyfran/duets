@@ -17,3 +17,11 @@ type State =
     CharacterSkills: CharacterSkills
     UnfinishedSongs: UnfinishedSongs
     Today: Date }
+
+/// Creates an empty state with all the fields set to its empty representation.
+let empty =
+  { Bands = List.empty
+    Character = Character.empty
+    CharacterSkills = Map.empty
+    UnfinishedSongs = Map.empty
+    Today = fromDayMonth 1 1 }

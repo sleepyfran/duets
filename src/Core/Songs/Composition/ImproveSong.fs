@@ -1,12 +1,11 @@
 module Core.Songs.Composition.ImproveSong
 
+open Core.Bands.Queries
 open Core.Songs.Composition.Common
 open Entities.Song
-open Mediator.Query
-open Mediator.Queries.Storage
 
 let private doImprove song maxQuality quality =
-  let band = query CurrentBandQuery
+  let band = currentBand ()
   let increase = calculateQualityIncreaseOf maxQuality
   let updatedQuality = quality + increase
   let canBeFurtherImproved = maxQuality >= updatedQuality

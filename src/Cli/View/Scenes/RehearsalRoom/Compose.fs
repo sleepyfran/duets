@@ -28,8 +28,8 @@ let rec compose () =
 and processSelection choice =
   seq {
     match choice.Id with
-    | "compose_song" -> yield! composeSong ()
-    | "improve_song" -> yield! improveSong ()
+    | "compose_song" -> yield! composeSongScene ()
+    | "improve_song" -> yield! improveSongScene ()
     | "finish_song" -> NoOp
     | "discard_song" -> NoOp
     | "practice_song" -> NoOp

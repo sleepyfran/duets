@@ -7,16 +7,16 @@
 
     <ItemGroup>
       <Compile Include="Setup\StartGame.fs" />
+      <Compile Include="Bands\Queries.fs" />
+      <Compile Include="Skills\Queries.fs" />
+      <Compile Include="Songs\Queries.fs" />
       <Compile Include="Songs\Composition\Common.fs" />
       <Compile Include="Songs\Composition\ComposeSong.fs" />
       <Compile Include="Songs\Composition\ImproveSong.fs" />
-      <Compile Include="Skills\SkillRetrieval.fs" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Mediator.Mutations\Mediator.Mutations.fsproj" />
-      <ProjectReference Include="..\Mediator.Queries\Mediator.Queries.fsproj" />
-      <ProjectReference Include="..\Mediator\Mediator.fsproj" />
+      <ProjectReference Include="..\Storage\Storage.fsproj" />
     </ItemGroup>
 
 </Project>
