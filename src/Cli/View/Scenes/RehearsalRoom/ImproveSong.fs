@@ -14,9 +14,10 @@ let rec improveSongScene () =
 
     let unfinishedSongsOptions =
       unfinishedSongsByBand currentBand.Id
+      |> Map.toList
       |> List.map
-           (fun ((UnfinishedSong us), _, currentQuality) ->
-             let (SongId id) = us.Id
+           (fun (songId, ((UnfinishedSong us), _, currentQuality)) ->
+             let (SongId id) = songId
 
              { Id = id.ToString()
                Text = Literal $"{us.Name} (Quality: {currentQuality}%%)" })

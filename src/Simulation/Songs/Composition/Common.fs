@@ -45,11 +45,11 @@ let calculateQualityIncreaseOf (maximum: MaxQuality) =
 
 /// Adds or modifies a given unfinished song into the given band's repertoire.
 let addUnfinishedSong songWithQualities (band: Band) =
-  let allUnfinishedSongs = unfinishedSongs ()
+  let (UnfinishedSong (song), _, _) = songWithQualities
 
   unfinishedSongsByBand band.Id
-  |> List.append [ songWithQualities ]
-  |> fun updatedSongs -> Map.add band.Id updatedSongs allUnfinishedSongs
+  |> Map.add song.Id songWithQualities
+  |> fun updatedSongs -> Map.add band.Id updatedSongs (unfinishedSongs ())
   |> fun updatedSongs ->
        modifyState
          (fun state ->

@@ -44,7 +44,10 @@ let unfinishedSongs (band: Band) =
 
 /// Retrieves the last unfinished song from the state.
 let lastUnfinishedSong () =
-  currentBand () |> unfinishedSongs |> List.head
+  currentBand ()
+  |> unfinishedSongs
+  |> Seq.head
+  |> fun kvp -> kvp.Value
 
 /// Improves the last unfinished song a given number of times.
 let improveLastUnfinishedSongTimes times =

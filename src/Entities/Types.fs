@@ -169,7 +169,7 @@ module Types =
   type SkillWithLevel = Skill * int
 
   type CharacterSkills = Map<CharacterId, Map<SkillId, SkillWithLevel>>
-  type UnfinishedSongs = Map<BandId, UnfinishedSongWithQualities list>
+  type UnfinishedSongs = Map<BandId, Map<SongId, UnfinishedSongWithQualities>>
 
   /// Shared state of the game. Contains all state that is common to every part
   /// of the game.

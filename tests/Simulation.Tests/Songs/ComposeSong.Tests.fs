@@ -16,7 +16,7 @@ let ShouldAddSongToState () =
 
   currentBand ()
   |> unfinishedSongs
-  |> should haveLength 1
+  |> should haveCount 1
 
 [<Test>]
 let ShouldHaveAssignedProperties () =
