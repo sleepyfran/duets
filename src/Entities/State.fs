@@ -1,11 +1,11 @@
 module Entities.State
 
-open Entities.Calendar
+open Entities
 
 /// Creates an empty state with all the fields set to its empty representation.
 let empty =
   { Bands = List.empty
     Character = Character.empty
     CharacterSkills = Map.empty
-    UnfinishedSongs = Map.empty
-    Today = fromDayMonth 1 1 }
+    BandRepertoire = Band.Repertoire.empty
+    Today = Calendar.fromDayMonth 1 1 }

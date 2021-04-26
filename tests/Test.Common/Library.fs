@@ -39,7 +39,7 @@ let currentBand () =
 /// Returns the unfinished songs by the given band.
 let unfinishedSongs (band: Band) =
   State.getState ()
-  |> fun s -> s.UnfinishedSongs
+  |> fun s -> s.BandRepertoire.Unfinished
   |> Map.find band.Id
 
 /// Retrieves the last unfinished song from the state.

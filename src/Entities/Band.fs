@@ -41,3 +41,10 @@ module Role =
 module Member =
   /// Creates a member from a character and a role from today onwards.
   let from character role today : Member = (character, role, (today, Ongoing))
+  
+module Repertoire =
+  /// Creates an empty band repertoire.
+  let empty = {
+    Unfinished = Map.empty
+    Finished = Map.empty
+  }

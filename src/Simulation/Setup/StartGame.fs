@@ -9,6 +9,6 @@ let startGame character band =
   { Character = character
     CharacterSkills = Map.empty
     Bands = [ band ]
-    UnfinishedSongs = Map.empty
+    BandRepertoire = Band.Repertoire.empty
     Today = Calendar.fromDayMonth 1 1 }
   |> setState

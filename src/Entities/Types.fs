@@ -168,8 +168,17 @@ module Types =
   /// Defines the relation between a skill and its level.
   type SkillWithLevel = Skill * int
 
+  /// Collection of skills by character.
   type CharacterSkills = Map<CharacterId, Map<SkillId, SkillWithLevel>>
-  type UnfinishedSongs = Map<BandId, Map<SongId, UnfinishedSongWithQualities>>
+
+  /// Collection of songs (either finished or unfinished) by a band.
+  type SongsByBand<'song> = Map<BandId, Map<SongId, 'song>>
+
+  /// Represents the repertoire of a band with its unfinished and finished songs.
+  /// Only finished songs can be recorded and played live.
+  type BandRepertoire =
+    { Unfinished: SongsByBand<UnfinishedSongWithQualities>
+      Finished: SongsByBand<FinishedSongWithQuality> }
 
   /// Shared state of the game. Contains all state that is common to every part
   /// of the game.
@@ -177,5 +186,5 @@ module Types =
     { Bands: Band list
       Character: Character
       CharacterSkills: CharacterSkills
-      UnfinishedSongs: UnfinishedSongs
+      BandRepertoire: BandRepertoire
       Today: Date }

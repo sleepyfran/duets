@@ -54,4 +54,6 @@ let addUnfinishedSong songWithQualities (band: Band) =
        modifyState
          (fun state ->
            { state with
-               UnfinishedSongs = updatedSongs })
+               BandRepertoire =
+                 { state.BandRepertoire with
+                     Unfinished = updatedSongs } })

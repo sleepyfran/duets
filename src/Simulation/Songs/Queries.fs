@@ -5,7 +5,7 @@ open Storage.State
 
 /// Returns all unfinished songs by all bands from the character.
 let unfinishedSongs () =
-  getState () |> fun state -> state.UnfinishedSongs
+  getState () |> fun state -> state.BandRepertoire.Unfinished
 
 /// Returns all unfinished songs by the given band. If no unfinished songs
 /// could be found, returns an empty map.
