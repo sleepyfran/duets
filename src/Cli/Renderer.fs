@@ -1,11 +1,18 @@
-module Renderer
+module Cli.View.Renderer
 
 open Cli.View.Actions
 open Spectre.Console
 open Text
 
 /// Writes a message into the buffer.
-let renderMessage message = AnsiConsole.MarkupLine(toString message)
+let renderMessage message =
+  AnsiConsole.MarkupLine(toString message)
+
+/// Renders a figlet (see: http://www.figlet.org).
+let renderFiglet text =
+  let figlet = FigletText(toString text).Centered()
+  figlet.Color <- Color.Blue
+  AnsiConsole.Render(figlet)
 
 /// Renders the specified prompt and asks the user for a response depending
 /// on the specified type of prompt. Returns a string which either represents
@@ -17,9 +24,7 @@ let renderPrompt prompt =
       let mutable selectionPrompt = SelectionPrompt<Choice>()
       selectionPrompt.Title <- toString prompt.Title
       selectionPrompt <- selectionPrompt.AddChoices(choices)
-
       selectionPrompt <- selectionPrompt.UseConverter(fun c -> toString c.Text)
-
       AnsiConsole.Prompt(selectionPrompt).Id
   | ConfirmationPrompt _ ->
       AnsiConsole.Confirm(toString prompt.Title)
@@ -31,3 +36,9 @@ let renderPrompt prompt =
 
 /// Clears the terminal console.
 let clear () = System.Console.Clear()
+
+/// Writes an empty line to the console.
+let separator () =
+  let rule = Rule().Centered()
+  rule.Style <- Style.Parse("blue dim")
+  AnsiConsole.Render(rule)

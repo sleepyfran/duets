@@ -14,6 +14,8 @@ let rehearsalOptions =
 /// section.
 let rec rehearsalRoom () =
   seq {
+    yield Figlet <| TextConstant RehearsalRoomTitle
+
     yield
       Message
       <| TextConstant(CommonYouAreIn "the rehearsal room")

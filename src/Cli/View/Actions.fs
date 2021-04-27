@@ -24,6 +24,7 @@ type Text =
 /// to do so, without caring how it is processed.
 type Action =
   | Message of Text
+  | Figlet of Text
   | Prompt of Prompt
   | Scene of Scene
   | NoOp

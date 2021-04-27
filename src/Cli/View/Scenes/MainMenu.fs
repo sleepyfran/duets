@@ -15,7 +15,7 @@ let menuOptions =
 /// Creates the main menu of the game as a sequence of actions.
 let rec mainMenu () =
   seq {
-    yield Message <| TextConstant MainMenuTitle
+    yield Figlet <| TextConstant GameName
 
     yield
       Prompt

@@ -7,9 +7,9 @@ open Entities
 /// Game layer simply exports these as a type that gets evaluated in each UI.
 /// All types must have the screen they belong to (if any) prepended to its name.
 type TextConstant =
+  | GameName
   | CommonYouAreIn of place: string
   | CommonNoUnfinishedSongs
-  | MainMenuTitle
   | MainMenuPrompt
   | MainMenuNewGame
   | MainMenuLoadGame
@@ -33,11 +33,9 @@ type TextConstant =
   | CreatorErrorCharacterNameTooLong
   | CreatorErrorCharacterAgeTooYoung
   | CreatorErrorCharacterAgeTooOld
-  | CreatorErrorCharacterGenderInvalid
   | CreatorErrorBandNameTooShort
   | CreatorErrorBandNameTooLong
-  | CreatorErrorBandGenreInvalid
-  | CreatorErrorBandRoleInvalid
+  | RehearsalRoomTitle
   | RehearsalRoomCompose
   | RehearsalRoomManage
   | RehearsalRoomPrompt
@@ -51,7 +49,6 @@ type TextConstant =
   | ComposeSongErrorNameTooLong
   | ComposeSongErrorLengthTooShort
   | ComposeSongErrorLengthTooLong
-  | ComposeSongErrorVocalStyleInvalid
   | ImproveSong
   | ImproveSongSelection
   | ImproveSongCanBeFurtherImproved of quality: Quality
