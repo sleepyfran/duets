@@ -1,4 +1,4 @@
-module Simulation.Tests.ImproveSong
+module Simulation.Tests.Songs.ImproveSong
 
 open Test.Common
 open NUnit.Framework

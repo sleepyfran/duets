@@ -1,15 +1,16 @@
-module Cli.View.Scenes.RehearsalRoom.ImproveSong
+module Cli.View.Scenes.RehearsalRoom.FinishSong
 
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
-open Entities
+open Entities.Types
 open Simulation.Bands.Queries
-open Simulation.Songs.Composition.ImproveSong
+open Simulation.Songs.Composition.FinishSong
 
-let rec improveSongScene () =
+let rec finishSongScene () =
   seq {
     let currentBand = currentBand ()
+
     let songOptions = unfinishedSongsSelectorOf currentBand
 
     if songOptions.Length = 0 then
@@ -18,28 +19,24 @@ let rec improveSongScene () =
     else
       yield
         Prompt
-          { Title = TextConstant ImproveSongSelection
+          { Title = TextConstant FinishSongSelection
             Content =
               ChoicePrompt(songOptions, processSongSelection currentBand) }
   }
 
 and processSongSelection band selection =
   seq {
-    let songStatus =
+    let selectedSong =
       unfinishedSongFromSelection band selection
-      |> improveSong
 
-    match songStatus with
-    | CanBeImproved quality ->
-        yield
-          ImproveSongCanBeFurtherImproved quality
-          |> TextConstant
-          |> Message
-    | ReachedMaxQuality quality ->
-        yield
-          ImproveSongReachedMaxQuality quality
-          |> TextConstant
-          |> Message
+    let (UnfinishedSong song, _, quality) = selectedSong
+
+    selectedSong |> finishSong
+
+    yield
+      FinishSongFinished(song.Name, quality)
+      |> TextConstant
+      |> Message
 
     yield (Scene RehearsalRoom)
   }

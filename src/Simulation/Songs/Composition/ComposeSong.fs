@@ -16,4 +16,4 @@ let composeSong song =
   let songWithQualities =
     (UnfinishedSong song, maximumQuality, initialQuality)
 
-  addUnfinishedSong songWithQualities band
+  addUnfinishedSong band songWithQualities

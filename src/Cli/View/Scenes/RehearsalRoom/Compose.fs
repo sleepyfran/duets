@@ -4,6 +4,7 @@ open Cli.View.Actions
 open Cli.View.TextConstants
 open Cli.View.Scenes.RehearsalRoom.ComposeSong
 open Cli.View.Scenes.RehearsalRoom.ImproveSong
+open Cli.View.Scenes.RehearsalRoom.FinishSong
 
 let composeOptions =
   [ { Id = "compose_song"
@@ -30,7 +31,7 @@ and processSelection choice =
     match choice.Id with
     | "compose_song" -> yield! composeSongScene ()
     | "improve_song" -> yield! improveSongScene ()
-    | "finish_song" -> NoOp
+    | "finish_song" -> yield! finishSongScene ()
     | "discard_song" -> NoOp
     | "practice_song" -> NoOp
     | _ -> NoOp

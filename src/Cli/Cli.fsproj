@@ -8,11 +8,13 @@
   <ItemGroup>
     <Compile Include="View\TextConstants.fs" />
     <Compile Include="View\Actions.fs" />
+    <Compile Include="View\Common.fs" />
     <Compile Include="View\Scenes\BandCreator.fs" />
     <Compile Include="View\Scenes\CharacterCreator.fs" />
     <Compile Include="View\Scenes\MainMenu.fs" />
     <Compile Include="View\Scenes\RehearsalRoom\ComposeSong.fs" />
     <Compile Include="View\Scenes\RehearsalRoom\ImproveSong.fs" />
+    <Compile Include="View\Scenes\RehearsalRoom\FinishSong.fs" />
     <Compile Include="View\Scenes\RehearsalRoom\Compose.fs" />
     <Compile Include="View\Scenes\RehearsalRoom\RehearsalRoom.fs" />
     <Compile Include="Renderer\Text.fs" />

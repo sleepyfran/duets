@@ -12,7 +12,7 @@ let private doImprove song maxQuality quality =
 
   let songWithUpdatedQualities = (song, maxQuality, updatedQuality)
 
-  addUnfinishedSong songWithUpdatedQualities band
+  addUnfinishedSong band songWithUpdatedQualities
 
   if canBeFurtherImproved then
     CanBeImproved updatedQuality

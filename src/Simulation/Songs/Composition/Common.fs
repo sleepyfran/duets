@@ -1,6 +1,7 @@
 module Simulation.Songs.Composition.Common
 
 open Simulation.Skills.Queries
+open Simulation.Songs.Lenses
 open Simulation.Songs.Queries
 open Entities
 open Entities.Skill
@@ -44,18 +45,33 @@ let calculateQualityIncreaseOf (maximum: MaxQuality) =
   |> int
   |> fun increase -> increase * 1<quality>
 
+/// Saves the updated songs of the given band into the specified lens.
+let saveSongsToState (band: Band) lenses fullList updatedSongs =
+  updatedSongs
+  |> fun updatedSongs -> Map.add band.Id updatedSongs fullList
+  |> fun updatedSongs -> updatedSongs |> Lens.set lenses |> modifyState
+
 /// Adds or modifies a given unfinished song into the given band's repertoire.
-let addUnfinishedSong songWithQualities (band: Band) =
-  let (UnfinishedSong (song), _, _) = songWithQualities
+let addUnfinishedSong (band: Band) unfinishedSong =
+  let (UnfinishedSong (song), _, _) = unfinishedSong
 
   unfinishedSongsByBand band.Id
-  |> Map.add song.Id songWithQualities
-  |> fun updatedSongs -> Map.add band.Id updatedSongs (unfinishedSongs ())
-  |> fun updatedSongs ->
-       let unfinishedSongsLenses =
-         StateLenses.BandRepertoire
-         << BandRepertoireLenses.Unfinished
-       
-       updatedSongs
-       |> Lens.set unfinishedSongsLenses
-       |> modifyState
+  |> Map.add song.Id unfinishedSong
+  |> saveSongsToState band unfinishedSongsLenses (unfinishedSongs ())
+
+/// Removes an unfinished song and returns it back.
+let removeUnfinishedSong (band: Band) unfinishedSong =
+  let (UnfinishedSong (song), _, _) = unfinishedSong
+
+  unfinishedSongsByBand band.Id
+  |> Map.remove song.Id
+  |> saveSongsToState band unfinishedSongsLenses (unfinishedSongs ())
+  |> fun () -> unfinishedSong
+
+/// Adds or modifies a given unfinished song in the band's finished repertoire.
+let addFinishedSong (band: Band) unfinishedSong =
+  let (UnfinishedSong (song), _, quality) = unfinishedSong
+
+  finishedSongsByBand band.Id
+  |> Map.add song.Id (FinishedSong song, quality)
+  |> saveSongsToState band finishedSongsLenses (finishedSongs ())
