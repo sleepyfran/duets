@@ -109,4 +109,7 @@ and fromConstant constant =
         quality
       )
   | DiscardSong -> "Discard an unfinished song"
+  | DiscardSongSelection -> "[red]Which song do you want to discard?[/]"
+  | DiscardSongDiscarded name ->
+      String.Format("Your band decided to stop working on {0}", name)
   | PracticeSong -> "Practice a finished song"

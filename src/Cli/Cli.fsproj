@@ -15,6 +15,7 @@
     <Compile Include="View\Scenes\RehearsalRoom\ComposeSong.fs" />
     <Compile Include="View\Scenes\RehearsalRoom\ImproveSong.fs" />
     <Compile Include="View\Scenes\RehearsalRoom\FinishSong.fs" />
+    <Compile Include="View\Scenes\RehearsalRoom\DiscardSong.fs" />
     <Compile Include="View\Scenes\RehearsalRoom\Compose.fs" />
     <Compile Include="View\Scenes\RehearsalRoom\RehearsalRoom.fs" />
     <Compile Include="Renderer\Text.fs" />

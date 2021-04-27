@@ -60,4 +60,6 @@ type TextConstant =
   | FinishSongSelection
   | FinishSongFinished of name: string * quality: Quality
   | DiscardSong
+  | DiscardSongSelection
+  | DiscardSongDiscarded of name: string
   | PracticeSong

@@ -7,20 +7,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Setup\StartGame.fs"/>
-        <Compile Include="Bands\Queries.fs"/>
-        <Compile Include="Skills\Queries.fs"/>
-        <Compile Include="Songs\Lenses.fs"/>
-        <Compile Include="Songs\Queries.fs"/>
-        <Compile Include="Songs\Composition\Common.fs"/>
-        <Compile Include="Songs\Composition\ComposeSong.fs"/>
-        <Compile Include="Songs\Composition\ImproveSong.fs"/>
-        <Compile Include="Songs\Composition\FinishSong.fs"/>
+        <Compile Include="Setup\StartGame.fs" />
+        <Compile Include="Bands\Queries.fs" />
+        <Compile Include="Skills\Queries.fs" />
+        <Compile Include="Songs\Lenses.fs" />
+        <Compile Include="Songs\Queries.fs" />
+        <Compile Include="Songs\Composition\Common.fs" />
+        <Compile Include="Songs\Composition\ComposeSong.fs" />
+        <Compile Include="Songs\Composition\ImproveSong.fs" />
+        <Compile Include="Songs\Composition\FinishSong.fs" />
+        <Compile Include="Songs\Composition\DiscardSong.fs" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Lenses\Lenses.fsproj"/>
-        <ProjectReference Include="..\Storage\Storage.fsproj"/>
+        <ProjectReference Include="..\Lenses\Lenses.fsproj" />
+        <ProjectReference Include="..\Storage\Storage.fsproj" />
     </ItemGroup>
 
 </Project>
