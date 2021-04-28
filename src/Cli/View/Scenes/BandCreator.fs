@@ -12,18 +12,18 @@ let rec bandCreator (character: Character) =
     yield
       Prompt
         { Title = TextConstant BandCreatorInitialPrompt
-          Content = TextPrompt <| handleName character }
+          Content = TextPrompt <| genrePrompt character }
   }
 
-and handleName character name =
+and genrePrompt character name =
   seq {
     yield
       Prompt
         { Title = TextConstant BandCreatorGenrePrompt
-          Content = ChoicePrompt(genreOptions, handleGenre character name) }
+          Content = ChoicePrompt(genreOptions, instrumentPrompt character name) }
   }
 
-and handleGenre character name genre =
+and instrumentPrompt character name genre =
   let roleOptions =
     roles ()
     |> List.map
@@ -36,10 +36,10 @@ and handleGenre character name genre =
       Prompt
         { Title = TextConstant BandCreatorInstrumentPrompt
           Content =
-            ChoicePrompt(roleOptions, handleRole character name genre.Id) }
+            ChoicePrompt(roleOptions, confirmationPrompt character name genre.Id) }
   }
 
-and handleRole character name genre role =
+and confirmationPrompt character name genre role =
   seq {
     yield
       Prompt

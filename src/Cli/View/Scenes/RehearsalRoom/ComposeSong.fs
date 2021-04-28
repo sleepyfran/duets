@@ -13,26 +13,26 @@ let rec composeSongScene () =
     yield
       Prompt
         { Title = TextConstant ComposeSongTitlePrompt
-          Content = TextPrompt handleName }
+          Content = TextPrompt lengthPrompt }
   }
 
-and handleName name =
+and lengthPrompt name =
   seq {
     yield
       Prompt
         { Title = TextConstant ComposeSongLengthPrompt
-          Content = NumberPrompt(handleLength name) }
+          Content = NumberPrompt(genrePrompt name) }
   }
 
-and handleLength name length =
+and genrePrompt name length =
   seq {
     yield
       Prompt
         { Title = TextConstant ComposeSongGenrePrompt
-          Content = ChoicePrompt(genreOptions, handleGenre name length) }
+          Content = ChoicePrompt(genreOptions, vocalStylePrompt name length) }
   }
 
-and handleGenre name length selectedGenre =
+and vocalStylePrompt name length selectedGenre =
   let vocalStyleOptions =
     vocalStyleNames ()
     |> List.map
@@ -47,11 +47,11 @@ and handleGenre name length selectedGenre =
           Content =
             ChoicePrompt(
               vocalStyleOptions,
-              handleVocalStyle name (length * 1<second>) selectedGenre.Id
+              handleSong name (length * 1<second>) selectedGenre.Id
             ) }
   }
 
-and handleVocalStyle name length genre selectedVocalStyle =
+and handleSong name length genre selectedVocalStyle =
   let vocalStyle =
     Song.VocalStyle.from selectedVocalStyle.Id
 

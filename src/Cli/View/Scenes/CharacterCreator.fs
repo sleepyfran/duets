@@ -17,26 +17,26 @@ let rec characterCreator () =
     yield
       Prompt
         { Title = TextConstant CharacterCreatorInitialPrompt
-          Content = TextPrompt handleName }
+          Content = TextPrompt genderPrompt }
   }
 
-and handleName name =
+and genderPrompt name =
   seq {
     yield
       Prompt
         { Title = TextConstant CharacterCreatorGenderPrompt
-          Content = ChoicePrompt(genderOptions, handleGender name) }
+          Content = ChoicePrompt(genderOptions, agePrompt name) }
   }
 
-and handleGender name choice =
+and agePrompt name choice =
   seq {
     yield
       Prompt
         { Title = TextConstant CharacterCreatorAgePrompt
-          Content = NumberPrompt <| handleAge name choice.Id }
+          Content = NumberPrompt <| handleCharacter name choice.Id }
   }
 
-and handleAge name genderChoiceId age =
+and handleCharacter name genderChoiceId age =
   let gender = Character.Gender.from genderChoiceId
 
   seq {
@@ -64,7 +64,7 @@ and handleAge name genderChoiceId age =
             Message
             <| TextConstant CreatorErrorCharacterAgeTooYoung
 
-            yield! handleName name
+            yield! genderPrompt name
           }
     | Error Character.AgeTooOld ->
         yield!
@@ -72,6 +72,6 @@ and handleAge name genderChoiceId age =
             Message
             <| TextConstant CreatorErrorCharacterAgeTooOld
 
-            yield! handleName name
+            yield! genderPrompt name
           }
   }
