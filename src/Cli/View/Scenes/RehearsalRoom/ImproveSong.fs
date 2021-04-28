@@ -30,17 +30,17 @@ and processSongSelection band selection =
       unfinishedSongFromSelection band selection
       |> improveSong
 
-    yield
-      ProgressBar
-        { StepNames =
-            [ TextConstant ImproveSongProgressAddingSomeMelodies
-              TextConstant ImproveSongProgressPlayingFoosball
-              TextConstant ImproveSongProgressModifyingChordsFromAnotherSong ]
-          StepDuration = 2<second>
-          Async = true }
-
     match songStatus with
     | CanBeImproved quality ->
+        yield
+          ProgressBar
+            { StepNames =
+                [ TextConstant ImproveSongProgressAddingSomeMelodies
+                  TextConstant ImproveSongProgressPlayingFoosball
+                  TextConstant ImproveSongProgressModifyingChordsFromAnotherSong ]
+              StepDuration = 2<second>
+              Async = true }
+
         yield
           ImproveSongCanBeFurtherImproved quality
           |> TextConstant
