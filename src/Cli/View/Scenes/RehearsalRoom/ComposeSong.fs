@@ -48,17 +48,7 @@ and handleVocalStyle name length selectedVocalStyle =
 
   seq {
     match Song.from name length vocalStyle with
-    | Ok song ->
-        composeSong song
-
-        yield!
-          seq {
-            yield
-              Message
-              <| TextConstant(ComposeSongConfirmation name)
-
-            yield Scene RehearsalRoom
-          }
+    | Ok song -> yield! composeWithProgressbar song
     | Error Song.NameTooShort ->
         yield!
           handleError
@@ -75,6 +65,26 @@ and handleVocalStyle name length selectedVocalStyle =
         yield!
           handleError
           <| TextConstant ComposeSongErrorLengthTooLong
+  }
+
+and composeWithProgressbar song =
+  seq {
+    composeSong song
+
+    yield
+      ProgressBar
+        { StepNames =
+            [ TextConstant ComposeSongProgressBrainstorming
+              TextConstant ComposeSongProgressConfiguringReverb
+              TextConstant ComposeSongProgressTryingChords ]
+          StepDuration = 2<second>
+          Async = true }
+
+    yield
+      Message
+      <| TextConstant(ComposeSongConfirmation song.Name)
+
+    yield Scene RehearsalRoom
   }
 
 and handleError message =

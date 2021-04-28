@@ -74,6 +74,9 @@ and fromConstant constant =
       "[red]Songs can't be less than 20 seconds long[/]"
   | ComposeSongErrorLengthTooLong ->
       "[red]Songs can't be more than 30 minutes long[/]"
+  | ComposeSongProgressBrainstorming -> "[deepskyblue3]Brainstorming...[/]"
+  | ComposeSongProgressConfiguringReverb -> "[deepskyblue3_1]Configuring reverb...[/]"
+  | ComposeSongProgressTryingChords -> "[dodgerblue1]Trying out some chords...[/]"
   | ImproveSong -> "Improve an unfinished song"
   | ImproveSongSelection -> "Which song do you want to improve?"
   | ImproveSongCanBeFurtherImproved quality ->
@@ -86,6 +89,9 @@ and fromConstant constant =
         "[springgreen4]Your band has decided that the song does not need any further improvements. It has a quality of {0}%[/]. [blue]You can add it to the band's repertoire from the 'Finish an unfinished song' option[/]",
         quality
       )
+  | ImproveSongProgressAddingSomeMelodies -> "[springgreen3_1]Adding some melodies...[/]"
+  | ImproveSongProgressPlayingFoosball -> "[springgreen2_1]Playing foosball...[/]"
+  | ImproveSongProgressModifyingChordsFromAnotherSong -> "[springgreen1][strikethrough]Copying[/] Modifying chords from another song[/]"
   | FinishSong -> "Finish an unfinished song"
   | FinishSongSelection ->
       "Which song do you want to finish? [red]You won't be able to improve the song after this[/]"

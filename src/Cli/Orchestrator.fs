@@ -40,6 +40,8 @@ let rec runWith chain =
          | Figlet text ->
              renderFiglet text
              ()
+         | ProgressBar content ->
+             renderProgressBar content
          | Scene scene ->
              separator ()
              runWith (actionsFrom scene)

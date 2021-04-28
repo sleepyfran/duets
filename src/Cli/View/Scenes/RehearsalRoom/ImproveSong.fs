@@ -3,6 +3,7 @@ module Cli.View.Scenes.RehearsalRoom.ImproveSong
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
+open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
 open Simulation.Bands.Queries
 open Simulation.Songs.Composition.ImproveSong
@@ -28,6 +29,15 @@ and processSongSelection band selection =
     let songStatus =
       unfinishedSongFromSelection band selection
       |> improveSong
+
+    yield
+      ProgressBar
+        { StepNames =
+            [ TextConstant ImproveSongProgressAddingSomeMelodies
+              TextConstant ImproveSongProgressPlayingFoosball
+              TextConstant ImproveSongProgressModifyingChordsFromAnotherSong ]
+          StepDuration = 2<second>
+          Async = true }
 
     match songStatus with
     | CanBeImproved quality ->

@@ -1,6 +1,7 @@
 module Cli.View.Renderer
 
 open Cli.View.Actions
+open FSharp.Data.UnitSystems.SI.UnitNames
 open Spectre.Console
 open Text
 
@@ -33,6 +34,52 @@ let renderPrompt prompt =
       AnsiConsole.Ask<int>(toString prompt.Title)
       |> string
   | TextPrompt _ -> AnsiConsole.Ask<string>(toString prompt.Title)
+
+let private sleepForProgressBar content =
+  async { do! Async.Sleep(content.StepDuration * 1000 / 4 |> int) }
+  |> Async.RunSynchronously
+
+let private renderProgressBarSync content =
+  AnsiConsole
+    .Progress()
+    .Start(fun ctx ->
+      content.StepNames
+      |> List.iter
+           (fun stepName ->
+             let task = ctx.AddTask(toString stepName)
+
+             for i in 0 .. 4 do
+               task.Increment 25.0
+               sleepForProgressBar content))
+
+let private renderProgressBarAsync content =
+  AnsiConsole
+    .Progress()
+    .Start(fun ctx ->
+      let tasks =
+        content.StepNames
+        |> List.map (fun name -> ctx.AddTask(toString name))
+        |> ResizeArray
+
+      let random = System.Random()
+
+      for i in 0 .. 4 * tasks.Count - 1 do
+        let randomIndex = random.Next(0, tasks.Count)
+        let taskToIncrement = tasks.[randomIndex]
+
+        taskToIncrement.Increment 25.0
+
+        if taskToIncrement.IsFinished then
+          tasks.RemoveAt(randomIndex)
+
+        sleepForProgressBar content)
+
+/// Renders a progressbar using Spectre's progress.
+let renderProgressBar content =
+  if content.Async then
+    renderProgressBarAsync content
+  else
+    renderProgressBarSync content
 
 /// Clears the terminal console.
 let clear () = System.Console.Clear()

@@ -1,6 +1,7 @@
 module Cli.View.Actions
 
 open Cli.View.TextConstants
+open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
 
 /// Defines the index of all scenes available in the game that can be instantiated.
@@ -26,6 +27,7 @@ type Action =
   | Message of Text
   | Figlet of Text
   | Prompt of Prompt
+  | ProgressBar of ProgressBarContent
   | Scene of Scene
   | NoOp
 
@@ -50,6 +52,16 @@ and PromptHandler<'a> = 'a -> ActionChain
 and ChoicePrompt = Choice list
 
 and Choice = { Id: string; Text: Text }
+
+/// Defines the content of a progress bar by giving the number of steps and
+/// the duration of each step. If Async is set to true the steps will be shown
+/// randomly at the same time advancing at the same pace with a different
+/// beat.
+and ProgressBarContent = {
+  StepNames: Text list
+  StepDuration: int<second>
+  Async: bool
+}
 
 /// Returns a possible choice from a set of choices given its ID.
 let choiceById id = List.find (fun c -> c.Id = id)

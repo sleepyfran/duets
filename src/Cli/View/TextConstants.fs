@@ -49,10 +49,16 @@ type TextConstant =
   | ComposeSongErrorNameTooLong
   | ComposeSongErrorLengthTooShort
   | ComposeSongErrorLengthTooLong
+  | ComposeSongProgressBrainstorming
+  | ComposeSongProgressTryingChords
+  | ComposeSongProgressConfiguringReverb
   | ImproveSong
   | ImproveSongSelection
   | ImproveSongCanBeFurtherImproved of quality: Quality
   | ImproveSongReachedMaxQuality of quality: Quality
+  | ImproveSongProgressAddingSomeMelodies
+  | ImproveSongProgressPlayingFoosball
+  | ImproveSongProgressModifyingChordsFromAnotherSong
   | FinishSong
   | FinishSongSelection
   | FinishSongFinished of name: string * quality: Quality
