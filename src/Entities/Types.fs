@@ -103,8 +103,8 @@ module Types =
     { Id: SongId
       Name: string
       Length: int<second>
-      VocalStyle: VocalStyle }
-
+      VocalStyle: VocalStyle
+      Genre: Genre }
 
   /// Defines a song that is still being developed by the band.
   type UnfinishedSong = UnfinishedSong of Song

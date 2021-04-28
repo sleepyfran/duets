@@ -1,6 +1,7 @@
 module Cli.View.Scenes.BandCreator
 
 open Cli.View.Actions
+open Cli.View.Common
 open Cli.View.TextConstants
 open Simulation.Setup
 open Entities
@@ -15,10 +16,6 @@ let rec bandCreator (character: Character) =
   }
 
 and handleName character name =
-  let genreOptions =
-    genres ()
-    |> List.map (fun genre -> { Id = genre; Text = Literal genre })
-
   seq {
     yield
       Prompt

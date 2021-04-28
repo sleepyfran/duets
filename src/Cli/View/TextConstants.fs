@@ -43,6 +43,7 @@ type TextConstant =
   | ComposeSong
   | ComposeSongTitlePrompt
   | ComposeSongLengthPrompt
+  | ComposeSongGenrePrompt
   | ComposeSongVocalStylePrompt
   | ComposeSongConfirmation of title: string
   | ComposeSongErrorNameTooShort

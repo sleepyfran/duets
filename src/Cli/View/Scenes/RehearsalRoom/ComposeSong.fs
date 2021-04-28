@@ -1,6 +1,7 @@
 module Cli.View.Scenes.RehearsalRoom.ComposeSong
 
 open Cli.View.Actions
+open Cli.View.Common
 open Cli.View.TextConstants
 open Entities
 open FSharp.Data.UnitSystems.SI.UnitNames
@@ -24,6 +25,14 @@ and handleName name =
   }
 
 and handleLength name length =
+  seq {
+    yield
+      Prompt
+        { Title = TextConstant ComposeSongGenrePrompt
+          Content = ChoicePrompt(genreOptions, handleGenre name length) }
+  }
+
+and handleGenre name length selectedGenre =
   let vocalStyleOptions =
     vocalStyleNames ()
     |> List.map
@@ -38,16 +47,16 @@ and handleLength name length =
           Content =
             ChoicePrompt(
               vocalStyleOptions,
-              handleVocalStyle name (length * 1<second>)
+              handleVocalStyle name (length * 1<second>) selectedGenre.Id
             ) }
   }
 
-and handleVocalStyle name length selectedVocalStyle =
+and handleVocalStyle name length genre selectedVocalStyle =
   let vocalStyle =
     Song.VocalStyle.from selectedVocalStyle.Id
 
   seq {
-    match Song.from name length vocalStyle with
+    match Song.from name length vocalStyle genre with
     | Ok song -> yield! composeWithProgressbar song
     | Error Song.NameTooShort ->
         yield!

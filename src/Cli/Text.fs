@@ -62,6 +62,7 @@ and fromConstant constant =
   | ComposeSongTitlePrompt ->
       "Creating a new song, how are you going to [bold blue]name[/] it?"
   | ComposeSongLengthPrompt -> "How [bold blue]long[/] is it going to be? (in seconds)"
+  | ComposeSongGenrePrompt -> "What [bold blue]genre[/] will the song have? [bold]Keep in mind that selecting a different genre that the main one of your band might reduce quality[/]"
   | ComposeSongVocalStylePrompt -> "What [bold blue]vocal style[/] should it have?"
   | ComposeSongConfirmation (title) ->
       String.Format(

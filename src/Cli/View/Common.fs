@@ -3,6 +3,7 @@ module Cli.View.Common
 open Cli.View.Actions
 open Entities
 open Simulation.Songs.Queries
+open Storage.Database
 
 /// Creates a list of choices from a map of unfinished songs.
 let unfinishedSongsSelectorOf (band: Band) =
@@ -22,3 +23,8 @@ let unfinishedSongFromSelection (band: Band) (selection: Choice) =
   |> SongId
   |> unfinishedSongByBandAndSongId band.Id
   |> Option.get
+
+/// Creates a list of choices from all available genres.
+let genreOptions =
+  genres ()
+  |> List.map (fun genre -> { Id = genre; Text = Literal genre })

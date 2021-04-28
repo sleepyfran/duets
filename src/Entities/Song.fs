@@ -12,7 +12,7 @@ let private TwentySeconds = 20<second>
 let private ThirtyMinutes = 60<second> * 30
 
 /// Creates a song given a name, length and vocal style, if possible.
-let from (name: string) (length: int<second>) vocalStyle =
+let from (name: string) (length: int<second>) vocalStyle genre =
   if name.Length < 1 then
     Error NameTooShort
   else if name.Length > 100 then
@@ -26,14 +26,16 @@ let from (name: string) (length: int<second>) vocalStyle =
       { Id = SongId <| Identity.create ()
         Name = name
         Length = length
-        VocalStyle = vocalStyle }
+        VocalStyle = vocalStyle
+        Genre = genre }
 
 /// Creates an empty song with all its fields set to a default value.
 let empty =
   { Id = SongId <| Identity.create ()
     Name = ""
     Length = 0<second>
-    VocalStyle = VocalStyle.Instrumental }
+    VocalStyle = VocalStyle.Instrumental
+    Genre = "" }
 
 module VocalStyle =
   /// Returns a VocalStyle given its string representation. If no match is found,
