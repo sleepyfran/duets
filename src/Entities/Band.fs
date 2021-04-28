@@ -9,7 +9,7 @@ type BandValidationError =
 let from name genre members =
   if String.length name < 1 then
     Error NameTooShort
-  else if String.length name > 35 then
+  else if String.length name > 100 then
     Error NameTooLong
   else if List.length members < 1 then
     Error NoMembersGiven

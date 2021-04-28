@@ -15,7 +15,7 @@ let private ThirtyMinutes = 60<second> * 30
 let from (name: string) (length: int<second>) vocalStyle =
   if name.Length < 1 then
     Error NameTooShort
-  else if name.Length > 50 then
+  else if name.Length > 100 then
     Error NameTooLong
   else if length < TwentySeconds then
     Error LengthTooShort
