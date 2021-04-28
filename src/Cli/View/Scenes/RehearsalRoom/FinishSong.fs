@@ -13,15 +13,10 @@ let rec finishSongScene () =
 
     let songOptions = unfinishedSongsSelectorOf currentBand
 
-    if songOptions.Length = 0 then
-      yield Message <| TextConstant CommonNoUnfinishedSongs
-      yield (Scene RehearsalRoom)
-    else
-      yield
-        Prompt
-          { Title = TextConstant FinishSongSelection
-            Content =
-              ChoicePrompt(songOptions, processSongSelection currentBand) }
+    yield
+      Prompt
+        { Title = TextConstant FinishSongSelection
+          Content = ChoicePrompt(songOptions, processSongSelection currentBand) }
   }
 
 and processSongSelection band selection =
