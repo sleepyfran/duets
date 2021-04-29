@@ -3,10 +3,11 @@ module Cli.View.Actions
 open Cli.View.TextConstants
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
+open Storage.Savegame
 
 /// Defines the index of all scenes available in the game that can be instantiated.
 type Scene =
-  | MainMenu
+  | MainMenu of SavegameState
   | CharacterCreator
   // Band creator needs a character the character that was created in the
   // previous step.
@@ -57,11 +58,10 @@ and Choice = { Id: string; Text: Text }
 /// the duration of each step. If Async is set to true the steps will be shown
 /// randomly at the same time advancing at the same pace with a different
 /// beat.
-and ProgressBarContent = {
-  StepNames: Text list
-  StepDuration: int<second>
-  Async: bool
-}
+and ProgressBarContent =
+  { StepNames: Text list
+    StepDuration: int<second>
+    Async: bool }
 
 /// Returns a possible choice from a set of choices given its ID.
 let choiceById id = List.find (fun c -> c.Id = id)
