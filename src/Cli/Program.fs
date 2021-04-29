@@ -1,16 +1,13 @@
 open Cli.View.Actions
 open Cli.View.Renderer
-open Storage.Savegame
+open Storage
 
 [<EntryPoint>]
 let main _ =
   clear ()
 
-  savegameState ()
-  |> fun savegameState ->
-       match savegameState with
-       | Available -> Scene MainMenu
-       | NotAvailable -> Scene MainMenu
+  Savegame.load ()
+  |> fun savegameState -> MainMenu savegameState |> Scene
   |> fun action -> seq { action } |> Orchestrator.runWith
 
   0

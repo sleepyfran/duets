@@ -2,20 +2,26 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Savegame</RootNamespace>
+    <RootNamespace>Storage</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="Data\Queries\Genres.fs" />
     <Compile Include="Data\Queries\Roles.fs" />
     <Compile Include="Data\Queries\VocalStyles.fs" />
+    <Compile Include="Serializer.fs" />
+    <Compile Include="Files.fs" />
+    <Compile Include="State.fs" />
     <Compile Include="Savegame.fs" />
     <Compile Include="Database.fs" />
-    <Compile Include="State.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FSharp.SystemTextJson" Version="0.16.6" />
   </ItemGroup>
 
 </Project>

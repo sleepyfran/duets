@@ -7,14 +7,25 @@ open Cli.View.Scenes.CharacterCreator
 open Cli.View.Scenes.MainMenu
 open Cli.View.Scenes.RehearsalRoom.Root
 open Cli.View.Renderer
+open Storage
 
 /// Returns the sequence of actions associated with a screen given its name.
 let actionsFrom scene =
   match scene with
-  | MainMenu -> mainMenu ()
+  | MainMenu savegameState -> mainMenu savegameState
   | CharacterCreator -> characterCreator ()
   | BandCreator character -> bandCreator character
   | RehearsalRoom -> rehearsalRoom ()
+
+/// Saves the game to the savegame file only if the screen is not the main menu,
+/// character creator or band creator, which still have unreliable data or
+/// might not have data at all.
+let saveIfNeeded scene =
+  match scene with
+  | MainMenu _ -> ()
+  | CharacterCreator _ -> ()
+  | BandCreator _ -> ()
+  | _ -> Savegame.save ()
 
 /// Given a renderer, a state and a chain of actions, recursively renders all
 /// the actions in the chain and applies any effects that come with them.
@@ -40,9 +51,9 @@ let rec runWith chain =
          | Figlet text ->
              renderFiglet text
              ()
-         | ProgressBar content ->
-             renderProgressBar content
+         | ProgressBar content -> renderProgressBar content
          | Scene scene ->
+             saveIfNeeded scene
              separator ()
              runWith (actionsFrom scene)
          | NoOp -> ())
