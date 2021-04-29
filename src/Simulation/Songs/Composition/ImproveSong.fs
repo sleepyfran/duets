@@ -8,7 +8,7 @@ let private doImprove song maxQuality quality =
   let band = currentBand ()
   let increase = calculateQualityIncreaseOf maxQuality
   let updatedQuality = quality + increase
-  let canBeFurtherImproved = maxQuality >= updatedQuality
+  let canBeFurtherImproved = maxQuality > updatedQuality
 
   let songWithUpdatedQualities = (song, maxQuality, updatedQuality)
 
@@ -17,13 +17,13 @@ let private doImprove song maxQuality quality =
   if canBeFurtherImproved then
     CanBeImproved updatedQuality
   else
-    ReachedMaxQuality updatedQuality
+    ReachedMaxQualityInLastImprovement updatedQuality
 
 /// Orchestrates the improvement of a song, which calculates the increase that
 /// should happen in this action and returns whether the song can be further
 /// increased or not.
 let improveSong (song, maxQuality, currentQuality) =
   if currentQuality >= maxQuality then
-    ReachedMaxQuality currentQuality
+    ReachedMaxQualityAlready currentQuality
   else
     doImprove song maxQuality currentQuality

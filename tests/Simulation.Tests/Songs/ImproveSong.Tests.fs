@@ -24,9 +24,21 @@ let ShouldImproveIfPossibleAndReturnCanBeImproved () =
   |> should be (ofCase <@ CanBeImproved 14<quality> @>)
 
 [<Test>]
-let ShouldImproveForALastTimeIfPossibleAndReturnReachedMaxQuality () =
+let ShouldImproveForALastTimeIfPossibleAndReturnReachedMaxQualityInLastImprovement
+  ()
+  =
+  improveLastUnfinishedSongTimes 3
+
+  lastUnfinishedSong ()
+  |> improveSong
+  |> should be (ofCase <@ ReachedMaxQualityInLastImprovement 35<quality> @>)
+
+[<Test>]
+let ShouldNotAllowImprovementIfReachedMaxQualityAndReturnReachMaxQualityAlready
+  ()
+  =
   improveLastUnfinishedSongTimes 4
 
   lastUnfinishedSong ()
   |> improveSong
-  |> should be (ofCase <@ ReachedMaxQuality 33<quality> @>)
+  |> should be (ofCase <@ ReachedMaxQualityAlready 35<quality> @>)

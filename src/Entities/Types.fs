@@ -124,7 +124,8 @@ module Types =
   /// hold the current value.
   type SongStatus =
     | CanBeImproved of Quality
-    | ReachedMaxQuality of Quality
+    | ReachedMaxQualityInLastImprovement of Quality
+    | ReachedMaxQualityAlready of Quality
 
   /// Shapes a relation between an unfinished song, its max quality and the
   /// current quality.

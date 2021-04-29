@@ -51,7 +51,7 @@ let lastUnfinishedSong () =
 
 /// Improves the last unfinished song a given number of times.
 let improveLastUnfinishedSongTimes times =
-  for _ in 0 .. times do
+  for _ in 1 .. times do
     lastUnfinishedSong () |> improveSong |> ignore
 
 /// Adds a given skill to the given character.

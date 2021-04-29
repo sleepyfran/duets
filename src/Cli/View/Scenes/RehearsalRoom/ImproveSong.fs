@@ -27,24 +27,30 @@ and processSongSelection band selection =
 
     match songStatus with
     | CanBeImproved quality ->
-        yield
-          ProgressBar
-            { StepNames =
-                [ TextConstant ImproveSongProgressAddingSomeMelodies
-                  TextConstant ImproveSongProgressPlayingFoosball
-                  TextConstant ImproveSongProgressModifyingChordsFromAnotherSong ]
-              StepDuration = 2<second>
-              Async = true }
+        yield showImprovingProgress ()
 
         yield
           ImproveSongCanBeFurtherImproved quality
           |> TextConstant
           |> Message
-    | ReachedMaxQuality quality ->
-        yield
-          ImproveSongReachedMaxQuality quality
-          |> TextConstant
-          |> Message
+    | ReachedMaxQualityInLastImprovement quality ->
+        yield showImprovingProgress ()
+        yield bandFinishedSong quality
+    | ReachedMaxQualityAlready quality -> yield bandFinishedSong quality
 
     yield (Scene RehearsalRoom)
   }
+
+and showImprovingProgress () =
+  ProgressBar
+    { StepNames =
+        [ TextConstant ImproveSongProgressAddingSomeMelodies
+          TextConstant ImproveSongProgressPlayingFoosball
+          TextConstant ImproveSongProgressModifyingChordsFromAnotherSong ]
+      StepDuration = 2<second>
+      Async = true }
+
+and bandFinishedSong quality =
+  ImproveSongReachedMaxQuality quality
+  |> TextConstant
+  |> Message
