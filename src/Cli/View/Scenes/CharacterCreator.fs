@@ -5,11 +5,11 @@ open Cli.View.TextConstants
 open Entities
 
 let genderOptions =
-  [ { Id = "male"
+  [ { Id = "Male"
       Text = TextConstant CharacterCreatorGenderMale }
-    { Id = "female"
+    { Id = "Female"
       Text = TextConstant CharacterCreatorGenderFemale }
-    { Id = "other"
+    { Id = "Other"
       Text = TextConstant CharacterCreatorGenderOther } ]
 
 let rec characterCreator () =
