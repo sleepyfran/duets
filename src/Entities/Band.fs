@@ -18,7 +18,8 @@ let from name genre members =
       { Id = BandId <| Identity.create ()
         Name = name
         Genre = genre
-        Members = members }
+        Members = members
+        PastMembers = [] }
 
 /// Returns default values for a band to serve as a placeholder to build a band
 /// upon. Generates a valid ID.
@@ -26,25 +27,22 @@ let empty =
   { Id = BandId <| Identity.create ()
     Name = ""
     Genre = ""
-    Members = [] }
-
-module Role =
-  /// Returns a role given its string representation. Defaults to singer if
-  /// given an invalid value.
-  let from str =
-    match str with
-    | "Guitarist" -> Guitarist
-    | "Bassist" -> Bassist
-    | "Drummer" -> Drummer
-    | _ -> Singer
+    Members = []
+    PastMembers = [] }
 
 module Member =
   /// Creates a member from a character and a role from today onwards.
-  let from character role today : Member = (character, role, (today, Ongoing))
-  
+  let from character role today =
+    { Character = character
+      Role = role
+      Since = today }
+
+  /// Creates a current member of the band given a member available for hiring.
+  let fromMemberForHire (memberForHire: MemberForHire) =
+    from memberForHire.Character memberForHire.Role
+
 module Repertoire =
   /// Creates an empty band repertoire.
-  let empty = {
-    Unfinished = Map.empty
-    Finished = Map.empty
-  }
+  let empty =
+    { Unfinished = Map.empty
+      Finished = Map.empty }

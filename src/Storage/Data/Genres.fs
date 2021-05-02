@@ -1,4 +1,4 @@
-module Data.Queries.Genres
+module Data.Genres
 
 open Entities
 

@@ -6,9 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Data\Queries\Genres.fs" />
-    <Compile Include="Data\Queries\Roles.fs" />
-    <Compile Include="Data\Queries\VocalStyles.fs" />
+    <Compile Include="Data\Genres.fs" />
+    <Compile Include="Data\Roles.fs" />
+    <Compile Include="Data\VocalStyles.fs" />
+    <Compile Include="Data\Npcs.fs" />
     <Compile Include="Serializer.fs" />
     <Compile Include="Files.fs" />
     <Compile Include="State.fs" />
@@ -17,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.fsproj" />
     <ProjectReference Include="..\Entities\Entities.fsproj" />
   </ItemGroup>
 

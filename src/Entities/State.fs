@@ -4,8 +4,9 @@ open Entities
 
 /// Creates an empty state with all the fields set to its empty representation.
 let empty =
-  { Bands = List.empty
+  { Bands = Map.empty
     Character = Character.empty
     CharacterSkills = Map.empty
+    CurrentBandId = Identity.create () |> BandId
     BandRepertoire = Band.Repertoire.empty
     Today = Calendar.fromDayMonth 1 1 }

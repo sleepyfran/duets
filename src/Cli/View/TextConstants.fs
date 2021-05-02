@@ -2,6 +2,12 @@ module Cli.View.TextConstants
 
 open Entities
 
+/// Defines all verbs that we're using in the game that might have variations
+/// depending on the gender or number. For example: for the verb have and a
+/// character who's male it'd be he has, but if the character has the other
+/// gender then it should be they have.
+type VariableVerbs = | Have
+
 /// Defines all the text constants available in the application. Since this
 /// might change between each UI layer (might need custom styling, etc.) the
 /// Game layer simply exports these as a type that gets evaluated in each UI.
@@ -10,6 +16,7 @@ type TextConstant =
   | GameName
   | CommonYouAreIn of place: string
   | CommonNoUnfinishedSongs
+  | CommonSkills
   | MainMenuPrompt
   | MainMenuNewGame
   | MainMenuLoadGame
@@ -67,3 +74,12 @@ type TextConstant =
   | DiscardSongSelection
   | DiscardSongDiscarded of name: string
   | PracticeSong
+  | ManagementTitle
+  | ManagementPrompt
+  | ManagementHireMember
+  | ManagementFireMember
+  | HireMemberRolePrompt
+  | HireMemberSkillSummary of name: string * gender: Gender
+  | HireMemberSkillLine of id: SkillId * level: int
+  | HireMemberConfirmation of gender: Gender
+  | HireMemberHired

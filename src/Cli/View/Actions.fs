@@ -13,6 +13,7 @@ type Scene =
   // previous step.
   | BandCreator of Character
   | RehearsalRoom
+  | Management
 
 /// Encapsulates text that can either be defined by a text constant, which is
 /// resolved by the UI layer, or a string constant that is just passed from this

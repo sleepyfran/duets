@@ -9,16 +9,17 @@ open Lenses
 open Storage.State
 
 /// Computes the score associated with each member of the band for the song.
-let qualityForMember genre ((character: Character), role, _) =
+let qualityForMember genre (currentMember: CurrentMember) =
   let genreSkill = create <| Genre(genre)
 
   let influencingSkills =
     [ Composition
-      (skillIdForRole role)
+      (Instrument
+       <| Instrument.createInstrument currentMember.Role)
       genreSkill.Id ]
 
   influencingSkills
-  |> List.map (characterSkillWithLevel character.Id)
+  |> List.map (characterSkillWithLevel currentMember.Character.Id)
   |> List.map snd
   |> List.sum
   |> fun total -> total / influencingSkills.Length

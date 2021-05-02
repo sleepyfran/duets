@@ -1,7 +1,6 @@
 module Cli.View.Renderer
 
 open Cli.View.Actions
-open FSharp.Data.UnitSystems.SI.UnitNames
 open Spectre.Console
 open Text
 

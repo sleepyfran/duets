@@ -18,6 +18,8 @@
     <Compile Include="View\Scenes\RehearsalRoom\DiscardSong.fs" />
     <Compile Include="View\Scenes\RehearsalRoom\Compose.fs" />
     <Compile Include="View\Scenes\RehearsalRoom\RehearsalRoom.fs" />
+    <Compile Include="View\Scenes\Management\Hire.fs" />
+    <Compile Include="View\Scenes\Management\Management.fs" />
     <Compile Include="Text.fs" />
     <Compile Include="Renderer.fs" />
     <Compile Include="Orchestrator.fs" />

@@ -24,19 +24,15 @@ and genrePrompt character name =
   }
 
 and instrumentPrompt character name genre =
-  let roleOptions =
-    roles ()
-    |> List.map
-         (fun role ->
-           { Id = role.ToString()
-             Text = Literal(role.ToString()) })
-
   seq {
     yield
       Prompt
         { Title = TextConstant BandCreatorInstrumentPrompt
           Content =
-            ChoicePrompt(roleOptions, confirmationPrompt character name genre.Id) }
+            ChoicePrompt(
+              instrumentOptions,
+              confirmationPrompt character name genre.Id
+            ) }
   }
 
 and confirmationPrompt character name genre role =
@@ -62,7 +58,7 @@ and handleConfirmation character name genre role confirmed =
       let members =
         [ Band.Member.from
             character
-            (Band.Role.from role.Id)
+            (Instrument.Type.from role.Id)
             (Calendar.fromDayMonth 1 1) ]
 
       match (Band.from name genre members) with
