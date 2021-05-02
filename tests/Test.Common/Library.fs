@@ -1,12 +1,14 @@
 ﻿module Test.Common
 
+open Common
 open Entities
 open Simulation.Bands.Queries
 open Simulation.Setup
 open Simulation.Songs.Composition.ImproveSong
 open Storage
 
-let dummyCharacter = Character.empty
+let dummyCharacter =
+  Character.from "Test" 24 Other |> Result.unwrap
 
 let dummyBand =
   { Band.empty with
@@ -33,8 +35,21 @@ let initStateWithBand band = initStateWith dummyCharacter band
 let currentCharacter () =
   State.getState () |> fun s -> s.Character
 
+
 /// Returns the currently selected band.
 let currentBand = currentBand
+
+/// Adds a given member to the given band.
+let addMember (band: Band) bandMember =
+  State.modifyState
+    (fun state ->
+      { state with
+          Bands =
+            Map.add
+              band.Id
+              { band with
+                  Members = List.append [ bandMember ] band.Members }
+              state.Bands })
 
 /// Returns the unfinished songs by the given band.
 let unfinishedSongs (band: Band) =
