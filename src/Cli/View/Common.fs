@@ -25,6 +25,14 @@ let unfinishedSongFromSelection (band: Band) (selection: Choice) =
   |> unfinishedSongByBandAndSongId band.Id
   |> Option.get
 
+/// Returns the full selected member.
+let memberFromSelection (band: Band) (selection: Choice) =
+  selection.Id
+  |> System.Guid.Parse
+  |> CharacterId
+  |> fun id ->
+       List.find (fun (c: CurrentMember) -> c.Character.Id = id) band.Members
+
 /// Creates a list of choices from all available genres.
 let genreOptions =
   genres ()

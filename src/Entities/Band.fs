@@ -41,6 +41,20 @@ module Member =
   let fromMemberForHire (memberForHire: MemberForHire) =
     from memberForHire.Character memberForHire.Role
 
+module MemberForHire =
+  /// Creates a member for hire given a character, its role and its skills.
+  let from character role skills =
+    { Character = character
+      Role = role
+      Skills = skills }
+
+module PastMember =
+  /// Creates a past member given a current member with today as its fired date.
+  let fromMember (currentMember: CurrentMember) today =
+    { Character = currentMember.Character
+      Role = currentMember.Role
+      Period = (currentMember.Since, today) }
+
 module Repertoire =
   /// Creates an empty band repertoire.
   let empty =

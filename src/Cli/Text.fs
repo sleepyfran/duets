@@ -181,3 +181,9 @@ and fromConstant constant =
   | HireMemberConfirmation gender ->
       String.Format("Do you want to hire {0}?", objectPronounForGender gender)
   | HireMemberHired -> "[bold green]You just hired a new member![/]"
+  | FireMemberNoMembersToFire -> "[red]You are the only member of the band, you can't fire yourself![/]"
+  | FireMemberPrompt -> "Who do you want to [bold red]fire[/]?"
+  | FireMemberConfirmation name ->
+      String.Format("Are you sure you want to [bold red]fire[/] {0}?", name)
+  | FireMemberConfirmed name ->
+      String.Format("You [bold red]fired[/] {0}", name)

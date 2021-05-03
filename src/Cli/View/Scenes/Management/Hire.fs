@@ -23,10 +23,10 @@ and memberSelection selectedInstrument =
 
   membersForHire band instrument
   |> Seq.take 1
-  |> Seq.map (showMemberForHire selectedInstrument)
+  |> Seq.map (showMemberForHire band selectedInstrument)
   |> Seq.concat
 
-and showMemberForHire selectedInstrument availableMember =
+and showMemberForHire band selectedInstrument availableMember =
   seq {
     yield
       HireMemberSkillSummary(
@@ -51,13 +51,13 @@ and showMemberForHire selectedInstrument availableMember =
             <| HireMemberConfirmation availableMember.Character.Gender
           Content =
             ConfirmationPrompt
-            <| handleConfirmation selectedInstrument availableMember }
+            <| handleConfirmation band selectedInstrument availableMember }
   }
 
-and handleConfirmation selectedInstrument memberForHire confirmed =
+and handleConfirmation band selectedInstrument memberForHire confirmed =
   seq {
     if confirmed then
-      hireMember memberForHire
+      hireMember band memberForHire
       yield Message <| TextConstant HireMemberHired
     else
       yield! memberSelection selectedInstrument

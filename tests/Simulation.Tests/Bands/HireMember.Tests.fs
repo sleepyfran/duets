@@ -62,20 +62,24 @@ let MembersForHireShouldExposeMembersWithAgeAroundBandsAverage () =
 
 [<Test>]
 let HireMemberShouldAddMemberToBand () =
-  membersForHire (currentBand ()) instrument
+  let band = currentBand ()
+
+  membersForHire band instrument
   |> Seq.take 1
   |> Seq.head
-  |> hireMember
+  |> hireMember band
 
   let band = currentBand ()
   band.Members |> should haveLength 2
 
 [<Test>]
 let HireMemberShouldAddMemberToBandWithTodayAsSinceDate () =
-  membersForHire (currentBand ()) instrument
+  let band = currentBand ()
+
+  membersForHire band instrument
   |> Seq.take 1
   |> Seq.head
-  |> hireMember
+  |> hireMember band
 
   let band = currentBand ()
 

@@ -3,6 +3,7 @@ module Cli.View.Scenes.Management.Root
 open Cli.View.Actions
 open Cli.View.TextConstants
 open Cli.View.Scenes.Management.Hire
+open Cli.View.Scenes.Management.Fire
 
 let managementOptions =
   [ { Id = "hire"
@@ -25,6 +26,6 @@ and processSelection choice =
   seq {
     match choice.Id with
     | "hire" -> yield! hireScene ()
-    | "fire" -> yield NoOp
+    | "fire" -> yield! fireScene ()
     | _ -> yield NoOp
   }
