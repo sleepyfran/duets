@@ -59,7 +59,7 @@ and handleConfirmation band selectedInstrument memberForHire confirmed =
     if confirmed then
       hireMember band memberForHire
       yield Message <| TextConstant HireMemberHired
+      yield Scene RehearsalRoom
     else
       yield! memberSelection selectedInstrument
-      yield Scene RehearsalRoom
   }
