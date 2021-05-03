@@ -2,20 +2,63 @@ module Cli.View.Text
 
 open System
 open Cli.View.Actions
+open Cli.View.Common
 open Cli.View.TextConstants
+open Entities
+
+let verbConjugationByGender =
+  dict [ (Have,
+          dict [ (Male, "Has")
+                 (Female, "Has")
+                 (Other, "Have") ]) ]
 
 /// Transforms TextConstants into strings.
-/// TODO: Move all this to a JSON file or other easier to edit format.
 let rec toString text =
   match text with
   | TextConstant constant -> fromConstant constant
   | Literal string -> string
 
+/// Returns the formatted instrument name given its type.
+and instrumentName instrumentType =
+  match instrumentType with
+  | InstrumentType.Bass -> "Bass"
+  | InstrumentType.Drums -> "Drums"
+  | InstrumentType.Guitar -> "Guitar"
+  | InstrumentType.Vocals -> "Vocals"
+
+/// Returns the formatted skill name given its ID.
+and skillName id =
+  match id with
+  | Composition -> "Composition"
+  | Genre genre -> $"{genre} (Genre)"
+  | Instrument instrument -> $"{instrumentName instrument.Type} (Instrument)"
+
+/// Returns the correct pronoun for the given gender (he, she, they).
+and subjectPronounForGender gender =
+  match gender with
+  | Male -> "He"
+  | Female -> "She"
+  | Other -> "They"
+
+/// Returns the correct object pronoun for the given gender (him, her, them).
+and objectPronounForGender gender =
+  match gender with
+  | Male -> "Him"
+  | Female -> "Her"
+  | Other -> "Them"
+
+/// Returns the correct conjugation for the given verb that matches with the
+/// specified gender.
+and verbConjugationForGender verb gender =
+  verbConjugationByGender.[verb].[gender]
+
 and fromConstant constant =
   match constant with
   | GameName -> "Duets"
-  | CommonYouAreIn (place) -> String.Format("You're currently in {0}", place)
-  | CommonNoUnfinishedSongs -> "[red]You don't have any songs, create one first[/]"
+  | CommonYouAreIn place -> String.Format("You're currently in {0}", place)
+  | CommonNoUnfinishedSongs ->
+      "[red]You don't have any songs, create one first[/]"
+  | CommonSkills -> "Skills"
   | MainMenuPrompt -> "Select an option to begin"
   | MainMenuNewGame -> "New game"
   | MainMenuLoadGame -> "Load game"
@@ -33,7 +76,8 @@ and fromConstant constant =
       "Let's create your first band. What's the [bold blue]band's name[/]?"
   | BandCreatorGenrePrompt ->
       "What [bold blue]genre[/] are they going to be playing? You can always change this later"
-  | BandCreatorInstrumentPrompt -> "And lastly, what will you be [bold blue]playing[/]?"
+  | BandCreatorInstrumentPrompt ->
+      "And lastly, what will you be [bold blue]playing[/]?"
   | BandCreatorConfirmationPrompt (characterName,
                                    bandName,
                                    bandGenre,
@@ -61,10 +105,13 @@ and fromConstant constant =
   | ComposeSong -> "Compose new song"
   | ComposeSongTitlePrompt ->
       "Creating a new song, how are you going to [bold blue]name[/] it?"
-  | ComposeSongLengthPrompt -> "How [bold blue]long[/] is it going to be? (in seconds)"
-  | ComposeSongGenrePrompt -> "What [bold blue]genre[/] will the song have? [bold]Keep in mind that selecting a different genre that the main one of your band might reduce quality[/]"
-  | ComposeSongVocalStylePrompt -> "What [bold blue]vocal style[/] should it have?"
-  | ComposeSongConfirmation (title) ->
+  | ComposeSongLengthPrompt ->
+      "How [bold blue]long[/] is it going to be? (in seconds)"
+  | ComposeSongGenrePrompt ->
+      "What [bold blue]genre[/] will the song have? [bold]Keep in mind that selecting a different genre that the main one of your band might reduce quality[/]"
+  | ComposeSongVocalStylePrompt ->
+      "What [bold blue]vocal style[/] should it have?"
+  | ComposeSongConfirmation title ->
       String.Format(
         "[green]Your band has started working on the song {0}[/]. [blue]You can finish or improve it through the compose section in the rehearsal room[/]",
         title
@@ -76,8 +123,10 @@ and fromConstant constant =
   | ComposeSongErrorLengthTooLong ->
       "[red]Songs can't be more than 30 minutes long[/]"
   | ComposeSongProgressBrainstorming -> "[deepskyblue3]Brainstorming...[/]"
-  | ComposeSongProgressConfiguringReverb -> "[deepskyblue3_1]Configuring reverb...[/]"
-  | ComposeSongProgressTryingChords -> "[dodgerblue1]Trying out some chords...[/]"
+  | ComposeSongProgressConfiguringReverb ->
+      "[deepskyblue3_1]Configuring reverb...[/]"
+  | ComposeSongProgressTryingChords ->
+      "[dodgerblue1]Trying out some chords...[/]"
   | ImproveSong -> "Improve an unfinished song"
   | ImproveSongSelection -> "Which song do you want to improve?"
   | ImproveSongCanBeFurtherImproved quality ->
@@ -90,9 +139,12 @@ and fromConstant constant =
         "[springgreen4]Your band has decided that the song does not need any further improvements. It has a quality of {0}%[/]. [blue]You can add it to the band's repertoire from the 'Finish an unfinished song' option[/]",
         quality
       )
-  | ImproveSongProgressAddingSomeMelodies -> "[springgreen3_1]Adding some melodies...[/]"
-  | ImproveSongProgressPlayingFoosball -> "[springgreen2_1]Playing foosball...[/]"
-  | ImproveSongProgressModifyingChordsFromAnotherSong -> "[springgreen1][strikethrough]Copying[/] Modifying chords from another song[/]"
+  | ImproveSongProgressAddingSomeMelodies ->
+      "[springgreen3_1]Adding some melodies...[/]"
+  | ImproveSongProgressPlayingFoosball ->
+      "[springgreen2_1]Playing foosball...[/]"
+  | ImproveSongProgressModifyingChordsFromAnotherSong ->
+      "[springgreen1][strikethrough]Copying[/] Modifying chords from another song[/]"
   | FinishSong -> "Finish an unfinished song"
   | FinishSongSelection ->
       "Which song do you want to finish? [red]You won't be able to improve the song after this[/]"
@@ -107,3 +159,34 @@ and fromConstant constant =
   | DiscardSongDiscarded name ->
       String.Format("[red]Your band decided to stop working on {0}[/]", name)
   | PracticeSong -> "Practice a finished song"
+  | ManagementTitle -> "Management"
+  | ManagementPrompt -> "What do you want to to?"
+  | ManagementHireMember -> "Hire a new member"
+  | ManagementFireMember -> "Fire a member"
+  | HireMemberRolePrompt -> "What role are you looking to hire?"
+  | HireMemberSkillSummary (name, gender) ->
+      String.Format(
+        "[bold blue]{0}[/] is interested in joining your band. {1} {2} the following skills:",
+        name,
+        subjectPronounForGender gender,
+        (verbConjugationForGender Have gender).ToLower()
+      )
+  | HireMemberSkillLine (id, level) ->
+      String.Format(
+        "[bold]{0}[/] - [{1}]{2}[/]",
+        skillName id,
+        colorForLevel level,
+        level
+      )
+  | HireMemberConfirmation gender ->
+      String.Format("Do you want to hire {0}?", objectPronounForGender gender)
+  | HireMemberHired -> "[bold green]You just hired a new member![/]"
+  | FireMemberListItem (name, role) ->
+      String.Format("{0} ({1})", name, instrumentName role)
+  | FireMemberNoMembersToFire ->
+      "[red]You are the only member of the band, you can't fire yourself![/]"
+  | FireMemberPrompt -> "Who do you want to [bold red]fire[/]?"
+  | FireMemberConfirmation name ->
+      String.Format("Are you sure you want to [bold red]fire[/] {0}?", name)
+  | FireMemberConfirmed name ->
+      String.Format("You [bold red]fired[/] {0}", name)

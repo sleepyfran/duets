@@ -16,6 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Compile Include="Bands\HireMember.Tests.fs" />
+        <Compile Include="Bands\FireMember.Tests.fs" />
         <Compile Include="Songs\ComposeSong.Tests.fs" />
         <Compile Include="Songs\ImproveSong.Tests.fs" />
         <Compile Include="Songs\FinishSong.Tests.fs" />

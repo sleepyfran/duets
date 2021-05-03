@@ -59,33 +59,84 @@ module Types =
 
   /// Defines a character, be it the one that the player is controlling or any
   /// other NPC of the world.
+  [<Generator.Lenses("lens", "Lenses.Lens")>]
   type Character =
     { Id: CharacterId
       Name: string
       Age: int
       Gender: Gender }
 
+  /// Unique identifier of an instrument.
+  type InstrumentId = InstrumentId of Identity
+
+  /// Defines what kind of instrument we're defining to be able to query different
+  /// information about it.
+  type InstrumentType =
+    | Guitar
+    | Drums
+    | Bass
+    | Vocals
+
+  /// Represents the archetype instrument that a character can use.
+  type Instrument =
+    { Id: InstrumentId
+      Type: InstrumentType }
+
+  /// Identifier of a skill which represents its internal type.
+  type SkillId =
+    | Composition
+    | Genre of Genre
+    | Instrument of Instrument
+
+  /// Defines all possible categories to which skills can be related to.
+  type SkillCategory =
+    | Music
+    | Production
+
+  /// Represents a skill that the character can have. This only includes the base
+  /// fields of the skill, more specific types are available depending on what
+  /// information we need.
+  type Skill =
+    { Id: SkillId
+      Category: SkillCategory }
+
+  /// Defines the relation between a skill and its level.
+  type SkillWithLevel = Skill * int
+
   /// Unique identifier of a band.
   type BandId = BandId of Identity
 
-  /// Defines all possible roles that a character can take inside a band.
-  type MemberRole =
-    | Singer
-    | Guitarist
-    | Bassist
-    | Drummer
+  /// Defines a member that is available for being hired into the band.
+  [<Generator.Lenses("lens", "Lenses.Lens")>]
+  type MemberForHire =
+    { Character: Character
+      Role: InstrumentType
+      Skills: SkillWithLevel list }
 
-  /// Relates a specific character with its role in the band for a specific
-  /// region of time.
-  type Member = Character * MemberRole * Period
+  /// Defines a current member of the band.
+  [<Generator.Lenses("lens", "Lenses.Lens")>]
+  type CurrentMember =
+    { Character: Character
+      Role: InstrumentType
+      Since: Date }
+
+  /// Defines a member that used to be part of the band but is no longer a
+  /// member.
+  [<Generator.Lenses("lens", "Lenses.Lens")>]
+  type PastMember =
+    { Character: Character
+      Role: InstrumentType
+      Period: Period }
 
   /// Represents any band inside the game, be it one that is controlled by the
   /// player or the ones that are created automatically to fill the game world.
+  [<Generator.Lenses("lens", "Lenses.Lens")>]
   type Band =
     { Id: BandId
       Name: string
       Genre: Genre
-      Members: Member list }
+      Members: CurrentMember list
+      PastMembers: PastMember list }
 
   /// Unique identifier of a song.
   type SongId = SongId of Identity
@@ -133,42 +184,6 @@ module Types =
   /// Shapes a relation between a finished song and its quality.
   type FinishedSongWithQuality = FinishedSong * Quality
 
-  /// Unique identifier of an instrument.
-  type InstrumentId = InstrumentId of Identity
-
-  /// Defines what kind of instrument we're defining to be able to query different
-  /// information about it.
-  type InstrumentType =
-    | Guitar
-    | Drums
-    | Bass
-    | Vocals
-
-  /// Represents the archetype instrument that a character can use.
-  type Instrument =
-    { Id: InstrumentId
-      Type: InstrumentType }
-
-  /// Identifier of a skill which represents its internal type.
-  type SkillId =
-    | Composition
-    | Genre of Genre
-    | Instrument of Instrument
-
-  /// Defines all possible categories to which skills can be related to.
-  type SkillCategory =
-    | Music
-    | Production
-
-  /// Represents a skill that the character can have. This only includes the base
-  /// fields of the skill, more specific types are available depending on what
-  /// information we need.
-  type Skill =
-    { Id: SkillId
-      Category: SkillCategory }
-
-  /// Defines the relation between a skill and its level.
-  type SkillWithLevel = Skill * int
 
   /// Collection of skills by character.
   type CharacterSkills = Map<CharacterId, Map<SkillId, SkillWithLevel>>
@@ -187,8 +202,9 @@ module Types =
   /// of the game.
   [<Generator.Lenses("lens", "Lenses.Lens")>]
   type State =
-    { Bands: Band list
+    { Bands: Map<BandId, Band>
       Character: Character
       CharacterSkills: CharacterSkills
+      CurrentBandId: BandId
       BandRepertoire: BandRepertoire
       Today: Date }

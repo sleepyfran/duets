@@ -12,7 +12,7 @@ let rehearsalOptions =
 
 /// Creates the rehearsal room which allows to access the compose and managing
 /// section.
-let rec rehearsalRoom () =
+let rec rehearsalRoomScene () =
   seq {
     yield Figlet <| TextConstant RehearsalRoomTitle
 
@@ -30,6 +30,6 @@ and processSelection choice =
   seq {
     match choice.Id with
     | "compose" -> yield! compose ()
-    | "manage" -> yield! []
-    | _ -> NoOp
+    | "manage" -> yield (Scene Management)
+    | _ -> yield NoOp
   }

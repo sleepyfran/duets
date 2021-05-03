@@ -6,6 +6,7 @@ open Cli.View.Scenes.BandCreator
 open Cli.View.Scenes.CharacterCreator
 open Cli.View.Scenes.MainMenu
 open Cli.View.Scenes.RehearsalRoom.Root
+open Cli.View.Scenes.Management.Root
 open Cli.View.Renderer
 open Storage
 
@@ -15,7 +16,8 @@ let actionsFrom scene =
   | MainMenu savegameState -> mainMenu savegameState
   | CharacterCreator -> characterCreator ()
   | BandCreator character -> bandCreator character
-  | RehearsalRoom -> rehearsalRoom ()
+  | RehearsalRoom -> rehearsalRoomScene ()
+  | Management -> managementScene ()
 
 /// Saves the game to the savegame file only if the screen is not the main menu,
 /// character creator or band creator, which still have unreliable data or

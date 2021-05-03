@@ -27,6 +27,7 @@
     </ItemGroup>
     
     <ItemGroup>
+      <ProjectReference Include="..\Common\Common.fsproj" />
       <ProjectReference Include="..\Lenses\Lenses.fsproj" />
     </ItemGroup>
 

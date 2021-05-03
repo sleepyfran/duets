@@ -1,14 +1,6 @@
 module Entities.Skill
 
-open Entities.Instrument
-
-/// Maps each role that a member takes in a band with its related skill.
-let skillIdForRole role =
-  match role with
-  | Singer -> Instrument <| createInstrument Vocals
-  | Guitarist -> Instrument <| createInstrument Guitar
-  | Bassist -> Instrument <| createInstrument Bass
-  | Drummer -> Instrument <| createInstrument Drums
+open Common
 
 /// Maps each type of skill with its category.
 let categoryFor id =
@@ -28,3 +20,12 @@ let createWithLevel id level = (create id, level)
 /// Creates a new skill for a given ID with the level set to 0. Its category is
 /// automatically populated based on the type of skill given.
 let createWithDefaultLevel id = createWithLevel id 0
+
+/// Creates a new skill for a given ID with the level set to a random +-5 (if
+/// possible) of the given average. Its category is automatically populated
+/// based on the type of the skill given.
+let createFromAverageLevel id averageLevel =
+  System.Random().Next(-5, 5)
+  |> (+) averageLevel
+  |> Math.clamp 1 100
+  |> createWithLevel id

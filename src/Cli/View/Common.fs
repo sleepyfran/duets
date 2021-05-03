@@ -1,6 +1,7 @@
 module Cli.View.Common
 
 open Cli.View.Actions
+open Cli.View.TextConstants
 open Entities
 open Simulation.Songs.Queries
 open Storage.Database
@@ -24,7 +25,32 @@ let unfinishedSongFromSelection (band: Band) (selection: Choice) =
   |> unfinishedSongByBandAndSongId band.Id
   |> Option.get
 
+/// Returns the full selected member.
+let memberFromSelection (band: Band) (selection: Choice) =
+  selection.Id
+  |> System.Guid.Parse
+  |> CharacterId
+  |> fun id ->
+       List.find (fun (c: CurrentMember) -> c.Character.Id = id) band.Members
+
 /// Creates a list of choices from all available genres.
 let genreOptions =
   genres ()
   |> List.map (fun genre -> { Id = genre; Text = Literal genre })
+
+/// Creates a list of choices from all available instruments.
+let instrumentOptions =
+  roles ()
+  |> List.map
+       (fun role ->
+         { Id = role.ToString()
+           Text = Literal(role.ToString()) })
+
+/// Returns the associated color given the level of a skill or the quality
+/// of a song.
+let colorForLevel level =
+  match level with
+  | level when level < 30 -> Spectre.Console.Color.Red
+  | level when level < 60 -> Spectre.Console.Color.Orange1
+  | level when level < 80 -> Spectre.Console.Color.Green
+  | _ -> Spectre.Console.Color.Blue
