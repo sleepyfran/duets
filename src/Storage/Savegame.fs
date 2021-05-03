@@ -14,7 +14,7 @@ let private loadStateFromSavegame () =
   savegamePath ()
   |> readAll
   |> Option.bind deserialize
-  |> Option.map State.setState
+  |> Option.map State.set
   |> Option.map (fun _ -> Available)
   |> Option.defaultValue NotAvailable
 
@@ -61,4 +61,4 @@ let load = savegameAgent.Read
 
 /// Attempts to write the current state into the savegame file doing so in a
 /// separate thread.
-let save () = savegameAgent.Write(State.getState ())
+let save () = savegameAgent.Write(State.get ())

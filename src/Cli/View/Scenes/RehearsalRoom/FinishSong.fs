@@ -3,7 +3,7 @@ module Cli.View.Scenes.RehearsalRoom.FinishSong
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
-open Entities.Types
+open Entities
 open Simulation.Bands.Queries
 open Simulation.Songs.Composition.FinishSong
 

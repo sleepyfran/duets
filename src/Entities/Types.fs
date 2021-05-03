@@ -1,7 +1,6 @@
 namespace Entities
 
 open FSharp.Data.UnitSystems.SI.UnitNames
-open Myriad.Plugins
 
 [<AutoOpen>]
 module Types =
@@ -59,7 +58,6 @@ module Types =
 
   /// Defines a character, be it the one that the player is controlling or any
   /// other NPC of the world.
-  [<Generator.Lenses("lens", "Lenses.Lens")>]
   type Character =
     { Id: CharacterId
       Name: string
@@ -107,14 +105,12 @@ module Types =
   type BandId = BandId of Identity
 
   /// Defines a member that is available for being hired into the band.
-  [<Generator.Lenses("lens", "Lenses.Lens")>]
   type MemberForHire =
     { Character: Character
       Role: InstrumentType
       Skills: SkillWithLevel list }
 
   /// Defines a current member of the band.
-  [<Generator.Lenses("lens", "Lenses.Lens")>]
   type CurrentMember =
     { Character: Character
       Role: InstrumentType
@@ -122,7 +118,6 @@ module Types =
 
   /// Defines a member that used to be part of the band but is no longer a
   /// member.
-  [<Generator.Lenses("lens", "Lenses.Lens")>]
   type PastMember =
     { Character: Character
       Role: InstrumentType
@@ -130,7 +125,6 @@ module Types =
 
   /// Represents any band inside the game, be it one that is controlled by the
   /// player or the ones that are created automatically to fill the game world.
-  [<Generator.Lenses("lens", "Lenses.Lens")>]
   type Band =
     { Id: BandId
       Name: string
@@ -193,14 +187,12 @@ module Types =
 
   /// Represents the repertoire of a band with its unfinished and finished songs.
   /// Only finished songs can be recorded and played live.
-  [<Generator.Lenses("lens", "Lenses.Lens")>]
   type BandRepertoire =
     { Unfinished: SongsByBand<UnfinishedSongWithQualities>
       Finished: SongsByBand<FinishedSongWithQuality> }
 
   /// Shared state of the game. Contains all state that is common to every part
   /// of the game.
-  [<Generator.Lenses("lens", "Lenses.Lens")>]
   type State =
     { Bands: Map<BandId, Band>
       Character: Character

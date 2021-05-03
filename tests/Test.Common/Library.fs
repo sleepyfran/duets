@@ -5,6 +5,7 @@ open Entities
 open Simulation.Bands.Queries
 open Simulation.Setup
 open Simulation.Songs.Composition.ImproveSong
+open Simulation.Songs.Queries
 open Storage
 
 let dummyCharacter =
@@ -33,7 +34,7 @@ let initStateWithBand band = initStateWith dummyCharacter band
 
 /// Returns the main character.
 let currentCharacter () =
-  State.getState () |> fun s -> s.Character
+  State.get () |> fun s -> s.Character
 
 
 /// Returns the currently selected band.
@@ -41,7 +42,7 @@ let currentBand = currentBand
 
 /// Adds a given member to the given band.
 let addMember (band: Band) bandMember =
-  State.modifyState
+  State.map
     (fun state ->
       { state with
           Bands =
@@ -51,16 +52,11 @@ let addMember (band: Band) bandMember =
                   Members = List.append [ bandMember ] band.Members }
               state.Bands })
 
-/// Returns the unfinished songs by the given band.
-let unfinishedSongs (band: Band) =
-  State.getState ()
-  |> fun s -> s.BandRepertoire.Unfinished
-  |> Map.find band.Id
-
 /// Retrieves the last unfinished song from the state.
 let lastUnfinishedSong () =
   currentBand ()
-  |> unfinishedSongs
+  |> fun band -> band.Id
+  |> unfinishedSongsByBand
   |> Seq.head
   |> fun kvp -> kvp.Value
 
@@ -73,7 +69,7 @@ let improveLastUnfinishedSongTimes times =
 let addSkillTo (character: Character) (skillWithLevel: SkillWithLevel) =
   let (skill, _) = skillWithLevel
 
-  State.modifyState
+  State.map
     (fun state ->
       state.CharacterSkills
       |> Map.tryFind character.Id

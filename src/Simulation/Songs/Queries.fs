@@ -1,30 +1,26 @@
 module Simulation.Songs.Queries
 
-open Lenses
-open Storage.State
-
-/// Returns all unfinished songs by all bands from the character.
-let unfinishedSongs () =
-  getState () |> Lens.get unfinishedSongsLenses
-
-/// Returns all finished songs by all bands from the character.
-let finishedSongs () =
-  getState () |> Lens.get finishedSongsLenses
-
-let tryFindBandOrDefault bandId map =
-  map
-  |> Map.tryFind bandId
-  |> Option.defaultValue Map.empty
+open Aether
+open Simulation.Songs
+open Storage
 
 /// Returns all unfinished songs by the given band. If no unfinished songs
 /// could be found, returns an empty map.
 let unfinishedSongsByBand bandId =
-  unfinishedSongs () |> tryFindBandOrDefault bandId
+  let unfinishedSongLens = Lenses.unfinishedSongs_ bandId
+
+  State.get ()
+  |> Optic.get unfinishedSongLens
+  |> Option.defaultValue Map.empty
 
 /// Returns all finished songs by the given band. If no finished songs could
 /// be found, returns an empty map.
 let finishedSongsByBand bandId =
-  finishedSongs () |> tryFindBandOrDefault bandId
+  let finishedSongLens = Lenses.finishedSongs_ bandId
+
+  State.get ()
+  |> Optic.get finishedSongLens
+  |> Option.defaultValue Map.empty
 
 /// Returns a specific song given the ID of the band that holds it and the ID
 /// of the song to retrieve.

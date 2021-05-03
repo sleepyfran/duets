@@ -1,12 +1,11 @@
 module Simulation.Songs.Composition.Common
 
+open Aether
 open Simulation.Skills.Queries
-open Simulation.Songs.Lenses
-open Simulation.Songs.Queries
+open Simulation.Songs
 open Entities
 open Entities.Skill
-open Lenses
-open Storage.State
+open Storage
 
 /// Computes the score associated with each member of the band for the song.
 let qualityForMember genre (currentMember: CurrentMember) =
@@ -46,33 +45,30 @@ let calculateQualityIncreaseOf (maximum: MaxQuality) =
   |> int
   |> fun increase -> increase * 1<quality>
 
-/// Saves the updated songs of the given band into the specified lens.
-let saveSongsToState (band: Band) lenses fullList updatedSongs =
-  updatedSongs
-  |> fun updatedSongs -> Map.add band.Id updatedSongs fullList
-  |> fun updatedSongs -> updatedSongs |> Lens.set lenses |> modifyState
-
 /// Adds or modifies a given unfinished song into the given band's repertoire.
 let addUnfinishedSong (band: Band) unfinishedSong =
   let (UnfinishedSong (song), _, _) = unfinishedSong
 
-  unfinishedSongsByBand band.Id
-  |> Map.add song.Id unfinishedSong
-  |> saveSongsToState band unfinishedSongsLenses (unfinishedSongs ())
+  let unfinishedSongLens = Lenses.unfinishedSongs_ band.Id
+
+  State.map (
+    Optic.map unfinishedSongLens (Map.add song.Id unfinishedSong)
+  )
 
 /// Removes an unfinished song and returns it back.
 let removeUnfinishedSong (band: Band) unfinishedSong =
   let (UnfinishedSong (song), _, _) = unfinishedSong
 
-  unfinishedSongsByBand band.Id
-  |> Map.remove song.Id
-  |> saveSongsToState band unfinishedSongsLenses (unfinishedSongs ())
-  |> fun () -> unfinishedSong
+  let unfinishedSongLens = Lenses.unfinishedSongs_ band.Id
+
+  State.map (Optic.map unfinishedSongLens (Map.remove song.Id))
 
 /// Adds or modifies a given unfinished song in the band's finished repertoire.
 let addFinishedSong (band: Band) unfinishedSong =
   let (UnfinishedSong (song), _, quality) = unfinishedSong
 
-  finishedSongsByBand band.Id
-  |> Map.add song.Id (FinishedSong song, quality)
-  |> saveSongsToState band finishedSongsLenses (finishedSongs ())
+  let finishedSongLens = Lenses.finishedSongs_ band.Id
+
+  State.map (
+    Optic.map finishedSongLens (Map.add song.Id (FinishedSong song, quality))
+  )

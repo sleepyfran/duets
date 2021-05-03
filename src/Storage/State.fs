@@ -1,3 +1,4 @@
+[<RequireQualifiedAccess>]
 module Storage.State
 
 open Entities
@@ -30,11 +31,11 @@ type StateAgent() =
 let staticAgent = StateAgent()
 
 /// Returns the state of the game.
-let getState = staticAgent.Get
+let get = staticAgent.Get
 
 /// Sets the state of the game to a given value.
-let setState = staticAgent.Set
+let set = staticAgent.Set
 
 /// Passes the state of the game to the modify function and sets the state to
 /// the return value.
-let modifyState modify = getState () |> modify |> setState
+let map modify = get () |> modify |> set

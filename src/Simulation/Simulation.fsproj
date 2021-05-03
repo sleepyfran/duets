@@ -11,6 +11,7 @@
         <Compile Include="Character\Queries.fs" />
         <Compile Include="Setup\StartGame.fs" />
         <Compile Include="Skills\Queries.fs" />
+        <Compile Include="Bands\Lenses.fs" />
         <Compile Include="Bands\Queries.fs" />
         <Compile Include="Bands\Members.fs" />
         <Compile Include="Songs\Lenses.fs" />
@@ -24,8 +25,11 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Common\Common.fsproj" />
-        <ProjectReference Include="..\Lenses\Lenses.fsproj" />
         <ProjectReference Include="..\Storage\Storage.fsproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Aether" Version="8.3.1" />
     </ItemGroup>
 
 </Project>

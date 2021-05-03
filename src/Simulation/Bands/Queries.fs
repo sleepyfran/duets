@@ -1,20 +1,20 @@
 module Simulation.Bands.Queries
 
+open Aether
 open Common
 open Entities
-open Lenses
 open Simulation.Character.Queries
 open Simulation.Skills.Queries
-open Storage.State
+open Storage
 
 /// Returns the currently selected band in the game.
 let currentBand () =
-  let state = getState ()
+  let state = State.get ()
   state.Bands |> Map.find state.CurrentBandId
 
 /// Returns all the current members of the current band.
 let currentBandMembers () =
-  currentBand () |> Lens.get BandLenses.Members
+  currentBand () |> Optic.get Lenses.Band.members_
 
 /// Returns all the current members of the current band removing the main
 /// character out of it. Useful for situations like selections in firing or

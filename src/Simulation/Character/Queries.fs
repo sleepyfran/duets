@@ -1,10 +1,10 @@
 module Simulation.Character.Queries
 
+open Aether
 open Entities
-open Lenses
 open Storage
 
 /// Returns the character that the player is playing with.
 let playableCharacter () =
-  State.getState ()
-  |> Lens.get StateLenses.Character
+  State.get ()
+  |> Optic.get Lenses.State.character_

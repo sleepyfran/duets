@@ -1,12 +1,14 @@
 module Simulation.Skills.Queries
 
+open Aether
 open Common
 open Entities
-open Storage.State
+open Storage
 
 /// Returns all skills from all characters in the game.
 let characterSkills () =
-  getState () |> fun state -> state.CharacterSkills
+  State.get ()
+  |> Optic.get Lenses.State.characterSkills_
 
 /// Queries all the skills of a given character.
 let characterSkillsWithLevel characterId =

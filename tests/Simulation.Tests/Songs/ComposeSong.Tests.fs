@@ -6,6 +6,7 @@ open FsUnit
 
 open Entities
 open Simulation.Songs.Composition.ComposeSong
+open Simulation.Songs.Queries
 
 [<SetUp>]
 let Setup () = initStateWithDummies ()
@@ -15,7 +16,8 @@ let ShouldAddSongToState () =
   composeSong dummySong
 
   currentBand ()
-  |> unfinishedSongs
+  |> fun band -> band.Id
+  |> unfinishedSongsByBand
   |> should haveCount 1
 
 [<Test>]

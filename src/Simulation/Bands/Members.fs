@@ -1,7 +1,10 @@
 module Simulation.Bands.Members
 
+open Aether
+open Aether.Operators
 open Common
 open Entities
+open Simulation.Bands
 open Simulation.Character.Queries
 open Simulation.Calendar.Queries
 open Storage
@@ -46,28 +49,20 @@ let membersForHire band instrument =
       createMemberForHire averageSkillLevel averageAge band.Genre instrument)
 
 /// Processes the given member for hire into a current member of the band.
-let hireMember band (memberForHire: MemberForHire) =
+let hireMember (band: Band) (memberForHire: MemberForHire) =
   let currentMember =
     today ()
     |> Band.Member.fromMemberForHire memberForHire
 
-  State.modifyState
-    (fun state ->
-      { state with
-          Bands =
-            band.Members
-            |> List.append [ currentMember ]
-            |> fun updatedMembers ->
-                 Map.add
-                   band.Id
-                   { band with Members = updatedMembers }
-                   state.Bands })
+  let membersLens = Lenses.members_ band.Id
+
+  State.map (Optic.map membersLens (List.append [ currentMember ]))
 
 type FireError = AttemptToFirePlayableCharacter
 
 /// Removes a current member from the band and adds it to the past members with
 /// today as the date it was fired.
-let fireMember band (bandMember: CurrentMember) =
+let fireMember (band: Band) (bandMember: CurrentMember) =
   let character = playableCharacter ()
 
   if bandMember.Character.Id = character.Id then
@@ -76,20 +71,14 @@ let fireMember band (bandMember: CurrentMember) =
     let pastMember =
       Band.PastMember.fromMember bandMember (Date <| today ())
 
-    State.modifyState
-      (fun state ->
-        { state with
-            Bands =
-              band.Members
-              |> List.filter
-                   (fun m -> m.Character.Id <> bandMember.Character.Id)
-              |> fun updatedMembers ->
-                   Map.add
-                     band.Id
-                     { band with
-                         Members = updatedMembers
-                         PastMembers =
-                           List.append [ pastMember ] band.PastMembers }
-                     state.Bands })
+    let membersLens = Lenses.members_ band.Id
+    let pastMembersLens = Lenses.pastMembers_ band.Id
+
+    State.map (
+      Optic.map
+        membersLens
+        (List.filter (fun m -> m.Character.Id <> bandMember.Character.Id))
+      >> Optic.map pastMembersLens (List.append [ pastMember ])
+    )
 
     Ok()

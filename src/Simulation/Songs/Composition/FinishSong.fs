@@ -8,6 +8,5 @@ open Simulation.Songs.Composition.Common
 let finishSong unfinishedSong =
   let band = currentBand ()
 
-  unfinishedSong
-  |> removeUnfinishedSong band
-  |> addFinishedSong band
+  unfinishedSong |> removeUnfinishedSong band
+  unfinishedSong |> addFinishedSong band

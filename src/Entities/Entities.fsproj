@@ -6,9 +6,7 @@
 
     <ItemGroup>
         <Compile Include="Types.fs" />
-        <Compile Include="TypeLenses.fs">
-            <MyriadFile>Types.fs</MyriadFile>
-        </Compile>
+        <Compile Include="Lenses.fs" />
         <Compile Include="Identity.fs" />
         <Compile Include="Calendar.fs" />
         <Compile Include="Character.fs" />
@@ -21,14 +19,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="Myriad.Core" Version="0.5.1" />
-        <PackageReference Include="Myriad.Plugins" Version="0.5.1" />
-        <PackageReference Include="Myriad.Sdk" Version="0.5.1" />
-    </ItemGroup>
-    
-    <ItemGroup>
       <ProjectReference Include="..\Common\Common.fsproj" />
-      <ProjectReference Include="..\Lenses\Lenses.fsproj" />
     </ItemGroup>
 
 </Project>

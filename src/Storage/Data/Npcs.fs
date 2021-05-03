@@ -1,6 +1,6 @@
 module Storage.Data.Npcs
 
-open Entities.Types
+open Entities
 
 /// Exposes the whole pool of available names with the associated gender that
 /// the name might have.
