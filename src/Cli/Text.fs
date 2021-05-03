@@ -19,8 +19,8 @@ let rec toString text =
   | Literal string -> string
 
 /// Returns the formatted instrument name given its type.
-and instrumentName instrument =
-  match instrument.Type with
+and instrumentName instrumentType =
+  match instrumentType with
   | InstrumentType.Bass -> "Bass"
   | InstrumentType.Drums -> "Drums"
   | InstrumentType.Guitar -> "Guitar"
@@ -31,7 +31,7 @@ and skillName id =
   match id with
   | Composition -> "Composition"
   | Genre genre -> $"{genre} (Genre)"
-  | Instrument instrument -> $"{instrumentName instrument} (Instrument)"
+  | Instrument instrument -> $"{instrumentName instrument.Type} (Instrument)"
 
 /// Returns the correct pronoun for the given gender (he, she, they).
 and subjectPronounForGender gender =
@@ -181,7 +181,10 @@ and fromConstant constant =
   | HireMemberConfirmation gender ->
       String.Format("Do you want to hire {0}?", objectPronounForGender gender)
   | HireMemberHired -> "[bold green]You just hired a new member![/]"
-  | FireMemberNoMembersToFire -> "[red]You are the only member of the band, you can't fire yourself![/]"
+  | FireMemberListItem (name, role) ->
+      String.Format("{0} ({1})", name, instrumentName role)
+  | FireMemberNoMembersToFire ->
+      "[red]You are the only member of the band, you can't fire yourself![/]"
   | FireMemberPrompt -> "Who do you want to [bold red]fire[/]?"
   | FireMemberConfirmation name ->
       String.Format("Are you sure you want to [bold red]fire[/] {0}?", name)

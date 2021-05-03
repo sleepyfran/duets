@@ -83,6 +83,7 @@ type TextConstant =
   | HireMemberSkillLine of id: SkillId * level: int
   | HireMemberConfirmation of gender: Gender
   | HireMemberHired
+  | FireMemberListItem of name: string * role: InstrumentType
   | FireMemberNoMembersToFire
   | FireMemberPrompt
   | FireMemberConfirmation of name: string

@@ -15,7 +15,9 @@ let rec fireScene () =
            let (CharacterId (id)) = m.Character.Id
 
            { Id = id.ToString()
-             Text = Literal m.Character.Name })
+             Text =
+               TextConstant
+               <| FireMemberListItem(m.Character.Name, m.Role) })
 
   seq {
     if memberOptions.Length = 0 then
