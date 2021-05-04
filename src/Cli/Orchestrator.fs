@@ -71,6 +71,7 @@ let rec runWith chain =
              waitForInput
              <| TextConstant CommonPressKeyToContinue
 
+             saveIfNeeded scene
              clear ()
              runWith (actionsFrom scene)
          | NoOp -> ())
