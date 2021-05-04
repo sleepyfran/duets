@@ -37,5 +37,5 @@ and processSongSelection band selection =
       |> TextConstant
       |> Message
 
-    yield (Scene RehearsalRoom)
+    yield SceneAfterKey RehearsalRoom
   }

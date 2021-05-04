@@ -98,7 +98,7 @@ and composeWithProgressbar song =
       Message
       <| TextConstant(ComposeSongConfirmation song.Name)
 
-    yield Scene RehearsalRoom
+    yield SceneAfterKey RehearsalRoom
   }
 
 and handleError message =
