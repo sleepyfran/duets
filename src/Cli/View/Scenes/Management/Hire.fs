@@ -56,15 +56,28 @@ and showMemberForHire band selectedInstrument availableMember =
             <| HireMemberConfirmation availableMember.Character.Gender
           Content =
             ConfirmationPrompt
-            <| handleConfirmation band selectedInstrument availableMember }
+            <| handleHiringConfirmation band selectedInstrument availableMember }
   }
 
-and handleConfirmation band selectedInstrument memberForHire confirmed =
+and handleHiringConfirmation band selectedInstrument memberForHire confirmed =
   seq {
     if confirmed then
       hireMember band memberForHire
       yield Message <| TextConstant HireMemberHired
       yield Scene RehearsalRoom
     else
+      yield
+        Prompt
+          { Title = TextConstant HireMemberContinueConfirmation
+            Content =
+              ConfirmationPrompt
+              <| handleContinueConfirmation selectedInstrument }
+  }
+
+and handleContinueConfirmation selectedInstrument confirmed =
+  seq {
+    if confirmed then
       yield! memberSelection selectedInstrument
+    else
+      yield Scene RehearsalRoom
   }
