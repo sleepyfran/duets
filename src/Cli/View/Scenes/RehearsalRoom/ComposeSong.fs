@@ -29,7 +29,11 @@ and genrePrompt name length =
     yield
       Prompt
         { Title = TextConstant ComposeSongGenrePrompt
-          Content = ChoicePrompt(genreOptions, vocalStylePrompt name length) }
+          Content =
+            ChoicePrompt
+            <| MandatoryChoiceHandler
+                 { Choices = genreOptions
+                   Handler = vocalStylePrompt name length } }
   }
 
 and vocalStylePrompt name length selectedGenre =
@@ -45,10 +49,11 @@ and vocalStylePrompt name length selectedGenre =
       Prompt
         { Title = TextConstant ComposeSongVocalStylePrompt
           Content =
-            ChoicePrompt(
-              vocalStyleOptions,
-              handleSong name (length * 1<second>) selectedGenre.Id
-            ) }
+            ChoicePrompt
+            <| MandatoryChoiceHandler
+                 { Choices = vocalStyleOptions
+                   Handler =
+                     handleSong name (length * 1<second>) selectedGenre.Id } }
   }
 
 and handleSong name length genre selectedVocalStyle =

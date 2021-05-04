@@ -1,6 +1,7 @@
 module Cli.View.Scenes.MainMenu
 
 open Cli.View.Actions
+open Cli.View.Common
 open Cli.View.TextConstants
 open Storage.Savegame
 
@@ -14,10 +15,6 @@ let menuOptions hasSavegameAvailable =
       yield
         { Id = "load_game"
           Text = TextConstant MainMenuLoadGame }
-
-    yield
-      { Id = "exit"
-        Text = TextConstant MainMenuExit }
   }
   |> List.ofSeq
 
@@ -35,7 +32,11 @@ let rec mainMenu savegameState =
       Prompt
         { Title = TextConstant MainMenuPrompt
           Content =
-            ChoicePrompt(menuOptions hasSavegameAvailable, processSelection) }
+            ChoicePrompt
+            <| OptionalChoiceHandler
+                 { Choices = menuOptions hasSavegameAvailable
+                   Handler = basicOptionalChoiceHandler NoOp processSelection
+                   BackText = TextConstant MainMenuExit } }
   }
 
 and processSelection choice =
@@ -43,6 +44,5 @@ and processSelection choice =
     match choice.Id with
     | "new_game" -> yield (Scene CharacterCreator)
     | "load_game" -> yield (Scene RehearsalRoom)
-    | "exit" -> yield NoOp
     | _ -> yield NoOp
   }

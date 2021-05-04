@@ -12,7 +12,12 @@ let rec hireScene () =
     yield
       Prompt
         { Title = TextConstant HireMemberRolePrompt
-          Content = ChoicePrompt(instrumentOptions, memberSelection) }
+          Content =
+            ChoicePrompt
+            <| OptionalChoiceHandler
+                 { Choices = instrumentOptions
+                   Handler = rehearsalRoomOptionalChoiceHandler memberSelection
+                   BackText = TextConstant CommonCancel } }
   }
 
 and memberSelection selectedInstrument =

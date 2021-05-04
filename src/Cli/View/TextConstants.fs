@@ -17,6 +17,8 @@ type TextConstant =
   | CommonYouAreIn of place: string
   | CommonNoUnfinishedSongs
   | CommonSkills
+  | CommonCancel
+  | CommonBackToMainMenu
   | MainMenuPrompt
   | MainMenuNewGame
   | MainMenuLoadGame

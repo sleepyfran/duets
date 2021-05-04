@@ -16,7 +16,19 @@ let rec improveSongScene () =
     yield
       Prompt
         { Title = TextConstant ImproveSongSelection
-          Content = ChoicePrompt(songOptions, processSongSelection currentBand) }
+          Content =
+            ChoicePrompt
+            <| OptionalChoiceHandler
+                 { Choices = songOptions
+                   Handler = processOptionalSongSelection currentBand
+                   BackText = TextConstant CommonCancel } }
+  }
+
+and processOptionalSongSelection band selection =
+  seq {
+    match selection with
+    | Choice choice -> yield! processSongSelection band choice
+    | Back -> yield Scene RehearsalRoom
   }
 
 and processSongSelection band selection =

@@ -27,7 +27,12 @@ let rec fireScene () =
       yield
         Prompt
           { Title = TextConstant FireMemberPrompt
-            Content = ChoicePrompt(memberOptions, confirmFiring) }
+            Content =
+              ChoicePrompt
+              <| OptionalChoiceHandler
+                   { Choices = memberOptions
+                     Handler = rehearsalRoomOptionalChoiceHandler confirmFiring
+                     BackText = TextConstant CommonCancel } }
   }
 
 and confirmFiring selectedMember =

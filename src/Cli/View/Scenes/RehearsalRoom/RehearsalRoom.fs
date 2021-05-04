@@ -1,6 +1,7 @@
 module Cli.View.Scenes.RehearsalRoom.Root
 
 open Cli.View.Actions
+open Cli.View.Common
 open Cli.View.TextConstants
 open Cli.View.Scenes.RehearsalRoom.Compose
 
@@ -23,7 +24,12 @@ let rec rehearsalRoomScene () =
     yield
       Prompt
         { Title = TextConstant RehearsalRoomPrompt
-          Content = ChoicePrompt(rehearsalOptions, processSelection) }
+          Content =
+            ChoicePrompt
+            <| OptionalChoiceHandler
+                 { Choices = rehearsalOptions
+                   Handler = mainMenuOptionalChoiceHandler processSelection
+                   BackText = TextConstant CommonBackToMainMenu } }
   }
 
 and processSelection choice =

@@ -40,8 +40,20 @@ let rec runWith chain =
              renderPrompt prompt
              |> fun input ->
                   match prompt.Content with
-                  | ChoicePrompt (choices, handler) ->
-                      handler (choiceById input choices)
+                  | ChoicePrompt content ->
+                      match content with
+                      | MandatoryChoiceHandler content ->
+                          content.Choices
+                          |> choiceById input
+                          |> content.Handler
+                      | OptionalChoiceHandler content ->
+                          match input with
+                          | "back" -> content.Handler Back
+                          | _ ->
+                              content.Choices
+                              |> choiceById input
+                              |> Choice
+                              |> content.Handler
                   | ConfirmationPrompt handler ->
                       handler (input |> Convert.ToBoolean)
                   | NumberPrompt handler -> handler (input |> int)

@@ -4,7 +4,7 @@ open Cli.View.Actions
 open Cli.View.TextConstants
 open Entities
 open Simulation.Songs.Queries
-open Storage.Database
+open Storage
 
 /// Creates a list of choices from a map of unfinished songs.
 let unfinishedSongsSelectorOf (band: Band) =
@@ -35,12 +35,12 @@ let memberFromSelection (band: Band) (selection: Choice) =
 
 /// Creates a list of choices from all available genres.
 let genreOptions =
-  genres ()
+  Database.genres ()
   |> List.map (fun genre -> { Id = genre; Text = Literal genre })
 
 /// Creates a list of choices from all available instruments.
 let instrumentOptions =
-  roles ()
+  Database.roles ()
   |> List.map
        (fun role ->
          { Id = role.ToString()
@@ -54,3 +54,25 @@ let colorForLevel level =
   | level when level < 60 -> Spectre.Console.Color.Orange1
   | level when level < 80 -> Spectre.Console.Color.Green
   | _ -> Spectre.Console.Color.Blue
+
+/// Choice handler for optional prompts that calls the backHandler if the
+/// Back option was selected or the choiceHandler if a choice was selected.
+let basicOptionalChoiceHandler backHandler choiceHandler choice =
+  seq {
+    match choice with
+    | Back -> yield backHandler
+    | Choice choice -> yield! choiceHandler choice
+  }
+
+/// Choice handler for optional prompts with the back option pointing to the
+/// main menu.
+let mainMenuOptionalChoiceHandler handler choice =
+  basicOptionalChoiceHandler
+    (Scene <| MainMenu Savegame.Available)
+    handler
+    choice
+
+/// Choice handler for optional prompts with the back option pointing to the
+/// rehearsal room.
+let rehearsalRoomOptionalChoiceHandler handler choice =
+  basicOptionalChoiceHandler (Scene RehearsalRoom) handler choice

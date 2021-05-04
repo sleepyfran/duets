@@ -20,7 +20,11 @@ and genrePrompt character name =
     yield
       Prompt
         { Title = TextConstant BandCreatorGenrePrompt
-          Content = ChoicePrompt(genreOptions, instrumentPrompt character name) }
+          Content =
+            ChoicePrompt
+            <| MandatoryChoiceHandler
+                 { Choices = genreOptions
+                   Handler = instrumentPrompt character name } }
   }
 
 and instrumentPrompt character name genre =
@@ -29,10 +33,10 @@ and instrumentPrompt character name genre =
       Prompt
         { Title = TextConstant BandCreatorInstrumentPrompt
           Content =
-            ChoicePrompt(
-              instrumentOptions,
-              confirmationPrompt character name genre.Id
-            ) }
+            ChoicePrompt
+            <| MandatoryChoiceHandler
+                 { Choices = instrumentOptions
+                   Handler = confirmationPrompt character name genre.Id } }
   }
 
 and confirmationPrompt character name genre role =

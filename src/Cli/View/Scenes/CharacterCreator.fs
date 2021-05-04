@@ -25,7 +25,11 @@ and genderPrompt name =
     yield
       Prompt
         { Title = TextConstant CharacterCreatorGenderPrompt
-          Content = ChoicePrompt(genderOptions, agePrompt name) }
+          Content =
+            ChoicePrompt
+            <| MandatoryChoiceHandler
+                 { Choices = genderOptions
+                   Handler = agePrompt name } }
   }
 
 and agePrompt name choice =

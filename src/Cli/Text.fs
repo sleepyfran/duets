@@ -59,10 +59,12 @@ and fromConstant constant =
   | CommonNoUnfinishedSongs ->
       "[red]You don't have any songs, create one first[/]"
   | CommonSkills -> "Skills"
+  | CommonCancel -> "[bold]Cancel[/]"
+  | CommonBackToMainMenu -> "[bold]Back to main menu[/]"
   | MainMenuPrompt -> "Select an option to begin"
   | MainMenuNewGame -> "New game"
   | MainMenuLoadGame -> "Load game"
-  | MainMenuExit -> "Exit"
+  | MainMenuExit -> "[bold]Exit[/]"
   | MainMenuSavegameNotAvailable ->
       "[red]No savegame available. Create a new game[/]"
   | CharacterCreatorInitialPrompt ->

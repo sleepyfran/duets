@@ -41,7 +41,7 @@ and Prompt = { Title: Text; Content: PromptContent }
 
 /// Specified the different types of prompts available.
 and PromptContent =
-  | ChoicePrompt of ChoicePrompt * PromptHandler<Choice>
+  | ChoicePrompt of ChoicePrompt
   | ConfirmationPrompt of PromptHandler<bool>
   | NumberPrompt of PromptHandler<int>
   | TextPrompt of PromptHandler<string>
@@ -50,10 +50,26 @@ and PromptContent =
 /// returns another chain of actions.
 and PromptHandler<'a> = 'a -> ActionChain
 
-/// Defines a list of choices that the user can select.
-and ChoicePrompt = Choice list
-
 and Choice = { Id: string; Text: Text }
+
+and OptionalChoice =
+  | Choice of Choice
+  | Back
+
+/// Represents choices that cannot be skipped.
+and MandatoryChoiceHandler =
+  { Choices: Choice list
+    Handler: PromptHandler<Choice> }
+
+/// Represents choices that can be skipped with a back or cancel button.
+and OptionalChoiceHandler =
+  { Choices: Choice list
+    Handler: PromptHandler<OptionalChoice>
+    BackText: Text }
+
+and ChoicePrompt =
+  | MandatoryChoiceHandler of MandatoryChoiceHandler
+  | OptionalChoiceHandler of OptionalChoiceHandler
 
 /// Defines the content of a progress bar by giving the number of steps and
 /// the duration of each step. If Async is set to true the steps will be shown

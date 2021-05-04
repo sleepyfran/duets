@@ -1,6 +1,7 @@
 module Cli.View.Scenes.Management.Root
 
 open Cli.View.Actions
+open Cli.View.Common
 open Cli.View.TextConstants
 open Cli.View.Scenes.Management.Hire
 open Cli.View.Scenes.Management.Fire
@@ -19,7 +20,12 @@ let rec managementScene () =
     yield
       Prompt
         { Title = TextConstant ManagementPrompt
-          Content = ChoicePrompt(managementOptions, processSelection) }
+          Content =
+            ChoicePrompt
+            <| OptionalChoiceHandler
+                 { Choices = managementOptions
+                   Handler = rehearsalRoomOptionalChoiceHandler processSelection
+                   BackText = TextConstant CommonCancel } }
   }
 
 and processSelection choice =

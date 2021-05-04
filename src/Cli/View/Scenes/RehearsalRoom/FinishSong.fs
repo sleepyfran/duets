@@ -16,7 +16,14 @@ let rec finishSongScene () =
     yield
       Prompt
         { Title = TextConstant FinishSongSelection
-          Content = ChoicePrompt(songOptions, processSongSelection currentBand) }
+          Content =
+            ChoicePrompt
+            <| OptionalChoiceHandler
+                 { Choices = songOptions
+                   Handler =
+                     rehearsalRoomOptionalChoiceHandler
+                     <| processSongSelection currentBand
+                   BackText = TextConstant CommonCancel } }
   }
 
 and processSongSelection band selection =

@@ -14,18 +14,33 @@ let renderFiglet text =
   figlet.Color <- Color.Blue
   AnsiConsole.Render(figlet)
 
+let renderChoicePrompt title (choices: Choice list) =
+  let mutable selectionPrompt = SelectionPrompt<Choice>()
+  selectionPrompt.Title <- toString title
+  selectionPrompt <- selectionPrompt.AddChoices(choices)
+  selectionPrompt <- selectionPrompt.UseConverter(fun c -> toString c.Text)
+  AnsiConsole.Prompt(selectionPrompt).Id
+
+let renderMandatoryPrompt title (content: MandatoryChoiceHandler) =
+  renderChoicePrompt title content.Choices
+
+let renderOptionalPrompt title (content: OptionalChoiceHandler) =
+  [ { Id = "back"; Text = content.BackText } ]
+  |> List.append content.Choices
+  |> renderChoicePrompt title
+
 /// Renders the specified prompt and asks the user for a response depending
 /// on the specified type of prompt. Returns a string which either represents
 /// the raw user input (in case of a TextPrompt) or the ID of the choice that
 /// the user chose (in case of a ChoicePrompt).
 let renderPrompt prompt =
   match prompt.Content with
-  | ChoicePrompt (choices, _) ->
-      let mutable selectionPrompt = SelectionPrompt<Choice>()
-      selectionPrompt.Title <- toString prompt.Title
-      selectionPrompt <- selectionPrompt.AddChoices(choices)
-      selectionPrompt <- selectionPrompt.UseConverter(fun c -> toString c.Text)
-      AnsiConsole.Prompt(selectionPrompt).Id
+  | ChoicePrompt content ->
+      match content with
+      | MandatoryChoiceHandler content ->
+          renderMandatoryPrompt prompt.Title content
+      | OptionalChoiceHandler content ->
+          renderOptionalPrompt prompt.Title content
   | ConfirmationPrompt _ ->
       AnsiConsole.Confirm(toString prompt.Title)
       |> string
