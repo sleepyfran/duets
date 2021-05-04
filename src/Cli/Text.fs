@@ -153,7 +153,7 @@ and fromConstant constant =
       "Which song do you want to finish? [red]You won't be able to improve the song after this[/]"
   | FinishSongFinished (name, quality) ->
       String.Format(
-        "[green]Your band finished the song {0}. The result quality is {1}[/]",
+        "[green]Your band finished the song {0}. The result quality is {1}%[/]",
         name,
         quality
       )
