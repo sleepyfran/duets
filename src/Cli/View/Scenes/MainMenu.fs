@@ -5,6 +5,15 @@ open Cli.View.Common
 open Cli.View.TextConstants
 open Storage
 
+/// Current version of the game as loaded from the fsproj.
+let version =
+  System
+    .Reflection
+    .Assembly
+    .GetEntryAssembly()
+    .GetName()
+    .Version.ToString()
+
 let menuOptions hasSavegameAvailable =
   seq {
     yield
@@ -22,6 +31,7 @@ let menuOptions hasSavegameAvailable =
 let rec mainMenu savegameState =
   seq {
     yield Figlet <| TextConstant GameName
+    yield GameInfo version
 
     let hasSavegameAvailable =
       match savegameState with

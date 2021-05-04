@@ -109,3 +109,15 @@ let waitForInput explanationText =
   System.Console.WriteLine()
   renderMessage explanationText
   System.Console.Read() |> ignore
+
+/// Renders the current version of the game.
+let renderGameInfo version =
+  let gameInfo = $"v{version}"
+  let styledGameInfo = $"[bold blue dim]{gameInfo}[/]"
+
+  System.Console.SetCursorPosition(
+    (System.Console.WindowWidth - gameInfo.Length) / 2,
+    System.Console.CursorTop
+  )
+
+  AnsiConsole.MarkupLine(styledGameInfo)

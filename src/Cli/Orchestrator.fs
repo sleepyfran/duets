@@ -74,4 +74,5 @@ let rec runWith chain =
              saveIfNeeded scene
              clear ()
              runWith (actionsFrom scene)
+         | GameInfo version -> renderGameInfo version
          | NoOp -> ())

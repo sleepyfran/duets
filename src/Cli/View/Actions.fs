@@ -33,6 +33,7 @@ type Action =
   | Scene of Scene
   // Waits until the user presses a key and then navigates to the specified scene.
   | SceneAfterKey of Scene
+  | GameInfo of version: string
   | NoOp
 
 /// Sequence of actions to be executed.
