@@ -1,3 +1,4 @@
+[<RequireQualifiedAccess>]
 module Storage.Database
 
 open Common

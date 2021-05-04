@@ -6,7 +6,7 @@ open Cli.View.TextConstants
 open Entities
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Simulation.Songs.Composition.ComposeSong
-open Storage.Database
+open Storage
 
 let rec composeSongScene () =
   seq {
@@ -38,7 +38,7 @@ and genrePrompt name length =
 
 and vocalStylePrompt name length selectedGenre =
   let vocalStyleOptions =
-    vocalStyleNames ()
+    Database.vocalStyleNames ()
     |> List.map
          (fun vocalStyle ->
            { Id = vocalStyle.ToString()

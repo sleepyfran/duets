@@ -1,3 +1,4 @@
+[<RequireQualifiedAccess>]
 module Storage.Savegame
 
 open Entities

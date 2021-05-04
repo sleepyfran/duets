@@ -3,7 +3,7 @@ module Cli.View.Scenes.MainMenu
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
-open Storage.Savegame
+open Storage
 
 let menuOptions hasSavegameAvailable =
   seq {
@@ -25,8 +25,8 @@ let rec mainMenu savegameState =
 
     let hasSavegameAvailable =
       match savegameState with
-      | Available -> true
-      | NotAvailable -> false
+      | Savegame.Available -> true
+      | Savegame.NotAvailable -> false
 
     yield
       Prompt

@@ -3,11 +3,11 @@ module Cli.View.Actions
 open Cli.View.TextConstants
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
-open Storage.Savegame
+open Storage
 
 /// Defines the index of all scenes available in the game that can be instantiated.
 type Scene =
-  | MainMenu of SavegameState
+  | MainMenu of Savegame.SavegameState
   | CharacterCreator
   // Band creator needs a character the character that was created in the
   // previous step.

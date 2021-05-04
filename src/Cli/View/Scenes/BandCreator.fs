@@ -5,7 +5,6 @@ open Cli.View.Common
 open Cli.View.TextConstants
 open Simulation.Setup
 open Entities
-open Storage.Database
 
 let rec bandCreator (character: Character) =
   seq {
