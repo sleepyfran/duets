@@ -26,14 +26,8 @@ module Types =
   /// go on from there instead of following real life years.
   type Date = { Day: int; Month: Month; Year: int }
 
-  /// Defines the end of a period with either a date or by saying that is still
-  /// going on.
-  type PeriodEnd =
-    | Date of Date
-    | Ongoing
-
   /// Defines a period of time with a start and an optional end.
-  type Period = Date * PeriodEnd
+  type Period = Date * Date
 
   /// Defines a musical genre. This basic type is just an alias for the name of
   /// the genre, there's more specific types depending on the type of information

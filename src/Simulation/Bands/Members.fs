@@ -70,7 +70,7 @@ let fireMember (band: Band) (bandMember: CurrentMember) =
     Error AttemptToFirePlayableCharacter
   else
     let pastMember =
-      Band.PastMember.fromMember bandMember (Date <| today ())
+      Band.PastMember.fromMember bandMember (today ())
 
     let membersLens = Lenses.members_ band.Id
     let pastMembersLens = Lenses.pastMembers_ band.Id

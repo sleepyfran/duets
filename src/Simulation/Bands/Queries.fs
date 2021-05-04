@@ -12,9 +12,14 @@ let currentBand () =
   let state = State.get ()
   state.Bands |> Map.find state.CurrentBandId
 
-/// Returns all the current members of the current band.
+/// Returns all current members of the current band.
 let currentBandMembers () =
   currentBand () |> Optic.get Lenses.Band.members_
+
+/// Returns all past members of the current band.
+let pastBandMembers () =
+  currentBand ()
+  |> Optic.get Lenses.Band.pastMembers_
 
 /// Returns all the current members of the current band removing the main
 /// character out of it. Useful for situations like selections in firing or

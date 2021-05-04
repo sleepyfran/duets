@@ -103,3 +103,9 @@ let separator () =
   let rule = Rule().Centered()
   rule.Style <- Style.Parse("blue dim")
   AnsiConsole.Render(rule)
+
+/// Waits until the user inputs something.
+let waitForInput explanationText =
+  System.Console.WriteLine()
+  renderMessage explanationText
+  System.Console.Read() |> ignore

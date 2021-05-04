@@ -5,12 +5,15 @@ open Cli.View.Common
 open Cli.View.TextConstants
 open Cli.View.Scenes.Management.Hire
 open Cli.View.Scenes.Management.Fire
+open Cli.View.Scenes.Management.MemberList
 
 let managementOptions =
   [ { Id = "hire"
       Text = TextConstant ManagementHireMember }
     { Id = "fire"
-      Text = TextConstant ManagementFireMember } ]
+      Text = TextConstant ManagementFireMember }
+    { Id = "members"
+      Text = TextConstant ManagementMemberList } ]
 
 /// Creates the management menu which allows to hire and fire members.
 let rec managementScene () =
@@ -33,5 +36,6 @@ and processSelection choice =
     match choice.Id with
     | "hire" -> yield! hireScene ()
     | "fire" -> yield! fireScene ()
+    | "members" -> yield! memberListScene ()
     | _ -> yield NoOp
   }

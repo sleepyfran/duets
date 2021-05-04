@@ -61,6 +61,7 @@ and fromConstant constant =
   | CommonSkills -> "Skills"
   | CommonCancel -> "[bold]Cancel[/]"
   | CommonBackToMainMenu -> "[bold]Back to main menu[/]"
+  | CommonPressKeyToContinue -> "Press [bold blue]any[/] key to continue"
   | MainMenuPrompt -> "Select an option to begin"
   | MainMenuNewGame -> "New game"
   | MainMenuLoadGame -> "Load game"
@@ -165,6 +166,7 @@ and fromConstant constant =
   | ManagementPrompt -> "What do you want to to?"
   | ManagementHireMember -> "Hire a new member"
   | ManagementFireMember -> "Fire a member"
+  | ManagementMemberList -> "List members"
   | HireMemberRolePrompt -> "What role are you looking to hire?"
   | HireMemberSkillSummary (name, gender) ->
       String.Format(
@@ -192,3 +194,20 @@ and fromConstant constant =
       String.Format("Are you sure you want to [bold red]fire[/] {0}?", name)
   | FireMemberConfirmed name ->
       String.Format("You [bold red]fired[/] {0}", name)
+  | MemberListCurrentTitle -> "[bold underline]Current members[/]"
+  | MemberListCurrentMember (name, role, since) ->
+      String.Format(
+        "{0} ({1}) since year {2}",
+        name,
+        instrumentName role,
+        since.Year
+      )
+  | MemberListPastTitle -> "[bold underline]Past members[/]"
+  | MemberListPastMember (name, role, since, until) ->
+      String.Format(
+        "{0} ({1}) from year {2} until year {3}",
+        name,
+        instrumentName role,
+        since.Year,
+        until.Year
+      )

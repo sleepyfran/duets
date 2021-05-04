@@ -7,6 +7,7 @@ open Cli.View.Scenes.CharacterCreator
 open Cli.View.Scenes.MainMenu
 open Cli.View.Scenes.RehearsalRoom.Root
 open Cli.View.Scenes.Management.Root
+open Cli.View.TextConstants
 open Cli.View.Renderer
 open Storage
 
@@ -59,15 +60,17 @@ let rec runWith chain =
                   | NumberPrompt handler -> handler (input |> int)
                   | TextPrompt handler -> handler input
                   |> runWith
-         | Message message ->
-             renderMessage message
-             ()
-         | Figlet text ->
-             renderFiglet text
-             ()
+         | Message message -> renderMessage message
+         | Figlet text -> renderFiglet text
          | ProgressBar content -> renderProgressBar content
          | Scene scene ->
              saveIfNeeded scene
              separator ()
+             runWith (actionsFrom scene)
+         | SceneAfterKey scene ->
+             waitForInput
+             <| TextConstant CommonPressKeyToContinue
+
+             clear ()
              runWith (actionsFrom scene)
          | NoOp -> ())

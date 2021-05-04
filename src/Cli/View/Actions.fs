@@ -31,6 +31,8 @@ type Action =
   | Prompt of Prompt
   | ProgressBar of ProgressBarContent
   | Scene of Scene
+  // Waits until the user presses a key and then navigates to the specified scene.
+  | SceneAfterKey of Scene
   | NoOp
 
 /// Sequence of actions to be executed.

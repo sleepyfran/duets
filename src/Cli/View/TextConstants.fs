@@ -19,6 +19,7 @@ type TextConstant =
   | CommonSkills
   | CommonCancel
   | CommonBackToMainMenu
+  | CommonPressKeyToContinue
   | MainMenuPrompt
   | MainMenuNewGame
   | MainMenuLoadGame
@@ -80,6 +81,7 @@ type TextConstant =
   | ManagementPrompt
   | ManagementHireMember
   | ManagementFireMember
+  | ManagementMemberList
   | HireMemberRolePrompt
   | HireMemberSkillSummary of name: string * gender: Gender
   | HireMemberSkillLine of id: SkillId * level: int
@@ -90,3 +92,11 @@ type TextConstant =
   | FireMemberPrompt
   | FireMemberConfirmation of name: string
   | FireMemberConfirmed of name: string
+  | MemberListCurrentTitle
+  | MemberListCurrentMember of name: string * role: InstrumentType * since: Date
+  | MemberListPastTitle
+  | MemberListPastMember of
+    name: string *
+    role: InstrumentType *
+    from: Date *
+    until: Date
