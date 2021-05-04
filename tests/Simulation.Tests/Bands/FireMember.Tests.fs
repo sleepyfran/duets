@@ -57,8 +57,4 @@ let FiredMemberShouldHaveTodayAsFiredDay () =
   List.head band.PastMembers
   |> fun m -> m.Period
   |> snd
-  |> fun periodEnd ->
-       match periodEnd with
-       | Date date -> date
-       | _ -> raise <| InvalidDataException()
   |> should equal (today ())
