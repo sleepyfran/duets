@@ -63,16 +63,19 @@ let rec runWith chain =
          | Message message -> renderMessage message
          | Figlet text -> renderFiglet text
          | ProgressBar content -> renderProgressBar content
-         | Scene scene ->
-             saveIfNeeded scene
-             separator ()
-             runWith (actionsFrom scene)
+         | Scene scene -> runScene scene
          | SceneAfterKey scene ->
              waitForInput
              <| TextConstant CommonPressKeyToContinue
 
-             saveIfNeeded scene
-             clear ()
-             runWith (actionsFrom scene)
+             runScene scene
          | GameInfo version -> renderGameInfo version
          | NoOp -> ())
+
+/// Saves the game, clears the screen and runs the next scene with a separator
+/// on top.
+and runScene scene =
+  saveIfNeeded scene
+  clear ()
+  separator ()
+  runWith (actionsFrom scene)
