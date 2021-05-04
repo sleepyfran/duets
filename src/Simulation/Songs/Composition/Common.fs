@@ -50,18 +50,18 @@ let addUnfinishedSong (band: Band) unfinishedSong =
   let (UnfinishedSong (song), _, _) = unfinishedSong
 
   let unfinishedSongLens = Lenses.unfinishedSongs_ band.Id
+  let addUnfinishedSong = Map.add song.Id unfinishedSong
 
-  State.map (
-    Optic.map unfinishedSongLens (Map.add song.Id unfinishedSong)
-  )
+  State.map (Optic.map unfinishedSongLens addUnfinishedSong)
 
 /// Removes an unfinished song and returns it back.
 let removeUnfinishedSong (band: Band) unfinishedSong =
   let (UnfinishedSong (song), _, _) = unfinishedSong
 
   let unfinishedSongLens = Lenses.unfinishedSongs_ band.Id
+  let removeUnfinishedSong = Map.remove song.Id
 
-  State.map (Optic.map unfinishedSongLens (Map.remove song.Id))
+  State.map (Optic.map unfinishedSongLens removeUnfinishedSong)
 
 /// Adds or modifies a given unfinished song in the band's finished repertoire.
 let addFinishedSong (band: Band) unfinishedSong =
@@ -69,6 +69,7 @@ let addFinishedSong (band: Band) unfinishedSong =
 
   let finishedSongLens = Lenses.finishedSongs_ band.Id
 
-  State.map (
-    Optic.map finishedSongLens (Map.add song.Id (FinishedSong song, quality))
-  )
+  let addFinishedSong =
+    Map.add song.Id (FinishedSong song, quality)
+
+  State.map (Optic.map finishedSongLens addFinishedSong)

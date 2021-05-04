@@ -55,8 +55,9 @@ let hireMember (band: Band) (memberForHire: MemberForHire) =
     |> Band.Member.fromMemberForHire memberForHire
 
   let membersLens = Lenses.members_ band.Id
+  let addMember = List.append [ currentMember ]
 
-  State.map (Optic.map membersLens (List.append [ currentMember ]))
+  State.map (Optic.map membersLens addMember)
 
 type FireError = AttemptToFirePlayableCharacter
 
@@ -74,11 +75,15 @@ let fireMember (band: Band) (bandMember: CurrentMember) =
     let membersLens = Lenses.members_ band.Id
     let pastMembersLens = Lenses.pastMembers_ band.Id
 
+    let removeMember =
+      List.filter
+        (fun (m: CurrentMember) -> m.Character.Id <> bandMember.Character.Id)
+
+    let addPastMember = List.append [ pastMember ]
+
     State.map (
-      Optic.map
-        membersLens
-        (List.filter (fun m -> m.Character.Id <> bandMember.Character.Id))
-      >> Optic.map pastMembersLens (List.append [ pastMember ])
+      Optic.map membersLens removeMember
+      >> Optic.map pastMembersLens addPastMember
     )
 
     Ok()
