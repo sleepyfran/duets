@@ -116,7 +116,7 @@ and fromConstant constant =
       "What [bold blue]vocal style[/] should it have?"
   | ComposeSongConfirmation title ->
       String.Format(
-        "[green]Your band has started working on the song {0}[/]. [blue]You can finish or improve it through the compose section in the rehearsal room[/]",
+        "[green]Your band has started working on the song \"{0}\"[/]. [blue]You can finish or improve it through the compose section in the rehearsal room[/]",
         title
       )
   | ComposeSongErrorNameTooShort -> "[red]The name of the song is too short[/]"
@@ -153,7 +153,7 @@ and fromConstant constant =
       "Which song do you want to finish? [red]You won't be able to improve the song after this[/]"
   | FinishSongFinished (name, quality) ->
       String.Format(
-        "[green]Your band finished the song {0}. The result quality is {1}%[/]",
+        "[green]Your band finished the song \"{0}\". The result quality is {1}%[/]",
         name,
         quality
       )
