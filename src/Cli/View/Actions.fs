@@ -3,7 +3,6 @@ module Cli.View.Actions
 open Cli.View.TextConstants
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
-open Storage
 
 /// Defines the index of all scenes available in the game that can be instantiated.
 type Scene =
@@ -12,8 +11,8 @@ type Scene =
   // Band creator needs a character the character that was created in the
   // previous step.
   | BandCreator of Character
-  | RehearsalRoom
-  | Management
+  | RehearsalRoom of State
+  | Management of State
 
 /// Encapsulates text that can either be defined by a text constant, which is
 /// resolved by the UI layer, or a string constant that is just passed from this

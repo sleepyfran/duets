@@ -1,29 +1,30 @@
 module Simulation.Songs.Composition.ImproveSong
 
-open Simulation.Bands.Queries
-open Simulation.Songs.Composition.Common
+open Common
 open Entities
 
-let private doImprove song maxQuality quality =
-  let band = currentBand ()
+let private doImprove band song maxQuality quality =
   let increase = calculateQualityIncreaseOf maxQuality
   let updatedQuality = quality + increase
   let canBeFurtherImproved = maxQuality > updatedQuality
 
   let songWithUpdatedQualities = (song, maxQuality, updatedQuality)
 
-  addUnfinishedSong band songWithUpdatedQualities
+  let status =
+    if canBeFurtherImproved then
+      CanBeImproved updatedQuality
+    else
+      ReachedMaxQualityInLastImprovement updatedQuality
 
-  if canBeFurtherImproved then
-    CanBeImproved updatedQuality
-  else
-    ReachedMaxQualityInLastImprovement updatedQuality
+  SongStarted(band, songWithUpdatedQualities)
+  |> Effect.single
+  |> Tuple.two status
 
 /// Orchestrates the improvement of a song, which calculates the increase that
 /// should happen in this action and returns whether the song can be further
 /// increased or not.
-let improveSong (song, maxQuality, currentQuality) =
+let improveSong state band (song, maxQuality, currentQuality) =
   if currentQuality >= maxQuality then
-    ReachedMaxQualityAlready currentQuality
+    (ReachedMaxQualityAlready currentQuality, Effect.empty)
   else
-    doImprove song maxQuality currentQuality
+    doImprove band song maxQuality currentQuality

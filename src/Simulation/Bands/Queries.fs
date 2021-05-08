@@ -8,34 +8,34 @@ open Simulation.Skills.Queries
 open Storage
 
 /// Returns the currently selected band in the game.
-let currentBand () =
-  let state = State.get ()
+let currentBand state =
   state.Bands |> Map.find state.CurrentBandId
 
 /// Returns all current members of the current band.
-let currentBandMembers () =
-  currentBand () |> Optic.get Lenses.Band.members_
+let currentBandMembers state =
+  currentBand state
+  |> Optic.get Lenses.Band.members_
 
 /// Returns all past members of the current band.
-let pastBandMembers () =
-  currentBand ()
+let pastBandMembers state =
+  currentBand state
   |> Optic.get Lenses.Band.pastMembers_
 
 /// Returns all the current members of the current band removing the main
 /// character out of it. Useful for situations like selections in firing or
 /// actions in which the playable character should not be taken into
 /// consideration.
-let currentBandMembersWithoutPlayableCharacter () =
-  let mainCharacter = playableCharacter ()
+let currentBandMembersWithoutPlayableCharacter state =
+  let mainCharacter = playableCharacter state
 
-  currentBandMembers ()
+  currentBandMembers state
   |> List.filter (fun c -> c.Character.Id <> mainCharacter.Id)
 
 /// Returns the average skill level of the members of the band.
-let averageSkillLevel (band: Band) =
+let averageSkillLevel state (band: Band) =
   band.Members
   |> List.map (fun mem -> mem.Character.Id)
-  |> List.map averageSkillLevel
+  |> List.map (averageSkillLevel state)
   |> List.average
 
 /// Returns the average age of the members of the band.

@@ -12,4 +12,4 @@ let startGame character (band: Band) =
     Bands = [ (band.Id, band) ] |> Map.ofList
     BandRepertoire = Band.Repertoire.emptyFor band.Id
     Today = Calendar.fromDayMonth 1 1 }
-  |> State.set
+  |> GameCreated

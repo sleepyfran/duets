@@ -1,4 +1,4 @@
-module Storage.Serializer
+module Serializer
 
 open System.Text.Json
 open System.Text.Json.Serialization

@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Storage</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,21 +9,12 @@
     <Compile Include="Data\Roles.fs" />
     <Compile Include="Data\VocalStyles.fs" />
     <Compile Include="Data\Npcs.fs" />
-    <Compile Include="Serializer.fs" />
-    <Compile Include="Files.fs" />
-    <Compile Include="State.fs" />
-    <Compile Include="Savegame.fs" />
     <Compile Include="Database.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.fsproj" />
     <ProjectReference Include="..\Entities\Entities.fsproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Aether" Version="8.3.1" />
-    <PackageReference Include="FSharp.SystemTextJson" Version="0.16.6" />
   </ItemGroup>
 
 </Project>

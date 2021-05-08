@@ -6,17 +6,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Lenses.fs" />
+        <Compile Include="Songs.fs" />
+        <Compile Include="Bands.fs" />
+        <Compile Include="State.fs" />
         <Content Include="README.md" />
-        <Compile Include="Math.fs" />
-        <Compile Include="Random.fs" />
-        <Compile Include="Result.fs" />
-        <Compile Include="List.fs" />
-        <Compile Include="Tuple.fs" />
-        <Compile Include="Map.fs" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Aether" Version="8.3.1" />
+      <ProjectReference Include="..\Entities\Entities.fsproj" />
     </ItemGroup>
 
 </Project>

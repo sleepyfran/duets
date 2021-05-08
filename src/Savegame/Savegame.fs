@@ -1,9 +1,8 @@
-[<RequireQualifiedAccess>]
-module Storage.Savegame
+﻿module Savegame
 
 open Entities
-open Storage.Files
-open Storage.Serializer
+open Files
+open Serializer
 
 type SavegameState =
   | Available

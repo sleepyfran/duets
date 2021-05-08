@@ -6,6 +6,9 @@
 /// https://github.com/MoiraeSoftware/myriad/issues/103
 module Entities.Lenses
 
+open Aether.Operators
+open Common
+
 module State =
   let bands_ =
     (fun (s: State) -> s.Bands), (fun v (s: State) -> { s with Bands = v })

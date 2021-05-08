@@ -34,7 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Savegame\Savegame.fsproj" />
     <ProjectReference Include="..\Simulation\Simulation.fsproj" />
+    <ProjectReference Include="..\State\State.fsproj" />
   </ItemGroup>
 
 </Project>

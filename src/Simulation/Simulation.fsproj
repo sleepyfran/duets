@@ -14,7 +14,6 @@
         <Compile Include="Bands\Lenses.fs" />
         <Compile Include="Bands\Queries.fs" />
         <Compile Include="Bands\Members.fs" />
-        <Compile Include="Songs\Lenses.fs" />
         <Compile Include="Songs\Queries.fs" />
         <Compile Include="Songs\Composition\Common.fs" />
         <Compile Include="Songs\Composition\ComposeSong.fs" />
@@ -25,7 +24,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Common\Common.fsproj" />
-        <ProjectReference Include="..\Storage\Storage.fsproj" />
+        <ProjectReference Include="..\Database\Database.fsproj" />
     </ItemGroup>
 
     <ItemGroup>
