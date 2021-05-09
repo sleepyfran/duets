@@ -2,23 +2,34 @@ module Orchestrator
 
 open System
 open Cli.View.Actions
-open Cli.View.Scenes.BandCreator
-open Cli.View.Scenes.CharacterCreator
-open Cli.View.Scenes.MainMenu
-open Cli.View.Scenes.RehearsalRoom.Root
-open Cli.View.Scenes.Management.Root
+open Cli.View.Scenes
 open Cli.View.TextConstants
 open Cli.View.Renderer
-open Storage
 
 /// Returns the sequence of actions associated with a screen given its name.
-let actionsFrom scene =
+let actionsFromScene scene =
   match scene with
-  | MainMenu savegameState -> mainMenu savegameState
-  | CharacterCreator -> characterCreator ()
-  | BandCreator character -> bandCreator character
-  | RehearsalRoom -> rehearsalRoomScene ()
-  | Management -> managementScene ()
+  | MainMenu savegameState -> MainMenu.mainMenu savegameState
+  | CharacterCreator -> CharacterCreator.characterCreator ()
+  | BandCreator character -> BandCreator.bandCreator character
+  | RehearsalRoom -> RehearsalRoom.Root.rehearsalRoomScene ()
+  | Management -> Management.Root.managementScene ()
+
+let actionsFromSubScene state subScene =
+  match subScene with
+  | SubScene.RehearsalRoomCompose -> RehearsalRoom.Compose.compose state
+  | SubScene.RehearsalRoomComposeSong ->
+      RehearsalRoom.ComposeSong.composeSongScene state
+  | SubScene.RehearsalRoomImproveSong ->
+      RehearsalRoom.ImproveSong.improveSongScene state
+  | SubScene.RehearsalRoomFinishSong ->
+      RehearsalRoom.FinishSong.finishSongScene state
+  | SubScene.RehearsalRoomDiscardSong ->
+      RehearsalRoom.DiscardSong.discardSongScene state
+  | SubScene.ManagementHireMember -> Management.Hire.hireScene state
+  | SubScene.ManagementFireMember -> Management.Fire.fireScene state
+  | SubScene.ManagementListMembers ->
+      Management.MemberList.memberListScene state
 
 /// Saves the game to the savegame file only if the screen is not the main menu,
 /// character creator or band creator, which still have unreliable data or
@@ -69,6 +80,11 @@ let rec runWith chain =
              <| TextConstant CommonPressKeyToContinue
 
              runScene scene
+         | SubScene subScene ->
+             subScene
+             |> actionsFromSubScene (State.Root.get ())
+             |> runWith
+         | Effect effect -> State.Root.apply effect
          | GameInfo version -> renderGameInfo version
          | NoOp -> ())
 
@@ -78,4 +94,4 @@ and runScene scene =
   saveIfNeeded scene
   clear ()
   separator ()
-  runWith (actionsFrom scene)
+  runWith (actionsFromScene scene)

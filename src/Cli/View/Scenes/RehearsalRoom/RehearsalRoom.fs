@@ -35,7 +35,7 @@ let rec rehearsalRoomScene () =
 and processSelection choice =
   seq {
     match choice.Id with
-    | "compose" -> yield! compose ()
-    | "manage" -> yield (Scene Management)
+    | "compose" -> yield SubScene SubScene.RehearsalRoomCompose
+    | "manage" -> yield Scene Management
     | _ -> yield NoOp
   }

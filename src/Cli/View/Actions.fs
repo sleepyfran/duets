@@ -11,8 +11,20 @@ type Scene =
   // Band creator needs a character the character that was created in the
   // previous step.
   | BandCreator of Character
-  | RehearsalRoom of State
-  | Management of State
+  | RehearsalRoom
+  | Management
+
+/// Defines the index of all sub-scenes available. Sub-scenes belong to a Scene
+/// and thus do not clear the screen or save a game.
+type SubScene =
+  | RehearsalRoomCompose
+  | RehearsalRoomComposeSong
+  | RehearsalRoomImproveSong
+  | RehearsalRoomFinishSong
+  | RehearsalRoomDiscardSong
+  | ManagementHireMember
+  | ManagementFireMember
+  | ManagementListMembers
 
 /// Encapsulates text that can either be defined by a text constant, which is
 /// resolved by the UI layer, or a string constant that is just passed from this
@@ -32,7 +44,9 @@ type Action =
   | Scene of Scene
   // Waits until the user presses a key and then navigates to the specified scene.
   | SceneAfterKey of Scene
+  | SubScene of SubScene
   | GameInfo of version: string
+  | Effect of Effect
   | NoOp
 
 /// Sequence of actions to be executed.

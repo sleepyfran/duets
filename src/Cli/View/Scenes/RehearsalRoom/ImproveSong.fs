@@ -8,10 +8,12 @@ open Entities
 open Simulation.Bands.Queries
 open Simulation.Songs.Composition.ImproveSong
 
-let rec improveSongScene () =
+let rec improveSongScene state =
   seq {
-    let currentBand = currentBand ()
-    let songOptions = unfinishedSongsSelectorOf currentBand
+    let currentBand = currentBand state
+
+    let songOptions =
+      unfinishedSongsSelectorOf state currentBand
 
     yield
       Prompt
@@ -20,22 +22,24 @@ let rec improveSongScene () =
             ChoicePrompt
             <| OptionalChoiceHandler
                  { Choices = songOptions
-                   Handler = processOptionalSongSelection currentBand
+                   Handler = (processOptionalSongSelection state currentBand)
                    BackText = TextConstant CommonCancel } }
   }
 
-and processOptionalSongSelection band selection =
+and processOptionalSongSelection state band selection =
   seq {
     match selection with
-    | Choice choice -> yield! processSongSelection band choice
+    | Choice choice -> yield! processSongSelection state band choice
     | Back -> yield Scene RehearsalRoom
   }
 
-and processSongSelection band selection =
+and processSongSelection state band selection =
   seq {
-    let songStatus =
-      unfinishedSongFromSelection band selection
-      |> improveSong
+    let (songStatus, effects) =
+      unfinishedSongFromSelection state band selection
+      |> improveSong state band
+
+    yield! effects |> Seq.map Effect
 
     match songStatus with
     | CanBeImproved quality ->

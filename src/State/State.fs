@@ -1,4 +1,5 @@
-﻿module State
+﻿[<RequireQualifiedAccess>]
+module State.Root
 
 open Entities
 
@@ -34,18 +35,27 @@ let staticAgent = StateAgent()
 /// Returns the state of the game.
 let get = staticAgent.Get
 
+/// Sets the state of the game. Prefer to use `apply` instead, only exposed
+/// for the savegame loading.
+let set = staticAgent.Set
+
 /// Applies an effect to the state.
 let apply effect =
   match effect with
   | GameCreated state -> staticAgent.Set state
   | SongStarted (band, unfinishedSong) ->
-      State.Songs.addUnfinished staticAgent.Map band unfinishedSong
+      Songs.addUnfinished staticAgent.Map band unfinishedSong
   | SongImproved (band, (Diff (_, unfinishedSong))) ->
-      State.Songs.addUnfinished staticAgent.Map band unfinishedSong
+      Songs.addUnfinished staticAgent.Map band unfinishedSong
   | SongFinished (band, finishedSong) ->
       let song = Song.fromFinished finishedSong
-      State.Songs.removeUnfinished staticAgent.Map band song.Id
-      State.Songs.addFinished staticAgent.Map band finishedSong
+      Songs.removeUnfinished staticAgent.Map band song.Id
+      Songs.addFinished staticAgent.Map band finishedSong
   | SongDiscarded (band, unfinishedSong) ->
       let song = Song.fromUnfinished unfinishedSong
-      State.Songs.removeUnfinished staticAgent.Map band song.Id
+      Songs.removeUnfinished staticAgent.Map band song.Id
+  | MemberHired (band, currentMember) ->
+      Bands.addMember staticAgent.Map band currentMember
+  | MemberFired (band, currentMember, pastMember) ->
+      Bands.removeMember staticAgent.Map band currentMember
+      Bands.addPastMember staticAgent.Map band pastMember

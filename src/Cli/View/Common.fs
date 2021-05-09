@@ -7,8 +7,8 @@ open Simulation.Songs.Queries
 open Storage
 
 /// Creates a list of choices from a map of unfinished songs.
-let unfinishedSongsSelectorOf (band: Band) =
-  unfinishedSongsByBand band.Id
+let unfinishedSongsSelectorOf state (band: Band) =
+  unfinishedSongsByBand state band.Id
   |> Map.toList
   |> List.map
        (fun (songId, ((UnfinishedSong us), _, currentQuality)) ->
@@ -18,11 +18,11 @@ let unfinishedSongsSelectorOf (band: Band) =
            Text = Literal $"{us.Name} (Quality: {currentQuality}%%)" })
 
 /// Returns the unfinished song that was selected in the choice prompt.
-let unfinishedSongFromSelection (band: Band) (selection: Choice) =
+let unfinishedSongFromSelection state (band: Band) (selection: Choice) =
   selection.Id
   |> System.Guid.Parse
   |> SongId
-  |> unfinishedSongByBandAndSongId band.Id
+  |> unfinishedSongByBandAndSongId state band.Id
   |> Option.get
 
 /// Returns the full selected member.

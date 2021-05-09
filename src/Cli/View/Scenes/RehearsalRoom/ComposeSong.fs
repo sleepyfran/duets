@@ -8,23 +8,23 @@ open FSharp.Data.UnitSystems.SI.UnitNames
 open Simulation.Songs.Composition.ComposeSong
 open Storage
 
-let rec composeSongScene () =
+let rec composeSongScene state =
   seq {
     yield
       Prompt
         { Title = TextConstant ComposeSongTitlePrompt
-          Content = TextPrompt lengthPrompt }
+          Content = TextPrompt(lengthPrompt state) }
   }
 
-and lengthPrompt name =
+and lengthPrompt state name =
   seq {
     yield
       Prompt
         { Title = TextConstant ComposeSongLengthPrompt
-          Content = NumberPrompt(genrePrompt name) }
+          Content = NumberPrompt(genrePrompt state name) }
   }
 
-and genrePrompt name length =
+and genrePrompt state name length =
   seq {
     yield
       Prompt
@@ -33,10 +33,10 @@ and genrePrompt name length =
             ChoicePrompt
             <| MandatoryChoiceHandler
                  { Choices = genreOptions
-                   Handler = vocalStylePrompt name length } }
+                   Handler = vocalStylePrompt state name length } }
   }
 
-and vocalStylePrompt name length selectedGenre =
+and vocalStylePrompt state name length selectedGenre =
   let vocalStyleOptions =
     Database.vocalStyleNames ()
     |> List.map
@@ -53,16 +53,16 @@ and vocalStylePrompt name length selectedGenre =
             <| MandatoryChoiceHandler
                  { Choices = vocalStyleOptions
                    Handler =
-                     handleSong name (length * 1<second>) selectedGenre.Id } }
+                     handleSong state name (length * 1<second>) selectedGenre.Id } }
   }
 
-and handleSong name length genre selectedVocalStyle =
+and handleSong state name length genre selectedVocalStyle =
   let vocalStyle =
     Song.VocalStyle.from selectedVocalStyle.Id
 
   seq {
     match Song.from name length vocalStyle genre with
-    | Ok song -> yield! composeWithProgressbar song
+    | Ok song -> yield! composeWithProgressbar state song
     | Error Song.NameTooShort ->
         yield!
           handleError
@@ -81,9 +81,9 @@ and handleSong name length genre selectedVocalStyle =
           <| TextConstant ComposeSongErrorLengthTooLong
   }
 
-and composeWithProgressbar song =
+and composeWithProgressbar state song =
   seq {
-    composeSong song
+    yield Effect <| composeSong state song
 
     yield
       ProgressBar
@@ -104,5 +104,5 @@ and composeWithProgressbar song =
 and handleError message =
   seq {
     yield Message <| message
-    yield! composeSongScene ()
+    yield SubScene SubScene.RehearsalRoomComposeSong
   }

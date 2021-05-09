@@ -31,11 +31,11 @@ let createOptions hasUnfinishedSongs =
   }
   |> List.ofSeq
 
-let rec compose () =
+let rec compose state =
   let options =
-    currentBand ()
+    currentBand state
     |> fun band -> band.Id
-    |> unfinishedSongsByBand
+    |> unfinishedSongsByBand state
     |> Map.count
     |> fun count -> count > 0
     |> createOptions
@@ -55,9 +55,9 @@ let rec compose () =
 and processSelection choice =
   seq {
     match choice.Id with
-    | "compose_song" -> yield! composeSongScene ()
-    | "improve_song" -> yield! improveSongScene ()
-    | "finish_song" -> yield! finishSongScene ()
-    | "discard_song" -> yield! discardSongScene ()
-    | _ -> NoOp
+    | "compose_song" -> yield SubScene SubScene.RehearsalRoomComposeSong
+    | "improve_song" -> yield SubScene SubScene.RehearsalRoomImproveSong
+    | "finish_song" -> yield SubScene SubScene.RehearsalRoomFinishSong
+    | "discard_song" -> yield SubScene SubScene.RehearsalRoomDiscardSong
+    | _ -> yield NoOp
   }

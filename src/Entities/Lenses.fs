@@ -44,3 +44,27 @@ module BandRepertoire =
   let finished_ =
     (fun (br: BandRepertoire) -> br.Finished),
     (fun v (br: BandRepertoire) -> { br with Finished = v })
+
+module FromState =
+  module Bands =
+    /// Lens into a specific band given the state and its id.
+    let band_ id = State.bands_ >-> Map.key_ id
+
+    /// Lens into the members of a specific band given the state and its id.
+    let members_ id = band_ id >?> Band.members_
+
+    /// Lens into the past members of a specific band given the state and its id.
+    let pastMembers_ id = band_ id >?> Band.pastMembers_
+
+  module Songs =
+    /// Lenses to the unfinished field of a specific band in its repertoire.
+    let unfinishedByBand_ bandId =
+      State.bandRepertoire_
+      >-> BandRepertoire.unfinished_
+      >-> Map.key_ bandId
+
+    /// Lenses to the finished field of a specific band in its repertoire.
+    let finishedByBand_ bandId =
+      State.bandRepertoire_
+      >-> BandRepertoire.finished_
+      >-> Map.key_ bandId

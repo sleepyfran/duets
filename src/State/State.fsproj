@@ -6,7 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Lenses.fs" />
         <Compile Include="Songs.fs" />
         <Compile Include="Bands.fs" />
         <Compile Include="State.fs" />
