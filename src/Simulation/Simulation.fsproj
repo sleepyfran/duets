@@ -11,7 +11,6 @@
         <Compile Include="Character\Queries.fs" />
         <Compile Include="Setup\StartGame.fs" />
         <Compile Include="Skills\Queries.fs" />
-        <Compile Include="Bands\Lenses.fs" />
         <Compile Include="Bands\Queries.fs" />
         <Compile Include="Bands\Members.fs" />
         <Compile Include="Songs\Queries.fs" />
