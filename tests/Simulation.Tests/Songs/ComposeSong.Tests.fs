@@ -6,43 +6,32 @@ open FsUnit
 
 open Entities
 open Simulation.Songs.Composition.ComposeSong
-open Simulation.Songs.Queries
-
-[<SetUp>]
-let Setup () = initStateWithDummies ()
 
 [<Test>]
-let ShouldAddSongToState () =
-  composeSong dummySong
-
-  currentBand ()
-  |> fun band -> band.Id
-  |> unfinishedSongsByBand
-  |> should haveCount 1
-
-[<Test>]
-let ShouldHaveAssignedProperties () =
-  composeSong dummySong
-
-  lastUnfinishedSong ()
-  |> fun ((UnfinishedSong (s)), _, _) -> (s.Name, s.Length, s.VocalStyle)
-  |> should equal (dummySong.Name, dummySong.Length, VocalStyle.Instrumental)
-
-[<Test>]
-let QualitiesShouldDefaultTo5MaxAndCurrent1IfLevelIs0 () =
-  composeSong dummySong
-
-  lastUnfinishedSong ()
-  |> fun (_, mq, q) -> (mq, q)
-  |> should equal (5, 1)
+let ComposeSongShouldGenerateSongComposedEffectWithDefaultQualities () =
+  composeSong dummyState dummySong
+  |> should
+       be
+       (ofCase
+         <@ SongStarted(
+           dummyBand,
+           (UnfinishedSong dummySong, 5<quality>, 1<quality>)
+         ) @>)
 
 [<Test>]
 let QualitiesShouldBeCalculatedBasedOnBandMemberSkills () =
-  let character = currentCharacter ()
-  addSkillTo character (Skill.createWithLevel SkillId.Composition 50)
-  addSkillTo character (Skill.createWithLevel (Genre dummyBand.Genre) 50)
-  composeSong dummySong
+  let state =
+    dummyState
+    |> addSkillTo dummyCharacter (Skill.createWithLevel SkillId.Composition 50)
+    |> addSkillTo
+         dummyCharacter
+         (Skill.createWithLevel (Genre dummyBand.Genre) 50)
 
-  lastUnfinishedSong ()
-  |> fun (_, mq, q) -> (mq, q)
-  |> should equal (33, 7)
+  composeSong state dummySong
+  |> should
+       be
+       (ofCase
+         <@ SongStarted(
+           dummyBand,
+           (UnfinishedSong dummySong, 33<quality>, 7<quality>)
+         ) @>)

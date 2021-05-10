@@ -11,20 +11,27 @@ open Simulation.Calendar.Queries
 let instrument = Instrument.createInstrument Guitar
 let skillLevel = 50
 
+let state =
+  dummyState
+  |> addSkillTo
+       dummyCharacter
+       (Skill.createWithLevel SkillId.Composition skillLevel)
+  |> addSkillTo
+       dummyCharacter
+       (Skill.createWithLevel (Genre dummyBand.Genre) skillLevel)
+
 let assertOnMembers assertion =
-  membersForHire (currentBand ()) instrument
+  membersForHire state dummyBand instrument
   |> Seq.take 20
   |> Seq.iter assertion
 
-[<SetUp>]
-let Setup () =
-  initStateWithDummies ()
-  let character = currentCharacter ()
-  addSkillTo character (Skill.createWithLevel SkillId.Composition skillLevel)
+let memberForHire =
+  membersForHire state dummyBand instrument
+  |> Seq.take 1
+  |> Seq.head
 
-  addSkillTo
-    character
-    (Skill.createWithLevel (Genre dummyBand.Genre) skillLevel)
+let hiredMember =
+  Band.Member.fromMemberForHire memberForHire dummyToday
 
 [<Test>]
 let MembersForHireShouldExposeMembersOfGivenInstrument () =
@@ -48,7 +55,7 @@ let MembersForHireShouldExposeMembersWithSkillLevelAroundBandsAverage () =
 
 [<Test>]
 let MembersForHireShouldExposeMembersWithAgeAroundBandsAverage () =
-  let characterAge = (currentCharacter ()).Age
+  let characterAge = dummyCharacter.Age
 
   let assertAgeRange =
     fun age ->
@@ -61,28 +68,6 @@ let MembersForHireShouldExposeMembersWithAgeAroundBandsAverage () =
   assertOnMembers (fun m -> assertAgeRange m.Character.Age)
 
 [<Test>]
-let HireMemberShouldAddMemberToBand () =
-  let band = currentBand ()
-
-  membersForHire band instrument
-  |> Seq.take 1
-  |> Seq.head
-  |> hireMember band
-
-  let band = currentBand ()
-  band.Members |> should haveLength 2
-
-[<Test>]
-let HireMemberShouldAddMemberToBandWithTodayAsSinceDate () =
-  let band = currentBand ()
-
-  membersForHire band instrument
-  |> Seq.take 1
-  |> Seq.head
-  |> hireMember band
-
-  let band = currentBand ()
-
-  List.last band.Members
-  |> fun m -> m.Since
-  |> should equal (today ())
+let HireMemberShouldGeneratedHiredMemberEffect () =
+  hireMember state dummyBand memberForHire
+  |> should be (ofCase <@ MemberHired(dummyBand, hiredMember) @>)

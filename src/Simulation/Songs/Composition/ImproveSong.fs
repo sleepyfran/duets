@@ -4,6 +4,7 @@ open Common
 open Entities
 
 let private doImprove band song maxQuality quality =
+  let songBeforeUpgrade = (song, maxQuality, quality)
   let increase = calculateQualityIncreaseOf maxQuality
   let updatedQuality = quality + increase
   let canBeFurtherImproved = maxQuality > updatedQuality
@@ -16,7 +17,7 @@ let private doImprove band song maxQuality quality =
     else
       ReachedMaxQualityInLastImprovement updatedQuality
 
-  SongStarted(band, songWithUpdatedQualities)
+  SongImproved(band, Diff(songBeforeUpgrade, songWithUpdatedQualities))
   |> Effect.single
   |> Tuple.two status
 
