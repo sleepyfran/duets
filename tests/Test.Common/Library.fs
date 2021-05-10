@@ -66,6 +66,12 @@ let lastUnfinishedSong (band: Band) state =
   |> Map.find band.Id
   |> Map.head
 
+/// Returns the last finished song that was added.
+let lastFinishedSong (band: Band) state =
+  state.BandRepertoire.Finished
+  |> Map.find band.Id
+  |> Map.head
+
 /// Adds a finished song to the given state.
 let addFinishedSong (band: Band) finishedSong =
   let (FinishedSong (song), _) = finishedSong
