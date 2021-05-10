@@ -7,11 +7,12 @@ open Entities
 open Simulation.Bands.Queries
 open Simulation.Songs.Composition.DiscardSong
 
-let rec discardSongScene () =
+let rec discardSongScene state =
   seq {
-    let currentBand = currentBand ()
+    let currentBand = currentBand state
 
-    let songOptions = unfinishedSongsSelectorOf currentBand
+    let songOptions =
+      unfinishedSongsSelectorOf state currentBand
 
     yield
       Prompt
@@ -22,15 +23,18 @@ let rec discardSongScene () =
                  { Choices = songOptions
                    Handler =
                      rehearsalRoomOptionalChoiceHandler
-                     <| processSongSelection currentBand
+                     <| processSongSelection state currentBand
                    BackText = TextConstant CommonCancel } }
   }
 
-and processSongSelection band selection =
+and processSongSelection state band selection =
   seq {
-    let (UnfinishedSong discardedSong, _, _) =
-      unfinishedSongFromSelection band selection
-      |> discardSong
+    let unfinishedSong =
+      unfinishedSongFromSelection state band selection
+
+    yield Effect <| discardSong band unfinishedSong
+
+    let (UnfinishedSong discardedSong, _, _) = unfinishedSong
 
     yield
       DiscardSongDiscarded discardedSong.Name

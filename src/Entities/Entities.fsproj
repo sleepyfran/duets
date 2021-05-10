@@ -16,6 +16,7 @@
         <Compile Include="Skill.fs" />
         <Compile Include="State.fs" />
         <Content Include="README.md" />
+        <Compile Include="Effect.fs" />
     </ItemGroup>
     
     <ItemGroup>

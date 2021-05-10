@@ -194,3 +194,17 @@ module Types =
       CurrentBandId: BandId
       BandRepertoire: BandRepertoire
       Today: Date }
+
+  /// Defines the before and after of an action.
+  type Diff<'a> = Diff of before: 'a * after: 'a
+
+  /// Defines an effect that happened after an action in the game. For example
+  /// calling composeSong will create a `SongComposed` effect.
+  type Effect =
+    | GameCreated of State
+    | SongStarted of Band * UnfinishedSongWithQualities
+    | SongImproved of Band * Diff<UnfinishedSongWithQualities>
+    | SongFinished of Band * FinishedSongWithQuality
+    | SongDiscarded of Band * UnfinishedSongWithQualities
+    | MemberHired of Band * CurrentMember
+    | MemberFired of Band * CurrentMember * PastMember

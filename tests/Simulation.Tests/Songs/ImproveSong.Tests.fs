@@ -5,40 +5,74 @@ open NUnit.Framework
 open FsUnit
 
 open Entities
-open Simulation.Songs.Composition.ComposeSong
 open Simulation.Songs.Composition.ImproveSong
 
-[<SetUp>]
-let Setup () =
-  initStateWithDummies ()
-  let character = currentCharacter ()
-  addSkillTo character (Skill.createWithLevel SkillId.Composition 50)
-  addSkillTo character (Skill.createWithLevel (Genre dummyBand.Genre) 50)
-  composeSong dummySong
+let state =
+  dummyState
+  |> addSkillTo dummyCharacter (Skill.createWithLevel SkillId.Composition 50)
+  |> addSkillTo
+       dummyCharacter
+       (Skill.createWithLevel (Genre dummyBand.Genre) 50)
+  |> addUnfinishedSong
+       dummyBand
+       (UnfinishedSong dummySong, 35<quality>, 7<quality>)
 
 [<Test>]
 let ShouldImproveIfPossibleAndReturnCanBeImproved () =
-  let song = lastUnfinishedSong ()
+  let song = lastUnfinishedSong dummyBand state
 
-  improveSong song
+  improveSong state dummyBand song
+  |> fst
   |> should be (ofCase <@ CanBeImproved 14<quality> @>)
 
 [<Test>]
 let ShouldImproveForALastTimeIfPossibleAndReturnReachedMaxQualityInLastImprovement
   ()
   =
-  improveLastUnfinishedSongTimes 3
+  let updatedState =
+    addUnfinishedSong
+      dummyBand
+      (UnfinishedSong dummySong, 35<quality>, 28<quality>)
+      dummyState
 
-  lastUnfinishedSong ()
-  |> improveSong
+  let song =
+    lastUnfinishedSong dummyBand updatedState
+
+  improveSong updatedState dummyBand song
+  |> fst
   |> should be (ofCase <@ ReachedMaxQualityInLastImprovement 35<quality> @>)
 
 [<Test>]
 let ShouldNotAllowImprovementIfReachedMaxQualityAndReturnReachMaxQualityAlready
   ()
   =
-  improveLastUnfinishedSongTimes 4
+  let updatedState =
+    addUnfinishedSong
+      dummyBand
+      (UnfinishedSong dummySong, 35<quality>, 28<quality>)
+      dummyState
 
-  lastUnfinishedSong ()
-  |> improveSong
-  |> should be (ofCase <@ ReachedMaxQualityAlready 35<quality> @>)
+  let song =
+    lastUnfinishedSong dummyBand updatedState
+
+  improveSong updatedState dummyBand song
+  |> fst
+  |> should be (ofCase <@ ReachedMaxQualityInLastImprovement 35<quality> @>)
+
+[<Test>]
+let ShouldGenerateImprovedSongEffect () =
+  let song = lastUnfinishedSong dummyBand state
+
+  improveSong state dummyBand song
+  |> snd
+  |> Seq.head
+  |> should
+       be
+       (ofCase
+         <@ SongImproved(
+           dummyBand,
+           Diff(
+             (UnfinishedSong(dummySong), 35<quality>, 7<quality>),
+             (UnfinishedSong(dummySong), 35<quality>, 14<quality>)
+           )
+         ) @>)

@@ -8,7 +8,7 @@ open Entities.Skill
 open Storage
 
 /// Computes the score associated with each member of the band for the song.
-let qualityForMember genre (currentMember: CurrentMember) =
+let qualityForMember state genre (currentMember: CurrentMember) =
   let genreSkill = create <| Genre(genre)
 
   let influencingSkills =
@@ -18,7 +18,7 @@ let qualityForMember genre (currentMember: CurrentMember) =
       genreSkill.Id ]
 
   influencingSkills
-  |> List.map (characterSkillWithLevel currentMember.Character.Id)
+  |> List.map (characterSkillWithLevel state currentMember.Character.Id)
   |> List.map snd
   |> List.sum
   |> fun total -> total / influencingSkills.Length
@@ -26,9 +26,9 @@ let qualityForMember genre (currentMember: CurrentMember) =
 /// Computes the maximum score that the band can achieve for a song in a moment
 /// in time given each member's skills in composition, the current genre and
 /// the member's instrument skill.
-let qualityForBand band =
+let qualityForBand state band =
   band.Members
-  |> List.map (qualityForMember band.Genre)
+  |> List.map (qualityForMember state band.Genre)
   |> List.sum
   |> fun score ->
        match score with
@@ -44,32 +44,3 @@ let calculateQualityIncreaseOf (maximum: MaxQuality) =
   |> ceil
   |> int
   |> fun increase -> increase * 1<quality>
-
-/// Adds or modifies a given unfinished song into the given band's repertoire.
-let addUnfinishedSong (band: Band) unfinishedSong =
-  let (UnfinishedSong (song), _, _) = unfinishedSong
-
-  let unfinishedSongLens = Lenses.unfinishedSongs_ band.Id
-  let addUnfinishedSong = Map.add song.Id unfinishedSong
-
-  State.map (Optic.map unfinishedSongLens addUnfinishedSong)
-
-/// Removes an unfinished song and returns it back.
-let removeUnfinishedSong (band: Band) unfinishedSong =
-  let (UnfinishedSong (song), _, _) = unfinishedSong
-
-  let unfinishedSongLens = Lenses.unfinishedSongs_ band.Id
-  let removeUnfinishedSong = Map.remove song.Id
-
-  State.map (Optic.map unfinishedSongLens removeUnfinishedSong)
-
-/// Adds or modifies a given unfinished song in the band's finished repertoire.
-let addFinishedSong (band: Band) unfinishedSong =
-  let (UnfinishedSong (song), _, quality) = unfinishedSong
-
-  let finishedSongLens = Lenses.finishedSongs_ band.Id
-
-  let addFinishedSong =
-    Map.add song.Id (FinishedSong song, quality)
-
-  State.map (Optic.map finishedSongLens addFinishedSong)

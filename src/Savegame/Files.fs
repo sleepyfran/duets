@@ -1,4 +1,4 @@
-module Storage.Files
+module Files
 
 open System
 open System.IO

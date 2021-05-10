@@ -3,9 +3,6 @@ module Cli.View.Scenes.Management.Root
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
-open Cli.View.Scenes.Management.Hire
-open Cli.View.Scenes.Management.Fire
-open Cli.View.Scenes.Management.MemberList
 
 let managementOptions =
   [ { Id = "hire"
@@ -34,8 +31,8 @@ let rec managementScene () =
 and processSelection choice =
   seq {
     match choice.Id with
-    | "hire" -> yield! hireScene ()
-    | "fire" -> yield! fireScene ()
-    | "members" -> yield! memberListScene ()
+    | "hire" -> yield SubScene SubScene.ManagementHireMember
+    | "fire" -> yield SubScene SubScene.ManagementFireMember
+    | "members" -> yield SubScene SubScene.ManagementListMembers
     | _ -> yield NoOp
   }

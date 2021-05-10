@@ -3,7 +3,6 @@ module Cli.View.Actions
 open Cli.View.TextConstants
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
-open Storage
 
 /// Defines the index of all scenes available in the game that can be instantiated.
 type Scene =
@@ -14,6 +13,18 @@ type Scene =
   | BandCreator of Character
   | RehearsalRoom
   | Management
+
+/// Defines the index of all sub-scenes available. Sub-scenes belong to a Scene
+/// and thus do not clear the screen or save a game.
+type SubScene =
+  | RehearsalRoomCompose
+  | RehearsalRoomComposeSong
+  | RehearsalRoomImproveSong
+  | RehearsalRoomFinishSong
+  | RehearsalRoomDiscardSong
+  | ManagementHireMember
+  | ManagementFireMember
+  | ManagementListMembers
 
 /// Encapsulates text that can either be defined by a text constant, which is
 /// resolved by the UI layer, or a string constant that is just passed from this
@@ -33,7 +44,9 @@ type Action =
   | Scene of Scene
   // Waits until the user presses a key and then navigates to the specified scene.
   | SceneAfterKey of Scene
+  | SubScene of SubScene
   | GameInfo of version: string
+  | Effect of Effect
   | NoOp
 
 /// Sequence of actions to be executed.

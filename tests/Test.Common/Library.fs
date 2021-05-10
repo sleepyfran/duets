@@ -1,12 +1,9 @@
 ﻿module Test.Common
 
+open Aether
+open Aether.Operators
 open Common
 open Entities
-open Simulation.Bands.Queries
-open Simulation.Setup
-open Simulation.Songs.Composition.ImproveSong
-open Simulation.Songs.Queries
-open Storage
 
 let dummyCharacter =
   Character.from "Test" 24 Other |> Result.unwrap
@@ -18,65 +15,68 @@ let dummyBand =
 
 let dummySong = Song.empty
 
-/// Initializes the state with a given character and band.
-let initStateWith character band = startGame character band
+let dummyToday = Calendar.fromDayMonth 1 1
 
-/// Inits the state with a dummy character and band. Useful when we just want
-/// to test something that requires queries and mutations that are not directly
-/// related to these characters or bands.
-let initStateWithDummies () = initStateWith dummyCharacter dummyBand
+let dummyState =
+  let bandWithMember =
+    Optic.map
+      Lenses.Band.members_
+      (List.append [ (Band.Member.from dummyCharacter Guitar dummyToday) ])
+      dummyBand
 
-/// Inits the state with the given character and a dummy band.
-let initStateWithCharacter character = initStateWith character dummyBand
-
-/// Inits the state with a dummy band and the given character.
-let initStateWithBand band = initStateWith dummyCharacter band
-
-/// Returns the main character.
-let currentCharacter () =
-  State.get () |> fun s -> s.Character
-
-
-/// Returns the currently selected band.
-let currentBand = currentBand
+  { Bands = Map.ofList [ (dummyBand.Id, bandWithMember) ]
+    Character = dummyCharacter
+    CharacterSkills = Map.ofList [ (dummyCharacter.Id, Map.empty) ]
+    CurrentBandId = dummyBand.Id
+    BandRepertoire =
+      { Unfinished = Map.ofList [ (dummyBand.Id, Map.empty) ]
+        Finished = Map.ofList [ (dummyBand.Id, Map.empty) ] }
+    Today = dummyToday }
 
 /// Adds a given member to the given band.
 let addMember (band: Band) bandMember =
-  State.map
-    (fun state ->
-      { state with
-          Bands =
-            Map.add
-              band.Id
-              { band with
-                  Members = List.append [ bandMember ] band.Members }
-              state.Bands })
+  let memberLens = Lenses.FromState.Bands.members_ band.Id
 
-/// Retrieves the last unfinished song from the state.
-let lastUnfinishedSong () =
-  currentBand ()
-  |> fun band -> band.Id
-  |> unfinishedSongsByBand
-  |> Seq.head
-  |> fun kvp -> kvp.Value
-
-/// Improves the last unfinished song a given number of times.
-let improveLastUnfinishedSongTimes times =
-  for _ in 1 .. times do
-    lastUnfinishedSong () |> improveSong |> ignore
+  Optic.map memberLens (List.append [ bandMember ])
 
 /// Adds a given skill to the given character.
 let addSkillTo (character: Character) (skillWithLevel: SkillWithLevel) =
   let (skill, _) = skillWithLevel
 
-  State.map
-    (fun state ->
-      state.CharacterSkills
-      |> Map.tryFind character.Id
-      |> Option.defaultValue Map.empty
-      |> Map.add skill.Id skillWithLevel
-      |> fun updatedSkills ->
-           Map.add character.Id updatedSkills state.CharacterSkills
-      |> fun characterSkills ->
-           { state with
-               CharacterSkills = characterSkills })
+  let skillLens =
+    Lenses.State.characterSkills_
+    >-> Map.key_ character.Id
+
+  let addSkill map = Map.add skill.Id skillWithLevel map
+
+  Optic.map skillLens addSkill
+
+/// Adds an unfinished song to the given state.
+let addUnfinishedSong (band: Band) unfinishedSong =
+  let (UnfinishedSong (song), _, _) = unfinishedSong
+
+  let unfinishedSongLenses =
+    Lenses.FromState.Songs.unfinishedByBand_ band.Id
+
+  Optic.map unfinishedSongLenses (Map.add song.Id unfinishedSong)
+
+/// Returns the last unfinished song that was created.
+let lastUnfinishedSong (band: Band) state =
+  state.BandRepertoire.Unfinished
+  |> Map.find band.Id
+  |> Map.head
+
+/// Returns the last finished song that was added.
+let lastFinishedSong (band: Band) state =
+  state.BandRepertoire.Finished
+  |> Map.find band.Id
+  |> Map.head
+
+/// Adds a finished song to the given state.
+let addFinishedSong (band: Band) finishedSong =
+  let (FinishedSong (song), _) = finishedSong
+
+  let finishedSongLenses =
+    Lenses.FromState.Songs.finishedByBand_ band.Id
+
+  Optic.map finishedSongLenses (Map.add song.Id finishedSong)

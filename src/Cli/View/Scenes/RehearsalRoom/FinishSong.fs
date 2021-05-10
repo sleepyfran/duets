@@ -7,11 +7,12 @@ open Entities
 open Simulation.Bands.Queries
 open Simulation.Songs.Composition.FinishSong
 
-let rec finishSongScene () =
+let rec finishSongScene state =
   seq {
-    let currentBand = currentBand ()
+    let currentBand = currentBand state
 
-    let songOptions = unfinishedSongsSelectorOf currentBand
+    let songOptions =
+      unfinishedSongsSelectorOf state currentBand
 
     yield
       Prompt
@@ -22,18 +23,18 @@ let rec finishSongScene () =
                  { Choices = songOptions
                    Handler =
                      rehearsalRoomOptionalChoiceHandler
-                     <| processSongSelection currentBand
+                     <| processSongSelection state currentBand
                    BackText = TextConstant CommonCancel } }
   }
 
-and processSongSelection band selection =
+and processSongSelection state band selection =
   seq {
     let selectedSong =
-      unfinishedSongFromSelection band selection
+      unfinishedSongFromSelection state band selection
 
     let (UnfinishedSong song, _, quality) = selectedSong
 
-    selectedSong |> finishSong
+    yield Effect <| finishSong band selectedSong
 
     yield
       FinishSongFinished(song.Name, quality)

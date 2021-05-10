@@ -5,9 +5,9 @@ open Cli.View.TextConstants
 open Simulation.Bands.Queries
 
 /// Shows the current and past members of the band.
-let rec memberListScene () =
-  let currentMembers = currentBandMembers ()
-  let pastMembers = pastBandMembers ()
+let rec memberListScene state =
+  let currentMembers = currentBandMembers state
+  let pastMembers = pastBandMembers state
 
   seq {
     yield Message <| TextConstant MemberListCurrentTitle

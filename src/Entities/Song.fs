@@ -29,6 +29,12 @@ let from (name: string) (length: int<second>) vocalStyle genre =
         VocalStyle = vocalStyle
         Genre = genre }
 
+/// Returns the song contained in an unfinished song.
+let fromUnfinished (UnfinishedSong (song), _, _) = song
+
+/// Returns the song contained in a finished song.
+let fromFinished (FinishedSong (song), _) = song
+
 /// Creates an empty song with all its fields set to a default value.
 let empty =
   { Id = SongId <| Identity.create ()

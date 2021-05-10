@@ -3,13 +3,14 @@ module Cli.View.Scenes.Management.Fire
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
+open Common
 open Entities
 open Simulation.Bands.Queries
 open Simulation.Bands.Members
 
-let rec fireScene () =
+let rec fireScene state =
   let memberOptions =
-    currentBandMembersWithoutPlayableCharacter ()
+    currentBandMembersWithoutPlayableCharacter state
     |> List.map
          (fun m ->
            let (CharacterId (id)) = m.Character.Id
@@ -22,7 +23,7 @@ let rec fireScene () =
   seq {
     if memberOptions.Length = 0 then
       yield Message <| TextConstant FireMemberNoMembersToFire
-      yield Scene RehearsalRoom
+      yield SceneAfterKey RehearsalRoom
     else
       yield
         Prompt
@@ -31,12 +32,14 @@ let rec fireScene () =
               ChoicePrompt
               <| OptionalChoiceHandler
                    { Choices = memberOptions
-                     Handler = rehearsalRoomOptionalChoiceHandler confirmFiring
+                     Handler =
+                       rehearsalRoomOptionalChoiceHandler
+                       <| confirmFiring state
                      BackText = TextConstant CommonCancel } }
   }
 
-and confirmFiring selectedMember =
-  let band = currentBand ()
+and confirmFiring state selectedMember =
+  let band = currentBand state
   let memberToFire = memberFromSelection band selectedMember
 
   seq {
@@ -45,20 +48,24 @@ and confirmFiring selectedMember =
         { Title =
             TextConstant
             <| FireMemberConfirmation memberToFire.Character.Name
-          Content = ConfirmationPrompt(handleConfirmation band memberToFire) }
+          Content =
+            ConfirmationPrompt(handleConfirmation state band memberToFire) }
   }
 
-and handleConfirmation band memberToFire confirmed =
+and handleConfirmation state band memberToFire confirmed =
   seq {
     if confirmed then
-      fireMember band memberToFire |> ignore
+      yield
+        fireMember state band memberToFire
+        |> Result.unwrap
+        |> Effect
 
       yield
         FireMemberConfirmed memberToFire.Character.Name
         |> TextConstant
         |> Message
 
-      yield Scene RehearsalRoom
+      yield SceneAfterKey RehearsalRoom
     else
       yield Scene RehearsalRoom
   }

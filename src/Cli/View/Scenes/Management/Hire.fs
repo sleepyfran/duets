@@ -7,7 +7,7 @@ open Entities
 open Simulation.Bands.Members
 open Simulation.Bands.Queries
 
-let rec hireScene () =
+let rec hireScene state =
   seq {
     yield
       Prompt
@@ -16,22 +16,23 @@ let rec hireScene () =
             ChoicePrompt
             <| OptionalChoiceHandler
                  { Choices = instrumentOptions
-                   Handler = rehearsalRoomOptionalChoiceHandler memberSelection
+                   Handler =
+                     rehearsalRoomOptionalChoiceHandler (memberSelection state)
                    BackText = TextConstant CommonCancel } }
   }
 
-and memberSelection selectedInstrument =
-  let band = currentBand ()
+and memberSelection state selectedInstrument =
+  let band = currentBand state
 
   let instrument =
     Instrument.createInstrument (Instrument.Type.from selectedInstrument.Id)
 
-  membersForHire band instrument
+  membersForHire state band instrument
   |> Seq.take 1
-  |> Seq.map (showMemberForHire band selectedInstrument)
+  |> Seq.map (showMemberForHire state band selectedInstrument)
   |> Seq.concat
 
-and showMemberForHire band selectedInstrument availableMember =
+and showMemberForHire state band selectedInstrument availableMember =
   seq {
     yield
       HireMemberSkillSummary(
@@ -56,13 +57,23 @@ and showMemberForHire band selectedInstrument availableMember =
             <| HireMemberConfirmation availableMember.Character.Gender
           Content =
             ConfirmationPrompt
-            <| handleHiringConfirmation band selectedInstrument availableMember }
+            <| handleHiringConfirmation
+                 state
+                 band
+                 selectedInstrument
+                 availableMember }
   }
 
-and handleHiringConfirmation band selectedInstrument memberForHire confirmed =
+and handleHiringConfirmation
+  state
+  band
+  selectedInstrument
+  memberForHire
+  confirmed
+  =
   seq {
     if confirmed then
-      hireMember band memberForHire
+      yield Effect <| hireMember state band memberForHire
       yield Message <| TextConstant HireMemberHired
       yield Scene RehearsalRoom
     else
@@ -71,13 +82,13 @@ and handleHiringConfirmation band selectedInstrument memberForHire confirmed =
           { Title = TextConstant HireMemberContinueConfirmation
             Content =
               ConfirmationPrompt
-              <| handleContinueConfirmation selectedInstrument }
+              <| handleContinueConfirmation state selectedInstrument }
   }
 
-and handleContinueConfirmation selectedInstrument confirmed =
+and handleContinueConfirmation state selectedInstrument confirmed =
   seq {
     if confirmed then
-      yield! memberSelection selectedInstrument
+      yield! memberSelection state selectedInstrument
     else
       yield Scene RehearsalRoom
   }

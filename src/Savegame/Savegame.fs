@@ -1,9 +1,8 @@
-[<RequireQualifiedAccess>]
-module Storage.Savegame
+﻿module Savegame
 
 open Entities
-open Storage.Files
-open Storage.Serializer
+open Files
+open Serializer
 
 type SavegameState =
   | Available
@@ -15,7 +14,7 @@ let private loadStateFromSavegame () =
   savegamePath ()
   |> readAll
   |> Option.bind deserialize
-  |> Option.map State.set
+  |> Option.map State.Root.set
   |> Option.map (fun _ -> Available)
   |> Option.defaultValue NotAvailable
 
@@ -62,4 +61,4 @@ let load = savegameAgent.Read
 
 /// Attempts to write the current state into the savegame file doing so in a
 /// separate thread.
-let save () = savegameAgent.Write(State.get ())
+let save () = savegameAgent.Write(State.Root.get ())
