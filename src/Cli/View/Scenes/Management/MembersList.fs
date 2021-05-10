@@ -6,36 +6,36 @@ open Simulation.Bands.Queries
 
 /// Shows the current and past members of the band.
 let rec memberListScene state =
-  let currentMembers = currentBandMembers state
-  let pastMembers = pastBandMembers state
+    let currentMembers = currentBandMembers state
+    let pastMembers = pastBandMembers state
 
-  seq {
-    yield Message <| TextConstant MemberListCurrentTitle
+    seq {
+        yield Message <| TextConstant MemberListCurrentTitle
 
-    yield!
-      currentMembers
-      |> List.map
-           (fun m ->
-             MemberListCurrentMember(m.Character.Name, m.Role, m.Since)
-             |> TextConstant
-             |> Message)
+        yield!
+            currentMembers
+            |> List.map
+                (fun m ->
+                    MemberListCurrentMember(m.Character.Name, m.Role, m.Since)
+                    |> TextConstant
+                    |> Message)
 
 
-    if not (List.isEmpty pastMembers) then
-      yield Message <| TextConstant MemberListPastTitle
+        if not (List.isEmpty pastMembers) then
+            yield Message <| TextConstant MemberListPastTitle
 
-      yield!
-        pastMembers
-        |> List.map
-             (fun m ->
-               MemberListPastMember(
-                 m.Character.Name,
-                 m.Role,
-                 fst m.Period,
-                 snd m.Period
-               )
-               |> TextConstant
-               |> Message)
+            yield!
+                pastMembers
+                |> List.map
+                    (fun m ->
+                        MemberListPastMember(
+                            m.Character.Name,
+                            m.Role,
+                            fst m.Period,
+                            snd m.Period
+                        )
+                        |> TextConstant
+                        |> Message)
 
-    yield SceneAfterKey Management
-  }
+        yield SceneAfterKey Management
+    }

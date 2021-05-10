@@ -11,58 +11,58 @@ open Simulation.Songs.Queries
 let Setup () = Common.initState ()
 
 let unfinishedSong =
-  UnfinishedSong(dummySong), 35<quality>, 7<quality>
+    UnfinishedSong(dummySong), 35<quality>, 7<quality>
 
 let startSong () =
-  State.Root.apply
-  <| SongStarted(dummyBand, unfinishedSong)
+    State.Root.apply
+    <| SongStarted(dummyBand, unfinishedSong)
 
 [<Test>]
 let SongStartedShouldAddUnfinishedSong () =
-  startSong ()
+    startSong ()
 
-  State.Root.get ()
-  |> lastUnfinishedSong dummyBand
-  |> should equal unfinishedSong
+    State.Root.get ()
+    |> lastUnfinishedSong dummyBand
+    |> should equal unfinishedSong
 
 [<Test>]
 let SongImprovedShouldReplaceUnfinishedSong () =
-  startSong ()
+    startSong ()
 
-  let improvedSong =
-    (UnfinishedSong dummySong, 35<quality>, 14<quality>)
+    let improvedSong =
+        (UnfinishedSong dummySong, 35<quality>, 14<quality>)
 
-  State.Root.apply
-  <| SongImproved(dummyBand, Diff(unfinishedSong, improvedSong))
+    State.Root.apply
+    <| SongImproved(dummyBand, Diff(unfinishedSong, improvedSong))
 
-  State.Root.get ()
-  |> lastUnfinishedSong dummyBand
-  |> should equal improvedSong
+    State.Root.get ()
+    |> lastUnfinishedSong dummyBand
+    |> should equal improvedSong
 
 [<Test>]
 let SongDiscardedShouldRemoveUnfinishedSong () =
-  startSong ()
+    startSong ()
 
-  State.Root.apply
-  <| SongDiscarded(dummyBand, unfinishedSong)
+    State.Root.apply
+    <| SongDiscarded(dummyBand, unfinishedSong)
 
-  unfinishedSongsByBand (State.Root.get ()) dummyBand.Id
-  |> should haveCount 0
+    unfinishedSongsByBand (State.Root.get ()) dummyBand.Id
+    |> should haveCount 0
 
 [<Test>]
 let SongFinishedShouldRemoveUnfinishedAndAddFinishedSong () =
-  startSong ()
+    startSong ()
 
-  let finishedSong = (FinishedSong dummySong, 14<quality>)
+    let finishedSong = (FinishedSong dummySong, 14<quality>)
 
-  State.Root.apply
-  <| SongFinished(dummyBand, finishedSong)
+    State.Root.apply
+    <| SongFinished(dummyBand, finishedSong)
 
-  let state = State.Root.get ()
+    let state = State.Root.get ()
 
-  unfinishedSongsByBand state dummyBand.Id
-  |> should haveCount 0
+    unfinishedSongsByBand state dummyBand.Id
+    |> should haveCount 0
 
-  state
-  |> lastFinishedSong dummyBand
-  |> should equal finishedSong
+    state
+    |> lastFinishedSong dummyBand
+    |> should equal finishedSong

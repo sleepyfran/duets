@@ -8,38 +8,38 @@ open Simulation.Bands.Queries
 open Simulation.Songs.Composition.FinishSong
 
 let rec finishSongScene state =
-  seq {
-    let currentBand = currentBand state
+    seq {
+        let currentBand = currentBand state
 
-    let songOptions =
-      unfinishedSongsSelectorOf state currentBand
+        let songOptions =
+            unfinishedSongsSelectorOf state currentBand
 
-    yield
-      Prompt
-        { Title = TextConstant FinishSongSelection
-          Content =
-            ChoicePrompt
-            <| OptionalChoiceHandler
-                 { Choices = songOptions
-                   Handler =
-                     rehearsalRoomOptionalChoiceHandler
-                     <| processSongSelection state currentBand
-                   BackText = TextConstant CommonCancel } }
-  }
+        yield
+            Prompt
+                { Title = TextConstant FinishSongSelection
+                  Content =
+                      ChoicePrompt
+                      <| OptionalChoiceHandler
+                          { Choices = songOptions
+                            Handler =
+                                rehearsalRoomOptionalChoiceHandler
+                                <| processSongSelection state currentBand
+                            BackText = TextConstant CommonCancel } }
+    }
 
 and processSongSelection state band selection =
-  seq {
-    let selectedSong =
-      unfinishedSongFromSelection state band selection
+    seq {
+        let selectedSong =
+            unfinishedSongFromSelection state band selection
 
-    let (UnfinishedSong song, _, quality) = selectedSong
+        let (UnfinishedSong song, _, quality) = selectedSong
 
-    yield Effect <| finishSong band selectedSong
+        yield Effect <| finishSong band selectedSong
 
-    yield
-      FinishSongFinished(song.Name, quality)
-      |> TextConstant
-      |> Message
+        yield
+            FinishSongFinished(song.Name, quality)
+            |> TextConstant
+            |> Message
 
-    yield SceneAfterKey RehearsalRoom
-  }
+        yield SceneAfterKey RehearsalRoom
+    }

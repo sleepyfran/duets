@@ -17,7 +17,7 @@ let npcs = Data.Npcs.getAll
 
 /// Returns a randomized name and gender from an NPC of the game.
 let randomNpc () =
-  let availableNpcs = npcs ()
+    let availableNpcs = npcs ()
 
-  availableNpcs
-  |> List.item (Random.between 0 (List.length availableNpcs - 1))
+    availableNpcs
+    |> List.item (Random.between 0 (List.length availableNpcs - 1))

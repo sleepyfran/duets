@@ -8,6 +8,6 @@ open Entities
 
 [<Test>]
 let GameCreatedShouldInitializeState () =
-  GameCreated dummyState |> State.Root.apply
+    GameCreated dummyState |> State.Root.apply
 
-  State.Root.get () |> should equal dummyState
+    State.Root.get () |> should equal dummyState

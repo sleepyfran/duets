@@ -12,45 +12,45 @@ open Simulation.Bands.Queries
 let Setup () = Common.initState ()
 
 let hiredMember =
-  let character =
-    Character.from "Another" 18 Other |> Result.unwrap
+    let character =
+        Character.from "Another" 18 Other |> Result.unwrap
 
-  Band.Member.from character Guitar dummyToday
+    Band.Member.from character Guitar dummyToday
 
 let hireMember () =
-  State.Root.apply
-  <| MemberHired(dummyBand, hiredMember)
+    State.Root.apply
+    <| MemberHired(dummyBand, hiredMember)
 
 [<Test>]
 let MemberHiredShouldAddMember () =
-  hireMember ()
+    hireMember ()
 
-  State.Root.get ()
-  |> currentBandMembersWithoutPlayableCharacter
-  |> List.head
-  |> should equal hiredMember
+    State.Root.get ()
+    |> currentBandMembersWithoutPlayableCharacter
+    |> List.head
+    |> should equal hiredMember
 
 [<Test>]
 let MemberFiredShouldRemoveMemberAndAddToPastMember () =
-  hireMember ()
+    hireMember ()
 
-  State.Root.get ()
-  |> currentBandMembersWithoutPlayableCharacter
-  |> should haveLength 1
+    State.Root.get ()
+    |> currentBandMembersWithoutPlayableCharacter
+    |> should haveLength 1
 
-  let firedMember =
-    Band.PastMember.fromMember hiredMember dummyToday
+    let firedMember =
+        Band.PastMember.fromMember hiredMember dummyToday
 
-  State.Root.apply
-  <| MemberFired(dummyBand, hiredMember, firedMember)
+    State.Root.apply
+    <| MemberFired(dummyBand, hiredMember, firedMember)
 
-  let state = State.Root.get ()
+    let state = State.Root.get ()
 
-  state
-  |> currentBandMembersWithoutPlayableCharacter
-  |> should haveLength 0
+    state
+    |> currentBandMembersWithoutPlayableCharacter
+    |> should haveLength 0
 
-  state
-  |> pastBandMembers
-  |> List.head
-  |> should equal firedMember
+    state
+    |> pastBandMembers
+    |> List.head
+    |> should equal firedMember

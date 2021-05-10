@@ -4,10 +4,10 @@ open Storage
 
 [<EntryPoint>]
 let main _ =
-  clear ()
+    clear ()
 
-  Savegame.load ()
-  |> fun savegameState -> MainMenu savegameState |> Scene
-  |> fun action -> seq { action } |> Orchestrator.runWith
+    Savegame.load ()
+    |> fun savegameState -> MainMenu savegameState |> Scene
+    |> fun action -> seq { action } |> Orchestrator.runWith
 
-  0
+    0

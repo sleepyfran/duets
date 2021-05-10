@@ -4,10 +4,10 @@ open Common
 
 /// Maps each type of skill with its category.
 let categoryFor id =
-  match id with
-  | Composition -> Music
-  | Genre _ -> Music
-  | Instrument _ -> Music
+    match id with
+    | Composition -> Music
+    | Genre _ -> Music
+    | Instrument _ -> Music
 
 /// Creates a new skill for a given ID. Its category is automatically populated
 /// based on the type of skill given.
@@ -25,7 +25,7 @@ let createWithDefaultLevel id = createWithLevel id 0
 /// possible) of the given average. Its category is automatically populated
 /// based on the type of the skill given.
 let createFromAverageLevel id averageLevel =
-  System.Random().Next(-5, 5)
-  |> (+) averageLevel
-  |> Math.clamp 1 100
-  |> createWithLevel id
+    System.Random().Next(-5, 5)
+    |> (+) averageLevel
+    |> Math.clamp 1 100
+    |> createWithLevel id

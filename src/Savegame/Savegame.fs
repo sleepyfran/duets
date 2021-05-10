@@ -5,26 +5,26 @@ open Files
 open Serializer
 
 type SavegameState =
-  | Available
-  | NotAvailable
+    | Available
+    | NotAvailable
 
 /// Attempts to read the savegame from the file and sets the state with it,
 /// returning whether it was available or not.
 let private loadStateFromSavegame () =
-  savegamePath ()
-  |> readAll
-  |> Option.bind deserialize
-  |> Option.map State.Root.set
-  |> Option.map (fun _ -> Available)
-  |> Option.defaultValue NotAvailable
+    savegamePath ()
+    |> readAll
+    |> Option.bind deserialize
+    |> Option.map State.Root.set
+    |> Option.map (fun _ -> Available)
+    |> Option.defaultValue NotAvailable
 
 /// Attempts to write the given state into the savegame file.
 let private writeSavegame (state: State) =
-  state |> serialize |> write (savegamePath ())
+    state |> serialize |> write (savegamePath ())
 
 type SavegameAgentMessage =
-  | Read of AsyncReplyChannel<SavegameState>
-  | Write of State
+    | Read of AsyncReplyChannel<SavegameState>
+    | Write of State
 
 /// Agent in charge of writing and loading the savegame from a file.
 /// The reason behind having these operations in an agent is that, since we need
@@ -33,24 +33,24 @@ type SavegameAgentMessage =
 /// these operations will still be done in just one thread which means that the
 /// saving will never be done while reading, no multiple writes, etc.
 type private SavegameAgent() =
-  let agent =
-    MailboxProcessor.Start
-    <| fun inbox ->
-         let rec loop () =
-           async {
-             let! msg = inbox.Receive()
+    let agent =
+        MailboxProcessor.Start
+        <| fun inbox ->
+            let rec loop () =
+                async {
+                    let! msg = inbox.Receive()
 
-             match msg with
-             | Read channel -> loadStateFromSavegame () |> channel.Reply
-             | Write state -> writeSavegame state
+                    match msg with
+                    | Read channel -> loadStateFromSavegame () |> channel.Reply
+                    | Write state -> writeSavegame state
 
-             return! loop ()
-           }
+                    return! loop ()
+                }
 
-         loop ()
+            loop ()
 
-  member this.Read() = agent.PostAndReply Read
-  member this.Write state = state |> Write |> agent.Post
+    member this.Read() = agent.PostAndReply Read
+    member this.Write state = state |> Write |> agent.Post
 
 let private savegameAgent = SavegameAgent()
 
