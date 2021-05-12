@@ -65,7 +65,9 @@ type TextConstant =
     | ComposeSongProgressConfiguringReverb
     | ImproveSong
     | ImproveSongSelection
-    | ImproveSongCanBeFurtherImproved of quality: Quality
+    | ImproveSongCanBeFurtherImproved of
+        previousQuality: Quality *
+        currentQuality: Quality
     | ImproveSongReachedMaxQuality of quality: Quality
     | ImproveSongProgressAddingSomeMelodies
     | ImproveSongProgressPlayingFoosball

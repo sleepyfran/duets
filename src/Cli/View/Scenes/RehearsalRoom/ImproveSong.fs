@@ -38,18 +38,14 @@ and processSongSelection state band selection =
     seq {
         let (songStatus, effects) =
             unfinishedSongFromSelection state band selection
-            |> improveSong state band
+            |> improveSong band
 
         yield! effects |> Seq.map Effect
 
         match songStatus with
-        | CanBeImproved quality ->
+        | CanBeImproved _ ->
             yield showImprovingProgress ()
-
-            yield
-                ImproveSongCanBeFurtherImproved quality
-                |> TextConstant
-                |> Message
+            yield! effects |> Seq.map showEffect
         | ReachedMaxQualityInLastImprovement quality ->
             yield showImprovingProgress ()
             yield bandFinishedSong quality
@@ -57,6 +53,18 @@ and processSongSelection state band selection =
 
         yield SceneAfterKey RehearsalRoom
     }
+
+and showEffect effect =
+    match effect with
+    | SongImproved (_, Diff (before, after)) ->
+        let (_, _, previousQuality) = before
+        let (_, _, currentQuality) = after
+
+        ImproveSongCanBeFurtherImproved(previousQuality, currentQuality)
+        |> TextConstant
+        |> Message
+    | _ -> NoOp
+
 
 and showImprovingProgress () =
     ProgressBar

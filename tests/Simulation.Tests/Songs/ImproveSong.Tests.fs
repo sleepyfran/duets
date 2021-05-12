@@ -21,7 +21,7 @@ let state =
 let ShouldImproveIfPossibleAndReturnCanBeImproved () =
     let song = lastUnfinishedSong dummyBand state
 
-    improveSong state dummyBand song
+    improveSong dummyBand song
     |> fst
     |> should be (ofCase <@ CanBeImproved 14<quality> @>)
 
@@ -38,7 +38,7 @@ let ShouldImproveForALastTimeIfPossibleAndReturnReachedMaxQualityInLastImproveme
     let song =
         lastUnfinishedSong dummyBand updatedState
 
-    improveSong updatedState dummyBand song
+    improveSong dummyBand song
     |> fst
     |> should be (ofCase <@ ReachedMaxQualityInLastImprovement 35<quality> @>)
 
@@ -55,7 +55,7 @@ let ShouldNotAllowImprovementIfReachedMaxQualityAndReturnReachMaxQualityAlready
     let song =
         lastUnfinishedSong dummyBand updatedState
 
-    improveSong updatedState dummyBand song
+    improveSong dummyBand song
     |> fst
     |> should be (ofCase <@ ReachedMaxQualityInLastImprovement 35<quality> @>)
 
@@ -63,7 +63,7 @@ let ShouldNotAllowImprovementIfReachedMaxQualityAndReturnReachMaxQualityAlready
 let ShouldGenerateImprovedSongEffect () =
     let song = lastUnfinishedSong dummyBand state
 
-    improveSong state dummyBand song
+    improveSong dummyBand song
     |> snd
     |> Seq.head
     |> should

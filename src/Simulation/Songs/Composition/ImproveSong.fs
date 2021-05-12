@@ -24,7 +24,7 @@ let private doImprove band song maxQuality quality =
 /// Orchestrates the improvement of a song, which calculates the increase that
 /// should happen in this action and returns whether the song can be further
 /// increased or not.
-let improveSong state band (song, maxQuality, currentQuality) =
+let improveSong band (song, maxQuality, currentQuality) =
     if currentQuality >= maxQuality then
         (ReachedMaxQualityAlready currentQuality, Effect.empty)
     else

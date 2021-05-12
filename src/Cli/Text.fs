@@ -134,10 +134,11 @@ and fromConstant constant =
         "[dodgerblue1]Trying out some chords...[/]"
     | ImproveSong -> "Improve an unfinished song"
     | ImproveSongSelection -> "Which song do you want to improve?"
-    | ImproveSongCanBeFurtherImproved quality ->
+    | ImproveSongCanBeFurtherImproved (previousQuality, currentQuality) ->
         String.Format(
-            "[green]You've improved the song. It now has a quality of {0}%[/]",
-            quality
+            "[green]You've improved the song. It improved from {0}% to {1}%[/]",
+            previousQuality,
+            currentQuality
         )
     | ImproveSongReachedMaxQuality quality ->
         String.Format(
