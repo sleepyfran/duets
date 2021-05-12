@@ -1,6 +1,5 @@
 open Cli.View.Actions
 open Cli.View.Renderer
-open Storage
 
 [<EntryPoint>]
 let main _ =

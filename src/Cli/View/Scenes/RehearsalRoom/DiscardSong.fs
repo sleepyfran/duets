@@ -4,12 +4,12 @@ open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
 open Entities
-open Simulation.Bands.Queries
+open Simulation.Queries
 open Simulation.Songs.Composition.DiscardSong
 
 let rec discardSongScene state =
     seq {
-        let currentBand = currentBand state
+        let currentBand = Bands.currentBand state
 
         let songOptions =
             unfinishedSongsSelectorOf state currentBand

@@ -1,5 +1,5 @@
 [<RequireQualifiedAccess>]
-module Storage.Database
+module Database
 
 open Common
 

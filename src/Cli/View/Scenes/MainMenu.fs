@@ -3,7 +3,6 @@ module Cli.View.Scenes.MainMenu
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
-open Storage
 
 /// Current version of the game as loaded from the fsproj.
 let version =

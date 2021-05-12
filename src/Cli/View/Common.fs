@@ -3,12 +3,11 @@ module Cli.View.Common
 open Cli.View.Actions
 open Cli.View.TextConstants
 open Entities
-open Simulation.Songs.Queries
-open Storage
+open Simulation.Queries
 
 /// Creates a list of choices from a map of unfinished songs.
 let unfinishedSongsSelectorOf state (band: Band) =
-    unfinishedSongsByBand state band.Id
+    Songs.unfinishedSongsByBand state band.Id
     |> Map.toList
     |> List.map
         (fun (songId, ((UnfinishedSong us), _, currentQuality)) ->
@@ -22,7 +21,7 @@ let unfinishedSongFromSelection state (band: Band) (selection: Choice) =
     selection.Id
     |> System.Guid.Parse
     |> SongId
-    |> unfinishedSongByBandAndSongId state band.Id
+    |> Songs.unfinishedSongByBandAndSongId state band.Id
     |> Option.get
 
 /// Returns the full selected member.

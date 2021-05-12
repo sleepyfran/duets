@@ -6,7 +6,7 @@ open Test.Common
 
 open Common
 open Entities
-open Simulation.Bands.Queries
+open Simulation.Queries
 
 [<SetUp>]
 let Setup () = Common.initState ()
@@ -26,7 +26,7 @@ let MemberHiredShouldAddMember () =
     hireMember ()
 
     State.Root.get ()
-    |> currentBandMembersWithoutPlayableCharacter
+    |> Bands.currentBandMembersWithoutPlayableCharacter
     |> List.head
     |> should equal hiredMember
 
@@ -35,7 +35,7 @@ let MemberFiredShouldRemoveMemberAndAddToPastMember () =
     hireMember ()
 
     State.Root.get ()
-    |> currentBandMembersWithoutPlayableCharacter
+    |> Bands.currentBandMembersWithoutPlayableCharacter
     |> should haveLength 1
 
     let firedMember =
@@ -47,10 +47,10 @@ let MemberFiredShouldRemoveMemberAndAddToPastMember () =
     let state = State.Root.get ()
 
     state
-    |> currentBandMembersWithoutPlayableCharacter
+    |> Bands.currentBandMembersWithoutPlayableCharacter
     |> should haveLength 0
 
     state
-    |> pastBandMembers
+    |> Bands.pastBandMembers
     |> List.head
     |> should equal firedMember

@@ -5,7 +5,7 @@ open Cli.View.Common
 open Cli.View.TextConstants
 open Entities
 open Simulation.Bands.Members
-open Simulation.Bands.Queries
+open Simulation.Queries
 
 let rec hireScene state =
     seq {
@@ -24,7 +24,7 @@ let rec hireScene state =
     }
 
 and memberSelection state selectedInstrument =
-    let band = currentBand state
+    let band = Bands.currentBand state
 
     let instrument =
         Instrument.createInstrument (Instrument.Type.from selectedInstrument.Id)

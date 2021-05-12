@@ -6,7 +6,6 @@ open Cli.View.TextConstants
 open Entities
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Simulation.Songs.Composition.ComposeSong
-open Storage
 
 let rec composeSongScene state =
     seq {

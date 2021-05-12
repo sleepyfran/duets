@@ -1,11 +1,9 @@
 module Simulation.Songs.Composition.Common
 
 open Aether
-open Simulation.Skills.Queries
-open Simulation.Songs
+open Simulation.Queries
 open Entities
 open Entities.Skill
-open Storage
 
 /// Computes the score associated with each member of the band for the song.
 let qualityForMember state genre (currentMember: CurrentMember) =
@@ -18,7 +16,7 @@ let qualityForMember state genre (currentMember: CurrentMember) =
           genreSkill.Id ]
 
     influencingSkills
-    |> List.map (characterSkillWithLevel state currentMember.Character.Id)
+    |> List.map (Skills.characterSkillWithLevel state currentMember.Character.Id)
     |> List.map snd
     |> List.sum
     |> fun total -> total / influencingSkills.Length

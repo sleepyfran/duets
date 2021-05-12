@@ -5,12 +5,12 @@ open Cli.View.Common
 open Cli.View.TextConstants
 open Common
 open Entities
-open Simulation.Bands.Queries
+open Simulation.Queries
 open Simulation.Bands.Members
 
 let rec fireScene state =
     let memberOptions =
-        currentBandMembersWithoutPlayableCharacter state
+        Bands.currentBandMembersWithoutPlayableCharacter state
         |> List.map
             (fun m ->
                 let (CharacterId (id)) = m.Character.Id
@@ -39,7 +39,7 @@ let rec fireScene state =
     }
 
 and confirmFiring state selectedMember =
-    let band = currentBand state
+    let band = Bands.currentBand state
     let memberToFire = memberFromSelection band selectedMember
 
     seq {

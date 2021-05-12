@@ -5,12 +5,12 @@ open Cli.View.Common
 open Cli.View.TextConstants
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
-open Simulation.Bands.Queries
+open Simulation.Queries
 open Simulation.Songs.Composition.ImproveSong
 
 let rec improveSongScene state =
     seq {
-        let currentBand = currentBand state
+        let currentBand = Bands.currentBand state
 
         let songOptions =
             unfinishedSongsSelectorOf state currentBand

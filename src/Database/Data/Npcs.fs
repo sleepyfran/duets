@@ -1,4 +1,4 @@
-module Storage.Data.Npcs
+module Data.Npcs
 
 open Entities
 

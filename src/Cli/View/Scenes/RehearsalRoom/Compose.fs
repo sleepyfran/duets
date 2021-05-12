@@ -3,12 +3,7 @@ module Cli.View.Scenes.RehearsalRoom.Compose
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
-open Cli.View.Scenes.RehearsalRoom.ComposeSong
-open Cli.View.Scenes.RehearsalRoom.ImproveSong
-open Cli.View.Scenes.RehearsalRoom.FinishSong
-open Cli.View.Scenes.RehearsalRoom.DiscardSong
-open Simulation.Bands.Queries
-open Simulation.Songs.Queries
+open Simulation.Queries
 
 let createOptions hasUnfinishedSongs =
     seq {
@@ -33,9 +28,9 @@ let createOptions hasUnfinishedSongs =
 
 let rec compose state =
     let options =
-        currentBand state
+        Bands.currentBand state
         |> fun band -> band.Id
-        |> unfinishedSongsByBand state
+        |> Songs.unfinishedSongsByBand state
         |> Map.count
         |> fun count -> count > 0
         |> createOptions

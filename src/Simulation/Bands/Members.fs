@@ -3,10 +3,7 @@ module Simulation.Bands.Members
 open Aether
 open Common
 open Entities
-open Simulation.Bands
-open Simulation.Character.Queries
-open Simulation.Calendar.Queries
-open Storage
+open Simulation.Queries
 
 /// Derives an age that will be +-5 of a given average but no less than 18
 /// or more than 80.
@@ -37,11 +34,11 @@ let private createMemberForHire averageSkillLevel averageAge genre instrument =
 /// looking for the given instrument.
 let membersForHire state band instrument =
     let averageSkillLevel =
-        Queries.averageSkillLevel state band
+        Bands.averageSkillLevel state band
         |> Math.roundToNearest
 
     let averageAge =
-        Queries.averageAge band |> Math.roundToNearest
+        Bands.averageAge band |> Math.roundToNearest
 
     Seq.initInfinite
         (fun _ ->
@@ -53,7 +50,7 @@ let membersForHire state band instrument =
 
 /// Processes the given member for hire into a current member of the band.
 let hireMember state (band: Band) (memberForHire: MemberForHire) =
-    today state
+    Calendar.today state
     |> Band.Member.fromMemberForHire memberForHire
     |> Tuple.two band
     |> MemberHired
@@ -63,13 +60,13 @@ type FireError = AttemptToFirePlayableCharacter
 /// Removes a current member from the band and adds it to the past members with
 /// today as the date it was fired.
 let fireMember state (band: Band) (bandMember: CurrentMember) =
-    let character = playableCharacter state
+    let character = Characters.playableCharacter state
 
     if bandMember.Character.Id = character.Id then
         Error AttemptToFirePlayableCharacter
     else
         let pastMember =
-            Band.PastMember.fromMember bandMember (today state)
+            Band.PastMember.fromMember bandMember (Calendar.today state)
 
         (band, bandMember, pastMember)
         |> MemberFired

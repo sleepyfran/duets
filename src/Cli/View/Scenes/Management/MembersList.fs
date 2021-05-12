@@ -2,12 +2,12 @@ module Cli.View.Scenes.Management.MemberList
 
 open Cli.View.Actions
 open Cli.View.TextConstants
-open Simulation.Bands.Queries
+open Simulation.Queries
 
 /// Shows the current and past members of the band.
 let rec memberListScene state =
-    let currentMembers = currentBandMembers state
-    let pastMembers = pastBandMembers state
+    let currentMembers = Bands.currentBandMembers state
+    let pastMembers = Bands.pastBandMembers state
 
     seq {
         yield Message <| TextConstant MemberListCurrentTitle

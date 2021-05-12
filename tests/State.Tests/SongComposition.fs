@@ -5,7 +5,7 @@ open NUnit.Framework
 open Test.Common
 
 open Entities
-open Simulation.Songs.Queries
+open Simulation.Queries
 
 [<SetUp>]
 let Setup () = Common.initState ()
@@ -46,7 +46,7 @@ let SongDiscardedShouldRemoveUnfinishedSong () =
     State.Root.apply
     <| SongDiscarded(dummyBand, unfinishedSong)
 
-    unfinishedSongsByBand (State.Root.get ()) dummyBand.Id
+    Songs.unfinishedSongsByBand (State.Root.get ()) dummyBand.Id
     |> should haveCount 0
 
 [<Test>]
@@ -60,7 +60,7 @@ let SongFinishedShouldRemoveUnfinishedAndAddFinishedSong () =
 
     let state = State.Root.get ()
 
-    unfinishedSongsByBand state dummyBand.Id
+    Songs.unfinishedSongsByBand state dummyBand.Id
     |> should haveCount 0
 
     state
