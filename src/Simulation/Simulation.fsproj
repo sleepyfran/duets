@@ -14,11 +14,13 @@
         <Compile Include="Queries\Calendar.fs" />
         <Compile Include="Setup\StartGame.fs" />
         <Compile Include="Bands\Members.fs" />
+        <Compile Include="Skills\ImproveSkills.fs" />
         <Compile Include="Songs\Composition\Common.fs" />
         <Compile Include="Songs\Composition\ComposeSong.fs" />
         <Compile Include="Songs\Composition\ImproveSong.fs" />
         <Compile Include="Songs\Composition\FinishSong.fs" />
         <Compile Include="Songs\Composition\DiscardSong.fs" />
+        <Compile Include="Galactus.fs" />
     </ItemGroup>
 
     <ItemGroup>

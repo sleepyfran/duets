@@ -78,7 +78,7 @@ module Types =
     type SkillId =
         | Composition
         | Genre of Genre
-        | Instrument of Instrument
+        | Instrument of InstrumentType
 
     /// Defines all possible categories to which skills can be related to.
     type SkillCategory =
@@ -158,14 +158,6 @@ module Types =
     type Quality = int<quality>
     type MaxQuality = int<quality>
 
-    /// Indicates whether the song can be further improved or if it has reached its
-    /// maximum quality and thus cannot be improved. All variants wrap an int that
-    /// hold the current value.
-    type SongStatus =
-        | CanBeImproved of Quality
-        | ReachedMaxQualityInLastImprovement of Quality
-        | ReachedMaxQualityAlready of Quality
-
     /// Shapes a relation between an unfinished song, its max quality and the
     /// current quality.
     type UnfinishedSongWithQualities = UnfinishedSong * MaxQuality * Quality
@@ -208,3 +200,12 @@ module Types =
         | SongDiscarded of Band * UnfinishedSongWithQualities
         | MemberHired of Band * CurrentMember
         | MemberFired of Band * CurrentMember * PastMember
+        | SkillImproved of Character * Diff<SkillWithLevel>
+
+    /// Indicates whether the song can be further improved or if it has reached its
+    /// maximum quality and thus cannot be improved. All variants wrap an int that
+    /// hold the current value.
+    type SongStatus =
+        | CanBeImproved of Effect
+        | ReachedMaxQualityInLastImprovement of Effect
+        | ReachedMaxQualityAlready

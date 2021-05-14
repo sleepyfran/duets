@@ -21,13 +21,7 @@ let dummySong = Song.empty
 let dummyToday = Calendar.fromDayMonth 1 1
 
 let dummyState =
-    let bandWithMember =
-        Optic.map
-            Lenses.Band.members_
-            (List.append [ (Band.Member.from dummyCharacter Guitar dummyToday) ])
-            dummyBand
-
-    { Bands = Map.ofList [ (dummyBand.Id, bandWithMember) ]
+    { Bands = [ (dummyBand.Id, dummyBand) ] |> Map.ofSeq
       Character = dummyCharacter
       CharacterSkills = Map.ofList [ (dummyCharacter.Id, Map.empty) ]
       CurrentBandId = dummyBand.Id

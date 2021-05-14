@@ -1,10 +1,12 @@
 module Orchestrator
 
-open System
+open Entities
 open Cli.View.Actions
 open Cli.View.Scenes
 open Cli.View.TextConstants
 open Cli.View.Renderer
+open Common
+open System
 
 /// Returns the sequence of actions associated with a screen given its name.
 let actionsFromScene scene =
@@ -30,6 +32,30 @@ let actionsFromSubScene state subScene =
     | SubScene.ManagementFireMember -> Management.Fire.fireScene state
     | SubScene.ManagementListMembers ->
         Management.MemberList.memberListScene state
+
+let actionsFromEffect effect =
+    match effect with
+    | SongImproved (_, Diff (before, after)) ->
+        let (_, _, previousQuality) = before
+        let (_, _, currentQuality) = after
+
+        ImproveSongCanBeFurtherImproved(previousQuality, currentQuality)
+        |> TextConstant
+        |> Message
+    | SkillImproved (character, Diff (before, after)) ->
+        let (skill, previousLevel) = before
+        let (_, currentLevel) = after
+
+        CommonSkillImproved(
+            character.Name,
+            character.Gender,
+            skill,
+            previousLevel,
+            currentLevel
+        )
+        |> TextConstant
+        |> Message
+    | _ -> NoOp
 
 /// Saves the game to the savegame file only if the screen is not the main menu,
 /// character creator or band creator, which still have unreliable data or
@@ -84,7 +110,11 @@ let rec runWith chain =
                 subScene
                 |> actionsFromSubScene (State.Root.get ())
                 |> runWith
-            | Effect effect -> State.Root.apply effect
+            | Effect effect ->
+                Simulation.Galactus.runOne (State.Root.get ()) effect
+                |> Seq.tap State.Root.apply
+                |> Seq.map actionsFromEffect
+                |> runWith
             | GameInfo version -> renderGameInfo version
             | NoOp -> ())
 

@@ -17,13 +17,25 @@ let state =
         dummyBand
         (UnfinishedSong dummySong, 35<quality>, 7<quality>)
 
+let createSongImprovedEffect max prev current =
+    SongImproved(
+        dummyBand,
+        Diff(
+            (UnfinishedSong(dummySong), max * 1<quality>, prev * 1<quality>),
+            (UnfinishedSong(dummySong), max * 1<quality>, current * 1<quality>)
+        )
+    )
+
 [<Test>]
 let ShouldImproveIfPossibleAndReturnCanBeImproved () =
     let song = lastUnfinishedSong dummyBand state
 
     improveSong dummyBand song
-    |> fst
-    |> should be (ofCase <@ CanBeImproved 14<quality> @>)
+    |> fun status ->
+        match status with
+        | CanBeImproved effect -> effect
+        | _ -> invalidOp "Unexpected status"
+    |> should equal (createSongImprovedEffect 35 7 14)
 
 [<Test>]
 let ShouldImproveForALastTimeIfPossibleAndReturnReachedMaxQualityInLastImprovement
@@ -39,8 +51,12 @@ let ShouldImproveForALastTimeIfPossibleAndReturnReachedMaxQualityInLastImproveme
         lastUnfinishedSong dummyBand updatedState
 
     improveSong dummyBand song
-    |> fst
-    |> should be (ofCase <@ ReachedMaxQualityInLastImprovement 35<quality> @>)
+    |> should
+        be
+        (ofCase
+            <@ ReachedMaxQualityInLastImprovement(
+                createSongImprovedEffect 35 21 28
+            ) @>)
 
 [<Test>]
 let ShouldNotAllowImprovementIfReachedMaxQualityAndReturnReachMaxQualityAlready
@@ -56,23 +72,9 @@ let ShouldNotAllowImprovementIfReachedMaxQualityAndReturnReachMaxQualityAlready
         lastUnfinishedSong dummyBand updatedState
 
     improveSong dummyBand song
-    |> fst
-    |> should be (ofCase <@ ReachedMaxQualityInLastImprovement 35<quality> @>)
-
-[<Test>]
-let ShouldGenerateImprovedSongEffect () =
-    let song = lastUnfinishedSong dummyBand state
-
-    improveSong dummyBand song
-    |> snd
-    |> Seq.head
     |> should
         be
         (ofCase
-            <@ SongImproved(
-                dummyBand,
-                Diff(
-                    (UnfinishedSong(dummySong), 35<quality>, 7<quality>),
-                    (UnfinishedSong(dummySong), 35<quality>, 14<quality>)
-                )
+            <@ ReachedMaxQualityInLastImprovement(
+                createSongImprovedEffect 35 21 28
             ) @>)

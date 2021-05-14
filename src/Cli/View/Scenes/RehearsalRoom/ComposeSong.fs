@@ -86,7 +86,6 @@ and handleSong state name length genre selectedVocalStyle =
 
 and composeWithProgressbar state song =
     seq {
-        yield Effect <| composeSong state song
 
         yield
             ProgressBar
@@ -100,6 +99,8 @@ and composeWithProgressbar state song =
         yield
             Message
             <| TextConstant(ComposeSongConfirmation song.Name)
+
+        yield Effect <| composeSong state song
 
         yield SceneAfterKey RehearsalRoom
     }

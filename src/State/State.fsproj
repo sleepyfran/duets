@@ -8,6 +8,7 @@
     <ItemGroup>
         <Compile Include="Songs.fs" />
         <Compile Include="Bands.fs" />
+        <Compile Include="Skills.fs" />
         <Compile Include="State.fs" />
         <Content Include="README.md" />
     </ItemGroup>

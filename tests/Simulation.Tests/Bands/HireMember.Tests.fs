@@ -20,12 +20,12 @@ let state =
         (Skill.createWithLevel (Genre dummyBand.Genre) skillLevel)
 
 let assertOnMembers assertion =
-    membersForHire state dummyBand instrument
+    membersForHire state dummyBand instrument.Type
     |> Seq.take 20
     |> Seq.iter assertion
 
 let memberForHire =
-    membersForHire state dummyBand instrument
+    membersForHire state dummyBand instrument.Type
     |> Seq.take 1
     |> Seq.head
 

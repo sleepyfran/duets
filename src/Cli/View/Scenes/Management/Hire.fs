@@ -29,7 +29,7 @@ and memberSelection state selectedInstrument =
     let instrument =
         Instrument.createInstrument (Instrument.Type.from selectedInstrument.Id)
 
-    membersForHire state band instrument
+    membersForHire state band instrument.Type
     |> Seq.take 1
     |> Seq.map (showMemberForHire state band selectedInstrument)
     |> Seq.concat
