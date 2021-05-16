@@ -59,3 +59,5 @@ let apply effect =
     | MemberFired (band, currentMember, pastMember) ->
         Bands.removeMember staticAgent.Map band currentMember
         Bands.addPastMember staticAgent.Map band pastMember
+    | SkillImproved (character, Diff (_, skill)) ->
+        Skills.add staticAgent.Map character skill

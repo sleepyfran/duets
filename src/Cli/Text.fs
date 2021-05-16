@@ -31,7 +31,7 @@ and skillName id =
     match id with
     | Composition -> "Composition"
     | Genre genre -> $"{genre} (Genre)"
-    | Instrument instrument -> $"{instrumentName instrument.Type} (Instrument)"
+    | Instrument instrument -> $"{instrumentName instrument} (Instrument)"
 
 /// Returns the correct pronoun for the given gender (he, she, they).
 and subjectPronounForGender gender =
@@ -46,6 +46,12 @@ and objectPronounForGender gender =
     | Male -> "Him"
     | Female -> "Her"
     | Other -> "Them"
+
+and possessiveAdjectiveForGender gender =
+    match gender with
+    | Male -> "His"
+    | Female -> "Her"
+    | Other -> "Its"
 
 /// Returns the correct conjugation for the given verb that matches with the
 /// specified gender.
@@ -62,6 +68,20 @@ and fromConstant constant =
     | CommonCancel -> "[bold]Cancel[/]"
     | CommonBackToMainMenu -> "[bold]Back to main menu[/]"
     | CommonPressKeyToContinue -> "Press [bold blue]any[/] key to continue"
+    | CommonSkillImproved (characterName,
+                           characterGender,
+                           skill,
+                           previousLevel,
+                           currentLevel) ->
+        String.Format(
+            "[green]{0} improved {1} {2} skill from {3}% to {4}%[/]",
+            characterName,
+            (possessiveAdjectiveForGender characterGender)
+                .ToLower(),
+            (skillName skill.Id).ToLower(),
+            previousLevel,
+            currentLevel
+        )
     | MainMenuPrompt -> "Select an option to begin"
     | MainMenuNewGame -> "New game"
     | MainMenuLoadGame -> "Load game"
@@ -140,11 +160,8 @@ and fromConstant constant =
             previousQuality,
             currentQuality
         )
-    | ImproveSongReachedMaxQuality quality ->
-        String.Format(
-            "[springgreen4]Your band has decided that the song does not need any further improvements. It has a quality of {0}%[/]. [blue]You can add it to the band's repertoire from the 'Finish an unfinished song' option[/]",
-            quality
-        )
+    | ImproveSongReachedMaxQuality ->
+        "[springgreen4]Your band has decided that the song does not need any further improvements[/]. [blue]You can add it to the band's repertoire from the 'Finish an unfinished song' option[/]"
     | ImproveSongProgressAddingSomeMelodies ->
         "[springgreen3_1]Adding some melodies...[/]"
     | ImproveSongProgressPlayingFoosball ->

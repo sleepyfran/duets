@@ -11,12 +11,13 @@ let qualityForMember state genre (currentMember: CurrentMember) =
 
     let influencingSkills =
         [ Composition
-          (Instrument
-           <| Instrument.createInstrument currentMember.Role)
+          Instrument currentMember.Role
           genreSkill.Id ]
 
     influencingSkills
-    |> List.map (Skills.characterSkillWithLevel state currentMember.Character.Id)
+    |> List.map (
+        Skills.characterSkillWithLevel state currentMember.Character.Id
+    )
     |> List.map snd
     |> List.sum
     |> fun total -> total / influencingSkills.Length

@@ -20,6 +20,12 @@ type TextConstant =
     | CommonCancel
     | CommonBackToMainMenu
     | CommonPressKeyToContinue
+    | CommonSkillImproved of
+        characterName: string *
+        characterGender: Gender *
+        skill: Skill *
+        previousLevel: int *
+        currentLevel: int
     | MainMenuPrompt
     | MainMenuNewGame
     | MainMenuLoadGame
@@ -68,7 +74,7 @@ type TextConstant =
     | ImproveSongCanBeFurtherImproved of
         previousQuality: Quality *
         currentQuality: Quality
-    | ImproveSongReachedMaxQuality of quality: Quality
+    | ImproveSongReachedMaxQuality
     | ImproveSongProgressAddingSomeMelodies
     | ImproveSongProgressPlayingFoosball
     | ImproveSongProgressModifyingChordsFromAnotherSong

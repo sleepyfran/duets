@@ -28,7 +28,7 @@ let private createMemberForHire averageSkillLevel averageAge genre instrument =
                 Character.from name (ageFromAverage averageAge) gender
                 |> Result.unwrap
 
-        Band.MemberForHire.from npc instrument.Type skills
+        Band.MemberForHire.from npc instrument skills
 
 /// Generates an infinite sequence of available members for the given band
 /// looking for the given instrument.
