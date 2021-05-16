@@ -67,6 +67,7 @@ and fromConstant constant =
     | CommonSkills -> "Skills"
     | CommonCancel -> "[bold]Cancel[/]"
     | CommonBackToMainMenu -> "[bold]Back to main menu[/]"
+    | CommonBackToMap -> "[bold]Back to map[/]"
     | CommonPressKeyToContinue -> "Press [bold blue]any[/] key to continue"
     | CommonSkillImproved (characterName,
                            characterGender,
@@ -121,6 +122,9 @@ and fromConstant constant =
     | CreatorErrorCharacterAgeTooOld -> "[red]Your character is too old[/]"
     | CreatorErrorBandNameTooShort -> "[red]Your band's name is too short[/]"
     | CreatorErrorBandNameTooLong -> "[red]Your band's name is too long[/]"
+    | MapTitle -> "Map"
+    | MapPrompt -> "Where are you heading?"
+    | MapOptionRehearsalRoom -> "Band's rehearsal room"
     | RehearsalRoomTitle -> "Rehearsal Room"
     | RehearsalRoomCompose -> "Compose"
     | RehearsalRoomManage -> "Manage band"

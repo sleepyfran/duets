@@ -11,6 +11,7 @@ type Scene =
     // Band creator needs a character the character that was created in the
     // previous step.
     | BandCreator of Character
+    | Map
     | RehearsalRoom
     | Management
 

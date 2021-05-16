@@ -28,9 +28,8 @@ let rec rehearsalRoomScene () =
                       ChoicePrompt
                       <| OptionalChoiceHandler
                           { Choices = rehearsalOptions
-                            Handler =
-                                mainMenuOptionalChoiceHandler processSelection
-                            BackText = TextConstant CommonBackToMainMenu } }
+                            Handler = mapOptionalChoiceHandler processSelection
+                            BackText = TextConstant CommonBackToMap } }
     }
 
 and processSelection choice =

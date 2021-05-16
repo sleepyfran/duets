@@ -16,6 +16,7 @@ let actionsFromScene scene =
     | BandCreator character -> BandCreator.bandCreator character
     | RehearsalRoom -> RehearsalRoom.Root.rehearsalRoomScene ()
     | Management -> Management.Root.managementScene ()
+    | Map -> Map.mapScene ()
 
 let actionsFromSubScene state subScene =
     match subScene with

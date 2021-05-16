@@ -19,6 +19,7 @@ type TextConstant =
     | CommonSkills
     | CommonCancel
     | CommonBackToMainMenu
+    | CommonBackToMap
     | CommonPressKeyToContinue
     | CommonSkillImproved of
         characterName: string *
@@ -51,6 +52,9 @@ type TextConstant =
     | CreatorErrorCharacterAgeTooOld
     | CreatorErrorBandNameTooShort
     | CreatorErrorBandNameTooLong
+    | MapTitle
+    | MapPrompt
+    | MapOptionRehearsalRoom
     | RehearsalRoomTitle
     | RehearsalRoomCompose
     | RehearsalRoomManage

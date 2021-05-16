@@ -53,6 +53,6 @@ and processSelection choice =
     seq {
         match choice.Id with
         | "new_game" -> yield (Scene CharacterCreator)
-        | "load_game" -> yield (Scene RehearsalRoom)
+        | "load_game" -> yield (Scene Map)
         | _ -> yield NoOp
     }
