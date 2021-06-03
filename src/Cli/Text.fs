@@ -21,10 +21,10 @@ let rec toString text =
 /// Returns the formatted instrument name given its type.
 and instrumentName instrumentType =
     match instrumentType with
-    | InstrumentType.Bass -> "Bass"
-    | InstrumentType.Drums -> "Drums"
-    | InstrumentType.Guitar -> "Guitar"
-    | InstrumentType.Vocals -> "Vocals"
+    | Bass -> "Bass"
+    | Drums -> "Drums"
+    | Guitar -> "Guitar"
+    | Vocals -> "Vocals"
 
 /// Returns the formatted skill name given its ID.
 and skillName id =
@@ -125,6 +125,7 @@ and fromConstant constant =
     | MapTitle -> "Map"
     | MapPrompt -> "Where are you heading?"
     | MapOptionRehearsalRoom -> "Band's rehearsal room"
+    | MapOptionBank -> "Bank"
     | RehearsalRoomTitle -> "Rehearsal Room"
     | RehearsalRoomCompose -> "Compose"
     | RehearsalRoomManage -> "Manage band"
@@ -237,3 +238,19 @@ and fromConstant constant =
             since.Year,
             until.Year
         )
+    | BankTitle -> "Bank"
+    | BankWelcome (characterBalance, bandBalance) ->
+        String.Format(
+            "[bold blue]You[/] currently have [green]{0}d$[/]. [bold blue]Your band[/] has: [green]{1}d$[/]",
+            characterBalance,
+            bandBalance
+        )
+    | BankPrompt -> "What do you want to do?"
+    | BankTransferToBand -> "Transfer money to band"
+    | BankTransferFromBand -> "Transfer money from band"
+    | BankTransferAmount holder ->
+        match holder with
+        | Character _ -> "How much do you want to transfer to your band?"
+        | Band _ -> "How much do you want to transfer from your band?"
+    | BankTransferSuccess -> "[bold green]The transference was completed successfully[/]"
+    | BankTransferNotEnoughFunds -> "[bold red]Not enough funds in the sender account[/]"

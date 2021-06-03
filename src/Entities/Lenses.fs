@@ -58,6 +58,9 @@ module BandRepertoire =
 
 module FromState =
     module BankAccount =
+        /// Lens into a specific account.
+        let account_ id = State.bankAccounts_ >-> Map.key_ id
+
         /// Lens into the transactions of a specific bank account given the
         /// state and its id.
         let transactionsOf_ id =

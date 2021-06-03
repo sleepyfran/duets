@@ -192,8 +192,8 @@ module Types =
 
     /// Represents a transaction between two accounts in the game.
     type BankTransaction =
-        | Incoming of sender: BankAccountHolder * amount: int<dd>
-        | Outgoing of receiver: BankAccountHolder * amount: int<dd>
+        | Incoming of amount: int<dd>
+        | Outgoing of amount: int<dd>
 
     /// Represents a bank account in the game. We only keep track of accounts
     /// from the main character and its bands.
@@ -223,7 +223,7 @@ module Types =
         | MemberHired of Band * CurrentMember
         | MemberFired of Band * CurrentMember * PastMember
         | SkillImproved of Character * Diff<SkillWithLevel>
-        | MoneyTransfered of BankAccountHolder * BankTransaction
+        | MoneyTransferred of BankAccountHolder * BankTransaction
 
     /// Indicates whether the song can be further improved or if it has reached its
     /// maximum quality and thus cannot be improved. All variants wrap an int that

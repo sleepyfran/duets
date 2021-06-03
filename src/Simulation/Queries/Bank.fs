@@ -12,6 +12,6 @@ module Bank =
         |> List.fold
             (fun balance transaction ->
                 match transaction with
-                | Incoming (_, amount) -> balance + amount
-                | Outgoing (_, amount) -> balance - amount)
+                | Incoming amount -> balance + amount
+                | Outgoing amount -> balance - amount)
             0<dd>

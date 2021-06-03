@@ -14,6 +14,7 @@ type Scene =
     | Map
     | RehearsalRoom
     | Management
+    | Bank
 
 /// Defines the index of all sub-scenes available. Sub-scenes belong to a Scene
 /// and thus do not clear the screen or save a game.
@@ -26,6 +27,7 @@ type SubScene =
     | ManagementHireMember
     | ManagementFireMember
     | ManagementListMembers
+    | BankTransfer of sender: BankAccountHolder * receiver: BankAccountHolder
 
 /// Encapsulates text that can either be defined by a text constant, which is
 /// resolved by the UI layer, or a string constant that is just passed from this

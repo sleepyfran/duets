@@ -55,6 +55,7 @@ type TextConstant =
     | MapTitle
     | MapPrompt
     | MapOptionRehearsalRoom
+    | MapOptionBank
     | RehearsalRoomTitle
     | RehearsalRoomCompose
     | RehearsalRoomManage
@@ -116,3 +117,11 @@ type TextConstant =
         role: InstrumentType *
         from: Date *
         until: Date
+    | BankTitle
+    | BankWelcome of characterBalance: int<dd> * bandBalance: int<dd>
+    | BankPrompt
+    | BankTransferToBand
+    | BankTransferFromBand
+    | BankTransferAmount of holder: BankAccountHolder
+    | BankTransferSuccess
+    | BankTransferNotEnoughFunds

@@ -15,7 +15,5 @@ let transfer state sender receiver amount =
     if accountBalance < amount then
         NotEnoughFunds
     else
-        Ok [ MoneyTransfered
-             <| (receiver, Incoming(sender, amount))
-             MoneyTransfered
-             <| (sender, Outgoing(receiver, amount)) ]
+        Ok [ MoneyTransferred <| (receiver, Incoming amount)
+             MoneyTransferred <| (sender, Outgoing amount) ]

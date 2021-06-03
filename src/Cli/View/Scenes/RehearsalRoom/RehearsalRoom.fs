@@ -3,7 +3,6 @@ module Cli.View.Scenes.RehearsalRoom.Root
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
-open Cli.View.Scenes.RehearsalRoom.Compose
 
 let rehearsalOptions =
     [ { Id = "compose"

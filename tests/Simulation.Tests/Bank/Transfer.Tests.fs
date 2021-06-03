@@ -25,10 +25,8 @@ let transferAmountHigherThanBalanceShouldReturnNotEnoughFunds () =
 
 let createOk sender receiver amount =
     Ok
-    <| [ MoneyTransfered
-         <| (receiver, Incoming(sender, amount))
-         MoneyTransfered
-         <| (sender, Outgoing(receiver, amount)) ]
+    <| [ MoneyTransferred <| (receiver, Incoming amount)
+         MoneyTransferred <| (sender, Outgoing amount) ]
 
 [<Test>]
 let transferAmountLowerThanBalanceShouldReturnOkWithEffects () =

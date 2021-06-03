@@ -9,7 +9,7 @@ open Common
 open System
 
 /// Returns the sequence of actions associated with a screen given its name.
-let actionsFromScene scene =
+let actionsFromScene state scene =
     match scene with
     | MainMenu savegameState -> MainMenu.mainMenu savegameState
     | CharacterCreator -> CharacterCreator.characterCreator ()
@@ -17,22 +17,23 @@ let actionsFromScene scene =
     | RehearsalRoom -> RehearsalRoom.Root.rehearsalRoomScene ()
     | Management -> Management.Root.managementScene ()
     | Map -> Map.mapScene ()
+    | Bank -> Bank.Root.bankScene state
 
 let actionsFromSubScene state subScene =
     match subScene with
     | SubScene.RehearsalRoomCompose -> RehearsalRoom.Compose.compose state
-    | SubScene.RehearsalRoomComposeSong ->
+    | RehearsalRoomComposeSong ->
         RehearsalRoom.ComposeSong.composeSongScene state
-    | SubScene.RehearsalRoomImproveSong ->
+    | RehearsalRoomImproveSong ->
         RehearsalRoom.ImproveSong.improveSongScene state
-    | SubScene.RehearsalRoomFinishSong ->
-        RehearsalRoom.FinishSong.finishSongScene state
-    | SubScene.RehearsalRoomDiscardSong ->
+    | RehearsalRoomFinishSong -> RehearsalRoom.FinishSong.finishSongScene state
+    | RehearsalRoomDiscardSong ->
         RehearsalRoom.DiscardSong.discardSongScene state
     | SubScene.ManagementHireMember -> Management.Hire.hireScene state
     | SubScene.ManagementFireMember -> Management.Fire.fireScene state
-    | SubScene.ManagementListMembers ->
-        Management.MemberList.memberListScene state
+    | ManagementListMembers -> Management.MemberList.memberListScene state
+    | BankTransfer (sender, receiver) ->
+        Bank.Transfer.transferSubScene state sender receiver
 
 let actionsFromEffect effect =
     match effect with
@@ -101,12 +102,12 @@ let rec runWith chain =
             | Message message -> renderMessage message
             | Figlet text -> renderFiglet text
             | ProgressBar content -> renderProgressBar content
-            | Scene scene -> runScene scene
+            | Scene scene -> runScene (State.Root.get ()) scene
             | SceneAfterKey scene ->
                 waitForInput
                 <| TextConstant CommonPressKeyToContinue
 
-                runScene scene
+                runScene (State.Root.get ()) scene
             | SubScene subScene ->
                 subScene
                 |> actionsFromSubScene (State.Root.get ())
@@ -121,8 +122,8 @@ let rec runWith chain =
 
 /// Saves the game, clears the screen and runs the next scene with a separator
 /// on top.
-and runScene scene =
+and runScene state scene =
     saveIfNeeded scene
     clear ()
     separator ()
-    runWith (actionsFromScene scene)
+    runWith (actionsFromScene state scene)
