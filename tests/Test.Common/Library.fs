@@ -20,6 +20,14 @@ let dummySong = Song.empty
 
 let dummyToday = Calendar.fromDayMonth 1 1
 
+let dummyCharacterBankAccount =
+    BankAccount.forCharacter dummyCharacter.Id
+
+let dummyBandBankAccount = BankAccount.forBand dummyBand.Id
+
+let dummyTargetBankAccount =
+    BankAccount.forCharacter (CharacterId(Identity.create ()))
+
 let dummyState =
     { Bands = [ (dummyBand.Id, dummyBand) ] |> Map.ofSeq
       Character = dummyCharacter
@@ -28,6 +36,9 @@ let dummyState =
       BandRepertoire =
           { Unfinished = Map.ofList [ (dummyBand.Id, Map.empty) ]
             Finished = Map.ofList [ (dummyBand.Id, Map.empty) ] }
+      BankAccounts =
+          Map.ofList [ (Character dummyCharacter.Id, dummyCharacterBankAccount)
+                       (Band dummyBand.Id, dummyBandBankAccount) ]
       Today = dummyToday }
 
 /// Adds a given member to the given band.
@@ -77,3 +88,12 @@ let addFinishedSong (band: Band) finishedSong =
         Lenses.FromState.Songs.finishedByBand_ band.Id
 
     Optic.map finishedSongLenses (Map.add song.Id finishedSong)
+
+/// Adds the specified funds to the given account.
+let addFunds account amount state =
+    let add transactions =
+        List.append
+            transactions
+            [ Incoming(dummyTargetBankAccount.Holder, amount) ]
+
+    Optic.map (Lenses.FromState.BankAccount.transactionsOf_ account) add state

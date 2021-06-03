@@ -177,6 +177,30 @@ module Types =
         { Unfinished: SongsByBand<UnfinishedSongWithQualities>
           Finished: SongsByBand<FinishedSongWithQuality> }
 
+    /// Defines the before and after of an action.
+    type Diff<'a> = Diff of before: 'a * after: 'a
+
+    /// Measure for the in-game currency. DD as in DuetsDollars. Imagination
+    /// at its best.
+    [<Measure>]
+    type dd
+
+    /// Holder of an account in the in-game bank.
+    type BankAccountHolder =
+        | Character of CharacterId
+        | Band of BandId
+
+    /// Represents a transaction between two accounts in the game.
+    type BankTransaction =
+        | Incoming of sender: BankAccountHolder * amount: int<dd>
+        | Outgoing of receiver: BankAccountHolder * amount: int<dd>
+
+    /// Represents a bank account in the game. We only keep track of accounts
+    /// from the main character and its bands.
+    type BankAccount =
+        { Holder: BankAccountHolder
+          Transactions: BankTransaction list }
+
     /// Shared state of the game. Contains all state that is common to every part
     /// of the game.
     type State =
@@ -185,10 +209,8 @@ module Types =
           CharacterSkills: CharacterSkills
           CurrentBandId: BandId
           BandRepertoire: BandRepertoire
+          BankAccounts: Map<BankAccountHolder, BankAccount>
           Today: Date }
-
-    /// Defines the before and after of an action.
-    type Diff<'a> = Diff of before: 'a * after: 'a
 
     /// Defines an effect that happened after an action in the game. For example
     /// calling composeSong will create a `SongComposed` effect.
@@ -201,6 +223,7 @@ module Types =
         | MemberHired of Band * CurrentMember
         | MemberFired of Band * CurrentMember * PastMember
         | SkillImproved of Character * Diff<SkillWithLevel>
+        | MoneyTransfered of BankAccountHolder * BankTransaction
 
     /// Indicates whether the song can be further improved or if it has reached its
     /// maximum quality and thus cannot be improved. All variants wrap an int that
