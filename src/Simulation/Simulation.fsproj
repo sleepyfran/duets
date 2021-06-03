@@ -1,17 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <RootNamespace>Simulation</RootNamespace>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Queries/Bank.fs" />
         <Compile Include="Queries\Skills.fs" />
         <Compile Include="Queries\Characters.fs" />
         <Compile Include="Queries\Bands.fs" />
         <Compile Include="Queries\Songs.fs" />
         <Compile Include="Queries\Calendar.fs" />
+        <Compile Include="Bank\Transfer.fs" />
         <Compile Include="Setup\StartGame.fs" />
         <Compile Include="Bands\Members.fs" />
         <Compile Include="Skills\ImproveSkills.fs" />
@@ -29,7 +31,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Aether" Version="8.3.1" />
+        <PackageReference Include="Aether" Version="8.3.1" />
     </ItemGroup>
-
 </Project>

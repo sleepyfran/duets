@@ -61,3 +61,5 @@ let apply effect =
         Bands.addPastMember staticAgent.Map band pastMember
     | SkillImproved (character, Diff (_, skill)) ->
         Skills.add staticAgent.Map character skill
+    | MoneyTransferred (account, transaction) ->
+        Bank.transfer staticAgent.Map account transaction

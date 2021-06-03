@@ -2,10 +2,12 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
         <Compile Include="Types.fs" />
+        <Compile Include="BankAccount.fs" />
         <Compile Include="Lenses.fs" />
         <Compile Include="Identity.fs" />
         <Compile Include="Calendar.fs" />

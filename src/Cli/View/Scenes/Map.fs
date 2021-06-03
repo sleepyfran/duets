@@ -9,6 +9,9 @@ let mapOptions =
         yield
             { Id = "rehearsal_room"
               Text = TextConstant MapOptionRehearsalRoom }
+        yield
+            { Id = "bank"
+              Text = TextConstant MapOptionBank }
     }
     |> List.ofSeq
 
@@ -32,5 +35,6 @@ and processSelection choice =
     seq {
         match choice.Id with
         | "rehearsal_room" -> yield Scene RehearsalRoom
+        | "bank" -> yield Scene Bank
         | _ -> yield NoOp
     }

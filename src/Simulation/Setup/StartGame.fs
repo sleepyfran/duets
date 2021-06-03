@@ -10,5 +10,10 @@ let startGame character (band: Band) =
       CurrentBandId = band.Id
       Bands = [ (band.Id, band) ] |> Map.ofList
       BandRepertoire = Band.Repertoire.emptyFor band.Id
+      BankAccounts =
+          [ (Character character.Id,
+             BankAccount.forCharacterWithBalance character.Id 1000<dd>)
+            (Band band.Id, BankAccount.forBand band.Id) ]
+          |> Map.ofSeq
       Today = Calendar.fromDayMonth 1 1 }
     |> GameCreated

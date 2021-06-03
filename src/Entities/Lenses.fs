@@ -10,6 +10,10 @@ module State =
     let bands_ =
         (fun (s: State) -> s.Bands), (fun v (s: State) -> { s with Bands = v })
 
+    let bankAccounts_ =
+        (fun (s: State) -> s.BankAccounts),
+        (fun v (s: State) -> { s with BankAccounts = v })
+
     let bandRepertoire_ =
         (fun (s: State) -> s.BandRepertoire),
         (fun v (s: State) -> { s with BandRepertoire = v })
@@ -34,6 +38,15 @@ module Band =
         (fun (b: Band) -> b.PastMembers),
         (fun v (b: Band) -> { b with PastMembers = v })
 
+module BankAccount =
+    let holder_ =
+        (fun (b: BankAccount) -> b.Holder),
+        (fun v (b: BankAccount) -> { b with Holder = v })
+
+    let transactions_ =
+        (fun (b: BankAccount) -> b.Transactions),
+        (fun v (b: BankAccount) -> { b with Transactions = v })
+
 module BandRepertoire =
     let unfinished_ =
         (fun (br: BandRepertoire) -> br.Unfinished),
@@ -44,6 +57,16 @@ module BandRepertoire =
         (fun v (br: BandRepertoire) -> { br with Finished = v })
 
 module FromState =
+    module BankAccount =
+        /// Lens into a specific account.
+        let account_ id = State.bankAccounts_ >-> Map.key_ id
+
+        /// Lens into the transactions of a specific bank account given the
+        /// state and its id.
+        let transactionsOf_ id =
+            State.bankAccounts_ >-> Map.key_ id
+            >?> BankAccount.transactions_
+
     module Bands =
         /// Lens into a specific band given the state and its id.
         let band_ id = State.bands_ >-> Map.key_ id
