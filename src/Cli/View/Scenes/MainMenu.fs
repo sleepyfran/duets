@@ -32,18 +32,24 @@ let rec mainMenu savegameState =
         yield Figlet <| TextConstant GameName
         yield GameInfo version
 
-        let hasSavegameAvailable =
-            match savegameState with
-            | Savegame.Available -> true
-            | Savegame.NotAvailable -> false
+        if savegameState = Savegame.Incompatible then
+            yield
+                Message
+                <| TextConstant MainMenuIncompatibleSavegame
 
+        yield! showMenu savegameState
+    }
+
+and showMenu savegameState =
+    seq {
         yield
             Prompt
                 { Title = TextConstant MainMenuPrompt
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
-                          { Choices = menuOptions hasSavegameAvailable
+                          { Choices =
+                                menuOptions (savegameState = Savegame.Available)
                             Handler =
                                 basicOptionalChoiceHandler NoOp processSelection
                             BackText = TextConstant MainMenuExit } }

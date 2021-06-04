@@ -7,6 +7,7 @@ open Serializer
 type SavegameState =
     | Available
     | NotAvailable
+    | Incompatible
 
 /// Attempts to read the savegame from the file and sets the state with it,
 /// returning whether it was available or not.
@@ -41,7 +42,10 @@ type private SavegameAgent() =
                     let! msg = inbox.Receive()
 
                     match msg with
-                    | Read channel -> loadStateFromSavegame () |> channel.Reply
+                    | Read channel ->
+                        try
+                            loadStateFromSavegame () |> channel.Reply
+                        with _ -> channel.Reply Incompatible
                     | Write state -> writeSavegame state
 
                     return! loop ()

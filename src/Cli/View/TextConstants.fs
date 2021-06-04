@@ -27,6 +27,7 @@ type TextConstant =
         skill: Skill *
         previousLevel: int *
         currentLevel: int
+    | MainMenuIncompatibleSavegame
     | MainMenuPrompt
     | MainMenuNewGame
     | MainMenuLoadGame

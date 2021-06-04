@@ -83,6 +83,7 @@ and fromConstant constant =
             previousLevel,
             currentLevel
         )
+    | MainMenuIncompatibleSavegame -> "[bold red]Your savegame is incompatible or malformed and was ignored[/]"
     | MainMenuPrompt -> "Select an option to begin"
     | MainMenuNewGame -> "New game"
     | MainMenuLoadGame -> "Load game"
