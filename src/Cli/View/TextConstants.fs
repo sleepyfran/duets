@@ -127,3 +127,9 @@ type TextConstant =
     | BankTransferAmount of holder: BankAccountHolder
     | BankTransferSuccess
     | BankTransferNotEnoughFunds
+    | StudioTitle
+    | StudioWelcomePrice of name: string * price: int<dd>
+    | StudioPrompt
+    | StudioStartRecord
+    | StudioContinueRecord
+    | StudioDiscardRecord

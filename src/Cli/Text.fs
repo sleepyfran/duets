@@ -83,7 +83,8 @@ and fromConstant constant =
             previousLevel,
             currentLevel
         )
-    | MainMenuIncompatibleSavegame -> "[bold red]Your savegame is incompatible or malformed and was ignored[/]"
+    | MainMenuIncompatibleSavegame ->
+        "[bold red]Your savegame is incompatible or malformed and was ignored[/]"
     | MainMenuPrompt -> "Select an option to begin"
     | MainMenuNewGame -> "New game"
     | MainMenuLoadGame -> "Load game"
@@ -254,5 +255,17 @@ and fromConstant constant =
         match holder with
         | Character _ -> "How much do you want to transfer to your band?"
         | Band _ -> "How much do you want to transfer from your band?"
-    | BankTransferSuccess -> "[bold green]The transference was completed successfully[/]"
-    | BankTransferNotEnoughFunds -> "[bold red]Not enough funds in the sender account[/]"
+    | BankTransferSuccess ->
+        "[bold green]The transference was completed successfully[/]"
+    | BankTransferNotEnoughFunds ->
+        "[bold red]Not enough funds in the sender account[/]"
+    | StudioTitle -> "Studio"
+    | StudioWelcomePrice (name, price) ->
+        sprintf
+            "Welcome to [bold blue]%s[/]. The recording session costs [bold red]%id$[/] per [bold]hour[/]"
+            name
+            price
+    | StudioPrompt -> "What do you want to do?"
+    | StudioStartRecord -> "Start a new record"
+    | StudioContinueRecord -> "Continue a record"
+    | StudioDiscardRecord -> "Discard a record"

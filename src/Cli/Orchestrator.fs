@@ -18,6 +18,7 @@ let actionsFromScene state scene =
     | Management -> Management.Root.managementScene ()
     | Map -> Map.mapScene ()
     | Bank -> Bank.Root.bankScene state
+    | Studio studio -> Studio.Root.studioScene studio
 
 let actionsFromSubScene state subScene =
     match subScene with

@@ -15,6 +15,7 @@ type Scene =
     | RehearsalRoom
     | Management
     | Bank
+    | Studio of Studio
 
 /// Defines the index of all sub-scenes available. Sub-scenes belong to a Scene
 /// and thus do not clear the screen or save a game.

@@ -63,8 +63,17 @@ and studioSelection () =
                       ChoicePrompt
                       <| OptionalChoiceHandler
                           { Choices = studioChoices
-                            Handler = mapOptionalChoiceHandler processStudio
+                            Handler =
+                                mapOptionalChoiceHandler
+                                <| processStudio studios
                             BackText = TextConstant CommonBackToMap } }
     }
 
-and processStudio choice = []
+and processStudio studios choice =
+    seq {
+        yield
+            studios
+            |> List.find (fun studio -> studio.Id.ToString() = choice.Id)
+            |> Studio
+            |> Scene
+    }
