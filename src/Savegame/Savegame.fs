@@ -1,8 +1,7 @@
 ﻿module Savegame
 
+open Common
 open Entities
-open Files
-open Serializer
 
 type SavegameState =
     | Available
@@ -12,16 +11,18 @@ type SavegameState =
 /// Attempts to read the savegame from the file and sets the state with it,
 /// returning whether it was available or not.
 let private loadStateFromSavegame () =
-    savegamePath ()
-    |> readAll
-    |> Option.bind deserialize
+    Files.savegamePath ()
+    |> Files.readAll
+    |> Option.bind Serializer.deserialize
     |> Option.map State.Root.set
     |> Option.map (fun _ -> Available)
     |> Option.defaultValue NotAvailable
 
 /// Attempts to write the given state into the savegame file.
 let private writeSavegame (state: State) =
-    state |> serialize |> write (savegamePath ())
+    state
+    |> Serializer.serialize
+    |> Files.write (Files.savegamePath ())
 
 type SavegameAgentMessage =
     | Read of AsyncReplyChannel<SavegameState>

@@ -1,4 +1,4 @@
-module Files
+module Common.Files
 
 open System
 open System.IO
@@ -16,6 +16,21 @@ let duetsFolder () =
 let savegamePath () =
     duetsFolder ()
     |> fun duetsPath -> Path.Combine(duetsPath, "savegame.json")
+
+/// Defines the key of the JSON data to fetch.
+type DataKey =
+    | Genres
+    | Npcs
+
+/// Returns the full path to a data file located in the Data folder.
+let dataFile key =
+    let dataDirectory =
+        Directory.GetParent(__SOURCE_DIRECTORY__)
+        |> fun baseDir -> Path.Combine(baseDir.FullName, "Database/Data")
+
+    match key with
+    | Genres -> Path.Combine(dataDirectory, "genres.json")
+    | Npcs -> Path.Combine(dataDirectory, "npcs.json")
 
 /// Attempts to read all text from a given file and returns an option with the
 /// text.

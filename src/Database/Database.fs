@@ -2,22 +2,25 @@
 module Database
 
 open Common
+open Entities
+
+let private readKey key =
+    Files.dataFile key
+    |> Files.readAll
+    |> Option.defaultValue ""
+    |> Serializer.deserialize
 
 /// Returns all available roles in the game.
 let roles = Data.Roles.getNames
 
-/// Returns all available genres in the game.
-let genres = Data.Genres.getAll
-
 /// Returns all available vocal styles in the game.
 let vocalStyleNames = Data.VocalStyles.getNames
 
+/// Returns all available genres in the game.
+let genres () : Genre list = readKey Files.Genres
+
 /// Returns all available names and genders of NPCs in the game.
-let npcs = Data.Npcs.getAll
+let npcs () : (string * Gender) list = readKey Files.Npcs
 
 /// Returns a randomized name and gender from an NPC of the game.
-let randomNpc () =
-    let availableNpcs = npcs ()
-
-    availableNpcs
-    |> List.item (Random.between 0 (List.length availableNpcs - 1))
+let randomNpc () = npcs () |> List.sample

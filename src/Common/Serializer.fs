@@ -1,4 +1,4 @@
-module Serializer
+module Common.Serializer
 
 open System.Text.Json
 open System.Text.Json.Serialization

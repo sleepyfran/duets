@@ -11,3 +11,8 @@ let averageByOrDefault projection defaultValue list =
         defaultValue |> float
     else
         list |> List.averageBy projection
+
+/// Returns a random element from the list. If the passed list is empty, throws
+/// since there are no elements to pick.
+let sample list =
+    List.item (Random.between 0 (List.length list - 1)) list
