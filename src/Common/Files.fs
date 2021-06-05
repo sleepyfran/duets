@@ -21,6 +21,7 @@ let savegamePath () =
 type DataKey =
     | Genres
     | Npcs
+    | Studios
 
 /// Returns the full path to a data file located in the Data folder.
 let dataFile key =
@@ -31,6 +32,7 @@ let dataFile key =
     match key with
     | Genres -> Path.Combine(dataDirectory, "genres.json")
     | Npcs -> Path.Combine(dataDirectory, "npcs.json")
+    | Studios -> Path.Combine(dataDirectory, "studios.json")
 
 /// Attempts to read all text from a given file and returns an option with the
 /// text.

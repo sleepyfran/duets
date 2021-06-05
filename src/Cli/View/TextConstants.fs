@@ -57,6 +57,7 @@ type TextConstant =
     | MapPrompt
     | MapOptionRehearsalRoom
     | MapOptionBank
+    | MapOptionStudios
     | RehearsalRoomTitle
     | RehearsalRoomCompose
     | RehearsalRoomManage

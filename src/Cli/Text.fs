@@ -127,6 +127,7 @@ and fromConstant constant =
     | MapPrompt -> "Where are you heading?"
     | MapOptionRehearsalRoom -> "Band's rehearsal room"
     | MapOptionBank -> "Bank"
+    | MapOptionStudios -> "Studio"
     | RehearsalRoomTitle -> "Rehearsal Room"
     | RehearsalRoomCompose -> "Compose"
     | RehearsalRoomManage -> "Manage band"

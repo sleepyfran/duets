@@ -164,7 +164,6 @@ module Types =
     /// Shapes a relation between a finished song and its quality.
     type FinishedSongWithQuality = FinishedSong * Quality
 
-
     /// Collection of skills by character.
     type CharacterSkills = Map<CharacterId, Map<SkillId, SkillWithLevel>>
 
@@ -184,6 +183,21 @@ module Types =
     /// at its best.
     [<Measure>]
     type dd
+
+    /// Represents the owner of a studio and the character that eventually
+    /// produces the album. Their skills determine the final level of the album.
+    type Producer = Producer of Character
+
+    /// Unique identifier of a studio.
+    type StudioId = StudioId of Identity
+
+    /// Represents a recording studio where bands can record and produce their
+    /// albums before releasing them to the public.
+    type Studio =
+        { Id: Identity
+          Name: string
+          Producer: Producer
+          HourlyPrice: int<dd> }
 
     /// Holder of an account in the in-game bank.
     type BankAccountHolder =

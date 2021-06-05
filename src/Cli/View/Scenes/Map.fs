@@ -9,9 +9,14 @@ let mapOptions =
         yield
             { Id = "rehearsal_room"
               Text = TextConstant MapOptionRehearsalRoom }
+
         yield
             { Id = "bank"
               Text = TextConstant MapOptionBank }
+
+        yield
+            { Id = "studios"
+              Text = TextConstant MapOptionStudios }
     }
     |> List.ofSeq
 
@@ -36,5 +41,30 @@ and processSelection choice =
         match choice.Id with
         | "rehearsal_room" -> yield Scene RehearsalRoom
         | "bank" -> yield Scene Bank
+        | "studios" -> yield! studioSelection ()
         | _ -> yield NoOp
     }
+
+and studioSelection () =
+    let studios = Database.studios ()
+
+    let studioChoices =
+        studios
+        |> List.map
+            (fun studio ->
+                { Id = studio.Id.ToString()
+                  Text = Literal studio.Name })
+
+    seq {
+        yield
+            Prompt
+                { Title = TextConstant MapPrompt
+                  Content =
+                      ChoicePrompt
+                      <| OptionalChoiceHandler
+                          { Choices = studioChoices
+                            Handler = mapOptionalChoiceHandler processStudio
+                            BackText = TextConstant CommonBackToMap } }
+    }
+
+and processStudio choice = []
