@@ -8,6 +8,6 @@
       "Age": 24,
       "Gender": { "Case": "Male" }
     },
-    "HourlyPrice": 1400
+    "PricePerSong": 1400
   }
 ]

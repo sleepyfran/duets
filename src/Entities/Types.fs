@@ -197,7 +197,7 @@ module Types =
         { Id: Identity
           Name: string
           Producer: Producer
-          HourlyPrice: int<dd> }
+          PricePerSong: int<dd> }
 
     /// Holder of an account in the in-game bank.
     type BankAccountHolder =

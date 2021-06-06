@@ -30,7 +30,7 @@ let rec studioScene studio =
         yield Figlet <| TextConstant StudioTitle
 
         yield
-            StudioWelcomePrice(studio.Name, studio.HourlyPrice)
+            StudioWelcomePrice(studio.Name, studio.PricePerSong)
             |> TextConstant
             |> Message
 

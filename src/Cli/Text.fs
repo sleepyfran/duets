@@ -262,7 +262,7 @@ and fromConstant constant =
     | StudioTitle -> "Studio"
     | StudioWelcomePrice (name, price) ->
         sprintf
-            "Welcome to [bold blue]%s[/]. The recording session costs [bold red]%id$[/] per [bold]hour[/]"
+            "Welcome to [bold blue]%s[/]. The recording session costs [bold red]%id$[/] per [bold]song[/]"
             name
             price
     | StudioPrompt -> "What do you want to do?"
