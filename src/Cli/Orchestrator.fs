@@ -11,6 +11,9 @@ open System
 /// Returns the sequence of actions associated with a screen given its name.
 let actionsFromScene state scene =
     match scene with
+#if DEBUG
+    | DeveloperRoom -> DeveloperRoom.developerRoom state
+#endif
     | MainMenu savegameState -> MainMenu.mainMenu savegameState
     | CharacterCreator -> CharacterCreator.characterCreator ()
     | BandCreator character -> BandCreator.bandCreator character
@@ -58,6 +61,10 @@ let actionsFromEffect effect =
             previousLevel,
             currentLevel
         )
+        |> TextConstant
+        |> Message
+    | MoneyTransferred (holder, transaction) ->
+        BankTransferSuccess(holder, transaction)
         |> TextConstant
         |> Message
     | _ -> NoOp

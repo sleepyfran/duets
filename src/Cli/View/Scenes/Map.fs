@@ -3,6 +3,7 @@ module Cli.View.Scenes.Map
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
+open Cli.View.Scenes.DeveloperRoom
 
 let mapOptions =
     seq {
@@ -17,6 +18,12 @@ let mapOptions =
         yield
             { Id = "studios"
               Text = TextConstant MapOptionStudios }
+
+#if DEBUG
+        yield
+            { Id = "dev_room"
+              Text = Literal "[bold red]Developer room[/]" }
+#endif
     }
     |> List.ofSeq
 
@@ -32,13 +39,17 @@ let rec mapScene () =
                       <| OptionalChoiceHandler
                           { Choices = mapOptions
                             Handler =
-                                mainMenuOptionalChoiceHandler processSelection
+                                mainMenuOptionalChoiceHandler
+                                <| processSelection
                             BackText = TextConstant CommonBackToMainMenu } }
     }
 
 and processSelection choice =
     seq {
         match choice.Id with
+#if DEBUG
+        | "dev_room" -> yield Scene DeveloperRoom
+#endif
         | "rehearsal_room" -> yield Scene RehearsalRoom
         | "bank" -> yield Scene Bank
         | "studios" -> yield! studioSelection ()

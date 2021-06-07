@@ -59,6 +59,12 @@ and possessiveAdjectiveForGender gender =
 and verbConjugationForGender verb gender =
     verbConjugationByGender.[verb].[gender]
 
+/// Returns the correct name of the given account holder.
+and accountHolderName holder =
+    match holder with
+    | Character _ -> "your character"
+    | Band _ -> "your band"
+
 and fromConstant constant =
     match constant with
     | GameName -> "Duets"
@@ -260,8 +266,18 @@ and fromConstant constant =
         match holder with
         | Character _ -> "How much do you want to transfer to your band?"
         | Band _ -> "How much do you want to transfer from your band?"
-    | BankTransferSuccess ->
-        "[bold green]The transference was completed successfully[/]"
+    | BankTransferSuccess (holder, transaction) ->
+        match transaction with
+        | Incoming amount ->
+            sprintf
+                "[bold green]Transferred %id$ to %s's account[/]"
+                amount
+                (accountHolderName holder)
+        | Outgoing amount ->
+            sprintf
+                "[bold red]Transferred %id$ from %s's account[/]"
+                amount
+                (accountHolderName holder)
     | BankTransferNotEnoughFunds ->
         "[bold red]Not enough funds in the sender account[/]"
     | StudioTitle -> "Studio"
@@ -292,5 +308,7 @@ and fromConstant constant =
     | StudioCreateAlbumRecorded albumName ->
         sprintf "[bold green]Your band just finished recording %s![/]" albumName
     | StudioCreateProgressEatingSnacks -> "[deepskyblue3]Eating some snacks[/]"
-    | StudioCreateProgressRecordingWeirdSounds -> "[deepskyblue3_1]Recording weird sounds[/]"
-    | StudioCreateProgressMovingKnobs -> "[dodgerblue1]Moving knobs up and down[/]"
+    | StudioCreateProgressRecordingWeirdSounds ->
+        "[deepskyblue3_1]Recording weird sounds[/]"
+    | StudioCreateProgressMovingKnobs ->
+        "[dodgerblue1]Moving knobs up and down[/]"

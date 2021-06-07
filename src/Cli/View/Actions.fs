@@ -6,6 +6,9 @@ open Entities
 
 /// Defines the index of all scenes available in the game that can be instantiated.
 type Scene =
+#if DEBUG
+    | DeveloperRoom
+#endif
     | MainMenu of Savegame.SavegameState
     | CharacterCreator
     // Band creator needs a character the character that was created in the

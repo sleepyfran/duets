@@ -1,7 +1,6 @@
 module Cli.View.Scenes.Bank.Transfer
 
 open Cli.View.Actions
-open Cli.View.Common
 open Cli.View.TextConstants
 open Entities
 open Simulation.Bank.Transfer
@@ -23,7 +22,6 @@ and handleAmount state sender receiver amount =
         | Ok effects ->
             seq {
                 yield! Seq.map Effect effects
-                yield Message <| TextConstant BankTransferSuccess
                 yield SceneAfterKey Bank
             }
         | NotEnoughFunds ->
