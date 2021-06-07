@@ -59,9 +59,13 @@ module Repertoire =
     /// Creates a completely empty repertoire.
     let empty =
         { UnfinishedSongs = Map.empty
-          FinishedSongs = Map.empty }
+          FinishedSongs = Map.empty
+          UnreleasedAlbums = Map.empty
+          ReleasedAlbums = Map.empty }
 
     /// Creates an empty band repertoire for a given band.
     let emptyFor bandId =
         { UnfinishedSongs = [ (bandId, Map.empty) ] |> Map.ofSeq
-          FinishedSongs = [ (bandId, Map.empty) ] |> Map.ofSeq }
+          FinishedSongs = [ (bandId, Map.empty) ] |> Map.ofSeq
+          UnreleasedAlbums = [ (bandId, Map.empty) ] |> Map.ofSeq
+          ReleasedAlbums = [ bandId, Map.empty ] |> Map.ofSeq }

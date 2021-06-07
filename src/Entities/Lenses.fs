@@ -48,15 +48,34 @@ module BankAccount =
         (fun v (b: BankAccount) -> { b with Transactions = v })
 
 module BandRepertoire =
-    let unfinished_ =
+    let unfinishedSongs_ =
         (fun (br: BandRepertoire) -> br.UnfinishedSongs),
         (fun v (br: BandRepertoire) -> { br with UnfinishedSongs = v })
 
-    let finished_ =
+    let finishedSongs_ =
         (fun (br: BandRepertoire) -> br.FinishedSongs),
         (fun v (br: BandRepertoire) -> { br with FinishedSongs = v })
 
+    let unreleasedAlbums_ =
+        (fun (br: BandRepertoire) -> br.UnreleasedAlbums),
+        (fun v (br: BandRepertoire) -> { br with UnreleasedAlbums = v })
+
+    let releasedAlbums_ =
+        (fun (br: BandRepertoire) -> br.ReleasedAlbums),
+        (fun v (br: BandRepertoire) -> { br with ReleasedAlbums = v })
+
 module FromState =
+    module Albums =
+        let unreleasedByBand_ bandId =
+            State.bandRepertoire_
+            >-> BandRepertoire.unreleasedAlbums_
+            >-> Map.key_ bandId
+
+        let releasedByBand_ bandId =
+            State.bandRepertoire_
+            >-> BandRepertoire.releasedAlbums_
+            >-> Map.key_ bandId
+
     module BankAccount =
         /// Lens into a specific account.
         let account_ id = State.bankAccounts_ >-> Map.key_ id
@@ -81,11 +100,11 @@ module FromState =
         /// Lenses to the unfinished field of a specific band in its repertoire.
         let unfinishedByBand_ bandId =
             State.bandRepertoire_
-            >-> BandRepertoire.unfinished_
+            >-> BandRepertoire.unfinishedSongs_
             >-> Map.key_ bandId
 
         /// Lenses to the finished field of a specific band in its repertoire.
         let finishedByBand_ bandId =
             State.bandRepertoire_
-            >-> BandRepertoire.finished_
+            >-> BandRepertoire.finishedSongs_
             >-> Map.key_ bandId

@@ -4,6 +4,7 @@ open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
 open Entities
+open Simulation.Queries
 
 let studioOptions hasAvailableRecords =
     seq {
@@ -25,7 +26,14 @@ let studioOptions hasAvailableRecords =
 /// Creates the studio scene which allows user to record albums. This scenes
 /// receives a studio as a parameter that will be used to apply prices and
 /// calculate qualities.
-let rec studioScene studio =
+let rec studioScene state studio =
+    let currentBand = Bands.currentBand state
+
+    let unreleasedAlbums =
+        Albums.unreleasedByBand state currentBand.Id
+
+    let hasUnreleasedAlbums = not (Map.isEmpty unreleasedAlbums)
+
     seq {
         yield Figlet <| TextConstant StudioTitle
 
@@ -40,7 +48,7 @@ let rec studioScene studio =
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
-                          { Choices = studioOptions false
+                          { Choices = studioOptions hasUnreleasedAlbums
                             Handler =
                                 mapOptionalChoiceHandler
                                 <| processSelection studio

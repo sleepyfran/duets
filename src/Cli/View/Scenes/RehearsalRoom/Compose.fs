@@ -30,7 +30,7 @@ let rec compose state =
     let options =
         Bands.currentBand state
         |> fun band -> band.Id
-        |> Songs.unfinishedSongsByBand state
+        |> Songs.unfinishedByBand state
         |> Map.count
         |> fun count -> count > 0
         |> createOptions

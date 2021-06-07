@@ -6,7 +6,7 @@ module Songs =
 
     /// Returns all unfinished songs by the given band. If no unfinished songs
     /// could be found, returns an empty map.
-    let unfinishedSongsByBand state bandId =
+    let unfinishedByBand state bandId =
         let unfinishedSongLens =
             Lenses.FromState.Songs.unfinishedByBand_ bandId
 
@@ -16,13 +16,13 @@ module Songs =
 
     /// Returns a specific song given the ID of the band that holds it and the ID
     /// of the song to retrieve.
-    let unfinishedSongByBandAndSongId state bandId songId =
-        unfinishedSongsByBand state bandId
+    let unfinishedByBandAndSongId state bandId songId =
+        unfinishedByBand state bandId
         |> Map.tryFind songId
 
     /// Returns all finished songs by the given band. If no finished songs could
     /// be found, returns an empty map.
-    let finishedSongsByBand state bandId =
+    let finishedByBand state bandId =
         let finishedSongLens =
             Lenses.FromState.Songs.finishedByBand_ bandId
 
@@ -31,6 +31,6 @@ module Songs =
         |> Option.defaultValue Map.empty
 
     /// Returns a specific finished song given its ID and the band's ID.
-    let finishedSongByBandAndSongId state bandId songId =
-        finishedSongsByBand state bandId
+    let finishedByBandAndSongId state bandId songId =
+        finishedByBand state bandId
         |> Map.tryFind songId

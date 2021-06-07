@@ -35,7 +35,9 @@ let dummyState =
       CurrentBandId = dummyBand.Id
       BandRepertoire =
           { UnfinishedSongs = Map.ofList [ (dummyBand.Id, Map.empty) ]
-            FinishedSongs = Map.ofList [ (dummyBand.Id, Map.empty) ] }
+            FinishedSongs = Map.ofList [ (dummyBand.Id, Map.empty) ]
+            UnreleasedAlbums = Map.ofList [ (dummyBand.Id, Map.empty) ]
+            ReleasedAlbums = Map.ofList [ (dummyBand.Id, Map.empty) ] }
       BankAccounts =
           Map.ofList [ (Character dummyCharacter.Id, dummyCharacterBankAccount)
                        (Band dummyBand.Id, dummyBandBankAccount) ]

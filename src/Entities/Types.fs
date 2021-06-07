@@ -185,6 +185,12 @@ module Types =
           TrackList: RecordedSong list
           Type: AlbumType }
 
+    /// Defines an album that was recorded but hasn't been released.
+    type UnreleasedAlbum = UnreleasedAlbum of Album
+
+    /// Defines an album that has been released.
+    type ReleasedAlbum = ReleasedAlbum of Album
+
     /// Collection of skills by character.
     type CharacterSkills = Map<CharacterId, Map<SkillId, SkillWithLevel>>
 
@@ -198,7 +204,9 @@ module Types =
     /// Only finished songs can be recorded and played live.
     type BandRepertoire =
         { UnfinishedSongs: SongsByBand<UnfinishedSongWithQualities>
-          FinishedSongs: SongsByBand<FinishedSongWithQuality> }
+          FinishedSongs: SongsByBand<FinishedSongWithQuality>
+          UnreleasedAlbums: AlbumsByBand<UnreleasedAlbum>
+          ReleasedAlbums: AlbumsByBand<ReleasedAlbum> }
 
     /// Defines the before and after of an action.
     type Diff<'a> = Diff of before: 'a * after: 'a

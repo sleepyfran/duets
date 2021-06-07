@@ -6,7 +6,7 @@ open Simulation.Queries
 
 /// Creates a list of choices from the unfinished songs of the given band.
 let unfinishedSongsSelectorOf state (band: Band) =
-    Songs.unfinishedSongsByBand state band.Id
+    Songs.unfinishedByBand state band.Id
     |> Map.toList
     |> List.map
         (fun (songId, ((UnfinishedSong us), _, currentQuality)) ->
@@ -20,12 +20,12 @@ let unfinishedSongFromSelection state (band: Band) (selection: Choice) =
     selection.Id
     |> System.Guid.Parse
     |> SongId
-    |> Songs.unfinishedSongByBandAndSongId state band.Id
+    |> Songs.unfinishedByBandAndSongId state band.Id
     |> Option.get
 
 /// Creates a list of choices from the finished songs of the given band.
 let finishedSongsSelectorOf state (band: Band) =
-    Songs.finishedSongsByBand state band.Id
+    Songs.finishedByBand state band.Id
     |> Map.toList
     |> List.map
         (fun (songId, ((FinishedSong fs), quality)) ->
@@ -41,7 +41,7 @@ let finishedSongFromSelection state (band: Band) (selection: Choice) =
     selection.Id
     |> System.Guid.Parse
     |> SongId
-    |> Songs.finishedSongByBandAndSongId state band.Id
+    |> Songs.finishedByBandAndSongId state band.Id
     |> Option.get
 
 /// Returns the unfinished songs that were selected in the multi choice prompt.

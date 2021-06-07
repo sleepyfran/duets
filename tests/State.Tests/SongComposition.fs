@@ -46,7 +46,7 @@ let SongDiscardedShouldRemoveUnfinishedSong () =
     State.Root.apply
     <| SongDiscarded(dummyBand, unfinishedSong)
 
-    Songs.unfinishedSongsByBand (State.Root.get ()) dummyBand.Id
+    Songs.unfinishedByBand (State.Root.get ()) dummyBand.Id
     |> should haveCount 0
 
 [<Test>]
@@ -60,7 +60,7 @@ let SongFinishedShouldRemoveUnfinishedAndAddFinishedSong () =
 
     let state = State.Root.get ()
 
-    Songs.unfinishedSongsByBand state dummyBand.Id
+    Songs.unfinishedByBand state dummyBand.Id
     |> should haveCount 0
 
     state
