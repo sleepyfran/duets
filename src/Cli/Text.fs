@@ -291,6 +291,6 @@ and fromConstant constant =
             bandBalance
     | StudioCreateAlbumRecorded albumName ->
         sprintf "[bold green]Your band just finished recording %s![/]" albumName
-    | StudioCreateProgressEatingSnacks -> "Eating some snacks"
-    | StudioCreateProgressRecordingWeirdSounds -> "Recording weird songs"
-    | StudioCreateProgressMovingKnobs -> "Moving knobs up and down"
+    | StudioCreateProgressEatingSnacks -> "[deepskyblue3]Eating some snacks[/]"
+    | StudioCreateProgressRecordingWeirdSounds -> "[deepskyblue3_1]Recording weird sounds[/]"
+    | StudioCreateProgressMovingKnobs -> "[dodgerblue1]Moving knobs up and down[/]"
