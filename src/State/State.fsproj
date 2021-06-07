@@ -5,6 +5,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Albums.fs" />
     <Compile Include="Bank.fs" />
     <Compile Include="Songs.fs" />
     <Compile Include="Bands.fs" />

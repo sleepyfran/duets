@@ -67,6 +67,10 @@ let actionsFromEffect effect =
         BankTransferSuccess(holder, transaction)
         |> TextConstant
         |> Message
+    | AlbumRecorded (_, UnreleasedAlbum album) ->
+        StudioCreateAlbumRecorded album.Name
+        |> TextConstant
+        |> Message
     | _ -> NoOp
 
 /// Saves the game to the savegame file only if the screen is not the main menu,

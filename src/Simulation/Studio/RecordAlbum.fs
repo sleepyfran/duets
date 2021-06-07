@@ -39,7 +39,7 @@ let private recordAlbum' state studio band albumName trackList =
         | Album.CreationError.NameTooLong -> NameTooLong
         | Album.CreationError.NoSongsSelected -> NoSongsSelected
         |> Error
-    | Ok album -> Ok <| AlbumRecorded(band, album)
+    | Ok album -> Ok <| AlbumRecorded(band, UnreleasedAlbum album)
 
 let private generatePayment state studio (band: Band) trackList prevEffect =
     let bandAccount = Band band.Id

@@ -67,11 +67,11 @@ and processRecord state studio band name selectedSongs =
                 |> Message
 
             yield SceneAfterKey Map
-        | Ok effects -> yield! recordWithProgressBar name effects
+        | Ok effects -> yield! recordWithProgressBar effects
         | _ -> yield NoOp
     }
 
-and recordWithProgressBar albumName effects =
+and recordWithProgressBar effects =
     seq {
         yield
             ProgressBar
@@ -81,10 +81,6 @@ and recordWithProgressBar albumName effects =
                         TextConstant StudioCreateProgressMovingKnobs ]
                   StepDuration = 3<second>
                   Async = false }
-
-        yield
-            Message
-            <| TextConstant(StudioCreateAlbumRecorded albumName)
 
         yield! effects |> Seq.map Effect
 
