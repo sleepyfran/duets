@@ -16,6 +16,12 @@ let rec developerRoom state =
 
 and processCommand state command =
     let character = Characters.playableCharacter state
+    let band = Bands.currentBand state
+
+    let characterMember =
+        Bands.currentMemberById state character.Id
+        |> Option.get
+
     let characterAccount = Character character.Id
 
     seq {
@@ -30,7 +36,20 @@ and processCommand state command =
             yield
                 Effect
                 <| MoneyTransferred(characterAccount, Outgoing 40000<dd>)
-            
+
+            yield SceneAfterKey DeveloperRoom
+        | "madskillz" ->
+            yield!
+                [ Composition
+                  Genre(band.Genre)
+                  Instrument(characterMember.Role) ]
+                |> Seq.map (Skills.characterSkillWithLevel state character.Id)
+                |> Seq.map
+                    (fun (skill, level) ->
+                        (character, Diff((skill, level), (skill, 100))))
+                |> Seq.map SkillImproved
+                |> Seq.map Effect
+
             yield SceneAfterKey DeveloperRoom
         | _ -> yield Scene Map
     }

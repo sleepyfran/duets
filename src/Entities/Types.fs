@@ -270,7 +270,6 @@ module Types =
         | MemberFired of Band * CurrentMember * PastMember
         | SkillImproved of Character * Diff<SkillWithLevel>
         | MoneyTransferred of BankAccountHolder * BankTransaction
-        | MoneyPaid of BankAccountHolder * BankTransaction
         | AlbumRecorded of Band * Album
 
     /// Indicates whether the song can be further improved or if it has reached its

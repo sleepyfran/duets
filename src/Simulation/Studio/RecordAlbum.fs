@@ -50,7 +50,7 @@ let private generatePayment state studio (band: Band) trackList prevEffect =
 
     if bandBalance >= studioBill then
         Ok [ prevEffect
-             MoneyPaid(bandAccount, (Outgoing studioBill)) ]
+             MoneyTransferred(bandAccount, (Outgoing studioBill)) ]
     else
         Error <| NotEnoughMoney(bandBalance, studioBill)
 
