@@ -60,11 +60,12 @@ and processRecord state studio band name selectedSongs =
                 <| TextConstant StudioCreateErrorNameTooLong
 
             yield! createRecordSubscene state studio
-        | Error NotEnoughMoney ->
+        | Error (NotEnoughMoney (bandBalance, studioBill)) ->
             yield
-                Message
-                <| TextConstant StudioCreateErrorNotEnoughMoney
-            
+                StudioCreateErrorNotEnoughMoney(bandBalance, studioBill)
+                |> TextConstant
+                |> Message
+
             yield SceneAfterKey Map
         | Ok effects -> yield! recordWithProgressBar name effects
         | _ -> yield NoOp

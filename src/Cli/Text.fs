@@ -284,8 +284,11 @@ and fromConstant constant =
         "[bold red]The name of the album is too short[/]"
     | StudioCreateErrorNameTooLong ->
         "[bold red]The name of the album is too long[/]"
-    | StudioCreateErrorNotEnoughMoney ->
-        "[bold red]Your band doesn't have enough money to pay the studio fee[/]"
+    | StudioCreateErrorNotEnoughMoney (bandBalance, studioBill) ->
+        sprintf
+            "[bold red]Your band doesn't have enough money to pay the studio fee. The studio requires %id$, but your band only has %id$[/]"
+            studioBill
+            bandBalance
     | StudioCreateAlbumRecorded albumName ->
         sprintf "[bold green]Your band just finished recording %s![/]" albumName
     | StudioCreateProgressEatingSnacks -> "Eating some snacks"

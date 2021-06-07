@@ -8,7 +8,7 @@ type AlbumRecordingError =
     | NameTooShort
     | NameTooLong
     | NoSongsSelected
-    | NotEnoughMoney
+    | NotEnoughMoney of bandBalance: int<dd> * studioBill: int<dd>
 
 let private productionQualityImprovement state studio =
     let (Producer (producer)) = studio.Producer
@@ -52,7 +52,7 @@ let private generatePayment state studio (band: Band) trackList prevEffect =
         Ok [ prevEffect
              MoneyPaid(bandAccount, (Outgoing studioBill)) ]
     else
-        Error NotEnoughMoney
+        Error <| NotEnoughMoney(bandBalance, studioBill)
 
 /// Applies the improvement in quality given by the producer of the given studio
 /// and attempts to generate an album from the name and track list, applying the

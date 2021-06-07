@@ -140,7 +140,9 @@ type TextConstant =
     | StudioCreateTrackListPrompt
     | StudioCreateErrorNameTooShort
     | StudioCreateErrorNameTooLong
-    | StudioCreateErrorNotEnoughMoney
+    | StudioCreateErrorNotEnoughMoney of
+        bandBalance: int<dd> *
+        studioBill: int<dd>
     | StudioCreateAlbumRecorded of albumName: string
     | StudioCreateProgressEatingSnacks
     | StudioCreateProgressRecordingWeirdSounds
