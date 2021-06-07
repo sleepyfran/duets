@@ -191,11 +191,14 @@ module Types =
     /// Collection of songs (either finished or unfinished) by a band.
     type SongsByBand<'song> = Map<BandId, Map<SongId, 'song>>
 
+    /// Collection of albums (either released or unreleased) by a band.
+    type AlbumsByBand<'album> = Map<BandId, Map<AlbumId, 'album>>
+
     /// Represents the repertoire of a band with its unfinished and finished songs.
     /// Only finished songs can be recorded and played live.
     type BandRepertoire =
-        { Unfinished: SongsByBand<UnfinishedSongWithQualities>
-          Finished: SongsByBand<FinishedSongWithQuality> }
+        { UnfinishedSongs: SongsByBand<UnfinishedSongWithQualities>
+          FinishedSongs: SongsByBand<FinishedSongWithQuality> }
 
     /// Defines the before and after of an action.
     type Diff<'a> = Diff of before: 'a * after: 'a

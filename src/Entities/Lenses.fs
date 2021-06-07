@@ -49,12 +49,12 @@ module BankAccount =
 
 module BandRepertoire =
     let unfinished_ =
-        (fun (br: BandRepertoire) -> br.Unfinished),
-        (fun v (br: BandRepertoire) -> { br with Unfinished = v })
+        (fun (br: BandRepertoire) -> br.UnfinishedSongs),
+        (fun v (br: BandRepertoire) -> { br with UnfinishedSongs = v })
 
     let finished_ =
-        (fun (br: BandRepertoire) -> br.Finished),
-        (fun v (br: BandRepertoire) -> { br with Finished = v })
+        (fun (br: BandRepertoire) -> br.FinishedSongs),
+        (fun v (br: BandRepertoire) -> { br with FinishedSongs = v })
 
 module FromState =
     module BankAccount =

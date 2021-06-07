@@ -34,8 +34,8 @@ let dummyState =
       CharacterSkills = Map.ofList [ (dummyCharacter.Id, Map.empty) ]
       CurrentBandId = dummyBand.Id
       BandRepertoire =
-          { Unfinished = Map.ofList [ (dummyBand.Id, Map.empty) ]
-            Finished = Map.ofList [ (dummyBand.Id, Map.empty) ] }
+          { UnfinishedSongs = Map.ofList [ (dummyBand.Id, Map.empty) ]
+            FinishedSongs = Map.ofList [ (dummyBand.Id, Map.empty) ] }
       BankAccounts =
           Map.ofList [ (Character dummyCharacter.Id, dummyCharacterBankAccount)
                        (Band dummyBand.Id, dummyBandBankAccount) ]
@@ -70,13 +70,13 @@ let addUnfinishedSong (band: Band) unfinishedSong =
 
 /// Returns the last unfinished song that was created.
 let lastUnfinishedSong (band: Band) state =
-    state.BandRepertoire.Unfinished
+    state.BandRepertoire.UnfinishedSongs
     |> Map.find band.Id
     |> Map.head
 
 /// Returns the last finished song that was added.
 let lastFinishedSong (band: Band) state =
-    state.BandRepertoire.Finished
+    state.BandRepertoire.FinishedSongs
     |> Map.find band.Id
     |> Map.head
 
