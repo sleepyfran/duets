@@ -12,6 +12,7 @@
     <Compile Include="Queries\Bands.fs" />
     <Compile Include="Queries\Songs.fs" />
     <Compile Include="Queries\Calendar.fs" />
+    <Compile Include="Studio/RecordAlbum.fs" />
     <Compile Include="Bank\Transfer.fs" />
     <Compile Include="Setup\StartGame.fs" />
     <Compile Include="Bands\Members.fs" />

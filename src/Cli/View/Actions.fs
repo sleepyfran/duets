@@ -29,6 +29,7 @@ type SubScene =
     | ManagementFireMember
     | ManagementListMembers
     | BankTransfer of sender: BankAccountHolder * receiver: BankAccountHolder
+    | StudioCreateRecord of Studio
 
 /// Encapsulates text that can either be defined by a text constant, which is
 /// resolved by the UI layer, or a string constant that is just passed from this
@@ -62,6 +63,7 @@ and Prompt = { Title: Text; Content: PromptContent }
 /// Specified the different types of prompts available.
 and PromptContent =
     | ChoicePrompt of ChoicePrompt
+    | MultiChoicePrompt of MultiChoiceHandler
     | ConfirmationPrompt of PromptHandler<bool>
     | NumberPrompt of PromptHandler<int>
     | TextPrompt of PromptHandler<string>
@@ -87,6 +89,11 @@ and OptionalChoiceHandler =
       Handler: PromptHandler<OptionalChoice>
       BackText: Text }
 
+/// Represents choices that cannot be skipped and allows multiple selections.
+and MultiChoiceHandler =
+    { Choices: Choice list
+      Handler: PromptHandler<Choice list> }
+
 and ChoicePrompt =
     | MandatoryChoiceHandler of MandatoryChoiceHandler
     | OptionalChoiceHandler of OptionalChoiceHandler
@@ -102,3 +109,7 @@ and ProgressBarContent =
 
 /// Returns a possible choice from a set of choices given its ID.
 let choiceById id = List.find (fun c -> c.Id = id)
+
+/// Returns all the choices the user made from a list of choices.
+let choicesById ids =
+    List.filter (fun c -> List.contains c.Id ids)

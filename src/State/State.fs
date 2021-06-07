@@ -63,3 +63,6 @@ let apply effect =
         Skills.add staticAgent.Map character skill
     | MoneyTransferred (account, transaction) ->
         Bank.transfer staticAgent.Map account transaction
+    | MoneyPaid (account, transaction) ->
+        Bank.transfer staticAgent.Map account transaction
+    | AlbumRecorded (band, album) -> ()

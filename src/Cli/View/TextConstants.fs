@@ -15,6 +15,8 @@ type VariableVerbs = | Have
 type TextConstant =
     | GameName
     | CommonYouAreIn of place: string
+    | CommonMultiChoiceMoreChoices
+    | CommonMultiChoiceInstructions
     | CommonNoUnfinishedSongs
     | CommonSkills
     | CommonCancel
@@ -133,3 +135,13 @@ type TextConstant =
     | StudioStartRecord
     | StudioContinueRecord
     | StudioDiscardRecord
+    | StudioCreateNoSongs
+    | StudioCreateRecordName
+    | StudioCreateTrackListPrompt
+    | StudioCreateErrorNameTooShort
+    | StudioCreateErrorNameTooLong
+    | StudioCreateErrorNotEnoughMoney
+    | StudioCreateAlbumRecorded of albumName: string
+    | StudioCreateProgressEatingSnacks
+    | StudioCreateProgressRecordingWeirdSounds
+    | StudioCreateProgressMovingKnobs

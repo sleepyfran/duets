@@ -1,11 +1,10 @@
 module Cli.View.Common
 
 open Cli.View.Actions
-open Cli.View.TextConstants
 open Entities
 open Simulation.Queries
 
-/// Creates a list of choices from a map of unfinished songs.
+/// Creates a list of choices from the unfinished songs of the given band.
 let unfinishedSongsSelectorOf state (band: Band) =
     Songs.unfinishedSongsByBand state band.Id
     |> Map.toList
@@ -23,6 +22,32 @@ let unfinishedSongFromSelection state (band: Band) (selection: Choice) =
     |> SongId
     |> Songs.unfinishedSongByBandAndSongId state band.Id
     |> Option.get
+
+/// Creates a list of choices from the finished songs of the given band.
+let finishedSongsSelectorOf state (band: Band) =
+    Songs.finishedSongsByBand state band.Id
+    |> Map.toList
+    |> List.map
+        (fun (songId, ((FinishedSong fs), quality)) ->
+            let (SongId id) = songId
+
+            { Id = id.ToString()
+              Text =
+                  Literal
+                      $"{fs.Name} (Quality: {quality}%%, Length: {fs.Length})" })
+
+/// Returns the finished song that was selected in the choice prompt.
+let finishedSongFromSelection state (band: Band) (selection: Choice) =
+    selection.Id
+    |> System.Guid.Parse
+    |> SongId
+    |> Songs.finishedSongByBandAndSongId state band.Id
+    |> Option.get
+
+/// Returns the unfinished songs that were selected in the multi choice prompt.
+let finishedSongsFromSelection state (band: Band) (selection: Choice list) =
+    selection
+    |> List.map (finishedSongFromSelection state band)
 
 /// Returns the full selected member.
 let memberFromSelection (band: Band) (selection: Choice) =

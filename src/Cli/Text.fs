@@ -32,6 +32,7 @@ and skillName id =
     | Composition -> "Composition"
     | Genre genre -> $"{genre} (Genre)"
     | Instrument instrument -> $"{instrumentName instrument} (Instrument)"
+    | MusicProduction -> "Music production"
 
 /// Returns the correct pronoun for the given gender (he, she, they).
 and subjectPronounForGender gender =
@@ -62,6 +63,10 @@ and fromConstant constant =
     match constant with
     | GameName -> "Duets"
     | CommonYouAreIn place -> String.Format("You're currently in {0}", place)
+    | CommonMultiChoiceMoreChoices ->
+        "[grey](Move up and down to reveal more choices)[/]"
+    | CommonMultiChoiceInstructions ->
+        "Press [bold blue]space[/] to select a choice and [bold blue]enter[/] to finish the selection"
     | CommonNoUnfinishedSongs ->
         "[red]You don't have any songs, create one first[/]"
     | CommonSkills -> "Skills"
@@ -269,3 +274,20 @@ and fromConstant constant =
     | StudioStartRecord -> "Start a new record"
     | StudioContinueRecord -> "Continue a record"
     | StudioDiscardRecord -> "Discard a record"
+    | StudioCreateNoSongs ->
+        "[bold red]You don't have any finished song to record. Create some songs first and finish them in the rehearsal room[/]"
+    | StudioCreateRecordName ->
+        "What's going to be the [bold blue]name[/] of the record?"
+    | StudioCreateTrackListPrompt ->
+        "Select what [bold blue]songs[/] will be on the [bold blue]track list[/]. You can select multiple. The order in which you select them will be the order in which they'll appear in the album"
+    | StudioCreateErrorNameTooShort ->
+        "[bold red]The name of the album is too short[/]"
+    | StudioCreateErrorNameTooLong ->
+        "[bold red]The name of the album is too long[/]"
+    | StudioCreateErrorNotEnoughMoney ->
+        "[bold red]Your band doesn't have enough money to pay the studio fee[/]"
+    | StudioCreateAlbumRecorded albumName ->
+        sprintf "[bold green]Your band just finished recording %s![/]" albumName
+    | StudioCreateProgressEatingSnacks -> "Eating some snacks"
+    | StudioCreateProgressRecordingWeirdSounds -> "Recording weird songs"
+    | StudioCreateProgressMovingKnobs -> "Moving knobs up and down"

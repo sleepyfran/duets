@@ -41,14 +41,16 @@ let rec studioScene studio =
                       ChoicePrompt
                       <| OptionalChoiceHandler
                           { Choices = studioOptions false
-                            Handler = mapOptionalChoiceHandler processSelection
+                            Handler =
+                                mapOptionalChoiceHandler
+                                <| processSelection studio
                             BackText = TextConstant CommonBackToMap } }
     }
 
-and processSelection choice =
+and processSelection studio choice =
     seq {
         match choice.Id with
-        | "start_record" -> yield! []
+        | "start_record" -> yield SubScene <| StudioCreateRecord studio
         | "continue_record" -> yield! []
         | "discard_record" -> yield! []
         | _ -> yield! []

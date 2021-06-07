@@ -9,6 +9,7 @@
     <Compile Include="View/TextConstants.fs" />
     <Compile Include="View/Actions.fs" />
     <Compile Include="View/Common.fs" />
+    <Compile Include="View/Scenes/Studio/StudioCreateRecord.fs" />
     <Compile Include="View/Scenes/Studio/Studio.fs" />
     <Compile Include="View/Scenes/Bank/Bank.fs" />
     <Compile Include="View/Scenes/Bank/Transfer.fs" />

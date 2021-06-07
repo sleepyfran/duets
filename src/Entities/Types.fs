@@ -79,6 +79,7 @@ module Types =
         | Composition
         | Genre of Genre
         | Instrument of InstrumentType
+        | MusicProduction
 
     /// Defines all possible categories to which skills can be related to.
     type SkillCategory =
@@ -163,6 +164,26 @@ module Types =
     type UnfinishedSongWithQualities = UnfinishedSong * MaxQuality * Quality
     /// Shapes a relation between a finished song and its quality.
     type FinishedSongWithQuality = FinishedSong * Quality
+    /// Shapes a relation between a finished song and the combination of the
+    /// quality of the song itself with the quality of the production.
+    type RecordedSong = FinishedSong * Quality
+
+    /// Unique identifier of an album.
+    type AlbumId = AlbumId of Identity
+
+    /// Represents the different types of albums that can be done. Depends
+    /// on the amount of songs and the length of those in the album.
+    type AlbumType =
+        | Single
+        | EP
+        | LP
+
+    /// Represents a band's album.
+    type Album =
+        { Id: AlbumId
+          Name: string
+          TrackList: RecordedSong list
+          Type: AlbumType }
 
     /// Collection of skills by character.
     type CharacterSkills = Map<CharacterId, Map<SkillId, SkillWithLevel>>
@@ -238,6 +259,8 @@ module Types =
         | MemberFired of Band * CurrentMember * PastMember
         | SkillImproved of Character * Diff<SkillWithLevel>
         | MoneyTransferred of BankAccountHolder * BankTransaction
+        | MoneyPaid of BankAccountHolder * BankTransaction
+        | AlbumRecorded of Band * Album
 
     /// Indicates whether the song can be further improved or if it has reached its
     /// maximum quality and thus cannot be improved. All variants wrap an int that

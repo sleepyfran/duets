@@ -35,6 +35,8 @@ let actionsFromSubScene state subScene =
     | ManagementListMembers -> Management.MemberList.memberListScene state
     | BankTransfer (sender, receiver) ->
         Bank.Transfer.transferSubScene state sender receiver
+    | StudioCreateRecord studio ->
+        Studio.CreateRecord.createRecordSubscene state studio
 
 let actionsFromEffect effect =
     match effect with
@@ -85,20 +87,25 @@ let rec runWith chain =
                         match content with
                         | MandatoryChoiceHandler content ->
                             content.Choices
-                            |> choiceById input
+                            |> choiceById (List.exactlyOne input)
                             |> content.Handler
                         | OptionalChoiceHandler content ->
-                            match input with
+                            match List.exactlyOne input with
                             | "back" -> content.Handler Back
                             | _ ->
                                 content.Choices
-                                |> choiceById input
+                                |> choiceById (List.exactlyOne input)
                                 |> Choice
                                 |> content.Handler
+                    | MultiChoicePrompt content ->
+                        content.Choices
+                        |> choicesById input
+                        |> content.Handler
                     | ConfirmationPrompt handler ->
-                        handler (input |> Convert.ToBoolean)
-                    | NumberPrompt handler -> handler (input |> int)
-                    | TextPrompt handler -> handler input
+                        handler (input |> List.exactlyOne |> Convert.ToBoolean)
+                    | NumberPrompt handler ->
+                        handler (input |> List.exactlyOne |> int)
+                    | TextPrompt handler -> handler (List.exactlyOne input)
                     |> runWith
             | Message message -> renderMessage message
             | Figlet text -> renderFiglet text

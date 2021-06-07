@@ -14,6 +14,12 @@ module Songs =
         |> Optic.get unfinishedSongLens
         |> Option.defaultValue Map.empty
 
+    /// Returns a specific song given the ID of the band that holds it and the ID
+    /// of the song to retrieve.
+    let unfinishedSongByBandAndSongId state bandId songId =
+        unfinishedSongsByBand state bandId
+        |> Map.tryFind songId
+
     /// Returns all finished songs by the given band. If no finished songs could
     /// be found, returns an empty map.
     let finishedSongsByBand state bandId =
@@ -24,8 +30,7 @@ module Songs =
         |> Optic.get finishedSongLens
         |> Option.defaultValue Map.empty
 
-    /// Returns a specific song given the ID of the band that holds it and the ID
-    /// of the song to retrieve.
-    let unfinishedSongByBandAndSongId state bandId songId =
-        unfinishedSongsByBand state bandId
+    /// Returns a specific finished song given its ID and the band's ID.
+    let finishedSongByBandAndSongId state bandId songId =
+        finishedSongsByBand state bandId
         |> Map.tryFind songId
