@@ -40,6 +40,8 @@ let actionsFromSubScene state subScene =
         Bank.Transfer.transferSubScene state sender receiver
     | StudioCreateRecord studio ->
         Studio.CreateRecord.createRecordSubscene state studio
+    | SubScene.StudioContinueRecord studio ->
+        Studio.ContinueRecord.continueRecordSubscene state studio
 
 let actionsFromEffect effect =
     match effect with
@@ -69,6 +71,10 @@ let actionsFromEffect effect =
         |> Message
     | AlbumRecorded (_, UnreleasedAlbum album) ->
         StudioCreateAlbumRecorded album.Name
+        |> TextConstant
+        |> Message
+    | AlbumRenamed (_, UnreleasedAlbum album) ->
+        StudioContinueRecordAlbumRenamed album.Name
         |> TextConstant
         |> Message
     | _ -> NoOp

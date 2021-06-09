@@ -71,7 +71,7 @@ and handleConfirmation character name genre role confirmed =
             | Error Band.NameTooShort ->
                 yield!
                     seq {
-                        Message
+                        yield Message
                         <| TextConstant CreatorErrorBandNameTooShort
 
                         yield! bandCreator character
@@ -79,7 +79,7 @@ and handleConfirmation character name genre role confirmed =
             | Error Band.NameTooLong ->
                 yield!
                     seq {
-                        Message
+                        yield Message
                         <| TextConstant CreatorErrorBandNameTooLong
 
                         yield! bandCreator character

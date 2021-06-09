@@ -20,6 +20,7 @@ type TextConstant =
     | CommonNoUnfinishedSongs
     | CommonSkills
     | CommonCancel
+    | CommonBack
     | CommonBackToMainMenu
     | CommonBackToMap
     | CommonPressKeyToContinue
@@ -149,3 +150,8 @@ type TextConstant =
     | StudioCreateProgressEatingSnacks
     | StudioCreateProgressRecordingWeirdSounds
     | StudioCreateProgressMovingKnobs
+    | StudioContinueRecordPrompt
+    | StudioContinueRecordActionPrompt
+    | StudioContinueRecordActionPromptEditName
+    | StudioContinueRecordActionPromptRelease
+    | StudioContinueRecordAlbumRenamed of albumName: string

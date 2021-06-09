@@ -33,6 +33,7 @@ type SubScene =
     | ManagementListMembers
     | BankTransfer of sender: BankAccountHolder * receiver: BankAccountHolder
     | StudioCreateRecord of Studio
+    | StudioContinueRecord of Studio
 
 /// Encapsulates text that can either be defined by a text constant, which is
 /// resolved by the UI layer, or a string constant that is just passed from this

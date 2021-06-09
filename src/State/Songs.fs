@@ -34,7 +34,7 @@ module Songs =
 
         applyToUnfinished map band.Id removeUnfinishedSong
 
-    let removeFinishedSong map (band: Band) songId =
+    let removeFinished map (band: Band) songId =
         let removeFinishedSong = Map.remove songId
 
         applyToFinished map band.Id removeFinishedSong

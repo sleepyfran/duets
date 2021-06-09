@@ -69,4 +69,8 @@ let apply effect =
 
         ua.TrackList
         |> List.map (fun ((FinishedSong fs), _) -> fs.Id)
-        |> List.iter (Songs.removeUnfinished staticAgent.Map band)
+        |> List.iter (Songs.removeFinished staticAgent.Map band)
+    | AlbumRenamed (band, unreleasedAlbum) ->
+        let (UnreleasedAlbum album) = unreleasedAlbum
+        Albums.removeUnreleased staticAgent.Map band album.Id
+        Albums.addUnreleased staticAgent.Map band unreleasedAlbum

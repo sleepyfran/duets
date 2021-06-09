@@ -14,6 +14,12 @@ module Albums =
         |> Optic.get unreleasedAlbumLens
         |> Option.defaultValue Map.empty
 
+    /// Returns a specific album given the ID of the band that holds it and the
+    /// ID of the album to retrieve.
+    let unreleasedByBandAndAlbumId state bandId albumId =
+        unreleasedByBand state bandId
+        |> Map.tryFind albumId
+
     /// Returns all released albums by the given band. If no released albums
     /// could be found, returns an empty map.
     let releasedByBand state bandId =

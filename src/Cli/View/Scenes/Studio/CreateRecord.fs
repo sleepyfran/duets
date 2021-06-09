@@ -7,6 +7,8 @@ open FSharp.Data.UnitSystems.SI.UnitNames
 open Simulation.Queries
 open Simulation.Studio.RecordAlbum
 
+/// Creates the studio record subscene which allows bands to create a new
+/// record.
 let rec createRecordSubscene state studio =
     let currentBand = Bands.currentBand state
 

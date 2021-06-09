@@ -49,6 +49,23 @@ let finishedSongsFromSelection state (band: Band) (selection: Choice list) =
     selection
     |> List.map (finishedSongFromSelection state band)
 
+/// Creates a list of choices from the unreleased albums of the given band.
+let unreleasedAlbumsSelectorOf state (band: Band) =
+    Albums.unreleasedByBand state band.Id
+    |> Map.toList
+    |> List.map
+        (fun ((AlbumId albumId), (UnreleasedAlbum album)) ->
+            { Id = albumId.ToString()
+              Text = Literal album.Name })
+
+/// Returns the unreleased album that was selected in the choice prompt.
+let unreleasedAlbumFromSelection state (band: Band) (selection: Choice) =
+    selection.Id
+    |> System.Guid.Parse
+    |> AlbumId
+    |> Albums.unreleasedByBandAndAlbumId state band.Id
+    |> Option.get
+
 /// Returns the full selected member.
 let memberFromSelection (band: Band) (selection: Choice) =
     selection.Id

@@ -59,7 +59,8 @@ and processSelection studio choice =
     seq {
         match choice.Id with
         | "start_record" -> yield SubScene <| StudioCreateRecord studio
-        | "continue_record" -> yield! []
+        | "continue_record" ->
+            yield SubScene <| SubScene.StudioContinueRecord studio
         | "discard_record" -> yield! []
         | _ -> yield! []
     }

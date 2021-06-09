@@ -76,6 +76,7 @@ and fromConstant constant =
     | CommonNoUnfinishedSongs ->
         "[red]You don't have any songs, create one first[/]"
     | CommonSkills -> "Skills"
+    | CommonBack -> "[bold]Go back[/]"
     | CommonCancel -> "[bold]Cancel[/]"
     | CommonBackToMainMenu -> "[bold]Back to main menu[/]"
     | CommonBackToMap -> "[bold]Back to map[/]"
@@ -312,3 +313,11 @@ and fromConstant constant =
         "[deepskyblue3_1]Recording weird sounds[/]"
     | StudioCreateProgressMovingKnobs ->
         "[dodgerblue1]Moving knobs up and down[/]"
+    | StudioContinueRecordPrompt ->
+        "Which record do you want to continue working on?"
+    | StudioContinueRecordActionPrompt ->
+        "What do you want to do with this album?"
+    | StudioContinueRecordActionPromptEditName -> "Edit name"
+    | StudioContinueRecordActionPromptRelease -> "Release"
+    | StudioContinueRecordAlbumRenamed albumName ->
+        sprintf "[bold green]The album was renamed to \"%s\"[/]" albumName
