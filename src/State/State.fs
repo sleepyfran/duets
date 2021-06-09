@@ -74,3 +74,7 @@ let apply effect =
         let (UnreleasedAlbum album) = unreleasedAlbum
         Albums.removeUnreleased staticAgent.Map band album.Id
         Albums.addUnreleased staticAgent.Map band unreleasedAlbum
+    | AlbumReleased (band, releasedAlbum) ->
+        let (ReleasedAlbum album) = releasedAlbum
+        Albums.removeUnreleased staticAgent.Map band album.Id
+        Albums.addReleased staticAgent.Map band releasedAlbum

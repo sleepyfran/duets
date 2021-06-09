@@ -132,6 +132,8 @@ type TextConstant =
         holder: BankAccountHolder *
         transaction: BankTransaction
     | BankTransferNotEnoughFunds
+    | StudioCommonPromptReleaseAlbum of name: string
+    | StudioCommonAlbumReleased of name: string
     | StudioTitle
     | StudioWelcomePrice of name: string * price: int<dd>
     | StudioPrompt

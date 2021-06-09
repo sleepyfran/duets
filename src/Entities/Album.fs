@@ -53,3 +53,8 @@ let from (name: string) (trackList: RecordedSong list) =
 let modifyName (UnreleasedAlbum album) name =
     validateName name
     |> Result.bind (fun _ -> Ok <| UnreleasedAlbum { album with Name = name })
+
+module Released =
+    /// Transforms a given unreleased album into its released status.
+    let fromUnreleased (UnreleasedAlbum album) =
+        ReleasedAlbum album

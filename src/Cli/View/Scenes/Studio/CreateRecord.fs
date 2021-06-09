@@ -69,11 +69,11 @@ and processRecord state studio band name selectedSongs =
                 |> Message
 
             yield SceneAfterKey Map
-        | Ok effects -> yield! recordWithProgressBar effects
+        | Ok effects -> yield! recordWithProgressBar studio effects
         | _ -> yield NoOp
     }
 
-and recordWithProgressBar effects =
+and recordWithProgressBar studio effects =
     seq {
         yield
             ProgressBar
@@ -84,7 +84,8 @@ and recordWithProgressBar effects =
                   StepDuration = 3<second>
                   Async = false }
 
+        // TODO: Run through galactus.
         yield! effects |> Seq.map Effect
 
-        yield SceneAfterKey Map
+        yield SceneAfterKey <| Studio studio
     }

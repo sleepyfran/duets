@@ -272,6 +272,7 @@ module Types =
         | MoneyTransferred of BankAccountHolder * BankTransaction
         | AlbumRecorded of Band * UnreleasedAlbum
         | AlbumRenamed of Band * UnreleasedAlbum
+        | AlbumReleased of Band * ReleasedAlbum
 
     /// Indicates whether the song can be further improved or if it has reached its
     /// maximum quality and thus cannot be improved. All variants wrap an int that

@@ -5,6 +5,7 @@ open Cli.View.Common
 open Cli.View.TextConstants
 open Entities
 open Simulation.Studio.RenameAlbum
+open Simulation.Studio.ReleaseAlbum
 open Simulation.Queries
 
 let continueRecordOptions =
@@ -58,7 +59,7 @@ and handleAction state studio band album choice =
     seq {
         match choice.Id with
         | "edit_name" -> yield! editName state studio band album
-        | "release" -> yield! releaseAlbum state band album
+        | "release" -> yield! promptToReleaseAlbum state studio band album
         | _ -> yield NoOp
     }
 
@@ -94,10 +95,40 @@ and handleNameChange state studio band album name =
             }
         | Ok (album, effect) ->
             seq {
-                yield Effect effect
+                yield!
+                    Simulation.Galactus.runOne state effect
+                    |> Seq.map Effect
+
                 yield! actionPrompt state studio band album
             }
         | _ -> seq { yield NoOp }
 
-and releaseAlbum state band album =
-    seq { yield Message <| Literal "Coming soon" }
+and promptToReleaseAlbum state studio band unreleasedAlbum =
+    let (UnreleasedAlbum album) = unreleasedAlbum
+
+    seq {
+        yield
+            Prompt
+                { Title =
+                      TextConstant
+                      <| StudioCommonPromptReleaseAlbum album.Name
+                  Content =
+                      ConfirmationPrompt
+                      <| handleReleaseConfirmation
+                          state
+                          studio
+                          band
+                          unreleasedAlbum }
+    }
+
+and handleReleaseConfirmation state studio band album confirmed =
+    seq {
+        if confirmed then
+            yield!
+                Simulation.Galactus.runOne state (releaseAlbum band album)
+                |> Seq.map Effect
+
+            yield SceneAfterKey <| Studio studio
+        else
+            yield! actionPrompt state studio band album
+    }

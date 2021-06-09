@@ -77,6 +77,10 @@ let actionsFromEffect effect =
         StudioContinueRecordAlbumRenamed album.Name
         |> TextConstant
         |> Message
+    | AlbumReleased (_, ReleasedAlbum album) ->
+        StudioCommonAlbumReleased album.Name
+        |> TextConstant
+        |> Message
     | _ -> NoOp
 
 /// Saves the game to the savegame file only if the screen is not the main menu,
