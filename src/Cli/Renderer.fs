@@ -1,6 +1,7 @@
 module Cli.View.Renderer
 
 open Cli.View.Actions
+open Cli.View.TextConstants
 open Spectre.Console
 open Text
 
@@ -29,6 +30,31 @@ let renderOptionalPrompt title (content: OptionalChoiceHandler) =
     |> List.append content.Choices
     |> renderChoicePrompt title
 
+let renderMultiChoicePrompt title (content: MultiChoiceHandler) =
+    let mutable multiSelectionPrompt = MultiSelectionPrompt<Choice>()
+    multiSelectionPrompt.Title <- toString title
+
+    multiSelectionPrompt.MoreChoicesText <-
+        toString
+        <| TextConstant CommonMultiChoiceMoreChoices
+
+    multiSelectionPrompt.InstructionsText <-
+        toString
+        <| TextConstant CommonMultiChoiceInstructions
+
+    multiSelectionPrompt.Required <- true
+    multiSelectionPrompt.PageSize <- 10
+    multiSelectionPrompt <- multiSelectionPrompt.AddChoices(content.Choices)
+
+    multiSelectionPrompt <-
+        multiSelectionPrompt.UseConverter(fun c -> toString c.Text)
+
+    AnsiConsole.Prompt(multiSelectionPrompt)
+    |> List.ofSeq
+    |> List.map (fun c -> c.Id)
+
+let private list item = [ item ]
+
 /// Renders the specified prompt and asks the user for a response depending
 /// on the specified type of prompt. Returns a string which either represents
 /// the raw user input (in case of a TextPrompt) or the ID of the choice that
@@ -38,16 +64,21 @@ let renderPrompt prompt =
     | ChoicePrompt content ->
         match content with
         | MandatoryChoiceHandler content ->
-            renderMandatoryPrompt prompt.Title content
+            renderMandatoryPrompt prompt.Title content |> list
         | OptionalChoiceHandler content ->
-            renderOptionalPrompt prompt.Title content
+            renderOptionalPrompt prompt.Title content |> list
+    | MultiChoicePrompt content -> renderMultiChoicePrompt prompt.Title content
     | ConfirmationPrompt _ ->
         AnsiConsole.Confirm(toString prompt.Title)
         |> string
+        |> list
     | NumberPrompt _ ->
         AnsiConsole.Ask<int>(toString prompt.Title)
         |> string
-    | TextPrompt _ -> AnsiConsole.Ask<string>(toString prompt.Title)
+        |> list
+    | TextPrompt _ ->
+        AnsiConsole.Ask<string>(toString prompt.Title)
+        |> list
 
 let private sleepForProgressBar content =
     async { do! Async.Sleep(content.StepDuration * 1000 / 4 |> int) }

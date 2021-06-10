@@ -24,3 +24,6 @@ let npcs () : (string * Gender) list = readKey Files.Npcs
 
 /// Returns a randomized name and gender from an NPC of the game.
 let randomNpc () = npcs () |> List.sample
+
+/// Returns all available studios of the game.
+let studios () : Studio list = readKey Files.Studios

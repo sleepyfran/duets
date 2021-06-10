@@ -32,6 +32,7 @@ and skillName id =
     | Composition -> "Composition"
     | Genre genre -> $"{genre} (Genre)"
     | Instrument instrument -> $"{instrumentName instrument} (Instrument)"
+    | MusicProduction -> "Music production"
 
 /// Returns the correct pronoun for the given gender (he, she, they).
 and subjectPronounForGender gender =
@@ -58,13 +59,24 @@ and possessiveAdjectiveForGender gender =
 and verbConjugationForGender verb gender =
     verbConjugationByGender.[verb].[gender]
 
+/// Returns the correct name of the given account holder.
+and accountHolderName holder =
+    match holder with
+    | Character _ -> "your character"
+    | Band _ -> "your band"
+
 and fromConstant constant =
     match constant with
     | GameName -> "Duets"
     | CommonYouAreIn place -> String.Format("You're currently in {0}", place)
+    | CommonMultiChoiceMoreChoices ->
+        "[grey](Move up and down to reveal more choices)[/]"
+    | CommonMultiChoiceInstructions ->
+        "Press [bold blue]space[/] to select a choice and [bold blue]enter[/] to finish the selection"
     | CommonNoUnfinishedSongs ->
         "[red]You don't have any songs, create one first[/]"
     | CommonSkills -> "Skills"
+    | CommonBack -> "[bold]Go back[/]"
     | CommonCancel -> "[bold]Cancel[/]"
     | CommonBackToMainMenu -> "[bold]Back to main menu[/]"
     | CommonBackToMap -> "[bold]Back to map[/]"
@@ -83,7 +95,8 @@ and fromConstant constant =
             previousLevel,
             currentLevel
         )
-    | MainMenuIncompatibleSavegame -> "[bold red]Your savegame is incompatible or malformed and was ignored[/]"
+    | MainMenuIncompatibleSavegame ->
+        "[bold red]Your savegame is incompatible or malformed and was ignored[/]"
     | MainMenuPrompt -> "Select an option to begin"
     | MainMenuNewGame -> "New game"
     | MainMenuLoadGame -> "Load game"
@@ -127,6 +140,7 @@ and fromConstant constant =
     | MapPrompt -> "Where are you heading?"
     | MapOptionRehearsalRoom -> "Band's rehearsal room"
     | MapOptionBank -> "Bank"
+    | MapOptionStudios -> "Studio"
     | RehearsalRoomTitle -> "Rehearsal Room"
     | RehearsalRoomCompose -> "Compose"
     | RehearsalRoomManage -> "Manage band"
@@ -253,5 +267,61 @@ and fromConstant constant =
         match holder with
         | Character _ -> "How much do you want to transfer to your band?"
         | Band _ -> "How much do you want to transfer from your band?"
-    | BankTransferSuccess -> "[bold green]The transference was completed successfully[/]"
-    | BankTransferNotEnoughFunds -> "[bold red]Not enough funds in the sender account[/]"
+    | BankTransferSuccess (holder, transaction) ->
+        match transaction with
+        | Incoming amount ->
+            sprintf
+                "[bold green]Transferred %id$ to %s's account[/]"
+                amount
+                (accountHolderName holder)
+        | Outgoing amount ->
+            sprintf
+                "[bold red]Transferred %id$ from %s's account[/]"
+                amount
+                (accountHolderName holder)
+    | BankTransferNotEnoughFunds ->
+        "[bold red]Not enough funds in the sender account[/]"
+    | StudioCommonAlbumReleased name ->
+        sprintf "[bold green]Your band just released %s![/]" name
+    | StudioCommonPromptReleaseAlbum name ->
+        sprintf "Do you want to release [blue bold]%s[/]?" name
+    | StudioTitle -> "Studio"
+    | StudioWelcomePrice (name, price) ->
+        sprintf
+            "Welcome to [bold blue]%s[/]. The recording session costs [bold red]%id$[/] per [bold]song[/]"
+            name
+            price
+    | StudioPrompt -> "What do you want to do?"
+    | StudioStartRecord -> "Start a new record"
+    | StudioContinueRecord -> "Continue a record"
+    | StudioDiscardRecord -> "Discard a record"
+    | StudioCreateNoSongs ->
+        "[bold red]You don't have any finished song to record. Create some songs first and finish them in the rehearsal room[/]"
+    | StudioCreateRecordName ->
+        "What's going to be the [bold blue]name[/] of the record?"
+    | StudioCreateTrackListPrompt ->
+        "Select what [bold blue]songs[/] will be on the [bold blue]track list[/]. You can select multiple. The order in which you select them will be the order in which they'll appear in the album"
+    | StudioCreateErrorNameTooShort ->
+        "[bold red]The name of the album is too short[/]"
+    | StudioCreateErrorNameTooLong ->
+        "[bold red]The name of the album is too long[/]"
+    | StudioCreateErrorNotEnoughMoney (bandBalance, studioBill) ->
+        sprintf
+            "[bold red]Your band doesn't have enough money to pay the studio fee. The studio requires %id$, but your band only has %id$[/]"
+            studioBill
+            bandBalance
+    | StudioCreateAlbumRecorded albumName ->
+        sprintf "[bold green]Your band just finished recording %s![/]" albumName
+    | StudioCreateProgressEatingSnacks -> "[deepskyblue3]Eating some snacks[/]"
+    | StudioCreateProgressRecordingWeirdSounds ->
+        "[deepskyblue3_1]Recording weird sounds[/]"
+    | StudioCreateProgressMovingKnobs ->
+        "[dodgerblue1]Moving knobs up and down[/]"
+    | StudioContinueRecordPrompt ->
+        "Which record do you want to continue working on?"
+    | StudioContinueRecordActionPrompt ->
+        "What do you want to do with this album?"
+    | StudioContinueRecordActionPromptEditName -> "Edit name"
+    | StudioContinueRecordActionPromptRelease -> "Release"
+    | StudioContinueRecordAlbumRenamed albumName ->
+        sprintf "[bold green]The album was renamed to \"%s\"[/]" albumName

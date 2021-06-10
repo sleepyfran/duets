@@ -17,6 +17,11 @@ let dummyBand =
                     (Calendar.fromDayMonth 1 1) ] }
 
 let dummySong = Song.empty
+let dummyFinishedSong = (FinishedSong dummySong, 50<quality>)
+let dummyRecordedSong = RecordedSong dummyFinishedSong
+
+let dummyRecordedSongWithLength length =
+    RecordedSong(FinishedSong { dummySong with Length = length }, 50<quality>)
 
 let dummyToday = Calendar.fromDayMonth 1 1
 
@@ -28,14 +33,30 @@ let dummyBandBankAccount = BankAccount.forBand dummyBand.Id
 let dummyTargetBankAccount =
     BankAccount.forCharacter (CharacterId(Identity.create ()))
 
+let dummyAlbum =
+    Album.from "Test Album" [dummyRecordedSong]
+    |> Result.unwrap
+    
+let dummyUnreleasedAlbum = UnreleasedAlbum dummyAlbum
+
+let dummyReleasedAlbum = ReleasedAlbum(dummyAlbum, dummyToday)
+
+let dummyStudio =
+    { Id = Identity.create ()
+      Name = "Test Studio"
+      Producer = Producer <| dummyCharacter
+      PricePerSong = 200<dd> }
+
 let dummyState =
     { Bands = [ (dummyBand.Id, dummyBand) ] |> Map.ofSeq
       Character = dummyCharacter
       CharacterSkills = Map.ofList [ (dummyCharacter.Id, Map.empty) ]
       CurrentBandId = dummyBand.Id
       BandRepertoire =
-          { Unfinished = Map.ofList [ (dummyBand.Id, Map.empty) ]
-            Finished = Map.ofList [ (dummyBand.Id, Map.empty) ] }
+          { UnfinishedSongs = Map.ofList [ (dummyBand.Id, Map.empty) ]
+            FinishedSongs = Map.ofList [ (dummyBand.Id, Map.empty) ]
+            UnreleasedAlbums = Map.ofList [ (dummyBand.Id, Map.empty) ]
+            ReleasedAlbums = Map.ofList [ (dummyBand.Id, Map.empty) ] }
       BankAccounts =
           Map.ofList [ (Character dummyCharacter.Id, dummyCharacterBankAccount)
                        (Band dummyBand.Id, dummyBandBankAccount) ]
@@ -70,13 +91,13 @@ let addUnfinishedSong (band: Band) unfinishedSong =
 
 /// Returns the last unfinished song that was created.
 let lastUnfinishedSong (band: Band) state =
-    state.BandRepertoire.Unfinished
+    state.BandRepertoire.UnfinishedSongs
     |> Map.find band.Id
     |> Map.head
 
 /// Returns the last finished song that was added.
 let lastFinishedSong (band: Band) state =
-    state.BandRepertoire.Finished
+    state.BandRepertoire.FinishedSongs
     |> Map.find band.Id
     |> Map.head
 

@@ -63,3 +63,18 @@ let apply effect =
         Skills.add staticAgent.Map character skill
     | MoneyTransferred (account, transaction) ->
         Bank.transfer staticAgent.Map account transaction
+    | AlbumRecorded (band, album) ->
+        Albums.addUnreleased staticAgent.Map band album
+        let (UnreleasedAlbum ua) = album
+
+        ua.TrackList
+        |> List.map (fun ((FinishedSong fs), _) -> fs.Id)
+        |> List.iter (Songs.removeFinished staticAgent.Map band)
+    | AlbumRenamed (band, unreleasedAlbum) ->
+        let (UnreleasedAlbum album) = unreleasedAlbum
+        Albums.removeUnreleased staticAgent.Map band album.Id
+        Albums.addUnreleased staticAgent.Map band unreleasedAlbum
+    | AlbumReleased (band, releasedAlbum) ->
+        let (ReleasedAlbum(album, _)) = releasedAlbum
+        Albums.removeUnreleased staticAgent.Map band album.Id
+        Albums.addReleased staticAgent.Map band releasedAlbum

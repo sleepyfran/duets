@@ -79,6 +79,7 @@ module Types =
         | Composition
         | Genre of Genre
         | Instrument of InstrumentType
+        | MusicProduction
 
     /// Defines all possible categories to which skills can be related to.
     type SkillCategory =
@@ -163,7 +164,32 @@ module Types =
     type UnfinishedSongWithQualities = UnfinishedSong * MaxQuality * Quality
     /// Shapes a relation between a finished song and its quality.
     type FinishedSongWithQuality = FinishedSong * Quality
+    /// Shapes a relation between a finished song and the combination of the
+    /// quality of the song itself with the quality of the production.
+    type RecordedSong = FinishedSong * Quality
 
+    /// Unique identifier of an album.
+    type AlbumId = AlbumId of Identity
+
+    /// Represents the different types of albums that can be done. Depends
+    /// on the amount of songs and the length of those in the album.
+    type AlbumType =
+        | Single
+        | EP
+        | LP
+
+    /// Represents a band's album.
+    type Album =
+        { Id: AlbumId
+          Name: string
+          TrackList: RecordedSong list
+          Type: AlbumType }
+
+    /// Defines an album that was recorded but hasn't been released.
+    type UnreleasedAlbum = UnreleasedAlbum of Album
+
+    /// Defines an album that has been released.
+    type ReleasedAlbum = ReleasedAlbum of album: Album * releaseDate: Date
 
     /// Collection of skills by character.
     type CharacterSkills = Map<CharacterId, Map<SkillId, SkillWithLevel>>
@@ -171,11 +197,16 @@ module Types =
     /// Collection of songs (either finished or unfinished) by a band.
     type SongsByBand<'song> = Map<BandId, Map<SongId, 'song>>
 
+    /// Collection of albums (either released or unreleased) by a band.
+    type AlbumsByBand<'album> = Map<BandId, Map<AlbumId, 'album>>
+
     /// Represents the repertoire of a band with its unfinished and finished songs.
     /// Only finished songs can be recorded and played live.
     type BandRepertoire =
-        { Unfinished: SongsByBand<UnfinishedSongWithQualities>
-          Finished: SongsByBand<FinishedSongWithQuality> }
+        { UnfinishedSongs: SongsByBand<UnfinishedSongWithQualities>
+          FinishedSongs: SongsByBand<FinishedSongWithQuality>
+          UnreleasedAlbums: AlbumsByBand<UnreleasedAlbum>
+          ReleasedAlbums: AlbumsByBand<ReleasedAlbum> }
 
     /// Defines the before and after of an action.
     type Diff<'a> = Diff of before: 'a * after: 'a
@@ -184,6 +215,21 @@ module Types =
     /// at its best.
     [<Measure>]
     type dd
+
+    /// Represents the owner of a studio and the character that eventually
+    /// produces the album. Their skills determine the final level of the album.
+    type Producer = Producer of Character
+
+    /// Unique identifier of a studio.
+    type StudioId = StudioId of Identity
+
+    /// Represents a recording studio where bands can record and produce their
+    /// albums before releasing them to the public.
+    type Studio =
+        { Id: Identity
+          Name: string
+          Producer: Producer
+          PricePerSong: int<dd> }
 
     /// Holder of an account in the in-game bank.
     type BankAccountHolder =
@@ -224,6 +270,9 @@ module Types =
         | MemberFired of Band * CurrentMember * PastMember
         | SkillImproved of Character * Diff<SkillWithLevel>
         | MoneyTransferred of BankAccountHolder * BankTransaction
+        | AlbumRecorded of Band * UnreleasedAlbum
+        | AlbumRenamed of Band * UnreleasedAlbum
+        | AlbumReleased of Band * ReleasedAlbum
 
     /// Indicates whether the song can be further improved or if it has reached its
     /// maximum quality and thus cannot be improved. All variants wrap an int that

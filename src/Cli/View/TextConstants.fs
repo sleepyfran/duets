@@ -15,9 +15,12 @@ type VariableVerbs = | Have
 type TextConstant =
     | GameName
     | CommonYouAreIn of place: string
+    | CommonMultiChoiceMoreChoices
+    | CommonMultiChoiceInstructions
     | CommonNoUnfinishedSongs
     | CommonSkills
     | CommonCancel
+    | CommonBack
     | CommonBackToMainMenu
     | CommonBackToMap
     | CommonPressKeyToContinue
@@ -57,6 +60,7 @@ type TextConstant =
     | MapPrompt
     | MapOptionRehearsalRoom
     | MapOptionBank
+    | MapOptionStudios
     | RehearsalRoomTitle
     | RehearsalRoomCompose
     | RehearsalRoomManage
@@ -124,5 +128,32 @@ type TextConstant =
     | BankTransferToBand
     | BankTransferFromBand
     | BankTransferAmount of holder: BankAccountHolder
-    | BankTransferSuccess
+    | BankTransferSuccess of
+        holder: BankAccountHolder *
+        transaction: BankTransaction
     | BankTransferNotEnoughFunds
+    | StudioCommonPromptReleaseAlbum of name: string
+    | StudioCommonAlbumReleased of name: string
+    | StudioTitle
+    | StudioWelcomePrice of name: string * price: int<dd>
+    | StudioPrompt
+    | StudioStartRecord
+    | StudioContinueRecord
+    | StudioDiscardRecord
+    | StudioCreateNoSongs
+    | StudioCreateRecordName
+    | StudioCreateTrackListPrompt
+    | StudioCreateErrorNameTooShort
+    | StudioCreateErrorNameTooLong
+    | StudioCreateErrorNotEnoughMoney of
+        bandBalance: int<dd> *
+        studioBill: int<dd>
+    | StudioCreateAlbumRecorded of albumName: string
+    | StudioCreateProgressEatingSnacks
+    | StudioCreateProgressRecordingWeirdSounds
+    | StudioCreateProgressMovingKnobs
+    | StudioContinueRecordPrompt
+    | StudioContinueRecordActionPrompt
+    | StudioContinueRecordActionPromptEditName
+    | StudioContinueRecordActionPromptRelease
+    | StudioContinueRecordAlbumRenamed of albumName: string

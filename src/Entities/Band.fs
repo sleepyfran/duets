@@ -58,10 +58,14 @@ module PastMember =
 module Repertoire =
     /// Creates a completely empty repertoire.
     let empty =
-        { Unfinished = Map.empty
-          Finished = Map.empty }
+        { UnfinishedSongs = Map.empty
+          FinishedSongs = Map.empty
+          UnreleasedAlbums = Map.empty
+          ReleasedAlbums = Map.empty }
 
     /// Creates an empty band repertoire for a given band.
     let emptyFor bandId =
-        { Unfinished = [ (bandId, Map.empty) ] |> Map.ofSeq
-          Finished = [ (bandId, Map.empty) ] |> Map.ofSeq }
+        { UnfinishedSongs = [ (bandId, Map.empty) ] |> Map.ofSeq
+          FinishedSongs = [ (bandId, Map.empty) ] |> Map.ofSeq
+          UnreleasedAlbums = [ (bandId, Map.empty) ] |> Map.ofSeq
+          ReleasedAlbums = [ bandId, Map.empty ] |> Map.ofSeq }

@@ -13,6 +13,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common.fs" />
+    <Compile Include="Albums.fs" />
     <Compile Include="Bank.fs" />
     <Compile Include="BandManagement.fs" />
     <Compile Include="SongComposition.fs" />

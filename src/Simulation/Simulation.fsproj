@@ -6,12 +6,16 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Queries/Albums.fs" />
     <Compile Include="Queries/Bank.fs" />
     <Compile Include="Queries\Skills.fs" />
     <Compile Include="Queries\Characters.fs" />
     <Compile Include="Queries\Bands.fs" />
     <Compile Include="Queries\Songs.fs" />
     <Compile Include="Queries\Calendar.fs" />
+    <Compile Include="Studio/ReleaseAlbum.fs" />
+    <Compile Include="Studio/RecordAlbum.fs" />
+    <Compile Include="Studio/RenameAlbum.fs" />
     <Compile Include="Bank\Transfer.fs" />
     <Compile Include="Setup\StartGame.fs" />
     <Compile Include="Bands\Members.fs" />

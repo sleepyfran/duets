@@ -20,3 +20,8 @@ let runOne state effect =
         improveBandSkillsAfterComposing state band
         |> List.append [ effect ]
     | _ -> [ effect ]
+
+/// Takes multiple effects and runs them through `runOne` combining all
+/// the resulting effects into a list.
+let runMultiple state effects =
+    effects |> List.map (runOne state) |> List.concat

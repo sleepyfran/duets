@@ -8,6 +8,7 @@ let categoryFor id =
     | Composition -> Music
     | Genre _ -> Music
     | Instrument _ -> Music
+    | MusicProduction -> Production
 
 /// Creates a new skill for a given ID. Its category is automatically populated
 /// based on the type of skill given.

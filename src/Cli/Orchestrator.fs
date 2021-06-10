@@ -11,6 +11,9 @@ open System
 /// Returns the sequence of actions associated with a screen given its name.
 let actionsFromScene state scene =
     match scene with
+#if DEBUG
+    | DeveloperRoom -> DeveloperRoom.developerRoom state
+#endif
     | MainMenu savegameState -> MainMenu.mainMenu savegameState
     | CharacterCreator -> CharacterCreator.characterCreator ()
     | BandCreator character -> BandCreator.bandCreator character
@@ -18,6 +21,7 @@ let actionsFromScene state scene =
     | Management -> Management.Root.managementScene ()
     | Map -> Map.mapScene ()
     | Bank -> Bank.Root.bankScene state
+    | Studio studio -> Studio.Root.studioScene state studio
 
 let actionsFromSubScene state subScene =
     match subScene with
@@ -34,6 +38,10 @@ let actionsFromSubScene state subScene =
     | ManagementListMembers -> Management.MemberList.memberListScene state
     | BankTransfer (sender, receiver) ->
         Bank.Transfer.transferSubScene state sender receiver
+    | StudioCreateRecord studio ->
+        Studio.CreateRecord.createRecordSubscene state studio
+    | SubScene.StudioContinueRecord studio ->
+        Studio.ContinueRecord.continueRecordSubscene state studio
 
 let actionsFromEffect effect =
     match effect with
@@ -55,6 +63,22 @@ let actionsFromEffect effect =
             previousLevel,
             currentLevel
         )
+        |> TextConstant
+        |> Message
+    | MoneyTransferred (holder, transaction) ->
+        BankTransferSuccess(holder, transaction)
+        |> TextConstant
+        |> Message
+    | AlbumRecorded (_, UnreleasedAlbum album) ->
+        StudioCreateAlbumRecorded album.Name
+        |> TextConstant
+        |> Message
+    | AlbumRenamed (_, UnreleasedAlbum album) ->
+        StudioContinueRecordAlbumRenamed album.Name
+        |> TextConstant
+        |> Message
+    | AlbumReleased (_, ReleasedAlbum(album, _)) ->
+        StudioCommonAlbumReleased album.Name
         |> TextConstant
         |> Message
     | _ -> NoOp
@@ -84,20 +108,25 @@ let rec runWith chain =
                         match content with
                         | MandatoryChoiceHandler content ->
                             content.Choices
-                            |> choiceById input
+                            |> choiceById (List.exactlyOne input)
                             |> content.Handler
                         | OptionalChoiceHandler content ->
-                            match input with
+                            match List.exactlyOne input with
                             | "back" -> content.Handler Back
                             | _ ->
                                 content.Choices
-                                |> choiceById input
+                                |> choiceById (List.exactlyOne input)
                                 |> Choice
                                 |> content.Handler
+                    | MultiChoicePrompt content ->
+                        content.Choices
+                        |> choicesById input
+                        |> content.Handler
                     | ConfirmationPrompt handler ->
-                        handler (input |> Convert.ToBoolean)
-                    | NumberPrompt handler -> handler (input |> int)
-                    | TextPrompt handler -> handler input
+                        handler (input |> List.exactlyOne |> Convert.ToBoolean)
+                    | NumberPrompt handler ->
+                        handler (input |> List.exactlyOne |> int)
+                    | TextPrompt handler -> handler (List.exactlyOne input)
                     |> runWith
             | Message message -> renderMessage message
             | Figlet text -> renderFiglet text
