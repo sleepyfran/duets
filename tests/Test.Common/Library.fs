@@ -33,6 +33,20 @@ let dummyBandBankAccount = BankAccount.forBand dummyBand.Id
 let dummyTargetBankAccount =
     BankAccount.forCharacter (CharacterId(Identity.create ()))
 
+let dummyAlbum =
+    Album.from "Test Album" [dummyRecordedSong]
+    |> Result.unwrap
+    
+let dummyUnreleasedAlbum = UnreleasedAlbum dummyAlbum
+
+let dummyReleasedAlbum = ReleasedAlbum(dummyAlbum, dummyToday)
+
+let dummyStudio =
+    { Id = Identity.create ()
+      Name = "Test Studio"
+      Producer = Producer <| dummyCharacter
+      PricePerSong = 200<dd> }
+
 let dummyState =
     { Bands = [ (dummyBand.Id, dummyBand) ] |> Map.ofSeq
       Character = dummyCharacter

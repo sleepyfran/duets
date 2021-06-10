@@ -1,4 +1,4 @@
-module Entities.Tests
+module Entities.Tests.Album
 
 open FSharp.Data.UnitSystems.SI.UnitNames
 open FsUnit
@@ -7,26 +7,6 @@ open Test.Common
 
 open Common
 open Entities
-
-[<Test>]
-let ``Album.from should fail if track list is empty`` () =
-    Album.from "test" []
-    |> Result.unwrapError
-    |> should be (ofCase <@ Album.NoSongsSelected @>)
-
-[<Test>]
-let ``Album.from should fail if name is empty`` () =
-    Album.from "" [ dummyRecordedSong ]
-    |> Result.unwrapError
-    |> should be (ofCase <@ Album.NameTooShort @>)
-
-[<Test>]
-let ``Album.from should fail if name is too long`` () =
-    Album.from
-        "Nothing to Go Home To, Nothing There to Come Home For, No Home to Return To,  Nothing to Go Home To, Nothing There to Come Home For, No Home to Return To"
-        [ dummyRecordedSong ]
-    |> Result.unwrapError
-    |> should be (ofCase <@ Album.NameTooLong @>)
 
 [<Test>]
 let ``Album.from should succeed if given correct parameters`` () =
