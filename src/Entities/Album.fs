@@ -55,10 +55,16 @@ let from (name: string) (trackList: RecordedSong list) =
                   // We've already validated the track list before.
                   Type = recordType trackList |> Result.unwrap })
 
-/// Modifies the name of the given album validating that it's correct.
-let modifyName (UnreleasedAlbum album) name =
-    validateName name
-    |> Result.bind (fun _ -> Ok <| UnreleasedAlbum { album with Name = name })
+module Unreleased =
+    /// Creates an unreleased album given a name and a track list.
+    let from name trackList =
+        from name trackList |> Result.map UnreleasedAlbum
+
+    /// Modifies the name of the given album validating that it's correct.
+    let modifyName (UnreleasedAlbum album) name =
+        validateName name
+        |> Result.bind
+            (fun _ -> Ok <| UnreleasedAlbum { album with Name = name })
 
 module Released =
     /// Transforms a given unreleased album into its released status.

@@ -10,44 +10,20 @@ open Simulation.Studio.RecordAlbum
 
 [<Test>]
 let ``recordAlbum should fail if the band does not have enough money`` () =
-    recordAlbum
-        dummyState
-        dummyStudio
-        dummyBand
-        "Simple Math"
-        [ dummyRecordedSong ]
+    Album.Unreleased.from "Simple Math" [ dummyRecordedSong ]
+    |> Result.unwrap
+    |> recordAlbum dummyState dummyStudio dummyBand
     |> Result.unwrapError
     |> should be (ofCase <@ NotEnoughMoney(0<dd>, 200<dd>) @>)
-
-[<Test>]
-let ``recordAlbum should fail if track list is empty`` () =
-    recordAlbum dummyState dummyStudio dummyBand "test" []
-    |> Result.unwrapError
-    |> should be (ofCase <@ NoSongsSelected @>)
-
-[<Test>]
-let ``recordAlbum should fail if name is empty`` () =
-    recordAlbum dummyState dummyStudio dummyBand "" [ dummyRecordedSong ]
-    |> Result.unwrapError
-    |> should be (ofCase <@ NameTooShort @>)
-
-[<Test>]
-let ``recordAlbum should fail if name is too long`` () =
-    recordAlbum
-        dummyState
-        dummyStudio
-        dummyBand
-        "Nothing to Go Home To, Nothing There to Come Home For, No Home to Return To,  Nothing to Go Home To, Nothing There to Come Home For, No Home to Return To"
-        [ dummyRecordedSong ]
-    |> Result.unwrapError
-    |> should be (ofCase <@ NameTooLong @>)
 
 let state =
     addFunds dummyBandBankAccount.Holder 1000<dd> dummyState
 
 [<Test>]
 let ``recordAlbum should create album if parameters are correct`` () =
-    recordAlbum state dummyStudio dummyBand "Black Brick" [ dummyRecordedSong ]
+    Album.Unreleased.from "Black Brick" [ dummyRecordedSong ]
+    |> Result.unwrap
+    |> recordAlbum state dummyStudio dummyBand
     |> Result.unwrap
     |> fun ((UnreleasedAlbum album), _) ->
         album.Name |> should equal "Black Brick"
@@ -67,7 +43,9 @@ let ``recordAlbum should add 20% of the producer's skill to each song in the tra
             dummyCharacter
             (Skill.createWithLevel SkillId.MusicProduction 75)
 
-    recordAlbum state dummyStudio dummyBand "Test." [ dummyRecordedSong ]
+    Album.Unreleased.from "Infinite Granite" [ dummyRecordedSong ]
+    |> Result.unwrap
+    |> recordAlbum state dummyStudio dummyBand
     |> Result.unwrap
     |> fun ((UnreleasedAlbum album), _) ->
         album.TrackList
@@ -86,7 +64,9 @@ let ``recordAlbum should not add producer's skill if quality is already 100``
     let song =
         RecordedSong(FinishedSong dummySong, 100<quality>)
 
-    recordAlbum state dummyStudio dummyBand "Test." [ song ]
+    Album.Unreleased.from "Infinite Granite" [ RecordedSong song ]
+    |> Result.unwrap
+    |> recordAlbum state dummyStudio dummyBand
     |> Result.unwrap
     |> fun ((UnreleasedAlbum album), _) ->
         album.TrackList
@@ -101,7 +81,9 @@ let ``recordAlbum should generate AlbumRecorded and MoneyTransferred`` () =
         Album.from albumTitle albumTrackList
         |> Result.unwrap
 
-    recordAlbum state dummyStudio dummyBand albumTitle albumTrackList
+    Album.Unreleased.from albumTitle albumTrackList
+    |> Result.unwrap
+    |> recordAlbum state dummyStudio dummyBand
     |> Result.unwrap
     |> fun (_, effects) ->
         effects |> should haveLength 2

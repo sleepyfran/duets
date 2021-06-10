@@ -5,6 +5,7 @@ open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
 open FSharp.Data.UnitSystems.SI.UnitNames
+open Entities
 open Simulation.Queries
 open Simulation.Studio.RecordAlbum
 
@@ -45,33 +46,35 @@ and trackListPrompt state studio band songOptions name =
     }
 
 and processRecord state studio band name selectedSongs =
-    let recordingResult =
+    let albumResult =
         finishedSongsFromSelection state band selectedSongs
-        |> recordAlbum state studio band name
+        |> Album.Unreleased.from name
 
     seq {
-        match recordingResult with
-        | Error NameTooShort ->
+        match albumResult with
+        | Error Album.NameTooShort ->
             yield
                 Message
                 <| TextConstant StudioCreateErrorNameTooShort
 
             yield! createRecordSubscene state studio
-        | Error NameTooLong ->
+        | Error Album.NameTooLong ->
             yield
                 Message
                 <| TextConstant StudioCreateErrorNameTooLong
 
             yield! createRecordSubscene state studio
-        | Error (NotEnoughMoney (bandBalance, studioBill)) ->
-            yield
-                StudioCreateErrorNotEnoughMoney(bandBalance, studioBill)
-                |> TextConstant
-                |> Message
+        | Ok album ->
+            match recordAlbum state studio band album with
+            | Error (NotEnoughMoney (bandBalance, studioBill)) ->
+                yield
+                    StudioCreateErrorNotEnoughMoney(bandBalance, studioBill)
+                    |> TextConstant
+                    |> Message
 
-            yield SceneAfterKey Map
-        | Ok (album, effects) ->
-            yield! recordWithProgressBar state studio band album effects
+                yield SceneAfterKey Map
+            | Ok (album, effects) ->
+                yield! recordWithProgressBar state studio band album effects
         | _ -> yield NoOp
     }
 

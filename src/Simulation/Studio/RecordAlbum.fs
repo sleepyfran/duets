@@ -5,10 +5,7 @@ open Entities
 open Simulation.Queries
 
 type AlbumRecordingError =
-    | NameTooShort
-    | NameTooLong
-    | NoSongsSelected
-    | NotEnoughMoney of bandBalance: int<dd> * studioBill: int<dd>
+    NotEnoughMoney of bandBalance: int<dd> * studioBill: int<dd>
 
 let private productionQualityImprovement state studio =
     let (Producer (producer)) = studio.Producer
@@ -27,27 +24,19 @@ let private recordTrackList state studio trackList =
                 RecordedSong(song, improvedQuality * 1<quality>))
         trackList
 
-let private recordAlbum' state studio band albumName trackList =
-    let albumResult =
-        recordTrackList state studio trackList
-        |> Album.from albumName
-
-    match albumResult with
-    | Error error ->
-        match error with
-        | Album.CreationError.NameTooShort -> NameTooShort
-        | Album.CreationError.NameTooLong -> NameTooLong
-        | Album.CreationError.NoSongsSelected -> NoSongsSelected
-        |> Error
-    | Ok album ->
+let private recordAlbum' state studio band (UnreleasedAlbum album) =
+    recordTrackList state studio album.TrackList
+    |> Album.from album.Name
+    |> Result.unwrap
+    |> fun album ->
         Ok(UnreleasedAlbum album, AlbumRecorded(band, UnreleasedAlbum album))
 
-let private generatePayment state studio (band: Band) trackList =
+let private generatePayment state studio (band: Band) (UnreleasedAlbum album) =
     let bandAccount = Band band.Id
     let bandBalance = Bank.balanceOf state bandAccount
 
     let studioBill =
-        studio.PricePerSong * List.length trackList
+        studio.PricePerSong * List.length album.TrackList
 
     if bandBalance >= studioBill then
         Ok
@@ -59,16 +48,10 @@ let private generatePayment state studio (band: Band) trackList =
 /// and attempts to generate an album from the name and track list, applying the
 /// validations of an album. Also checks the band's bank account and generates
 /// the payment to the studio.
-let recordAlbum
-    state
-    studio
-    band
-    albumName
-    (trackList: FinishedSongWithQuality list)
-    =
-    recordAlbum' state studio band albumName trackList
+let recordAlbum state studio band unreleasedAlbum =
+    recordAlbum' state studio band unreleasedAlbum
     |> Result.bind
         (fun (album, prevEffect) ->
-            match generatePayment state studio band trackList with
+            match generatePayment state studio band album with
             | Ok effect -> Ok(album, [ prevEffect; effect ])
             | Error error -> Error error)
