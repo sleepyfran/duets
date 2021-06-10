@@ -16,6 +16,7 @@ let improveMemberSkills state (band: Band) (currentMember: CurrentMember) =
     |> List.map (
         Skills.characterSkillWithLevel state currentMember.Character.Id
     )
+    |> List.filter (fun (_, level) -> level < 100)
     |> List.map (
         improveSkillByOne
         >> Tuple.two currentMember.Character

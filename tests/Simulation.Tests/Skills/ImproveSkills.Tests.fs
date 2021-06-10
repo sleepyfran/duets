@@ -29,9 +29,7 @@ let matchesImprovementValue effects =
     instrumentLevel |> should equal 1
 
 [<Test>]
-let ImproveBandSkillsAfterComposingShouldImproveRandomValuesIfRandomIsMoreThan50
-    ()
-    =
+let ``should increase skills by one if random is more than 50`` () =
     [ 60; 55; 51; 100; 78; 80 ]
     |> List.iter
         (fun randomValue ->
@@ -42,9 +40,27 @@ let ImproveBandSkillsAfterComposingShouldImproveRandomValuesIfRandomIsMoreThan50
             |> matchesImprovementValue)
 
 [<Test>]
-let ImproveBandSkillsAfterComposingShouldNotImproveIfRandomIsLessThanOrEqualTo50
-    ()
-    =
+let ``should not increase skills that is already at a 100`` () =
+    let state =
+        addSkillTo
+            dummyCharacter
+            (Skill.create SkillId.Composition, 100)
+            dummyState
+
+    improveBandSkillsAfterComposing' (fun _ _ -> 100) state dummyBand
+    |> should haveLength 2
+
+    let state =
+        addSkillTo
+            dummyCharacter
+            (dummyBand.Genre |> SkillId.Genre |> Skill.create, 100)
+            state
+
+    improveBandSkillsAfterComposing' (fun _ _ -> 100) state dummyBand
+    |> should haveLength 1
+
+[<Test>]
+let ``should not increase skills if random is less than 50`` () =
     [ 1; 24; 12; 30; 45; 49; 50 ]
     |> List.iter
         (fun randomValue ->
