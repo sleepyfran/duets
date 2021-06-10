@@ -58,6 +58,41 @@ let ``recordAlbum should create album if parameters are correct`` () =
         album.Type |> should be (ofCase <@ Single @>)
 
 [<Test>]
+let ``recordAlbum should add 20% of the producer's skill to each song in the track list``
+    ()
+    =
+    let state =
+        state
+        |> addSkillTo
+            dummyCharacter
+            (Skill.createWithLevel SkillId.MusicProduction 75)
+
+    recordAlbum state dummyStudio dummyBand "Test." [ dummyRecordedSong ]
+    |> Result.unwrap
+    |> fun ((UnreleasedAlbum album), _) ->
+        album.TrackList
+        |> List.iter (fun (_, quality) -> quality |> should equal 65<quality>)
+
+[<Test>]
+let ``recordAlbum should not add producer's skill if quality is already 100``
+    ()
+    =
+    let state =
+        state
+        |> addSkillTo
+            dummyCharacter
+            (Skill.createWithLevel SkillId.MusicProduction 100)
+
+    let song =
+        RecordedSong(FinishedSong dummySong, 100<quality>)
+
+    recordAlbum state dummyStudio dummyBand "Test." [ song ]
+    |> Result.unwrap
+    |> fun ((UnreleasedAlbum album), _) ->
+        album.TrackList
+        |> List.iter (fun (_, quality) -> quality |> should equal 100<quality>)
+
+[<Test>]
 let ``recordAlbum should generate AlbumRecorded and MoneyTransferred`` () =
     let albumTitle = "Black Brick"
     let albumTrackList = [ dummyRecordedSong ]

@@ -17,11 +17,11 @@ let dummyBand =
                     (Calendar.fromDayMonth 1 1) ] }
 
 let dummySong = Song.empty
-let dummyFinishedSong = (FinishedSong dummySong, 100<quality>)
+let dummyFinishedSong = (FinishedSong dummySong, 50<quality>)
 let dummyRecordedSong = RecordedSong dummyFinishedSong
 
 let dummyRecordedSongWithLength length =
-    RecordedSong(FinishedSong { dummySong with Length = length }, 100<quality>)
+    RecordedSong(FinishedSong { dummySong with Length = length }, 50<quality>)
 
 let dummyToday = Calendar.fromDayMonth 1 1
 
