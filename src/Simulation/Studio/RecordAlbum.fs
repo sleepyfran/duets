@@ -39,9 +39,10 @@ let private recordAlbum' state studio band albumName trackList =
         | Album.CreationError.NameTooLong -> NameTooLong
         | Album.CreationError.NoSongsSelected -> NoSongsSelected
         |> Error
-    | Ok album -> Ok <| AlbumRecorded(band, UnreleasedAlbum album)
+    | Ok album ->
+        Ok(UnreleasedAlbum album, AlbumRecorded(band, UnreleasedAlbum album))
 
-let private generatePayment state studio (band: Band) trackList prevEffect =
+let private generatePayment state studio (band: Band) trackList =
     let bandAccount = Band band.Id
     let bandBalance = Bank.balanceOf state bandAccount
 
@@ -49,8 +50,8 @@ let private generatePayment state studio (band: Band) trackList prevEffect =
         studio.PricePerSong * List.length trackList
 
     if bandBalance >= studioBill then
-        Ok [ prevEffect
-             MoneyTransferred(bandAccount, (Outgoing studioBill)) ]
+        Ok
+        <| MoneyTransferred(bandAccount, (Outgoing studioBill))
     else
         Error <| NotEnoughMoney(bandBalance, studioBill)
 
@@ -66,4 +67,8 @@ let recordAlbum
     (trackList: FinishedSongWithQuality list)
     =
     recordAlbum' state studio band albumName trackList
-    |> Result.bind (generatePayment state studio band trackList)
+    |> Result.bind
+        (fun (album, prevEffect) ->
+            match generatePayment state studio band trackList with
+            | Ok effect -> Ok(album, [ prevEffect; effect ])
+            | Error error -> Error error)

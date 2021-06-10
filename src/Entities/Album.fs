@@ -56,5 +56,5 @@ let modifyName (UnreleasedAlbum album) name =
 
 module Released =
     /// Transforms a given unreleased album into its released status.
-    let fromUnreleased (UnreleasedAlbum album) =
-        ReleasedAlbum album
+    let fromUnreleased (UnreleasedAlbum album) releaseDate =
+        ReleasedAlbum(album, releaseDate)

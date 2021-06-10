@@ -1,5 +1,6 @@
 module Cli.View.Scenes.Studio.CreateRecord
 
+open Cli.View.Scenes.Studio.Common
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
@@ -69,11 +70,12 @@ and processRecord state studio band name selectedSongs =
                 |> Message
 
             yield SceneAfterKey Map
-        | Ok effects -> yield! recordWithProgressBar state studio effects
+        | Ok (album, effects) ->
+            yield! recordWithProgressBar state studio band album effects
         | _ -> yield NoOp
     }
 
-and recordWithProgressBar state studio effects =
+and recordWithProgressBar state studio band album effects =
     seq {
         yield
             ProgressBar
@@ -88,5 +90,11 @@ and recordWithProgressBar state studio effects =
             Simulation.Galactus.runMultiple state effects
             |> Seq.map Effect
 
-        yield SceneAfterKey <| Studio studio
+        yield!
+            promptToReleaseAlbum
+                (seq { yield Scene <| Studio studio })
+                state
+                studio
+                band
+                album
     }

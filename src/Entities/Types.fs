@@ -189,7 +189,7 @@ module Types =
     type UnreleasedAlbum = UnreleasedAlbum of Album
 
     /// Defines an album that has been released.
-    type ReleasedAlbum = ReleasedAlbum of Album
+    type ReleasedAlbum = ReleasedAlbum of album: Album * releaseDate: Date
 
     /// Collection of skills by character.
     type CharacterSkills = Map<CharacterId, Map<SkillId, SkillWithLevel>>

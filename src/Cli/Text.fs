@@ -284,7 +284,7 @@ and fromConstant constant =
     | StudioCommonAlbumReleased name ->
         sprintf "[bold green]Your band just released %s![/]" name
     | StudioCommonPromptReleaseAlbum name ->
-        sprintf "Do you want to release [blue bold]%s[/]" name
+        sprintf "Do you want to release [blue bold]%s[/]?" name
     | StudioTitle -> "Studio"
     | StudioWelcomePrice (name, price) ->
         sprintf

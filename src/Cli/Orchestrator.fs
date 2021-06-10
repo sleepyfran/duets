@@ -77,7 +77,7 @@ let actionsFromEffect effect =
         StudioContinueRecordAlbumRenamed album.Name
         |> TextConstant
         |> Message
-    | AlbumReleased (_, ReleasedAlbum album) ->
+    | AlbumReleased (_, ReleasedAlbum(album, _)) ->
         StudioCommonAlbumReleased album.Name
         |> TextConstant
         |> Message
