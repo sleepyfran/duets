@@ -84,7 +84,7 @@ and recordWithProgressBar state studio band album effects =
                         TextConstant StudioCreateProgressRecordingWeirdSounds
                         TextConstant StudioCreateProgressMovingKnobs ]
                   StepDuration = 3<second>
-                  Async = false }
+                  Async = true }
 
         yield!
             Simulation.Galactus.runMultiple state effects
