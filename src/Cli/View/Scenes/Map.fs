@@ -3,7 +3,6 @@ module Cli.View.Scenes.Map
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
-open Cli.View.Scenes.DeveloperRoom
 
 let mapOptions =
     seq {

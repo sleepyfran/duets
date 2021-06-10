@@ -2,7 +2,6 @@ module Simulation.Songs.Composition.ImproveSong
 
 open Common
 open Entities
-open Simulation.Skills.ImproveSkills
 
 let private improveSong' band song maxQuality quality =
     let songBeforeUpgrade = (song, maxQuality, quality)
