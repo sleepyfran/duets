@@ -18,8 +18,15 @@ let ``Album.from should succeed if given correct parameters`` () =
         album.Type |> should be (ofCase <@ Single @>)
 
 [<Test>]
+let ``Album.recordType should return error if track list is empty`` () =
+    Album.recordType []
+    |> Result.unwrapError
+    |> should be (ofCase <@ Album.EmptyTrackList @>)
+
+[<Test>]
 let ``Album.recordType should return single if only one song is given`` () =
     Album.recordType [ dummyRecordedSong ]
+    |> Result.unwrap
     |> should be (ofCase <@ Single @>)
 
 [<Test>]
@@ -31,15 +38,19 @@ let ``Album.recordType should return EP if given more than one song but its leng
         (fun length ->
             Album.recordType [ dummyRecordedSong
                                (dummyRecordedSongWithLength length) ]
+            |> Result.unwrap
             |> should be (ofCase <@ EP @>))
 
 [<Test>]
 let ``Album.recordType should return LP if given more than one song and its length is more than 25 minutes``
     ()
     =
-    [ 1501<second>; 10034<second>; 1680<second> ]
+    [ 1501<second>
+      10034<second>
+      1680<second> ]
     |> List.iter
         (fun length ->
             Album.recordType [ dummyRecordedSong
                                (dummyRecordedSongWithLength length) ]
+            |> Result.unwrap
             |> should be (ofCase <@ LP @>))

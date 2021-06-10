@@ -1,5 +1,6 @@
 module Entities.Album
 
+open Common
 open FSharp.Data.UnitSystems.SI.UnitNames
 
 type CreationError =
@@ -16,14 +17,18 @@ let length trackList =
         0<second>
         trackList
 
+type RecordTypeError = EmptyTrackList
+
 /// Determines the record type of an album given its track list.
 let recordType trackList =
-    if List.length trackList = 1 then
-        Single
+    if List.length trackList = 0 then
+        Error EmptyTrackList
+    else if List.length trackList = 1 then
+        Ok Single
     else
         match length trackList with
-        | l when l <= twentyFiveMinutes -> EP
-        | _ -> LP
+        | l when l <= twentyFiveMinutes -> Ok EP
+        | _ -> Ok LP
 
 let private validateName name =
     match String.length name with
@@ -47,7 +52,8 @@ let from (name: string) (trackList: RecordedSong list) =
                 { Id = AlbumId <| Identity.create ()
                   Name = name
                   TrackList = trackList
-                  Type = recordType trackList })
+                  // We've already validated the track list before.
+                  Type = recordType trackList |> Result.unwrap })
 
 /// Modifies the name of the given album validating that it's correct.
 let modifyName (UnreleasedAlbum album) name =
