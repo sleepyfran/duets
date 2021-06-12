@@ -22,4 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.fsproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fugit" Version="0.4.1" />
+  </ItemGroup>
 </Project>

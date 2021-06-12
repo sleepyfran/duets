@@ -1,5 +1,6 @@
 module Orchestrator
 
+open Aether
 open Entities
 open Cli.View.Actions
 open Cli.View.Scenes
@@ -7,6 +8,7 @@ open Cli.View.TextConstants
 open Cli.View.Renderer
 open Common
 open System
+open Simulation.Queries
 
 /// Returns the sequence of actions associated with a screen given its name.
 let actionsFromScene state scene =
@@ -42,6 +44,13 @@ let actionsFromSubScene state subScene =
         Studio.CreateRecord.createRecordSubscene state studio
     | SubScene.StudioContinueRecord studio ->
         Studio.ContinueRecord.continueRecordSubscene state studio
+    | SubScene.StudioPromptToRelease (onCancel, studio, band, album) ->
+        Studio.PromptToRelease.promptToReleaseAlbum
+            onCancel
+            state
+            studio
+            band
+            album
 
 let actionsFromEffect effect =
     match effect with
@@ -77,21 +86,29 @@ let actionsFromEffect effect =
         StudioContinueRecordAlbumRenamed album.Name
         |> TextConstant
         |> Message
-    | AlbumReleased (_, ReleasedAlbum(album, _)) ->
+    | AlbumReleased (_, ReleasedAlbum (album, _)) ->
         StudioCommonAlbumReleased album.Name
         |> TextConstant
         |> Message
     | _ -> NoOp
 
+/// Determines whether the given scene is out of gameplay (main menu, creators,
+/// etc.) or not.
+let private outOfGameplayScene scene =
+    match scene with
+    | MainMenu _ -> true
+    | CharacterCreator _ -> true
+    | BandCreator _ -> true
+    | _ -> false
+
 /// Saves the game to the savegame file only if the screen is not the main menu,
 /// character creator or band creator, which still have unreliable data or
 /// might not have data at all.
 let saveIfNeeded scene =
-    match scene with
-    | MainMenu _ -> ()
-    | CharacterCreator _ -> ()
-    | BandCreator _ -> ()
-    | _ -> Savegame.save ()
+    if not (outOfGameplayScene scene) then
+        Savegame.save ()
+    else
+        ()
 
 /// Given a renderer, a state and a chain of actions, recursively renders all
 /// the actions in the chain and applies any effects that come with them.
@@ -155,4 +172,31 @@ and runScene state scene =
     saveIfNeeded scene
     clear ()
     separator ()
+    showStatusBar state scene
     runWith (actionsFromScene state scene)
+
+and showStatusBar state scene =
+    if not (outOfGameplayScene scene) then
+        statusBarContent state
+        |> TextConstant
+        |> renderMessage
+
+        separator ()
+
+and statusBarContent state =
+    let date = Calendar.today state
+    let dayMoment = Calendar.dayMomentOf date
+
+    let characterBalance =
+        Characters.playableCharacter state
+        |> Optic.get Lenses.Character.id_
+        |> Character
+        |> Bank.balanceOf state
+
+    let bandBalance =
+        Bands.currentBand state
+        |> Optic.get Lenses.Band.id_
+        |> Band
+        |> Bank.balanceOf state
+
+    CommonStatusBar(date, dayMoment, characterBalance, bandBalance)

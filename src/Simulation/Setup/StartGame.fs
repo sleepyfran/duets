@@ -15,5 +15,5 @@ let startGame character (band: Band) =
              BankAccount.forCharacterWithBalance character.Id 1000<dd>)
             (Band band.Id, BankAccount.forBand band.Id) ]
           |> Map.ofSeq
-      Today = Calendar.fromDayMonth 1 1 }
+      Today = Calendar.gameBeginning }
     |> GameCreated

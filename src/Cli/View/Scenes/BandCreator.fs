@@ -62,7 +62,7 @@ and handleConfirmation character name genre role confirmed =
                 [ Band.Member.from
                       character
                       (Instrument.Type.from role.Id)
-                      (Calendar.fromDayMonth 1 1) ]
+                      (Calendar.gameBeginning) ]
 
             match (Band.from name genre members) with
             | Ok band ->
@@ -71,16 +71,18 @@ and handleConfirmation character name genre role confirmed =
             | Error Band.NameTooShort ->
                 yield!
                     seq {
-                        yield Message
-                        <| TextConstant CreatorErrorBandNameTooShort
+                        yield
+                            Message
+                            <| TextConstant CreatorErrorBandNameTooShort
 
                         yield! bandCreator character
                     }
             | Error Band.NameTooLong ->
                 yield!
                     seq {
-                        yield Message
-                        <| TextConstant CreatorErrorBandNameTooLong
+                        yield
+                            Message
+                            <| TextConstant CreatorErrorBandNameTooLong
 
                         yield! bandCreator character
                     }

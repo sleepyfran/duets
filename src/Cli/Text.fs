@@ -65,6 +65,17 @@ and accountHolderName holder =
     | Character _ -> "your character"
     | Band _ -> "your band"
 
+/// Returns the name of the given moment of the day.
+and dayMomentName dayMoment =
+    match dayMoment with
+    | Dawn -> "🌞 Dawn"
+    | Morning -> "🌞 Morning"
+    | Midday -> "🌞 Midday"
+    | Sunset -> "🌝 Sunset"
+    | Dusk -> "🌝 Dusk"
+    | Night -> "🌝 Night"
+    | Midnight -> "🌝 Midnight"
+
 and fromConstant constant =
     match constant with
     | GameName -> "Duets"
@@ -95,6 +106,15 @@ and fromConstant constant =
             previousLevel,
             currentLevel
         )
+    | CommonStatusBar (date, dayMoment, characterBalance, bandBalance) ->
+        sprintf
+            "[bold]%i/%i/%i [blue]%s[/] | Character's balance: [green]%i$d[/] | Band's balance: [green]%i$d[/][/]"
+            date.Day
+            date.Month
+            date.Year
+            (dayMomentName dayMoment)
+            characterBalance
+            bandBalance
     | MainMenuIncompatibleSavegame ->
         "[bold red]Your savegame is incompatible or malformed and was ignored[/]"
     | MainMenuPrompt -> "Select an option to begin"
@@ -239,7 +259,7 @@ and fromConstant constant =
     | MemberListCurrentTitle -> "[bold underline]Current members[/]"
     | MemberListCurrentMember (name, role, since) ->
         String.Format(
-            "{0} ({1}) since year {2}",
+            "{0} ({1}) since {2}",
             name,
             instrumentName role,
             since.Year
@@ -247,7 +267,7 @@ and fromConstant constant =
     | MemberListPastTitle -> "[bold underline]Past members[/]"
     | MemberListPastMember (name, role, since, until) ->
         String.Format(
-            "{0} ({1}) from year {2} until year {3}",
+            "{0} ({1}) from {2} until {3}",
             name,
             instrumentName role,
             since.Year,

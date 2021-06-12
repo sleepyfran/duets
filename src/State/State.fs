@@ -43,6 +43,7 @@ let set = staticAgent.Set
 let apply effect =
     match effect with
     | GameCreated state -> staticAgent.Set state
+    | TimeAdvanced time -> Calendar.setTime staticAgent.Map time
     | SongStarted (band, unfinishedSong) ->
         Songs.addUnfinished staticAgent.Map band unfinishedSong
     | SongImproved (band, (Diff (_, unfinishedSong))) ->
@@ -75,6 +76,6 @@ let apply effect =
         Albums.removeUnreleased staticAgent.Map band album.Id
         Albums.addUnreleased staticAgent.Map band unreleasedAlbum
     | AlbumReleased (band, releasedAlbum) ->
-        let (ReleasedAlbum(album, _)) = releasedAlbum
+        let (ReleasedAlbum (album, _)) = releasedAlbum
         Albums.removeUnreleased staticAgent.Map band album.Id
         Albums.addReleased staticAgent.Map band releasedAlbum

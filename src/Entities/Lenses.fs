@@ -30,6 +30,9 @@ module State =
         (fun (s: State) -> s.Today), (fun v (s: State) -> { s with Today = v })
 
 module Band =
+    let id_ =
+        (fun (c: Band) -> c.Id), (fun v (c: Band) -> { c with Id = v })
+
     let members_ =
         (fun (b: Band) -> b.Members),
         (fun v (b: Band) -> { b with Members = v })
@@ -37,6 +40,11 @@ module Band =
     let pastMembers_ =
         (fun (b: Band) -> b.PastMembers),
         (fun v (b: Band) -> { b with PastMembers = v })
+
+module Character =
+    let id_ =
+        (fun (c: Character) -> c.Id),
+        (fun v (c: Character) -> { c with Id = v })
 
 module BankAccount =
     let holder_ =

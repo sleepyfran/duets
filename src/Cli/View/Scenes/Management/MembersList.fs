@@ -20,7 +20,6 @@ let rec memberListScene state =
                     |> TextConstant
                     |> Message)
 
-
         if not (List.isEmpty pastMembers) then
             yield Message <| TextConstant MemberListPastTitle
 

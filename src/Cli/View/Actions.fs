@@ -4,8 +4,24 @@ open Cli.View.TextConstants
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
 
+/// Actions are the bridge between the game core logic and the rendering layer.
+/// Each action represents something to be rendered with all the information
+/// to do so, without caring how it is processed.
+type Action =
+    | Message of Text
+    | Figlet of Text
+    | Prompt of Prompt
+    | ProgressBar of ProgressBarContent
+    | Scene of Scene
+    // Waits until the user presses a key and then navigates to the specified scene.
+    | SceneAfterKey of Scene
+    | SubScene of SubScene
+    | GameInfo of version: string
+    | Effect of Effect
+    | NoOp
+
 /// Defines the index of all scenes available in the game that can be instantiated.
-type Scene =
+and Scene =
 #if DEBUG
     | DeveloperRoom
 #endif
@@ -22,7 +38,7 @@ type Scene =
 
 /// Defines the index of all sub-scenes available. Sub-scenes belong to a Scene
 /// and thus do not clear the screen or save a game.
-type SubScene =
+and SubScene =
     | RehearsalRoomCompose
     | RehearsalRoomComposeSong
     | RehearsalRoomImproveSong
@@ -34,29 +50,18 @@ type SubScene =
     | BankTransfer of sender: BankAccountHolder * receiver: BankAccountHolder
     | StudioCreateRecord of Studio
     | StudioContinueRecord of Studio
+    | StudioPromptToRelease of
+        onCancel: ActionChain *
+        studio: Studio *
+        band: Band *
+        album: UnreleasedAlbum
 
 /// Encapsulates text that can either be defined by a text constant, which is
 /// resolved by the UI layer, or a string constant that is just passed from this
 /// layer into the UI.
-type Text =
+and Text =
     | TextConstant of TextConstant
     | Literal of string
-
-/// Actions are the bridge between the game core logic and the rendering layer.
-/// Each action represents something to be rendered with all the information
-/// to do so, without caring how it is processed.
-type Action =
-    | Message of Text
-    | Figlet of Text
-    | Prompt of Prompt
-    | ProgressBar of ProgressBarContent
-    | Scene of Scene
-    // Waits until the user presses a key and then navigates to the specified scene.
-    | SceneAfterKey of Scene
-    | SubScene of SubScene
-    | GameInfo of version: string
-    | Effect of Effect
-    | NoOp
 
 /// Sequence of actions to be executed.
 and ActionChain = Action seq

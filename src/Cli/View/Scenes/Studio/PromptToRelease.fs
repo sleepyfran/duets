@@ -1,4 +1,4 @@
-module Cli.View.Scenes.Studio.Common
+module Cli.View.Scenes.Studio.PromptToRelease
 
 open Cli.View.Actions
 open Cli.View.TextConstants

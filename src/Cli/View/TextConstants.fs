@@ -30,6 +30,11 @@ type TextConstant =
         skill: Skill *
         previousLevel: int *
         currentLevel: int
+    | CommonStatusBar of
+        date: Date *
+        dayMoment: DayMoment *
+        characterBalance: int<dd> *
+        bandBalance: int<dd>
     | MainMenuIncompatibleSavegame
     | MainMenuPrompt
     | MainMenuNewGame

@@ -10,4 +10,4 @@ let empty =
       CurrentBandId = Identity.create () |> BandId
       BandRepertoire = Band.Repertoire.empty
       BankAccounts = Map.empty
-      Today = Calendar.fromDayMonth 1 1 }
+      Today = Calendar.gameBeginning }

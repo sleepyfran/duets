@@ -1,6 +1,5 @@
 module Cli.View.Scenes.Studio.CreateRecord
 
-open Cli.View.Scenes.Studio.Common
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
@@ -93,11 +92,12 @@ and recordWithProgressBar state studio band album effects =
             Simulation.Galactus.runMultiple state effects
             |> Seq.map Effect
 
-        yield!
-            promptToReleaseAlbum
-                (seq { yield Scene <| Studio studio })
-                state
-                studio
-                band
+        yield
+            StudioPromptToRelease(
+                (seq { yield Scene <| Studio studio }),
+                studio,
+                band,
                 album
+            )
+            |> SubScene
     }

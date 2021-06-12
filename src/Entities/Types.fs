@@ -7,24 +7,20 @@ module Types =
     /// Defines the type that all entities with an ID should use.
     type Identity = System.Guid
 
-    /// Defines a month in the calendar.
-    type Month =
-        | January
-        | February
-        | March
-        | April
-        | May
-        | June
-        | July
-        | August
-        | September
-        | October
-        | November
-        | December
+    /// Represents a date in the game.
+    type Date = System.DateTime
 
-    /// Defines a custom in-game date. All dates in the game start in a year 0 and
-    /// go on from there instead of following real life years.
-    type Date = { Day: int; Month: Month; Year: int }
+    /// Since the game does not feature a 24-hour clock to not make days
+    /// unbearably long in-game, these are the moments that of the day that
+    /// we will show the user depending on the real time from the date.
+    type DayMoment =
+        | Dawn
+        | Morning
+        | Midday
+        | Sunset
+        | Dusk
+        | Night
+        | Midnight
 
     /// Defines a period of time with a start and an optional end.
     type Period = Date * Date
@@ -262,6 +258,7 @@ module Types =
     /// calling composeSong will create a `SongComposed` effect.
     type Effect =
         | GameCreated of State
+        | TimeAdvanced of Date
         | SongStarted of Band * UnfinishedSongWithQualities
         | SongImproved of Band * Diff<UnfinishedSongWithQualities>
         | SongFinished of Band * FinishedSongWithQuality

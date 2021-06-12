@@ -1,6 +1,5 @@
 module Cli.View.Scenes.Studio.ContinueRecord
 
-open Cli.View.Scenes.Studio.Common
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
@@ -60,13 +59,14 @@ and handleAction state studio band album choice =
         match choice.Id with
         | "edit_name" -> yield! editName state studio band album
         | "release" ->
-            yield!
-                promptToReleaseAlbum
-                    (seq { yield! actionPrompt state studio band album })
-                    state
-                    studio
-                    band
+            yield
+                StudioPromptToRelease(
+                    (seq { yield! actionPrompt state studio band album }),
+                    studio,
+                    band,
                     album
+                )
+                |> SubScene
         | _ -> yield NoOp
     }
 
