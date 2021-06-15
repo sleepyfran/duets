@@ -18,6 +18,7 @@
     <Compile Include="Studio/RecordAlbum.fs" />
     <Compile Include="Studio/RenameAlbum.fs" />
     <Compile Include="Bank\Transfer.fs" />
+    <Compile Include="Setup\GenreMarket.fs" />
     <Compile Include="Setup\StartGame.fs" />
     <Compile Include="Bands\Members.fs" />
     <Compile Include="Skills\ImproveSkills.fs" />
