@@ -9,12 +9,8 @@ open Simulation.Queries.Bank
 
 [<Test>]
 let balanceOfShouldReturnCorrectBalance () =
-    let state =
-        dummyState
-        |> addFunds dummyCharacterBankAccount.Holder 100<dd>
-
-    balanceOf state dummyCharacterBankAccount.Holder
-    |> should equal 100
+    balanceOf dummyState dummyCharacterBankAccount.Holder
+    |> should equal 1000
 
 [<Test>]
 let balanceOfUnknownShouldReturn0 () =

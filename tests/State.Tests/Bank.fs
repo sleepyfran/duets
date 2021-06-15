@@ -30,7 +30,7 @@ let TransferShouldAddTransactionToBankAccount () =
         Optic.get transactionLenses state
         |> Option.defaultValue []
 
-    transactions |> should haveLength 2
+    transactions |> should haveLength 3
 
     List.head transactions
     |> should equal (Outgoing 50<dd>)

@@ -4,6 +4,7 @@ open Aether
 open Aether.Operators
 open Common
 open Entities
+open Simulation.Setup.StartGame
 
 let dummyCharacter =
     Character.from "Test" 24 Other |> Result.unwrap
@@ -11,10 +12,7 @@ let dummyCharacter =
 let dummyBand =
     { Band.empty with
           Members =
-              [ Band.Member.from
-                    dummyCharacter
-                    Guitar
-                    (Calendar.gameBeginning) ] }
+              [ Band.Member.from dummyCharacter Guitar (Calendar.gameBeginning) ] }
 
 let dummySong = Song.empty
 let dummyFinishedSong = (FinishedSong dummySong, 50<quality>)
@@ -34,9 +32,9 @@ let dummyTargetBankAccount =
     BankAccount.forCharacter (CharacterId(Identity.create ()))
 
 let dummyAlbum =
-    Album.from "Test Album" [dummyRecordedSong]
+    Album.from "Test Album" [ dummyRecordedSong ]
     |> Result.unwrap
-    
+
 let dummyUnreleasedAlbum = UnreleasedAlbum dummyAlbum
 
 let dummyReleasedAlbum = ReleasedAlbum(dummyAlbum, dummyToday)
@@ -48,19 +46,8 @@ let dummyStudio =
       PricePerSong = 200<dd> }
 
 let dummyState =
-    { Bands = [ (dummyBand.Id, dummyBand) ] |> Map.ofSeq
-      Character = dummyCharacter
-      CharacterSkills = Map.ofList [ (dummyCharacter.Id, Map.empty) ]
-      CurrentBandId = dummyBand.Id
-      BandRepertoire =
-          { UnfinishedSongs = Map.ofList [ (dummyBand.Id, Map.empty) ]
-            FinishedSongs = Map.ofList [ (dummyBand.Id, Map.empty) ]
-            UnreleasedAlbums = Map.ofList [ (dummyBand.Id, Map.empty) ]
-            ReleasedAlbums = Map.ofList [ (dummyBand.Id, Map.empty) ] }
-      BankAccounts =
-          Map.ofList [ (Character dummyCharacter.Id, dummyCharacterBankAccount)
-                       (Band dummyBand.Id, dummyBandBankAccount) ]
-      Today = dummyToday }
+    startGame dummyCharacter dummyBand
+    |> fun (GameCreated state) -> state
 
 /// Adds a given member to the given band.
 let addMember (band: Band) bandMember =
