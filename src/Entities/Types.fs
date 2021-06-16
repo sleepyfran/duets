@@ -133,6 +133,7 @@ module Types =
         { Id: BandId
           Name: string
           Genre: Genre
+          Fame: int
           Members: CurrentMember list
           PastMembers: PastMember list }
 
@@ -197,8 +198,14 @@ module Types =
     /// Defines an album that was recorded but hasn't been released.
     type UnreleasedAlbum = UnreleasedAlbum of Album
 
-    /// Defines an album that has been released.
-    type ReleasedAlbum = ReleasedAlbum of album: Album * releaseDate: Date
+    /// Defines an album that has been released, with the maximum amounts of
+    /// daily streams that the album can have plus the current hype of the album
+    /// which together determine the amount of streams that it will have.
+    type ReleasedAlbum =
+        { Album: Album
+          ReleaseDate: Date
+          MaxDailyStreams: int
+          Hype: float }
 
     /// Collection of skills by character.
     type CharacterSkills = Map<CharacterId, Map<SkillId, SkillWithLevel>>

@@ -26,6 +26,10 @@ module State =
         (fun (s: State) -> s.CharacterSkills),
         (fun v (s: State) -> { s with CharacterSkills = v })
 
+    let genreMarkets_ =
+        (fun (s: State) -> s.GenreMarkets),
+        (fun v (s: State) -> { s with GenreMarkets = v })
+
     let today_ =
         (fun (s: State) -> s.Today), (fun v (s: State) -> { s with Today = v })
 
@@ -40,11 +44,6 @@ module Band =
     let pastMembers_ =
         (fun (b: Band) -> b.PastMembers),
         (fun v (b: Band) -> { b with PastMembers = v })
-
-module Character =
-    let id_ =
-        (fun (c: Character) -> c.Id),
-        (fun v (c: Character) -> { c with Id = v })
 
 module BankAccount =
     let holder_ =
@@ -71,6 +70,11 @@ module BandRepertoire =
     let releasedAlbums_ =
         (fun (br: BandRepertoire) -> br.ReleasedAlbums),
         (fun v (br: BandRepertoire) -> { br with ReleasedAlbums = v })
+
+module Character =
+    let id_ =
+        (fun (c: Character) -> c.Id),
+        (fun v (c: Character) -> { c with Id = v })
 
 module FromState =
     module Albums =
@@ -103,6 +107,10 @@ module FromState =
 
         /// Lens into the past members of a specific band given the state and its id.
         let pastMembers_ id = band_ id >?> Band.pastMembers_
+
+    module GenreMarkets =
+        /// Lens into a specific genre market given its genre ID.
+        let genreMarket_ id = State.genreMarkets_ >-> Map.key_ id
 
     module Songs =
         /// Lenses to the unfinished field of a specific band in its repertoire.

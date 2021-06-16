@@ -37,7 +37,11 @@ let dummyAlbum =
 
 let dummyUnreleasedAlbum = UnreleasedAlbum dummyAlbum
 
-let dummyReleasedAlbum = ReleasedAlbum(dummyAlbum, dummyToday)
+let dummyReleasedAlbum =
+    { Album = dummyAlbum
+      ReleaseDate = dummyToday
+      MaxDailyStreams = 1000
+      Hype = 1.0 }
 
 let dummyStudio =
     { Id = Identity.create ()

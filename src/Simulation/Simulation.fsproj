@@ -13,6 +13,7 @@
     <Compile Include="Queries\Bands.fs" />
     <Compile Include="Queries\Songs.fs" />
     <Compile Include="Queries\Calendar.fs" />
+    <Compile Include="Queries\GenreMarkets.fs" />
     <Compile Include="Time\AdvanceTime.fs" />
     <Compile Include="Studio/ReleaseAlbum.fs" />
     <Compile Include="Studio/RecordAlbum.fs" />

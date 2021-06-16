@@ -68,5 +68,13 @@ module Unreleased =
 
 module Released =
     /// Transforms a given unreleased album into its released status.
-    let fromUnreleased (UnreleasedAlbum album) releaseDate =
-        ReleasedAlbum(album, releaseDate)
+    let fromUnreleased
+        (UnreleasedAlbum album)
+        releaseDate
+        maxDailyStreams
+        hype
+        =
+        { Album = album
+          ReleaseDate = releaseDate
+          MaxDailyStreams = maxDailyStreams
+          Hype = hype }
