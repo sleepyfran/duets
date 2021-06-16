@@ -31,6 +31,11 @@ module Albums =
         |> Optic.get releasedAlbumLens
         |> Option.defaultValue Map.empty
 
+    /// Returns all released albums by all bands, organized by each band.
+    let allReleased state =
+        state.BandRepertoire.ReleasedAlbums
+        |> Map.map (fun _ -> List.ofMapValues)
+
     /// Returns the average quality of the songs in the album.
     let quality album =
         album.TrackList

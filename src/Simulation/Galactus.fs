@@ -4,18 +4,23 @@
 module Simulation.Galactus
 
 open Entities
+open Simulation.Albums.DailyUpdate
 open Simulation.Skills.ImproveSkills
 open Simulation.Time.AdvanceTime
+open Simulation.Queries
+
+let private runTimeDependentEffects state time =
+    match Calendar.dayMomentOf time with
+    | Morning -> dailyUpdate state
+    | _ -> []
 
 let private run state effect =
     match effect with
-    | SongStarted (band, _) ->
-        improveBandSkillsAfterComposing state band
-        |> List.append [ effect ]
-    | SongImproved (band, _) ->
-        improveBandSkillsAfterComposing state band
-        |> List.append [ effect ]
-    | _ -> [ effect ]
+    | SongStarted (band, _) -> improveBandSkillsAfterComposing state band
+    | SongImproved (band, _) -> improveBandSkillsAfterComposing state band
+    | TimeAdvanced date -> runTimeDependentEffects state date
+    | _ -> []
+    |> List.append [ effect ]
 
 /// Returns how many times the time has to be advanced for the given effect.
 let private timeAdvanceOfEffect effect =

@@ -33,6 +33,11 @@ module State =
     let today_ =
         (fun (s: State) -> s.Today), (fun v (s: State) -> { s with Today = v })
 
+module Album =
+    let streams_ =
+        (fun (a: ReleasedAlbum) -> a.Streams),
+        (fun v (a: ReleasedAlbum) -> { a with Streams = v })
+
 module Band =
     let id_ =
         (fun (c: Band) -> c.Id), (fun v (c: Band) -> { c with Id = v })

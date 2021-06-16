@@ -14,6 +14,10 @@
     <Compile Include="Queries\Songs.fs" />
     <Compile Include="Queries\Calendar.fs" />
     <Compile Include="Queries\GenreMarkets.fs" />
+    <Compile Include="Albums\DailyStreams.fs" />
+    <Compile Include="Albums\Hype.fs" />
+    <Compile Include="Albums\Revenue.fs" />
+    <Compile Include="Albums\DailyUpdate.fs" />
     <Compile Include="Time\AdvanceTime.fs" />
     <Compile Include="Studio/ReleaseAlbum.fs" />
     <Compile Include="Studio/RecordAlbum.fs" />

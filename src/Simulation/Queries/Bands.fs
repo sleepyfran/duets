@@ -5,6 +5,10 @@ module Bands =
     open Common
     open Entities
 
+    /// Returns the band given its ID.
+    let byId state bandId =
+        state.Bands |> Map.find bandId
+    
     /// Returns the currently selected band in the game.
     let currentBand state =
         state.Bands |> Map.find state.CurrentBandId

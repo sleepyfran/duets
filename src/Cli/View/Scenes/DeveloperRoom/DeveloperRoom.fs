@@ -2,6 +2,7 @@ module Cli.View.Scenes.DeveloperRoom
 
 open Cli.View.Actions
 open Entities
+open Simulation.Time.AdvanceTime
 open Simulation.Queries
 
 #if DEBUG
@@ -51,6 +52,13 @@ and processCommand state command =
                 |> Seq.map Effect
 
             yield SceneAfterKey DeveloperRoom
+        | "tick" ->
+            yield
+                advanceTimeOnce state.Today
+                |> TimeAdvanced
+                |> Effect
+                
+            yield Scene DeveloperRoom
         | _ -> yield Scene Map
     }
 #endif
