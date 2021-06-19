@@ -73,11 +73,11 @@ and processRecord state studio band name selectedSongs =
 
                 yield SceneAfterKey Map
             | Ok (album, effects) ->
-                yield! recordWithProgressBar state studio band album effects
+                yield! recordWithProgressBar studio band album effects
         | _ -> yield NoOp
     }
 
-and recordWithProgressBar state studio band album effects =
+and recordWithProgressBar studio band album effects =
     seq {
         yield
             ProgressBar
@@ -88,9 +88,7 @@ and recordWithProgressBar state studio band album effects =
                   StepDuration = 3<second>
                   Async = true }
 
-        yield!
-            Simulation.Galactus.runMultiple state effects
-            |> Seq.map Effect
+        yield! Seq.map Effect effects
 
         yield
             StudioPromptToRelease(

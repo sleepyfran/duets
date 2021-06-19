@@ -29,9 +29,7 @@ let rec promptToReleaseAlbum onCancel state studio band unreleasedAlbum =
 and handleReleaseConfirmation onCancel state studio band album confirmed =
     seq {
         if confirmed then
-            yield!
-                Simulation.Galactus.runOne state (releaseAlbum state band album)
-                |> Seq.map Effect
+            yield releaseAlbum state band album |> Effect
 
             yield SceneAfterKey <| Studio studio
         else

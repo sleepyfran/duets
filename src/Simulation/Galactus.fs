@@ -43,9 +43,12 @@ let private timeAdvanceOfEffects effects =
 /// one, which should trigger an improvement in the band's skills.
 let runOne state effect =
     run state effect
-    |> List.append [ timeAdvanceOfEffect effect
-                     |> advanceTimeTimes state.Today
-                     |> TimeAdvanced ]
+    |> List.append (
+        timeAdvanceOfEffect effect
+        |> advanceDayMoment state.Today
+        |> List.map (run state)
+        |> List.concat
+    )
 
 /// Takes multiple effects and runs them through `runOne` combining all
 /// the resulting effects into a list.
@@ -53,6 +56,9 @@ let runMultiple state effects =
     effects
     |> List.map (run state)
     |> List.concat
-    |> List.append [ timeAdvanceOfEffects effects
-                     |> advanceTimeTimes state.Today
-                     |> TimeAdvanced ]
+    |> List.append (
+        timeAdvanceOfEffects effects
+        |> advanceDayMoment state.Today
+        |> List.map (run state)
+        |> List.concat
+    )

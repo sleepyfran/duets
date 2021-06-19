@@ -1,6 +1,7 @@
 module Cli.View.Scenes.DeveloperRoom
 
 open Cli.View.Actions
+open Common
 open Entities
 open Simulation.Time.AdvanceTime
 open Simulation.Queries
@@ -52,13 +53,19 @@ and processCommand state command =
                 |> Seq.map Effect
 
             yield SceneAfterKey DeveloperRoom
-        | "tick" ->
-            yield
-                advanceTimeOnce state.Today
-                |> TimeAdvanced
-                |> Effect
-                
+        | command when command.StartsWith "tick" ->
+            let times =
+                match parseParams command with
+                | [| times |] -> int times
+                | _ -> 1
+
+            yield!
+                advanceDayMoment state.Today times
+                |> Seq.map Effect
+
             yield Scene DeveloperRoom
         | _ -> yield Scene Map
     }
+
+and parseParams (command: string) = command.Split ' ' |> Array.skip 1
 #endif
