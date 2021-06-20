@@ -1,4 +1,4 @@
-module Simulation.Setup.StartGame
+module Simulation.Setup
 
 open Entities
 open Simulation.Market

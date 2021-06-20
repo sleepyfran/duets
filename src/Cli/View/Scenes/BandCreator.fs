@@ -3,7 +3,7 @@ module Cli.View.Scenes.BandCreator
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
-open Simulation.Setup.StartGame
+open Simulation.Setup
 open Entities
 
 let rec bandCreator (character: Character) =

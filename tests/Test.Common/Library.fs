@@ -5,7 +5,7 @@ open Aether.Operators
 open Common
 open Fugit.Months
 open Entities
-open Simulation.Setup.StartGame
+open Simulation.Setup
 
 let dummyCharacter =
     Character.from "Test" 24 Other |> Result.unwrap
