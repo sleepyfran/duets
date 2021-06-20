@@ -2,6 +2,7 @@ namespace Simulation.Queries
 
 module Albums =
     open Aether
+    open Common
     open Entities
 
     /// Returns all unreleased albums by the given band. If no unreleased albums
@@ -29,3 +30,15 @@ module Albums =
         state
         |> Optic.get releasedAlbumLens
         |> Option.defaultValue Map.empty
+
+    /// Returns all released albums by all bands, organized by each band.
+    let allReleased state =
+        state.BandRepertoire.ReleasedAlbums
+        |> Map.map (fun _ -> List.ofMapValues)
+
+    /// Returns the average quality of the songs in the album.
+    let quality album =
+        album.TrackList
+        |> List.map (fun (_, quality) -> float quality)
+        |> List.average
+        |> Math.roundToNearest

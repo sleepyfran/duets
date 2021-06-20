@@ -21,6 +21,7 @@
         <Compile Include="Bands\FireMember.Tests.fs" />
         <Compile Include="Bank\Transfer.Tests.fs" />
         <Compile Include="Bank\Queries.Tests.fs" />
+        <Compile Include="Market\GenreMarket.Tests.fs" />
         <Compile Include="Time\AdvanceTime.Tests.fs" />
         <Compile Include="Songs\ComposeSong.Tests.fs" />
         <Compile Include="Songs\ImproveSong.Tests.fs" />
@@ -30,6 +31,7 @@
         <Compile Include="Studio\RecordAlbum.Tests.fs" />
         <Compile Include="Studio\ReleaseAlbum.Tests.fs" />
         <Compile Include="Studio\RenameAlbum.Tests.fs" />
+        <Compile Include="Galactus.Tests.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

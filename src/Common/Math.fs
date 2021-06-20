@@ -5,5 +5,10 @@ module Common.Math
 let clamp (min: int) (max: int) (value: int) =
     System.Math.Clamp(value, min, max)
 
+/// Wraps Math.Clamp, which returns a clamped value between the inclusive range
+/// of min and max.
+let clampFloat (min: float) (max: float) (value: float) =
+    System.Math.Clamp(value, min, max)
+
 /// Rounds a float to its nearest int.
 let roundToNearest (flt: float) = System.Math.Round(flt) |> int

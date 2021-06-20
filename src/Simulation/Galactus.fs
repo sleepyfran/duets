@@ -4,18 +4,34 @@
 module Simulation.Galactus
 
 open Entities
+open Simulation.Albums.DailyUpdate
+open Simulation.Market
 open Simulation.Skills.ImproveSkills
 open Simulation.Time.AdvanceTime
+open Simulation.Queries
+
+let private runYearlyEffects state time =
+    if Calendar.isFirstMomentOfYear time then
+        [ state.GenreMarkets |> GenreMarket.update ]
+    else
+        []
+
+let private runWeeklyEffects state time =
+    match Calendar.dayMomentOf time with
+    | Morning -> dailyUpdate state
+    | _ -> []
+
+let private runTimeDependentEffects state time =
+    runWeeklyEffects state time
+    |> (@) (runYearlyEffects state time)
 
 let private run state effect =
     match effect with
-    | SongStarted (band, _) ->
-        improveBandSkillsAfterComposing state band
-        |> List.append [ effect ]
-    | SongImproved (band, _) ->
-        improveBandSkillsAfterComposing state band
-        |> List.append [ effect ]
-    | _ -> [ effect ]
+    | SongStarted (band, _) -> improveBandSkillsAfterComposing state band
+    | SongImproved (band, _) -> improveBandSkillsAfterComposing state band
+    | TimeAdvanced date -> runTimeDependentEffects state date
+    | _ -> []
+    |> List.append [ effect ]
 
 /// Returns how many times the time has to be advanced for the given effect.
 let private timeAdvanceOfEffect effect =
@@ -38,16 +54,9 @@ let private timeAdvanceOfEffects effects =
 /// one, which should trigger an improvement in the band's skills.
 let runOne state effect =
     run state effect
-    |> List.append [ timeAdvanceOfEffect effect
-                     |> advanceTimeTimes state.Today
-                     |> TimeAdvanced ]
-
-/// Takes multiple effects and runs them through `runOne` combining all
-/// the resulting effects into a list.
-let runMultiple state effects =
-    effects
-    |> List.map (run state)
-    |> List.concat
-    |> List.append [ timeAdvanceOfEffects effects
-                     |> advanceTimeTimes state.Today
-                     |> TimeAdvanced ]
+    |> List.append (
+        timeAdvanceOfEffect effect
+        |> advanceDayMoment state.Today
+        |> List.map (run state)
+        |> List.concat
+    )

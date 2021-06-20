@@ -16,6 +16,12 @@ let dayMomentOf (date: Date) =
     | 0 -> Midnight
     | _ -> Dawn
 
+/// Determines whether the given date is the first day of the year or not.
+let isFirstMomentOfYear (date: Date) =
+    date.Day = 1
+    && date.Month = 1
+    && dayMomentOf date = Dawn
+
 /// Returns the given date with the hour set to the specified day moment.
 let withDayMoment dayMoment (date: Date) =
     match dayMoment with

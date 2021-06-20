@@ -67,6 +67,22 @@ module Unreleased =
             (fun _ -> Ok <| UnreleasedAlbum { album with Name = name })
 
 module Released =
+    /// Updates an already released album with the new amount of streams and
+    /// hype.
+    let update album streams hype =
+        { album with
+              Streams = streams
+              Hype = hype }
+
     /// Transforms a given unreleased album into its released status.
-    let fromUnreleased (UnreleasedAlbum album) releaseDate =
-        ReleasedAlbum(album, releaseDate)
+    let fromUnreleased
+        (UnreleasedAlbum album)
+        releaseDate
+        maxDailyStreams
+        hype
+        =
+        { Album = album
+          ReleaseDate = releaseDate
+          Streams = 0
+          MaxDailyStreams = maxDailyStreams
+          Hype = hype }

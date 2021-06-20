@@ -18,6 +18,7 @@ let from name genre members =
             { Id = BandId <| Identity.create ()
               Name = name
               Genre = genre
+              Fame = 1
               Members = members
               PastMembers = [] }
 
@@ -27,6 +28,7 @@ let empty =
     { Id = BandId <| Identity.create ()
       Name = ""
       Genre = ""
+      Fame = 1
       Members = []
       PastMembers = [] }
 

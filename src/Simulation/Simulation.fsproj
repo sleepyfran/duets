@@ -13,12 +13,17 @@
     <Compile Include="Queries\Bands.fs" />
     <Compile Include="Queries\Songs.fs" />
     <Compile Include="Queries\Calendar.fs" />
+    <Compile Include="Queries\GenreMarkets.fs" />
+    <Compile Include="Albums\DailyStreams.fs" />
+    <Compile Include="Albums\Hype.fs" />
+    <Compile Include="Albums\Revenue.fs" />
+    <Compile Include="Albums\DailyUpdate.fs" />
     <Compile Include="Time\AdvanceTime.fs" />
     <Compile Include="Studio/ReleaseAlbum.fs" />
     <Compile Include="Studio/RecordAlbum.fs" />
     <Compile Include="Studio/RenameAlbum.fs" />
     <Compile Include="Bank\Transfer.fs" />
-    <Compile Include="Setup\StartGame.fs" />
+    <Compile Include="Market\GenreMarket.fs" />
     <Compile Include="Bands\Members.fs" />
     <Compile Include="Skills\ImproveSkills.fs" />
     <Compile Include="Songs\Composition\Common.fs" />
@@ -26,6 +31,7 @@
     <Compile Include="Songs\Composition\ImproveSong.fs" />
     <Compile Include="Songs\Composition\FinishSong.fs" />
     <Compile Include="Songs\Composition\DiscardSong.fs" />
+    <Compile Include="Setup\StartGame.fs" />
     <Compile Include="Galactus.fs" />
   </ItemGroup>
   <ItemGroup>

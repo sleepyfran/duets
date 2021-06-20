@@ -37,6 +37,19 @@ module Types =
     /// Defines the percentage compatibility of two genres between 0 and 100.
     type GenreCompatibility = Genre * Genre * byte
 
+    /// Defines the potential market of a genre by:
+    /// - Market point: modifier between 0.1 and 5 that, multiplied by 4 million
+    ///   gives the total amount of people willing to listen to the genre.
+    /// - Fluctuation: modifier between 1 and 1.1 that indicates how much the
+    ///   market point will vary yearly. This fluctuation can randomly happen
+    ///   in a positive or negative way.
+    type GenreMarket =
+        { MarketPoint: float
+          Fluctuation: float }
+
+    /// Defines the genre market by genre.
+    type GenreMarketByGenre = Map<Genre, GenreMarket>
+
     /// Defines the gender of the character.
     type Gender =
         | Male
@@ -120,6 +133,7 @@ module Types =
         { Id: BandId
           Name: string
           Genre: Genre
+          Fame: int
           Members: CurrentMember list
           PastMembers: PastMember list }
 
@@ -184,8 +198,15 @@ module Types =
     /// Defines an album that was recorded but hasn't been released.
     type UnreleasedAlbum = UnreleasedAlbum of Album
 
-    /// Defines an album that has been released.
-    type ReleasedAlbum = ReleasedAlbum of album: Album * releaseDate: Date
+    /// Defines an album that has been released, with the maximum amounts of
+    /// daily streams that the album can have plus the current hype of the album
+    /// which together determine the amount of streams that it will have.
+    type ReleasedAlbum =
+        { Album: Album
+          ReleaseDate: Date
+          Streams: int
+          MaxDailyStreams: int
+          Hype: float }
 
     /// Collection of skills by character.
     type CharacterSkills = Map<CharacterId, Map<SkillId, SkillWithLevel>>
@@ -252,7 +273,8 @@ module Types =
           CurrentBandId: BandId
           BandRepertoire: BandRepertoire
           BankAccounts: Map<BankAccountHolder, BankAccount>
-          Today: Date }
+          Today: Date
+          GenreMarkets: GenreMarketByGenre }
 
     /// Defines an effect that happened after an action in the game. For example
     /// calling composeSong will create a `SongComposed` effect.
@@ -267,9 +289,12 @@ module Types =
         | MemberFired of Band * CurrentMember * PastMember
         | SkillImproved of Character * Diff<SkillWithLevel>
         | MoneyTransferred of BankAccountHolder * BankTransaction
+        | MoneyEarned of BankAccountHolder * BankTransaction
         | AlbumRecorded of Band * UnreleasedAlbum
         | AlbumRenamed of Band * UnreleasedAlbum
         | AlbumReleased of Band * ReleasedAlbum
+        | AlbumReleasedUpdate of Band * ReleasedAlbum
+        | GenreMarketsUpdated of GenreMarketByGenre
 
     /// Indicates whether the song can be further improved or if it has reached its
     /// maximum quality and thus cannot be improved. All variants wrap an int that

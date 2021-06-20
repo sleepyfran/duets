@@ -22,7 +22,7 @@ module Albums =
         applyToUnreleased map band.Id addUnreleasedAlbum
 
     let addReleased map (band: Band) releasedAlbum =
-        let (ReleasedAlbum(album, _)) = releasedAlbum
+        let album = releasedAlbum.Album
         let addReleasedAlbum = Map.add album.Id releasedAlbum
         applyToReleased map band.Id addReleasedAlbum
 
@@ -30,3 +30,8 @@ module Albums =
         let removeUnreleasedAlbum = Map.remove albumId
 
         applyToUnreleased map band.Id removeUnreleasedAlbum
+
+    let removeReleased map (band: Band) albumId =
+        let removeReleasedAlbum = Map.remove albumId
+
+        applyToReleased map band.Id removeReleasedAlbum

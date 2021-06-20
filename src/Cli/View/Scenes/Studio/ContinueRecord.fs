@@ -102,10 +102,7 @@ and handleNameChange state studio band album name =
             }
         | Ok (album, effect) ->
             seq {
-                yield!
-                    Simulation.Galactus.runOne state effect
-                    |> Seq.map Effect
-
+                yield Effect effect
                 yield! actionPrompt state studio band album
             }
         | _ -> seq { yield NoOp }
