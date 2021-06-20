@@ -115,6 +115,8 @@ and fromConstant constant =
             (dayMomentName dayMoment)
             characterBalance
             bandBalance
+    | CommonInvalidLength ->
+        "[bold red]Not a valid length. Try the format [grey]mm:ss[/] as in 6:55 (6 minutes, 55 seconds)[/]"
     | MainMenuIncompatibleSavegame ->
         "[bold red]Your savegame is incompatible or malformed and was ignored[/]"
     | MainMenuPrompt -> "Select an option to begin"
@@ -170,7 +172,7 @@ and fromConstant constant =
     | ComposeSongTitlePrompt ->
         "Creating a new song, how are you going to [bold blue]name[/] it?"
     | ComposeSongLengthPrompt ->
-        "How [bold blue]long[/] is it going to be? (in seconds)"
+        "How [bold blue]long[/] is it going to be? (format [bold]minutes:seconds[/])"
     | ComposeSongGenrePrompt ->
         "What [bold blue]genre[/] will the song have? [bold]Keep in mind that selecting a different genre that the main one of your band might reduce quality[/]"
     | ComposeSongVocalStylePrompt ->

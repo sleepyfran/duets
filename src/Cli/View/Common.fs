@@ -34,7 +34,9 @@ let finishedSongsSelectorOf state (band: Band) =
             { Id = id.ToString()
               Text =
                   Literal
-                      $"{fs.Name} (Quality: {quality}%%, Length: {fs.Length})" })
+                      $"{fs.Name} (Quality: {quality}%%, Length: {
+                                                                      fs.Length.Minutes
+                      }:{fs.Length.Seconds})" })
 
 /// Returns the finished song that was selected in the choice prompt.
 let finishedSongFromSelection state (band: Band) (selection: Choice) =

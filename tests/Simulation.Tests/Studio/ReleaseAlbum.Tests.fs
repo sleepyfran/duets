@@ -80,7 +80,9 @@ let ``releaseAlbum should properly handle low fame and scores`` () =
             FinishedSong
                 { Id = SongId <| Identity.create ()
                   Name = "Test 1"
-                  Length = 100<second>
+                  Length =
+                      { Minutes = 1<minute>
+                        Seconds = 6<second> }
                   VocalStyle = Instrumental
                   Genre = "Test" },
             2<quality>
@@ -89,7 +91,9 @@ let ``releaseAlbum should properly handle low fame and scores`` () =
               FinishedSong
                   { Id = SongId <| Identity.create ()
                     Name = "Test 2"
-                    Length = 100<second>
+                    Length =
+                        { Minutes = 1<minute>
+                          Seconds = 6<second> }
                     VocalStyle = Instrumental
                     Genre = "Test" },
               1<quality>

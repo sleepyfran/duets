@@ -20,7 +20,7 @@ and lengthPrompt state name =
         yield
             Prompt
                 { Title = TextConstant ComposeSongLengthPrompt
-                  Content = NumberPrompt(genrePrompt state name) }
+                  Content = LengthPrompt(genrePrompt state name) }
     }
 
 and genrePrompt state name length =
@@ -52,11 +52,7 @@ and vocalStylePrompt state name length selectedGenre =
                       <| MandatoryChoiceHandler
                           { Choices = vocalStyleOptions
                             Handler =
-                                handleSong
-                                    state
-                                    name
-                                    (length * 1<second>)
-                                    selectedGenre.Id } }
+                                handleSong state name length selectedGenre.Id } }
     }
 
 and handleSong state name length genre selectedVocalStyle =

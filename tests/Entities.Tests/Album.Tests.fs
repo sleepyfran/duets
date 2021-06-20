@@ -53,7 +53,12 @@ let ``Album.recordType should return single if only one song is given`` () =
 let ``Album.recordType should return EP if given more than one song but its length is less than 25 minutes``
     ()
     =
-    [ 1400<second>; 134<second>; 1<second> ]
+    [ { Minutes = 23<minute>
+        Seconds = 10<second> }
+      { Minutes = 3<minute>
+        Seconds = 0<second> }
+      { Minutes = 0<minute>
+        Seconds = 10<second> } ]
     |> List.iter
         (fun length ->
             Album.recordType [ dummyRecordedSong
@@ -65,9 +70,12 @@ let ``Album.recordType should return EP if given more than one song but its leng
 let ``Album.recordType should return LP if given more than one song and its length is more than 25 minutes``
     ()
     =
-    [ 1501<second>
-      10034<second>
-      1680<second> ]
+    [ { Minutes = 25<minute>
+        Seconds = 10<second> }
+      { Minutes = 35<minute>
+        Seconds = 10<second> }
+      { Minutes = 72<minute>
+        Seconds = 4<second> } ]
     |> List.iter
         (fun length ->
             Album.recordType [ dummyRecordedSong

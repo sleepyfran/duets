@@ -35,6 +35,7 @@ type TextConstant =
         dayMoment: DayMoment *
         characterBalance: int<dd> *
         bandBalance: int<dd>
+    | CommonInvalidLength
     | MainMenuIncompatibleSavegame
     | MainMenuPrompt
     | MainMenuNewGame

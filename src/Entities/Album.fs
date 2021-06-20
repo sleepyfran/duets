@@ -13,7 +13,8 @@ let private twentyFiveMinutes = 25 * 60<second>
 /// Determines the length of the given track list.
 let length trackList =
     List.fold
-        (fun albumLength ((FinishedSong s), _) -> albumLength + s.Length)
+        (fun albumLength ((FinishedSong s), _) ->
+            albumLength + Time.Length.inSeconds s.Length)
         0<second>
         trackList
 

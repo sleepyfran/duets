@@ -15,8 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Album.fs"/>
-    <Compile Include="Program.fs"/>
+    <Compile Include="Album.Tests.fs" />
+    <Compile Include="Time.Tests.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>

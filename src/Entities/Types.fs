@@ -147,12 +147,21 @@ module Types =
         | Growl
         | Screamo
 
+    /// Measure for a minute of time.
+    [<Measure>]
+    type minute
+
+    /// Length of a song or an album as minutes and seconds.
+    type Length =
+        { Minutes: int<minute>
+          Seconds: int<second> }
+
     /// Defines a song composed by a band in its most basic form, there's more
     /// specific types depending on the type of information we want to query.
     type Song =
         { Id: SongId
           Name: string
-          Length: int<second>
+          Length: Length
           VocalStyle: VocalStyle
           Genre: Genre }
 

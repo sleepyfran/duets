@@ -76,6 +76,7 @@ and PromptContent =
     | ConfirmationPrompt of PromptHandler<bool>
     | NumberPrompt of PromptHandler<int>
     | TextPrompt of PromptHandler<string>
+    | LengthPrompt of PromptHandler<Length>
 
 /// Defines a handler that takes whatever result the prompt is giving out and
 /// returns another chain of actions.

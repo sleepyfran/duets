@@ -2,6 +2,9 @@ module Cli.View.Renderer
 
 open Cli.View.Actions
 open Cli.View.TextConstants
+open Common
+open Entities
+open Spectre.Console
 open Spectre.Console
 open Text
 
@@ -53,6 +56,19 @@ let renderMultiChoicePrompt title (content: MultiChoiceHandler) =
     |> List.ofSeq
     |> List.map (fun c -> c.Id)
 
+let renderLengthPrompt title =
+    let mutable lengthPrompt = TextPrompt<string>(toString title)
+
+    let validate (length: string) =
+        match Time.Length.parse length with
+        | Ok _ -> ValidationResult.Success()
+        | Error _ ->
+            ValidationResult.Error(toString <| TextConstant CommonInvalidLength)
+
+    lengthPrompt.Validator <- Func.toFunc validate
+
+    AnsiConsole.Prompt(lengthPrompt)
+
 let private list item = [ item ]
 
 /// Renders the specified prompt and asks the user for a response depending
@@ -79,6 +95,7 @@ let renderPrompt prompt =
     | TextPrompt _ ->
         AnsiConsole.Ask<string>(toString prompt.Title)
         |> list
+    | LengthPrompt _ -> renderLengthPrompt prompt.Title |> list
 
 let private sleepForProgressBar content =
     async { do! Async.Sleep(content.StepDuration * 1000 / 4 |> int) }

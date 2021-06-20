@@ -144,6 +144,16 @@ let rec runWith chain =
                     | NumberPrompt handler ->
                         handler (input |> List.exactlyOne |> int)
                     | TextPrompt handler -> handler (List.exactlyOne input)
+                    | LengthPrompt handler ->
+                        List.exactlyOne input
+                        |> fun length ->
+                            match Time.Length.parse length with
+                            | Ok length -> handler length
+                            | _ ->
+                                raise (
+                                    invalidOp
+                                        "The given input was not a correct length. This should've caught by the validator but apparently it didn't :)"
+                                )
                     |> runWith
             | Message message -> renderMessage message
             | Figlet text -> renderFiglet text
