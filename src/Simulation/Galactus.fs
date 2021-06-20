@@ -11,10 +11,8 @@ open Simulation.Time.AdvanceTime
 open Simulation.Queries
 
 let private runYearlyEffects state time =
-    if Calendar.isFirstDayOfYear time then
-        [ state.GenreMarkets
-          |> GenreMarket.update
-          |> GenreMarketsUpdated ]
+    if Calendar.isFirstMomentOfYear time then
+        [ state.GenreMarkets |> GenreMarket.update ]
     else
         []
 
@@ -58,19 +56,6 @@ let runOne state effect =
     run state effect
     |> List.append (
         timeAdvanceOfEffect effect
-        |> advanceDayMoment state.Today
-        |> List.map (run state)
-        |> List.concat
-    )
-
-/// Takes multiple effects and runs them through `runOne` combining all
-/// the resulting effects into a list.
-let runMultiple state effects =
-    effects
-    |> List.map (run state)
-    |> List.concat
-    |> List.append (
-        timeAdvanceOfEffects effects
         |> advanceDayMoment state.Today
         |> List.map (run state)
         |> List.concat

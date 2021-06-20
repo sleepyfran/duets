@@ -3,6 +3,7 @@
 open Aether
 open Aether.Operators
 open Common
+open Fugit.Months
 open Entities
 open Simulation.Setup.StartGame
 
@@ -23,6 +24,9 @@ let dummyRecordedSongWithLength length =
 
 let dummyToday = Calendar.gameBeginning
 
+let dummyTodayMiddleOfYear =
+    June 20 2021 |> Calendar.withDayMoment Dawn
+
 let dummyCharacterBankAccount =
     BankAccount.forCharacter dummyCharacter.Id
 
@@ -40,6 +44,7 @@ let dummyUnreleasedAlbum = UnreleasedAlbum dummyAlbum
 let dummyReleasedAlbum =
     { Album = dummyAlbum
       ReleaseDate = dummyToday
+      Streams = 0
       MaxDailyStreams = 1000
       Hype = 1.0 }
 
@@ -107,3 +112,10 @@ let addFunds account amount state =
         List.append transactions [ Incoming amount ]
 
     Optic.map (Lenses.FromState.BankAccount.transactionsOf_ account) add state
+
+/// Adds the specified album to the band's released albums.
+let addReleasedAlbum (band: Band) album =
+    let releasedLenses =
+        Lenses.FromState.Albums.releasedByBand_ band.Id
+
+    Optic.map releasedLenses (Map.add album.Album.Id album)

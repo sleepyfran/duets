@@ -34,6 +34,7 @@ let ``releaseAlbum should create effect with correct streams and hype for single
             band,
             { Album = single
               ReleaseDate = dummyToday
+              Streams = 0
               MaxDailyStreams = 3000000
               Hype = 1.0 }
         ))
@@ -49,6 +50,7 @@ let ``releaseAlbum should create effect with correct streams and hype for EP``
             band,
             { Album = ep
               ReleaseDate = dummyToday
+              Streams = 0
               MaxDailyStreams = 2100000
               Hype = 1.0 }
         ))
@@ -64,6 +66,7 @@ let ``releaseAlbum should create effect with correct streams and hype for LP``
             band,
             { Album = lp
               ReleaseDate = dummyToday
+              Streams = 0
               MaxDailyStreams = 3000000
               Hype = 1.0 }
         ))
@@ -103,6 +106,7 @@ let ``releaseAlbum should properly handle low fame and scores`` () =
             lowFameBand,
             { Album = lowScoreAlbum
               ReleaseDate = dummyToday
+              Streams = 0
               MaxDailyStreams = 2400
               Hype = 1.0 }
         ))

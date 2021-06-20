@@ -31,3 +31,4 @@ let create (genres: Genre list) =
 let update (genreMarket: GenreMarketByGenre) =
     genreMarket
     |> Map.map (fun _ -> updateGenreMarket)
+    |> GenreMarketsUpdated
