@@ -8,6 +8,7 @@
     <Compile Include="Albums.fs" />
     <Compile Include="Bank.fs" />
     <Compile Include="Calendar.fs" />
+    <Compile Include="Market.fs" />
     <Compile Include="Songs.fs" />
     <Compile Include="Bands.fs" />
     <Compile Include="Skills.fs" />

@@ -3,6 +3,9 @@ module Entities.Calendar
 open System
 open Fugit.Months
 
+/// Determines whether the given date is the first day of the year or not.
+let isFirstDayOfYear (date: Date) = date.Day = 1 && date.Month = 1
+
 /// Returns the day moment of the given date. Defaults to dawn if the time does
 /// not have an equivalent.
 let dayMomentOf (date: Date) =

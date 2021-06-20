@@ -1,7 +1,7 @@
 module Simulation.Setup.StartGame
 
 open Entities
-open Simulation.Setup.GenreMarket
+open Simulation.Market
 
 /// Sets up the initial game state based on the data provided by the user in
 /// the setup wizard.
@@ -17,5 +17,5 @@ let startGame character (band: Band) =
             (Band band.Id, BankAccount.forBand band.Id) ]
           |> Map.ofSeq
       Today = Calendar.gameBeginning
-      GenreMarkets = createGenreMarkets (Database.genres ()) }
+      GenreMarkets = GenreMarket.create (Database.genres ()) }
     |> GameCreated

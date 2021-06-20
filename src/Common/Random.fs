@@ -2,6 +2,9 @@ module Common.Random
 
 let private seededRandom = System.Random()
 
+/// Gives back a random boolean.
+let boolean () = seededRandom.NextDouble() >= 0.5
+
 /// Returns a random non-negative number.
 let random () = seededRandom.Next()
 

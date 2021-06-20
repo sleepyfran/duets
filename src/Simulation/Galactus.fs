@@ -5,14 +5,27 @@ module Simulation.Galactus
 
 open Entities
 open Simulation.Albums.DailyUpdate
+open Simulation.Market
 open Simulation.Skills.ImproveSkills
 open Simulation.Time.AdvanceTime
 open Simulation.Queries
 
-let private runTimeDependentEffects state time =
+let private runYearlyEffects state time =
+    if Calendar.isFirstDayOfYear time then
+        [ state.GenreMarkets
+          |> GenreMarket.update
+          |> GenreMarketsUpdated ]
+    else
+        []
+
+let private runWeeklyEffects state time =
     match Calendar.dayMomentOf time with
     | Morning -> dailyUpdate state
     | _ -> []
+
+let private runTimeDependentEffects state time =
+    runWeeklyEffects state time
+    |> (@) (runYearlyEffects state time)
 
 let private run state effect =
     match effect with

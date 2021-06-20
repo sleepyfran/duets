@@ -85,3 +85,5 @@ let apply effect =
         let album = releasedAlbum.Album
         Albums.removeReleased staticAgent.Map band album.Id
         Albums.addReleased staticAgent.Map band releasedAlbum
+    | GenreMarketsUpdated genreMarkets ->
+        Market.set staticAgent.Map genreMarkets

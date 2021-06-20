@@ -23,8 +23,7 @@
     <Compile Include="Studio/RecordAlbum.fs" />
     <Compile Include="Studio/RenameAlbum.fs" />
     <Compile Include="Bank\Transfer.fs" />
-    <Compile Include="Setup\GenreMarket.fs" />
-    <Compile Include="Setup\StartGame.fs" />
+    <Compile Include="Market\GenreMarket.fs" />
     <Compile Include="Bands\Members.fs" />
     <Compile Include="Skills\ImproveSkills.fs" />
     <Compile Include="Songs\Composition\Common.fs" />
@@ -32,6 +31,7 @@
     <Compile Include="Songs\Composition\ImproveSong.fs" />
     <Compile Include="Songs\Composition\FinishSong.fs" />
     <Compile Include="Songs\Composition\DiscardSong.fs" />
+    <Compile Include="Setup\StartGame.fs" />
     <Compile Include="Galactus.fs" />
   </ItemGroup>
   <ItemGroup>
