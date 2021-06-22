@@ -70,6 +70,7 @@ type TextConstant =
     | RehearsalRoomTitle
     | RehearsalRoomCompose
     | RehearsalRoomManage
+    | RehearsalRoomStatistics
     | RehearsalRoomPrompt
     | ComposePrompt
     | ComposeSong
@@ -163,3 +164,14 @@ type TextConstant =
     | StudioContinueRecordActionPromptEditName
     | StudioContinueRecordActionPromptRelease
     | StudioContinueRecordAlbumRenamed of albumName: string
+    | StatisticsTitle
+    | StatisticsSectionPrompt
+    | StatisticsSectionBand
+    | StatisticsSectionAlbums
+    | StatisticsBandName of name: string
+    | StatisticsBandStartDate of date: Date
+    | StatisticsBandFame of fame: int
+    | StatisticsAlbumName of name: string * albumType: AlbumType
+    | StatisticsAlbumReleaseDate of date: Date
+    | StatisticsAlbumStreams of streams: int
+    | StatisticsAlbumRevenue of amount: int<dd>

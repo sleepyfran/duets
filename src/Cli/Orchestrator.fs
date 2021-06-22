@@ -24,6 +24,7 @@ let actionsFromScene state scene =
     | Map -> Map.mapScene ()
     | Bank -> Bank.Root.bankScene state
     | Studio studio -> Studio.Root.studioScene state studio
+    | Statistics -> Statistics.Root.statisticsScene ()
 
 let actionsFromSubScene state subScene =
     match subScene with
@@ -51,6 +52,8 @@ let actionsFromSubScene state subScene =
             studio
             band
             album
+    | StatisticsOfBand -> Statistics.Band.bandStatisticsSubScene state
+    | StatisticsOfAlbums -> Statistics.Albums.albumsStatisticsSubScene state
 
 let actionsFromEffect effect =
     match effect with
@@ -117,6 +120,7 @@ let rec runWith chain =
     |> Seq.iter
         (fun action ->
             match action with
+            | Separator -> separator ()
             | Prompt prompt ->
                 renderPrompt prompt
                 |> fun input ->

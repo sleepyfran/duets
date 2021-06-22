@@ -6,6 +6,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Constants.fs" />
     <Compile Include="Queries/Albums.fs" />
     <Compile Include="Queries/Bank.fs" />
     <Compile Include="Queries\Skills.fs" />

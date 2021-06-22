@@ -8,6 +8,7 @@ open Entities
 /// Each action represents something to be rendered with all the information
 /// to do so, without caring how it is processed.
 type Action =
+    | Separator
     | Message of Text
     | Figlet of Text
     | Prompt of Prompt
@@ -35,6 +36,7 @@ and Scene =
     | Management
     | Bank
     | Studio of Studio
+    | Statistics
 
 /// Defines the index of all sub-scenes available. Sub-scenes belong to a Scene
 /// and thus do not clear the screen or save a game.
@@ -55,6 +57,8 @@ and SubScene =
         studio: Studio *
         band: Band *
         album: UnreleasedAlbum
+    | StatisticsOfBand
+    | StatisticsOfAlbums
 
 /// Encapsulates text that can either be defined by a text constant, which is
 /// resolved by the UI layer, or a string constant that is just passed from this

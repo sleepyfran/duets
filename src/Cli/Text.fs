@@ -48,6 +48,7 @@ and objectPronounForGender gender =
     | Female -> "Her"
     | Other -> "Them"
 
+/// Returns the correct possessive for the given gender (his, her, its).
 and possessiveAdjectiveForGender gender =
     match gender with
     | Male -> "His"
@@ -75,6 +76,16 @@ and dayMomentName dayMoment =
     | Dusk -> "🌝 Dusk"
     | Night -> "🌝 Night"
     | Midnight -> "🌝 Midnight"
+
+/// Returns the formatted name for an album type.
+and albumType t =
+    match t with
+    | Single -> "Single"
+    | EP -> "EP"
+    | LP -> "LP"
+
+/// Formats a number with the thousands specifier.
+and formatNumber (amount: 'a) = String.Format("{0:#,0}", amount)
 
 and fromConstant constant =
     match constant with
@@ -108,13 +119,13 @@ and fromConstant constant =
         )
     | CommonStatusBar (date, dayMoment, characterBalance, bandBalance) ->
         sprintf
-            "[bold]%i/%i/%i [blue]%s[/] | Character's balance: [green]%i$d[/] | Band's balance: [green]%i$d[/][/]"
+            "[bold]%i/%i/%i [blue]%s[/] | Character's balance: [green]%s$d[/] | Band's balance: [green]%s$d[/][/]"
             date.Day
             date.Month
             date.Year
             (dayMomentName dayMoment)
-            characterBalance
-            bandBalance
+            (formatNumber characterBalance)
+            (formatNumber bandBalance)
     | CommonInvalidLength ->
         "[bold red]Not a valid length. Try the format [grey]mm:ss[/] as in 6:55 (6 minutes, 55 seconds)[/]"
     | MainMenuIncompatibleSavegame ->
@@ -166,6 +177,7 @@ and fromConstant constant =
     | RehearsalRoomTitle -> "Rehearsal Room"
     | RehearsalRoomCompose -> "Compose"
     | RehearsalRoomManage -> "Manage band"
+    | RehearsalRoomStatistics -> "Statistics"
     | RehearsalRoomPrompt -> "What do you want to do today?"
     | ComposePrompt -> "What do you want to compose?"
     | ComposeSong -> "Compose new song"
@@ -277,11 +289,10 @@ and fromConstant constant =
         )
     | BankTitle -> "Bank"
     | BankWelcome (characterBalance, bandBalance) ->
-        String.Format(
-            "[bold blue]You[/] currently have [green]{0}d$[/]. [bold blue]Your band[/] has: [green]{1}d$[/]",
-            characterBalance,
-            bandBalance
-        )
+        sprintf
+            "[bold blue]You[/] currently have [green]%sd$[/]. [bold blue]Your band[/] has: [green]%sd$[/]"
+            (formatNumber characterBalance)
+            (formatNumber bandBalance)
     | BankPrompt -> "What do you want to do?"
     | BankTransferToBand -> "Transfer money to band"
     | BankTransferFromBand -> "Transfer money from band"
@@ -293,13 +304,13 @@ and fromConstant constant =
         match transaction with
         | Incoming amount ->
             sprintf
-                "[bold green]Transferred %id$ to %s's account[/]"
-                amount
+                "[bold green]Transferred %sd$ to %s's account[/]"
+                (formatNumber amount)
                 (accountHolderName holder)
         | Outgoing amount ->
             sprintf
-                "[bold red]Transferred %id$ from %s's account[/]"
-                amount
+                "[bold red]Transferred %sd$ from %s's account[/]"
+                (formatNumber amount)
                 (accountHolderName holder)
     | BankTransferNotEnoughFunds ->
         "[bold red]Not enough funds in the sender account[/]"
@@ -310,9 +321,9 @@ and fromConstant constant =
     | StudioTitle -> "Studio"
     | StudioWelcomePrice (name, price) ->
         sprintf
-            "Welcome to [bold blue]%s[/]. The recording session costs [bold red]%id$[/] per [bold]song[/]"
+            "Welcome to [bold blue]%s[/]. The recording session costs [bold red]%sd$[/] per [bold]song[/]"
             name
-            price
+            (formatNumber price)
     | StudioPrompt -> "What do you want to do?"
     | StudioStartRecord -> "Start a new record"
     | StudioContinueRecord -> "Continue a record"
@@ -329,9 +340,9 @@ and fromConstant constant =
         "[bold red]The name of the album is too long[/]"
     | StudioCreateErrorNotEnoughMoney (bandBalance, studioBill) ->
         sprintf
-            "[bold red]Your band doesn't have enough money to pay the studio fee. The studio requires %id$, but your band only has %id$[/]"
-            studioBill
-            bandBalance
+            "[bold red]Your band doesn't have enough money to pay the studio fee. The studio requires %sd$, but your band only has %sd$[/]"
+            (formatNumber studioBill)
+            (formatNumber bandBalance)
     | StudioCreateAlbumRecorded albumName ->
         sprintf "[bold green]Your band just finished recording %s![/]" albumName
     | StudioCreateProgressEatingSnacks -> "[deepskyblue3]Eating some snacks[/]"
@@ -347,3 +358,18 @@ and fromConstant constant =
     | StudioContinueRecordActionPromptRelease -> "Release"
     | StudioContinueRecordAlbumRenamed albumName ->
         sprintf "[bold green]The album was renamed to \"%s\"[/]" albumName
+    | StatisticsTitle -> "Statistics"
+    | StatisticsSectionPrompt -> "What data do you want to visualize?"
+    | StatisticsSectionBand -> "Band's statistics"
+    | StatisticsSectionAlbums -> "Albums' statistics"
+    | StatisticsBandName name -> $"[bold invert]{name}[/]"
+    | StatisticsBandStartDate date -> $"Playing since [bold blue]{date.Year}[/]"
+    | StatisticsBandFame fame -> $"Fame: [bold green]{fame}[/]"
+    | StatisticsAlbumName (name, albumT) ->
+        $"[bold invert]{name}[/] [dim]({albumType albumT})[/]"
+    | StatisticsAlbumReleaseDate date ->
+        $"Released on [bold blue]{date.Day}/{date.Month}/{date.Year}[/]"
+    | StatisticsAlbumStreams streams ->
+        $"Streams so far: [bold blue]{formatNumber streams}[/]"
+    | StatisticsAlbumRevenue revenue ->
+        $"Generated revenue: [bold blue]{formatNumber revenue}d$[/]"

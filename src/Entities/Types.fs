@@ -131,6 +131,7 @@ module Types =
     /// player or the ones that are created automatically to fill the game world.
     type Band =
         { Id: BandId
+          StartDate: Date
           Name: string
           Genre: Genre
           Fame: int

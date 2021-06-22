@@ -6,7 +6,7 @@ type BandValidationError =
     | NoMembersGiven
 
 /// Creates a band given its name, genre and members, if possible.
-let from name genre members =
+let from name genre members today =
     if String.length name < 1 then
         Error NameTooShort
     else if String.length name > 100 then
@@ -16,6 +16,7 @@ let from name genre members =
     else
         Ok
             { Id = BandId <| Identity.create ()
+              StartDate = today
               Name = name
               Genre = genre
               Fame = 1
@@ -26,6 +27,7 @@ let from name genre members =
 /// upon. Generates a valid ID.
 let empty =
     { Id = BandId <| Identity.create ()
+      StartDate = Calendar.gameBeginning
       Name = ""
       Genre = ""
       Fame = 1

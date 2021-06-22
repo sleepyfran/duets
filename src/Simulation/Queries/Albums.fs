@@ -4,6 +4,7 @@ module Albums =
     open Aether
     open Common
     open Entities
+    open Simulation.Constants
 
     /// Returns all unreleased albums by the given band. If no unreleased albums
     /// could be found, returns an empty map.
@@ -21,8 +22,8 @@ module Albums =
         unreleasedByBand state bandId
         |> Map.tryFind albumId
 
-    /// Returns all released albums by the given band. If no released albums
-    /// could be found, returns an empty map.
+    /// Returns all released albums by the given band ordered by release date.
+    /// If no released albums could be found, returns an empty list.
     let releasedByBand state bandId =
         let releasedAlbumLens =
             Lenses.FromState.Albums.releasedByBand_ bandId
@@ -30,6 +31,9 @@ module Albums =
         state
         |> Optic.get releasedAlbumLens
         |> Option.defaultValue Map.empty
+        |> List.ofSeq
+        |> List.map (fun kvp -> kvp.Value)
+        |> List.sortBy (fun album -> album.ReleaseDate)
 
     /// Returns all released albums by all bands, organized by each band.
     let allReleased state =
@@ -42,3 +46,9 @@ module Albums =
         |> List.map (fun (_, quality) -> float quality)
         |> List.average
         |> Math.roundToNearest
+
+    /// Calculates the generated revenue of the album.
+    let revenue album =
+        float album.Streams * revenuePerStream
+        |> Math.roundToNearest
+        |> (*) 1<dd>
