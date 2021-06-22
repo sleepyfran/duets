@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Compile Include="Albums\DailyUpdate.Tests.fs" />
         <Compile Include="Bands\HireMember.Tests.fs" />
         <Compile Include="Bands\FireMember.Tests.fs" />
         <Compile Include="Bank\Transfer.Tests.fs" />

@@ -13,7 +13,7 @@ let private bandDailyUpdate state bandId albumsByBand =
     albumsByBand
     |> List.map
         (fun album ->
-            let streams = dailyStreams album
+            let streams = dailyStreams album + album.Streams
             let revenue = albumRevenue streams
             let recalculatedHype = reduceDailyHype album
 

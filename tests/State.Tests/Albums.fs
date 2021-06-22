@@ -60,4 +60,4 @@ let ``AlbumReleased should remove unreleased album and add it as released`` () =
     |> should haveCount 0
 
     Albums.releasedByBand (State.Root.get ()) dummyBand.Id
-    |> should haveCount 1
+    |> should haveLength 1
