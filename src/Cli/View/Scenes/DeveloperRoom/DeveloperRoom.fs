@@ -19,11 +19,6 @@ let rec developerRoom state =
 and processCommand state command =
     let character = Characters.playableCharacter state
     let band = Bands.currentBand state
-
-    let characterMember =
-        Bands.currentMemberById state character.Id
-        |> Option.get
-
     let characterAccount = Character character.Id
 
     seq {
@@ -42,15 +37,24 @@ and processCommand state command =
             yield SceneAfterKey DeveloperRoom
         | "madskillz" ->
             yield!
-                [ Composition
-                  Genre(band.Genre)
-                  Instrument(characterMember.Role) ]
-                |> Seq.map (Skills.characterSkillWithLevel state character.Id)
+                band.Members
                 |> Seq.map
-                    (fun (skill, level) ->
-                        (character, Diff((skill, level), (skill, 100))))
-                |> Seq.map SkillImproved
-                |> Seq.map Effect
+                    (fun currentMember ->
+                        [ Composition
+                          Genre(band.Genre)
+                          Instrument(currentMember.Role) ]
+                        |> Seq.map (
+                            Skills.characterSkillWithLevel
+                                state
+                                currentMember.Character.Id
+                        )
+                        |> Seq.map
+                            (fun (skill, level) ->
+                                (currentMember.Character,
+                                 Diff((skill, level), (skill, 100))))
+                        |> Seq.map SkillImproved
+                        |> Seq.map Effect)
+                |> Seq.concat
 
             yield SceneAfterKey DeveloperRoom
         | command when command.StartsWith "tick" ->
