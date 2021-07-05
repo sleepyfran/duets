@@ -11,7 +11,7 @@ module Skills =
 
         let skillLens =
             Lenses.State.characterSkills_
-            >-> Map.key_ character.Id
+            >-> Map.keyWithDefault_ character.Id Map.empty
 
         let addSkill map = Map.add skill.Id skillWithLevel map
 

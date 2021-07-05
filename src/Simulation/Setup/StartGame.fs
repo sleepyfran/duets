@@ -7,7 +7,7 @@ open Simulation.Market
 /// the setup wizard.
 let startGame character (band: Band) =
     { Character = character
-      CharacterSkills = [ (character.Id, Map.empty) ] |> Map.ofSeq
+      CharacterSkills = Map.empty
       CurrentBandId = band.Id
       Bands = [ (band.Id, band) ] |> Map.ofList
       BandRepertoire = Band.Repertoire.emptyFor band.Id

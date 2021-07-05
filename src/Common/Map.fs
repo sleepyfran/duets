@@ -7,5 +7,13 @@ open Aether
 /// whether it already exists or not.
 let key_ (k: 'k) : Prism<Map<'k, 'v>, 'v> = Map.tryFind k, Map.add k
 
+/// Prism to a value associated with a key in a map that returns a default value
+/// if the key could not be found.
+let keyWithDefault_ (k: 'k) (defaultValue: 'v) : Prism<Map<'k, 'v>, 'v> =
+    Map.tryFind k
+    >> Option.defaultValue defaultValue
+    >> Some,
+    Map.add k
+
 /// Returns the head of the map.
 let head (map: Map<'k, 'v>) = map |> Seq.head |> fun kvp -> kvp.Value
