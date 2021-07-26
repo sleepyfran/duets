@@ -15,15 +15,23 @@ module Types =
     type GameScreen = NoOp
 
     /// Defines the global state before the user gets past the pre-game screens.
-    type PreGameState = {
-        Screen: PreGameScreen
-        Savegame: SavegameState
-    }
+    type PreGameState =
+        { NavigationStack: PreGameScreen list
+          Savegame: SavegameState }
 
     /// Defines the global game state common to all screens in the game once
     /// the user gets past the pre-game screens.
-    type GameState = { Screen: GameScreen; State: State }
+    type GameState =
+        { NavigationStack: GameScreen list
+          State: State }
 
     type UiState =
         | PreGameState of PreGameState
         | GameState of GameState
+        
+    /// Defines the global messages that child components can send up to the
+    /// parent for executing global commands that affect the overall UI state.
+    [<RequireQualifiedAccess>]
+    type GlobalMsg =
+        | StartGame of State
+        | None

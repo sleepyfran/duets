@@ -6,6 +6,7 @@ open Avalonia.FuncUI.DSL
 open Elmish
 open System
 
+open Entities
 open Ui.Types
 
 /// Current version of the game as loaded from the fsproj.
@@ -21,10 +22,9 @@ type Msg =
     | LoadSavegame
     | SetSavegame of Savegame.SavegameState
     | NewGame
-    | Exit
 
 let init () =
-    ({ Screen = Start
+    ({ NavigationStack = [ Start ]
        Savegame = Savegame.NotAvailable },
      Cmd.ofMsg LoadSavegame)
 
@@ -32,12 +32,15 @@ let update msg state =
     match msg with
     | LoadSavegame ->
         Savegame.load ()
-        |> fun savegame -> (state, Cmd.ofMsg (SetSavegame savegame))
-    | SetSavegame savegame -> ({ state with Savegame = savegame }, Cmd.none)
-    | NewGame -> ({ state with Screen = Creator }, Cmd.none)
-    | Exit ->
-        Environment.Exit(0)
-        (state, Cmd.none)
+        |> fun savegame ->
+            (state, Cmd.ofMsg (SetSavegame savegame), GlobalMsg.None)
+    | SetSavegame savegame ->
+        ({ state with Savegame = savegame }, Cmd.none, GlobalMsg.None)
+    | NewGame ->
+        ({ state with
+               NavigationStack = [ Creator ] @ state.NavigationStack },
+         Cmd.none,
+         GlobalMsg.None)
 
 let private button attrs =
     Button.create [
@@ -101,11 +104,6 @@ let view (state: PreGameState) dispatch =
                     button [
                         Button.content "Load game"
                         Button.isEnabled (isSavegameAvailable state)
-                    ]
-
-                    button [
-                        Button.content "Exit"
-                        Button.onClick (fun _ -> dispatch Exit)
                     ]
                 ]
             ]
