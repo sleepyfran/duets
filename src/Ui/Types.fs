@@ -10,6 +10,7 @@ module Types =
     type PreGameScreen =
         | Start
         | Creator
+
     /// Defines all the screens inside the game.
     type GameScreen = NoOp
 
