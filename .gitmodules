@@ -1,0 +1,3 @@
+[submodule "deps/nez"]
+	path = deps/nez
+	url = https://github.com/prime31/Nez.git
