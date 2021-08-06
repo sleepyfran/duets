@@ -43,12 +43,6 @@ type TextConstant =
     | MainMenuLoadGame
     | MainMenuExit
     | MainMenuSavegameNotAvailable
-    | CharacterCreatorInitialPrompt
-    | CharacterCreatorGenderPrompt
-    | CharacterCreatorGenderMale
-    | CharacterCreatorGenderFemale
-    | CharacterCreatorGenderOther
-    | CharacterCreatorAgePrompt
     | BandCreatorInitialPrompt
     | BandCreatorGenrePrompt
     | BandCreatorInstrumentPrompt
@@ -57,6 +51,13 @@ type TextConstant =
         bandName: string *
         bandGenre: string *
         instrument: string
+    | CharacterCreatorTitle
+    | CharacterCreatorCharacterNameLabel
+    | CharacterCreatorCharacterAgeLabel
+    | CharacterCreatorCharacterGenderLabel
+    | CharacterCreatorGenderMale
+    | CharacterCreatorGenderFemale
+    | CharacterCreatorGenderOther
     | CreatorErrorCharacterNameTooShort
     | CreatorErrorCharacterNameTooLong
     | CreatorErrorCharacterAgeTooYoung

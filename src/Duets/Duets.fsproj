@@ -11,6 +11,10 @@
     <ItemGroup>
         <Compile Include="Text\TextConstants.fs" />
         <Compile Include="Text\Text.Eng.fs" />
+        <Compile Include="Scenes\Skin.fs" />
+        <Compile Include="Scenes\Base\Table.fs" />
+        <Compile Include="Scenes\Base\UiScene.fs" />
+        <Compile Include="Scenes\CharacterCreatorScene.fs" />
         <Compile Include="Scenes\MainMenuScene.fs" />
         <Compile Include="Entrypoint.fs" />
     </ItemGroup>

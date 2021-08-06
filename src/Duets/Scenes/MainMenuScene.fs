@@ -1,62 +1,32 @@
 module Duets.Scenes.MainMenu
 
-open System
 open Nez
+open System
 
-open Nez.UI
+open Duets.Scenes.Base
+open Duets.Scenes.CharacterCreatorScene
+open Duets.Text.Constants
 
 type MainMenuScene() =
-    inherit Scene()
+    inherit UiScene()
 
-    [<DefaultValue>]
-    val mutable Canvas: UICanvas
+    override this.Initialize() = base.Initialize()
 
-    [<DefaultValue>]
-    val mutable UiRoot: Table
+    override this.SetupView() =
+        this.UiRoot.AddText(TextConstant GameName) TextSize.Title centered
 
-    override this.Initialize() =
-        base.Initialize()
+        this.UiRoot.AddButton
+            (TextConstant MainMenuNewGame)
+            (fun () ->
+                Core.StartSceneTransition(
+                    FadeTransition(fun () -> CharacterCreatorScene() :> Scene)
+                )
+                |> ignore)
+            centered
 
-        this.Canvas <- this.CreateEntity("ui").AddComponent<UICanvas>()
-        this.SetupView()
-
-    member this.SetupView() =
-        let skin = Skin.CreateDefaultSkin()
-
-        this.UiRoot <- this.Canvas.Stage.AddElement(Table())
-
-        this
-            .UiRoot
-            .Defaults()
-            .SetPadTop(10.0f)
-            .SetMinWidth(170.0f)
-            .SetMinHeight(30.0f)
-        |> ignore
-
-        this.UiRoot.SetFillParent(true).Center() |> ignore
-
-        this
-            .UiRoot
-            .Add(Label("Duets").SetFontScale(10.0f))
-            .Center()
-        |> ignore
-
-        this.UiRoot.Row() |> ignore
-
-        this
-            .UiRoot
-            .Add(TextButton("Create new game", skin))
-            .GetElement<TextButton>()
-            .add_OnClicked (fun _ -> printf "Huh")
-
-        this.UiRoot.Row() |> ignore
-
-        this
-            .UiRoot
-            .Add(TextButton("Exit", skin))
-            .GetElement<TextButton>()
-            .add_OnClicked (fun _ -> Environment.Exit 0)
-
-        this.UiRoot.Row() |> ignore
+        (this.UiRoot.AddButton
+            (TextConstant MainMenuExit)
+            (fun () -> Environment.Exit 0))
+            centered
 
         ()

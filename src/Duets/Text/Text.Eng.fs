@@ -130,17 +130,16 @@ and fromConstant constant =
     | MainMenuPrompt -> "Select an option to begin"
     | MainMenuNewGame -> "New game"
     | MainMenuLoadGame -> "Load game"
-    | MainMenuExit -> "[bold]Exit[/]"
+    | MainMenuExit -> "Exit"
     | MainMenuSavegameNotAvailable ->
         "[red]No savegame available. Create a new game[/]"
-    | CharacterCreatorInitialPrompt ->
-        "Creating a new game, what's the [bold blue]name[/] of your character?"
-    | CharacterCreatorGenderPrompt -> "What's their [bold blue]gender[/]?"
+    | CharacterCreatorTitle -> "Character creator"
+    | CharacterCreatorCharacterNameLabel -> "Character name"
+    | CharacterCreatorCharacterAgeLabel -> "Character age"
+    | CharacterCreatorCharacterGenderLabel -> "Character gender"
     | CharacterCreatorGenderMale -> "Male"
     | CharacterCreatorGenderFemale -> "Female"
     | CharacterCreatorGenderOther -> "Other"
-    | CharacterCreatorAgePrompt ->
-        "How [bold blue]old[/] are they? (Minimum 18)"
     | BandCreatorInitialPrompt ->
         "Let's create your first band. What's the [bold blue]band's name[/]?"
     | BandCreatorGenrePrompt ->
