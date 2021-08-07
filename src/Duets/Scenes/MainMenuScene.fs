@@ -1,27 +1,22 @@
 module Duets.Scenes.MainMenu
 
-open Nez
 open System
 
 open Duets.Scenes.Base
-open Duets.Scenes.CharacterCreatorScene
 open Duets.Text.Constants
+open Duets.Types
 
-type MainMenuScene() =
+type MainMenuScene(navigator: INavigator) =
     inherit UiScene()
 
     override this.Initialize() = base.Initialize()
 
-    override this.SetupView() =
+    override this.OnStart() =
         this.UiRoot.AddText(TextConstant GameName) TextSize.Title centered
 
         this.UiRoot.AddButton
             (TextConstant MainMenuNewGame)
-            (fun () ->
-                Core.StartSceneTransition(
-                    FadeTransition(fun () -> CharacterCreatorScene() :> Scene)
-                )
-                |> ignore)
+            (fun () -> navigator.NavigateWithTransition CharacterCreator)
             centered
 
         (this.UiRoot.AddButton

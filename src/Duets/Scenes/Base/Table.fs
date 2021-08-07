@@ -51,8 +51,11 @@ type Table() =
     /// Adds a button to the root view and applies the given styleFn to the
     /// wrapping cell.
     member this.AddButton text handler styleFn =
-        let btn = createButton text handler
-        this.Add(btn) |> styleFn |> ignore
+        createButton text handler
+        |> this.Add
+        |> styleFn
+        |> ignore
+
         this.NewRow()
 
     /// Adds a new text input to the table with the specified label text and

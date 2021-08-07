@@ -43,14 +43,6 @@ type TextConstant =
     | MainMenuLoadGame
     | MainMenuExit
     | MainMenuSavegameNotAvailable
-    | BandCreatorInitialPrompt
-    | BandCreatorGenrePrompt
-    | BandCreatorInstrumentPrompt
-    | BandCreatorConfirmationPrompt of
-        characterName: string *
-        bandName: string *
-        bandGenre: string *
-        instrument: string
     | CharacterCreatorTitle
     | CharacterCreatorCharacterNameLabel
     | CharacterCreatorCharacterAgeLabel
@@ -58,12 +50,13 @@ type TextConstant =
     | CharacterCreatorGenderMale
     | CharacterCreatorGenderFemale
     | CharacterCreatorGenderOther
-    | CreatorErrorCharacterNameTooShort
-    | CreatorErrorCharacterNameTooLong
-    | CreatorErrorCharacterAgeTooYoung
-    | CreatorErrorCharacterAgeTooOld
-    | CreatorErrorBandNameTooShort
-    | CreatorErrorBandNameTooLong
+    | CharacterCreatorCreateLabel
+    | BandCreatorTitle
+    | BandCreatorPrompt of characterName: string
+    | BandCreatorBandName
+    | BandCreatorBandGenre
+    | BandCreatorCharacterInstrument of characterName: string
+    | BandCreatorCreateLabel
     | MapTitle
     | MapPrompt
     | MapOptionRehearsalRoom

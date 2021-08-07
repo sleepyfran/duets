@@ -9,13 +9,17 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Types.fs" />
         <Compile Include="Text\TextConstants.fs" />
         <Compile Include="Text\Text.Eng.fs" />
         <Compile Include="Scenes\Skin.fs" />
         <Compile Include="Scenes\Base\Table.fs" />
         <Compile Include="Scenes\Base\UiScene.fs" />
+        <Compile Include="Scenes\GameScene.fs" />
+        <Compile Include="Scenes\BandCreatorScene.fs" />
         <Compile Include="Scenes\CharacterCreatorScene.fs" />
         <Compile Include="Scenes\MainMenuScene.fs" />
+        <Compile Include="Scenes\SceneNavigator.fs" />
         <Compile Include="Entrypoint.fs" />
     </ItemGroup>
 
@@ -27,7 +31,11 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\deps\nez\Nez.Portable\Nez.MG38.csproj" />
+        <ProjectReference Include="..\Database\Database.fsproj" />
         <ProjectReference Include="..\Entities\Entities.fsproj" />
+        <ProjectReference Include="..\Savegame\Savegame.fsproj" />
+        <ProjectReference Include="..\Simulation\Simulation.fsproj" />
+        <ProjectReference Include="..\State\State.fsproj" />
     </ItemGroup>
 
     <ItemGroup>

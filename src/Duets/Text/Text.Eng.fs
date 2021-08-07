@@ -4,10 +4,14 @@ open System
 open Entities
 
 let verbConjugationByGender =
-    dict [ (Have,
-            dict [ (Male, "Has")
-                   (Female, "Has")
-                   (Other, "Have") ]) ]
+    dict [
+        (Have,
+         dict [
+             (Male, "Has")
+             (Female, "Has")
+             (Other, "Have")
+         ])
+    ]
 
 /// Transforms TextConstants into strings.
 let rec toString text =
@@ -140,31 +144,15 @@ and fromConstant constant =
     | CharacterCreatorGenderMale -> "Male"
     | CharacterCreatorGenderFemale -> "Female"
     | CharacterCreatorGenderOther -> "Other"
-    | BandCreatorInitialPrompt ->
-        "Let's create your first band. What's the [bold blue]band's name[/]?"
-    | BandCreatorGenrePrompt ->
-        "What [bold blue]genre[/] are they going to be playing? You can always change this later"
-    | BandCreatorInstrumentPrompt ->
-        "And lastly, what will you be [bold blue]playing[/]?"
-    | BandCreatorConfirmationPrompt (characterName,
-                                     bandName,
-                                     bandGenre,
-                                     instrument) ->
-        String.Format(
-            "You'll be playing as [bold blue]{0}[/] in the band [bold blue]{1}[/] playing [bold blue]{2}[/] as a [bold blue]{3}[/]",
-            characterName,
-            bandName,
-            bandGenre,
-            instrument
-        )
-    | CreatorErrorCharacterNameTooShort ->
-        "[red]Your character's name is too short[/]"
-    | CreatorErrorCharacterNameTooLong ->
-        "[red]Your character's name is too long[/]"
-    | CreatorErrorCharacterAgeTooYoung -> "[red]Your character is too young[/]"
-    | CreatorErrorCharacterAgeTooOld -> "[red]Your character is too old[/]"
-    | CreatorErrorBandNameTooShort -> "[red]Your band's name is too short[/]"
-    | CreatorErrorBandNameTooLong -> "[red]Your band's name is too long[/]"
+    | CharacterCreatorCreateLabel -> "Create character"
+    | BandCreatorTitle -> "Band creator"
+    | BandCreatorPrompt characterName ->
+        $"Let's create your first band, {characterName}"
+    | BandCreatorBandName -> "Band name"
+    | BandCreatorBandGenre -> "Band genre"
+    | BandCreatorCharacterInstrument characterName ->
+        $"{characterName}'s role in the band"
+    | BandCreatorCreateLabel -> "Start game!"
     | MapTitle -> "Map"
     | MapPrompt -> "Where are you heading?"
     | MapOptionRehearsalRoom -> "Band's rehearsal room"
@@ -246,12 +234,7 @@ and fromConstant constant =
             (verbConjugationForGender Have gender).ToLower()
         )
     | HireMemberSkillLine (id, level) ->
-        String.Format(
-            "[bold]{0}[/] - [{1}]{2}[/]",
-            skillName id,
-            "blue",
-            level
-        )
+        String.Format("[bold]{0}[/] - [{1}]{2}[/]", skillName id, "blue", level)
     | HireMemberConfirmation gender ->
         String.Format("Do you want to hire {0}?", objectPronounForGender gender)
     | HireMemberHired -> "[bold green]You just hired a new member![/]"

@@ -3,13 +3,13 @@ module Duets.Scenes.Base.UiScene
 
 open Nez
 
+open Duets.Types
+
 /// A base scene to be used when the scene contains any UI. Setups a canvas and
 /// a root to add UI elements to.
 [<AbstractClass>]
 type UiScene() =
     inherit Scene()
-
-    abstract member SetupView : unit -> unit
 
     [<DefaultValue>]
     val mutable Canvas: UICanvas
@@ -31,5 +31,3 @@ type UiScene() =
             .SetMinWidth(170.0f)
             .SetMinHeight(30.0f)
         |> ignore
-
-        this.SetupView()

@@ -1,19 +1,18 @@
-module Duets.Scenes.CharacterCreatorScene
-
-open Nez.UI
+module Duets.Scenes.CharacterCreator
 
 open Entities
 open Duets.Scenes.Base
 open Duets.Text.Constants
+open Duets.Types
 
-type CharacterCreatorScene() =
+type CharacterCreatorScene(navigator: INavigator) =
     inherit UiScene()
 
     let mutable characterName = ""
     let mutable characterAge = 18
     let mutable characterGender = Gender.Male
 
-    override this.SetupView() =
+    override this.OnStart() =
         this.UiRoot.AddText
             (TextConstant CharacterCreatorTitle)
             TextSize.Title
@@ -39,9 +38,11 @@ type CharacterCreatorScene() =
             centered
 
         this.UiRoot.AddButton
-            (Literal "Do")
+            (TextConstant CharacterCreatorCreateLabel)
             (fun () ->
-                printfn $"{characterName} {characterAge} {characterGender}")
+                match Character.from characterName characterAge characterGender with
+                | Ok character -> navigator.Navigate <| BandCreator character
+                | _ -> failwith "TODO")
             centered
 
         ()

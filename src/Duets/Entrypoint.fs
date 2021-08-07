@@ -1,12 +1,14 @@
 module Duets.Entrypoint
 
-open Microsoft.Xna.Framework
+open Duets.Scenes.Navigator
 open Nez
 
 open Duets.Scenes.MainMenu
 
 type Game() =
     inherit Core()
+
+    let navigator = SceneNavigator()
 
     override this.Initialize() =
         base.Initialize()
@@ -16,10 +18,10 @@ type Game() =
         this.Window.IsBorderless <- true
 
         // Load the main menu as the initial scene.
-        Core.Scene <- MainMenuScene()
+        Core.Scene <- MainMenuScene(navigator)
 
 [<EntryPoint>]
-let main argv =
+let main _ =
     let game = new Game()
     game.Run()
     0
