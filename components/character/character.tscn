@@ -1,0 +1,50 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://assets/animations/singer/walking/forward 1.png" type="Texture" id=1]
+[ext_resource path="res://assets/animations/singer/walking/forward 2.png" type="Texture" id=2]
+[ext_resource path="res://assets/animations/singer/walking/forward 3.png" type="Texture" id=3]
+[ext_resource path="res://assets/animations/singer/walking/forward 4.png" type="Texture" id=4]
+[ext_resource path="res://assets/animations/singer/walking/forward 5.png" type="Texture" id=5]
+[ext_resource path="res://assets/animations/singer/walking/forward 6.png" type="Texture" id=6]
+[ext_resource path="res://assets/animations/singer/walking/forward 7.png" type="Texture" id=7]
+[ext_resource path="res://assets/animations/singer/walking/forward 8.png" type="Texture" id=8]
+[ext_resource path="res://assets/animations/singer/walking/backward 7.png" type="Texture" id=9]
+[ext_resource path="res://assets/animations/singer/walking/backward 8.png" type="Texture" id=10]
+[ext_resource path="res://assets/animations/singer/walking/backward 4.png" type="Texture" id=11]
+[ext_resource path="res://assets/animations/singer/walking/backward 5.png" type="Texture" id=12]
+[ext_resource path="res://assets/animations/singer/walking/backward 6.png" type="Texture" id=13]
+[ext_resource path="res://assets/animations/singer/walking/backward 2.png" type="Texture" id=14]
+[ext_resource path="res://assets/animations/singer/walking/backward 3.png" type="Texture" id=15]
+[ext_resource path="res://assets/animations/singer/walking/backward 1.png" type="Texture" id=16]
+[ext_resource path="res://components/character/character.gd" type="Script" id=17]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 16 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 9 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "walk_backward",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "walk_forward",
+"speed": 10.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 26.3342, 56.3625 )
+
+[node name="Character" type="KinematicBody2D"]
+position = Vector2( 0, -17 )
+scale = Vector2( 0.14, 0.14 )
+script = ExtResource( 17 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 11.0704, 3.84325 )
+frames = SubResource( 1 )
+animation = "walk_forward"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -2.72302, 123.061 )
+rotation = 1.5708
+shape = SubResource( 2 )

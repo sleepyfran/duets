@@ -1,0 +1,9 @@
+[gd_scene format=2]
+
+[node name="RoomBackground" type="ColorRect"]
+margin_right = 480.0
+margin_bottom = 320.0
+color = Color( 0.0941176, 0.0666667, 0.0666667, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
