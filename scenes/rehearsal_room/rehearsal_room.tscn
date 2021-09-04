@@ -10,49 +10,52 @@
 [ext_resource path="res://assets/rooms/rehearsal_room/cords.png" type="Texture" id=8]
 [ext_resource path="res://components/instruments/speaker.tscn" type="PackedScene" id=9]
 
-[node name="RehearsalRoom" type="Node2D"]
+[node name="RehearsalRoom" type="YSort"]
 
-[node name="RoomContent" type="Node2D" parent="."]
+[node name="RoomContent" type="StaticBody2D" parent="."]
 
 [node name="Base" type="Sprite" parent="RoomContent"]
 position = Vector2( 239.885, 135 )
 z_index = -1
 texture = ExtResource( 1 )
 
-[node name="Objects" type="YSort" parent="RoomContent"]
+[node name="WallsCollision" type="CollisionPolygon2D" parent="RoomContent"]
+visible = false
+build_mode = 1
+polygon = PoolVector2Array( 159.92, 240.584, 319.947, 240.668, 320.177, 127.414, 159.69, 127.497 )
 
-[node name="Cords" type="Sprite" parent="RoomContent/Objects"]
+[node name="Cords" type="Sprite" parent="."]
 position = Vector2( 240.16, 142.357 )
 z_index = -1
 texture = ExtResource( 8 )
 
-[node name="Mic" parent="RoomContent/Objects" instance=ExtResource( 6 )]
-position = Vector2( 248.149, 208.024 )
+[node name="Mic" parent="." instance=ExtResource( 6 )]
+position = Vector2( 248, 208 )
 scale = Vector2( 1, 1 )
 
-[node name="BassAmp" parent="RoomContent/Objects" instance=ExtResource( 7 )]
-position = Vector2( 295.629, 167 )
+[node name="BassAmp" parent="." instance=ExtResource( 7 )]
+position = Vector2( 295, 167 )
 
-[node name="BassGuitar" parent="RoomContent/Objects" instance=ExtResource( 5 )]
-position = Vector2( 278.997, 171.155 )
+[node name="BassGuitar" parent="." instance=ExtResource( 5 )]
+position = Vector2( 279, 171 )
 scale = Vector2( 1, 1 )
 
-[node name="GuitarAmp" parent="RoomContent/Objects" instance=ExtResource( 4 )]
-position = Vector2( 191.441, 156 )
+[node name="GuitarAmp" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 156 )
 
-[node name="Guitar" parent="RoomContent/Objects" instance=ExtResource( 5 )]
-position = Vector2( 201.558, 171.513 )
+[node name="Guitar" parent="." instance=ExtResource( 5 )]
+position = Vector2( 202, 170 )
 scale = Vector2( 1, 1 )
 
-[node name="RightSpeaker" parent="RoomContent/Objects" instance=ExtResource( 9 )]
-position = Vector2( 279.751, 115 )
+[node name="RightSpeaker" parent="." instance=ExtResource( 9 )]
+position = Vector2( 280, 115 )
 
-[node name="LeftSpeaker" parent="RoomContent/Objects" instance=ExtResource( 9 )]
-position = Vector2( 198.647, 115 )
+[node name="LeftSpeaker" parent="." instance=ExtResource( 9 )]
+position = Vector2( 200, 115 )
 
-[node name="Drums" parent="RoomContent/Objects" instance=ExtResource( 2 )]
-position = Vector2( 238.13, 130 )
+[node name="Drums" parent="." instance=ExtResource( 2 )]
+position = Vector2( 240, 130 )
 scale = Vector2( 1, 1 )
 
-[node name="Character" parent="RoomContent/Objects" instance=ExtResource( 3 )]
+[node name="Character" parent="." instance=ExtResource( 3 )]
 position = Vector2( 222.4, 208.62 )
