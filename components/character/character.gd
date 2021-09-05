@@ -1,6 +1,11 @@
 extends KinematicBody2D
+class_name Character
+
+enum Type { BASSIST, DRUMMER, GUITARIST, SINGER }
 
 export var speed = 50
+export var type = Type.GUITARIST
+
 
 func _physics_process(delta):
 	var velocity = Vector2()  # The player's movement vector.
@@ -18,11 +23,9 @@ func _physics_process(delta):
 	else:
 		$AnimatedSprite.stop()
 		$AnimatedSprite.frame = 0
-		
-	var collision_info = move_and_collide(velocity * delta)
-	if collision_info:
-		print(collision_info.collider_id)
-	
+
+	var _collision_info = move_and_collide(velocity * delta)
+
 	if velocity.x != 0:
 		$AnimatedSprite.animation = "walk_forward"
 		$AnimatedSprite.flip_h = velocity.x < 0

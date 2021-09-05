@@ -1,21 +1,23 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/rooms/rehearsal_room/rehearsal_room.png" type="Texture" id=1]
-[ext_resource path="res://components/instruments/drums.tscn" type="PackedScene" id=2]
-[ext_resource path="res://components/character/character.tscn" type="PackedScene" id=3]
+[ext_resource path="res://components/character/performing/drummer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://components/character/performing/singer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://components/instruments/guitar_amp.tscn" type="PackedScene" id=4]
-[ext_resource path="res://components/instruments/guitar.tscn" type="PackedScene" id=5]
-[ext_resource path="res://components/instruments/mic.tscn" type="PackedScene" id=6]
+[ext_resource path="res://components/character/performing/guitarist.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/rehearsal_room/rehearsal_room_performing.gd" type="Script" id=6]
 [ext_resource path="res://components/instruments/bass_amp.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/rooms/rehearsal_room/cords.png" type="Texture" id=8]
 [ext_resource path="res://components/instruments/speaker.tscn" type="PackedScene" id=9]
+[ext_resource path="res://components/character/performing/bassist.tscn" type="PackedScene" id=10]
 
 [node name="RehearsalRoom" type="YSort"]
+script = ExtResource( 6 )
 
 [node name="RoomContent" type="StaticBody2D" parent="."]
 
 [node name="Base" type="Sprite" parent="RoomContent"]
-position = Vector2( 239.885, 135.208 )
+position = Vector2( 239.885, 135 )
 z_index = -1
 texture = ExtResource( 1 )
 
@@ -29,23 +31,11 @@ position = Vector2( 240.16, 142.357 )
 z_index = -1
 texture = ExtResource( 8 )
 
-[node name="Mic" parent="." instance=ExtResource( 6 )]
-position = Vector2( 248, 208 )
-scale = Vector2( 1, 1 )
-
 [node name="BassAmp" parent="." instance=ExtResource( 7 )]
 position = Vector2( 295, 167 )
 
-[node name="BassGuitar" parent="." instance=ExtResource( 5 )]
-position = Vector2( 279, 171 )
-scale = Vector2( 1, 1 )
-
 [node name="GuitarAmp" parent="." instance=ExtResource( 4 )]
 position = Vector2( 192, 156 )
-
-[node name="Guitar" parent="." instance=ExtResource( 5 )]
-position = Vector2( 202, 170 )
-scale = Vector2( 1, 1 )
 
 [node name="RightSpeaker" parent="." instance=ExtResource( 9 )]
 position = Vector2( 280, 115 )
@@ -53,9 +43,17 @@ position = Vector2( 280, 115 )
 [node name="LeftSpeaker" parent="." instance=ExtResource( 9 )]
 position = Vector2( 200, 115 )
 
-[node name="Drums" parent="." instance=ExtResource( 2 )]
-position = Vector2( 240, 130 )
-scale = Vector2( 1, 1 )
+[node name="Bassist" parent="." instance=ExtResource( 10 )]
+position = Vector2( 285.78, 175.959 )
+frame = 2
 
-[node name="Character" parent="." instance=ExtResource( 3 )]
-position = Vector2( 222.4, 208.62 )
+[node name="Drummer" parent="." instance=ExtResource( 2 )]
+position = Vector2( 240.869, 129.052 )
+
+[node name="Singer" parent="." instance=ExtResource( 3 )]
+position = Vector2( 243.878, 208.867 )
+frame = 10
+
+[node name="Guitarist" parent="." instance=ExtResource( 5 )]
+position = Vector2( 200.878, 170.563 )
+frame = 5

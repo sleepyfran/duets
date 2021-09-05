@@ -1,0 +1,20 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/animations/drummer/drumming/4.png" type="Texture" id=1]
+[ext_resource path="res://assets/animations/drummer/drumming/3.png" type="Texture" id=2]
+[ext_resource path="res://assets/animations/drummer/drumming/2.png" type="Texture" id=3]
+[ext_resource path="res://assets/animations/drummer/drumming/1.png" type="Texture" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 3 ), ExtResource( 2 ), ExtResource( 1 ), ExtResource( 4 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "playing",
+"speed": 5.0
+} ]
+
+[node name="Drummer" type="AnimatedSprite"]
+frames = SubResource( 1 )
+animation = "playing"
+frame = 1
+playing = true

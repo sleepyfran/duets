@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://components/interaction/interaction_ui.gd" type="Script" id=1]
+
+[node name="InteractionUi" type="Control"]
+rect_scale = Vector2( 6, 6 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="KeyHint" type="ColorRect" parent="."]
+margin_right = 40.0
+margin_bottom = 20.0
+color = Color( 0.188235, 0.188235, 0.188235, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="KeyHint"]
+margin_right = 40.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="KeyDescription" type="Label" parent="KeyHint/CenterContainer"]
+margin_left = 1.0
+margin_top = 3.0
+margin_right = 38.0
+margin_bottom = 17.0
+text = "space"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InteractLabel" type="Label" parent="."]
+margin_left = 44.0
+margin_top = 3.73869
+margin_right = 94.0
+margin_bottom = 17.7387
+text = "Interact"
+__meta__ = {
+"_edit_use_anchors_": false
+}
