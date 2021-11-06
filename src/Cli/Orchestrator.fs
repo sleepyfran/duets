@@ -175,6 +175,7 @@ let rec runWith chain =
             | Effect effect ->
                 Simulation.Galactus.runOne (State.Root.get ()) effect
                 |> Seq.tap State.Root.apply
+                |> Seq.tap Log.append
                 |> Seq.map actionsFromEffect
                 |> runWith
             | GameInfo version -> renderGameInfo version

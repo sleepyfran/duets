@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <Compile Include="Savegame.fs" />
+        <Compile Include="Log.fs" />
     </ItemGroup>
 
     <ItemGroup>
