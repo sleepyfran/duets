@@ -35,7 +35,7 @@ let ``releaseAlbum should create effect with correct streams and hype for single
             { Album = single
               ReleaseDate = dummyToday
               Streams = 0
-              MaxDailyStreams = 3000000
+              MaxDailyStreams = 300000
               Hype = 1.0 }
         ))
 
@@ -51,7 +51,7 @@ let ``releaseAlbum should create effect with correct streams and hype for EP``
             { Album = ep
               ReleaseDate = dummyToday
               Streams = 0
-              MaxDailyStreams = 2100000
+              MaxDailyStreams = 210000
               Hype = 1.0 }
         ))
 
@@ -67,12 +67,76 @@ let ``releaseAlbum should create effect with correct streams and hype for LP``
             { Album = lp
               ReleaseDate = dummyToday
               Streams = 0
-              MaxDailyStreams = 3000000
+              MaxDailyStreams = 300000
               Hype = 1.0 }
         ))
 
 [<Test>]
-let ``releaseAlbum should properly handle low fame and scores`` () =
+let ``releaseAlbum should apply proper low fame modifier`` () =
+    let lowFameBand = { band with Fame = 5 }
+
+    releaseAlbum state lowFameBand (UnreleasedAlbum lp)
+    |> should
+        equal
+        (AlbumReleased(
+            lowFameBand,
+            { Album = lp
+              ReleaseDate = dummyToday
+              Streams = 0
+              MaxDailyStreams = 300
+              Hype = 1.0 }
+        ))
+        
+[<Test>]
+let ``releaseAlbum should apply proper average fame modifier`` () =
+    let lowFameBand = { band with Fame = 25 }
+
+    releaseAlbum state lowFameBand (UnreleasedAlbum lp)
+    |> should
+        equal
+        (AlbumReleased(
+            lowFameBand,
+            { Album = lp
+              ReleaseDate = dummyToday
+              Streams = 0
+              MaxDailyStreams = 15000
+              Hype = 1.0 }
+        ))
+        
+[<Test>]
+let ``releaseAlbum should apply proper big fame modifier`` () =
+    let lowFameBand = { band with Fame = 50 }
+
+    releaseAlbum state lowFameBand (UnreleasedAlbum lp)
+    |> should
+        equal
+        (AlbumReleased(
+            lowFameBand,
+            { Album = lp
+              ReleaseDate = dummyToday
+              Streams = 0
+              MaxDailyStreams = 300000
+              Hype = 1.0 }
+        ))
+        
+[<Test>]
+let ``releaseAlbum should apply proper ultra fame modifier`` () =
+    let lowFameBand = { band with Fame = 100 }
+
+    releaseAlbum state lowFameBand (UnreleasedAlbum lp)
+    |> should
+        equal
+        (AlbumReleased(
+            lowFameBand,
+            { Album = lp
+              ReleaseDate = dummyToday
+              Streams = 0
+              MaxDailyStreams = 6000000
+              Hype = 1.0 }
+        ))
+
+[<Test>]
+let ``releaseAlbum should apply proper low score modifier`` () =
     let lowFameBand = { band with Fame = 1 }
 
     let lowScoreTrackList =
@@ -111,6 +175,6 @@ let ``releaseAlbum should properly handle low fame and scores`` () =
             { Album = lowScoreAlbum
               ReleaseDate = dummyToday
               Streams = 0
-              MaxDailyStreams = 2400
+              MaxDailyStreams = 2
               Hype = 1.0 }
         ))
