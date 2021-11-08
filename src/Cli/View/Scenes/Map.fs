@@ -5,26 +5,24 @@ open Cli.View.Common
 open Cli.View.TextConstants
 
 let mapOptions =
-    seq {
-        yield
-            { Id = "rehearsal_room"
-              Text = TextConstant MapOptionRehearsalRoom }
+    [ yield
+        { Id = "rehearsal_room"
+          Text = TextConstant MapOptionRehearsalRoom }
 
-        yield
-            { Id = "bank"
-              Text = TextConstant MapOptionBank }
+      yield
+          { Id = "bank"
+            Text = TextConstant MapOptionBank }
 
-        yield
-            { Id = "studios"
-              Text = TextConstant MapOptionStudios }
+      yield
+          { Id = "studios"
+            Text = TextConstant MapOptionStudios }
 
 #if DEBUG
-        yield
-            { Id = "dev_room"
-              Text = Literal "[bold red]Developer room[/]" }
+      yield
+          { Id = "dev_room"
+            Text = Literal "[bold red]Developer room[/]" }
 #endif
-    }
-    |> List.ofSeq
+      ]
 
 let rec mapScene () =
     seq {
@@ -37,9 +35,7 @@ let rec mapScene () =
                       ChoicePrompt
                       <| OptionalChoiceHandler
                           { Choices = mapOptions
-                            Handler =
-                                mainMenuOptionalChoiceHandler
-                                <| processSelection
+                            Handler = mainMenuOptionalChoiceHandler <| processSelection
                             BackText = TextConstant CommonBackToMainMenu } }
     }
 
@@ -73,9 +69,7 @@ and studioSelection () =
                       ChoicePrompt
                       <| OptionalChoiceHandler
                           { Choices = studioChoices
-                            Handler =
-                                mapOptionalChoiceHandler
-                                <| processStudio studios
+                            Handler = mapOptionalChoiceHandler <| processStudio studios
                             BackText = TextConstant CommonBackToMap } }
     }
 
