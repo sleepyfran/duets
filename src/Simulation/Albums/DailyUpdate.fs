@@ -17,11 +17,13 @@ let private bandDailyUpdate state bandId albumsByBand =
             let revenue = albumRevenue streams
             let recalculatedHype = reduceDailyHype album
 
-            [ AlbumReleasedUpdate(
-                band,
-                Album.Released.update album streams recalculatedHype
-              )
-              MoneyEarned(bandAccount, Incoming revenue) ])
+            [ yield
+                AlbumReleasedUpdate(
+                    band,
+                    Album.Released.update album streams recalculatedHype
+                )
+              if revenue > 0<dd> then
+                  yield MoneyEarned(bandAccount, Incoming revenue) ])
     |> List.concat
 
 /// Performs the daily update of albums from all bands. This generates the

@@ -27,7 +27,7 @@ let ``dailyUpdate should update streams and hype`` () =
         (AlbumReleasedUpdate(dummyBand, Album.Released.update album 1500 0.9))
 
 [<Test>]
-let ``dailyUpdate should modify streams on top of the previous ones`` () =
+let ``dailyUpdate should sum new streams to the current count`` () =
     let streamsLenses =
         Lenses.FromState.Albums.releasedByBand_ dummyBand.Id
         >?> Map.key_ album.Album.Id
@@ -39,3 +39,27 @@ let ``dailyUpdate should modify streams on top of the previous ones`` () =
     |> should
         contain
         (AlbumReleasedUpdate(dummyBand, Album.Released.update album 3000 0.9))
+
+[<Test>]
+let ``dailyUpdate should return list with money transfer if quantity is more than 0``
+    ()
+    =
+    dailyUpdate state
+    |> should
+        contain
+        (MoneyEarned(dummyBandBankAccount.Holder, Incoming(4<dd>)))
+
+
+[<Test>]
+let ``dailyUpdate should return list without money transfer if quantity is 0``
+    ()
+    =
+    let unknownAlbum =
+        Album.Released.fromUnreleased dummyUnreleasedAlbum dummyToday 10 1.0
+
+    let state =
+        dummyState
+        |> addReleasedAlbum dummyBand unknownAlbum
+
+    let updateEffects = dailyUpdate state
+    updateEffects |> should haveLength 1
