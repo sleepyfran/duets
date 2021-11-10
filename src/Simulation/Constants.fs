@@ -1,5 +1,4 @@
 module Simulation.Constants
 
-open Entities
 
-let revenuePerStream = 0.003
+let revenuePerStream = 0.5

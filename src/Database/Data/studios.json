@@ -6,8 +6,10 @@
       "Id": "5B13A11B-82B2-4173-9B46-776DF2FF31B8",
       "Name": "Fran González",
       "Age": 24,
-      "Gender": { "Case": "Male" }
+      "Gender": {
+        "Case": "Male"
+      }
     },
-    "PricePerSong": 200
+    "PricePerSong": 1000
   }
 ]

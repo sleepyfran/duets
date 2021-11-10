@@ -47,7 +47,7 @@ let ``dailyUpdate should return list with money transfer if quantity is more tha
     dailyUpdate state
     |> should
         contain
-        (MoneyEarned(dummyBandBankAccount.Holder, Incoming(4<dd>)))
+        (MoneyEarned(dummyBandBankAccount.Holder, Incoming(750<dd>)))
 
 
 [<Test>]
@@ -55,7 +55,7 @@ let ``dailyUpdate should return list without money transfer if quantity is 0``
     ()
     =
     let unknownAlbum =
-        Album.Released.fromUnreleased dummyUnreleasedAlbum dummyToday 10 1.0
+        Album.Released.fromUnreleased dummyUnreleasedAlbum dummyToday 10 0.1
 
     let state =
         dummyState

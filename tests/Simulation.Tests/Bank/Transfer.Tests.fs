@@ -13,7 +13,10 @@ let state =
 
 [<Test>]
 let transferAmountHigherThanBalanceShouldReturnNotEnoughFunds () =
-    [ 1101<dd>; 1120<dd>; 1200<dd>; 1500<dd> ]
+    [ 10101<dd>
+      10120<dd>
+      12000<dd>
+      15000<dd> ]
     |> List.iter
         (fun amount ->
             transfer

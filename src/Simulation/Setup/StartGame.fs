@@ -13,7 +13,7 @@ let startGame character (band: Band) =
       BandRepertoire = Band.Repertoire.emptyFor band.Id
       BankAccounts =
           [ (Character character.Id,
-             BankAccount.forCharacterWithBalance character.Id 1000<dd>)
+             BankAccount.forCharacterWithBalance character.Id 10000<dd>)
             (Band band.Id, BankAccount.forBand band.Id) ]
           |> Map.ofSeq
       Today = Calendar.gameBeginning
