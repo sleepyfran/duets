@@ -6,6 +6,15 @@
   <ItemGroup>
     <Compile Include="Data\Roles.fs" />
     <Compile Include="Data\VocalStyles.fs" />
+    <Content Include="Data\genres.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\npcs.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\studios.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Compile Include="Database.fs" />
   </ItemGroup>
   <ItemGroup>
