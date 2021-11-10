@@ -36,6 +36,14 @@ type TextConstant =
         characterBalance: int<dd> *
         bandBalance: int<dd>
     | CommonInvalidLength
+    | CommonInvalidCommand
+    | CommandHelpDescription
+    | CommandExitDescription
+    | CommandMapDescription
+    | CommandPhoneDescription
+#if DEBUG
+    | CommandDevDescription
+#endif
     | MainMenuIncompatibleSavegame
     | MainMenuPrompt
     | MainMenuNewGame
@@ -62,6 +70,8 @@ type TextConstant =
     | CreatorErrorCharacterAgeTooOld
     | CreatorErrorBandNameTooShort
     | CreatorErrorBandNameTooLong
+    | WorldTitle
+    | WorldPrompt
     | MapTitle
     | MapPrompt
     | MapOptionRehearsalRoom

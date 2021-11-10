@@ -7,10 +7,14 @@ open Cli.View.TextConstants
 open Entities
 
 let verbConjugationByGender =
-    dict [ (Have,
-            dict [ (Male, "Has")
-                   (Female, "Has")
-                   (Other, "Have") ]) ]
+    dict [
+        (Have,
+         dict [
+             (Male, "Has")
+             (Female, "Has")
+             (Other, "Have")
+         ])
+    ]
 
 /// Transforms TextConstants into strings.
 let rec toString text =
@@ -128,6 +132,18 @@ and fromConstant constant =
             (formatNumber bandBalance)
     | CommonInvalidLength ->
         "[bold red]Not a valid length. Try the format [grey]mm:ss[/] as in 6:55 (6 minutes, 55 seconds)[/]"
+    | CommonInvalidCommand ->
+        "[bold red]That command was not valid. Maybe try again or enter 'help' if you're lost[/]"
+    | CommandHelpDescription ->
+        "Here are all the commands you can execute right now"
+    | CommandExitDescription -> "Exits the game saving the progress"
+    | CommandMapDescription ->
+        "Shows the map of the game where you can quickly travel to other places"
+    | CommandPhoneDescription ->
+        "Opens your phone where you can check statistics and manage your bank"
+#if DEBUG
+    | CommandDevDescription -> "Secret dev room :)"
+#endif
     | MainMenuIncompatibleSavegame ->
         "[bold red]Your savegame is incompatible or malformed and was ignored[/]"
     | MainMenuPrompt -> "Select an option to begin"
@@ -169,6 +185,8 @@ and fromConstant constant =
     | CreatorErrorCharacterAgeTooOld -> "[red]Your character is too old[/]"
     | CreatorErrorBandNameTooShort -> "[red]Your band's name is too short[/]"
     | CreatorErrorBandNameTooLong -> "[red]Your band's name is too long[/]"
+    | WorldTitle -> "World"
+    | WorldPrompt -> "What do you want to do? Type 'help' if you're lost"
     | MapTitle -> "Map"
     | MapPrompt -> "Where are you heading?"
     | MapOptionRehearsalRoom -> "Band's rehearsal room"

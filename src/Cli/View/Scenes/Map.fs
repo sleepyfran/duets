@@ -10,19 +10,8 @@ let mapOptions =
           Text = TextConstant MapOptionRehearsalRoom }
 
       yield
-          { Id = "bank"
-            Text = TextConstant MapOptionBank }
-
-      yield
           { Id = "studios"
-            Text = TextConstant MapOptionStudios }
-
-#if DEBUG
-      yield
-          { Id = "dev_room"
-            Text = Literal "[bold red]Developer room[/]" }
-#endif
-      ]
+            Text = TextConstant MapOptionStudios } ]
 
 let rec mapScene () =
     seq {
@@ -35,7 +24,9 @@ let rec mapScene () =
                       ChoicePrompt
                       <| OptionalChoiceHandler
                           { Choices = mapOptions
-                            Handler = mainMenuOptionalChoiceHandler <| processSelection
+                            Handler =
+                                mainMenuOptionalChoiceHandler
+                                <| processSelection
                             BackText = TextConstant CommonBackToMainMenu } }
     }
 
@@ -69,7 +60,9 @@ and studioSelection () =
                       ChoicePrompt
                       <| OptionalChoiceHandler
                           { Choices = studioChoices
-                            Handler = mapOptionalChoiceHandler <| processStudio studios
+                            Handler =
+                                mapOptionalChoiceHandler
+                                <| processStudio studios
                             BackText = TextConstant CommonBackToMap } }
     }
 
