@@ -8,9 +8,7 @@ let rehearsalOptions =
     [ { Id = "compose"
         Text = TextConstant RehearsalRoomCompose }
       { Id = "manage"
-        Text = TextConstant RehearsalRoomManage }
-      { Id = "statistics"
-        Text = TextConstant RehearsalRoomStatistics } ]
+        Text = TextConstant RehearsalRoomManage } ]
 
 /// Creates the rehearsal room which allows to access the compose and managing
 /// section.
@@ -38,6 +36,5 @@ and processSelection choice =
         match choice.Id with
         | "compose" -> yield SubScene SubScene.RehearsalRoomCompose
         | "manage" -> yield Scene Management
-        | "statistics" -> yield Scene Statistics
         | _ -> yield NoOp
     }

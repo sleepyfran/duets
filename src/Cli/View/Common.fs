@@ -127,3 +127,8 @@ let mapOptionalChoiceHandler handler choice =
 /// world scene.
 let worldOptionalChoiceHandler handler choice =
     basicOptionalChoiceHandler (Scene World) handler choice
+
+/// Choice handler for optional prompts with the back option pointing to the
+/// phone scene.
+let phoneOptionalChoiceHandler handler choice =
+    basicOptionalChoiceHandler (Scene Phone) handler choice

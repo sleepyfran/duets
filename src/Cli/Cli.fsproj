@@ -34,6 +34,7 @@
     <Compile Include="View/Scenes/MainMenu.fs" />
     <Compile Include="View/Scenes/Map.fs" />
     <Compile Include="View\Scenes\World.fs" />
+    <Compile Include="View\Scenes\Phone.fs" />
     <Compile Include="Text.fs" />
     <Compile Include="DefaultCommands.fs" />
     <Compile Include="Renderer.fs" />

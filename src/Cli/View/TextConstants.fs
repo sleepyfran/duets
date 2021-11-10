@@ -23,6 +23,7 @@ type TextConstant =
     | CommonBack
     | CommonBackToMainMenu
     | CommonBackToMap
+    | CommonBackToPhone
     | CommonBackToWorld
     | CommonPressKeyToContinue
     | CommonSkillImproved of
@@ -73,10 +74,13 @@ type TextConstant =
     | CreatorErrorBandNameTooLong
     | WorldTitle
     | WorldPrompt
+    | PhoneTitle
+    | PhonePrompt
+    | PhoneOptionBank
+    | PhoneOptionStatistics
     | MapTitle
     | MapPrompt
     | MapOptionRehearsalRoom
-    | MapOptionBank
     | MapOptionStudios
     | RehearsalRoomTitle
     | RehearsalRoomCompose

@@ -38,6 +38,7 @@ and Scene =
     | Bank
     | Studio of Studio
     | Statistics
+    | Phone
 
 /// Defines the index of all sub-scenes available. Sub-scenes belong to a Scene
 /// and thus do not clear the screen or save a game.
@@ -53,11 +54,7 @@ and SubScene =
     | BankTransfer of sender: BankAccountHolder * receiver: BankAccountHolder
     | StudioCreateRecord of Studio
     | StudioContinueRecord of Studio
-    | StudioPromptToRelease of
-        onCancel: ActionChain *
-        studio: Studio *
-        band: Band *
-        album: UnreleasedAlbum
+    | StudioPromptToRelease of onCancel: ActionChain * studio: Studio * band: Band * album: UnreleasedAlbum
     | StatisticsOfBand
     | StatisticsOfAlbums
 
