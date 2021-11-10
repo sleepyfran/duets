@@ -25,9 +25,8 @@ let rec mapScene () =
                       <| OptionalChoiceHandler
                           { Choices = mapOptions
                             Handler =
-                                mainMenuOptionalChoiceHandler
-                                <| processSelection
-                            BackText = TextConstant CommonBackToMainMenu } }
+                                worldOptionalChoiceHandler <| processSelection
+                            BackText = TextConstant CommonBackToWorld } }
     }
 
 and processSelection choice =

@@ -106,6 +106,7 @@ and fromConstant constant =
     | CommonCancel -> "[bold]Cancel[/]"
     | CommonBackToMainMenu -> "[bold]Back to main menu[/]"
     | CommonBackToMap -> "[bold]Back to map[/]"
+    | CommonBackToWorld -> "[bold]Back to world[/]"
     | CommonPressKeyToContinue -> "Press [bold blue]any[/] key to continue"
     | CommonSkillImproved (characterName,
                            characterGender,

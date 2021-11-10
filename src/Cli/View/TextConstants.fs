@@ -23,6 +23,7 @@ type TextConstant =
     | CommonBack
     | CommonBackToMainMenu
     | CommonBackToMap
+    | CommonBackToWorld
     | CommonPressKeyToContinue
     | CommonSkillImproved of
         characterName: string *

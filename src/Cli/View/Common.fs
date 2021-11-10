@@ -34,9 +34,7 @@ let finishedSongsSelectorOf state (band: Band) =
             { Id = id.ToString()
               Text =
                   Literal
-                      $"{fs.Name} (Quality: {quality}%%, Length: {
-                                                                      fs.Length.Minutes
-                      }:{fs.Length.Seconds})" })
+                      $"{fs.Name} (Quality: {quality}%%, Length: {fs.Length.Minutes}:{fs.Length.Seconds})" })
 
 /// Returns the finished song that was selected in the choice prompt.
 let finishedSongFromSelection state (band: Band) (selection: Choice) =
@@ -124,3 +122,8 @@ let rehearsalRoomOptionalChoiceHandler handler choice =
 /// map.
 let mapOptionalChoiceHandler handler choice =
     basicOptionalChoiceHandler (Scene Map) handler choice
+
+/// Choice handler for optional prompts with the back option pointing to the
+/// world scene.
+let worldOptionalChoiceHandler handler choice =
+    basicOptionalChoiceHandler (Scene World) handler choice
