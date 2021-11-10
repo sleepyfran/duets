@@ -11,7 +11,7 @@ let commands: Command list =
       yield
           { Name = "phone"
             Description = TextConstant CommandPhoneDescription
-            Handler = HandlerWithNavigation(fun _ -> Seq.empty) }
+            Handler = HandlerWithNavigation(fun _ -> seq { Scene Phone }) }
 
 #if DEBUG
       yield

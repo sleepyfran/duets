@@ -43,9 +43,9 @@ let rec bankScene state =
                       <| OptionalChoiceHandler
                           { Choices = rehearsalOptions
                             Handler =
-                                mapOptionalChoiceHandler
+                                phoneOptionalChoiceHandler
                                 <| processSelection characterAccount bandAccount
-                            BackText = TextConstant CommonBackToMap } }
+                            BackText = TextConstant CommonBackToPhone } }
     }
 
 and processSelection characterAccount bandAccount choice =

@@ -25,6 +25,7 @@ let actionsFromScene state scene =
     | Bank -> Bank.Root.bankScene state
     | Studio studio -> Studio.Root.studioScene state studio
     | Statistics -> Statistics.Root.statisticsScene ()
+    | Phone -> Phone.phoneScene ()
     | World -> World.worldScene ()
 
 let actionsFromSubScene state subScene =

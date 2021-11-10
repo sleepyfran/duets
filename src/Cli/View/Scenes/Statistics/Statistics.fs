@@ -22,9 +22,8 @@ let rec statisticsScene () =
                       <| OptionalChoiceHandler
                           { Choices = statisticOptions
                             Handler =
-                                rehearsalRoomOptionalChoiceHandler
-                                <| processSelection
-                            BackText = TextConstant CommonCancel } }
+                                phoneOptionalChoiceHandler <| processSelection
+                            BackText = TextConstant CommonBackToPhone } }
 
     }
 
