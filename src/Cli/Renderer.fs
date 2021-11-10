@@ -5,7 +5,6 @@ open Cli.View.TextConstants
 open Common
 open Entities
 open Spectre.Console
-open Spectre.Console
 open Text
 
 /// Writes a message into the buffer.
@@ -24,6 +23,12 @@ let renderChoicePrompt title (choices: Choice list) =
     selectionPrompt <- selectionPrompt.AddChoices(choices)
     selectionPrompt <- selectionPrompt.UseConverter(fun c -> toString c.Text)
     AnsiConsole.Prompt(selectionPrompt).Id
+
+let renderConfirmationPrompt title = AnsiConsole.Confirm(toString title)
+
+let renderNumberPrompt title = AnsiConsole.Ask<int>(toString title)
+
+let renderTextPrompt title = AnsiConsole.Ask<string>(toString title)
 
 let renderMandatoryPrompt title (content: MandatoryChoiceHandler) =
     renderChoicePrompt title content.Choices
@@ -68,34 +73,6 @@ let renderLengthPrompt title =
     lengthPrompt.Validator <- Func.toFunc validate
 
     AnsiConsole.Prompt(lengthPrompt)
-
-let private list item = [ item ]
-
-/// Renders the specified prompt and asks the user for a response depending
-/// on the specified type of prompt. Returns a string which either represents
-/// the raw user input (in case of a TextPrompt) or the ID of the choice that
-/// the user chose (in case of a ChoicePrompt).
-let renderPrompt prompt =
-    match prompt.Content with
-    | ChoicePrompt content ->
-        match content with
-        | MandatoryChoiceHandler content ->
-            renderMandatoryPrompt prompt.Title content |> list
-        | OptionalChoiceHandler content ->
-            renderOptionalPrompt prompt.Title content |> list
-    | MultiChoicePrompt content -> renderMultiChoicePrompt prompt.Title content
-    | ConfirmationPrompt _ ->
-        AnsiConsole.Confirm(toString prompt.Title)
-        |> string
-        |> list
-    | NumberPrompt _ ->
-        AnsiConsole.Ask<int>(toString prompt.Title)
-        |> string
-        |> list
-    | TextPrompt _ ->
-        AnsiConsole.Ask<string>(toString prompt.Title)
-        |> list
-    | LengthPrompt _ -> renderLengthPrompt prompt.Title |> list
 
 let private sleepForProgressBar content =
     async { do! Async.Sleep(content.StepDuration * 1000 / 4 |> int) }
@@ -151,6 +128,9 @@ let separator () =
     let rule = Rule().Centered()
     rule.Style <- Style.Parse("blue dim")
     AnsiConsole.Render(rule)
+
+/// Writes a line break to the console.
+let renderLineBreak () = AnsiConsole.WriteLine()
 
 /// Waits until the user inputs something.
 let waitForInput explanationText =

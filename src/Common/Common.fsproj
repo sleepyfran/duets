@@ -16,6 +16,7 @@
     <Compile Include="Map.fs" />
     <Compile Include="Seq.fs" />
     <Compile Include="Func.fs" />
+    <Compile Include="String.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Aether" Version="8.3.1" />

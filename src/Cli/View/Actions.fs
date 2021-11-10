@@ -31,6 +31,7 @@ and Scene =
     // Band creator needs a character the character that was created in the
     // previous step.
     | BandCreator of Character
+    | World
     | Map
     | RehearsalRoom
     | Management
@@ -60,6 +61,9 @@ and SubScene =
     | StatisticsOfBand
     | StatisticsOfAlbums
 
+/// Sequence of actions to be executed.
+and ActionChain = Action seq
+
 /// Encapsulates text that can either be defined by a text constant, which is
 /// resolved by the UI layer, or a string constant that is just passed from this
 /// layer into the UI.
@@ -67,8 +71,14 @@ and Text =
     | TextConstant of TextConstant
     | Literal of string
 
-/// Sequence of actions to be executed.
-and ActionChain = Action seq
+/// Defines the content of a progress bar by giving the number of steps and
+/// the duration of each step. If Async is set to true the steps will be shown
+/// randomly at the same time advancing at the same pace with a different
+/// beat.
+and ProgressBarContent =
+    { StepNames: Text list
+      StepDuration: int<second>
+      Async: bool }
 
 /// Indicates the need to prompt the user for information.
 and Prompt = { Title: Text; Content: PromptContent }
@@ -81,6 +91,7 @@ and PromptContent =
     | NumberPrompt of PromptHandler<int>
     | TextPrompt of PromptHandler<string>
     | LengthPrompt of PromptHandler<Length>
+    | CommandPrompt of CommandPrompt
 
 /// Defines a handler that takes whatever result the prompt is giving out and
 /// returns another chain of actions.
@@ -112,14 +123,25 @@ and ChoicePrompt =
     | MandatoryChoiceHandler of MandatoryChoiceHandler
     | OptionalChoiceHandler of OptionalChoiceHandler
 
-/// Defines the content of a progress bar by giving the number of steps and
-/// the duration of each step. If Async is set to true the steps will be shown
-/// randomly at the same time advancing at the same pace with a different
-/// beat.
-and ProgressBarContent =
-    { StepNames: Text list
-      StepDuration: int<second>
-      Async: bool }
+/// Separates the two types of command handlers that we can have:
+/// - `HandlerWithNavigation` represents a handler that, when executed, eventually
+///   moves the user into another scene, sub-scene or exist the game and
+///   effectively continues an action chain and therefore does not need the
+///   command prompt to show after the chain is finished.
+/// - `HandlerWithoutNavigation` represents a handler that does need the command
+///   prompt to show again after because it just shows information or executes
+///   an effect but does not have any chain to continue afterwards and, without
+///   showing the prompt, the game would exit.
+and CommandPromptHandler =
+    | HandlerWithNavigation of PromptHandler<string list>
+    | HandlerWithoutNavigation of PromptHandler<string list>
+
+and Command =
+    { Name: string
+      Description: Text
+      Handler: CommandPromptHandler }
+
+and CommandPrompt = Command list
 
 /// Returns a possible choice from a set of choices given its ID.
 let choiceById id = List.find (fun c -> c.Id = id)

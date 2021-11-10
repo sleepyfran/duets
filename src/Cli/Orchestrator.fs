@@ -3,11 +3,11 @@ module Orchestrator
 open Aether
 open Entities
 open Cli.View.Actions
+open Cli.DefaultCommands
 open Cli.View.Scenes
 open Cli.View.TextConstants
 open Cli.View.Renderer
 open Common
-open System
 open Simulation.Queries
 
 /// Returns the sequence of actions associated with a screen given its name.
@@ -25,6 +25,7 @@ let actionsFromScene state scene =
     | Bank -> Bank.Root.bankScene state
     | Studio studio -> Studio.Root.studioScene state studio
     | Statistics -> Statistics.Root.statisticsScene ()
+    | World -> World.worldScene ()
 
 let actionsFromSubScene state subScene =
     match subScene with
@@ -121,44 +122,7 @@ let rec runWith chain =
         (fun action ->
             match action with
             | Separator -> separator ()
-            | Prompt prompt ->
-                renderPrompt prompt
-                |> fun input ->
-                    match prompt.Content with
-                    | ChoicePrompt content ->
-                        match content with
-                        | MandatoryChoiceHandler content ->
-                            content.Choices
-                            |> choiceById (List.exactlyOne input)
-                            |> content.Handler
-                        | OptionalChoiceHandler content ->
-                            match List.exactlyOne input with
-                            | "back" -> content.Handler Back
-                            | _ ->
-                                content.Choices
-                                |> choiceById (List.exactlyOne input)
-                                |> Choice
-                                |> content.Handler
-                    | MultiChoicePrompt content ->
-                        content.Choices
-                        |> choicesById input
-                        |> content.Handler
-                    | ConfirmationPrompt handler ->
-                        handler (input |> List.exactlyOne |> Convert.ToBoolean)
-                    | NumberPrompt handler ->
-                        handler (input |> List.exactlyOne |> int)
-                    | TextPrompt handler -> handler (List.exactlyOne input)
-                    | LengthPrompt handler ->
-                        List.exactlyOne input
-                        |> fun length ->
-                            match Time.Length.parse length with
-                            | Ok length -> handler length
-                            | _ ->
-                                raise (
-                                    invalidOp
-                                        "The given input was not a correct length. This should've caught by the validator but apparently it didn't :)"
-                                )
-                    |> runWith
+            | Prompt prompt -> renderPrompt prompt |> runWith
             | Message message -> renderMessage message
             | Figlet text -> renderFiglet text
             | ProgressBar content -> renderProgressBar content
@@ -180,6 +144,77 @@ let rec runWith chain =
                 |> runWith
             | GameInfo version -> renderGameInfo version
             | NoOp -> ())
+
+and renderPrompt prompt =
+    match prompt.Content with
+    | ChoicePrompt content ->
+        match content with
+        | MandatoryChoiceHandler content ->
+            let choiceId =
+                renderMandatoryPrompt prompt.Title content
+
+            content.Choices
+            |> choiceById choiceId
+            |> content.Handler
+        | OptionalChoiceHandler content ->
+            renderOptionalPrompt prompt.Title content
+            |> fun choiceId ->
+                match choiceId with
+                | "back" -> content.Handler Back
+                | _ ->
+                    content.Choices
+                    |> choiceById choiceId
+                    |> Choice
+                    |> content.Handler
+    | MultiChoicePrompt content ->
+        let choiceId =
+            renderMultiChoicePrompt prompt.Title content
+
+        content.Choices
+        |> choicesById choiceId
+        |> content.Handler
+    | ConfirmationPrompt handler ->
+        renderConfirmationPrompt prompt.Title |> handler
+    | NumberPrompt handler -> renderNumberPrompt prompt.Title |> handler
+    | TextPrompt handler -> renderTextPrompt prompt.Title |> handler
+    | LengthPrompt handler ->
+        renderLengthPrompt prompt.Title
+        |> fun length ->
+            match Time.Length.parse length with
+            | Ok length -> handler length
+            | _ ->
+                raise (
+                    invalidOp
+                        "The given input was not a correct length. This should've caught by the validator but apparently it didn't :)"
+                )
+    | CommandPrompt commands ->
+        renderLineBreak ()
+        renderMessage prompt.Title
+
+        let commandsWithDefaults = commands @ [ exitCommand ]
+
+        let commandsWithHelp =
+            commandsWithDefaults
+            @ [ createHelpCommand commandsWithDefaults ]
+
+        /// Prompts for a command until a valid one is given, reporting an error
+        /// when an invalid command is inputted.
+        let rec promptForCommand () =
+            renderTextPrompt (Literal "")
+            |> String.split ' '
+            |> List.ofArray
+            |> fun commandWithArgs ->
+                match commandWithArgs with
+                | commandName :: args ->
+                    runCommand
+                        (seq { Prompt prompt })
+                        commandsWithHelp
+                        commandName
+                        args
+                | _ -> None
+            |> Option.defaultWith promptForCommand
+
+        promptForCommand ()
 
 /// Saves the game, clears the screen and runs the next scene with a separator
 /// on top.
@@ -215,3 +250,20 @@ and statusBarContent state =
         |> Bank.balanceOf state
 
     CommonStatusBar(date, dayMoment, characterBalance, bandBalance)
+
+and runCommand currentChain availableCommands commandName args =
+    availableCommands
+    |> List.tryFind (fun command -> command.Name = commandName)
+    |> fun command ->
+        match command with
+        | Some command ->
+            // If the handler has navigation then just return the chain itself,
+            // otherwise combine it with the current chain to prevent the orchestrator
+            // from running out of actions prematurely.
+            match command.Handler with
+            | HandlerWithNavigation handler -> handler args |> Some
+            | HandlerWithoutNavigation handler ->
+                Seq.append (handler args) currentChain |> Some
+        | None ->
+            renderMessage (TextConstant CommonInvalidCommand)
+            None
