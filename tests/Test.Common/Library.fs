@@ -10,10 +10,23 @@ open Simulation.Setup
 let dummyCharacter =
     Character.from "Test" 24 Other |> Result.unwrap
 
+let dummyCharacter2 =
+    Character.from "Test 2" 35 Female |> Result.unwrap
+
+let dummyCharacter3 =
+    Character.from "Test 3" 28 Male |> Result.unwrap
+
 let dummyBand =
     { Band.empty with
           Members =
               [ Band.Member.from dummyCharacter Guitar (Calendar.gameBeginning) ] }
+
+let dummyBandWithMultipleMembers =
+    { Band.empty with
+          Members =
+              [ Band.Member.from dummyCharacter Guitar (Calendar.gameBeginning)
+                Band.Member.from dummyCharacter2 Bass (Calendar.gameBeginning)
+                Band.Member.from dummyCharacter3 Drums (Calendar.gameBeginning) ] }
 
 let dummySong = Song.empty
 let dummyFinishedSong = (FinishedSong dummySong, 50<quality>)
@@ -58,6 +71,10 @@ let dummyState =
     startGame dummyCharacter dummyBand
     |> fun (GameCreated state) -> state
 
+let dummyStateWithMultipleMembers =
+    startGame dummyCharacter dummyBandWithMultipleMembers
+    |> fun (GameCreated state) -> state
+
 /// Adds a given member to the given band.
 let addMember (band: Band) bandMember =
     let memberLens = Lenses.FromState.Bands.members_ band.Id
@@ -70,11 +87,20 @@ let addSkillTo (character: Character) (skillWithLevel: SkillWithLevel) =
 
     let skillLens =
         Lenses.State.characterSkills_
-        >-> Map.key_ character.Id
+        >-> Map.keyWithDefault_ character.Id Map.empty
 
     let addSkill map = Map.add skill.Id skillWithLevel map
 
     Optic.map skillLens addSkill
+
+/// Applies addSkillTo multiple times for each skill given.
+let addSkillsTo
+    (character: Character)
+    (skillsWithLevel: SkillWithLevel list)
+    state
+    =
+    skillsWithLevel
+    |> List.fold (fun state skill -> addSkillTo character skill state) state
 
 /// Adds an unfinished song to the given state.
 let addUnfinishedSong (band: Band) unfinishedSong =

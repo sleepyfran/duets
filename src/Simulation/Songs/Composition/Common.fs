@@ -29,6 +29,7 @@ let qualityForBand state band =
     band.Members
     |> List.map (qualityForMember state band.Genre)
     |> List.sum
+    |> fun score -> score / band.Members.Length
     |> fun score ->
         match score with
         | score when score < 5 -> 5<quality>

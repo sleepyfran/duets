@@ -8,7 +8,7 @@ open Entities
 open Simulation.Songs.Composition.ComposeSong
 
 [<Test>]
-let ComposeSongShouldGenerateSongComposedEffectWithDefaultQualities () =
+let ``composeSong should generate a SongStarted effect`` () =
     composeSong dummyState dummySong
     |> should
         be
@@ -19,7 +19,7 @@ let ComposeSongShouldGenerateSongComposedEffectWithDefaultQualities () =
             ) @>)
 
 [<Test>]
-let QualitiesShouldBeCalculatedBasedOnBandMemberSkills () =
+let ``Qualities are calculated based on member skills`` () =
     let state =
         dummyState
         |> addSkillTo
@@ -31,9 +31,34 @@ let QualitiesShouldBeCalculatedBasedOnBandMemberSkills () =
 
     composeSong state dummySong
     |> should
-        be
-        (ofCase
-            <@ SongStarted(
-                dummyBand,
-                (UnfinishedSong dummySong, 33<quality>, 7<quality>)
-            ) @>)
+        equal
+        (SongStarted(
+            dummyBand,
+            (UnfinishedSong dummySong, 33<quality>, 7<quality>)
+        ))
+
+[<Test>]
+let ``Qualities should be calculated based on members skills but never go above 100``
+    ()
+    =
+    let skills =
+        [ (Skill.createWithLevel SkillId.Composition 100)
+          (Skill.createWithLevel (SkillId.Instrument(InstrumentType.Guitar)) 100)
+          (Skill.createWithLevel (SkillId.Instrument(InstrumentType.Drums)) 100)
+          (Skill.createWithLevel (SkillId.Instrument(InstrumentType.Bass)) 100)
+          (Skill.createWithLevel SkillId.Composition 100)
+          (Skill.createWithLevel (Genre dummyBand.Genre) 100) ]
+
+    let state =
+        dummyStateWithMultipleMembers
+        |> addSkillsTo dummyCharacter skills
+        |> addSkillsTo dummyCharacter2 skills
+        |> addSkillsTo dummyCharacter3 skills
+
+    composeSong state dummySong
+    |> should
+        equal
+        (SongStarted(
+            dummyBandWithMultipleMembers,
+            (UnfinishedSong dummySong, 100<quality>, 20<quality>)
+        ))

@@ -2,8 +2,10 @@ module Common.Math
 
 /// Wraps Math.Clamp, which returns a clamped value between the inclusive range
 /// of min and max.
-let clamp (min: int) (max: int) (value: int) =
-    System.Math.Clamp(value, min, max)
+let clamp (min: int<_>) (max: int<_>) (value: int<_>) =
+    if value < min then min
+    else if value > max then max
+    else value
 
 /// Wraps Math.Clamp, which returns a clamped value between the inclusive range
 /// of min and max.

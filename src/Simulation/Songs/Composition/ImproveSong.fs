@@ -3,11 +3,17 @@ module Simulation.Songs.Composition.ImproveSong
 open Common
 open Entities
 
-let private improveSong' band song maxQuality quality =
+let private improveSong' band song maxQuality (quality: Quality) =
     let songBeforeUpgrade = (song, maxQuality, quality)
     let increase = calculateQualityIncreaseOf maxQuality
-    let updatedQuality = quality + increase
-    let canBeFurtherImproved = maxQuality > updatedQuality
+
+    let updatedQuality =
+        quality + increase
+        |> Math.clamp 0<quality> 100<quality>
+
+    let canBeFurtherImproved =
+        maxQuality > updatedQuality
+        && updatedQuality < 100<quality>
 
     let songWithUpdatedQualities = (song, maxQuality, updatedQuality)
 
