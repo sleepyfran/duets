@@ -385,6 +385,8 @@ and fromConstant constant =
         "What's going to be the [bold blue]name[/] of the record?"
     | StudioCreateTrackListPrompt ->
         "Select what [bold blue]songs[/] will be on the [bold blue]track list[/]. You can select multiple. The order in which you select them will be the order in which they'll appear in the album"
+    | StudioConfirmRecordingPrompt (name, albumRecordType) ->
+        $"""Are you sure you want to record {TextStyles.album name}? Given its track-list it will be released as a {TextStyles.information (albumType albumRecordType)}"""
     | StudioCreateErrorNameTooShort ->
         "[bold red]The name of the album is too short[/]"
     | StudioCreateErrorNameTooLong ->

@@ -169,6 +169,7 @@ type TextConstant =
     | StudioCreateNoSongs
     | StudioCreateRecordName
     | StudioCreateTrackListPrompt
+    | StudioConfirmRecordingPrompt of name: string * albumType: AlbumType
     | StudioCreateErrorNameTooShort
     | StudioCreateErrorNameTooLong
     | StudioCreateErrorNotEnoughMoney of

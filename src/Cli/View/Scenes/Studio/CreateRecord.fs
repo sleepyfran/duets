@@ -63,18 +63,50 @@ and processRecord state studio band name selectedSongs =
                 <| TextConstant StudioCreateErrorNameTooLong
 
             yield! createRecordSubscene state studio
-        | Ok album ->
-            match recordAlbum state studio band album with
-            | Error (NotEnoughMoney (bandBalance, studioBill)) ->
-                yield
-                    StudioCreateErrorNotEnoughMoney(bandBalance, studioBill)
-                    |> TextConstant
-                    |> Message
-
-                yield SceneAfterKey Map
-            | Ok (album, effects) ->
-                yield! recordWithProgressBar studio band album effects
+        | Ok album -> yield! confirmRecording state studio band album
         | _ -> yield NoOp
+    }
+
+and confirmRecording state studio band album =
+    let (UnreleasedAlbum albumToRecord) = album
+
+    seq {
+        yield
+            Prompt
+                { Title =
+                      StudioConfirmRecordingPrompt(
+                          albumToRecord.Name,
+                          albumToRecord.Type
+                      )
+                      |> TextConstant
+                  Content =
+                      ConfirmationPrompt
+                          (fun confirmed ->
+                              seq {
+                                  if confirmed then
+                                      yield!
+                                          checkBankAndRecordAlbum
+                                              state
+                                              studio
+                                              band
+                                              album
+                                  else
+                                      yield Scene(Studio studio)
+                              }) }
+    }
+
+and checkBankAndRecordAlbum state studio band album =
+    seq {
+        match recordAlbum state studio band album with
+        | Error (NotEnoughMoney (bandBalance, studioBill)) ->
+            yield
+                StudioCreateErrorNotEnoughMoney(bandBalance, studioBill)
+                |> TextConstant
+                |> Message
+
+            yield SceneAfterKey Map
+        | Ok (album, effects) ->
+            yield! recordWithProgressBar studio band album effects
     }
 
 and recordWithProgressBar studio band album effects =
