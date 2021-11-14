@@ -17,12 +17,15 @@ let hiredMember =
 
     Band.Member.from character Guitar dummyToday
 
+let memberSkills =
+    [ (Skill.createWithLevel SkillId.Composition 10) ]
+
 let hireMember () =
     State.Root.apply
-    <| MemberHired(dummyBand, hiredMember)
+    <| MemberHired(dummyBand, hiredMember, memberSkills)
 
 [<Test>]
-let MemberHiredShouldAddMember () =
+let ``MemberHired should add member to band`` () =
     hireMember ()
 
     State.Root.get ()
@@ -31,7 +34,20 @@ let MemberHiredShouldAddMember () =
     |> should equal hiredMember
 
 [<Test>]
-let MemberFiredShouldRemoveMemberAndAddToPastMember () =
+let ``MemberHired should add skills to member's character`` () =
+    hireMember ()
+
+    let characterSkills =
+        Skills.characterSkillsWithLevel
+            (State.Root.get ())
+            hiredMember.Character.Id
+
+    characterSkills
+    |> Map.head
+    |> should equal (List.head memberSkills)
+
+[<Test>]
+let ``MemberFired should remove band member and add past member`` () =
     hireMember ()
 
     State.Root.get ()

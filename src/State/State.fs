@@ -55,8 +55,11 @@ let apply effect =
     | SongDiscarded (band, unfinishedSong) ->
         let song = Song.fromUnfinished unfinishedSong
         Songs.removeUnfinished staticAgent.Map band song.Id
-    | MemberHired (band, currentMember) ->
+    | MemberHired (band, currentMember, skills) ->
         Bands.addMember staticAgent.Map band currentMember
+
+        skills
+        |> List.iter (Skills.add staticAgent.Map currentMember.Character)
     | MemberFired (band, currentMember, pastMember) ->
         Bands.removeMember staticAgent.Map band currentMember
         Bands.addPastMember staticAgent.Map band pastMember

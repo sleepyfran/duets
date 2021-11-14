@@ -298,7 +298,7 @@ module Types =
         | SongImproved of Band * Diff<UnfinishedSongWithQualities>
         | SongFinished of Band * FinishedSongWithQuality
         | SongDiscarded of Band * UnfinishedSongWithQualities
-        | MemberHired of Band * CurrentMember
+        | MemberHired of Band * CurrentMember * SkillWithLevel list
         | MemberFired of Band * CurrentMember * PastMember
         | SkillImproved of Character * Diff<SkillWithLevel>
         | MoneyTransferred of BankAccountHolder * BankTransaction

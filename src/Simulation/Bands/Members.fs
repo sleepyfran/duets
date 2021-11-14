@@ -52,8 +52,8 @@ let membersForHire state band instrument =
 let hireMember state (band: Band) (memberForHire: MemberForHire) =
     Calendar.today state
     |> Band.Member.fromMemberForHire memberForHire
-    |> Tuple.two band
-    |> MemberHired
+    |> fun currentMember ->
+        MemberHired(band, currentMember, memberForHire.Skills)
 
 type FireError = AttemptToFirePlayableCharacter
 

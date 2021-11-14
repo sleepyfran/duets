@@ -69,4 +69,6 @@ let MembersForHireShouldExposeMembersWithAgeAroundBandsAverage () =
 [<Test>]
 let HireMemberShouldGeneratedHiredMemberEffect () =
     hireMember state dummyBand memberForHire
-    |> should be (ofCase <@ MemberHired(dummyBand, hiredMember) @>)
+    |> should
+        be
+        (ofCase <@ MemberHired(dummyBand, hiredMember, memberForHire.Skills) @>)
