@@ -33,7 +33,9 @@ let rec fireScene state =
                           <| OptionalChoiceHandler
                               { Choices = memberOptions
                                 Handler =
-                                    rehearsalRoomOptionalChoiceHandler
+                                    basicOptionalChoiceHandler (
+                                        Scene Management
+                                    )
                                     <| confirmFiring state
                                 BackText = TextConstant CommonCancel } }
     }
@@ -67,7 +69,7 @@ and handleConfirmation state band memberToFire confirmed =
                 |> TextConstant
                 |> Message
 
-            yield SceneAfterKey RehearsalRoom
+            yield SceneAfterKey Management
         else
-            yield Scene RehearsalRoom
+            yield Scene Management
     }
