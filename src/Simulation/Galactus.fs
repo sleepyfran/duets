@@ -38,7 +38,7 @@ let private timeAdvanceOfEffect effect =
     match effect with
     | SongStarted _ -> 1
     | SongImproved _ -> 1
-    | AlbumRecorded _ -> 2
+    | AlbumRecorded _ -> 56 // One week
     | _ -> 0
 
 /// Selects the max time advance that can be applied out all of the effects.
@@ -52,6 +52,9 @@ let private timeAdvanceOfEffects effects =
 /// effects that were created. Useful for situations in which an effect should
 /// trigger other effects such as starting a new song or improving an existing
 /// one, which should trigger an improvement in the band's skills.
+///
+/// Calculates as well how many times the clock should advanced for all the
+/// given effects and generates the clock change effects.
 let runOne state effect =
     run state effect
     |> List.append (
