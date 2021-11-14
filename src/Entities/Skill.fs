@@ -7,7 +7,7 @@ let categoryFor id =
     match id with
     | Composition -> Music
     | Genre _ -> Music
-    | Instrument _ -> Music
+    | SkillId.Instrument _ -> Music
     | MusicProduction -> Production
 
 /// Creates a new skill for a given ID. Its category is automatically populated

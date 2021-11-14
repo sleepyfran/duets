@@ -12,7 +12,7 @@ let improveSkillByOne ((skill, level): SkillWithLevel) =
 let improveMemberSkills state (band: Band) (currentMember: CurrentMember) =
     [ Composition
       Genre(band.Genre)
-      Instrument(currentMember.Role) ]
+      SkillId.Instrument(currentMember.Role) ]
     |> List.map (
         Skills.characterSkillWithLevel state currentMember.Character.Id
     )

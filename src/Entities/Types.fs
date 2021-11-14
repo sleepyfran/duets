@@ -286,6 +286,9 @@ module Types =
           Today: Date
           GenreMarkets: GenreMarketByGenre }
 
+    /// Defines all the different objects that can appear in the game world.
+    type ObjectType = Instrument of InstrumentType
+
     /// Defines an effect that happened after an action in the game. For example
     /// calling composeSong will create a `SongComposed` effect.
     type Effect =

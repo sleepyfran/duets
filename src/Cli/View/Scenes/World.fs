@@ -5,13 +5,9 @@ open Cli.View.TextConstants
 
 let commands: Command list =
     [ yield
-        { Name = "map"
-          Description = TextConstant CommandMapDescription
-          Handler = HandlerWithNavigation(fun _ -> seq { Scene Map }) }
-      yield
-          { Name = "phone"
-            Description = TextConstant CommandPhoneDescription
-            Handler = HandlerWithNavigation(fun _ -> seq { Scene Phone }) }
+        { Name = "phone"
+          Description = TextConstant CommandPhoneDescription
+          Handler = HandlerWithNavigation(fun _ -> seq { Scene Phone }) }
 
 #if DEBUG
       yield
@@ -20,7 +16,7 @@ let commands: Command list =
             Handler =
                 HandlerWithNavigation(fun _ -> seq { Scene DeveloperRoom }) }
 #endif
-      ]
+     ]
 
 let worldScene () =
     seq {
@@ -28,6 +24,6 @@ let worldScene () =
 
         yield
             Prompt
-                { Title = TextConstant WorldPrompt
+                { Title = TextConstant CommonCommandPrompt
                   Content = CommandPrompt commands }
     }

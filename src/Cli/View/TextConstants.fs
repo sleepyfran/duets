@@ -25,6 +25,7 @@ type TextConstant =
     | CommonBackToMap
     | CommonBackToPhone
     | CommonBackToWorld
+    | CommonCommandPrompt
     | CommonPressKeyToContinue
     | CommonSkillImproved of
         characterName: string *
@@ -40,6 +41,11 @@ type TextConstant =
     | CommonInvalidLength
     | CommonInvalidCommand
     | CommandHelpDescription
+    | CommandHelpEntry of string * Text
+    | CommandLookDescription
+    | CommandLookNoObjectsAround
+    | CommandLookEnvironmentDescription of description: Text
+    | CommandLookObjectEntry of ObjectType * string list
     | CommandExitDescription
     | CommandMapDescription
     | CommandPhoneDescription
@@ -73,9 +79,7 @@ type TextConstant =
     | CreatorErrorBandNameTooShort
     | CreatorErrorBandNameTooLong
     | WorldTitle
-    | WorldPrompt
     | PhoneTitle
-    | PhonePrompt
     | PhoneOptionBank
     | PhoneOptionStatistics
     | MapTitle
@@ -83,10 +87,10 @@ type TextConstant =
     | MapOptionRehearsalRoom
     | MapOptionStudios
     | RehearsalRoomTitle
-    | RehearsalRoomCompose
-    | RehearsalRoomManage
+    | RehearsalRoomDescription
+    | RehearsalRoomManageDescription
     | RehearsalRoomStatistics
-    | RehearsalRoomPrompt
+    | RehearsalRoomInstrumentPlayDescription
     | ComposePrompt
     | ComposeSong
     | ComposeSongTitlePrompt
@@ -190,3 +194,10 @@ type TextConstant =
     | StatisticsAlbumReleaseDate of date: Date
     | StatisticsAlbumStreams of streams: int
     | StatisticsAlbumRevenue of amount: int<dd>
+
+/// Encapsulates text that can either be defined by a text constant, which is
+/// resolved by the UI layer, or a string constant that is just passed from this
+/// layer into the UI.
+and Text =
+    | TextConstant of TextConstant
+    | Literal of string

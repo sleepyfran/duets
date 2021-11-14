@@ -6,9 +6,8 @@ module Bands =
     open Entities
 
     /// Returns the band given its ID.
-    let byId state bandId =
-        state.Bands |> Map.find bandId
-    
+    let byId state bandId = state.Bands |> Map.find bandId
+
     /// Returns the currently selected band in the game.
     let currentBand state =
         state.Bands |> Map.find state.CurrentBandId
@@ -37,6 +36,13 @@ module Bands =
 
         currentBandMembers state
         |> List.filter (fun c -> c.Character.Id <> mainCharacter.Id)
+
+    /// Returns the playable character as a member of the band they're currently
+    /// in.
+    let currentPlayableMember state =
+        currentBandMembers state
+        |> List.find
+            (fun bandMember -> bandMember.Character.Id = state.Character.Id)
 
     /// Returns the average skill level of the members of the band.
     let averageSkillLevel state (band: Band) =
