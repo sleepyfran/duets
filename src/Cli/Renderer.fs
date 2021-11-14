@@ -5,7 +5,7 @@ open Cli.View.TextConstants
 open Common
 open Entities
 open Spectre.Console
-open Text
+open Cli.Localization.English
 
 /// Writes a message into the buffer.
 let renderMessage message =

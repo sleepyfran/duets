@@ -1,4 +1,4 @@
-module Cli.View.Scenes.RehearsalRoom.Compose
+module Cli.View.Scenes.Interactive.RehearsalRoom.Compose
 
 open Cli.View.Actions
 open Cli.View.Common

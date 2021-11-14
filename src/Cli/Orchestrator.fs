@@ -1,10 +1,12 @@
 module Orchestrator
 
+open System
 open Aether
 open Entities
 open Cli.View.Actions
 open Cli.DefaultCommands
 open Cli.View.Scenes
+open Cli.View.Scenes.Interactive
 open Cli.View.TextConstants
 open Cli.View.Renderer
 open Common
@@ -19,7 +21,7 @@ let actionsFromScene state scene =
     | MainMenu savegameState -> MainMenu.mainMenu savegameState
     | CharacterCreator -> CharacterCreator.characterCreator ()
     | BandCreator character -> BandCreator.bandCreator character
-    | RehearsalRoom -> RehearsalRoom.Root.rehearsalRoomScene ()
+    | RehearsalRoom -> RehearsalRoom.Root.rehearsalRoomScene state
     | Management -> Management.Root.managementScene ()
     | Map -> Map.mapScene ()
     | Bank -> Bank.Root.bankScene state
@@ -97,6 +99,23 @@ let actionsFromEffect effect =
         |> Message
     | _ -> NoOp
 
+let actionsFromInteractiveRoom (room: InteractiveRoom) =
+    let lookCommand = createLookCommand room
+
+    let objectCommands =
+        room.Objects
+        |> List.collect (fun object -> object.Commands)
+
+    let commands =
+        objectCommands
+        @ room.ExtraCommands @ [ lookCommand ]
+
+    seq {
+        Prompt
+            { Title = TextConstant CommonCommandPrompt
+              Content = CommandPrompt commands }
+    }
+
 /// Determines whether the given scene is out of gameplay (main menu, creators,
 /// etc.) or not.
 let private outOfGameplayScene scene =
@@ -137,6 +156,7 @@ let rec runWith chain =
                 subScene
                 |> actionsFromSubScene (State.Root.get ())
                 |> runWith
+            | InteractiveRoom room -> actionsFromInteractiveRoom room |> runWith
             | Effect effect ->
                 Simulation.Galactus.runOne (State.Root.get ()) effect
                 |> Seq.tap State.Root.apply
@@ -144,6 +164,7 @@ let rec runWith chain =
                 |> Seq.map actionsFromEffect
                 |> runWith
             | GameInfo version -> renderGameInfo version
+            | Exit -> Environment.Exit(0)
             | NoOp -> ())
 
 and renderPrompt prompt =
@@ -192,7 +213,7 @@ and renderPrompt prompt =
         renderLineBreak ()
         renderMessage prompt.Title
 
-        let commandsWithDefaults = commands @ [ exitCommand ]
+        let commandsWithDefaults = commands @ [ mapCommand; exitCommand ]
 
         let commandsWithHelp =
             commandsWithDefaults

@@ -1,9 +1,9 @@
-module Cli.View.Text
+module Cli.Localization.English
 
 open System
-open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.TextConstants
+open Cli.View
 open Entities
 
 let verbConjugationByGender =
@@ -28,14 +28,15 @@ and instrumentName instrumentType =
     | Bass -> "Bass"
     | Drums -> "Drums"
     | Guitar -> "Guitar"
-    | Vocals -> "Vocals"
+    | Vocals -> "Microphone"
 
 /// Returns the formatted skill name given its ID.
 and skillName id =
     match id with
     | Composition -> "Composition"
     | Genre genre -> $"{genre} (Genre)"
-    | Instrument instrument -> $"{instrumentName instrument} (Instrument)"
+    | SkillId.Instrument instrument ->
+        $"{instrumentName instrument} (Instrument)"
     | MusicProduction -> "Music production"
 
 /// Returns the correct pronoun for the given gender (he, she, they).
@@ -88,9 +89,25 @@ and albumType t =
     | EP -> "EP"
     | LP -> "LP"
 
+/// Returns the name of the given object type.
+and objectName object =
+    match object with
+    | ObjectType.Instrument instrument -> instrumentName instrument
+
+/// Returns a formatted list as empty if it contains nothing, "a" if it contains
+/// only one element, "a and b" with two elements and "a, b and c" for all other
+/// lengths.
+and listOf (stuff: 'a list) toStr =
+    match stuff with
+    | [] -> ""
+    | [ head ] -> toStr head
+    | [ head; tail ] -> $"%s{toStr head} and %s{toStr tail}"
+    | head :: tail -> $"%s{toStr head}, %s{listOf tail toStr}"
+
 /// Formats a number with the thousands specifier.
 and formatNumber (amount: 'a) = String.Format("{0:#,0}", amount)
 
+// TODO: Remove all references to hard-coded styles and move to TextStyles, remove all `String.format` and `sprintf`.
 and fromConstant constant =
     match constant with
     | GameName -> "Duets"
@@ -134,10 +151,20 @@ and fromConstant constant =
             (formatNumber bandBalance)
     | CommonInvalidLength ->
         "[bold red]Not a valid length. Try the format [grey]mm:ss[/] as in 6:55 (6 minutes, 55 seconds)[/]"
+    | CommonCommandPrompt ->
+        "[blue bold]What do you want to do? Type 'help' if you're lost[/]"
     | CommonInvalidCommand ->
         "[bold red]That command was not valid. Maybe try again or enter 'help' if you're lost[/]"
     | CommandHelpDescription ->
         "Here are all the commands you can execute right now"
+    | CommandHelpEntry (entryName, entryDescription) ->
+        $"{TextStyles.action entryName} — {toString entryDescription}"
+    | CommandLookDescription -> "Shows all the objects you have around you"
+    | CommandLookNoObjectsAround -> "There are no objects around you"
+    | CommandLookEnvironmentDescription roomDescription ->
+        $"{toString roomDescription}\n\nYou can see:"
+    | CommandLookObjectEntry (objectType, commandNames) ->
+        $"- {objectName objectType |> TextStyles.object}, you can interact with it by calling {listOf commandNames id |> TextStyles.action}"
     | CommandExitDescription -> "Exits the game saving the progress"
     | CommandMapDescription ->
         "Shows the map of the game where you can quickly travel to other places"
@@ -188,9 +215,7 @@ and fromConstant constant =
     | CreatorErrorBandNameTooShort -> "[red]Your band's name is too short[/]"
     | CreatorErrorBandNameTooLong -> "[red]Your band's name is too long[/]"
     | WorldTitle -> "World"
-    | WorldPrompt -> "What do you want to do? Type 'help' if you're lost"
     | PhoneTitle -> "Phone"
-    | PhonePrompt -> "What do you want to do?"
     | PhoneOptionBank -> "Bank App"
     | PhoneOptionStatistics -> "Statistics App"
     | MapTitle -> "Map"
@@ -198,10 +223,13 @@ and fromConstant constant =
     | MapOptionRehearsalRoom -> "Band's rehearsal room"
     | MapOptionStudios -> "Studio"
     | RehearsalRoomTitle -> "Rehearsal Room"
-    | RehearsalRoomCompose -> "Compose"
-    | RehearsalRoomManage -> "Manage band"
+    | RehearsalRoomDescription ->
+        $"""You get to the {TextStyles.place "rehearsal room"} inside an old and quite smelly rehearsal place. You can feel the smoke in the air and hear [italic]AC/DC[/] being played in the room nearby. But hey, at least it's free to use."""
+    | RehearsalRoomManageDescription ->
+        "Opens the band management menu which allows you to hire new members or fire current ones"
     | RehearsalRoomStatistics -> "Statistics"
-    | RehearsalRoomPrompt -> "What do you want to do today?"
+    | RehearsalRoomInstrumentPlayDescription ->
+        "Starts the rehearsal, which allows the band to compose new songs, finish previously started songs and practice finished songs."
     | ComposePrompt -> "What do you want to compose?"
     | ComposeSong -> "Compose new song"
     | ComposeSongTitlePrompt ->

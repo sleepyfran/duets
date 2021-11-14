@@ -1,4 +1,4 @@
-module Cli.View.Scenes.RehearsalRoom.DiscardSong
+module Cli.View.Scenes.Interactive.RehearsalRoom.DiscardSong
 
 open Cli.View.Actions
 open Cli.View.Common

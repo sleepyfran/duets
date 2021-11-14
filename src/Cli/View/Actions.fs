@@ -17,9 +17,14 @@ type Action =
     // Waits until the user presses a key and then navigates to the specified scene.
     | SceneAfterKey of Scene
     | SubScene of SubScene
+    | InteractiveRoom of InteractiveRoom
     | GameInfo of version: string
     | Effect of Effect
+    | Exit
     | NoOp
+
+/// Sequence of actions to be executed.
+and ActionChain = Action seq
 
 /// Defines the index of all scenes available in the game that can be instantiated.
 and Scene =
@@ -54,19 +59,27 @@ and SubScene =
     | BankTransfer of sender: BankAccountHolder * receiver: BankAccountHolder
     | StudioCreateRecord of Studio
     | StudioContinueRecord of Studio
-    | StudioPromptToRelease of onCancel: ActionChain * studio: Studio * band: Band * album: UnreleasedAlbum
+    | StudioPromptToRelease of
+        onCancel: ActionChain *
+        studio: Studio *
+        band: Band *
+        album: UnreleasedAlbum
     | StatisticsOfBand
     | StatisticsOfAlbums
 
-/// Sequence of actions to be executed.
-and ActionChain = Action seq
+/// Defines an object that can be placed in an interactive room so that the user
+/// can interact with it.
+and Object =
+    { Type: ObjectType
+      Commands: Command list }
 
-/// Encapsulates text that can either be defined by a text constant, which is
-/// resolved by the UI layer, or a string constant that is just passed from this
-/// layer into the UI.
-and Text =
-    | TextConstant of TextConstant
-    | Literal of string
+/// Defines a room that instead of showing an UI shows a command prompt exposing
+/// a command for each verb that can can invoke an object if the room and an
+/// optional extra set of commands to execute.
+and InteractiveRoom =
+    { Description: Text
+      Objects: Object list
+      ExtraCommands: Command list }
 
 /// Defines the content of a progress bar by giving the number of steps and
 /// the duration of each step. If Async is set to true the steps will be shown

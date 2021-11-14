@@ -18,7 +18,7 @@ let private ageFromAverage avg =
 /// age around the average age of the band.
 let private createMemberForHire averageSkillLevel averageAge genre instrument =
     [ Composition
-      Instrument instrument
+      SkillId.Instrument instrument
       Genre genre ]
     |> List.map (fun id -> Skill.createFromAverageLevel id averageSkillLevel)
     |> fun skills ->

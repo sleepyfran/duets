@@ -1,5 +1,6 @@
 module Cli.View.Common
 
+open Cli.View.TextConstants
 open Cli.View.Actions
 open Entities
 open Simulation.Queries

@@ -1,5 +1,6 @@
 module Cli.View.Scenes.DeveloperRoom
 
+open Cli.View.TextConstants
 open Cli.View.Actions
 open Common
 open Entities
@@ -42,7 +43,7 @@ and processCommand state command =
                     (fun currentMember ->
                         [ Composition
                           Genre(band.Genre)
-                          Instrument(currentMember.Role) ]
+                          SkillId.Instrument(currentMember.Role) ]
                         |> Seq.map (
                             Skills.characterSkillWithLevel
                                 state

@@ -19,7 +19,7 @@ let rec phoneScene () =
 
         yield
             Prompt
-                { Title = TextConstant PhonePrompt
+                { Title = TextConstant CommonCommandPrompt
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
