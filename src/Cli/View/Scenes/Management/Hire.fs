@@ -17,9 +17,8 @@ let rec hireScene state =
                       <| OptionalChoiceHandler
                           { Choices = instrumentOptions
                             Handler =
-                                rehearsalRoomOptionalChoiceHandler (
-                                    memberSelection state
-                                )
+                                basicOptionalChoiceHandler (Scene Management)
+                                <| memberSelection state
                             BackText = TextConstant CommonCancel } }
     }
 
@@ -77,7 +76,7 @@ and handleHiringConfirmation
         if confirmed then
             yield Effect <| hireMember state band memberForHire
             yield Message <| TextConstant HireMemberHired
-            yield Scene RehearsalRoom
+            yield Scene Management
         else
             yield
                 Prompt
@@ -92,5 +91,5 @@ and handleContinueConfirmation state selectedInstrument confirmed =
         if confirmed then
             yield! memberSelection state selectedInstrument
         else
-            yield Scene RehearsalRoom
+            yield Scene Management
     }
