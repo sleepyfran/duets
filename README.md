@@ -15,7 +15,7 @@ dotnet build
 dotnet run --project src/Cli/Cli.fsproj
 ```
 
-You need .NET 5 to run this. You can follow the installation details [here](https://dotnet.microsoft.com/download).
+You need the latest .NET to run this. You can follow the installation details [here](https://dotnet.microsoft.com/download).
 
 # 🧪 Testing
 
