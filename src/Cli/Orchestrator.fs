@@ -213,7 +213,11 @@ and renderPrompt prompt =
         renderLineBreak ()
         renderMessage prompt.Title
 
-        let commandsWithDefaults = commands @ [ mapCommand; exitCommand ]
+        let commandsWithDefaults =
+            commands
+            @ [ mapCommand
+                phoneCommand
+                exitCommand ]
 
         let commandsWithHelp =
             commandsWithDefaults

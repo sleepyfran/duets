@@ -67,6 +67,12 @@ let mapCommand =
       Description = TextConstant CommandMapDescription
       Handler = HandlerWithNavigation(fun _ -> seq { Scene Map }) }
 
+/// Command which opens the phone of the user.
+let phoneCommand =
+    { Name = "phone"
+      Description = TextConstant CommandPhoneDescription
+      Handler = HandlerWithNavigation(fun _ -> seq { Scene Phone }) }
+
 /// Command which exits the app upon being called.
 let exitCommand =
     { Name = "exit"
