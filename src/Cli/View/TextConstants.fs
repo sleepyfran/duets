@@ -172,9 +172,7 @@ type TextConstant =
     | StudioConfirmRecordingPrompt of name: string * albumType: AlbumType
     | StudioCreateErrorNameTooShort
     | StudioCreateErrorNameTooLong
-    | StudioCreateErrorNotEnoughMoney of
-        bandBalance: int<dd> *
-        studioBill: int<dd>
+    | StudioCreateErrorNotEnoughMoney of studioBill: int<dd>
     | StudioCreateAlbumRecorded of albumName: string
     | StudioCreateProgressEatingSnacks
     | StudioCreateProgressRecordingWeirdSounds

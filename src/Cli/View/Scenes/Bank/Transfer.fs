@@ -3,7 +3,7 @@ module Cli.View.Scenes.Bank.Transfer
 open Cli.View.Actions
 open Cli.View.TextConstants
 open Entities
-open Simulation.Bank.Transfer
+open Simulation.Bank.Operations
 
 /// Asks for the amount that the user wants to transfer from the two accounts
 /// and confirms the transaction.
@@ -24,7 +24,7 @@ and handleAmount state sender receiver amount =
                 yield! Seq.map Effect effects
                 yield SceneAfterKey Bank
             }
-        | NotEnoughFunds ->
+        | Error (NotEnoughFunds _) ->
             seq {
                 yield Message <| TextConstant BankTransferNotEnoughFunds
                 yield SceneAfterKey Bank

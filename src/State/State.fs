@@ -66,9 +66,9 @@ let apply effect =
     | SkillImproved (character, Diff (_, skill)) ->
         Skills.add staticAgent.Map character skill
     | MoneyTransferred (account, transaction) ->
-        Bank.transfer staticAgent.Map account transaction
+        Bank.setBalance staticAgent.Map account transaction
     | MoneyEarned (account, transaction) ->
-        Bank.transfer staticAgent.Map account transaction
+        Bank.setBalance staticAgent.Map account transaction
     | AlbumRecorded (band, album) ->
         Albums.addUnreleased staticAgent.Map band album
         let (UnreleasedAlbum ua) = album

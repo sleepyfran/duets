@@ -55,9 +55,9 @@ module BankAccount =
         (fun (b: BankAccount) -> b.Holder),
         (fun v (b: BankAccount) -> { b with Holder = v })
 
-    let transactions_ =
-        (fun (b: BankAccount) -> b.Transactions),
-        (fun v (b: BankAccount) -> { b with Transactions = v })
+    let balance_ =
+        (fun (b: BankAccount) -> b.Balance),
+        (fun v (b: BankAccount) -> { b with Balance = v })
 
 module BandRepertoire =
     let unfinishedSongs_ =
@@ -97,11 +97,10 @@ module FromState =
         /// Lens into a specific account.
         let account_ id = State.bankAccounts_ >-> Map.key_ id
 
-        /// Lens into the transactions of a specific bank account given the
-        /// state and its id.
-        let transactionsOf_ id =
+        /// Lens into the balance of a specific account.
+        let balanceOf_ id =
             State.bankAccounts_ >-> Map.key_ id
-            >?> BankAccount.transactions_
+            >?> BankAccount.balance_
 
     module Bands =
         /// Lens into a specific band given the state and its id.

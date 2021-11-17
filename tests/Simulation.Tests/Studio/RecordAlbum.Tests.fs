@@ -6,6 +6,7 @@ open Test.Common
 
 open Common
 open Entities
+open Simulation.Bank.Operations
 open Simulation.Studio.RecordAlbum
 
 [<Test>]
@@ -14,10 +15,10 @@ let ``recordAlbum should fail if the band does not have enough money`` () =
     |> Result.unwrap
     |> recordAlbum dummyState dummyStudio dummyBand
     |> Result.unwrapError
-    |> should be (ofCase <@ NotEnoughMoney(0<dd>, 200<dd>) @>)
+    |> should be (ofCase <@ NotEnoughFunds(200<dd>) @>)
 
 let state =
-    addFunds dummyBandBankAccount.Holder 1000<dd> dummyState
+    addFunds dummyBandBankAccount.Holder 40000<dd> dummyState
 
 [<Test>]
 let ``recordAlbum should create album if parameters are correct`` () =
@@ -99,5 +100,5 @@ let ``recordAlbum should generate AlbumRecorded and MoneyTransferred`` () =
             (ofCase
                 <@ MoneyTransferred(
                     dummyBandBankAccount.Holder,
-                    Outgoing 200<dd>
+                    Outgoing(200<dd>, 200<dd>)
                 ) @>)

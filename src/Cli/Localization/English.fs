@@ -353,12 +353,12 @@ and fromConstant constant =
         | Band _ -> "How much do you want to transfer from your band?"
     | BankTransferSuccess (holder, transaction) ->
         match transaction with
-        | Incoming amount ->
+        | Incoming (amount, _) ->
             sprintf
                 "[bold green]Transferred %sd$ to %s's account[/]"
                 (formatNumber amount)
                 (accountHolderName holder)
-        | Outgoing amount ->
+        | Outgoing (amount, _) ->
             sprintf
                 "[bold red]Transferred %sd$ from %s's account[/]"
                 (formatNumber amount)
@@ -391,11 +391,10 @@ and fromConstant constant =
         "[bold red]The name of the album is too short[/]"
     | StudioCreateErrorNameTooLong ->
         "[bold red]The name of the album is too long[/]"
-    | StudioCreateErrorNotEnoughMoney (bandBalance, studioBill) ->
+    | StudioCreateErrorNotEnoughMoney studioBill ->
         sprintf
-            "[bold red]Your band doesn't have enough money to pay the studio fee. The studio requires %sd$, but your band only has %sd$[/]"
+            "[bold red]Your band doesn't have enough money to pay the studio fee. The studio is asking for %sd$, but you don't have enough money on the band's account. Check the Bank app on your phone to transfer money to your band's account[/]"
             (formatNumber studioBill)
-            (formatNumber bandBalance)
     | StudioCreateAlbumRecorded albumName ->
         sprintf "[bold green]Your band just finished recording %s![/]" albumName
     | StudioCreateProgressEatingSnacks -> "[deepskyblue3]Eating some snacks[/]"

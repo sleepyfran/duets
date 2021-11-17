@@ -1,46 +1,46 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <RootNamespace>Simulation</RootNamespace>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Constants.fs" />
-    <Compile Include="Queries/Albums.fs" />
-    <Compile Include="Queries/Bank.fs" />
-    <Compile Include="Queries\Skills.fs" />
-    <Compile Include="Queries\Characters.fs" />
-    <Compile Include="Queries\Bands.fs" />
-    <Compile Include="Queries\Songs.fs" />
-    <Compile Include="Queries\Calendar.fs" />
-    <Compile Include="Queries\GenreMarkets.fs" />
-    <Compile Include="Albums\DailyStreams.fs" />
-    <Compile Include="Albums\Hype.fs" />
-    <Compile Include="Albums\Revenue.fs" />
-    <Compile Include="Albums\DailyUpdate.fs" />
-    <Compile Include="Time\AdvanceTime.fs" />
-    <Compile Include="Studio/ReleaseAlbum.fs" />
-    <Compile Include="Studio/RecordAlbum.fs" />
-    <Compile Include="Studio/RenameAlbum.fs" />
-    <Compile Include="Bank\Transfer.fs" />
-    <Compile Include="Market\GenreMarket.fs" />
-    <Compile Include="Bands\Members.fs" />
-    <Compile Include="Skills\ImproveSkills.fs" />
-    <Compile Include="Songs\Composition\Common.fs" />
-    <Compile Include="Songs\Composition\ComposeSong.fs" />
-    <Compile Include="Songs\Composition\ImproveSong.fs" />
-    <Compile Include="Songs\Composition\FinishSong.fs" />
-    <Compile Include="Songs\Composition\DiscardSong.fs" />
-    <Compile Include="Setup\StartGame.fs" />
-    <Compile Include="Galactus.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.fsproj" />
-    <ProjectReference Include="..\Database\Database.fsproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Aether" Version="8.3.1" />
-    <PackageReference Include="Fugit" Version="0.4.1" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <RootNamespace>Simulation</RootNamespace>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="Constants.fs" />
+        <Compile Include="Queries/Albums.fs" />
+        <Compile Include="Queries/Bank.fs" />
+        <Compile Include="Queries\Skills.fs" />
+        <Compile Include="Queries\Characters.fs" />
+        <Compile Include="Queries\Bands.fs" />
+        <Compile Include="Queries\Songs.fs" />
+        <Compile Include="Queries\Calendar.fs" />
+        <Compile Include="Queries\GenreMarkets.fs" />
+        <Compile Include="Bank\Operations.fs" />
+        <Compile Include="Albums\DailyStreams.fs" />
+        <Compile Include="Albums\Hype.fs" />
+        <Compile Include="Albums\Revenue.fs" />
+        <Compile Include="Albums\DailyUpdate.fs" />
+        <Compile Include="Time\AdvanceTime.fs" />
+        <Compile Include="Studio/ReleaseAlbum.fs" />
+        <Compile Include="Studio/RecordAlbum.fs" />
+        <Compile Include="Studio/RenameAlbum.fs" />
+        <Compile Include="Market\GenreMarket.fs" />
+        <Compile Include="Bands\Members.fs" />
+        <Compile Include="Skills\ImproveSkills.fs" />
+        <Compile Include="Songs\Composition\Common.fs" />
+        <Compile Include="Songs\Composition\ComposeSong.fs" />
+        <Compile Include="Songs\Composition\ImproveSong.fs" />
+        <Compile Include="Songs\Composition\FinishSong.fs" />
+        <Compile Include="Songs\Composition\DiscardSong.fs" />
+        <Compile Include="Setup\StartGame.fs" />
+        <Compile Include="Galactus.fs" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Common\Common.fsproj" />
+        <ProjectReference Include="..\Database\Database.fsproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Aether" Version="8.3.1" />
+        <PackageReference Include="Fugit" Version="0.4.1" />
+    </ItemGroup>
 </Project>

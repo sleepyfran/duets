@@ -133,11 +133,10 @@ let addFinishedSong (band: Band) finishedSong =
     Optic.map finishedSongLenses (Map.add song.Id finishedSong)
 
 /// Adds the specified funds to the given account.
-let addFunds account amount state =
-    let add transactions =
-        List.append transactions [ Incoming amount ]
-
-    Optic.map (Lenses.FromState.BankAccount.transactionsOf_ account) add state
+let addFunds account amount =
+    Optic.map
+        (Lenses.FromState.BankAccount.balanceOf_ account)
+        (fun balance -> balance + amount)
 
 /// Adds the specified album to the band's released albums.
 let addReleasedAlbum (band: Band) album =

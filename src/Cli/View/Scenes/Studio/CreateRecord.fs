@@ -6,6 +6,7 @@ open Cli.View.TextConstants
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
 open Simulation.Queries
+open Simulation.Bank.Operations
 open Simulation.Studio.RecordAlbum
 
 /// Creates the studio record subscene which allows bands to create a new
@@ -98,9 +99,9 @@ and confirmRecording state studio band album =
 and checkBankAndRecordAlbum state studio band album =
     seq {
         match recordAlbum state studio band album with
-        | Error (NotEnoughMoney (bandBalance, studioBill)) ->
+        | Error (NotEnoughFunds studioBill) ->
             yield
-                StudioCreateErrorNotEnoughMoney(bandBalance, studioBill)
+                StudioCreateErrorNotEnoughMoney(studioBill)
                 |> TextConstant
                 |> Message
 

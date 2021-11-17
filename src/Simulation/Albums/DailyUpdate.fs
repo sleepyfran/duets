@@ -5,6 +5,7 @@ open Simulation.Queries
 open Simulation.Albums.DailyStreams
 open Simulation.Albums.Hype
 open Simulation.Albums.Revenue
+open Simulation.Bank.Operations
 
 let private bandDailyUpdate state bandId albumsByBand =
     let band = Bands.byId state bandId
@@ -24,7 +25,7 @@ let private bandDailyUpdate state bandId albumsByBand =
                     Album.Released.update album streams recalculatedHype
                 )
               if dailyRevenue > 0<dd> then
-                  yield MoneyEarned(bandAccount, Incoming dailyRevenue) ])
+                  yield (income state bandAccount dailyRevenue) ])
     |> List.concat
 
 /// Performs the daily update of albums from all bands. This generates the

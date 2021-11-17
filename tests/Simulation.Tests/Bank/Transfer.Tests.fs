@@ -4,12 +4,9 @@ open NUnit.Framework
 open FsUnit
 open Test.Common
 
+open Common
 open Entities
-open Simulation.Bank.Transfer
-
-let state =
-    dummyState
-    |> addFunds dummyCharacterBankAccount.Holder 100<dd>
+open Simulation.Bank.Operations
 
 [<Test>]
 let transferAmountHigherThanBalanceShouldReturnNotEnoughFunds () =
@@ -20,34 +17,31 @@ let transferAmountHigherThanBalanceShouldReturnNotEnoughFunds () =
     |> List.iter
         (fun amount ->
             transfer
-                state
+                dummyState
                 dummyCharacterBankAccount.Holder
                 dummyBandBankAccount.Holder
                 amount
             |> should be (ofCase <@ NotEnoughFunds @>))
 
-let createOk sender receiver amount =
-    Ok
-    <| [ MoneyTransferred <| (receiver, Incoming amount)
-         MoneyTransferred <| (sender, Outgoing amount) ]
-
 [<Test>]
 let transferAmountLowerThanBalanceShouldReturnOkWithEffects () =
-    [ 20<dd>
-      30<dd>
-      99<dd>
-      1<dd>
-      54<dd> ]
+    [ 200<dd>
+      300<dd>
+      990<dd>
+      10<dd>
+      540<dd> ]
     |> List.iter
         (fun amount ->
             transfer
-                state
+                dummyState
                 dummyCharacterBankAccount.Holder
                 dummyBandBankAccount.Holder
                 amount
+            |> Result.unwrap
             |> should
                 equal
-                (createOk
-                    dummyCharacterBankAccount.Holder
-                    dummyBandBankAccount.Holder
-                    amount))
+                [ MoneyTransferred
+                  <| (dummyBandBankAccount.Holder, Incoming(amount, amount))
+                  MoneyTransferred
+                  <| (dummyCharacterBankAccount.Holder,
+                      Outgoing(amount, 10000<dd> - amount)) ])

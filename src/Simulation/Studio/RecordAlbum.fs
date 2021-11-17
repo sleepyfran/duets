@@ -3,9 +3,7 @@ module Simulation.Studio.RecordAlbum
 open Common
 open Entities
 open Simulation.Queries
-
-type AlbumRecordingError =
-    NotEnoughMoney of bandBalance: int<dd> * studioBill: int<dd>
+open Simulation.Bank.Operations
 
 let private productionQualityImprovement state studio =
     let (Producer (producer)) = studio.Producer
@@ -33,16 +31,11 @@ let private recordAlbum' state studio band (UnreleasedAlbum album) =
 
 let private generatePayment state studio (band: Band) (UnreleasedAlbum album) =
     let bandAccount = Band band.Id
-    let bandBalance = Bank.balanceOf state bandAccount
 
     let studioBill =
         studio.PricePerSong * List.length album.TrackList
 
-    if bandBalance >= studioBill then
-        Ok
-        <| MoneyTransferred(bandAccount, (Outgoing studioBill))
-    else
-        Error <| NotEnoughMoney(bandBalance, studioBill)
+    expense state bandAccount studioBill
 
 /// Applies the improvement in quality given by the producer of the given studio
 /// and attempts to generate an album from the name and track list, applying the
@@ -53,5 +46,5 @@ let recordAlbum state studio band unreleasedAlbum =
     |> Result.bind
         (fun (album, prevEffect) ->
             match generatePayment state studio band album with
-            | Ok effect -> Ok(album, [ prevEffect; effect ])
+            | Ok effects -> Ok(album, [ prevEffect ] @ effects)
             | Error error -> Error error)

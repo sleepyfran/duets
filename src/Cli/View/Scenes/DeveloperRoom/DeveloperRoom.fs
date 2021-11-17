@@ -4,8 +4,9 @@ open Cli.View.TextConstants
 open Cli.View.Actions
 open Common
 open Entities
-open Simulation.Time.AdvanceTime
 open Simulation.Queries
+open Simulation.Bank.Operations
+open Simulation.Time.AdvanceTime
 
 #if DEBUG
 /// Tools for when developing. Allows commands that can make debugging easier.
@@ -25,15 +26,18 @@ and processCommand state command =
     seq {
         match command with
         | "motherlode" ->
-            yield
-                Effect
-                <| MoneyTransferred(characterAccount, Incoming 40000<dd>)
+            yield Effect <| income state characterAccount 40000<dd>
 
             yield SceneAfterKey DeveloperRoom
         | "iamrich" ->
-            yield
-                Effect
-                <| MoneyTransferred(characterAccount, Outgoing 40000<dd>)
+            yield!
+                expense state characterAccount 40000<dd>
+                |> fun res ->
+                    match res with
+                    | Ok effects -> effects |> List.map Effect
+                    | Error _ ->
+                        [ Message
+                          <| Literal "May not as much as you think..." ]
 
             yield SceneAfterKey DeveloperRoom
         | "madskillz" ->
