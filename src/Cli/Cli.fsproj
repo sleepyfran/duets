@@ -35,7 +35,6 @@
         <Compile Include="View/Scenes/BandCreator.fs" />
         <Compile Include="View/Scenes/CharacterCreator.fs" />
         <Compile Include="View/Scenes/MainMenu.fs" />
-        <Compile Include="View/Scenes/Map.fs" />
         <Compile Include="View\Scenes\World.fs" />
         <Compile Include="View\Scenes\Phone.fs" />
         <Compile Include="Localization\English.fs" />

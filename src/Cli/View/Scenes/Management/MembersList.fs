@@ -36,5 +36,5 @@ let rec memberListScene state =
                         |> TextConstant
                         |> Message)
 
-        yield SceneAfterKey Management
+        yield Scene Management
     }

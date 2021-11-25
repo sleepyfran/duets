@@ -23,7 +23,7 @@ let rec fireScene state =
     seq {
         if memberOptions.Length = 0 then
             yield Message <| TextConstant FireMemberNoMembersToFire
-            yield SceneAfterKey RehearsalRoom
+            yield Scene RehearsalRoom
         else
             yield
                 Prompt
@@ -69,7 +69,7 @@ and handleConfirmation state band memberToFire confirmed =
                 |> TextConstant
                 |> Message
 
-            yield SceneAfterKey Management
+            yield Scene Management
         else
             yield Scene Management
     }

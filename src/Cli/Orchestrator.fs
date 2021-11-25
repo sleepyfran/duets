@@ -23,7 +23,6 @@ let actionsFromScene state scene =
     | BandCreator character -> BandCreator.bandCreator character
     | RehearsalRoom -> RehearsalRoom.Root.rehearsalRoomScene state
     | Management -> Management.Root.managementScene ()
-    | Map -> Map.mapScene ()
     | Bank -> Bank.Root.bankScene state
     | Studio studio -> Studio.Root.studioScene state studio
     | Statistics -> Statistics.Root.statisticsScene ()
@@ -33,29 +32,18 @@ let actionsFromScene state scene =
 let actionsFromSubScene state subScene =
     match subScene with
     | SubScene.RehearsalRoomCompose -> RehearsalRoom.Compose.compose state
-    | RehearsalRoomComposeSong ->
-        RehearsalRoom.ComposeSong.composeSongScene state
-    | RehearsalRoomImproveSong ->
-        RehearsalRoom.ImproveSong.improveSongScene state
+    | RehearsalRoomComposeSong -> RehearsalRoom.ComposeSong.composeSongScene state
+    | RehearsalRoomImproveSong -> RehearsalRoom.ImproveSong.improveSongScene state
     | RehearsalRoomFinishSong -> RehearsalRoom.FinishSong.finishSongScene state
-    | RehearsalRoomDiscardSong ->
-        RehearsalRoom.DiscardSong.discardSongScene state
+    | RehearsalRoomDiscardSong -> RehearsalRoom.DiscardSong.discardSongScene state
     | SubScene.ManagementHireMember -> Management.Hire.hireScene state
     | SubScene.ManagementFireMember -> Management.Fire.fireScene state
     | ManagementListMembers -> Management.MemberList.memberListScene state
-    | BankTransfer (sender, receiver) ->
-        Bank.Transfer.transferSubScene state sender receiver
-    | StudioCreateRecord studio ->
-        Studio.CreateRecord.createRecordSubscene state studio
-    | SubScene.StudioContinueRecord studio ->
-        Studio.ContinueRecord.continueRecordSubscene state studio
+    | BankTransfer (sender, receiver) -> Bank.Transfer.transferSubScene state sender receiver
+    | StudioCreateRecord studio -> Studio.CreateRecord.createRecordSubscene state studio
+    | SubScene.StudioContinueRecord studio -> Studio.ContinueRecord.continueRecordSubscene state studio
     | SubScene.StudioPromptToRelease (onCancel, studio, band, album) ->
-        Studio.PromptToRelease.promptToReleaseAlbum
-            onCancel
-            state
-            studio
-            band
-            album
+        Studio.PromptToRelease.promptToReleaseAlbum onCancel state studio band album
     | StatisticsOfBand -> Statistics.Band.bandStatisticsSubScene state
     | StatisticsOfAlbums -> Statistics.Albums.albumsStatisticsSubScene state
 
@@ -72,13 +60,7 @@ let actionsFromEffect effect =
         let (skill, previousLevel) = before
         let (_, currentLevel) = after
 
-        CommonSkillImproved(
-            character.Name,
-            character.Gender,
-            skill,
-            previousLevel,
-            currentLevel
-        )
+        CommonSkillImproved(character.Name, character.Gender, skill, previousLevel, currentLevel)
         |> TextConstant
         |> Message
     | MoneyTransferred (holder, transaction) ->
@@ -147,11 +129,6 @@ let rec runWith chain =
             | Figlet text -> renderFiglet text
             | ProgressBar content -> renderProgressBar content
             | Scene scene -> runScene (State.Root.get ()) scene
-            | SceneAfterKey scene ->
-                waitForInput
-                <| TextConstant CommonPressKeyToContinue
-
-                runScene (State.Root.get ()) scene
             | SubScene subScene ->
                 subScene
                 |> actionsFromSubScene (State.Root.get ())
@@ -195,8 +172,7 @@ and renderPrompt prompt =
         content.Choices
         |> choicesById choiceId
         |> content.Handler
-    | ConfirmationPrompt handler ->
-        renderConfirmationPrompt prompt.Title |> handler
+    | ConfirmationPrompt handler -> renderConfirmationPrompt prompt.Title |> handler
     | NumberPrompt handler -> renderNumberPrompt prompt.Title |> handler
     | TextPrompt handler -> renderTextPrompt prompt.Title |> handler
     | LengthPrompt handler ->
@@ -231,12 +207,7 @@ and renderPrompt prompt =
             |> List.ofArray
             |> fun commandWithArgs ->
                 match commandWithArgs with
-                | commandName :: args ->
-                    runCommand
-                        (seq { Prompt prompt })
-                        commandsWithHelp
-                        commandName
-                        args
+                | commandName :: args -> runCommand (seq { Prompt prompt }) commandsWithHelp commandName args
                 | _ -> None
             |> Option.defaultWith promptForCommand
 
@@ -246,36 +217,8 @@ and renderPrompt prompt =
 /// on top.
 and runScene state scene =
     saveIfNeeded scene
-    clear ()
     separator ()
-    showStatusBar state scene
     runWith (actionsFromScene state scene)
-
-and showStatusBar state scene =
-    if not (outOfGameplayScene scene) then
-        statusBarContent state
-        |> TextConstant
-        |> renderMessage
-
-        separator ()
-
-and statusBarContent state =
-    let date = Calendar.today state
-    let dayMoment = Calendar.dayMomentOf date
-
-    let characterBalance =
-        Characters.playableCharacter state
-        |> Optic.get Lenses.Character.id_
-        |> Character
-        |> Bank.balanceOf state
-
-    let bandBalance =
-        Bands.currentBand state
-        |> Optic.get Lenses.Band.id_
-        |> Band
-        |> Bank.balanceOf state
-
-    CommonStatusBar(date, dayMoment, characterBalance, bandBalance)
 
 and runCommand currentChain availableCommands commandName args =
     availableCommands
@@ -288,8 +231,7 @@ and runCommand currentChain availableCommands commandName args =
             // from running out of actions prematurely.
             match command.Handler with
             | HandlerWithNavigation handler -> handler args |> Some
-            | HandlerWithoutNavigation handler ->
-                Seq.append (handler args) currentChain |> Some
+            | HandlerWithoutNavigation handler -> Seq.append (handler args) currentChain |> Some
         | None ->
             renderMessage (TextConstant CommonInvalidCommand)
             None

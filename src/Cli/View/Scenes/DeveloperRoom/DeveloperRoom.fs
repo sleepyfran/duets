@@ -28,7 +28,7 @@ and processCommand state command =
         | "motherlode" ->
             yield Effect <| income state characterAccount 40000<dd>
 
-            yield SceneAfterKey DeveloperRoom
+            yield Scene DeveloperRoom
         | "iamrich" ->
             yield!
                 expense state characterAccount 40000<dd>
@@ -39,7 +39,7 @@ and processCommand state command =
                         [ Message
                           <| Literal "May not as much as you think..." ]
 
-            yield SceneAfterKey DeveloperRoom
+            yield Scene DeveloperRoom
         | "madskillz" ->
             yield!
                 band.Members
@@ -61,7 +61,7 @@ and processCommand state command =
                         |> Seq.map Effect)
                 |> Seq.concat
 
-            yield SceneAfterKey DeveloperRoom
+            yield Scene DeveloperRoom
         | command when command.StartsWith "tick" ->
             let times =
                 match parseParams command with
@@ -73,7 +73,7 @@ and processCommand state command =
                 |> Seq.map Effect
 
             yield Scene DeveloperRoom
-        | _ -> yield Scene Map
+        | _ -> yield Scene World
     }
 
 and parseParams (command: string) = command.Split ' ' |> Array.skip 1

@@ -23,5 +23,5 @@ let bandStatisticsSubScene state =
             |> TextConstant
             |> Message
             
-        yield SceneAfterKey Statistics
+        yield Scene Statistics
     }

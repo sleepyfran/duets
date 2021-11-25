@@ -22,10 +22,10 @@ and handleAmount state sender receiver amount =
         | Ok effects ->
             seq {
                 yield! Seq.map Effect effects
-                yield SceneAfterKey Bank
+                yield Scene Bank
             }
         | Error (NotEnoughFunds _) ->
             seq {
                 yield Message <| TextConstant BankTransferNotEnoughFunds
-                yield SceneAfterKey Bank
+                yield Scene Bank
             }

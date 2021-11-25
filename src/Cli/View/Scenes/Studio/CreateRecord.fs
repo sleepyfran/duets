@@ -31,7 +31,7 @@ let rec createRecordSubscene state studio =
                               songOptions }
         else
             yield Message <| TextConstant StudioCreateNoSongs
-            yield SceneAfterKey Map
+            yield Scene World
     }
 
 and trackListPrompt state studio band songOptions name =
@@ -105,7 +105,7 @@ and checkBankAndRecordAlbum state studio band album =
                 |> TextConstant
                 |> Message
 
-            yield SceneAfterKey Map
+            yield Scene World
         | Ok (album, effects) ->
             yield! recordWithProgressBar studio band album effects
     }

@@ -132,12 +132,6 @@ let separator () =
 /// Writes a line break to the console.
 let renderLineBreak () = AnsiConsole.WriteLine()
 
-/// Waits until the user inputs something.
-let waitForInput explanationText =
-    System.Console.WriteLine()
-    renderMessage explanationText
-    System.Console.Read() |> ignore
-
 /// Renders the current version of the game.
 let renderGameInfo version =
     let gameInfo = $"v{version}"

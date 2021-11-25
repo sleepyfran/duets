@@ -98,7 +98,7 @@ and composeWithProgressbar state song =
 
         yield Effect <| composeSong state song
 
-        yield SceneAfterKey RehearsalRoom
+        yield Scene RehearsalRoom
     }
 
 and handleError message =

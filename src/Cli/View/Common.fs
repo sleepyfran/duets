@@ -122,7 +122,7 @@ let rehearsalRoomOptionalChoiceHandler handler choice =
 /// Choice handler for optional prompts with the back option pointing to the
 /// map.
 let mapOptionalChoiceHandler handler choice =
-    basicOptionalChoiceHandler (Scene Map) handler choice
+    basicOptionalChoiceHandler (Scene World) handler choice
 
 /// Choice handler for optional prompts with the back option pointing to the
 /// world scene.

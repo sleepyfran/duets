@@ -44,5 +44,5 @@ let albumsStatisticsSubScene state =
                     })
             |> Seq.concat
 
-        yield SceneAfterKey Statistics
+        yield Scene Statistics
     }

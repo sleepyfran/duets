@@ -50,7 +50,7 @@ and processSongSelection state band selection =
             yield bandFinishedSong
         | ReachedMaxQualityAlready -> yield bandFinishedSong
 
-        yield SceneAfterKey RehearsalRoom
+        yield Scene RehearsalRoom
     }
 
 and showImprovingProgress () =

@@ -14,8 +14,6 @@ type Action =
     | Prompt of Prompt
     | ProgressBar of ProgressBarContent
     | Scene of Scene
-    // Waits until the user presses a key and then navigates to the specified scene.
-    | SceneAfterKey of Scene
     | SubScene of SubScene
     | InteractiveRoom of InteractiveRoom
     | GameInfo of version: string
@@ -37,7 +35,6 @@ and Scene =
     // previous step.
     | BandCreator of Character
     | World
-    | Map
     | RehearsalRoom
     | Management
     | Bank
