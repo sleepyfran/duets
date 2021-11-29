@@ -113,13 +113,13 @@ let addUnfinishedSong (band: Band) unfinishedSong =
 
 /// Returns the last unfinished song that was created.
 let lastUnfinishedSong (band: Band) state =
-    state.BandRepertoire.UnfinishedSongs
+    state.BandSongRepertoire.UnfinishedSongs
     |> Map.find band.Id
     |> Map.head
 
 /// Returns the last finished song that was added.
 let lastFinishedSong (band: Band) state =
-    state.BandRepertoire.FinishedSongs
+    state.BandSongRepertoire.FinishedSongs
     |> Map.find band.Id
     |> Map.head
 

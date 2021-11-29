@@ -26,7 +26,7 @@ let studioOptions hasAvailableRecords =
 /// Creates the studio scene which allows user to record albums. This scenes
 /// receives a studio as a parameter that will be used to apply prices and
 /// calculate qualities.
-let rec studioScene state studio =
+let rec studioScene state (studio: Studio) =
     let currentBand = Bands.currentBand state
 
     let unreleasedAlbums =

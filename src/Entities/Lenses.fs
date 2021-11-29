@@ -5,6 +5,7 @@ module Entities.Lenses
 
 open Aether.Operators
 open Common
+open Entities
 
 module State =
     let bands_ =
@@ -14,9 +15,13 @@ module State =
         (fun (s: State) -> s.BankAccounts),
         (fun v (s: State) -> { s with BankAccounts = v })
 
-    let bandRepertoire_ =
-        (fun (s: State) -> s.BandRepertoire),
-        (fun v (s: State) -> { s with BandRepertoire = v })
+    let bandSongRepertoire_ =
+        (fun (s: State) -> s.BandSongRepertoire),
+        (fun v (s: State) -> { s with BandSongRepertoire = v })
+
+    let bandAlbumRepertoire_ =
+        (fun (s: State) -> s.BandAlbumRepertoire),
+        (fun v (s: State) -> { s with BandAlbumRepertoire = v })
 
     let character_ =
         (fun (s: State) -> s.Character),
@@ -61,20 +66,20 @@ module BankAccount =
 
 module BandRepertoire =
     let unfinishedSongs_ =
-        (fun (br: BandRepertoire) -> br.UnfinishedSongs),
-        (fun v (br: BandRepertoire) -> { br with UnfinishedSongs = v })
+        (fun (br: BandSongRepertoire) -> br.UnfinishedSongs),
+        (fun v (br: BandSongRepertoire) -> { br with UnfinishedSongs = v })
 
     let finishedSongs_ =
-        (fun (br: BandRepertoire) -> br.FinishedSongs),
-        (fun v (br: BandRepertoire) -> { br with FinishedSongs = v })
+        (fun (br: BandSongRepertoire) -> br.FinishedSongs),
+        (fun v (br: BandSongRepertoire) -> { br with FinishedSongs = v })
 
     let unreleasedAlbums_ =
-        (fun (br: BandRepertoire) -> br.UnreleasedAlbums),
-        (fun v (br: BandRepertoire) -> { br with UnreleasedAlbums = v })
+        (fun (br: BandAlbumRepertoire) -> br.UnreleasedAlbums),
+        (fun v (br: BandAlbumRepertoire) -> { br with UnreleasedAlbums = v })
 
     let releasedAlbums_ =
-        (fun (br: BandRepertoire) -> br.ReleasedAlbums),
-        (fun v (br: BandRepertoire) -> { br with ReleasedAlbums = v })
+        (fun (br: BandAlbumRepertoire) -> br.ReleasedAlbums),
+        (fun v (br: BandAlbumRepertoire) -> { br with ReleasedAlbums = v })
 
 module Character =
     let id_ =
@@ -84,12 +89,12 @@ module Character =
 module FromState =
     module Albums =
         let unreleasedByBand_ bandId =
-            State.bandRepertoire_
+            State.bandAlbumRepertoire_
             >-> BandRepertoire.unreleasedAlbums_
             >-> Map.key_ bandId
 
         let releasedByBand_ bandId =
-            State.bandRepertoire_
+            State.bandAlbumRepertoire_
             >-> BandRepertoire.releasedAlbums_
             >-> Map.key_ bandId
 
@@ -119,12 +124,12 @@ module FromState =
     module Songs =
         /// Lenses to the unfinished field of a specific band in its repertoire.
         let unfinishedByBand_ bandId =
-            State.bandRepertoire_
+            State.bandSongRepertoire_
             >-> BandRepertoire.unfinishedSongs_
             >-> Map.key_ bandId
 
         /// Lenses to the finished field of a specific band in its repertoire.
         let finishedByBand_ bandId =
-            State.bandRepertoire_
+            State.bandSongRepertoire_
             >-> BandRepertoire.finishedSongs_
             >-> Map.key_ bandId

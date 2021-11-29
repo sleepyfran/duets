@@ -1,6 +1,6 @@
 module Simulation.Tests.Songs.FinishSong
 
-open Entities.Types
+open Entities
 open Test.Common
 open NUnit.Framework
 open FsUnit

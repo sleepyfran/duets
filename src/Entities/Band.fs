@@ -59,17 +59,24 @@ module PastMember =
           Role = currentMember.Role
           Period = (currentMember.Since, today) }
 
-module Repertoire =
-    /// Creates a completely empty repertoire.
+module SongRepertoire =
+    /// Creates a completely empty song repertoire.
     let empty =
         { UnfinishedSongs = Map.empty
-          FinishedSongs = Map.empty
-          UnreleasedAlbums = Map.empty
-          ReleasedAlbums = Map.empty }
+          FinishedSongs = Map.empty }
 
-    /// Creates an empty band repertoire for a given band.
+    /// Creates an empty band song repertoire for a given band.
     let emptyFor bandId =
         { UnfinishedSongs = [ (bandId, Map.empty) ] |> Map.ofSeq
-          FinishedSongs = [ (bandId, Map.empty) ] |> Map.ofSeq
-          UnreleasedAlbums = [ (bandId, Map.empty) ] |> Map.ofSeq
+          FinishedSongs = [ bandId, Map.empty ] |> Map.ofSeq }
+
+module AlbumRepertoire =
+    /// Creates a completely empty album repertoire.
+    let empty =
+        { UnreleasedAlbums = Map.empty
+          ReleasedAlbums = Map.empty }
+
+    /// Creates an empty band album repertoire for a given band.
+    let emptyFor bandId =
+        { UnreleasedAlbums = [ (bandId, Map.empty) ] |> Map.ofSeq
           ReleasedAlbums = [ bandId, Map.empty ] |> Map.ofSeq }

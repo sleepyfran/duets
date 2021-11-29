@@ -10,8 +10,8 @@ let improveSkillByOne ((skill, level): SkillWithLevel) =
     |> fun updatedSkill -> Diff((skill, level), updatedSkill)
 
 let improveMemberSkills state (band: Band) (currentMember: CurrentMember) =
-    [ Composition
-      Genre(band.Genre)
+    [ SkillId.Composition
+      SkillId.Genre(band.Genre)
       SkillId.Instrument(currentMember.Role) ]
     |> List.map (
         Skills.characterSkillWithLevel state currentMember.Character.Id

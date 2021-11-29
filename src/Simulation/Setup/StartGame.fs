@@ -10,7 +10,8 @@ let startGame character (band: Band) =
       CharacterSkills = [ (character.Id, Map.empty) ] |> Map.ofList
       CurrentBandId = band.Id
       Bands = [ (band.Id, band) ] |> Map.ofList
-      BandRepertoire = Band.Repertoire.emptyFor band.Id
+      BandSongRepertoire = Band.SongRepertoire.emptyFor band.Id
+      BandAlbumRepertoire = Band.AlbumRepertoire.emptyFor band.Id
       BankAccounts =
           [ (Character character.Id,
              BankAccount.forCharacterWithBalance character.Id 10000<dd>)

@@ -41,14 +41,14 @@ and processSongSelection state band selection =
             |> improveSong band
 
         match status with
-        | CanBeImproved effect ->
+        | (CanBeImproved, effects) ->
             yield showImprovingProgress ()
-            yield Effect effect
-        | ReachedMaxQualityInLastImprovement effect ->
+            yield! List.map Effect effects
+        | (ReachedMaxQualityInLastImprovement, effects) ->
             yield showImprovingProgress ()
-            yield Effect effect
+            yield! List.map Effect effects
             yield bandFinishedSong
-        | ReachedMaxQualityAlready -> yield bandFinishedSong
+        | (ReachedMaxQualityAlready, _) -> yield bandFinishedSong
 
         yield Scene RehearsalRoom
     }

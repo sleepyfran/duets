@@ -27,7 +27,7 @@ let ``Qualities are calculated based on member skills`` () =
             (Skill.createWithLevel SkillId.Composition 50)
         |> addSkillTo
             dummyCharacter
-            (Skill.createWithLevel (Genre dummyBand.Genre) 50)
+            (Skill.createWithLevel (SkillId.Genre dummyBand.Genre) 50)
 
     composeSong state dummySong
     |> should
@@ -47,7 +47,7 @@ let ``Qualities should be calculated based on members skills but never go above 
           (Skill.createWithLevel (SkillId.Instrument(InstrumentType.Drums)) 100)
           (Skill.createWithLevel (SkillId.Instrument(InstrumentType.Bass)) 100)
           (Skill.createWithLevel SkillId.Composition 100)
-          (Skill.createWithLevel (Genre dummyBand.Genre) 100) ]
+          (Skill.createWithLevel (SkillId.Genre dummyBand.Genre) 100) ]
 
     let state =
         dummyStateWithMultipleMembers

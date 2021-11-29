@@ -37,7 +37,7 @@ module Albums =
 
     /// Returns all released albums by all bands, organized by each band.
     let allReleased state =
-        state.BandRepertoire.ReleasedAlbums
+        state.BandAlbumRepertoire.ReleasedAlbums
         |> Map.map (fun _ -> List.ofMapValues)
 
     /// Returns the average quality of the songs in the album.

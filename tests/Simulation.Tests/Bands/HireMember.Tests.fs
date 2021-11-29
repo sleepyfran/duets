@@ -17,7 +17,7 @@ let state =
         (Skill.createWithLevel SkillId.Composition skillLevel)
     |> addSkillTo
         dummyCharacter
-        (Skill.createWithLevel (Genre dummyBand.Genre) skillLevel)
+        (Skill.createWithLevel (SkillId.Genre dummyBand.Genre) skillLevel)
 
 let assertOnMembers assertion =
     membersForHire state dummyBand instrument.Type

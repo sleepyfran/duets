@@ -21,15 +21,15 @@ let private improveSong' band song maxQuality (quality: Quality) =
         SongImproved(band, Diff(songBeforeUpgrade, songWithUpdatedQualities))
 
     if canBeFurtherImproved then
-        CanBeImproved effect
+        (CanBeImproved, [ effect ])
     else
-        ReachedMaxQualityInLastImprovement effect
+        (ReachedMaxQualityInLastImprovement, [ effect ])
 
 /// Orchestrates the improvement of a song, which calculates the increase that
 /// should happen in this action and returns whether the song can be further
 /// increased or not.
 let improveSong band (song, maxQuality, currentQuality) =
     if currentQuality >= maxQuality then
-        ReachedMaxQualityAlready
+        (ReachedMaxQualityAlready, [])
     else
         improveSong' band song maxQuality currentQuality

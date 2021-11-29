@@ -45,8 +45,8 @@ and processCommand state command =
                 band.Members
                 |> Seq.map
                     (fun currentMember ->
-                        [ Composition
-                          Genre(band.Genre)
+                        [ SkillId.Composition
+                          SkillId.Genre(band.Genre)
                           SkillId.Instrument(currentMember.Role) ]
                         |> Seq.map (
                             Skills.characterSkillWithLevel

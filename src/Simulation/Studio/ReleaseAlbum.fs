@@ -12,18 +12,15 @@ let private calculateGenreMarket genreMarket =
 
 let private calculateUsefulMarket band genreMarket =
     let fameModifier =
-        if band.Fame < 10 then
-            100000.0
-        else if band.Fame < 30 then
-            10000.0
-        else if band.Fame < 60 then
-            1000.0
-        else
-            100.0
+        if band.Fame < 10 then 100000.0
+        else if band.Fame < 30 then 10000.0
+        else if band.Fame < 60 then 1000.0
+        else 100.0
+
     (calculateGenreMarket genreMarket)
     * (float band.Fame / fameModifier)
 
-let private calculateReleaseTypeModifier album =
+let private calculateReleaseTypeModifier (album: Album) =
     match album.Type with
     | Single -> 1.0
     | EP -> 0.7
