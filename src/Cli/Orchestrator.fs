@@ -222,7 +222,7 @@ and renderPrompt prompt =
         /// Prompts for a command until a valid one is given, reporting an error
         /// when an invalid command is inputted.
         let rec promptForCommand () =
-            renderTextPrompt (Literal "")
+            renderTextPrompt (Literal ">")
             |> String.split ' '
             |> List.ofArray
             |> fun commandWithArgs ->
