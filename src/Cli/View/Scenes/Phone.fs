@@ -15,11 +15,9 @@ let phoneOptions =
 
 let rec phoneScene () =
     seq {
-        yield Figlet <| TextConstant PhoneTitle
-
         yield
             Prompt
-                { Title = TextConstant CommonCommandPrompt
+                { Title = TextConstant PhonePrompt
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler

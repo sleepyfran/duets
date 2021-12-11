@@ -1,9 +1,9 @@
 module Cli.Localization.English
 
 open System
+open Cli.View
 open Cli.View.Common
 open Cli.View.TextConstants
-open Cli.View
 open Entities
 
 let verbConjugationByGender =
@@ -112,6 +112,8 @@ and fromConstant constant =
     match constant with
     | GameName -> "Duets"
     | CommonYouAreIn place -> String.Format("You're currently in {0}", place)
+    | CommonChoiceSelection selection ->
+        $"""{TextStyles.prompt "You selected"} {TextStyles.object selection}"""
     | CommonMultiChoiceMoreChoices ->
         "[grey](Move up and down to reveal more choices)[/]"
     | CommonMultiChoiceInstructions ->
@@ -411,12 +413,14 @@ and fromConstant constant =
     | StudioContinueRecordAlbumRenamed albumName ->
         sprintf "[bold green]The album was renamed to \"%s\"[/]" albumName
     | StatisticsTitle -> "Statistics"
-    | StatisticsSectionPrompt -> "What data do you want to visualize?"
+    | StatisticsSectionPrompt ->
+        $"""{TextStyles.prompt "What data do you want to visualize?"}"""
     | StatisticsSectionBand -> "Band's statistics"
     | StatisticsSectionAlbums -> "Albums' statistics"
     | StatisticsBandName name -> $"[bold invert]{name}[/]"
     | StatisticsBandStartDate date -> $"Playing since [bold blue]{date.Year}[/]"
     | StatisticsBandFame fame -> $"Fame: [bold green]{fame}[/]"
+    | StatisticsAlbumNoEntries -> "No albums released yet"
     | StatisticsAlbumName (name, albumT) ->
         $"[bold invert]{name}[/] [dim]({albumType albumT})[/]"
     | StatisticsAlbumReleaseDate date ->
@@ -425,3 +429,4 @@ and fromConstant constant =
         $"Streams so far: [bold blue]{formatNumber streams}[/]"
     | StatisticsAlbumRevenue revenue ->
         $"Generated revenue: [bold blue]{formatNumber revenue}d$[/]"
+    | PhonePrompt -> $"""{TextStyles.prompt "DuetsPhone v1.5"}"""

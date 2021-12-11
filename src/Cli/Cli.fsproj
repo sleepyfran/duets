@@ -43,7 +43,7 @@
         <Compile Include="Program.fs" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Spectre.Console" Version="0.39.0" />
+        <PackageReference Include="Spectre.Console" Version="0.43.0" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Savegame\Savegame.fsproj" />

@@ -32,18 +32,29 @@ let actionsFromScene state scene =
 let actionsFromSubScene state subScene =
     match subScene with
     | SubScene.RehearsalRoomCompose -> RehearsalRoom.Compose.compose state
-    | RehearsalRoomComposeSong -> RehearsalRoom.ComposeSong.composeSongScene state
-    | RehearsalRoomImproveSong -> RehearsalRoom.ImproveSong.improveSongScene state
+    | RehearsalRoomComposeSong ->
+        RehearsalRoom.ComposeSong.composeSongScene state
+    | RehearsalRoomImproveSong ->
+        RehearsalRoom.ImproveSong.improveSongScene state
     | RehearsalRoomFinishSong -> RehearsalRoom.FinishSong.finishSongScene state
-    | RehearsalRoomDiscardSong -> RehearsalRoom.DiscardSong.discardSongScene state
+    | RehearsalRoomDiscardSong ->
+        RehearsalRoom.DiscardSong.discardSongScene state
     | SubScene.ManagementHireMember -> Management.Hire.hireScene state
     | SubScene.ManagementFireMember -> Management.Fire.fireScene state
     | ManagementListMembers -> Management.MemberList.memberListScene state
-    | BankTransfer (sender, receiver) -> Bank.Transfer.transferSubScene state sender receiver
-    | StudioCreateRecord studio -> Studio.CreateRecord.createRecordSubscene state studio
-    | SubScene.StudioContinueRecord studio -> Studio.ContinueRecord.continueRecordSubscene state studio
+    | BankTransfer (sender, receiver) ->
+        Bank.Transfer.transferSubScene state sender receiver
+    | StudioCreateRecord studio ->
+        Studio.CreateRecord.createRecordSubscene state studio
+    | SubScene.StudioContinueRecord studio ->
+        Studio.ContinueRecord.continueRecordSubscene state studio
     | SubScene.StudioPromptToRelease (onCancel, studio, band, album) ->
-        Studio.PromptToRelease.promptToReleaseAlbum onCancel state studio band album
+        Studio.PromptToRelease.promptToReleaseAlbum
+            onCancel
+            state
+            studio
+            band
+            album
     | StatisticsOfBand -> Statistics.Band.bandStatisticsSubScene state
     | StatisticsOfAlbums -> Statistics.Albums.albumsStatisticsSubScene state
 
@@ -60,7 +71,13 @@ let actionsFromEffect effect =
         let (skill, previousLevel) = before
         let (_, currentLevel) = after
 
-        CommonSkillImproved(character.Name, character.Gender, skill, previousLevel, currentLevel)
+        CommonSkillImproved(
+            character.Name,
+            character.Gender,
+            skill,
+            previousLevel,
+            currentLevel
+        )
         |> TextConstant
         |> Message
     | MoneyTransferred (holder, transaction) ->
@@ -123,7 +140,7 @@ let rec runWith chain =
     |> Seq.iter
         (fun action ->
             match action with
-            | Separator -> separator ()
+            | Separator -> renderSeparator ()
             | Prompt prompt -> renderPrompt prompt |> runWith
             | Message message -> renderMessage message
             | Figlet text -> renderFiglet text
@@ -141,6 +158,7 @@ let rec runWith chain =
                 |> Seq.map actionsFromEffect
                 |> runWith
             | GameInfo version -> renderGameInfo version
+            | ClearScreen -> clear ()
             | Exit -> Environment.Exit(0)
             | NoOp -> ())
 
@@ -154,6 +172,7 @@ and renderPrompt prompt =
 
             content.Choices
             |> choiceById choiceId
+            |> Pipe.tap renderSelection
             |> content.Handler
         | OptionalChoiceHandler content ->
             renderOptionalPrompt prompt.Title content
@@ -163,6 +182,7 @@ and renderPrompt prompt =
                 | _ ->
                     content.Choices
                     |> choiceById choiceId
+                    |> Pipe.tap renderSelection
                     |> Choice
                     |> content.Handler
     | MultiChoicePrompt content ->
@@ -172,7 +192,8 @@ and renderPrompt prompt =
         content.Choices
         |> choicesById choiceId
         |> content.Handler
-    | ConfirmationPrompt handler -> renderConfirmationPrompt prompt.Title |> handler
+    | ConfirmationPrompt handler ->
+        renderConfirmationPrompt prompt.Title |> handler
     | NumberPrompt handler -> renderNumberPrompt prompt.Title |> handler
     | TextPrompt handler -> renderTextPrompt prompt.Title |> handler
     | LengthPrompt handler ->
@@ -186,7 +207,6 @@ and renderPrompt prompt =
                         "The given input was not a correct length. This should've caught by the validator but apparently it didn't :)"
                 )
     | CommandPrompt commands ->
-        renderLineBreak ()
         renderMessage prompt.Title
 
         let commandsWithDefaults =
@@ -207,7 +227,12 @@ and renderPrompt prompt =
             |> List.ofArray
             |> fun commandWithArgs ->
                 match commandWithArgs with
-                | commandName :: args -> runCommand (seq { Prompt prompt }) commandsWithHelp commandName args
+                | commandName :: args ->
+                    runCommand
+                        (seq { Prompt prompt })
+                        commandsWithHelp
+                        commandName
+                        args
                 | _ -> None
             |> Option.defaultWith promptForCommand
 
@@ -217,7 +242,7 @@ and renderPrompt prompt =
 /// on top.
 and runScene state scene =
     saveIfNeeded scene
-    separator ()
+    renderLineBreak ()
     runWith (actionsFromScene state scene)
 
 and runCommand currentChain availableCommands commandName args =
@@ -231,7 +256,8 @@ and runCommand currentChain availableCommands commandName args =
             // from running out of actions prematurely.
             match command.Handler with
             | HandlerWithNavigation handler -> handler args |> Some
-            | HandlerWithoutNavigation handler -> Seq.append (handler args) currentChain |> Some
+            | HandlerWithoutNavigation handler ->
+                Seq.append (handler args) currentChain |> Some
         | None ->
             renderMessage (TextConstant CommonInvalidCommand)
             None

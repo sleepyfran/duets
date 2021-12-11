@@ -12,8 +12,6 @@ let statisticOptions =
 
 let rec statisticsScene () =
     seq {
-        yield Figlet <| TextConstant StatisticsTitle
-
         yield
             Prompt
                 { Title = TextConstant StatisticsSectionPrompt

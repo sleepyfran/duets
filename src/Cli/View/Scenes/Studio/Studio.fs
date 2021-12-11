@@ -35,8 +35,6 @@ let rec studioScene state (studio: Studio) =
     let hasUnreleasedAlbums = not (Map.isEmpty unreleasedAlbums)
 
     seq {
-        yield Figlet <| TextConstant StudioTitle
-
         yield
             StudioWelcomePrice(studio.Name, studio.PricePerSong)
             |> TextConstant

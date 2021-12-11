@@ -18,6 +18,7 @@ type Action =
     | InteractiveRoom of InteractiveRoom
     | GameInfo of version: string
     | Effect of Effect
+    | ClearScreen
     | Exit
     | NoOp
 
@@ -56,11 +57,7 @@ and SubScene =
     | BankTransfer of sender: BankAccountHolder * receiver: BankAccountHolder
     | StudioCreateRecord of Studio
     | StudioContinueRecord of Studio
-    | StudioPromptToRelease of
-        onCancel: ActionChain *
-        studio: Studio *
-        band: Band *
-        album: UnreleasedAlbum
+    | StudioPromptToRelease of onCancel: ActionChain * studio: Studio * band: Band * album: UnreleasedAlbum
     | StatisticsOfBand
     | StatisticsOfAlbums
 

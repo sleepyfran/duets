@@ -15,7 +15,7 @@ let renderMessage message =
 let renderFiglet text =
     let figlet = FigletText(toString text).Centered()
     figlet.Color <- Color.Blue
-    AnsiConsole.Render(figlet)
+    AnsiConsole.Write(figlet)
 
 let renderChoicePrompt title (choices: Choice list) =
     let mutable selectionPrompt = SelectionPrompt<Choice>()
@@ -23,6 +23,12 @@ let renderChoicePrompt title (choices: Choice list) =
     selectionPrompt <- selectionPrompt.AddChoices(choices)
     selectionPrompt <- selectionPrompt.UseConverter(fun c -> toString c.Text)
     AnsiConsole.Prompt(selectionPrompt).Id
+
+let renderSelection choice =
+    toString choice.Text
+    |> CommonChoiceSelection
+    |> TextConstant
+    |> renderMessage
 
 let renderConfirmationPrompt title = AnsiConsole.Confirm(toString title)
 
@@ -123,11 +129,11 @@ let renderProgressBar content =
 /// Clears the terminal console.
 let clear () = System.Console.Clear()
 
-/// Writes an empty line to the console.
-let separator () =
+/// Writes an line to the console.
+let renderSeparator () =
     let rule = Rule().Centered()
     rule.Style <- Style.Parse("blue dim")
-    AnsiConsole.Render(rule)
+    AnsiConsole.Write(rule)
 
 /// Writes a line break to the console.
 let renderLineBreak () = AnsiConsole.WriteLine()

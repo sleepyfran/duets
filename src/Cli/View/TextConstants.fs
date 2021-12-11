@@ -15,6 +15,7 @@ type VariableVerbs = | Have
 type TextConstant =
     | GameName
     | CommonYouAreIn of place: string
+    | CommonChoiceSelection of selection: string
     | CommonMultiChoiceMoreChoices
     | CommonMultiChoiceInstructions
     | CommonNoUnfinishedSongs
@@ -189,10 +190,12 @@ type TextConstant =
     | StatisticsBandName of name: string
     | StatisticsBandStartDate of date: Date
     | StatisticsBandFame of fame: int
+    | StatisticsAlbumNoEntries
     | StatisticsAlbumName of name: string * albumType: AlbumType
     | StatisticsAlbumReleaseDate of date: Date
     | StatisticsAlbumStreams of streams: int
     | StatisticsAlbumRevenue of amount: int<dd>
+    | PhonePrompt
 
 /// Encapsulates text that can either be defined by a text constant, which is
 /// resolved by the UI layer, or a string constant that is just passed from this

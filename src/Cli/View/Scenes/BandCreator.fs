@@ -67,6 +67,7 @@ and handleConfirmation character name genre role confirmed =
             match (Band.from name genre members Calendar.gameBeginning) with
             | Ok band ->
                 yield Effect <| startGame character band
+                yield ClearScreen
                 yield Scene World
             | Error Band.NameTooShort ->
                 yield!

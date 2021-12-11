@@ -9,14 +9,13 @@ let commands: Command list =
       yield
           { Name = "dev"
             Description = TextConstant CommandDevDescription
-            Handler = HandlerWithNavigation(fun _ -> seq { Scene DeveloperRoom }) }
+            Handler =
+                HandlerWithNavigation(fun _ -> seq { Scene DeveloperRoom }) }
 #endif
     ]
 
 let worldScene () =
     seq {
-        yield Figlet <| TextConstant WorldTitle
-
         yield
             Prompt
                 { Title = TextConstant CommonCommandPrompt

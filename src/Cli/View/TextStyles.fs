@@ -1,6 +1,9 @@
 [<RequireQualifiedAccess>]
 module Cli.View.TextStyles
 
+/// Pre-defined style for asking the user for something.
+let prompt title = $"[bold blue]%s{title}[/]"
+
 /// Pre-defined style for referencing places in text.
 let place name = $"[bold lightsalmon1]%s{name}[/]"
 

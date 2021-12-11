@@ -28,8 +28,6 @@ let rec bankScene state =
     let bandBalance = Bank.balanceOf state bandAccount
 
     seq {
-        yield Figlet <| TextConstant BankTitle
-
         yield
             BankWelcome(characterBalance, bandBalance)
             |> TextConstant

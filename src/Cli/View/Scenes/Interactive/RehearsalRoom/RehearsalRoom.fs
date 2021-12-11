@@ -27,8 +27,6 @@ let rec rehearsalRoomScene state =
         |> instrumentFromType
 
     seq {
-        yield Figlet <| TextConstant RehearsalRoomTitle
-
         yield
             InteractiveRoom
             <| { Description = TextConstant RehearsalRoomDescription

@@ -15,8 +15,6 @@ let managementOptions =
 /// Creates the management menu which allows to hire and fire members.
 let rec managementScene () =
     seq {
-        yield Figlet <| TextConstant ManagementTitle
-
         yield
             Prompt
                 { Title = TextConstant ManagementPrompt
