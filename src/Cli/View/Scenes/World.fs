@@ -3,16 +3,7 @@ module Cli.View.Scenes.World
 open Cli.View.Actions
 open Cli.View.TextConstants
 
-let commands: Command list =
-    [
-#if DEBUG
-      yield
-          { Name = "dev"
-            Description = TextConstant CommandDevDescription
-            Handler =
-                HandlerWithNavigation(fun _ -> seq { Scene DeveloperRoom }) }
-#endif
-    ]
+let commands: Command list = []
 
 let worldScene () =
     seq {

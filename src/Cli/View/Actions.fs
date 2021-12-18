@@ -27,9 +27,6 @@ and ActionChain = Action seq
 
 /// Defines the index of all scenes available in the game that can be instantiated.
 and Scene =
-#if DEBUG
-    | DeveloperRoom
-#endif
     | MainMenu of Savegame.SavegameState
     | CharacterCreator
     // Band creator needs a character the character that was created in the
@@ -57,7 +54,11 @@ and SubScene =
     | BankTransfer of sender: BankAccountHolder * receiver: BankAccountHolder
     | StudioCreateRecord of Studio
     | StudioContinueRecord of Studio
-    | StudioPromptToRelease of onCancel: ActionChain * studio: Studio * band: Band * album: UnreleasedAlbum
+    | StudioPromptToRelease of
+        onCancel: ActionChain *
+        studio: Studio *
+        band: Band *
+        album: UnreleasedAlbum
     | StatisticsOfBand
     | StatisticsOfAlbums
 
