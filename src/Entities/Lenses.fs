@@ -86,6 +86,20 @@ module Character =
         (fun (c: Character) -> c.Id),
         (fun v (c: Character) -> { c with Id = v })
 
+module World =
+    module City =
+        let connections_ =
+            (fun (c: City) -> c.Connections),
+            (fun v (c: City) -> { c with Connections = v })
+
+        let nodes_ =
+            (fun (c: City) -> c.Nodes),
+            (fun v (c: City) -> { c with Nodes = v })
+
+        let nodeConnections_ nodeId =
+            connections_
+            >-> Map.keyWithDefault_ nodeId Map.empty
+
 module FromState =
     module Albums =
         let unreleasedByBand_ bandId =
