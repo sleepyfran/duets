@@ -12,3 +12,13 @@ module CommonTypes =
     /// at its best.
     [<Measure>]
     type dd
+
+    /// Defines an amount in the in-game currency.
+    type Amount = int<dd>
+
+    /// Measure for the quality of something, as a percentage.
+    [<Measure>]
+    type quality
+
+    type Quality = int<quality>
+    type MaxQuality = int<quality>

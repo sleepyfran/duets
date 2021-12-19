@@ -9,11 +9,11 @@ module BankTypes =
 
     /// Represents a transaction between two accounts in the game.
     type BankTransaction =
-        | Incoming of amount: int<dd> * updatedBalance: int<dd>
-        | Outgoing of amount: int<dd> * updatedBalance: int<dd>
+        | Incoming of amount: Amount * updatedBalance: Amount
+        | Outgoing of amount: Amount * updatedBalance: Amount
 
     /// Represents a bank account in the game. We only keep track of accounts
     /// from the main character and its bands.
     type BankAccount =
         { Holder: BankAccountHolder
-          Balance: int<dd> }
+          Balance: Amount }

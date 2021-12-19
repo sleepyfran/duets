@@ -34,13 +34,6 @@ module SongTypes =
     /// repertoire and cannot be further developed anymore.
     type FinishedSong = FinishedSong of Song
 
-    /// Measure for the quality of something, as a percentage.
-    [<Measure>]
-    type quality
-
-    type Quality = int<quality>
-    type MaxQuality = int<quality>
-
     /// Shapes a relation between an unfinished song, its max quality and the
     /// current quality.
     type UnfinishedSongWithQualities = UnfinishedSong * MaxQuality * Quality

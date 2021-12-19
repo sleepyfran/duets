@@ -15,4 +15,4 @@ module StudioTypes =
         { Id: Identity
           Name: string
           Producer: Producer
-          PricePerSong: int<dd> }
+          PricePerSong: Amount }

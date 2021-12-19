@@ -3,7 +3,7 @@ module Simulation.Bank.Operations
 open Simulation.Queries
 open Entities
 
-type TransactionError = NotEnoughFunds of amount: int<dd>
+type TransactionError = NotEnoughFunds of amount: Amount
 
 let private withBalanceChecking state sender amount effects =
     let accountBalance = Bank.balanceOf state sender

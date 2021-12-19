@@ -37,8 +37,8 @@ type TextConstant =
     | CommonStatusBar of
         date: Date *
         dayMoment: DayMoment *
-        characterBalance: int<dd> *
-        bandBalance: int<dd>
+        characterBalance: Amount *
+        bandBalance: Amount
     | CommonInvalidLength
     | CommonInvalidCommand
     | CommandHelpDescription
@@ -150,7 +150,7 @@ type TextConstant =
         from: Date *
         until: Date
     | BankTitle
-    | BankWelcome of characterBalance: int<dd> * bandBalance: int<dd>
+    | BankWelcome of characterBalance: Amount * bandBalance: Amount
     | BankPrompt
     | BankTransferToBand
     | BankTransferFromBand
@@ -162,7 +162,7 @@ type TextConstant =
     | StudioCommonPromptReleaseAlbum of name: string
     | StudioCommonAlbumReleased of name: string
     | StudioTitle
-    | StudioWelcomePrice of name: string * price: int<dd>
+    | StudioWelcomePrice of name: string * price: Amount
     | StudioPrompt
     | StudioStartRecord
     | StudioContinueRecord
@@ -173,7 +173,7 @@ type TextConstant =
     | StudioConfirmRecordingPrompt of name: string * albumType: AlbumType
     | StudioCreateErrorNameTooShort
     | StudioCreateErrorNameTooLong
-    | StudioCreateErrorNotEnoughMoney of studioBill: int<dd>
+    | StudioCreateErrorNotEnoughMoney of studioBill: Amount
     | StudioCreateAlbumRecorded of albumName: string
     | StudioCreateProgressEatingSnacks
     | StudioCreateProgressRecordingWeirdSounds
@@ -194,7 +194,7 @@ type TextConstant =
     | StatisticsAlbumName of name: string * albumType: AlbumType
     | StatisticsAlbumReleaseDate of date: Date
     | StatisticsAlbumStreams of streams: int
-    | StatisticsAlbumRevenue of amount: int<dd>
+    | StatisticsAlbumRevenue of amount: Amount
     | PhonePrompt
 
 /// Encapsulates text that can either be defined by a text constant, which is
