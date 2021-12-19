@@ -23,7 +23,7 @@ let rec fireScene state =
     seq {
         if memberOptions.Length = 0 then
             yield Message <| TextConstant FireMemberNoMembersToFire
-            yield Scene RehearsalRoom
+            yield Scene Scene.RehearsalRoom
         else
             yield
                 Prompt

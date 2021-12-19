@@ -14,6 +14,7 @@
         <Compile Include="Types\Song.Types.fs" />
         <Compile Include="Types\Album.Types.fs" />
         <Compile Include="Types\Studio.Types.fs" />
+        <Compile Include="Types\RehearsalSpace.Types.fs" />
         <Compile Include="Types\Bank.Types.fs" />
         <Compile Include="Types\World.Types.fs" />
         <Compile Include="Types\State.Types.fs" />

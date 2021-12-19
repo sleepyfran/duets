@@ -13,4 +13,5 @@ module StateTypes =
           BandAlbumRepertoire: BandAlbumRepertoire
           BankAccounts: Map<BankAccountHolder, BankAccount>
           Today: Date
-          GenreMarkets: GenreMarketByGenre }
+          GenreMarkets: GenreMarketByGenre
+          World: World }

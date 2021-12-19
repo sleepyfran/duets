@@ -9,10 +9,14 @@ module StudioTypes =
     /// Unique identifier of a studio.
     type StudioId = StudioId of Identity
 
+    /// Defines all types of rooms that can appear inside of a studio.
+    type StudioRoom =
+        | MasteringRoom
+        | RecordingRoom
+
     /// Represents a recording studio where bands can record and produce their
     /// albums before releasing them to the public.
     type Studio =
-        { Id: Identity
-          Name: string
+        { Name: string
           Producer: Producer
           PricePerSong: Amount }

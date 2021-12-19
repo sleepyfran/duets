@@ -31,7 +31,7 @@ and processOptionalSongSelection state band selection =
     seq {
         match selection with
         | Choice choice -> yield! processSongSelection state band choice
-        | Back -> yield Scene RehearsalRoom
+        | Back -> yield Scene Scene.RehearsalRoom
     }
 
 and processSongSelection state band selection =
@@ -50,7 +50,7 @@ and processSongSelection state band selection =
             yield bandFinishedSong
         | (ReachedMaxQualityAlready, _) -> yield bandFinishedSong
 
-        yield Scene RehearsalRoom
+        yield Scene Scene.RehearsalRoom
     }
 
 and showImprovingProgress () =

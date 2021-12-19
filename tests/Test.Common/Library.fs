@@ -62,8 +62,7 @@ let dummyReleasedAlbum =
       Hype = 1.0 }
 
 let dummyStudio =
-    { Id = Identity.create ()
-      Name = "Test Studio"
+    { Name = "Test Studio"
       Producer = Producer <| dummyCharacter
       PricePerSong = 200<dd> }
 

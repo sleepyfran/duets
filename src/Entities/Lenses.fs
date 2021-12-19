@@ -88,6 +88,10 @@ module Character =
 
 module World =
     module City =
+        let startingNode_ =
+            (fun (c: City) -> c.StartingNode),
+            (fun v (c: City) -> { c with StartingNode = v })
+
         let connections_ =
             (fun (c: City) -> c.Connections),
             (fun v (c: City) -> { c with Connections = v })

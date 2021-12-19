@@ -41,5 +41,5 @@ and processSongSelection state band selection =
             |> TextConstant
             |> Message
 
-        yield Scene RehearsalRoom
+        yield Scene Scene.RehearsalRoom
     }

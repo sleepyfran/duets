@@ -13,7 +13,9 @@ let ``create returns a city with the given node in the list of nodes and no conn
     let nodeId = Identity.create ()
     let nodeContent = Street { Name = "Test street" }
 
-    let city = World.City.create (nodeId, nodeContent)
+    let city =
+        World.City.create "Test City" { Id = nodeId; Content = nodeContent }
+
     city.Nodes |> should haveCount 1
 
     city.Nodes
@@ -26,7 +28,7 @@ let cityWithStreet =
     let nodeId = Identity.create ()
     let nodeContent = Street { Name = "Test street" }
 
-    World.City.create (nodeId, nodeContent)
+    World.City.create "Test City" { Id = nodeId; Content = nodeContent }
 
 [<Test>]
 let ``addNode adds a new node to the list of nodes and no connections`` () =
@@ -34,7 +36,7 @@ let ``addNode adds a new node to the list of nodes and no connections`` () =
     let nodeContent = Street { Name = "Second Test Street" }
 
     let city =
-        World.City.addNode (nodeId, nodeContent) cityWithStreet
+        World.City.addNode { Id = nodeId; Content = nodeContent } cityWithStreet
 
     city.Nodes |> should haveCount 2
 
@@ -45,22 +47,19 @@ let ``addNode adds a new node to the list of nodes and no connections`` () =
     city.Connections |> should haveCount 0
 
 let firstNode =
-    (Identity.create (), Street { Name = "Test street" })
+    World.Node.create (Street { Name = "Test street" })
 
 let secondNode =
-    (Identity.create (), Street { Name = "Second test street" })
+    World.Node.create (Street { Name = "Test street 2" })
 
 let cityWithMultipleNodes =
-    World.City.create firstNode
+    World.City.create "Test city" firstNode
     |> World.City.addNode secondNode
 
 [<Test>]
 let ``addConnection adds a connection between the two nodes in the given direction and the opposite``
     ()
     =
-    let (firstNodeId, _) = firstNode
-    let (secondNodeId, _) = secondNode
-
     [ (North, South)
       (NorthEast, SouthWest)
       (East, West)
@@ -73,33 +72,30 @@ let ``addConnection adds a connection between the two nodes in the given directi
         (fun (input, opposite) ->
             let city =
                 cityWithMultipleNodes
-                |> World.City.addConnection firstNodeId secondNodeId input
+                |> World.City.addConnection firstNode.Id secondNode.Id input
 
             city.Connections |> should haveCount 2
 
-            Map.find firstNodeId city.Connections
+            Map.find firstNode.Id city.Connections
             |> Map.find input
-            |> should equal secondNodeId
+            |> should equal secondNode.Id
 
-            Map.find secondNodeId city.Connections
+            Map.find secondNode.Id city.Connections
             |> Map.find opposite
-            |> should equal firstNodeId)
+            |> should equal firstNode.Id)
 
 [<Test>]
 let ``addConnection supports adding multiple directions per node`` () =
-    let (firstNodeId, _) = firstNode
-    let (secondNodeId, _) = secondNode
-
     let city =
         cityWithMultipleNodes
-        |> World.City.addConnection firstNodeId secondNodeId North
-        |> World.City.addConnection firstNodeId secondNodeId South
-        |> World.City.addConnection secondNodeId firstNodeId NorthEast
+        |> World.City.addConnection firstNode.Id secondNode.Id North
+        |> World.City.addConnection firstNode.Id secondNode.Id South
+        |> World.City.addConnection secondNode.Id firstNode.Id NorthEast
 
     city.Connections |> should haveCount 2
 
-    let firstNodeConnections = Map.find firstNodeId city.Connections
-    let secondNodeConnections = Map.find secondNodeId city.Connections
+    let firstNodeConnections = Map.find firstNode.Id city.Connections
+    let secondNodeConnections = Map.find secondNode.Id city.Connections
 
     firstNodeConnections |> should haveCount 3
     secondNodeConnections |> should haveCount 3
@@ -109,11 +105,11 @@ let ``addConnection supports adding multiple directions per node`` () =
         (fun input ->
             firstNodeConnections
             |> Map.find input
-            |> should equal secondNodeId)
+            |> should equal secondNode.Id)
 
     [ South; North; NorthEast ]
     |> List.iter
         (fun input ->
             secondNodeConnections
             |> Map.find input
-            |> should equal firstNodeId)
+            |> should equal firstNode.Id)

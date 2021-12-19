@@ -12,4 +12,5 @@ let empty =
       BandAlbumRepertoire = Band.AlbumRepertoire.empty
       BankAccounts = Map.empty
       Today = Calendar.gameBeginning
-      GenreMarkets = Map.empty }
+      GenreMarkets = Map.empty
+      World = World.empty }
