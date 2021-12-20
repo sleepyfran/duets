@@ -61,12 +61,6 @@ let createLookCommand (room: InteractiveRoom) =
                               )
                   }) }
 
-/// Command which navigates the user to the map scene.
-let mapCommand =
-    { Name = "map"
-      Description = TextConstant CommandMapDescription
-      Handler = HandlerWithNavigation(fun _ -> seq { Scene World }) }
-
 /// Command which opens the phone of the user.
 let phoneCommand =
     { Name = "phone"

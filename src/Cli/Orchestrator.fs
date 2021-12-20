@@ -206,11 +206,7 @@ and renderPrompt prompt =
     | CommandPrompt commands ->
         renderMessage prompt.Title
 
-        let commandsWithDefaults =
-            commands
-            @ [ mapCommand
-                phoneCommand
-                exitCommand ]
+        let commandsWithDefaults = commands @ [ phoneCommand; exitCommand ]
 
         let commandsWithHelp =
             commandsWithDefaults
@@ -242,6 +238,8 @@ and runScene state scene =
     renderLineBreak ()
     runWith (actionsFromScene state scene)
 
+/// Attempts to run a command from the given list and either returns the result
+/// of the command or attaches the result to the current chain.
 and runCommand currentChain availableCommands commandName args =
     availableCommands
     |> List.tryFind (fun command -> command.Name = commandName)
