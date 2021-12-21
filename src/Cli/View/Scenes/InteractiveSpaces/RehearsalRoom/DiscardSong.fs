@@ -1,4 +1,4 @@
-module Cli.View.Scenes.Interactive.RehearsalRoom.DiscardSong
+module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.DiscardSong
 
 open Cli.View.Actions
 open Cli.View.Common
@@ -7,7 +7,7 @@ open Entities
 open Simulation.Queries
 open Simulation.Songs.Composition.DiscardSong
 
-let rec discardSongScene state =
+let rec discardSongScene state space rooms =
     seq {
         let currentBand = Bands.currentBand state
 
@@ -23,11 +23,17 @@ let rec discardSongScene state =
                           { Choices = songOptions
                             Handler =
                                 rehearsalRoomOptionalChoiceHandler
-                                <| processSongSelection state currentBand
+                                    space
+                                    rooms
+                                    (processSongSelection
+                                        state
+                                        space
+                                        rooms
+                                        currentBand)
                             BackText = TextConstant CommonCancel } }
     }
 
-and processSongSelection state band selection =
+and processSongSelection state space rooms band selection =
     seq {
         let unfinishedSong =
             unfinishedSongFromSelection state band selection
@@ -41,5 +47,5 @@ and processSongSelection state band selection =
             |> TextConstant
             |> Message
 
-        yield Scene Scene.RehearsalRoom
+        yield Scene(Scene.RehearsalRoom(space, rooms))
     }

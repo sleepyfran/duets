@@ -38,6 +38,9 @@ module State =
     let today_ =
         (fun (s: State) -> s.Today), (fun v (s: State) -> { s with Today = v })
 
+    let world_ =
+        (fun (s: State) -> s.World), (fun v (s: State) -> { s with World = v })
+
 module Album =
     let streams_ =
         (fun (a: ReleasedAlbum) -> a.Streams),
@@ -87,22 +90,43 @@ module Character =
         (fun v (c: Character) -> { c with Id = v })
 
 module World =
-    module City =
+    let cities_ =
+        (fun (w: World) -> w.Cities),
+        (fun v (w: World) -> { w with Cities = v })
+
+    module Graph =
         let startingNode_ =
-            (fun (c: City) -> c.StartingNode),
-            (fun v (c: City) -> { c with StartingNode = v })
+            (fun (g: Graph<'a>) -> g.StartingNode),
+            (fun v (g: Graph<'a>) -> { g with StartingNode = v })
 
         let connections_ =
-            (fun (c: City) -> c.Connections),
-            (fun v (c: City) -> { c with Connections = v })
+            (fun (g: Graph<'a>) -> g.Connections),
+            (fun v (g: Graph<'a>) -> { g with Connections = v })
 
         let nodes_ =
-            (fun (c: City) -> c.Nodes),
-            (fun v (c: City) -> { c with Nodes = v })
+            (fun (g: Graph<'a>) -> g.Nodes),
+            (fun v (g: Graph<'a>) -> { g with Nodes = v })
+            
+        let node_ nodeId =
+            nodes_ >-> Map.key_ nodeId
 
         let nodeConnections_ nodeId =
             connections_
             >-> Map.keyWithDefault_ nodeId Map.empty
+
+    module City =
+        let graph_ =
+            (fun (c: City) -> c.Graph),
+            (fun v (c: City) -> { c with Graph = v })
+
+        let startingNode_ = graph_ >-> Graph.startingNode_
+
+        let connections_ = graph_ >-> Graph.connections_
+
+        let nodes_ = graph_ >-> Graph.nodes_
+
+        let nodeConnections_ nodeId =
+            graph_ >-> Graph.nodeConnections_ nodeId
 
 module FromState =
     module Albums =
@@ -151,3 +175,11 @@ module FromState =
             State.bandSongRepertoire_
             >-> BandRepertoire.finishedSongs_
             >-> Map.key_ bandId
+
+    module World =
+        /// Lenses to the a position in the world given its city and node IDs.
+        let position_ cityId nodeId =
+            State.world_ >-> World.cities_ >-> Map.key_ cityId
+            >?> World.City.graph_
+            >?> World.Graph.nodes_
+            >?> Map.key_ nodeId

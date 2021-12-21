@@ -9,6 +9,7 @@ module StateTypes =
           Character: Character
           CharacterSkills: CharacterSkills
           CurrentBandId: BandId
+          CurrentPosition: CityId * NodeId
           BandSongRepertoire: BandSongRepertoire
           BandAlbumRepertoire: BandAlbumRepertoire
           BankAccounts: Map<BankAccountHolder, BankAccount>

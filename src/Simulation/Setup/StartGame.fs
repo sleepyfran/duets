@@ -1,5 +1,6 @@
 module Simulation.Setup
 
+open Common
 open Entities
 open Simulation.Market
 
@@ -7,9 +8,14 @@ open Simulation.Market
 /// the setup wizard and starts the generation process for the game simulation
 /// which includes markets for the different genres available and the game world.
 let startGame character (band: Band) =
+    let world = World.Generation.generate ()
+
+    let initialCity = Map.head world.Cities
+
     { Character = character
       CharacterSkills = [ (character.Id, Map.empty) ] |> Map.ofList
       CurrentBandId = band.Id
+      CurrentPosition = (initialCity.Id, initialCity.Graph.StartingNode)
       Bands = [ (band.Id, band) ] |> Map.ofList
       BandSongRepertoire = Band.SongRepertoire.emptyFor band.Id
       BandAlbumRepertoire = Band.AlbumRepertoire.emptyFor band.Id
@@ -20,5 +26,5 @@ let startGame character (band: Band) =
           |> Map.ofSeq
       Today = Calendar.gameBeginning
       GenreMarkets = GenreMarket.create (Database.genres ())
-      World = World.Generation.generate () }
+      World = world }
     |> GameCreated

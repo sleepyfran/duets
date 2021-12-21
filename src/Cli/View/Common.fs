@@ -116,8 +116,11 @@ let mainMenuOptionalChoiceHandler handler choice =
 
 /// Choice handler for optional prompts with the back option pointing to the
 /// rehearsal room.
-let rehearsalRoomOptionalChoiceHandler handler choice =
-    basicOptionalChoiceHandler (Scene Scene.RehearsalRoom) handler choice
+let rehearsalRoomOptionalChoiceHandler space rooms handler choice =
+    basicOptionalChoiceHandler
+        (Scene(Scene.RehearsalRoom(space, rooms)))
+        handler
+        choice
 
 /// Choice handler for optional prompts with the back option pointing to the
 /// map.

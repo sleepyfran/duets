@@ -5,7 +5,7 @@ open Cli.View.TextConstants
 open Simulation.Queries
 
 /// Shows the current and past members of the band.
-let rec memberListScene state =
+let rec memberListScene state space rooms =
     let currentMembers = Bands.currentBandMembers state
     let pastMembers = Bands.pastBandMembers state
 
@@ -36,5 +36,5 @@ let rec memberListScene state =
                         |> TextConstant
                         |> Message)
 
-        yield Scene Management
+        yield Scene(Management(space, rooms))
     }

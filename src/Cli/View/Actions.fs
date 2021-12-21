@@ -15,7 +15,6 @@ type Action =
     | ProgressBar of ProgressBarContent
     | Scene of Scene
     | SubScene of SubScene
-    | InteractiveRoom of InteractiveRoom
     | GameInfo of version: string
     | Effect of Effect
     | ClearScreen
@@ -33,8 +32,8 @@ and Scene =
     // previous step.
     | BandCreator of Character
     | World
-    | RehearsalRoom
-    | Management
+    | RehearsalRoom of space: RehearsalSpace * rooms: Graph<RehearsalSpaceRoom>
+    | Management of space: RehearsalSpace * rooms: Graph<RehearsalSpaceRoom>
     | Bank
     | Studio of Studio
     | Statistics
@@ -43,14 +42,30 @@ and Scene =
 /// Defines the index of all sub-scenes available. Sub-scenes belong to a Scene
 /// and thus do not clear the screen or save a game.
 and SubScene =
-    | RehearsalRoomCompose
-    | RehearsalRoomComposeSong
-    | RehearsalRoomImproveSong
-    | RehearsalRoomFinishSong
-    | RehearsalRoomDiscardSong
-    | ManagementHireMember
-    | ManagementFireMember
-    | ManagementListMembers
+    | RehearsalRoomCompose of
+        space: RehearsalSpace *
+        rooms: Graph<RehearsalSpaceRoom>
+    | RehearsalRoomComposeSong of
+        space: RehearsalSpace *
+        rooms: Graph<RehearsalSpaceRoom>
+    | RehearsalRoomImproveSong of
+        space: RehearsalSpace *
+        rooms: Graph<RehearsalSpaceRoom>
+    | RehearsalRoomFinishSong of
+        space: RehearsalSpace *
+        rooms: Graph<RehearsalSpaceRoom>
+    | RehearsalRoomDiscardSong of
+        space: RehearsalSpace *
+        rooms: Graph<RehearsalSpaceRoom>
+    | ManagementHireMember of
+        space: RehearsalSpace *
+        rooms: Graph<RehearsalSpaceRoom>
+    | ManagementFireMember of
+        space: RehearsalSpace *
+        rooms: Graph<RehearsalSpaceRoom>
+    | ManagementListMembers of
+        space: RehearsalSpace *
+        rooms: Graph<RehearsalSpaceRoom>
     | BankTransfer of sender: BankAccountHolder * receiver: BankAccountHolder
     | StudioCreateRecord of Studio
     | StudioContinueRecord of Studio
@@ -68,13 +83,15 @@ and Object =
     { Type: ObjectType
       Commands: Command list }
 
-/// Defines a room that instead of showing an UI shows a command prompt exposing
-/// a command for each verb that can can invoke an object if the room and an
-/// optional extra set of commands to execute.
-and InteractiveRoom =
-    { Description: Text
-      Objects: Object list
-      ExtraCommands: Command list }
+/// Defines a space in which there are multiple rooms connected via a graph. This
+/// action takes care of the navigation inside of the space and relies on the
+/// properties passed to gather the description, objects and extra commands of
+/// the current room.
+and InteractiveSpace<'a> =
+    { Rooms: Graph<'a>
+      GetDescription: 'a -> Text
+      GetObjects: 'a -> Object list
+      GetExtraCommands: 'a -> Command list }
 
 /// Defines the content of a progress bar by giving the number of steps and
 /// the duration of each step. If Async is set to true the steps will be shown

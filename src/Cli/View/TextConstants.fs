@@ -43,9 +43,11 @@ type TextConstant =
     | CommonInvalidCommand
     | CommandHelpDescription
     | CommandHelpEntry of string * Text
+    | CommandDirectionDescription of direction: Direction
     | CommandLookDescription
     | CommandLookNoObjectsAround
     | CommandLookEnvironmentDescription of description: Text
+    | CommandLookEntranceDescription of (Direction * Text) list
     | CommandLookObjectEntry of ObjectType * string list
     | CommandExitDescription
     | CommandMapDescription
@@ -87,8 +89,12 @@ type TextConstant =
     | MapPrompt
     | MapOptionRehearsalRoom
     | MapOptionStudios
-    | RehearsalRoomTitle
-    | RehearsalRoomDescription
+    | RehearsalSpaceLobbyName
+    | RehearsalSpaceBarName
+    | RehearsalSpaceRehearsalRoomName
+    | RehearsalSpaceLobbyDescription
+    | RehearsalSpaceBarDescription
+    | RehearsalSpaceRehearsalRoomDescription
     | RehearsalRoomManageDescription
     | RehearsalRoomStatistics
     | RehearsalRoomInstrumentPlayDescription

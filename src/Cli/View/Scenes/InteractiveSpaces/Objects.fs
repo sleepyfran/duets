@@ -1,4 +1,4 @@
-module Cli.View.Scenes.Interactive.Objects
+module Cli.View.Scenes.InteractiveSpaces.Objects
 
 open Cli.View.Actions
 open Entities

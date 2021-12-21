@@ -8,6 +8,7 @@ let empty =
       Character = Character.empty
       CharacterSkills = Map.empty
       CurrentBandId = Identity.create () |> BandId
+      CurrentPosition = (Identity.create (), Identity.create ())
       BandSongRepertoire = Band.SongRepertoire.empty
       BandAlbumRepertoire = Band.AlbumRepertoire.empty
       BankAccounts = Map.empty

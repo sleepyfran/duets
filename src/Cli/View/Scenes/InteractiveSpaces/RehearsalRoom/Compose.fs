@@ -1,4 +1,4 @@
-module Cli.View.Scenes.Interactive.RehearsalRoom.Compose
+module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.Compose
 
 open Cli.View.Actions
 open Cli.View.Common
@@ -26,7 +26,7 @@ let createOptions hasUnfinishedSongs =
     }
     |> List.ofSeq
 
-let rec compose state =
+let rec compose state space rooms =
     let options =
         Bands.currentBand state
         |> fun band -> band.Id
@@ -45,16 +45,22 @@ let rec compose state =
                           { Choices = options
                             Handler =
                                 rehearsalRoomOptionalChoiceHandler
-                                    processSelection
+                                    space
+                                    rooms
+                                    (processSelection space rooms)
                             BackText = TextConstant CommonCancel } }
     }
 
-and processSelection choice =
+and processSelection space rooms choice =
     seq {
         match choice.Id with
-        | "compose_song" -> yield SubScene SubScene.RehearsalRoomComposeSong
-        | "improve_song" -> yield SubScene SubScene.RehearsalRoomImproveSong
-        | "finish_song" -> yield SubScene SubScene.RehearsalRoomFinishSong
-        | "discard_song" -> yield SubScene SubScene.RehearsalRoomDiscardSong
+        | "compose_song" ->
+            yield SubScene(SubScene.RehearsalRoomComposeSong(space, rooms))
+        | "improve_song" ->
+            yield SubScene(SubScene.RehearsalRoomImproveSong(space, rooms))
+        | "finish_song" ->
+            yield SubScene(SubScene.RehearsalRoomFinishSong(space, rooms))
+        | "discard_song" ->
+            yield SubScene(SubScene.RehearsalRoomDiscardSong(space, rooms))
         | _ -> yield NoOp
     }

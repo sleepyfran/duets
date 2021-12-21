@@ -22,13 +22,34 @@ module WorldTypes =
     /// Unique ID of a node, which represents a space inside of the world.
     type NodeId = Identity
 
+    /// Defines all connections that a node has in each of its directions.
+    type NodeConnections = Map<Direction, NodeId>
+
+    /// Represents a graph that can be used to create connections between
+    /// different nodes in each of the available directions. All connected
+    /// nodes are considered undirected, meaning that if A and B are connected
+    /// then the player can go from A to B and B to A. These connections are
+    /// made in the opposite direction, so if A connects through the North to
+    /// B, then B connects through the South to A.
+    type Graph<'a> =
+        { StartingNode: NodeId
+          Nodes: Map<NodeId, 'a>
+          Connections: Map<NodeId, NodeConnections> }
+
+    /// Defines the relationship between a node ID and its content.
+    type Node<'a> = { Id: NodeId; Content: 'a }
+
     /// Defines all types of rooms that are available inside a place.
-    type Room = RehearsalSpaceRoom of RehearsalSpaceRoom
+    type RoomNodeContent =
+        | RehearsalSpaceRoom of RehearsalSpaceRoom
+        | StudioRoom of StudioRoom
 
     /// Defines all types of places that are available inside a city.
     type Place =
-        | RehearsalSpace of space: RehearsalSpace * initialRoom: NodeId
-        | Studio of studio: Studio * initialRoom: NodeId
+        | RehearsalSpace of
+            space: RehearsalSpace *
+            rooms: Graph<RehearsalSpaceRoom>
+        | Studio of studio: Studio * rooms: Graph<StudioRoom>
 
     /// Defines a street in the game, which communicates different places
     /// in the world.
@@ -36,29 +57,21 @@ module WorldTypes =
 
     /// Defines a node in the game, which represents one space inside of the
     /// map that the player can be in.
-    type NodeContent =
-        | Room of Room
+    type CityNode =
         | Place of Place
         | Street of Street
 
-    /// Defines all connections that a node has in each of its directions.
-    type NodeConnections = Map<Direction, NodeId>
-
-    /// Defines the relationship between a node ID and its content. Not stored
-    /// anywhere, only used to pass information into the functions to create
-    /// worlds and nodes.
-    type NodeWithContent = { Id: NodeId; Content: NodeContent }
+    /// Unique identifier of a city.
+    type CityId = Identity
 
     /// Defines a city in the world as a connection of nodes with one of them
     /// being the entrypoint. Nodes can be rooms, places or streets that
     /// connect with each other via a direction that the user will use to
     /// navigate the map.
     type City =
-        { Id: NodeId
+        { Id: CityId
           Name: string
-          StartingNode: NodeId
-          Nodes: Map<NodeId, NodeContent>
-          Connections: Map<NodeId, NodeConnections> }
+          Graph: Graph<CityNode> }
 
     /// Defines the game world which contains all cities.
-    type World = { Cities: City list }
+    type World = { Cities: Map<CityId, City> }

@@ -1,4 +1,4 @@
-module Cli.View.Scenes.Interactive.RehearsalRoom.ImproveSong
+module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.ImproveSong
 
 open Cli.View.Actions
 open Cli.View.Common
@@ -8,7 +8,7 @@ open Entities
 open Simulation.Queries
 open Simulation.Songs.Composition.ImproveSong
 
-let rec improveSongScene state =
+let rec improveSongScene state space rooms =
     seq {
         let currentBand = Bands.currentBand state
 
@@ -23,18 +23,23 @@ let rec improveSongScene state =
                       <| OptionalChoiceHandler
                           { Choices = songOptions
                             Handler =
-                                (processOptionalSongSelection state currentBand)
+                                (processOptionalSongSelection
+                                    state
+                                    space
+                                    rooms
+                                    currentBand)
                             BackText = TextConstant CommonCancel } }
     }
 
-and processOptionalSongSelection state band selection =
+and processOptionalSongSelection state space rooms band selection =
     seq {
         match selection with
-        | Choice choice -> yield! processSongSelection state band choice
-        | Back -> yield Scene Scene.RehearsalRoom
+        | Choice choice ->
+            yield! processSongSelection state space rooms band choice
+        | Back -> yield Scene(Scene.RehearsalRoom(space, rooms))
     }
 
-and processSongSelection state band selection =
+and processSongSelection state space rooms band selection =
     seq {
         let status =
             unfinishedSongFromSelection state band selection
@@ -50,7 +55,7 @@ and processSongSelection state band selection =
             yield bandFinishedSong
         | (ReachedMaxQualityAlready, _) -> yield bandFinishedSong
 
-        yield Scene Scene.RehearsalRoom
+        yield Scene(Scene.RehearsalRoom(space, rooms))
     }
 
 and showImprovingProgress () =

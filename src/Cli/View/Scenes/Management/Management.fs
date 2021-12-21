@@ -13,7 +13,7 @@ let managementOptions =
         Text = TextConstant ManagementMemberList } ]
 
 /// Creates the management menu which allows to hire and fire members.
-let rec managementScene () =
+let rec managementScene space rooms =
     seq {
         yield
             Prompt
@@ -24,15 +24,18 @@ let rec managementScene () =
                           { Choices = managementOptions
                             Handler =
                                 rehearsalRoomOptionalChoiceHandler
-                                    processSelection
+                                    space
+                                    rooms
+                                    (processSelection space rooms)
                             BackText = TextConstant CommonCancel } }
     }
 
-and processSelection choice =
+and processSelection space rooms choice =
     seq {
         match choice.Id with
-        | "hire" -> yield SubScene SubScene.ManagementHireMember
-        | "fire" -> yield SubScene SubScene.ManagementFireMember
-        | "members" -> yield SubScene SubScene.ManagementListMembers
+        | "hire" -> yield SubScene(SubScene.ManagementHireMember(space, rooms))
+        | "fire" -> yield SubScene(SubScene.ManagementFireMember(space, rooms))
+        | "members" ->
+            yield SubScene(SubScene.ManagementListMembers(space, rooms))
         | _ -> yield NoOp
     }

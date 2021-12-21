@@ -8,7 +8,7 @@ open Entities
 open Simulation.Queries
 open Simulation.Bands.Members
 
-let rec fireScene state =
+let rec fireScene state space rooms =
     let memberOptions =
         Bands.currentBandMembersWithoutPlayableCharacter state
         |> List.map
@@ -23,7 +23,7 @@ let rec fireScene state =
     seq {
         if memberOptions.Length = 0 then
             yield Message <| TextConstant FireMemberNoMembersToFire
-            yield Scene Scene.RehearsalRoom
+            yield Scene(Scene.RehearsalRoom(space, rooms))
         else
             yield
                 Prompt
@@ -34,13 +34,13 @@ let rec fireScene state =
                               { Choices = memberOptions
                                 Handler =
                                     basicOptionalChoiceHandler (
-                                        Scene Management
+                                        Scene(Management(space, rooms))
                                     )
-                                    <| confirmFiring state
+                                    <| confirmFiring state space rooms
                                 BackText = TextConstant CommonCancel } }
     }
 
-and confirmFiring state selectedMember =
+and confirmFiring state space rooms selectedMember =
     let band = Bands.currentBand state
     let memberToFire = memberFromSelection band selectedMember
 
@@ -52,11 +52,11 @@ and confirmFiring state selectedMember =
                       <| FireMemberConfirmation memberToFire.Character.Name
                   Content =
                       ConfirmationPrompt(
-                          handleConfirmation state band memberToFire
+                          handleConfirmation state space rooms band memberToFire
                       ) }
     }
 
-and handleConfirmation state band memberToFire confirmed =
+and handleConfirmation state space rooms band memberToFire confirmed =
     seq {
         if confirmed then
             yield
@@ -69,7 +69,7 @@ and handleConfirmation state band memberToFire confirmed =
                 |> TextConstant
                 |> Message
 
-            yield Scene Management
+            yield Scene(Management(space, rooms))
         else
-            yield Scene Management
+            yield Scene(Management(space, rooms))
     }

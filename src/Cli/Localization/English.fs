@@ -4,17 +4,14 @@ open System
 open Cli.View
 open Cli.View.Common
 open Cli.View.TextConstants
+open Common
 open Entities
 
 let verbConjugationByGender =
-    dict [
-        (Have,
-         dict [
-             (Male, "Has")
-             (Female, "Has")
-             (Other, "Have")
-         ])
-    ]
+    dict [ (Have,
+            dict [ (Male, "Has")
+                   (Female, "Has")
+                   (Other, "Have") ]) ]
 
 /// Transforms TextConstants into strings.
 let rec toString text =
@@ -38,6 +35,18 @@ and skillName id =
     | SkillId.Instrument instrument ->
         $"{instrumentName instrument} (Instrument)"
     | MusicProduction -> "Music production"
+
+/// Returns the name of the given direction.
+and directionName direction =
+    match direction with
+    | North -> "north"
+    | NorthEast -> "north-east"
+    | East -> "east"
+    | SouthEast -> "south-east"
+    | South -> "south"
+    | SouthWest -> "south-west"
+    | West -> "west"
+    | NorthWest -> "north-west"
 
 /// Returns the correct pronoun for the given gender (he, she, they).
 and subjectPronounForGender gender =
@@ -161,7 +170,14 @@ and fromConstant constant =
         "Here are all the commands you can execute right now"
     | CommandHelpEntry (entryName, entryDescription) ->
         $"{TextStyles.action entryName} — {toString entryDescription}"
+    | CommandDirectionDescription direction ->
+        $"Follows the {directionName direction} direction"
     | CommandLookDescription -> "Shows all the objects you have around you"
+    | CommandLookEntranceDescription entrances ->
+        $"""You can enter {listOf
+                                    entrances
+                                    (fun (direction, name) ->
+                                        $"{TextStyles.place (toString name |> String.lowercase)} through the {TextStyles.information (directionName direction)}")}"""
     | CommandLookNoObjectsAround -> "There are no objects around you"
     | CommandLookEnvironmentDescription roomDescription ->
         $"{toString roomDescription}\n\nYou can see:"
@@ -224,8 +240,14 @@ and fromConstant constant =
     | MapPrompt -> "Where are you heading?"
     | MapOptionRehearsalRoom -> "Band's rehearsal room"
     | MapOptionStudios -> "Studio"
-    | RehearsalRoomTitle -> "Rehearsal Room"
-    | RehearsalRoomDescription ->
+    | RehearsalSpaceLobbyName -> "Lobby"
+    | RehearsalSpaceBarName -> "Bar"
+    | RehearsalSpaceRehearsalRoomName -> "Rehearsal rooms"
+    | RehearsalSpaceLobbyDescription ->
+        $"""You are in the {TextStyles.place "lobby"} of the rehearsal room. Not much to do here, just enter already!"""
+    | RehearsalSpaceBarDescription ->
+        $"""The {TextStyles.place "rehearsal room's bar"} smells really weird. There's three people sitting and drinking beer."""
+    | RehearsalSpaceRehearsalRoomDescription ->
         $"""You get to the {TextStyles.place "rehearsal room"} inside an old and quite smelly rehearsal place. You can feel the smoke in the air and hear [italic]AC/DC[/] being played in the room nearby. But hey, at least it's free to use."""
     | RehearsalRoomManageDescription ->
         "Opens the band management menu which allows you to hire new members or fire current ones"

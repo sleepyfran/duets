@@ -26,41 +26,6 @@ let createHelpCommand (commands: Command list) =
                                   |> Message)
                   }) }
 
-/// Command that shows the list of all objects around the player that they can
-/// interact with.
-let createLookCommand (room: InteractiveRoom) =
-    { Name = "look"
-      Description = TextConstant CommandLookDescription
-      Handler =
-          HandlerWithoutNavigation
-              (fun _ ->
-                  seq {
-                      if List.isEmpty room.Objects then
-                          yield
-                              Message <| TextConstant CommandLookNoObjectsAround
-                      else
-                          yield
-                              CommandLookEnvironmentDescription room.Description
-                              |> TextConstant
-                              |> Message
-
-                          yield!
-                              room.Objects
-                              |> List.map
-                                  (fun object ->
-                                      let commandNames =
-                                          object.Commands
-                                          |> List.map
-                                              (fun command -> command.Name)
-
-                                      (object.Type, commandNames))
-                              |> List.map (
-                                  CommandLookObjectEntry
-                                  >> TextConstant
-                                  >> Message
-                              )
-                  }) }
-
 /// Command which opens the phone of the user.
 let phoneCommand =
     { Name = "phone"

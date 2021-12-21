@@ -6,7 +6,7 @@ open Entities
 open Cli.View.Actions
 open Cli.DefaultCommands
 open Cli.View.Scenes
-open Cli.View.Scenes.Interactive
+open Cli.View.Scenes.InteractiveSpaces
 open Cli.View.TextConstants
 open Cli.View.Renderer
 open Common
@@ -18,27 +18,33 @@ let actionsFromScene state scene =
     | MainMenu savegameState -> MainMenu.mainMenu savegameState
     | CharacterCreator -> CharacterCreator.characterCreator ()
     | BandCreator character -> BandCreator.bandCreator character
-    | RehearsalRoom -> RehearsalRoom.Root.rehearsalRoomScene state
-    | Management -> Management.Root.managementScene ()
+    | RehearsalRoom (space, rooms) ->
+        RehearsalRoom.Root.rehearsalRoomScene space rooms
+    | Management (space, rooms) -> Management.Root.managementScene space rooms
     | Bank -> Bank.Root.bankScene state
     | Studio studio -> Studio.Root.studioScene state studio
     | Statistics -> Statistics.Root.statisticsScene ()
     | Phone -> Phone.phoneScene ()
-    | World -> World.worldScene ()
+    | World -> World.worldScene state
 
 let actionsFromSubScene state subScene =
     match subScene with
-    | SubScene.RehearsalRoomCompose -> RehearsalRoom.Compose.compose state
-    | RehearsalRoomComposeSong ->
-        RehearsalRoom.ComposeSong.composeSongScene state
-    | RehearsalRoomImproveSong ->
-        RehearsalRoom.ImproveSong.improveSongScene state
-    | RehearsalRoomFinishSong -> RehearsalRoom.FinishSong.finishSongScene state
-    | RehearsalRoomDiscardSong ->
-        RehearsalRoom.DiscardSong.discardSongScene state
-    | SubScene.ManagementHireMember -> Management.Hire.hireScene state
-    | SubScene.ManagementFireMember -> Management.Fire.fireScene state
-    | ManagementListMembers -> Management.MemberList.memberListScene state
+    | SubScene.RehearsalRoomCompose (space, rooms) ->
+        RehearsalRoom.Compose.compose state space rooms
+    | RehearsalRoomComposeSong (space, rooms) ->
+        RehearsalRoom.ComposeSong.composeSongScene state space rooms
+    | RehearsalRoomImproveSong (space, rooms) ->
+        RehearsalRoom.ImproveSong.improveSongScene state space rooms
+    | RehearsalRoomFinishSong (space, rooms) ->
+        RehearsalRoom.FinishSong.finishSongScene state space rooms
+    | RehearsalRoomDiscardSong (space, rooms) ->
+        RehearsalRoom.DiscardSong.discardSongScene state space rooms
+    | SubScene.ManagementHireMember (space, rooms) ->
+        Management.Hire.hireScene state space rooms
+    | SubScene.ManagementFireMember (space, rooms) ->
+        Management.Fire.fireScene state space rooms
+    | ManagementListMembers (space, rooms) ->
+        Management.MemberList.memberListScene state space rooms
     | BankTransfer (sender, receiver) ->
         Bank.Transfer.transferSubScene state sender receiver
     | StudioCreateRecord studio ->
@@ -95,23 +101,6 @@ let actionsFromEffect effect =
         |> Message
     | _ -> NoOp
 
-let actionsFromInteractiveRoom (room: InteractiveRoom) =
-    let lookCommand = createLookCommand room
-
-    let objectCommands =
-        room.Objects
-        |> List.collect (fun object -> object.Commands)
-
-    let commands =
-        objectCommands
-        @ room.ExtraCommands @ [ lookCommand ]
-
-    seq {
-        Prompt
-            { Title = TextConstant CommonCommandPrompt
-              Content = CommandPrompt commands }
-    }
-
 /// Determines whether the given scene is out of gameplay (main menu, creators,
 /// etc.) or not.
 let private outOfGameplayScene scene =
@@ -147,7 +136,6 @@ let rec runWith chain =
                 subScene
                 |> actionsFromSubScene (State.Root.get ())
                 |> runWith
-            | InteractiveRoom room -> actionsFromInteractiveRoom room |> runWith
             | Effect effect ->
                 Simulation.Galactus.runOne (State.Root.get ()) effect
                 |> Seq.tap State.Root.apply

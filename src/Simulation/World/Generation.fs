@@ -7,48 +7,45 @@ open Entities
 /// a bunch of places interconnected, in the future this should procedurally
 /// generate the world and all the cities in it.
 let rec generate () =
-    let city = World.City.empty "Madrid"
-
     let mainStreet =
         Street { Name = "Calle de Atocha" }
         |> World.Node.create
 
+    let city = World.City.create "Madrid" mainStreet
+
     city
-    |> Optic.set Lenses.World.City.startingNode_ mainStreet.Id
     |> addBeginnersRehearsalRoom mainStreet
-    |> fun city -> { Cities = [ city ] }
+    |> fun (city: City) -> { Cities = [ (city.Id, city) ] |> Map.ofList }
 
 and addBeginnersRehearsalRoom street city =
     let lobby =
-        RehearsalSpaceRoom RehearsalSpaceRoom.Lobby
-        |> Room
-        |> World.Node.create
+        RehearsalSpaceRoom.Lobby |> World.Node.create
 
     let bar =
-        RehearsalSpaceRoom RehearsalSpaceRoom.Bar
-        |> Room
-        |> World.Node.create
+        RehearsalSpaceRoom.Bar |> World.Node.create
 
     let rehearsalRoom =
-        RehearsalSpaceRoom RehearsalSpaceRoom.RehearsalRoom
-        |> Room
+        RehearsalSpaceRoom.RehearsalRoom
         |> World.Node.create
+
+    let roomGraph =
+        World.Graph.from lobby
+        |> World.Graph.addNode bar
+        |> World.Graph.addNode rehearsalRoom
+        |> World.Graph.addConnection lobby.Id bar.Id NorthEast
+        |> World.Graph.addConnection lobby.Id rehearsalRoom.Id North
 
     let rehearsalSpace =
         RehearsalSpace(
             { Name = "Good ol' Rehearsal Space"
               Quality = 20<quality>
               Price = 150<dd> },
-            lobby.Id
+            roomGraph
         )
         |> Place
         |> World.Node.create
 
     city
-    |> World.City.addNode lobby
-    |> World.City.addNode bar
-    |> World.City.addNode rehearsalRoom
     |> World.City.addNode rehearsalSpace
-    |> World.City.addConnection lobby.Id bar.Id NorthEast
-    |> World.City.addConnection lobby.Id rehearsalRoom.Id North
-    |> World.City.addConnection lobby.Id street.Id East
+    |> World.City.addConnection street.Id rehearsalSpace.Id West
+    |> Optic.set Lenses.World.City.startingNode_ rehearsalSpace.Id

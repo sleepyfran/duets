@@ -1,4 +1,4 @@
-module Cli.View.Scenes.Interactive.RehearsalRoom.ComposeSong
+module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.ComposeSong
 
 open Cli.View.Actions
 open Cli.View.Common
@@ -7,23 +7,23 @@ open Entities
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Simulation.Songs.Composition.ComposeSong
 
-let rec composeSongScene state =
+let rec composeSongScene state space rooms =
     seq {
         yield
             Prompt
                 { Title = TextConstant ComposeSongTitlePrompt
-                  Content = TextPrompt(lengthPrompt state) }
+                  Content = TextPrompt(lengthPrompt state space rooms) }
     }
 
-and lengthPrompt state name =
+and lengthPrompt state space rooms name =
     seq {
         yield
             Prompt
                 { Title = TextConstant ComposeSongLengthPrompt
-                  Content = LengthPrompt(genrePrompt state name) }
+                  Content = LengthPrompt(genrePrompt state space rooms name) }
     }
 
-and genrePrompt state name length =
+and genrePrompt state space rooms name length =
     seq {
         yield
             Prompt
@@ -32,10 +32,11 @@ and genrePrompt state name length =
                       ChoicePrompt
                       <| MandatoryChoiceHandler
                           { Choices = genreOptions
-                            Handler = vocalStylePrompt state name length } }
+                            Handler =
+                                vocalStylePrompt state space rooms name length } }
     }
 
-and vocalStylePrompt state name length selectedGenre =
+and vocalStylePrompt state space rooms name length selectedGenre =
     let vocalStyleOptions =
         Database.vocalStyleNames ()
         |> List.map
@@ -52,35 +53,41 @@ and vocalStylePrompt state name length selectedGenre =
                       <| MandatoryChoiceHandler
                           { Choices = vocalStyleOptions
                             Handler =
-                                handleSong state name length selectedGenre.Id } }
+                                handleSong
+                                    state
+                                    space
+                                    rooms
+                                    name
+                                    length
+                                    selectedGenre.Id } }
     }
 
-and handleSong state name length genre selectedVocalStyle =
+and handleSong state space rooms name length genre selectedVocalStyle =
     let vocalStyle =
         Song.VocalStyle.from selectedVocalStyle.Id
 
     seq {
         match Song.from name length vocalStyle genre with
-        | Ok song -> yield! composeWithProgressbar state song
+        | Ok song -> yield! composeWithProgressbar state space rooms song
         | Error Song.NameTooShort ->
             yield!
-                handleError
+                handleError space rooms
                 <| TextConstant ComposeSongErrorNameTooShort
         | Error Song.NameTooLong ->
             yield!
-                handleError
+                handleError space rooms
                 <| TextConstant ComposeSongErrorNameTooLong
         | Error Song.LengthTooShort ->
             yield!
-                handleError
+                handleError space rooms
                 <| TextConstant ComposeSongErrorLengthTooShort
         | Error Song.LengthTooLong ->
             yield!
-                handleError
+                handleError space rooms
                 <| TextConstant ComposeSongErrorLengthTooLong
     }
 
-and composeWithProgressbar state song =
+and composeWithProgressbar state space rooms song =
     seq {
 
         yield
@@ -98,11 +105,11 @@ and composeWithProgressbar state song =
 
         yield Effect <| composeSong state song
 
-        yield Scene Scene.RehearsalRoom
+        yield Scene(Scene.RehearsalRoom(space, rooms))
     }
 
-and handleError message =
+and handleError space rooms message =
     seq {
         yield Message <| message
-        yield SubScene SubScene.RehearsalRoomComposeSong
+        yield SubScene(SubScene.RehearsalRoomComposeSong(space, rooms))
     }
