@@ -2,6 +2,7 @@ module Cli.View.Scenes.Bank.Root
 
 open Cli.View.Actions
 open Cli.View.Common
+open Cli.View.Scenes.Bank
 open Cli.View.TextConstants
 open Entities
 open Simulation.Queries
@@ -15,7 +16,7 @@ let rehearsalOptions =
 /// Creates the bank scene which allows to transfer money between accounts.
 let rec bankScene () =
     let state = State.Root.get ()
-    
+
     let characterAccount =
         Characters.playableCharacter state
         |> fun character -> character.Id
@@ -52,12 +53,8 @@ and processSelection characterAccount bandAccount choice =
     seq {
         match choice.Id with
         | "transfer_to_band" ->
-            yield
-                SubScene
-                <| BankTransfer(characterAccount, bandAccount)
+            yield! Transfer.transferSubScene characterAccount bandAccount
         | "transfer_from_band" ->
-            yield
-                SubScene
-                <| BankTransfer(bandAccount, characterAccount)
+            yield! Transfer.transferSubScene bandAccount characterAccount
         | _ -> yield NoOp
     }

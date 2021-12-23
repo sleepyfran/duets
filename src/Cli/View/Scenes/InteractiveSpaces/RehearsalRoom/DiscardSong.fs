@@ -7,7 +7,7 @@ open Entities
 open Simulation.Queries
 open Simulation.Songs.Composition.DiscardSong
 
-let rec discardSongScene space rooms =
+let rec discardSongSubScene space rooms =
     let state = State.Root.get ()
 
     let currentBand = Bands.currentBand state

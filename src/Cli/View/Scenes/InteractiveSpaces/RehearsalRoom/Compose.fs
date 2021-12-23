@@ -26,9 +26,9 @@ let createOptions hasUnfinishedSongs =
     }
     |> List.ofSeq
 
-let rec compose space rooms =
+let rec composeSubScene space rooms =
     let state = State.Root.get ()
-    
+
     let options =
         Bands.currentBand state
         |> fun band -> band.Id
@@ -56,13 +56,9 @@ let rec compose space rooms =
 and processSelection space rooms choice =
     seq {
         match choice.Id with
-        | "compose_song" ->
-            yield SubScene(SubScene.RehearsalRoomComposeSong(space, rooms))
-        | "improve_song" ->
-            yield SubScene(SubScene.RehearsalRoomImproveSong(space, rooms))
-        | "finish_song" ->
-            yield SubScene(SubScene.RehearsalRoomFinishSong(space, rooms))
-        | "discard_song" ->
-            yield SubScene(SubScene.RehearsalRoomDiscardSong(space, rooms))
+        | "compose_song" -> yield! ComposeSong.composeSongSubScene space rooms
+        | "improve_song" -> yield! ImproveSong.improveSongSubScene space rooms
+        | "finish_song" -> yield! FinishSong.finishSongSubScene space rooms
+        | "discard_song" -> yield! DiscardSong.discardSongSubScene space rooms
         | _ -> yield NoOp
     }

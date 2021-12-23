@@ -5,7 +5,7 @@ open Cli.View.TextConstants
 open Simulation.Queries
 
 /// Shows the current and past members of the band.
-let rec memberListScene space rooms =
+let rec memberListSubScene space rooms =
     let state = State.Root.get ()
     let currentMembers = Bands.currentBandMembers state
     let pastMembers = Bands.pastBandMembers state

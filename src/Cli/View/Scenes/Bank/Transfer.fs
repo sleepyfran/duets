@@ -8,8 +8,6 @@ open Simulation.Bank.Operations
 /// Asks for the amount that the user wants to transfer from the two accounts
 /// and confirms the transaction.
 let rec transferSubScene sender receiver =
-    let state = State.Root.get ()
-
     seq {
         yield
             Prompt

@@ -10,7 +10,7 @@ let private instrumentFromType space rooms instrumentType =
     let create fn =
         fn
             (TextConstant RehearsalRoomInstrumentPlayDescription)
-            (seq { SubScene(SubScene.RehearsalRoomCompose(space, rooms)) })
+            (seq { yield! Compose.composeSubScene space rooms })
 
     match instrumentType with
     | InstrumentType.Bass -> create Objects.bass

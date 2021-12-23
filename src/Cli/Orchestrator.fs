@@ -27,35 +27,6 @@ let actionsFromScene scene =
     | Phone -> Phone.phoneScene ()
     | World -> World.worldScene ()
 
-let actionsFromSubScene subScene =
-    match subScene with
-    | SubScene.RehearsalRoomCompose (space, rooms) ->
-        RehearsalRoom.Compose.compose space rooms
-    | RehearsalRoomComposeSong (space, rooms) ->
-        RehearsalRoom.ComposeSong.composeSongScene space rooms
-    | RehearsalRoomImproveSong (space, rooms) ->
-        RehearsalRoom.ImproveSong.improveSongScene space rooms
-    | RehearsalRoomFinishSong (space, rooms) ->
-        RehearsalRoom.FinishSong.finishSongScene space rooms
-    | RehearsalRoomDiscardSong (space, rooms) ->
-        RehearsalRoom.DiscardSong.discardSongScene space rooms
-    | SubScene.ManagementHireMember (space, rooms) ->
-        Management.Hire.hireScene space rooms
-    | SubScene.ManagementFireMember (space, rooms) ->
-        Management.Fire.fireScene space rooms
-    | ManagementListMembers (space, rooms) ->
-        Management.MemberList.memberListScene space rooms
-    | BankTransfer (sender, receiver) ->
-        Bank.Transfer.transferSubScene sender receiver
-    | StudioCreateRecord studio ->
-        Studio.CreateRecord.createRecordSubscene studio
-    | SubScene.StudioContinueRecord studio ->
-        Studio.ContinueRecord.continueRecordSubscene studio
-    | SubScene.StudioPromptToRelease (onCancel, studio, band, album) ->
-        Studio.PromptToRelease.promptToReleaseAlbum onCancel studio band album
-    | StatisticsOfBand -> Statistics.Band.bandStatisticsSubScene ()
-    | StatisticsOfAlbums -> Statistics.Albums.albumsStatisticsSubScene ()
-
 let actionsFromEffect effect =
     match effect with
     | SongImproved (_, Diff (before, after)) ->
@@ -127,7 +98,6 @@ let rec runWith chain =
             | Figlet text -> renderFiglet text
             | ProgressBar content -> renderProgressBar content
             | Scene scene -> runScene scene
-            | SubScene subScene -> subScene |> actionsFromSubScene |> runWith
             | Effect effect ->
                 Simulation.Galactus.runOne (State.Root.get ()) effect
                 |> Seq.tap State.Root.apply

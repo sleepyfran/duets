@@ -14,7 +14,6 @@ type Action =
     | Prompt of Prompt
     | ProgressBar of ProgressBarContent
     | Scene of Scene
-    | SubScene of SubScene
     | GameInfo of version: string
     | Effect of Effect
     | ClearScreen
@@ -38,44 +37,6 @@ and Scene =
     | Studio of Studio
     | Statistics
     | Phone
-
-/// Defines the index of all sub-scenes available. Sub-scenes belong to a Scene
-/// and thus do not clear the screen or save a game.
-and SubScene =
-    | RehearsalRoomCompose of
-        space: RehearsalSpace *
-        rooms: Graph<RehearsalSpaceRoom>
-    | RehearsalRoomComposeSong of
-        space: RehearsalSpace *
-        rooms: Graph<RehearsalSpaceRoom>
-    | RehearsalRoomImproveSong of
-        space: RehearsalSpace *
-        rooms: Graph<RehearsalSpaceRoom>
-    | RehearsalRoomFinishSong of
-        space: RehearsalSpace *
-        rooms: Graph<RehearsalSpaceRoom>
-    | RehearsalRoomDiscardSong of
-        space: RehearsalSpace *
-        rooms: Graph<RehearsalSpaceRoom>
-    | ManagementHireMember of
-        space: RehearsalSpace *
-        rooms: Graph<RehearsalSpaceRoom>
-    | ManagementFireMember of
-        space: RehearsalSpace *
-        rooms: Graph<RehearsalSpaceRoom>
-    | ManagementListMembers of
-        space: RehearsalSpace *
-        rooms: Graph<RehearsalSpaceRoom>
-    | BankTransfer of sender: BankAccountHolder * receiver: BankAccountHolder
-    | StudioCreateRecord of Studio
-    | StudioContinueRecord of Studio
-    | StudioPromptToRelease of
-        onCancel: ActionChain *
-        studio: Studio *
-        band: Band *
-        album: UnreleasedAlbum
-    | StatisticsOfBand
-    | StatisticsOfAlbums
 
 /// Defines an object that can be placed in an interactive room so that the user
 /// can interact with it.

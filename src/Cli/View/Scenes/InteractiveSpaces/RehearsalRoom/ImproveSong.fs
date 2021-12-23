@@ -8,7 +8,7 @@ open Entities
 open Simulation.Queries
 open Simulation.Songs.Composition.ImproveSong
 
-let rec improveSongScene space rooms =
+let rec improveSongSubScene space rooms =
     let state = State.Root.get ()
 
     let currentBand = Bands.currentBand state

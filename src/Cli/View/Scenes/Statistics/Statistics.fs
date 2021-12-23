@@ -28,7 +28,7 @@ let rec statisticsScene () =
 and processSelection selection =
     seq {
         match selection.Id with
-        | "band" -> yield SubScene StatisticsOfBand
-        | "albums" -> yield SubScene StatisticsOfAlbums
+        | "band" -> yield! Band.bandStatisticsSubScene ()
+        | "albums" -> yield! Albums.albumsStatisticsSubScene ()
         | _ -> yield NoOp
     }

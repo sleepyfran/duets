@@ -7,7 +7,7 @@ open Entities
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Simulation.Songs.Composition.ComposeSong
 
-let rec composeSongScene space rooms =
+let rec composeSongSubScene space rooms =
     seq {
         yield
             Prompt
@@ -111,5 +111,5 @@ and composeWithProgressbar space rooms song =
 and handleError space rooms message =
     seq {
         yield Message <| message
-        yield SubScene(SubScene.RehearsalRoomComposeSong(space, rooms))
+        yield! composeSongSubScene space rooms
     }

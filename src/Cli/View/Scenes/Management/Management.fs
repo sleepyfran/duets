@@ -33,9 +33,8 @@ let rec managementScene space rooms =
 and processSelection space rooms choice =
     seq {
         match choice.Id with
-        | "hire" -> yield SubScene(SubScene.ManagementHireMember(space, rooms))
-        | "fire" -> yield SubScene(SubScene.ManagementFireMember(space, rooms))
-        | "members" ->
-            yield SubScene(SubScene.ManagementListMembers(space, rooms))
+        | "hire" -> yield! Hire.hireSubScene space rooms
+        | "fire" -> yield! Fire.fireSubScene space rooms
+        | "members" -> yield! MemberList.memberListSubScene space rooms
         | _ -> yield NoOp
     }

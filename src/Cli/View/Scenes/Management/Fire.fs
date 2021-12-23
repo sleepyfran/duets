@@ -8,7 +8,7 @@ open Entities
 open Simulation.Queries
 open Simulation.Bands.Members
 
-let rec fireScene space rooms =
+let rec fireSubScene space rooms =
     let state = State.Root.get ()
 
     let memberOptions =

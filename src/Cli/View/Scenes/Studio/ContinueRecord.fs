@@ -62,14 +62,12 @@ and handleAction studio band album choice =
         match choice.Id with
         | "edit_name" -> yield! editName studio band album
         | "release" ->
-            yield
-                StudioPromptToRelease(
-                    (seq { yield! actionPrompt studio band album }),
-                    studio,
-                    band,
+            yield!
+                PromptToRelease.promptToReleaseAlbum
+                    (seq { yield! actionPrompt studio band album })
+                    studio
+                    band
                     album
-                )
-                |> SubScene
         | _ -> yield NoOp
     }
 

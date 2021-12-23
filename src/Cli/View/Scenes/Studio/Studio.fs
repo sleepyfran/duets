@@ -57,9 +57,9 @@ let rec studioScene (studio: Studio) =
 and processSelection studio choice =
     seq {
         match choice.Id with
-        | "start_record" -> yield SubScene <| StudioCreateRecord studio
+        | "start_record" -> yield! CreateRecord.createRecordSubscene studio
         | "continue_record" ->
-            yield SubScene <| SubScene.StudioContinueRecord studio
+            yield! ContinueRecord.continueRecordSubscene studio
         | "discard_record" -> yield! []
         | _ -> yield! []
     }

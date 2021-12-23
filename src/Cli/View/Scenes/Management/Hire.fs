@@ -7,7 +7,7 @@ open Entities
 open Simulation.Bands.Members
 open Simulation.Queries
 
-let rec hireScene space rooms =
+let rec hireSubScene space rooms =
     seq {
         yield
             Prompt

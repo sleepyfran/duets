@@ -123,12 +123,10 @@ and recordWithProgressBar studio band album effects =
 
         yield! Seq.map Effect effects
 
-        yield
-            StudioPromptToRelease(
-                (seq { yield Scene <| Scene.Studio studio }),
-                studio,
-                band,
+        yield!
+            PromptToRelease.promptToReleaseAlbum
+                (seq { yield Scene <| Scene.Studio studio })
+                studio
+                band
                 album
-            )
-            |> SubScene
     }
