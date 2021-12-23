@@ -4,7 +4,8 @@ open Cli.View.Actions
 open Cli.View.TextConstants
 open Simulation.Queries
 
-let albumsStatisticsSubScene state =
+let albumsStatisticsSubScene () =
+    let state = State.Root.get ()
     let band = Bands.currentBand state
     let releases = Albums.releasedByBand state band.Id
 

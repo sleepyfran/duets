@@ -7,15 +7,19 @@ open Simulation.Bank.Operations
 
 /// Asks for the amount that the user wants to transfer from the two accounts
 /// and confirms the transaction.
-let rec transferSubScene state sender receiver =
+let rec transferSubScene sender receiver =
+    let state = State.Root.get ()
+
     seq {
         yield
             Prompt
                 { Title = TextConstant <| BankTransferAmount receiver
-                  Content = NumberPrompt(handleAmount state sender receiver) }
+                  Content = NumberPrompt(handleAmount sender receiver) }
     }
 
-and handleAmount state sender receiver amount =
+and handleAmount sender receiver amount =
+    let state = State.Root.get ()
+
     transfer state sender receiver (amount * 1<dd>)
     |> fun result ->
         match result with

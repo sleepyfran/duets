@@ -15,7 +15,8 @@ let continueRecordOptions =
 
 /// Creates a subscene that allows to edit the name of a previously recorded
 /// but unreleased album and also to release it.
-let rec continueRecordSubscene state studio =
+let rec continueRecordSubscene studio =
+    let state = State.Root.get ()
     let currentBand = Bands.currentBand state
 
     let albumOptions =
@@ -29,16 +30,18 @@ let rec continueRecordSubscene state studio =
                       ChoicePrompt
                       <| MandatoryChoiceHandler
                           { Choices = albumOptions
-                            Handler = handleAlbum state studio currentBand } }
+                            Handler = handleAlbum studio currentBand } }
     }
 
-and handleAlbum state studio band choice =
+and handleAlbum studio band choice =
+    let state = State.Root.get ()
+
     let album =
         unreleasedAlbumFromSelection state band choice
 
-    actionPrompt state studio band album
+    actionPrompt studio band album
 
-and actionPrompt state studio band album =
+and actionPrompt studio band album =
     seq {
         yield
             Prompt
@@ -50,18 +53,18 @@ and actionPrompt state studio band album =
                             Handler =
                                 basicOptionalChoiceHandler
                                     (Scene <| Scene.Studio studio)
-                                    (handleAction state studio band album)
+                                    (handleAction studio band album)
                             BackText = TextConstant CommonBack } }
     }
 
-and handleAction state studio band album choice =
+and handleAction studio band album choice =
     seq {
         match choice.Id with
-        | "edit_name" -> yield! editName state studio band album
+        | "edit_name" -> yield! editName studio band album
         | "release" ->
             yield
                 StudioPromptToRelease(
-                    (seq { yield! actionPrompt state studio band album }),
+                    (seq { yield! actionPrompt studio band album }),
                     studio,
                     band,
                     album
@@ -70,17 +73,15 @@ and handleAction state studio band album choice =
         | _ -> yield NoOp
     }
 
-and editName state studio band album =
+and editName studio band album =
     seq {
         yield
             Prompt
                 { Title = TextConstant StudioCreateRecordName
-                  Content =
-                      TextPrompt
-                      <| handleNameChange state studio band album }
+                  Content = TextPrompt <| handleNameChange studio band album }
     }
 
-and handleNameChange state studio band album name =
+and handleNameChange studio band album name =
     renameAlbum band album name
     |> fun result ->
         match result with
@@ -90,7 +91,7 @@ and handleNameChange state studio band album name =
                     Message
                     <| TextConstant StudioCreateErrorNameTooShort
 
-                yield! editName state studio band album
+                yield! editName studio band album
             }
         | Error Album.NameTooLong ->
             seq {
@@ -98,11 +99,11 @@ and handleNameChange state studio band album name =
                     Message
                     <| TextConstant StudioCreateErrorNameTooLong
 
-                yield! editName state studio band album
+                yield! editName studio band album
             }
         | Ok (album, effect) ->
             seq {
                 yield Effect effect
-                yield! actionPrompt state studio band album
+                yield! actionPrompt studio band album
             }
         | _ -> seq { yield NoOp }

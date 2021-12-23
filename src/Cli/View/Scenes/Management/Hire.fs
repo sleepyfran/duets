@@ -7,7 +7,7 @@ open Entities
 open Simulation.Bands.Members
 open Simulation.Queries
 
-let rec hireScene state space rooms =
+let rec hireScene space rooms =
     seq {
         yield
             Prompt
@@ -20,11 +20,13 @@ let rec hireScene state space rooms =
                                 basicOptionalChoiceHandler (
                                     Scene(Management(space, rooms))
                                 )
-                                <| memberSelection state space rooms
+                                <| memberSelection space rooms
                             BackText = TextConstant CommonCancel } }
     }
 
-and memberSelection state space rooms selectedInstrument =
+and memberSelection space rooms selectedInstrument =
+    let state = State.Root.get ()
+
     let band = Bands.currentBand state
 
     let instrument =
@@ -32,17 +34,10 @@ and memberSelection state space rooms selectedInstrument =
 
     membersForHire state band instrument.Type
     |> Seq.take 1
-    |> Seq.map (showMemberForHire state space rooms band selectedInstrument)
+    |> Seq.map (showMemberForHire space rooms band selectedInstrument)
     |> Seq.concat
 
-and showMemberForHire
-    state
-    space
-    rooms
-    band
-    selectedInstrument
-    availableMember
-    =
+and showMemberForHire space rooms band selectedInstrument availableMember =
     seq {
         yield
             HireMemberSkillSummary(
@@ -68,7 +63,6 @@ and showMemberForHire
                   Content =
                       ConfirmationPrompt
                       <| handleHiringConfirmation
-                          state
                           space
                           rooms
                           band
@@ -77,7 +71,6 @@ and showMemberForHire
     }
 
 and handleHiringConfirmation
-    state
     space
     rooms
     band
@@ -85,6 +78,8 @@ and handleHiringConfirmation
     memberForHire
     confirmed
     =
+    let state = State.Root.get ()
+
     seq {
         if confirmed then
             yield Effect <| hireMember state band memberForHire
@@ -97,16 +92,15 @@ and handleHiringConfirmation
                       Content =
                           ConfirmationPrompt
                           <| handleContinueConfirmation
-                              state
                               space
                               rooms
                               selectedInstrument }
     }
 
-and handleContinueConfirmation state space rooms selectedInstrument confirmed =
+and handleContinueConfirmation space rooms selectedInstrument confirmed =
     seq {
         if confirmed then
-            yield! memberSelection state space rooms selectedInstrument
+            yield! memberSelection space rooms selectedInstrument
         else
             yield Scene(Management(space, rooms))
     }

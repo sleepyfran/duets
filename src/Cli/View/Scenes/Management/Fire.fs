@@ -8,7 +8,9 @@ open Entities
 open Simulation.Queries
 open Simulation.Bands.Members
 
-let rec fireScene state space rooms =
+let rec fireScene space rooms =
+    let state = State.Root.get ()
+
     let memberOptions =
         Bands.currentBandMembersWithoutPlayableCharacter state
         |> List.map
@@ -36,11 +38,13 @@ let rec fireScene state space rooms =
                                     basicOptionalChoiceHandler (
                                         Scene(Management(space, rooms))
                                     )
-                                    <| confirmFiring state space rooms
+                                    <| confirmFiring space rooms
                                 BackText = TextConstant CommonCancel } }
     }
 
-and confirmFiring state space rooms selectedMember =
+and confirmFiring space rooms selectedMember =
+    let state = State.Root.get ()
+
     let band = Bands.currentBand state
     let memberToFire = memberFromSelection band selectedMember
 
@@ -52,11 +56,13 @@ and confirmFiring state space rooms selectedMember =
                       <| FireMemberConfirmation memberToFire.Character.Name
                   Content =
                       ConfirmationPrompt(
-                          handleConfirmation state space rooms band memberToFire
+                          handleConfirmation space rooms band memberToFire
                       ) }
     }
 
-and handleConfirmation state space rooms band memberToFire confirmed =
+and handleConfirmation space rooms band memberToFire confirmed =
+    let state = State.Root.get ()
+
     seq {
         if confirmed then
             yield

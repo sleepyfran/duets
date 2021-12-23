@@ -8,13 +8,15 @@ open Entities
 open Simulation.Queries
 open Simulation.Songs.Composition.ImproveSong
 
-let rec improveSongScene state space rooms =
+let rec improveSongScene space rooms =
+    let state = State.Root.get ()
+
+    let currentBand = Bands.currentBand state
+
+    let songOptions =
+        unfinishedSongsSelectorOf state currentBand
+
     seq {
-        let currentBand = Bands.currentBand state
-
-        let songOptions =
-            unfinishedSongsSelectorOf state currentBand
-
         yield
             Prompt
                 { Title = TextConstant ImproveSongSelection
@@ -24,27 +26,27 @@ let rec improveSongScene state space rooms =
                           { Choices = songOptions
                             Handler =
                                 (processOptionalSongSelection
-                                    state
                                     space
                                     rooms
                                     currentBand)
                             BackText = TextConstant CommonCancel } }
     }
 
-and processOptionalSongSelection state space rooms band selection =
+and processOptionalSongSelection space rooms band selection =
     seq {
         match selection with
-        | Choice choice ->
-            yield! processSongSelection state space rooms band choice
+        | Choice choice -> yield! processSongSelection space rooms band choice
         | Back -> yield Scene(Scene.RehearsalRoom(space, rooms))
     }
 
-and processSongSelection state space rooms band selection =
-    seq {
-        let status =
-            unfinishedSongFromSelection state band selection
-            |> improveSong band
+and processSongSelection space rooms band selection =
+    let state = State.Root.get ()
 
+    let status =
+        unfinishedSongFromSelection state band selection
+        |> improveSong band
+
+    seq {
         match status with
         | (CanBeImproved, effects) ->
             yield showImprovingProgress ()

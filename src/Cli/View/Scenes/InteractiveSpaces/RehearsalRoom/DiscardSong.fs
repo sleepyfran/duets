@@ -7,13 +7,15 @@ open Entities
 open Simulation.Queries
 open Simulation.Songs.Composition.DiscardSong
 
-let rec discardSongScene state space rooms =
+let rec discardSongScene space rooms =
+    let state = State.Root.get ()
+
+    let currentBand = Bands.currentBand state
+
+    let songOptions =
+        unfinishedSongsSelectorOf state currentBand
+
     seq {
-        let currentBand = Bands.currentBand state
-
-        let songOptions =
-            unfinishedSongsSelectorOf state currentBand
-
         yield
             Prompt
                 { Title = TextConstant DiscardSongSelection
@@ -26,17 +28,19 @@ let rec discardSongScene state space rooms =
                                     space
                                     rooms
                                     (processSongSelection
-                                        state
                                         space
                                         rooms
                                         currentBand)
                             BackText = TextConstant CommonCancel } }
     }
 
-and processSongSelection state space rooms band selection =
+and processSongSelection space rooms band selection =
+    let state = State.Root.get ()
+
+    let unfinishedSong =
+        unfinishedSongFromSelection state band selection
+
     seq {
-        let unfinishedSong =
-            unfinishedSongFromSelection state band selection
 
         yield Effect <| discardSong band unfinishedSong
 

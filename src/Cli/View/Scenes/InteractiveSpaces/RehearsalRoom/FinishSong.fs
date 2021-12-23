@@ -7,13 +7,14 @@ open Entities
 open Simulation.Queries
 open Simulation.Songs.Composition.FinishSong
 
-let rec finishSongScene state space rooms =
+let rec finishSongScene space rooms =
+    let state = State.Root.get ()
+    let currentBand = Bands.currentBand state
+
+    let songOptions =
+        unfinishedSongsSelectorOf state currentBand
+
     seq {
-        let currentBand = Bands.currentBand state
-
-        let songOptions =
-            unfinishedSongsSelectorOf state currentBand
-
         yield
             Prompt
                 { Title = TextConstant FinishSongSelection
@@ -26,20 +27,21 @@ let rec finishSongScene state space rooms =
                                     space
                                     rooms
                                     (processSongSelection
-                                        state
                                         space
                                         rooms
                                         currentBand)
                             BackText = TextConstant CommonCancel } }
     }
 
-and processSongSelection state space rooms band selection =
+and processSongSelection space rooms band selection =
+    let state = State.Root.get ()
+
+    let selectedSong =
+        unfinishedSongFromSelection state band selection
+
+    let (UnfinishedSong song, _, quality) = selectedSong
+
     seq {
-        let selectedSong =
-            unfinishedSongFromSelection state band selection
-
-        let (UnfinishedSong song, _, quality) = selectedSong
-
         yield Effect <| finishSong band selectedSong
 
         yield

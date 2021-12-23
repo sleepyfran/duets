@@ -4,7 +4,8 @@ open Cli.View.Actions
 open Cli.View.TextConstants
 open Simulation.Queries
 
-let bandStatisticsSubScene state =
+let bandStatisticsSubScene () =
+    let state = State.Root.get ()
     let band = Bands.currentBand state
 
     seq {
@@ -22,6 +23,6 @@ let bandStatisticsSubScene state =
             StatisticsBandFame band.Fame
             |> TextConstant
             |> Message
-            
+
         yield Scene Statistics
     }

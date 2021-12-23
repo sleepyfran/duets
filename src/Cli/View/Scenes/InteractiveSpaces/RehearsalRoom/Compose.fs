@@ -26,7 +26,9 @@ let createOptions hasUnfinishedSongs =
     }
     |> List.ofSeq
 
-let rec compose state space rooms =
+let rec compose space rooms =
+    let state = State.Root.get ()
+    
     let options =
         Bands.currentBand state
         |> fun band -> band.Id

@@ -11,7 +11,8 @@ open Simulation.Studio.RecordAlbum
 
 /// Creates the studio record subscene which allows bands to create a new
 /// record.
-let rec createRecordSubscene state studio =
+let rec createRecordSubscene studio =
+    let state = State.Root.get ()
     let currentBand = Bands.currentBand state
 
     let songOptions =
@@ -24,17 +25,13 @@ let rec createRecordSubscene state studio =
                     { Title = TextConstant StudioCreateRecordName
                       Content =
                           TextPrompt
-                          <| trackListPrompt
-                              state
-                              studio
-                              currentBand
-                              songOptions }
+                          <| trackListPrompt studio currentBand songOptions }
         else
             yield Message <| TextConstant StudioCreateNoSongs
             yield Scene World
     }
 
-and trackListPrompt state studio band songOptions name =
+and trackListPrompt studio band songOptions name =
     seq {
         yield
             Prompt
@@ -42,10 +39,12 @@ and trackListPrompt state studio band songOptions name =
                   Content =
                       MultiChoicePrompt
                       <| { Choices = songOptions
-                           Handler = processRecord state studio band name } }
+                           Handler = processRecord studio band name } }
     }
 
-and processRecord state studio band name selectedSongs =
+and processRecord studio band name selectedSongs =
+    let state = State.Root.get ()
+
     let albumResult =
         finishedSongsFromSelection state band selectedSongs
         |> Album.Unreleased.from name
@@ -57,18 +56,18 @@ and processRecord state studio band name selectedSongs =
                 Message
                 <| TextConstant StudioCreateErrorNameTooShort
 
-            yield! createRecordSubscene state studio
+            yield! createRecordSubscene studio
         | Error Album.NameTooLong ->
             yield
                 Message
                 <| TextConstant StudioCreateErrorNameTooLong
 
-            yield! createRecordSubscene state studio
-        | Ok album -> yield! confirmRecording state studio band album
+            yield! createRecordSubscene studio
+        | Ok album -> yield! confirmRecording studio band album
         | _ -> yield NoOp
     }
 
-and confirmRecording state studio band album =
+and confirmRecording studio band album =
     let (UnreleasedAlbum albumToRecord) = album
 
     seq {
@@ -87,7 +86,6 @@ and confirmRecording state studio band album =
                                   if confirmed then
                                       yield!
                                           checkBankAndRecordAlbum
-                                              state
                                               studio
                                               band
                                               album
@@ -96,7 +94,9 @@ and confirmRecording state studio band album =
                               }) }
     }
 
-and checkBankAndRecordAlbum state studio band album =
+and checkBankAndRecordAlbum studio band album =
+    let state = State.Root.get ()
+
     seq {
         match recordAlbum state studio band album with
         | Error (NotEnoughFunds studioBill) ->

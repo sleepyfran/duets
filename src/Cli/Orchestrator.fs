@@ -13,7 +13,7 @@ open Common
 open Simulation.Queries
 
 /// Returns the sequence of actions associated with a screen given its name.
-let actionsFromScene state scene =
+let actionsFromScene scene =
     match scene with
     | MainMenu savegameState -> MainMenu.mainMenu savegameState
     | CharacterCreator -> CharacterCreator.characterCreator ()
@@ -21,45 +21,40 @@ let actionsFromScene state scene =
     | RehearsalRoom (space, rooms) ->
         RehearsalRoom.Root.rehearsalRoomScene space rooms
     | Management (space, rooms) -> Management.Root.managementScene space rooms
-    | Bank -> Bank.Root.bankScene state
-    | Studio studio -> Studio.Root.studioScene state studio
+    | Bank -> Bank.Root.bankScene ()
+    | Studio studio -> Studio.Root.studioScene studio
     | Statistics -> Statistics.Root.statisticsScene ()
     | Phone -> Phone.phoneScene ()
-    | World -> World.worldScene state
+    | World -> World.worldScene ()
 
-let actionsFromSubScene state subScene =
+let actionsFromSubScene subScene =
     match subScene with
     | SubScene.RehearsalRoomCompose (space, rooms) ->
-        RehearsalRoom.Compose.compose state space rooms
+        RehearsalRoom.Compose.compose space rooms
     | RehearsalRoomComposeSong (space, rooms) ->
-        RehearsalRoom.ComposeSong.composeSongScene state space rooms
+        RehearsalRoom.ComposeSong.composeSongScene space rooms
     | RehearsalRoomImproveSong (space, rooms) ->
-        RehearsalRoom.ImproveSong.improveSongScene state space rooms
+        RehearsalRoom.ImproveSong.improveSongScene space rooms
     | RehearsalRoomFinishSong (space, rooms) ->
-        RehearsalRoom.FinishSong.finishSongScene state space rooms
+        RehearsalRoom.FinishSong.finishSongScene space rooms
     | RehearsalRoomDiscardSong (space, rooms) ->
-        RehearsalRoom.DiscardSong.discardSongScene state space rooms
+        RehearsalRoom.DiscardSong.discardSongScene space rooms
     | SubScene.ManagementHireMember (space, rooms) ->
-        Management.Hire.hireScene state space rooms
+        Management.Hire.hireScene space rooms
     | SubScene.ManagementFireMember (space, rooms) ->
-        Management.Fire.fireScene state space rooms
+        Management.Fire.fireScene space rooms
     | ManagementListMembers (space, rooms) ->
-        Management.MemberList.memberListScene state space rooms
+        Management.MemberList.memberListScene space rooms
     | BankTransfer (sender, receiver) ->
-        Bank.Transfer.transferSubScene state sender receiver
+        Bank.Transfer.transferSubScene sender receiver
     | StudioCreateRecord studio ->
-        Studio.CreateRecord.createRecordSubscene state studio
+        Studio.CreateRecord.createRecordSubscene studio
     | SubScene.StudioContinueRecord studio ->
-        Studio.ContinueRecord.continueRecordSubscene state studio
+        Studio.ContinueRecord.continueRecordSubscene studio
     | SubScene.StudioPromptToRelease (onCancel, studio, band, album) ->
-        Studio.PromptToRelease.promptToReleaseAlbum
-            onCancel
-            state
-            studio
-            band
-            album
-    | StatisticsOfBand -> Statistics.Band.bandStatisticsSubScene state
-    | StatisticsOfAlbums -> Statistics.Albums.albumsStatisticsSubScene state
+        Studio.PromptToRelease.promptToReleaseAlbum onCancel studio band album
+    | StatisticsOfBand -> Statistics.Band.bandStatisticsSubScene ()
+    | StatisticsOfAlbums -> Statistics.Albums.albumsStatisticsSubScene ()
 
 let actionsFromEffect effect =
     match effect with
@@ -131,11 +126,8 @@ let rec runWith chain =
             | Message message -> renderMessage message
             | Figlet text -> renderFiglet text
             | ProgressBar content -> renderProgressBar content
-            | Scene scene -> runScene (State.Root.get ()) scene
-            | SubScene subScene ->
-                subScene
-                |> actionsFromSubScene (State.Root.get ())
-                |> runWith
+            | Scene scene -> runScene scene
+            | SubScene subScene -> subScene |> actionsFromSubScene |> runWith
             | Effect effect ->
                 Simulation.Galactus.runOne (State.Root.get ()) effect
                 |> Seq.tap State.Root.apply
@@ -222,10 +214,10 @@ and renderPrompt prompt =
 
 /// Saves the game, clears the screen and runs the next scene with a separator
 /// on top.
-and runScene state scene =
+and runScene scene =
     saveIfNeeded scene
     renderLineBreak ()
-    runWith (actionsFromScene state scene)
+    runWith (actionsFromScene scene)
 
 /// Attempts to run a command from the given list and either returns the result
 /// of the command or attaches the result to the current chain.

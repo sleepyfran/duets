@@ -13,7 +13,9 @@ let rehearsalOptions =
         Text = TextConstant BankTransferFromBand } ]
 
 /// Creates the bank scene which allows to transfer money between accounts.
-let rec bankScene state =
+let rec bankScene () =
+    let state = State.Root.get ()
+    
     let characterAccount =
         Characters.playableCharacter state
         |> fun character -> character.Id
