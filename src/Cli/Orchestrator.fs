@@ -192,6 +192,7 @@ and renderPrompt prompt =
                         "The given input was not a correct length. This should've caught by the validator but apparently it didn't :)"
                 )
     | CommandPrompt commands ->
+        renderLineBreak ()
         renderMessage prompt.Title
 
         let commandsWithDefaults = commands @ [ phoneCommand; exitCommand ]

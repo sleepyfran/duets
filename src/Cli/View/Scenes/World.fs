@@ -5,8 +5,6 @@ open Cli.View.Actions
 open Cli.View.TextConstants
 open Simulation.Queries
 
-let commands: Command list = []
-
 let rec worldScene state =
     let (_, _, positionContent) = World.currentPosition state
 
