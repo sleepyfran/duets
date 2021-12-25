@@ -26,7 +26,7 @@ let createOptions hasUnfinishedSongs =
     }
     |> List.ofSeq
 
-let rec composeSubScene space rooms =
+let rec composeSubScene () =
     let state = State.Root.get ()
 
     let options =
@@ -46,19 +46,16 @@ let rec composeSubScene space rooms =
                       <| OptionalChoiceHandler
                           { Choices = options
                             Handler =
-                                rehearsalRoomOptionalChoiceHandler
-                                    space
-                                    rooms
-                                    (processSelection space rooms)
+                                worldOptionalChoiceHandler processSelection
                             BackText = TextConstant CommonCancel } }
     }
 
-and processSelection space rooms choice =
+and processSelection choice =
     seq {
         match choice.Id with
-        | "compose_song" -> yield! ComposeSong.composeSongSubScene space rooms
-        | "improve_song" -> yield! ImproveSong.improveSongSubScene space rooms
-        | "finish_song" -> yield! FinishSong.finishSongSubScene space rooms
-        | "discard_song" -> yield! DiscardSong.discardSongSubScene space rooms
+        | "compose_song" -> yield! ComposeSong.composeSongSubScene ()
+        | "improve_song" -> yield! ImproveSong.improveSongSubScene ()
+        | "finish_song" -> yield! FinishSong.finishSongSubScene ()
+        | "discard_song" -> yield! DiscardSong.discardSongSubScene ()
         | _ -> yield NoOp
     }

@@ -11,7 +11,6 @@
         <Compile Include="View/Actions.fs" />
         <Compile Include="View/Common.fs" />
         <Compile Include="View\Commands.fs" />
-        <Compile Include="View\Scenes\InteractiveSpaces\InteractiveSpace.fs" />
         <Compile Include="View\Scenes\InteractiveSpaces\Objects.fs" />
         <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\ComposeSong.fs" />
         <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\DiscardSong.fs" />
@@ -20,9 +19,9 @@
         <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\Compose.fs" />
         <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\RehearsalRoom.fs" />
         <Compile Include="View\Scenes\Studio\PromptToRelease.fs" />
-        <Compile Include="View/Scenes/Studio/ContinueRecord.fs" />
-        <Compile Include="View/Scenes/Studio/CreateRecord.fs" />
-        <Compile Include="View/Scenes/Studio/Studio.fs" />
+        <Compile Include="View\Scenes\Studio\ContinueRecord.fs" />
+        <Compile Include="View\Scenes\Studio\CreateRecord.fs" />
+        <Compile Include="View\Scenes\Studio\Studio.fs" />
         <Compile Include="View\Scenes\Bank\Transfer.fs" />
         <Compile Include="View/Scenes/Bank/Bank.fs" />
         <Compile Include="View/Scenes/Management/Hire.fs" />

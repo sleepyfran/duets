@@ -8,13 +8,16 @@ open Entities
 /// generate the world and all the cities in it.
 let rec generate () =
     let mainStreet =
-        Street { Name = "Calle de Atocha" }
+        Street
+            { Name = "Calle de Atocha"
+              Descriptor = Boring }
         |> World.Node.create
 
     let city = World.City.create "Madrid" mainStreet
 
     city
     |> addBeginnersRehearsalRoom mainStreet
+    |> Optic.set Lenses.World.City.startingNode_ mainStreet.Id
     |> fun (city: City) -> { Cities = [ (city.Id, city) ] |> Map.ofList }
 
 and addBeginnersRehearsalRoom street city =
@@ -38,7 +41,7 @@ and addBeginnersRehearsalRoom street city =
     let rehearsalSpace =
         RehearsalSpace(
             { Name = "Good ol' Rehearsal Space"
-              Quality = 20<quality>
+              Quality = 10<quality>
               Price = 150<dd> },
             roomGraph
         )
@@ -48,4 +51,3 @@ and addBeginnersRehearsalRoom street city =
     city
     |> World.City.addNode rehearsalSpace
     |> World.City.addConnection street.Id rehearsalSpace.Id West
-    |> Optic.set Lenses.World.City.startingNode_ rehearsalSpace.Id

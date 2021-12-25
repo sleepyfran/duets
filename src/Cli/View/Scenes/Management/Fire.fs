@@ -8,7 +8,7 @@ open Entities
 open Simulation.Queries
 open Simulation.Bands.Members
 
-let rec fireSubScene space rooms =
+let rec fireSubScene () =
     let state = State.Root.get ()
 
     let memberOptions =
@@ -25,7 +25,7 @@ let rec fireSubScene space rooms =
     seq {
         if memberOptions.Length = 0 then
             yield Message <| TextConstant FireMemberNoMembersToFire
-            yield Scene(Scene.RehearsalRoom(space, rooms))
+            yield Scene Management
         else
             yield
                 Prompt
@@ -36,13 +36,13 @@ let rec fireSubScene space rooms =
                               { Choices = memberOptions
                                 Handler =
                                     basicOptionalChoiceHandler (
-                                        Scene(Management(space, rooms))
+                                        Scene Management
                                     )
-                                    <| confirmFiring space rooms
+                                    <| confirmFiring
                                 BackText = TextConstant CommonCancel } }
     }
 
-and confirmFiring space rooms selectedMember =
+and confirmFiring selectedMember =
     let state = State.Root.get ()
 
     let band = Bands.currentBand state
@@ -55,12 +55,10 @@ and confirmFiring space rooms selectedMember =
                       TextConstant
                       <| FireMemberConfirmation memberToFire.Character.Name
                   Content =
-                      ConfirmationPrompt(
-                          handleConfirmation space rooms band memberToFire
-                      ) }
+                      ConfirmationPrompt(handleConfirmation band memberToFire) }
     }
 
-and handleConfirmation space rooms band memberToFire confirmed =
+and handleConfirmation band memberToFire confirmed =
     let state = State.Root.get ()
 
     seq {
@@ -75,7 +73,7 @@ and handleConfirmation space rooms band memberToFire confirmed =
                 |> TextConstant
                 |> Message
 
-            yield Scene(Management(space, rooms))
+            yield Scene Management
         else
-            yield Scene(Management(space, rooms))
+            yield Scene Management
     }

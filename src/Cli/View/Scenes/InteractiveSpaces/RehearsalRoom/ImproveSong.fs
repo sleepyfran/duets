@@ -8,7 +8,7 @@ open Entities
 open Simulation.Queries
 open Simulation.Songs.Composition.ImproveSong
 
-let rec improveSongSubScene space rooms =
+let rec improveSongSubScene () =
     let state = State.Root.get ()
 
     let currentBand = Bands.currentBand state
@@ -25,21 +25,13 @@ let rec improveSongSubScene space rooms =
                       <| OptionalChoiceHandler
                           { Choices = songOptions
                             Handler =
-                                (processOptionalSongSelection
-                                    space
-                                    rooms
-                                    currentBand)
+                                worldOptionalChoiceHandler (
+                                    processSongSelection currentBand
+                                )
                             BackText = TextConstant CommonCancel } }
     }
 
-and processOptionalSongSelection space rooms band selection =
-    seq {
-        match selection with
-        | Choice choice -> yield! processSongSelection space rooms band choice
-        | Back -> yield Scene(Scene.RehearsalRoom(space, rooms))
-    }
-
-and processSongSelection space rooms band selection =
+and processSongSelection band selection =
     let state = State.Root.get ()
 
     let status =
@@ -57,7 +49,7 @@ and processSongSelection space rooms band selection =
             yield bandFinishedSong
         | (ReachedMaxQualityAlready, _) -> yield bandFinishedSong
 
-        yield Scene(Scene.RehearsalRoom(space, rooms))
+        yield Scene Scene.World
     }
 
 and showImprovingProgress () =

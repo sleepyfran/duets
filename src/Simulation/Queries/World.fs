@@ -16,11 +16,14 @@ module World =
         |> List.ofSeq
         |> List.map (fun keyValue -> (keyValue.Key, keyValue.Value))
 
-    /// Returns the current coordinates in which the player is located. These
-    /// coordinates are basically the ID of the city, node and the content that
-    /// the position includes.
+    /// Returns the content of the current position of the player and an optional
+    /// ID to a room inside that place (if any).
     let currentPosition state =
-        let (currentCityId, currentNodeId) = state.CurrentPosition
+        let (currentCityId, currentNodeId, roomId) = state.CurrentPosition
+
+        let city =
+            Optic.get (Lenses.FromState.World.city_ currentCityId) state
+            |> Option.get
 
         let positionContent =
             Optic.get
@@ -28,4 +31,7 @@ module World =
                 state
             |> Option.get
 
-        (currentCityId, currentNodeId, positionContent)
+        {| City = city
+           NodeId = currentNodeId
+           RoomId = roomId
+           NodeContent = positionContent |}

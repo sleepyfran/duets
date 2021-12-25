@@ -51,9 +51,16 @@ module WorldTypes =
             rooms: Graph<RehearsalSpaceRoom>
         | Studio of studio: Studio * rooms: Graph<StudioRoom>
 
+    /// Defines all types of streets that there are in the game. These descriptors
+    /// are used to signal the user what kind of street it is and (in the future)
+    /// to compute what kind of things the street will have.
+    type StreetDescriptor = Boring
+
     /// Defines a street in the game, which communicates different places
     /// in the world.
-    type Street = { Name: string }
+    type Street =
+        { Name: string
+          Descriptor: StreetDescriptor }
 
     /// Defines a node in the game, which represents one space inside of the
     /// map that the player can be in.
@@ -75,3 +82,7 @@ module WorldTypes =
 
     /// Defines the game world which contains all cities.
     type World = { Cities: Map<CityId, City> }
+
+    /// Defines coordinates to a point in the world map as the ID of the city,
+    /// city node ID and an optional room ID inside of a place.
+    type Coordinates = CityId * NodeId * NodeId Option

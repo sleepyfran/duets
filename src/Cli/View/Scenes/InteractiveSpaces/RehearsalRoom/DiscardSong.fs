@@ -7,7 +7,7 @@ open Entities
 open Simulation.Queries
 open Simulation.Songs.Composition.DiscardSong
 
-let rec discardSongSubScene space rooms =
+let rec discardSongSubScene () =
     let state = State.Root.get ()
 
     let currentBand = Bands.currentBand state
@@ -24,17 +24,13 @@ let rec discardSongSubScene space rooms =
                       <| OptionalChoiceHandler
                           { Choices = songOptions
                             Handler =
-                                rehearsalRoomOptionalChoiceHandler
-                                    space
-                                    rooms
-                                    (processSongSelection
-                                        space
-                                        rooms
-                                        currentBand)
+                                worldOptionalChoiceHandler (
+                                    processSongSelection currentBand
+                                )
                             BackText = TextConstant CommonCancel } }
     }
 
-and processSongSelection space rooms band selection =
+and processSongSelection band selection =
     let state = State.Root.get ()
 
     let unfinishedSong =
@@ -51,5 +47,5 @@ and processSongSelection space rooms band selection =
             |> TextConstant
             |> Message
 
-        yield Scene(Scene.RehearsalRoom(space, rooms))
+        yield Scene Scene.World
     }

@@ -201,6 +201,7 @@ type TextConstant =
     | StatisticsAlbumReleaseDate of date: Date
     | StatisticsAlbumStreams of streams: int
     | StatisticsAlbumRevenue of amount: Amount
+    | StreetBoringDescription of name: string
     | PhonePrompt
 
 /// Encapsulates text that can either be defined by a text constant, which is

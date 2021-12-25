@@ -7,23 +7,23 @@ open Entities
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Simulation.Songs.Composition.ComposeSong
 
-let rec composeSongSubScene space rooms =
+let rec composeSongSubScene () =
     seq {
         yield
             Prompt
                 { Title = TextConstant ComposeSongTitlePrompt
-                  Content = TextPrompt(lengthPrompt space rooms) }
+                  Content = TextPrompt(lengthPrompt) }
     }
 
-and lengthPrompt space rooms name =
+and lengthPrompt name =
     seq {
         yield
             Prompt
                 { Title = TextConstant ComposeSongLengthPrompt
-                  Content = LengthPrompt(genrePrompt space rooms name) }
+                  Content = LengthPrompt(genrePrompt name) }
     }
 
-and genrePrompt space rooms name length =
+and genrePrompt name length =
     seq {
         yield
             Prompt
@@ -32,10 +32,10 @@ and genrePrompt space rooms name length =
                       ChoicePrompt
                       <| MandatoryChoiceHandler
                           { Choices = genreOptions
-                            Handler = vocalStylePrompt space rooms name length } }
+                            Handler = vocalStylePrompt name length } }
     }
 
-and vocalStylePrompt space rooms name length selectedGenre =
+and vocalStylePrompt name length selectedGenre =
     let vocalStyleOptions =
         Database.vocalStyleNames ()
         |> List.map
@@ -51,41 +51,35 @@ and vocalStylePrompt space rooms name length selectedGenre =
                       ChoicePrompt
                       <| MandatoryChoiceHandler
                           { Choices = vocalStyleOptions
-                            Handler =
-                                handleSong
-                                    space
-                                    rooms
-                                    name
-                                    length
-                                    selectedGenre.Id } }
+                            Handler = handleSong name length selectedGenre.Id } }
     }
 
-and handleSong space rooms name length genre selectedVocalStyle =
+and handleSong name length genre selectedVocalStyle =
     let vocalStyle =
         Song.VocalStyle.from selectedVocalStyle.Id
 
     seq {
         match Song.from name length vocalStyle genre with
-        | Ok song -> yield! composeWithProgressbar space rooms song
+        | Ok song -> yield! composeWithProgressbar song
         | Error Song.NameTooShort ->
             yield!
-                handleError space rooms
+                handleError
                 <| TextConstant ComposeSongErrorNameTooShort
         | Error Song.NameTooLong ->
             yield!
-                handleError space rooms
+                handleError
                 <| TextConstant ComposeSongErrorNameTooLong
         | Error Song.LengthTooShort ->
             yield!
-                handleError space rooms
+                handleError
                 <| TextConstant ComposeSongErrorLengthTooShort
         | Error Song.LengthTooLong ->
             yield!
-                handleError space rooms
+                handleError
                 <| TextConstant ComposeSongErrorLengthTooLong
     }
 
-and composeWithProgressbar space rooms song =
+and composeWithProgressbar song =
     let state = State.Root.get ()
 
     seq {
@@ -105,11 +99,11 @@ and composeWithProgressbar space rooms song =
 
         yield Effect <| composeSong state song
 
-        yield Scene(Scene.RehearsalRoom(space, rooms))
+        yield Scene Scene.World
     }
 
-and handleError space rooms message =
+and handleError message =
     seq {
         yield Message <| message
-        yield! composeSongSubScene space rooms
+        yield! composeSongSubScene ()
     }

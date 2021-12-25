@@ -31,8 +31,7 @@ and Scene =
     // previous step.
     | BandCreator of Character
     | World
-    | RehearsalRoom of space: RehearsalSpace * rooms: Graph<RehearsalSpaceRoom>
-    | Management of space: RehearsalSpace * rooms: Graph<RehearsalSpaceRoom>
+    | Management
     | Bank
     | Studio of Studio
     | Statistics

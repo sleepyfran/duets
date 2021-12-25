@@ -6,11 +6,11 @@ open Cli.View.TextConstants
 open Entities
 open Simulation.Queries.Bands
 
-let private instrumentFromType space rooms instrumentType =
+let private instrumentFromType instrumentType =
     let create fn =
         fn
             (TextConstant RehearsalRoomInstrumentPlayDescription)
-            (seq { yield! Compose.composeSubScene space rooms })
+            (seq { yield! Compose.composeSubScene () })
 
     match instrumentType with
     | InstrumentType.Bass -> create Objects.bass
@@ -18,43 +18,30 @@ let private instrumentFromType space rooms instrumentType =
     | InstrumentType.Guitar -> create Objects.guitar
     | InstrumentType.Vocals -> create Objects.microphone
 
-/// Creates the rehearsal room which allows to access the compose and managing
-/// section.
-let rec rehearsalRoomScene space rooms =
-    seq {
-        yield!
-            InteractiveSpace.create
-                rooms
-                (describeExit space rooms)
-                (roomDescription space rooms)
-                (roomObjects space rooms)
-                (roomCommands space rooms)
-    }
-
-and describeExit _ _ room =
+let getRoomName _ _ room =
     match room with
     | Lobby -> TextConstant RehearsalSpaceLobbyName
     | Bar -> TextConstant RehearsalSpaceBarName
     | RehearsalRoom -> TextConstant RehearsalSpaceRehearsalRoomName
 
-and roomDescription _ _ _ room =
+let getRoomDescription _ _ room =
     match room with
     | Lobby -> TextConstant RehearsalSpaceLobbyDescription
     | Bar -> TextConstant RehearsalSpaceBarDescription
     | RehearsalRoom -> TextConstant RehearsalSpaceRehearsalRoomDescription
 
-and roomObjects space rooms state room =
+let getRoomObjects state _ room =
     let characterInstrument =
         currentPlayableMember state
         |> fun bandMember -> bandMember.Role
-        |> instrumentFromType space rooms
+        |> instrumentFromType
 
     match room with
     | Lobby -> []
     | Bar -> []
     | RehearsalRoom -> [ characterInstrument ]
 
-and roomCommands space rooms _ room =
+let getRoomCommands _ _ room =
     match room with
     | Lobby -> []
     | Bar -> []
@@ -62,5 +49,4 @@ and roomCommands space rooms _ room =
         [ { Name = "manage"
             Description = TextConstant RehearsalRoomManageDescription
             Handler =
-                HandlerWithNavigation
-                    (fun _ -> seq { Scene(Management(space, rooms)) }) } ]
+                HandlerWithNavigation(fun _ -> seq { Scene Scene.Management }) } ]

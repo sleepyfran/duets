@@ -106,9 +106,8 @@ module World =
         let nodes_ =
             (fun (g: Graph<'a>) -> g.Nodes),
             (fun v (g: Graph<'a>) -> { g with Nodes = v })
-            
-        let node_ nodeId =
-            nodes_ >-> Map.key_ nodeId
+
+        let node_ nodeId = nodes_ >-> Map.key_ nodeId
 
         let nodeConnections_ nodeId =
             connections_
@@ -177,9 +176,13 @@ module FromState =
             >-> Map.key_ bandId
 
     module World =
+        /// Lenses to the current city in the world given its ID.
+        let city_ cityId =
+            State.world_ >-> World.cities_ >-> Map.key_ cityId
+
         /// Lenses to the a position in the world given its city and node IDs.
         let position_ cityId nodeId =
-            State.world_ >-> World.cities_ >-> Map.key_ cityId
+            city_ cityId
             >?> World.City.graph_
             >?> World.Graph.nodes_
             >?> Map.key_ nodeId

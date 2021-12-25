@@ -175,9 +175,9 @@ and fromConstant constant =
     | CommandLookDescription -> "Shows all the objects you have around you"
     | CommandLookEntranceDescription entrances ->
         $"""You can enter {listOf
-                                    entrances
-                                    (fun (direction, name) ->
-                                        $"{TextStyles.place (toString name |> String.lowercase)} through the {TextStyles.information (directionName direction)}")}"""
+                               entrances
+                               (fun (direction, name) ->
+                                   $"{TextStyles.place (toString name)} through the {TextStyles.information (directionName direction)}")}"""
     | CommandLookNoObjectsAround -> "There are no objects around you"
     | CommandLookEnvironmentDescription roomDescription ->
         $"{toString roomDescription}\n\nYou can see:"
@@ -451,4 +451,6 @@ and fromConstant constant =
         $"Streams so far: [bold blue]{formatNumber streams}[/]"
     | StatisticsAlbumRevenue revenue ->
         $"Generated revenue: [bold blue]{formatNumber revenue}d$[/]"
-    | PhonePrompt -> $"""{TextStyles.prompt "DuetsPhone v1.5"}"""
+    | StreetBoringDescription name ->
+        $"{TextStyles.place name} is just a boring old street with not much to do."
+    | PhonePrompt -> $"""{TextStyles.prompt "DuetsPhone v1.0"}"""

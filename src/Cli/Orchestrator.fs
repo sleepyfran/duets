@@ -6,7 +6,6 @@ open Entities
 open Cli.View.Actions
 open Cli.DefaultCommands
 open Cli.View.Scenes
-open Cli.View.Scenes.InteractiveSpaces
 open Cli.View.TextConstants
 open Cli.View.Renderer
 open Common
@@ -18,9 +17,7 @@ let actionsFromScene scene =
     | MainMenu savegameState -> MainMenu.mainMenu savegameState
     | CharacterCreator -> CharacterCreator.characterCreator ()
     | BandCreator character -> BandCreator.bandCreator character
-    | RehearsalRoom (space, rooms) ->
-        RehearsalRoom.Root.rehearsalRoomScene space rooms
-    | Management (space, rooms) -> Management.Root.managementScene space rooms
+    | Management -> Management.Root.managementScene ()
     | Bank -> Bank.Root.bankScene ()
     | Studio studio -> Studio.Root.studioScene studio
     | Statistics -> Statistics.Root.statisticsScene ()

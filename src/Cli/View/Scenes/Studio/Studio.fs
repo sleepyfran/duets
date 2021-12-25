@@ -49,7 +49,7 @@ let rec studioScene (studio: Studio) =
                       <| OptionalChoiceHandler
                           { Choices = studioOptions hasUnreleasedAlbums
                             Handler =
-                                mapOptionalChoiceHandler
+                                worldOptionalChoiceHandler
                                 <| processSelection studio
                             BackText = TextConstant CommonBackToMap } }
     }
