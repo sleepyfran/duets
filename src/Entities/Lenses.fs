@@ -31,6 +31,10 @@ module State =
         (fun (s: State) -> s.CharacterSkills),
         (fun v (s: State) -> { s with CharacterSkills = v })
 
+    let currentPosition_ =
+        (fun (s: State) -> s.CurrentPosition),
+        (fun v (s: State) -> { s with CurrentPosition = v })
+
     let genreMarkets_ =
         (fun (s: State) -> s.GenreMarkets),
         (fun v (s: State) -> { s with GenreMarkets = v })
@@ -180,9 +184,11 @@ module FromState =
         let city_ cityId =
             State.world_ >-> World.cities_ >-> Map.key_ cityId
 
-        /// Lenses to the a position in the world given its city and node IDs.
-        let position_ cityId nodeId =
-            city_ cityId
-            >?> World.City.graph_
+        /// Lenses to the city graph given its ID.
+        let cityGraph_ cityId = city_ cityId >?> World.City.graph_
+
+        /// Lenses to a specific city node in the world given its city and node IDs.
+        let node_ cityId nodeId =
+            cityGraph_ cityId
             >?> World.Graph.nodes_
             >?> Map.key_ nodeId

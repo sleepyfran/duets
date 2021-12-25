@@ -34,6 +34,7 @@
         <Compile Include="Songs\Composition\FinishSong.fs" />
         <Compile Include="Songs\Composition\DiscardSong.fs" />
         <Compile Include="World\Generation.fs" />
+        <Compile Include="World\Navigation.fs" />
         <Compile Include="Setup\StartGame.fs" />
         <Compile Include="Galactus.fs" />
     </ItemGroup>

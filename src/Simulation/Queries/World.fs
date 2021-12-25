@@ -27,7 +27,7 @@ module World =
 
         let positionContent =
             Optic.get
-                (Lenses.FromState.World.position_ currentCityId currentNodeId)
+                (Lenses.FromState.World.node_ currentCityId currentNodeId)
                 state
             |> Option.get
 

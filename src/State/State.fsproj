@@ -1,21 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Albums.fs" />
-    <Compile Include="Bank.fs" />
-    <Compile Include="Calendar.fs" />
-    <Compile Include="Market.fs" />
-    <Compile Include="Songs.fs" />
-    <Compile Include="Bands.fs" />
-    <Compile Include="Skills.fs" />
-    <Compile Include="State.fs" />
-    <Content Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Entities\Entities.fsproj" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="Albums.fs"/>
+        <Compile Include="Bank.fs"/>
+        <Compile Include="Calendar.fs"/>
+        <Compile Include="Market.fs"/>
+        <Compile Include="Songs.fs"/>
+        <Compile Include="Bands.fs"/>
+        <Compile Include="Skills.fs"/>
+        <Compile Include="World.fs"/>
+        <Compile Include="State.fs"/>
+        <Content Include="README.md"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Entities\Entities.fsproj"/>
+    </ItemGroup>
 </Project>

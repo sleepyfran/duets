@@ -26,8 +26,16 @@ let private createDirectionCommands entrances =
                   TextConstant
                   <| CommandDirectionDescription direction
               Handler =
-                  // TODO: Execute effect to change position.
-                  HandlerWithNavigation(fun _ -> seq { Scene Scene.World }) })
+                  HandlerWithNavigation
+                      (fun _ ->
+                          seq {
+                              yield
+                                  State.Root.get ()
+                                  |> World.Navigation.moveTo linkedNodeId
+                                  |> Effect
+
+                              yield Scene Scene.World
+                          }) })
 
 let private listObjects description objects =
     seq {
