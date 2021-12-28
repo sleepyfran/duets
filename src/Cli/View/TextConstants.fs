@@ -46,7 +46,7 @@ type TextConstant =
     | CommandDirectionDescription of direction: Direction
     | CommandLookDescription
     | CommandLookNoObjectsAround
-    | CommandLookEnvironmentDescription of description: Text
+    | CommandLookVisibleObjectsPrefix
     | CommandLookEntranceDescription of (Direction * Text) list
     | CommandLookObjectEntry of ObjectType * string list
     | CommandExitDescription

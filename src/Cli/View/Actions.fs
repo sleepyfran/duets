@@ -16,6 +16,7 @@ type Action =
     | Scene of Scene
     | GameInfo of version: string
     | Effect of Effect
+    | NewLine
     | ClearScreen
     | Exit
     | NoOp

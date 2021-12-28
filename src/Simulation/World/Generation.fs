@@ -21,33 +21,33 @@ let rec generate () =
     |> fun (city: City) -> { Cities = [ (city.Id, city) ] |> Map.ofList }
 
 and addBeginnersRehearsalRoom street city =
+    let rehearsalSpace =
+        { Name = "Good ol' Rehearsal Space"
+          Quality = 10<quality>
+          Price = 150<dd> }
+
     let lobby =
-        RehearsalSpaceRoom.Lobby |> World.Node.create
-
-    let bar =
-        RehearsalSpaceRoom.Bar |> World.Node.create
-
-    let rehearsalRoom =
-        RehearsalSpaceRoom.RehearsalRoom
+        RehearsalSpaceRoom.Lobby rehearsalSpace
+        |> RehearsalSpaceRoom
+        |> Room
         |> World.Node.create
 
-    let roomGraph =
-        World.Graph.from lobby
-        |> World.Graph.addNode bar
-        |> World.Graph.addNode rehearsalRoom
-        |> World.Graph.addConnection lobby.Id bar.Id NorthEast
-        |> World.Graph.addConnection lobby.Id rehearsalRoom.Id North
+    let bar =
+        RehearsalSpaceRoom.Bar rehearsalSpace
+        |> RehearsalSpaceRoom
+        |> Room
+        |> World.Node.create
 
-    let rehearsalSpace =
-        RehearsalSpace(
-            { Name = "Good ol' Rehearsal Space"
-              Quality = 10<quality>
-              Price = 150<dd> },
-            roomGraph
-        )
-        |> Place
+    let rehearsalRoom =
+        RehearsalSpaceRoom.RehearsalRoom rehearsalSpace
+        |> RehearsalSpaceRoom
+        |> Room
         |> World.Node.create
 
     city
-    |> World.City.addNode rehearsalSpace
-    |> World.City.addConnection street.Id rehearsalSpace.Id West
+    |> World.City.addNode lobby
+    |> World.City.addNode bar
+    |> World.City.addNode rehearsalRoom
+    |> World.City.addConnection lobby.Id bar.Id NorthEast
+    |> World.City.addConnection lobby.Id rehearsalRoom.Id North
+    |> World.City.addConnection street.Id lobby.Id West

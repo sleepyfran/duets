@@ -2,9 +2,9 @@ module Orchestrator
 
 open System
 open Aether
+open Cli.View.Commands
 open Entities
 open Cli.View.Actions
-open Cli.DefaultCommands
 open Cli.View.Scenes
 open Cli.View.TextConstants
 open Cli.View.Renderer
@@ -102,6 +102,7 @@ let rec runWith chain =
                 |> Seq.map actionsFromEffect
                 |> runWith
             | GameInfo version -> renderGameInfo version
+            | NewLine -> renderLineBreak ()
             | ClearScreen -> clear ()
             | Exit -> Environment.Exit(0)
             | NoOp -> ())
@@ -154,11 +155,12 @@ and renderPrompt prompt =
         renderLineBreak ()
         renderMessage prompt.Title
 
-        let commandsWithDefaults = commands @ [ phoneCommand; exitCommand ]
+        let commandsWithDefaults =
+            commands @ [ PhoneCommand.get; ExitCommand.get ]
 
         let commandsWithHelp =
             commandsWithDefaults
-            @ [ createHelpCommand commandsWithDefaults ]
+            @ [ HelpCommand.create commandsWithDefaults ]
 
         /// Prompts for a command until a valid one is given, reporting an error
         /// when an invalid command is inputted.

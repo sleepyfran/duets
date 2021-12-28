@@ -19,7 +19,7 @@ module World =
     /// Returns the content of the current position of the player and an optional
     /// ID to a room inside that place (if any).
     let currentPosition state =
-        let (currentCityId, currentNodeId, roomId) = state.CurrentPosition
+        let (currentCityId, currentNodeId) = state.CurrentPosition
 
         let city =
             Optic.get (Lenses.FromState.World.city_ currentCityId) state
@@ -33,5 +33,4 @@ module World =
 
         {| City = city
            NodeId = currentNodeId
-           RoomId = roomId
            NodeContent = positionContent |}

@@ -44,13 +44,6 @@ module WorldTypes =
         | RehearsalSpaceRoom of RehearsalSpaceRoom
         | StudioRoom of StudioRoom
 
-    /// Defines all types of places that are available inside a city.
-    type Place =
-        | RehearsalSpace of
-            space: RehearsalSpace *
-            rooms: Graph<RehearsalSpaceRoom>
-        | Studio of studio: Studio * rooms: Graph<StudioRoom>
-
     /// Defines all types of streets that there are in the game. These descriptors
     /// are used to signal the user what kind of street it is and (in the future)
     /// to compute what kind of things the street will have.
@@ -58,15 +51,15 @@ module WorldTypes =
 
     /// Defines a street in the game, which communicates different places
     /// in the world.
-    type Street =
+    type StreetNode =
         { Name: string
           Descriptor: StreetDescriptor }
 
     /// Defines a node in the game, which represents one space inside of the
     /// map that the player can be in.
     type CityNode =
-        | Place of Place
-        | Street of Street
+        | Room of RoomNodeContent
+        | Street of StreetNode
 
     /// Unique identifier of a city.
     type CityId = Identity
@@ -83,6 +76,6 @@ module WorldTypes =
     /// Defines the game world which contains all cities.
     type World = { Cities: Map<CityId, City> }
 
-    /// Defines coordinates to a point in the world map as the ID of the city,
-    /// city node ID and an optional room ID inside of a place.
-    type Coordinates = CityId * NodeId * NodeId Option
+    /// Defines the coordinates to a point of the world map as the city and
+    /// the node in which the character is in.
+    type Coordinates = CityId * NodeId

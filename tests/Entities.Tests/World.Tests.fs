@@ -11,7 +11,11 @@ let ``from returns a graph with the given node in the list of nodes and no conne
     ()
     =
     let nodeId = Identity.create ()
-    let nodeContent = Street { Name = "Test street" }
+
+    let nodeContent =
+        Street
+            { Name = "Test street"
+              Descriptor = Boring }
 
     let graph =
         World.Graph.from { Id = nodeId; Content = nodeContent }
@@ -26,14 +30,22 @@ let ``from returns a graph with the given node in the list of nodes and no conne
 
 let cityWithStreet =
     let nodeId = Identity.create ()
-    let nodeContent = Street { Name = "Test street" }
+
+    let nodeContent =
+        Street
+            { Name = "Test street"
+              Descriptor = Boring }
 
     World.Graph.from { Id = nodeId; Content = nodeContent }
 
 [<Test>]
 let ``addNode adds a new node to the list of nodes and no connections`` () =
     let nodeId = Identity.create ()
-    let nodeContent = Street { Name = "Second Test Street" }
+
+    let nodeContent =
+        Street
+            { Name = "Second Test Street"
+              Descriptor = Boring }
 
     let graph =
         World.Graph.addNode
@@ -49,10 +61,18 @@ let ``addNode adds a new node to the list of nodes and no connections`` () =
     graph.Connections |> should haveCount 0
 
 let firstNode =
-    World.Node.create (Street { Name = "Test street" })
+    World.Node.create (
+        Street
+            { Name = "Test street"
+              Descriptor = Boring }
+    )
 
 let secondNode =
-    World.Node.create (Street { Name = "Test street 2" })
+    World.Node.create (
+        Street
+            { Name = "Test street 2"
+              Descriptor = Boring }
+    )
 
 let cityWithMultipleNodes =
     World.Graph.from firstNode

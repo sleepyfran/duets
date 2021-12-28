@@ -90,5 +90,4 @@ let apply effect =
         Albums.addReleased staticAgent.Map band releasedAlbum
     | GenreMarketsUpdated genreMarkets ->
         Market.set staticAgent.Map genreMarkets
-    | WorldMoveTo (cityId, nodeId, roomId) ->
-        World.move staticAgent.Map cityId nodeId roomId
+    | WorldMoveTo (cityId, nodeId) -> World.move staticAgent.Map cityId nodeId

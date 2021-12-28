@@ -179,8 +179,7 @@ and fromConstant constant =
                                (fun (direction, name) ->
                                    $"{TextStyles.place (toString name)} through the {TextStyles.information (directionName direction)}")}"""
     | CommandLookNoObjectsAround -> "There are no objects around you"
-    | CommandLookEnvironmentDescription roomDescription ->
-        $"{toString roomDescription}\n\nYou can see:"
+    | CommandLookVisibleObjectsPrefix -> "You can see:"
     | CommandLookObjectEntry (objectType, commandNames) ->
         $"- {objectName objectType |> TextStyles.object}, you can interact with it by calling {listOf commandNames id |> TextStyles.action}"
     | CommandExitDescription -> "Exits the game saving the progress"
@@ -248,7 +247,7 @@ and fromConstant constant =
     | RehearsalSpaceBarDescription ->
         $"""The {TextStyles.place "rehearsal room's bar"} smells really weird. There's three people sitting and drinking beer."""
     | RehearsalSpaceRehearsalRoomDescription ->
-        $"""You get to the {TextStyles.place "rehearsal room"} inside an old and quite smelly rehearsal place. You can feel the smoke in the air and hear [italic]AC/DC[/] being played in the room nearby. But hey, at least it's free to use."""
+        $"""You are in the {TextStyles.place "rehearsal room"} inside an old and quite smelly building. You can feel the smoke in the air and hear [italic]AC/DC[/] being played in the room nearby."""
     | RehearsalRoomManageDescription ->
         "Opens the band management menu which allows you to hire new members or fire current ones"
     | RehearsalRoomStatistics -> "Statistics"

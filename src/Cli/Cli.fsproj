@@ -10,7 +10,10 @@
         <Compile Include="View\TextStyles.fs" />
         <Compile Include="View/Actions.fs" />
         <Compile Include="View/Common.fs" />
-        <Compile Include="View\Commands.fs" />
+        <Compile Include="View\Commands\Help.Command.fs" />
+        <Compile Include="View\Commands\Phone.Command.fs" />
+        <Compile Include="View\Commands\Exit.Command.fs" />
+        <Compile Include="View\Commands\Directions.Command.fs" />
         <Compile Include="View\Scenes\InteractiveSpaces\Objects.fs" />
         <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\ComposeSong.fs" />
         <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\DiscardSong.fs" />

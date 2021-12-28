@@ -1,51 +1,20 @@
 module Cli.View.Scenes.World
 
-open Entities
+open Cli.View.Commands
 open Cli.View.Actions
 open Cli.View.TextConstants
 open Cli.View.Scenes.InteractiveSpaces
+open Entities
 open Simulation
 
-let private createDirectionCommands entrances =
-    entrances
-    |> List.map
-        (fun (direction, linkedNodeId) ->
-            let commandName =
-                match direction with
-                | North -> "north"
-                | NorthEast -> "north-east"
-                | East -> "east"
-                | SouthEast -> "south-east"
-                | South -> "south"
-                | SouthWest -> "south-west"
-                | West -> "west"
-                | NorthWest -> "north-west"
-
-            { Name = commandName
-              Description =
-                  TextConstant
-                  <| CommandDirectionDescription direction
-              Handler =
-                  HandlerWithNavigation
-                      (fun _ ->
-                          seq {
-                              yield
-                                  State.Root.get ()
-                                  |> World.Navigation.moveTo linkedNodeId
-                                  |> Effect
-
-                              yield Scene Scene.World
-                          }) })
-
-let private listObjects description objects =
+let private listObjects objects =
     seq {
         if List.isEmpty objects then
             yield Message <| TextConstant CommandLookNoObjectsAround
         else
             yield
-                CommandLookEnvironmentDescription description
-                |> TextConstant
-                |> Message
+                Message
+                <| TextConstant CommandLookVisibleObjectsPrefix
 
             yield!
                 objects
@@ -59,137 +28,132 @@ let private listObjects description objects =
                 |> List.map (CommandLookObjectEntry >> TextConstant >> Message)
     }
 
-let private listRoomEntrances space rooms entrances getRoomName =
-    let state = State.Root.get ()
+/// Returns the name of the place that contains a given node. This means that,
+/// in the case of a room, it'll return the name of the space itself instead
+/// of the room (for example, the name of a rehearsal space instead of the room
+/// name). Useful when the player is outside to describe places that they can
+/// potentially enter instead of naming the room.
+let private getPlaceName nodeContent =
+    match nodeContent with
+    | Room room ->
+        match room with
+        | RehearsalSpaceRoom room -> RehearsalRoom.Root.getPlaceName room
+        | StudioRoom _ -> Literal "Studio"
+    | Street street -> Literal street.Name
+
+
+/// Returns the name of a room. If the node is a street then returns the name
+/// of the street.
+let private getRoomName nodeContent =
+    match nodeContent with
+    | Room room ->
+        match room with
+        | RehearsalSpaceRoom room -> RehearsalRoom.Root.getRoomName room
+        | StudioRoom _ -> Literal "TBD"
+    | Street street -> Literal street.Name
+
+let private listRoomEntrances entrances =
+    let currentPosition =
+        State.Root.get () |> Queries.World.currentPosition
 
     seq {
         yield
             entrances
             |> List.map
                 (fun (direction, roomId) ->
-                    let roomContent = Queries.World.contentOf roomId rooms
-                    (direction, getRoomName state space roomContent))
+                    let connectingNode =
+                        Queries.World.contentOf
+                            roomId
+                            currentPosition.City.Graph
+
+                    // When the player is inside a room we need to list the name
+                    // of other rooms that connect with the current one, but when
+                    // they are in a street then we need to display the name of
+                    // the place itself (example: Rehearsal room's name instead
+                    // of the lobby room)
+                    let nodeName =
+                        match currentPosition.NodeContent with
+                        | Room _ -> getRoomName connectingNode
+                        | Street _ -> getPlaceName connectingNode
+
+                    (direction, nodeName))
             |> (CommandLookEntranceDescription
                 >> TextConstant
                 >> Message)
     }
 
-let private createLookCommand
-    space
-    rooms
-    entrances
-    getRoomName
-    description
-    objects
-    =
+let private createLookCommand entrances description objects =
     { Name = "look"
       Description = TextConstant CommandLookDescription
       Handler =
           HandlerWithoutNavigation
               (fun _ ->
                   seq {
-                      yield! listObjects description objects
-                      yield! listRoomEntrances space rooms entrances getRoomName
+                      yield Message description
+                      yield! listObjects objects
+                      yield NewLine
+                      yield! listRoomEntrances entrances
                   }) }
 
-let getCityNodeName _ _ nodeContent =
+let private getNodeDescription nodeContent =
     match nodeContent with
-    | Place place ->
-        match place with
-        | Place.RehearsalSpace (space, _) -> Literal space.Name
-        | Place.Studio (studio, _) -> Literal studio.Name
-    | Street street -> Literal street.Name
-
-let getStreetNodeDescription _ _ nodeContent =
-    match nodeContent with
+    | Room room ->
+        match room with
+        | RehearsalSpaceRoom room -> RehearsalRoom.Root.getRoomDescription room
+        | StudioRoom _ -> Literal "TBD"
     | Street street ->
         match street.Descriptor with
         | Boring -> TextConstant(StreetBoringDescription street.Name)
-    | _ -> Literal ""
 
-let private createSpace<'space, 'room>
-    nodeId
-    (space: 'space)
-    (graph: Graph<'room>)
-    getNodeName
-    getNodeDescription
-    getNodeObjects
-    getNodeCommands
-    =
-    let state = State.Root.get ()
-    let content = Queries.World.contentOf nodeId graph
+let private getNodeObjects nodeContent =
+    match nodeContent with
+    | Room room ->
+        match room with
+        | RehearsalSpaceRoom room -> RehearsalRoom.Root.getRoomObjects room
+        | StudioRoom _ -> []
+    | Street street ->
+        match street.Descriptor with
+        | Boring -> []
+
+let private getNodeCommands nodeContent =
+    match nodeContent with
+    | Room room ->
+        match room with
+        | RehearsalSpaceRoom room -> RehearsalRoom.Root.getRoomCommands room
+        | StudioRoom _ -> []
+    | Street street ->
+        match street.Descriptor with
+        | Boring -> []
+
+let rec worldScene () =
+    let currentPosition =
+        State.Root.get () |> Queries.World.currentPosition
 
     let entrances =
-        Queries.World.availableDirections nodeId graph
+        Queries.World.availableDirections
+            currentPosition.NodeId
+            currentPosition.City.Graph
 
-    let description = getNodeDescription state space content
-    let objects = getNodeObjects state space content
+    let description =
+        getNodeDescription currentPosition.NodeContent
+
+    let objects =
+        getNodeObjects currentPosition.NodeContent
 
     let objectCommands =
         List.collect (fun object -> object.Commands) objects
 
     let commands =
-        getNodeCommands state space content
+        getNodeCommands currentPosition.NodeContent
         @ objectCommands
-          @ [ (createLookCommand
-                  space
-                  graph
-                  entrances
-                  getNodeName
-                  description
-                  objects) ]
-            @ createDirectionCommands entrances
+          @ [ (createLookCommand entrances description objects) ]
+            @ DirectionsCommand.create entrances
 
     seq {
         yield Message description
-        yield! listRoomEntrances space graph entrances getNodeName
 
         yield
             Prompt
                 { Title = TextConstant CommonCommandPrompt
                   Content = CommandPrompt commands }
-    }
-
-let private handlePlace content roomId =
-    match content with
-    | Place.RehearsalSpace (rehearsalSpace, rooms) ->
-        let roomIdOrStarting =
-            Option.defaultValue rooms.StartingNode roomId
-
-        createSpace
-            roomIdOrStarting
-            rehearsalSpace
-            rooms
-            RehearsalRoom.Root.getRoomName
-            RehearsalRoom.Root.getRoomDescription
-            RehearsalRoom.Root.getRoomObjects
-            RehearsalRoom.Root.getRoomCommands
-    | Place.Studio (studio, rooms) ->
-        [ Literal $"Inside of {studio.Name}, rooms are {rooms}"
-          |> Message ]
-        |> Seq.ofList
-
-let private handleStreet () =
-    let state = State.Root.get ()
-    let currentPosition = Queries.World.currentPosition state
-
-    createSpace
-        currentPosition.NodeId
-        currentPosition.NodeContent
-        currentPosition.City.Graph
-        getCityNodeName
-        getStreetNodeDescription
-        (fun _ _ _ -> [])
-        (fun _ _ _ -> [])
-
-let rec worldScene () =
-    let state = State.Root.get ()
-    let currentPosition = Queries.World.currentPosition state
-
-    seq {
-        yield!
-            match currentPosition.NodeContent with
-            | Place placeContent ->
-                handlePlace placeContent currentPosition.RoomId
-            | Street _ -> handleStreet ()
     }

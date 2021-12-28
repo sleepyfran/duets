@@ -18,34 +18,42 @@ let private instrumentFromType instrumentType =
     | InstrumentType.Guitar -> create Objects.guitar
     | InstrumentType.Vocals -> create Objects.microphone
 
-let getRoomName _ _ room =
+let getPlaceName room =
     match room with
-    | Lobby -> TextConstant RehearsalSpaceLobbyName
-    | Bar -> TextConstant RehearsalSpaceBarName
-    | RehearsalRoom -> TextConstant RehearsalSpaceRehearsalRoomName
+    | Lobby space -> Literal space.Name
+    | Bar space -> Literal space.Name
+    | RehearsalRoom space -> Literal space.Name
 
-let getRoomDescription _ _ room =
+let getRoomName room =
     match room with
-    | Lobby -> TextConstant RehearsalSpaceLobbyDescription
-    | Bar -> TextConstant RehearsalSpaceBarDescription
-    | RehearsalRoom -> TextConstant RehearsalSpaceRehearsalRoomDescription
+    | Lobby _ -> TextConstant RehearsalSpaceLobbyName
+    | Bar _ -> TextConstant RehearsalSpaceBarName
+    | RehearsalRoom _ -> TextConstant RehearsalSpaceRehearsalRoomName
 
-let getRoomObjects state _ room =
+let getRoomDescription room =
+    match room with
+    | Lobby _ -> TextConstant RehearsalSpaceLobbyDescription
+    | Bar _ -> TextConstant RehearsalSpaceBarDescription
+    | RehearsalRoom _ -> TextConstant RehearsalSpaceRehearsalRoomDescription
+
+let getRoomObjects room =
+    let state = State.Root.get ()
+
     let characterInstrument =
         currentPlayableMember state
         |> fun bandMember -> bandMember.Role
         |> instrumentFromType
 
     match room with
-    | Lobby -> []
-    | Bar -> []
-    | RehearsalRoom -> [ characterInstrument ]
+    | Lobby _ -> []
+    | Bar _ -> []
+    | RehearsalRoom _ -> [ characterInstrument ]
 
-let getRoomCommands _ _ room =
+let getRoomCommands room =
     match room with
-    | Lobby -> []
-    | Bar -> []
-    | RehearsalRoom ->
+    | Lobby _ -> []
+    | Bar _ -> []
+    | RehearsalRoom _ ->
         [ { Name = "manage"
             Description = TextConstant RehearsalRoomManageDescription
             Handler =
