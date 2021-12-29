@@ -52,7 +52,7 @@ and actionPrompt studio band album =
                           { Choices = continueRecordOptions
                             Handler =
                                 basicOptionalChoiceHandler
-                                    (Scene <| Scene.Studio studio)
+                                    (Scene Scene.World)
                                     (handleAction studio band album)
                             BackText = TextConstant CommonBack } }
     }

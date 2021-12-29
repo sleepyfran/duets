@@ -90,7 +90,7 @@ and confirmRecording studio band album =
                                               band
                                               album
                                   else
-                                      yield Scene(Scene.Studio studio)
+                                      yield Scene Scene.World
                               }) }
     }
 
@@ -125,7 +125,7 @@ and recordWithProgressBar studio band album effects =
 
         yield!
             PromptToRelease.promptToReleaseAlbum
-                (seq { yield Scene <| Scene.Studio studio })
+                (seq { yield Scene Scene.World })
                 studio
                 band
                 album

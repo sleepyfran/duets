@@ -32,7 +32,7 @@ and handleReleaseConfirmation onCancel studio band album confirmed =
         if confirmed then
             yield releaseAlbum state band album |> Effect
 
-            yield Scene <| Scene.Studio studio
+            yield Scene Scene.World
         else
             yield! onCancel
     }

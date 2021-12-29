@@ -52,9 +52,10 @@ type TextConstant =
     | CommandExitDescription
     | CommandMapDescription
     | CommandPhoneDescription
-#if DEBUG
-    | CommandDevDescription
-#endif
+    | CommandTalkInvalidInput
+    | CommandTalkDescription
+    | CommandTalkNpcNotFound of name: string
+    | CommandTalkNothing
     | MainMenuIncompatibleSavegame
     | MainMenuPrompt
     | MainMenuNewGame
@@ -167,12 +168,13 @@ type TextConstant =
     | BankTransferNotEnoughFunds
     | StudioCommonPromptReleaseAlbum of name: string
     | StudioCommonAlbumReleased of name: string
-    | StudioTitle
-    | StudioWelcomePrice of name: string * price: Amount
-    | StudioPrompt
-    | StudioStartRecord
-    | StudioContinueRecord
-    | StudioDiscardRecord
+    | StudioMasteringRoomName
+    | StudioMasteringRoomDescription of studio: Studio
+    | StudioRecordingRoomName
+    | StudioRecordingRoomDescription
+    | StudioTalkIntroduction of studioName: string * fee: Amount
+    | StudioTalkCreateRecord
+    | StudioTalkContinueRecord
     | StudioCreateNoSongs
     | StudioCreateRecordName
     | StudioCreateTrackListPrompt

@@ -4,7 +4,7 @@ namespace Entities
 module StudioTypes =
     /// Represents the owner of a studio and the character that eventually
     /// produces the album. Their skills determine the final level of the album.
-    type Producer = Producer of Character
+    type Producer = Character
 
     /// Unique identifier of a studio.
     type StudioId = StudioId of Identity

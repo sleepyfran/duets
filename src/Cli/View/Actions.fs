@@ -34,7 +34,6 @@ and Scene =
     | World
     | Management
     | Bank
-    | Studio of Studio
     | Statistics
     | Phone
 

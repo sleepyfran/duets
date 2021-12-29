@@ -63,7 +63,7 @@ let dummyReleasedAlbum =
 
 let dummyStudio =
     { Name = "Test Studio"
-      Producer = Producer <| dummyCharacter
+      Producer = dummyCharacter
       PricePerSong = 200<dd> }
 
 let dummyState =

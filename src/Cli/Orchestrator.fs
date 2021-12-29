@@ -19,7 +19,6 @@ let actionsFromScene scene =
     | BandCreator character -> BandCreator.bandCreator character
     | Management -> Management.Root.managementScene ()
     | Bank -> Bank.Root.bankScene ()
-    | Studio studio -> Studio.Root.studioScene studio
     | Statistics -> Statistics.Root.statisticsScene ()
     | Phone -> Phone.phoneScene ()
     | World -> World.worldScene ()

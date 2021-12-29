@@ -187,9 +187,14 @@ and fromConstant constant =
         "Shows the map of the game where you can quickly travel to other places"
     | CommandPhoneDescription ->
         "Opens your phone where you can check statistics and manage your bank"
-#if DEBUG
-    | CommandDevDescription -> "Secret dev room :)"
-#endif
+    | CommandTalkDescription ->
+        $"""Allows you to talk with a character in the world. Use as {TextStyles.instruction "talk to {name}"}. You can reference characters by their full name or just their first name"""
+    | CommandTalkInvalidInput ->
+        TextStyles.error
+            $"""I didn't quite catch that. Make sure you are referencing characters by their first or full name with {TextStyles.instruction "talk to {name}"}"""
+    | CommandTalkNpcNotFound name ->
+        TextStyles.error $"There are no characters named {name} around"
+    | CommandTalkNothing -> "Nothing"
     | MainMenuIncompatibleSavegame ->
         "[bold red]Your savegame is incompatible or malformed and was ignored[/]"
     | MainMenuPrompt -> "Select an option to begin"
@@ -392,16 +397,17 @@ and fromConstant constant =
         sprintf "[bold green]Your band just released %s![/]" name
     | StudioCommonPromptReleaseAlbum name ->
         sprintf "Do you want to release [blue bold]%s[/]?" name
-    | StudioTitle -> "Studio"
-    | StudioWelcomePrice (name, price) ->
-        sprintf
-            "Welcome to [bold blue]%s[/]. The recording session costs [bold red]%sd$[/] per [bold]song[/]"
-            name
-            (formatNumber price)
-    | StudioPrompt -> "What do you want to do?"
-    | StudioStartRecord -> "Start a new record"
-    | StudioContinueRecord -> "Continue a record"
-    | StudioDiscardRecord -> "Discard a record"
+    | StudioMasteringRoomName -> "Mastering room"
+    | StudioMasteringRoomDescription studio ->
+        $"""You are in the mastering room, where the producer, {TextStyles.person studio.Producer.Name} sits in front of a computer and a bunch of knobs."""
+    | StudioRecordingRoomName -> "Recording room"
+    | StudioRecordingRoomDescription ->
+        "A recording room with all the instruments you can imagine, although for now the only one that matters is the one that you can play."
+    | StudioTalkIntroduction (studioName, fee) ->
+        $"""Welcome to {TextStyles.place studioName}! Are you ready to record some stuff? All I ask is for {TextStyles.money fee} per song to record and master it. What do you say?"""
+    | StudioTalkCreateRecord -> "Let's record a new album!"
+    | StudioTalkContinueRecord ->
+        "Let me continue with an album I previously recorded"
     | StudioCreateNoSongs ->
         "[bold red]You don't have any finished song to record. Create some songs first and finish them in the rehearsal room[/]"
     | StudioCreateRecordName ->

@@ -17,6 +17,7 @@ let rec generate () =
 
     city
     |> addBeginnersRehearsalRoom mainStreet
+    |> addDuetsStudio mainStreet
     |> Optic.set Lenses.World.City.startingNode_ mainStreet.Id
     |> fun (city: City) -> { Cities = [ (city.Id, city) ] |> Map.ofList }
 
@@ -51,3 +52,24 @@ and addBeginnersRehearsalRoom street city =
     |> World.City.addConnection lobby.Id bar.Id NorthEast
     |> World.City.addConnection lobby.Id rehearsalRoom.Id North
     |> World.City.addConnection street.Id lobby.Id West
+
+and addDuetsStudio street city =
+    let studio = List.head (Database.studios ())
+
+    let masteringRoom =
+        StudioRoom.MasteringRoom studio
+        |> StudioRoom
+        |> Room
+        |> World.Node.create
+
+    let recordingRoom =
+        StudioRoom.RecordingRoom studio
+        |> StudioRoom
+        |> Room
+        |> World.Node.create
+
+    city
+    |> World.City.addNode masteringRoom
+    |> World.City.addNode recordingRoom
+    |> World.City.addConnection masteringRoom.Id recordingRoom.Id North
+    |> World.City.addConnection street.Id masteringRoom.Id East

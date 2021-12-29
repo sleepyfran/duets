@@ -38,7 +38,7 @@ let private getPlaceName nodeContent =
     | Room room ->
         match room with
         | RehearsalSpaceRoom room -> RehearsalRoom.Root.getPlaceName room
-        | StudioRoom _ -> Literal "Studio"
+        | StudioRoom room -> Studio.Root.getPlaceName room
     | Street street -> Literal street.Name
 
 
@@ -49,7 +49,7 @@ let private getRoomName nodeContent =
     | Room room ->
         match room with
         | RehearsalSpaceRoom room -> RehearsalRoom.Root.getRoomName room
-        | StudioRoom _ -> Literal "TBD"
+        | StudioRoom room -> Studio.Root.getRoomName room
     | Street street -> Literal street.Name
 
 let private listRoomEntrances entrances =
@@ -100,7 +100,7 @@ let private getNodeDescription nodeContent =
     | Room room ->
         match room with
         | RehearsalSpaceRoom room -> RehearsalRoom.Root.getRoomDescription room
-        | StudioRoom _ -> Literal "TBD"
+        | StudioRoom room -> Studio.Root.getRoomDescription room
     | Street street ->
         match street.Descriptor with
         | Boring -> TextConstant(StreetBoringDescription street.Name)
@@ -110,7 +110,7 @@ let private getNodeObjects nodeContent =
     | Room room ->
         match room with
         | RehearsalSpaceRoom room -> RehearsalRoom.Root.getRoomObjects room
-        | StudioRoom _ -> []
+        | StudioRoom room -> Studio.Root.getRoomObjects room
     | Street street ->
         match street.Descriptor with
         | Boring -> []
@@ -120,7 +120,7 @@ let private getNodeCommands nodeContent =
     | Room room ->
         match room with
         | RehearsalSpaceRoom room -> RehearsalRoom.Root.getRoomCommands room
-        | StudioRoom _ -> []
+        | StudioRoom room -> Studio.Root.getRoomCommands room
     | Street street ->
         match street.Descriptor with
         | Boring -> []

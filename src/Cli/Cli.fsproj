@@ -14,6 +14,7 @@
         <Compile Include="View\Commands\Phone.Command.fs" />
         <Compile Include="View\Commands\Exit.Command.fs" />
         <Compile Include="View\Commands\Directions.Command.fs" />
+        <Compile Include="View\Commands\Talk.Command.fs"/>
         <Compile Include="View\Scenes\InteractiveSpaces\Objects.fs" />
         <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\ComposeSong.fs" />
         <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\DiscardSong.fs" />
@@ -21,10 +22,10 @@
         <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\ImproveSong.fs" />
         <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\Compose.fs" />
         <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\RehearsalRoom.fs" />
-        <Compile Include="View\Scenes\Studio\PromptToRelease.fs" />
-        <Compile Include="View\Scenes\Studio\ContinueRecord.fs" />
-        <Compile Include="View\Scenes\Studio\CreateRecord.fs" />
-        <Compile Include="View\Scenes\Studio\Studio.fs" />
+        <Compile Include="View\Scenes\InteractiveSpaces\Studio\PromptToRelease.fs" />
+        <Compile Include="View\Scenes\InteractiveSpaces\Studio\ContinueRecord.fs" />
+        <Compile Include="View\Scenes\InteractiveSpaces\Studio\CreateRecord.fs" />
+        <Compile Include="View\Scenes\InteractiveSpaces\Studio\Studio.fs" />
         <Compile Include="View\Scenes\Bank\Transfer.fs" />
         <Compile Include="View/Scenes/Bank/Bank.fs" />
         <Compile Include="View/Scenes/Management/Hire.fs" />
@@ -45,6 +46,7 @@
         <Compile Include="Program.fs" />
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="FSharpx.Extras" Version="3.0.0"/>
         <PackageReference Include="Spectre.Console" Version="0.43.0" />
     </ItemGroup>
     <ItemGroup>
