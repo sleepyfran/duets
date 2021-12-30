@@ -52,7 +52,6 @@ and CommonText =
     | CommonBackToMap
     | CommonBackToPhone
     | CommonBackToWorld
-    | CommonPressKeyToContinue
     | CommonSkillImproved of
         characterName: string *
         characterGender: Gender *

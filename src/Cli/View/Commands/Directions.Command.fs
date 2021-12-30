@@ -15,14 +15,14 @@ module DirectionsCommand =
             (fun (direction, linkedNodeId) ->
                 let commandName =
                     match direction with
-                    | North -> "north"
-                    | NorthEast -> "north-east"
-                    | East -> "east"
-                    | SouthEast -> "south-east"
-                    | South -> "south"
-                    | SouthWest -> "south-west"
-                    | West -> "west"
-                    | NorthWest -> "north-west"
+                    | North -> "n"
+                    | NorthEast -> "ne"
+                    | East -> "e"
+                    | SouthEast -> "se"
+                    | South -> "s"
+                    | SouthWest -> "sw"
+                    | West -> "w"
+                    | NorthWest -> "nw"
 
                 { Name = commandName
                   Description =

@@ -35,6 +35,18 @@ and skillName id =
         $"{instrumentName instrument} (Instrument)"
     | MusicProduction -> "Music production"
 
+/// Returns the command associated with the given direction.
+and directionCommand direction =
+    match direction with
+    | North -> "n"
+    | NorthEast -> "ne"
+    | East -> "e"
+    | SouthEast -> "se"
+    | South -> "s"
+    | SouthWest -> "sw"
+    | West -> "w"
+    | NorthWest -> "nw"
+
 /// Returns the name of the given direction.
 and directionName direction =
     match direction with
@@ -151,7 +163,7 @@ and commandText key =
         $"""You can enter {listOf
                                entrances
                                (fun (direction, name) ->
-                                   $"{TextStyles.place (toString name)} through the {TextStyles.information (directionName direction)}")}"""
+                                   $"{TextStyles.place (toString name)} through the ({TextStyles.information (directionCommand direction)})")}"""
     | CommandLookNoObjectsAround -> "There are no objects around you"
     | CommandLookVisibleObjectsPrefix -> "You can see:"
     | CommandLookObjectEntry (objectType, commandNames) ->
@@ -189,8 +201,6 @@ and commonText key =
     | CommonBackToMap -> TextStyles.faded "Back to map"
     | CommonBackToPhone -> TextStyles.faded "Back to phone"
     | CommonBackToWorld -> TextStyles.faded "Back to world"
-    | CommonPressKeyToContinue ->
-        $"""Press {TextStyles.information "any"} key to continue"""
     | CommonSkillImproved (characterName,
                            characterGender,
                            skill,

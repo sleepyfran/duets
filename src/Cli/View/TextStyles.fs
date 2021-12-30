@@ -38,7 +38,7 @@ let band name = $"[italic]{name}[/]"
 let album name = $"[bold springgreen2]{name}[/]"
 
 /// Pre-defined style for referencing information in text.
-let information text = $"[reverse]{text}[/]"
+let information text = $"[underline]{text}[/]"
 
 /// Pre-defined style for showing text that does not draw attention immediately.
 let faded text = $"[grey]{text}[/]"
