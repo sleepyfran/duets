@@ -51,13 +51,13 @@ and directionCommand direction =
 and directionName direction =
     match direction with
     | North -> "north"
-    | NorthEast -> "north-east"
+    | NorthEast -> "north east"
     | East -> "east"
-    | SouthEast -> "south-east"
+    | SouthEast -> "south east"
     | South -> "south"
-    | SouthWest -> "south-west"
+    | SouthWest -> "south west"
     | West -> "west"
-    | NorthWest -> "north-west"
+    | NorthWest -> "north west"
 
 /// Returns the correct pronoun for the given gender (he, she, they).
 and subjectPronounForGender gender =
@@ -160,10 +160,10 @@ and commandText key =
         $"Follows the {directionName direction} direction"
     | CommandLookDescription -> "Shows all the objects you have around you"
     | CommandLookEntranceDescription entrances ->
-        $"""You can enter {listOf
-                               entrances
-                               (fun (direction, name) ->
-                                   $"{TextStyles.place (toString name)} through the ({TextStyles.information (directionCommand direction)})")}"""
+        $"""You can enter the {listOf
+                                   entrances
+                                   (fun (direction, name) ->
+                                       $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
     | CommandLookNoObjectsAround -> "There are no objects around you"
     | CommandLookVisibleObjectsPrefix -> "You can see:"
     | CommandLookObjectEntry (objectType, commandNames) ->
