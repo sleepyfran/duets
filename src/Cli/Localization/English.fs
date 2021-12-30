@@ -162,10 +162,10 @@ and commandText key =
     | CommandPhoneDescription ->
         "Opens your phone where you can check statistics and manage your bank"
     | CommandTalkDescription ->
-        $"""Allows you to talk with a character in the world. Use as {TextStyles.instruction "talk to {name}"}. You can reference characters by their full name or just their first name"""
+        $"""Allows you to talk with a character in the world. Use as {TextStyles.information "talk to {name}"}. You can reference characters by their full name or just their first name"""
     | CommandTalkInvalidInput ->
         TextStyles.error
-            $"""I didn't quite catch that. Make sure you are referencing characters by their first or full name with {TextStyles.instruction "talk to {name}"}"""
+            $"""I didn't quite catch that. Make sure you are referencing characters by their first or full name with {TextStyles.information "talk to {name}"}"""
     | CommandTalkNpcNotFound name ->
         TextStyles.error $"There are no characters named {name} around"
     | CommandTalkNothing -> "Nothing"
@@ -204,7 +204,7 @@ and commonText key =
             $"""Couldn't recognize that length. Try the format {TextStyles.information "mm:ss"} as in 6:55 (6 minutes, 55 seconds)"""
     | CommonInvalidCommand ->
         TextStyles.error
-            $"""That command was not valid. Maybe try again or enter {TextStyles.instruction "help"} if you're lost"""
+            $"""That command was not valid. Maybe try again or enter {TextStyles.information "help"} if you're lost"""
 
 and creatorText key =
     match key with

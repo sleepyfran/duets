@@ -16,9 +16,6 @@ let danger text = $"[red3]{text}[/]"
 /// Pre-defined style for success messages.
 let success text = $"[bold green3]{text}[/]"
 
-/// Pre-defined style for instructions on how to invoke something.
-let instruction text = $"[italic]{text}[/]"
-
 /// Pre-defined style for showing money amounts.
 let money (amount: Amount) = $"[bold green3]%i{amount}d$[/]"
 
@@ -56,7 +53,11 @@ let crossed text = $"[strikethrough]{text}[/]"
 let progress text =
     [ "deepskyblue3"
       "deepskyblue3_1"
-      "dodgerblue1" ]
+      "dodgerblue1"
+      "springgreen4"
+      "springgreen3_1"
+      "springgreen2_1"
+      "springgreen1" ]
     |> List.sample
     |> fun color -> $"[{color}]{text}[/]"
 
