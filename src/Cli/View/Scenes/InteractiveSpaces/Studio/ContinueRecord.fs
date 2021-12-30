@@ -2,16 +2,18 @@ module Cli.View.Scenes.Studio.ContinueRecord
 
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.TextConstants
+open Cli.View.Text
 open Entities
 open Simulation.Studio.RenameAlbum
 open Simulation.Queries
 
 let continueRecordOptions =
     [ { Id = "edit_name"
-        Text = TextConstant StudioContinueRecordActionPromptEditName }
+        Text =
+            I18n.translate (StudioText StudioContinueRecordActionPromptEditName) }
       { Id = "release"
-        Text = TextConstant StudioContinueRecordActionPromptRelease } ]
+        Text =
+            I18n.translate (StudioText StudioContinueRecordActionPromptRelease) } ]
 
 /// Creates a subscene that allows to edit the name of a previously recorded
 /// but unreleased album and also to release it.
@@ -25,7 +27,7 @@ let rec continueRecordSubscene studio =
     seq {
         yield
             Prompt
-                { Title = TextConstant StudioContinueRecordPrompt
+                { Title = I18n.translate (StudioText StudioContinueRecordPrompt)
                   Content =
                       ChoicePrompt
                       <| MandatoryChoiceHandler
@@ -45,7 +47,10 @@ and actionPrompt studio band album =
     seq {
         yield
             Prompt
-                { Title = TextConstant StudioContinueRecordActionPrompt
+                { Title =
+                      I18n.translate (
+                          StudioText StudioContinueRecordActionPrompt
+                      )
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
@@ -54,7 +59,7 @@ and actionPrompt studio band album =
                                 basicOptionalChoiceHandler
                                     (Scene Scene.World)
                                     (handleAction studio band album)
-                            BackText = TextConstant CommonBack } }
+                            BackText = I18n.translate (CommonText CommonBack) } }
     }
 
 and handleAction studio band album choice =
@@ -75,7 +80,7 @@ and editName studio band album =
     seq {
         yield
             Prompt
-                { Title = TextConstant StudioCreateRecordName
+                { Title = I18n.translate (StudioText StudioCreateRecordName)
                   Content = TextPrompt <| handleNameChange studio band album }
     }
 
@@ -87,7 +92,7 @@ and handleNameChange studio band album name =
             seq {
                 yield
                     Message
-                    <| TextConstant StudioCreateErrorNameTooShort
+                    <| I18n.translate (StudioText StudioCreateErrorNameTooShort)
 
                 yield! editName studio band album
             }
@@ -95,7 +100,7 @@ and handleNameChange studio band album name =
             seq {
                 yield
                     Message
-                    <| TextConstant StudioCreateErrorNameTooLong
+                    <| I18n.translate (StudioText StudioCreateErrorNameTooLong)
 
                 yield! editName studio band album
             }

@@ -2,7 +2,7 @@ module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.ComposeSong
 
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.TextConstants
+open Cli.View.Text
 open Entities
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Simulation.Songs.Composition.ComposeSong
@@ -11,7 +11,8 @@ let rec composeSongSubScene () =
     seq {
         yield
             Prompt
-                { Title = TextConstant ComposeSongTitlePrompt
+                { Title =
+                      I18n.translate (RehearsalSpaceText ComposeSongTitlePrompt)
                   Content = TextPrompt(lengthPrompt) }
     }
 
@@ -19,7 +20,10 @@ and lengthPrompt name =
     seq {
         yield
             Prompt
-                { Title = TextConstant ComposeSongLengthPrompt
+                { Title =
+                      I18n.translate (
+                          RehearsalSpaceText ComposeSongLengthPrompt
+                      )
                   Content = LengthPrompt(genrePrompt name) }
     }
 
@@ -27,7 +31,8 @@ and genrePrompt name length =
     seq {
         yield
             Prompt
-                { Title = TextConstant ComposeSongGenrePrompt
+                { Title =
+                      I18n.translate (RehearsalSpaceText ComposeSongGenrePrompt)
                   Content =
                       ChoicePrompt
                       <| MandatoryChoiceHandler
@@ -46,7 +51,10 @@ and vocalStylePrompt name length selectedGenre =
     seq {
         yield
             Prompt
-                { Title = TextConstant ComposeSongVocalStylePrompt
+                { Title =
+                      I18n.translate (
+                          RehearsalSpaceText ComposeSongVocalStylePrompt
+                      )
                   Content =
                       ChoicePrompt
                       <| MandatoryChoiceHandler
@@ -64,19 +72,27 @@ and handleSong name length genre selectedVocalStyle =
         | Error Song.NameTooShort ->
             yield!
                 handleError
-                <| TextConstant ComposeSongErrorNameTooShort
+                <| I18n.translate (
+                    RehearsalSpaceText ComposeSongErrorNameTooShort
+                )
         | Error Song.NameTooLong ->
             yield!
                 handleError
-                <| TextConstant ComposeSongErrorNameTooLong
+                <| I18n.translate (
+                    RehearsalSpaceText ComposeSongErrorNameTooLong
+                )
         | Error Song.LengthTooShort ->
             yield!
                 handleError
-                <| TextConstant ComposeSongErrorLengthTooShort
+                <| I18n.translate (
+                    RehearsalSpaceText ComposeSongErrorLengthTooShort
+                )
         | Error Song.LengthTooLong ->
             yield!
                 handleError
-                <| TextConstant ComposeSongErrorLengthTooLong
+                <| I18n.translate (
+                    RehearsalSpaceText ComposeSongErrorLengthTooLong
+                )
     }
 
 and composeWithProgressbar song =
@@ -87,15 +103,24 @@ and composeWithProgressbar song =
         yield
             ProgressBar
                 { StepNames =
-                      [ TextConstant ComposeSongProgressBrainstorming
-                        TextConstant ComposeSongProgressConfiguringReverb
-                        TextConstant ComposeSongProgressTryingChords ]
+                      [ I18n.translate (
+                          RehearsalSpaceText ComposeSongProgressBrainstorming
+                        )
+                        I18n.translate (
+                            RehearsalSpaceText
+                                ComposeSongProgressConfiguringReverb
+                        )
+                        I18n.translate (
+                            RehearsalSpaceText ComposeSongProgressTryingChords
+                        ) ]
                   StepDuration = 2<second>
                   Async = true }
 
         yield
-            Message
-            <| TextConstant(ComposeSongConfirmation song.Name)
+            ComposeSongConfirmation song.Name
+            |> RehearsalSpaceText
+            |> I18n.translate
+            |> Message
 
         yield Effect <| composeSong state song
 

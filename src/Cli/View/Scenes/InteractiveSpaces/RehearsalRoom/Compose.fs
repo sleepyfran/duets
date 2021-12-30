@@ -2,27 +2,27 @@ module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.Compose
 
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.TextConstants
+open Cli.View.Text
 open Simulation.Queries
 
 let createOptions hasUnfinishedSongs =
     seq {
         yield
             { Id = "compose_song"
-              Text = TextConstant ComposeSong }
+              Text = I18n.translate (RehearsalSpaceText ComposeSong) }
 
         if hasUnfinishedSongs then
             yield
                 { Id = "improve_song"
-                  Text = TextConstant ImproveSong }
+                  Text = I18n.translate (RehearsalSpaceText ImproveSong) }
 
             yield
                 { Id = "finish_song"
-                  Text = TextConstant FinishSong }
+                  Text = I18n.translate (RehearsalSpaceText FinishSong) }
 
             yield
                 { Id = "discard_song"
-                  Text = TextConstant DiscardSong }
+                  Text = I18n.translate (RehearsalSpaceText DiscardSong) }
     }
     |> List.ofSeq
 
@@ -40,14 +40,14 @@ let rec composeSubScene () =
     seq {
         yield
             Prompt
-                { Title = TextConstant ComposePrompt
+                { Title = I18n.translate (RehearsalSpaceText ComposePrompt)
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
                           { Choices = options
                             Handler =
                                 worldOptionalChoiceHandler processSelection
-                            BackText = TextConstant CommonCancel } }
+                            BackText = I18n.translate (CommonText CommonCancel) } }
     }
 
 and processSelection choice =

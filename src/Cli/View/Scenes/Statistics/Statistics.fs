@@ -2,26 +2,28 @@ module Cli.View.Scenes.Statistics.Root
 
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.TextConstants
+open Cli.View.Text
 
 let statisticOptions =
     [ { Id = "band"
-        Text = TextConstant StatisticsSectionBand }
+        Text = I18n.translate (StatisticsText StatisticsSectionBand) }
       { Id = "albums"
-        Text = TextConstant StatisticsSectionAlbums } ]
+        Text = I18n.translate (StatisticsText StatisticsSectionAlbums) } ]
 
 let rec statisticsScene () =
     seq {
         yield
             Prompt
-                { Title = TextConstant StatisticsSectionPrompt
+                { Title =
+                      I18n.translate (StatisticsText StatisticsSectionPrompt)
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
                           { Choices = statisticOptions
                             Handler =
                                 phoneOptionalChoiceHandler <| processSelection
-                            BackText = TextConstant CommonBackToPhone } }
+                            BackText =
+                                I18n.translate (CommonText CommonBackToPhone) } }
 
     }
 

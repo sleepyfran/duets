@@ -2,7 +2,7 @@ module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.ImproveSong
 
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.TextConstants
+open Cli.View.Text
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
 open Simulation.Queries
@@ -19,7 +19,8 @@ let rec improveSongSubScene () =
     seq {
         yield
             Prompt
-                { Title = TextConstant ImproveSongSelection
+                { Title =
+                      I18n.translate (RehearsalSpaceText ImproveSongSelection)
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
@@ -28,7 +29,7 @@ let rec improveSongSubScene () =
                                 worldOptionalChoiceHandler (
                                     processSongSelection currentBand
                                 )
-                            BackText = TextConstant CommonCancel } }
+                            BackText = I18n.translate (CommonText CommonCancel) } }
     }
 
 and processSongSelection band selection =
@@ -55,13 +56,19 @@ and processSongSelection band selection =
 and showImprovingProgress () =
     ProgressBar
         { StepNames =
-              [ TextConstant ImproveSongProgressAddingSomeMelodies
-                TextConstant ImproveSongProgressPlayingFoosball
-                TextConstant ImproveSongProgressModifyingChordsFromAnotherSong ]
+              [ I18n.translate (
+                  RehearsalSpaceText ImproveSongProgressAddingSomeMelodies
+                )
+                I18n.translate (
+                    RehearsalSpaceText ImproveSongProgressPlayingFoosball
+                )
+                I18n.translate (
+                    RehearsalSpaceText
+                        ImproveSongProgressModifyingChordsFromAnotherSong
+                ) ]
           StepDuration = 2<second>
           Async = true }
 
 and bandFinishedSong =
-    ImproveSongReachedMaxQuality
-    |> TextConstant
+    I18n.translate (RehearsalSpaceText ImproveSongReachedMaxQuality)
     |> Message

@@ -1,7 +1,7 @@
 namespace Cli.View.Commands
 
 open Cli.View.Actions
-open Cli.View.TextConstants
+open Cli.View.Text
 
 [<RequireQualifiedAccess>]
 module HelpCommand =
@@ -9,12 +9,16 @@ module HelpCommand =
     /// commands as a list.
     let create (commands: Command list) =
         { Name = "help"
-          Description = TextConstant CommandHelpDescription
+          Description = I18n.translate (CommandText CommandHelpDescription)
           Handler =
               HandlerWithoutNavigation
                   (fun _ ->
                       seq {
-                          yield Message <| TextConstant CommandHelpDescription
+                          yield
+                              Message
+                              <| I18n.translate (
+                                  CommandText CommandHelpDescription
+                              )
 
                           yield!
                               commands
@@ -24,6 +28,7 @@ module HelpCommand =
                                           command.Name,
                                           command.Description
                                       )
-                                      |> TextConstant
+                                      |> CommandText
+                                      |> I18n.translate
                                       |> Message)
                       }) }

@@ -2,7 +2,7 @@ module Cli.View.Scenes.World
 
 open Cli.View.Commands
 open Cli.View.Actions
-open Cli.View.TextConstants
+open Cli.View.Text
 open Cli.View.Scenes.InteractiveSpaces
 open Entities
 open Simulation
@@ -10,11 +10,13 @@ open Simulation
 let private listObjects objects =
     seq {
         if List.isEmpty objects then
-            yield Message <| TextConstant CommandLookNoObjectsAround
+            yield
+                I18n.translate (CommandText CommandLookNoObjectsAround)
+                |> Message
         else
             yield
-                Message
-                <| TextConstant CommandLookVisibleObjectsPrefix
+                I18n.translate (CommandText CommandLookVisibleObjectsPrefix)
+                |> Message
 
             yield!
                 objects
@@ -25,7 +27,12 @@ let private listObjects objects =
                             |> List.map (fun command -> command.Name)
 
                         (object.Type, commandNames))
-                |> List.map (CommandLookObjectEntry >> TextConstant >> Message)
+                |> List.map (
+                    CommandLookObjectEntry
+                    >> CommandText
+                    >> I18n.translate
+                    >> Message
+                )
     }
 
 /// Returns the name of the place that contains a given node. This means that,
@@ -78,13 +85,14 @@ let private listRoomEntrances entrances =
 
                     (direction, nodeName))
             |> (CommandLookEntranceDescription
-                >> TextConstant
+                >> CommandText
+                >> I18n.translate
                 >> Message)
     }
 
 let private createLookCommand entrances description objects =
     { Name = "look"
-      Description = TextConstant CommandLookDescription
+      Description = I18n.translate (CommandText CommandLookDescription)
       Handler =
           HandlerWithoutNavigation
               (fun _ ->
@@ -103,7 +111,10 @@ let private getNodeDescription nodeContent =
         | StudioRoom room -> Studio.Root.getRoomDescription room
     | Street street ->
         match street.Descriptor with
-        | Boring -> TextConstant(StreetBoringDescription street.Name)
+        | Boring ->
+            StreetBoringDescription street.Name
+            |> WorldText
+            |> I18n.translate
 
 let private getNodeObjects nodeContent =
     match nodeContent with
@@ -154,6 +165,6 @@ let rec worldScene () =
 
         yield
             Prompt
-                { Title = TextConstant CommonCommandPrompt
+                { Title = I18n.translate (CommandText CommandCommonPrompt)
                   Content = CommandPrompt commands }
     }

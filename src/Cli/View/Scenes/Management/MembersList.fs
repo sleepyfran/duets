@@ -1,7 +1,7 @@
 module Cli.View.Scenes.Management.MemberList
 
 open Cli.View.Actions
-open Cli.View.TextConstants
+open Cli.View.Text
 open Simulation.Queries
 
 /// Shows the current and past members of the band.
@@ -11,18 +11,23 @@ let rec memberListSubScene () =
     let pastMembers = Bands.pastBandMembers state
 
     seq {
-        yield Message <| TextConstant MemberListCurrentTitle
+        yield
+            Message
+            <| I18n.translate (RehearsalSpaceText MemberListCurrentTitle)
 
         yield!
             currentMembers
             |> List.map
                 (fun m ->
                     MemberListCurrentMember(m.Character.Name, m.Role, m.Since)
-                    |> TextConstant
+                    |> RehearsalSpaceText
+                    |> I18n.translate
                     |> Message)
 
         if not (List.isEmpty pastMembers) then
-            yield Message <| TextConstant MemberListPastTitle
+            yield
+                Message
+                <| I18n.translate (RehearsalSpaceText MemberListPastTitle)
 
             yield!
                 pastMembers
@@ -34,7 +39,8 @@ let rec memberListSubScene () =
                             fst m.Period,
                             snd m.Period
                         )
-                        |> TextConstant
+                        |> RehearsalSpaceText
+                        |> I18n.translate
                         |> Message)
 
         yield Scene Management

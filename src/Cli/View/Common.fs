@@ -1,6 +1,6 @@
 module Cli.View.Common
 
-open Cli.View.TextConstants
+open Cli.View.Text
 open Cli.View.Actions
 open Entities
 open Simulation.Queries
@@ -87,15 +87,6 @@ let instrumentOptions =
         (fun role ->
             { Id = role.ToString()
               Text = Literal(role.ToString()) })
-
-/// Returns the associated color given the level of a skill or the quality
-/// of a song.
-let colorForLevel level =
-    match level with
-    | level when level < 30 -> Spectre.Console.Color.Red
-    | level when level < 60 -> Spectre.Console.Color.Orange1
-    | level when level < 80 -> Spectre.Console.Color.Green
-    | _ -> Spectre.Console.Color.Blue
 
 /// Choice handler for optional prompts that calls the backHandler if the
 /// Back option was selected or the choiceHandler if a choice was selected.

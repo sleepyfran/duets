@@ -2,7 +2,7 @@ module Cli.View.Scenes.Management.Hire
 
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.TextConstants
+open Cli.View.Text
 open Entities
 open Simulation.Bands.Members
 open Simulation.Queries
@@ -11,7 +11,8 @@ let rec hireSubScene () =
     seq {
         yield
             Prompt
-                { Title = TextConstant HireMemberRolePrompt
+                { Title =
+                      I18n.translate (RehearsalSpaceText HireMemberRolePrompt)
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
@@ -19,7 +20,7 @@ let rec hireSubScene () =
                             Handler =
                                 basicOptionalChoiceHandler (Scene Management)
                                 <| memberSelection
-                            BackText = TextConstant CommonCancel } }
+                            BackText = I18n.translate (CommonText CommonCancel) } }
     }
 
 and memberSelection selectedInstrument =
@@ -42,7 +43,8 @@ and showMemberForHire band selectedInstrument availableMember =
                 availableMember.Character.Name,
                 availableMember.Character.Gender
             )
-            |> TextConstant
+            |> RehearsalSpaceText
+            |> I18n.translate
             |> Message
 
         yield!
@@ -50,14 +52,16 @@ and showMemberForHire band selectedInstrument availableMember =
             |> Seq.map
                 (fun (skill, level) ->
                     HireMemberSkillLine(skill.Id, level)
-                    |> TextConstant
+                    |> RehearsalSpaceText
+                    |> I18n.translate
                     |> Message)
 
         yield
             Prompt
                 { Title =
-                      TextConstant
-                      <| HireMemberConfirmation availableMember.Character.Gender
+                      HireMemberConfirmation availableMember.Character.Gender
+                      |> RehearsalSpaceText
+                      |> I18n.translate
                   Content =
                       ConfirmationPrompt
                       <| handleHiringConfirmation
@@ -72,12 +76,19 @@ and handleHiringConfirmation band selectedInstrument memberForHire confirmed =
     seq {
         if confirmed then
             yield Effect <| hireMember state band memberForHire
-            yield Message <| TextConstant HireMemberHired
+
+            yield
+                Message
+                <| I18n.translate (RehearsalSpaceText HireMemberHired)
+
             yield Scene Management
         else
             yield
                 Prompt
-                    { Title = TextConstant HireMemberContinueConfirmation
+                    { Title =
+                          I18n.translate (
+                              RehearsalSpaceText HireMemberContinueConfirmation
+                          )
                       Content =
                           ConfirmationPrompt
                           <| handleContinueConfirmation selectedInstrument }

@@ -2,7 +2,7 @@ module Cli.View.Scenes.MainMenu
 
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.TextConstants
+open Cli.View.Text
 
 /// Current version of the game as loaded from the fsproj.
 let version =
@@ -17,25 +17,24 @@ let menuOptions hasSavegameAvailable =
     seq {
         yield
             { Id = "new_game"
-              Text = TextConstant MainMenuNewGame }
+              Text = I18n.translate (MainMenuText MainMenuNewGame) }
 
         if hasSavegameAvailable then
             yield
                 { Id = "load_game"
-                  Text = TextConstant MainMenuLoadGame }
+                  Text = I18n.translate (MainMenuText MainMenuLoadGame) }
     }
     |> List.ofSeq
 
 /// Creates the main menu of the game as a sequence of actions.
 let rec mainMenu savegameState =
     seq {
-        yield Figlet <| TextConstant GameName
+        yield I18n.translate (CommonText GameName) |> Figlet
         yield GameInfo version
 
         if savegameState = Savegame.Incompatible then
             yield
-                Message
-                <| TextConstant MainMenuIncompatibleSavegame
+                I18n.translate (MainMenuText MainMenuIncompatibleSavegame) |> Message
 
         yield! showMenu savegameState
     }
@@ -44,7 +43,7 @@ and showMenu savegameState =
     seq {
         yield
             Prompt
-                { Title = TextConstant MainMenuPrompt
+                { Title = I18n.translate (MainMenuText MainMenuPrompt)
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
@@ -52,7 +51,8 @@ and showMenu savegameState =
                                 menuOptions (savegameState = Savegame.Available)
                             Handler =
                                 basicOptionalChoiceHandler NoOp processSelection
-                            BackText = TextConstant MainMenuExit } }
+                            BackText =
+                                I18n.translate (MainMenuText MainMenuExit) } }
     }
 
 and processSelection choice =

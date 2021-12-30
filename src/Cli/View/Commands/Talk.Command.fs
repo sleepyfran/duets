@@ -3,7 +3,7 @@ namespace Cli.View.Commands
 open FSharpx
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.TextConstants
+open Cli.View.Text
 open Entities
 
 [<RequireQualifiedAccess>]
@@ -30,7 +30,7 @@ module TalkCommand =
     /// passed for that option.
     let rec create npcs =
         { Name = "talk"
-          Description = TextConstant CommandTalkDescription
+          Description = I18n.translate (CommandText CommandTalkDescription)
           Handler =
               HandlerWithNavigation
                   (fun args ->
@@ -39,7 +39,11 @@ module TalkCommand =
                           executeTalkCommand npcs name
                       | _ ->
                           seq {
-                              TextConstant CommandTalkInvalidInput |> Message }) }
+                              I18n.translate (
+                                  CommandText CommandTalkInvalidInput
+                              )
+                              |> Message
+                          }) }
 
     and private executeTalkCommand npcs name =
         let referencedName = String.concat " " name
@@ -57,7 +61,8 @@ module TalkCommand =
         | None ->
             seq {
                 CommandTalkNpcNotFound referencedName
-                |> TextConstant
+                |> CommandText
+                |> I18n.translate
                 |> Message
 
                 Scene Scene.World
@@ -84,7 +89,8 @@ module TalkCommand =
                                 worldOptionalChoiceHandler (
                                     handleChoiceSelection choicesWithId
                                 )
-                            BackText = TextConstant CommandTalkNothing } }
+                            BackText =
+                                I18n.translate (CommandText CommandTalkNothing) } }
         }
 
     and private handleChoiceSelection choicesWithId choice =

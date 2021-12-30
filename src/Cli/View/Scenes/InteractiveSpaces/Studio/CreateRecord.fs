@@ -2,7 +2,7 @@ module Cli.View.Scenes.Studio.CreateRecord
 
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.TextConstants
+open Cli.View.Text
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
 open Simulation.Queries
@@ -22,12 +22,15 @@ let rec createRecordSubscene studio =
         if songOptions.Length > 0 then
             yield
                 Prompt
-                    { Title = TextConstant StudioCreateRecordName
+                    { Title = I18n.translate (StudioText StudioCreateRecordName)
                       Content =
                           TextPrompt
                           <| trackListPrompt studio currentBand songOptions }
         else
-            yield Message <| TextConstant StudioCreateNoSongs
+            yield
+                Message
+                <| I18n.translate (StudioText StudioCreateNoSongs)
+
             yield Scene World
     }
 
@@ -35,7 +38,8 @@ and trackListPrompt studio band songOptions name =
     seq {
         yield
             Prompt
-                { Title = TextConstant StudioCreateTrackListPrompt
+                { Title =
+                      I18n.translate (StudioText StudioCreateTrackListPrompt)
                   Content =
                       MultiChoicePrompt
                       <| { Choices = songOptions
@@ -54,13 +58,13 @@ and processRecord studio band name selectedSongs =
         | Error Album.NameTooShort ->
             yield
                 Message
-                <| TextConstant StudioCreateErrorNameTooShort
+                <| I18n.translate (StudioText StudioCreateErrorNameTooShort)
 
             yield! createRecordSubscene studio
         | Error Album.NameTooLong ->
             yield
                 Message
-                <| TextConstant StudioCreateErrorNameTooLong
+                <| I18n.translate (StudioText StudioCreateErrorNameTooLong)
 
             yield! createRecordSubscene studio
         | Ok album -> yield! confirmRecording studio band album
@@ -78,7 +82,8 @@ and confirmRecording studio band album =
                           albumToRecord.Name,
                           albumToRecord.Type
                       )
-                      |> TextConstant
+                      |> StudioText
+                      |> I18n.translate
                   Content =
                       ConfirmationPrompt
                           (fun confirmed ->
@@ -102,7 +107,8 @@ and checkBankAndRecordAlbum studio band album =
         | Error (NotEnoughFunds studioBill) ->
             yield
                 StudioCreateErrorNotEnoughMoney(studioBill)
-                |> TextConstant
+                |> StudioText
+                |> I18n.translate
                 |> Message
 
             yield Scene World
@@ -115,9 +121,15 @@ and recordWithProgressBar studio band album effects =
         yield
             ProgressBar
                 { StepNames =
-                      [ TextConstant StudioCreateProgressEatingSnacks
-                        TextConstant StudioCreateProgressRecordingWeirdSounds
-                        TextConstant StudioCreateProgressMovingKnobs ]
+                      [ I18n.translate (
+                          StudioText StudioCreateProgressEatingSnacks
+                        )
+                        I18n.translate (
+                            StudioText StudioCreateProgressRecordingWeirdSounds
+                        )
+                        I18n.translate (
+                            StudioText StudioCreateProgressMovingKnobs
+                        ) ]
                   StepDuration = 3<second>
                   Async = true }
 

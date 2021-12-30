@@ -1,7 +1,7 @@
 module Cli.View.Scenes.Studio.PromptToRelease
 
 open Cli.View.Actions
-open Cli.View.TextConstants
+open Cli.View.Text
 open Entities
 open Simulation.Studio.ReleaseAlbum
 
@@ -14,8 +14,9 @@ let rec promptToReleaseAlbum onCancel studio band unreleasedAlbum =
         yield
             Prompt
                 { Title =
-                      TextConstant
-                      <| StudioCommonPromptReleaseAlbum album.Name
+                      StudioCommonPromptReleaseAlbum album.Name
+                      |> StudioText
+                      |> I18n.translate
                   Content =
                       ConfirmationPrompt
                       <| handleReleaseConfirmation

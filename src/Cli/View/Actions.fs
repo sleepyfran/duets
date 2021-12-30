@@ -1,6 +1,6 @@
 module Cli.View.Actions
 
-open Cli.View.TextConstants
+open Cli.View.Text
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
 

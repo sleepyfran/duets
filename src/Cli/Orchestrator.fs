@@ -6,7 +6,7 @@ open Cli.View.Commands
 open Entities
 open Cli.View.Actions
 open Cli.View.Scenes
-open Cli.View.TextConstants
+open Cli.View.Text
 open Cli.View.Renderer
 open Common
 open Simulation.Queries
@@ -30,7 +30,8 @@ let actionsFromEffect effect =
         let (_, _, currentQuality) = after
 
         ImproveSongCanBeFurtherImproved(previousQuality, currentQuality)
-        |> TextConstant
+        |> RehearsalSpaceText
+        |> I18n.translate
         |> Message
     | SkillImproved (character, Diff (before, after)) ->
         let (skill, previousLevel) = before
@@ -43,23 +44,28 @@ let actionsFromEffect effect =
             previousLevel,
             currentLevel
         )
-        |> TextConstant
+        |> CommonText
+        |> I18n.translate
         |> Message
     | MoneyTransferred (holder, transaction) ->
         BankTransferSuccess(holder, transaction)
-        |> TextConstant
+        |> BankText
+        |> I18n.translate
         |> Message
     | AlbumRecorded (_, UnreleasedAlbum album) ->
         StudioCreateAlbumRecorded album.Name
-        |> TextConstant
+        |> StudioText
+        |> I18n.translate
         |> Message
     | AlbumRenamed (_, UnreleasedAlbum album) ->
         StudioContinueRecordAlbumRenamed album.Name
-        |> TextConstant
+        |> StudioText
+        |> I18n.translate
         |> Message
     | AlbumReleased (_, releasedAlbum) ->
         StudioCommonAlbumReleased releasedAlbum.Album.Name
-        |> TextConstant
+        |> StudioText
+        |> I18n.translate
         |> Message
     | _ -> NoOp
 
@@ -203,5 +209,7 @@ and runCommand currentChain availableCommands commandName args =
             | HandlerWithoutNavigation handler ->
                 Seq.append (handler args) currentChain |> Some
         | None ->
-            renderMessage (TextConstant CommonInvalidCommand)
+            I18n.translate (CommonText CommonInvalidCommand)
+            |> renderMessage
+
             None

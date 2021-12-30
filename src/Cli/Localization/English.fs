@@ -1,11 +1,10 @@
 module Cli.Localization.English
 
-open System
-open Cli.View
-open Cli.View.Common
-open Cli.View.TextConstants
 open Common
+open Cli.View
+open Cli.View.Text
 open Entities
+open System
 
 let verbConjugationByGender =
     dict [ (Have,
@@ -16,7 +15,7 @@ let verbConjugationByGender =
 /// Transforms TextConstants into strings.
 let rec toString text =
     match text with
-    | TextConstant constant -> fromConstant constant
+    | Text constant -> fromConstant constant
     | Literal string -> string
 
 /// Returns the formatted instrument name given its type.
@@ -116,56 +115,31 @@ and listOf (stuff: 'a list) toStr =
 /// Formats a number with the thousands specifier.
 and formatNumber (amount: 'a) = String.Format("{0:#,0}", amount)
 
-// TODO: Remove all references to hard-coded styles and move to TextStyles, remove all `String.format` and `sprintf`.
-and fromConstant constant =
-    match constant with
-    | GameName -> "Duets"
-    | CommonYouAreIn place -> String.Format("You're currently in {0}", place)
-    | CommonChoiceSelection selection ->
-        $"""{TextStyles.prompt "You selected"} {TextStyles.object selection}"""
-    | CommonMultiChoiceMoreChoices ->
-        "[grey](Move up and down to reveal more choices)[/]"
-    | CommonMultiChoiceInstructions ->
-        "Press [bold blue]space[/] to select a choice and [bold blue]enter[/] to finish the selection"
-    | CommonNoUnfinishedSongs ->
-        "[red]You don't have any songs, create one first[/]"
-    | CommonSkills -> "Skills"
-    | CommonBack -> "[bold]Go back[/]"
-    | CommonCancel -> "[bold]Cancel[/]"
-    | CommonBackToMainMenu -> "[bold]Back to main menu[/]"
-    | CommonBackToMap -> "[bold]Back to map[/]"
-    | CommonBackToPhone -> "[bold]Back to phone[/]"
-    | CommonBackToWorld -> "[bold]Back to world[/]"
-    | CommonPressKeyToContinue -> "Press [bold blue]any[/] key to continue"
-    | CommonSkillImproved (characterName,
-                           characterGender,
-                           skill,
-                           previousLevel,
-                           currentLevel) ->
-        String.Format(
-            "[green]{0} improved {1} {2} skill from {3}% to {4}%[/]",
-            characterName,
-            (possessiveAdjectiveForGender characterGender)
-                .ToLower(),
-            (skillName skill.Id).ToLower(),
-            previousLevel,
-            currentLevel
-        )
-    | CommonStatusBar (date, dayMoment, characterBalance, bandBalance) ->
-        sprintf
-            "[bold]%i/%i/%i [blue]%s[/] | Character's balance: [green]%s$d[/] | Band's balance: [green]%s$d[/][/]"
-            date.Day
-            date.Month
-            date.Year
-            (dayMomentName dayMoment)
-            (formatNumber characterBalance)
-            (formatNumber bandBalance)
-    | CommonInvalidLength ->
-        "[bold red]Not a valid length. Try the format [grey]mm:ss[/] as in 6:55 (6 minutes, 55 seconds)[/]"
-    | CommonCommandPrompt ->
-        "[blue bold]What do you want to do? Type 'help' if you're lost[/]"
-    | CommonInvalidCommand ->
-        "[bold red]That command was not valid. Maybe try again or enter 'help' if you're lost[/]"
+and bankText key =
+    match key with
+    | BankTitle -> "Bank"
+    | BankWelcome (characterBalance, bandBalance) ->
+        $"""{TextStyles.highlight "You"} currently have {TextStyles.money characterBalance}. {TextStyles.highlight "Your band"} has {TextStyles.money bandBalance}"""
+    | BankPrompt -> "What do you want to do?"
+    | BankTransferToBand -> "Transfer money to band"
+    | BankTransferFromBand -> "Transfer money from band"
+    | BankTransferAmount holder ->
+        match holder with
+        | Character _ -> "How much do you want to transfer to your band?"
+        | Band _ -> "How much do you want to transfer from your band?"
+    | BankTransferSuccess (holder, transaction) ->
+        match transaction with
+        | Incoming (amount, _) ->
+            $"Transferred {TextStyles.money amount} to {accountHolderName holder}'s account"
+        | Outgoing (amount, _) ->
+            $"Transferred {TextStyles.money amount} from {accountHolderName holder}'s account"
+    | BankTransferNotEnoughFunds ->
+        TextStyles.error "Not enough funds in the sender account"
+
+and commandText key =
+    match key with
+    | CommandCommonPrompt ->
+        TextStyles.prompt "What do you want to do? Type 'help' if you're lost"
     | CommandHelpDescription ->
         "Here are all the commands you can execute right now"
     | CommandHelpEntry (entryName, entryDescription) ->
@@ -195,55 +169,99 @@ and fromConstant constant =
     | CommandTalkNpcNotFound name ->
         TextStyles.error $"There are no characters named {name} around"
     | CommandTalkNothing -> "Nothing"
-    | MainMenuIncompatibleSavegame ->
-        "[bold red]Your savegame is incompatible or malformed and was ignored[/]"
-    | MainMenuPrompt -> "Select an option to begin"
-    | MainMenuNewGame -> "New game"
-    | MainMenuLoadGame -> "Load game"
-    | MainMenuExit -> "[bold]Exit[/]"
-    | MainMenuSavegameNotAvailable ->
-        "[red]No savegame available. Create a new game[/]"
+
+and commonText key =
+    match key with
+    | GameName -> "Duets"
+    | CommonYouAreIn place -> $"You're currently in {place}"
+    | CommonChoiceSelection selection ->
+        $"""{TextStyles.prompt "You selected"} {TextStyles.object selection}"""
+    | CommonMultiChoiceMoreChoices ->
+        TextStyles.faded "(Move up and down to reveal more choices)"
+    | CommonMultiChoiceInstructions ->
+        $"""Press {TextStyles.information "space"} to select a choice and {TextStyles.information "enter"} to finish the selection"""
+    | CommonNoUnfinishedSongs ->
+        TextStyles.error "You don't have any songs, create one first"
+    | CommonSkills -> "Skills"
+    | CommonBack -> TextStyles.faded "Go back"
+    | CommonCancel -> TextStyles.faded "Cancel"
+    | CommonBackToMainMenu -> TextStyles.faded "Back to main menu"
+    | CommonBackToMap -> TextStyles.faded "Back to map"
+    | CommonBackToPhone -> TextStyles.faded "Back to phone"
+    | CommonBackToWorld -> TextStyles.faded "Back to world"
+    | CommonPressKeyToContinue ->
+        $"""Press {TextStyles.information "any"} key to continue"""
+    | CommonSkillImproved (characterName,
+                           characterGender,
+                           skill,
+                           previousLevel,
+                           currentLevel) ->
+        TextStyles.success
+            $"""{characterName} improved {(possessiveAdjectiveForGender characterGender)
+                                          |> String.lowercase} {skillName skill.Id |> String.lowercase} skill from {previousLevel} to {currentLevel}"""
+    | CommonInvalidLength ->
+        TextStyles.error
+            $"""Couldn't recognize that length. Try the format {TextStyles.information "mm:ss"} as in 6:55 (6 minutes, 55 seconds)"""
+    | CommonInvalidCommand ->
+        TextStyles.error
+            $"""That command was not valid. Maybe try again or enter {TextStyles.instruction "help"} if you're lost"""
+
+and creatorText key =
+    match key with
     | CharacterCreatorInitialPrompt ->
-        "Creating a new game, what's the [bold blue]name[/] of your character?"
-    | CharacterCreatorGenderPrompt -> "What's their [bold blue]gender[/]?"
+        $"""Creating a new game, what's the {TextStyles.highlight "name"} of your character?"""
+    | CharacterCreatorGenderPrompt ->
+        $"""What's their {TextStyles.highlight "gender"}?"""
     | CharacterCreatorGenderMale -> "Male"
     | CharacterCreatorGenderFemale -> "Female"
     | CharacterCreatorGenderOther -> "Other"
     | CharacterCreatorAgePrompt ->
-        "How [bold blue]old[/] are they? (Minimum 18)"
+        $"""How {TextStyles.highlight "old"} are they? (Minimum 18)"""
     | BandCreatorInitialPrompt ->
-        "Let's create your first band. What's the [bold blue]band's name[/]?"
+        $"""Let's create your first band. What's the {TextStyles.highlight "band's name"}"""
     | BandCreatorGenrePrompt ->
-        "What [bold blue]genre[/] are they going to be playing? You can always change this later"
+        $"""What {TextStyles.highlight "genre"} are they going to be playing? You can always change this later"""
     | BandCreatorInstrumentPrompt ->
-        "And lastly, what will you be [bold blue]playing[/]?"
+        $"""And lastly, what will you be {TextStyles.highlight "playing"}?"""
     | BandCreatorConfirmationPrompt (characterName,
                                      bandName,
                                      bandGenre,
                                      instrument) ->
-        String.Format(
-            "You'll be playing as [bold blue]{0}[/] in the band [bold blue]{1}[/] playing [bold blue]{2}[/] as a [bold blue]{3}[/]",
-            characterName,
-            bandName,
-            bandGenre,
-            instrument
-        )
+        $"""You'll be playing as {TextStyles.highlight characterName} in the band {TextStyles.highlight bandName} playing {TextStyles.highlight bandGenre} as a {TextStyles.highlight instrument}"""
     | CreatorErrorCharacterNameTooShort ->
-        "[red]Your character's name is too short[/]"
+        TextStyles.error "Your character's name is too short"
     | CreatorErrorCharacterNameTooLong ->
-        "[red]Your character's name is too long[/]"
-    | CreatorErrorCharacterAgeTooYoung -> "[red]Your character is too young[/]"
-    | CreatorErrorCharacterAgeTooOld -> "[red]Your character is too old[/]"
-    | CreatorErrorBandNameTooShort -> "[red]Your band's name is too short[/]"
-    | CreatorErrorBandNameTooLong -> "[red]Your band's name is too long[/]"
-    | WorldTitle -> "World"
+        TextStyles.error "Your character's name is too long"
+    | CreatorErrorCharacterAgeTooYoung ->
+        TextStyles.error "Your character is too young"
+    | CreatorErrorCharacterAgeTooOld ->
+        TextStyles.error "Your character is too old"
+    | CreatorErrorBandNameTooShort ->
+        TextStyles.error "Your band's name is too short"
+    | CreatorErrorBandNameTooLong ->
+        TextStyles.error "Your band's name is too long"
+
+and mainMenuText key =
+    match key with
+    | MainMenuIncompatibleSavegame ->
+        TextStyles.error
+            "Your savegame is incompatible or malformed and was ignored"
+    | MainMenuPrompt -> "Select an option to begin"
+    | MainMenuNewGame -> "New game"
+    | MainMenuLoadGame -> "Load game"
+    | MainMenuExit -> TextStyles.faded "Exit"
+    | MainMenuSavegameNotAvailable ->
+        TextStyles.error "No savegame available. Create a new game"
+
+and phoneText key =
+    match key with
     | PhoneTitle -> "Phone"
     | PhoneOptionBank -> "Bank App"
     | PhoneOptionStatistics -> "Statistics App"
-    | MapTitle -> "Map"
-    | MapPrompt -> "Where are you heading?"
-    | MapOptionRehearsalRoom -> "Band's rehearsal room"
-    | MapOptionStudios -> "Studio"
+    | PhonePrompt -> $"""{TextStyles.prompt "DuetsPhone v1.0"}"""
+
+and rehearsalText key =
+    match key with
     | RehearsalSpaceLobbyName -> "Lobby"
     | RehearsalSpaceBarName -> "Bar"
     | RehearsalSpaceRehearsalRoomName -> "Rehearsal rooms"
@@ -252,7 +270,7 @@ and fromConstant constant =
     | RehearsalSpaceBarDescription ->
         $"""The {TextStyles.place "rehearsal room's bar"} smells really weird. There's three people sitting and drinking beer."""
     | RehearsalSpaceRehearsalRoomDescription ->
-        $"""You are in the {TextStyles.place "rehearsal room"} inside an old and quite smelly building. You can feel the smoke in the air and hear [italic]AC/DC[/] being played in the room nearby."""
+        $"""You are in the {TextStyles.place "rehearsal room"} inside an old and quite smelly building. You can feel the smoke in the air and hear {TextStyles.band "AC/DC"} being played in the room nearby."""
     | RehearsalRoomManageDescription ->
         "Opens the band management menu which allows you to hire new members or fire current ones"
     | RehearsalRoomStatistics -> "Statistics"
@@ -261,142 +279,115 @@ and fromConstant constant =
     | ComposePrompt -> "What do you want to compose?"
     | ComposeSong -> "Compose new song"
     | ComposeSongTitlePrompt ->
-        "Creating a new song, how are you going to [bold blue]name[/] it?"
+        $"""Creating a new song, how are you going to {TextStyles.highlight "name"} it?"""
     | ComposeSongLengthPrompt ->
-        "How [bold blue]long[/] is it going to be? (format [bold]minutes:seconds[/])"
+        $"""How {TextStyles.highlight "long"} is it going to be? (format {TextStyles.information "minutes:seconds"})"""
     | ComposeSongGenrePrompt ->
-        "What [bold blue]genre[/] will the song have? [bold]Keep in mind that selecting a different genre that the main one of your band might reduce quality[/]"
+        $"""What {TextStyles.highlight "genre"} will the song have? Keep in mind that selecting a different genre that the main one of your band might reduce quality"""
     | ComposeSongVocalStylePrompt ->
-        "What [bold blue]vocal style[/] should it have?"
+        $"""What {TextStyles.highlight "vocal style"} should it have?"""
     | ComposeSongConfirmation title ->
-        String.Format(
-            "[green]Your band has started working on the song \"{0}\"[/]. [blue]You can finish or improve it through the compose section in the rehearsal room[/]",
-            title
-        )
+        TextStyles.success
+            $"""Your band has started working on the song "{title}". You can finish or improve it through the compose section in the rehearsal room"""
     | ComposeSongErrorNameTooShort ->
-        "[red]The name of the song is too short[/]"
-    | ComposeSongErrorNameTooLong -> "[red]The name of the song is too long[/]"
+        TextStyles.error "The name of the song is too short"
+    | ComposeSongErrorNameTooLong ->
+        TextStyles.error "The name of the song is too long"
     | ComposeSongErrorLengthTooShort ->
-        "[red]Songs can't be less than 20 seconds long[/]"
+        TextStyles.error "Songs can't be less than 20 seconds long"
     | ComposeSongErrorLengthTooLong ->
-        "[red]Songs can't be more than 30 minutes long[/]"
-    | ComposeSongProgressBrainstorming -> "[deepskyblue3]Brainstorming...[/]"
+        TextStyles.error "Songs can't be more than 30 minutes long"
+    | ComposeSongProgressBrainstorming -> TextStyles.progress "Brainstorming..."
     | ComposeSongProgressConfiguringReverb ->
-        "[deepskyblue3_1]Configuring reverb...[/]"
+        TextStyles.progress "Configuring reverb..."
     | ComposeSongProgressTryingChords ->
-        "[dodgerblue1]Trying out some chords...[/]"
+        TextStyles.progress "Trying out some chords..."
     | ImproveSong -> "Improve an unfinished song"
     | ImproveSongSelection -> "Which song do you want to improve?"
     | ImproveSongCanBeFurtherImproved (previousQuality, currentQuality) ->
-        String.Format(
-            "[green]You've improved the song. It improved from {0}% to {1}%[/]",
-            previousQuality,
-            currentQuality
-        )
+        TextStyles.success
+            $"You've improved the song. It improved from {previousQuality} to {currentQuality}"
     | ImproveSongReachedMaxQuality ->
-        "[springgreen4]Your band has decided that the song does not need any further improvements[/]. [blue]You can add it to the band's repertoire from the 'Finish an unfinished song' option[/]"
+        TextStyles.success
+            "Your band has decided that the song does not need any further improvements. You can add it to the band's repertoire from the 'Finish an unfinished song' option"
     | ImproveSongProgressAddingSomeMelodies ->
-        "[springgreen3_1]Adding some melodies...[/]"
+        TextStyles.progress "Adding some melodies..."
     | ImproveSongProgressPlayingFoosball ->
-        "[springgreen2_1]Playing foosball...[/]"
+        TextStyles.progress "Playing foosball..."
     | ImproveSongProgressModifyingChordsFromAnotherSong ->
-        "[springgreen1][strikethrough]Copying[/] Modifying chords from another song[/]"
+        TextStyles.progress
+            $"""{TextStyles.crossed "Copying"} Modifying chords from another song"""
     | FinishSong -> "Finish an unfinished song"
     | FinishSongSelection ->
-        "Which song do you want to finish? [red]You won't be able to improve the song after this[/]"
+        $"""Which song do you want to finish? {TextStyles.danger "You won't be able to improve the song after this"}"""
     | FinishSongFinished (name, quality) ->
-        String.Format(
-            "[green]Your band finished the song \"{0}\". The result quality is {1}%[/]",
-            name,
-            quality
-        )
+        TextStyles.success
+            $"""Your band finished the song "{name}". The result quality is {quality}"""
     | DiscardSong -> "Discard an unfinished song"
-    | DiscardSongSelection -> "[red]Which song do you want to discard?[/]"
+    | DiscardSongSelection ->
+        TextStyles.danger "Which song do you want to discard?"
     | DiscardSongDiscarded name ->
-        String.Format("[red]Your band decided to stop working on {0}[/]", name)
+        TextStyles.error $"Your band decided to stop working on {name}"
     | PracticeSong -> "Practice a finished song"
+    | HireMemberRolePrompt -> "What role are you looking to hire?"
+    | HireMemberSkillSummary (name, gender) ->
+        $"{TextStyles.highlight name} is interested in joining your band. {subjectPronounForGender gender} {verbConjugationForGender Have gender
+                                                                                                            |> String.lowercase} the following skills:"
+    | HireMemberSkillLine (id, level) ->
+        $"{TextStyles.highlight (skillName id)} - {TextStyles.level level}"
+    | HireMemberConfirmation gender ->
+        $"Do you want to hire {objectPronounForGender gender}?"
+    | HireMemberHired -> TextStyles.success "You just hired a new member!"
+    | HireMemberContinueConfirmation ->
+        "Do you want to continue looking for members?"
+    | FireMemberListItem (name, role) -> $"{name} ({instrumentName role})"
+    | FireMemberNoMembersToFire ->
+        TextStyles.error
+            "You are the only member of the band, you can't fire yourself!"
+    | FireMemberPrompt -> $"""Who do you want to {TextStyles.danger "fire"}?"""
+    | FireMemberConfirmation name ->
+        TextStyles.danger $"Are you sure you want to fire {name}?"
+    | FireMemberConfirmed name -> TextStyles.danger $"You fired {name}"
+    | MemberListCurrentTitle -> TextStyles.title "Current members"
+    | MemberListCurrentMember (name, role, since) ->
+        $"{name} ({instrumentName role}) since {since.Year}"
+    | MemberListPastTitle -> TextStyles.title "Past members"
+    | MemberListPastMember (name, role, since, until) ->
+        $"{name} ({instrumentName role}) from {since.Year} until {until.Year}"
     | ManagementTitle -> "Management"
     | ManagementPrompt -> "What do you want to to?"
     | ManagementHireMember -> "Hire a new member"
     | ManagementFireMember -> "Fire a member"
     | ManagementMemberList -> "List members"
-    | HireMemberRolePrompt -> "What role are you looking to hire?"
-    | HireMemberSkillSummary (name, gender) ->
-        String.Format(
-            "[bold blue]{0}[/] is interested in joining your band. {1} {2} the following skills:",
-            name,
-            subjectPronounForGender gender,
-            (verbConjugationForGender Have gender).ToLower()
-        )
-    | HireMemberSkillLine (id, level) ->
-        String.Format(
-            "[bold]{0}[/] - [{1}]{2}[/]",
-            skillName id,
-            colorForLevel level,
-            level
-        )
-    | HireMemberConfirmation gender ->
-        String.Format("Do you want to hire {0}?", objectPronounForGender gender)
-    | HireMemberHired -> "[bold green]You just hired a new member![/]"
-    | HireMemberContinueConfirmation ->
-        "Do you want to continue looking for members?"
-    | FireMemberListItem (name, role) ->
-        String.Format("{0} ({1})", name, instrumentName role)
-    | FireMemberNoMembersToFire ->
-        "[red]You are the only member of the band, you can't fire yourself![/]"
-    | FireMemberPrompt -> "Who do you want to [bold red]fire[/]?"
-    | FireMemberConfirmation name ->
-        String.Format("Are you sure you want to [bold red]fire[/] {0}?", name)
-    | FireMemberConfirmed name ->
-        String.Format("You [bold red]fired[/] {0}", name)
-    | MemberListCurrentTitle -> "[bold underline]Current members[/]"
-    | MemberListCurrentMember (name, role, since) ->
-        String.Format(
-            "{0} ({1}) since {2}",
-            name,
-            instrumentName role,
-            since.Year
-        )
-    | MemberListPastTitle -> "[bold underline]Past members[/]"
-    | MemberListPastMember (name, role, since, until) ->
-        String.Format(
-            "{0} ({1}) from {2} until {3}",
-            name,
-            instrumentName role,
-            since.Year,
-            until.Year
-        )
-    | BankTitle -> "Bank"
-    | BankWelcome (characterBalance, bandBalance) ->
-        sprintf
-            "[bold blue]You[/] currently have [green]%sd$[/]. [bold blue]Your band[/] has: [green]%sd$[/]"
-            (formatNumber characterBalance)
-            (formatNumber bandBalance)
-    | BankPrompt -> "What do you want to do?"
-    | BankTransferToBand -> "Transfer money to band"
-    | BankTransferFromBand -> "Transfer money from band"
-    | BankTransferAmount holder ->
-        match holder with
-        | Character _ -> "How much do you want to transfer to your band?"
-        | Band _ -> "How much do you want to transfer from your band?"
-    | BankTransferSuccess (holder, transaction) ->
-        match transaction with
-        | Incoming (amount, _) ->
-            sprintf
-                "[bold green]Transferred %sd$ to %s's account[/]"
-                (formatNumber amount)
-                (accountHolderName holder)
-        | Outgoing (amount, _) ->
-            sprintf
-                "[bold red]Transferred %sd$ from %s's account[/]"
-                (formatNumber amount)
-                (accountHolderName holder)
-    | BankTransferNotEnoughFunds ->
-        "[bold red]Not enough funds in the sender account[/]"
+
+and statisticsText key =
+    match key with
+    | StatisticsTitle -> "Statistics"
+    | StatisticsSectionPrompt ->
+        $"""{TextStyles.prompt "What data do you want to visualize?"}"""
+    | StatisticsSectionBand -> "Band's statistics"
+    | StatisticsSectionAlbums -> "Albums' statistics"
+    | StatisticsBandName name -> TextStyles.title name
+    | StatisticsBandStartDate date ->
+        $"Playing since {TextStyles.highlight date.Year}"
+    | StatisticsBandFame fame -> $"Fame: {TextStyles.level fame}"
+    | StatisticsAlbumNoEntries -> "No albums released yet"
+    | StatisticsAlbumName (name, albumT) ->
+        TextStyles.information $"{name} ({TextStyles.faded (albumType albumT)})"
+    | StatisticsAlbumReleaseDate date ->
+        TextStyles.highlight "Released on "
+        + TextStyles.highlight $"{date.Day}/{date.Month}/{date.Year}"
+    | StatisticsAlbumStreams streams ->
+        $"Streams so far: {TextStyles.highlight (formatNumber streams)}"
+    | StatisticsAlbumRevenue revenue ->
+        $"Generated revenue: {TextStyles.money revenue}"
+
+and studioText key =
+    match key with
     | StudioCommonAlbumReleased name ->
-        sprintf "[bold green]Your band just released %s![/]" name
+        TextStyles.success $"Your band just released {name}!"
     | StudioCommonPromptReleaseAlbum name ->
-        sprintf "Do you want to release [blue bold]%s[/]?" name
+        $"""Do you want to release {TextStyles.highlight name}?"""
     | StudioMasteringRoomName -> "Mastering room"
     | StudioMasteringRoomDescription studio ->
         $"""You are in the mastering room, where the producer, {TextStyles.person studio.Producer.Name} sits in front of a computer and a bunch of knobs."""
@@ -409,28 +400,29 @@ and fromConstant constant =
     | StudioTalkContinueRecord ->
         "Let me continue with an album I previously recorded"
     | StudioCreateNoSongs ->
-        "[bold red]You don't have any finished song to record. Create some songs first and finish them in the rehearsal room[/]"
+        TextStyles.error
+            "You don't have any finished song to record. Create some songs first and finish them in the rehearsal room"
     | StudioCreateRecordName ->
-        "What's going to be the [bold blue]name[/] of the record?"
+        $"""What's going to be the {TextStyles.highlight "name"} of the record?"""
     | StudioCreateTrackListPrompt ->
-        "Select what [bold blue]songs[/] will be on the [bold blue]track list[/]. You can select multiple. The order in which you select them will be the order in which they'll appear in the album"
+        $"""Select what {TextStyles.highlight "songs"} will be on the {TextStyles.highlight "track-list"}. You can select multiple. The order in which you select them will be the order in which they'll appear in the album"""
     | StudioConfirmRecordingPrompt (name, albumRecordType) ->
         $"""Are you sure you want to record {TextStyles.album name}? Given its track-list it will be released as a {TextStyles.information (albumType albumRecordType)}"""
     | StudioCreateErrorNameTooShort ->
-        "[bold red]The name of the album is too short[/]"
+        TextStyles.error "The name of the album is too short"
     | StudioCreateErrorNameTooLong ->
-        "[bold red]The name of the album is too long[/]"
+        TextStyles.error "The name of the album is too long"
     | StudioCreateErrorNotEnoughMoney studioBill ->
-        sprintf
-            "[bold red]Your band doesn't have enough money to pay the studio fee. The studio is asking for %sd$, but you don't have enough money on the band's account. Check the Bank app on your phone to transfer money to your band's account[/]"
-            (formatNumber studioBill)
+        TextStyles.error
+            $"""Your band doesn't have enough money to pay the studio fee. The studio is asking for {TextStyles.money studioBill}, but you don't have enough money on the band's account. Check the Bank app on your phone to transfer money to your band's account"""
     | StudioCreateAlbumRecorded albumName ->
-        sprintf "[bold green]Your band just finished recording %s![/]" albumName
-    | StudioCreateProgressEatingSnacks -> "[deepskyblue3]Eating some snacks[/]"
+        TextStyles.success $"Your band just finished recording {albumName}!"
+    | StudioCreateProgressEatingSnacks ->
+        TextStyles.progress "Eating some snacks"
     | StudioCreateProgressRecordingWeirdSounds ->
-        "[deepskyblue3_1]Recording weird sounds[/]"
+        TextStyles.progress "Recording weird sounds"
     | StudioCreateProgressMovingKnobs ->
-        "[dodgerblue1]Moving knobs up and down[/]"
+        TextStyles.progress "Moving knobs up and down"
     | StudioContinueRecordPrompt ->
         "Which record do you want to continue working on?"
     | StudioContinueRecordActionPrompt ->
@@ -438,24 +430,23 @@ and fromConstant constant =
     | StudioContinueRecordActionPromptEditName -> "Edit name"
     | StudioContinueRecordActionPromptRelease -> "Release"
     | StudioContinueRecordAlbumRenamed albumName ->
-        sprintf "[bold green]The album was renamed to \"%s\"[/]" albumName
-    | StatisticsTitle -> "Statistics"
-    | StatisticsSectionPrompt ->
-        $"""{TextStyles.prompt "What data do you want to visualize?"}"""
-    | StatisticsSectionBand -> "Band's statistics"
-    | StatisticsSectionAlbums -> "Albums' statistics"
-    | StatisticsBandName name -> $"[bold invert]{name}[/]"
-    | StatisticsBandStartDate date -> $"Playing since [bold blue]{date.Year}[/]"
-    | StatisticsBandFame fame -> $"Fame: [bold green]{fame}[/]"
-    | StatisticsAlbumNoEntries -> "No albums released yet"
-    | StatisticsAlbumName (name, albumT) ->
-        $"[bold invert]{name}[/] [dim]({albumType albumT})[/]"
-    | StatisticsAlbumReleaseDate date ->
-        $"Released on [bold blue]{date.Day}/{date.Month}/{date.Year}[/]"
-    | StatisticsAlbumStreams streams ->
-        $"Streams so far: [bold blue]{formatNumber streams}[/]"
-    | StatisticsAlbumRevenue revenue ->
-        $"Generated revenue: [bold blue]{formatNumber revenue}d$[/]"
+        TextStyles.success $"""The album was renamed to "{albumName}"""
+
+and worldText key =
+    match key with
+    | WorldTitle -> "World"
     | StreetBoringDescription name ->
         $"{TextStyles.place name} is just a boring old street with not much to do."
-    | PhonePrompt -> $"""{TextStyles.prompt "DuetsPhone v1.0"}"""
+
+and fromConstant textNamespace =
+    match textNamespace with
+    | BankText key -> bankText key
+    | CommandText key -> commandText key
+    | CommonText key -> commonText key
+    | CreatorText key -> creatorText key
+    | MainMenuText key -> mainMenuText key
+    | PhoneText key -> phoneText key
+    | RehearsalSpaceText key -> rehearsalText key
+    | StatisticsText key -> statisticsText key
+    | StudioText key -> studioText key
+    | WorldText key -> worldText key

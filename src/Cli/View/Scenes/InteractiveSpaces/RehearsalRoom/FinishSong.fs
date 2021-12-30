@@ -2,7 +2,7 @@ module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.FinishSong
 
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.TextConstants
+open Cli.View.Text
 open Entities
 open Simulation.Queries
 open Simulation.Songs.Composition.FinishSong
@@ -17,7 +17,8 @@ let rec finishSongSubScene () =
     seq {
         yield
             Prompt
-                { Title = TextConstant FinishSongSelection
+                { Title =
+                      I18n.translate (RehearsalSpaceText FinishSongSelection)
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
@@ -26,7 +27,7 @@ let rec finishSongSubScene () =
                                 worldOptionalChoiceHandler (
                                     processSongSelection currentBand
                                 )
-                            BackText = TextConstant CommonCancel } }
+                            BackText = I18n.translate (CommonText CommonCancel) } }
     }
 
 and processSongSelection band selection =
@@ -42,7 +43,8 @@ and processSongSelection band selection =
 
         yield
             FinishSongFinished(song.Name, quality)
-            |> TextConstant
+            |> RehearsalSpaceText
+            |> I18n.translate
             |> Message
 
         yield Scene Scene.World

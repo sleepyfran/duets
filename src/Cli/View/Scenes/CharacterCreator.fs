@@ -1,22 +1,23 @@
 module Cli.View.Scenes.CharacterCreator
 
 open Cli.View.Actions
-open Cli.View.TextConstants
+open Cli.View.Text
 open Entities
 
 let genderOptions =
     [ { Id = "Male"
-        Text = TextConstant CharacterCreatorGenderMale }
+        Text = I18n.translate (CreatorText CharacterCreatorGenderMale) }
       { Id = "Female"
-        Text = TextConstant CharacterCreatorGenderFemale }
+        Text = I18n.translate (CreatorText CharacterCreatorGenderFemale) }
       { Id = "Other"
-        Text = TextConstant CharacterCreatorGenderOther } ]
+        Text = I18n.translate (CreatorText CharacterCreatorGenderOther) } ]
 
 let rec characterCreator () =
     seq {
         yield
             Prompt
-                { Title = TextConstant CharacterCreatorInitialPrompt
+                { Title =
+                      I18n.translate (CreatorText CharacterCreatorInitialPrompt)
                   Content = TextPrompt genderPrompt }
     }
 
@@ -24,7 +25,8 @@ and genderPrompt name =
     seq {
         yield
             Prompt
-                { Title = TextConstant CharacterCreatorGenderPrompt
+                { Title =
+                      I18n.translate (CreatorText CharacterCreatorGenderPrompt)
                   Content =
                       ChoicePrompt
                       <| MandatoryChoiceHandler
@@ -36,7 +38,7 @@ and agePrompt name choice =
     seq {
         yield
             Prompt
-                { Title = TextConstant CharacterCreatorAgePrompt
+                { Title = I18n.translate (CreatorText CharacterCreatorAgePrompt)
                   Content = NumberPrompt <| handleCharacter name choice.Id }
     }
 
@@ -49,32 +51,38 @@ and handleCharacter name genderChoiceId age =
         | Error Character.NameTooShort ->
             yield!
                 seq {
-                    Message
-                    <| TextConstant CreatorErrorCharacterNameTooShort
+                    I18n.translate (
+                        CreatorText CreatorErrorCharacterNameTooShort
+                    )
+                    |> Message
 
                     Scene CharacterCreator
                 }
         | Error Character.NameTooLong ->
             yield!
                 seq {
-                    Message
-                    <| TextConstant CreatorErrorCharacterNameTooLong
+                    I18n.translate (
+                        CreatorText CreatorErrorCharacterNameTooLong
+                    )
+                    |> Message
 
                     Scene CharacterCreator
                 }
         | Error Character.AgeTooYoung ->
             yield!
                 seq {
-                    Message
-                    <| TextConstant CreatorErrorCharacterAgeTooYoung
+                    I18n.translate (
+                        CreatorText CreatorErrorCharacterAgeTooYoung
+                    )
+                    |> Message
 
                     yield! genderPrompt name
                 }
         | Error Character.AgeTooOld ->
             yield!
                 seq {
-                    Message
-                    <| TextConstant CreatorErrorCharacterAgeTooOld
+                    I18n.translate (CreatorText CreatorErrorCharacterAgeTooOld)
+                    |> Message
 
                     yield! genderPrompt name
                 }

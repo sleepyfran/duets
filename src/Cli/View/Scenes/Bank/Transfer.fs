@@ -1,7 +1,7 @@
 module Cli.View.Scenes.Bank.Transfer
 
 open Cli.View.Actions
-open Cli.View.TextConstants
+open Cli.View.Text
 open Entities
 open Simulation.Bank.Operations
 
@@ -11,7 +11,10 @@ let rec transferSubScene sender receiver =
     seq {
         yield
             Prompt
-                { Title = TextConstant <| BankTransferAmount receiver
+                { Title =
+                      BankTransferAmount receiver
+                      |> BankText
+                      |> I18n.translate
                   Content = NumberPrompt(handleAmount sender receiver) }
     }
 
@@ -28,6 +31,9 @@ and handleAmount sender receiver amount =
             }
         | Error (NotEnoughFunds _) ->
             seq {
-                yield Message <| TextConstant BankTransferNotEnoughFunds
+                yield
+                    I18n.translate (BankText BankTransferNotEnoughFunds)
+                    |> Message
+
                 yield Scene Bank
             }

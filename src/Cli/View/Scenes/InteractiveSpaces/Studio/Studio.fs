@@ -1,26 +1,28 @@
 module Cli.View.Scenes.Studio.Root
 
 open Cli.View.Commands
-open Cli.View.TextConstants
+open Cli.View.Text
 open Entities
 open Simulation.Queries
 
 let getPlaceName room =
     match room with
-    | MasteringRoom studio -> Literal studio.Name
-    | RecordingRoom studio -> Literal studio.Name
+    | MasteringRoom studio -> I18n.constant studio.Name
+    | RecordingRoom studio -> I18n.constant studio.Name
 
 let getRoomName room =
     match room with
-    | MasteringRoom _ -> TextConstant StudioMasteringRoomName
-    | RecordingRoom _ -> TextConstant StudioRecordingRoomName
+    | MasteringRoom _ -> I18n.translate (StudioText StudioMasteringRoomName)
+    | RecordingRoom _ -> I18n.translate (StudioText StudioRecordingRoomName)
 
 let getRoomDescription room =
     match room with
     | MasteringRoom studio ->
-        TextConstant
-        <| StudioMasteringRoomDescription studio
-    | RecordingRoom _ -> TextConstant StudioRecordingRoomDescription
+        StudioMasteringRoomDescription studio
+        |> StudioText
+        |> I18n.translate
+    | RecordingRoom _ ->
+        I18n.translate (StudioText StudioRecordingRoomDescription)
 
 let getRoomObjects _ = []
 
@@ -36,11 +38,11 @@ let getRoomCommands room =
     match room with
     | MasteringRoom studio ->
         let createRecordOption =
-            (TextConstant StudioTalkCreateRecord,
+            (I18n.translate (StudioText StudioTalkCreateRecord),
              CreateRecord.createRecordSubscene studio)
 
         let continueRecordOption =
-            (TextConstant StudioTalkContinueRecord,
+            (I18n.translate (StudioText StudioTalkContinueRecord),
              ContinueRecord.continueRecordSubscene studio)
 
         [ TalkCommand.create [ { Npc = studio.Producer
@@ -49,7 +51,8 @@ let getRoomCommands room =
                                          studio.Name,
                                          studio.PricePerSong
                                      )
-                                     |> TextConstant
+                                     |> StudioText
+                                     |> I18n.translate
                                  Options =
                                      [ yield createRecordOption
                                        if hasUnreleasedAlbums then

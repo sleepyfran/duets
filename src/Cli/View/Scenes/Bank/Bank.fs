@@ -3,15 +3,15 @@ module Cli.View.Scenes.Bank.Root
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Scenes.Bank
-open Cli.View.TextConstants
+open Cli.View.Text
 open Entities
 open Simulation.Queries
 
 let rehearsalOptions =
     [ { Id = "transfer_to_band"
-        Text = TextConstant BankTransferToBand }
+        Text = I18n.translate (BankText BankTransferToBand) }
       { Id = "transfer_from_band"
-        Text = TextConstant BankTransferFromBand } ]
+        Text = I18n.translate (BankText BankTransferFromBand) } ]
 
 /// Creates the bank scene which allows to transfer money between accounts.
 let rec bankScene () =
@@ -33,12 +33,13 @@ let rec bankScene () =
     seq {
         yield
             BankWelcome(characterBalance, bandBalance)
-            |> TextConstant
+            |> BankText
+            |> I18n.translate
             |> Message
 
         yield
             Prompt
-                { Title = TextConstant BankPrompt
+                { Title = I18n.translate (BankText BankPrompt)
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
@@ -46,7 +47,7 @@ let rec bankScene () =
                             Handler =
                                 phoneOptionalChoiceHandler
                                 <| processSelection characterAccount bandAccount
-                            BackText = TextConstant CommonBackToPhone } }
+                            BackText = I18n.translate (CommonText CommonBack) } }
     }
 
 and processSelection characterAccount bandAccount choice =

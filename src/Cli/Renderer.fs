@@ -1,7 +1,7 @@
 module Cli.View.Renderer
 
 open Cli.View.Actions
-open Cli.View.TextConstants
+open Cli.View.Text
 open Common
 open Entities
 open Spectre.Console
@@ -27,7 +27,8 @@ let renderChoicePrompt title (choices: Choice list) =
 let renderSelection choice =
     toString choice.Text
     |> CommonChoiceSelection
-    |> TextConstant
+    |> CommonText
+    |> I18n.translate
     |> renderMessage
 
 let renderConfirmationPrompt title = AnsiConsole.Confirm(toString title)
@@ -49,12 +50,12 @@ let renderMultiChoicePrompt title (content: MultiChoiceHandler) =
     multiSelectionPrompt.Title <- toString title
 
     multiSelectionPrompt.MoreChoicesText <-
-        toString
-        <| TextConstant CommonMultiChoiceMoreChoices
+        I18n.translate (CommonText CommonMultiChoiceMoreChoices)
+        |> toString
 
     multiSelectionPrompt.InstructionsText <-
-        toString
-        <| TextConstant CommonMultiChoiceInstructions
+        I18n.translate (CommonText CommonMultiChoiceInstructions)
+        |> toString
 
     multiSelectionPrompt.Required <- true
     multiSelectionPrompt.PageSize <- 10
@@ -74,7 +75,10 @@ let renderLengthPrompt title =
         match Time.Length.parse length with
         | Ok _ -> ValidationResult.Success()
         | Error _ ->
-            ValidationResult.Error(toString <| TextConstant CommonInvalidLength)
+            ValidationResult.Error(
+                I18n.translate (CommonText CommonInvalidLength)
+                |> toString
+            )
 
     lengthPrompt.Validator <- Func.toFunc validate
 

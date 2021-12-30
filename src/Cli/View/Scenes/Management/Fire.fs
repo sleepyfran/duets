@@ -2,7 +2,7 @@ module Cli.View.Scenes.Management.Fire
 
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.TextConstants
+open Cli.View.Text
 open Common
 open Entities
 open Simulation.Queries
@@ -19,17 +19,22 @@ let rec fireSubScene () =
 
                 { Id = id.ToString()
                   Text =
-                      TextConstant
-                      <| FireMemberListItem(m.Character.Name, m.Role) })
+                      FireMemberListItem(m.Character.Name, m.Role)
+                      |> RehearsalSpaceText
+                      |> I18n.translate })
 
     seq {
         if memberOptions.Length = 0 then
-            yield Message <| TextConstant FireMemberNoMembersToFire
+            yield
+                Message
+                <| I18n.translate (RehearsalSpaceText FireMemberNoMembersToFire)
+
             yield Scene Management
         else
             yield
                 Prompt
-                    { Title = TextConstant FireMemberPrompt
+                    { Title =
+                          I18n.translate (RehearsalSpaceText FireMemberPrompt)
                       Content =
                           ChoicePrompt
                           <| OptionalChoiceHandler
@@ -39,7 +44,8 @@ let rec fireSubScene () =
                                         Scene Management
                                     )
                                     <| confirmFiring
-                                BackText = TextConstant CommonCancel } }
+                                BackText =
+                                    I18n.translate (CommonText CommonCancel) } }
     }
 
 and confirmFiring selectedMember =
@@ -52,8 +58,9 @@ and confirmFiring selectedMember =
         yield
             Prompt
                 { Title =
-                      TextConstant
-                      <| FireMemberConfirmation memberToFire.Character.Name
+                      FireMemberConfirmation memberToFire.Character.Name
+                      |> RehearsalSpaceText
+                      |> I18n.translate
                   Content =
                       ConfirmationPrompt(handleConfirmation band memberToFire) }
     }
@@ -70,7 +77,8 @@ and handleConfirmation band memberToFire confirmed =
 
             yield
                 FireMemberConfirmed memberToFire.Character.Name
-                |> TextConstant
+                |> RehearsalSpaceText
+                |> I18n.translate
                 |> Message
 
             yield Scene Management

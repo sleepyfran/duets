@@ -2,7 +2,7 @@ module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.DiscardSong
 
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.TextConstants
+open Cli.View.Text
 open Entities
 open Simulation.Queries
 open Simulation.Songs.Composition.DiscardSong
@@ -18,7 +18,8 @@ let rec discardSongSubScene () =
     seq {
         yield
             Prompt
-                { Title = TextConstant DiscardSongSelection
+                { Title =
+                      I18n.translate (RehearsalSpaceText DiscardSongSelection)
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
@@ -27,7 +28,7 @@ let rec discardSongSubScene () =
                                 worldOptionalChoiceHandler (
                                     processSongSelection currentBand
                                 )
-                            BackText = TextConstant CommonCancel } }
+                            BackText = I18n.translate (CommonText CommonCancel) } }
     }
 
 and processSongSelection band selection =
@@ -44,7 +45,8 @@ and processSongSelection band selection =
 
         yield
             DiscardSongDiscarded discardedSong.Name
-            |> TextConstant
+            |> RehearsalSpaceText
+            |> I18n.translate
             |> Message
 
         yield Scene Scene.World

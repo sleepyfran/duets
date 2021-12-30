@@ -1,7 +1,7 @@
 module Cli.View.Scenes.Statistics.Albums
 
 open Cli.View.Actions
-open Cli.View.TextConstants
+open Cli.View.Text
 open Simulation.Queries
 
 let albumsStatisticsSubScene () =
@@ -11,7 +11,9 @@ let albumsStatisticsSubScene () =
 
     seq {
         if releases.IsEmpty then
-            yield Message <| TextConstant StatisticsAlbumNoEntries
+            yield
+                Message
+                <| I18n.translate (StatisticsText StatisticsAlbumNoEntries)
         else
             yield!
                 releases
@@ -28,23 +30,27 @@ let albumsStatisticsSubScene () =
                                     innerAlbum.Name,
                                     innerAlbum.Type
                                 )
-                                |> TextConstant
+                                |> StatisticsText
+                                |> I18n.translate
                                 |> Message
 
                             yield
                                 StatisticsAlbumReleaseDate
                                     releasedAlbum.ReleaseDate
-                                |> TextConstant
+                                |> StatisticsText
+                                |> I18n.translate
                                 |> Message
 
                             yield
                                 StatisticsAlbumStreams releasedAlbum.Streams
-                                |> TextConstant
+                                |> StatisticsText
+                                |> I18n.translate
                                 |> Message
 
                             yield
                                 StatisticsAlbumRevenue revenue
-                                |> TextConstant
+                                |> StatisticsText
+                                |> I18n.translate
                                 |> Message
                         })
                 |> Seq.concat

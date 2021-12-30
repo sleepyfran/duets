@@ -2,29 +2,29 @@ module Cli.View.Scenes.Management.Root
 
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.TextConstants
+open Cli.View.Text
 
 let managementOptions =
     [ { Id = "hire"
-        Text = TextConstant ManagementHireMember }
+        Text = I18n.translate (RehearsalSpaceText ManagementHireMember) }
       { Id = "fire"
-        Text = TextConstant ManagementFireMember }
+        Text = I18n.translate (RehearsalSpaceText ManagementFireMember) }
       { Id = "members"
-        Text = TextConstant ManagementMemberList } ]
+        Text = I18n.translate (RehearsalSpaceText ManagementMemberList) } ]
 
 /// Creates the management menu which allows to hire and fire members.
 let rec managementScene () =
     seq {
         yield
             Prompt
-                { Title = TextConstant ManagementPrompt
+                { Title = I18n.translate (RehearsalSpaceText ManagementPrompt)
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
                           { Choices = managementOptions
                             Handler =
                                 worldOptionalChoiceHandler (processSelection)
-                            BackText = TextConstant CommonCancel } }
+                            BackText = I18n.translate (CommonText CommonCancel) } }
     }
 
 and processSelection choice =

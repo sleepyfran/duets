@@ -2,14 +2,16 @@ module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.Root
 
 open Cli.View.Actions
 open Cli.View.Scenes.InteractiveSpaces
-open Cli.View.TextConstants
+open Cli.View.Text
 open Entities
 open Simulation.Queries.Bands
 
 let private instrumentFromType instrumentType =
     let create fn =
         fn
-            (TextConstant RehearsalRoomInstrumentPlayDescription)
+            (I18n.translate (
+                RehearsalSpaceText RehearsalRoomInstrumentPlayDescription
+            ))
             (seq { yield! Compose.composeSubScene () })
 
     match instrumentType with
@@ -26,15 +28,20 @@ let getPlaceName room =
 
 let getRoomName room =
     match room with
-    | Lobby _ -> TextConstant RehearsalSpaceLobbyName
-    | Bar _ -> TextConstant RehearsalSpaceBarName
-    | RehearsalRoom _ -> TextConstant RehearsalSpaceRehearsalRoomName
+    | Lobby _ -> I18n.translate (RehearsalSpaceText RehearsalSpaceLobbyName)
+    | Bar _ -> I18n.translate (RehearsalSpaceText RehearsalSpaceBarName)
+    | RehearsalRoom _ ->
+        I18n.translate (RehearsalSpaceText RehearsalSpaceRehearsalRoomName)
 
 let getRoomDescription room =
     match room with
-    | Lobby _ -> TextConstant RehearsalSpaceLobbyDescription
-    | Bar _ -> TextConstant RehearsalSpaceBarDescription
-    | RehearsalRoom _ -> TextConstant RehearsalSpaceRehearsalRoomDescription
+    | Lobby _ ->
+        I18n.translate (RehearsalSpaceText RehearsalSpaceLobbyDescription)
+    | Bar _ -> I18n.translate (RehearsalSpaceText RehearsalSpaceBarDescription)
+    | RehearsalRoom _ ->
+        I18n.translate (
+            RehearsalSpaceText RehearsalSpaceRehearsalRoomDescription
+        )
 
 let getRoomObjects room =
     let state = State.Root.get ()
@@ -55,6 +62,9 @@ let getRoomCommands room =
     | Bar _ -> []
     | RehearsalRoom _ ->
         [ { Name = "manage"
-            Description = TextConstant RehearsalRoomManageDescription
+            Description =
+                I18n.translate (
+                    RehearsalSpaceText RehearsalRoomManageDescription
+                )
             Handler =
                 HandlerWithNavigation(fun _ -> seq { Scene Scene.Management }) } ]

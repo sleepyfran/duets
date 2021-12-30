@@ -1,7 +1,7 @@
 namespace Cli.View.Commands
 
 open Cli.View.Actions
-open Cli.View.TextConstants
+open Cli.View.Text
 open Entities
 open Simulation
 
@@ -26,8 +26,9 @@ module DirectionsCommand =
 
                 { Name = commandName
                   Description =
-                      TextConstant
-                      <| CommandDirectionDescription direction
+                      CommandDirectionDescription direction
+                      |> CommandText
+                      |> I18n.translate
                   Handler =
                       HandlerWithNavigation
                           (fun _ ->

@@ -1,4 +1,4 @@
-module Cli.View.TextConstants
+module Cli.View.Text
 
 open Entities
 
@@ -8,39 +8,20 @@ open Entities
 /// gender then it should be they have.
 type VariableVerbs = | Have
 
-/// Defines all the text constants available in the application. Since this
-/// might change between each UI layer (might need custom styling, etc.) the
-/// Game layer simply exports these as a type that gets evaluated in each UI.
-/// All types must have the screen they belong to (if any) prepended to its name.
-type TextConstant =
-    | GameName
-    | CommonYouAreIn of place: string
-    | CommonChoiceSelection of selection: string
-    | CommonMultiChoiceMoreChoices
-    | CommonMultiChoiceInstructions
-    | CommonNoUnfinishedSongs
-    | CommonSkills
-    | CommonCancel
-    | CommonBack
-    | CommonBackToMainMenu
-    | CommonBackToMap
-    | CommonBackToPhone
-    | CommonBackToWorld
-    | CommonCommandPrompt
-    | CommonPressKeyToContinue
-    | CommonSkillImproved of
-        characterName: string *
-        characterGender: Gender *
-        skill: Skill *
-        previousLevel: int *
-        currentLevel: int
-    | CommonStatusBar of
-        date: Date *
-        dayMoment: DayMoment *
-        characterBalance: Amount *
-        bandBalance: Amount
-    | CommonInvalidLength
-    | CommonInvalidCommand
+type BankText =
+    | BankTitle
+    | BankWelcome of characterBalance: Amount * bandBalance: Amount
+    | BankPrompt
+    | BankTransferToBand
+    | BankTransferFromBand
+    | BankTransferAmount of holder: BankAccountHolder
+    | BankTransferSuccess of
+        holder: BankAccountHolder *
+        transaction: BankTransaction
+    | BankTransferNotEnoughFunds
+
+and CommandText =
+    | CommandCommonPrompt
     | CommandHelpDescription
     | CommandHelpEntry of string * Text
     | CommandDirectionDescription of direction: Direction
@@ -56,12 +37,32 @@ type TextConstant =
     | CommandTalkDescription
     | CommandTalkNpcNotFound of name: string
     | CommandTalkNothing
-    | MainMenuIncompatibleSavegame
-    | MainMenuPrompt
-    | MainMenuNewGame
-    | MainMenuLoadGame
-    | MainMenuExit
-    | MainMenuSavegameNotAvailable
+
+and CommonText =
+    | GameName
+    | CommonYouAreIn of place: string
+    | CommonChoiceSelection of selection: string
+    | CommonMultiChoiceMoreChoices
+    | CommonMultiChoiceInstructions
+    | CommonNoUnfinishedSongs
+    | CommonSkills
+    | CommonCancel
+    | CommonBack
+    | CommonBackToMainMenu
+    | CommonBackToMap
+    | CommonBackToPhone
+    | CommonBackToWorld
+    | CommonPressKeyToContinue
+    | CommonSkillImproved of
+        characterName: string *
+        characterGender: Gender *
+        skill: Skill *
+        previousLevel: int *
+        currentLevel: int
+    | CommonInvalidLength
+    | CommonInvalidCommand
+
+and CreatorText =
     | CharacterCreatorInitialPrompt
     | CharacterCreatorGenderPrompt
     | CharacterCreatorGenderMale
@@ -82,14 +83,22 @@ type TextConstant =
     | CreatorErrorCharacterAgeTooOld
     | CreatorErrorBandNameTooShort
     | CreatorErrorBandNameTooLong
-    | WorldTitle
+
+and MainMenuText =
+    | MainMenuIncompatibleSavegame
+    | MainMenuPrompt
+    | MainMenuNewGame
+    | MainMenuLoadGame
+    | MainMenuExit
+    | MainMenuSavegameNotAvailable
+
+and PhoneText =
     | PhoneTitle
     | PhoneOptionBank
     | PhoneOptionStatistics
-    | MapTitle
-    | MapPrompt
-    | MapOptionRehearsalRoom
-    | MapOptionStudios
+    | PhonePrompt
+
+and RehearsalSpaceText =
     | RehearsalSpaceLobbyName
     | RehearsalSpaceBarName
     | RehearsalSpaceRehearsalRoomName
@@ -156,16 +165,22 @@ type TextConstant =
         role: InstrumentType *
         from: Date *
         until: Date
-    | BankTitle
-    | BankWelcome of characterBalance: Amount * bandBalance: Amount
-    | BankPrompt
-    | BankTransferToBand
-    | BankTransferFromBand
-    | BankTransferAmount of holder: BankAccountHolder
-    | BankTransferSuccess of
-        holder: BankAccountHolder *
-        transaction: BankTransaction
-    | BankTransferNotEnoughFunds
+
+and StatisticsText =
+    | StatisticsTitle
+    | StatisticsSectionPrompt
+    | StatisticsSectionBand
+    | StatisticsSectionAlbums
+    | StatisticsBandName of name: string
+    | StatisticsBandStartDate of date: Date
+    | StatisticsBandFame of fame: int
+    | StatisticsAlbumNoEntries
+    | StatisticsAlbumName of name: string * albumType: AlbumType
+    | StatisticsAlbumReleaseDate of date: Date
+    | StatisticsAlbumStreams of streams: int
+    | StatisticsAlbumRevenue of amount: Amount
+
+and StudioText =
     | StudioCommonPromptReleaseAlbum of name: string
     | StudioCommonAlbumReleased of name: string
     | StudioMasteringRoomName
@@ -191,24 +206,37 @@ type TextConstant =
     | StudioContinueRecordActionPromptEditName
     | StudioContinueRecordActionPromptRelease
     | StudioContinueRecordAlbumRenamed of albumName: string
-    | StatisticsTitle
-    | StatisticsSectionPrompt
-    | StatisticsSectionBand
-    | StatisticsSectionAlbums
-    | StatisticsBandName of name: string
-    | StatisticsBandStartDate of date: Date
-    | StatisticsBandFame of fame: int
-    | StatisticsAlbumNoEntries
-    | StatisticsAlbumName of name: string * albumType: AlbumType
-    | StatisticsAlbumReleaseDate of date: Date
-    | StatisticsAlbumStreams of streams: int
-    | StatisticsAlbumRevenue of amount: Amount
-    | StreetBoringDescription of name: string
-    | PhonePrompt
 
-/// Encapsulates text that can either be defined by a text constant, which is
-/// resolved by the UI layer, or a string constant that is just passed from this
-/// layer into the UI.
+and WorldText =
+    | WorldTitle
+    | StreetBoringDescription of name: string
+
+and TextNamespace =
+    | BankText of BankText
+    | CommandText of CommandText
+    | CommonText of CommonText
+    | CreatorText of CreatorText
+    | MainMenuText of MainMenuText
+    | PhoneText of PhoneText
+    | RehearsalSpaceText of RehearsalSpaceText
+    | StatisticsText of StatisticsText
+    | StudioText of StudioText
+    | WorldText of WorldText
+
+/// A reference to text inside of the CLI. Can either be a pre-defined text key
+/// which resolves to the user's preferred language or a literal string that
+/// always has the same value regardless of whichever language is selected.
 and Text =
-    | TextConstant of TextConstant
+    | Text of TextNamespace
     | Literal of string
+
+[<RequireQualifiedAccess>]
+module I18n =
+    /// Wraps a given namespace into the Text type, which when resolved by the
+    /// renderer will output the translation of the given namespace and key to the
+    /// currently selected language.
+    let translate n = Text n
+
+    /// Wraps a given string into the Text type as a constant, which always keeps
+    /// the same value regardless of the current language.
+    let constant value = Literal value

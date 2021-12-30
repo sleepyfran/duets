@@ -2,7 +2,7 @@ module Cli.View.Scenes.BandCreator
 
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.TextConstants
+open Cli.View.Text
 open Simulation.Setup
 open Entities
 
@@ -10,7 +10,7 @@ let rec bandCreator (character: Character) =
     seq {
         yield
             Prompt
-                { Title = TextConstant BandCreatorInitialPrompt
+                { Title = I18n.translate (CreatorText BandCreatorInitialPrompt)
                   Content = TextPrompt <| genrePrompt character }
     }
 
@@ -18,7 +18,7 @@ and genrePrompt character name =
     seq {
         yield
             Prompt
-                { Title = TextConstant BandCreatorGenrePrompt
+                { Title = I18n.translate (CreatorText BandCreatorGenrePrompt)
                   Content =
                       ChoicePrompt
                       <| MandatoryChoiceHandler
@@ -30,7 +30,8 @@ and instrumentPrompt character name genre =
     seq {
         yield
             Prompt
-                { Title = TextConstant BandCreatorInstrumentPrompt
+                { Title =
+                      I18n.translate (CreatorText BandCreatorInstrumentPrompt)
                   Content =
                       ChoicePrompt
                       <| MandatoryChoiceHandler
@@ -43,13 +44,14 @@ and confirmationPrompt character name genre role =
         yield
             Prompt
                 { Title =
-                      TextConstant
-                      <| BandCreatorConfirmationPrompt(
+                      BandCreatorConfirmationPrompt(
                           character.Name,
                           name,
                           genre,
                           role.Id
                       )
+                      |> CreatorText
+                      |> I18n.translate
                   Content =
                       ConfirmationPrompt
                       <| handleConfirmation character name genre role }
@@ -74,7 +76,9 @@ and handleConfirmation character name genre role confirmed =
                     seq {
                         yield
                             Message
-                            <| TextConstant CreatorErrorBandNameTooShort
+                            <| I18n.translate (
+                                CreatorText CreatorErrorBandNameTooShort
+                            )
 
                         yield! bandCreator character
                     }
@@ -83,7 +87,9 @@ and handleConfirmation character name genre role confirmed =
                     seq {
                         yield
                             Message
-                            <| TextConstant CreatorErrorBandNameTooLong
+                            <| I18n.translate (
+                                CreatorText CreatorErrorBandNameTooLong
+                            )
 
                         yield! bandCreator character
                     }

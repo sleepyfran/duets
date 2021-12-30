@@ -1,7 +1,7 @@
 module Cli.View.Scenes.Statistics.Band
 
 open Cli.View.Actions
-open Cli.View.TextConstants
+open Cli.View.Text
 open Simulation.Queries
 
 let bandStatisticsSubScene () =
@@ -11,17 +11,20 @@ let bandStatisticsSubScene () =
     seq {
         yield
             StatisticsBandName band.Name
-            |> TextConstant
+            |> StatisticsText
+            |> I18n.translate
             |> Message
 
         yield
             StatisticsBandStartDate band.StartDate
-            |> TextConstant
+            |> StatisticsText
+            |> I18n.translate
             |> Message
 
         yield
             StatisticsBandFame band.Fame
-            |> TextConstant
+            |> StatisticsText
+            |> I18n.translate
             |> Message
 
         yield Scene Statistics
