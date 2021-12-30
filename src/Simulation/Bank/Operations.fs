@@ -8,7 +8,7 @@ type TransactionError = NotEnoughFunds of amount: Amount
 let private withBalanceChecking state sender amount effects =
     let accountBalance = Bank.balanceOf state sender
 
-    if amount < accountBalance then
+    if amount <= accountBalance then
         Ok effects
     else
         Error(NotEnoughFunds amount)

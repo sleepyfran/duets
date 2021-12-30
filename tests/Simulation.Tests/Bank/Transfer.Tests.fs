@@ -28,6 +28,7 @@ let transferAmountLowerThanBalanceShouldReturnOkWithEffects () =
     [ 200<dd>
       300<dd>
       990<dd>
+      10000<dd>
       10<dd>
       540<dd> ]
     |> List.iter
