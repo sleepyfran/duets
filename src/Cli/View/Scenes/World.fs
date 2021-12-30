@@ -162,6 +162,7 @@ let rec worldScene () =
 
     seq {
         yield Message description
+        yield! listRoomEntrances entrances
 
         yield
             Prompt
