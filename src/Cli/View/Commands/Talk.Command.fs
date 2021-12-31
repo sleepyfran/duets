@@ -43,6 +43,8 @@ module TalkCommand =
                                   CommandText CommandTalkInvalidInput
                               )
                               |> Message
+
+                              Scene Scene.World
                           }) }
 
     and private executeTalkCommand npcs name =
