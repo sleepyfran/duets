@@ -95,7 +95,7 @@ and PhoneText =
     | PhoneTitle
     | PhoneOptionBank
     | PhoneOptionStatistics
-    | PhonePrompt
+    | PhonePrompt of date: Date * dayMoment: DayMoment
 
 and RehearsalSpaceText =
     | RehearsalSpaceLobbyName

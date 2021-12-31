@@ -3,6 +3,8 @@ module Cli.View.Scenes.Phone
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Text
+open Entities
+open Simulation
 
 let phoneOptions =
     [ yield
@@ -14,10 +16,18 @@ let phoneOptions =
             Text = I18n.translate (PhoneText PhoneOptionStatistics) } ]
 
 let rec phoneScene () =
+    let currentDate =
+        State.Root.get () |> Queries.Calendar.today
+
+    let dayMoment = Calendar.dayMomentOf currentDate
+
     seq {
         yield
             Prompt
-                { Title = I18n.translate (PhoneText PhonePrompt)
+                { Title =
+                      PhonePrompt(currentDate, dayMoment)
+                      |> PhoneText
+                      |> I18n.translate
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler

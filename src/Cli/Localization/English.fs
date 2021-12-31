@@ -94,13 +94,13 @@ and accountHolderName holder =
 /// Returns the name of the given moment of the day.
 and dayMomentName dayMoment =
     match dayMoment with
-    | Dawn -> "🌞 Dawn"
-    | Morning -> "🌞 Morning"
-    | Midday -> "🌞 Midday"
-    | Sunset -> "🌝 Sunset"
-    | Dusk -> "🌝 Dusk"
-    | Night -> "🌝 Night"
-    | Midnight -> "🌝 Midnight"
+    | Dawn -> "Dawn"
+    | Morning -> "Morning"
+    | Midday -> "Midday"
+    | Sunset -> "Sunset"
+    | Dusk -> "Dusk"
+    | Night -> "Night"
+    | Midnight -> "Midnight"
 
 /// Returns the formatted name for an album type.
 and albumType t =
@@ -126,6 +126,9 @@ and listOf (stuff: 'a list) toStr =
 
 /// Formats a number with the thousands specifier.
 and formatNumber (amount: 'a) = String.Format("{0:#,0}", amount)
+
+/// Formats a date to the dd/mm/yyyy format.
+and formatDate (date: Date) = date.ToShortDateString()
 
 and bankText key =
     match key with
@@ -268,7 +271,9 @@ and phoneText key =
     | PhoneTitle -> "Phone"
     | PhoneOptionBank -> "Bank App"
     | PhoneOptionStatistics -> "Statistics App"
-    | PhonePrompt -> $"""{TextStyles.prompt "DuetsPhone v1.0"}"""
+    | PhonePrompt (dateTime, dayMoment) ->
+        $"""{TextStyles.title "DuetsPhone v1.0"}
+{dayMomentName dayMoment |> TextStyles.highlight} of {formatDate dateTime |> TextStyles.highlight}"""
 
 and rehearsalText key =
     match key with
@@ -385,8 +390,7 @@ and statisticsText key =
     | StatisticsAlbumName (name, albumT) ->
         TextStyles.information $"{name} ({TextStyles.faded (albumType albumT)})"
     | StatisticsAlbumReleaseDate date ->
-        TextStyles.highlight "Released on "
-        + TextStyles.highlight $"{date.Day}/{date.Month}/{date.Year}"
+        TextStyles.highlight $"Released on {formatDate date}"
     | StatisticsAlbumStreams streams ->
         $"Streams so far: {TextStyles.highlight (formatNumber streams)}"
     | StatisticsAlbumRevenue revenue ->
