@@ -99,6 +99,7 @@ let rec runWith chain =
             | Message message -> renderMessage message
             | Figlet text -> renderFiglet text
             | ProgressBar content -> renderProgressBar content
+            | BarChart items -> renderBarChart items
             | Scene scene -> runScene scene
             | Effect effect ->
                 Simulation.Galactus.runOne (State.Root.get ()) effect

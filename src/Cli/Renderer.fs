@@ -7,6 +7,15 @@ open Entities
 open Spectre.Console
 open Cli.Localization.English
 
+/// Returns the associated color given the level of a skill or the quality
+/// of a song.
+let colorForLevel level =
+    match level with
+    | level when level < 30 -> Color.Red
+    | level when level < 60 -> Color.Orange1
+    | level when level < 80 -> Color.Green
+    | _ -> Color.Blue
+
 /// Writes a message into the buffer.
 let renderMessage message =
     AnsiConsole.MarkupLine(toString message)
@@ -129,6 +138,24 @@ let renderProgressBar content =
         renderProgressBarAsync content
     else
         renderProgressBarSync content
+
+/// Renders a list of items as a barchart with the maximum value set as 100.
+let renderBarChart items =
+    let mutable barChart = BarChart()
+    barChart.MaxValue <- 100.0
+
+    barChart <-
+        barChart.AddItems(
+            items,
+            fun (progress, label) ->
+                BarChartItem(
+                    toString label,
+                    float progress,
+                    colorForLevel progress
+                )
+        )
+
+    AnsiConsole.Write(barChart)
 
 /// Clears the terminal console.
 let clear () = System.Console.Clear()

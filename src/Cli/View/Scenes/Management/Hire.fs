@@ -39,7 +39,7 @@ and memberSelection selectedInstrument =
 and showMemberForHire band selectedInstrument availableMember =
     seq {
         yield
-            HireMemberSkillSummary(
+            HireMemberCharacterDescription(
                 availableMember.Character.Name,
                 availableMember.Character.Gender
             )
@@ -47,14 +47,14 @@ and showMemberForHire band selectedInstrument availableMember =
             |> I18n.translate
             |> Message
 
-        yield!
-            availableMember.Skills
-            |> Seq.map
-                (fun (skill, level) ->
-                    HireMemberSkillLine(skill.Id, level)
-                    |> RehearsalSpaceText
-                    |> I18n.translate
-                    |> Message)
+        yield
+            BarChart(
+                availableMember.Skills
+                |> List.map
+                    (fun (skill, level) ->
+                        (level,
+                         I18n.translate (CommonText(CommonSkillName skill.Id))))
+            )
 
         yield
             Prompt

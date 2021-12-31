@@ -197,13 +197,14 @@ and commonText key =
         $"""Press {TextStyles.information "space"} to select a choice and {TextStyles.information "enter"} to finish the selection"""
     | CommonNoUnfinishedSongs ->
         TextStyles.error "You don't have any songs, create one first"
-    | CommonSkills -> "Skills"
     | CommonBack -> TextStyles.faded "Go back"
     | CommonCancel -> TextStyles.faded "Cancel"
     | CommonBackToMainMenu -> TextStyles.faded "Back to main menu"
     | CommonBackToMap -> TextStyles.faded "Back to map"
     | CommonBackToPhone -> TextStyles.faded "Back to phone"
     | CommonBackToWorld -> TextStyles.faded "Back to world"
+    | CommonSkills -> "Skills"
+    | CommonSkillName skillId -> skillName skillId
     | CommonSkillImproved (characterName,
                            characterGender,
                            skill,
@@ -345,11 +346,9 @@ and rehearsalText key =
         TextStyles.error $"Your band decided to stop working on {name}"
     | PracticeSong -> "Practice a finished song"
     | HireMemberRolePrompt -> "What role are you looking to hire?"
-    | HireMemberSkillSummary (name, gender) ->
+    | HireMemberCharacterDescription (name, gender) ->
         $"{TextStyles.highlight name} is interested in joining your band. {subjectPronounForGender gender} {verbConjugationForGender Have gender
                                                                                                             |> String.lowercase} the following skills:"
-    | HireMemberSkillLine (id, level) ->
-        $"{TextStyles.highlight (skillName id)} - {TextStyles.level level}"
     | HireMemberConfirmation gender ->
         $"Do you want to hire {objectPronounForGender gender}?"
     | HireMemberHired -> TextStyles.success "You just hired a new member!"

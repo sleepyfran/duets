@@ -52,6 +52,7 @@ and CommonText =
     | CommonBackToMap
     | CommonBackToPhone
     | CommonBackToWorld
+    | CommonSkillName of id: SkillId
     | CommonSkillImproved of
         characterName: string *
         characterGender: Gender *
@@ -143,8 +144,7 @@ and RehearsalSpaceText =
     | ManagementFireMember
     | ManagementMemberList
     | HireMemberRolePrompt
-    | HireMemberSkillSummary of name: string * gender: Gender
-    | HireMemberSkillLine of id: SkillId * level: int
+    | HireMemberCharacterDescription of name: string * gender: Gender
     | HireMemberConfirmation of gender: Gender
     | HireMemberHired
     | HireMemberContinueConfirmation

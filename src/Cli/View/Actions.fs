@@ -13,6 +13,7 @@ type Action =
     | Figlet of Text
     | Prompt of Prompt
     | ProgressBar of ProgressBarContent
+    | BarChart of (int * Text) list
     | Scene of Scene
     | GameInfo of version: string
     | Effect of Effect
