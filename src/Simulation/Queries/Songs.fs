@@ -32,5 +32,4 @@ module Songs =
 
     /// Returns a specific finished song given its ID and the band's ID.
     let finishedByBandAndSongId state bandId songId =
-        finishedByBand state bandId
-        |> Map.tryFind songId
+        finishedByBand state bandId |> Map.tryFind songId

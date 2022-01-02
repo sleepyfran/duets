@@ -93,6 +93,11 @@ module Character =
         (fun (c: Character) -> c.Id),
         (fun v (c: Character) -> { c with Id = v })
 
+module Song =
+    let practice_ =
+        (fun (s: Song) -> s.Practice),
+        (fun v (s: Song) -> { s with Practice = v })
+
 module World =
     let cities_ =
         (fun (w: World) -> w.Cities),

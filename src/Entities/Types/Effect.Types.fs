@@ -11,6 +11,7 @@ module EffectTypes =
         | SongImproved of Band * Diff<UnfinishedSongWithQualities>
         | SongFinished of Band * FinishedSongWithQuality
         | SongDiscarded of Band * UnfinishedSongWithQualities
+        | SongPracticed of Band * FinishedSongWithQuality
         | MemberHired of Band * CurrentMember * SkillWithLevel list
         | MemberFired of Band * CurrentMember * PastMember
         | SkillImproved of Character * Diff<SkillWithLevel>

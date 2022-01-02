@@ -86,7 +86,7 @@ let ``releaseAlbum should apply proper low fame modifier`` () =
               MaxDailyStreams = 300
               Hype = 1.0 }
         ))
-        
+
 [<Test>]
 let ``releaseAlbum should apply proper average fame modifier`` () =
     let lowFameBand = { band with Fame = 25 }
@@ -102,7 +102,7 @@ let ``releaseAlbum should apply proper average fame modifier`` () =
               MaxDailyStreams = 15000
               Hype = 1.0 }
         ))
-        
+
 [<Test>]
 let ``releaseAlbum should apply proper big fame modifier`` () =
     let lowFameBand = { band with Fame = 50 }
@@ -118,7 +118,7 @@ let ``releaseAlbum should apply proper big fame modifier`` () =
               MaxDailyStreams = 300000
               Hype = 1.0 }
         ))
-        
+
 [<Test>]
 let ``releaseAlbum should apply proper ultra fame modifier`` () =
     let lowFameBand = { band with Fame = 100 }
@@ -148,7 +148,8 @@ let ``releaseAlbum should apply proper low score modifier`` () =
                       { Minutes = 1<minute>
                         Seconds = 6<second> }
                   VocalStyle = Instrumental
-                  Genre = "Test" },
+                  Genre = "Test"
+                  Practice = 0<practice> },
             2<quality>
           )
           RecordedSong(
@@ -159,7 +160,8 @@ let ``releaseAlbum should apply proper low score modifier`` () =
                         { Minutes = 1<minute>
                           Seconds = 6<second> }
                     VocalStyle = Instrumental
-                    Genre = "Test" },
+                    Genre = "Test"
+                    Practice = 0<practice> },
               1<quality>
           ) ]
 

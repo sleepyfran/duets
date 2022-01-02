@@ -19,6 +19,11 @@ module SongTypes =
         { Minutes: int<minute>
           Seconds: int<second> }
 
+    [<Measure>]
+    type practice
+
+    type Practice = int<practice>
+
     /// Defines a song composed by a band in its most basic form, there's more
     /// specific types depending on the type of information we want to query.
     type Song =
@@ -26,7 +31,8 @@ module SongTypes =
           Name: string
           Length: Length
           VocalStyle: VocalStyle
-          Genre: Genre }
+          Genre: Genre
+          Practice: Practice }
 
     /// Defines a song that is still being developed by the band.
     type UnfinishedSong = UnfinishedSong of Song

@@ -12,7 +12,7 @@ let private instrumentFromType instrumentType =
             (I18n.translate (
                 RehearsalSpaceText RehearsalRoomInstrumentPlayDescription
             ))
-            (seq { yield! Compose.composeSubScene () })
+            (seq { yield! ChooseAction.createMenu () })
 
     match instrumentType with
     | InstrumentType.Bass -> create Objects.bass

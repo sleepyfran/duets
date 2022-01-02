@@ -52,6 +52,10 @@ let apply effect =
         let song = Song.fromFinished finishedSong
         Songs.removeUnfinished staticAgent.Map band song.Id
         Songs.addFinished staticAgent.Map band finishedSong
+    | SongPracticed (band, finishedSong) ->
+        let song = Song.fromFinished finishedSong
+        Songs.removeFinished staticAgent.Map band song.Id
+        Songs.addFinished staticAgent.Map band finishedSong
     | SongDiscarded (band, unfinishedSong) ->
         let song = Song.fromUnfinished unfinishedSong
         Songs.removeUnfinished staticAgent.Map band song.Id

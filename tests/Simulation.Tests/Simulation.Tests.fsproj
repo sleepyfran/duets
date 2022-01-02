@@ -28,6 +28,7 @@
         <Compile Include="Songs\ImproveSong.Tests.fs" />
         <Compile Include="Songs\FinishSong.Tests.fs" />
         <Compile Include="Songs\DiscardSong.Tests.fs" />
+        <Compile Include="Songs\PracticeSong.Tests.fs" />
         <Compile Include="Skills\ImproveSkills.Tests.fs" />
         <Compile Include="Studio\RecordAlbum.Tests.fs" />
         <Compile Include="Studio\ReleaseAlbum.Tests.fs" />

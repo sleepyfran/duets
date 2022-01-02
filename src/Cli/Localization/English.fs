@@ -345,6 +345,16 @@ and rehearsalText key =
     | DiscardSongDiscarded name ->
         TextStyles.error $"Your band decided to stop working on {name}"
     | PracticeSong -> "Practice a finished song"
+    | PracticeSongItemDescription (name, practiceLevel) ->
+        $"""{TextStyles.song name} (Practice level: {TextStyles.level practiceLevel}%%)"""
+    | PracticeSongImproved (name, practiceLevel) ->
+        $"Your band improved its practice of {name} to {TextStyles.level practiceLevel}%%"
+    | PracticeSongAlreadyImprovedToMax name ->
+        $"Your band already knows {TextStyles.song name} perfectly"
+    | PracticeSongProgressLosingTime -> TextStyles.progress "Losing time..."
+    | PracticeSongProgressTryingSoloOnceMore ->
+        TextStyles.progress "Trying that solo once more..."
+    | PracticeSongProgressGivingUp -> TextStyles.progress "Giving up..."
     | HireMemberRolePrompt -> "What role are you looking to hire?"
     | HireMemberCharacterDescription (name, gender) ->
         $"{TextStyles.highlight name} is interested in joining your band. {subjectPronounForGender gender} {verbConjugationForGender Have gender

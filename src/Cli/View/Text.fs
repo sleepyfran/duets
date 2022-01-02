@@ -138,6 +138,12 @@ and RehearsalSpaceText =
     | DiscardSongSelection
     | DiscardSongDiscarded of name: string
     | PracticeSong
+    | PracticeSongItemDescription of name: string * practiceLevel: Practice
+    | PracticeSongImproved of name: string * practiceLevel: Practice
+    | PracticeSongAlreadyImprovedToMax of name: string
+    | PracticeSongProgressLosingTime
+    | PracticeSongProgressTryingSoloOnceMore
+    | PracticeSongProgressGivingUp
     | ManagementTitle
     | ManagementPrompt
     | ManagementHireMember

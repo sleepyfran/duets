@@ -28,7 +28,8 @@ let from (name: string) length vocalStyle genre =
               Name = name
               Length = length
               VocalStyle = vocalStyle
-              Genre = genre }
+              Genre = genre
+              Practice = 20<practice> }
 
 /// Returns the song contained in an unfinished song.
 let fromUnfinished (UnfinishedSong (song), _, _) = song
@@ -42,7 +43,8 @@ let empty =
       Name = ""
       Length = Length.empty
       VocalStyle = VocalStyle.Instrumental
-      Genre = "" }
+      Genre = ""
+      Practice = 0<practice> }
 
 module VocalStyle =
     /// Returns a VocalStyle given its string representation. If no match is found,

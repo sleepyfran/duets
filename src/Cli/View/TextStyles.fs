@@ -37,6 +37,9 @@ let band name = $"[italic]{name}[/]"
 /// Pre-defined style for referencing albums in text.
 let album name = $"[bold springgreen2]{name}[/]"
 
+/// Pre-defined style for referencing songs in text.
+let song name = album name
+
 /// Pre-defined style for referencing information in text.
 let information text = $"[underline]{text}[/]"
 
@@ -64,9 +67,12 @@ let progress text =
 /// Pre-defined styles for showing levels that range from 0 to 100.
 let level l =
     match l with
-    | level when level < 30 -> $"[red]{l}[/]"
-    | level when level < 60 -> $"[orange1]{l}[/]"
-    | level when level < 80 -> $"[green]{l}[/]"
+    | level when level < (LanguagePrimitives.Int32WithMeasure 30) ->
+        $"[red]{l}[/]"
+    | level when level < (LanguagePrimitives.Int32WithMeasure 60) ->
+        $"[orange1]{l}[/]"
+    | level when level < (LanguagePrimitives.Int32WithMeasure 80) ->
+        $"[green]{l}[/]"
     | _ -> $"[gold3]{l}[/]"
 
 /// Pre-defined style for a title.

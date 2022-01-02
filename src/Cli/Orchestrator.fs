@@ -33,6 +33,11 @@ let actionsFromEffect effect =
         |> RehearsalSpaceText
         |> I18n.translate
         |> Message
+    | SongPracticed (_, (FinishedSong song, _)) ->
+        PracticeSongImproved(song.Name, song.Practice)
+        |> RehearsalSpaceText
+        |> I18n.translate
+        |> Message
     | SkillImproved (character, Diff (before, after)) ->
         let (skill, previousLevel) = before
         let (_, currentLevel) = after

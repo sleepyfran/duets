@@ -39,6 +39,7 @@ let private timeAdvanceOfEffect effect =
     | SongStarted _ -> 1
     | SongImproved _ -> 1
     | AlbumRecorded _ -> 56 // One week
+    | SongPracticed _ -> 1
     | _ -> 0
 
 /// Selects the max time advance that can be applied out all of the effects.
