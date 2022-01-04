@@ -29,6 +29,7 @@ let private run state effect =
     match effect with
     | SongStarted (band, _) -> improveBandSkillsAfterComposing state band
     | SongImproved (band, _) -> improveBandSkillsAfterComposing state band
+    | SongPracticed (band, _) -> improveBandSkillsAfterComposing state band
     | TimeAdvanced date -> runTimeDependentEffects state date
     | _ -> []
     |> List.append [ effect ]
@@ -41,12 +42,6 @@ let private timeAdvanceOfEffect effect =
     | AlbumRecorded _ -> 56 // One week
     | SongPracticed _ -> 1
     | _ -> 0
-
-/// Selects the max time advance that can be applied out all of the effects.
-let private timeAdvanceOfEffects effects =
-    effects
-    |> List.map timeAdvanceOfEffect
-    |> List.max
 
 /// Takes an effect and runs all the correspondent simulation functions
 /// gathering their effects as well and adding them to a final list with all the
