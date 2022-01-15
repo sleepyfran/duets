@@ -8,7 +8,7 @@ open Simulation.Market
 /// the setup wizard and starts the generation process for the game simulation
 /// which includes markets for the different genres available and the game world.
 let startGame character (band: Band) =
-    let world = World.Generation.generate ()
+    let world = World.Generation.Root.generate ()
 
     let initialCity = Map.head world.Cities
 

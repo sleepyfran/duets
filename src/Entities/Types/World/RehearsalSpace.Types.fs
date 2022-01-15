@@ -1,7 +1,5 @@
 namespace Entities
 
-open Entities
-
 [<AutoOpen>]
 module RehearsalSpaceTypes =
     /// Defines a rehearsal space in which the band can go to practice their

@@ -7,10 +7,14 @@ open Entities
 open System
 
 let verbConjugationByGender =
-    dict [ (Have,
-            dict [ (Male, "Has")
-                   (Female, "Has")
-                   (Other, "Have") ]) ]
+    dict [
+        (Have,
+         dict [
+             (Male, "Has")
+             (Female, "Has")
+             (Other, "Have")
+         ])
+    ]
 
 /// Transforms TextConstants into strings.
 let rec toString text =
@@ -162,8 +166,13 @@ and commandText key =
     | CommandDirectionDescription direction ->
         $"Follows the {directionName direction} direction"
     | CommandLookDescription -> "Shows all the objects you have around you"
-    | CommandLookEntranceDescription entrances ->
-        $"""You can enter the {listOf
+    | CommandLookOutsideEntrances entrances ->
+        $"""You can enter to {listOf
+                                  entrances
+                                  (fun (direction, name) ->
+                                      $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
+    | CommandLookInsideEntrances entrances ->
+        $"""You can go to the {listOf
                                    entrances
                                    (fun (direction, name) ->
                                        $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
@@ -203,6 +212,8 @@ and commonText key =
     | CommonBackToMap -> TextStyles.faded "Back to map"
     | CommonBackToPhone -> TextStyles.faded "Back to phone"
     | CommonBackToWorld -> TextStyles.faded "Back to world"
+    | CommonBarName -> "Bar"
+    | CommonLobbyName -> "Lobby"
     | CommonSkills -> "Skills"
     | CommonSkillName skillId -> skillName skillId
     | CommonSkillImproved (characterName,
@@ -219,6 +230,17 @@ and commonText key =
     | CommonInvalidCommand ->
         TextStyles.error
             $"""That command was not valid. Maybe try again or enter {TextStyles.information "help"} if you're lost"""
+
+and concertSpaceText key =
+    match key with
+    | ConcertSpaceLobbyDescription space ->
+        $"""The lobby of {TextStyles.place space.Name} is mostly empty right now. Only a person asking for tickets is to be seen"""
+    | ConcertSpaceBarDescription space ->
+        $"""With a lot of overpriced drinks and a bunch of drunk people lining up for the concert, the bar of {TextStyles.place space.Name} doesn't look as bad as you'd imagine"""
+    | ConcertSpaceStageDescription space ->
+        $"""You go up the stage of {TextStyles.place space.Name} and you're temporarily blinded by the lights pointing towards you. After a few seconds you begin to see some faces in the crowd and the people start whistling and applauding. Time to give your everything!"""
+    | ConcertSpaceStageName -> "Stage"
+    | ConcertSpaceStartConcert -> "Start concert"
 
 and creatorText key =
     match key with
@@ -278,8 +300,6 @@ and phoneText key =
 
 and rehearsalText key =
     match key with
-    | RehearsalSpaceLobbyName -> "Lobby"
-    | RehearsalSpaceBarName -> "Bar"
     | RehearsalSpaceRehearsalRoomName -> "Rehearsal rooms"
     | RehearsalSpaceLobbyDescription ->
         $"""You are in the {TextStyles.place "lobby"} of the rehearsal room. Not much to do here, just enter already!"""
@@ -466,6 +486,7 @@ and fromConstant textNamespace =
     | BankText key -> bankText key
     | CommandText key -> commandText key
     | CommonText key -> commonText key
+    | ConcertSpaceText key -> concertSpaceText key
     | CreatorText key -> creatorText key
     | MainMenuText key -> mainMenuText key
     | PhoneText key -> phoneText key

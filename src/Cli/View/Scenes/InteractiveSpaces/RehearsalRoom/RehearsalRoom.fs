@@ -22,22 +22,23 @@ let private instrumentFromType instrumentType =
 
 let getPlaceName room =
     match room with
-    | Lobby space -> Literal space.Name
-    | Bar space -> Literal space.Name
+    | RehearsalSpaceRoom.Lobby space -> Literal space.Name
+    | RehearsalSpaceRoom.Bar space -> Literal space.Name
     | RehearsalRoom space -> Literal space.Name
 
 let getRoomName room =
     match room with
-    | Lobby _ -> I18n.translate (RehearsalSpaceText RehearsalSpaceLobbyName)
-    | Bar _ -> I18n.translate (RehearsalSpaceText RehearsalSpaceBarName)
+    | RehearsalSpaceRoom.Lobby _ -> I18n.translate (CommonText CommonLobbyName)
+    | RehearsalSpaceRoom.Bar _ -> I18n.translate (CommonText CommonBarName)
     | RehearsalRoom _ ->
         I18n.translate (RehearsalSpaceText RehearsalSpaceRehearsalRoomName)
 
 let getRoomDescription room =
     match room with
-    | Lobby _ ->
+    | RehearsalSpaceRoom.Lobby _ ->
         I18n.translate (RehearsalSpaceText RehearsalSpaceLobbyDescription)
-    | Bar _ -> I18n.translate (RehearsalSpaceText RehearsalSpaceBarDescription)
+    | RehearsalSpaceRoom.Bar _ ->
+        I18n.translate (RehearsalSpaceText RehearsalSpaceBarDescription)
     | RehearsalRoom _ ->
         I18n.translate (
             RehearsalSpaceText RehearsalSpaceRehearsalRoomDescription
@@ -52,14 +53,14 @@ let getRoomObjects room =
         |> instrumentFromType
 
     match room with
-    | Lobby _ -> []
-    | Bar _ -> []
+    | RehearsalSpaceRoom.Lobby _ -> []
+    | RehearsalSpaceRoom.Bar _ -> []
     | RehearsalRoom _ -> [ characterInstrument ]
 
 let getRoomCommands room =
     match room with
-    | Lobby _ -> []
-    | Bar _ -> []
+    | RehearsalSpaceRoom.Lobby _ -> []
+    | RehearsalSpaceRoom.Bar _ -> []
     | RehearsalRoom _ ->
         [ { Name = "manage"
             Description =

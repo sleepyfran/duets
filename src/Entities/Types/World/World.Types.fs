@@ -1,7 +1,5 @@
 namespace Entities
 
-open Entities
-
 [<AutoOpen>]
 module WorldTypes =
     /// Defines all possible cardinal directions that can be used to traverse
@@ -40,26 +38,35 @@ module WorldTypes =
     type Node<'a> = { Id: NodeId; Content: 'a }
 
     /// Defines all types of rooms that are available inside a place.
-    type RoomNodeContent =
+    type InsideNode =
+        | ConcertSpaceRoom of ConcertSpaceRoom
         | RehearsalSpaceRoom of RehearsalSpaceRoom
         | StudioRoom of StudioRoom
 
-    /// Defines all types of streets that there are in the game. These descriptors
-    /// are used to signal the user what kind of street it is and (in the future)
-    /// to compute what kind of things the street will have.
-    type StreetDescriptor = Boring
+    /// Defines all the different terms that can be used to describe a street.
+    type OutsideNodeDescriptor =
+        | Beautiful
+        | Boring
+
+    /// Defines all types of streets available in the game. This changes the
+    /// way the street is described to the user.
+    type OutsideNodeType =
+        | Street
+        | Square
+        | Boulevard
 
     /// Defines a street in the game, which communicates different places
     /// in the world.
-    type StreetNode =
+    type OutsideNode =
         { Name: string
-          Descriptor: StreetDescriptor }
+          Descriptors: OutsideNodeDescriptor list
+          Type: OutsideNodeType }
 
     /// Defines a node in the game, which represents one space inside of the
     /// map that the player can be in.
     type CityNode =
-        | Room of RoomNodeContent
-        | Street of StreetNode
+        | InsideNode of InsideNode
+        | OutsideNode of OutsideNode
 
     /// Unique identifier of a city.
     type CityId = Identity

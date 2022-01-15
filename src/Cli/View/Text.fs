@@ -28,7 +28,8 @@ and CommandText =
     | CommandLookDescription
     | CommandLookNoObjectsAround
     | CommandLookVisibleObjectsPrefix
-    | CommandLookEntranceDescription of (Direction * Text) list
+    | CommandLookOutsideEntrances of (Direction * Text) list
+    | CommandLookInsideEntrances of (Direction * Text) list
     | CommandLookObjectEntry of ObjectType * string list
     | CommandExitDescription
     | CommandMapDescription
@@ -52,6 +53,8 @@ and CommonText =
     | CommonBackToMap
     | CommonBackToPhone
     | CommonBackToWorld
+    | CommonBarName
+    | CommonLobbyName
     | CommonSkillName of id: SkillId
     | CommonSkillImproved of
         characterName: string *
@@ -61,6 +64,13 @@ and CommonText =
         currentLevel: int
     | CommonInvalidLength
     | CommonInvalidCommand
+
+and ConcertSpaceText =
+    | ConcertSpaceLobbyDescription of space: ConcertSpace
+    | ConcertSpaceBarDescription of space: ConcertSpace
+    | ConcertSpaceStageDescription of space: ConcertSpace
+    | ConcertSpaceStageName
+    | ConcertSpaceStartConcert
 
 and CreatorText =
     | CharacterCreatorInitialPrompt
@@ -99,8 +109,6 @@ and PhoneText =
     | PhonePrompt of date: Date * dayMoment: DayMoment
 
 and RehearsalSpaceText =
-    | RehearsalSpaceLobbyName
-    | RehearsalSpaceBarName
     | RehearsalSpaceRehearsalRoomName
     | RehearsalSpaceLobbyDescription
     | RehearsalSpaceBarDescription
@@ -221,6 +229,7 @@ and TextNamespace =
     | CommandText of CommandText
     | CommonText of CommonText
     | CreatorText of CreatorText
+    | ConcertSpaceText of ConcertSpaceText
     | MainMenuText of MainMenuText
     | PhoneText of PhoneText
     | RehearsalSpaceText of RehearsalSpaceText

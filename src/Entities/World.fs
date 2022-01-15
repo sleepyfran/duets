@@ -6,6 +6,13 @@ open Entities
 /// Creates an empty world.
 let empty = { Cities = Map.empty }
 
+/// Creates a new world with the given cities inside of it.
+let create cities =
+    { Cities =
+          cities
+          |> List.map (fun c -> c.Id, c)
+          |> Map.ofList }
+
 [<RequireQualifiedAccess>]
 module Graph =
     /// Creates a graph with the given starting node as the starting point, that
