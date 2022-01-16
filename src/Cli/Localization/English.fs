@@ -113,6 +113,14 @@ and albumType t =
     | EP -> "EP"
     | LP -> "LP"
 
+/// Returns the name of a descriptor.
+and descriptorText descriptor =
+    match descriptor with
+    | Beautiful -> "Beautiful"
+    | Boring -> "Boring"
+    | Central -> "Central"
+    | Historical -> "Historical"
+
 /// Returns the name of the given object type.
 and objectName object =
     match object with
@@ -254,7 +262,7 @@ and creatorText key =
     | CharacterCreatorAgePrompt ->
         $"""How {TextStyles.highlight "old"} are they? (Minimum 18)"""
     | BandCreatorInitialPrompt ->
-        $"""Let's create your first band. What's the {TextStyles.highlight "band's name"}"""
+        $"""Let's create your first band. What's the {TextStyles.highlight "band's name"}?"""
     | BandCreatorGenrePrompt ->
         $"""What {TextStyles.highlight "genre"} are they going to be playing? You can always change this later"""
     | BandCreatorInstrumentPrompt ->
@@ -478,8 +486,12 @@ and studioText key =
 and worldText key =
     match key with
     | WorldTitle -> "World"
-    | StreetBoringDescription name ->
-        $"{TextStyles.place name} is just a boring old street with not much to do."
+    | WorldStreetDescription (name, descriptors) ->
+        $"""{TextStyles.place name} is a {listOf descriptors (descriptorText >> String.lowercase)} street"""
+    | WorldBoulevardDescription (name, descriptors) ->
+        $"""{TextStyles.place name} is a {listOf descriptors (descriptorText >> String.lowercase)} boulevard"""
+    | WorldSquareDescription (name, descriptors) ->
+        $"""{TextStyles.place name} is a {listOf descriptors (descriptorText >> String.lowercase)} square"""
 
 and fromConstant textNamespace =
     match textNamespace with

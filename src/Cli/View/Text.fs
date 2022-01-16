@@ -222,7 +222,15 @@ and StudioText =
 
 and WorldText =
     | WorldTitle
-    | StreetBoringDescription of name: string
+    | WorldStreetDescription of
+        name: string *
+        descriptors: OutsideNodeDescriptor list
+    | WorldBoulevardDescription of
+        name: string *
+        descriptors: OutsideNodeDescriptor list
+    | WorldSquareDescription of
+        name: string *
+        descriptors: OutsideNodeDescriptor list
 
 and TextNamespace =
     | BankText of BankText

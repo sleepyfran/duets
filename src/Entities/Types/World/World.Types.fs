@@ -47,6 +47,8 @@ module WorldTypes =
     type OutsideNodeDescriptor =
         | Beautiful
         | Boring
+        | Central
+        | Historical
 
     /// Defines all types of streets available in the game. This changes the
     /// way the street is described to the user.

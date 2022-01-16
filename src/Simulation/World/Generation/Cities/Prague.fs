@@ -8,7 +8,7 @@ let rec generate () =
     let wenceslasSquare =
         OutsideNode
             { Name = "Václavské náměstí"
-              Descriptors = [ Beautiful ]
+              Descriptors = [ Beautiful; Central ]
               Type = Boulevard }
         |> World.Node.create
 
@@ -19,15 +19,23 @@ let rec generate () =
               Type = Square }
         |> World.Node.create
 
-    // TODO: Add Reduta Jazz Club
+    let oldTownSquare =
+        OutsideNode
+            { Name = "Staroměstské náměstí"
+              Descriptors = [ Beautiful; Historical; Central ]
+              Type = Square }
+        |> World.Node.create
 
     prague wenceslasSquare
     |> World.City.addNode wenceslasSquare
     |> World.City.addNode jzpSquare
-    |> World.City.addConnection wenceslasSquare.Id jzpSquare.Id South
+    |> World.City.addNode oldTownSquare
+    |> World.City.addConnection wenceslasSquare.Id jzpSquare.Id East
+    |> World.City.addConnection wenceslasSquare.Id oldTownSquare.Id West
     |> addDuetsRehearsalSpace jzpSquare
     |> addDuetsStudio jzpSquare
     |> addPalacAkropolis jzpSquare
+    |> addRedutaJazzClub oldTownSquare
 
 and addDuetsRehearsalSpace street city =
     let rehearsalSpace =
@@ -59,7 +67,7 @@ and addDuetsRehearsalSpace street city =
     |> World.City.addNode rehearsalRoom
     |> World.City.addConnection lobby.Id bar.Id NorthEast
     |> World.City.addConnection lobby.Id rehearsalRoom.Id North
-    |> World.City.addConnection street.Id lobby.Id West
+    |> World.City.addConnection street.Id lobby.Id NorthWest
 
 and addDuetsStudio street city =
     let studio = List.head (Database.studios ())
@@ -113,3 +121,35 @@ and addPalacAkropolis street city =
     |> World.City.addConnection street.Id lobby.Id North
     |> World.City.addConnection lobby.Id bar.Id East
     |> World.City.addConnection lobby.Id stage.Id North
+
+and addRedutaJazzClub street city =
+    let concertSpace =
+        { Name = "Reduta Jazz Club"
+          Quality = 95<quality>
+          Capacity = 250 }
+
+    let lobby =
+        ConcertSpaceRoom.Lobby concertSpace
+        |> ConcertSpaceRoom
+        |> InsideNode
+        |> World.Node.create
+
+    let bar =
+        ConcertSpaceRoom.Bar concertSpace
+        |> ConcertSpaceRoom
+        |> InsideNode
+        |> World.Node.create
+
+    let stage =
+        ConcertSpaceRoom.Stage concertSpace
+        |> ConcertSpaceRoom
+        |> InsideNode
+        |> World.Node.create
+
+    city
+    |> World.City.addNode lobby
+    |> World.City.addNode bar
+    |> World.City.addNode stage
+    |> World.City.addConnection street.Id lobby.Id West
+    |> World.City.addConnection lobby.Id bar.Id North
+    |> World.City.addConnection lobby.Id stage.Id West

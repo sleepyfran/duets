@@ -160,11 +160,13 @@ let private getNodeDescription nodeContent =
         | StudioRoom room -> Studio.Root.getRoomDescription room
         | ConcertSpaceRoom room -> ConcertSpace.getRoomDescription room
     | OutsideNode street ->
-        match street.Descriptors with
-        | _ ->
-            StreetBoringDescription street.Name
-            |> WorldText
-            |> I18n.translate
+        match street.Type with
+        | Street -> WorldStreetDescription(street.Name, street.Descriptors)
+        | Boulevard ->
+            WorldBoulevardDescription(street.Name, street.Descriptors)
+        | Square -> WorldSquareDescription(street.Name, street.Descriptors)
+        |> WorldText
+        |> I18n.translate
 
 let private getNodeObjects nodeContent =
     match nodeContent with
