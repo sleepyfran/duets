@@ -1,5 +1,6 @@
 module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.ChooseAction
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Text
@@ -27,7 +28,7 @@ let private createOptions hasUnfinishedSongs hasFinishedSongs =
     |> List.ofSeq
 
 let rec createMenu () =
-    let state = State.Root.get ()
+    let state = State.get ()
     let band = Bands.currentBand state
 
     let hasUnfinishedSongs =

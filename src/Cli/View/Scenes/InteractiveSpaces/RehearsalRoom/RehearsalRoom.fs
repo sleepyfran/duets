@@ -1,5 +1,6 @@
 module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.Root
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Scenes.InteractiveSpaces
 open Cli.View.Text
@@ -45,7 +46,7 @@ let getRoomDescription room =
         )
 
 let getRoomObjects room =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     let characterInstrument =
         currentPlayableMember state

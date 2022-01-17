@@ -1,9 +1,10 @@
-module Log
+module Agents.Log
+
 
 open Common
 open Entities
 
-type SavegameAgentMessage = Append of Effect
+type LogAgentMessage = Append of Effect
 
 let private appendEffect (effect: Effect) =
     effect

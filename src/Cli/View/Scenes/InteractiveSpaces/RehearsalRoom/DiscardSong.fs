@@ -1,5 +1,6 @@
 module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.DiscardSong
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Text
@@ -8,7 +9,7 @@ open Simulation.Queries
 open Simulation.Songs.Composition.DiscardSong
 
 let rec discardSongSubScene () =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     let currentBand = Bands.currentBand state
 
@@ -32,7 +33,7 @@ let rec discardSongSubScene () =
     }
 
 and processSongSelection band selection =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     let unfinishedSong =
         unfinishedSongFromSelection state band selection

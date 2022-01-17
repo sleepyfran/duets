@@ -1,5 +1,6 @@
 module Cli.View.Common
 
+open Agents
 open Cli.View.Text
 open Cli.View.Actions
 open Entities

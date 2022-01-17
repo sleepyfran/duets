@@ -1,5 +1,6 @@
 module Cli.View.Scenes.Studio.PromptToRelease
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Text
 open Entities
@@ -27,7 +28,7 @@ let rec promptToReleaseAlbum onCancel studio band unreleasedAlbum =
     }
 
 and handleReleaseConfirmation onCancel studio band album confirmed =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     seq {
         if confirmed then

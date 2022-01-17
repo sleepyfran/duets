@@ -1,5 +1,6 @@
 namespace Cli.View.Commands
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Text
 open Entities
@@ -34,7 +35,7 @@ module DirectionsCommand =
                           (fun _ ->
                               seq {
                                   yield
-                                      State.Root.get ()
+                                      State.get ()
                                       |> World.Navigation.moveTo linkedNodeId
                                       |> Effect
 

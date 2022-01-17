@@ -1,22 +1,20 @@
-module State.Tests.Bank
+module Simulation.State.Tests.Bank
+
 
 open FsUnit
 open NUnit.Framework
 open Test.Common
 
 open Aether
-open Common
 open Entities
-
-[<SetUp>]
-let Setup () = initState ()
+open Simulation
 
 let testBalance createTransfer expectedBalance =
     let holder = dummyCharacterBankAccount.Holder
 
-    State.Root.apply <| createTransfer holder
-
-    let state = State.Root.get ()
+    let state =
+        createTransfer holder
+        |> State.Root.applyEffect dummyState
 
     let balanceLenses =
         Lenses.FromState.BankAccount.balanceOf_ holder

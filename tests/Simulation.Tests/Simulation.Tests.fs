@@ -1,13 +1,13 @@
-module Simulation.Tests.Galactus
+module Simulation.Tests.Simulation
+
 
 open FsUnit
 open NUnit.Framework
 open Test.Common
-open Fugit.Months
 
 open Entities
+open Simulation
 open Simulation.Time.AdvanceTime
-open Simulation.Galactus
 
 let state =
     { dummyState with
@@ -45,7 +45,8 @@ let ``runOne should advance time by corresponding effect type`` () =
     effectsWithTimeIncrease
     |> List.iter
         (fun (effect, timeIncrease) ->
-            runOne state effect
+            Simulation.runOne state effect
+            |> fst
             |> checkTimeIncrease timeIncrease)
 
 let filterDailyUpdateEffects effect =
@@ -66,13 +67,15 @@ let ``runOne should update album streams every day`` () =
                 1500
                 1.0)
 
-    runOne state songStartedEffect
+    Simulation.runOne state songStartedEffect
+    |> fst
     |> List.filter filterDailyUpdateEffects
     |> should haveLength 2
 
 [<Test>]
 let ``runOne should not update album streams if morning has passed`` () =
-    runOne stateInMorning songStartedEffect
+    Simulation.runOne stateInMorning songStartedEffect
+    |> fst
     |> List.filter filterDailyUpdateEffects
     |> should haveLength 0
 
@@ -83,10 +86,12 @@ let filterMarketUpdateEffects effect =
 
 [<Test>]
 let ``runOne should update markets every year in the dawn`` () =
-    runOne stateInMidnightBeforeGameStart songStartedEffect
+    Simulation.runOne stateInMidnightBeforeGameStart songStartedEffect
+    |> fst
     |> List.filter filterMarketUpdateEffects
     |> should haveLength 1
 
-    runOne dummyState songStartedEffect
+    Simulation.runOne dummyState songStartedEffect
+    |> fst
     |> List.filter filterMarketUpdateEffects
     |> should haveLength 0

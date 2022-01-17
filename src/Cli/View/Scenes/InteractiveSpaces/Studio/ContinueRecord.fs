@@ -1,5 +1,6 @@
 module Cli.View.Scenes.Studio.ContinueRecord
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Text
@@ -18,7 +19,7 @@ let continueRecordOptions =
 /// Creates a subscene that allows to edit the name of a previously recorded
 /// but unreleased album and also to release it.
 let rec continueRecordSubscene studio =
-    let state = State.Root.get ()
+    let state = State.get ()
     let currentBand = Bands.currentBand state
 
     let albumOptions =
@@ -36,7 +37,7 @@ let rec continueRecordSubscene studio =
     }
 
 and handleAlbum studio band choice =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     let album =
         unreleasedAlbumFromSelection state band choice

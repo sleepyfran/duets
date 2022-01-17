@@ -1,11 +1,12 @@
 module Cli.View.Scenes.Statistics.Albums
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Text
 open Simulation.Queries
 
 let albumsStatisticsSubScene () =
-    let state = State.Root.get ()
+    let state = State.get ()
     let band = Bands.currentBand state
     let releases = Albums.releasedByBand state band.Id
 

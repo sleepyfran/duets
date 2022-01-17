@@ -1,5 +1,6 @@
 module Cli.View.Scenes.Management.Fire
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Text
@@ -9,7 +10,7 @@ open Simulation.Queries
 open Simulation.Bands.Members
 
 let rec fireSubScene () =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     let memberOptions =
         Bands.currentBandMembersWithoutPlayableCharacter state
@@ -49,7 +50,7 @@ let rec fireSubScene () =
     }
 
 and confirmFiring selectedMember =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     let band = Bands.currentBand state
     let memberToFire = memberFromSelection band selectedMember
@@ -66,7 +67,7 @@ and confirmFiring selectedMember =
     }
 
 and handleConfirmation band memberToFire confirmed =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     seq {
         if confirmed then

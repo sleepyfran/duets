@@ -1,5 +1,6 @@
 module Cli.View.Actions
 
+open Agents
 open Cli.View.Text
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities

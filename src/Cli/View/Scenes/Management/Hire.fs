@@ -1,5 +1,6 @@
 module Cli.View.Scenes.Management.Hire
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Text
@@ -24,7 +25,7 @@ let rec hireSubScene () =
     }
 
 and memberSelection selectedInstrument =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     let band = Bands.currentBand state
 
@@ -71,7 +72,7 @@ and showMemberForHire band selectedInstrument availableMember =
     }
 
 and handleHiringConfirmation band selectedInstrument memberForHire confirmed =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     seq {
         if confirmed then

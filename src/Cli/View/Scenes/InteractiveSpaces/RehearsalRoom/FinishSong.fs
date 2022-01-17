@@ -1,5 +1,6 @@
 module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.FinishSong
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Text
@@ -8,7 +9,7 @@ open Simulation.Queries
 open Simulation.Songs.Composition.FinishSong
 
 let rec finishSongSubScene () =
-    let state = State.Root.get ()
+    let state = State.get ()
     let currentBand = Bands.currentBand state
 
     let songOptions =
@@ -31,7 +32,7 @@ let rec finishSongSubScene () =
     }
 
 and processSongSelection band selection =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     let selectedSong =
         unfinishedSongFromSelection state band selection

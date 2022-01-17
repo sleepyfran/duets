@@ -1,5 +1,6 @@
 module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.PracticeSong
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Text
@@ -21,7 +22,7 @@ let finishedAndRecordedChoices state (band: Band) =
                   |> I18n.translate })
 
 let rec practiceSongSubScene () =
-    let state = State.Root.get ()
+    let state = State.get ()
     let band = Bands.currentBand state
 
     seq {
@@ -41,7 +42,7 @@ let rec practiceSongSubScene () =
     }
 
 and processSongSelection band selection =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     let effects =
         Repertoire.finishedFromAllByBandAndSongId

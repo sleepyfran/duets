@@ -1,5 +1,6 @@
 module Cli.View.Scenes.MainMenu
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Text
@@ -34,7 +35,8 @@ let rec mainMenu savegameState =
 
         if savegameState = Savegame.Incompatible then
             yield
-                I18n.translate (MainMenuText MainMenuIncompatibleSavegame) |> Message
+                I18n.translate (MainMenuText MainMenuIncompatibleSavegame)
+                |> Message
 
         yield! showMenu savegameState
     }

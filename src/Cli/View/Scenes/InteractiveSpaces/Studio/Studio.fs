@@ -1,5 +1,6 @@
 module Cli.View.Scenes.Studio.Root
 
+open Agents
 open Cli.View.Commands
 open Cli.View.Text
 open Entities
@@ -27,7 +28,7 @@ let getRoomDescription room =
 let getRoomObjects _ = []
 
 let getRoomCommands room =
-    let state = State.Root.get ()
+    let state = State.get ()
     let currentBand = Bands.currentBand state
 
     let unreleasedAlbums =
@@ -45,16 +46,15 @@ let getRoomCommands room =
             (I18n.translate (StudioText StudioTalkContinueRecord),
              ContinueRecord.continueRecordSubscene studio)
 
-        [ TalkCommand.create [ { Npc = studio.Producer
-                                 Prompt =
-                                     StudioTalkIntroduction(
-                                         studio.Name,
-                                         studio.PricePerSong
-                                     )
-                                     |> StudioText
-                                     |> I18n.translate
-                                 Options =
-                                     [ yield createRecordOption
-                                       if hasUnreleasedAlbums then
-                                           yield continueRecordOption ] } ] ]
+        [ TalkCommand.create [
+              { Npc = studio.Producer
+                Prompt =
+                    StudioTalkIntroduction(studio.Name, studio.PricePerSong)
+                    |> StudioText
+                    |> I18n.translate
+                Options =
+                    [ yield createRecordOption
+                      if hasUnreleasedAlbums then
+                          yield continueRecordOption ] }
+          ] ]
     | RecordingRoom _ -> []

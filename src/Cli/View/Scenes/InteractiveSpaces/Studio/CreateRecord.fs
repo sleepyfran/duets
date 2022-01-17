@@ -1,5 +1,6 @@
 module Cli.View.Scenes.Studio.CreateRecord
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Text
@@ -12,7 +13,7 @@ open Simulation.Studio.RecordAlbum
 /// Creates the studio record subscene which allows bands to create a new
 /// record.
 let rec createRecordSubscene studio =
-    let state = State.Root.get ()
+    let state = State.get ()
     let currentBand = Bands.currentBand state
 
     let songOptions =
@@ -47,7 +48,7 @@ and trackListPrompt studio band songOptions name =
     }
 
 and processRecord studio band name selectedSongs =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     let albumResult =
         finishedSongsFromSelection state band selectedSongs
@@ -100,7 +101,7 @@ and confirmRecording studio band album =
     }
 
 and checkBankAndRecordAlbum studio band album =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     seq {
         match recordAlbum state studio band album with

@@ -1,6 +1,6 @@
 module Cli.View.Scenes.InteractiveSpaces.ConcertSpace
 
-open Cli.View.Actions
+open Agents
 open Cli.View.Scenes.InteractiveSpaces
 open Cli.View.Text
 open Entities
@@ -49,7 +49,7 @@ let getRoomDescription room =
         )
 
 let getRoomObjects room =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     let characterInstrument =
         currentPlayableMember state

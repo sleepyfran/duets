@@ -1,5 +1,6 @@
 module Cli.View.Scenes.Phone
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Text
@@ -16,8 +17,7 @@ let phoneOptions =
             Text = I18n.translate (PhoneText PhoneOptionStatistics) } ]
 
 let rec phoneScene () =
-    let currentDate =
-        State.Root.get () |> Queries.Calendar.today
+    let currentDate = State.get () |> Queries.Calendar.today
 
     let dayMoment = Calendar.dayMomentOf currentDate
 

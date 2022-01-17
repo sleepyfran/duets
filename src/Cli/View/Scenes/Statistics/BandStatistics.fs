@@ -1,11 +1,12 @@
 module Cli.View.Scenes.Statistics.Band
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Text
 open Simulation.Queries
 
 let bandStatisticsSubScene () =
-    let state = State.Root.get ()
+    let state = State.get ()
     let band = Bands.currentBand state
 
     seq {

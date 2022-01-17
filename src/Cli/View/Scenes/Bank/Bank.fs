@@ -1,5 +1,6 @@
 module Cli.View.Scenes.Bank.Root
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Scenes.Bank
@@ -15,7 +16,7 @@ let rehearsalOptions =
 
 /// Creates the bank scene which allows to transfer money between accounts.
 let rec bankScene () =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     let characterAccount =
         Characters.playableCharacter state

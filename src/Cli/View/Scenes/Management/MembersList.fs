@@ -1,12 +1,13 @@
 module Cli.View.Scenes.Management.MemberList
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Text
 open Simulation.Queries
 
 /// Shows the current and past members of the band.
 let rec memberListSubScene () =
-    let state = State.Root.get ()
+    let state = State.get ()
     let currentMembers = Bands.currentBandMembers state
     let pastMembers = Bands.pastBandMembers state
 

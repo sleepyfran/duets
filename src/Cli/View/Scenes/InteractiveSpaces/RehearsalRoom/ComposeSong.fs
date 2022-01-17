@@ -1,5 +1,6 @@
 module Cli.View.Scenes.InteractiveSpaces.RehearsalRoom.ComposeSong
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Text
@@ -96,7 +97,7 @@ and handleSong name length genre selectedVocalStyle =
     }
 
 and composeWithProgressbar song =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     seq {
 

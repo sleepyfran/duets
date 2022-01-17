@@ -1,5 +1,6 @@
 module Cli.View.Scenes.Bank.Transfer
 
+open Agents
 open Cli.View.Actions
 open Cli.View.Text
 open Entities
@@ -19,7 +20,7 @@ let rec transferSubScene sender receiver =
     }
 
 and handleAmount sender receiver amount =
-    let state = State.Root.get ()
+    let state = State.get ()
 
     transfer state sender receiver (amount * 1<dd>)
     |> fun result ->

@@ -3,6 +3,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
+    <RootNamespace>State.Tests</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Aether" Version="8.3.1" />
@@ -12,13 +13,6 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common.fs" />
-    <Compile Include="Albums.Tests.fs" />
-    <Compile Include="Bank.Tests.fs" />
-    <Compile Include="BandManagement.Tests.fs" />
-    <Compile Include="SongComposition.Tests.fs" />
-    <Compile Include="Setup.Tests.fs" />
-    <Compile Include="Skills.Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>

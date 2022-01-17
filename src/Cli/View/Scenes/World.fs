@@ -1,5 +1,6 @@
 module Cli.View.Scenes.World
 
+open Agents
 open Cli.View.Commands
 open Cli.View.Actions
 open Cli.View.Text
@@ -67,7 +68,7 @@ type private NodeKey =
 
 let private listRoomEntrances entrances =
     let currentPosition =
-        State.Root.get () |> Queries.World.currentPosition
+        State.get () |> Queries.World.currentPosition
 
     let entrancesByNodeKey =
         entrances
@@ -192,7 +193,7 @@ let private getNodeCommands nodeContent =
 
 let rec worldScene () =
     let currentPosition =
-        State.Root.get () |> Queries.World.currentPosition
+        State.get () |> Queries.World.currentPosition
 
     let entrances =
         Queries.World.availableDirections

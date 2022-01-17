@@ -1,4 +1,5 @@
-﻿module Savegame
+﻿module Agents.Savegame
+
 
 open Common
 open Entities
@@ -14,7 +15,7 @@ let private loadStateFromSavegame () =
     Files.savegamePath ()
     |> Files.readAll
     |> Option.bind Serializer.deserialize
-    |> Option.map State.Root.set
+    |> Option.map State.set
     |> Option.map (fun _ -> Available)
     |> Option.defaultValue NotAvailable
 
@@ -46,7 +47,8 @@ type private SavegameAgent() =
                     | Read channel ->
                         try
                             loadStateFromSavegame () |> channel.Reply
-                        with _ -> channel.Reply Incompatible
+                        with
+                        | _ -> channel.Reply Incompatible
                     | Write state -> writeSavegame state
 
                     return! loop ()
@@ -66,4 +68,4 @@ let load = savegameAgent.Read
 
 /// Attempts to write the current state into the savegame file doing so in a
 /// separate thread.
-let save () = savegameAgent.Write(State.Root.get ())
+let save () = savegameAgent.Write(State.get ())

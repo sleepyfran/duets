@@ -6,54 +6,53 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="View\Text.fs" />
-        <Compile Include="View\TextStyles.fs" />
-        <Compile Include="View/Actions.fs" />
-        <Compile Include="View/Common.fs" />
-        <Compile Include="View\Commands\Help.Command.fs" />
-        <Compile Include="View\Commands\Phone.Command.fs" />
-        <Compile Include="View\Commands\Exit.Command.fs" />
-        <Compile Include="View\Commands\Directions.Command.fs" />
-        <Compile Include="View\Commands\Talk.Command.fs" />
-        <Compile Include="View\Scenes\InteractiveSpaces\Objects.fs" />
-        <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\ComposeSong.fs" />
-        <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\DiscardSong.fs" />
-        <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\FinishSong.fs" />
-        <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\ImproveSong.fs" />
-        <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\PracticeSong.fs" />
-        <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\ChooseRehearseAction.fs" />
-        <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\RehearsalRoom.fs" />
-        <Compile Include="View\Scenes\InteractiveSpaces\Studio\PromptToRelease.fs" />
-        <Compile Include="View\Scenes\InteractiveSpaces\Studio\ContinueRecord.fs" />
-        <Compile Include="View\Scenes\InteractiveSpaces\Studio\CreateRecord.fs" />
-        <Compile Include="View\Scenes\InteractiveSpaces\Studio\Studio.fs" />
-        <Compile Include="View\Scenes\InteractiveSpaces\ConcertSpace\ConcertSpace.fs" />
-        <Compile Include="View\Scenes\Bank\Transfer.fs" />
-        <Compile Include="View/Scenes/Bank/Bank.fs" />
-        <Compile Include="View/Scenes/Management/Hire.fs" />
-        <Compile Include="View/Scenes/Management/Fire.fs" />
-        <Compile Include="View/Scenes/Management/MembersList.fs" />
-        <Compile Include="View/Scenes/Management/Management.fs" />
-        <Compile Include="View\Scenes\Statistics\BandStatistics.fs" />
-        <Compile Include="View\Scenes\Statistics\AlbumsStatistics.fs" />
-        <Compile Include="View\Scenes\Statistics\Statistics.fs" />
-        <Compile Include="View/Scenes/BandCreator.fs" />
-        <Compile Include="View/Scenes/CharacterCreator.fs" />
-        <Compile Include="View/Scenes/MainMenu.fs" />
-        <Compile Include="View\Scenes\World.fs" />
-        <Compile Include="View\Scenes\Phone.fs" />
-        <Compile Include="Localization\English.fs" />
-        <Compile Include="Renderer.fs" />
-        <Compile Include="Orchestrator.fs" />
-        <Compile Include="Program.fs" />
+        <Compile Include="View\Text.fs"/>
+        <Compile Include="View\TextStyles.fs"/>
+        <Compile Include="View/Actions.fs"/>
+        <Compile Include="View/Common.fs"/>
+        <Compile Include="View\Commands\Help.Command.fs"/>
+        <Compile Include="View\Commands\Phone.Command.fs"/>
+        <Compile Include="View\Commands\Exit.Command.fs"/>
+        <Compile Include="View\Commands\Directions.Command.fs"/>
+        <Compile Include="View\Commands\Talk.Command.fs"/>
+        <Compile Include="View\Scenes\InteractiveSpaces\Objects.fs"/>
+        <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\ComposeSong.fs"/>
+        <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\DiscardSong.fs"/>
+        <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\FinishSong.fs"/>
+        <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\ImproveSong.fs"/>
+        <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\PracticeSong.fs"/>
+        <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\ChooseRehearseAction.fs"/>
+        <Compile Include="View\Scenes\InteractiveSpaces\RehearsalRoom\RehearsalRoom.fs"/>
+        <Compile Include="View\Scenes\InteractiveSpaces\Studio\PromptToRelease.fs"/>
+        <Compile Include="View\Scenes\InteractiveSpaces\Studio\ContinueRecord.fs"/>
+        <Compile Include="View\Scenes\InteractiveSpaces\Studio\CreateRecord.fs"/>
+        <Compile Include="View\Scenes\InteractiveSpaces\Studio\Studio.fs"/>
+        <Compile Include="View\Scenes\InteractiveSpaces\ConcertSpace\ConcertSpace.fs"/>
+        <Compile Include="View\Scenes\Bank\Transfer.fs"/>
+        <Compile Include="View/Scenes/Bank/Bank.fs"/>
+        <Compile Include="View/Scenes/Management/Hire.fs"/>
+        <Compile Include="View/Scenes/Management/Fire.fs"/>
+        <Compile Include="View/Scenes/Management/MembersList.fs"/>
+        <Compile Include="View/Scenes/Management/Management.fs"/>
+        <Compile Include="View\Scenes\Statistics\BandStatistics.fs"/>
+        <Compile Include="View\Scenes\Statistics\AlbumsStatistics.fs"/>
+        <Compile Include="View\Scenes\Statistics\Statistics.fs"/>
+        <Compile Include="View/Scenes/BandCreator.fs"/>
+        <Compile Include="View/Scenes/CharacterCreator.fs"/>
+        <Compile Include="View/Scenes/MainMenu.fs"/>
+        <Compile Include="View\Scenes\World.fs"/>
+        <Compile Include="View\Scenes\Phone.fs"/>
+        <Compile Include="Localization\English.fs"/>
+        <Compile Include="Renderer.fs"/>
+        <Compile Include="Orchestrator.fs"/>
+        <Compile Include="Program.fs"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="FSharpx.Extras" Version="3.0.0" />
-        <PackageReference Include="Spectre.Console" Version="0.43.0" />
+        <PackageReference Include="FSharpx.Extras" Version="3.0.0"/>
+        <PackageReference Include="Spectre.Console" Version="0.43.0"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Savegame\Savegame.fsproj" />
-        <ProjectReference Include="..\Simulation\Simulation.fsproj" />
-        <ProjectReference Include="..\State\State.fsproj" />
+        <ProjectReference Include="..\Agents\Agents.fsproj"/>
+        <ProjectReference Include="..\Simulation\Simulation.fsproj"/>
     </ItemGroup>
 </Project>

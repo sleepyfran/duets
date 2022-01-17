@@ -1,6 +1,6 @@
 module Orchestrator
 
-open System
+open Agents
 open Aether
 open Cli.View.Commands
 open Entities
@@ -9,7 +9,9 @@ open Cli.View.Scenes
 open Cli.View.Text
 open Cli.View.Renderer
 open Common
+open Simulation
 open Simulation.Queries
+open System
 
 /// Returns the sequence of actions associated with a screen given its name.
 let actionsFromScene scene =
@@ -107,8 +109,11 @@ let rec runWith chain =
             | BarChart items -> renderBarChart items
             | Scene scene -> runScene scene
             | Effect effect ->
-                Simulation.Galactus.runOne (State.Root.get ()) effect
-                |> Seq.tap State.Root.apply
+                let effects, state = Simulation.runOne (State.get ()) effect
+
+                State.set state
+
+                effects
                 |> Seq.tap Log.append
                 |> Seq.map actionsFromEffect
                 |> runWith
