@@ -41,11 +41,11 @@ let checkTimeIncrease timeIncrease effects =
          |> List.head)
 
 [<Test>]
-let ``runOne should advance time by corresponding effect type`` () =
+let ``tick should advance time by corresponding effect type`` () =
     effectsWithTimeIncrease
     |> List.iter
         (fun (effect, timeIncrease) ->
-            Simulation.runOne state effect
+            Simulation.tick state effect
             |> fst
             |> checkTimeIncrease timeIncrease)
 
@@ -56,7 +56,7 @@ let filterDailyUpdateEffects effect =
     | _ -> false
 
 [<Test>]
-let ``runOne should update album streams every day`` () =
+let ``tick should update album streams every day`` () =
     let state =
         dummyState
         |> addReleasedAlbum
@@ -67,14 +67,14 @@ let ``runOne should update album streams every day`` () =
                 1500
                 1.0)
 
-    Simulation.runOne state songStartedEffect
+    Simulation.tick state songStartedEffect
     |> fst
     |> List.filter filterDailyUpdateEffects
     |> should haveLength 2
 
 [<Test>]
-let ``runOne should not update album streams if morning has passed`` () =
-    Simulation.runOne stateInMorning songStartedEffect
+let ``tick should not update album streams if morning has passed`` () =
+    Simulation.tick stateInMorning songStartedEffect
     |> fst
     |> List.filter filterDailyUpdateEffects
     |> should haveLength 0
@@ -85,13 +85,13 @@ let filterMarketUpdateEffects effect =
     | _ -> false
 
 [<Test>]
-let ``runOne should update markets every year in the dawn`` () =
-    Simulation.runOne stateInMidnightBeforeGameStart songStartedEffect
+let ``tick should update markets every year in the dawn`` () =
+    Simulation.tick stateInMidnightBeforeGameStart songStartedEffect
     |> fst
     |> List.filter filterMarketUpdateEffects
     |> should haveLength 1
 
-    Simulation.runOne dummyState songStartedEffect
+    Simulation.tick dummyState songStartedEffect
     |> fst
     |> List.filter filterMarketUpdateEffects
     |> should haveLength 0

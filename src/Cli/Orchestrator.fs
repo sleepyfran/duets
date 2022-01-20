@@ -109,7 +109,7 @@ let rec runWith chain =
             | BarChart items -> renderBarChart items
             | Scene scene -> runScene scene
             | Effect effect ->
-                let effects, state = Simulation.runOne (State.get ()) effect
+                let effects, state = Simulation.tick (State.get ()) effect
 
                 State.set state
 
