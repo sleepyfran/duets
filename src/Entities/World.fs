@@ -7,7 +7,7 @@ open Entities
 let empty = { Cities = Map.empty }
 
 /// Creates a new world with the given cities inside of it.
-let create cities =
+let create (cities: City list) =
     { Cities =
           cities
           |> List.map (fun c -> c.Id, c)

@@ -7,16 +7,12 @@ open Simulation.Market
 /// Sets up the initial game state based on the data provided by the user in
 /// the setup wizard and starts the generation process for the game simulation
 /// which includes markets for the different genres available and the game world.
-let startGame character (band: Band) =
+let startGame (character: Character) (band: Band) =
     let world = World.Generation.Root.generate ()
 
     let initialCity = Map.head world.Cities
 
-    { Character = character
-      CharacterSkills = [ (character.Id, Map.empty) ] |> Map.ofList
-      CurrentBandId = band.Id
-      CurrentPosition = (initialCity.Id, initialCity.Graph.StartingNode)
-      Bands = [ (band.Id, band) ] |> Map.ofList
+    { Bands = [ (band.Id, band) ] |> Map.ofList
       BandSongRepertoire = Band.SongRepertoire.emptyFor band.Id
       BandAlbumRepertoire = Band.AlbumRepertoire.emptyFor band.Id
       BankAccounts =
@@ -24,6 +20,12 @@ let startGame character (band: Band) =
              BankAccount.forCharacterWithBalance character.Id 10000<dd>)
             (Band band.Id, BankAccount.forBand band.Id) ]
           |> Map.ofSeq
+      Concerts = ConcertContext.empty
+      Character = character
+      CharacterSkills = [ (character.Id, Map.empty) ] |> Map.ofList
+      CurrentBandId = band.Id
+      CurrentPosition = (initialCity.Id, initialCity.Graph.StartingNode)
+      Schedule = Map.empty
       Today = Calendar.gameBeginning
       GenreMarkets = GenreMarket.create (Database.genres ())
       World = world }
