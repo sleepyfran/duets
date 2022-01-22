@@ -1,11 +1,11 @@
-module Cli.View.Scenes.Statistics.Albums
+module Cli.View.Scenes.Phone.Apps.Statistics.Albums
 
 open Agents
 open Cli.View.Actions
 open Cli.View.Text
 open Simulation.Queries
 
-let albumsStatisticsSubScene () =
+let albumsStatisticsSubScene statisticsApp =
     let state = State.get ()
     let band = Bands.currentBand state
     let releases = Albums.releasedByBand state band.Id
@@ -14,7 +14,7 @@ let albumsStatisticsSubScene () =
         if releases.IsEmpty then
             yield
                 Message
-                <| I18n.translate (StatisticsText StatisticsAlbumNoEntries)
+                <| I18n.translate (PhoneText StatisticsAppAlbumNoEntries)
         else
             yield!
                 releases
@@ -27,34 +27,34 @@ let albumsStatisticsSubScene () =
                             yield Separator
 
                             yield
-                                StatisticsAlbumName(
+                                StatisticsAppAlbumName(
                                     innerAlbum.Name,
                                     innerAlbum.Type
                                 )
-                                |> StatisticsText
+                                |> PhoneText
                                 |> I18n.translate
                                 |> Message
 
                             yield
-                                StatisticsAlbumReleaseDate
+                                StatisticsAppAlbumReleaseDate
                                     releasedAlbum.ReleaseDate
-                                |> StatisticsText
+                                |> PhoneText
                                 |> I18n.translate
                                 |> Message
 
                             yield
-                                StatisticsAlbumStreams releasedAlbum.Streams
-                                |> StatisticsText
+                                StatisticsAppAlbumStreams releasedAlbum.Streams
+                                |> PhoneText
                                 |> I18n.translate
                                 |> Message
 
                             yield
-                                StatisticsAlbumRevenue revenue
-                                |> StatisticsText
+                                StatisticsAppAlbumRevenue revenue
+                                |> PhoneText
                                 |> I18n.translate
                                 |> Message
                         })
                 |> Seq.concat
 
-        yield Scene Statistics
+        yield! statisticsApp ()
     }

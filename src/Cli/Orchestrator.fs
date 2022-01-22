@@ -20,9 +20,7 @@ let actionsFromScene scene =
     | CharacterCreator -> CharacterCreator.characterCreator ()
     | BandCreator character -> BandCreator.bandCreator character
     | Management -> Management.Root.managementScene ()
-    | Bank -> Bank.Root.bankScene ()
-    | Statistics -> Statistics.Root.statisticsScene ()
-    | Phone -> Phone.phoneScene ()
+    | Phone -> Phone.Root.phoneScene ()
     | World -> World.worldScene ()
 
 let actionsFromEffect effect =
@@ -55,8 +53,8 @@ let actionsFromEffect effect =
         |> I18n.translate
         |> Message
     | MoneyTransferred (holder, transaction) ->
-        BankTransferSuccess(holder, transaction)
-        |> BankText
+        BankAppTransferSuccess(holder, transaction)
+        |> PhoneText
         |> I18n.translate
         |> Message
     | AlbumRecorded (_, UnreleasedAlbum album) ->

@@ -1,4 +1,4 @@
-module Cli.View.Scenes.Phone
+module Cli.View.Scenes.Phone.Root
 
 open Agents
 open Cli.View.Actions
@@ -7,7 +7,7 @@ open Cli.View.Text
 open Entities
 open Simulation
 
-let phoneOptions =
+let private phoneOptions =
     [ yield
         { Id = "bank"
           Text = I18n.translate (PhoneText PhoneOptionBank) }
@@ -40,8 +40,10 @@ let rec phoneScene () =
 
 and processSelection choice =
     seq {
+        yield Separator
+
         match choice.Id with
-        | "bank" -> yield Scene Bank
-        | "statistics" -> yield Scene Statistics
+        | "bank" -> yield! Apps.Bank.Root.bankApp ()
+        | "statistics" -> yield! Apps.Statistics.Root.statisticsApp ()
         | _ -> yield NoOp
     }

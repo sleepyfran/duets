@@ -8,18 +8,6 @@ open Entities
 /// gender then it should be they have.
 type VariableVerbs = | Have
 
-type BankText =
-    | BankTitle
-    | BankWelcome of characterBalance: Amount * bandBalance: Amount
-    | BankPrompt
-    | BankTransferToBand
-    | BankTransferFromBand
-    | BankTransferAmount of holder: BankAccountHolder
-    | BankTransferSuccess of
-        holder: BankAccountHolder *
-        transaction: BankTransaction
-    | BankTransferNotEnoughFunds
-
 and CommandText =
     | CommandCommonPrompt
     | CommandHelpDescription
@@ -107,6 +95,29 @@ and PhoneText =
     | PhoneOptionBank
     | PhoneOptionStatistics
     | PhonePrompt of date: Date * dayMoment: DayMoment
+    | BankAppTitle
+    | BankAppWelcome of characterBalance: Amount * bandBalance: Amount
+    | BankAppPrompt
+    | BankAppTransferToBand
+    | BankAppTransferFromBand
+    | BankAppTransferAmount of holder: BankAccountHolder
+    | BankAppTransferSuccess of
+        holder: BankAccountHolder *
+        transaction: BankTransaction
+    | BankAppTransferNotEnoughFunds
+    | BankAppTransferNothingTransferred
+    | StatisticsAppTitle
+    | StatisticsAppSectionPrompt
+    | StatisticsAppSectionBand
+    | StatisticsAppSectionAlbums
+    | StatisticsAppBandName of name: string
+    | StatisticsAppBandStartDate of date: Date
+    | StatisticsAppBandFame of fame: int
+    | StatisticsAppAlbumNoEntries
+    | StatisticsAppAlbumName of name: string * albumType: AlbumType
+    | StatisticsAppAlbumReleaseDate of date: Date
+    | StatisticsAppAlbumStreams of streams: int
+    | StatisticsAppAlbumRevenue of amount: Amount
 
 and RehearsalSpaceText =
     | RehearsalSpaceRehearsalRoomName
@@ -179,20 +190,6 @@ and RehearsalSpaceText =
         from: Date *
         until: Date
 
-and StatisticsText =
-    | StatisticsTitle
-    | StatisticsSectionPrompt
-    | StatisticsSectionBand
-    | StatisticsSectionAlbums
-    | StatisticsBandName of name: string
-    | StatisticsBandStartDate of date: Date
-    | StatisticsBandFame of fame: int
-    | StatisticsAlbumNoEntries
-    | StatisticsAlbumName of name: string * albumType: AlbumType
-    | StatisticsAlbumReleaseDate of date: Date
-    | StatisticsAlbumStreams of streams: int
-    | StatisticsAlbumRevenue of amount: Amount
-
 and StudioText =
     | StudioCommonPromptReleaseAlbum of name: string
     | StudioCommonAlbumReleased of name: string
@@ -233,7 +230,6 @@ and WorldText =
         descriptors: OutsideNodeDescriptor list
 
 and TextNamespace =
-    | BankText of BankText
     | CommandText of CommandText
     | CommonText of CommonText
     | CreatorText of CreatorText
@@ -241,7 +237,6 @@ and TextNamespace =
     | MainMenuText of MainMenuText
     | PhoneText of PhoneText
     | RehearsalSpaceText of RehearsalSpaceText
-    | StatisticsText of StatisticsText
     | StudioText of StudioText
     | WorldText of WorldText
 

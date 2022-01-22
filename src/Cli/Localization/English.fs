@@ -142,27 +142,6 @@ and formatNumber (amount: 'a) = String.Format("{0:#,0}", amount)
 /// Formats a date to the dd/mm/yyyy format.
 and formatDate (date: Date) = date.ToShortDateString()
 
-and bankText key =
-    match key with
-    | BankTitle -> "Bank"
-    | BankWelcome (characterBalance, bandBalance) ->
-        $"""{TextStyles.highlight "You"} currently have {TextStyles.money characterBalance}. {TextStyles.highlight "Your band"} has {TextStyles.money bandBalance}"""
-    | BankPrompt -> "What do you want to do?"
-    | BankTransferToBand -> "Transfer money to band"
-    | BankTransferFromBand -> "Transfer money from band"
-    | BankTransferAmount holder ->
-        match holder with
-        | Character _ -> "How much do you want to transfer to your band?"
-        | Band _ -> "How much do you want to transfer from your band?"
-    | BankTransferSuccess (holder, transaction) ->
-        match transaction with
-        | Incoming (amount, _) ->
-            $"Transferred {TextStyles.money amount} to {accountHolderName holder}'s account"
-        | Outgoing (amount, _) ->
-            $"Transferred {TextStyles.money amount} from {accountHolderName holder}'s account"
-    | BankTransferNotEnoughFunds ->
-        TextStyles.error "Not enough funds in the sender account"
-
 and commandText key =
     match key with
     | CommandCommonPrompt ->
@@ -305,6 +284,44 @@ and phoneText key =
     | PhonePrompt (dateTime, dayMoment) ->
         $"""{TextStyles.title "DuetsPhone v1.0"}
 {dayMomentName dayMoment |> TextStyles.highlight} of {formatDate dateTime |> TextStyles.highlight}"""
+    | BankAppTitle -> "Bank"
+    | BankAppWelcome (characterBalance, bandBalance) ->
+        $"""{TextStyles.highlight "You"} currently have {TextStyles.money characterBalance}. {TextStyles.highlight "Your band"} has {TextStyles.money bandBalance}"""
+    | BankAppPrompt -> "What do you want to do?"
+    | BankAppTransferToBand -> "Transfer money to band"
+    | BankAppTransferFromBand -> "Transfer money from band"
+    | BankAppTransferAmount holder ->
+        match holder with
+        | Character _ -> "How much do you want to transfer to your band?"
+        | Band _ -> "How much do you want to transfer from your band?"
+    | BankAppTransferSuccess (holder, transaction) ->
+        match transaction with
+        | Incoming (amount, _) ->
+            $"Transferred {TextStyles.money amount} to {accountHolderName holder}'s account"
+        | Outgoing (amount, _) ->
+            $"Transferred {TextStyles.money amount} from {accountHolderName holder}'s account"
+    | BankAppTransferNotEnoughFunds ->
+        TextStyles.error "Not enough funds in the sender account"
+    | BankAppTransferNothingTransferred ->
+        TextStyles.success "Nothing transferred"
+    | StatisticsAppTitle -> "Statistics"
+    | StatisticsAppSectionPrompt ->
+        $"""{TextStyles.prompt "What data do you want to visualize?"}"""
+    | StatisticsAppSectionBand -> "Band's statistics"
+    | StatisticsAppSectionAlbums -> "Albums' statistics"
+    | StatisticsAppBandName name -> TextStyles.title name
+    | StatisticsAppBandStartDate date ->
+        $"Playing since {TextStyles.highlight date.Year}"
+    | StatisticsAppBandFame fame -> $"Fame: {TextStyles.level fame}"
+    | StatisticsAppAlbumNoEntries -> "No albums released yet"
+    | StatisticsAppAlbumName (name, albumT) ->
+        TextStyles.information $"{name} ({TextStyles.faded (albumType albumT)})"
+    | StatisticsAppAlbumReleaseDate date ->
+        TextStyles.highlight $"Released on {formatDate date}"
+    | StatisticsAppAlbumStreams streams ->
+        $"Streams so far: {TextStyles.highlight (formatNumber streams)}"
+    | StatisticsAppAlbumRevenue revenue ->
+        $"Generated revenue: {TextStyles.money revenue}"
 
 and rehearsalText key =
     match key with
@@ -412,27 +429,6 @@ and rehearsalText key =
     | ManagementFireMember -> "Fire a member"
     | ManagementMemberList -> "List members"
 
-and statisticsText key =
-    match key with
-    | StatisticsTitle -> "Statistics"
-    | StatisticsSectionPrompt ->
-        $"""{TextStyles.prompt "What data do you want to visualize?"}"""
-    | StatisticsSectionBand -> "Band's statistics"
-    | StatisticsSectionAlbums -> "Albums' statistics"
-    | StatisticsBandName name -> TextStyles.title name
-    | StatisticsBandStartDate date ->
-        $"Playing since {TextStyles.highlight date.Year}"
-    | StatisticsBandFame fame -> $"Fame: {TextStyles.level fame}"
-    | StatisticsAlbumNoEntries -> "No albums released yet"
-    | StatisticsAlbumName (name, albumT) ->
-        TextStyles.information $"{name} ({TextStyles.faded (albumType albumT)})"
-    | StatisticsAlbumReleaseDate date ->
-        TextStyles.highlight $"Released on {formatDate date}"
-    | StatisticsAlbumStreams streams ->
-        $"Streams so far: {TextStyles.highlight (formatNumber streams)}"
-    | StatisticsAlbumRevenue revenue ->
-        $"Generated revenue: {TextStyles.money revenue}"
-
 and studioText key =
     match key with
     | StudioCommonAlbumReleased name ->
@@ -495,7 +491,6 @@ and worldText key =
 
 and fromConstant textNamespace =
     match textNamespace with
-    | BankText key -> bankText key
     | CommandText key -> commandText key
     | CommonText key -> commonText key
     | ConcertSpaceText key -> concertSpaceText key
@@ -503,6 +498,5 @@ and fromConstant textNamespace =
     | MainMenuText key -> mainMenuText key
     | PhoneText key -> phoneText key
     | RehearsalSpaceText key -> rehearsalText key
-    | StatisticsText key -> statisticsText key
     | StudioText key -> studioText key
     | WorldText key -> worldText key

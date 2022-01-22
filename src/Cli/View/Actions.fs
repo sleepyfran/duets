@@ -35,8 +35,6 @@ and Scene =
     | BandCreator of Character
     | World
     | Management
-    | Bank
-    | Statistics
     | Phone
 
 /// Defines an object that can be placed in an interactive room so that the user

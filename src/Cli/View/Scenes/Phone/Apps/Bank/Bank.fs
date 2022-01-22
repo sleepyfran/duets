@@ -1,21 +1,20 @@
-module Cli.View.Scenes.Bank.Root
+module Cli.View.Scenes.Phone.Apps.Bank.Root
 
 open Agents
 open Cli.View.Actions
 open Cli.View.Common
-open Cli.View.Scenes.Bank
 open Cli.View.Text
 open Entities
 open Simulation.Queries
 
-let rehearsalOptions =
+let private rehearsalOptions =
     [ { Id = "transfer_to_band"
-        Text = I18n.translate (BankText BankTransferToBand) }
+        Text = I18n.translate (PhoneText BankAppTransferToBand) }
       { Id = "transfer_from_band"
-        Text = I18n.translate (BankText BankTransferFromBand) } ]
+        Text = I18n.translate (PhoneText BankAppTransferFromBand) } ]
 
 /// Creates the bank scene which allows to transfer money between accounts.
-let rec bankScene () =
+let rec bankApp () =
     let state = State.get ()
 
     let characterAccount =
@@ -33,14 +32,14 @@ let rec bankScene () =
 
     seq {
         yield
-            BankWelcome(characterBalance, bandBalance)
-            |> BankText
+            BankAppWelcome(characterBalance, bandBalance)
+            |> PhoneText
             |> I18n.translate
             |> Message
 
         yield
             Prompt
-                { Title = I18n.translate (BankText BankPrompt)
+                { Title = I18n.translate (PhoneText BankAppPrompt)
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
@@ -51,12 +50,14 @@ let rec bankScene () =
                             BackText = I18n.translate (CommonText CommonBack) } }
     }
 
-and processSelection characterAccount bandAccount choice =
+and private processSelection characterAccount bandAccount choice =
     seq {
         match choice.Id with
         | "transfer_to_band" ->
-            yield! Transfer.transferSubScene characterAccount bandAccount
+            yield!
+                Transfer.transferSubScene bankApp characterAccount bandAccount
         | "transfer_from_band" ->
-            yield! Transfer.transferSubScene bandAccount characterAccount
+            yield!
+                Transfer.transferSubScene bankApp bandAccount characterAccount
         | _ -> yield NoOp
     }

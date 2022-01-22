@@ -1,32 +1,32 @@
-module Cli.View.Scenes.Statistics.Band
+module Cli.View.Scenes.Phone.Apps.Statistics.Band
 
 open Agents
 open Cli.View.Actions
 open Cli.View.Text
 open Simulation.Queries
 
-let bandStatisticsSubScene () =
+let bandStatisticsSubScene statisticsApp =
     let state = State.get ()
     let band = Bands.currentBand state
 
     seq {
         yield
-            StatisticsBandName band.Name
-            |> StatisticsText
+            StatisticsAppBandName band.Name
+            |> PhoneText
             |> I18n.translate
             |> Message
 
         yield
-            StatisticsBandStartDate band.StartDate
-            |> StatisticsText
+            StatisticsAppBandStartDate band.StartDate
+            |> PhoneText
             |> I18n.translate
             |> Message
 
         yield
-            StatisticsBandFame band.Fame
-            |> StatisticsText
+            StatisticsAppBandFame band.Fame
+            |> PhoneText
             |> I18n.translate
             |> Message
 
-        yield Scene Statistics
+        yield! statisticsApp ()
     }

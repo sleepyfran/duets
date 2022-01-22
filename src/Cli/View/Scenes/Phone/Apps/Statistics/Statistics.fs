@@ -1,21 +1,21 @@
-module Cli.View.Scenes.Statistics.Root
+module Cli.View.Scenes.Phone.Apps.Statistics.Root
 
 open Cli.View.Actions
 open Cli.View.Common
 open Cli.View.Text
 
-let statisticOptions =
+let private statisticOptions =
     [ { Id = "band"
-        Text = I18n.translate (StatisticsText StatisticsSectionBand) }
+        Text = I18n.translate (PhoneText StatisticsAppSectionBand) }
       { Id = "albums"
-        Text = I18n.translate (StatisticsText StatisticsSectionAlbums) } ]
+        Text = I18n.translate (PhoneText StatisticsAppSectionAlbums) } ]
 
-let rec statisticsScene () =
+let rec statisticsApp () =
     seq {
         yield
             Prompt
                 { Title =
-                      I18n.translate (StatisticsText StatisticsSectionPrompt)
+                      I18n.translate (PhoneText StatisticsAppSectionPrompt)
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
@@ -27,10 +27,10 @@ let rec statisticsScene () =
 
     }
 
-and processSelection selection =
+and private processSelection selection =
     seq {
         match selection.Id with
-        | "band" -> yield! Band.bandStatisticsSubScene ()
-        | "albums" -> yield! Albums.albumsStatisticsSubScene ()
+        | "band" -> yield! Band.bandStatisticsSubScene statisticsApp
+        | "albums" -> yield! Albums.albumsStatisticsSubScene statisticsApp
         | _ -> yield NoOp
     }
