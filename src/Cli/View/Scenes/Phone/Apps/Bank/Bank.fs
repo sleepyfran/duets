@@ -7,7 +7,7 @@ open Cli.View.Text
 open Entities
 open Simulation.Queries
 
-let private rehearsalOptions =
+let private bankOptions =
     [ { Id = "transfer_to_band"
         Text = I18n.translate (PhoneText BankAppTransferToBand) }
       { Id = "transfer_from_band"
@@ -43,7 +43,7 @@ let rec bankApp () =
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler
-                          { Choices = rehearsalOptions
+                          { Choices = bankOptions
                             Handler =
                                 phoneOptionalChoiceHandler
                                 <| processSelection characterAccount bandAccount

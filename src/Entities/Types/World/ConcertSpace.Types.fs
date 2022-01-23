@@ -2,9 +2,6 @@ namespace Entities
 
 [<AutoOpen>]
 module ConcertSpaceTypes =
-    /// Unique identifier of a concert space.
-    type ConcertSpaceId = ConcertSpaceId of Identity
-
     /// Represents a place where the user can have concerts.
     type ConcertSpace =
         { Name: string

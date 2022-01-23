@@ -19,7 +19,9 @@ let rec hireSubScene () =
                       <| OptionalChoiceHandler
                           { Choices = instrumentOptions
                             Handler =
-                                basicOptionalChoiceHandler (Scene Management)
+                                basicOptionalChoiceHandler (
+                                    seq { Scene Management }
+                                )
                                 <| memberSelection
                             BackText = I18n.translate (CommonText CommonCancel) } }
     }

@@ -52,7 +52,9 @@ and showMenu savegameState =
                           { Choices =
                                 menuOptions (savegameState = Savegame.Available)
                             Handler =
-                                basicOptionalChoiceHandler NoOp processSelection
+                                basicOptionalChoiceHandler
+                                    (seq { NoOp })
+                                    processSelection
                             BackText =
                                 I18n.translate (MainMenuText MainMenuExit) } }
     }

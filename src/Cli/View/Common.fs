@@ -94,7 +94,7 @@ let instrumentOptions =
 let basicOptionalChoiceHandler backHandler choiceHandler choice =
     seq {
         match choice with
-        | Back -> yield backHandler
+        | Back -> yield! backHandler
         | Choice choice -> yield! choiceHandler choice
     }
 
@@ -102,16 +102,16 @@ let basicOptionalChoiceHandler backHandler choiceHandler choice =
 /// main menu.
 let mainMenuOptionalChoiceHandler handler choice =
     basicOptionalChoiceHandler
-        (Scene <| MainMenu Savegame.Available)
+        (seq { Scene <| MainMenu Savegame.Available })
         handler
         choice
 
 /// Choice handler for optional prompts with the back option pointing to the
 /// world scene.
 let worldOptionalChoiceHandler handler choice =
-    basicOptionalChoiceHandler (Scene World) handler choice
+    basicOptionalChoiceHandler (seq { Scene World }) handler choice
 
 /// Choice handler for optional prompts with the back option pointing to the
 /// phone scene.
 let phoneOptionalChoiceHandler handler choice =
-    basicOptionalChoiceHandler (Scene Phone) handler choice
+    basicOptionalChoiceHandler (seq { Scene Phone }) handler choice

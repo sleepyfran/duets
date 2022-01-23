@@ -58,7 +58,7 @@ and actionPrompt studio band album =
                           { Choices = continueRecordOptions
                             Handler =
                                 basicOptionalChoiceHandler
-                                    (Scene Scene.World)
+                                    (seq { Scene Scene.World })
                                     (handleAction studio band album)
                             BackText = I18n.translate (CommonText CommonBack) } }
     }

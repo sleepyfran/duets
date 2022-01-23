@@ -42,7 +42,7 @@ let rec fireSubScene () =
                               { Choices = memberOptions
                                 Handler =
                                     basicOptionalChoiceHandler (
-                                        Scene Management
+                                        seq { Scene Management }
                                     )
                                     <| confirmFiring
                                 BackText =

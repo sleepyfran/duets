@@ -9,7 +9,7 @@ module ConcertTypes =
     type Concert =
         { Id: ConcertId
           City: CityId
-          Venue: ConcertSpaceId
+          Venue: NodeId
           Date: Date
           DayMoment: DayMoment
           TicketPrice: Amount }

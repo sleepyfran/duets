@@ -1,7 +1,7 @@
 module Entities.Calendar
 
-open System
 open Fugit.Months
+open System
 
 /// Returns the day moment of the given date. Defaults to dawn if the time does
 /// not have an equivalent.
@@ -36,6 +36,25 @@ let withDayMoment dayMoment (date: Date) =
 
 /// Returns the given date with the hour set to the specified day moment.
 let withDayMoment' (date: Date) dayMoment = withDayMoment dayMoment date
+
+/// Returns the first date of the next month of the given date.
+let firstDayOfNextMonth (date: Date) =
+    let dateWithAddedMonth = date.AddMonths(1)
+    DateTime(dateWithAddedMonth.Year, dateWithAddedMonth.Month, 1)
+
+/// Retrieves all dates from today until the end of the month.
+let monthDaysFrom (date: Date) =
+    [ date.Day .. DateTime.DaysInMonth(date.Year, date.Month) ]
+    |> Seq.map (fun day -> DateTime(date.Year, date.Month, day))
+
+/// Attempts to parse a given string into a date.
+let parse (strDate: string) =
+    let couldParse, parsedDate = DateTime.TryParse strDate
+
+    if couldParse then
+        Some parsedDate
+    else
+        None
 
 /// Returns the date in which the game starts.
 let gameBeginning = January 1 2015 |> withDayMoment Dawn

@@ -43,6 +43,7 @@ and CommonText =
     | CommonBackToWorld
     | CommonBarName
     | CommonLobbyName
+    | CommonNothing
     | CommonSkillName of id: SkillId
     | CommonSkillImproved of
         characterName: string *
@@ -52,6 +53,7 @@ and CommonText =
         currentLevel: int
     | CommonInvalidLength
     | CommonInvalidCommand
+    | CommonDateWithDay of date: Date
 
 and ConcertSpaceText =
     | ConcertSpaceLobbyDescription of space: ConcertSpace
@@ -106,6 +108,11 @@ and PhoneText =
         transaction: BankTransaction
     | BankAppTransferNotEnoughFunds
     | BankAppTransferNothingTransferred
+    | SchedulerAssistantAppPrompt
+    | SchedulerAssistantAppShow
+    | SchedulerAssistantAppShowDatePrompt
+    | SchedulerAssistantAppShowCityPrompt
+    | SchedulerAssistantAppTicketPricePrompt
     | StatisticsAppTitle
     | StatisticsAppSectionPrompt
     | StatisticsAppSectionBand

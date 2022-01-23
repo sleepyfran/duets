@@ -106,6 +106,9 @@ and dayMomentName dayMoment =
     | Night -> "Night"
     | Midnight -> "Midnight"
 
+/// Returns the name of the day in the given date.
+and dayName (date: Date) = date.DayOfWeek.ToString()
+
 /// Returns the formatted name for an album type.
 and albumType t =
     match t with
@@ -201,6 +204,7 @@ and commonText key =
     | CommonBackToWorld -> TextStyles.faded "Back to world"
     | CommonBarName -> "Bar"
     | CommonLobbyName -> "Lobby"
+    | CommonNothing -> "Nothing"
     | CommonSkills -> "Skills"
     | CommonSkillName skillId -> skillName skillId
     | CommonSkillImproved (characterName,
@@ -217,6 +221,8 @@ and commonText key =
     | CommonInvalidCommand ->
         TextStyles.error
             $"""That command was not valid. Maybe try again or enter {TextStyles.information "help"} if you're lost"""
+    | CommonDateWithDay date ->
+        $"""{TextStyles.highlight (dayName date)}, {TextStyles.faded (formatDate date)}"""
 
 and concertSpaceText key =
     match key with
@@ -304,6 +310,14 @@ and phoneText key =
         TextStyles.error "Not enough funds in the sender account"
     | BankAppTransferNothingTransferred ->
         TextStyles.success "Nothing transferred"
+    | SchedulerAssistantAppPrompt ->
+        TextStyles.prompt "What do you want to book?"
+    | SchedulerAssistantAppShow -> "Book show"
+    | SchedulerAssistantAppShowDatePrompt -> "When is the concert happening?"
+    | SchedulerAssistantAppShowCityPrompt -> "In which city?"
+    | SchedulerAssistantAppTicketPricePrompt ->
+        $"""What will the price of each ticket be? {TextStyles.danger
+                                                        "Keep in mind that putting high prices might affect how many people will go"}"""
     | StatisticsAppTitle -> "Statistics"
     | StatisticsAppSectionPrompt ->
         $"""{TextStyles.prompt "What data do you want to visualize?"}"""

@@ -185,6 +185,9 @@ module FromState =
             >-> Map.key_ bandId
 
     module World =
+        /// Lenses to the cities field in the world.
+        let cities_ = State.world_ >-> World.cities_
+
         /// Lenses to the current city in the world given its ID.
         let city_ cityId =
             State.world_ >-> World.cities_ >-> Map.key_ cityId

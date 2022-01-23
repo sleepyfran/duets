@@ -14,7 +14,11 @@ let private phoneOptions =
 
       yield
           { Id = "statistics"
-            Text = I18n.translate (PhoneText PhoneOptionStatistics) } ]
+            Text = I18n.translate (PhoneText PhoneOptionStatistics) }
+
+      yield
+          { Id = "scheduler"
+            Text = I18n.constant "Scheduler assistant" } ]
 
 let rec phoneScene () =
     let currentDate = State.get () |> Queries.Calendar.today
@@ -45,5 +49,7 @@ and processSelection choice =
         match choice.Id with
         | "bank" -> yield! Apps.Bank.Root.bankApp ()
         | "statistics" -> yield! Apps.Statistics.Root.statisticsApp ()
+        | "scheduler" ->
+            yield! Apps.SchedulerAssistant.Root.schedulerAssistantApp ()
         | _ -> yield NoOp
     }

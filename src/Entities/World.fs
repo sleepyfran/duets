@@ -60,6 +60,24 @@ module Node =
         { Id = Identity.create ()
           Content = content }
 
+    /// Retrieves the inner concert space from a room.
+    let concertSpaceFromRoom room =
+        match room with
+        | ConcertSpaceRoom.Lobby space -> space
+        | ConcertSpaceRoom.Bar space -> space
+        | ConcertSpaceRoom.Stage space -> space
+
+    /// Attempts to retrieve a concert space from the given node if its
+    /// type it's a concert space.
+    let concertSpace node =
+        match node with
+        | InsideNode insideNode ->
+            match insideNode with
+            | ConcertSpaceRoom concertSpaceRoom ->
+                concertSpaceFromRoom concertSpaceRoom |> Some
+            | _ -> None
+        | _ -> None
+
 [<RequireQualifiedAccess>]
 module City =
     /// Creates a city with only one initial starting node.
