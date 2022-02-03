@@ -60,23 +60,40 @@ module Node =
         { Id = Identity.create ()
           Content = content }
 
-    /// Retrieves the inner concert space from a room.
-    let concertSpaceFromRoom room =
-        match room with
-        | ConcertSpaceRoom.Lobby space -> space
-        | ConcertSpaceRoom.Bar space -> space
-        | ConcertSpaceRoom.Stage space -> space
+[<RequireQualifiedAccess>]
+module Place =
+    /// Creates a place with the given initial room and no exits.
+    let create space startingNode =
+        { Space = space
+          Rooms = Graph.from startingNode
+          Exits = Map.empty }
 
-    /// Attempts to retrieve a concert space from the given node if its
-    /// type it's a concert space.
-    let concertSpace node =
-        match node with
-        | InsideNode insideNode ->
-            match insideNode with
-            | ConcertSpaceRoom concertSpaceRoom ->
-                concertSpaceFromRoom concertSpaceRoom |> Some
-            | _ -> None
-        | _ -> None
+    /// Adds a room to the place.
+    let addRoom room =
+        Optic.map Lenses.World.Place.rooms_ (Graph.addNode room)
+
+    /// Adds a connection between two room nodes in the specified direction.
+    let addConnection
+        (fromRoom: Node<'r>)
+        (toRoom: Node<'r>)
+        direction
+        (place: Place<'s, 'r>)
+        =
+        Optic.map
+            Lenses.World.Place.rooms_
+            (Graph.addConnection fromRoom.Id toRoom.Id direction)
+            place
+
+    /// Adds an exit from the given room node to the specified city node.
+    let addExit
+        (roomNode: Node<'r>)
+        (cityNode: Node<CityNode>)
+        (place: Place<'s, 'r>)
+        =
+        Optic.map
+            Lenses.World.Place.exits
+            (Map.add roomNode.Id cityNode.Id)
+            place
 
 [<RequireQualifiedAccess>]
 module City =

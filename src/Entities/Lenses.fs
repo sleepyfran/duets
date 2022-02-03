@@ -122,6 +122,19 @@ module World =
             connections_
             >-> Map.keyWithDefault_ nodeId Map.empty
 
+    module Place =
+        let space_ =
+            (fun (p: Place<'a, 'b>) -> p.Space),
+            (fun v (p: Place<'a, 'b>) -> { p with Space = v })
+
+        let rooms_ =
+            (fun (p: Place<'a, 'b>) -> p.Rooms),
+            (fun v (p: Place<'a, 'b>) -> { p with Rooms = v })
+
+        let exits =
+            (fun (p: Place<'a, 'b>) -> p.Exits),
+            (fun v (p: Place<'a, 'b>) -> { p with Exits = v })
+
     module City =
         let graph_ =
             (fun (c: City) -> c.Graph),

@@ -20,12 +20,10 @@ let startGame (character: Character) (band: Band) =
              BankAccount.forCharacterWithBalance character.Id 10000<dd>)
             (Band band.Id, BankAccount.forBand band.Id) ]
           |> Map.ofSeq
-      Concerts = ConcertContext.empty
       Character = character
       CharacterSkills = [ (character.Id, Map.empty) ] |> Map.ofList
       CurrentBandId = band.Id
-      CurrentPosition = (initialCity.Id, initialCity.Graph.StartingNode)
-      Schedule = Map.empty
+      CurrentPosition = initialCity.Id, Node initialCity.Graph.StartingNode
       Today = Calendar.gameBeginning
       GenreMarkets = GenreMarket.create (Database.genres ())
       World = world }

@@ -83,8 +83,8 @@ and private processCity app date choice =
     let concertSpaceOptions =
         World.allConcertSpacesOfCity (State.get ()) selectedCity.Id
         |> List.map
-            (fun concertSpace ->
-                { Id = concertSpace.Name
+            (fun (id, concertSpace) ->
+                { Id = id.ToString()
                   Text = I18n.constant concertSpace.Name })
 
     seq {
@@ -107,9 +107,8 @@ and private processCity app date choice =
     }
 
 and private processVenue app date city choice =
-    // TODO: Identify concerts by ID and not by name.
     let selectedVenue =
-        World.concertSpaceByName (State.get ()) city.Id choice.Id
+        World.concertSpaceById (State.get ()) city.Id (Identity.from choice.Id)
         |> Option.get
 
     seq {

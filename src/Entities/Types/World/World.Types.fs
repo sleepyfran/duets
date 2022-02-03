@@ -37,11 +37,14 @@ module WorldTypes =
     /// Defines the relationship between a node ID and its content.
     type Node<'a> = { Id: NodeId; Content: 'a }
 
-    /// Defines all types of rooms that are available inside a place.
-    type InsideNode =
-        | ConcertSpaceRoom of ConcertSpaceRoom
-        | RehearsalSpaceRoom of RehearsalSpaceRoom
-        | StudioRoom of StudioRoom
+    /// Defines a place inside of the game world, which wraps a given space
+    /// (could be any inside space like a rehearsal place or a concert hall), the
+    /// rooms that the place itself contains and the exits that connect that
+    /// place with the outside.
+    type Place<'s, 'r> =
+        { Space: 's
+          Rooms: Graph<'r>
+          Exits: Map<NodeId, NodeId> }
 
     /// Defines all the different terms that can be used to describe a street.
     type OutsideNodeDescriptor =
@@ -67,11 +70,21 @@ module WorldTypes =
     /// Defines a node in the game, which represents one space inside of the
     /// map that the player can be in.
     type CityNode =
-        | InsideNode of InsideNode
+        | ConcertPlace of Place<ConcertSpace, ConcertSpaceRoom>
+        | RehearsalPlace of Place<RehearsalSpace, RehearsalSpaceRoom>
+        | StudioPlace of Place<Studio, StudioRoom>
         | OutsideNode of OutsideNode
 
     /// Unique identifier of a city.
     type CityId = Identity
+
+    /// Defines the coordinates to a specific point inside a city.
+    type NodeCoordinates =
+        | Room of placeId: NodeId * roomId: NodeId
+        | Node of nodeId: NodeId
+
+    /// Defines the coordinates to a specific point in the game world.
+    type WorldCoordinates = CityId * NodeCoordinates
 
     /// Defines a city in the world as a connection of nodes with one of them
     /// being the entrypoint. Nodes can be rooms, places or streets that
@@ -84,7 +97,3 @@ module WorldTypes =
 
     /// Defines the game world which contains all cities.
     type World = { Cities: Map<CityId, City> }
-
-    /// Defines the coordinates to a point of the world map as the city and
-    /// the node in which the character is in.
-    type Coordinates = CityId * NodeId

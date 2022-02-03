@@ -13,7 +13,7 @@ module DirectionsCommand =
     let create entrances =
         entrances
         |> List.map
-            (fun (direction, linkedNodeId) ->
+            (fun (direction, _, coordinates) ->
                 let commandName =
                     match direction with
                     | North -> "n"
@@ -36,7 +36,7 @@ module DirectionsCommand =
                               seq {
                                   yield
                                       State.get ()
-                                      |> World.Navigation.moveTo linkedNodeId
+                                      |> World.Navigation.moveTo coordinates
                                       |> Effect
 
                                   yield Scene Scene.World

@@ -16,9 +16,10 @@ and CommandText =
     | CommandLookDescription
     | CommandLookNoObjectsAround
     | CommandLookVisibleObjectsPrefix
-    | CommandLookOutsideEntrances of (Direction * Text) list
-    | CommandLookInsideEntrances of (Direction * Text) list
+    | CommandLookEntrances of (Direction * Text) list
+    | CommandLookExit of Text
     | CommandLookObjectEntry of ObjectType * string list
+    | CommandOutDescription
     | CommandExitDescription
     | CommandMapDescription
     | CommandPhoneDescription

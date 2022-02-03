@@ -18,10 +18,14 @@ module World =
             >?> Lenses.World.Graph.nodes_
 
         Optic.get graphNodesLenses state
-        |> Option.map List.ofMapValues
+        |> Option.map List.ofSeq
         |> Option.defaultValue []
-        |> List.choose World.Node.concertSpace
-        |> List.distinctBy (fun space -> space.Name)
+        |> List.choose
+            (fun kvp ->
+                match kvp.Value with
+                | ConcertPlace place -> Some(kvp.Key, place.Space)
+                | _ -> None)
+        |> List.distinctBy fst
 
     /// Returns a specific city given its ID.
     let cityById state cityId =
@@ -29,19 +33,22 @@ module World =
 
     /// Retrieves a concert space given its node ID and the ID of the city
     /// that contains it.
-    let concertSpaceByName state cityId name =
+    let concertSpaceById state cityId nodeId =
         let graphNodesLenses =
             Lenses.FromState.World.cityGraph_ cityId
             >?> Lenses.World.Graph.nodes_
 
         Optic.get graphNodesLenses state
-        |> Option.map List.ofMapValues
-        |> Option.defaultValue []
-        |> List.choose World.Node.concertSpace
-        |> List.tryFind (fun space -> space.Name = name)
+        |> Option.defaultValue Map.empty
+        |> Map.tryFind nodeId
+        |> Option.map
+            (fun node ->
+                match node with
+                | ConcertPlace place -> Some place.Space
+                | _ -> None)
 
     /// Returns the content of the given node in the graph.
-    let contentOf id (graph: Graph<'a>) =
+    let contentOf (graph: Graph<'a>) id =
         Optic.get (Lenses.World.Graph.node_ id) graph
         |> Option.get
 
@@ -55,18 +62,21 @@ module World =
     /// Returns the content of the current position of the player and an optional
     /// ID to a room inside that place (if any).
     let currentPosition state =
-        let (currentCityId, currentNodeId) = state.CurrentPosition
+        let (cityId, nodeCoordinates) = state.CurrentPosition
 
         let city =
-            Optic.get (Lenses.FromState.World.city_ currentCityId) state
+            Optic.get (Lenses.FromState.World.city_ cityId) state
             |> Option.get
 
-        let positionContent =
-            Optic.get
-                (Lenses.FromState.World.node_ currentCityId currentNodeId)
-                state
+        let nodeId =
+            match nodeCoordinates with
+            | Room (placeId, _) -> placeId
+            | Node nodeId -> nodeId
+
+        let cityNodeContent =
+            Optic.get (Lenses.FromState.World.node_ cityId nodeId) state
             |> Option.get
 
         {| City = city
-           NodeId = currentNodeId
-           NodeContent = positionContent |}
+           Coordinates = nodeCoordinates
+           NodeContent = cityNodeContent |}

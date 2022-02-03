@@ -6,15 +6,13 @@ module StateTypes =
     /// of the game.
     type State =
         { Bands: Map<BandId, Band>
+          Character: Character
+          CharacterSkills: CharacterSkills
+          CurrentBandId: BandId
+          CurrentPosition: WorldCoordinates
           BandSongRepertoire: BandSongRepertoire
           BandAlbumRepertoire: BandAlbumRepertoire
           BankAccounts: Map<BankAccountHolder, BankAccount>
-          Character: Character
-          CharacterSkills: CharacterSkills
-          Concerts: ConcertContext
-          CurrentBandId: BandId
-          CurrentPosition: Coordinates
-          GenreMarkets: GenreMarketByGenre
-          Schedule: ScheduledEvents
           Today: Date
+          GenreMarkets: GenreMarketByGenre
           World: World }

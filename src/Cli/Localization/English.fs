@@ -156,20 +156,18 @@ and commandText key =
     | CommandDirectionDescription direction ->
         $"Follows the {directionName direction} direction"
     | CommandLookDescription -> "Shows all the objects you have around you"
-    | CommandLookOutsideEntrances entrances ->
-        $"""You can enter to {listOf
-                                  entrances
-                                  (fun (direction, name) ->
-                                      $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
-    | CommandLookInsideEntrances entrances ->
+    | CommandLookEntrances entrances ->
         $"""You can go to the {listOf
                                    entrances
                                    (fun (direction, name) ->
                                        $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
+    | CommandLookExit exit ->
+        $"""There's also an exit to {TextStyles.place (toString exit)}({TextStyles.information "out"})"""
     | CommandLookNoObjectsAround -> "There are no objects around you"
     | CommandLookVisibleObjectsPrefix -> "You can see:"
     | CommandLookObjectEntry (objectType, commandNames) ->
         $"- {objectName objectType |> TextStyles.object}, you can interact with it by calling {listOf commandNames id |> TextStyles.action}"
+    | CommandOutDescription -> "Exits the current place"
     | CommandExitDescription -> "Exits the game saving the progress"
     | CommandMapDescription ->
         "Shows the map of the game where you can quickly travel to other places"

@@ -36,111 +36,27 @@ let private listObjects objects =
                 )
     }
 
-/// Returns the name of the place that contains a given node. This means that,
-/// in the case of a room, it'll return the name of the space itself instead
-/// of the room (for example, the name of a rehearsal space instead of the room
-/// name). Useful when the player is outside to describe places that they can
-/// potentially enter instead of naming the room.
-let private getPlaceName nodeContent =
-    match nodeContent with
-    | InsideNode room ->
-        match room with
-        | ConcertSpaceRoom room -> ConcertSpace.getPlaceName room
-        | RehearsalSpaceRoom room -> RehearsalRoom.Root.getPlaceName room
-        | StudioRoom room -> Studio.Root.getPlaceName room
-    | OutsideNode street -> Literal street.Name
-
-
-/// Returns the name of a room. If the node is a street then returns the name
-/// of the street.
-let private getRoomName nodeContent =
-    match nodeContent with
-    | InsideNode room ->
-        match room with
-        | RehearsalSpaceRoom room -> RehearsalRoom.Root.getRoomName room
-        | StudioRoom room -> Studio.Root.getRoomName room
-        | ConcertSpaceRoom room -> ConcertSpace.getRoomName room
-    | OutsideNode street -> Literal street.Name
-
-type private NodeKey =
-    | InsideNodeKey
-    | OutsideNodeKey
-
-let private listRoomEntrances entrances =
-    let currentPosition =
-        State.get () |> Queries.World.currentPosition
-
-    let entrancesByNodeKey =
-        entrances
-        |> List.fold
-            (fun acc (direction, roomId) ->
-                let connectingNode =
-                    Queries.World.contentOf roomId currentPosition.City.Graph
-
-                let addToMapList key nodeName =
-                    Map.change
-                        key
-                        (fun x ->
-                            match x with
-                            | Some entrances ->
-                                entrances @ [ (direction, nodeName) ] |> Some
-                            | None -> Some [ (direction, nodeName) ])
-
-                match currentPosition.NodeContent with
-                // When the player is outside every connection counts as
-                // outside since we're listing the name of the building
-                // and not the room name.
-                | OutsideNode _ ->
-                    addToMapList
-                        OutsideNodeKey
-                        (getPlaceName connectingNode)
-                        acc
-                | InsideNode _ ->
-                    // When the player is inside a room we need to list the name
-                    // of other rooms that connect with the current one, but when
-                    // they are in a street then we need to display the name of
-                    // the place itself (example: Rehearsal room's name instead
-                    // of the lobby room)
-                    match connectingNode with
-                    | InsideNode _ ->
-                        addToMapList
-                            InsideNodeKey
-                            (getRoomName connectingNode)
-                            acc
-                    | OutsideNode _ ->
-                        addToMapList
-                            OutsideNodeKey
-                            (getPlaceName connectingNode)
-                            acc)
-            Map.empty
-
-    let insideEntrances =
-        Map.tryFind InsideNodeKey entrancesByNodeKey
-
-    let outsideEntrances =
-        Map.tryFind OutsideNodeKey entrancesByNodeKey
-
+let private listRoomConnections entrances exit =
     seq {
-        match insideEntrances with
-        | Some entrances ->
-            yield
-                CommandLookInsideEntrances entrances
-                |> CommandText
-                |> I18n.translate
-                |> Message
-        | _ -> ()
+        yield
+            entrances
+            |> List.map (fun (a, b, _) -> a, b)
+            |> CommandLookEntrances
+            |> CommandText
+            |> I18n.translate
+            |> Message
 
-        match outsideEntrances with
-        | Some entrances ->
+        match exit with
+        | Some (_, exitName) ->
             yield
-                CommandLookOutsideEntrances entrances
+                CommandLookExit exitName
                 |> CommandText
                 |> I18n.translate
                 |> Message
         | _ -> ()
     }
 
-let private createLookCommand entrances description objects =
+let private createLookCommand entrances exit description objects =
     { Name = "look"
       Description = I18n.translate (CommandText CommandLookDescription)
       Handler =
@@ -150,74 +66,150 @@ let private createLookCommand entrances description objects =
                       yield Message description
                       yield! listObjects objects
                       yield NewLine
-                      yield! listRoomEntrances entrances
+                      yield! listRoomConnections entrances exit
                   }) }
 
-let private getNodeDescription nodeContent =
-    match nodeContent with
-    | InsideNode room ->
-        match room with
-        | RehearsalSpaceRoom room -> RehearsalRoom.Root.getRoomDescription room
-        | StudioRoom room -> Studio.Root.getRoomDescription room
-        | ConcertSpaceRoom room -> ConcertSpace.getRoomDescription room
-    | OutsideNode street ->
-        match street.Type with
-        | Street -> WorldStreetDescription(street.Name, street.Descriptors)
-        | Boulevard ->
-            WorldBoulevardDescription(street.Name, street.Descriptors)
-        | Square -> WorldSquareDescription(street.Name, street.Descriptors)
-        |> WorldText
-        |> I18n.translate
+let private createOutCommand coordinates =
+    { Name = "out"
+      Description = I18n.translate (CommandText CommandOutDescription)
+      Handler =
+          HandlerWithNavigation
+              (fun _ ->
+                  seq {
+                      yield
+                          State.get ()
+                          |> World.Navigation.moveTo coordinates
+                          |> Effect
 
-let private getNodeObjects nodeContent =
-    match nodeContent with
-    | InsideNode room ->
-        match room with
-        | RehearsalSpaceRoom room -> RehearsalRoom.Root.getRoomObjects room
-        | StudioRoom room -> Studio.Root.getRoomObjects room
-        | ConcertSpaceRoom room -> ConcertSpace.getRoomObjects room
-    | OutsideNode street ->
-        match street.Descriptors with
-        | _ -> []
+                      yield Scene Scene.World
+                  }) }
 
-let private getNodeCommands nodeContent =
+let private getPlaceName nodeContent =
     match nodeContent with
-    | InsideNode room ->
-        match room with
-        | RehearsalSpaceRoom room -> RehearsalRoom.Root.getRoomCommands room
-        | StudioRoom room -> Studio.Root.getRoomCommands room
-        | ConcertSpaceRoom room -> ConcertSpace.getRoomCommands room
-    | OutsideNode street ->
-        match street.Descriptors with
-        | _ -> []
+    | ConcertPlace place -> Literal place.Space.Name
+    | RehearsalPlace place -> Literal place.Space.Name
+    | StudioPlace place -> Literal place.Space.Name
+    | OutsideNode node -> Literal node.Name
+
+let private nodeInformation city nodeContent placeId roomId =
+    let getEntrances nodeId graph getNodeName getCoordinates =
+        Queries.World.availableDirections nodeId graph
+        |> List.map
+            (fun (direction, roomId) ->
+                Queries.World.contentOf graph roomId
+                |> getNodeName
+                |> fun name -> (direction, name, getCoordinates roomId))
+
+    let getExit nodeId exits =
+        exits
+        |> Map.tryFind nodeId
+        |> Option.map
+            (fun exitNodeId ->
+                let exitNodeName =
+                    Queries.World.contentOf city.Graph exitNodeId
+                    |> getPlaceName
+
+                Node exitNodeId, exitNodeName)
+
+    match nodeContent with
+    | ConcertPlace place ->
+        let roomId =
+            roomId
+            |> Option.defaultValue place.Rooms.StartingNode
+
+        let room =
+            Queries.World.contentOf place.Rooms roomId
+
+        (getEntrances
+            roomId
+            place.Rooms
+            ConcertSpace.getRoomName
+            (fun connectingId -> Room(placeId, connectingId)),
+         (getExit roomId place.Exits),
+         ConcertSpace.getRoomDescription room,
+         ConcertSpace.getRoomObjects room,
+         ConcertSpace.getRoomCommands room)
+    | RehearsalPlace place ->
+        let roomId =
+            roomId
+            |> Option.defaultValue place.Rooms.StartingNode
+
+        let room =
+            Queries.World.contentOf place.Rooms roomId
+
+        (getEntrances
+            roomId
+            place.Rooms
+            RehearsalRoom.Root.getRoomName
+            (fun connectingId -> Room(placeId, connectingId)),
+         (getExit roomId place.Exits),
+         RehearsalRoom.Root.getRoomDescription room,
+         RehearsalRoom.Root.getRoomObjects room,
+         RehearsalRoom.Root.getRoomCommands room)
+    | StudioPlace place ->
+        let roomId =
+            roomId
+            |> Option.defaultValue place.Rooms.StartingNode
+
+        let room =
+            Queries.World.contentOf place.Rooms roomId
+
+        (getEntrances
+            roomId
+            place.Rooms
+            Studio.Root.getRoomName
+            (fun connectingId -> Room(placeId, connectingId)),
+         (getExit roomId place.Exits),
+         Studio.Root.getRoomDescription room,
+         Studio.Root.getRoomObjects room,
+         Studio.Root.getRoomCommands room)
+    | OutsideNode node ->
+        let description =
+            match node.Type with
+            | Street -> WorldStreetDescription(node.Name, node.Descriptors)
+            | Boulevard ->
+                WorldBoulevardDescription(node.Name, node.Descriptors)
+            | Square -> WorldSquareDescription(node.Name, node.Descriptors)
+            |> WorldText
+            |> I18n.translate
+
+        (getEntrances placeId city.Graph getPlaceName Node,
+         None,
+         description,
+         [],
+         [])
 
 let rec worldScene () =
     let currentPosition =
         State.get () |> Queries.World.currentPosition
 
-    let entrances =
-        Queries.World.availableDirections
-            currentPosition.NodeId
-            currentPosition.City.Graph
+    let placeId, roomId =
+        match currentPosition.Coordinates with
+        | Room (placeId, roomId) -> placeId, Some roomId
+        | Node nodeId -> nodeId, None
 
-    let description =
-        getNodeDescription currentPosition.NodeContent
-
-    let objects =
-        getNodeObjects currentPosition.NodeContent
+    let (entrances, exit, description, objects, commands) =
+        nodeInformation
+            currentPosition.City
+            currentPosition.NodeContent
+            placeId
+            roomId
 
     let objectCommands =
         List.collect (fun object -> object.Commands) objects
 
     let commands =
-        getNodeCommands currentPosition.NodeContent
+        commands
         @ objectCommands
-          @ [ (createLookCommand entrances description objects) ]
+          @ [ (createLookCommand entrances exit description objects) ]
             @ DirectionsCommand.create entrances
+              @ [ match exit with
+                  | Some (coordinates, _) -> yield createOutCommand coordinates
+                  | None -> () ]
 
     seq {
         yield Message description
-        yield! listRoomEntrances entrances
+        yield! listRoomConnections entrances exit
 
         yield
             Prompt
