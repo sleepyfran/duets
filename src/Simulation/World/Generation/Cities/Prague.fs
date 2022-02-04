@@ -148,6 +148,7 @@ and addRedutaJazzClub street city =
         |> World.Place.addConnection lobby bar West
         |> World.Place.addRoom stage
         |> World.Place.addConnection bar stage North
+        |> World.Place.addExit lobby street
         |> ConcertPlace
         |> World.Node.create
 
