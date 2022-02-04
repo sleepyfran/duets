@@ -106,6 +106,15 @@ and dayMomentName dayMoment =
     | Night -> "Night"
     | Midnight -> "Midnight"
 
+/// Returns the formatted time of a given day moment.
+and dayMomentTime dayMoment =
+    Calendar.Query.timeOfDayMoment dayMoment
+    |> fun hour ->
+        if hour > 9 then
+            $"{hour}:00"
+        else
+            $"0{hour}:00"
+
 /// Returns the name of the day in the given date.
 and dayName (date: Date) = date.DayOfWeek.ToString()
 
@@ -219,6 +228,8 @@ and commonText key =
     | CommonInvalidCommand ->
         TextStyles.error
             $"""That command was not valid. Maybe try again or enter {TextStyles.information "help"} if you're lost"""
+    | CommonDayMomentWithTime dayMoment ->
+        $"""{TextStyles.highlight (dayMomentName dayMoment)} {TextStyles.faded $"({dayMomentTime dayMoment})"}"""
     | CommonDateWithDay date ->
         $"""{TextStyles.highlight (dayName date)}, {TextStyles.faded (formatDate date)}"""
 
@@ -312,7 +323,9 @@ and phoneText key =
         TextStyles.prompt "What do you want to book?"
     | SchedulerAssistantAppShow -> "Book show"
     | SchedulerAssistantAppShowDatePrompt -> "When is the concert happening?"
+    | SchedulerAssistantAppShowTimePrompt -> "At what time?"
     | SchedulerAssistantAppShowCityPrompt -> "In which city?"
+    | SchedulerAssistantAppShowVenuePrompt -> "In which venue?"
     | SchedulerAssistantAppTicketPricePrompt ->
         $"""What will the price of each ticket be? {TextStyles.danger
                                                         "Keep in mind that putting high prices might affect how many people will go"}"""

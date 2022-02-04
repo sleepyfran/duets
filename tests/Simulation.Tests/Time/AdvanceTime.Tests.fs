@@ -34,7 +34,7 @@ let ``advanceDayMoment should roll over next day if current day moment is midnig
     =
     let initialDate =
         Calendar.gameBeginning
-        |> Calendar.withDayMoment Night
+        |> Calendar.Transform.changeDayMoment Night
 
     let effects = advanceDayMoment initialDate 1
 

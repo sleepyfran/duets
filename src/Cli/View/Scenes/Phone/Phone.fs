@@ -23,7 +23,7 @@ let private phoneOptions =
 let rec phoneScene () =
     let currentDate = State.get () |> Queries.Calendar.today
 
-    let dayMoment = Calendar.dayMomentOf currentDate
+    let dayMoment = Calendar.Query.dayMomentOf currentDate
 
     seq {
         yield

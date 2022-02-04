@@ -15,13 +15,15 @@ let state =
 
 let stateInMorning =
     { state with
-          Today = state.Today |> Calendar.withDayMoment Morning }
+          Today =
+              state.Today
+              |> Calendar.Transform.changeDayMoment Morning }
 
 let stateInMidnightBeforeGameStart =
     { state with
           Today =
               Calendar.gameBeginning
-              |> Calendar.withDayMoment Midnight }
+              |> Calendar.Transform.changeDayMoment Midnight }
 
 let unfinishedSong =
     (UnfinishedSong dummySong, 10<quality>, 10<quality>)

@@ -54,6 +54,7 @@ and CommonText =
         currentLevel: int
     | CommonInvalidLength
     | CommonInvalidCommand
+    | CommonDayMomentWithTime of dayMoment: DayMoment
     | CommonDateWithDay of date: Date
 
 and ConcertSpaceText =
@@ -112,7 +113,9 @@ and PhoneText =
     | SchedulerAssistantAppPrompt
     | SchedulerAssistantAppShow
     | SchedulerAssistantAppShowDatePrompt
+    | SchedulerAssistantAppShowTimePrompt
     | SchedulerAssistantAppShowCityPrompt
+    | SchedulerAssistantAppShowVenuePrompt
     | SchedulerAssistantAppTicketPricePrompt
     | StatisticsAppTitle
     | StatisticsAppSectionPrompt

@@ -11,13 +11,13 @@ open Simulation.Time.AdvanceTime
 open Simulation.Queries
 
 let private runYearlyEffects state time =
-    if Calendar.isFirstMomentOfYear time then
+    if Calendar.Query.isFirstMomentOfYear time then
         [ state.GenreMarkets |> GenreMarket.update ]
     else
         []
 
 let private runDailyEffects state time =
-    match Calendar.dayMomentOf time with
+    match Calendar.Query.dayMomentOf time with
     | Morning -> dailyUpdate state
     | _ -> []
 

@@ -5,7 +5,7 @@ open Fugit.Shorthand
 open Entities
 
 let private advanceOnce currentTime =
-    match Calendar.dayMomentOf currentTime with
+    match Calendar.Query.dayMomentOf currentTime with
     | Dawn -> Morning
     | Morning -> Midday
     | Midday -> Sunset
@@ -13,14 +13,14 @@ let private advanceOnce currentTime =
     | Dusk -> Night
     | Night -> Midnight
     | Midnight -> Dawn
-    |> Calendar.withDayMoment' currentTime
+    |> Calendar.Transform.changeDayMoment' currentTime
 
 let private advanceDay (currentTime: Date) =
     currentTime + oneDay
-    |> Calendar.withDayMoment Midnight
+    |> Calendar.Transform.changeDayMoment Midnight
 
 let private advanceTimeOnce (currentTime: Date) =
-    (if Calendar.dayMomentOf currentTime = Night then
+    (if Calendar.Query.dayMomentOf currentTime = Night then
          advanceDay currentTime
      else
          advanceOnce currentTime)

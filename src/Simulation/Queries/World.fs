@@ -41,7 +41,7 @@ module World =
         Optic.get graphNodesLenses state
         |> Option.defaultValue Map.empty
         |> Map.tryFind nodeId
-        |> Option.map
+        |> Option.bind
             (fun node ->
                 match node with
                 | ConcertPlace place -> Some place.Space

@@ -8,12 +8,16 @@ open Entities
 open Simulation.Queries
 
 let rec scheduleShow app =
-    let today = Calendar.today (State.get ())
+    // Skip 5 days to give enough time for the scheduler to compute some ticket
+    // purchases, otherwise the concert would be empty.
+    let firstAvailableDay =
+        Calendar.today (State.get ())
+        |> Calendar.Ops.addDays 5
 
-    scheduleShow' app today
+    scheduleShow' app firstAvailableDay
 
 and private scheduleShow' app firstDate =
-    let monthDays = Calendar.monthDaysFrom firstDate
+    let monthDays = Calendar.Query.monthDaysFrom firstDate
 
     let options =
         monthDays
@@ -26,7 +30,8 @@ and private scheduleShow' app firstDate =
                       |> I18n.translate })
         |> List.ofSeq
 
-    let nextMonthDate = Calendar.firstDayOfNextMonth firstDate
+    let nextMonthDate =
+        Calendar.Query.firstDayOfNextMonth firstDate
 
     seq {
         yield
@@ -42,12 +47,50 @@ and private scheduleShow' app firstDate =
                             Handler =
                                 basicOptionalChoiceHandler
                                     (scheduleShow' app nextMonthDate)
-                                    (processDate app)
+                                    (dayMomentPrompt app)
                             BackText = Literal "More months" } }
     }
 
-and private processDate app (choice: Choice) =
-    let selectedDate = Calendar.parse choice.Id |> Option.get
+and private dayMomentPrompt app (choice: Choice) =
+    let selectedDate =
+        Calendar.Parse.date choice.Id |> Option.get
+
+    // Midnight is not taking into account since we don't want to allow
+    // scheduling on the next day.
+    let dayMomentOptions =
+        Calendar.allDayMoments
+        |> List.tail
+        |> List.map
+            (fun dayMoment ->
+                { Id = dayMoment.ToString()
+                  Text =
+                      CommonDayMomentWithTime dayMoment
+                      |> CommonText
+                      |> I18n.translate })
+
+    seq {
+        yield
+            Prompt
+                { Title =
+                      I18n.translate (
+                          PhoneText SchedulerAssistantAppShowTimePrompt
+                      )
+                  Content =
+                      ChoicePrompt
+                      <| OptionalChoiceHandler
+                          { Choices = dayMomentOptions
+                            Handler =
+                                phoneOptionalChoiceHandler (
+                                    cityPrompt app selectedDate
+                                )
+                            BackText =
+                                (CommonText CommonCancel |> I18n.translate) } }
+    }
+
+and private cityPrompt app date (choice: Choice) =
+    let dateWithDayMoment =
+        Calendar.Parse.dayMoment choice.Id
+        |> Calendar.Transform.changeDayMoment' date
 
     let cityOptions =
         World.allCities (State.get ())
@@ -69,13 +112,13 @@ and private processDate app (choice: Choice) =
                           { Choices = cityOptions
                             Handler =
                                 phoneOptionalChoiceHandler (
-                                    processCity app selectedDate
+                                    venuePrompt app dateWithDayMoment
                                 )
                             BackText =
                                 (CommonText CommonCancel |> I18n.translate) } }
     }
 
-and private processCity app date choice =
+and private venuePrompt app date choice =
     let selectedCity =
         World.cityById (State.get ()) (System.Guid.Parse choice.Id)
         |> Option.get
@@ -92,7 +135,7 @@ and private processCity app date choice =
             Prompt
                 { Title =
                       I18n.translate (
-                          PhoneText SchedulerAssistantAppShowCityPrompt
+                          PhoneText SchedulerAssistantAppShowVenuePrompt
                       )
                   Content =
                       ChoicePrompt
@@ -100,17 +143,13 @@ and private processCity app date choice =
                           { Choices = concertSpaceOptions
                             Handler =
                                 phoneOptionalChoiceHandler (
-                                    processVenue app date selectedCity
+                                    ticketPricePrompt app date selectedCity
                                 )
                             BackText =
                                 (CommonText CommonCancel |> I18n.translate) } }
     }
 
-and private processVenue app date city choice =
-    let selectedVenue =
-        World.concertSpaceById (State.get ()) city.Id (Identity.from choice.Id)
-        |> Option.get
-
+and private ticketPricePrompt app date city choice =
     seq {
         yield
             Prompt
@@ -120,9 +159,13 @@ and private processVenue app date city choice =
                       )
                   Content =
                       NumberPrompt(
-                          processTicketPrice app date city selectedVenue
+                          handleTicketPrice
+                              app
+                              date
+                              city
+                              (Identity.from choice.Id)
                       ) }
     }
 
-and private processTicketPrice app date city venue ticketPrice =
+and private handleTicketPrice app date city venue ticketPrice =
     seq { yield $"{ticketPrice}" |> I18n.constant |> Message }
