@@ -22,4 +22,5 @@ module EffectTypes =
         | AlbumReleased of Band * ReleasedAlbum
         | AlbumReleasedUpdate of Band * ReleasedAlbum
         | GenreMarketsUpdated of GenreMarketByGenre
+        | ConcertScheduled of Band * Concert
         | WorldMoveTo of WorldCoordinates

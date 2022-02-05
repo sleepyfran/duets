@@ -31,6 +31,10 @@ module State =
         (fun (s: State) -> s.CharacterSkills),
         (fun v (s: State) -> { s with CharacterSkills = v })
 
+    let concerts_ =
+        (fun (s: State) -> s.Concerts),
+        (fun v (s: State) -> { s with Concerts = v })
+
     let currentPosition_ =
         (fun (s: State) -> s.CurrentPosition),
         (fun v (s: State) -> { s with CurrentPosition = v })
@@ -38,6 +42,10 @@ module State =
     let genreMarkets_ =
         (fun (s: State) -> s.GenreMarkets),
         (fun v (s: State) -> { s with GenreMarkets = v })
+
+    let scheduledEvents_ =
+        (fun (s: State) -> s.ScheduledEvents),
+        (fun v (s: State) -> { s with ScheduledEvents = v })
 
     let today_ =
         (fun (s: State) -> s.Today), (fun v (s: State) -> { s with Today = v })
@@ -180,9 +188,21 @@ module FromState =
         /// Lens into the past members of a specific band given the state and its id.
         let pastMembers_ id = band_ id >?> Band.pastMembers_
 
+    module Concerts =
+        /// Lens into all the concerts currently scheduled.
+        let allByBand_ bandId =
+            State.concerts_
+            >-> Map.keyWithDefault_ bandId Map.empty
+
     module GenreMarkets =
         /// Lens into a specific genre market given its genre ID.
         let genreMarket_ id = State.genreMarkets_ >-> Map.key_ id
+
+    module ScheduledEvents =
+        /// Lens into all events.
+        let date_ id =
+            State.scheduledEvents_
+            >-> Map.keyWithDefault_ id List.empty
 
     module Songs =
         /// Lenses to the unfinished field of a specific band in its repertoire.

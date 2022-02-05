@@ -9,7 +9,8 @@ let allDayMoments =
       Morning
       Midday
       Sunset
-      Dusk ]
+      Dusk
+      Night ]
 
 [<AutoOpen>]
 module Ops =

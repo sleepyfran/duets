@@ -8,18 +8,15 @@ module ConcertTypes =
     /// Represents a single concert in a venue.
     type Concert =
         { Id: ConcertId
-          City: CityId
-          Venue: NodeId
+          CityId: CityId
+          VenueId: NodeId
           Date: Date
           DayMoment: DayMoment
-          TicketPrice: Amount }
+          TicketPrice: Amount
+          TicketsSold: int }
 
-    /// Map that holds all the actual concerts.
-    type AllConcerts = Map<ConcertId, Concert>
+    /// Map that holds all the concerts from one specific band.
+    type Concerts = Map<ConcertId, Concert>
 
-    /// Map that holds the amount of tickets sold for a given concert.
-    type ConcertSoldTickets = Map<ConcertId, int>
-
-    type ConcertContext =
-        { All: AllConcerts
-          SoldTickets: ConcertSoldTickets }
+    /// Map that holds all concerts by all bands in the game.
+    type ConcertsByBand = Map<BandId, Concerts>

@@ -33,7 +33,7 @@
         <Compile Include="Song.fs" />
         <Compile Include="Instrument.fs" />
         <Compile Include="Skill.fs" />
-        <Compile Include="ConcertContext.fs" />
+        <Compile Include="Concert.fs"/>
         <Compile Include="Schedule.fs" />
         <Compile Include="World.fs" />
         <Compile Include="State.fs" />

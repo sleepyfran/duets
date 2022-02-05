@@ -72,6 +72,18 @@ let actionsFromEffect effect =
         |> StudioText
         |> I18n.translate
         |> Message
+    | ConcertScheduled (_, concert) ->
+        let venue =
+            Queries.World.concertSpaceById
+                (State.get ())
+                concert.CityId
+                concert.VenueId
+            |> Option.get
+
+        SchedulerAssistantAppTicketDone(venue, concert)
+        |> PhoneText
+        |> I18n.translate
+        |> Message
     | _ -> NoOp
 
 /// Determines whether the given scene is out of gameplay (main menu, creators,

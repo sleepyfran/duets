@@ -25,6 +25,6 @@ let rec schedulerAssistantApp () =
 and private processSelection choice =
     seq {
         match choice.Id with
-        | "show" -> yield! Show.scheduleShow schedulerAssistantApp
+        | "show" -> yield! Show.scheduleShow (schedulerAssistantApp ())
         | _ -> yield NoOp
     }

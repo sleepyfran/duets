@@ -329,6 +329,10 @@ and phoneText key =
     | SchedulerAssistantAppTicketPricePrompt ->
         $"""What will the price of each ticket be? {TextStyles.danger
                                                         "Keep in mind that putting high prices might affect how many people will go"}"""
+    | SchedulerAssistantAppTicketPriceInvalid price ->
+        TextStyles.error $"The price {formatNumber price} is not valid"
+    | SchedulerAssistantAppTicketDone (venue, concert) ->
+        $"""Done! You scheduled a concert in {TextStyles.place venue.Name} on {TextStyles.highlight (formatDate concert.Date)}. Be sure to be in the place at the moment of the concert, {TextStyles.danger "otherwise it'd fail miserably!"}"""
     | StatisticsAppTitle -> "Statistics"
     | StatisticsAppSectionPrompt ->
         $"""{TextStyles.prompt "What data do you want to visualize?"}"""
