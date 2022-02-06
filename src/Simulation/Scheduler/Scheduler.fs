@@ -15,7 +15,7 @@ let scheduleConcert state date dayMoment city venue ticketPrice =
     let currentBand = Queries.Bands.currentBand state
 
     let concertForDay =
-        Queries.Schedule.concertsForDay state currentBand.Id date
+        Queries.Schedule.concertForDay state currentBand.Id date
 
     if Option.isSome concertForDay then
         Error DateAlreadyScheduled

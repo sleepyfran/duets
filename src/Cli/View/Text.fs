@@ -110,8 +110,17 @@ and PhoneText =
         transaction: BankTransaction
     | BankAppTransferNotEnoughFunds
     | BankAppTransferNothingTransferred
+    | SchedulerAssistantCommonMoreDates
     | SchedulerAssistantAppPrompt
     | SchedulerAssistantAppShow
+    | SchedulerAssistantAppVisualize
+    | SchedulerAssistantAppVisualizeConcertInfo of
+        dayMoment: DayMoment *
+        venue: ConcertSpace *
+        city: City *
+        ticketsSold: int
+    | SchedulerAssistantAppVisualizeNoConcert
+    | SchedulerAssistantAppVisualizeMoreDatesPrompt
     | SchedulerAssistantAppShowDatePrompt
     | SchedulerAssistantAppShowTimePrompt
     | SchedulerAssistantAppShowCityPrompt

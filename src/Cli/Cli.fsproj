@@ -33,6 +33,7 @@
         <Compile Include="View/Scenes/Phone/Apps/Statistics/BandStatistics.fs"/>
         <Compile Include="View/Scenes/Phone/Apps/Statistics/AlbumsStatistics.fs"/>
         <Compile Include="View/Scenes/Phone/Apps/Statistics/Statistics.fs"/>
+        <Compile Include="View\Scenes\Phone\Apps\SchedulerAssistant\ScheduleVisualize.fs"/>
         <Compile Include="View\Scenes\Phone\Apps\SchedulerAssistant\ScheduleShow.fs"/>
         <Compile Include="View\Scenes\Phone\Apps\SchedulerAssistant\SchedulerAssistant.fs"/>
         <Compile Include="View/Scenes/Phone/Phone.fs"/>

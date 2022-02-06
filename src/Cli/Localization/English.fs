@@ -319,9 +319,19 @@ and phoneText key =
         TextStyles.error "Not enough funds in the sender account"
     | BankAppTransferNothingTransferred ->
         TextStyles.success "Nothing transferred"
+    | SchedulerAssistantCommonMoreDates -> TextStyles.faded "More dates"
     | SchedulerAssistantAppPrompt ->
         TextStyles.prompt "What do you want to book?"
     | SchedulerAssistantAppShow -> "Book show"
+    | SchedulerAssistantAppVisualize -> "View schedule"
+    | SchedulerAssistantAppVisualizeConcertInfo (dayMoment,
+                                                 venue,
+                                                 city,
+                                                 ticketsSold) ->
+        $"""{TextStyles.highlight (dayMomentName dayMoment)}: Concert at {TextStyles.place venue.Name}, {TextStyles.place city.Name}. Sold {TextStyles.information ticketsSold} tickets"""
+    | SchedulerAssistantAppVisualizeNoConcert -> "No concerts"
+    | SchedulerAssistantAppVisualizeMoreDatesPrompt ->
+        "Do you want to see the next month?"
     | SchedulerAssistantAppShowDatePrompt -> "When is the concert happening?"
     | SchedulerAssistantAppShowTimePrompt -> "At what time?"
     | SchedulerAssistantAppShowCityPrompt -> "In which city?"

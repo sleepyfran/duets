@@ -53,7 +53,9 @@ and private scheduleShow' app firstDate =
                                         Calendar.Parse.date dateChoice.Id
                                         |> Option.get
                                         |> dayMomentPrompt app)
-                            BackText = Literal "More months" } }
+                            BackText =
+                                PhoneText SchedulerAssistantCommonMoreDates
+                                |> I18n.translate } }
     }
 
 and private dayMomentPrompt app date =
@@ -184,7 +186,7 @@ and private handleConcert app date dayMoment cityId venueId ticketPrice =
         | Ok effect ->
             yield Effect effect
             yield Separator
-            yield! app
+            yield! app ()
         | Error Scheduler.DateAlreadyScheduled ->
             yield
                 SchedulerAssistantAppDateAlreadyBooked date

@@ -111,7 +111,8 @@ let rec runWith chain =
     |> Seq.iter
         (fun action ->
             match action with
-            | Separator -> renderSeparator ()
+            | Separator -> renderSeparator None
+            | Rule text -> renderSeparator (Some text)
             | Prompt prompt -> renderPrompt prompt |> runWith
             | Message message -> renderMessage message
             | Figlet text -> renderFiglet text

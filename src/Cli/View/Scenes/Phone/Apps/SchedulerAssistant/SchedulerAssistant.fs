@@ -6,7 +6,9 @@ open Cli.View.Common
 
 let private schedulerAssistantOptions =
     [ { Id = "show"
-        Text = I18n.translate (PhoneText SchedulerAssistantAppShow) } ]
+        Text = I18n.translate (PhoneText SchedulerAssistantAppShow) }
+      { Id = "visualize"
+        Text = I18n.translate (PhoneText SchedulerAssistantAppVisualize) } ]
 
 let rec schedulerAssistantApp () =
     seq {
@@ -25,6 +27,8 @@ let rec schedulerAssistantApp () =
 and private processSelection choice =
     seq {
         match choice.Id with
-        | "show" -> yield! Show.scheduleShow (schedulerAssistantApp ())
+        | "show" -> yield! Show.scheduleShow schedulerAssistantApp
+        | "visualize" ->
+            yield! Visualize.visualizeSchedule schedulerAssistantApp
         | _ -> yield NoOp
     }

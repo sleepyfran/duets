@@ -10,6 +10,7 @@ open Entities
 /// to do so, without caring how it is processed.
 type Action =
     | Separator
+    | Rule of Text
     | Message of Text
     | Figlet of Text
     | Prompt of Prompt

@@ -161,9 +161,14 @@ let renderBarChart items =
 let clear () = System.Console.Clear()
 
 /// Writes an line to the console.
-let renderSeparator () =
+let renderSeparator text =
     let rule = Rule().Centered()
     rule.Style <- Style.Parse("blue dim")
+
+    match text with
+    | Some text -> rule.Title <- toString text
+    | None -> ()
+
     AnsiConsole.Write(rule)
 
 /// Writes a line break to the console.
