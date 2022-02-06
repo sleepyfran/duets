@@ -4,46 +4,46 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="Types\Common.Types.fs" />
-        <Compile Include="Types\Calendar.Types.fs" />
-        <Compile Include="Types\Genre.Types.fs" />
-        <Compile Include="Types\Instrument.Types.fs" />
-        <Compile Include="Types\Skill.Types.fs" />
-        <Compile Include="Types\Character.Types.fs" />
-        <Compile Include="Types\Band.Types.fs" />
-        <Compile Include="Types\Song.Types.fs" />
-        <Compile Include="Types\Album.Types.fs" />
-        <Compile Include="Types\Bank.Types.fs" />
-        <Compile Include="Types\World\ConcertSpace.Types.fs" />
-        <Compile Include="Types\World\RehearsalSpace.Types.fs" />
-        <Compile Include="Types\World\Studio.Types.fs" />
-        <Compile Include="Types\World\World.Types.fs" />
-        <Compile Include="Types\Concert.Types.fs" />
-        <Compile Include="Types\Schedule.Types.fs" />
-        <Compile Include="Types\State.Types.fs" />
-        <Compile Include="Types\Effect.Types.fs" />
-        <Compile Include="Lenses.fs" />
-        <Compile Include="Identity.fs" />
-        <Compile Include="Time.fs" />
-        <Compile Include="Album.fs" />
-        <Compile Include="BankAccount.fs" />
-        <Compile Include="Calendar.fs" />
-        <Compile Include="Character.fs" />
-        <Compile Include="Band.fs" />
-        <Compile Include="Song.fs" />
-        <Compile Include="Instrument.fs" />
-        <Compile Include="Skill.fs" />
+        <Compile Include="Types\Common.Types.fs"/>
+        <Compile Include="Types\Calendar.Types.fs"/>
+        <Compile Include="Types\Genre.Types.fs"/>
+        <Compile Include="Types\Instrument.Types.fs"/>
+        <Compile Include="Types\Skill.Types.fs"/>
+        <Compile Include="Types\Character.Types.fs"/>
+        <Compile Include="Types\Band.Types.fs"/>
+        <Compile Include="Types\Song.Types.fs"/>
+        <Compile Include="Types\Album.Types.fs"/>
+        <Compile Include="Types\Bank.Types.fs"/>
+        <Compile Include="Types\World\ConcertSpace.Types.fs"/>
+        <Compile Include="Types\World\RehearsalSpace.Types.fs"/>
+        <Compile Include="Types\World\Studio.Types.fs"/>
+        <Compile Include="Types\World\World.Types.fs"/>
+        <Compile Include="Types\Concert.Types.fs"/>
+        <Compile Include="Types\Schedule.Types.fs"/>
+        <Compile Include="Types\State.Types.fs"/>
+        <Compile Include="Types\Effect.Types.fs"/>
+        <Compile Include="Lenses.fs"/>
+        <Compile Include="Identity.fs"/>
+        <Compile Include="Time.fs"/>
+        <Compile Include="Album.fs"/>
+        <Compile Include="BankAccount.fs"/>
+        <Compile Include="Calendar.fs"/>
+        <Compile Include="Character.fs"/>
+        <Compile Include="Band.fs"/>
+        <Compile Include="Song.fs"/>
+        <Compile Include="Instrument.fs"/>
+        <Compile Include="Skill.fs"/>
         <Compile Include="Concert.fs"/>
-        <Compile Include="Schedule.fs" />
-        <Compile Include="World.fs" />
-        <Compile Include="State.fs" />
-        <Compile Include="Effect.fs" />
+        <Compile Include="Schedule.fs"/>
+        <Compile Include="World.fs"/>
+        <Compile Include="State.fs"/>
+        <Compile Include="Effect.fs"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Common\Common.fsproj" />
+        <ProjectReference Include="..\Common\Common.fsproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Aether" Version="8.3.1" />
-        <PackageReference Include="Fugit" Version="0.4.1" />
+        <PackageReference Include="Aether" Version="8.3.1"/>
+        <PackageReference Include="Fugit" Version="0.4.1"/>
     </ItemGroup>
 </Project>

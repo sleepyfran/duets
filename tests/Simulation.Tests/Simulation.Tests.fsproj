@@ -9,11 +9,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FsUnit" Version="4.0.4" />
-        <PackageReference Include="Fugit" Version="0.4.1" />
-        <PackageReference Include="NUnit" Version="3.13.2" />
-        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+        <PackageReference Include="FsUnit" Version="4.0.4"/>
+        <PackageReference Include="Fugit" Version="0.4.1"/>
+        <PackageReference Include="NUnit" Version="3.13.2"/>
+        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -44,8 +44,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Simulation\Simulation.fsproj" />
-      <ProjectReference Include="..\Test.Common\Test.Common.fsproj" />
+        <ProjectReference Include="..\..\src\Simulation\Simulation.fsproj"/>
+        <ProjectReference Include="..\Test.Common\Test.Common.fsproj"/>
     </ItemGroup>
 
 </Project>

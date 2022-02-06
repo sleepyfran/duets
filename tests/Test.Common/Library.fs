@@ -38,7 +38,8 @@ let dummyRecordedSongWithLength length =
 let dummyToday = Calendar.gameBeginning
 
 let dummyTodayMiddleOfYear =
-    June 20 2021 |> Calendar.Transform.changeDayMoment Dawn
+    June 20 2021
+    |> Calendar.Transform.changeDayMoment Dawn
 
 let dummyCharacterBankAccount =
     BankAccount.forCharacter dummyCharacter.Id

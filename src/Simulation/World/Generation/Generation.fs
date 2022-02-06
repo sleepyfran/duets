@@ -1,7 +1,6 @@
 namespace Simulation.World.Generation
 
 module Root =
-    open Aether
     open Entities
 
     /// Generates the game world. Right now only creates a hard-coded city with

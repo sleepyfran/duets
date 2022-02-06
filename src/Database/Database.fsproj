@@ -1,33 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Data\Roles.fs" />
-    <Compile Include="Data\VocalStyles.fs" />
-    <Content Include="Data\genres.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\npcs.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\studios.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Compile Include="Database.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.fsproj" />
-    <ProjectReference Include="..\Entities\Entities.fsproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Data/*.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="FSharp.SystemTextJson" Version="0.16.6" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="Data\Roles.fs"/>
+        <Compile Include="Data\VocalStyles.fs"/>
+        <Content Include="Data\genres.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Data\npcs.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Data\studios.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Compile Include="Database.fs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Common\Common.fsproj"/>
+        <ProjectReference Include="..\Entities\Entities.fsproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="Data/*.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="FSharp.SystemTextJson" Version="0.16.6"/>
+    </ItemGroup>
 </Project>

@@ -2,7 +2,6 @@
 module Simulation.Simulation
 
 
-open Common
 open Entities
 open Simulation.Albums.DailyUpdate
 open Simulation.Market

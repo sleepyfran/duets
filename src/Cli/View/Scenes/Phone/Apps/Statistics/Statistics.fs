@@ -14,8 +14,7 @@ let rec statisticsApp () =
     seq {
         yield
             Prompt
-                { Title =
-                      I18n.translate (PhoneText StatisticsAppSectionPrompt)
+                { Title = I18n.translate (PhoneText StatisticsAppSectionPrompt)
                   Content =
                       ChoicePrompt
                       <| OptionalChoiceHandler

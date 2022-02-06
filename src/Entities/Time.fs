@@ -48,7 +48,8 @@ module Length =
                 | [| minutes; seconds |] ->
                     from (int minutes * 1<minute>) (int seconds * 1<second>)
                 | _ -> Error InvalidFormat
-        with _ -> Error InvalidFormat
+        with
+        | _ -> Error InvalidFormat
 
     /// Returns the total amount of seconds in the given length.
     let inSeconds length =

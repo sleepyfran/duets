@@ -1,6 +1,5 @@
 module Simulation.World.Navigation
 
-open Aether
 open Entities
 open Simulation
 

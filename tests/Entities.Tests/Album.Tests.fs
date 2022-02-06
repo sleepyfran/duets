@@ -61,8 +61,10 @@ let ``Album.recordType should return EP if given more than one song but its leng
         Seconds = 10<second> } ]
     |> List.iter
         (fun length ->
-            Album.recordType [ dummyRecordedSong
-                               (dummyRecordedSongWithLength length) ]
+            Album.recordType [
+                dummyRecordedSong
+                (dummyRecordedSongWithLength length)
+            ]
             |> Result.unwrap
             |> should be (ofCase <@ EP @>))
 
@@ -78,7 +80,9 @@ let ``Album.recordType should return LP if given more than one song and its leng
         Seconds = 4<second> } ]
     |> List.iter
         (fun length ->
-            Album.recordType [ dummyRecordedSong
-                               (dummyRecordedSongWithLength length) ]
+            Album.recordType [
+                dummyRecordedSong
+                (dummyRecordedSongWithLength length)
+            ]
             |> Result.unwrap
             |> should be (ofCase <@ LP @>))

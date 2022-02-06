@@ -1,28 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
 
-    <IsPackable>false</IsPackable>
-    <GenerateProgramFile>false</GenerateProgramFile>
-  </PropertyGroup>
+        <IsPackable>false</IsPackable>
+        <GenerateProgramFile>false</GenerateProgramFile>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="FsUnit" Version="4.0.4" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="FsUnit" Version="4.0.4"/>
+        <PackageReference Include="NUnit" Version="3.13.2"/>
+        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Compile Include="Album.Tests.fs" />
-    <Compile Include="Time.Tests.fs" />
-    <Compile Include="World.Tests.fs" />
-    <Compile Include="Program.fs" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Album.Tests.fs"/>
+        <Compile Include="Time.Tests.fs"/>
+        <Compile Include="World.Tests.fs"/>
+        <Compile Include="Program.fs"/>
+    </ItemGroup>
 
-  <ItemGroup>
-      <ProjectReference Include="..\..\src\Entities\Entities.fsproj" />
-      <ProjectReference Include="..\Test.Common\Test.Common.fsproj" />
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Entities\Entities.fsproj"/>
+        <ProjectReference Include="..\Test.Common\Test.Common.fsproj"/>
     </ItemGroup>
 </Project>

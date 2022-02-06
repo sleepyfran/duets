@@ -20,8 +20,10 @@ let ``create should generate a random genre market for each of the given genres 
     ()
     =
     let markets =
-        GenreMarket.create [ for x in 1 .. 500 do
-                                 yield $"Test {x}" ]
+        GenreMarket.create [
+            for x in 1 .. 500 do
+                yield $"Test {x}"
+        ]
 
     markets |> should haveCount 500
 

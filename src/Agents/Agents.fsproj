@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Entities\Entities.fsproj" />
+        <ProjectReference Include="..\Entities\Entities.fsproj"/>
     </ItemGroup>
 
 </Project>

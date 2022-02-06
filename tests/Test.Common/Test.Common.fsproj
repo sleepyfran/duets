@@ -6,11 +6,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Library.fs" />
+        <Compile Include="Library.fs"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Simulation\Simulation.fsproj" />
+        <ProjectReference Include="..\..\src\Simulation\Simulation.fsproj"/>
     </ItemGroup>
 
 </Project>
