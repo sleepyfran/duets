@@ -20,21 +20,41 @@ and private visualizeSchedule' app firstDay =
     let nextMonthDate =
         Calendar.Query.firstDayOfNextMonth firstDay
 
-    seq {
-        yield!
-            Schedule.concertScheduleForMonth state currentBand.Id firstDay
-            |> Seq.map
-                (fun (date, concert) ->
-                    seq {
-                        yield
-                            CommonDateWithDay date
-                            |> CommonText
-                            |> I18n.translate
-                            |> Rule
+    let concertsInMonth =
+        Schedule.concertScheduleForMonth state currentBand.Id firstDay
+        |> List.ofSeq
 
-                        match concert with
-                        | Some concert ->
+    let calendarEvents =
+        concertsInMonth
+        |> List.map (fun concert -> concert.Date)
+
+    seq {
+        yield NewLine
+
+        yield
+            (firstDay.Year, firstDay.Month, calendarEvents)
+            |> Calendar
+
+        yield!
+            match concertsInMonth with
+            | [] ->
+                seq {
+                    PhoneText SchedulerAssistantAppVisualizeNoConcerts
+                    |> I18n.translate
+                    |> Message
+                }
+            | concerts ->
+                concerts
+                |> Seq.map
+                    (fun concert ->
+                        seq {
                             let resolvedConcert = Concerts.info state concert
+
+                            yield
+                                CommonDateWithDay resolvedConcert.Date
+                                |> CommonText
+                                |> I18n.translate
+                                |> Rule
 
                             yield
                                 SchedulerAssistantAppVisualizeConcertInfo(
@@ -46,14 +66,8 @@ and private visualizeSchedule' app firstDay =
                                 |> PhoneText
                                 |> I18n.translate
                                 |> Message
-                        | None ->
-                            yield
-                                SchedulerAssistantAppVisualizeNoConcert
-                                |> PhoneText
-                                |> I18n.translate
-                                |> Message
-                    })
-            |> Seq.concat
+                        })
+                |> Seq.concat
 
         yield Separator
 

@@ -152,7 +152,9 @@ and listOf (stuff: 'a list) toStr =
 and formatNumber (amount: 'a) = String.Format("{0:#,0}", amount)
 
 /// Formats a date to the dd/mm/yyyy format.
-and formatDate (date: Date) = date.ToShortDateString()
+/// TODO: Figure out why localization does not work when using
+/// ToString("d", CurrentCulture).
+and formatDate (date: Date) = $"{date.Day}/{date.Month}/{date.Year}"
 
 and commandText key =
     match key with
@@ -328,8 +330,8 @@ and phoneText key =
                                                  venue,
                                                  city,
                                                  ticketsSold) ->
-        $"""{TextStyles.highlight (dayMomentName dayMoment)}: Concert at {TextStyles.place venue.Name}, {TextStyles.place city.Name}. Sold {TextStyles.information ticketsSold} tickets"""
-    | SchedulerAssistantAppVisualizeNoConcert -> "No concerts"
+        $"""{TextStyles.highlight $"*{dayMomentName dayMoment}"}: Concert at {TextStyles.place venue.Name}, {TextStyles.place city.Name}. Sold {TextStyles.information ticketsSold} tickets"""
+    | SchedulerAssistantAppVisualizeNoConcerts -> "No concerts"
     | SchedulerAssistantAppVisualizeMoreDatesPrompt ->
         "Do you want to see the next month?"
     | SchedulerAssistantAppShowDatePrompt -> "When is the concert happening?"

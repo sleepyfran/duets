@@ -185,3 +185,15 @@ let renderGameInfo version =
     )
 
     AnsiConsole.MarkupLine(styledGameInfo)
+
+/// Renders a calendar highlighting
+let renderCalendar year month (events: Date list) =
+    let mutable calendar = Calendar(year, month)
+    calendar.Culture <- System.Threading.Thread.CurrentThread.CurrentCulture
+    calendar.HightlightStyle <- Style.Parse("deepskyblue3 bold")
+
+    for event in events do
+        calendar <-
+            calendar.AddCalendarEvent(event.Year, event.Month, event.Day)
+
+    AnsiConsole.Write(calendar)

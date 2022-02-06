@@ -119,7 +119,7 @@ and PhoneText =
         venue: ConcertSpace *
         city: City *
         ticketsSold: int
-    | SchedulerAssistantAppVisualizeNoConcert
+    | SchedulerAssistantAppVisualizeNoConcerts
     | SchedulerAssistantAppVisualizeMoreDatesPrompt
     | SchedulerAssistantAppShowDatePrompt
     | SchedulerAssistantAppShowTimePrompt

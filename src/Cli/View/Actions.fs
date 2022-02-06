@@ -18,6 +18,7 @@ type Action =
     | BarChart of (int * Text) list
     | Scene of Scene
     | GameInfo of version: string
+    | Calendar of year: int * month: int * Date list
     | Effect of Effect
     | NewLine
     | ClearScreen

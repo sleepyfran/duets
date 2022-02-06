@@ -119,6 +119,8 @@ let rec runWith chain =
             | ProgressBar content -> renderProgressBar content
             | BarChart items -> renderBarChart items
             | Scene scene -> runScene scene
+            | GameInfo version -> renderGameInfo version
+            | Calendar (year, month, events) -> renderCalendar year month events
             | Effect effect ->
                 let effects, state = Simulation.tick (State.get ()) effect
 
@@ -128,7 +130,6 @@ let rec runWith chain =
                 |> Seq.tap Log.append
                 |> Seq.map actionsFromEffect
                 |> runWith
-            | GameInfo version -> renderGameInfo version
             | NewLine -> renderLineBreak ()
             | ClearScreen -> clear ()
             | Exit -> Environment.Exit(0)

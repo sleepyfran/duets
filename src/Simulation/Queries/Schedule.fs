@@ -15,11 +15,8 @@ let concertForDay state bandId date =
     |> Option.defaultValue Calendar.Schedule.empty
     |> Map.tryHead
 
-/// Returns all dates from today until the end of the month and Some concert
-/// if there's one scheduled for that day or None if there's none in that day.
+/// Returns all date from today to the end of the month that have a concert
+/// scheduled.
 let concertScheduleForMonth state bandId fromDay =
     Calendar.Query.monthDaysFrom fromDay
-    |> Seq.map
-        (fun date ->
-            let concert = concertForDay state bandId date
-            date, concert)
+    |> Seq.choose (concertForDay state bandId)
