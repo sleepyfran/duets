@@ -185,7 +185,15 @@ and private handleConcert app date dayMoment cityId venueId ticketPrice =
             yield Effect effect
             yield Separator
             yield! app
-        | Error (InvalidTicketPrice price) ->
+        | Error Scheduler.DateAlreadyScheduled ->
+            yield
+                SchedulerAssistantAppDateAlreadyBooked date
+                |> PhoneText
+                |> I18n.translate
+                |> Message
+
+            yield! scheduleShow app
+        | Error (Scheduler.CreationError (InvalidTicketPrice price)) ->
             yield
                 SchedulerAssistantAppTicketPriceInvalid price
                 |> PhoneText

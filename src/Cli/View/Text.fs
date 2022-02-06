@@ -117,6 +117,7 @@ and PhoneText =
     | SchedulerAssistantAppShowCityPrompt
     | SchedulerAssistantAppShowVenuePrompt
     | SchedulerAssistantAppTicketPricePrompt
+    | SchedulerAssistantAppDateAlreadyBooked of date: Date
     | SchedulerAssistantAppTicketPriceInvalid of price: Amount
     | SchedulerAssistantAppTicketDone of venue: ConcertSpace * concert: Concert
     | StatisticsAppTitle

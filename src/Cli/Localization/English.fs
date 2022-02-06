@@ -329,6 +329,8 @@ and phoneText key =
     | SchedulerAssistantAppTicketPricePrompt ->
         $"""What will the price of each ticket be? {TextStyles.danger
                                                         "Keep in mind that putting high prices might affect how many people will go"}"""
+    | SchedulerAssistantAppDateAlreadyBooked date ->
+        TextStyles.error $"You already have a concert on {formatDate date}!"
     | SchedulerAssistantAppTicketPriceInvalid price ->
         TextStyles.error $"The price {formatNumber price} is not valid"
     | SchedulerAssistantAppTicketDone (venue, concert) ->

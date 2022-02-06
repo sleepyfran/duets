@@ -26,7 +26,6 @@ let startGame (character: Character) (band: Band) =
       CurrentBandId = band.Id
       CurrentPosition = initialCity.Id, Node initialCity.Graph.StartingNode
       GenreMarkets = GenreMarket.create (Database.genres ())
-      ScheduledEvents = Map.empty
       Today = Calendar.gameBeginning
       World = world }
     |> GameCreated

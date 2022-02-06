@@ -43,10 +43,6 @@ module State =
         (fun (s: State) -> s.GenreMarkets),
         (fun v (s: State) -> { s with GenreMarkets = v })
 
-    let scheduledEvents_ =
-        (fun (s: State) -> s.ScheduledEvents),
-        (fun v (s: State) -> { s with ScheduledEvents = v })
-
     let today_ =
         (fun (s: State) -> s.Today), (fun v (s: State) -> { s with Today = v })
 
@@ -197,12 +193,6 @@ module FromState =
     module GenreMarkets =
         /// Lens into a specific genre market given its genre ID.
         let genreMarket_ id = State.genreMarkets_ >-> Map.key_ id
-
-    module ScheduledEvents =
-        /// Lens into all events.
-        let date_ id =
-            State.scheduledEvents_
-            >-> Map.keyWithDefault_ id List.empty
 
     module Songs =
         /// Lenses to the unfinished field of a specific band in its repertoire.

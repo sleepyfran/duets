@@ -15,5 +15,11 @@ let keyWithDefault_ (k: 'k) (defaultValue: 'v) : Prism<Map<'k, 'v>, 'v> =
     >> Some,
     Map.add k
 
+/// Attempts to find the head of the map.
+let tryHead (map: Map<'k, 'v>) =
+    map
+    |> Seq.tryHead
+    |> Option.map (fun kvp -> kvp.Value)
+
 /// Returns the head of the map.
-let head (map: Map<'k, 'v>) = map |> Seq.head |> fun kvp -> kvp.Value
+let head (map: Map<'k, 'v>) = tryHead map |> Option.get

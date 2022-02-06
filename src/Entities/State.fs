@@ -14,6 +14,5 @@ let empty =
       CurrentBandId = Identity.create () |> BandId
       CurrentPosition = Identity.create (), Node(Identity.create ())
       GenreMarkets = Map.empty
-      ScheduledEvents = Map.empty
       Today = Calendar.gameBeginning
       World = World.empty }

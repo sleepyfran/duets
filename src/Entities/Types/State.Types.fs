@@ -17,6 +17,5 @@ module StateTypes =
           CurrentBandId: BandId
           CurrentPosition: WorldCoordinates
           GenreMarkets: GenreMarketByGenre
-          ScheduledEvents: ScheduledEvents
           Today: Date
           World: World }

@@ -17,6 +17,9 @@ module CalendarTypes =
         | Night
         | Midnight
 
+    /// Map of events in the game by date and day moment.
+    type Schedule<'e> = Map<Date, Map<DayMoment, 'e>>
+
     /// Defines a period of time with a start and an optional end.
     type Period = Date * Date
 

@@ -15,8 +15,5 @@ module ConcertTypes =
           TicketPrice: Amount
           TicketsSold: int }
 
-    /// Map that holds all the concerts from one specific band.
-    type Concerts = Map<ConcertId, Concert>
-
-    /// Map that holds all concerts by all bands in the game.
-    type ConcertsByBand = Map<BandId, Concerts>
+    /// Holds all concerts scheduled by all bands in the game.
+    type ConcertsByBand = Map<BandId, Schedule<Concert>>

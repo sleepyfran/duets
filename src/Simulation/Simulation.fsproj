@@ -15,6 +15,7 @@
         <Compile Include="Queries\Characters.fs"/>
         <Compile Include="Queries\Bands.fs"/>
         <Compile Include="Queries\Calendar.fs"/>
+        <Compile Include="Queries\Schedule.fs"/>
         <Compile Include="Queries\GenreMarkets.fs"/>
         <Compile Include="Queries\World.fs"/>
         <Compile Include="State\Albums.fs"/>
@@ -24,7 +25,6 @@
         <Compile Include="State\Market.fs"/>
         <Compile Include="State\Songs.fs"/>
         <Compile Include="State\Bands.fs"/>
-        <Compile Include="State\Schedule.fs"/>
         <Compile Include="State\Skills.fs"/>
         <Compile Include="State\World.fs"/>
         <Compile Include="State\State.fs"/>
