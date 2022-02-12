@@ -1,27 +1,8 @@
 module Entities.Band
 
-type BandValidationError =
+type BandNameValidationError =
     | NameTooShort
     | NameTooLong
-    | NoMembersGiven
-
-/// Creates a band given its name, genre and members, if possible.
-let from name genre members today =
-    if String.length name < 1 then
-        Error NameTooShort
-    else if String.length name > 100 then
-        Error NameTooLong
-    else if List.length members < 1 then
-        Error NoMembersGiven
-    else
-        Ok
-            { Id = BandId <| Identity.create ()
-              StartDate = today
-              Name = name
-              Genre = genre
-              Fame = 1
-              Members = members
-              PastMembers = [] }
 
 /// Returns default values for a band to serve as a placeholder to build a band
 /// upon. Generates a valid ID.
@@ -33,6 +14,25 @@ let empty =
       Fame = 1
       Members = []
       PastMembers = [] }
+
+/// Creates a band given its name, genre and initial member.
+let from name genre initialMember today =
+    { Id = BandId <| Identity.create ()
+      StartDate = today
+      Name = name
+      Genre = genre
+      Fame = 1
+      Members = [ initialMember ]
+      PastMembers = [] }
+
+/// Validates whether the name of the band is valid or not.
+let validateName name =
+    if String.length name < 1 then
+        Error NameTooShort
+    else if String.length name > 100 then
+        Error NameTooLong
+    else
+        Ok name
 
 module Member =
     /// Creates a member from a character and a role from today onwards.

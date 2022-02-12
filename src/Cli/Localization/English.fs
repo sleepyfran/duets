@@ -1,8 +1,8 @@
 module Cli.Localization.English
 
 open Common
-open Cli.View
-open Cli.View.Text
+open Cli
+open Cli.Text
 open Entities
 open System
 
