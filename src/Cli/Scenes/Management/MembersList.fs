@@ -1,7 +1,8 @@
 module Cli.Scenes.Management.MemberList
 
 open Agents
-open Cli.Actions
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
 open Simulation.Queries
 
@@ -11,38 +12,34 @@ let rec memberListSubScene () =
     let currentMembers = Bands.currentBandMembers state
     let pastMembers = Bands.pastBandMembers state
 
-    seq {
-        yield
-            Message
-            <| I18n.translate (RehearsalSpaceText MemberListCurrentTitle)
+    RehearsalSpaceText MemberListCurrentTitle
+    |> I18n.translate
+    |> showMessage
 
-        yield!
-            currentMembers
-            |> List.map
-                (fun m ->
-                    MemberListCurrentMember(m.Character.Name, m.Role, m.Since)
-                    |> RehearsalSpaceText
-                    |> I18n.translate
-                    |> Message)
+    currentMembers
+    |> List.iter
+        (fun cm ->
+            MemberListCurrentMember(cm.Character.Name, cm.Role, cm.Since)
+            |> RehearsalSpaceText
+            |> I18n.translate
+            |> showMessage)
 
-        if not (List.isEmpty pastMembers) then
-            yield
-                Message
-                <| I18n.translate (RehearsalSpaceText MemberListPastTitle)
+    if not (List.isEmpty pastMembers) then
+        RehearsalSpaceText MemberListPastTitle
+        |> I18n.translate
+        |> showMessage
 
-            yield!
-                pastMembers
-                |> List.map
-                    (fun m ->
-                        MemberListPastMember(
-                            m.Character.Name,
-                            m.Role,
-                            fst m.Period,
-                            snd m.Period
-                        )
-                        |> RehearsalSpaceText
-                        |> I18n.translate
-                        |> Message)
+        pastMembers
+        |> List.iter
+            (fun pm ->
+                MemberListPastMember(
+                    pm.Character.Name,
+                    pm.Role,
+                    fst pm.Period,
+                    snd pm.Period
+                )
+                |> RehearsalSpaceText
+                |> I18n.translate
+                |> showMessage)
 
-        yield Scene Management
-    }
+    Scene.Management

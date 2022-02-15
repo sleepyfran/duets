@@ -10,7 +10,7 @@ let private instrumentFromType instrumentType =
     let create fn =
         fn
             (I18n.translate (ConcertSpaceText ConcertSpaceStartConcert))
-            Seq.empty
+            (fun _ -> None)
 
     match instrumentType with
     | InstrumentType.Bass -> create Objects.bass

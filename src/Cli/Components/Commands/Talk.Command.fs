@@ -1,17 +1,19 @@
 namespace Cli.Components.Commands
 
 open FSharpx
-open Cli.Actions
-open Cli.Common
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
 open Entities
 
 [<RequireQualifiedAccess>]
 module TalkCommand =
+    type TalkOption = Text * (unit -> Scene option)
+
     type TalkingNpc =
         { Npc: Character
           Prompt: Text
-          Options: Text list }
+          Options: TalkOption list }
 
     /// Creates a command that allows the player to talk to NPCs using the
     /// `talk to {name}`. Accepts a list of NPCs that are around the player
@@ -30,20 +32,15 @@ module TalkCommand =
         { Name = "talk"
           Description = I18n.translate (CommandText CommandTalkDescription)
           Handler =
-              HandlerWithNavigation
-                  (fun args ->
-                      match args with
-                      | toKeyword :: name when toKeyword = "to" ->
-                          executeTalkCommand npcs name
-                      | _ ->
-                          seq {
-                              I18n.translate (
-                                  CommandText CommandTalkInvalidInput
-                              )
-                              |> Message
+              (fun args ->
+                  match args with
+                  | toKeyword :: name when toKeyword = "to" ->
+                      executeTalkCommand npcs name
+                  | _ ->
+                      I18n.translate (CommandText CommandTalkInvalidInput)
+                      |> showMessage
 
-                              Scene Scene.World
-                          }) }
+                      Some Scene.World) }
 
     and private executeTalkCommand npcs name =
         let referencedName = String.concat " " name
@@ -59,41 +56,21 @@ module TalkCommand =
         match referencedNpc with
         | Some talkingNpc -> showNpcOptions talkingNpc
         | None ->
-            seq {
-                CommandTalkNpcNotFound referencedName
-                |> CommandText
-                |> I18n.translate
-                |> Message
+            CommandTalkNpcNotFound referencedName
+            |> CommandText
+            |> I18n.translate
+            |> showMessage
 
-                Scene Scene.World
-            }
+            Some Scene.World
 
     and private showNpcOptions talkingNpc =
-        let choicesWithId =
-            talkingNpc.Options
-            |> List.map (fun (text, chain) -> (Identity.create (), text, chain))
+        let selectedChoice =
+            showOptionalChoicePrompt
+                talkingNpc.Prompt
+                (CommandText CommandTalkNothing |> I18n.translate)
+                fst
+                talkingNpc.Options
 
-        let choices =
-            choicesWithId
-            |> List.map
-                (fun (id, text, _) -> { Id = id.ToString(); Text = text })
-
-        seq {
-            Prompt
-                { Title = talkingNpc.Prompt
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = choices
-                            Handler =
-                                worldOptionalChoiceHandler (
-                                    handleChoiceSelection choicesWithId
-                                )
-                            BackText =
-                                I18n.translate (CommandText CommandTalkNothing) } }
-        }
-
-    and private handleChoiceSelection choicesWithId choice =
-        choicesWithId
-        |> List.find (fun (id, _, _) -> id.ToString() = choice.Id)
-        |> (fun (_, _, chain) -> chain)
+        match selectedChoice with
+        | Some (_, handler) -> handler ()
+        | None -> Some Scene.World

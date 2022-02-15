@@ -38,6 +38,16 @@ and private displayEffect effect =
         |> RehearsalSpaceText
         |> I18n.translate
         |> showMessage
+    | SongDiscarded (_, (UnfinishedSong song, _, _)) ->
+        DiscardSongDiscarded song.Name
+        |> RehearsalSpaceText
+        |> I18n.translate
+        |> showMessage
+    | SongFinished (band, (FinishedSong song, quality)) ->
+        FinishSongFinished(song.Name, quality)
+        |> RehearsalSpaceText
+        |> I18n.translate
+        |> showMessage
     | SkillImproved (character, Diff (before, after)) ->
         let (skill, previousLevel) = before
         let (_, currentLevel) = after

@@ -39,11 +39,11 @@ let showChoicePrompt<'a> title optionTextFn (choices: 'a seq) =
 /// acts as an alternative choice to not select any of the items.
 /// </summary>
 /// <param name="title">Title of the prompt</param>
-/// <param name="optionTextFn">
-/// Function to transform an item from the choice sequence into text
-/// </param>
 /// <param name="backText">
 /// Text for the <i>cancel</i> or <i>back</i> option
+/// </param>
+/// <param name="optionTextFn">
+/// Function to transform an item from the choice sequence into text
 /// </param>
 /// <param name="choices">Sequence of options to show to the user</param>
 /// <returns>
@@ -58,9 +58,8 @@ let showOptionalChoicePrompt title backText optionTextFn choices =
 
     choices
     |> Seq.map Some
-    |> Seq.append [ None ]
+    |> fun options -> Seq.append options [ None ]
     |> showChoicePrompt title optionTextFnWrapper
-    |> Pipe.tap (optionTextFnWrapper >> showSelection)
 
 /// <summary>
 /// Shows the user a list of options to choose from, allowing them to choose

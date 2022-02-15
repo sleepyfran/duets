@@ -1,106 +1,82 @@
 module Cli.Scenes.Management.Hire
 
 open Agents
-open Cli.Actions
-open Cli.Common
+open Cli
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
 open Entities
 open Simulation.Bands.Members
 open Simulation.Queries
 
 let rec hireSubScene () =
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (RehearsalSpaceText HireMemberRolePrompt)
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = instrumentOptions
-                            Handler =
-                                basicOptionalChoiceHandler (
-                                    seq { Scene Management }
-                                )
-                                <| memberSelection
-                            BackText = I18n.translate (CommonText CommonCancel) } }
-    }
+    let availableRoles = Database.roles ()
 
-and memberSelection selectedInstrument =
+    let selectedRole =
+        showOptionalChoicePrompt
+            (RehearsalSpaceText HireMemberRolePrompt
+             |> I18n.translate)
+            (CommonText CommonCancel |> I18n.translate)
+            I18n.constant
+            availableRoles
+
+    match selectedRole with
+    | Some role -> promptForMemberSelection role
+    | None -> Scene.World
+
+and promptForMemberSelection role =
     let state = State.get ()
 
     let band = Bands.currentBand state
 
     let instrument =
-        Instrument.createInstrument (Instrument.Type.from selectedInstrument.Id)
+        Instrument.createInstrument (Instrument.Type.from role)
 
-    membersForHire state band instrument.Type
-    |> Seq.take 1
-    |> Seq.map (showMemberForHire band selectedInstrument)
-    |> Seq.concat
+    let availableMember =
+        membersForHire state band instrument.Type
+        |> Seq.head
+
+    showMemberForHire band role availableMember
 
 and showMemberForHire band selectedInstrument availableMember =
-    seq {
-        yield
-            HireMemberCharacterDescription(
-                availableMember.Character.Name,
-                availableMember.Character.Gender
-            )
+    HireMemberCharacterDescription(
+        availableMember.Character.Name,
+        availableMember.Character.Gender
+    )
+    |> RehearsalSpaceText
+    |> I18n.translate
+    |> showMessage
+
+    availableMember.Skills
+    |> List.map
+        (fun (skill, level) ->
+            (level, I18n.translate (CommonText(CommonSkillName skill.Id))))
+    |> showBarChart
+
+    let hired =
+        showConfirmationPrompt (
+            HireMemberConfirmation availableMember.Character.Gender
             |> RehearsalSpaceText
             |> I18n.translate
-            |> Message
+        )
 
-        yield
-            BarChart(
-                availableMember.Skills
-                |> List.map
-                    (fun (skill, level) ->
-                        (level,
-                         I18n.translate (CommonText(CommonSkillName skill.Id))))
+    if hired then
+        hireMember (State.get ()) band availableMember
+        |> Effect.apply
+
+        RehearsalSpaceText HireMemberHired
+        |> I18n.translate
+        |> showMessage
+
+        Scene.Management
+    else
+        let continueHiring =
+            showConfirmationPrompt (
+                RehearsalSpaceText HireMemberContinueConfirmation
+                |> I18n.translate
             )
 
-        yield
-            Prompt
-                { Title =
-                      HireMemberConfirmation availableMember.Character.Gender
-                      |> RehearsalSpaceText
-                      |> I18n.translate
-                  Content =
-                      ConfirmationPrompt
-                      <| handleHiringConfirmation
-                          band
-                          selectedInstrument
-                          availableMember }
-    }
-
-and handleHiringConfirmation band selectedInstrument memberForHire confirmed =
-    let state = State.get ()
-
-    seq {
-        if confirmed then
-            yield Effect <| hireMember state band memberForHire
-
-            yield
-                Message
-                <| I18n.translate (RehearsalSpaceText HireMemberHired)
-
-            yield Scene Management
+        if continueHiring then
+            hireSubScene ()
         else
-            yield
-                Prompt
-                    { Title =
-                          I18n.translate (
-                              RehearsalSpaceText HireMemberContinueConfirmation
-                          )
-                      Content =
-                          ConfirmationPrompt
-                          <| handleContinueConfirmation selectedInstrument }
-    }
-
-and handleContinueConfirmation selectedInstrument confirmed =
-    seq {
-        if confirmed then
-            yield! memberSelection selectedInstrument
-        else
-            yield Scene Management
-    }
+            Scene.Management

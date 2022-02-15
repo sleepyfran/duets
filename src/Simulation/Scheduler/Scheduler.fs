@@ -1,17 +1,11 @@
 module Simulation.Scheduler
 
-open Common
 open Entities
 
-type ScheduleError<'e> =
-    | DateAlreadyScheduled
-    | CreationError of 'e
+type ScheduleError = | DateAlreadyScheduled
 
-/// Attempts to create a new concert from the parameters validating that is
-/// valid and schedules it for the given date. Fails if the concert is not
-/// correct (invalid ticket price, etc) or if the date is not available (already
-/// scheduled).
-let scheduleConcert state date dayMoment city venue ticketPrice =
+/// Validates that there's no other concert scheduled for the given date.
+let validateNoOtherConcertsInDate state date =
     let currentBand = Queries.Bands.currentBand state
 
     let concertForDay =
@@ -20,7 +14,14 @@ let scheduleConcert state date dayMoment city venue ticketPrice =
     if Option.isSome concertForDay then
         Error DateAlreadyScheduled
     else
-        ConcertContext.createConcert date dayMoment city venue ticketPrice
-        |> Result.mapError CreationError
-        |> Result.map (Tuple.two currentBand)
-        |> Result.map ConcertScheduled
+        Ok date
+
+/// Schedules a concert for the given date, day moment in the specified city
+/// and venue for the current band.
+let scheduleConcert state date dayMoment cityId venueId ticketPrice =
+    let currentBand = Queries.Bands.currentBand state
+
+    let concert =
+        Concert.create date dayMoment cityId venueId ticketPrice
+
+    ConcertScheduled(currentBand, concert)

@@ -1,81 +1,57 @@
 module Cli.Scenes.InteractiveSpaces.RehearsalRoom.PracticeSong
 
 open Agents
-open Cli.Actions
-open Cli.Common
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
 open Simulation.Queries
 open Simulation.Songs.Practice
 
-let finishedAndRecordedChoices state (band: Band) =
-    Repertoire.allFinishedSongsByBand state band.Id
-    |> List.map
-        (fun (FinishedSong song, quality) ->
-            let (SongId id) = song.Id
+let rec practiceSongSubScene () = promptForSong ()
 
-            { Id = id.ToString()
-              Text =
-                  PracticeSongItemDescription(song.Name, song.Practice)
-                  |> RehearsalSpaceText
-                  |> I18n.translate })
-
-let rec practiceSongSubScene () =
+and private promptForSong () =
     let state = State.get ()
-    let band = Bands.currentBand state
+    let currentBand = Bands.currentBand state
 
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (RehearsalSpaceText ImproveSongSelection)
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = finishedAndRecordedChoices state band
-                            Handler =
-                                worldOptionalChoiceHandler (
-                                    processSongSelection band
-                                )
-                            BackText = I18n.translate (CommonText CommonCancel) } }
-    }
+    let songs =
+        Repertoire.allFinishedSongsByBand state currentBand.Id
 
-and processSongSelection band selection =
-    let state = State.get ()
-
-    let effects =
-        Repertoire.finishedFromAllByBandAndSongId
-            state
-            band.Id
-            (SongId(System.Guid.Parse selection.Id))
-        |> Option.get
-        |> practiceSong band
-
-    seq {
-        match effects with
-        | SongImproved effect ->
-            yield practiceProgress ()
-            yield Effect effect
-        | SongAlreadyImprovedToMax (FinishedSong song, _) ->
-            yield
-                PracticeSongAlreadyImprovedToMax song.Name
+    let selectedSong =
+        showOptionalChoicePrompt
+            (RehearsalSpaceText DiscardSongSelection
+             |> I18n.translate)
+            (CommonText CommonCancel |> I18n.translate)
+            (fun (FinishedSong fs, _) ->
+                PracticeSongItemDescription(fs.Name, fs.Practice)
                 |> RehearsalSpaceText
-                |> I18n.translate
-                |> Message
+                |> I18n.translate)
+            songs
 
-        yield Scene Scene.World
-    }
+    match selectedSong with
+    | Some song -> showPracticeSong currentBand song
+    | None -> ()
 
-and practiceProgress () =
-    ProgressBar
-        { StepNames =
-              [ I18n.translate (
-                  RehearsalSpaceText PracticeSongProgressLosingTime
-                )
-                I18n.translate (
-                    RehearsalSpaceText PracticeSongProgressTryingSoloOnceMore
-                )
-                I18n.translate (RehearsalSpaceText PracticeSongProgressGivingUp) ]
-          StepDuration = 2<second>
-          Async = true }
+    Scene.World
+
+and private showPracticeSong band song =
+    let effect = practiceSong band song
+
+    match effect with
+    | SongImproved effect ->
+        showProgressBar
+            [ I18n.translate (RehearsalSpaceText PracticeSongProgressLosingTime)
+              I18n.translate (
+                  RehearsalSpaceText PracticeSongProgressTryingSoloOnceMore
+              )
+              I18n.translate (RehearsalSpaceText PracticeSongProgressGivingUp) ]
+            2<second>
+            true
+
+        Cli.Effect.apply effect
+    | SongAlreadyImprovedToMax (FinishedSong song, _) ->
+        PracticeSongAlreadyImprovedToMax song.Name
+        |> RehearsalSpaceText
+        |> I18n.translate
+        |> showMessage

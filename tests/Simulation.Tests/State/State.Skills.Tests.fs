@@ -32,7 +32,7 @@ let ``SkillImproved should add skill even if character is not present in the map
     ()
     =
     let madeUpCharacter =
-        Character.from "Made Up" 25 Male |> Result.unwrap
+        Character.from "Made Up" Male 25
 
     let skills =
         SkillImproved(madeUpCharacter, Diff(skill, skill))

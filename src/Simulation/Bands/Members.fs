@@ -25,8 +25,7 @@ let private createMemberForHire averageSkillLevel averageAge genre instrument =
         let npc =
             Database.randomNpc ()
             |> fun (name, gender) ->
-                Character.from name (ageFromAverage averageAge) gender
-                |> Result.unwrap
+                Character.from name gender (ageFromAverage averageAge)
 
         Band.MemberForHire.from npc instrument skills
 

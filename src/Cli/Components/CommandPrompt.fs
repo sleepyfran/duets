@@ -19,7 +19,7 @@ open Common
 /// <returns>
 /// The scene that the last executed command returned.
 /// </returns>
-let rec commandPrompt title availableCommands =
+let rec showCommandPrompt title availableCommands =
     lineBreak ()
     showMessage title
 
@@ -29,7 +29,7 @@ let rec commandPrompt title availableCommands =
         |> fun commands -> [ HelpCommand.create commands ] @ commands
 
     let rec promptForCommand () =
-        textPrompt (Literal ">")
+        showTextPrompt (Literal ">")
         |> String.split ' '
         |> List.ofArray
         |> fun commandWithArgs ->

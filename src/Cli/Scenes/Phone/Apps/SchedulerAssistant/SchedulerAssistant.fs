@@ -1,34 +1,29 @@
 module Cli.Scenes.Phone.Apps.SchedulerAssistant.Root
 
-open Cli.Actions
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
-open Cli.Common
 
-let private schedulerAssistantOptions =
-    [ { Id = "show"
-        Text = I18n.translate (PhoneText SchedulerAssistantAppShow) }
-      { Id = "visualize"
-        Text = I18n.translate (PhoneText SchedulerAssistantAppVisualize) } ]
+type private SchedulerMenuOption =
+    | ScheduleShow
+    | Agenda
+
+let private textFromOption opt =
+    match opt with
+    | ScheduleShow -> PhoneText SchedulerAssistantAppShow
+    | Agenda -> PhoneText SchedulerAssistantAppAgenda
+    |> I18n.translate
 
 let rec schedulerAssistantApp () =
-    seq {
-        yield
-            Prompt
-                { Title = I18n.translate (PhoneText SchedulerAssistantAppPrompt)
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = schedulerAssistantOptions
-                            Handler =
-                                phoneOptionalChoiceHandler processSelection
-                            BackText = I18n.translate (CommonText CommonNothing) } }
-    }
+    let selectedChoice =
+        showOptionalChoicePrompt
+            (PhoneText SchedulerAssistantAppPrompt
+             |> I18n.translate)
+            (CommonText CommonNothing |> I18n.translate)
+            textFromOption
+            [ ScheduleShow; Agenda ]
 
-and private processSelection choice =
-    seq {
-        match choice.Id with
-        | "show" -> yield! Show.scheduleShow schedulerAssistantApp
-        | "visualize" ->
-            yield! Visualize.visualizeSchedule schedulerAssistantApp
-        | _ -> yield NoOp
-    }
+    match selectedChoice with
+    | Some ScheduleShow -> Show.scheduleShow schedulerAssistantApp
+    | Some Agenda -> Agenda.showAgenda schedulerAssistantApp
+    | None -> Scene.Phone

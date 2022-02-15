@@ -1,31 +1,27 @@
 module Cli.Scenes.InteractiveSpaces.RehearsalRoom.ChooseAction
 
 open Agents
-open Cli.Actions
-open Cli.Common
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
 open Simulation.Queries
+open Simulation.Songs.Composition
 
-let private createOptions hasUnfinishedSongs hasFinishedSongs =
-    seq {
-        { Id = "compose_song"
-          Text = I18n.translate (RehearsalSpaceText ComposeSong) }
+type private RehearseActionMenuOption =
+    | ComposeSong
+    | ImproveSong
+    | FinishSong
+    | DiscardSong
+    | PracticeSong
 
-        if hasUnfinishedSongs then
-            { Id = "improve_song"
-              Text = I18n.translate (RehearsalSpaceText ImproveSong) }
-
-            { Id = "finish_song"
-              Text = I18n.translate (RehearsalSpaceText FinishSong) }
-
-            { Id = "discard_song"
-              Text = I18n.translate (RehearsalSpaceText DiscardSong) }
-
-        if hasFinishedSongs then
-            { Id = "practice_song"
-              Text = I18n.translate (RehearsalSpaceText PracticeSong) }
-    }
-    |> List.ofSeq
+let private textFromOption opt =
+    match opt with
+    | ComposeSong -> RehearsalSpaceText RehearsalSpaceText.ComposeSong
+    | ImproveSong -> RehearsalSpaceText RehearsalSpaceText.ImproveSong
+    | FinishSong -> RehearsalSpaceText RehearsalSpaceText.FinishSong
+    | DiscardSong -> RehearsalSpaceText RehearsalSpaceText.DiscardSong
+    | PracticeSong -> RehearsalSpaceText RehearsalSpaceText.PracticeSong
+    |> I18n.translate
 
 let rec createMenu () =
     let state = State.get ()
@@ -41,29 +37,23 @@ let rec createMenu () =
         |> List.isEmpty
         |> not
 
-    seq {
-        yield
-            Prompt
-                { Title = I18n.translate (RehearsalSpaceText ComposePrompt)
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices =
-                                createOptions
-                                    hasUnfinishedSongs
-                                    hasFinishedSongs
-                            Handler =
-                                worldOptionalChoiceHandler processSelection
-                            BackText = I18n.translate (CommonText CommonCancel) } }
-    }
+    let selectedChoice =
+        showOptionalChoicePrompt
+            (RehearsalSpaceText ComposePrompt |> I18n.translate)
+            (CommonText CommonCancel |> I18n.translate)
+            textFromOption
+            [ ComposeSong
+              if hasUnfinishedSongs then
+                  ImproveSong
+                  FinishSong
+                  DiscardSong
 
-and private processSelection choice =
-    seq {
-        match choice.Id with
-        | "compose_song" -> yield! ComposeSong.composeSongSubScene ()
-        | "improve_song" -> yield! ImproveSong.improveSongSubScene ()
-        | "finish_song" -> yield! FinishSong.finishSongSubScene ()
-        | "practice_song" -> yield! PracticeSong.practiceSongSubScene ()
-        | "discard_song" -> yield! DiscardSong.discardSongSubScene ()
-        | _ -> yield NoOp
-    }
+              if hasFinishedSongs then PracticeSong ]
+
+    match selectedChoice with
+    | Some ComposeSong -> ComposeSong.composeSongSubScene ()
+    | Some ImproveSong -> ImproveSong.improveSongSubScene ()
+    | Some FinishSong -> FinishSong.finishSongSubScene ()
+    | Some PracticeSong -> PracticeSong.practiceSongSubScene ()
+    | Some DiscardSong -> DiscardSong.discardSongSubScene ()
+    | None -> Scene.World

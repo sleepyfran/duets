@@ -56,6 +56,7 @@ and CommonText =
     | CommonInvalidCommand
     | CommonDayMomentWithTime of dayMoment: DayMoment
     | CommonDateWithDay of date: Date
+    | CommonSongWithDetails of name: string * quality: Quality * length: Length
 
 and ConcertSpaceText =
     | ConcertSpaceLobbyDescription of space: ConcertSpace
@@ -98,6 +99,7 @@ and PhoneText =
     | PhoneTitle
     | PhoneOptionBank
     | PhoneOptionStatistics
+    | PhoneOptionScheduler
     | PhonePrompt of date: Date * dayMoment: DayMoment
     | BankAppTitle
     | BankAppWelcome of characterBalance: Amount * bandBalance: Amount
@@ -113,7 +115,7 @@ and PhoneText =
     | SchedulerAssistantCommonMoreDates
     | SchedulerAssistantAppPrompt
     | SchedulerAssistantAppShow
-    | SchedulerAssistantAppVisualize
+    | SchedulerAssistantAppAgenda
     | SchedulerAssistantAppVisualizeConcertInfo of
         dayMoment: DayMoment *
         venue: ConcertSpace *
@@ -127,7 +129,8 @@ and PhoneText =
     | SchedulerAssistantAppShowVenuePrompt
     | SchedulerAssistantAppTicketPricePrompt
     | SchedulerAssistantAppDateAlreadyBooked of date: Date
-    | SchedulerAssistantAppTicketPriceInvalid of price: Amount
+    | SchedulerAssistantAppTicketPriceBelowZero of price: int
+    | SchedulerAssistantAppTicketPriceTooHigh of price: int
     | SchedulerAssistantAppTicketDone of venue: ConcertSpace * concert: Concert
     | StatisticsAppTitle
     | StatisticsAppSectionPrompt

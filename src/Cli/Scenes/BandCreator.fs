@@ -18,7 +18,7 @@ let private showNameError error =
 /// Shows a wizard to create a band for the given character.
 let rec bandCreator (character: Character) = promptForName character
 
-and promptForName character =
+and private promptForName character =
     showTextPrompt (
         CreatorText BandCreatorInitialPrompt
         |> I18n.translate
@@ -29,7 +29,7 @@ and promptForName character =
         (showNameError
          >> (fun _ -> promptForName character))
 
-and promptForGenre character name =
+and private promptForGenre character name =
     let genres = Database.genres ()
 
     showChoicePrompt
@@ -39,7 +39,7 @@ and promptForGenre character name =
         genres
     |> promptForInstrument character name
 
-and promptForInstrument character name genre =
+and private promptForInstrument character name genre =
     let instruments = Database.roles ()
 
     showChoicePrompt
@@ -49,7 +49,7 @@ and promptForInstrument character name genre =
         instruments
     |> promptForConfirmation character name genre
 
-and promptForConfirmation character name genre instrument =
+and private promptForConfirmation character name genre instrument =
     let confirmed =
         showConfirmationPrompt (
             BandCreatorConfirmationPrompt(

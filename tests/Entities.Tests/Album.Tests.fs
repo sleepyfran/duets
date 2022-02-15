@@ -9,33 +9,23 @@ open Common
 open Entities
 
 [<Test>]
-let ``recordAlbum should fail if track list is empty`` () =
-    Album.from "test" []
-    |> Result.unwrapError
-    |> should be (ofCase <@ Album.NoSongsSelected @>)
-
-[<Test>]
-let ``recordAlbum should fail if name is empty`` () =
-    Album.from "" [ dummyRecordedSong ]
+let ``validateName should fail if name is empty`` () =
+    Album.validateName ""
     |> Result.unwrapError
     |> should be (ofCase <@ Album.NameTooShort @>)
 
 [<Test>]
-let ``recordAlbum should fail if name is too long`` () =
-    Album.from
+let ``validateName should fail if name is too long`` () =
+    Album.validateName
         "Nothing to Go Home To, Nothing There to Come Home For, No Home to Return To,  Nothing to Go Home To, Nothing There to Come Home For, No Home to Return To"
-        [ dummyRecordedSong ]
     |> Result.unwrapError
     |> should be (ofCase <@ Album.NameTooLong @>)
 
 [<Test>]
-let ``Album.from should succeed if given correct parameters`` () =
-    Album.from "Infinite Granite" [ dummyRecordedSong ]
+let ``validateName should succeed if given normal name`` () =
+    Album.validateName "Infinite Granite"
     |> Result.unwrap
-    |> fun album ->
-        album.Name |> should equal "Infinite Granite"
-        album.TrackList |> should haveLength 1
-        album.Type |> should be (ofCase <@ Single @>)
+    |> should equal "Infinite Granite"
 
 [<Test>]
 let ``Album.recordType should return error if track list is empty`` () =

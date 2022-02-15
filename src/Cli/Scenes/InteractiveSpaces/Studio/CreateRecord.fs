@@ -1,145 +1,102 @@
 module Cli.Scenes.Studio.CreateRecord
 
 open Agents
-open Cli.Actions
-open Cli.Common
+open Cli
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
-open FSharp.Data.UnitSystems.SI.UnitNames
+open Common
 open Entities
+open FSharp.Data.UnitSystems.SI.UnitNames
 open Simulation.Queries
 open Simulation.Bank.Operations
 open Simulation.Studio.RecordAlbum
 
-/// Creates the studio record subscene which allows bands to create a new
-/// record.
 let rec createRecordSubscene studio =
     let state = State.get ()
     let currentBand = Bands.currentBand state
 
-    let songOptions =
-        finishedSongsSelectorOf state currentBand
+    let finishedSongs =
+        Repertoire.allFinishedSongsByBand state currentBand.Id
 
-    seq {
-        if songOptions.Length > 0 then
-            yield
-                Prompt
-                    { Title = I18n.translate (StudioText StudioCreateRecordName)
-                      Content =
-                          TextPrompt
-                          <| trackListPrompt studio currentBand songOptions }
-        else
-            yield
-                Message
-                <| I18n.translate (StudioText StudioCreateNoSongs)
+    if List.isEmpty finishedSongs then
+        StudioText StudioCreateNoSongs
+        |> I18n.translate
+        |> showMessage
 
-            yield Scene World
-    }
+        Scene.World
+    else
+        promptForName studio
 
-and trackListPrompt studio band songOptions name =
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (StudioText StudioCreateTrackListPrompt)
-                  Content =
-                      MultiChoicePrompt
-                      <| { Choices = songOptions
-                           Handler = processRecord studio band name } }
-    }
+and promptForName studio =
+    showTextPrompt (
+        StudioText StudioCreateRecordName
+        |> I18n.translate
+    )
+    |> Album.validateName
+    |> Result.switch
+        (promptForTrackList studio)
+        (showAlbumNameError
+         >> fun _ -> promptForName studio)
 
-and processRecord studio band name selectedSongs =
+and promptForTrackList studio name =
     let state = State.get ()
+    let band = Bands.currentBand state
 
-    let albumResult =
-        finishedSongsFromSelection state band selectedSongs
-        |> Album.Unreleased.from name
+    let finishedSongs =
+        Songs.finishedByBand state band.Id
+        |> List.ofMapValues
 
-    seq {
-        match albumResult with
-        | Error Album.NameTooShort ->
-            yield
-                Message
-                <| I18n.translate (StudioText StudioCreateErrorNameTooShort)
+    showMultiChoicePrompt
+        (StudioText StudioCreateTrackListPrompt
+         |> I18n.translate)
+        (fun ((FinishedSong fs), currentQuality) ->
+            CommonSongWithDetails(fs.Name, currentQuality, fs.Length)
+            |> CommonText
+            |> I18n.translate)
+        finishedSongs
+    |> promptForConfirmation studio band name
 
-            yield! createRecordSubscene studio
-        | Error Album.NameTooLong ->
-            yield
-                Message
-                <| I18n.translate (StudioText StudioCreateErrorNameTooLong)
+and promptForConfirmation studio band name selectedSongs =
+    let album = Album.Unreleased.from name selectedSongs
+    let (UnreleasedAlbum unreleasedAlbum) = album
 
-            yield! createRecordSubscene studio
-        | Ok album -> yield! confirmRecording studio band album
-        | _ -> yield NoOp
-    }
+    let confirmed =
+        showConfirmationPrompt (
+            StudioConfirmRecordingPrompt(
+                unreleasedAlbum.Name,
+                unreleasedAlbum.Type
+            )
+            |> StudioText
+            |> I18n.translate
+        )
 
-and confirmRecording studio band album =
-    let (UnreleasedAlbum albumToRecord) = album
-
-    seq {
-        yield
-            Prompt
-                { Title =
-                      StudioConfirmRecordingPrompt(
-                          albumToRecord.Name,
-                          albumToRecord.Type
-                      )
-                      |> StudioText
-                      |> I18n.translate
-                  Content =
-                      ConfirmationPrompt
-                          (fun confirmed ->
-                              seq {
-                                  if confirmed then
-                                      yield!
-                                          checkBankAndRecordAlbum
-                                              studio
-                                              band
-                                              album
-                                  else
-                                      yield Scene Scene.World
-                              }) }
-    }
+    if confirmed then
+        checkBankAndRecordAlbum studio band album
+    else
+        Scene.World
 
 and checkBankAndRecordAlbum studio band album =
     let state = State.get ()
 
-    seq {
-        match recordAlbum state studio band album with
-        | Error (NotEnoughFunds studioBill) ->
-            yield
-                StudioCreateErrorNotEnoughMoney(studioBill)
-                |> StudioText
-                |> I18n.translate
-                |> Message
+    match recordAlbum state studio band album with
+    | Error (NotEnoughFunds studioBill) ->
+        StudioCreateErrorNotEnoughMoney(studioBill)
+        |> StudioText
+        |> I18n.translate
+        |> showMessage
 
-            yield Scene World
-        | Ok (album, effects) ->
-            yield! recordWithProgressBar studio band album effects
-    }
+        Scene.World
+    | Ok (album, effects) -> recordWithProgressBar studio band album effects
 
-and recordWithProgressBar studio band album effects =
-    seq {
-        yield
-            ProgressBar
-                { StepNames =
-                      [ I18n.translate (
-                          StudioText StudioCreateProgressEatingSnacks
-                        )
-                        I18n.translate (
-                            StudioText StudioCreateProgressRecordingWeirdSounds
-                        )
-                        I18n.translate (
-                            StudioText StudioCreateProgressMovingKnobs
-                        ) ]
-                  StepDuration = 3<second>
-                  Async = true }
+and recordWithProgressBar _ band album effects =
+    showProgressBar
+        [ I18n.translate (StudioText StudioCreateProgressEatingSnacks)
+          I18n.translate (StudioText StudioCreateProgressRecordingWeirdSounds)
+          I18n.translate (StudioText StudioCreateProgressMovingKnobs) ]
+        3<second>
+        true
 
-        yield! Seq.map Effect effects
+    List.iter Effect.apply effects
 
-        yield!
-            PromptToRelease.promptToReleaseAlbum
-                (seq { yield Scene Scene.World })
-                studio
-                band
-                album
-    }
+    PromptToRelease.promptToReleaseAlbum band album

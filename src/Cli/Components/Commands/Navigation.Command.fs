@@ -1,6 +1,8 @@
 namespace Cli.Components.Commands
 
 open Agents
+open Cli
+open Cli.SceneIndex
 open Cli.Text
 open Entities
 open Simulation
@@ -19,9 +21,9 @@ module NavigationCommand =
     let private handle coordinates _ =
         State.get ()
         |> World.Navigation.moveTo coordinates
-        |> ignore // TODO: Execute effect
+        |> Effect.apply
 
-        None
+        Some Scene.World
 
     /// Creates a set of commands with the available direction as the name which,
     /// when executed, moves the player towards that direction.

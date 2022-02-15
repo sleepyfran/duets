@@ -14,3 +14,5 @@ type Scene =
     | World
     | Management
     | Phone
+    // Saves the game and exits.
+    | Exit

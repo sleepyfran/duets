@@ -1,35 +1,29 @@
 module Cli.Scenes.Phone.Apps.Statistics.Root
 
-open Cli.Actions
-open Cli.Common
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
 
-let private statisticOptions =
-    [ { Id = "band"
-        Text = I18n.translate (PhoneText StatisticsAppSectionBand) }
-      { Id = "albums"
-        Text = I18n.translate (PhoneText StatisticsAppSectionAlbums) } ]
+type private StatisticsOption =
+    | Band
+    | Albums
+
+let private textFromOption opt =
+    match opt with
+    | Band -> PhoneText StatisticsAppSectionBand
+    | Albums -> PhoneText StatisticsAppSectionAlbums
+    |> I18n.translate
 
 let rec statisticsApp () =
-    seq {
-        yield
-            Prompt
-                { Title = I18n.translate (PhoneText StatisticsAppSectionPrompt)
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = statisticOptions
-                            Handler =
-                                phoneOptionalChoiceHandler <| processSelection
-                            BackText =
-                                I18n.translate (CommonText CommonBackToPhone) } }
+    let selectedChoice =
+        showOptionalChoicePrompt
+            (PhoneText StatisticsAppSectionPrompt
+             |> I18n.translate)
+            (CommonText CommonBackToPhone |> I18n.translate)
+            textFromOption
+            [ Band; Albums ]
 
-    }
-
-and private processSelection selection =
-    seq {
-        match selection.Id with
-        | "band" -> yield! Band.bandStatisticsSubScene statisticsApp
-        | "albums" -> yield! Albums.albumsStatisticsSubScene statisticsApp
-        | _ -> yield NoOp
-    }
+    match selectedChoice with
+    | Some Band -> Band.bandStatisticsSubScene statisticsApp
+    | Some Albums -> Albums.albumsStatisticsSubScene statisticsApp
+    | None -> Scene.Phone

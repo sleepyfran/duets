@@ -1,55 +1,41 @@
 module Cli.Scenes.Phone.Root
 
 open Agents
-open Cli.Actions
-open Cli.Common
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
 open Entities
 open Simulation
 
-let private phoneOptions =
-    [ yield
-        { Id = "bank"
-          Text = I18n.translate (PhoneText PhoneOptionBank) }
+type private PhoneMenuOption =
+    | Bank
+    | Statistics
+    | Scheduler
 
-      yield
-          { Id = "statistics"
-            Text = I18n.translate (PhoneText PhoneOptionStatistics) }
-
-      yield
-          { Id = "scheduler"
-            Text = I18n.constant "Scheduler assistant" } ]
+let private textFromOption opt =
+    match opt with
+    | Bank -> PhoneText PhoneOptionBank
+    | Statistics -> PhoneText PhoneOptionStatistics
+    | Scheduler -> PhoneText PhoneOptionScheduler
+    |> I18n.translate
 
 let rec phoneScene () =
     let currentDate = State.get () |> Queries.Calendar.today
 
     let dayMoment = Calendar.Query.dayMomentOf currentDate
 
-    seq {
-        yield
-            Prompt
-                { Title =
-                      PhonePrompt(currentDate, dayMoment)
-                      |> PhoneText
-                      |> I18n.translate
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = phoneOptions
-                            Handler =
-                                worldOptionalChoiceHandler <| processSelection
-                            BackText =
-                                I18n.translate (CommonText CommonBackToWorld) } }
-    }
+    let selection =
+        showOptionalChoicePrompt
+            (PhonePrompt(currentDate, dayMoment)
+             |> PhoneText
+             |> I18n.translate)
+            (CommonText CommonBackToWorld |> I18n.translate)
+            textFromOption
+            [ Bank; Statistics; Scheduler ]
 
-and processSelection choice =
-    seq {
-        yield Separator
 
-        match choice.Id with
-        | "bank" -> yield! Apps.Bank.Root.bankApp ()
-        | "statistics" -> yield! Apps.Statistics.Root.statisticsApp ()
-        | "scheduler" ->
-            yield! Apps.SchedulerAssistant.Root.schedulerAssistantApp ()
-        | _ -> yield NoOp
-    }
+    match selection with
+    | Some Bank -> Apps.Bank.Root.bankApp ()
+    | Some Statistics -> Apps.Statistics.Root.statisticsApp ()
+    | Some Scheduler -> Apps.SchedulerAssistant.Root.schedulerAssistantApp ()
+    | None -> Scene.World

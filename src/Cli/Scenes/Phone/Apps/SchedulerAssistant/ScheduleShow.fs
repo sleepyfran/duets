@@ -1,13 +1,43 @@
 module Cli.Scenes.Phone.Apps.SchedulerAssistant.Show
 
 open Agents
-open Cli.Actions
+open Cli
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
-open Cli.Common
+open Common
 open Entities
-open Entities.ConcertContext
 open Simulation
 open Simulation.Queries
+
+let private textFromDate date =
+    CommonDateWithDay date
+    |> CommonText
+    |> I18n.translate
+
+let private textFromDayMoment dayMoment =
+    CommonDayMomentWithTime dayMoment
+    |> CommonText
+    |> I18n.translate
+
+let private showDateScheduledError date error =
+    match error with
+    | Scheduler.DateAlreadyScheduled ->
+        SchedulerAssistantAppDateAlreadyBooked date
+        |> PhoneText
+    |> I18n.translate
+    |> showMessage
+
+let private showTicketPriceError ticketPrice error =
+    match error with
+    | Concert.PriceBelowZero ->
+        SchedulerAssistantAppTicketPriceBelowZero ticketPrice
+        |> PhoneText
+    | Concert.PriceTooHigh ->
+        SchedulerAssistantAppTicketPriceTooHigh ticketPrice
+        |> PhoneText
+    |> I18n.translate
+    |> showMessage
 
 let rec scheduleShow app =
     // Skip 5 days to give enough time for the scheduler to compute some ticket
@@ -16,191 +46,105 @@ let rec scheduleShow app =
         Calendar.today (State.get ())
         |> Calendar.Ops.addDays 5
 
-    scheduleShow' app firstAvailableDay
+    promptForDate app firstAvailableDay
 
-and private scheduleShow' app firstDate =
+and private promptForDate app firstDate =
     let monthDays = Calendar.Query.monthDaysFrom firstDate
-
-    let options =
-        monthDays
-        |> Seq.map
-            (fun date ->
-                { Id = date.ToString()
-                  Text =
-                      CommonDateWithDay date
-                      |> CommonText
-                      |> I18n.translate })
-        |> List.ofSeq
 
     let nextMonthDate =
         Calendar.Query.firstDayOfNextMonth firstDate
 
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (
-                          PhoneText SchedulerAssistantAppShowDatePrompt
-                      )
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = options
-                            Handler =
-                                basicOptionalChoiceHandler
-                                    (scheduleShow' app nextMonthDate)
-                                    (fun dateChoice ->
-                                        Calendar.Parse.date dateChoice.Id
-                                        |> Option.get
-                                        |> dayMomentPrompt app)
-                            BackText =
-                                PhoneText SchedulerAssistantCommonMoreDates
-                                |> I18n.translate } }
-    }
+    let selectedDate =
+        showOptionalChoicePrompt
+            (PhoneText SchedulerAssistantAppShowDatePrompt
+             |> I18n.translate)
+            (PhoneText SchedulerAssistantCommonMoreDates
+             |> I18n.translate)
+            textFromDate
+            monthDays
 
-and private dayMomentPrompt app date =
-    // Midnight is not taking into account since we don't want to allow
-    // scheduling on the next day.
-    let dayMomentOptions =
-        Calendar.allDayMoments
-        |> List.tail
-        |> List.map
-            (fun dayMoment ->
-                { Id = dayMoment.ToString()
-                  Text =
-                      CommonDayMomentWithTime dayMoment
-                      |> CommonText
-                      |> I18n.translate })
+    match selectedDate with
+    | Some date ->
+        Scheduler.validateNoOtherConcertsInDate (State.get ()) date
+        |> Result.switch
+            (promptForDayMoment app)
+            (fun error ->
+                showDateScheduledError date error
+                promptForDate app firstDate)
+    | None -> promptForDate app nextMonthDate
 
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (
-                          PhoneText SchedulerAssistantAppShowTimePrompt
-                      )
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = dayMomentOptions
-                            Handler =
-                                phoneOptionalChoiceHandler
-                                    (fun dayMomentChoice ->
-                                        Calendar.Parse.dayMoment
-                                            dayMomentChoice.Id
-                                        |> cityPrompt app date)
-                            BackText =
-                                (CommonText CommonCancel |> I18n.translate) } }
-    }
+and private promptForDayMoment app date =
+    // Drop the last element (Midnight) since we don't want to allow scheduling
+    // on the day after the selection.
+    let availableDayMoments = Calendar.allDayMoments |> List.tail
 
-and private cityPrompt app date dayMoment =
-    let cityOptions =
-        World.allCities (State.get ())
-        |> List.map
-            (fun city ->
-                { Id = city.Id.ToString()
-                  Text = Literal city.Name })
+    let selectedDayMoment =
+        showOptionalChoicePrompt
+            (PhoneText SchedulerAssistantAppShowTimePrompt
+             |> I18n.translate)
+            (CommonText CommonCancel |> I18n.translate)
+            textFromDayMoment
+            availableDayMoments
 
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (
-                          PhoneText SchedulerAssistantAppShowCityPrompt
-                      )
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = cityOptions
-                            Handler =
-                                phoneOptionalChoiceHandler
-                                    (fun cityChoice ->
-                                        Identity.from cityChoice.Id
-                                        |> venuePrompt app date dayMoment)
-                            BackText =
-                                (CommonText CommonCancel |> I18n.translate) } }
-    }
+    match selectedDayMoment with
+    | Some dayMoment -> promptForCity app date dayMoment
+    | None -> app ()
 
-and private venuePrompt app date dayMoment cityId =
-    let concertSpaceOptions =
-        World.allConcertSpacesOfCity (State.get ()) cityId
-        |> List.map
-            (fun (id, concertSpace) ->
-                { Id = id.ToString()
-                  Text = I18n.constant concertSpace.Name })
+and private promptForCity app date dayMoment =
+    let cities = World.allCities (State.get ())
 
+    let selectedCity =
+        showOptionalChoicePrompt
+            (PhoneText SchedulerAssistantAppShowCityPrompt
+             |> I18n.translate)
+            (CommonText CommonCancel |> I18n.translate)
+            (fun (city: City) -> I18n.constant city.Name)
+            cities
+
+    match selectedCity with
+    | Some city -> promptForVenue app date dayMoment city
+    | None -> app ()
+
+and private promptForVenue app date dayMoment city =
     let state = State.get ()
 
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (
-                          PhoneText SchedulerAssistantAppShowVenuePrompt
-                      )
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = concertSpaceOptions
-                            Handler =
-                                phoneOptionalChoiceHandler
-                                    (fun venueChoice ->
-                                        Identity.from venueChoice.Id
-                                        |> ticketPricePrompt
-                                            app
-                                            date
-                                            dayMoment
-                                            cityId)
-                            BackText =
-                                (CommonText CommonCancel |> I18n.translate) } }
-    }
+    let venues =
+        World.allConcertSpacesOfCity state city.Id
 
-and private ticketPricePrompt app date dayMoment cityId venue =
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (
-                          PhoneText SchedulerAssistantAppTicketPricePrompt
-                      )
-                  Content =
-                      NumberPrompt(
-                          handleConcert app date dayMoment cityId venue
-                      ) }
-    }
+    let selectedVenue =
+        showOptionalChoicePrompt
+            (PhoneText SchedulerAssistantAppShowVenuePrompt
+             |> I18n.translate)
+            (CommonText CommonCancel |> I18n.translate)
+            (fun (_, venue: ConcertSpace) -> I18n.constant venue.Name)
+            venues
 
-and private handleConcert app date dayMoment cityId venueId ticketPrice =
-    let state = State.get ()
+    match selectedVenue with
+    | Some (nodeId, _) -> promptForTicketPrice app date dayMoment city nodeId
+    | None -> app ()
 
-    let scheduleResult =
-        Scheduler.scheduleConcert
-            state
-            date
-            dayMoment
-            cityId
-            venueId
-            ticketPrice
+and private promptForTicketPrice app date dayMoment city venueId =
+    let ticketPrice =
+        showNumberPrompt (
+            PhoneText SchedulerAssistantAppTicketPricePrompt
+            |> I18n.translate
+        )
 
-    seq {
-        match scheduleResult with
-        | Ok effect ->
-            yield Effect effect
-            yield Separator
-            yield! app ()
-        | Error Scheduler.DateAlreadyScheduled ->
-            yield
-                SchedulerAssistantAppDateAlreadyBooked date
-                |> PhoneText
-                |> I18n.translate
-                |> Message
+    Concert.validatePrice ticketPrice
+    |> Result.switch
+        (scheduleConcert app date dayMoment city venueId)
+        (fun error ->
+            showTicketPriceError ticketPrice error
+            promptForTicketPrice app date dayMoment city venueId)
 
-            yield! scheduleShow app
-        | Error (Scheduler.CreationError (InvalidTicketPrice price)) ->
-            yield
-                SchedulerAssistantAppTicketPriceInvalid price
-                |> PhoneText
-                |> I18n.translate
-                |> Message
+and private scheduleConcert app date dayMoment city venueId ticketPrice =
+    Scheduler.scheduleConcert
+        (State.get ())
+        date
+        dayMoment
+        city.Id
+        venueId
+        ticketPrice
+    |> Effect.apply
 
-            yield! ticketPricePrompt app date dayMoment cityId venueId
-    }
+    Scene.Phone

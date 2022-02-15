@@ -1,10 +1,8 @@
 module Data.VocalStyles
 
-open Microsoft.FSharp.Reflection
 open Entities
 
-/// Retrieves the name of all the roles available.
-let getNames () =
-    FSharpType.GetUnionCases typeof<VocalStyle>
-    |> Array.map (fun uc -> uc.Name)
-    |> List.ofArray
+let get = [ Instrumental; Normal; Growl; Screamo ]
+
+let getWithNames =
+    get |> List.map (fun vs -> vs, vs.ToString())

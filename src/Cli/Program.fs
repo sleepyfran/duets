@@ -1,21 +1,10 @@
-open System.Globalization
-open System.Threading
-
 open Agents
-
 open Cli.SceneIndex
 open Cli.Components
 open Cli.Scenes
+open System.Globalization
+open System.Threading
 
-/// Returns the sequence of actions associated with a screen given its name.
-let showSceneContent scene =
-    match scene with
-    | Scene.MainMenu savegameState -> MainMenu.mainMenu savegameState
-    | Scene.CharacterCreator -> CharacterCreator.characterCreator ()
-    | Scene.BandCreator character -> BandCreator.bandCreator character
-    | Scene.Management -> Management.Root.managementScene ()
-    | Scene.Phone -> Phone.Root.phoneScene ()
-    | Scene.World -> World.worldScene ()
 
 /// Determines whether the given scene is out of gameplay (main menu, creators,
 /// etc.) or not.
@@ -38,7 +27,21 @@ let saveIfNeeded scene =
 let rec showScene scene =
     saveIfNeeded scene
     lineBreak ()
-    showSceneContent scene |> showScene
+
+    match scene with
+    | Scene.MainMenu savegameState ->
+        MainMenu.mainMenu savegameState |> showScene
+    | Scene.CharacterCreator ->
+        CharacterCreator.characterCreator () |> showScene
+    | Scene.BandCreator character ->
+        BandCreator.bandCreator character |> showScene
+
+    | Scene.Management -> Management.Root.managementScene () |> showScene
+    | Scene.Phone -> Phone.Root.phoneScene () |> showScene
+    | Scene.World -> World.worldScene () |> showScene
+    | Scene.Exit ->
+        Savegame.save ()
+        ()
 
 [<EntryPoint>]
 let main _ =

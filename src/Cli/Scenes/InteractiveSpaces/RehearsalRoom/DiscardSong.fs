@@ -1,54 +1,37 @@
 module Cli.Scenes.InteractiveSpaces.RehearsalRoom.DiscardSong
 
 open Agents
-open Cli.Actions
-open Cli.Common
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
+open Common
 open Entities
 open Simulation.Queries
 open Simulation.Songs.Composition.DiscardSong
 
-let rec discardSongSubScene () =
-    let state = State.get ()
+let rec discardSongSubScene () = promptForSong ()
 
+and private promptForSong () =
+    let state = State.get ()
     let currentBand = Bands.currentBand state
 
-    let songOptions =
-        unfinishedSongsSelectorOf state currentBand
+    let songs =
+        Songs.unfinishedByBand state currentBand.Id
+        |> List.ofMapValues
 
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (RehearsalSpaceText DiscardSongSelection)
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = songOptions
-                            Handler =
-                                worldOptionalChoiceHandler (
-                                    processSongSelection currentBand
-                                )
-                            BackText = I18n.translate (CommonText CommonCancel) } }
-    }
+    let selectedSong =
+        showOptionalChoicePrompt
+            (RehearsalSpaceText DiscardSongSelection
+             |> I18n.translate)
+            (CommonText CommonCancel |> I18n.translate)
+            (fun (UnfinishedSong us, _, currentQuality) ->
+                CommonSongWithDetails(us.Name, currentQuality, us.Length)
+                |> CommonText
+                |> I18n.translate)
+            songs
 
-and processSongSelection band selection =
-    let state = State.get ()
+    match selectedSong with
+    | Some song -> discardSong currentBand song |> Cli.Effect.apply
+    | None -> ()
 
-    let unfinishedSong =
-        unfinishedSongFromSelection state band selection
-
-    seq {
-
-        yield Effect <| discardSong band unfinishedSong
-
-        let (UnfinishedSong discardedSong, _, _) = unfinishedSong
-
-        yield
-            DiscardSongDiscarded discardedSong.Name
-            |> RehearsalSpaceText
-            |> I18n.translate
-            |> Message
-
-        yield Scene Scene.World
-    }
+    Scene.World

@@ -1,6 +1,6 @@
 namespace Cli.Components.Commands
 
-open Cli.Actions
+open Cli.SceneIndex
 open Cli.Text
 
 [<RequireQualifiedAccess>]
@@ -9,4 +9,4 @@ module PhoneCommand =
     let get =
         { Name = "phone"
           Description = I18n.translate (CommandText CommandPhoneDescription)
-          Handler = fun _ -> Some Phone }
+          Handler = fun _ -> Some Scene.Phone }

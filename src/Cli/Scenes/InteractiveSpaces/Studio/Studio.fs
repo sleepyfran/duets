@@ -1,7 +1,7 @@
 module Cli.Scenes.Studio.Root
 
 open Agents
-open Cli.View.Commands
+open Cli.Components.Commands
 open Cli.Text
 open Entities
 open Simulation.Queries
@@ -39,12 +39,21 @@ let getRoomCommands room =
     match room with
     | MasteringRoom studio ->
         let createRecordOption =
-            (I18n.translate (StudioText StudioTalkCreateRecord),
-             CreateRecord.createRecordSubscene studio)
+            (StudioText StudioTalkCreateRecord
+             |> I18n.translate),
+            fun () -> CreateRecord.createRecordSubscene studio |> Some
 
         let continueRecordOption =
-            (I18n.translate (StudioText StudioTalkContinueRecord),
-             ContinueRecord.continueRecordSubscene studio)
+            (StudioText StudioTalkContinueRecord
+             |> I18n.translate),
+            fun () ->
+                ContinueRecord.continueRecordSubscene studio
+                |> Some
+
+        let talkOptions =
+            [ createRecordOption
+              if hasUnreleasedAlbums then
+                  continueRecordOption ]
 
         [ TalkCommand.create [
               { Npc = studio.Producer
@@ -52,9 +61,6 @@ let getRoomCommands room =
                     StudioTalkIntroduction(studio.Name, studio.PricePerSong)
                     |> StudioText
                     |> I18n.translate
-                Options =
-                    [ yield createRecordOption
-                      if hasUnreleasedAlbums then
-                          yield continueRecordOption ] }
+                Options = talkOptions }
           ] ]
     | RecordingRoom _ -> []

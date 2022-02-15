@@ -1,17 +1,21 @@
 module Cli.Scenes.Phone.Apps.Bank.Root
 
 open Agents
-open Cli.Actions
-open Cli.Common
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
 open Entities
 open Simulation.Queries
 
-let private bankOptions =
-    [ { Id = "transfer_to_band"
-        Text = I18n.translate (PhoneText BankAppTransferToBand) }
-      { Id = "transfer_from_band"
-        Text = I18n.translate (PhoneText BankAppTransferFromBand) } ]
+type private BankMenuOptions =
+    | TransferToBand
+    | TransferFromBand
+
+let private textFromOption opt =
+    match opt with
+    | TransferToBand -> PhoneText BankAppTransferToBand
+    | TransferFromBand -> PhoneText BankAppTransferFromBand
+    |> I18n.translate
 
 /// Creates the bank scene which allows to transfer money between accounts.
 let rec bankApp () =
@@ -30,34 +34,21 @@ let rec bankApp () =
     let characterBalance = Bank.balanceOf state characterAccount
     let bandBalance = Bank.balanceOf state bandAccount
 
-    seq {
-        yield
-            BankAppWelcome(characterBalance, bandBalance)
-            |> PhoneText
-            |> I18n.translate
-            |> Message
+    BankAppWelcome(characterBalance, bandBalance)
+    |> PhoneText
+    |> I18n.translate
+    |> showMessage
 
-        yield
-            Prompt
-                { Title = I18n.translate (PhoneText BankAppPrompt)
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = bankOptions
-                            Handler =
-                                phoneOptionalChoiceHandler
-                                <| processSelection characterAccount bandAccount
-                            BackText = I18n.translate (CommonText CommonBack) } }
-    }
+    let selection =
+        showOptionalChoicePrompt
+            (PhoneText BankAppPrompt |> I18n.translate)
+            (CommonText CommonBack |> I18n.translate)
+            textFromOption
+            [ TransferToBand; TransferFromBand ]
 
-and private processSelection characterAccount bandAccount choice =
-    seq {
-        match choice.Id with
-        | "transfer_to_band" ->
-            yield!
-                Transfer.transferSubScene bankApp characterAccount bandAccount
-        | "transfer_from_band" ->
-            yield!
-                Transfer.transferSubScene bankApp bandAccount characterAccount
-        | _ -> yield NoOp
-    }
+    match selection with
+    | Some TransferToBand ->
+        Transfer.transferSubScene bankApp characterAccount bandAccount
+    | Some TransferFromBand ->
+        Transfer.transferSubScene bankApp bandAccount characterAccount
+    | None -> Scene.Phone

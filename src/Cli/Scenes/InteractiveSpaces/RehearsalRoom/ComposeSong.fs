@@ -1,135 +1,90 @@
 module Cli.Scenes.InteractiveSpaces.RehearsalRoom.ComposeSong
 
 open Agents
-open Cli.Actions
-open Cli.Common
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
+open Common
 open Entities
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Simulation.Songs.Composition.ComposeSong
 
-let rec composeSongSubScene () =
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (RehearsalSpaceText ComposeSongTitlePrompt)
-                  Content = TextPrompt(lengthPrompt) }
-    }
+let private showNameError error =
+    match error with
+    | Song.NameTooShort -> RehearsalSpaceText ComposeSongErrorNameTooShort
+    | Song.NameTooLong -> RehearsalSpaceText ComposeSongErrorNameTooLong
+    |> I18n.translate
 
-and lengthPrompt name =
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (
-                          RehearsalSpaceText ComposeSongLengthPrompt
-                      )
-                  Content = LengthPrompt(genrePrompt name) }
-    }
+let private showLengthError error =
+    match error with
+    | Song.LengthTooShort -> RehearsalSpaceText ComposeSongErrorLengthTooShort
+    | Song.LengthTooLong -> RehearsalSpaceText ComposeSongErrorLengthTooLong
+    |> I18n.translate
 
-and genrePrompt name length =
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (RehearsalSpaceText ComposeSongGenrePrompt)
-                  Content =
-                      ChoicePrompt
-                      <| MandatoryChoiceHandler
-                          { Choices = genreOptions
-                            Handler = vocalStylePrompt name length } }
-    }
+let rec composeSongSubScene () = promptForName ()
 
-and vocalStylePrompt name length selectedGenre =
-    let vocalStyleOptions =
-        Database.vocalStyleNames ()
-        |> List.map
-            (fun vocalStyle ->
-                { Id = vocalStyle.ToString()
-                  Text = Literal(vocalStyle.ToString()) })
+and private promptForName () =
+    showTextPrompt (
+        RehearsalSpaceText ComposeSongTitlePrompt
+        |> I18n.translate
+    )
+    |> Song.validateName
+    |> Result.switch
+        (promptForLength)
+        (showNameError >> fun _ -> promptForName ())
 
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (
-                          RehearsalSpaceText ComposeSongVocalStylePrompt
-                      )
-                  Content =
-                      ChoicePrompt
-                      <| MandatoryChoiceHandler
-                          { Choices = vocalStyleOptions
-                            Handler = handleSong name length selectedGenre.Id } }
-    }
+and private promptForLength name =
+    showLengthPrompt (
+        RehearsalSpaceText ComposeSongLengthPrompt
+        |> I18n.translate
+    )
+    |> Song.validateLength
+    |> Result.switch
+        (promptForGenre name)
+        (showLengthError >> fun _ -> promptForLength name)
 
-and handleSong name length genre selectedVocalStyle =
+and private promptForGenre name length =
+    let genres = Database.genres ()
+
+    showChoicePrompt
+        (RehearsalSpaceText ComposeSongGenrePrompt
+         |> I18n.translate)
+        I18n.constant
+        genres
+    |> promptForVocalStyle name length
+
+and private promptForVocalStyle name length genre =
+    let vocalStyles = Database.vocalStyles
+
     let vocalStyle =
-        Song.VocalStyle.from selectedVocalStyle.Id
+        showChoicePrompt
+            (RehearsalSpaceText ComposeSongVocalStylePrompt
+             |> I18n.translate)
+            (snd >> I18n.constant)
+            vocalStyles
+        |> fst
 
-    seq {
-        match Song.from name length vocalStyle genre with
-        | Ok song -> yield! composeWithProgressbar song
-        | Error Song.NameTooShort ->
-            yield!
-                handleError
-                <| I18n.translate (
-                    RehearsalSpaceText ComposeSongErrorNameTooShort
-                )
-        | Error Song.NameTooLong ->
-            yield!
-                handleError
-                <| I18n.translate (
-                    RehearsalSpaceText ComposeSongErrorNameTooLong
-                )
-        | Error Song.LengthTooShort ->
-            yield!
-                handleError
-                <| I18n.translate (
-                    RehearsalSpaceText ComposeSongErrorLengthTooShort
-                )
-        | Error Song.LengthTooLong ->
-            yield!
-                handleError
-                <| I18n.translate (
-                    RehearsalSpaceText ComposeSongErrorLengthTooLong
-                )
-    }
+    Song.from name length vocalStyle genre
+    |> composeWithProgressbar
 
-and composeWithProgressbar song =
+and private composeWithProgressbar song =
     let state = State.get ()
 
-    seq {
+    showProgressBar
+        [ RehearsalSpaceText ComposeSongProgressBrainstorming
+          |> I18n.translate
+          RehearsalSpaceText ComposeSongProgressConfiguringReverb
+          |> I18n.translate
+          RehearsalSpaceText ComposeSongProgressTryingChords
+          |> I18n.translate ]
+        2<second>
+        true
 
-        yield
-            ProgressBar
-                { StepNames =
-                      [ I18n.translate (
-                          RehearsalSpaceText ComposeSongProgressBrainstorming
-                        )
-                        I18n.translate (
-                            RehearsalSpaceText
-                                ComposeSongProgressConfiguringReverb
-                        )
-                        I18n.translate (
-                            RehearsalSpaceText ComposeSongProgressTryingChords
-                        ) ]
-                  StepDuration = 2<second>
-                  Async = true }
+    ComposeSongConfirmation song.Name
+    |> RehearsalSpaceText
+    |> I18n.translate
+    |> showMessage
 
-        yield
-            ComposeSongConfirmation song.Name
-            |> RehearsalSpaceText
-            |> I18n.translate
-            |> Message
+    composeSong state song |> Cli.Effect.apply
 
-        yield Effect <| composeSong state song
-
-        yield Scene Scene.World
-    }
-
-and handleError message =
-    seq {
-        yield Message <| message
-        yield! composeSongSubScene ()
-    }
+    Scene.World

@@ -23,7 +23,6 @@ let private recordTrackList state studio trackList =
 let private recordAlbum' state studio band (UnreleasedAlbum album) =
     recordTrackList state studio album.TrackList
     |> Album.from album.Name
-    |> Result.unwrap
     |> fun album ->
         Ok(UnreleasedAlbum album, AlbumRecorded(band, UnreleasedAlbum album))
 

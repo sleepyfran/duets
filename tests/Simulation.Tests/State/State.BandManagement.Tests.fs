@@ -10,10 +10,8 @@ open Entities
 open Simulation
 open Simulation.Queries
 
-
 let hiredMember =
-    let character =
-        Character.from "Another" 18 Other |> Result.unwrap
+    let character = Character.from "Another" Other 18
 
     Band.Member.from character Guitar dummyToday
 

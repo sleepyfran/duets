@@ -1,75 +1,70 @@
 module Cli.Scenes.InteractiveSpaces.RehearsalRoom.ImproveSong
 
 open Agents
-open Cli.Actions
-open Cli.Common
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
+open Common
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
 open Simulation.Queries
 open Simulation.Songs.Composition.ImproveSong
 
-let rec improveSongSubScene () =
-    let state = State.get ()
+let rec improveSongSubScene () = promptForSong ()
 
+and private promptForSong () =
+    let state = State.get ()
     let currentBand = Bands.currentBand state
 
-    let songOptions =
-        unfinishedSongsSelectorOf state currentBand
+    let songs =
+        Songs.unfinishedByBand state currentBand.Id
+        |> List.ofMapValues
 
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (RehearsalSpaceText ImproveSongSelection)
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = songOptions
-                            Handler =
-                                worldOptionalChoiceHandler (
-                                    processSongSelection currentBand
-                                )
-                            BackText = I18n.translate (CommonText CommonCancel) } }
-    }
+    let selectedSong =
+        showOptionalChoicePrompt
+            (RehearsalSpaceText DiscardSongSelection
+             |> I18n.translate)
+            (CommonText CommonCancel |> I18n.translate)
+            (fun (UnfinishedSong us, _, currentQuality) ->
+                CommonSongWithDetails(us.Name, currentQuality, us.Length)
+                |> CommonText
+                |> I18n.translate)
+            songs
 
-and processSongSelection band selection =
-    let state = State.get ()
+    match selectedSong with
+    | Some song -> showImproveSong currentBand song
+    | None -> ()
 
-    let status =
-        unfinishedSongFromSelection state band selection
-        |> improveSong band
+    Scene.World
 
-    seq {
-        match status with
-        | (CanBeImproved, effects) ->
-            yield showImprovingProgress ()
-            yield! List.map Effect effects
-        | (ReachedMaxQualityInLastImprovement, effects) ->
-            yield showImprovingProgress ()
-            yield! List.map Effect effects
-            yield bandFinishedSong
-        | (ReachedMaxQualityAlready, _) -> yield bandFinishedSong
+and private showImproveSong band song =
+    let improveStatus = improveSong band song
 
-        yield Scene Scene.World
-    }
+    match improveStatus with
+    | CanBeImproved, effects ->
+        showImprovingProgress ()
+        List.iter Cli.Effect.apply effects
+    | ReachedMaxQualityInLastImprovement, effects ->
+        showImprovingProgress ()
+        List.iter Cli.Effect.apply effects
+
+        RehearsalSpaceText ImproveSongReachedMaxQuality
+        |> I18n.translate
+        |> showMessage
+    | ReachedMaxQualityAlready, _ ->
+        RehearsalSpaceText ImproveSongReachedMaxQuality
+        |> I18n.translate
+        |> showMessage
 
 and showImprovingProgress () =
-    ProgressBar
-        { StepNames =
-              [ I18n.translate (
-                  RehearsalSpaceText ImproveSongProgressAddingSomeMelodies
-                )
-                I18n.translate (
-                    RehearsalSpaceText ImproveSongProgressPlayingFoosball
-                )
-                I18n.translate (
-                    RehearsalSpaceText
-                        ImproveSongProgressModifyingChordsFromAnotherSong
-                ) ]
-          StepDuration = 2<second>
-          Async = true }
-
-and bandFinishedSong =
-    I18n.translate (RehearsalSpaceText ImproveSongReachedMaxQuality)
-    |> Message
+    showProgressBar
+        [ I18n.translate (
+            RehearsalSpaceText ImproveSongProgressAddingSomeMelodies
+          )
+          I18n.translate (RehearsalSpaceText ImproveSongProgressPlayingFoosball)
+          I18n.translate (
+              RehearsalSpaceText
+                  ImproveSongProgressModifyingChordsFromAnotherSong
+          ) ]
+        2<second>
+        true

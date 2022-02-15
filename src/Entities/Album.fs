@@ -3,11 +3,6 @@ module Entities.Album
 open Common
 open FSharp.Data.UnitSystems.SI.UnitNames
 
-type CreationError =
-    | NameTooShort
-    | NameTooLong
-    | NoSongsSelected
-
 let private twentyFiveMinutes = 25 * 60<second>
 
 /// Determines the length of the given track list.
@@ -17,6 +12,10 @@ let length trackList =
             albumLength + Time.Length.inSeconds s.Length)
         0<second>
         trackList
+
+type NameError =
+    | NameTooShort
+    | NameTooLong
 
 type RecordTypeError = EmptyTrackList
 
@@ -31,41 +30,30 @@ let recordType trackList =
         | l when l <= twentyFiveMinutes -> Ok EP
         | _ -> Ok LP
 
-let private validateName name =
+/// Validates that the record name is not below 1 character or more
+/// than 100.
+let validateName name =
     match String.length name with
     | l when l < 1 -> Error NameTooShort
     | l when l > 100 -> Error NameTooLong
-    | _ -> Ok()
-
-let private validateTrackList trackList =
-    match List.isEmpty trackList with
-    | true -> Error NoSongsSelected
-    | _ -> Ok()
+    | _ -> Ok name
 
 /// Creates an album given its name and the list of songs that define the track
 /// list.
 let from (name: string) (trackList: RecordedSong list) =
-    validateName name
-    |> Result.bind (fun _ -> validateTrackList trackList)
-    |> Result.bind
-        (fun _ ->
-            Ok
-                { Id = AlbumId <| Identity.create ()
-                  Name = name
-                  TrackList = trackList
-                  // We've already validated the track list before.
-                  Type = recordType trackList |> Result.unwrap })
+    { Id = AlbumId <| Identity.create ()
+      Name = name
+      TrackList = trackList
+      // We've already validated the track list before.
+      Type = recordType trackList |> Result.unwrap }
 
 module Unreleased =
     /// Creates an unreleased album given a name and a track list.
-    let from name trackList =
-        from name trackList |> Result.map UnreleasedAlbum
+    let from name trackList = from name trackList |> UnreleasedAlbum
 
     /// Modifies the name of the given album validating that it's correct.
     let modifyName (UnreleasedAlbum album) name =
-        validateName name
-        |> Result.bind
-            (fun _ -> Ok <| UnreleasedAlbum { album with Name = name })
+        UnreleasedAlbum { album with Name = name }
 
 module Released =
     /// Updates an already released album with the new amount of streams and

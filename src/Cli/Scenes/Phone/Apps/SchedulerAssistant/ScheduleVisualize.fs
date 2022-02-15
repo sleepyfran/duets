@@ -1,18 +1,23 @@
-module Cli.Scenes.Phone.Apps.SchedulerAssistant.Visualize
+module Cli.Scenes.Phone.Apps.SchedulerAssistant.Agenda
+
 
 open Agents
-open Cli.Actions
-open Cli.Common
+open Cli.Components
 open Cli.Text
 open Entities
 open Simulation.Queries
 
-let rec visualizeSchedule app =
-    State.get ()
-    |> Calendar.today
-    |> visualizeSchedule' app
+type private ScheduleAgendaMenuOption = | MoreDates
 
-and private visualizeSchedule' app firstDay =
+let rec private textFromOption opt =
+    match opt with
+    | MoreDates -> PhoneText SchedulerAssistantCommonMoreDates
+    |> I18n.translate
+
+let rec showAgenda app =
+    State.get () |> Calendar.today |> showAgenda' app
+
+and private showAgenda' app firstDay =
     let state = State.get ()
 
     let currentBand = Bands.currentBand state
@@ -28,69 +33,50 @@ and private visualizeSchedule' app firstDay =
         concertsInMonth
         |> List.map (fun concert -> concert.Date)
 
-    seq {
-        yield NewLine
+    lineBreak ()
 
-        yield
-            (firstDay.Year, firstDay.Month, calendarEvents)
-            |> Calendar
+    showCalendar firstDay.Year firstDay.Month calendarEvents
 
-        yield!
-            match concertsInMonth with
-            | [] ->
-                seq {
-                    PhoneText SchedulerAssistantAppVisualizeNoConcerts
-                    |> I18n.translate
-                    |> Message
-                }
-            | concerts ->
-                concerts
-                |> Seq.map
-                    (fun concert ->
-                        seq {
-                            let resolvedConcert = Concerts.info state concert
+    if List.isEmpty concertsInMonth then
+        PhoneText SchedulerAssistantAppVisualizeNoConcerts
+        |> I18n.translate
+        |> showMessage
+    else
+        showConcertList app concertsInMonth
 
-                            yield
-                                CommonDateWithDay resolvedConcert.Date
-                                |> CommonText
-                                |> I18n.translate
-                                |> Rule
+    lineBreak ()
 
-                            yield
-                                SchedulerAssistantAppVisualizeConcertInfo(
-                                    resolvedConcert.DayMoment,
-                                    resolvedConcert.Venue,
-                                    resolvedConcert.City,
-                                    resolvedConcert.TicketsSold
-                                )
-                                |> PhoneText
-                                |> I18n.translate
-                                |> Message
-                        })
-                |> Seq.concat
+    let selectedOption =
+        showOptionalChoicePrompt
+            (PhoneText SchedulerAssistantAppVisualizeMoreDatesPrompt
+             |> I18n.translate)
+            (CommonText CommonBack |> I18n.translate)
+            textFromOption
+            [ MoreDates ]
 
-        yield Separator
+    match selectedOption with
+    | Some _ -> showAgenda' app nextMonthDate
+    | None -> app ()
 
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (
-                          PhoneText
-                              SchedulerAssistantAppVisualizeMoreDatesPrompt
-                      )
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices =
-                                [ { Id = "next"
-                                    Text =
-                                        PhoneText
-                                            SchedulerAssistantCommonMoreDates
-                                        |> I18n.translate } ]
-                            Handler =
-                                basicOptionalChoiceHandler
-                                    (app ())
-                                    (fun _ ->
-                                        visualizeSchedule' app nextMonthDate)
-                            BackText = CommonText CommonBack |> I18n.translate } }
-    }
+and showConcertList app =
+    let state = State.get ()
+
+    List.iter
+        (fun concert ->
+            let resolvedConcert = Concerts.info state concert
+
+            CommonDateWithDay resolvedConcert.Date
+            |> CommonText
+            |> I18n.translate
+            |> Some
+            |> showSeparator
+
+            SchedulerAssistantAppVisualizeConcertInfo(
+                resolvedConcert.DayMoment,
+                resolvedConcert.Venue,
+                resolvedConcert.City,
+                resolvedConcert.TicketsSold
+            )
+            |> PhoneText
+            |> I18n.translate
+            |> showMessage)

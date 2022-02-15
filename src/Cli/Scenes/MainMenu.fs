@@ -33,12 +33,17 @@ let rec mainMenu savegameState =
         I18n.translate (MainMenuText MainMenuIncompatibleSavegame)
         |> showMessage
 
+    let hasSavegameAvailable = savegameState = Savegame.Available
+
     let selectedChoice =
-        showChoicePrompt
+        showOptionalChoicePrompt
             (MainMenuText MainMenuPrompt |> I18n.translate)
+            (MainMenuText MainMenuExit |> I18n.translate)
             textFromOption
-            [ NewGame; LoadGame ]
+            [ NewGame
+              if hasSavegameAvailable then LoadGame ]
 
     match selectedChoice with
-    | NewGame -> Scene.CharacterCreator
-    | LoadGame -> Scene.World
+    | Some NewGame -> Scene.CharacterCreator
+    | Some LoadGame -> Scene.World
+    | None -> Scene.Exit

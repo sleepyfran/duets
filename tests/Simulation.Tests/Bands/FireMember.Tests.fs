@@ -9,8 +9,7 @@ open Entities
 open Simulation.Bands.Members
 
 let bandMember =
-    let hiredCharacter =
-        Character.from "Test" 18 Other |> Result.unwrap
+    let hiredCharacter = Character.from "Test" Other 28
 
     Band.Member.from hiredCharacter Guitar dummyToday
 

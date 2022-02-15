@@ -14,7 +14,7 @@ let private readKey key =
 let roles = Data.Roles.getNames
 
 /// Returns all available vocal styles in the game.
-let vocalStyleNames = Data.VocalStyles.getNames
+let vocalStyles = Data.VocalStyles.getWithNames
 
 /// Returns all available genres in the game.
 let genres () : Genre list = readKey Files.Genres

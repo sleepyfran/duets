@@ -1,113 +1,67 @@
 module Cli.Scenes.Studio.ContinueRecord
 
 open Agents
-open Cli.Actions
-open Cli.Common
+open Cli
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
+open Common
 open Entities
 open Simulation.Studio.RenameAlbum
 open Simulation.Queries
 
-let continueRecordOptions =
-    [ { Id = "edit_name"
-        Text =
-            I18n.translate (StudioText StudioContinueRecordActionPromptEditName) }
-      { Id = "release"
-        Text =
-            I18n.translate (StudioText StudioContinueRecordActionPromptRelease) } ]
+type private ContinueRecordMenuOption =
+    | EditName
+    | Release
+
+let private textFromOption opt =
+    match opt with
+    | EditName -> StudioText StudioContinueRecordActionPromptEditName
+    | Release -> StudioText StudioContinueRecordActionPromptRelease
+    |> I18n.translate
 
 /// Creates a subscene that allows to edit the name of a previously recorded
 /// but unreleased album and also to release it.
-let rec continueRecordSubscene studio =
+let rec continueRecordSubscene studio = promptForAlbum studio
+
+and private promptForAlbum studio =
     let state = State.get ()
     let currentBand = Bands.currentBand state
 
-    let albumOptions =
-        unreleasedAlbumsSelectorOf state currentBand
+    let unreleasedAlbums =
+        Albums.unreleasedByBand state currentBand.Id
+        |> List.ofMapValues
 
-    seq {
-        yield
-            Prompt
-                { Title = I18n.translate (StudioText StudioContinueRecordPrompt)
-                  Content =
-                      ChoicePrompt
-                      <| MandatoryChoiceHandler
-                          { Choices = albumOptions
-                            Handler = handleAlbum studio currentBand } }
-    }
+    showChoicePrompt
+        (StudioText StudioContinueRecordPrompt
+         |> I18n.translate)
+        (fun (UnreleasedAlbum album) -> I18n.constant album.Name)
+        unreleasedAlbums
+    |> promptForAlbumAction studio currentBand
 
-and handleAlbum studio band choice =
-    let state = State.get ()
+and private promptForAlbumAction studio band album =
+    let action =
+        showChoicePrompt
+            (StudioText StudioContinueRecordActionPrompt
+             |> I18n.translate)
+            textFromOption
+            [ EditName; Release ]
 
-    let album =
-        unreleasedAlbumFromSelection state band choice
+    match action with
+    | EditName -> promptForAlbumName studio band album
+    | Release -> PromptToRelease.promptToReleaseAlbum band album
 
-    actionPrompt studio band album
+and private promptForAlbumName studio band album =
+    let name =
+        showTextPrompt (
+            StudioText StudioCreateRecordName
+            |> I18n.translate
+        )
 
-and actionPrompt studio band album =
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (
-                          StudioText StudioContinueRecordActionPrompt
-                      )
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = continueRecordOptions
-                            Handler =
-                                basicOptionalChoiceHandler
-                                    (seq { Scene Scene.World })
-                                    (handleAction studio band album)
-                            BackText = I18n.translate (CommonText CommonBack) } }
-    }
-
-and handleAction studio band album choice =
-    seq {
-        match choice.Id with
-        | "edit_name" -> yield! editName studio band album
-        | "release" ->
-            yield!
-                PromptToRelease.promptToReleaseAlbum
-                    (seq { yield! actionPrompt studio band album })
-                    studio
-                    band
-                    album
-        | _ -> yield NoOp
-    }
-
-and editName studio band album =
-    seq {
-        yield
-            Prompt
-                { Title = I18n.translate (StudioText StudioCreateRecordName)
-                  Content = TextPrompt <| handleNameChange studio band album }
-    }
-
-and handleNameChange studio band album name =
-    renameAlbum band album name
-    |> fun result ->
-        match result with
-        | Error Album.NameTooShort ->
-            seq {
-                yield
-                    Message
-                    <| I18n.translate (StudioText StudioCreateErrorNameTooShort)
-
-                yield! editName studio band album
-            }
-        | Error Album.NameTooLong ->
-            seq {
-                yield
-                    Message
-                    <| I18n.translate (StudioText StudioCreateErrorNameTooLong)
-
-                yield! editName studio band album
-            }
-        | Ok (album, effect) ->
-            seq {
-                yield Effect effect
-                yield! actionPrompt studio band album
-            }
-        | _ -> seq { yield NoOp }
+    Album.validateName name
+    |> Result.switch
+        (fun name ->
+            renameAlbum band album name |> Effect.apply
+            Scene.World)
+        (showAlbumNameError
+         >> fun _ -> promptForAlbumName studio band album)

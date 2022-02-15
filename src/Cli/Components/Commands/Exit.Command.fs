@@ -1,6 +1,6 @@
 namespace Cli.Components.Commands
 
-open Cli.Actions
+open Cli.SceneIndex
 open Cli.Text
 
 [<RequireQualifiedAccess>]
@@ -9,7 +9,4 @@ module ExitCommand =
     let get =
         { Name = "exit"
           Description = I18n.translate (CommandText CommandExitDescription)
-          Handler =
-              fun _ ->
-                  System.Environment.Exit(0)
-                  None }
+          Handler = fun _ -> Some Scene.Exit }

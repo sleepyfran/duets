@@ -1,60 +1,49 @@
 module Cli.Scenes.Phone.Apps.Statistics.Albums
 
 open Agents
-open Cli.Actions
+open Cli.Components
 open Cli.Text
 open Simulation.Queries
 
-let albumsStatisticsSubScene statisticsApp =
+let rec albumsStatisticsSubScene statisticsApp =
     let state = State.get ()
     let band = Bands.currentBand state
     let releases = Albums.releasedByBand state band.Id
 
-    seq {
-        if releases.IsEmpty then
-            yield
-                Message
-                <| I18n.translate (PhoneText StatisticsAppAlbumNoEntries)
-        else
-            yield!
-                releases
-                |> Seq.map
-                    (fun releasedAlbum ->
-                        let innerAlbum = releasedAlbum.Album
-                        let revenue = Albums.revenue releasedAlbum
+    if List.isEmpty releases then
+        PhoneText StatisticsAppAlbumNoEntries
+        |> I18n.translate
+        |> showMessage
+    else
+        showAlbums releases
 
-                        seq {
-                            yield Separator
+    statisticsApp ()
 
-                            yield
-                                StatisticsAppAlbumName(
-                                    innerAlbum.Name,
-                                    innerAlbum.Type
-                                )
-                                |> PhoneText
-                                |> I18n.translate
-                                |> Message
+and private showAlbums releases =
+    releases
+    |> List.iter
+        (fun releasedAlbum ->
+            let innerAlbum = releasedAlbum.Album
+            let revenue = Albums.revenue releasedAlbum
 
-                            yield
-                                StatisticsAppAlbumReleaseDate
-                                    releasedAlbum.ReleaseDate
-                                |> PhoneText
-                                |> I18n.translate
-                                |> Message
+            showSeparator None
 
-                            yield
-                                StatisticsAppAlbumStreams releasedAlbum.Streams
-                                |> PhoneText
-                                |> I18n.translate
-                                |> Message
+            StatisticsAppAlbumName(innerAlbum.Name, innerAlbum.Type)
+            |> PhoneText
+            |> I18n.translate
+            |> showMessage
 
-                            yield
-                                StatisticsAppAlbumRevenue revenue
-                                |> PhoneText
-                                |> I18n.translate
-                                |> Message
-                        })
-                |> Seq.concat
+            StatisticsAppAlbumReleaseDate releasedAlbum.ReleaseDate
+            |> PhoneText
+            |> I18n.translate
+            |> showMessage
 
-        yield! statisticsApp ()
-    }
+            StatisticsAppAlbumStreams releasedAlbum.Streams
+            |> PhoneText
+            |> I18n.translate
+            |> showMessage
+
+            StatisticsAppAlbumRevenue revenue
+            |> PhoneText
+            |> I18n.translate
+            |> showMessage)

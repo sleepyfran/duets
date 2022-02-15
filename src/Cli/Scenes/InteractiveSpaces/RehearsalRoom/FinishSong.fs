@@ -1,52 +1,37 @@
 module Cli.Scenes.InteractiveSpaces.RehearsalRoom.FinishSong
 
 open Agents
-open Cli.Actions
-open Cli.Common
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
+open Common
 open Entities
 open Simulation.Queries
 open Simulation.Songs.Composition.FinishSong
 
-let rec finishSongSubScene () =
+let rec finishSongSubScene () = promptForSong ()
+
+and private promptForSong () =
     let state = State.get ()
     let currentBand = Bands.currentBand state
 
-    let songOptions =
-        unfinishedSongsSelectorOf state currentBand
-
-    seq {
-        yield
-            Prompt
-                { Title =
-                      I18n.translate (RehearsalSpaceText FinishSongSelection)
-                  Content =
-                      ChoicePrompt
-                      <| OptionalChoiceHandler
-                          { Choices = songOptions
-                            Handler =
-                                worldOptionalChoiceHandler (
-                                    processSongSelection currentBand
-                                )
-                            BackText = I18n.translate (CommonText CommonCancel) } }
-    }
-
-and processSongSelection band selection =
-    let state = State.get ()
+    let songs =
+        Songs.unfinishedByBand state currentBand.Id
+        |> List.ofMapValues
 
     let selectedSong =
-        unfinishedSongFromSelection state band selection
+        showOptionalChoicePrompt
+            (RehearsalSpaceText DiscardSongSelection
+             |> I18n.translate)
+            (CommonText CommonCancel |> I18n.translate)
+            (fun (UnfinishedSong us, _, currentQuality) ->
+                CommonSongWithDetails(us.Name, currentQuality, us.Length)
+                |> CommonText
+                |> I18n.translate)
+            songs
 
-    let (UnfinishedSong song, _, quality) = selectedSong
+    match selectedSong with
+    | Some song -> finishSong currentBand song |> Cli.Effect.apply
+    | None -> ()
 
-    seq {
-        yield Effect <| finishSong band selectedSong
-
-        yield
-            FinishSongFinished(song.Name, quality)
-            |> RehearsalSpaceText
-            |> I18n.translate
-            |> Message
-
-        yield Scene Scene.World
-    }
+    Scene.World

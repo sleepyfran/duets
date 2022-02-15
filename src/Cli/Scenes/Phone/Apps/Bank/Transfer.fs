@@ -1,7 +1,8 @@
 module Cli.Scenes.Phone.Apps.Bank.Transfer
 
 open Agents
-open Cli.Actions
+open Cli
+open Cli.Components
 open Cli.Text
 open Entities
 open Simulation.Bank.Operations
@@ -9,41 +10,25 @@ open Simulation.Bank.Operations
 /// Asks for the amount that the user wants to transfer from the two accounts
 /// and confirms the transaction.
 let rec transferSubScene bankApp sender receiver =
-    seq {
-        yield
-            Prompt
-                { Title =
-                      BankAppTransferAmount receiver
-                      |> PhoneText
-                      |> I18n.translate
-                  Content = NumberPrompt(handleAmount bankApp sender receiver) }
-    }
-
-and handleAmount bankApp sender receiver amount =
-    let state = State.get ()
+    let amount =
+        showNumberPrompt (
+            BankAppTransferAmount receiver
+            |> PhoneText
+            |> I18n.translate
+        )
 
     if amount > 0 then
-        transfer state sender receiver (amount * 1<dd>)
+        transfer (State.get ()) sender receiver (amount * 1<dd>)
         |> fun result ->
             match result with
-            | Ok effects ->
-                seq {
-                    yield! Seq.map Effect effects
-                    yield! bankApp ()
-                }
+            | Ok effects -> effects |> List.iter Effect.apply
             | Error (NotEnoughFunds _) ->
-                seq {
-                    yield
-                        I18n.translate (PhoneText BankAppTransferNotEnoughFunds)
-                        |> Message
-
-                    yield! bankApp ()
-                }
+                PhoneText BankAppTransferNotEnoughFunds
+                |> I18n.translate
+                |> showMessage
     else
-        seq {
-            yield
-                I18n.translate (PhoneText BankAppTransferNothingTransferred)
-                |> Message
+        PhoneText BankAppTransferNothingTransferred
+        |> I18n.translate
+        |> showMessage
 
-            yield! bankApp ()
-        }
+    bankApp ()

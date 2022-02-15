@@ -9,7 +9,6 @@
         <Compile Include="Text.fs" />
         <Compile Include="TextStyles.fs" />
         <Compile Include="Scenes.fs" />
-        <Compile Include="Common.fs" />
         <Compile Include="Localization\English.fs" />
         <Compile Include="Localization\Localization.fs" />
         <Compile Include="Components\Separator.fs" />
@@ -23,8 +22,8 @@
         <Compile Include="Components\Calendar.fs" />
         <Compile Include="Components\Prompt.fs" />
         <Compile Include="Components\Effect.fs" />
-        <Compile Include="Components\Commands\Exit.Command.fs" />
         <Compile Include="Components\Commands\Command.fs" />
+        <Compile Include="Components\Commands\Exit.Command.fs"/>
         <Compile Include="Components\Commands\Help.Command.fs" />
         <Compile Include="Components\Commands\Navigation.Command.fs" />
         <Compile Include="Components\Commands\Phone.Command.fs" />
@@ -42,6 +41,7 @@
         <Compile Include="Scenes\InteractiveSpaces\RehearsalRoom\PracticeSong.fs" />
         <Compile Include="Scenes\InteractiveSpaces\RehearsalRoom\ChooseRehearseAction.fs" />
         <Compile Include="Scenes\InteractiveSpaces\RehearsalRoom\RehearsalRoom.fs" />
+        <Compile Include="Scenes\InteractiveSpaces\Studio\Common.Studio.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\Studio\PromptToRelease.fs" />
         <Compile Include="Scenes\InteractiveSpaces\Studio\ContinueRecord.fs" />
         <Compile Include="Scenes\InteractiveSpaces\Studio\CreateRecord.fs" />

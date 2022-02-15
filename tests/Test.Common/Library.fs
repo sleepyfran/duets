@@ -7,14 +7,11 @@ open Fugit.Months
 open Entities
 open Simulation.Setup
 
-let dummyCharacter =
-    Character.from "Test" 24 Other |> Result.unwrap
+let dummyCharacter = Character.from "Test" Other 24
 
-let dummyCharacter2 =
-    Character.from "Test 2" 35 Female |> Result.unwrap
+let dummyCharacter2 = Character.from "Test 2" Female 35
 
-let dummyCharacter3 =
-    Character.from "Test 3" 28 Male |> Result.unwrap
+let dummyCharacter3 = Character.from "Test 3" Male 28
 
 let dummyBand =
     { Band.empty with
@@ -51,7 +48,6 @@ let dummyTargetBankAccount =
 
 let dummyAlbum =
     Album.from "Test Album" [ dummyRecordedSong ]
-    |> Result.unwrap
 
 let dummyUnreleasedAlbum = UnreleasedAlbum dummyAlbum
 

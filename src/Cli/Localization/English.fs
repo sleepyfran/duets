@@ -234,6 +234,8 @@ and commonText key =
         $"""{TextStyles.highlight (dayMomentName dayMoment)} {TextStyles.faded $"({dayMomentTime dayMoment})"}"""
     | CommonDateWithDay date ->
         $"""{TextStyles.highlight (dayName date)}, {TextStyles.faded (formatDate date)}"""
+    | CommonSongWithDetails (name, quality, length) ->
+        $"""{name} (Quality: {TextStyles.level quality}%%, Length: {length.Minutes}:{length.Seconds})"""
 
 and concertSpaceText key =
     match key with
@@ -298,6 +300,7 @@ and phoneText key =
     | PhoneTitle -> "Phone"
     | PhoneOptionBank -> "Bank App"
     | PhoneOptionStatistics -> "Statistics App"
+    | PhoneOptionScheduler -> "Scheduler App"
     | PhonePrompt (dateTime, dayMoment) ->
         $"""{TextStyles.title "DuetsPhone v1.0"}
 {dayMomentName dayMoment |> TextStyles.highlight} of {formatDate dateTime |> TextStyles.highlight}"""
@@ -325,7 +328,7 @@ and phoneText key =
     | SchedulerAssistantAppPrompt ->
         TextStyles.prompt "What do you want to book?"
     | SchedulerAssistantAppShow -> "Book show"
-    | SchedulerAssistantAppVisualize -> "View schedule"
+    | SchedulerAssistantAppAgenda -> "View schedule"
     | SchedulerAssistantAppVisualizeConcertInfo (dayMoment,
                                                  venue,
                                                  city,
@@ -343,8 +346,12 @@ and phoneText key =
                                                         "Keep in mind that putting high prices might affect how many people will go"}"""
     | SchedulerAssistantAppDateAlreadyBooked date ->
         TextStyles.error $"You already have a concert on {formatDate date}!"
-    | SchedulerAssistantAppTicketPriceInvalid price ->
-        TextStyles.error $"The price {formatNumber price} is not valid"
+    | SchedulerAssistantAppTicketPriceBelowZero price ->
+        TextStyles.error
+            $"The price can't be below zero! {formatNumber price} is not valid"
+    | SchedulerAssistantAppTicketPriceTooHigh price ->
+        TextStyles.error
+            $"{formatNumber price} is a bit too high for a concert. Maybe a bit less?"
     | SchedulerAssistantAppTicketDone (venue, concert) ->
         $"""Done! You scheduled a concert in {TextStyles.place venue.Name} on {TextStyles.highlight (formatDate concert.Date)}. Be sure to be in the place at the moment of the concert, {TextStyles.danger "otherwise it'd fail miserably!"}"""
     | StatisticsAppTitle -> "Statistics"

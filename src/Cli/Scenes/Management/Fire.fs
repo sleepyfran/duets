@@ -1,88 +1,62 @@
 module Cli.Scenes.Management.Fire
 
 open Agents
-open Cli.Actions
-open Cli.Common
+open Cli
+open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
 open Common
 open Entities
 open Simulation.Queries
 open Simulation.Bands.Members
 
+let private textFromMember (bandMember: CurrentMember) =
+    FireMemberListItem(bandMember.Character.Name, bandMember.Role)
+    |> RehearsalSpaceText
+    |> I18n.translate
+
 let rec fireSubScene () =
     let state = State.get ()
 
-    let memberOptions =
+    let bandMembers =
         Bands.currentBandMembersWithoutPlayableCharacter state
-        |> List.map
-            (fun m ->
-                let (CharacterId (id)) = m.Character.Id
 
-                { Id = id.ToString()
-                  Text =
-                      FireMemberListItem(m.Character.Name, m.Role)
-                      |> RehearsalSpaceText
-                      |> I18n.translate })
+    if List.isEmpty bandMembers then
+        RehearsalSpaceText FireMemberNoMembersToFire
+        |> I18n.translate
+        |> showMessage
 
-    seq {
-        if memberOptions.Length = 0 then
-            yield
-                Message
-                <| I18n.translate (RehearsalSpaceText FireMemberNoMembersToFire)
+        Scene.Management
+    else
+        promptForMember bandMembers
 
-            yield Scene Management
-        else
-            yield
-                Prompt
-                    { Title =
-                          I18n.translate (RehearsalSpaceText FireMemberPrompt)
-                      Content =
-                          ChoicePrompt
-                          <| OptionalChoiceHandler
-                              { Choices = memberOptions
-                                Handler =
-                                    basicOptionalChoiceHandler (
-                                        seq { Scene Management }
-                                    )
-                                    <| confirmFiring
-                                BackText =
-                                    I18n.translate (CommonText CommonCancel) } }
-    }
+and promptForMember bandMembers =
+    let selectedMember =
+        showOptionalChoicePrompt
+            (RehearsalSpaceText FireMemberPrompt
+             |> I18n.translate)
+            (CommonText CommonCancel |> I18n.translate)
+            textFromMember
+            bandMembers
 
-and confirmFiring selectedMember =
-    let state = State.get ()
+    match selectedMember with
+    | Some bandMember -> promptForConfirmFiring bandMember
+    | None -> Scene.Management
 
-    let band = Bands.currentBand state
-    let memberToFire = memberFromSelection band selectedMember
+and promptForConfirmFiring bandMember =
+    let confirmed =
+        showConfirmationPrompt (
+            FireMemberConfirmation bandMember.Character.Name
+            |> RehearsalSpaceText
+            |> I18n.translate
+        )
 
-    seq {
-        yield
-            Prompt
-                { Title =
-                      FireMemberConfirmation memberToFire.Character.Name
-                      |> RehearsalSpaceText
-                      |> I18n.translate
-                  Content =
-                      ConfirmationPrompt(handleConfirmation band memberToFire) }
-    }
+    if confirmed then
+        let state = State.get ()
+        let currentBand = Bands.currentBand state
 
-and handleConfirmation band memberToFire confirmed =
-    let state = State.get ()
+        fireMember state currentBand bandMember
+        |> Result.unwrap
+        |> Effect.apply
 
-    seq {
-        if confirmed then
-            yield
-                fireMember state band memberToFire
-                |> Result.unwrap
-                |> Effect
-
-            yield
-                FireMemberConfirmed memberToFire.Character.Name
-                |> RehearsalSpaceText
-                |> I18n.translate
-                |> Message
-
-            yield Scene Management
-        else
-            yield Scene Management
-    }
+    Scene.Management

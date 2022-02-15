@@ -1,7 +1,8 @@
 module Cli.Scenes.InteractiveSpaces.RehearsalRoom.Root
 
 open Agents
-open Cli.Actions
+open Cli.Components.Commands
+open Cli.SceneIndex
 open Cli.Scenes.InteractiveSpaces
 open Cli.Text
 open Entities
@@ -13,7 +14,7 @@ let private instrumentFromType instrumentType =
             (I18n.translate (
                 RehearsalSpaceText RehearsalRoomInstrumentPlayDescription
             ))
-            (seq { yield! ChooseAction.createMenu () })
+            (fun _ -> ChooseAction.createMenu () |> Some)
 
     match instrumentType with
     | InstrumentType.Bass -> create Objects.bass
@@ -68,5 +69,4 @@ let getRoomCommands room =
                 I18n.translate (
                     RehearsalSpaceText RehearsalRoomManageDescription
                 )
-            Handler =
-                HandlerWithNavigation(fun _ -> seq { Scene Scene.Management }) } ]
+            Handler = fun _ -> Some Scene.Management } ]

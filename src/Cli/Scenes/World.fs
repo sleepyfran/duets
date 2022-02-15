@@ -1,88 +1,76 @@
 module Cli.Scenes.World
 
 open Agents
-open Cli.View.Commands
-open Cli.Actions
+open Cli
+open Cli.Components
+open Cli.Components.Commands
+open Cli.SceneIndex
 open Cli.Text
 open Cli.Scenes.InteractiveSpaces
 open Entities
 open Simulation
 
 let private listObjects objects =
-    seq {
-        if List.isEmpty objects then
-            yield
-                I18n.translate (CommandText CommandLookNoObjectsAround)
-                |> Message
-        else
-            yield
-                I18n.translate (CommandText CommandLookVisibleObjectsPrefix)
-                |> Message
+    if List.isEmpty objects then
+        I18n.translate (CommandText CommandLookNoObjectsAround)
+        |> showMessage
+    else
+        I18n.translate (CommandText CommandLookVisibleObjectsPrefix)
+        |> showMessage
 
-            yield!
-                objects
-                |> List.map
-                    (fun object ->
-                        let commandNames =
-                            object.Commands
-                            |> List.map (fun command -> command.Name)
+        objects
+        |> List.map
+            (fun object ->
+                let commandNames =
+                    object.Commands
+                    |> List.map (fun command -> command.Name)
 
-                        (object.Type, commandNames))
-                |> List.map (
-                    CommandLookObjectEntry
-                    >> CommandText
-                    >> I18n.translate
-                    >> Message
-                )
-    }
+                (object.Type, commandNames))
+        |> List.iter (
+            CommandLookObjectEntry
+            >> CommandText
+            >> I18n.translate
+            >> showMessage
+        )
 
 let private listRoomConnections entrances exit =
-    seq {
-        yield
-            entrances
-            |> List.map (fun (a, b, _) -> a, b)
-            |> CommandLookEntrances
-            |> CommandText
-            |> I18n.translate
-            |> Message
+    entrances
+    |> List.map (fun (a, b, _) -> a, b)
+    |> CommandLookEntrances
+    |> CommandText
+    |> I18n.translate
+    |> showMessage
 
-        match exit with
-        | Some (_, exitName) ->
-            yield
-                CommandLookExit exitName
-                |> CommandText
-                |> I18n.translate
-                |> Message
-        | _ -> ()
-    }
+    match exit with
+    | Some (_, exitName) ->
+        CommandLookExit exitName
+        |> CommandText
+        |> I18n.translate
+        |> showMessage
+    | _ -> ()
 
 let private createLookCommand entrances exit description objects =
     { Name = "look"
       Description = I18n.translate (CommandText CommandLookDescription)
       Handler =
-          HandlerWithoutNavigation
-              (fun _ ->
-                  seq {
-                      yield Message description
-                      yield! listObjects objects
-                      yield NewLine
-                      yield! listRoomConnections entrances exit
-                  }) }
+          (fun _ ->
+              showMessage description
+              listObjects objects
+              lineBreak ()
+              listRoomConnections entrances exit
+
+              None) }
 
 let private createOutCommand coordinates =
     { Name = "out"
       Description = I18n.translate (CommandText CommandOutDescription)
       Handler =
-          HandlerWithNavigation
-              (fun _ ->
-                  seq {
-                      yield
-                          State.get ()
-                          |> World.Navigation.moveTo coordinates
-                          |> Effect
+          (fun _ ->
+              State.get ()
+              |> World.Navigation.moveTo coordinates
+              |> Effect.apply
 
-                      yield Scene Scene.World
-                  }) }
+              Some Scene.World) }
 
 let private getPlaceName nodeContent =
     match nodeContent with
@@ -207,12 +195,9 @@ let rec worldScene () =
                   | Some (coordinates, _) -> yield createOutCommand coordinates
                   | None -> () ]
 
-    seq {
-        yield Message description
-        yield! listRoomConnections entrances exit
+    showMessage description
+    listRoomConnections entrances exit
 
-        yield
-            Prompt
-                { Title = I18n.translate (CommandText CommandCommonPrompt)
-                  Content = CommandPrompt commands }
-    }
+    showCommandPrompt
+        (CommandText CommandCommonPrompt |> I18n.translate)
+        commands

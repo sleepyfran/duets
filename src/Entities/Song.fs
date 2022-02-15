@@ -3,33 +3,39 @@ module Entities.Song
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities.Time
 
-type SongValidationError =
+type SongNameValidationError =
     | NameTooShort
     | NameTooLong
+
+type SongLengthValidationError =
     | LengthTooShort
     | LengthTooLong
 
 let private TwentySeconds = 20<second>
 let private ThirtyMinutes = 60<second> * 30
 
+/// Validates that the name between 1 and 100 characters.
+let validateName name =
+    match String.length name with
+    | l when l < 1 -> Error NameTooShort
+    | l when l > 100 -> Error NameTooLong
+    | _ -> Ok name
+
+/// Validates that the length is more than 20 seconds and less than 30 minutes.
+let validateLength length =
+    match Length.inSeconds length with
+    | l when l < TwentySeconds -> Error LengthTooShort
+    | l when l > ThirtyMinutes -> Error LengthTooLong
+    | _ -> Ok length
+
 /// Creates a song given a name, length and vocal style, if possible.
 let from (name: string) length vocalStyle genre =
-    if name.Length < 1 then
-        Error NameTooShort
-    else if name.Length > 100 then
-        Error NameTooLong
-    else if Length.inSeconds length < TwentySeconds then
-        Error LengthTooShort
-    else if Length.inSeconds length > ThirtyMinutes then
-        Error LengthTooLong
-    else
-        Ok
-            { Id = SongId <| Identity.create ()
-              Name = name
-              Length = length
-              VocalStyle = vocalStyle
-              Genre = genre
-              Practice = 20<practice> }
+    { Id = SongId <| Identity.create ()
+      Name = name
+      Length = length
+      VocalStyle = vocalStyle
+      Genre = genre
+      Practice = 20<practice> }
 
 /// Returns the song contained in an unfinished song.
 let fromUnfinished (UnfinishedSong (song), _, _) = song

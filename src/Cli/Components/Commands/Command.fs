@@ -1,6 +1,6 @@
 namespace Cli.Components.Commands
 
-open Cli.Actions
+open Cli.SceneIndex
 open Cli.Text
 
 /// Defines a command that can be executed by the user.

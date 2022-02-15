@@ -1,6 +1,6 @@
 module Cli.Scenes.InteractiveSpaces.Objects
 
-open Cli.SceneIndex
+open Cli.Components
 open Entities
 
 /// Creates a bass with the normal associated commands of the instrument.
@@ -10,7 +10,7 @@ let bass description actions =
       Commands =
           [ { Name = "play"
               Description = description
-              Handler = HandlerWithoutNavigation(fun _ -> actions) } ] }
+              Handler = actions } ] }
 
 /// Creates drums with the normal associated commands of the instrument.
 /// Executes the given actions once the guitar is called.
@@ -19,7 +19,7 @@ let drums description actions =
       Commands =
           [ { Name = "play"
               Description = description
-              Handler = HandlerWithoutNavigation(fun _ -> actions) } ] }
+              Handler = actions } ] }
 
 /// Creates a guitar with the normal associated commands of the instrument.
 /// Executes the given actions once the guitar is called.
@@ -28,7 +28,7 @@ let guitar description actions =
       Commands =
           [ { Name = "play"
               Description = description
-              Handler = HandlerWithoutNavigation(fun _ -> actions) } ] }
+              Handler = actions } ] }
 
 /// Creates a microphone with the normal associated commands of the instrument.
 /// Executes the given actions once the guitar is called.
@@ -37,4 +37,4 @@ let microphone description actions =
       Commands =
           [ { Name = "sing"
               Description = description
-              Handler = HandlerWithoutNavigation(fun _ -> actions) } ] }
+              Handler = actions } ] }

@@ -2,6 +2,7 @@
 module Cli.Components.ProgressBar
 
 open Cli.Localization
+open FSharp.Data.UnitSystems.SI.UnitNames
 open Spectre.Console
 
 /// <summary>
@@ -13,7 +14,7 @@ open Spectre.Console
 /// <param name="async">
 /// Whether the steps can be shown at the same time or only one at a time.
 /// </param>
-let rec showProgressBar stepNames stepDuration async =
+let rec showProgressBar stepNames (stepDuration: int<second>) async =
     if async then
         showProgressBarAsync stepNames stepDuration
     else
