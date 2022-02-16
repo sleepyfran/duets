@@ -20,15 +20,15 @@ open Common
 /// The scene that the last executed command returned.
 /// </returns>
 let rec showCommandPrompt title availableCommands =
-    lineBreak ()
-    showMessage title
-
     let commandsWithDefaults =
         availableCommands
         @ [ PhoneCommand.get; ExitCommand.get ]
         |> fun commands -> [ HelpCommand.create commands ] @ commands
 
     let rec promptForCommand () =
+        lineBreak ()
+        showMessage title
+
         showTextPrompt (Literal ">")
         |> String.split ' '
         |> List.ofArray

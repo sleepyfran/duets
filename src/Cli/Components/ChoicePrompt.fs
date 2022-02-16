@@ -7,11 +7,15 @@ open Common
 open Spectre.Console
 
 let private showSelection choice =
+    showSeparator None
+
     toString choice
     |> CommonChoiceSelection
     |> CommonText
     |> I18n.translate
     |> showMessage
+
+    showSeparator None
 
 /// <summary>
 /// Shows the user a list of options to choose from, forcing them to choose one

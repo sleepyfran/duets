@@ -33,7 +33,6 @@ let rec phoneScene () =
             textFromOption
             [ Bank; Statistics; Scheduler ]
 
-
     match selection with
     | Some Bank -> Apps.Bank.Root.bankApp ()
     | Some Statistics -> Apps.Statistics.Root.statisticsApp ()
