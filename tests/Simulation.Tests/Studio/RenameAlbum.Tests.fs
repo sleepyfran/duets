@@ -4,20 +4,21 @@ open FsUnit
 open NUnit.Framework
 open Test.Common
 
+open Common
 open Entities
 open Simulation.Studio.RenameAlbum
 
 [<Test>]
-let ``renameAlbum should fail if name is empty`` () =
-    renameAlbum dummyBand dummyUnreleasedAlbum ""
+let rec ``validateName should fail if name is empty`` () =
+    Album.validateName ""
+    |> Result.unwrapError
     |> should be (ofCase <@ Album.NameTooShort @>)
 
 [<Test>]
-let ``renameAlbum should fail if name is too long`` () =
-    renameAlbum
-        dummyBand
-        dummyUnreleasedAlbum
+let ``validateName should fail if name is too long`` () =
+    Album.validateName
         "Nothing to Go Home To, Nothing There to Come Home For, No Home to Return To,  Nothing to Go Home To, Nothing There to Come Home For, No Home to Return To"
+    |> Result.unwrapError
     |> should be (ofCase <@ Album.NameTooLong @>)
 
 [<Test>]
