@@ -20,11 +20,10 @@ module World =
         Optic.get graphNodesLenses state
         |> Option.map List.ofSeq
         |> Option.defaultValue []
-        |> List.choose
-            (fun kvp ->
-                match kvp.Value with
-                | ConcertPlace place -> Some(kvp.Key, place.Space)
-                | _ -> None)
+        |> List.choose (fun kvp ->
+            match kvp.Value with
+            | ConcertPlace place -> Some(kvp.Key, place.Space)
+            | _ -> None)
         |> List.distinctBy fst
 
     /// Returns a specific city given its ID.
@@ -41,11 +40,10 @@ module World =
         Optic.get graphNodesLenses state
         |> Option.defaultValue Map.empty
         |> Map.tryFind nodeId
-        |> Option.bind
-            (fun node ->
-                match node with
-                | ConcertPlace place -> Some place.Space
-                | _ -> None)
+        |> Option.bind (fun node ->
+            match node with
+            | ConcertPlace place -> Some place.Space
+            | _ -> None)
 
     /// Returns the content of the given node in the graph.
     let contentOf (graph: Graph<'a>) id =

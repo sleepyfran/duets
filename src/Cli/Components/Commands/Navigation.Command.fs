@@ -29,22 +29,21 @@ module NavigationCommand =
     /// when executed, moves the player towards that direction.
     let create entrances =
         entrances
-        |> List.map
-            (fun (direction, _, coordinates) ->
-                let commandName =
-                    match direction with
-                    | North -> northCommand
-                    | NorthEast -> northEastCommand
-                    | East -> eastCommand
-                    | SouthEast -> southEastCommand
-                    | South -> southCommand
-                    | SouthWest -> southWestCommand
-                    | West -> westCommand
-                    | NorthWest -> northWestCommand
+        |> List.map (fun (direction, _, coordinates) ->
+            let commandName =
+                match direction with
+                | North -> northCommand
+                | NorthEast -> northEastCommand
+                | East -> eastCommand
+                | SouthEast -> southEastCommand
+                | South -> southCommand
+                | SouthWest -> southWestCommand
+                | West -> westCommand
+                | NorthWest -> northWestCommand
 
-                { Name = commandName
-                  Description =
-                      CommandDirectionDescription direction
-                      |> CommandText
-                      |> I18n.translate
-                  Handler = handle coordinates })
+            { Name = commandName
+              Description =
+                CommandDirectionDescription direction
+                |> CommandText
+                |> I18n.translate
+              Handler = handle coordinates })

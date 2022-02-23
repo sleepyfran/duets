@@ -55,8 +55,7 @@ module Album =
         (fun v (a: ReleasedAlbum) -> { a with Streams = v })
 
 module Band =
-    let id_ =
-        (fun (c: Band) -> c.Id), (fun v (c: Band) -> { c with Id = v })
+    let id_ = (fun (c: Band) -> c.Id), (fun v (c: Band) -> { c with Id = v })
 
     let members_ =
         (fun (b: Band) -> b.Members),

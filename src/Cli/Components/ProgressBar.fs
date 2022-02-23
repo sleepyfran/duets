@@ -25,13 +25,12 @@ and private showProgressBarSync stepNames stepDuration =
         .Progress()
         .Start(fun ctx ->
             stepNames
-            |> List.iter
-                (fun stepName ->
-                    let task = ctx.AddTask(toString stepName)
+            |> List.iter (fun stepName ->
+                let task = ctx.AddTask(toString stepName)
 
-                    for i in 0 .. 4 do
-                        task.Increment 25.0
-                        sleepForProgressBar stepDuration))
+                for i in 0..4 do
+                    task.Increment 25.0
+                    sleepForProgressBar stepDuration))
 
 and private showProgressBarAsync stepNames stepDuration =
     AnsiConsole

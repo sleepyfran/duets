@@ -16,8 +16,7 @@ let rec createRecordSubscene studio =
     let state = State.get ()
     let currentBand = Bands.currentBand state
 
-    let finishedSongs =
-        Repertoire.allFinishedSongsByBand state currentBand.Id
+    let finishedSongs = Repertoire.allFinishedSongsByBand state currentBand.Id
 
     if List.isEmpty finishedSongs then
         StudioText StudioCreateNoSongs

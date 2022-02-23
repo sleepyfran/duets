@@ -29,8 +29,7 @@ and promptForMemberSelection role =
 
     let band = Bands.currentBand state
 
-    let instrument =
-        Instrument.createInstrument (Instrument.Type.from role)
+    let instrument = Instrument.createInstrument (Instrument.Type.from role)
 
     let availableMember =
         membersForHire state band instrument.Type
@@ -48,9 +47,8 @@ and showMemberForHire band selectedInstrument availableMember =
     |> showMessage
 
     availableMember.Skills
-    |> List.map
-        (fun (skill, level) ->
-            (level, I18n.translate (CommonText(CommonSkillName skill.Id))))
+    |> List.map (fun (skill, level) ->
+        (level, I18n.translate (CommonText(CommonSkillName skill.Id))))
     |> showBarChart
 
     let hired =

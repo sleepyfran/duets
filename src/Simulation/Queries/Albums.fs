@@ -25,8 +25,7 @@ module Albums =
     /// Returns all released albums by the given band ordered by release date.
     /// If no released albums could be found, returns an empty list.
     let releasedByBand state bandId =
-        let releasedAlbumLens =
-            Lenses.FromState.Albums.releasedByBand_ bandId
+        let releasedAlbumLens = Lenses.FromState.Albums.releasedByBand_ bandId
 
         state
         |> Optic.get releasedAlbumLens

@@ -17,12 +17,11 @@ let rec memberListSubScene () =
     |> showMessage
 
     currentMembers
-    |> List.iter
-        (fun cm ->
-            MemberListCurrentMember(cm.Character.Name, cm.Role, cm.Since)
-            |> RehearsalSpaceText
-            |> I18n.translate
-            |> showMessage)
+    |> List.iter (fun cm ->
+        MemberListCurrentMember(cm.Character.Name, cm.Role, cm.Since)
+        |> RehearsalSpaceText
+        |> I18n.translate
+        |> showMessage)
 
     if not (List.isEmpty pastMembers) then
         RehearsalSpaceText MemberListPastTitle
@@ -30,16 +29,15 @@ let rec memberListSubScene () =
         |> showMessage
 
         pastMembers
-        |> List.iter
-            (fun pm ->
-                MemberListPastMember(
-                    pm.Character.Name,
-                    pm.Role,
-                    fst pm.Period,
-                    snd pm.Period
-                )
-                |> RehearsalSpaceText
-                |> I18n.translate
-                |> showMessage)
+        |> List.iter (fun pm ->
+            MemberListPastMember(
+                pm.Character.Name,
+                pm.Role,
+                fst pm.Period,
+                snd pm.Period
+            )
+            |> RehearsalSpaceText
+            |> I18n.translate
+            |> showMessage)
 
     Scene.Management

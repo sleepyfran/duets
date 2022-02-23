@@ -19,13 +19,12 @@ let private listObjects objects =
         |> showMessage
 
         objects
-        |> List.map
-            (fun object ->
-                let commandNames =
-                    object.Commands
-                    |> List.map (fun command -> command.Name)
+        |> List.map (fun object ->
+            let commandNames =
+                object.Commands
+                |> List.map (fun command -> command.Name)
 
-                (object.Type, commandNames))
+            (object.Type, commandNames))
         |> List.iter (
             CommandLookObjectEntry
             >> CommandText
@@ -53,24 +52,24 @@ let private createLookCommand entrances exit description objects =
     { Name = "look"
       Description = I18n.translate (CommandText CommandLookDescription)
       Handler =
-          (fun _ ->
-              showMessage description
-              listObjects objects
-              lineBreak ()
-              listRoomConnections entrances exit
+        (fun _ ->
+            showMessage description
+            listObjects objects
+            lineBreak ()
+            listRoomConnections entrances exit
 
-              None) }
+            None) }
 
 let private createOutCommand coordinates =
     { Name = "out"
       Description = I18n.translate (CommandText CommandOutDescription)
       Handler =
-          (fun _ ->
-              State.get ()
-              |> World.Navigation.moveTo coordinates
-              |> Effect.apply
+        (fun _ ->
+            State.get ()
+            |> World.Navigation.moveTo coordinates
+            |> Effect.apply
 
-              Some Scene.World) }
+            Some Scene.World) }
 
 let private getPlaceName nodeContent =
     match nodeContent with
@@ -82,22 +81,20 @@ let private getPlaceName nodeContent =
 let private nodeInformation city nodeContent placeId roomId =
     let getEntrances nodeId graph getNodeName getCoordinates =
         Queries.World.availableDirections nodeId graph
-        |> List.map
-            (fun (direction, roomId) ->
-                Queries.World.contentOf graph roomId
-                |> getNodeName
-                |> fun name -> (direction, name, getCoordinates roomId))
+        |> List.map (fun (direction, roomId) ->
+            Queries.World.contentOf graph roomId
+            |> getNodeName
+            |> fun name -> (direction, name, getCoordinates roomId))
 
     let getExit nodeId exits =
         exits
         |> Map.tryFind nodeId
-        |> Option.map
-            (fun exitNodeId ->
-                let exitNodeName =
-                    Queries.World.contentOf city.Graph exitNodeId
-                    |> getPlaceName
+        |> Option.map (fun exitNodeId ->
+            let exitNodeName =
+                Queries.World.contentOf city.Graph exitNodeId
+                |> getPlaceName
 
-                Node exitNodeId, exitNodeName)
+            Node exitNodeId, exitNodeName)
 
     match nodeContent with
     | ConcertPlace place ->
@@ -105,8 +102,7 @@ let private nodeInformation city nodeContent placeId roomId =
             roomId
             |> Option.defaultValue place.Rooms.StartingNode
 
-        let room =
-            Queries.World.contentOf place.Rooms roomId
+        let room = Queries.World.contentOf place.Rooms roomId
 
         (getEntrances
             roomId
@@ -122,8 +118,7 @@ let private nodeInformation city nodeContent placeId roomId =
             roomId
             |> Option.defaultValue place.Rooms.StartingNode
 
-        let room =
-            Queries.World.contentOf place.Rooms roomId
+        let room = Queries.World.contentOf place.Rooms roomId
 
         (getEntrances
             roomId
@@ -139,8 +134,7 @@ let private nodeInformation city nodeContent placeId roomId =
             roomId
             |> Option.defaultValue place.Rooms.StartingNode
 
-        let room =
-            Queries.World.contentOf place.Rooms roomId
+        let room = Queries.World.contentOf place.Rooms roomId
 
         (getEntrances
             roomId
@@ -168,8 +162,7 @@ let private nodeInformation city nodeContent placeId roomId =
          [])
 
 let rec worldScene () =
-    let currentPosition =
-        State.get () |> Queries.World.currentPosition
+    let currentPosition = State.get () |> Queries.World.currentPosition
 
     let placeId, roomId =
         match currentPosition.Coordinates with
@@ -183,8 +176,7 @@ let rec worldScene () =
             placeId
             roomId
 
-    let objectCommands =
-        List.collect (fun object -> object.Commands) objects
+    let objectCommands = List.collect (fun object -> object.Commands) objects
 
     let commands =
         commands

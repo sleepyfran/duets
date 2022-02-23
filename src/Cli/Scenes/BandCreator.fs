@@ -68,8 +68,7 @@ and private promptForConfirmation character name genre instrument =
             (Instrument.Type.from instrument)
             (Calendar.gameBeginning)
 
-    let band =
-        Band.from name genre characterMember Calendar.gameBeginning
+    let band = Band.from name genre characterMember Calendar.gameBeginning
 
     startGame character band |> Effect.apply
     clearScreen ()

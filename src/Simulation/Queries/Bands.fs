@@ -41,8 +41,8 @@ module Bands =
     /// in.
     let currentPlayableMember state =
         currentBandMembers state
-        |> List.find
-            (fun bandMember -> bandMember.Character.Id = state.Character.Id)
+        |> List.find (fun bandMember ->
+            bandMember.Character.Id = state.Character.Id)
 
     /// Returns the average skill level of the members of the band.
     let averageSkillLevel state (band: Band) =

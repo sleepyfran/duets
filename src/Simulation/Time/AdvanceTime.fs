@@ -30,7 +30,7 @@ let private advanceTimeOnce (currentTime: Date) =
 /// Also handles the cases in which it's already midnight, in which case it'll
 /// return the dawn of next day.
 let advanceDayMoment (currentTime: Date) times =
-    [ 1 .. times ]
+    [ 1..times ]
     |> List.mapFold
         (fun time _ ->
             advanceTimeOnce time

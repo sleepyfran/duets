@@ -15,8 +15,7 @@ and private promptForSong () =
     let state = State.get ()
     let currentBand = Bands.currentBand state
 
-    let songs =
-        Repertoire.allFinishedSongsByBand state currentBand.Id
+    let songs = Repertoire.allFinishedSongsByBand state currentBand.Id
 
     let selectedSong =
         showOptionalChoicePrompt

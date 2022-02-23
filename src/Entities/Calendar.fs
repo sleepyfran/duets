@@ -98,5 +98,4 @@ module Parse =
         | _ -> Dawn
 
 /// Returns the date in which the game starts.
-let gameBeginning =
-    January 1 2015 |> Transform.changeDayMoment Dawn
+let gameBeginning = January 1 2015 |> Transform.changeDayMoment Dawn

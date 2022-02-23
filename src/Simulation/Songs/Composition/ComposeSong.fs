@@ -10,8 +10,7 @@ let composeSong state song =
     let band = Bands.currentBand state
     let maximumQuality = qualityForBand state band
 
-    let initialQuality =
-        calculateQualityIncreaseOf maximumQuality
+    let initialQuality = calculateQualityIncreaseOf maximumQuality
 
     (UnfinishedSong song, maximumQuality, initialQuality)
     |> Tuple.two band

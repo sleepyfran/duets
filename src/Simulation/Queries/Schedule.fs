@@ -6,8 +6,7 @@ open Entities
 
 /// Returns all concerts scheduled for the given date and band.
 let concertForDay state bandId date =
-    let concertsLens =
-        Lenses.FromState.Concerts.allByBand_ bandId
+    let concertsLens = Lenses.FromState.Concerts.allByBand_ bandId
 
     Optic.get concertsLens state
     |> Option.defaultValue Calendar.Schedule.empty

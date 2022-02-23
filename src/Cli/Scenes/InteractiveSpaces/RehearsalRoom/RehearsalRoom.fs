@@ -66,7 +66,5 @@ let getRoomCommands room =
     | RehearsalRoom _ ->
         [ { Name = "manage"
             Description =
-                I18n.translate (
-                    RehearsalSpaceText RehearsalRoomManageDescription
-                )
+              I18n.translate (RehearsalSpaceText RehearsalRoomManageDescription)
             Handler = fun _ -> Some Scene.Management } ]

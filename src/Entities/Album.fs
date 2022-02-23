@@ -60,8 +60,8 @@ module Released =
     /// hype.
     let update album streams hype =
         { album with
-              Streams = streams
-              Hype = hype }
+            Streams = streams
+            Hype = hype }
 
     /// Transforms a given unreleased album into its released status.
     let fromUnreleased

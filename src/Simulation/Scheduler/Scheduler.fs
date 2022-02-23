@@ -8,8 +8,7 @@ type ScheduleError = | DateAlreadyScheduled
 let validateNoOtherConcertsInDate state date =
     let currentBand = Queries.Bands.currentBand state
 
-    let concertForDay =
-        Queries.Schedule.concertForDay state currentBand.Id date
+    let concertForDay = Queries.Schedule.concertForDay state currentBand.Id date
 
     if Option.isSome concertForDay then
         Error DateAlreadyScheduled
@@ -21,7 +20,6 @@ let validateNoOtherConcertsInDate state date =
 let scheduleConcert state date dayMoment cityId venueId ticketPrice =
     let currentBand = Queries.Bands.currentBand state
 
-    let concert =
-        Concert.create date dayMoment cityId venueId ticketPrice
+    let concert = Concert.create date dayMoment cityId venueId ticketPrice
 
     ConcertScheduled(currentBand, concert)

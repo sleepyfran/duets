@@ -44,8 +44,7 @@ let private timeAdvanceOfEffect effect =
 let rec private tick' (appliedEffects, updatedState) nextEffects =
     match nextEffects with
     | effect :: rest ->
-        let state =
-            State.Root.applyEffect updatedState effect
+        let state = State.Root.applyEffect updatedState effect
 
         let associatedEffects = getAssociatedEffects updatedState effect
 

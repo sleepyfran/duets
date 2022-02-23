@@ -18,8 +18,7 @@ let private textFromMember (bandMember: CurrentMember) =
 let rec fireSubScene () =
     let state = State.get ()
 
-    let bandMembers =
-        Bands.currentBandMembersWithoutPlayableCharacter state
+    let bandMembers = Bands.currentBandMembersWithoutPlayableCharacter state
 
     if List.isEmpty bandMembers then
         RehearsalSpaceText FireMemberNoMembersToFire

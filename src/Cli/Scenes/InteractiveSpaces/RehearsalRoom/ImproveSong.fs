@@ -59,7 +59,7 @@ and private showImproveSong band song =
 and showImprovingProgress () =
     showProgressBar
         [ I18n.translate (
-            RehearsalSpaceText ImproveSongProgressAddingSomeMelodies
+              RehearsalSpaceText ImproveSongProgressAddingSomeMelodies
           )
           I18n.translate (RehearsalSpaceText ImproveSongProgressPlayingFoosball)
           I18n.translate (

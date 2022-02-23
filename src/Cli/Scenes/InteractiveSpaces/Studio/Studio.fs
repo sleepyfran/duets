@@ -31,8 +31,7 @@ let getRoomCommands room =
     let state = State.get ()
     let currentBand = Bands.currentBand state
 
-    let unreleasedAlbums =
-        Albums.unreleasedByBand state currentBand.Id
+    let unreleasedAlbums = Albums.unreleasedByBand state currentBand.Id
 
     let hasUnreleasedAlbums = not (Map.isEmpty unreleasedAlbums)
 
@@ -55,12 +54,13 @@ let getRoomCommands room =
               if hasUnreleasedAlbums then
                   continueRecordOption ]
 
-        [ TalkCommand.create [
-              { Npc = studio.Producer
-                Prompt =
-                    StudioTalkIntroduction(studio.Name, studio.PricePerSong)
-                    |> StudioText
-                    |> I18n.translate
-                Options = talkOptions }
-          ] ]
+        [ TalkCommand.create [ { Npc = studio.Producer
+                                 Prompt =
+                                   StudioTalkIntroduction(
+                                       studio.Name,
+                                       studio.PricePerSong
+                                   )
+                                   |> StudioText
+                                   |> I18n.translate
+                                 Options = talkOptions } ] ]
     | RecordingRoom _ -> []

@@ -7,14 +7,10 @@ open Entities
 open System
 
 let verbConjugationByGender =
-    dict [
-        (Have,
-         dict [
-             (Male, "Has")
-             (Female, "Has")
-             (Other, "Have")
-         ])
-    ]
+    dict [ (Have,
+            dict [ (Male, "Has")
+                   (Female, "Has")
+                   (Other, "Have") ]) ]
 
 /// Transforms TextConstants into strings.
 let rec toString text =
@@ -168,10 +164,8 @@ and commandText key =
         $"Follows the {directionName direction} direction"
     | CommandLookDescription -> "Shows all the objects you have around you"
     | CommandLookEntrances entrances ->
-        $"""You can go to the {listOf
-                                   entrances
-                                   (fun (direction, name) ->
-                                       $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
+        $"""You can go to the {listOf entrances (fun (direction, name) ->
+                                   $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
     | CommandLookExit exit ->
         $"""There's also an exit to {TextStyles.place (toString exit)}({TextStyles.information "out"})"""
     | CommandLookNoObjectsAround -> "There are no objects around you"

@@ -51,8 +51,7 @@ let rec scheduleShow app =
 and private promptForDate app firstDate =
     let monthDays = Calendar.Query.monthDaysFrom firstDate
 
-    let nextMonthDate =
-        Calendar.Query.firstDayOfNextMonth firstDate
+    let nextMonthDate = Calendar.Query.firstDayOfNextMonth firstDate
 
     let selectedDate =
         showOptionalChoicePrompt
@@ -66,11 +65,9 @@ and private promptForDate app firstDate =
     match selectedDate with
     | Some date ->
         Scheduler.validateNoOtherConcertsInDate (State.get ()) date
-        |> Result.switch
-            (promptForDayMoment app)
-            (fun error ->
-                showDateScheduledError date error
-                promptForDate app firstDate)
+        |> Result.switch (promptForDayMoment app) (fun error ->
+            showDateScheduledError date error
+            promptForDate app firstDate)
     | None -> promptForDate app nextMonthDate
 
 and private promptForDayMoment app date =
@@ -108,8 +105,7 @@ and private promptForCity app date dayMoment =
 and private promptForVenue app date dayMoment city =
     let state = State.get ()
 
-    let venues =
-        World.allConcertSpacesOfCity state city.Id
+    let venues = World.allConcertSpacesOfCity state city.Id
 
     let selectedVenue =
         showOptionalChoicePrompt

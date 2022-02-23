@@ -5,8 +5,7 @@ open Entities
 /// Retrieves the complete information of a concert, which basically resolves
 /// the ID that are given inside of the `CityId` and `VenueId` fields.
 let info state concert =
-    let concertCity =
-        World.cityById state concert.CityId |> Option.get
+    let concertCity = World.cityById state concert.CityId |> Option.get
 
     let concertVenue =
         World.concertSpaceById state concert.CityId concert.VenueId
