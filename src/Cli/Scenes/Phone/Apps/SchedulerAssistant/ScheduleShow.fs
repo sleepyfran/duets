@@ -8,6 +8,7 @@ open Cli.Text
 open Common
 open Entities
 open Simulation
+open Simulation.Concerts
 open Simulation.Queries
 
 let private textFromDate date =

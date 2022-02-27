@@ -3,7 +3,6 @@ module Simulation.Simulation
 
 
 open Entities
-open Simulation.Albums.DailyUpdate
 open Simulation.Market
 open Simulation.Skills.ImproveSkills
 open Simulation.Time.AdvanceTime
@@ -17,7 +16,7 @@ let private runYearlyEffects state time =
 
 let private runDailyEffects state time =
     match Calendar.Query.dayMomentOf time with
-    | Morning -> dailyUpdate state
+    | Morning -> Albums.DailyUpdate.dailyUpdate state
     | _ -> []
 
 let private runTimeDependentEffects state time =

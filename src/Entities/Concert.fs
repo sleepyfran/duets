@@ -1,11 +1,16 @@
 module Entities.Concert
 
-
 type TicketPriceError =
     | PriceBelowZero
     | PriceTooHigh
 
-/// Validates and creates a concert from the given parameters.
+module Timeline =
+  let empty = {
+    PastEvents = Set.empty
+    FutureEvents = Set.empty
+  }
+
+/// Creates a concert from the given parameter.
 let create date dayMoment cityId venueId ticketPrice =
     let ticketAmount = ticketPrice * 1<dd>
 

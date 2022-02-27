@@ -15,7 +15,6 @@
         <Compile Include="Queries\Characters.fs"/>
         <Compile Include="Queries\Bands.fs"/>
         <Compile Include="Queries\Calendar.fs"/>
-        <Compile Include="Queries\Schedule.fs"/>
         <Compile Include="Queries\GenreMarkets.fs"/>
         <Compile Include="Queries\World.fs"/>
         <Compile Include="Queries\Concerts.fs"/>
@@ -40,6 +39,8 @@
         <Compile Include="Studio/RenameAlbum.fs"/>
         <Compile Include="Market\GenreMarket.fs"/>
         <Compile Include="Bands\Members.fs"/>
+        <Compile Include="Concerts\DailyUpdate.fs" />
+        <Compile Include="Concerts\Scheduler.fs"/>
         <Compile Include="Skills\ImproveSkills.fs"/>
         <Compile Include="Songs\Practice.fs"/>
         <Compile Include="Songs\Composition\Common.fs"/>
@@ -47,7 +48,6 @@
         <Compile Include="Songs\Composition\ImproveSong.fs"/>
         <Compile Include="Songs\Composition\FinishSong.fs"/>
         <Compile Include="Songs\Composition\DiscardSong.fs"/>
-        <Compile Include="Scheduler\Scheduler.fs"/>
         <Compile Include="World\Navigation.fs"/>
         <Compile Include="World\Generation\Cities\Prague.fs"/>
         <Compile Include="World\Generation\Generation.fs"/>

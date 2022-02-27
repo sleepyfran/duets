@@ -1,4 +1,5 @@
-﻿module Test.Common
+﻿[<AutoOpen>]
+module Test.Common.Root
 
 open Aether
 open Aether.Operators
@@ -62,6 +63,40 @@ let dummyStudio =
     { Name = "Test Studio"
       Producer = dummyCharacter
       PricePerSong = 200<dd> }
+
+let dummyConcertSpace =
+    { Name = "Test Venue"
+      Quality = 80<quality>
+      Capacity = 1500 }
+
+let dummyVenue =
+    let lobby =
+        ConcertSpaceRoom.Lobby dummyConcertSpace
+        |> World.Node.create
+
+    World.Place.create dummyConcertSpace lobby
+    |> ConcertPlace
+    |> World.Node.create
+
+let dummyCity =
+    let testBoulevard =
+        OutsideNode
+            { Name = "Test Boulevard"
+              Descriptors = []
+              Type = Boulevard }
+        |> World.Node.create
+
+    World.City.create "Test City" testBoulevard
+    |> World.City.addNode dummyVenue
+
+let dummyConcert =
+    { Id = Identity.create ()
+      CityId = dummyCity.Id
+      VenueId = dummyVenue.Id
+      Date = dummyToday.AddDays(30)
+      DayMoment = Night
+      TicketPrice = 20<dd>
+      TicketsSold = 0 }
 
 let dummyState =
     startGame dummyCharacter dummyBand

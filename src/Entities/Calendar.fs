@@ -13,10 +13,6 @@ let allDayMoments =
       Night ]
 
 [<RequireQualifiedAccess>]
-module Schedule =
-    let empty = Map.empty
-
-[<RequireQualifiedAccess>]
 module Ops =
     /// Adds the given number of days to the date.
     let addDays n (date: Date) = date.AddDays(float n)

@@ -6,11 +6,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Library.fs"/>
+        <Compile Include="Library.fs" />
+        <Compile Include="Generators\City.Generator.fs" />
+        <Compile Include="Generators\Band.Generator.fs" />
+        <Compile Include="Generators\State.Generator.fs" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Simulation\Simulation.fsproj"/>
+        <ProjectReference Include="..\..\src\Simulation\Simulation.fsproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FsCheck" Version="2.16.4" />
     </ItemGroup>
 
 </Project>

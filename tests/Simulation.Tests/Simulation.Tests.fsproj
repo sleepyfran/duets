@@ -9,43 +9,46 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FsUnit" Version="4.0.4"/>
-        <PackageReference Include="Fugit" Version="0.4.1"/>
-        <PackageReference Include="NUnit" Version="3.13.2"/>
-        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0"/>
+        <PackageReference Include="FsCheck" Version="2.16.4" />
+        <PackageReference Include="FsCheck.NUnit" Version="2.16.4" />
+        <PackageReference Include="FsUnit" Version="4.0.4" />
+        <PackageReference Include="Fugit" Version="0.4.1" />
+        <PackageReference Include="NUnit" Version="3.13.2" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Include="State\State.Albums.Tests.fs"/>
-        <Compile Include="State\State.Bank.Tests.fs"/>
-        <Compile Include="State\State.BandManagement.Tests.fs"/>
-        <Compile Include="State\State.SongComposition.Tests.fs"/>
-        <Compile Include="State\State.Setup.Tests.fs"/>
-        <Compile Include="State\State.Skills.Tests.fs"/>
-        <Compile Include="Albums\DailyUpdate.Tests.fs"/>
-        <Compile Include="Bands\HireMember.Tests.fs"/>
-        <Compile Include="Bands\FireMember.Tests.fs"/>
-        <Compile Include="Bank\Transfer.Tests.fs"/>
-        <Compile Include="Bank\Queries.Tests.fs"/>
-        <Compile Include="Market\GenreMarket.Tests.fs"/>
-        <Compile Include="Time\AdvanceTime.Tests.fs"/>
-        <Compile Include="Songs\ComposeSong.Tests.fs"/>
-        <Compile Include="Songs\ImproveSong.Tests.fs"/>
-        <Compile Include="Songs\FinishSong.Tests.fs"/>
-        <Compile Include="Songs\DiscardSong.Tests.fs"/>
-        <Compile Include="Songs\PracticeSong.Tests.fs"/>
-        <Compile Include="Skills\ImproveSkills.Tests.fs"/>
-        <Compile Include="Studio\RecordAlbum.Tests.fs"/>
-        <Compile Include="Studio\ReleaseAlbum.Tests.fs"/>
-        <Compile Include="Studio\RenameAlbum.Tests.fs"/>
-        <Compile Include="Simulation.Tests.fs"/>
-        <Compile Include="Program.fs"/>
+        <Compile Include="State\State.Albums.Tests.fs" />
+        <Compile Include="State\State.Bank.Tests.fs" />
+        <Compile Include="State\State.BandManagement.Tests.fs" />
+        <Compile Include="State\State.SongComposition.Tests.fs" />
+        <Compile Include="State\State.Setup.Tests.fs" />
+        <Compile Include="State\State.Skills.Tests.fs" />
+        <Compile Include="Albums\DailyUpdate.Tests.fs" />
+        <Compile Include="Bands\HireMember.Tests.fs" />
+        <Compile Include="Bands\FireMember.Tests.fs" />
+        <Compile Include="Bank\Transfer.Tests.fs" />
+        <Compile Include="Bank\Queries.Tests.fs" />
+        <Compile Include="Concerts\DailyUpdate.Tests.fs" />
+        <Compile Include="Market\GenreMarket.Tests.fs" />
+        <Compile Include="Time\AdvanceTime.Tests.fs" />
+        <Compile Include="Songs\ComposeSong.Tests.fs" />
+        <Compile Include="Songs\ImproveSong.Tests.fs" />
+        <Compile Include="Songs\FinishSong.Tests.fs" />
+        <Compile Include="Songs\DiscardSong.Tests.fs" />
+        <Compile Include="Songs\PracticeSong.Tests.fs" />
+        <Compile Include="Skills\ImproveSkills.Tests.fs" />
+        <Compile Include="Studio\RecordAlbum.Tests.fs" />
+        <Compile Include="Studio\ReleaseAlbum.Tests.fs" />
+        <Compile Include="Studio\RenameAlbum.Tests.fs" />
+        <Compile Include="Simulation.Tests.fs" />
+        <Compile Include="Program.fs" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Simulation\Simulation.fsproj"/>
-        <ProjectReference Include="..\Test.Common\Test.Common.fsproj"/>
+        <ProjectReference Include="..\..\src\Simulation\Simulation.fsproj" />
+        <ProjectReference Include="..\Test.Common\Test.Common.fsproj" />
     </ItemGroup>
 
 </Project>

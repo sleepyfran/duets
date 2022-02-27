@@ -1,16 +1,12 @@
 module Simulation.State.Concerts
 
 open Aether
+open Aether.Operators
 open Entities
 
-let addConcert (band: Band) (concert: Concert) state =
-    let concertsLens = Lenses.FromState.Concerts.allByBand_ band.Id
+let addConcert (band: Band) (concert: Concert) =
+    let concertsLens =
+        Lenses.FromState.Concerts.allByBand_ band.Id
+        >?> Lenses.Concerts.Timeline.future_
 
-    Optic.map
-        concertsLens
-        (Map.change concert.Date (fun dayMomentMap ->
-            dayMomentMap
-            |> Option.defaultValue Map.empty
-            |> Map.add concert.DayMoment concert
-            |> Some))
-        state
+    Optic.map concertsLens (Set.add concert)

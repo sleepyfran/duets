@@ -1,6 +1,7 @@
-module Simulation.Scheduler
+module Simulation.Concerts.Scheduler
 
 open Entities
+open Simulation
 
 type ScheduleError = | DateAlreadyScheduled
 
@@ -8,14 +9,15 @@ type ScheduleError = | DateAlreadyScheduled
 let validateNoOtherConcertsInDate state date =
     let currentBand = Queries.Bands.currentBand state
 
-    let concertForDay = Queries.Schedule.concertForDay state currentBand.Id date
+    let concertForDay =
+        Queries.Concerts.scheduleForDay state currentBand.Id date
 
     if Option.isSome concertForDay then
         Error DateAlreadyScheduled
     else
         Ok date
 
-/// Schedules a concert for the given date, day moment in the specified city
+/// Schedules a concert for the given date and day moment in the specified city
 /// and venue for the current band.
 let scheduleConcert state date dayMoment cityId venueId ticketPrice =
     let currentBand = Queries.Bands.currentBand state

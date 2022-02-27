@@ -15,5 +15,12 @@ module ConcertTypes =
           TicketPrice: Amount
           TicketsSold: int }
 
+    /// Defines a timeline of concerts as two lists: one for the events that
+    /// have already happened and another for the ones that will happen in the
+    /// future.
+    type ConcertTimeline =
+      { PastEvents: Set<Concert>
+        FutureEvents: Set<Concert> }
+
     /// Holds all concerts scheduled by all bands in the game.
-    type ConcertsByBand = Map<BandId, Schedule<Concert>>
+    type ConcertsByBand = Map<BandId, ConcertTimeline>

@@ -22,7 +22,9 @@ let startGame (character: Character) (band: Band) =
         |> Map.ofSeq
       Character = character
       CharacterSkills = [ (character.Id, Map.empty) ] |> Map.ofList
-      Concerts = [ (band.Id, Map.empty) ] |> Map.ofList
+      Concerts =
+        [ (band.Id, Concert.Timeline.empty) ]
+        |> Map.ofList
       CurrentBandId = band.Id
       CurrentPosition = initialCity.Id, Node initialCity.Graph.StartingNode
       GenreMarkets = GenreMarket.create (Database.genres ())

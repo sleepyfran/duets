@@ -55,7 +55,11 @@ module Album =
         (fun v (a: ReleasedAlbum) -> { a with Streams = v })
 
 module Band =
-    let id_ = (fun (c: Band) -> c.Id), (fun v (c: Band) -> { c with Id = v })
+    let id_ =
+        (fun (c: Band) -> c.Id), (fun v (c: Band) -> { c with Id = v })
+
+    let fame_ =
+        (fun (b: Band) -> b.Fame), (fun v (b: Band) -> { b with Fame = v })
 
     let members_ =
         (fun (b: Band) -> b.Members),
@@ -95,6 +99,16 @@ module Character =
     let id_ =
         (fun (c: Character) -> c.Id),
         (fun v (c: Character) -> { c with Id = v })
+
+module Concerts =
+    let ticketsSold_ =
+        (fun (c: Concert) -> c.TicketsSold),
+        (fun v (c: Concert) -> { c with TicketsSold = v })
+
+    module Timeline =
+        let future_ =
+            (fun (t: ConcertTimeline) -> t.FutureEvents),
+            (fun v (t: ConcertTimeline) -> { t with FutureEvents = v })
 
 module Song =
     let practice_ =
@@ -187,7 +201,10 @@ module FromState =
         /// Lens into all the concerts currently scheduled.
         let allByBand_ bandId =
             State.concerts_
-            >-> Map.keyWithDefault_ bandId Map.empty
+            >-> Map.keyWithDefault_
+                    bandId
+                    { PastEvents = Set.empty
+                      FutureEvents = Set.empty }
 
     module GenreMarkets =
         /// Lens into a specific genre market given its genre ID.

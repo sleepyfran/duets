@@ -25,7 +25,7 @@ and private showAgenda' app firstDay =
     let nextMonthDate = Calendar.Query.firstDayOfNextMonth firstDay
 
     let concertsInMonth =
-        Schedule.concertScheduleForMonth state currentBand.Id firstDay
+        Concerts.scheduleForMonth state currentBand.Id firstDay
         |> List.ofSeq
 
     let calendarEvents =
