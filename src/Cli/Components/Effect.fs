@@ -94,4 +94,13 @@ and private displayEffect effect =
         |> PhoneText
         |> I18n.translate
         |> showMessage
+
+    | Wait _ ->
+        let today = Queries.Calendar.today (State.get ())
+        let currentDayMoment = Calendar.Query.dayMomentOf today
+
+        CommandWaitResult(today, currentDayMoment)
+        |> CommandText
+        |> I18n.translate
+        |> showMessage
     | _ -> ()

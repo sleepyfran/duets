@@ -7,10 +7,14 @@ open Entities
 open System
 
 let verbConjugationByGender =
-    dict [ (Have,
-            dict [ (Male, "Has")
-                   (Female, "Has")
-                   (Other, "Have") ]) ]
+    dict [
+        (Have,
+         dict [
+             (Male, "Has")
+             (Female, "Has")
+             (Other, "Have")
+         ])
+    ]
 
 /// Transforms TextConstants into strings.
 let rec toString text =
@@ -164,8 +168,10 @@ and commandText key =
         $"Follows the {directionName direction} direction"
     | CommandLookDescription -> "Shows all the objects you have around you"
     | CommandLookEntrances entrances ->
-        $"""You can go to the {listOf entrances (fun (direction, name) ->
-                                   $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
+        $"""You can go to the {listOf
+                                   entrances
+                                   (fun (direction, name) ->
+                                       $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
     | CommandLookExit exit ->
         $"""There's also an exit to {TextStyles.place (toString exit)}({TextStyles.information "out"})"""
     | CommandLookNoObjectsAround -> "There are no objects around you"
@@ -174,6 +180,15 @@ and commandText key =
         $"- {objectName objectType |> TextStyles.object}, you can interact with it by calling {listOf commandNames id |> TextStyles.action}"
     | CommandOutDescription -> "Exits the current place"
     | CommandExitDescription -> "Exits the game saving the progress"
+    | CommandWaitDescription ->
+        $""""Waits for the given amount of time. Use as {TextStyles.information "wait 4"}, where the number is the amount of day moments to wait"""
+    | CommandWaitInvalidTimes input ->
+        TextStyles.error
+            $"The given amount '{input}' is not valid. Try a real number"
+    | CommandWaitResult (date, dayMoment) ->
+        $"""You waited and it's now {dayMomentName dayMoment
+                                     |> String.lowercase
+                                     |> TextStyles.highlight} on the {formatDate date |> TextStyles.highlight}"""
     | CommandMapDescription ->
         "Shows the map of the game where you can quickly travel to other places"
     | CommandPhoneDescription ->

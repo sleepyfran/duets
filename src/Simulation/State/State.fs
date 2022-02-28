@@ -72,3 +72,4 @@ let applyEffect state effect =
         Concerts.removeConcert band concert state
         |> Concerts.addConcert band concert
     | WorldMoveTo (cityId, nodeId) -> World.move cityId nodeId state
+    | Wait _ -> state

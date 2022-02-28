@@ -21,6 +21,9 @@ and CommandText =
     | CommandLookObjectEntry of ObjectType * string list
     | CommandOutDescription
     | CommandExitDescription
+    | CommandWaitDescription
+    | CommandWaitInvalidTimes of string
+    | CommandWaitResult of Date * DayMoment
     | CommandMapDescription
     | CommandPhoneDescription
     | CommandTalkInvalidInput

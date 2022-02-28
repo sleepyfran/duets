@@ -40,6 +40,7 @@ let private timeAdvanceOfEffect effect =
     | SongImproved _ -> 1
     | AlbumRecorded _ -> 56 // One week
     | SongPracticed _ -> 1
+    | Wait times -> times
     | _ -> 0
 
 let rec private tick' (appliedEffects, updatedState) nextEffects =

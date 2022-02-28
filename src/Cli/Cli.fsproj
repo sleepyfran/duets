@@ -28,6 +28,7 @@
         <Compile Include="Components\Commands\Navigation.Command.fs" />
         <Compile Include="Components\Commands\Phone.Command.fs" />
         <Compile Include="Components\Commands\Talk.Command.fs" />
+        <Compile Include="Components\Commands\Wait.Command.fs"/>
         <Compile Include="Components\Object.fs" />
         <Compile Include="Components\CommandPrompt.fs" />
         <Compile Include="Scenes\BandCreator.fs" />
