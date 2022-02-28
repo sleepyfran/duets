@@ -4,6 +4,7 @@ module Simulation.Tests.Simulation
 open FsUnit
 open NUnit.Framework
 open Test.Common
+open Test.Common.Generators
 
 open Entities
 open Simulation
@@ -55,6 +56,7 @@ let filterDailyUpdateEffects effect =
     match effect with
     | AlbumReleasedUpdate _ -> true
     | MoneyEarned _ -> true
+    | ConcertUpdated _ -> true
     | _ -> false
 
 [<Test>]
@@ -75,7 +77,18 @@ let ``tick should update album streams every day`` () =
     |> should haveLength 2
 
 [<Test>]
-let ``tick should not update album streams if morning has passed`` () =
+let ``tick should update all scheduled concerts every day`` () =
+    let state = State.generateOne State.defaultOptions
+
+    Simulation.tick state songStartedEffect
+    |> fst
+    |> List.filter filterDailyUpdateEffects
+    |> should haveLength 10
+
+[<Test>]
+let ``tick should not update album streams or concerts if morning has passed``
+    ()
+    =
     Simulation.tick stateInMorning songStartedEffect
     |> fst
     |> List.filter filterDailyUpdateEffects

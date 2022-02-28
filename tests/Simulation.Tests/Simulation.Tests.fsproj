@@ -25,6 +25,7 @@
         <Compile Include="State\State.SongComposition.Tests.fs" />
         <Compile Include="State\State.Setup.Tests.fs" />
         <Compile Include="State\State.Skills.Tests.fs" />
+        <Compile Include="State\State.Concerts.Tests.fs"/>
         <Compile Include="Albums\DailyUpdate.Tests.fs" />
         <Compile Include="Bands\HireMember.Tests.fs" />
         <Compile Include="Bands\FireMember.Tests.fs" />

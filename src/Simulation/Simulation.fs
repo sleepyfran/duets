@@ -16,7 +16,9 @@ let private runYearlyEffects state time =
 
 let private runDailyEffects state time =
     match Calendar.Query.dayMomentOf time with
-    | Morning -> Albums.DailyUpdate.dailyUpdate state
+    | Morning ->
+        Albums.DailyUpdate.dailyUpdate state
+        |> (@) (Concerts.DailyUpdate.dailyUpdate state)
     | _ -> []
 
 let private runTimeDependentEffects state time =
@@ -43,8 +45,12 @@ let private timeAdvanceOfEffect effect =
 let rec private tick' (appliedEffects, updatedState) nextEffects =
     match nextEffects with
     | effect :: rest ->
-        let state = State.Root.applyEffect updatedState effect
+        let state =
+            State.Root.applyEffect updatedState effect
 
+        // TODO: Delay effect gathering
+        // Delay execution of these effects to allow associated effect chaining.
+        // (Example: album update -> fame update -> concert update w/ new fame)
         let associatedEffects = getAssociatedEffects updatedState effect
 
         tick' (appliedEffects @ [ effect ], state) (associatedEffects @ rest)
