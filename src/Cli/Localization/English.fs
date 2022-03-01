@@ -181,7 +181,7 @@ and commandText key =
     | CommandOutDescription -> "Exits the current place"
     | CommandExitDescription -> "Exits the game saving the progress"
     | CommandWaitDescription ->
-        $""""Waits for the given amount of time. Use as {TextStyles.information "wait 4"}, where the number is the amount of day moments to wait"""
+        $"""Waits for the given amount of time. Use as {TextStyles.information "wait 4"}, where the number is the amount of day moments to wait"""
     | CommandWaitInvalidTimes input ->
         TextStyles.error
             $"The given amount '{input}' is not valid. Try a real number"
