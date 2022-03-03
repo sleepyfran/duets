@@ -11,7 +11,7 @@ open Simulation.Queries
 
 let private stateGenOptions =
     { State.defaultOptions with
-          ConcertsToGenerate = 0 }
+          FutureConcertsToGenerate = 0 }
 
 [<Test>]
 let ``ConcertScheduled adds a concert to the given band's future schedule`` () =

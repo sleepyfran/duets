@@ -7,7 +7,8 @@ open Entities
 /// Retrieves the complete information of a concert, which basically resolves
 /// the ID that are given inside of the `CityId` and `VenueId` fields.
 let info state concert =
-    let concertCity = World.cityById state concert.CityId |> Option.get
+    let concertCity =
+        World.cityById state concert.CityId |> Option.get
 
     let concertVenue =
         World.concertSpaceById state concert.CityId concert.VenueId
@@ -23,7 +24,8 @@ let info state concert =
 
 /// Returns a concert, if any scheduled, for the given band and date.
 let scheduleForDay state bandId date =
-    let concertsLens = Lenses.FromState.Concerts.allByBand_ bandId
+    let concertsLens =
+        Lenses.FromState.Concerts.allByBand_ bandId
 
     Optic.get concertsLens state
     |> Option.defaultValue Concert.Timeline.empty
@@ -45,3 +47,16 @@ let allScheduled state bandId =
 
     Optic.get lenses state
     |> Option.defaultValue Set.empty
+
+/// Returns the last concert that happened in the city, if any.
+let lastConcertInCity state bandId cityId =
+    let lenses =
+        Lenses.FromState.Concerts.allByBand_ bandId
+        >?> Lenses.Concerts.Timeline.past_
+
+    Optic.get lenses state
+    |> Option.defaultValue Set.empty
+    |> Set.toSeq
+    |> Seq.filter (fun concert -> concert.CityId = cityId)
+    |> Seq.sortByDescending (fun concert -> concert.Date)
+    |> Seq.tryHead

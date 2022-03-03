@@ -106,6 +106,10 @@ module Concerts =
         (fun v (c: Concert) -> { c with TicketsSold = v })
 
     module Timeline =
+        let past_ =
+            (fun (t: ConcertTimeline) -> t.PastEvents),
+            (fun v (t: ConcertTimeline) -> { t with PastEvents = v })
+
         let future_ =
             (fun (t: ConcertTimeline) -> t.FutureEvents),
             (fun v (t: ConcertTimeline) -> { t with FutureEvents = v })

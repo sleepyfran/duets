@@ -78,7 +78,10 @@ let ``tick should update album streams every day`` () =
 
 [<Test>]
 let ``tick should update all scheduled concerts every day`` () =
-    let state = State.generateOne State.defaultOptions
+    let state =
+        State.generateOne
+            { State.defaultOptions with
+                  FutureConcertsToGenerate = 10 }
 
     Simulation.tick state songStartedEffect
     |> fst

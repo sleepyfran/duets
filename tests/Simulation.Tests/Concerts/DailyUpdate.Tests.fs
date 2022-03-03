@@ -19,7 +19,11 @@ let actAndGetConcert state =
 
 [<Test>]
 let ``generates as many effects as concerts are scheduled`` () =
-    State.generateN State.defaultOptions 100
+    State.generateN
+        { State.defaultOptions with
+              FutureConcertsToGenerate = 10
+              VenueGen = Gen.constant dummyVenue }
+        100
     |> List.iter
         (fun state ->
             let effects = Concerts.DailyUpdate.dailyUpdate state
@@ -41,7 +45,6 @@ let ``generates sold tickets based on band's fame, venue capacity, last time vis
     let state =
         State.generateOne
             { State.defaultOptions with
-                  ConcertsToGenerate = 0
                   BandFame = 25
                   VenueGen = Gen.constant dummyVenue }
         |> State.Concerts.addConcert dummyBand dummyConcert
@@ -54,7 +57,6 @@ let ``sold tickets get lower when band fame is lower`` () =
     let state =
         State.generateOne
             { State.defaultOptions with
-                  ConcertsToGenerate = 0
                   BandFame = 5
                   VenueGen = Gen.constant dummyVenue }
         |> State.Concerts.addConcert
@@ -70,7 +72,6 @@ let ``sold tickets get added to the previously sold tickets`` () =
     let state =
         State.generateOne
             { State.defaultOptions with
-                  ConcertsToGenerate = 0
                   BandFame = 25
                   VenueGen = Gen.constant dummyVenue }
         |> State.Concerts.addConcert
@@ -87,7 +88,6 @@ let ``daily sold tickets are calculated based on how many days are left until th
     let concert =
         State.generateOne
             { State.defaultOptions with
-                  ConcertsToGenerate = 0
                   BandFame = 25
                   VenueGen = Gen.constant dummyVenue }
         |> State.Concerts.addConcert
@@ -101,7 +101,6 @@ let ``daily sold tickets are calculated based on how many days are left until th
 let actAndGetConcertWithPrice price =
     State.generateOne
         { State.defaultOptions with
-              ConcertsToGenerate = 0
               BandFame = 25
               VenueGen = Gen.constant dummyVenue }
     |> State.Concerts.addConcert
@@ -149,7 +148,6 @@ let ``sold tickets are capped to venue capacity`` () =
     let concert =
         State.generateOne
             { State.defaultOptions with
-                  ConcertsToGenerate = 0
                   BandFame = 25
                   VenueGen = Gen.constant dummyVenue }
         |> State.Concerts.addConcert
@@ -158,3 +156,87 @@ let ``sold tickets are capped to venue capacity`` () =
         |> actAndGetConcert
 
     concert.TicketsSold |> should equal 1500
+
+[<Test>]
+let ``sold tickets should not decrease out of the normal cap when last visit to the city was more than 180 days ago``
+    ()
+    =
+    let cityId = dummyCity.Id
+
+    let concertInCityGenerator =
+        gen {
+            return!
+                Concert.generator
+                    { Concert.defaultOptions with
+                          From = dummyToday.AddYears(-2)
+                          To = dummyToday.AddDays(-180)
+                          CityId = cityId }
+        }
+
+    let concert =
+        State.generateOne
+            { State.defaultOptions with
+                  BandFame = 25
+                  PastConcertsToGenerate = 1
+                  PastConcertGen = concertInCityGenerator
+                  VenueGen = Gen.constant dummyVenue }
+        |> State.Concerts.addConcert dummyBand dummyConcert
+        |> actAndGetConcert
+
+    concert.TicketsSold |> should equal 12
+
+[<Test>]
+let ``sold tickets decrease to 70% of the normal cap when last visit to the city was less than 180 days ago``
+    ()
+    =
+    let cityId = dummyCity.Id
+
+    let concertInCityGenerator =
+        gen {
+            return!
+                Concert.generator
+                    { Concert.defaultOptions with
+                          From = dummyToday.AddDays(-60)
+                          To = dummyToday.AddDays(-20)
+                          CityId = cityId }
+        }
+
+    let concert =
+        State.generateOne
+            { State.defaultOptions with
+                  BandFame = 25
+                  PastConcertsToGenerate = 1
+                  PastConcertGen = concertInCityGenerator
+                  VenueGen = Gen.constant dummyVenue }
+        |> State.Concerts.addConcert dummyBand dummyConcert
+        |> actAndGetConcert
+
+    concert.TicketsSold |> should equal 9
+
+[<Test>]
+let ``sold tickets decrease to 20% of the normal cap when last visit to the city was less than 30 days ago``
+    ()
+    =
+    let cityId = dummyCity.Id
+
+    let concertInCityGenerator =
+        gen {
+            return!
+                Concert.generator
+                    { Concert.defaultOptions with
+                          From = dummyToday.AddDays(10)
+                          To = dummyToday.AddDays(29)
+                          CityId = cityId }
+        }
+
+    let concert =
+        State.generateOne
+            { State.defaultOptions with
+                  BandFame = 25
+                  PastConcertsToGenerate = 5
+                  PastConcertGen = concertInCityGenerator
+                  VenueGen = Gen.constant dummyVenue }
+        |> State.Concerts.addConcert dummyBand dummyConcert
+        |> actAndGetConcert
+
+    concert.TicketsSold |> should equal 2

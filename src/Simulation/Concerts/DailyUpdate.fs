@@ -37,6 +37,20 @@ let private ticketPriceModifier band concert =
 
         1.0 - (adaptedPrice / ticketPriceCap) ** 20.0
 
+let private lastVisitModifier state (band: Band) concert =
+    let lastConcertInCity =
+        Queries.Concerts.lastConcertInCity state band.Id concert.CityId
+
+    match lastConcertInCity with
+    | Some lastConcert ->
+        concert.Date - lastConcert.Date
+        |> fun span ->
+            match span.Days with
+            | days when days < 30 -> 0.2
+            | days when days < 180 -> 0.7
+            | _ -> 1.0
+    | None -> 1.0
+
 let private dailyTicketSell state concert attendanceCap =
     let today = Queries.Calendar.today state
     let daysUntilConcert = concert.Date - today
@@ -47,7 +61,9 @@ let private concertDailyUpdate state concert =
     let currentBand = Queries.Bands.currentBand state
     let concertInfo = Queries.Concerts.info state concert
     let ticketPriceModifier = ticketPriceModifier currentBand concert
-    let lastVisitModifier = 1.0 // TODO: Implement.
+
+    let lastVisitModifier =
+        lastVisitModifier state currentBand concert
 
     let attendanceCap =
         (float currentBand.Fame / 100.0)

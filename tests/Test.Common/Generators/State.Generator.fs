@@ -15,14 +15,28 @@ let dateGenerator =
 
 type StateGenOptions =
     { BandFame: int
-      ConcertsToGenerate: int
+      FutureConcertsToGenerate: int
+      PastConcertsToGenerate: int
 
       // <-- Generators -->
+      PastConcertGen: Gen<Concert>
+      FutureConcertGen: Gen<Concert>
       VenueGen: Gen<Node<CityNode>> }
 
 let defaultOptions =
     { BandFame = 25
-      ConcertsToGenerate = 10
+      FutureConcertsToGenerate = 0
+      PastConcertsToGenerate = 0
+      PastConcertGen =
+          (Concert.generator
+              { Concert.defaultOptions with
+                    From = dummyToday.AddYears(-2)
+                    To = dummyToday })
+      FutureConcertGen =
+          (Concert.generator
+              { Concert.defaultOptions with
+                    From = dummyToday.AddDays(1)
+                    To = dummyToday.AddYears(2) })
       VenueGen = City.venueGenerator }
 
 let generator (opts: StateGenOptions) =
@@ -39,20 +53,18 @@ let generator (opts: StateGenOptions) =
             |> List.tail
             |> List.fold (fun city venue -> World.City.addNode venue city) city
 
-        let concerts =
-            Gen.map2
-                (fun date concert ->
-                    { concert with
-                          CityId = city.Id
-                          VenueId = List.sample venues |> fun venue -> venue.Id
-                          Date = date })
-                dateGenerator
-                Arb.generate<Concert>
-            |> Gen.sample 0 opts.ConcertsToGenerate
+        let futureConcerts =
+            opts.FutureConcertGen
+            |> Gen.map (fun concert -> { concert with VenueId = firstVenue.Id })
+            |> Gen.sample 0 opts.FutureConcertsToGenerate
+
+        let pastConcerts =
+            opts.PastConcertGen
+            |> Gen.sample 0 opts.PastConcertsToGenerate
 
         let timeline =
-            { FutureEvents = Set.ofList concerts
-              PastEvents = Set.empty }
+            { FutureEvents = Set.ofList futureConcerts
+              PastEvents = Set.ofList pastConcerts }
 
         let! initialState = Arb.generate<State>
 
