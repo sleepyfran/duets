@@ -4,12 +4,14 @@ open Aether
 open Entities
 
 let private applyToUnreleased bandId op =
-    let unreleasedAlbumsLens = Lenses.FromState.Albums.unreleasedByBand_ bandId
+    let unreleasedAlbumsLens =
+        Lenses.FromState.Albums.unreleasedByBand_ bandId
 
     Optic.map unreleasedAlbumsLens op
 
 let private applyToReleased bandId op =
-    let releasedAlbumsLens = Lenses.FromState.Albums.releasedByBand_ bandId
+    let releasedAlbumsLens =
+        Lenses.FromState.Albums.releasedByBand_ bandId
 
     Optic.map releasedAlbumsLens op
 

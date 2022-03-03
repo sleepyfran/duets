@@ -10,14 +10,14 @@ let private createGenreMarket () =
 
 let private updateGenreMarket market =
     { market with
-        MarketPoint =
-            Random.boolean ()
-            |> fun increasing ->
-                if increasing then
-                    market.MarketPoint + market.Fluctuation
-                else
-                    market.MarketPoint - market.Fluctuation
-            |> Math.clampFloat 2.0 5.0 }
+          MarketPoint =
+              Random.boolean ()
+              |> fun increasing ->
+                  if increasing then
+                      market.MarketPoint + market.Fluctuation
+                  else
+                      market.MarketPoint - market.Fluctuation
+              |> Math.clampFloat 2.0 5.0 }
 
 /// Creates the genre market by calculating its initial market point and the
 /// fluctuation of each of the genres available.

@@ -22,7 +22,8 @@ and private showAgenda' app firstDay =
 
     let currentBand = Bands.currentBand state
 
-    let nextMonthDate = Calendar.Query.firstDayOfNextMonth firstDay
+    let nextMonthDate =
+        Calendar.Query.firstDayOfNextMonth firstDay
 
     let concertsInMonth =
         Concerts.scheduleForMonth state currentBand.Id firstDay
@@ -60,21 +61,22 @@ and private showAgenda' app firstDay =
 and showConcertList app =
     let state = State.get ()
 
-    List.iter (fun concert ->
-        let resolvedConcert = Concerts.info state concert
+    List.iter
+        (fun concert ->
+            let resolvedConcert = Concerts.info state concert
 
-        CommonDateWithDay resolvedConcert.Date
-        |> CommonText
-        |> I18n.translate
-        |> Some
-        |> showSeparator
+            CommonDateWithDay resolvedConcert.Date
+            |> CommonText
+            |> I18n.translate
+            |> Some
+            |> showSeparator
 
-        SchedulerAssistantAppVisualizeConcertInfo(
-            resolvedConcert.DayMoment,
-            resolvedConcert.Venue,
-            resolvedConcert.City,
-            resolvedConcert.TicketsSold
-        )
-        |> PhoneText
-        |> I18n.translate
-        |> showMessage)
+            SchedulerAssistantAppVisualizeConcertInfo(
+                resolvedConcert.DayMoment,
+                resolvedConcert.Venue,
+                resolvedConcert.City,
+                resolvedConcert.TicketsSold
+            )
+            |> PhoneText
+            |> I18n.translate
+            |> showMessage)

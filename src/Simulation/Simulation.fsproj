@@ -39,7 +39,7 @@
         <Compile Include="Studio/RenameAlbum.fs"/>
         <Compile Include="Market\GenreMarket.fs"/>
         <Compile Include="Bands\Members.fs"/>
-        <Compile Include="Concerts\DailyUpdate.fs" />
+        <Compile Include="Concerts\DailyUpdate.fs"/>
         <Compile Include="Concerts\Scheduler.fs"/>
         <Compile Include="Skills\ImproveSkills.fs"/>
         <Compile Include="Songs\Practice.fs"/>

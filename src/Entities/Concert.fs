@@ -5,10 +5,9 @@ type TicketPriceError =
     | PriceTooHigh
 
 module Timeline =
-  let empty = {
-    PastEvents = Set.empty
-    FutureEvents = Set.empty
-  }
+    let empty =
+        { PastEvents = Set.empty
+          FutureEvents = Set.empty }
 
 /// Creates a concert from the given parameter.
 let create date dayMoment cityId venueId ticketPrice =

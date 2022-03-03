@@ -4,4 +4,5 @@ open Entities
 
 let get = [ Instrumental; Normal; Growl; Screamo ]
 
-let getWithNames = get |> List.map (fun vs -> vs, vs.ToString())
+let getWithNames =
+    get |> List.map (fun vs -> vs, vs.ToString())

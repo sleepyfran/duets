@@ -20,7 +20,8 @@ let practiceSong band (finishedSong: FinishedSongWithQuality) =
             song.Practice + 20<practice>
             |> Math.clamp 0<practice> 100<practice>
 
-        let updatedSong = Optic.set Lenses.Song.practice_ updatedPractice song
+        let updatedSong =
+            Optic.set Lenses.Song.practice_ updatedPractice song
 
         let songWithPractice = (FinishedSong updatedSong, quality)
 

@@ -11,15 +11,16 @@ module HelpCommand =
         { Name = "help"
           Description = I18n.translate (CommandText CommandHelpDescription)
           Handler =
-            fun _ ->
-                I18n.translate (CommandText CommandHelpDescription)
-                |> showMessage
+              fun _ ->
+                  I18n.translate (CommandText CommandHelpDescription)
+                  |> showMessage
 
-                commands
-                |> List.iter (fun command ->
-                    CommandHelpEntry(command.Name, command.Description)
-                    |> CommandText
-                    |> I18n.translate
-                    |> showMessage)
+                  commands
+                  |> List.iter
+                      (fun command ->
+                          CommandHelpEntry(command.Name, command.Description)
+                          |> CommandText
+                          |> I18n.translate
+                          |> showMessage)
 
-                None }
+                  None }

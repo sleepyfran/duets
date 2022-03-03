@@ -7,7 +7,8 @@ module Songs =
     /// Returns all unfinished songs by the given band. If no unfinished songs
     /// could be found, returns an empty map.
     let unfinishedByBand state bandId =
-        let unfinishedSongLens = Lenses.FromState.Songs.unfinishedByBand_ bandId
+        let unfinishedSongLens =
+            Lenses.FromState.Songs.unfinishedByBand_ bandId
 
         state
         |> Optic.get unfinishedSongLens
@@ -22,7 +23,8 @@ module Songs =
     /// Returns all finished songs by the given band. If no finished songs could
     /// be found, returns an empty map.
     let finishedByBand state bandId =
-        let finishedSongLens = Lenses.FromState.Songs.finishedByBand_ bandId
+        let finishedSongLens =
+            Lenses.FromState.Songs.finishedByBand_ bandId
 
         state
         |> Optic.get finishedSongLens

@@ -36,10 +36,16 @@ let membersForHire state band instrument =
         Bands.averageSkillLevel state band
         |> Math.roundToNearest
 
-    let averageAge = Bands.averageAge band |> Math.roundToNearest
+    let averageAge =
+        Bands.averageAge band |> Math.roundToNearest
 
-    Seq.initInfinite (fun _ ->
-        createMemberForHire averageSkillLevel averageAge band.Genre instrument)
+    Seq.initInfinite
+        (fun _ ->
+            createMemberForHire
+                averageSkillLevel
+                averageAge
+                band.Genre
+                instrument)
 
 /// Processes the given member for hire into a current member of the band.
 let hireMember state (band: Band) (memberForHire: MemberForHire) =

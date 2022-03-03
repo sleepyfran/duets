@@ -22,6 +22,7 @@ let validateNoOtherConcertsInDate state date =
 let scheduleConcert state date dayMoment cityId venueId ticketPrice =
     let currentBand = Queries.Bands.currentBand state
 
-    let concert = Concert.create date dayMoment cityId venueId ticketPrice
+    let concert =
+        Concert.create date dayMoment cityId venueId ticketPrice
 
     ConcertScheduled(currentBand, concert)

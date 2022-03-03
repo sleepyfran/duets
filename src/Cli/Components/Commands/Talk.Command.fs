@@ -32,25 +32,26 @@ module TalkCommand =
         { Name = "talk"
           Description = I18n.translate (CommandText CommandTalkDescription)
           Handler =
-            (fun args ->
-                match args with
-                | toKeyword :: name when toKeyword = "to" ->
-                    executeTalkCommand npcs name
-                | _ ->
-                    I18n.translate (CommandText CommandTalkInvalidInput)
-                    |> showMessage
+              (fun args ->
+                  match args with
+                  | toKeyword :: name when toKeyword = "to" ->
+                      executeTalkCommand npcs name
+                  | _ ->
+                      I18n.translate (CommandText CommandTalkInvalidInput)
+                      |> showMessage
 
-                    Some Scene.World) }
+                      Some Scene.World) }
 
     and private executeTalkCommand npcs name =
         let referencedName = String.concat " " name
 
         let referencedNpc =
             npcs
-            |> List.tryFind (fun talkingNpc ->
-                talkingNpc.Npc.Name = referencedName
-                || talkingNpc.Npc.Name
-                   |> String.contains referencedName)
+            |> List.tryFind
+                (fun talkingNpc ->
+                    talkingNpc.Npc.Name = referencedName
+                    || talkingNpc.Npc.Name
+                       |> String.contains referencedName)
 
         match referencedNpc with
         | Some talkingNpc -> showNpcOptions talkingNpc

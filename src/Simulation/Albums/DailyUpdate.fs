@@ -12,19 +12,20 @@ let private bandDailyUpdate state bandId albumsByBand =
     let bandAccount = Band band.Id
 
     albumsByBand
-    |> List.map (fun album ->
-        let previousDayStreams = dailyStreams album
-        let streams = previousDayStreams + album.Streams
-        let dailyRevenue = albumRevenue previousDayStreams
-        let recalculatedHype = reduceDailyHype album
+    |> List.map
+        (fun album ->
+            let previousDayStreams = dailyStreams album
+            let streams = previousDayStreams + album.Streams
+            let dailyRevenue = albumRevenue previousDayStreams
+            let recalculatedHype = reduceDailyHype album
 
-        [ yield
-              AlbumReleasedUpdate(
-                  band,
-                  Album.Released.update album streams recalculatedHype
-              )
-          if dailyRevenue > 0<dd> then
-              yield (income state bandAccount dailyRevenue) ])
+            [ yield
+                AlbumReleasedUpdate(
+                    band,
+                    Album.Released.update album streams recalculatedHype
+                )
+              if dailyRevenue > 0<dd> then
+                  yield (income state bandAccount dailyRevenue) ])
     |> List.concat
 
 /// Performs the daily update of albums from all bands. This generates the

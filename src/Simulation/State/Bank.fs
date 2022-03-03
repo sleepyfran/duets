@@ -4,7 +4,8 @@ open Aether
 open Entities
 
 let setBalance account transaction =
-    let balanceLens = Lenses.FromState.BankAccount.balanceOf_ account
+    let balanceLens =
+        Lenses.FromState.BankAccount.balanceOf_ account
 
     let updatedBalance =
         match transaction with

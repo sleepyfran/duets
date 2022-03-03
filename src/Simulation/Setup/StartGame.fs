@@ -16,15 +16,15 @@ let startGame (character: Character) (band: Band) =
       BandSongRepertoire = Band.SongRepertoire.emptyFor band.Id
       BandAlbumRepertoire = Band.AlbumRepertoire.emptyFor band.Id
       BankAccounts =
-        [ (Character character.Id,
-           BankAccount.forCharacterWithBalance character.Id 10000<dd>)
-          (Band band.Id, BankAccount.forBand band.Id) ]
-        |> Map.ofSeq
+          [ (Character character.Id,
+             BankAccount.forCharacterWithBalance character.Id 10000<dd>)
+            (Band band.Id, BankAccount.forBand band.Id) ]
+          |> Map.ofSeq
       Character = character
       CharacterSkills = [ (character.Id, Map.empty) ] |> Map.ofList
       Concerts =
-        [ (band.Id, Concert.Timeline.empty) ]
-        |> Map.ofList
+          [ (band.Id, Concert.Timeline.empty) ]
+          |> Map.ofList
       CurrentBandId = band.Id
       CurrentPosition = initialCity.Id, Node initialCity.Graph.StartingNode
       GenreMarkets = GenreMarket.create (Database.genres ())

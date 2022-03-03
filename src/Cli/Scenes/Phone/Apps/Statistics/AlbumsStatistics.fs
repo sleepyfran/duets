@@ -21,28 +21,29 @@ let rec albumsStatisticsSubScene statisticsApp =
 
 and private showAlbums releases =
     releases
-    |> List.iter (fun releasedAlbum ->
-        let innerAlbum = releasedAlbum.Album
-        let revenue = Albums.revenue releasedAlbum
+    |> List.iter
+        (fun releasedAlbum ->
+            let innerAlbum = releasedAlbum.Album
+            let revenue = Albums.revenue releasedAlbum
 
-        showSeparator None
+            showSeparator None
 
-        StatisticsAppAlbumName(innerAlbum.Name, innerAlbum.Type)
-        |> PhoneText
-        |> I18n.translate
-        |> showMessage
+            StatisticsAppAlbumName(innerAlbum.Name, innerAlbum.Type)
+            |> PhoneText
+            |> I18n.translate
+            |> showMessage
 
-        StatisticsAppAlbumReleaseDate releasedAlbum.ReleaseDate
-        |> PhoneText
-        |> I18n.translate
-        |> showMessage
+            StatisticsAppAlbumReleaseDate releasedAlbum.ReleaseDate
+            |> PhoneText
+            |> I18n.translate
+            |> showMessage
 
-        StatisticsAppAlbumStreams releasedAlbum.Streams
-        |> PhoneText
-        |> I18n.translate
-        |> showMessage
+            StatisticsAppAlbumStreams releasedAlbum.Streams
+            |> PhoneText
+            |> I18n.translate
+            |> showMessage
 
-        StatisticsAppAlbumRevenue revenue
-        |> PhoneText
-        |> I18n.translate
-        |> showMessage)
+            StatisticsAppAlbumRevenue revenue
+            |> PhoneText
+            |> I18n.translate
+            |> showMessage)
