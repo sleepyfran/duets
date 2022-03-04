@@ -82,7 +82,7 @@ and private displayEffect effect =
         |> StudioText
         |> I18n.translate
         |> showMessage
-    | ConcertScheduled (_, concert) ->
+    | ConcertScheduled (_, ScheduledConcert concert) ->
         let venue =
             Queries.World.concertSpaceById
                 (State.get ())

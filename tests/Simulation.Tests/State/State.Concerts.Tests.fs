@@ -18,7 +18,7 @@ let ``ConcertScheduled adds a concert to the given band's future schedule`` () =
     let state = State.generateOne stateGenOptions
 
     let state =
-        ConcertScheduled(dummyBand, dummyConcert)
+        ConcertScheduled(dummyBand, ScheduledConcert dummyConcert)
         |> State.Root.applyEffect state
 
     Concerts.allScheduled state dummyBand.Id
@@ -31,14 +31,20 @@ let ``ConcertUpdated removes the previous concert and adds it again with the new
     let state = State.generateOne stateGenOptions
 
     let state =
-        ConcertScheduled(dummyBand, dummyConcert)
+        ConcertScheduled(dummyBand, ScheduledConcert dummyConcert)
         |> State.Root.applyEffect state
 
     let state =
-        ConcertUpdated(dummyBand, { dummyConcert with TicketsSold = 250 })
+        ConcertUpdated(
+            dummyBand,
+            ScheduledConcert { dummyConcert with TicketsSold = 250 }
+        )
         |> State.Root.applyEffect state
 
-    let concerts = Concerts.allScheduled state dummyBand.Id
+    let concerts =
+        Concerts.allScheduled state dummyBand.Id
+        |> Set.map Concert.fromScheduled
+
     concerts |> should haveCount 1
 
     concerts

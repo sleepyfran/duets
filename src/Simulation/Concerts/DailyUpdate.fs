@@ -43,6 +43,11 @@ let private lastVisitModifier state (band: Band) concert =
 
     match lastConcertInCity with
     | Some lastConcert ->
+        let lastConcert =
+            match lastConcert with
+            | PerformedConcert (concert, _) -> concert
+            | FailedConcert concert -> concert
+
         concert.Date - lastConcert.Date
         |> fun span ->
             match span.Days with
@@ -59,11 +64,14 @@ let private dailyTicketSell state concert attendanceCap =
 
 let private concertDailyUpdate state concert =
     let currentBand = Queries.Bands.currentBand state
-    let concertInfo = Queries.Concerts.info state concert
-    let ticketPriceModifier = ticketPriceModifier currentBand concert
+    let (ScheduledConcert innerConcert) = concert
+    let concertInfo = Queries.Concerts.info state innerConcert
+
+    let ticketPriceModifier =
+        ticketPriceModifier currentBand innerConcert
 
     let lastVisitModifier =
-        lastVisitModifier state currentBand concert
+        lastVisitModifier state currentBand innerConcert
 
     let attendanceCap =
         (float currentBand.Fame / 100.0)
@@ -72,11 +80,11 @@ let private concertDailyUpdate state concert =
         * ticketPriceModifier
 
     let dailyTicketsSold =
-        dailyTicketSell state concert attendanceCap
+        dailyTicketSell state innerConcert attendanceCap
         |> Math.roundToNearest
 
     Optic.map
-        Lenses.Concerts.ticketsSold_
+        Lenses.Concerts.Scheduled.ticketsSold_
         (fun soldTickets ->
             min (concertInfo.Venue.Capacity) (soldTickets + dailyTicketsSold))
         concert

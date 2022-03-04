@@ -4,16 +4,23 @@ open Aether
 open Aether.Operators
 open Entities
 
-let addConcert (band: Band) (concert: Concert) =
+let addScheduledConcert (band: Band) (concert: ScheduledConcert) =
     let concertsLens =
         Lenses.FromState.Concerts.allByBand_ band.Id
-        >?> Lenses.Concerts.Timeline.future_
+        >?> Lenses.Concerts.Timeline.scheduled_
 
     Optic.map concertsLens (Set.add concert)
 
-let removeConcert (band: Band) (concert: Concert) =
+let addPastConcert (band: Band) (concert: PastConcert) =
     let concertsLens =
         Lenses.FromState.Concerts.allByBand_ band.Id
-        >?> Lenses.Concerts.Timeline.future_
+        >?> Lenses.Concerts.Timeline.pastEvents_
+
+    Optic.map concertsLens (Set.add concert)
+
+let removeScheduledConcert (band: Band) (concert: ScheduledConcert) =
+    let concertsLens =
+        Lenses.FromState.Concerts.allByBand_ band.Id
+        >?> Lenses.Concerts.Timeline.scheduled_
 
     Optic.map concertsLens (Set.remove concert)

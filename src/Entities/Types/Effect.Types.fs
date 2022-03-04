@@ -22,7 +22,7 @@ module EffectTypes =
         | AlbumReleased of Band * ReleasedAlbum
         | AlbumReleasedUpdate of Band * ReleasedAlbum
         | GenreMarketsUpdated of GenreMarketByGenre
-        | ConcertScheduled of Band * Concert
-        | ConcertUpdated of Band * Concert
+        | ConcertScheduled of Band * ScheduledConcert
+        | ConcertUpdated of Band * ScheduledConcert
         | WorldMoveTo of WorldCoordinates
         | Wait of int

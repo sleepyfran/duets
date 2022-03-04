@@ -25,4 +25,4 @@ let scheduleConcert state date dayMoment cityId venueId ticketPrice =
     let concert =
         Concert.create date dayMoment cityId venueId ticketPrice
 
-    ConcertScheduled(currentBand, concert)
+    ConcertScheduled(currentBand, (ScheduledConcert concert))

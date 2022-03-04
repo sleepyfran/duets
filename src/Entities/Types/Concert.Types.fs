@@ -1,5 +1,7 @@
 namespace Entities
 
+open Entities
+
 [<AutoOpen>]
 module ConcertTypes =
     /// Unique identifier of a concert.
@@ -28,12 +30,22 @@ module ConcertTypes =
                 | :? Concert as c -> compare x.Id c.Id
                 | _ -> -1
 
+    /// Represents a concert that hasn't happened yet.
+    type ScheduledConcert = ScheduledConcert of Concert
+
+    /// Represents a concert that has either been successfully performed, with
+    /// the quality of the concert associated, or a concert that failed for
+    /// one reason or another.
+    type PastConcert =
+        | PerformedConcert of Concert * Quality
+        | FailedConcert of Concert
+
     /// Defines a timeline of concerts as two lists: one for the events that
     /// have already happened and another for the ones that will happen in the
     /// future.
     type ConcertTimeline =
-        { PastEvents: Set<Concert>
-          FutureEvents: Set<Concert> }
+        { ScheduledEvents: Set<ScheduledConcert>
+          PastEvents: Set<PastConcert> }
 
     /// Holds all concerts scheduled by all bands in the game.
     type ConcertsByBand = Map<BandId, ConcertTimeline>

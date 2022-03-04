@@ -19,8 +19,8 @@ type StateGenOptions =
       PastConcertsToGenerate: int
 
       // <-- Generators -->
-      PastConcertGen: Gen<Concert>
-      FutureConcertGen: Gen<Concert>
+      PastConcertGen: Gen<PastConcert>
+      ScheduledConcertGen: Gen<ScheduledConcert>
       VenueGen: Gen<Node<CityNode>> }
 
 let defaultOptions =
@@ -28,12 +28,12 @@ let defaultOptions =
       FutureConcertsToGenerate = 0
       PastConcertsToGenerate = 0
       PastConcertGen =
-          (Concert.generator
+          (Concert.pastConcertGenerator
               { Concert.defaultOptions with
                     From = dummyToday.AddYears(-2)
                     To = dummyToday })
-      FutureConcertGen =
-          (Concert.generator
+      ScheduledConcertGen =
+          (Concert.scheduledConcertGenerator
               { Concert.defaultOptions with
                     From = dummyToday.AddDays(1)
                     To = dummyToday.AddYears(2) })
@@ -53,9 +53,11 @@ let generator (opts: StateGenOptions) =
             |> List.tail
             |> List.fold (fun city venue -> World.City.addNode venue city) city
 
-        let futureConcerts =
-            opts.FutureConcertGen
-            |> Gen.map (fun concert -> { concert with VenueId = firstVenue.Id })
+        let scheduledConcerts =
+            opts.ScheduledConcertGen
+            |> Gen.map
+                (fun (ScheduledConcert concert) ->
+                    ScheduledConcert { concert with VenueId = firstVenue.Id })
             |> Gen.sample 0 opts.FutureConcertsToGenerate
 
         let pastConcerts =
@@ -63,8 +65,8 @@ let generator (opts: StateGenOptions) =
             |> Gen.sample 0 opts.PastConcertsToGenerate
 
         let timeline =
-            { FutureEvents = Set.ofList futureConcerts
-              PastEvents = Set.ofList pastConcerts }
+            { PastEvents = Set.ofList pastConcerts
+              ScheduledEvents = Set.ofList scheduledConcerts }
 
         let! initialState = Arb.generate<State>
 

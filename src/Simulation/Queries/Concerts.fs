@@ -30,8 +30,13 @@ let scheduleForDay state bandId date =
     Optic.get concertsLens state
     |> Option.defaultValue Concert.Timeline.empty
     |> fun timeline ->
-        timeline.FutureEvents
-        |> Seq.tryFind (fun event -> event.Date = date)
+        timeline.PastEvents
+        |> Seq.tryFind
+            (fun event ->
+                match event with
+                | PerformedConcert (concert, _) -> concert.Date
+                | FailedConcert concert -> concert.Date
+                |> (=) date)
 
 /// Returns all date from today to the end of the month that have a concert
 /// scheduled.
@@ -43,7 +48,7 @@ let scheduleForMonth state bandId fromDay =
 let allScheduled state bandId =
     let lenses =
         Lenses.FromState.Concerts.allByBand_ bandId
-        >?> Lenses.Concerts.Timeline.future_
+        >?> Lenses.Concerts.Timeline.scheduled_
 
     Optic.get lenses state
     |> Option.defaultValue Set.empty
@@ -52,11 +57,15 @@ let allScheduled state bandId =
 let lastConcertInCity state bandId cityId =
     let lenses =
         Lenses.FromState.Concerts.allByBand_ bandId
-        >?> Lenses.Concerts.Timeline.past_
+        >?> Lenses.Concerts.Timeline.pastEvents_
 
     Optic.get lenses state
     |> Option.defaultValue Set.empty
     |> Set.toSeq
-    |> Seq.filter (fun concert -> concert.CityId = cityId)
-    |> Seq.sortByDescending (fun concert -> concert.Date)
+    |> Seq.filter
+        (fun concert ->
+            Concert.fromPast concert
+            |> fun c -> c.CityId = cityId)
+    |> Seq.sortByDescending
+        (fun concert -> Concert.fromPast concert |> fun c -> c.Date)
     |> Seq.tryHead

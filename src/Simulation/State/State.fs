@@ -67,9 +67,10 @@ let applyEffect state effect =
         Albums.removeReleased band album.Id state
         |> Albums.addReleased band releasedAlbum
     | GenreMarketsUpdated genreMarkets -> Market.set genreMarkets state
-    | ConcertScheduled (band, concert) -> Concerts.addConcert band concert state
+    | ConcertScheduled (band, concert) ->
+        Concerts.addScheduledConcert band concert state
     | ConcertUpdated (band, concert) ->
-        Concerts.removeConcert band concert state
-        |> Concerts.addConcert band concert
+        Concerts.removeScheduledConcert band concert state
+        |> Concerts.addScheduledConcert band concert
     | WorldMoveTo (cityId, nodeId) -> World.move cityId nodeId state
     | Wait _ -> state

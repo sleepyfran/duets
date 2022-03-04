@@ -24,7 +24,7 @@ let defaultOptions =
       CityId = dummyCity.Id
       VenueGen = City.venueGenerator }
 
-let generator (opts: ConcertGenOptions) =
+let generator opts =
     gen {
         let venues = opts.VenueGen |> Gen.sample 0 10
         let! concert = Arb.generate<Concert>
@@ -35,4 +35,22 @@ let generator (opts: ConcertGenOptions) =
                   CityId = opts.CityId
                   VenueId = List.sample venues |> fun venue -> venue.Id
                   Date = date }
+    }
+
+let pastConcertGenerator (opts: ConcertGenOptions) =
+    gen {
+        let! concert = generator opts
+        let! failed = Arb.generate<bool>
+        let! quality = Gen.choose (0, 100) |> Gen.map ((*) 1<quality>)
+
+        if failed then
+            return FailedConcert concert
+        else
+            return PerformedConcert(concert, quality)
+    }
+
+let scheduledConcertGenerator (opts: ConcertGenOptions) =
+    gen {
+        let! concert = generator opts
+        return ScheduledConcert concert
     }

@@ -101,18 +101,20 @@ module Character =
         (fun v (c: Character) -> { c with Id = v })
 
 module Concerts =
-    let ticketsSold_ =
-        (fun (c: Concert) -> c.TicketsSold),
-        (fun v (c: Concert) -> { c with TicketsSold = v })
+    module Scheduled =
+        let ticketsSold_ =
+            (fun (ScheduledConcert c) -> c.TicketsSold),
+            (fun v (ScheduledConcert c) ->
+                ScheduledConcert { c with TicketsSold = v })
 
     module Timeline =
-        let past_ =
+        let scheduled_ =
+            (fun (t: ConcertTimeline) -> t.ScheduledEvents),
+            (fun v (t: ConcertTimeline) -> { t with ScheduledEvents = v })
+
+        let pastEvents_ =
             (fun (t: ConcertTimeline) -> t.PastEvents),
             (fun v (t: ConcertTimeline) -> { t with PastEvents = v })
-
-        let future_ =
-            (fun (t: ConcertTimeline) -> t.FutureEvents),
-            (fun v (t: ConcertTimeline) -> { t with FutureEvents = v })
 
 module Song =
     let practice_ =
@@ -207,8 +209,8 @@ module FromState =
             State.concerts_
             >-> Map.keyWithDefault_
                     bandId
-                    { PastEvents = Set.empty
-                      FutureEvents = Set.empty }
+                    { ScheduledEvents = Set.empty
+                      PastEvents = Set.empty }
 
     module GenreMarkets =
         /// Lens into a specific genre market given its genre ID.

@@ -1,13 +1,15 @@
 module Entities.Concert
 
+open Entities
+
 type TicketPriceError =
     | PriceBelowZero
     | PriceTooHigh
 
 module Timeline =
     let empty =
-        { PastEvents = Set.empty
-          FutureEvents = Set.empty }
+        { ScheduledEvents = Set.empty
+          PastEvents = Set.empty }
 
 /// Creates a concert from the given parameter.
 let create date dayMoment cityId venueId ticketPrice =
@@ -29,3 +31,12 @@ let validatePrice ticketPrice =
         Error PriceTooHigh
     else
         Ok ticketPrice
+
+/// Returns the inner concert inside a past concert.
+let fromPast (concert: PastConcert) =
+    match concert with
+    | PerformedConcert (concert, _) -> concert
+    | FailedConcert concert -> concert
+
+/// Returns the inner concert inside a scheduled concert.
+let fromScheduled (ScheduledConcert concert) = concert
