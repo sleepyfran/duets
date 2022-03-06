@@ -27,7 +27,7 @@ and private showAgenda' app firstDay =
 
     let concertsInMonth =
         Concerts.scheduleForMonth state currentBand.Id firstDay
-        |> Seq.map Concert.fromPast
+        |> Seq.map Concert.fromScheduled
         |> List.ofSeq
 
     let calendarEvents =

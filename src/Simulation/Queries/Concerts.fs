@@ -30,13 +30,11 @@ let scheduleForDay state bandId date =
     Optic.get concertsLens state
     |> Option.defaultValue Concert.Timeline.empty
     |> fun timeline ->
-        timeline.PastEvents
+        timeline.ScheduledEvents
         |> Seq.tryFind
             (fun event ->
-                match event with
-                | PerformedConcert (concert, _) -> concert.Date
-                | FailedConcert concert -> concert.Date
-                |> (=) date)
+                Concert.fromScheduled event
+                |> fun concert -> concert.Date = date)
 
 /// Returns all date from today to the end of the month that have a concert
 /// scheduled.
