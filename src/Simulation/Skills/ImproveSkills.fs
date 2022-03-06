@@ -28,7 +28,7 @@ let improveBandMembersSkills state band =
     |> List.concat
     |> List.map SkillImproved
 
-let improveBandSkillsAfterComposing' randomBetween state band =
+let improveBandSkillsAfterComposing' randomBetween band state =
     if randomBetween 0 100 > 50 then
         improveBandMembersSkills state band
     else

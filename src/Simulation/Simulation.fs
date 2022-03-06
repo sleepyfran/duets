@@ -21,16 +21,16 @@ let private runDailyEffects state time =
         |> (@) (Concerts.DailyUpdate.dailyUpdate state)
     | _ -> []
 
-let private runTimeDependentEffects state time =
+let private runTimeDependentEffects time state =
     runDailyEffects state time
     |> (@) (runYearlyEffects state time)
 
-let private getAssociatedEffects state effect =
+let private getAssociatedEffects effect =
     match effect with
-    | SongStarted (band, _) -> improveBandSkillsAfterComposing state band
-    | SongImproved (band, _) -> improveBandSkillsAfterComposing state band
-    | SongPracticed (band, _) -> improveBandSkillsAfterComposing state band
-    | TimeAdvanced date -> runTimeDependentEffects state date
+    | SongStarted (band, _) -> [ improveBandSkillsAfterComposing band ]
+    | SongImproved (band, _) -> [ improveBandSkillsAfterComposing band ]
+    | SongPracticed (band, _) -> [ improveBandSkillsAfterComposing band ]
+    | TimeAdvanced date -> [ runTimeDependentEffects date ]
     | _ -> []
 
 /// Returns how many times the time has to be advanced for the given effect.
@@ -43,19 +43,21 @@ let private timeAdvanceOfEffect effect =
     | Wait times -> times
     | _ -> 0
 
-let rec private tick' (appliedEffects, updatedState) nextEffects =
-    match nextEffects with
-    | effect :: rest ->
-        let state =
-            State.Root.applyEffect updatedState effect
+let rec private tick' (appliedEffects, lastState) nextEffectFns =
+    match nextEffectFns with
+    | effectFn :: rest ->
+        effectFn lastState
+        |> List.fold
+            (fun (currentEffectChain, currentState) effect ->
+                let state =
+                    State.Root.applyEffect currentState effect
 
-        // TODO: Delay effect gathering
-        // Delay execution of these effects to allow associated effect chaining.
-        // (Example: album update -> fame update -> concert update w/ new fame)
-        let associatedEffects = getAssociatedEffects updatedState effect
+                let associatedEffects = getAssociatedEffects effect
 
-        tick' (appliedEffects @ [ effect ], state) (associatedEffects @ rest)
-    | [] -> (appliedEffects, updatedState)
+                tick' (currentEffectChain @ [ effect ], state) associatedEffects)
+            (appliedEffects, lastState)
+        |> fun acc -> tick' acc rest
+    | [] -> (appliedEffects, lastState)
 
 /// Ticks the simulation, which applies the given effect to the state and
 /// retrieves associated effects (for example: compose song -> improve skills)
@@ -65,9 +67,12 @@ let rec private tick' (appliedEffects, updatedState) nextEffects =
 ///
 /// Returns a tuple with the list of all the effects that were applied in the
 /// order in which they were applied and the updated state.
-let tick state effect =
+let tick currentState effect =
     let timeEffects =
-        timeAdvanceOfEffect effect
-        |> advanceDayMoment state.Today
+        [ fun state ->
+              timeAdvanceOfEffect effect
+              |> advanceDayMoment state.Today ]
 
-    tick' ([], state) (timeEffects @ [ effect ])
+    let effectFn = fun _ -> [ effect ]
+
+    tick' ([], currentState) (timeEffects @ [ effectFn ])

@@ -44,6 +44,19 @@ let checkTimeIncrease timeIncrease effects =
          |> List.head)
 
 [<Test>]
+let ``tick should apply the given effect`` () =
+    Simulation.tick state songStartedEffect
+    |> fst
+    |> should contain songStartedEffect
+
+[<Test>]
+let ``tick should not apply the given effect more than once`` () =
+    Simulation.tick state songStartedEffect
+    |> fst
+    |> List.filter (fun effect -> effect = songStartedEffect)
+    |> should haveLength 1
+
+[<Test>]
 let ``tick should advance time by corresponding effect type`` () =
     effectsWithTimeIncrease
     |> List.iter
