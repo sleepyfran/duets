@@ -21,9 +21,13 @@ let private runDailyEffects state time =
         |> (@) (Concerts.DailyUpdate.dailyUpdate state)
     | _ -> []
 
+let rec private runCurrentTimeChecks state time =
+    Concerts.Scheduler.moveFailedConcerts state time
+
 let private runTimeDependentEffects time state =
     runDailyEffects state time
     |> (@) (runYearlyEffects state time)
+    |> (@) (runCurrentTimeChecks state time)
 
 let private getAssociatedEffects effect =
     match effect with

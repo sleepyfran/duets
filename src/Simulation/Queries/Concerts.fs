@@ -51,6 +51,15 @@ let allScheduled state bandId =
     Optic.get lenses state
     |> Option.defaultValue Set.empty
 
+/// Returns all past concerts.
+let allPast state bandId =
+    let lenses =
+        Lenses.FromState.Concerts.allByBand_ bandId
+        >?> Lenses.Concerts.Timeline.pastEvents_
+
+    Optic.get lenses state
+    |> Option.defaultValue Set.empty
+
 /// Returns the last concert that happened in the city, if any.
 let lastConcertInCity state bandId cityId =
     let lenses =

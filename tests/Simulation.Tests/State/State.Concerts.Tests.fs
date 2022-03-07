@@ -49,3 +49,24 @@ let ``ConcertUpdated removes the previous concert and adds it again with the new
 
     concerts
     |> Set.iter (fun concert -> concert.TicketsSold |> should equal 250)
+
+[<Test>]
+let ``ConcertCancelled removes scheduled concert and adds it as failed to past concerts``
+    ()
+    =
+    let state = State.generateOne stateGenOptions
+
+    let state =
+        ConcertCancelled(dummyBand, FailedConcert dummyConcert)
+        |> State.Root.applyEffect state
+
+    let scheduledConcerts = Concerts.allScheduled state dummyBand.Id
+
+    let pastConcerts = Concerts.allPast state dummyBand.Id
+
+    scheduledConcerts |> should haveCount 0
+    pastConcerts |> should haveCount 1
+
+    pastConcerts
+    |> Set.iter
+        (fun concert -> concert |> should be (ofCase <@ FailedConcert @>))

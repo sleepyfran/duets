@@ -246,7 +246,7 @@ and commonText key =
     | CommonSongWithDetails (name, quality, length) ->
         $"""{name} (Quality: {TextStyles.level quality}%%, Length: {length.Minutes}:{length.Seconds})"""
 
-and concertSpaceText key =
+and concertText key =
     match key with
     | ConcertSpaceLobbyDescription space ->
         $"""The lobby of {TextStyles.place space.Name} is mostly empty right now. Only a person asking for tickets is to be seen"""
@@ -256,6 +256,9 @@ and concertSpaceText key =
         $"""You go up the stage of {TextStyles.place space.Name} and you're temporarily blinded by the lights pointing towards you. After a few seconds you begin to see some faces in the crowd and the people start whistling and applauding. Time to give your everything!"""
     | ConcertSpaceStageName -> "Stage"
     | ConcertSpaceStartConcert -> "Start concert"
+    | ConcertFailed (band, venue, concert) ->
+        TextStyles.error
+            $"Your band {band.Name} was supposed to have a concert {formatDate concert.Date} {dayMomentName concert.DayMoment} at {venue.Name} but didn't make it in time. The concert has been cancelled and fame took a little hit because of it"
 
 and creatorText key =
     match key with
@@ -552,7 +555,7 @@ and fromConstant textNamespace =
     match textNamespace with
     | CommandText key -> commandText key
     | CommonText key -> commonText key
-    | ConcertSpaceText key -> concertSpaceText key
+    | ConcertText key -> concertText key
     | CreatorText key -> creatorText key
     | MainMenuText key -> mainMenuText key
     | PhoneText key -> phoneText key

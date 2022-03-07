@@ -1,5 +1,7 @@
 namespace Entities
 
+open Entities
+
 [<AutoOpen>]
 module EffectTypes =
     /// Defines an effect that happened after an action in the game. For example
@@ -24,5 +26,6 @@ module EffectTypes =
         | GenreMarketsUpdated of GenreMarketByGenre
         | ConcertScheduled of Band * ScheduledConcert
         | ConcertUpdated of Band * ScheduledConcert
+        | ConcertCancelled of Band * PastConcert
         | WorldMoveTo of WorldCoordinates
         | Wait of int

@@ -1,5 +1,6 @@
 module Simulation.Concerts.Scheduler
 
+open Common
 open Entities
 open Simulation
 
@@ -26,3 +27,31 @@ let scheduleConcert state date dayMoment cityId venueId ticketPrice =
         Concert.create date dayMoment cityId venueId ticketPrice
 
     ConcertScheduled(currentBand, (ScheduledConcert concert))
+
+/// Checks whether there's any concert that was supposed to happen but didn't
+/// (eg: the band didn't make it to the concert and therefore the concert
+/// didn't happen) this creates the ConcertFailed effect which moves the concerts
+/// to past concerts with the failed type.
+let moveFailedConcerts state date =
+    let currentBand = Queries.Bands.currentBand state
+
+    let scheduledConcerts =
+        Queries.Concerts.allScheduled state currentBand.Id
+
+    scheduledConcerts
+    |> Seq.choose
+        (fun (ScheduledConcert concert) ->
+            // The date by default does not include the day moment of the
+            // concert, so we need to take it into account.
+            let concertDate =
+                concert.Date
+                |> Calendar.Transform.changeDayMoment concert.DayMoment
+
+            if date > concertDate then
+                FailedConcert concert
+                |> Tuple.two currentBand
+                |> ConcertCancelled
+                |> Some
+            else
+                None)
+    |> List.ofSeq

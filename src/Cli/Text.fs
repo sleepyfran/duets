@@ -61,12 +61,13 @@ and CommonText =
     | CommonDateWithDay of date: Date
     | CommonSongWithDetails of name: string * quality: Quality * length: Length
 
-and ConcertSpaceText =
+and ConcertText =
     | ConcertSpaceLobbyDescription of space: ConcertSpace
     | ConcertSpaceBarDescription of space: ConcertSpace
     | ConcertSpaceStageDescription of space: ConcertSpace
     | ConcertSpaceStageName
     | ConcertSpaceStartConcert
+    | ConcertFailed of band: Band * venue: ConcertSpace * concert: Concert
 
 and CreatorText =
     | CharacterCreatorInitialPrompt
@@ -262,7 +263,7 @@ and TextNamespace =
     | CommandText of CommandText
     | CommonText of CommonText
     | CreatorText of CreatorText
-    | ConcertSpaceText of ConcertSpaceText
+    | ConcertText of ConcertText
     | MainMenuText of MainMenuText
     | PhoneText of PhoneText
     | RehearsalSpaceText of RehearsalSpaceText

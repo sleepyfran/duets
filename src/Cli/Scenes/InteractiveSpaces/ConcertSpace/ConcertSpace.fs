@@ -9,7 +9,7 @@ open Simulation.Queries.Bands
 let private instrumentFromType instrumentType =
     let create fn =
         fn
-            (I18n.translate (ConcertSpaceText ConcertSpaceStartConcert))
+            (I18n.translate (ConcertText ConcertSpaceStartConcert))
             (fun _ -> None)
 
     match instrumentType with
@@ -28,25 +28,16 @@ let getRoomName room =
     match room with
     | Lobby _ -> I18n.translate (CommonText CommonLobbyName)
     | Bar _ -> I18n.translate (CommonText CommonBarName)
-    | Stage _ -> I18n.translate (ConcertSpaceText ConcertSpaceStageName)
+    | Stage _ -> I18n.translate (ConcertText ConcertSpaceStageName)
 
 let getRoomDescription room =
     match room with
     | Lobby space ->
-        I18n.translate (
-            ConcertSpaceLobbyDescription space
-            |> ConcertSpaceText
-        )
+        I18n.translate (ConcertSpaceLobbyDescription space |> ConcertText)
     | Bar space ->
-        I18n.translate (
-            ConcertSpaceBarDescription space
-            |> ConcertSpaceText
-        )
+        I18n.translate (ConcertSpaceBarDescription space |> ConcertText)
     | Stage space ->
-        I18n.translate (
-            ConcertSpaceStageDescription space
-            |> ConcertSpaceText
-        )
+        I18n.translate (ConcertSpaceStageDescription space |> ConcertText)
 
 let getRoomObjects room =
     let state = State.get ()

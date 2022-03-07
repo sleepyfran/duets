@@ -126,3 +126,31 @@ let ``tick should update markets every year in the dawn`` () =
     |> fst
     |> List.filter filterMarketUpdateEffects
     |> should haveLength 0
+
+[<Test>]
+let ``tick should check for failed concerts in every time update`` () =
+    let state =
+        State.generateOne
+            { State.defaultOptions with
+                  FutureConcertsToGenerate = 0 }
+        |> State.Concerts.addScheduledConcert
+            dummyBand
+            (ScheduledConcert dummyConcert)
+
+    let dateAfterConcert =
+        Simulation.Queries.Calendar.today state
+        |> Calendar.Ops.addDays 31
+        |> Calendar.Transform.changeDayMoment Midnight
+
+    let stateAfterConcert =
+        TimeAdvanced dateAfterConcert
+        |> State.Root.applyEffect state
+
+    Simulation.tick stateAfterConcert songStartedEffect
+    |> fst
+    |> List.filter
+        (fun effect ->
+            match effect with
+            | ConcertCancelled _ -> true
+            | _ -> false)
+    |> should haveLength 1
