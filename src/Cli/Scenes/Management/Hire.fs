@@ -9,15 +9,20 @@ open Entities
 open Simulation.Bands.Members
 open Simulation.Queries
 
+let private roleText instrumentType =
+    CommonRole instrumentType
+    |> CommonText
+    |> I18n.translate
+
 let rec hireSubScene () =
-    let availableRoles = Database.roles ()
+    let availableRoles = Database.roles
 
     let selectedRole =
         showOptionalChoicePrompt
             (RehearsalSpaceText HireMemberRolePrompt
              |> I18n.translate)
             (CommonText CommonCancel |> I18n.translate)
-            I18n.constant
+            roleText
             availableRoles
 
     match selectedRole with
@@ -29,16 +34,15 @@ and promptForMemberSelection role =
 
     let band = Bands.currentBand state
 
-    let instrument =
-        Instrument.createInstrument (Instrument.Type.from role)
+    let instrument = Instrument.createInstrument role
 
     let availableMember =
         membersForHire state band instrument.Type
         |> Seq.head
 
-    showMemberForHire band role availableMember
+    showMemberForHire band availableMember
 
-and showMemberForHire band selectedInstrument availableMember =
+and showMemberForHire band availableMember =
     HireMemberCharacterDescription(
         availableMember.Character.Name,
         availableMember.Character.Gender

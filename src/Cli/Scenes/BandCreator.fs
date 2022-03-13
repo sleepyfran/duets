@@ -15,6 +15,11 @@ let private showNameError error =
     |> I18n.translate
     |> showMessage
 
+let private instrumentNameText instrumentType =
+    CommonInstrument instrumentType
+    |> CommonText
+    |> I18n.translate
+
 /// Shows a wizard to create a band for the given character.
 let rec bandCreator (character: Character) = promptForName character
 
@@ -40,12 +45,12 @@ and private promptForGenre character name =
     |> promptForInstrument character name
 
 and private promptForInstrument character name genre =
-    let instruments = Database.roles ()
+    let instruments = Database.roles
 
     showChoicePrompt
         (CreatorText BandCreatorGenrePrompt
          |> I18n.translate)
-        I18n.constant
+        instrumentNameText
         instruments
     |> promptForConfirmation character name genre
 
@@ -64,10 +69,7 @@ and private promptForConfirmation character name genre instrument =
 
     if confirmed then
         let characterMember =
-            Band.Member.from
-                character
-                (Instrument.Type.from instrument)
-                (Calendar.gameBeginning)
+            Band.Member.from character instrument (Calendar.gameBeginning)
 
         let band =
             Band.from name genre characterMember Calendar.gameBeginning

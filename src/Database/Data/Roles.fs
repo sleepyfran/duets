@@ -1,10 +1,6 @@
 module Data.Roles
 
-open Microsoft.FSharp.Reflection
 open Entities
 
-/// Retrieves the name of all the roles available.
-let getNames () =
-    FSharpType.GetUnionCases typeof<InstrumentType>
-    |> Array.map (fun uc -> uc.Name)
-    |> List.ofArray
+/// List of all available roles in the game.
+let all = [ Guitar; Drums; Bass; Vocals ]

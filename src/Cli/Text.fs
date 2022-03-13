@@ -60,6 +60,8 @@ and CommonText =
     | CommonDayMomentWithTime of dayMoment: DayMoment
     | CommonDateWithDay of date: Date
     | CommonSongWithDetails of name: string * quality: Quality * length: Length
+    | CommonInstrument of instrument: InstrumentType
+    | CommonRole of instrument: InstrumentType
 
 and ConcertText =
     | ConcertSpaceLobbyDescription of space: ConcertSpace
@@ -83,7 +85,7 @@ and CreatorText =
         characterName: string *
         bandName: string *
         bandGenre: string *
-        instrument: string
+        instrument: InstrumentType
     | CreatorErrorCharacterNameTooShort
     | CreatorErrorCharacterNameTooLong
     | CreatorErrorCharacterAgeTooYoung

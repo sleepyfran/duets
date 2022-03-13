@@ -30,6 +30,14 @@ and instrumentName instrumentType =
     | Guitar -> "Guitar"
     | Vocals -> "Microphone"
 
+/// Returns the formatted role name given its type.
+and roleName instrumentType =
+    match instrumentType with
+    | Bass -> "Bassist"
+    | Drums -> "Drummer"
+    | Guitar -> "Guitarist"
+    | Vocals -> "Singer"
+
 /// Returns the formatted skill name given its ID.
 and skillName id =
     match id with
@@ -245,6 +253,8 @@ and commonText key =
         $"""{TextStyles.highlight (dayName date)}, {TextStyles.faded (formatDate date)}"""
     | CommonSongWithDetails (name, quality, length) ->
         $"""{name} (Quality: {TextStyles.level quality}%%, Length: {length.Minutes}:{length.Seconds})"""
+    | CommonInstrument instrumentType -> instrumentName instrumentType
+    | CommonRole instrumentType -> roleName instrumentType
 
 and concertText key =
     match key with
@@ -281,7 +291,9 @@ and creatorText key =
                                      bandName,
                                      bandGenre,
                                      instrument) ->
-        $"""You'll be playing as {TextStyles.highlight characterName} in the band {TextStyles.highlight bandName} playing {TextStyles.highlight bandGenre} as a {TextStyles.highlight instrument}"""
+        $"""You'll be playing as {TextStyles.highlight characterName} in the band {TextStyles.highlight bandName} playing {TextStyles.highlight bandGenre} as a {roleName instrument
+                                                                                                                                                                 |> String.lowercase
+                                                                                                                                                                 |> TextStyles.highlight}"""
     | CreatorErrorCharacterNameTooShort ->
         TextStyles.error "Your character's name is too short"
     | CreatorErrorCharacterNameTooLong ->

@@ -11,7 +11,7 @@ let private readKey key =
     |> Serializer.deserialize
 
 /// Returns all available roles in the game.
-let roles = Data.Roles.getNames
+let roles = Data.Roles.all
 
 /// Returns all available vocal styles in the game.
 let vocalStyles = Data.VocalStyles.getWithNames
