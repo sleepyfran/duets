@@ -23,20 +23,20 @@ let private instrumentFromType instrumentType =
     | InstrumentType.Guitar -> create Objects.guitar
     | InstrumentType.Vocals -> create Objects.microphone
 
-let getPlaceName room =
+let private getPlaceName room =
     match room with
     | RehearsalSpaceRoom.Lobby space -> Literal space.Name
     | RehearsalSpaceRoom.Bar space -> Literal space.Name
     | RehearsalRoom space -> Literal space.Name
 
-let getRoomName room =
+let private getRoomName room =
     match room with
     | RehearsalSpaceRoom.Lobby _ -> I18n.translate (CommonText CommonLobbyName)
     | RehearsalSpaceRoom.Bar _ -> I18n.translate (CommonText CommonBarName)
     | RehearsalRoom _ ->
         I18n.translate (RehearsalSpaceText RehearsalSpaceRehearsalRoomName)
 
-let getRoomDescription room =
+let private getRoomDescription room =
     match room with
     | RehearsalSpaceRoom.Lobby _ ->
         I18n.translate (RehearsalSpaceText RehearsalSpaceLobbyDescription)
@@ -47,7 +47,7 @@ let getRoomDescription room =
             RehearsalSpaceText RehearsalSpaceRehearsalRoomDescription
         )
 
-let getRoomObjects room =
+let private getRoomObjects room =
     let state = State.get ()
 
     let characterInstrument =
@@ -60,7 +60,7 @@ let getRoomObjects room =
     | RehearsalSpaceRoom.Bar _ -> []
     | RehearsalRoom _ -> [ characterInstrument ]
 
-let getRoomCommands room =
+let private getRoomCommands room =
     match room with
     | RehearsalSpaceRoom.Lobby _ -> []
     | RehearsalSpaceRoom.Bar _ -> []

@@ -7,17 +7,17 @@ open Cli.Text
 open Entities
 open Simulation
 
-let getPlaceName room =
+let private getPlaceName room =
     match room with
     | MasteringRoom studio -> I18n.constant studio.Name
     | RecordingRoom studio -> I18n.constant studio.Name
 
-let getRoomName room =
+let private getRoomName room =
     match room with
     | MasteringRoom _ -> I18n.translate (StudioText StudioMasteringRoomName)
     | RecordingRoom _ -> I18n.translate (StudioText StudioRecordingRoomName)
 
-let getRoomDescription room =
+let private getRoomDescription room =
     match room with
     | MasteringRoom studio ->
         StudioMasteringRoomDescription studio
@@ -26,9 +26,9 @@ let getRoomDescription room =
     | RecordingRoom _ ->
         I18n.translate (StudioText StudioRecordingRoomDescription)
 
-let getRoomObjects _ = []
+let private getRoomObjects _ = []
 
-let getRoomCommands room =
+let private getRoomCommands room =
     let state = State.get ()
     let currentBand = Queries.Bands.currentBand state
 

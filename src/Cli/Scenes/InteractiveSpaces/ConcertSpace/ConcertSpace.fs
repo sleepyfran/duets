@@ -19,19 +19,19 @@ let private instrumentFromType instrumentType =
     | InstrumentType.Guitar -> create Objects.guitar
     | InstrumentType.Vocals -> create Objects.microphone
 
-let getPlaceName room =
+let private getPlaceName room =
     match room with
     | Lobby space -> Literal space.Name
     | Bar space -> Literal space.Name
     | Stage space -> Literal space.Name
 
-let getRoomName room =
+let private getRoomName room =
     match room with
     | Lobby _ -> I18n.translate (CommonText CommonLobbyName)
     | Bar _ -> I18n.translate (CommonText CommonBarName)
     | Stage _ -> I18n.translate (ConcertText ConcertSpaceStageName)
 
-let getRoomDescription room =
+let private getRoomDescription room =
     match room with
     | Lobby space ->
         I18n.translate (ConcertSpaceLobbyDescription space |> ConcertText)
@@ -40,7 +40,7 @@ let getRoomDescription room =
     | Stage space ->
         I18n.translate (ConcertSpaceStageDescription space |> ConcertText)
 
-let getRoomObjects room =
+let private getRoomObjects room =
     let state = State.get ()
 
     let characterInstrument =
@@ -53,7 +53,7 @@ let getRoomObjects room =
     | Bar _ -> []
     | Stage _ -> [ characterInstrument ]
 
-let getRoomCommands _ = []
+let private getRoomCommands _ = []
 
 /// Creates an interactive scene inside of a concert space in the given city,
 /// place and room.
