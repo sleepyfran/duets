@@ -11,6 +11,6 @@ module RehearsalSpaceTypes =
 
     /// Defines all types of rooms that can appear inside of a rehearsal space.
     type RehearsalSpaceRoom =
-        | Lobby of space: RehearsalSpace
-        | Bar of space: RehearsalSpace
-        | RehearsalRoom of space: RehearsalSpace
+        | Lobby
+        | Bar
+        | RehearsalRoom

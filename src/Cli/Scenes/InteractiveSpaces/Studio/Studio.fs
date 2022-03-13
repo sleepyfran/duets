@@ -7,28 +7,23 @@ open Cli.Text
 open Entities
 open Simulation
 
-let private getPlaceName room =
-    match room with
-    | MasteringRoom studio -> I18n.constant studio.Name
-    | RecordingRoom studio -> I18n.constant studio.Name
-
 let private getRoomName room =
     match room with
     | MasteringRoom _ -> I18n.translate (StudioText StudioMasteringRoomName)
     | RecordingRoom _ -> I18n.translate (StudioText StudioRecordingRoomName)
 
-let private getRoomDescription room =
+let private getRoomDescription studio room =
     match room with
-    | MasteringRoom studio ->
+    | MasteringRoom ->
         StudioMasteringRoomDescription studio
         |> StudioText
         |> I18n.translate
-    | RecordingRoom _ ->
+    | RecordingRoom ->
         I18n.translate (StudioText StudioRecordingRoomDescription)
 
 let private getRoomObjects _ = []
 
-let private getRoomCommands room =
+let private getRoomCommands studio room =
     let state = State.get ()
     let currentBand = Queries.Bands.currentBand state
 
@@ -38,7 +33,7 @@ let private getRoomCommands room =
     let hasUnreleasedAlbums = not (Map.isEmpty unreleasedAlbums)
 
     match room with
-    | MasteringRoom studio ->
+    | MasteringRoom ->
         let createRecordOption =
             (StudioText StudioTalkCreateRecord
              |> I18n.translate),
@@ -64,7 +59,7 @@ let private getRoomCommands room =
                     |> I18n.translate
                 Options = talkOptions }
           ] ]
-    | RecordingRoom _ -> []
+    | RecordingRoom -> []
 
 /// Creates an interactive scene inside of a studio in the given city, place
 /// and room.
@@ -85,8 +80,8 @@ let studioSpace city place placeId roomId =
                 |> fun name -> (direction, name, Room(placeId, connectedRoomId)))
 
     let exit = exitOfNode city roomId place.Exits
-    let description = getRoomDescription room
+    let description = getRoomDescription place.Space room
     let objects = getRoomObjects room
-    let commands = getRoomCommands room
+    let commands = getRoomCommands place.Space room
 
     showWorldCommandPrompt entrances exit description objects commands

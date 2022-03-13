@@ -44,15 +44,13 @@ and addDuetsRehearsalSpace street city =
           Price = 300<dd> }
 
     let lobby =
-        RehearsalSpaceRoom.Lobby rehearsalSpace
-        |> World.Node.create
+        RehearsalSpaceRoom.Lobby |> World.Node.create
 
     let bar =
-        RehearsalSpaceRoom.Bar rehearsalSpace
-        |> World.Node.create
+        RehearsalSpaceRoom.Bar |> World.Node.create
 
     let rehearsalRoom =
-        RehearsalSpaceRoom.RehearsalRoom rehearsalSpace
+        RehearsalSpaceRoom.RehearsalRoom
         |> World.Node.create
 
     let node =
@@ -73,12 +71,10 @@ and addDuetsStudio street city =
     let studio = List.head (Database.studios ())
 
     let masteringRoom =
-        StudioRoom.MasteringRoom studio
-        |> World.Node.create
+        StudioRoom.MasteringRoom |> World.Node.create
 
     let recordingRoom =
-        StudioRoom.RecordingRoom studio
-        |> World.Node.create
+        StudioRoom.RecordingRoom |> World.Node.create
 
     let node =
         World.Place.create studio masteringRoom
@@ -99,16 +95,13 @@ and addPalacAkropolis street city =
           Capacity = 1000 }
 
     let lobby =
-        ConcertSpaceRoom.Lobby concertSpace
-        |> World.Node.create
+        ConcertSpaceRoom.Lobby |> World.Node.create
 
     let bar =
-        ConcertSpaceRoom.Bar concertSpace
-        |> World.Node.create
+        ConcertSpaceRoom.Bar |> World.Node.create
 
     let stage =
-        ConcertSpaceRoom.Stage concertSpace
-        |> World.Node.create
+        ConcertSpaceRoom.Stage |> World.Node.create
 
     let node =
         World.Place.create concertSpace lobby
@@ -131,16 +124,13 @@ and addRedutaJazzClub street city =
           Capacity = 250 }
 
     let lobby =
-        ConcertSpaceRoom.Lobby concertSpace
-        |> World.Node.create
+        ConcertSpaceRoom.Lobby |> World.Node.create
 
     let bar =
-        ConcertSpaceRoom.Bar concertSpace
-        |> World.Node.create
+        ConcertSpaceRoom.Bar |> World.Node.create
 
     let stage =
-        ConcertSpaceRoom.Stage concertSpace
-        |> World.Node.create
+        ConcertSpaceRoom.Stage |> World.Node.create
 
     let node =
         World.Place.create concertSpace lobby

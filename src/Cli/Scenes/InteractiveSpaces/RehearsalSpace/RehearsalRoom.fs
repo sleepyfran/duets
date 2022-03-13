@@ -23,26 +23,20 @@ let private instrumentFromType instrumentType =
     | InstrumentType.Guitar -> create Objects.guitar
     | InstrumentType.Vocals -> create Objects.microphone
 
-let private getPlaceName room =
-    match room with
-    | RehearsalSpaceRoom.Lobby space -> Literal space.Name
-    | RehearsalSpaceRoom.Bar space -> Literal space.Name
-    | RehearsalRoom space -> Literal space.Name
-
 let private getRoomName room =
     match room with
-    | RehearsalSpaceRoom.Lobby _ -> I18n.translate (CommonText CommonLobbyName)
-    | RehearsalSpaceRoom.Bar _ -> I18n.translate (CommonText CommonBarName)
-    | RehearsalRoom _ ->
+    | RehearsalSpaceRoom.Lobby -> I18n.translate (CommonText CommonLobbyName)
+    | RehearsalSpaceRoom.Bar -> I18n.translate (CommonText CommonBarName)
+    | RehearsalRoom ->
         I18n.translate (RehearsalSpaceText RehearsalSpaceRehearsalRoomName)
 
 let private getRoomDescription room =
     match room with
-    | RehearsalSpaceRoom.Lobby _ ->
+    | RehearsalSpaceRoom.Lobby ->
         I18n.translate (RehearsalSpaceText RehearsalSpaceLobbyDescription)
-    | RehearsalSpaceRoom.Bar _ ->
+    | RehearsalSpaceRoom.Bar ->
         I18n.translate (RehearsalSpaceText RehearsalSpaceBarDescription)
-    | RehearsalRoom _ ->
+    | RehearsalSpaceRoom.RehearsalRoom ->
         I18n.translate (
             RehearsalSpaceText RehearsalSpaceRehearsalRoomDescription
         )
@@ -56,15 +50,15 @@ let private getRoomObjects room =
         |> instrumentFromType
 
     match room with
-    | RehearsalSpaceRoom.Lobby _ -> []
-    | RehearsalSpaceRoom.Bar _ -> []
-    | RehearsalRoom _ -> [ characterInstrument ]
+    | RehearsalSpaceRoom.Lobby -> []
+    | RehearsalSpaceRoom.Bar -> []
+    | RehearsalSpaceRoom.RehearsalRoom -> [ characterInstrument ]
 
 let private getRoomCommands room =
     match room with
-    | RehearsalSpaceRoom.Lobby _ -> []
-    | RehearsalSpaceRoom.Bar _ -> []
-    | RehearsalRoom _ ->
+    | RehearsalSpaceRoom.Lobby -> []
+    | RehearsalSpaceRoom.Bar -> []
+    | RehearsalSpaceRoom.RehearsalRoom ->
         [ { Name = "manage"
             Description =
                 I18n.translate (

@@ -18,5 +18,5 @@ module StudioTypes =
 
     /// Defines all types of rooms that can appear inside of a studio.
     type StudioRoom =
-        | MasteringRoom of Studio
-        | RecordingRoom of Studio
+        | MasteringRoom
+        | RecordingRoom

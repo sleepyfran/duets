@@ -19,25 +19,18 @@ let private instrumentFromType instrumentType =
     | InstrumentType.Guitar -> create Objects.guitar
     | InstrumentType.Vocals -> create Objects.microphone
 
-let private getPlaceName room =
-    match room with
-    | Lobby space -> Literal space.Name
-    | Bar space -> Literal space.Name
-    | Stage space -> Literal space.Name
-
 let private getRoomName room =
     match room with
     | Lobby _ -> I18n.translate (CommonText CommonLobbyName)
     | Bar _ -> I18n.translate (CommonText CommonBarName)
     | Stage _ -> I18n.translate (ConcertText ConcertSpaceStageName)
 
-let private getRoomDescription room =
+let private getRoomDescription space room =
     match room with
-    | Lobby space ->
+    | Lobby ->
         I18n.translate (ConcertSpaceLobbyDescription space |> ConcertText)
-    | Bar space ->
-        I18n.translate (ConcertSpaceBarDescription space |> ConcertText)
-    | Stage space ->
+    | Bar -> I18n.translate (ConcertSpaceBarDescription space |> ConcertText)
+    | Stage ->
         I18n.translate (ConcertSpaceStageDescription space |> ConcertText)
 
 let private getRoomObjects room =
@@ -49,9 +42,9 @@ let private getRoomObjects room =
         |> instrumentFromType
 
     match room with
-    | Lobby _ -> []
-    | Bar _ -> []
-    | Stage _ -> [ characterInstrument ]
+    | Lobby -> []
+    | Bar -> []
+    | Stage -> [ characterInstrument ]
 
 let private getRoomCommands _ = []
 
@@ -74,7 +67,7 @@ let concertSpace city place placeId roomId =
                 |> fun name -> (direction, name, Room(placeId, connectedRoomId)))
 
     let exit = exitOfNode city roomId place.Exits
-    let description = getRoomDescription room
+    let description = getRoomDescription place.Space room
     let objects = getRoomObjects room
     let commands = getRoomCommands room
 

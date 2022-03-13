@@ -71,8 +71,7 @@ let dummyConcertSpace =
 
 let dummyVenue =
     let lobby =
-        ConcertSpaceRoom.Lobby dummyConcertSpace
-        |> World.Node.create
+        ConcertSpaceRoom.Lobby |> World.Node.create
 
     World.Place.create dummyConcertSpace lobby
     |> ConcertPlace
