@@ -62,15 +62,18 @@ and private promptForConfirmation character name genre instrument =
             |> I18n.translate
         )
 
-    let characterMember =
-        Band.Member.from
-            character
-            (Instrument.Type.from instrument)
-            (Calendar.gameBeginning)
+    if confirmed then
+        let characterMember =
+            Band.Member.from
+                character
+                (Instrument.Type.from instrument)
+                (Calendar.gameBeginning)
 
-    let band =
-        Band.from name genre characterMember Calendar.gameBeginning
+        let band =
+            Band.from name genre characterMember Calendar.gameBeginning
 
-    startGame character band |> Effect.apply
-    clearScreen ()
-    Scene.World
+        startGame character band |> Effect.apply
+        clearScreen ()
+        Scene.World
+    else
+        Scene.CharacterCreator
