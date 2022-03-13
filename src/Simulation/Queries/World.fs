@@ -59,6 +59,13 @@ module World =
         |> List.ofSeq
         |> List.map (fun keyValue -> (keyValue.Key, keyValue.Value))
 
+    /// Returns the coordinates of an exit, if there's any, linked to the
+    /// current node.
+    let exitsOfNode currentNodeId exits =
+        exits
+        |> Map.tryFind currentNodeId
+        |> Option.map Node
+
     /// Returns the content of the current position of the player and an optional
     /// ID to a room inside that place (if any).
     let currentPosition state =

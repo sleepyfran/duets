@@ -2,9 +2,10 @@ module Cli.Scenes.InteractiveSpaces.ConcertSpace
 
 open Agents
 open Cli.Scenes.InteractiveSpaces
+open Cli.Scenes.InteractiveSpaces.Components
 open Cli.Text
 open Entities
-open Simulation.Queries.Bands
+open Simulation
 
 let private instrumentFromType instrumentType =
     let create fn =
@@ -43,7 +44,7 @@ let getRoomObjects room =
     let state = State.get ()
 
     let characterInstrument =
-        currentPlayableMember state
+        Queries.Bands.currentPlayableMember state
         |> fun bandMember -> bandMember.Role
         |> instrumentFromType
 
@@ -53,3 +54,28 @@ let getRoomObjects room =
     | Stage _ -> [ characterInstrument ]
 
 let getRoomCommands _ = []
+
+/// Creates an interactive scene inside of a concert space in the given city,
+/// place and room.
+let concertSpace city place placeId roomId =
+    let roomId =
+        roomId
+        |> Option.defaultValue place.Rooms.StartingNode
+
+    let room =
+        Queries.World.contentOf place.Rooms roomId
+
+    let entrances =
+        Queries.World.availableDirections roomId place.Rooms
+        |> List.map
+            (fun (direction, connectedRoomId) ->
+                Queries.World.contentOf place.Rooms connectedRoomId
+                |> getRoomName
+                |> fun name -> (direction, name, Room(placeId, connectedRoomId)))
+
+    let exit = exitOfNode city roomId place.Exits
+    let description = getRoomDescription room
+    let objects = getRoomObjects room
+    let commands = getRoomCommands room
+
+    showWorldCommandPrompt entrances exit description objects commands
