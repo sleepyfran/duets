@@ -318,6 +318,9 @@ and mainMenuText key =
     | MainMenuExit -> TextStyles.faded "Exit"
     | MainMenuSavegameNotAvailable ->
         TextStyles.error "No savegame available. Create a new game"
+    | MainMenuNewGameReplacePrompt ->
+        TextStyles.danger
+            "Creating a new game will replace your current savegame and all the progress will be lost, are you sure?"
 
 and phoneText key =
     match key with

@@ -99,6 +99,7 @@ and MainMenuText =
     | MainMenuNewGame
     | MainMenuLoadGame
     | MainMenuExit
+    | MainMenuNewGameReplacePrompt
     | MainMenuSavegameNotAvailable
 
 and PhoneText =

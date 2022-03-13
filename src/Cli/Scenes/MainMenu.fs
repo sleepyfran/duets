@@ -26,6 +26,8 @@ let private textFromOption opt =
 /// Main menu of the game where the user can choose to either start a new game
 /// or load a previous one.
 let rec mainMenu savegameState =
+    clearScreen ()
+
     I18n.translate (CommonText GameName) |> showFiglet
     showGameInfo gameVersion
 
@@ -44,6 +46,21 @@ let rec mainMenu savegameState =
               if hasSavegameAvailable then LoadGame ]
 
     match selectedChoice with
-    | Some NewGame -> Scene.CharacterCreator
+    | Some NewGame -> createNewGame savegameState hasSavegameAvailable
     | Some LoadGame -> Scene.World
     | None -> Scene.Exit
+
+and private createNewGame savegameState hasSavegameAvailable =
+    if hasSavegameAvailable then
+        let confirmed =
+            showConfirmationPrompt (
+                MainMenuText MainMenuNewGameReplacePrompt
+                |> I18n.translate
+            )
+
+        if confirmed then
+            Scene.CharacterCreator
+        else
+            mainMenu savegameState
+    else
+        Scene.CharacterCreator
