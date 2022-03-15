@@ -74,13 +74,13 @@ let rehearsalSpace city place placeId roomId =
         |> Option.defaultValue place.Rooms.StartingNode
 
     let room =
-        Queries.World.contentOf place.Rooms roomId
+        Queries.World.Common.contentOf place.Rooms roomId
 
     let entrances =
-        Queries.World.availableDirections roomId place.Rooms
+        Queries.World.Common.availableDirections roomId place.Rooms
         |> List.map
             (fun (direction, connectedRoomId) ->
-                Queries.World.contentOf place.Rooms connectedRoomId
+                Queries.World.Common.contentOf place.Rooms connectedRoomId
                 |> getRoomName
                 |> fun name -> (direction, name, Room(placeId, connectedRoomId)))
 

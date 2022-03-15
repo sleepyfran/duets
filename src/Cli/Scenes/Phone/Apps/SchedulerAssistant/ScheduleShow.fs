@@ -92,7 +92,7 @@ and private promptForDayMoment app date =
     | None -> app ()
 
 and private promptForCity app date dayMoment =
-    let cities = World.allCities (State.get ())
+    let cities = World.Common.allCities (State.get ())
 
     let selectedCity =
         showOptionalChoicePrompt
@@ -110,7 +110,7 @@ and private promptForVenue app date dayMoment city =
     let state = State.get ()
 
     let venues =
-        World.allConcertSpacesOfCity state city.Id
+        World.ConcertSpace.allInCity state city.Id
 
     let selectedVenue =
         showOptionalChoicePrompt

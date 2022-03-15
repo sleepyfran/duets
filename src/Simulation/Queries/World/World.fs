@@ -1,51 +1,18 @@
-namespace Simulation.Queries
+namespace Simulation.Queries.World
 
 open Aether
-open Aether.Operators
 open Common
 open Entities
 
-module World =
+module Common =
     /// Returns all cities available in the game world.
     let allCities state =
         Optic.get Lenses.FromState.World.cities_ state
         |> List.ofMapValues
 
-    /// Returns all concert spaces in the given city.
-    let allConcertSpacesOfCity state cityId =
-        let graphNodesLenses =
-            Lenses.FromState.World.cityGraph_ cityId
-            >?> Lenses.World.Graph.nodes_
-
-        Optic.get graphNodesLenses state
-        |> Option.map List.ofSeq
-        |> Option.defaultValue []
-        |> List.choose
-            (fun kvp ->
-                match kvp.Value with
-                | ConcertPlace place -> Some(kvp.Key, place.Space)
-                | _ -> None)
-        |> List.distinctBy fst
-
     /// Returns a specific city given its ID.
     let cityById state cityId =
         Optic.get (Lenses.FromState.World.city_ cityId) state
-
-    /// Retrieves a concert space given its node ID and the ID of the city
-    /// that contains it.
-    let concertSpaceById state cityId nodeId =
-        let graphNodesLenses =
-            Lenses.FromState.World.cityGraph_ cityId
-            >?> Lenses.World.Graph.nodes_
-
-        Optic.get graphNodesLenses state
-        |> Option.defaultValue Map.empty
-        |> Map.tryFind nodeId
-        |> Option.bind
-            (fun node ->
-                match node with
-                | ConcertPlace place -> Some place.Space
-                | _ -> None)
 
     /// Returns the content of the given node in the graph.
     let contentOf (graph: Graph<'a>) id =

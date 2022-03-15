@@ -83,15 +83,23 @@ let private getPlaceName nodeContent =
 /// Returns the coordinates and name of any exit linked with this node id, if
 /// any.
 let exitOfNode city nodeId exits =
-    Queries.World.exitsOfNode nodeId exits
+    Queries.World.Common.exitsOfNode nodeId exits
     |> Option.bind
         (fun exitNodeId ->
             match exitNodeId with
             | Node id ->
-                Queries.World.contentOf city.Graph id
+                Queries.World.Common.contentOf city.Graph id
                 |> getPlaceName
                 |> fun name -> Some(Node id, name)
             | _ -> None)
+
+/// Moves a character to the given coordinates and shows the world scene again.
+let moveCharacter coordinates =
+    State.get ()
+    |> World.Navigation.moveTo coordinates
+    |> Cli.Effect.apply
+
+    Scene.World
 
 /// Renders a command prompt that accepts all default commands on top of the
 /// given command list, commands associated with the objects in the room, a

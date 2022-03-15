@@ -15,10 +15,10 @@ let private getPlaceName nodeContent =
     | OutsideNode node -> Literal node.Name
 
 let private getEntrances nodeId graph getNodeName getCoordinates =
-    Queries.World.availableDirections nodeId graph
+    Queries.World.Common.availableDirections nodeId graph
     |> List.map
         (fun (direction, roomId) ->
-            Queries.World.contentOf graph roomId
+            Queries.World.Common.contentOf graph roomId
             |> getNodeName
             |> fun name -> (direction, name, getCoordinates roomId))
 
@@ -28,14 +28,14 @@ let private getExit city nodeId exits =
     |> Option.map
         (fun exitNodeId ->
             let exitNodeName =
-                Queries.World.contentOf city.Graph exitNodeId
+                Queries.World.Common.contentOf city.Graph exitNodeId
                 |> getPlaceName
 
             Node exitNodeId, exitNodeName)
 
 let rec worldScene () =
     let currentPosition =
-        State.get () |> Queries.World.currentPosition
+        State.get () |> Queries.World.Common.currentPosition
 
     let placeId, roomId =
         match currentPosition.Coordinates with

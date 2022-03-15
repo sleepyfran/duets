@@ -261,6 +261,7 @@ and WorldText =
     | WorldSquareDescription of
         name: string *
         descriptors: OutsideNodeDescriptor list
+    | WorldConcertSpaceKickedOutOfStage
 
 and TextNamespace =
     | CommandText of CommandText

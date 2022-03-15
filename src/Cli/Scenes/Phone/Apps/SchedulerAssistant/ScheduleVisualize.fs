@@ -64,19 +64,25 @@ and showConcertList app =
 
     List.iter
         (fun concert ->
-            let resolvedConcert = Concerts.info state concert
+            let city =
+                World.Common.cityById state concert.CityId
+                |> Option.get
 
-            CommonDateWithDay resolvedConcert.Date
+            let venue =
+                World.ConcertSpace.byId state concert.CityId concert.VenueId
+                |> Option.get
+
+            CommonDateWithDay concert.Date
             |> CommonText
             |> I18n.translate
             |> Some
             |> showSeparator
 
             SchedulerAssistantAppVisualizeConcertInfo(
-                resolvedConcert.DayMoment,
-                resolvedConcert.Venue,
-                resolvedConcert.City,
-                resolvedConcert.TicketsSold
+                concert.DayMoment,
+                venue,
+                city,
+                concert.TicketsSold
             )
             |> PhoneText
             |> I18n.translate

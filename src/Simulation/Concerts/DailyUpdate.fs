@@ -64,8 +64,14 @@ let private dailyTicketSell state concert attendanceCap =
 
 let private concertDailyUpdate state concert =
     let currentBand = Queries.Bands.currentBand state
-    let (ScheduledConcert innerConcert) = concert
-    let concertInfo = Queries.Concerts.info state innerConcert
+    let innerConcert = Concert.fromScheduled concert
+
+    let venue =
+        Queries.World.ConcertSpace.byId
+            state
+            innerConcert.CityId
+            innerConcert.VenueId
+        |> Option.get
 
     let ticketPriceModifier =
         ticketPriceModifier currentBand innerConcert
@@ -75,7 +81,7 @@ let private concertDailyUpdate state concert =
 
     let attendanceCap =
         (float currentBand.Fame / 100.0)
-        * (float concertInfo.Venue.Capacity)
+        * (float venue.Capacity)
         * lastVisitModifier
         * ticketPriceModifier
 
@@ -85,8 +91,7 @@ let private concertDailyUpdate state concert =
 
     Optic.map
         Lenses.Concerts.Scheduled.ticketsSold_
-        (fun soldTickets ->
-            min (concertInfo.Venue.Capacity) (soldTickets + dailyTicketsSold))
+        (fun soldTickets -> min venue.Capacity (soldTickets + dailyTicketsSold))
         concert
     |> Tuple.two currentBand
     |> ConcertUpdated

@@ -83,18 +83,26 @@ and private displayEffect effect =
         |> I18n.translate
         |> showMessage
     | ConcertScheduled (_, ScheduledConcert concert) ->
-        let concertInfo =
-            Queries.Concerts.info (State.get ()) concert
+        let venue =
+            Queries.World.ConcertSpace.byId
+                (State.get ())
+                concert.CityId
+                concert.VenueId
+            |> Option.get
 
-        SchedulerAssistantAppTicketDone(concertInfo.Venue, concert)
+        SchedulerAssistantAppTicketDone(venue, concert)
         |> PhoneText
         |> I18n.translate
         |> showMessage
     | ConcertCancelled (band, FailedConcert concert) ->
-        let concertInfo =
-            Queries.Concerts.info (State.get ()) concert
+        let venue =
+            Queries.World.ConcertSpace.byId
+                (State.get ())
+                concert.CityId
+                concert.VenueId
+            |> Option.get
 
-        ConcertFailed(band, concertInfo.Venue, concert)
+        ConcertFailed(band, venue, concert)
         |> ConcertText
         |> I18n.translate
         |> showMessage

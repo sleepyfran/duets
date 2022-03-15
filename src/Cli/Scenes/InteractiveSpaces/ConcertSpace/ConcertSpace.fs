@@ -1,6 +1,7 @@
 module Cli.Scenes.InteractiveSpaces.ConcertSpace
 
 open Agents
+open Cli.Components
 open Cli.Scenes.InteractiveSpaces
 open Cli.Scenes.InteractiveSpaces.Components
 open Cli.Text
@@ -48,21 +49,15 @@ let private getRoomObjects room =
 
 let private getRoomCommands _ = []
 
-/// Creates an interactive scene inside of a concert space in the given city,
-/// place and room.
-let concertSpace city place placeId roomId =
-    let roomId =
-        roomId
-        |> Option.defaultValue place.Rooms.StartingNode
-
+let private showConcertSpace city place placeId roomId =
     let room =
-        Queries.World.contentOf place.Rooms roomId
-
+        Queries.World.Common.contentOf place.Rooms roomId
+        
     let entrances =
-        Queries.World.availableDirections roomId place.Rooms
+        Queries.World.Common.availableDirections roomId place.Rooms
         |> List.map
             (fun (direction, connectedRoomId) ->
-                Queries.World.contentOf place.Rooms connectedRoomId
+                Queries.World.Common.contentOf place.Rooms connectedRoomId
                 |> getRoomName
                 |> fun name -> (direction, name, Room(placeId, connectedRoomId)))
 
@@ -72,3 +67,25 @@ let concertSpace city place placeId roomId =
     let commands = getRoomCommands room
 
     showWorldCommandPrompt entrances exit description objects commands
+
+/// Creates an interactive scene inside of a concert space in the given city,
+/// place and room.
+let rec concertSpace city place placeId roomId =
+    let roomId =
+        roomId
+        |> Option.defaultValue place.Rooms.StartingNode
+
+    let room =
+        Queries.World.Common.contentOf place.Rooms roomId
+
+    match room with
+    | Stage ->
+        if Queries.World.ConcertSpace.canEnterStage (State.get ()) placeId then
+            showConcertSpace city place placeId roomId
+        else
+            WorldText WorldConcertSpaceKickedOutOfStage
+            |> I18n.translate
+            |> showMessage
+
+            Node placeId |> moveCharacter
+    | _ -> showConcertSpace city place placeId roomId

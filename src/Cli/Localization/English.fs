@@ -565,6 +565,9 @@ and worldText key =
         $"""{TextStyles.place name} is a {listOf descriptors (descriptorText >> String.lowercase)} boulevard"""
     | WorldSquareDescription (name, descriptors) ->
         $"""{TextStyles.place name} is a {listOf descriptors (descriptorText >> String.lowercase)} square"""
+    | WorldConcertSpaceKickedOutOfStage ->
+        $"""Initially the people in the bar were looking weirdly at you thinking what were you doing in there. Then the {TextStyles.person "bouncer"} came and kicked you out warning you {TextStyles.danger
+                                                                                                                                                                                                                         "not to get in the stage again if you're not part of the band playing"}"""
 
 and fromConstant textNamespace =
     match textNamespace with
