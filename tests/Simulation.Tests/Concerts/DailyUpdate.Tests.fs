@@ -251,3 +251,19 @@ let ``sold tickets decrease to 20% of the normal cap when last visit to the city
         |> actAndGetConcert
 
     concert.TicketsSold |> should equal 2
+
+[<Test>]
+let ``does not compute daily tickets sold as infinity when the days until the concert are 0``
+    ()
+    =
+    let concert =
+        State.generateOne
+            { State.defaultOptions with
+                  BandFame = 25
+                  VenueGen = Gen.constant dummyVenue }
+        |> State.Concerts.addScheduledConcert
+            dummyBand
+            (ScheduledConcert { dummyConcert with Date = dummyToday })
+        |> actAndGetConcert
+
+    concert.TicketsSold |> should equal 371

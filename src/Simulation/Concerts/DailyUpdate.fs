@@ -58,9 +58,9 @@ let private lastVisitModifier state (band: Band) concert =
 
 let private dailyTicketSell state concert attendanceCap =
     let today = Queries.Calendar.today state
-    let daysUntilConcert = concert.Date - today
+    let daysUntilConcert = (concert.Date - today).Days |> max 1
 
-    attendanceCap / float daysUntilConcert.Days
+    attendanceCap / float daysUntilConcert
 
 let private concertDailyUpdate state concert =
     let currentBand = Queries.Bands.currentBand state
