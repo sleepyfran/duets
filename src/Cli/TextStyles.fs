@@ -64,16 +64,27 @@ let progress text =
     |> List.sample
     |> fun color -> $"[{color}]{text}[/]"
 
-/// Pre-defined styles for showing levels that range from 0 to 100.
-let level l =
-    match l with
-    | level when level < (LanguagePrimitives.Int32WithMeasure 30) ->
-        $"[red]{l}[/]"
-    | level when level < (LanguagePrimitives.Int32WithMeasure 60) ->
-        $"[orange1]{l}[/]"
-    | level when level < (LanguagePrimitives.Int32WithMeasure 80) ->
-        $"[green]{l}[/]"
-    | _ -> $"[gold3]{l}[/]"
+module Level =
+    /// Pre-defined style for a bad level.
+    let bad text = $"[red]{text}[/]"
+
+    /// Pre-defined style for a normal level.
+    let normal text = $"[orange1]{text}[/]"
+
+    /// Pre-defined style for a good level.
+    let good text = $"[green]{text}[/]"
+
+    /// Pre-defined style for a great level.
+    let great text = $"[gold3]{text}[/]"
+
+    /// Pre-defined styles for showing levels that range from 0 to 100.
+    let from l =
+        match l with
+        | level when level < (LanguagePrimitives.Int32WithMeasure 30) -> bad l
+        | level when level < (LanguagePrimitives.Int32WithMeasure 60) ->
+            normal l
+        | level when level < (LanguagePrimitives.Int32WithMeasure 80) -> good l
+        | _ -> great l
 
 /// Pre-defined style for a title.
 let title text = $"[bold underline]{text}[/]"

@@ -1,3 +1,6 @@
+root = true
+
 [*.fs]
-indent_size=4
-max_line_length=80
+indent_style = space
+indent_size = 4
+max_line_length = 80

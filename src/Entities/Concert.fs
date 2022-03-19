@@ -11,6 +11,20 @@ module Timeline =
         { ScheduledEvents = Set.empty
           PastEvents = Set.empty }
 
+module Ongoing =
+    /// Returns whether the given song has already being played in the passed
+    /// ongoing concert.
+    let hasPlayedSong ongoingConcert song =
+        ongoingConcert.Events
+        |> List.exists
+            (fun event ->
+                match event with
+                | CommonEvent commonEvent ->
+                    match commonEvent with
+                    | PlaySong (playedSong, _) -> playedSong = song
+                    | _ -> false
+                | _ -> false)
+
 /// Creates a concert from the given parameter.
 let create date dayMoment cityId venueId ticketPrice =
     let ticketAmount = ticketPrice * 1<dd>

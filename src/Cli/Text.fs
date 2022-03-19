@@ -70,6 +70,17 @@ and ConcertText =
     | ConcertSpaceStageName
     | ConcertSpaceStartConcert
     | ConcertFailed of band: Band * venue: ConcertSpace * concert: Concert
+    | ConcertNoSongsToPlay
+    | ConcertSelectSongToPlay
+    | ConcertSongNameWithPractice of song: Song
+    | ConcertAlreadyPlayedSongWithPractice of song: Song
+    | ConcertEnergyPrompt
+    | ConcertEnergyEnergetic
+    | ConcertEnergyNormal
+    | ConcertEnergyLow
+    | ConcertPoints of points: Quality
+    | ConcertActionPrompt
+    | ConcertCommandPlayDescription
 
 and CreatorText =
     | CharacterCreatorInitialPrompt

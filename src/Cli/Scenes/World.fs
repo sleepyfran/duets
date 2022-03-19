@@ -35,7 +35,8 @@ let private getExit city nodeId exits =
 
 let rec worldScene () =
     let currentPosition =
-        State.get () |> Queries.World.Common.currentPosition
+        State.get ()
+        |> Queries.World.Common.currentPosition
 
     let placeId, roomId =
         match currentPosition.Coordinates with
@@ -44,7 +45,7 @@ let rec worldScene () =
 
     match currentPosition.NodeContent with
     | ConcertPlace place ->
-        ConcertSpace.concertSpace currentPosition.City place placeId roomId
+        ConcertSpace.Root.concertSpace currentPosition.City place placeId roomId
     | RehearsalPlace place ->
         RehearsalRoom.Root.rehearsalSpace
             currentPosition.City

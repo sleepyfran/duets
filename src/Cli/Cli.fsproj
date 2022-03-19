@@ -35,6 +35,7 @@
         <Compile Include="Scenes\CharacterCreator.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\Objects.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\Components.fs"/>
+        <Compile Include="Scenes\InteractiveSpaces\ConcertSpace\Commands\PlaySong.Command.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\ConcertSpace\ConcertSpace.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\RehearsalSpace\ComposeSong.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\RehearsalSpace\DiscardSong.fs"/>

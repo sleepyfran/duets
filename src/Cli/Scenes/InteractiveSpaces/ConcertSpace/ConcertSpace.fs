@@ -1,24 +1,13 @@
-module Cli.Scenes.InteractiveSpaces.ConcertSpace
+module Cli.Scenes.InteractiveSpaces.ConcertSpace.Root
 
+
+open Aether
 open Agents
 open Cli.Components
-open Cli.Scenes.InteractiveSpaces
 open Cli.Scenes.InteractiveSpaces.Components
 open Cli.Text
 open Entities
 open Simulation
-
-let private instrumentFromType instrumentType =
-    let create fn =
-        fn
-            (I18n.translate (ConcertText ConcertSpaceStartConcert))
-            (fun _ -> None)
-
-    match instrumentType with
-    | InstrumentType.Bass -> create Objects.bass
-    | InstrumentType.Drums -> create Objects.drums
-    | InstrumentType.Guitar -> create Objects.guitar
-    | InstrumentType.Vocals -> create Objects.microphone
 
 let private getRoomName room =
     match room with
@@ -37,22 +26,21 @@ let private getRoomDescription space room =
 let private getRoomObjects room =
     let state = State.get ()
 
-    let characterInstrument =
+    let _characterInstrument =
         Queries.Bands.currentPlayableMember state
-        |> fun bandMember -> bandMember.Role
-        |> instrumentFromType
+        |> Optic.get Lenses.Band.CurrentMember.role_
 
     match room with
     | Lobby -> []
     | Bar -> []
-    | Stage -> [ characterInstrument ]
+    | Stage -> []
 
 let private getRoomCommands _ = []
 
 let private showConcertSpace city place placeId roomId =
     let room =
         Queries.World.Common.contentOf place.Rooms roomId
-        
+
     let entrances =
         Queries.World.Common.availableDirections roomId place.Rooms
         |> List.map
@@ -68,6 +56,22 @@ let private showConcertSpace city place placeId roomId =
 
     showWorldCommandPrompt entrances exit description objects commands
 
+let rec private showOngoingConcert ongoingConcert =
+    let commands =
+        [ PlaySongCommand.create ongoingConcert showOngoingConcert ]
+
+    lineBreak ()
+
+    Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
+    |> ConcertPoints
+    |> ConcertText
+    |> I18n.translate
+    |> showMessage
+
+    showCommandPromptWithoutDefaults
+        (ConcertText ConcertActionPrompt |> I18n.translate)
+        commands
+
 /// Creates an interactive scene inside of a concert space in the given city,
 /// place and room.
 let rec concertSpace city place placeId roomId =
@@ -81,7 +85,12 @@ let rec concertSpace city place placeId roomId =
     match room with
     | Stage ->
         if Queries.World.ConcertSpace.canEnterStage (State.get ()) placeId then
-            showConcertSpace city place placeId roomId
+            ConcertSpaceStageDescription place.Space
+            |> ConcertText
+            |> I18n.translate
+            |> showMessage
+
+            showOngoingConcert { Events = []; Points = 0<quality> }
         else
             WorldText WorldConcertSpaceKickedOutOfStage
             |> I18n.translate

@@ -22,9 +22,14 @@ open Common
 let rec showCommandPrompt title availableCommands =
     let commandsWithDefaults =
         availableCommands
-        @ [ PhoneCommand.get
-            ExitCommand.get
-            WaitCommand.get ]
+        @ [ PhoneCommand.get; WaitCommand.get ]
+
+    showCommandPromptWithoutDefaults title commandsWithDefaults
+
+/// Like `showCommandPrompt` but with only the 'help' and 'exit' command built-in.
+and showCommandPromptWithoutDefaults title availableCommands =
+    let commandsWithEssentials =
+        availableCommands @ [ ExitCommand.get ]
         |> fun commands -> [ HelpCommand.create commands ] @ commands
 
     let rec promptForCommand () =
@@ -37,12 +42,11 @@ let rec showCommandPrompt title availableCommands =
         |> fun commandWithArgs ->
             match commandWithArgs with
             | commandName :: args ->
-                tryRunCommand commandsWithDefaults commandName args
+                tryRunCommand commandsWithEssentials commandName args
             | _ -> None
         |> Option.defaultWith promptForCommand
 
     promptForCommand ()
-
 
 and private tryRunCommand availableCommands commandName args =
     availableCommands

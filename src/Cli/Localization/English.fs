@@ -252,7 +252,7 @@ and commonText key =
     | CommonDateWithDay date ->
         $"""{TextStyles.highlight (dayName date)}, {TextStyles.faded (formatDate date)}"""
     | CommonSongWithDetails (name, quality, length) ->
-        $"""{name} (Quality: {TextStyles.level quality}%%, Length: {length.Minutes}:{length.Seconds})"""
+        $"""{name} (Quality: {TextStyles.Level.from quality}%%, Length: {length.Minutes}:{length.Seconds})"""
     | CommonInstrument instrumentType -> instrumentName instrumentType
     | CommonRole instrumentType -> roleName instrumentType
 
@@ -269,6 +269,24 @@ and concertText key =
     | ConcertFailed (band, venue, concert) ->
         TextStyles.error
             $"Your band {band.Name} was supposed to have a concert {formatDate concert.Date} {dayMomentName concert.DayMoment} at {venue.Name} but didn't make it in time. The concert has been cancelled and fame took a little hit because of it"
+    | ConcertNoSongsToPlay ->
+        $"""{TextStyles.error "You don't have any finished songs to play!"} Why are you even scheduling concerts if you haven't finished any song yet? That's going to be embarrassing to explain to the audience..."""
+    | ConcertSelectSongToPlay -> "Which song do you want to play?"
+    | ConcertSongNameWithPractice song ->
+        $"""{TextStyles.song song.Name} (Practice level: {TextStyles.Level.from song.Practice}%%)"""
+    | ConcertAlreadyPlayedSongWithPractice song ->
+        TextStyles.crossed
+            $"""{TextStyles.song song.Name} (Practice level: {TextStyles.Level.from song.Practice}%%) (Already played)"""
+    | ConcertEnergyPrompt -> "How much energy do you want to put into this?"
+    | ConcertEnergyEnergetic -> "Energetic"
+    | ConcertEnergyNormal -> "Normal"
+    | ConcertEnergyLow -> "Low"
+    | ConcertPoints points ->
+        $"Current concert points: {TextStyles.Level.from points}"
+    | ConcertActionPrompt ->
+        $"""{TextStyles.action "It's your time to shine!"} What do you want to do?"""
+    | ConcertCommandPlayDescription ->
+        "Allows you to choose a song to play in the concert"
 
 and creatorText key =
     match key with
@@ -389,7 +407,7 @@ and phoneText key =
     | StatisticsAppBandName name -> TextStyles.title name
     | StatisticsAppBandStartDate date ->
         $"Playing since {TextStyles.highlight date.Year}"
-    | StatisticsAppBandFame fame -> $"Fame: {TextStyles.level fame}"
+    | StatisticsAppBandFame fame -> $"Fame: {TextStyles.Level.from fame}"
     | StatisticsAppAlbumNoEntries -> "No albums released yet"
     | StatisticsAppAlbumName (name, albumT) ->
         TextStyles.information $"{name} ({TextStyles.faded (albumType albumT)})"
@@ -468,9 +486,9 @@ and rehearsalText key =
         TextStyles.error $"Your band decided to stop working on {name}"
     | PracticeSong -> "Practice a finished song"
     | PracticeSongItemDescription (name, practiceLevel) ->
-        $"""{TextStyles.song name} (Practice level: {TextStyles.level practiceLevel}%%)"""
+        $"""{TextStyles.song name} (Practice level: {TextStyles.Level.from practiceLevel}%%)"""
     | PracticeSongImproved (name, practiceLevel) ->
-        $"Your band improved its practice of {name} to {TextStyles.level practiceLevel}%%"
+        $"Your band improved its practice of {name} to {TextStyles.Level.from practiceLevel}%%"
     | PracticeSongAlreadyImprovedToMax name ->
         $"Your band already knows {TextStyles.song name} perfectly"
     | PracticeSongProgressLosingTime -> TextStyles.progress "Losing time..."
@@ -567,7 +585,7 @@ and worldText key =
         $"""{TextStyles.place name} is a {listOf descriptors (descriptorText >> String.lowercase)} square"""
     | WorldConcertSpaceKickedOutOfStage ->
         $"""Initially the people in the bar were looking weirdly at you thinking what were you doing in there. Then the {TextStyles.person "bouncer"} came and kicked you out warning you {TextStyles.danger
-                                                                                                                                                                                                                         "not to get in the stage again if you're not part of the band playing"}"""
+                                                                                                                                                                                               "not to get in the stage again if you're not part of the band playing"}"""
 
 and fromConstant textNamespace =
     match textNamespace with

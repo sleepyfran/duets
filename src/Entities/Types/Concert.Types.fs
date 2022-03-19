@@ -30,6 +30,57 @@ module ConcertTypes =
                 | :? Concert as c -> compare x.Id c.Id
                 | _ -> -1
 
+    /// Defines how much energy the player will devote to an event in a concert.
+    type PerformEnergy =
+        | Energetic
+        | Normal
+        | Limited
+
+    /// Defines all events that any role inside the band can perform during
+    /// a concert.
+    type ConcertCommonEvent =
+        | PlaySong of song: Song * energy: PerformEnergy
+        | DedicateSong of song: Song * energy: PerformEnergy
+        | GreetAudience
+        | MakeSpeech
+        | FaceBand
+
+    /// Defines all events that a guitarist can do during a concert.
+    type ConcertGuitaristEvent =
+        | TuneGuitar
+        | GuitarSolo
+
+    /// Defines all events that a bassist can do during a concert.
+    type ConcertBassistEvent =
+        | TuneBass
+        | BassSolo
+
+    /// Defines all events that a vocalist can do during a concert.
+    type ConcertVocalistEvent =
+        | TakeMic
+        | PutMicOnStand
+
+    /// Defines all events that a drummer can do during a concert.
+    type ConcertDrummerEvent =
+        | AdjustDrums
+        | SpinDrumsticks
+        | DrumSolo
+
+    /// Gathers all events that can happen during a concert.
+    type ConcertEvent =
+        | CommonEvent of ConcertCommonEvent
+        | BassistEvent of ConcertBassistEvent
+        | DrummerEvent of ConcertDrummerEvent
+        | GuitaristEvent of ConcertGuitaristEvent
+        | VocalistEvent of ConcertVocalistEvent
+
+    /// Represents a concert that is currently ongoing, where we keep all the
+    /// events that the player have done during the concert and the total amount
+    /// of points gathered.
+    type OngoingConcert =
+        { Events: ConcertEvent list
+          Points: Quality }
+
     /// Represents a concert that hasn't happened yet.
     type ScheduledConcert = ScheduledConcert of Concert
 

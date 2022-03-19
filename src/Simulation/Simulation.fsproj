@@ -42,6 +42,7 @@
         <Compile Include="Bands\Members.fs" />
         <Compile Include="Concerts\DailyUpdate.fs" />
         <Compile Include="Concerts\Scheduler.fs" />
+        <Compile Include="Concerts\Live.fs"/>
         <Compile Include="Skills\ImproveSkills.fs" />
         <Compile Include="Songs\Practice.fs" />
         <Compile Include="Songs\Composition\Common.fs" />

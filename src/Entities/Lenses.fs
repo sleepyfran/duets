@@ -69,6 +69,11 @@ module Band =
         (fun (b: Band) -> b.PastMembers),
         (fun v (b: Band) -> { b with PastMembers = v })
 
+    module CurrentMember =
+        let role_ =
+            (fun (m: CurrentMember) -> m.Role),
+            (fun v (m: CurrentMember) -> { m with Role = v })
+
 module BankAccount =
     let holder_ =
         (fun (b: BankAccount) -> b.Holder),
@@ -101,6 +106,15 @@ module Character =
         (fun v (c: Character) -> { c with Id = v })
 
 module Concerts =
+    module Ongoing =
+        let events_ =
+            (fun (o: OngoingConcert) -> o.Events),
+            (fun v (o: OngoingConcert) -> { o with Events = v })
+
+        let points_ =
+            (fun (o: OngoingConcert) -> o.Points),
+            (fun v (o: OngoingConcert) -> { o with Points = v })
+
     module Scheduled =
         let ticketsSold_ =
             (fun (ScheduledConcert c) -> c.TicketsSold),

@@ -60,4 +60,4 @@ module VocalStyle =
         | "Instrumental" -> Instrumental
         | "Growl" -> Growl
         | "Screamo" -> Screamo
-        | _ -> Normal
+        | _ -> VocalStyle.Normal
