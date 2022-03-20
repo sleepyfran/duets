@@ -287,9 +287,10 @@ and concertText key =
         $"""{TextStyles.action "It's your time to shine!"} What do you want to do?"""
     | ConcertCommandPlayDescription ->
         "Allows you to choose a song to play in the concert"
-    | ConcertPlaySongProgressLimitedEnergy -> TextStyles.progress "Barely moving and with a dull face you play the song to a confused audience..."
-    | ConcertPlaySongProgressNormalEnergy -> TextStyles.progress "With just the right attitude you deliver that song. The audience seems to enjoy themselves, again, with just the right amount of enthusiasm"
-    | ConcertPlaySongProgressEnergeticEnergy -> TextStyles.progress "Jumping around and hectically moving on the stage you play the song. The audience catches your enthusiasm and jumps at the rhythm of the music!"
+    | ConcertPlaySongLimitedEnergyDescription -> TextStyles.progress "Barely moving and with a dull face you play the song to a confused audience..."
+    | ConcertPlaySongNormalEnergyDescription -> TextStyles.progress "With just the right attitude you deliver that song. The audience seems to enjoy themselves, again, with just the right amount of enthusiasm"
+    | ConcertPlaySongEnergeticEnergyDescription -> TextStyles.progress "Jumping around and hectically moving on the stage you play the song. The audience catches your enthusiasm and jumps at the rhythm of the music!"
+    | ConcertPlaySongProgressPlaying song -> $"Playing {TextStyles.song song.Name}"
     | ConcertPlaySongLowPracticeReaction energy ->
         match energy with
         | Energetic -> "At least your energetic performance gave the audience some nice feeling"

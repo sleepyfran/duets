@@ -73,14 +73,18 @@ and private promptForEnergy ongoingConcert song =
 and private playSongWithProgressBar ongoingConcert songWithQuality energy =
     let (FinishedSong song, _) = songWithQuality
 
-    let progressText =
-        match energy with
-        | Energetic -> ConcertPlaySongProgressEnergeticEnergy
-        | PerformEnergy.Normal -> ConcertPlaySongProgressNormalEnergy
-        | Limited -> ConcertPlaySongProgressLimitedEnergy
+    match energy with
+    | Energetic -> ConcertPlaySongEnergeticEnergyDescription
+    | PerformEnergy.Normal -> ConcertPlaySongNormalEnergyDescription
+    | Limited -> ConcertPlaySongLimitedEnergyDescription
+    |> ConcertText
+    |> I18n.translate
+    |> showMessage
 
     showProgressBar
-        [ ConcertText progressText |> I18n.translate ]
+        [ ConcertPlaySongProgressPlaying song
+          |> ConcertText
+          |> I18n.translate ]
         (song.Length.Minutes / 1<minute/second>)
         false
 
