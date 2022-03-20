@@ -25,6 +25,7 @@ let private calculatePointIncrease
 /// Returns a modified ongoing concert with a PlaySong event added and the
 /// amount of points gathered through this event.
 let playSong ongoingConcert (FinishedSong song, quality) energy =
+    // TODO: Apply health/energy effects once we support those.
     let updatedOngoingConcert =
         if Concert.Ongoing.hasPlayedSong ongoingConcert song then
             removePoints ongoingConcert 50

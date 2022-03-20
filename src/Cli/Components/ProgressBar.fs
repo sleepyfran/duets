@@ -29,7 +29,7 @@ and private showProgressBarSync stepNames stepDuration =
                 (fun stepName ->
                     let task = ctx.AddTask(toString stepName)
 
-                    for i in 0 .. 4 do
+                    for _ in 0 .. 4 do
                         task.Increment 25.0
                         sleepForProgressBar stepDuration))
 
@@ -44,7 +44,7 @@ and private showProgressBarAsync stepNames stepDuration =
 
             let random = System.Random()
 
-            for i in 0 .. 4 * tasks.Count - 1 do
+            for _ in 0 .. 4 * tasks.Count - 1 do
                 let randomIndex = random.Next(0, tasks.Count)
                 let taskToIncrement = tasks.[randomIndex]
 

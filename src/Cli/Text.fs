@@ -81,6 +81,12 @@ and ConcertText =
     | ConcertPoints of points: Quality
     | ConcertActionPrompt
     | ConcertCommandPlayDescription
+    | ConcertPlaySongProgressLimitedEnergy
+    | ConcertPlaySongProgressNormalEnergy
+    | ConcertPlaySongProgressEnergeticEnergy
+    | ConcertPlaySongLowPracticeReaction of energy: PerformEnergy
+    | ConcertPlaySongMediumPracticeReaction of energy: PerformEnergy
+    | ConcertPlaySongHighPracticeReaction of energy: PerformEnergy
 
 and CreatorText =
     | CharacterCreatorInitialPrompt

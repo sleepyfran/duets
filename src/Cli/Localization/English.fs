@@ -287,6 +287,27 @@ and concertText key =
         $"""{TextStyles.action "It's your time to shine!"} What do you want to do?"""
     | ConcertCommandPlayDescription ->
         "Allows you to choose a song to play in the concert"
+    | ConcertPlaySongProgressLimitedEnergy -> TextStyles.progress "Barely moving and with a dull face you play the song to a confused audience..."
+    | ConcertPlaySongProgressNormalEnergy -> TextStyles.progress "With just the right attitude you deliver that song. The audience seems to enjoy themselves, again, with just the right amount of enthusiasm"
+    | ConcertPlaySongProgressEnergeticEnergy -> TextStyles.progress "Jumping around and hectically moving on the stage you play the song. The audience catches your enthusiasm and jumps at the rhythm of the music!"
+    | ConcertPlaySongLowPracticeReaction energy ->
+        match energy with
+        | Energetic -> "At least your energetic performance gave the audience some nice feeling"
+        | PerformEnergy.Normal -> ""
+        | Limited -> "Not like you didn't try hard anyway"
+        |> fun energyText -> TextStyles.Level.bad $"Unfortunately it seems like you didn't practice that song enough and you made quite a lot of mistakes during the performance. {energyText}"
+    | ConcertPlaySongMediumPracticeReaction energy ->
+        match energy with
+        | Energetic -> ""
+        | PerformEnergy.Normal -> ""
+        | Limited -> ""
+        |> fun energyText -> TextStyles.Level.normal $"You didn't nail the performance, but at least you didn't mess up badly. {energyText}"
+    | ConcertPlaySongHighPracticeReaction energy ->
+        match energy with
+        | Energetic -> "the audience really enjoyed your energy"
+        | PerformEnergy.Normal -> "the audience quite liked your energy"
+        | Limited -> "well, you were quite boring on stage but at least the music was good"
+        |> fun energyText -> TextStyles.Level.great $"That was awesome! Your performance was great and {energyText}"
 
 and creatorText key =
     match key with
