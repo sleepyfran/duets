@@ -6,6 +6,7 @@ open Cli.Components.Commands
 open Cli.Text
 open Entities
 open Simulation
+open Simulation.Concerts.Live.PlaySong
 
 let textFromEnergy energy =
     match energy with
@@ -22,7 +23,7 @@ let private promptForEnergy ongoingConcert song =
         [ Energetic
           PerformEnergy.Normal
           Limited ]
-    |> Concerts.Live.playSong ongoingConcert song
+    |> playSong ongoingConcert song
 
 let private promptForSong ongoingConcert =
     let state = State.get ()

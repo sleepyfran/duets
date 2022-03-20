@@ -1,4 +1,5 @@
-module Simulation.Tests.Concerts.Live
+module Simulation.Tests.Concerts.Live.PlaySong
+
 
 open FsCheck
 open FsUnit
@@ -7,7 +8,7 @@ open Test.Common
 
 open Aether
 open Entities
-open Simulation.Concerts
+open Simulation.Concerts.Live
 
 let private ongoingConcert = { Events = []; Points = 0<quality> }
 
@@ -17,7 +18,7 @@ let ``playSong energetic energy gives up to 15 points`` () =
     |> Gen.sample 0 1000
     |> List.iter
         (fun song ->
-            Live.playSong ongoingConcert song Energetic
+            playSong ongoingConcert song Energetic
             |> Optic.get Lenses.Concerts.Ongoing.points_
             |> should be (inRange 0<quality> 15<quality>))
 
@@ -27,7 +28,7 @@ let ``playSong normal energy gives up to 8 points`` () =
     |> Gen.sample 0 1000
     |> List.iter
         (fun song ->
-            Live.playSong ongoingConcert song PerformEnergy.Normal
+            playSong ongoingConcert song PerformEnergy.Normal
             |> Optic.get Lenses.Concerts.Ongoing.points_
             |> should be (inRange 0<quality> 8<quality>))
 
@@ -37,7 +38,7 @@ let ``playSong limited energy gives up to 2 points`` () =
     |> Gen.sample 0 1000
     |> List.iter
         (fun song ->
-            Live.playSong ongoingConcert song Limited
+            playSong ongoingConcert song Limited
             |> Optic.get Lenses.Concerts.Ongoing.points_
             |> should be (inRange 0<quality> 2<quality>))
 
@@ -55,7 +56,7 @@ let ``playSong decreases points by 50 if song has been played already`` () =
               Events = [ PlaySong(song, Energetic) |> CommonEvent ]
               Points = 50<quality> }
 
-    Live.playSong ongoingConcert finishedSong Energetic
+    playSong ongoingConcert finishedSong Energetic
     |> Optic.get Lenses.Concerts.Ongoing.points_
     |> should equal 0
 
@@ -73,9 +74,39 @@ let ``playSong does not decrease points below 0`` () =
                     |> CommonEvent ]
               Points = 20<quality> }
 
-    Live.playSong ongoingConcert finishedSong Energetic
+    playSong ongoingConcert finishedSong Energetic
     |> Optic.get Lenses.Concerts.Ongoing.points_
     |> should equal 0
+
+[<Test>]
+let ``playSong should add points to the previous count`` () =
+    let ongoingConcert =
+        { ongoingConcert with
+              Points = 50<quality> }
+
+    Generators.Song.finishedGenerator
+        { Generators.Song.defaultOptions with
+              PracticeMin = 1 }
+    |> Gen.sample 0 1000
+    |> List.iter
+        (fun song ->
+            playSong ongoingConcert song Energetic
+            |> Optic.get Lenses.Concerts.Ongoing.points_
+            |> should be (greaterThan 50<quality>))
+
+[<Test>]
+let ``playSong does not increase above 100`` () =
+    let ongoingConcert =
+        { ongoingConcert with
+              Points = 98<quality> }
+
+    Generators.Song.finishedGenerator Generators.Song.defaultOptions
+    |> Gen.sample 0 1000
+    |> List.iter
+        (fun song ->
+            playSong ongoingConcert song Energetic
+            |> Optic.get Lenses.Concerts.Ongoing.points_
+            |> should be (lessThanOrEqualTo 100<quality>))
 
 [<Test>]
 let ``playSong should add event when the song hasn't been played before`` () =
@@ -83,13 +114,14 @@ let ``playSong should add event when the song hasn't been played before`` () =
     |> Gen.sample 0 1
     |> List.head
     |> fun song ->
-        Live.playSong ongoingConcert song Energetic
+        playSong ongoingConcert song Energetic
         |> Optic.get Lenses.Concerts.Ongoing.events_
         |> should
             contain
             (PlaySong(Song.fromFinished song, Energetic)
              |> CommonEvent)
 
+[<Test>]
 let ``playSong should add event when the song was played before`` () =
     Generators.Song.finishedGenerator Generators.Song.defaultOptions
     |> Gen.sample 0 1
@@ -102,7 +134,7 @@ let ``playSong should add event when the song was played before`` () =
                   Events = [ PlaySong(song, Energetic) |> CommonEvent ]
                   Points = 40<quality> }
 
-        Live.playSong ongoingConcert finishedSong Energetic
+        playSong ongoingConcert finishedSong Energetic
         |> Optic.get Lenses.Concerts.Ongoing.events_
         |> List.filter
             (fun event -> event = (PlaySong(song, Energetic) |> CommonEvent))

@@ -1,4 +1,6 @@
-module Simulation.Concerts.Live
+[<AutoOpen>]
+module Simulation.Concerts.Live.PlaySong
+
 
 open Aether
 open Common
@@ -10,28 +12,27 @@ let private multiplierFromEnergy energy =
     | PerformEnergy.Normal -> 8.0
     | Limited -> 2.0
 
-let private playSong' ongoingConcert (FinishedSong song, _) energy =
+let private calculatePointIncrease
+    ongoingConcert
+    (FinishedSong song, _)
+    energy
+    =
     multiplierFromEnergy energy
     |> (*) (float song.Practice / 100.0)
-    |> Math.roundToNearest
-    |> (*) 1<quality>
-    |> fun points ->
-        Optic.set Lenses.Concerts.Ongoing.points_ points ongoingConcert
-
-let private removePoints ongoingConcert points =
-    Optic.map
-        Lenses.Concerts.Ongoing.points_
-        (fun concertPoints -> concertPoints - points |> max 0<quality>)
-        ongoingConcert
+    |> Math.ceilToNearest
+    |> addPoints ongoingConcert
 
 /// Returns a modified ongoing concert with a PlaySong event added and the
 /// amount of points gathered through this event.
 let playSong ongoingConcert (FinishedSong song, quality) energy =
     let updatedOngoingConcert =
         if Concert.Ongoing.hasPlayedSong ongoingConcert song then
-            removePoints ongoingConcert 50<quality>
+            removePoints ongoingConcert 50
         else
-            playSong' ongoingConcert (FinishedSong song, quality) energy
+            calculatePointIncrease
+                ongoingConcert
+                (FinishedSong song, quality)
+                energy
 
     updatedOngoingConcert
     |> Optic.map
