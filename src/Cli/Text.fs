@@ -85,6 +85,8 @@ and ConcertText =
     | ConcertPlaySongNormalEnergyDescription
     | ConcertPlaySongEnergeticEnergyDescription
     | ConcertPlaySongProgressPlaying of song: Song
+    | ConcertPlaySongRepeatedSongReaction of song: Song
+    | ConcertPlaySongRepeatedTipReaction
     | ConcertPlaySongLowPracticeReaction of energy: PerformEnergy
     | ConcertPlaySongMediumPracticeReaction of energy: PerformEnergy
     | ConcertPlaySongHighPracticeReaction of energy: PerformEnergy

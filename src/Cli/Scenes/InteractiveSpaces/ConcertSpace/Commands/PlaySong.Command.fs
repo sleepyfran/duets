@@ -73,10 +73,15 @@ and private promptForEnergy ongoingConcert song =
 and private playSongWithProgressBar ongoingConcert songWithQuality energy =
     let (FinishedSong song, _) = songWithQuality
 
-    match energy with
-    | Energetic -> ConcertPlaySongEnergeticEnergyDescription
-    | PerformEnergy.Normal -> ConcertPlaySongNormalEnergyDescription
-    | Limited -> ConcertPlaySongLimitedEnergyDescription
+    let repeatedSong = Concert.Ongoing.hasPlayedSong ongoingConcert song
+
+    if repeatedSong then
+        ConcertPlaySongRepeatedSongReaction song
+    else
+        match energy with
+        | Energetic -> ConcertPlaySongEnergeticEnergyDescription
+        | PerformEnergy.Normal -> ConcertPlaySongNormalEnergyDescription
+        | Limited -> ConcertPlaySongLimitedEnergyDescription
     |> ConcertText
     |> I18n.translate
     |> showMessage
@@ -87,14 +92,14 @@ and private playSongWithProgressBar ongoingConcert songWithQuality energy =
           |> I18n.translate ]
         (song.Length.Minutes / 1<minute/second>)
 
-    let reactionText =
+    if repeatedSong then
+        ConcertPlaySongRepeatedTipReaction
+    else
         match song.Practice with
         | p when p < 40<practice> -> ConcertPlaySongLowPracticeReaction energy
-        | p when p < 80<practice> ->
-            ConcertPlaySongMediumPracticeReaction energy
+        | p when p < 80<practice> -> ConcertPlaySongMediumPracticeReaction energy
         | _ -> ConcertPlaySongHighPracticeReaction energy
-
-    ConcertText reactionText
+    |> ConcertText
     |> I18n.translate
     |> showMessage
 

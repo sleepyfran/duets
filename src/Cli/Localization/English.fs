@@ -7,14 +7,10 @@ open Entities
 open System
 
 let verbConjugationByGender =
-    dict [
-        (Have,
-         dict [
-             (Male, "Has")
-             (Female, "Has")
-             (Other, "Have")
-         ])
-    ]
+    dict [ (Have,
+            dict [ (Male, "Has")
+                   (Female, "Has")
+                   (Other, "Have") ]) ]
 
 /// Transforms TextConstants into strings.
 let rec toString text =
@@ -176,10 +172,8 @@ and commandText key =
         $"Follows the {directionName direction} direction"
     | CommandLookDescription -> "Shows all the objects you have around you"
     | CommandLookEntrances entrances ->
-        $"""You can go to the {listOf
-                                   entrances
-                                   (fun (direction, name) ->
-                                       $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
+        $"""You can go to the {listOf entrances (fun (direction, name) ->
+                                   $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
     | CommandLookExit exit ->
         $"""There's also an exit to {TextStyles.place (toString exit)}({TextStyles.information "out"})"""
     | CommandLookNoObjectsAround -> "There are no objects around you"
@@ -287,28 +281,48 @@ and concertText key =
         $"""{TextStyles.action "It's your time to shine!"} What do you want to do?"""
     | ConcertCommandPlayDescription ->
         "Allows you to choose a song to play in the concert"
-    | ConcertPlaySongLimitedEnergyDescription -> TextStyles.progress "Barely moving and with a dull face you play the song to a confused audience..."
-    | ConcertPlaySongNormalEnergyDescription -> TextStyles.progress "With just the right attitude you deliver that song. The audience seems to enjoy themselves, again, with just the right amount of enthusiasm"
-    | ConcertPlaySongEnergeticEnergyDescription -> TextStyles.progress "Jumping around and hectically moving on the stage you play the song. The audience catches your enthusiasm and jumps at the rhythm of the music!"
-    | ConcertPlaySongProgressPlaying song -> $"Playing {TextStyles.song song.Name}"
+    | ConcertPlaySongLimitedEnergyDescription ->
+        TextStyles.progress
+            "Barely moving and with a dull face you play the song to a confused audience..."
+    | ConcertPlaySongNormalEnergyDescription ->
+        TextStyles.progress
+            "With just the right attitude you deliver that song. The audience seems to enjoy themselves, again, with just the right amount of enthusiasm"
+    | ConcertPlaySongEnergeticEnergyDescription ->
+        TextStyles.progress
+            "Jumping around and hectically moving on the stage you play the song. The audience catches your enthusiasm and jumps at the rhythm of the music!"
+    | ConcertPlaySongProgressPlaying song ->
+        $"Playing {TextStyles.song song.Name}"
+    | ConcertPlaySongRepeatedSongReaction song ->
+        TextStyles.danger
+            $"Why... why are you playing {TextStyles.song song.Name} again? The audience is confused, wondering whether you're forgetting the track-list or if you simply didn't come prepared to the concert"
+    | ConcertPlaySongRepeatedTipReaction ->
+        TextStyles.information "That made you lose 50 points. Try not to repeat songs in a concert, it's never good"
     | ConcertPlaySongLowPracticeReaction energy ->
         match energy with
-        | Energetic -> "At least your energetic performance gave the audience some nice feeling"
+        | Energetic ->
+            "At least your energetic performance gave the audience some nice feeling"
         | PerformEnergy.Normal -> ""
         | Limited -> "Not like you didn't try hard anyway"
-        |> fun energyText -> TextStyles.Level.bad $"Unfortunately it seems like you didn't practice that song enough and you made quite a lot of mistakes during the performance. {energyText}"
+        |> fun energyText ->
+            TextStyles.Level.bad
+                $"Unfortunately it seems like you didn't practice that song enough and you made quite a lot of mistakes during the performance. {energyText}"
     | ConcertPlaySongMediumPracticeReaction energy ->
         match energy with
         | Energetic -> ""
         | PerformEnergy.Normal -> ""
         | Limited -> ""
-        |> fun energyText -> TextStyles.Level.normal $"You didn't nail the performance, but at least you didn't mess up badly. {energyText}"
+        |> fun energyText ->
+            TextStyles.Level.normal
+                $"You didn't nail the performance, but at least you didn't mess up badly. {energyText}"
     | ConcertPlaySongHighPracticeReaction energy ->
         match energy with
         | Energetic -> "the audience really enjoyed your energy"
         | PerformEnergy.Normal -> "the audience quite liked your energy"
-        | Limited -> "well, you were quite boring on stage but at least the music was good"
-        |> fun energyText -> TextStyles.Level.great $"That was awesome! Your performance was great and {energyText}"
+        | Limited ->
+            "well, you were quite boring on stage but at least the music was good"
+        |> fun energyText ->
+            TextStyles.Level.great
+                $"That was awesome! Your performance was great and {energyText}"
 
 and creatorText key =
     match key with
