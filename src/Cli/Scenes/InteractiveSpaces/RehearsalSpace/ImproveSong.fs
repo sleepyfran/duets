@@ -57,7 +57,7 @@ and private showImproveSong band song =
         |> showMessage
 
 and showImprovingProgress () =
-    showProgressBar
+    showProgressBarAsync
         [ I18n.translate (
             RehearsalSpaceText ImproveSongProgressAddingSomeMelodies
           )
@@ -67,4 +67,3 @@ and showImprovingProgress () =
                   ImproveSongProgressModifyingChordsFromAnotherSong
           ) ]
         2<second>
-        true

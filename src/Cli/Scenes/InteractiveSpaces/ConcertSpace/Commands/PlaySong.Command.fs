@@ -81,12 +81,11 @@ and private playSongWithProgressBar ongoingConcert songWithQuality energy =
     |> I18n.translate
     |> showMessage
 
-    showProgressBar
+    showProgressBarSync
         [ ConcertPlaySongProgressPlaying song
           |> ConcertText
           |> I18n.translate ]
         (song.Length.Minutes / 1<minute/second>)
-        false
 
     let reactionText =
         match song.Practice with

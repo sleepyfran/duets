@@ -5,35 +5,36 @@ open Cli.Localization
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Spectre.Console
 
+let private sleepForProgressBar (stepDuration: int<second>) =
+    async { do! Async.Sleep(stepDuration * 1000 / 4 |> int) }
+    |> Async.RunSynchronously
+
 /// <summary>
-/// Renders a progress bar that shows each of the given step names for a given
-/// duration in either sync or async way.
+/// Renders a progress bar that shows each of the given step names one at a time
+/// waiting for the specified `stepDuration` between each step.
 /// </summary>
 /// <param name="stepNames">Text of the steps to show</param>
 /// <param name="stepDuration">Duration of each of the steps</param>
-/// <param name="async">
-/// Whether the steps can be shown at the same time or only one at a time.
-/// </param>
-let rec showProgressBar stepNames (stepDuration: int<second>) async =
-    if async then
-        showProgressBarAsync stepNames stepDuration
-    else
-        showProgressBarSync stepNames stepDuration
-
-and private showProgressBarSync stepNames stepDuration =
+let showProgressBarSync stepNames (stepDuration: int<second>) =
     AnsiConsole
         .Progress()
         .Start(fun ctx ->
             stepNames
-            |> List.iter
-                (fun stepName ->
-                    let task = ctx.AddTask(toString stepName)
+            |> List.iter (fun stepName ->
+                let task = ctx.AddTask(toString stepName)
 
-                    for _ in 0 .. 4 do
-                        task.Increment 25.0
-                        sleepForProgressBar stepDuration))
+                for _ in 0..4 do
+                    task.Increment 25.0
+                    sleepForProgressBar stepDuration))
 
-and private showProgressBarAsync stepNames stepDuration =
+/// <summary>
+/// Renders a progress bar that shows each of the given step names all at the
+/// same time, increasing the steps randomly and waiting for the specified
+/// `stepDuration` between each step.
+/// </summary>
+/// <param name="stepNames">Text of the steps to show</param>
+/// <param name="stepDuration">Duration of each of the steps</param>
+let showProgressBarAsync stepNames (stepDuration: int<second>) =
     AnsiConsole
         .Progress()
         .Start(fun ctx ->
@@ -54,7 +55,3 @@ and private showProgressBarAsync stepNames stepDuration =
                     tasks.RemoveAt(randomIndex)
 
                 sleepForProgressBar stepDuration)
-
-and private sleepForProgressBar stepDuration =
-    async { do! Async.Sleep(stepDuration * 1000 / 4 |> int) }
-    |> Async.RunSynchronously

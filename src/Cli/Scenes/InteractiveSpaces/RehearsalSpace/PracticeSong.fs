@@ -15,8 +15,7 @@ and private promptForSong () =
     let state = State.get ()
     let currentBand = Bands.currentBand state
 
-    let songs =
-        Repertoire.allFinishedSongsByBand state currentBand.Id
+    let songs = Repertoire.allFinishedSongsByBand state currentBand.Id
 
     let selectedSong =
         showOptionalChoicePrompt
@@ -40,14 +39,13 @@ and private showPracticeSong band song =
 
     match effect with
     | SongImproved effect ->
-        showProgressBar
+        showProgressBarAsync
             [ I18n.translate (RehearsalSpaceText PracticeSongProgressLosingTime)
               I18n.translate (
                   RehearsalSpaceText PracticeSongProgressTryingSoloOnceMore
               )
               I18n.translate (RehearsalSpaceText PracticeSongProgressGivingUp) ]
             2<second>
-            true
 
         Cli.Effect.apply effect
     | SongAlreadyImprovedToMax (FinishedSong song, _) ->

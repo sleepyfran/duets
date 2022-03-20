@@ -16,8 +16,7 @@ let rec createRecordSubscene studio =
     let state = State.get ()
     let currentBand = Bands.currentBand state
 
-    let finishedSongs =
-        Repertoire.allFinishedSongsByBand state currentBand.Id
+    let finishedSongs = Repertoire.allFinishedSongsByBand state currentBand.Id
 
     if List.isEmpty finishedSongs then
         StudioText StudioCreateNoSongs
@@ -90,12 +89,11 @@ and checkBankAndRecordAlbum studio band album =
     | Ok (album, effects) -> recordWithProgressBar studio band album effects
 
 and recordWithProgressBar _ band album effects =
-    showProgressBar
+    showProgressBarAsync
         [ I18n.translate (StudioText StudioCreateProgressEatingSnacks)
           I18n.translate (StudioText StudioCreateProgressRecordingWeirdSounds)
           I18n.translate (StudioText StudioCreateProgressMovingKnobs) ]
         3<second>
-        true
 
     List.iter Effect.apply effects
 

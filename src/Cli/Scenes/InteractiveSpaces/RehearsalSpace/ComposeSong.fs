@@ -70,7 +70,7 @@ and private promptForVocalStyle name length genre =
 and private composeWithProgressbar song =
     let state = State.get ()
 
-    showProgressBar
+    showProgressBarAsync
         [ RehearsalSpaceText ComposeSongProgressBrainstorming
           |> I18n.translate
           RehearsalSpaceText ComposeSongProgressConfiguringReverb
@@ -78,7 +78,6 @@ and private composeWithProgressbar song =
           RehearsalSpaceText ComposeSongProgressTryingChords
           |> I18n.translate ]
         2<second>
-        true
 
     ComposeSongConfirmation song.Name
     |> RehearsalSpaceText
