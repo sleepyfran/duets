@@ -201,7 +201,7 @@ and commandText key =
         TextStyles.error
             $"""I didn't quite catch that. Make sure you are referencing characters by their first or full name with {TextStyles.information "talk to {name}"}"""
     | CommandTalkNpcNotFound name ->
-        TextStyles.error $"There are no characters named {name} around"
+        TextStyles.error $"There are no characters named '{name}' around"
     | CommandTalkNothing -> "Nothing"
 
 and commonText key =

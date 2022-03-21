@@ -16,6 +16,9 @@ open Common
 /// <param name="title">
 /// Title of the prompt to show when asking for a command
 /// </param>
+/// <param name="availableCommands">
+/// List of commands that are available to be executed
+/// </param>
 /// <returns>
 /// The scene that the last executed command returned.
 /// </returns>
@@ -26,7 +29,17 @@ let rec showCommandPrompt title availableCommands =
 
     showCommandPromptWithoutDefaults title commandsWithDefaults
 
-/// Like `showCommandPrompt` but with only the 'help' and 'exit' command built-in.
+/// Like `showCommandPrompt` but with only the 'help' and 'exit' commands
+/// available aside from the given commands.
+/// <param name="title">
+/// Title of the prompt to show when asking for a command
+/// </param>
+/// <param name="availableCommands">
+/// List of commands that are available to be executed
+/// </param>
+/// <returns>
+/// The scene that the last executed command returned.
+/// </returns>
 and showCommandPromptWithoutDefaults title availableCommands =
     let commandsWithEssentials =
         availableCommands @ [ ExitCommand.get ]
@@ -37,25 +50,24 @@ and showCommandPromptWithoutDefaults title availableCommands =
         showMessage title
 
         showTextPrompt (Literal ">")
-        |> String.split ' '
-        |> List.ofArray
-        |> fun commandWithArgs ->
-            match commandWithArgs with
-            | commandName :: args ->
-                tryRunCommand commandsWithEssentials commandName args
-            | _ -> None
+        |> fun input ->
+            commandsWithEssentials
+            |> List.tryFind (fun command -> input.StartsWith(command.Name))
+            |> tryRunCommand input
         |> Option.defaultWith promptForCommand
 
     promptForCommand ()
 
-and private tryRunCommand availableCommands commandName args =
-    availableCommands
-    |> List.tryFind (fun command -> command.Name = commandName)
-    |> fun command ->
-        match command with
-        | Some command -> command.Handler args
-        | None ->
-            I18n.translate (CommonText CommonInvalidCommand)
-            |> showMessage
+and private tryRunCommand input command =
+    match command with
+    | Some command ->
+        input.Substring(command.Name.Length)
+        |> String.trimStart
+        |> String.split ' '
+        |> List.ofArray
+        |> command.Handler
+    | None ->
+        I18n.translate (CommonText CommonInvalidCommand)
+        |> showMessage
 
-            None
+        None

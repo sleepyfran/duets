@@ -29,39 +29,45 @@ module TalkCommand =
     /// And once the player selects an option it'll execute the action chain
     /// passed for that option.
     let rec create npcs =
-        { Name = "talk"
+        { Name = "talk to"
           Description = I18n.translate (CommandText CommandTalkDescription)
           Handler =
-              (fun args ->
-                  match args with
-                  | toKeyword :: name when toKeyword = "to" ->
-                      executeTalkCommand npcs name
-                  | _ ->
-                      I18n.translate (CommandText CommandTalkInvalidInput)
-                      |> showMessage
+            (fun args ->
+                match args with
+                | args when args.Length > 0 -> executeTalkCommand npcs args
+                | _ ->
+                    I18n.translate (CommandText CommandTalkInvalidInput)
+                    |> showMessage
 
-                      Some Scene.World) }
+                    Some Scene.World) }
 
-    and private executeTalkCommand npcs name =
-        let referencedName = String.concat " " name
+    and private executeTalkCommand npcs args =
+        let referencedName = String.concat " " args
 
+        if referencedName = "" then
+            npcNotFound referencedName
+        else
+            executeTalkCommand' npcs referencedName
+
+    and private executeTalkCommand' npcs referencedName =
         let referencedNpc =
             npcs
-            |> List.tryFind
-                (fun talkingNpc ->
-                    talkingNpc.Npc.Name = referencedName
-                    || talkingNpc.Npc.Name
-                       |> String.contains referencedName)
+            |> List.tryFind (fun talkingNpc ->
+                talkingNpc.Npc.Name = referencedName
+                || talkingNpc.Npc.Name
+                   |> String.startsWith referencedName)
 
         match referencedNpc with
         | Some talkingNpc -> showNpcOptions talkingNpc
-        | None ->
-            CommandTalkNpcNotFound referencedName
-            |> CommandText
-            |> I18n.translate
-            |> showMessage
+        | None -> npcNotFound referencedName
 
-            Some Scene.World
+    and private npcNotFound referencedName =
+        CommandTalkNpcNotFound referencedName
+        |> CommandText
+        |> I18n.translate
+        |> showMessage
+
+        Some Scene.World
 
     and private showNpcOptions talkingNpc =
         let selectedChoice =
