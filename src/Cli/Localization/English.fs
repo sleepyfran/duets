@@ -7,10 +7,14 @@ open Entities
 open System
 
 let verbConjugationByGender =
-    dict [ (Have,
-            dict [ (Male, "Has")
-                   (Female, "Has")
-                   (Other, "Have") ]) ]
+    dict [
+        (Have,
+         dict [
+             (Male, "Has")
+             (Female, "Has")
+             (Other, "Have")
+         ])
+    ]
 
 /// Transforms TextConstants into strings.
 let rec toString text =
@@ -186,8 +190,10 @@ and commandText key =
         $"Follows the {directionName direction} direction"
     | CommandLookDescription -> "Shows all the objects you have around you"
     | CommandLookEntrances entrances ->
-        $"""You can go to the {listOf entrances (fun (direction, name) ->
-                                   $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
+        $"""You can go to the {listOf
+                                   entrances
+                                   (fun (direction, name) ->
+                                       $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
     | CommandLookExit exit ->
         $"""There's also an exit to {TextStyles.place (toString exit)}({TextStyles.information "out"})"""
     | CommandLookNoObjectsAround -> "There are no objects around you"
@@ -338,6 +344,12 @@ and concertText key =
         |> fun energyText ->
             TextStyles.Level.great
                 $"""That was awesome! Your performance was great and {energyText}. You got {points} {simplePluralOf "point" points} for that"""
+    | ConcertGreetAudienceGreetedMoreThanOnceTip points ->
+        TextStyles.danger
+            $"""The audience is confused since you've already greeted them before... How many times does a normal person say hello? Anyway, that's {points} {simplePluralOf "point" points}"""
+    | ConcertGreetAudienceDone points ->
+        TextStyles.success
+            $"""The audience says hello back! That's {points} {simplePluralOf "point" points}"""
 
 and creatorText key =
     match key with

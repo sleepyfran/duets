@@ -92,6 +92,8 @@ and ConcertText =
         energy: PerformEnergy *
         points: int
     | ConcertPlaySongHighPracticeReaction of energy: PerformEnergy * points: int
+    | ConcertGreetAudienceGreetedMoreThanOnceTip of points: int
+    | ConcertGreetAudienceDone of points: int
 
 and CreatorText =
     | CharacterCreatorInitialPrompt

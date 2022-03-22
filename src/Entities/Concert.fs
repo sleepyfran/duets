@@ -25,6 +25,13 @@ module Ongoing =
                     | _ -> false
                 | _ -> false)
 
+    /// Returns the number of times that the player has greeted the audience
+    /// in the given ongoing concert.
+    let timesGreetedAudience ongoingConcert =
+        ongoingConcert.Events
+        |> List.filter (fun event -> event = CommonEvent GreetAudience)
+        |> List.length
+
 /// Creates a concert from the given parameter.
 let create date dayMoment cityId venueId ticketPrice =
     let ticketAmount = ticketPrice * 1<dd>

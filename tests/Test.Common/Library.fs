@@ -6,6 +6,7 @@ open Aether.Operators
 open Common
 open Fugit.Months
 open Entities
+open Simulation.Concerts.Live
 open Simulation.Setup
 
 let dummyCharacter = Character.from "Test" Other 24
@@ -105,6 +106,8 @@ let dummyStateWithMultipleMembers =
     startGame dummyCharacter dummyBandWithMultipleMembers
     |> fun (GameCreated state) -> state
 
+let dummyOngoingConcert = { Events = []; Points = 0<quality> }
+
 /// Adds a given member to the given band.
 let addMember (band: Band) bandMember =
     let memberLens = Lenses.FromState.Bands.members_ band.Id
@@ -174,3 +177,9 @@ let addReleasedAlbum (band: Band) album =
         Lenses.FromState.Albums.releasedByBand_ band.Id
 
     Optic.map releasedLenses (Map.add album.Album.Id album)
+
+let ongoingConcertFromResponse response = response.OngoingConcert
+
+let resultFromResponse response = response.Result
+
+let pointsFromResponse response = response.Points

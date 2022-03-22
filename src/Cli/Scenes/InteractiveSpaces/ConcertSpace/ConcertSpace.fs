@@ -38,14 +38,16 @@ let private getRoomObjects room =
 let private getRoomCommands _ = []
 
 let private showConcertSpace city place placeId roomId =
-    let room = Queries.World.Common.contentOf place.Rooms roomId
+    let room =
+        Queries.World.Common.contentOf place.Rooms roomId
 
     let entrances =
         Queries.World.Common.availableDirections roomId place.Rooms
-        |> List.map (fun (direction, connectedRoomId) ->
-            Queries.World.Common.contentOf place.Rooms connectedRoomId
-            |> getRoomName
-            |> fun name -> (direction, name, Room(placeId, connectedRoomId)))
+        |> List.map
+            (fun (direction, connectedRoomId) ->
+                Queries.World.Common.contentOf place.Rooms connectedRoomId
+                |> getRoomName
+                |> fun name -> (direction, name, Room(placeId, connectedRoomId)))
 
     let exit = exitOfNode city roomId place.Exits
     let description = getRoomDescription place.Space room
@@ -55,7 +57,9 @@ let private showConcertSpace city place placeId roomId =
     showWorldCommandPrompt entrances exit description objects commands
 
 let rec private showOngoingConcert ongoingConcert =
-    let commands = [ PlaySongCommand.create ongoingConcert showOngoingConcert ]
+    let commands =
+        [ PlaySongCommand.create ongoingConcert showOngoingConcert
+          GreetAudienceCommand.create ongoingConcert showOngoingConcert ]
 
     lineBreak ()
 
@@ -76,7 +80,8 @@ let rec concertSpace city place placeId roomId =
         roomId
         |> Option.defaultValue place.Rooms.StartingNode
 
-    let room = Queries.World.Common.contentOf place.Rooms roomId
+    let room =
+        Queries.World.Common.contentOf place.Rooms roomId
 
     match room with
     | Stage ->

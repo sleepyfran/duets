@@ -7,7 +7,7 @@ open Cli.Text
 open Entities
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Simulation
-open Simulation.Concerts.Live.PlaySong
+open Simulation.Concerts.Live
 
 [<RequireQualifiedAccess>]
 module PlaySongCommand =
@@ -23,13 +23,13 @@ module PlaySongCommand =
     let rec create ongoingConcert concertScene =
         { Name = "play song"
           Description =
-            ConcertText ConcertCommandPlayDescription
-            |> I18n.translate
+              ConcertText ConcertCommandPlayDescription
+              |> I18n.translate
           Handler =
-            (fun _ ->
-                promptForSong ongoingConcert
-                |> concertScene
-                |> Some) }
+              (fun _ ->
+                  promptForSong ongoingConcert
+                  |> concertScene
+                  |> Some) }
 
     and private promptForSong ongoingConcert =
         let state = State.get ()
@@ -75,7 +75,8 @@ module PlaySongCommand =
     and private playSongWithProgressBar ongoingConcert songWithQuality energy =
         let (FinishedSong song, _) = songWithQuality
 
-        let result = playSong ongoingConcert songWithQuality energy
+        let result =
+            playSong ongoingConcert songWithQuality energy
 
         match result.Result with
         | RepeatedSong ->

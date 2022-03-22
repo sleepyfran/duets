@@ -1,8 +1,6 @@
 [<AutoOpen>]
 module Simulation.Concerts.Live.PlaySong
 
-
-open Aether
 open Common
 open Entities
 
@@ -23,39 +21,25 @@ type PlaySongResult =
     | NormalPracticePerformance
     | HighPracticePerformance
 
-type PlaySongResponse =
-    { OngoingConcert: OngoingConcert
-      Points: int
-      Result: PlaySongResult }
-
-/// Returns a modified ongoing concert with a PlaySong event added and the
-/// amount of points gathered through this event.
+/// Plays the given song in the concert with the specified energy. The result
+/// depends on whether the song was already played or not and the energy.
 let playSong ongoingConcert (FinishedSong song, quality) energy =
     // TODO: Apply health/energy effects once we support those.
-    let alreadyPlayedSong = Concert.Ongoing.hasPlayedSong ongoingConcert song
+    let event = PlaySong(song, energy) |> CommonEvent
 
-    let (ongoingConcertWithPoints, points, result) =
-        if alreadyPlayedSong then
-            (addPoints ongoingConcert -50, -50, RepeatedSong)
-        else
-            let pointIncrease =
-                calculatePointIncrease (FinishedSong song, quality) energy
+    let alreadyPlayedSong =
+        Concert.Ongoing.hasPlayedSong ongoingConcert song
 
-            let result =
-                match song.Practice with
-                | p when p < 40<practice> -> LowPracticePerformance
-                | p when p < 80<practice> -> NormalPracticePerformance
-                | _ -> HighPracticePerformance
+    if alreadyPlayedSong then
+        response ongoingConcert event -50 RepeatedSong
+    else
+        let pointIncrease =
+            calculatePointIncrease (FinishedSong song, quality) energy
 
-            (addPoints ongoingConcert pointIncrease, pointIncrease, result)
+        let result =
+            match song.Practice with
+            | p when p < 40<practice> -> LowPracticePerformance
+            | p when p < 80<practice> -> NormalPracticePerformance
+            | _ -> HighPracticePerformance
 
-    let ongoingConcertWithEvent =
-        ongoingConcertWithPoints
-        |> Optic.map
-            Lenses.Concerts.Ongoing.events_
-            (List.append [ PlaySong(song, energy) |> CommonEvent ])
-
-
-    { OngoingConcert = ongoingConcertWithEvent
-      Points = points
-      Result = result }
+        response ongoingConcert event pointIncrease result
