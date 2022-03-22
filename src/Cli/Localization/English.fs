@@ -152,6 +152,20 @@ and listOf (stuff: 'a list) toStr =
     | [ head; tail ] -> $"%s{toStr head} and %s{toStr tail}"
     | head :: tail -> $"%s{toStr head}, %s{listOf tail toStr}"
 
+/// Returns the given singular form if the quantity is 1, or the plural form
+/// in all other cases.
+and pluralOf singular plural quantity =
+    match quantity with
+    | 1 -> singular
+    | _ -> plural
+
+/// Returns the given singular form if the quantity is 1, or the plural form
+/// by putting an "s" in the end in all other cases. Only works for words that
+/// have a simple plural where slapping an "s" on the end works, for more
+/// complex cases use `pluralOf` directly.
+and simplePluralOf singular quantity =
+    pluralOf singular $"{singular}s" quantity
+
 /// Formats a number with the thousands specifier.
 and formatNumber (amount: 'a) = String.Format("{0:#,0}", amount)
 
@@ -295,9 +309,10 @@ and concertText key =
     | ConcertPlaySongRepeatedSongReaction song ->
         TextStyles.danger
             $"Why... why are you playing {TextStyles.song song.Name} again? The audience is confused, wondering whether you're forgetting the track-list or if you simply didn't come prepared to the concert"
-    | ConcertPlaySongRepeatedTipReaction ->
-        TextStyles.information "That made you lose 50 points. Try not to repeat songs in a concert, it's never good"
-    | ConcertPlaySongLowPracticeReaction energy ->
+    | ConcertPlaySongRepeatedTipReaction points ->
+        TextStyles.information
+            $"""That got you {points} {simplePluralOf "point" points}. Try not to repeat songs in a concert, it's never good"""
+    | ConcertPlaySongLowPracticeReaction (energy, points) ->
         match energy with
         | Energetic ->
             "At least your energetic performance gave the audience some nice feeling"
@@ -305,16 +320,16 @@ and concertText key =
         | Limited -> "Not like you didn't try hard anyway"
         |> fun energyText ->
             TextStyles.Level.bad
-                $"Unfortunately it seems like you didn't practice that song enough and you made quite a lot of mistakes during the performance. {energyText}"
-    | ConcertPlaySongMediumPracticeReaction energy ->
+                $"""Unfortunately it seems like you didn't practice that song enough and you made quite a lot of mistakes during the performance, you got {simplePluralOf "point" points} points. {energyText}"""
+    | ConcertPlaySongMediumPracticeReaction (energy, points) ->
         match energy with
         | Energetic -> ""
         | PerformEnergy.Normal -> ""
         | Limited -> ""
         |> fun energyText ->
             TextStyles.Level.normal
-                $"You didn't nail the performance, but at least you didn't mess up badly. {energyText}"
-    | ConcertPlaySongHighPracticeReaction energy ->
+                $"""You didn't nail the performance, but at least you didn't mess up badly, you got {points} {simplePluralOf "point" points}. {energyText}"""
+    | ConcertPlaySongHighPracticeReaction (energy, points) ->
         match energy with
         | Energetic -> "the audience really enjoyed your energy"
         | PerformEnergy.Normal -> "the audience quite liked your energy"
@@ -322,7 +337,7 @@ and concertText key =
             "well, you were quite boring on stage but at least the music was good"
         |> fun energyText ->
             TextStyles.Level.great
-                $"That was awesome! Your performance was great and {energyText}"
+                $"""That was awesome! Your performance was great and {energyText}. You got {points} {simplePluralOf "point" points} for that"""
 
 and creatorText key =
     match key with

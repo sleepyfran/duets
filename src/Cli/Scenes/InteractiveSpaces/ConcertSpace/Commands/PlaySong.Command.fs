@@ -75,18 +75,22 @@ module PlaySongCommand =
     and private playSongWithProgressBar ongoingConcert songWithQuality energy =
         let (FinishedSong song, _) = songWithQuality
 
-        let repeatedSong = Concert.Ongoing.hasPlayedSong ongoingConcert song
+        let result = playSong ongoingConcert songWithQuality energy
 
-        if repeatedSong then
+        match result.Result with
+        | RepeatedSong ->
             ConcertPlaySongRepeatedSongReaction song
-        else
+            |> ConcertText
+            |> I18n.translate
+            |> showMessage
+        | _ ->
             match energy with
             | Energetic -> ConcertPlaySongEnergeticEnergyDescription
             | PerformEnergy.Normal -> ConcertPlaySongNormalEnergyDescription
             | Limited -> ConcertPlaySongLimitedEnergyDescription
-        |> ConcertText
-        |> I18n.translate
-        |> showMessage
+            |> ConcertText
+            |> I18n.translate
+            |> showMessage
 
         showProgressBarSync
             [ ConcertPlaySongProgressPlaying song
@@ -94,17 +98,16 @@ module PlaySongCommand =
               |> I18n.translate ]
             (song.Length.Minutes / 1<minute/second>)
 
-        if repeatedSong then
-            ConcertPlaySongRepeatedTipReaction
-        else
-            match song.Practice with
-            | p when p < 40<practice> ->
-                ConcertPlaySongLowPracticeReaction energy
-            | p when p < 80<practice> ->
-                ConcertPlaySongMediumPracticeReaction energy
-            | _ -> ConcertPlaySongHighPracticeReaction energy
+        match result.Result with
+        | RepeatedSong -> ConcertPlaySongRepeatedTipReaction result.Points
+        | LowPracticePerformance ->
+            ConcertPlaySongLowPracticeReaction(energy, result.Points)
+        | NormalPracticePerformance ->
+            ConcertPlaySongMediumPracticeReaction(energy, result.Points)
+        | HighPracticePerformance ->
+            ConcertPlaySongHighPracticeReaction(energy, result.Points)
         |> ConcertText
         |> I18n.translate
         |> showMessage
 
-        playSong ongoingConcert songWithQuality energy
+        result.OngoingConcert

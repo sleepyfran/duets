@@ -13,7 +13,3 @@ let addPoints ongoingConcert points =
             currentPoints + (points * 1<quality>)
             |> Math.clamp 0<quality> 100<quality>)
         ongoingConcert
-
-/// Removes the given amount of points from the ongoing concert, keeping the
-/// value between 0 and 100.
-let removePoints ongoingConcert points = addPoints ongoingConcert (-points)

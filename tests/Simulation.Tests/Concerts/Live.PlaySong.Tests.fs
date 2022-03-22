@@ -12,35 +12,37 @@ open Simulation.Concerts.Live
 
 let private ongoingConcert = { Events = []; Points = 0<quality> }
 
+let private ongoingConcertFromResponse response = response.OngoingConcert
+
 [<Test>]
 let ``playSong energetic energy gives up to 15 points`` () =
     Generators.Song.finishedGenerator Generators.Song.defaultOptions
     |> Gen.sample 0 1000
-    |> List.iter
-        (fun song ->
-            playSong ongoingConcert song Energetic
-            |> Optic.get Lenses.Concerts.Ongoing.points_
-            |> should be (inRange 0<quality> 15<quality>))
+    |> List.iter (fun song ->
+        playSong ongoingConcert song Energetic
+        |> ongoingConcertFromResponse
+        |> Optic.get Lenses.Concerts.Ongoing.points_
+        |> should be (inRange 0<quality> 15<quality>))
 
 [<Test>]
 let ``playSong normal energy gives up to 8 points`` () =
     Generators.Song.finishedGenerator Generators.Song.defaultOptions
     |> Gen.sample 0 1000
-    |> List.iter
-        (fun song ->
-            playSong ongoingConcert song PerformEnergy.Normal
-            |> Optic.get Lenses.Concerts.Ongoing.points_
-            |> should be (inRange 0<quality> 8<quality>))
+    |> List.iter (fun song ->
+        playSong ongoingConcert song PerformEnergy.Normal
+        |> ongoingConcertFromResponse
+        |> Optic.get Lenses.Concerts.Ongoing.points_
+        |> should be (inRange 0<quality> 8<quality>))
 
 [<Test>]
 let ``playSong limited energy gives up to 2 points`` () =
     Generators.Song.finishedGenerator Generators.Song.defaultOptions
     |> Gen.sample 0 1000
-    |> List.iter
-        (fun song ->
-            playSong ongoingConcert song Limited
-            |> Optic.get Lenses.Concerts.Ongoing.points_
-            |> should be (inRange 0<quality> 2<quality>))
+    |> List.iter (fun song ->
+        playSong ongoingConcert song Limited
+        |> ongoingConcertFromResponse
+        |> Optic.get Lenses.Concerts.Ongoing.points_
+        |> should be (inRange 0<quality> 2<quality>))
 
 [<Test>]
 let ``playSong decreases points by 50 if song has been played already`` () =
@@ -53,10 +55,11 @@ let ``playSong decreases points by 50 if song has been played already`` () =
 
     let ongoingConcert =
         { ongoingConcert with
-              Events = [ PlaySong(song, Energetic) |> CommonEvent ]
-              Points = 50<quality> }
+            Events = [ PlaySong(song, Energetic) |> CommonEvent ]
+            Points = 50<quality> }
 
     playSong ongoingConcert finishedSong Energetic
+    |> ongoingConcertFromResponse
     |> Optic.get Lenses.Concerts.Ongoing.points_
     |> should equal 0
 
@@ -69,44 +72,40 @@ let ``playSong does not decrease points below 0`` () =
 
     let ongoingConcert =
         { ongoingConcert with
-              Events =
-                  [ PlaySong(Song.fromFinished finishedSong, Energetic)
-                    |> CommonEvent ]
-              Points = 20<quality> }
+            Events =
+                [ PlaySong(Song.fromFinished finishedSong, Energetic)
+                  |> CommonEvent ]
+            Points = 20<quality> }
 
     playSong ongoingConcert finishedSong Energetic
+    |> ongoingConcertFromResponse
     |> Optic.get Lenses.Concerts.Ongoing.points_
     |> should equal 0
 
 [<Test>]
 let ``playSong should add points to the previous count`` () =
-    let ongoingConcert =
-        { ongoingConcert with
-              Points = 50<quality> }
+    let ongoingConcert = { ongoingConcert with Points = 50<quality> }
 
     Generators.Song.finishedGenerator
-        { Generators.Song.defaultOptions with
-              PracticeMin = 1 }
+        { Generators.Song.defaultOptions with PracticeMin = 1 }
     |> Gen.sample 0 1000
-    |> List.iter
-        (fun song ->
-            playSong ongoingConcert song Energetic
-            |> Optic.get Lenses.Concerts.Ongoing.points_
-            |> should be (greaterThan 50<quality>))
+    |> List.iter (fun song ->
+        playSong ongoingConcert song Energetic
+        |> ongoingConcertFromResponse
+        |> Optic.get Lenses.Concerts.Ongoing.points_
+        |> should be (greaterThan 50<quality>))
 
 [<Test>]
 let ``playSong does not increase above 100`` () =
-    let ongoingConcert =
-        { ongoingConcert with
-              Points = 98<quality> }
+    let ongoingConcert = { ongoingConcert with Points = 98<quality> }
 
     Generators.Song.finishedGenerator Generators.Song.defaultOptions
     |> Gen.sample 0 1000
-    |> List.iter
-        (fun song ->
-            playSong ongoingConcert song Energetic
-            |> Optic.get Lenses.Concerts.Ongoing.points_
-            |> should be (lessThanOrEqualTo 100<quality>))
+    |> List.iter (fun song ->
+        playSong ongoingConcert song Energetic
+        |> ongoingConcertFromResponse
+        |> Optic.get Lenses.Concerts.Ongoing.points_
+        |> should be (lessThanOrEqualTo 100<quality>))
 
 [<Test>]
 let ``playSong should add event when the song hasn't been played before`` () =
@@ -115,6 +114,7 @@ let ``playSong should add event when the song hasn't been played before`` () =
     |> List.head
     |> fun song ->
         playSong ongoingConcert song Energetic
+        |> ongoingConcertFromResponse
         |> Optic.get Lenses.Concerts.Ongoing.events_
         |> should
             contain
@@ -131,11 +131,12 @@ let ``playSong should add event when the song was played before`` () =
 
         let ongoingConcert =
             { ongoingConcert with
-                  Events = [ PlaySong(song, Energetic) |> CommonEvent ]
-                  Points = 40<quality> }
+                Events = [ PlaySong(song, Energetic) |> CommonEvent ]
+                Points = 40<quality> }
 
         playSong ongoingConcert finishedSong Energetic
+        |> ongoingConcertFromResponse
         |> Optic.get Lenses.Concerts.Ongoing.events_
-        |> List.filter
-            (fun event -> event = (PlaySong(song, Energetic) |> CommonEvent))
+        |> List.filter (fun event ->
+            event = (PlaySong(song, Energetic) |> CommonEvent))
         |> should haveLength 2

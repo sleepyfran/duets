@@ -86,10 +86,12 @@ and ConcertText =
     | ConcertPlaySongEnergeticEnergyDescription
     | ConcertPlaySongProgressPlaying of song: Song
     | ConcertPlaySongRepeatedSongReaction of song: Song
-    | ConcertPlaySongRepeatedTipReaction
-    | ConcertPlaySongLowPracticeReaction of energy: PerformEnergy
-    | ConcertPlaySongMediumPracticeReaction of energy: PerformEnergy
-    | ConcertPlaySongHighPracticeReaction of energy: PerformEnergy
+    | ConcertPlaySongRepeatedTipReaction of points: int
+    | ConcertPlaySongLowPracticeReaction of energy: PerformEnergy * points: int
+    | ConcertPlaySongMediumPracticeReaction of
+        energy: PerformEnergy *
+        points: int
+    | ConcertPlaySongHighPracticeReaction of energy: PerformEnergy * points: int
 
 and CreatorText =
     | CharacterCreatorInitialPrompt
