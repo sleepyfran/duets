@@ -52,7 +52,14 @@ and showCommandPromptWithoutDefaults title availableCommands =
         showTextPrompt (Literal ">")
         |> fun input ->
             commandsWithEssentials
-            |> List.tryFind (fun command -> input.StartsWith(command.Name))
+            |> List.tryFind
+                (fun command ->
+                    let commandTokens = String.split ' ' command.Name
+                    let inputTokens = String.split ' ' input
+
+                    inputTokens
+                    |> Seq.truncate commandTokens.Length
+                    |> Seq.forall2 (=) commandTokens)
             |> tryRunCommand input
         |> Option.defaultWith promptForCommand
 

@@ -14,6 +14,7 @@ let private getRoomName room =
     | Lobby _ -> I18n.translate (CommonText CommonLobbyName)
     | Bar _ -> I18n.translate (CommonText CommonBarName)
     | Stage _ -> I18n.translate (ConcertText ConcertSpaceStageName)
+    | Backstage -> I18n.translate (ConcertText ConcertSpaceBackstageName)
 
 let private getRoomDescription space room =
     match room with
@@ -22,18 +23,13 @@ let private getRoomDescription space room =
     | Bar -> I18n.translate (ConcertSpaceBarDescription space |> ConcertText)
     | Stage ->
         I18n.translate (ConcertSpaceStageDescription space |> ConcertText)
+    | Backstage ->
+        I18n.translate (
+            ConcertSpaceBackstageDescription space
+            |> ConcertText
+        )
 
-let private getRoomObjects room =
-    let state = State.get ()
-
-    let _characterInstrument =
-        Queries.Bands.currentPlayableMember state
-        |> Optic.get Lenses.Band.CurrentMember.role_
-
-    match room with
-    | Lobby -> []
-    | Bar -> []
-    | Stage -> []
+let private getRoomObjects _ = []
 
 let private getRoomCommands _ = []
 
@@ -56,10 +52,17 @@ let private showConcertSpace city place placeId roomId =
 
     showWorldCommandPrompt entrances exit description objects commands
 
-let rec private showOngoingConcert ongoingConcert =
+let rec private showOngoingConcert place placeId roomId ongoingConcert =
     let commands =
-        [ PlaySongCommand.create ongoingConcert showOngoingConcert
-          GreetAudienceCommand.create ongoingConcert showOngoingConcert ]
+        [ PlaySongCommand.create
+            ongoingConcert
+            (showOngoingConcert place placeId roomId)
+          GreetAudienceCommand.create
+              ongoingConcert
+              (showOngoingConcert place placeId roomId)
+          GetOffStageCommand.create
+              ongoingConcert
+              (showOnConcertBackstage place placeId roomId) ]
 
     lineBreak ()
 
@@ -71,6 +74,21 @@ let rec private showOngoingConcert ongoingConcert =
 
     showCommandPromptWithoutDefaults
         (ConcertText ConcertActionPrompt |> I18n.translate)
+        commands
+
+and private showOnConcertBackstage place placeId roomId ongoingConcert =
+    let room =
+        Queries.World.Common.contentOf place.Rooms roomId
+
+    let commands =
+        [ DoEncoreCommand.create
+            ongoingConcert
+            (showOngoingConcert place placeId roomId)
+          EndConcertCommand.create ongoingConcert ]
+
+    showWorldCommandPromptWithoutMovement
+        (getRoomDescription place.Space room)
+        (getRoomObjects room)
         commands
 
 /// Creates an interactive scene inside of a concert space in the given city,
@@ -91,9 +109,22 @@ let rec concertSpace city place placeId roomId =
             |> I18n.translate
             |> showMessage
 
-            showOngoingConcert { Events = []; Points = 0<quality> }
+            showOngoingConcert
+                place
+                placeId
+                roomId
+                { Events = []; Points = 0<quality> }
         else
             WorldText WorldConcertSpaceKickedOutOfStage
+            |> I18n.translate
+            |> showMessage
+
+            Node placeId |> moveCharacter
+    | Backstage ->
+        if Queries.World.ConcertSpace.canEnterBackstage (State.get ()) placeId then
+            showConcertSpace city place placeId roomId
+        else
+            WorldText WorldConcertSpaceKickedOutOfBackstage
             |> I18n.translate
             |> showMessage
 

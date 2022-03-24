@@ -1,5 +1,6 @@
 module Entities.Concert
 
+open Aether
 open Entities
 
 type TicketPriceError =
@@ -15,7 +16,7 @@ module Ongoing =
     /// Returns whether the given song has already being played in the passed
     /// ongoing concert.
     let hasPlayedSong ongoingConcert song =
-        ongoingConcert.Events
+        Optic.get Lenses.Concerts.Ongoing.events_ ongoingConcert
         |> List.exists
             (fun event ->
                 match event with
@@ -28,9 +29,18 @@ module Ongoing =
     /// Returns the number of times that the player has greeted the audience
     /// in the given ongoing concert.
     let timesGreetedAudience ongoingConcert =
-        ongoingConcert.Events
+        Optic.get Lenses.Concerts.Ongoing.events_ ongoingConcert
         |> List.filter (fun event -> event = CommonEvent GreetAudience)
         |> List.length
+
+    /// Returns whether the band has accumulated enough points during the concert
+    /// for people to be interested in an encore and not just leave immediately
+    /// the moment you leave the stage.
+    let canPerformEncore ongoingConcert =
+        let points =
+            Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
+
+        points > 50<quality>
 
 /// Creates a concert from the given parameter.
 let create date dayMoment cityId venueId ticketPrice =

@@ -3,6 +3,7 @@ module Simulation.Queries.Concerts
 open Aether
 open Aether.Operators
 open Entities
+open Simulation
 
 /// Returns a concert, if any scheduled, for the given band and date.
 let scheduleForDay state bandId date =
@@ -16,7 +17,27 @@ let scheduleForDay state bandId date =
         |> Seq.tryFind
             (fun event ->
                 Concert.fromScheduled event
-                |> fun concert -> concert.Date = date)
+                |> fun concert ->
+                    let concertDate =
+                        concert.Date |> Calendar.Transform.resetDayMoment
+
+                    let date =
+                        date |> Calendar.Transform.resetDayMoment
+
+                    concertDate = date)
+
+/// Returns a concert, if any scheduled, for the given band today.
+let scheduleForTodayInPlace state bandId placeId =
+    Queries.Calendar.today state
+    |> scheduleForDay state bandId
+    |> Option.bind
+        (fun scheduledConcert ->
+            let concert = Concert.fromScheduled scheduledConcert
+
+            if concert.VenueId = placeId then
+                Some scheduledConcert
+            else
+                None)
 
 /// Returns all date from today to the end of the month that have a concert
 /// scheduled.

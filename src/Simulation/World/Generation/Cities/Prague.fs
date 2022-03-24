@@ -103,12 +103,18 @@ and addPalacAkropolis street city =
     let stage =
         ConcertSpaceRoom.Stage |> World.Node.create
 
+    let backstage =
+        ConcertSpaceRoom.Backstage |> World.Node.create
+
     let node =
         World.Place.create concertSpace lobby
         |> World.Place.addRoom bar
         |> World.Place.addConnection lobby bar East
         |> World.Place.addRoom stage
         |> World.Place.addConnection lobby stage North
+        |> World.Place.addRoom backstage
+        |> World.Place.addConnection lobby backstage NorthEast
+        |> World.Place.addConnection stage backstage East
         |> World.Place.addExit lobby street
         |> ConcertPlace
         |> World.Node.create
@@ -132,12 +138,18 @@ and addRedutaJazzClub street city =
     let stage =
         ConcertSpaceRoom.Stage |> World.Node.create
 
+    let backstage =
+        ConcertSpaceRoom.Backstage |> World.Node.create
+
     let node =
         World.Place.create concertSpace lobby
         |> World.Place.addRoom bar
         |> World.Place.addConnection lobby bar West
         |> World.Place.addRoom stage
         |> World.Place.addConnection bar stage North
+        |> World.Place.addRoom backstage
+        |> World.Place.addConnection bar backstage NorthEast
+        |> World.Place.addConnection stage backstage East
         |> World.Place.addExit lobby street
         |> ConcertPlace
         |> World.Node.create

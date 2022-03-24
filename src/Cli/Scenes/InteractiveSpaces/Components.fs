@@ -124,3 +124,20 @@ let showWorldCommandPrompt entrances exit description objects commands =
     showCommandPrompt
         (CommandText CommandCommonPrompt |> I18n.translate)
         commands
+
+/// Renders a command prompt similar to `showWorldCommandPrompt` but without
+/// any reference to navigation commands.
+let showWorldCommandPromptWithoutMovement description objects commands =
+    let objectCommands =
+        List.collect (fun object -> object.Commands) objects
+
+    let commands =
+        commands
+        @ objectCommands
+          @ [ (createLookCommand [] None description objects) ]
+
+    showMessage description
+
+    showCommandPrompt
+        (CommandText CommandCommonPrompt |> I18n.translate)
+        commands

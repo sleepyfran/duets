@@ -67,7 +67,9 @@ and ConcertText =
     | ConcertSpaceLobbyDescription of space: ConcertSpace
     | ConcertSpaceBarDescription of space: ConcertSpace
     | ConcertSpaceStageDescription of space: ConcertSpace
+    | ConcertSpaceBackstageDescription of space: ConcertSpace
     | ConcertSpaceStageName
+    | ConcertSpaceBackstageName
     | ConcertSpaceStartConcert
     | ConcertFailed of band: Band * venue: ConcertSpace * concert: Concert
     | ConcertNoSongsToPlay
@@ -81,6 +83,9 @@ and ConcertText =
     | ConcertPoints of points: Quality
     | ConcertActionPrompt
     | ConcertCommandPlayDescription
+    | ConcertCommandGetOffStageDescription
+    | ConcertCommandDoEncoreDescription
+    | ConcertCommandFinishConcertDescription
     | ConcertPlaySongLimitedEnergyDescription
     | ConcertPlaySongNormalEnergyDescription
     | ConcertPlaySongEnergeticEnergyDescription
@@ -94,6 +99,8 @@ and ConcertText =
     | ConcertPlaySongHighPracticeReaction of energy: PerformEnergy * points: int
     | ConcertGreetAudienceGreetedMoreThanOnceTip of points: int
     | ConcertGreetAudienceDone of points: int
+    | ConcertGetOffStageEncorePossible
+    | ConcertGetOffStageNoEncorePossible
 
 and CreatorText =
     | CharacterCreatorInitialPrompt
@@ -286,6 +293,7 @@ and WorldText =
         name: string *
         descriptors: OutsideNodeDescriptor list
     | WorldConcertSpaceKickedOutOfStage
+    | WorldConcertSpaceKickedOutOfBackstage
 
 and TextNamespace =
     | CommandText of CommandText

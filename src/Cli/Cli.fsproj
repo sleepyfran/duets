@@ -37,6 +37,9 @@
         <Compile Include="Scenes\InteractiveSpaces\Components.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\ConcertSpace\Commands\PlaySong.Command.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\ConcertSpace\Commands\GreetAudience.Command.fs"/>
+        <Compile Include="Scenes\InteractiveSpaces\ConcertSpace\Commands\DoEncore.Command.fs"/>
+        <Compile Include="Scenes\InteractiveSpaces\ConcertSpace\Commands\FinishConcert.Command.fs"/>
+        <Compile Include="Scenes\InteractiveSpaces\ConcertSpace\Commands\GetOffStage.Command.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\ConcertSpace\ConcertSpace.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\RehearsalSpace\ComposeSong.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\RehearsalSpace\DiscardSong.fs"/>

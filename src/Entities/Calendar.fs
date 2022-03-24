@@ -66,6 +66,9 @@ module Transform =
         Query.timeOfDayMoment dayMoment
         |> fun hour -> DateTime(date.Year, date.Month, date.Day, hour, 0, 0)
 
+    /// Returns the given date with the hour set to 00:00.
+    let resetDayMoment = changeDayMoment Midnight
+
     /// Returns the given date with the hour set to the specified day moment.
     let changeDayMoment' (date: Date) dayMoment = changeDayMoment dayMoment date
 

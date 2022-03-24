@@ -13,3 +13,4 @@ module ConcertSpaceTypes =
         | Lobby
         | Bar
         | Stage
+        | Backstage
