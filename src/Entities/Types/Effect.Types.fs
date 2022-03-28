@@ -26,6 +26,7 @@ module EffectTypes =
         | GenreMarketsUpdated of GenreMarketByGenre
         | ConcertScheduled of Band * ScheduledConcert
         | ConcertUpdated of Band * ScheduledConcert
+        | ConcertFinished of Band * PastConcert
         | ConcertCancelled of Band * PastConcert
         | WorldMoveTo of WorldCoordinates
         | Wait of int

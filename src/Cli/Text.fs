@@ -101,6 +101,9 @@ and ConcertText =
     | ConcertGreetAudienceDone of points: int
     | ConcertGetOffStageEncorePossible
     | ConcertGetOffStageNoEncorePossible
+    | ConcertFinishedPoorly of points: Quality
+    | ConcertFinishedNormally of points: Quality
+    | ConcertFinishedGreat of points: Quality
 
 and CreatorText =
     | CharacterCreatorInitialPrompt

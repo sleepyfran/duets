@@ -79,7 +79,8 @@ module ConcertTypes =
     /// of points gathered.
     type OngoingConcert =
         { Events: ConcertEvent list
-          Points: Quality }
+          Points: Quality
+          Concert: Concert }
 
     /// Represents a concert that hasn't happened yet.
     type ScheduledConcert = ScheduledConcert of Concert

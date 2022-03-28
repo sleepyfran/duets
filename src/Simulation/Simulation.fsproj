@@ -45,6 +45,7 @@
         <Compile Include="Concerts\Live\Live.Common.fs"/>
         <Compile Include="Concerts\Live\Live.PlaySong.fs"/>
         <Compile Include="Concerts\Live\Live.GreetAudience.fs"/>
+        <Compile Include="Concerts\Live\Live.Finish.fs"/>
         <Compile Include="Skills\ImproveSkills.fs"/>
         <Compile Include="Songs\Practice.fs"/>
         <Compile Include="Songs\Composition\Common.fs"/>

@@ -33,6 +33,13 @@ module Common =
         |> Map.tryFind currentNodeId
         |> Option.map Node
 
+    /// Returns the room ID if the given coordinates are inside a room, or None
+    /// otherwise.
+    let roomIdFromCoordinates coordinates =
+        match coordinates with
+        | Room (_, roomId) -> Some roomId
+        | Node _ -> None
+
     /// Returns the content of the current position of the player and an optional
     /// ID to a room inside that place (if any).
     let currentPosition state =

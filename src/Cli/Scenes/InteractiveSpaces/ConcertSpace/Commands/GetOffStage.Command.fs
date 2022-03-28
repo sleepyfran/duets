@@ -28,17 +28,32 @@ module GetOffStageCommand =
                   |> World.Navigation.moveTo backstageCoordinates
                   |> Cli.Effect.apply
 
+                  lineBreak ()
+
                   if Concert.Ongoing.canPerformEncore ongoingConcert then
                       ConcertText ConcertGetOffStageEncorePossible
                       |> I18n.translate
                       |> showMessage
 
-                      backstageScene ongoingConcert |> Some
+                      lineBreak ()
+
+                      let backstageRoomId =
+                          Queries.World.Common.roomIdFromCoordinates
+                              backstageCoordinates
+                          |> Option.get
+
+                      backstageScene backstageRoomId ongoingConcert
+                      |> Some
                   else
                       ConcertText ConcertGetOffStageNoEncorePossible
                       |> I18n.translate
                       |> showMessage
 
-                      // TODO: Finish concert.
+                      lineBreak ()
+
+                      Concerts.Live.Finish.finishConcert
+                          (State.get ())
+                          ongoingConcert
+                      |> Cli.Effect.apply
 
                       Some Scene.World) }

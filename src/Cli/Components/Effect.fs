@@ -94,6 +94,19 @@ and private displayEffect effect =
         |> PhoneText
         |> I18n.translate
         |> showMessage
+    | ConcertFinished (_, pastConcert) ->
+        let quality =
+            match pastConcert with
+            | PerformedConcert (_, quality) -> quality
+            | _ -> 0<quality>
+
+        match quality with
+        | q when q < 35<quality> -> ConcertFinishedPoorly q
+        | q when q < 75<quality> -> ConcertFinishedNormally q
+        | q -> ConcertFinishedGreat q
+        |> ConcertText
+        |> I18n.translate
+        |> showMessage
     | ConcertCancelled (band, FailedConcert concert) ->
         let venue =
             Queries.World.ConcertSpace.byId

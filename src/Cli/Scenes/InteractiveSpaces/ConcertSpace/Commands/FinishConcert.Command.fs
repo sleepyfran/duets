@@ -1,8 +1,10 @@
 namespace Cli.Scenes.InteractiveSpaces.ConcertSpace.Commands
 
+open Agents
 open Cli.Components.Commands
 open Cli.SceneIndex
 open Cli.Text
+open Simulation
 
 [<RequireQualifiedAccess>]
 module EndConcertCommand =
@@ -16,5 +18,9 @@ module EndConcertCommand =
               |> I18n.translate
           Handler =
               (fun _ ->
-                  // TODO: Implement.
+                  Concerts.Live.Finish.finishConcert
+                      (State.get ())
+                      ongoingConcert
+                  |> Cli.Effect.apply
+
                   Some Scene.World) }

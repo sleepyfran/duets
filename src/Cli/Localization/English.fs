@@ -372,6 +372,15 @@ and concertText key =
     | ConcertGetOffStageNoEncorePossible ->
         TextStyles.Level.bad
             "You get off the stage and head into the backstage, the audience starts heading for the exit. The concert is over"
+    | ConcertFinishedPoorly points ->
+        TextStyles.Level.bad
+            $"The concert ended poorly, you didn't get enough attention from the crowd to keep them entertained. You got {points} points"
+    | ConcertFinishedNormally points ->
+        TextStyles.Level.normal
+            $"Well, that didn't go as bad as it could've gone! You got {points} points"
+    | ConcertFinishedGreat points ->
+        TextStyles.Level.great
+            $"You nailed the concert! The crowd loved it and will definitely come for the next one! You got {points} points"
 
 and creatorText key =
     match key with

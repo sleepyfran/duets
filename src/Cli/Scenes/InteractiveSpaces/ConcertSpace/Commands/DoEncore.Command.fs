@@ -24,4 +24,6 @@ module DoEncoreCommand =
                   |> World.Navigation.moveTo stageCoordinates
                   |> Cli.Effect.apply
 
+                  // TODO: Show a message about coming back to the stage.
+
                   concertScene ongoingConcert |> Some) }

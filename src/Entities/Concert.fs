@@ -37,6 +37,7 @@ module Ongoing =
     /// for people to be interested in an encore and not just leave immediately
     /// the moment you leave the stage.
     let canPerformEncore ongoingConcert =
+        // TODO: Check how many times the artist went off the stage.
         let points =
             Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
 

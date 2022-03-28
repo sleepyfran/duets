@@ -62,7 +62,7 @@ let rec private showOngoingConcert place placeId roomId ongoingConcert =
               (showOngoingConcert place placeId roomId)
           GetOffStageCommand.create
               ongoingConcert
-              (showOnConcertBackstage place placeId roomId) ]
+              (showOnConcertBackstage place placeId) ]
 
     lineBreak ()
 
@@ -109,11 +109,23 @@ let rec concertSpace city place placeId roomId =
             |> I18n.translate
             |> showMessage
 
+            let band = Queries.Bands.currentBand (State.get ())
+
+            let concert =
+                Queries.Concerts.scheduleForTodayInPlace
+                    (State.get ())
+                    band.Id
+                    placeId
+                |> Option.get
+                |> Concert.fromScheduled
+
             showOngoingConcert
                 place
                 placeId
                 roomId
-                { Events = []; Points = 0<quality> }
+                { Events = []
+                  Points = 0<quality>
+                  Concert = concert }
         else
             WorldText WorldConcertSpaceKickedOutOfStage
             |> I18n.translate

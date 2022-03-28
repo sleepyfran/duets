@@ -57,6 +57,7 @@ and showCommandPromptWithoutDefaults title availableCommands =
                     let commandTokens = String.split ' ' command.Name
                     let inputTokens = String.split ' ' input
 
+                    // TODO: Check logic to account for commands like "play"
                     inputTokens
                     |> Seq.truncate commandTokens.Length
                     |> Seq.forall2 (=) commandTokens)
