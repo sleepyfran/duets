@@ -1,5 +1,13 @@
 module Common.List
 
+/// Like `forall2` but returns true instead of throwing an exception when the
+/// size of the collections differ.
+let forall2' predicate source1 source2 =
+    try
+        List.forall2 predicate source1 source2
+    with
+    | _ -> false
+
 /// Returns a list created from the values of a map ignoring its keys.
 let ofMapValues (map: Map<_, _>) =
     List.ofSeq map |> List.map (fun kvp -> kvp.Value)

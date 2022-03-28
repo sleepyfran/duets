@@ -54,13 +54,14 @@ and showCommandPromptWithoutDefaults title availableCommands =
             commandsWithEssentials
             |> List.tryFind
                 (fun command ->
-                    let commandTokens = String.split ' ' command.Name
-                    let inputTokens = String.split ' ' input
+                    let commandTokens =
+                        String.split ' ' command.Name |> List.ofArray
 
-                    // TODO: Check logic to account for commands like "play"
+                    let inputTokens = String.split ' ' input |> List.ofArray
+
                     inputTokens
-                    |> Seq.truncate commandTokens.Length
-                    |> Seq.forall2 (=) commandTokens)
+                    |> List.truncate commandTokens.Length
+                    |> List.forall2' (=) commandTokens)
             |> tryRunCommand input
         |> Option.defaultWith promptForCommand
 
