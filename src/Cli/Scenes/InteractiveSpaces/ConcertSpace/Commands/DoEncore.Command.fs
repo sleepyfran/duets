@@ -1,6 +1,7 @@
 namespace Cli.Scenes.InteractiveSpaces.ConcertSpace.Commands
 
 open Agents
+open Cli.Components
 open Cli.Components.Commands
 open Cli.Text
 open Simulation
@@ -24,6 +25,10 @@ module DoEncoreCommand =
                   |> World.Navigation.moveTo stageCoordinates
                   |> Cli.Effect.apply
 
-                  // TODO: Show a message about coming back to the stage.
+                  lineBreak ()
+
+                  ConcertText ConcertEncoreComingBackToStage
+                  |> I18n.translate
+                  |> showMessage
 
                   concertScene ongoingConcert |> Some) }

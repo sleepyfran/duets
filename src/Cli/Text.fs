@@ -101,6 +101,7 @@ and ConcertText =
     | ConcertGreetAudienceDone of points: int
     | ConcertGetOffStageEncorePossible
     | ConcertGetOffStageNoEncorePossible
+    | ConcertEncoreComingBackToStage
     | ConcertFinishedPoorly of points: Quality
     | ConcertFinishedNormally of points: Quality
     | ConcertFinishedGreat of points: Quality

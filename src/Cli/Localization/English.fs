@@ -372,6 +372,9 @@ and concertText key =
     | ConcertGetOffStageNoEncorePossible ->
         TextStyles.Level.bad
             "You get off the stage and head into the backstage, the audience starts heading for the exit. The concert is over"
+    | ConcertEncoreComingBackToStage ->
+        TextStyles.success
+            "You come back to the stage and the the audience starts clapping with enthusiasm!"
     | ConcertFinishedPoorly points ->
         TextStyles.Level.bad
             $"The concert ended poorly, you didn't get enough attention from the crowd to keep them entertained. You got {points} points"
