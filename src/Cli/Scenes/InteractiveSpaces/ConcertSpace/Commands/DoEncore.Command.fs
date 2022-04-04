@@ -31,4 +31,7 @@ module DoEncoreCommand =
                   |> I18n.translate
                   |> showMessage
 
-                  concertScene ongoingConcert |> Some) }
+                  Concerts.Live.Encore.doEncore ongoingConcert
+                  |> fun response -> response.OngoingConcert
+                  |> concertScene
+                  |> Some) }

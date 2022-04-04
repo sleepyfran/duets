@@ -45,6 +45,7 @@
         <Compile Include="Concerts\Live\Live.Common.fs"/>
         <Compile Include="Concerts\Live\Live.PlaySong.fs"/>
         <Compile Include="Concerts\Live\Live.GreetAudience.fs"/>
+        <Compile Include="Concerts\Live\Live.Encore.fs"/>
         <Compile Include="Concerts\Live\Live.Finish.fs"/>
         <Compile Include="Skills\ImproveSkills.fs"/>
         <Compile Include="Songs\Practice.fs"/>
@@ -60,11 +61,11 @@
         <Compile Include="Simulation.fs"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Common\Common.fsproj" />
-        <ProjectReference Include="..\Database\Database.fsproj" />
+        <ProjectReference Include="..\Common\Common.fsproj"/>
+        <ProjectReference Include="..\Database\Database.fsproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Aether" Version="8.3.1" />
-        <PackageReference Include="Fugit" Version="0.4.1" />
+        <PackageReference Include="Aether" Version="8.3.1"/>
+        <PackageReference Include="Fugit" Version="0.4.1"/>
     </ItemGroup>
 </Project>

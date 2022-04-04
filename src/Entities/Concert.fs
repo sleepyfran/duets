@@ -26,22 +26,27 @@ module Ongoing =
                     | _ -> false
                 | _ -> false)
 
+    let private timesDoneEvent ongoingConcert event =
+        Optic.get Lenses.Concerts.Ongoing.events_ ongoingConcert
+        |> List.filter ((=) event)
+        |> List.length
+
     /// Returns the number of times that the player has greeted the audience
     /// in the given ongoing concert.
     let timesGreetedAudience ongoingConcert =
-        Optic.get Lenses.Concerts.Ongoing.events_ ongoingConcert
-        |> List.filter (fun event -> event = CommonEvent GreetAudience)
-        |> List.length
+        timesDoneEvent ongoingConcert (CommonEvent GreetAudience)
 
     /// Returns whether the band has accumulated enough points during the concert
     /// for people to be interested in an encore and not just leave immediately
     /// the moment you leave the stage.
     let canPerformEncore ongoingConcert =
-        // TODO: Check how many times the artist went off the stage.
+        let timesPerformedEncores =
+            timesDoneEvent ongoingConcert (CommonEvent PerformedEncore)
+
         let points =
             Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
 
-        points > 50<quality>
+        points > 50<quality> && timesPerformedEncores = 0
 
 /// Creates a concert from the given parameter.
 let create date dayMoment cityId venueId ticketPrice =

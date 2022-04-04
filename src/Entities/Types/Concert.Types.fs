@@ -44,6 +44,7 @@ module ConcertTypes =
         | GreetAudience
         | MakeSpeech
         | FaceBand
+        | PerformedEncore
 
     /// Defines all events that a guitarist can do during a concert.
     type ConcertGuitaristEvent =
