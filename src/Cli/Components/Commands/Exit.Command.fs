@@ -9,4 +9,4 @@ module ExitCommand =
     let get =
         { Name = "exit"
           Description = I18n.translate (CommandText CommandExitDescription)
-          Handler = fun _ -> Some Scene.Exit }
+          Handler = fun _ -> Scene.Exit }

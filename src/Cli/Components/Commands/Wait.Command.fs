@@ -2,6 +2,7 @@ namespace Cli.Components.Commands
 
 open Cli
 open Cli.Components
+open Cli.SceneIndex
 open Cli.Text
 open Entities
 
@@ -25,4 +26,4 @@ module WaitCommand =
                           )
                   | _ -> Wait 1 |> Effect.apply
 
-                  None) }
+                  Scene.World) }

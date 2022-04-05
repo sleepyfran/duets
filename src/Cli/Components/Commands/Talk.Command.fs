@@ -8,7 +8,7 @@ open Entities
 
 [<RequireQualifiedAccess>]
 module TalkCommand =
-    type TalkOption = Text * (unit -> Scene option)
+    type TalkOption = Text * (unit -> Scene)
 
     type TalkingNpc =
         { Npc: Character
@@ -32,14 +32,14 @@ module TalkCommand =
         { Name = "talk to"
           Description = I18n.translate (CommandText CommandTalkDescription)
           Handler =
-            (fun args ->
-                match args with
-                | args when args.Length > 0 -> executeTalkCommand npcs args
-                | _ ->
-                    I18n.translate (CommandText CommandTalkInvalidInput)
-                    |> showMessage
+              (fun args ->
+                  match args with
+                  | args when args.Length > 0 -> executeTalkCommand npcs args
+                  | _ ->
+                      I18n.translate (CommandText CommandTalkInvalidInput)
+                      |> showMessage
 
-                    Some Scene.World) }
+                      Scene.World) }
 
     and private executeTalkCommand npcs args =
         let referencedName = String.concat " " args
@@ -52,10 +52,11 @@ module TalkCommand =
     and private executeTalkCommand' npcs referencedName =
         let referencedNpc =
             npcs
-            |> List.tryFind (fun talkingNpc ->
-                talkingNpc.Npc.Name = referencedName
-                || talkingNpc.Npc.Name
-                   |> String.startsWith referencedName)
+            |> List.tryFind
+                (fun talkingNpc ->
+                    talkingNpc.Npc.Name = referencedName
+                    || talkingNpc.Npc.Name
+                       |> String.startsWith referencedName)
 
         match referencedNpc with
         | Some talkingNpc -> showNpcOptions talkingNpc
@@ -67,7 +68,7 @@ module TalkCommand =
         |> I18n.translate
         |> showMessage
 
-        Some Scene.World
+        Scene.World
 
     and private showNpcOptions talkingNpc =
         let selectedChoice =
@@ -79,4 +80,4 @@ module TalkCommand =
 
         match selectedChoice with
         | Some (_, handler) -> handler ()
-        | None -> Some Scene.World
+        | None -> Scene.World

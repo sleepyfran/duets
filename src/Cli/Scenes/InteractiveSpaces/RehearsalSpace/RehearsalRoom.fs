@@ -15,7 +15,7 @@ let private instrumentFromType instrumentType =
             (I18n.translate (
                 RehearsalSpaceText RehearsalRoomInstrumentPlayDescription
             ))
-            (fun _ -> ChooseAction.createMenu () |> Some)
+            (fun _ -> ChooseAction.createMenu ())
 
     match instrumentType with
     | InstrumentType.Bass -> create Objects.bass
@@ -64,7 +64,7 @@ let private getRoomCommands room =
                 I18n.translate (
                     RehearsalSpaceText RehearsalRoomManageDescription
                 )
-            Handler = fun _ -> Some Scene.Management } ]
+            Handler = fun _ -> Scene.Management } ]
 
 /// Creates an interactive scene inside of a rehearsal space in the given city,
 /// place and room.

@@ -43,7 +43,6 @@ module GetOffStageCommand =
                           |> Option.get
 
                       backstageScene backstageRoomId ongoingConcert
-                      |> Some
                   else
                       ConcertText ConcertGetOffStageNoEncorePossible
                       |> I18n.translate
@@ -56,4 +55,4 @@ module GetOffStageCommand =
                           ongoingConcert
                       |> Cli.Effect.apply
 
-                      Some Scene.World) }
+                      Scene.World) }

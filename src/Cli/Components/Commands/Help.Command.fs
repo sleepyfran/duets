@@ -2,6 +2,7 @@ namespace Cli.Components.Commands
 
 open Cli.Components
 open Cli.Text
+open Cli.SceneIndex
 
 [<RequireQualifiedAccess>]
 module HelpCommand =
@@ -23,4 +24,4 @@ module HelpCommand =
                           |> I18n.translate
                           |> showMessage)
 
-                  None }
+                  Scene.World }

@@ -37,14 +37,12 @@ let private getRoomCommands studio room =
         let createRecordOption =
             (StudioText StudioTalkCreateRecord
              |> I18n.translate),
-            fun () -> CreateRecord.createRecordSubscene studio |> Some
+            fun () -> CreateRecord.createRecordSubscene studio
 
         let continueRecordOption =
             (StudioText StudioTalkContinueRecord
              |> I18n.translate),
-            fun () ->
-                ContinueRecord.continueRecordSubscene studio
-                |> Some
+            fun () -> ContinueRecord.continueRecordSubscene studio
 
         let talkOptions =
             [ createRecordOption

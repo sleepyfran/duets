@@ -106,7 +106,10 @@ let dummyStateWithMultipleMembers =
     startGame dummyCharacter dummyBandWithMultipleMembers
     |> fun (GameCreated state) -> state
 
-let dummyOngoingConcert = { Events = []; Points = 0<quality> }
+let dummyOngoingConcert =
+    { Events = []
+      Points = 0<quality>
+      Concert = dummyConcert }
 
 /// Adds a given member to the given band.
 let addMember (band: Band) bandMember =

@@ -60,7 +60,7 @@ let private createLookCommand entrances exit description objects =
               lineBreak ()
               showRoomConnections entrances exit
 
-              None) }
+              Scene.World) }
 
 let private createOutCommand coordinates =
     { Name = "out"
@@ -71,7 +71,7 @@ let private createOutCommand coordinates =
               |> World.Navigation.moveTo coordinates
               |> Cli.Effect.apply
 
-              Some Scene.World) }
+              Scene.World) }
 
 let private getPlaceName nodeContent =
     match nodeContent with

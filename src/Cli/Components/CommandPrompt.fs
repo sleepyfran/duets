@@ -75,6 +75,7 @@ and private tryRunCommand input command =
         |> String.split ' '
         |> List.ofArray
         |> command.Handler
+        |> Some
     | None ->
         I18n.translate (CommonText CommonInvalidCommand)
         |> showMessage

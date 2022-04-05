@@ -33,5 +33,4 @@ module DoEncoreCommand =
 
                   Concerts.Live.Encore.doEncore ongoingConcert
                   |> fun response -> response.OngoingConcert
-                  |> concertScene
-                  |> Some) }
+                  |> concertScene) }

@@ -23,4 +23,4 @@ module EndConcertCommand =
                       ongoingConcert
                   |> Cli.Effect.apply
 
-                  Some Scene.World) }
+                  Scene.World) }

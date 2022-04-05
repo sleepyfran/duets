@@ -27,4 +27,4 @@ module GreetAudienceCommand =
                   |> I18n.translate
                   |> showMessage
 
-                  response.OngoingConcert |> concertScene |> Some) }
+                  response.OngoingConcert |> concertScene) }

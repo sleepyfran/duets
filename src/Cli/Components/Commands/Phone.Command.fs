@@ -9,4 +9,4 @@ module PhoneCommand =
     let get =
         { Name = "phone"
           Description = I18n.translate (CommandText CommandPhoneDescription)
-          Handler = fun _ -> Some Scene.Phone }
+          Handler = fun _ -> Scene.Phone }

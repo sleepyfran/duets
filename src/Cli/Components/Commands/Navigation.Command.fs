@@ -23,7 +23,7 @@ module NavigationCommand =
         |> World.Navigation.moveTo coordinates
         |> Effect.apply
 
-        Some Scene.World
+        Scene.World
 
     /// Creates a set of commands with the available direction as the name which,
     /// when executed, moves the player towards that direction.

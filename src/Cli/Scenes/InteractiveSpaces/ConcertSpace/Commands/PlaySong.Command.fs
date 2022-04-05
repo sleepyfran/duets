@@ -25,11 +25,7 @@ module PlaySongCommand =
           Description =
               ConcertText ConcertCommandPlayDescription
               |> I18n.translate
-          Handler =
-              (fun _ ->
-                  promptForSong ongoingConcert
-                  |> concertScene
-                  |> Some) }
+          Handler = (fun _ -> promptForSong ongoingConcert |> concertScene) }
 
     and private promptForSong ongoingConcert =
         let state = State.get ()

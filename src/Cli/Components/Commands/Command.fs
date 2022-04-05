@@ -7,4 +7,4 @@ open Cli.Text
 type Command =
     { Name: string
       Description: Text
-      Handler: string list -> Scene option }
+      Handler: string list -> Scene }
