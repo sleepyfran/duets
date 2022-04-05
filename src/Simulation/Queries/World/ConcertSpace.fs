@@ -89,10 +89,10 @@ module ConcertSpace =
                 dateWithDayMoment = timeRightNow)
         |> Option.defaultValue false
 
-    /// Returns whether the character has a concert scheduled in the current
-    /// venue today and therefore can access or not the backstage.
+    /// Returns whether the character has a concert scheduled around the time
+    /// they're attempting to enter the backstage.
     let canEnterBackstage state placeId =
         let band = Queries.Bands.currentBand state
 
-        Queries.Concerts.scheduleForTodayInPlace state band.Id placeId
-        |> Option.isSome
+        Queries.Concerts.scheduledAroundDate state band.Id
+        |> List.exists (fun concert -> concert.VenueId = placeId)

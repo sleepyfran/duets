@@ -97,6 +97,7 @@ module ConcertTypes =
     /// have already happened and another for the ones that will happen in the
     /// future.
     type ConcertTimeline =
+        // TODO: Consider moving into simple lists since we're not really using any nicety from the Set module.
         { ScheduledEvents: Set<ScheduledConcert>
           PastEvents: Set<PastConcert> }
 
