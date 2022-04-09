@@ -31,7 +31,7 @@ let playSong ongoingConcert (FinishedSong song, quality) energy =
         Concert.Ongoing.hasPlayedSong ongoingConcert song
 
     if alreadyPlayedSong then
-        response ongoingConcert event -50 RepeatedSong
+        Response.forEvent' ongoingConcert event -50 RepeatedSong
     else
         let pointIncrease =
             calculatePointIncrease (FinishedSong song, quality) energy
@@ -42,4 +42,4 @@ let playSong ongoingConcert (FinishedSong song, quality) energy =
             | p when p < 80<practice> -> NormalPracticePerformance
             | _ -> HighPracticePerformance
 
-        response ongoingConcert event pointIncrease result
+        Response.forEvent' ongoingConcert event pointIncrease result

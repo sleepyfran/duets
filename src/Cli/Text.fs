@@ -105,6 +105,10 @@ and ConcertText =
     | ConcertFinishedPoorly of points: Quality
     | ConcertFinishedNormally of points: Quality
     | ConcertFinishedGreat of points: Quality
+    | ConcertSpeechGivenLowSkill of points: int
+    | ConcertSpeechGivenMediumSkill of points: int
+    | ConcertSpeechGivenHighSkill of points: int
+    | ConcertTooManySpeeches
 
 and CreatorText =
     | CharacterCreatorInitialPrompt

@@ -10,7 +10,7 @@ let qualityForMember state genre (currentMember: CurrentMember) =
     let genreSkill = create <| SkillId.Genre genre
 
     let influencingSkills =
-        [ Composition
+        [ SkillId.Composition
           SkillId.Instrument currentMember.Role
           genreSkill.Id ]
 

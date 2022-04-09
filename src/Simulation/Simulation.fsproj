@@ -7,6 +7,7 @@
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="Constants.fs"/>
+        <Compile Include="RandomGen.fs"/>
         <Compile Include="Queries\Albums.fs"/>
         <Compile Include="Queries\Songs.fs"/>
         <Compile Include="Queries\Repertoire.fs"/>
@@ -40,6 +41,8 @@
         <Compile Include="Studio/RenameAlbum.fs"/>
         <Compile Include="Market\GenreMarket.fs"/>
         <Compile Include="Bands\Members.fs"/>
+        <Compile Include="Skills\ImproveSkills.Common.fs"/>
+        <Compile Include="Skills\ImproveSkills.Composition.fs"/>
         <Compile Include="Concerts\DailyUpdate.fs"/>
         <Compile Include="Concerts\Scheduler.fs"/>
         <Compile Include="Concerts\Live\Live.Common.fs"/>
@@ -47,7 +50,7 @@
         <Compile Include="Concerts\Live\Live.GreetAudience.fs"/>
         <Compile Include="Concerts\Live\Live.Encore.fs"/>
         <Compile Include="Concerts\Live\Live.Finish.fs"/>
-        <Compile Include="Skills\ImproveSkills.fs"/>
+        <Compile Include="Concerts\Live\Live.GiveSpeech.fs"/>
         <Compile Include="Songs\Practice.fs"/>
         <Compile Include="Songs\Composition\Common.fs"/>
         <Compile Include="Songs\Composition\ComposeSong.fs"/>

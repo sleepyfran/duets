@@ -62,7 +62,10 @@ let rec private showOngoingConcert place placeId roomId ongoingConcert =
               (showOngoingConcert place placeId roomId)
           GetOffStageCommand.create
               ongoingConcert
-              (showOnConcertBackstage place placeId) ]
+              (showOnConcertBackstage place placeId)
+          GiveSpeechCommand.create
+              ongoingConcert
+              (showOngoingConcert place placeId roomId) ]
 
     lineBreak ()
 

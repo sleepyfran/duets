@@ -26,15 +26,15 @@ module Ongoing =
                     | _ -> false
                 | _ -> false)
 
-    let private timesDoneEvent ongoingConcert event =
+    /// Returns the number of times that an event was performed. Do NOT use with
+    /// events that have inner fields that we do not want to match such as
+    /// PlaySong (contains perform energy which is not used in the comparison),
+    /// since it might not return the correct number. Use specific functions
+    /// for those.
+    let timesDoneEvent ongoingConcert event =
         Optic.get Lenses.Concerts.Ongoing.events_ ongoingConcert
         |> List.filter ((=) event)
         |> List.length
-
-    /// Returns the number of times that the player has greeted the audience
-    /// in the given ongoing concert.
-    let timesGreetedAudience ongoingConcert =
-        timesDoneEvent ongoingConcert (CommonEvent GreetAudience)
 
     /// Returns whether the band has accumulated enough points during the concert
     /// for people to be interested in an encore and not just leave immediately

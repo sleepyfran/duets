@@ -1,14 +1,16 @@
 module Entities.Skill
 
 open Common
+open Entities
 
 /// Maps each type of skill with its category.
 let categoryFor id =
     match id with
-    | Composition -> Music
-    | Genre _ -> Music
-    | SkillId.Instrument _ -> Music
-    | MusicProduction -> Production
+    | SkillId.Composition -> SkillCategory.Music
+    | SkillId.Genre _ -> SkillCategory.Music
+    | SkillId.Instrument _ -> SkillCategory.Music
+    | SkillId.MusicProduction -> SkillCategory.Production
+    | SkillId.Speech -> SkillCategory.Character
 
 /// Creates a new skill for a given ID. Its category is automatically populated
 /// based on the type of skill given.

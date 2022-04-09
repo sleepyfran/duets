@@ -41,11 +41,12 @@ and roleName instrumentType =
 /// Returns the formatted skill name given its ID.
 and skillName id =
     match id with
-    | Composition -> "Composition"
-    | Genre genre -> $"{genre} (Genre)"
+    | SkillId.Composition -> "Composition"
+    | SkillId.Genre genre -> $"{genre} (Genre)"
     | SkillId.Instrument instrument ->
         $"{instrumentName instrument} (Instrument)"
-    | MusicProduction -> "Music production"
+    | SkillId.MusicProduction -> "Music production"
+    | SkillId.Speech -> "Speech"
 
 /// Returns the command associated with the given direction.
 and directionCommand direction =
@@ -384,6 +385,18 @@ and concertText key =
     | ConcertFinishedGreat points ->
         TextStyles.Level.great
             $"You nailed the concert! The crowd loved it and will definitely come for the next one! You got {points} points"
+    | ConcertSpeechGivenLowSkill points ->
+        TextStyles.Level.bad
+            $"""Well.. Did you ever take an English class or were you just too scared of the audience? That was an embarrasing speech, maybe don't try again. You got {points} {simplePluralOf "point" points}"""
+    | ConcertSpeechGivenMediumSkill points ->
+        TextStyles.Level.normal
+            $"""You would definitely not convince anyone to jump off a bridge with those skills, but the speech didn't go that bad. You got {points} {simplePluralOf "point" points}"""
+    | ConcertSpeechGivenHighSkill points ->
+        TextStyles.Level.great
+            $"""That was amazing! You really have a way with words. That got you {points} {simplePluralOf "point" points}"""
+    | ConcertTooManySpeeches ->
+        TextStyles.danger
+            "The audience is already bored of hearing you talk. Just play some songs and stop talking!"
 
 and creatorText key =
     match key with

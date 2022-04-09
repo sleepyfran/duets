@@ -42,7 +42,7 @@ module ConcertTypes =
         | PlaySong of song: Song * energy: PerformEnergy
         | DedicateSong of song: Song * energy: PerformEnergy
         | GreetAudience
-        | MakeSpeech
+        | GiveSpeech
         | FaceBand
         | PerformedEncore
 

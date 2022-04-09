@@ -28,26 +28,33 @@ let matchesImprovementValue effects =
     genreLevel |> should equal 1
     instrumentLevel |> should equal 1
 
+let staticRandom value =
+    { new System.Random() with
+        override this.Next() = value
+        override this.Next(_, _) = value }
+
 [<Test>]
 let ``should increase skills by one if random is more than 50`` () =
     [ 60; 55; 51; 100; 78; 80 ]
     |> List.iter
         (fun randomValue ->
-            improveBandSkillsAfterComposing'
-                (fun _ _ -> randomValue)
-                dummyBand
-                dummyState
+            staticRandom randomValue
+            |> Simulation.RandomGen.change
+
+            Composition.improveBandSkillsAfterComposing dummyBand dummyState
             |> matchesImprovementValue)
 
 [<Test>]
 let ``should not increase skills that is already at a 100`` () =
+    staticRandom 80 |> Simulation.RandomGen.change
+
     let state =
         addSkillTo
             dummyCharacter
             (Skill.create SkillId.Composition, 100)
             dummyState
 
-    improveBandSkillsAfterComposing' (fun _ _ -> 100) dummyBand state
+    Composition.improveBandSkillsAfterComposing dummyBand state
     |> should haveLength 2
 
     let state =
@@ -56,7 +63,7 @@ let ``should not increase skills that is already at a 100`` () =
             (dummyBand.Genre |> SkillId.Genre |> Skill.create, 100)
             state
 
-    improveBandSkillsAfterComposing' (fun _ _ -> 100) dummyBand state
+    Composition.improveBandSkillsAfterComposing dummyBand state
     |> should haveLength 1
 
 [<Test>]
@@ -64,8 +71,8 @@ let ``should not increase skills if random is less than 50`` () =
     [ 1; 24; 12; 30; 45; 49; 50 ]
     |> List.iter
         (fun randomValue ->
-            improveBandSkillsAfterComposing'
-                (fun _ _ -> randomValue)
-                dummyBand
-                dummyState
+            staticRandom randomValue
+            |> Simulation.RandomGen.change
+
+            Composition.improveBandSkillsAfterComposing dummyBand dummyState
             |> should haveLength 0)

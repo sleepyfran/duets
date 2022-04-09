@@ -31,9 +31,12 @@ let private runTimeDependentEffects time state =
 
 let private getAssociatedEffects effect =
     match effect with
-    | SongStarted (band, _) -> [ improveBandSkillsAfterComposing band ]
-    | SongImproved (band, _) -> [ improveBandSkillsAfterComposing band ]
-    | SongPracticed (band, _) -> [ improveBandSkillsAfterComposing band ]
+    | SongStarted (band, _) ->
+        [ Composition.improveBandSkillsAfterComposing band ]
+    | SongImproved (band, _) ->
+        [ Composition.improveBandSkillsAfterComposing band ]
+    | SongPracticed (band, _) ->
+        [ Composition.improveBandSkillsAfterComposing band ]
     | TimeAdvanced date -> [ runTimeDependentEffects date ]
     | _ -> []
 

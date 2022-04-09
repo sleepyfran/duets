@@ -3,14 +3,18 @@ namespace Entities
 [<AutoOpen>]
 module SkillTypes =
     /// Identifier of a skill which represents its internal type.
+    [<RequireQualifiedAccess>]
     type SkillId =
         | Composition
         | Genre of Genre
         | Instrument of InstrumentType
         | MusicProduction
+        | Speech
 
     /// Defines all possible categories to which skills can be related to.
+    [<RequireQualifiedAccess>]
     type SkillCategory =
+        | Character
         | Music
         | Production
 

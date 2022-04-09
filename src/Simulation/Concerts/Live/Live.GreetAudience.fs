@@ -12,7 +12,10 @@ type GreetAudienceResult =
 let greetAudience ongoingConcert =
     let event = CommonEvent GreetAudience
 
-    match Concert.Ongoing.timesGreetedAudience ongoingConcert with
+    let timesGreetedAudience =
+        Concert.Ongoing.timesDoneEvent ongoingConcert event
+
+    match timesGreetedAudience with
     | times when times >= 1 ->
-        response ongoingConcert event -10 GreetedMoreThanOnce
-    | _ -> response ongoingConcert event 5 Ok
+        Response.forEvent' ongoingConcert event -10 GreetedMoreThanOnce
+    | _ -> Response.forEvent' ongoingConcert event 5 Ok

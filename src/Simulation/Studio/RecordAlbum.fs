@@ -6,7 +6,10 @@ open Simulation.Queries
 open Simulation.Bank.Operations
 
 let private productionQualityImprovement state studio =
-    Skills.characterSkillWithLevel state studio.Producer.Id MusicProduction
+    Skills.characterSkillWithLevel
+        state
+        studio.Producer.Id
+        SkillId.MusicProduction
     |> fun (_, productionLevel) -> (float productionLevel) * 0.2
 
 let private recordTrackList state studio trackList =
