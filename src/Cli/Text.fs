@@ -1,4 +1,4 @@
-module Cli.Text
+﻿module Cli.Text
 
 open Entities
 
@@ -83,6 +83,7 @@ and ConcertText =
     | ConcertPoints of points: Quality
     | ConcertActionPrompt
     | ConcertCommandPlayDescription
+    | ConcertCommandDedicateSongDescription
     | ConcertCommandGetOffStageDescription
     | ConcertCommandDoEncoreDescription
     | ConcertCommandFinishConcertDescription
@@ -105,10 +106,12 @@ and ConcertText =
     | ConcertFinishedPoorly of points: Quality
     | ConcertFinishedNormally of points: Quality
     | ConcertFinishedGreat of points: Quality
+    | ConcertSpeechProgress
     | ConcertSpeechGivenLowSkill of points: int
     | ConcertSpeechGivenMediumSkill of points: int
     | ConcertSpeechGivenHighSkill of points: int
     | ConcertTooManySpeeches
+    | ConcertTooManyDedications
 
 and CreatorText =
     | CharacterCreatorInitialPrompt

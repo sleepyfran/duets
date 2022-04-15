@@ -1,4 +1,4 @@
-[<AutoOpen>]
+﻿[<AutoOpen>]
 module Simulation.Concerts.Live.Common
 
 open Aether
@@ -65,3 +65,24 @@ module internal Response =
 
     /// Adds the given set of effects to the response.
     let addEffects effects response = { response with Effects = effects }
+
+    /// Adds an event to the response.
+    let addEvent event response =
+        { response with
+              OngoingConcert = addEvent event response.OngoingConcert }
+
+    /// Adds the given points to the point counter of the result and to the
+    /// ongoing concert.
+    let addPoints points response =
+        { Effects = response.Effects
+          OngoingConcert = addPoints response.OngoingConcert points
+          Points = response.Points + points
+          Result = response.Result }
+
+    /// Maps the result of the response applying the current value to the given
+    /// function and setting the result to the return value of the function.
+    let mapResult mapFn response =
+        { Effects = response.Effects
+          OngoingConcert = response.OngoingConcert
+          Points = response.Points
+          Result = mapFn response.Result }

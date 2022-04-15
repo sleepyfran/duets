@@ -35,7 +35,8 @@
         <Compile Include="Scenes\CharacterCreator.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\Objects.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\Components.fs"/>
-        <Compile Include="Scenes\InteractiveSpaces\ConcertSpace\Commands\PlaySong.Command.fs"/>
+        <Compile Include="Scenes\InteractiveSpaces\ConcertSpace\ConcertSpace.Components.fs"/>
+        <Compile Include="Scenes\InteractiveSpaces\ConcertSpace\Commands\PlaySong.Commands.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\ConcertSpace\Commands\GreetAudience.Command.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\ConcertSpace\Commands\DoEncore.Command.fs"/>
         <Compile Include="Scenes\InteractiveSpaces\ConcertSpace\Commands\FinishConcert.Command.fs"/>

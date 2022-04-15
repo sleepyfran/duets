@@ -40,7 +40,7 @@ module ConcertTypes =
     /// a concert.
     type ConcertCommonEvent =
         | PlaySong of song: Song * energy: PerformEnergy
-        | DedicateSong of song: Song * energy: PerformEnergy
+        | DedicateSong
         | GreetAudience
         | GiveSpeech
         | FaceBand

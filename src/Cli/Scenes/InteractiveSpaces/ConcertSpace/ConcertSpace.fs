@@ -54,9 +54,12 @@ let private showConcertSpace city place placeId roomId =
 
 let rec private showOngoingConcert place placeId roomId ongoingConcert =
     let commands =
-        [ PlaySongCommand.create
+        [ PlaySongCommands.createPlaySong
             ongoingConcert
             (showOngoingConcert place placeId roomId)
+          PlaySongCommands.createDedicateSong
+              ongoingConcert
+              (showOngoingConcert place placeId roomId)
           GreetAudienceCommand.create
               ongoingConcert
               (showOngoingConcert place placeId roomId)

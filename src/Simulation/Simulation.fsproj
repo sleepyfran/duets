@@ -51,6 +51,7 @@
         <Compile Include="Concerts\Live\Live.Encore.fs"/>
         <Compile Include="Concerts\Live\Live.Finish.fs"/>
         <Compile Include="Concerts\Live\Live.GiveSpeech.fs"/>
+        <Compile Include="Concerts/Live/Live.DedicateSong.fs"/>
         <Compile Include="Songs\Practice.fs"/>
         <Compile Include="Songs\Composition\Common.fs"/>
         <Compile Include="Songs\Composition\ComposeSong.fs"/>

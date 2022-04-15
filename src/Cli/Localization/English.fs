@@ -1,4 +1,4 @@
-module Cli.Localization.English
+﻿module Cli.Localization.English
 
 open Common
 open Cli
@@ -313,6 +313,8 @@ and concertText key =
         $"""{TextStyles.action "It's your time to shine!"} What do you want to do?"""
     | ConcertCommandPlayDescription ->
         "Allows you to choose a song to play in the concert"
+    | ConcertCommandDedicateSongDescription ->
+        "Dedicates a song and then plays it. Might give you a little boost in points as long as you don't overdo it"
     | ConcertCommandGetOffStageDescription ->
         "Moves you to the backstage, where you can decide if you want to do an encore (if possible) or finish the concert for good"
     | ConcertCommandDoEncoreDescription ->
@@ -385,9 +387,10 @@ and concertText key =
     | ConcertFinishedGreat points ->
         TextStyles.Level.great
             $"You nailed the concert! The crowd loved it and will definitely come for the next one! You got {points} points"
+    | ConcertSpeechProgress -> "Blablablaba... Blablaba... Bla..."
     | ConcertSpeechGivenLowSkill points ->
         TextStyles.Level.bad
-            $"""Well.. Did you ever take an English class or were you just too scared of the audience? That was an embarrasing speech, maybe don't try again. You got {points} {simplePluralOf "point" points}"""
+            $"""Well.. Did you ever take an English class or were you just too scared of the audience? That was an embarrassing speech, maybe don't try again. You got {points} {simplePluralOf "point" points}"""
     | ConcertSpeechGivenMediumSkill points ->
         TextStyles.Level.normal
             $"""You would definitely not convince anyone to jump off a bridge with those skills, but the speech didn't go that bad. You got {points} {simplePluralOf "point" points}"""
@@ -397,6 +400,9 @@ and concertText key =
     | ConcertTooManySpeeches ->
         TextStyles.danger
             "The audience is already bored of hearing you talk. Just play some songs and stop talking!"
+    | ConcertTooManyDedications ->
+        TextStyles.danger
+            "The audience cut you in the middle of your dedication. They are already bored of hearing you dedicate songs. Just play and stop talking!"
 
 and creatorText key =
     match key with
