@@ -55,11 +55,12 @@ module PlaySongCommands =
               PerformEnergy.Normal
               Limited ]
 
-    let private showResultWithProgressbar result points songWithQuality energy =
+    let private showResultWithProgressbar response songWithQuality energy =
         let (FinishedSong song, _) = songWithQuality
 
-        match result with
-        | RepeatedSong ->
+        match response.Result with
+        | TooManyRepetitionsPenalized
+        | TooManyRepetitionsNotDone ->
             ConcertPlaySongRepeatedSongReaction song
             |> ConcertText
             |> I18n.translate
@@ -79,14 +80,15 @@ module PlaySongCommands =
               |> I18n.translate ]
             (song.Length.Minutes / 1<minute/second>)
 
-        match result with
-        | RepeatedSong -> ConcertPlaySongRepeatedTipReaction points
-        | LowPracticePerformance ->
-            ConcertPlaySongLowPracticeReaction(energy, points)
-        | NormalPracticePerformance ->
-            ConcertPlaySongMediumPracticeReaction(energy, points)
-        | HighPracticePerformance ->
-            ConcertPlaySongHighPracticeReaction(energy, points)
+        match response.Result with
+        | LowPerformance
+        | AveragePerformance ->
+            ConcertPlaySongLowPracticeReaction(energy, response.Points)
+        | GoodPerformance ->
+            ConcertPlaySongMediumPracticeReaction(energy, response.Points)
+        | GreatPerformance ->
+            ConcertPlaySongHighPracticeReaction(energy, response.Points)
+        | _ -> ConcertPlaySongRepeatedTipReaction response.Points
         |> ConcertText
         |> I18n.translate
         |> showMessage
@@ -103,13 +105,11 @@ module PlaySongCommands =
                   |> Option.bind
                       (fun song ->
                           let energy = promptForEnergy ()
-                          let response = playSong ongoingConcert song energy
 
-                          showResultWithProgressbar
-                              response.Result
-                              response.Points
-                              song
-                              energy
+                          let response =
+                              playSong (State.get ()) ongoingConcert song energy
+
+                          showResultWithProgressbar response song energy
 
                           Some response.OngoingConcert)
                   |> Option.defaultValue ongoingConcert
@@ -128,20 +128,22 @@ module PlaySongCommands =
                       (fun song ->
                           let energy = promptForEnergy ()
                           Components.showSpeechProgress ()
-                          let response = dedicateSong ongoingConcert song energy
 
-                          match response.Result with
-                          | Dedicated playResult ->
-                              showResultWithProgressbar
-                                  playResult
-                                  response.Points
+                          let response =
+                              dedicateSong
+                                  (State.get ())
+                                  ongoingConcert
                                   song
                                   energy
-                          | TooManyDedications ->
+
+                          match response.Result with
+                          | TooManyRepetitionsPenalized
+                          | TooManyRepetitionsNotDone ->
                               ConcertTooManyDedications
                               |> ConcertText
                               |> I18n.translate
                               |> showMessage
+                          | _ -> showResultWithProgressbar response song energy
 
                           Some response.OngoingConcert)
                   |> Option.defaultValue ongoingConcert

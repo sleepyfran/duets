@@ -36,44 +36,24 @@ module ConcertTypes =
         | Normal
         | Limited
 
-    /// Defines all events that any role inside the band can perform during
-    /// a concert.
-    type ConcertCommonEvent =
+    /// Defines all events that can happen in a concert.
+    type ConcertEvent =
         | PlaySong of song: Song * energy: PerformEnergy
         | DedicateSong
         | GreetAudience
         | GiveSpeech
         | FaceBand
+        | GotOffStage
         | PerformedEncore
-
-    /// Defines all events that a guitarist can do during a concert.
-    type ConcertGuitaristEvent =
         | TuneGuitar
         | GuitarSolo
-
-    /// Defines all events that a bassist can do during a concert.
-    type ConcertBassistEvent =
         | TuneBass
         | BassSolo
-
-    /// Defines all events that a vocalist can do during a concert.
-    type ConcertVocalistEvent =
         | TakeMic
         | PutMicOnStand
-
-    /// Defines all events that a drummer can do during a concert.
-    type ConcertDrummerEvent =
         | AdjustDrums
         | SpinDrumsticks
         | DrumSolo
-
-    /// Gathers all events that can happen during a concert.
-    type ConcertEvent =
-        | CommonEvent of ConcertCommonEvent
-        | BassistEvent of ConcertBassistEvent
-        | DrummerEvent of ConcertDrummerEvent
-        | GuitaristEvent of ConcertGuitaristEvent
-        | VocalistEvent of ConcertVocalistEvent
 
     /// Represents a concert that is currently ongoing, where we keep all the
     /// events that the player have done during the concert and the total amount

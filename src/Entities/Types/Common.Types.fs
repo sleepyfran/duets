@@ -13,6 +13,10 @@ module CommonTypes =
     [<Measure>]
     type dd
 
+    /// Measure for counting number of times.
+    [<Measure>]
+    type times
+
     /// Defines an amount in the in-game currency.
     type Amount = int<dd>
 

@@ -16,7 +16,7 @@ let ``playSong energetic energy gives up to 15 points`` () =
     |> List.iter
         (fun song ->
             let response =
-                playSong dummyOngoingConcert song Energetic
+                playSong dummyState dummyOngoingConcert song Energetic
 
             response
             |> ongoingConcertFromResponse
@@ -34,7 +34,11 @@ let ``playSong normal energy gives up to 8 points`` () =
     |> List.iter
         (fun song ->
             let response =
-                playSong dummyOngoingConcert song PerformEnergy.Normal
+                playSong
+                    dummyState
+                    dummyOngoingConcert
+                    song
+                    PerformEnergy.Normal
 
             response
             |> ongoingConcertFromResponse
@@ -52,7 +56,7 @@ let ``playSong limited energy gives up to 2 points`` () =
     |> List.iter
         (fun song ->
             let response =
-                playSong dummyOngoingConcert song Limited
+                playSong dummyState dummyOngoingConcert song Limited
 
             response
             |> ongoingConcertFromResponse
@@ -74,52 +78,67 @@ let ``playSong decreases points by 50 if song has been played already`` () =
 
     let ongoingConcert =
         { dummyOngoingConcert with
-              Events = [ PlaySong(song, Energetic) |> CommonEvent ]
+              Events = [ PlaySong(song, Energetic) ]
               Points = 50<quality> }
 
-    playSong ongoingConcert finishedSong Energetic
+    playSong dummyState ongoingConcert finishedSong Energetic
     |> ongoingConcertFromResponse
     |> Optic.get Lenses.Concerts.Ongoing.points_
     |> should equal 0
 
 [<Test>]
-let ``playSong returns low practice result if practice is below 40`` () =
-    Generators.Song.finishedGenerator { PracticeMin = 0; PracticeMax = 39 }
+let ``playSong returns low performance result if practice is below 25`` () =
+    Generators.Song.finishedGenerator { PracticeMin = 0; PracticeMax = 24 }
     |> Gen.sample 0 1000
     |> List.iter
         (fun song ->
             let response =
-                playSong dummyOngoingConcert song Energetic
+                playSong dummyState dummyOngoingConcert song Energetic
 
             response
             |> resultFromResponse
-            |> should be (ofCase <@ LowPracticePerformance @>))
+            |> should be (ofCase <@ LowPerformance @>))
 
 [<Test>]
-let ``playSong returns normal practice result if practice is below 80`` () =
-    Generators.Song.finishedGenerator { PracticeMin = 40; PracticeMax = 79 }
+let ``playSong returns average performance result if practice is between 25 50``
+    ()
+    =
+    Generators.Song.finishedGenerator { PracticeMin = 25; PracticeMax = 49 }
     |> Gen.sample 0 1000
     |> List.iter
         (fun song ->
             let response =
-                playSong dummyOngoingConcert song Energetic
+                playSong dummyState dummyOngoingConcert song Energetic
 
             response
             |> resultFromResponse
-            |> should be (ofCase <@ NormalPracticePerformance @>))
+            |> should be (ofCase <@ AveragePerformance @>))
 
 [<Test>]
-let ``playSong returns high practice result if practice is above 80`` () =
-    Generators.Song.finishedGenerator { PracticeMin = 80; PracticeMax = 100 }
+let ``playSong returns good performance result if practice is below 75`` () =
+    Generators.Song.finishedGenerator { PracticeMin = 50; PracticeMax = 74 }
     |> Gen.sample 0 1000
     |> List.iter
         (fun song ->
             let response =
-                playSong dummyOngoingConcert song Energetic
+                playSong dummyState dummyOngoingConcert song Energetic
 
             response
             |> resultFromResponse
-            |> should be (ofCase <@ HighPracticePerformance @>))
+            |> should be (ofCase <@ GoodPerformance @>))
+
+[<Test>]
+let ``playSong returns great performance result if practice is above 75`` () =
+    Generators.Song.finishedGenerator { PracticeMin = 76; PracticeMax = 100 }
+    |> Gen.sample 0 1000
+    |> List.iter
+        (fun song ->
+            let response =
+                playSong dummyState dummyOngoingConcert song Energetic
+
+            response
+            |> resultFromResponse
+            |> should be (ofCase <@ GreatPerformance @>))
 
 [<Test>]
 let ``playSong does not decrease points below 0`` () =
@@ -130,12 +149,10 @@ let ``playSong does not decrease points below 0`` () =
 
     let ongoingConcert =
         { dummyOngoingConcert with
-              Events =
-                  [ PlaySong(Song.fromFinished finishedSong, Energetic)
-                    |> CommonEvent ]
+              Events = [ PlaySong(Song.fromFinished finishedSong, Energetic) ]
               Points = 20<quality> }
 
-    playSong ongoingConcert finishedSong Energetic
+    playSong dummyState ongoingConcert finishedSong Energetic
     |> ongoingConcertFromResponse
     |> Optic.get Lenses.Concerts.Ongoing.points_
     |> should equal 0
@@ -152,7 +169,7 @@ let ``playSong should add points to the previous count to ongoing concert`` () =
     |> Gen.sample 0 1000
     |> List.iter
         (fun song ->
-            playSong ongoingConcert song Energetic
+            playSong dummyState ongoingConcert song Energetic
             |> ongoingConcertFromResponse
             |> Optic.get Lenses.Concerts.Ongoing.points_
             |> should be (greaterThan 50<quality>))
@@ -167,7 +184,7 @@ let ``playSong does not increase above 100`` () =
     |> Gen.sample 0 1000
     |> List.iter
         (fun song ->
-            playSong ongoingConcert song Energetic
+            playSong dummyState ongoingConcert song Energetic
             |> ongoingConcertFromResponse
             |> Optic.get Lenses.Concerts.Ongoing.points_
             |> should be (lessThanOrEqualTo 100<quality>))
@@ -178,13 +195,10 @@ let ``playSong should add event when the song hasn't been played before`` () =
     |> Gen.sample 0 1
     |> List.head
     |> fun song ->
-        playSong dummyOngoingConcert song Energetic
+        playSong dummyState dummyOngoingConcert song Energetic
         |> ongoingConcertFromResponse
         |> Optic.get Lenses.Concerts.Ongoing.events_
-        |> should
-            contain
-            (PlaySong(Song.fromFinished song, Energetic)
-             |> CommonEvent)
+        |> should contain (PlaySong(Song.fromFinished song, Energetic))
 
 [<Test>]
 let ``playSong should add event when the song was played before`` () =
@@ -196,12 +210,11 @@ let ``playSong should add event when the song was played before`` () =
 
         let ongoingConcert =
             { dummyOngoingConcert with
-                  Events = [ PlaySong(song, Energetic) |> CommonEvent ]
+                  Events = [ PlaySong(song, Energetic) ]
                   Points = 40<quality> }
 
-        playSong ongoingConcert finishedSong Energetic
+        playSong dummyState ongoingConcert finishedSong Energetic
         |> ongoingConcertFromResponse
         |> Optic.get Lenses.Concerts.Ongoing.events_
-        |> List.filter
-            (fun event -> event = (PlaySong(song, Energetic) |> CommonEvent))
+        |> List.filter (fun event -> event = (PlaySong(song, Energetic)))
         |> should haveLength 2

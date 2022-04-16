@@ -1,5 +1,6 @@
 namespace Cli.Scenes.InteractiveSpaces.ConcertSpace.Commands
 
+open Agents
 open Cli.Components
 open Cli.Components.Commands
 open Cli.Text
@@ -17,12 +18,14 @@ module GreetAudienceCommand =
               |> I18n.translate
           Handler =
               (fun _ ->
-                  let response = greetAudience ongoingConcert
+                  let response =
+                      greetAudience (State.get ()) ongoingConcert
 
                   match response.Result with
-                  | GreetedMoreThanOnce ->
+                  | TooManyRepetitionsPenalized
+                  | TooManyRepetitionsNotDone ->
                       ConcertGreetAudienceGreetedMoreThanOnceTip response.Points
-                  | Ok -> ConcertGreetAudienceDone response.Points
+                  | _ -> ConcertGreetAudienceDone response.Points
                   |> ConcertText
                   |> I18n.translate
                   |> showMessage

@@ -6,7 +6,7 @@ open Cli.Components.Commands
 open Cli.SceneIndex
 open Cli.Text
 open Entities
-open Simulation
+open Simulation.Concerts.Live
 
 [<RequireQualifiedAccess>]
 module GetOffStageCommand =
@@ -20,39 +20,28 @@ module GetOffStageCommand =
               |> I18n.translate
           Handler =
               (fun _ ->
-                  let backstageCoordinates =
-                      Queries.World.ConcertSpace.closestBackstage (State.get ())
-                      |> Option.get // Not having a backstage is a problem in city creation.
+                  let response =
+                      Encore.getOffStage (State.get ()) ongoingConcert
 
-                  State.get ()
-                  |> World.Navigation.moveTo backstageCoordinates
-                  |> Cli.Effect.apply
+                  response.Effects |> List.iter Cli.Effect.apply
+
+                  let canPerformEncore, backstageRoomId = response.Result
 
                   lineBreak ()
 
-                  if Concert.Ongoing.canPerformEncore ongoingConcert then
+                  if canPerformEncore then
                       ConcertText ConcertGetOffStageEncorePossible
                       |> I18n.translate
                       |> showMessage
 
                       lineBreak ()
 
-                      let backstageRoomId =
-                          Queries.World.Common.roomIdFromCoordinates
-                              backstageCoordinates
-                          |> Option.get
-
-                      backstageScene backstageRoomId ongoingConcert
+                      backstageScene backstageRoomId response.OngoingConcert
                   else
                       ConcertText ConcertGetOffStageNoEncorePossible
                       |> I18n.translate
                       |> showMessage
 
                       lineBreak ()
-
-                      Concerts.Live.Finish.finishConcert
-                          (State.get ())
-                          ongoingConcert
-                      |> Cli.Effect.apply
 
                       Scene.World) }

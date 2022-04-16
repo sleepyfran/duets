@@ -13,40 +13,37 @@ module Timeline =
           PastEvents = Set.empty }
 
 module Ongoing =
-    /// Returns whether the given song has already being played in the passed
-    /// ongoing concert.
-    let hasPlayedSong ongoingConcert song =
-        Optic.get Lenses.Concerts.Ongoing.events_ ongoingConcert
-        |> List.exists
-            (fun event ->
-                match event with
-                | CommonEvent commonEvent ->
-                    match commonEvent with
-                    | PlaySong (playedSong, _) -> playedSong = song
-                    | _ -> false
-                | _ -> false)
-
-    /// Returns the number of times that an event was performed. Do NOT use with
-    /// events that have inner fields that we do not want to match such as
-    /// PlaySong (contains perform energy which is not used in the comparison),
-    /// since it might not return the correct number. Use specific functions
-    /// for those.
+    /// Returns the number of times that an event was performed.
     let timesDoneEvent ongoingConcert event =
         Optic.get Lenses.Concerts.Ongoing.events_ ongoingConcert
-        |> List.filter ((=) event)
+        |> List.filter
+            (fun performedEvent ->
+                match performedEvent with
+                | PlaySong (playedSong, _) ->
+                    match event with
+                    | PlaySong (song, _) -> playedSong = song
+                    | _ -> false
+                | _ -> performedEvent = event)
         |> List.length
+        |> (*) 1<times>
+
+    /// Returns whether the given song has been previously played in the concert
+    /// or not.
+    let hasPlayedSong ongoingConcert song =
+        timesDoneEvent ongoingConcert (PlaySong(song, Energetic)) > 0<times>
 
     /// Returns whether the band has accumulated enough points during the concert
     /// for people to be interested in an encore and not just leave immediately
     /// the moment you leave the stage.
     let canPerformEncore ongoingConcert =
         let timesPerformedEncores =
-            timesDoneEvent ongoingConcert (CommonEvent PerformedEncore)
+            timesDoneEvent ongoingConcert PerformedEncore
 
         let points =
             Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
 
-        points > 50<quality> && timesPerformedEncores = 0
+        points > 50<quality>
+        && timesPerformedEncores = 0<times>
 
 /// Creates a concert from the given parameter.
 let create date dayMoment cityId venueId ticketPrice =

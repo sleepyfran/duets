@@ -17,13 +17,13 @@ module DoEncoreCommand =
               |> I18n.translate
           Handler =
               (fun _ ->
-                  let stageCoordinates =
-                      Queries.World.ConcertSpace.closestStage (State.get ())
-                      |> Option.get // Not having a stage is a problem in city creation.
+                  let encoreResponse =
+                      Concerts.Live.Encore.doEncore
+                          (State.get ())
+                          ongoingConcert
 
-                  State.get ()
-                  |> World.Navigation.moveTo stageCoordinates
-                  |> Cli.Effect.apply
+                  encoreResponse.Effects
+                  |> List.iter Cli.Effect.apply
 
                   lineBreak ()
 
@@ -31,6 +31,4 @@ module DoEncoreCommand =
                   |> I18n.translate
                   |> showMessage
 
-                  Concerts.Live.Encore.doEncore ongoingConcert
-                  |> fun response -> response.OngoingConcert
-                  |> concertScene) }
+                  concertScene encoreResponse.OngoingConcert) }

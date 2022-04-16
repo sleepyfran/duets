@@ -16,7 +16,7 @@ let ``dedicateSong adds 10 points on top of the result of play song`` () =
     |> List.iter
         (fun song ->
             let response =
-                dedicateSong dummyOngoingConcert song Energetic
+                dedicateSong dummyState dummyOngoingConcert song Energetic
 
             response
             |> ongoingConcertFromResponse
@@ -30,29 +30,36 @@ let ``dedicateSong adds 10 points on top of the result of play song`` () =
 [<Test>]
 let ``dedicateSong adds a dedicated song event to the event list`` () =
     let response =
-        dedicateSong dummyOngoingConcert dummyFinishedSong Energetic
+        dedicateSong dummyState dummyOngoingConcert dummyFinishedSong Energetic
 
     response.OngoingConcert.Events
-    |> should contain (CommonEvent DedicateSong)
+    |> should contain DedicateSong
 
 [<Test>]
 let ``dedicateSong returns result from play song`` () =
     let response =
-        dedicateSong dummyOngoingConcert dummyFinishedSong Energetic
+        dedicateSong dummyState dummyOngoingConcert dummyFinishedSong Energetic
 
-    response.Result
-    |> should be (ofCase <@ Dedicated @>)
+    response.Result |> should be (ofCase <@ LowPerformance @>)
 
 [<Test>]
 let ``dedicateSong returns TooManyDedications if more than two songs were dedicated``
     ()
     =
     let response =
-        dedicateSong dummyOngoingConcert dummyFinishedSong Energetic
+        dedicateSong dummyState dummyOngoingConcert dummyFinishedSong Energetic
         |> fun res ->
-            dedicateSong res.OngoingConcert dummyFinishedSong Energetic
+            dedicateSong
+                dummyState
+                res.OngoingConcert
+                dummyFinishedSong
+                Energetic
         |> fun res ->
-            dedicateSong res.OngoingConcert dummyFinishedSong Energetic
+            dedicateSong
+                dummyState
+                res.OngoingConcert
+                dummyFinishedSong
+                Energetic
 
     response.Result
-    |> should be (ofCase <@ TooManyDedications @>)
+    |> should be (ofCase <@ TooManyRepetitionsNotDone @>)

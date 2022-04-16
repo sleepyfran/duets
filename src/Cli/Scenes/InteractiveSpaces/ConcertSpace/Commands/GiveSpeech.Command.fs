@@ -22,12 +22,13 @@ module GiveSpeechCommand =
                   let response = giveSpeech (State.get ()) ongoingConcert
 
                   match response.Result with
-                  | LowSpeechSkill -> ConcertSpeechGivenLowSkill response.Points
-                  | MediumSpeechSkill ->
+                  | LowPerformance -> ConcertSpeechGivenLowSkill response.Points
+                  | AveragePerformance ->
                       ConcertSpeechGivenMediumSkill response.Points
-                  | HighSpeechSkill ->
+                  | GoodPerformance
+                  | GreatPerformance ->
                       ConcertSpeechGivenHighSkill response.Points
-                  | TooManySpeeches -> ConcertTooManySpeeches
+                  | _ -> ConcertTooManySpeeches
                   |> ConcertText
                   |> I18n.translate
                   |> showMessage

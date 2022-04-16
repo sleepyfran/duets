@@ -10,7 +10,8 @@ open Simulation.Concerts.Live
 
 [<Test>]
 let ``greetAudience gives 5 points when greeting for the first time`` () =
-    let response = greetAudience dummyOngoingConcert
+    let response =
+        greetAudience dummyState dummyOngoingConcert
 
     response
     |> ongoingConcertFromResponse
@@ -22,21 +23,19 @@ let ``greetAudience gives 5 points when greeting for the first time`` () =
     |> should equal 5<quality>
 
 [<Test>]
-let ``greetAudience results in Ok when greeting for the first time`` () =
-    greetAudience dummyOngoingConcert
+let ``greetAudience results in Done when greeting for the first time`` () =
+    greetAudience dummyState dummyOngoingConcert
     |> resultFromResponse
-    |> should be (ofCase <@ Ok @>)
+    |> should be (ofCase <@ Done @>)
 
 [<Test>]
 let ``greetAudience takes 10 points when greeting after the first time`` () =
     let ongoingConcert =
         dummyOngoingConcert
         |> Optic.set Lenses.Concerts.Ongoing.points_ 10<quality>
-        |> Optic.set
-            Lenses.Concerts.Ongoing.events_
-            [ CommonEvent GreetAudience ]
+        |> Optic.set Lenses.Concerts.Ongoing.events_ [ GreetAudience ]
 
-    let response = greetAudience ongoingConcert
+    let response = greetAudience dummyState ongoingConcert
 
     response
     |> ongoingConcertFromResponse
@@ -51,12 +50,8 @@ let ``greetAudience takes 10 points when greeting after the first time`` () =
 let ``greetAudience results in GreetedMoreThanOnce when greeting after the first time ``
     ()
     =
-    let ongoingConcert =
-        dummyOngoingConcert
-        |> Optic.set
-            Lenses.Concerts.Ongoing.events_
-            [ CommonEvent GreetAudience ]
-
-    greetAudience ongoingConcert
+    greetAudience dummyState dummyOngoingConcert
+    |> ongoingConcertFromResponse
+    |> greetAudience dummyState
     |> resultFromResponse
-    |> should be (ofCase <@ GreetedMoreThanOnce @>)
+    |> should be (ofCase <@ TooManyRepetitionsPenalized @>)
