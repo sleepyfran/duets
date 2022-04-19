@@ -10,7 +10,7 @@ let private calculateGenreMarket genreMarket =
     genreMarket.MarketPoint
     * (float defaultMarketSize)
 
-let private calculateUsefulMarket band genreMarket =
+let private calculateUsefulMarket (band: Band) genreMarket =
     let fameModifier =
         if band.Fame < 10 then 100000.0
         else if band.Fame < 30 then 10000.0

@@ -106,6 +106,9 @@ let moveCharacter coordinates =
 /// look command that shows what's around the user and a set of commands to
 /// navigate the world.
 let showWorldCommandPrompt entrances exit description objects commands =
+    let character =
+        Queries.Characters.playableCharacter (State.get ())
+
     let objectCommands =
         List.collect (fun object -> object.Commands) objects
 
@@ -122,12 +125,17 @@ let showWorldCommandPrompt entrances exit description objects commands =
     showRoomConnections entrances exit
 
     showCommandPrompt
-        (CommandText CommandCommonPrompt |> I18n.translate)
+        (CommandCommonPrompt(character.Status)
+         |> CommandText
+         |> I18n.translate)
         commands
 
 /// Renders a command prompt similar to `showWorldCommandPrompt` but without
 /// any reference to navigation commands.
 let showWorldCommandPromptWithoutMovement description objects commands =
+    let character =
+        Queries.Characters.playableCharacter (State.get ())
+
     let objectCommands =
         List.collect (fun object -> object.Commands) objects
 
@@ -139,5 +147,7 @@ let showWorldCommandPromptWithoutMovement description objects commands =
     showMessage description
 
     showCommandPrompt
-        (CommandText CommandCommonPrompt |> I18n.translate)
+        (CommandCommonPrompt(character.Status)
+         |> CommandText
+         |> I18n.translate)
         commands

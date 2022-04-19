@@ -31,6 +31,6 @@ module BandTypes =
           StartDate: Date
           Name: string
           Genre: Genre
-          Fame: int
+          Fame: Fame
           Members: CurrentMember list
           PastMembers: PastMember list }

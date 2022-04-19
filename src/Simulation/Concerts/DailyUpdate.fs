@@ -5,7 +5,7 @@ open Common
 open Entities
 open Simulation
 
-let private ticketPriceModifier band concert =
+let private ticketPriceModifier (band: Band) concert =
     let ticketPrice = concert.TicketPrice / 1<dd> |> float
 
     let ticketPriceCap =

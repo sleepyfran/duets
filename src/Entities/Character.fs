@@ -14,7 +14,12 @@ let empty =
     { Id = CharacterId <| Identity.create ()
       Name = ""
       Age = 0
-      Gender = Gender.Other }
+      Gender = Gender.Other
+      Status =
+          { Mood = 100
+            Health = 100
+            Energy = 100
+            Fame = 0 } }
 
 /// Creates a character from the given parameters, generating a random
 /// ID for it.
@@ -22,7 +27,12 @@ let from name gender age =
     { Id = CharacterId <| Identity.create ()
       Name = name
       Age = age
-      Gender = gender }
+      Gender = gender
+      Status =
+          { Mood = 100
+            Health = 100
+            Energy = 100
+            Fame = 0 } }
 
 /// Validates whether the name of the character is valid or not.
 let validateName (name: string) =

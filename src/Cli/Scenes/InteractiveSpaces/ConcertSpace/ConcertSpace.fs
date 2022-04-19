@@ -53,6 +53,9 @@ let private showConcertSpace city place placeId roomId =
     showWorldCommandPrompt entrances exit description objects commands
 
 let rec private showOngoingConcert place placeId roomId ongoingConcert =
+    let character =
+        Queries.Characters.playableCharacter (State.get ())
+
     let commands =
         [ PlaySongCommands.createPlaySong
             ongoingConcert
@@ -72,14 +75,13 @@ let rec private showOngoingConcert place placeId roomId ongoingConcert =
 
     lineBreak ()
 
-    Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
-    |> ConcertPoints
-    |> ConcertText
-    |> I18n.translate
-    |> showMessage
+    let points =
+        Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
 
     showCommandPromptWithoutDefaults
-        (ConcertText ConcertActionPrompt |> I18n.translate)
+        (ConcertActionPrompt(points, character.Status)
+         |> ConcertText
+         |> I18n.translate)
         commands
 
 and private showOnConcertBackstage place placeId roomId ongoingConcert =

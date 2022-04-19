@@ -9,6 +9,7 @@
         <Compile Include="Text.fs"/>
         <Compile Include="TextStyles.fs"/>
         <Compile Include="Scenes.fs"/>
+        <Compile Include="Localization\Emoji.fs"/>
         <Compile Include="Localization\English.fs"/>
         <Compile Include="Localization\Localization.fs"/>
         <Compile Include="Components\Separator.fs"/>

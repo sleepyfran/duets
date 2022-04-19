@@ -179,10 +179,16 @@ and formatNumber (amount: 'a) = String.Format("{0:#,0}", amount)
 /// ToString("d", CurrentCulture).
 and formatDate (date: Date) = $"{date.Day}/{date.Month}/{date.Year}"
 
+/// Formats the character status into a bar that can be shown to the user.
+and characterStatus (s: CharacterStatus) =
+    $"""{Emoji.mood s.Mood} {TextStyles.Level.from s.Mood} | {Emoji.health} {TextStyles.Level.from s.Health} | {Emoji.energy} {TextStyles.Level.from s.Energy} | {Emoji.fame} {TextStyles.Level.from s.Fame}"""
+
 and commandText key =
     match key with
-    | CommandCommonPrompt ->
-        TextStyles.prompt "What do you want to do? Type 'help' if you're lost"
+    | CommandCommonPrompt s ->
+        TextStyles.prompt
+            $"""{characterStatus s}
+What do you want to do? Type 'help' if you're lost"""
     | CommandHelpDescription ->
         "Here are all the commands you can execute right now"
     | CommandHelpEntry (entryName, entryDescription) ->
@@ -307,10 +313,9 @@ and concertText key =
     | ConcertEnergyEnergetic -> "Energetic"
     | ConcertEnergyNormal -> "Normal"
     | ConcertEnergyLow -> "Low"
-    | ConcertPoints points ->
-        $"Current concert points: {TextStyles.Level.from points}"
-    | ConcertActionPrompt ->
-        $"""{TextStyles.action "It's your time to shine!"} What do you want to do?"""
+    | ConcertActionPrompt (points, status) ->
+        $"""{characterStatus status} | {Emoji.concert} {TextStyles.Level.from points} points
+{TextStyles.action "It's your time to shine!"} What do you want to do?"""
     | ConcertCommandPlayDescription ->
         "Allows you to choose a song to play in the concert"
     | ConcertCommandDedicateSongDescription ->
