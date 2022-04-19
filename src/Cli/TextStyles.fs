@@ -72,10 +72,10 @@ module Level =
     let normal text = $"[orange1]{text}[/]"
 
     /// Pre-defined style for a good level.
-    let good text = $"[green]{text}[/]"
+    let good text = $"[cadetblue]{text}[/]"
 
     /// Pre-defined style for a great level.
-    let great text = $"[gold3]{text}[/]"
+    let great text = $"[green3]{text}[/]"
 
     /// Pre-defined styles for showing levels that range from 0 to 100.
     let from l =
