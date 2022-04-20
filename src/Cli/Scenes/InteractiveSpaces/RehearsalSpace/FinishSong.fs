@@ -21,7 +21,7 @@ and private promptForSong () =
 
     let selectedSong =
         showOptionalChoicePrompt
-            (RehearsalSpaceText DiscardSongSelection
+            (RehearsalSpaceText FinishSongSelection
              |> I18n.translate)
             (CommonText CommonCancel |> I18n.translate)
             (fun (UnfinishedSong us, _, currentQuality) ->

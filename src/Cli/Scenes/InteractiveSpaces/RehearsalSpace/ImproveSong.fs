@@ -22,7 +22,7 @@ and private promptForSong () =
 
     let selectedSong =
         showOptionalChoicePrompt
-            (RehearsalSpaceText DiscardSongSelection
+            (RehearsalSpaceText ImproveSongSelection
              |> I18n.translate)
             (CommonText CommonCancel |> I18n.translate)
             (fun (UnfinishedSong us, _, currentQuality) ->
@@ -59,7 +59,7 @@ and private showImproveSong band song =
 and showImprovingProgress () =
     showProgressBarAsync
         [ I18n.translate (
-            RehearsalSpaceText ImproveSongProgressAddingSomeMelodies
+              RehearsalSpaceText ImproveSongProgressAddingSomeMelodies
           )
           I18n.translate (RehearsalSpaceText ImproveSongProgressPlayingFoosball)
           I18n.translate (

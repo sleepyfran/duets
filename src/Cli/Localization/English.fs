@@ -197,10 +197,8 @@ What do you want to do? Type 'help' if you're lost"""
         $"Follows the {directionName direction} direction"
     | CommandLookDescription -> "Shows all the objects you have around you"
     | CommandLookEntrances entrances ->
-        $"""You can go to the {listOf
-                                   entrances
-                                   (fun (direction, name) ->
-                                       $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
+        $"""You can go to the {listOf entrances (fun (direction, name) ->
+                                   $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
     | CommandLookExit exit ->
         $"""There's also an exit to {TextStyles.place (toString exit)}({TextStyles.information "out"})"""
     | CommandLookNoObjectsAround -> "There are no objects around you"
@@ -606,6 +604,7 @@ and rehearsalText key =
     | DiscardSongDiscarded name ->
         TextStyles.error $"Your band decided to stop working on {name}"
     | PracticeSong -> "Practice a finished song"
+    | PracticeSongSelection -> "Which song do you want to practice?"
     | PracticeSongItemDescription (name, practiceLevel) ->
         $"""{TextStyles.song name} (Practice level: {TextStyles.Level.from practiceLevel}%%)"""
     | PracticeSongImproved (name, practiceLevel) ->

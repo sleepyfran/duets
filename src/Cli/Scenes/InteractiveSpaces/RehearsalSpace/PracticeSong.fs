@@ -15,12 +15,12 @@ and private promptForSong () =
     let state = State.get ()
     let currentBand = Bands.currentBand state
 
-    let songs = Repertoire.allFinishedSongsByBand state currentBand.Id
+    let songs =
+        Repertoire.allFinishedSongsByBand state currentBand.Id
 
     let selectedSong =
         showOptionalChoicePrompt
-            (RehearsalSpaceText DiscardSongSelection
-             |> I18n.translate)
+            (RehearsalSpaceText PracticeSong |> I18n.translate)
             (CommonText CommonCancel |> I18n.translate)
             (fun (FinishedSong fs, _) ->
                 PracticeSongItemDescription(fs.Name, fs.Practice)
