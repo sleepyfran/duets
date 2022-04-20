@@ -39,14 +39,17 @@ let private showConcertSpace city place placeId roomId =
 
     let entrances =
         Queries.World.Common.availableDirections roomId place.Rooms
-        |> List.map
-            (fun (direction, connectedRoomId) ->
-                Queries.World.Common.contentOf place.Rooms connectedRoomId
-                |> getRoomName
-                |> fun name -> (direction, name, Room(placeId, connectedRoomId)))
+        |> List.map (fun (direction, connectedRoomId) ->
+            Queries.World.Common.contentOf place.Rooms connectedRoomId
+            |> getRoomName
+            |> fun name -> (direction, name, Room(placeId, connectedRoomId)))
 
-    let exit = exitOfNode city roomId place.Exits
-    let description = getRoomDescription place.Space room
+    let exit =
+        exitOfNode city roomId place.Exits
+
+    let description =
+        getRoomDescription place.Space room
+
     let objects = getRoomObjects room
     let commands = getRoomCommands room
 
@@ -56,10 +59,16 @@ let rec private showOngoingConcert place placeId roomId ongoingConcert =
     let character =
         Queries.Characters.playableCharacter (State.get ())
 
+    let today =
+        Queries.Calendar.today (State.get ())
+
+    let currentDayMoment =
+        Calendar.Query.dayMomentOf today
+
     let commands =
         [ PlaySongCommands.createPlaySong
-            ongoingConcert
-            (showOngoingConcert place placeId roomId)
+              ongoingConcert
+              (showOngoingConcert place placeId roomId)
           PlaySongCommands.createDedicateSong
               ongoingConcert
               (showOngoingConcert place placeId roomId)
@@ -79,7 +88,7 @@ let rec private showOngoingConcert place placeId roomId ongoingConcert =
         Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
 
     showCommandPromptWithoutDefaults
-        (ConcertActionPrompt(points, character.Status)
+        (ConcertActionPrompt(today, currentDayMoment, character.Status, points)
          |> ConcertText
          |> I18n.translate)
         commands
@@ -90,8 +99,8 @@ and private showOnConcertBackstage place placeId roomId ongoingConcert =
 
     let commands =
         [ DoEncoreCommand.create
-            ongoingConcert
-            (showOngoingConcert place placeId roomId)
+              ongoingConcert
+              (showOngoingConcert place placeId roomId)
           EndConcertCommand.create ongoingConcert ]
 
     showWorldCommandPromptWithoutMovement
@@ -117,7 +126,8 @@ let rec concertSpace city place placeId roomId =
             |> I18n.translate
             |> showMessage
 
-            let band = Queries.Bands.currentBand (State.get ())
+            let band =
+                Queries.Bands.currentBand (State.get ())
 
             let concert =
                 Queries.Concerts.scheduleForTodayInPlace

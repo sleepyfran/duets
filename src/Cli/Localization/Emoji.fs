@@ -1,8 +1,21 @@
 module Cli.Localization.Emoji
 
+open Entities
+
 /// Emoji for representing actions related to concerts. IMPORTANT: Do NOT remove
 /// the space in the end since the emoji does not seem to render well without it.
 let concert = ":admission_tickets: "
+
+/// Returns the correct emoji for showing the current day moment.
+let dayMoment dayMoment =
+    match dayMoment with
+    | Dawn -> ":six_o_clock:"
+    | Morning -> ":ten_o_clock:"
+    | Midday -> ":two_o_clock:"
+    | Sunset -> ":six_o_clock:"
+    | Dusk -> ":eight_o_clock:"
+    | Night -> ":ten_o_clock:"
+    | Midnight -> ":twelve_o_clock:"
 
 /// Emoji for representing the energy of a character.
 let energy = ":battery:"

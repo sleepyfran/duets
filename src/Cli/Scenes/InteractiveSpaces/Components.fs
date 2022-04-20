@@ -18,13 +18,12 @@ let showObjects objects =
         |> showMessage
 
         objects
-        |> List.map
-            (fun object ->
-                let commandNames =
-                    object.Commands
-                    |> List.map (fun command -> command.Name)
+        |> List.map (fun object ->
+            let commandNames =
+                object.Commands
+                |> List.map (fun command -> command.Name)
 
-                (object.Type, commandNames))
+            (object.Type, commandNames))
         |> List.iter (
             CommandLookObjectEntry
             >> CommandText
@@ -54,24 +53,24 @@ let private createLookCommand entrances exit description objects =
     { Name = "look"
       Description = I18n.translate (CommandText CommandLookDescription)
       Handler =
-          (fun _ ->
-              showMessage description
-              showObjects objects
-              lineBreak ()
-              showRoomConnections entrances exit
+        (fun _ ->
+            showMessage description
+            showObjects objects
+            lineBreak ()
+            showRoomConnections entrances exit
 
-              Scene.World) }
+            Scene.World) }
 
 let private createOutCommand coordinates =
     { Name = "out"
       Description = I18n.translate (CommandText CommandOutDescription)
       Handler =
-          (fun _ ->
-              State.get ()
-              |> World.Navigation.moveTo coordinates
-              |> Cli.Effect.apply
+        (fun _ ->
+            State.get ()
+            |> World.Navigation.moveTo coordinates
+            |> Cli.Effect.apply
 
-              Scene.World) }
+            Scene.World) }
 
 let private getPlaceName nodeContent =
     match nodeContent with
@@ -84,14 +83,13 @@ let private getPlaceName nodeContent =
 /// any.
 let exitOfNode city nodeId exits =
     Queries.World.Common.exitsOfNode nodeId exits
-    |> Option.bind
-        (fun exitNodeId ->
-            match exitNodeId with
-            | Node id ->
-                Queries.World.Common.contentOf city.Graph id
-                |> getPlaceName
-                |> fun name -> Some(Node id, name)
-            | _ -> None)
+    |> Option.bind (fun exitNodeId ->
+        match exitNodeId with
+        | Node id ->
+            Queries.World.Common.contentOf city.Graph id
+            |> getPlaceName
+            |> fun name -> Some(Node id, name)
+        | _ -> None)
 
 /// Moves a character to the given coordinates and shows the world scene again.
 let moveCharacter coordinates =
@@ -109,6 +107,12 @@ let showWorldCommandPrompt entrances exit description objects commands =
     let character =
         Queries.Characters.playableCharacter (State.get ())
 
+    let today =
+        Queries.Calendar.today (State.get ())
+
+    let currentDayMoment =
+        Calendar.Query.dayMomentOf today
+
     let objectCommands =
         List.collect (fun object -> object.Commands) objects
 
@@ -125,7 +129,7 @@ let showWorldCommandPrompt entrances exit description objects commands =
     showRoomConnections entrances exit
 
     showCommandPrompt
-        (CommandCommonPrompt(character.Status)
+        (CommandCommonPrompt(today, currentDayMoment, character.Status)
          |> CommandText
          |> I18n.translate)
         commands
@@ -135,6 +139,12 @@ let showWorldCommandPrompt entrances exit description objects commands =
 let showWorldCommandPromptWithoutMovement description objects commands =
     let character =
         Queries.Characters.playableCharacter (State.get ())
+
+    let today =
+        Queries.Calendar.today (State.get ())
+
+    let currentDayMoment =
+        Calendar.Query.dayMomentOf today
 
     let objectCommands =
         List.collect (fun object -> object.Commands) objects
@@ -147,7 +157,7 @@ let showWorldCommandPromptWithoutMovement description objects commands =
     showMessage description
 
     showCommandPrompt
-        (CommandCommonPrompt(character.Status)
+        (CommandCommonPrompt(today, currentDayMoment, character.Status)
          |> CommandText
          |> I18n.translate)
         commands
