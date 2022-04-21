@@ -466,7 +466,7 @@ and phoneText key =
     | PhoneOptionScheduler -> "Scheduler App"
     | PhonePrompt (dateTime, dayMoment) ->
         $"""{TextStyles.title "DuetsPhone v1.0"}
-{dayMomentName dayMoment |> TextStyles.highlight} of {formatDate dateTime |> TextStyles.highlight}"""
+{dayMomentName dayMoment |> TextStyles.time} of {formatDate dateTime |> TextStyles.time}"""
     | BankAppTitle -> "Bank"
     | BankAppWelcome (characterBalance, bandBalance) ->
         $"""{TextStyles.highlight "You"} currently have {TextStyles.money characterBalance}. {TextStyles.highlight "Your band"} has {TextStyles.money bandBalance}"""

@@ -37,13 +37,13 @@ let validateName name =
 module Member =
     /// Creates a member from a character and a role from today onwards.
     let from character role today =
-        { Character = character
+        { CharacterId = character
           Role = role
           Since = today }
 
     /// Creates a current member of the band given a member available for hiring.
     let fromMemberForHire (memberForHire: MemberForHire) =
-        from memberForHire.Character memberForHire.Role
+        from memberForHire.Character.Id memberForHire.Role
 
 module MemberForHire =
     /// Creates a member for hire given a character, its role and its skills.
@@ -55,7 +55,7 @@ module MemberForHire =
 module PastMember =
     /// Creates a past member given a current member with today as its fired date.
     let fromMember (currentMember: CurrentMember) today =
-        { Character = currentMember.Character
+        { CharacterId = currentMember.CharacterId
           Role = currentMember.Role
           Period = (currentMember.Since, today) }
 

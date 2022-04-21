@@ -11,7 +11,10 @@ open Simulation.Queries
 open Simulation.Bands.Members
 
 let private textFromMember (bandMember: CurrentMember) =
-    FireMemberListItem(bandMember.Character.Name, bandMember.Role)
+    let character =
+        Characters.find (State.get ()) bandMember.CharacterId
+
+    FireMemberListItem(character.Name, bandMember.Role)
     |> RehearsalSpaceText
     |> I18n.translate
 
@@ -44,9 +47,12 @@ and promptForMember bandMembers =
     | None -> Scene.Management
 
 and promptForConfirmFiring bandMember =
+    let character =
+        Characters.find (State.get ()) bandMember.CharacterId
+
     let confirmed =
         showConfirmationPrompt (
-            FireMemberConfirmation bandMember.Character.Name
+            FireMemberConfirmation character.Name
             |> RehearsalSpaceText
             |> I18n.translate
         )

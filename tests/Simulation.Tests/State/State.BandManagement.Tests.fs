@@ -10,18 +10,25 @@ open Entities
 open Simulation
 open Simulation.Queries
 
-let hiredMember =
-    let character = Character.from "Another" Other 18
+let hiredCharacter =
+    Character.from "Another" Other 18
 
-    Band.Member.from character Guitar dummyToday
+let hiredMember =
+    Band.Member.from hiredCharacter.Id Guitar dummyToday
 
 let memberSkills =
     [ (Skill.createWithLevel SkillId.Composition 10) ]
 
 let hireMember () =
-    MemberHired(dummyBand, hiredMember, memberSkills)
+    MemberHired(dummyBand, hiredCharacter, hiredMember, memberSkills)
     |> State.Root.applyEffect dummyState
 
+[<Test>]
+let ``MemberHired should add character to character map`` () =
+    let stateAfterHiring = hireMember ()
+
+    Characters.find stateAfterHiring hiredMember.CharacterId
+    |> should equal hiredCharacter
 
 [<Test>]
 let ``MemberHired should add member to band`` () =
@@ -35,7 +42,7 @@ let ``MemberHired should add skills to member's character`` () =
     let state = hireMember ()
 
     let characterSkills =
-        Skills.characterSkillsWithLevel state hiredMember.Character.Id
+        Skills.characterSkillsWithLevel state hiredMember.CharacterId
 
     characterSkills
     |> Map.head

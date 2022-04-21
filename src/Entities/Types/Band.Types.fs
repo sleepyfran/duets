@@ -13,14 +13,14 @@ module BandTypes =
 
     /// Defines a current member of the band.
     type CurrentMember =
-        { Character: Character
+        { CharacterId: CharacterId
           Role: InstrumentType
           Since: Date }
 
     /// Defines a member that used to be part of the band but is no longer a
     /// member.
     type PastMember =
-        { Character: Character
+        { CharacterId: CharacterId
           Role: InstrumentType
           Period: Period }
 

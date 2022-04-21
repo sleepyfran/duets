@@ -8,14 +8,15 @@ module StateTypes =
     /// instead of the whole object.
     type State =
         { Bands: Map<BandId, Band>
-          BandSongRepertoire: BandSongRepertoire
           BandAlbumRepertoire: BandAlbumRepertoire
+          BandSongRepertoire: BandSongRepertoire
           BankAccounts: Map<BankAccountHolder, BankAccount>
-          Character: Character
+          Characters: Map<CharacterId, Character>
           CharacterSkills: CharacterSkills
           Concerts: ConcertsByBand
           CurrentBandId: BandId
           CurrentPosition: WorldCoordinates
           GenreMarkets: GenreMarketByGenre
+          PlayableCharacterId: CharacterId
           Today: Date
           World: World }

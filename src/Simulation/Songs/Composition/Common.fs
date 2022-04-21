@@ -7,7 +7,8 @@ open Entities.Skill
 
 /// Computes the score associated with each member of the band for the song.
 let qualityForMember state genre (currentMember: CurrentMember) =
-    let genreSkill = create <| SkillId.Genre genre
+    let genreSkill =
+        create <| SkillId.Genre genre
 
     let influencingSkills =
         [ SkillId.Composition
@@ -15,9 +16,7 @@ let qualityForMember state genre (currentMember: CurrentMember) =
           genreSkill.Id ]
 
     influencingSkills
-    |> List.map (
-        Skills.characterSkillWithLevel state currentMember.Character.Id
-    )
+    |> List.map (Skills.characterSkillWithLevel state currentMember.CharacterId)
     |> List.map snd
     |> List.sum
     |> fun total -> total / influencingSkills.Length

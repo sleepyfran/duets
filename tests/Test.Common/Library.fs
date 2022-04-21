@@ -9,27 +9,34 @@ open Entities
 open Simulation.Concerts.Live
 open Simulation.Setup
 
-let dummyCharacter = Character.from "Test" Other 24
+let dummyCharacter =
+    Character.from "Test" Other 24
 
-let dummyCharacter2 = Character.from "Test 2" Female 35
+let dummyCharacter2 =
+    Character.from "Test 2" Female 35
 
-let dummyCharacter3 = Character.from "Test 3" Male 28
+let dummyCharacter3 =
+    Character.from "Test 3" Male 28
 
 let dummyBand =
     { Band.empty with
-          Members =
-              [ Band.Member.from dummyCharacter Guitar (Calendar.gameBeginning) ] }
+        Members =
+            [ Band.Member.from dummyCharacter.Id Guitar (Calendar.gameBeginning) ] }
 
 let dummyBandWithMultipleMembers =
     { Band.empty with
-          Members =
-              [ Band.Member.from dummyCharacter Guitar (Calendar.gameBeginning)
-                Band.Member.from dummyCharacter2 Bass (Calendar.gameBeginning)
-                Band.Member.from dummyCharacter3 Drums (Calendar.gameBeginning) ] }
+        Members =
+            [ Band.Member.from dummyCharacter.Id Guitar (Calendar.gameBeginning)
+              Band.Member.from dummyCharacter2.Id Bass (Calendar.gameBeginning)
+              Band.Member.from dummyCharacter3.Id Drums (Calendar.gameBeginning) ] }
 
 let dummySong = Song.empty
-let dummyFinishedSong = (FinishedSong dummySong, 50<quality>)
-let dummyRecordedSong = RecordedSong dummyFinishedSong
+
+let dummyFinishedSong =
+    (FinishedSong dummySong, 50<quality>)
+
+let dummyRecordedSong =
+    RecordedSong dummyFinishedSong
 
 let dummyRecordedSongWithLength length =
     RecordedSong(FinishedSong { dummySong with Length = length }, 50<quality>)
@@ -43,7 +50,8 @@ let dummyTodayMiddleOfYear =
 let dummyCharacterBankAccount =
     BankAccount.forCharacter dummyCharacter.Id
 
-let dummyBandBankAccount = BankAccount.forBand dummyBand.Id
+let dummyBandBankAccount =
+    BankAccount.forBand dummyBand.Id
 
 let dummyTargetBankAccount =
     BankAccount.forCharacter (CharacterId(Identity.create ()))
@@ -51,7 +59,8 @@ let dummyTargetBankAccount =
 let dummyAlbum =
     Album.from "Test Album" [ dummyRecordedSong ]
 
-let dummyUnreleasedAlbum = UnreleasedAlbum dummyAlbum
+let dummyUnreleasedAlbum =
+    UnreleasedAlbum dummyAlbum
 
 let dummyReleasedAlbum =
     { Album = dummyAlbum
@@ -113,7 +122,8 @@ let dummyOngoingConcert =
 
 /// Adds a given member to the given band.
 let addMember (band: Band) bandMember =
-    let memberLens = Lenses.FromState.Bands.members_ band.Id
+    let memberLens =
+        Lenses.FromState.Bands.members_ band.Id
 
     Optic.map memberLens (List.append [ bandMember ])
 
@@ -140,7 +150,8 @@ let addSkillsTo
 
 /// Adds an unfinished song to the given state.
 let addUnfinishedSong (band: Band) unfinishedSong =
-    let (UnfinishedSong (song), _, _) = unfinishedSong
+    let (UnfinishedSong (song), _, _) =
+        unfinishedSong
 
     let unfinishedSongLenses =
         Lenses.FromState.Songs.unfinishedByBand_ band.Id
@@ -170,9 +181,8 @@ let addFinishedSong (band: Band) finishedSong =
 
 /// Adds the specified funds to the given account.
 let addFunds account amount =
-    Optic.map
-        (Lenses.FromState.BankAccount.balanceOf_ account)
-        (fun balance -> balance + amount)
+    Optic.map (Lenses.FromState.BankAccount.balanceOf_ account) (fun balance ->
+        balance + amount)
 
 /// Adds the specified album to the band's released albums.
 let addReleasedAlbum (band: Band) album =

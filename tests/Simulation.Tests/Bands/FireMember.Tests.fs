@@ -9,9 +9,10 @@ open Entities
 open Simulation.Bands.Members
 
 let bandMember =
-    let hiredCharacter = Character.from "Test" Other 28
+    let hiredCharacter =
+        Character.from "Test" Other 28
 
-    Band.Member.from hiredCharacter Guitar dummyToday
+    Band.Member.from hiredCharacter.Id Guitar dummyToday
 
 let state =
     dummyState |> addMember dummyBand bandMember
@@ -19,7 +20,7 @@ let state =
 [<Test>]
 let FireMemberFailsIfGivenMemberIsPlayableCharacter () =
     let playableMember =
-        Band.Member.from dummyCharacter Guitar dummyToday
+        Band.Member.from dummyCharacter.Id Guitar dummyToday
 
     fireMember state dummyBand playableMember
     |> Result.unwrapError

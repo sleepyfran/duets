@@ -7,7 +7,9 @@ open FsUnit
 open Entities
 open Simulation.Bands.Members
 
-let instrument = Instrument.createInstrument Guitar
+let instrument =
+    Instrument.createInstrument Guitar
+
 let skillLevel = 50
 
 let state =
@@ -71,4 +73,10 @@ let HireMemberShouldGeneratedHiredMemberEffect () =
     hireMember state dummyBand memberForHire
     |> should
         be
-        (ofCase <@ MemberHired(dummyBand, hiredMember, memberForHire.Skills) @>)
+        (ofCase
+            <@ MemberHired(
+                dummyBand,
+                memberForHire.Character,
+                hiredMember,
+                memberForHire.Skills
+            ) @>)

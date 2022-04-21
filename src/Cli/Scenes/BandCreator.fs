@@ -69,7 +69,7 @@ and private promptForConfirmation character name genre instrument =
 
     if confirmed then
         let characterMember =
-            Band.Member.from character instrument (Calendar.gameBeginning)
+            Band.Member.from character.Id instrument (Calendar.gameBeginning)
 
         let band =
             Band.from name genre characterMember Calendar.gameBeginning

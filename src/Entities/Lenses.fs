@@ -23,9 +23,13 @@ module State =
         (fun (s: State) -> s.BandAlbumRepertoire),
         (fun v (s: State) -> { s with BandAlbumRepertoire = v })
 
-    let character_ =
-        (fun (s: State) -> s.Character),
-        (fun v (s: State) -> { s with Character = v })
+    let playableCharacter_ =
+        (fun (s: State) -> s.PlayableCharacterId),
+        (fun v (s: State) -> { s with PlayableCharacterId = v })
+
+    let characters_ =
+        (fun (s: State) -> s.Characters),
+        (fun v (s: State) -> { s with Characters = v })
 
     let characterSkills_ =
         (fun (s: State) -> s.CharacterSkills),
@@ -177,9 +181,11 @@ module World =
             (fun (c: City) -> c.Graph),
             (fun v (c: City) -> { c with Graph = v })
 
-        let startingNode_ = graph_ >-> Graph.startingNode_
+        let startingNode_ =
+            graph_ >-> Graph.startingNode_
 
-        let connections_ = graph_ >-> Graph.connections_
+        let connections_ =
+            graph_ >-> Graph.connections_
 
         let nodes_ = graph_ >-> Graph.nodes_
 

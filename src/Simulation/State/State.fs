@@ -22,27 +22,33 @@ let applyEffect state effect =
         Songs.removeFinished band song.Id state
         |> Songs.addFinished band finishedSong
     | SongDiscarded (band, unfinishedSong) ->
-        let song = Song.fromUnfinished unfinishedSong
+        let song =
+            Song.fromUnfinished unfinishedSong
+
         Songs.removeUnfinished band song.Id state
-    | MemberHired (band, currentMember, skills) ->
-        let stateWithMember = Bands.addMember band currentMember state
+    | MemberHired (band, character, currentMember, skills) ->
+        let stateWithMember =
+            Characters.add character state
+            |> Bands.addMember band currentMember
 
         skills
         |> List.fold
             (fun currentState skill ->
-                Skills.add currentMember.Character skill currentState)
+                Skills.add currentMember.CharacterId skill currentState)
             stateWithMember
     | MemberFired (band, currentMember, pastMember) ->
         Bands.removeMember band currentMember state
         |> Bands.addPastMember band pastMember
     | SkillImproved (character, Diff (_, skill)) ->
-        Skills.add character skill state
+        Skills.add character.Id skill state
     | MoneyTransferred (account, transaction) ->
         Bank.setBalance account transaction state
     | MoneyEarned (account, transaction) ->
         Bank.setBalance account transaction state
     | AlbumRecorded (band, album) ->
-        let modifiedState = Albums.addUnreleased band album state
+        let modifiedState =
+            Albums.addUnreleased band album state
+
         let (UnreleasedAlbum ua) = album
 
         ua.TrackList
@@ -52,7 +58,8 @@ let applyEffect state effect =
                 Songs.removeFinished band song currentState)
             modifiedState
     | AlbumRenamed (band, unreleasedAlbum) ->
-        let (UnreleasedAlbum album) = unreleasedAlbum
+        let (UnreleasedAlbum album) =
+            unreleasedAlbum
 
         Albums.removeUnreleased band album.Id state
         |> Albums.addUnreleased band unreleasedAlbum

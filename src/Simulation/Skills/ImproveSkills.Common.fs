@@ -16,23 +16,25 @@ let modifyCharacterSkills state (character: Character) skills amount =
     skills
     |> List.map (Queries.Skills.characterSkillWithLevel state character.Id)
     |> List.filter (fun (_, level) -> level < 100)
-    |> List.map
-        (fun skill ->
-            improveSkillBy skill amount
-            |> Tuple.two character
-            |> SkillImproved)
+    |> List.map (fun skill ->
+        improveSkillBy skill amount
+        |> Tuple.two character
+        |> SkillImproved)
 
 /// Generates a random number between 0 and 100, and if the chance given is
 /// below or equal to that number then sums the given amount to all levels of
 /// all specified skills.
 let applySkillModificationChance
     state
-    character
+    characterId
     skills
     chance
     improvementAmount
     =
     let random = RandomGen.genBetween 0 100
+
+    let character =
+        Queries.Characters.find state characterId
 
     if random > chance then
         modifyCharacterSkills state character skills improvementAmount

@@ -22,6 +22,7 @@
         <Compile Include="Queries\World\ConcertSpace.fs" />
         <Compile Include="State\Albums.fs" />
         <Compile Include="State\Bank.fs" />
+        <Compile Include="State\Characters.fs"/>
         <Compile Include="State\Calendar.fs" />
         <Compile Include="State\Concerts.fs" />
         <Compile Include="State\Market.fs" />

@@ -25,6 +25,9 @@ let person name = $"[bold lightgreen_1]{name}[/]"
 /// Pre-defined style for referencing places in text.
 let place name = $"[bold lightsalmon1]{name}[/]"
 
+/// Pre-defined style for referencing time in text.
+let time text = $"[bold grey70]{text}[/]"
+
 /// Pre-defined style for referencing actions in text.
 let action name = $"[bold deepskyblue2]{name}[/]"
 

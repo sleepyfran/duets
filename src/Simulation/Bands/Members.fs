@@ -37,31 +37,32 @@ let membersForHire state band instrument =
         |> Math.roundToNearest
 
     let averageAge =
-        Bands.averageAge band |> Math.roundToNearest
+        Bands.averageAge state band |> Math.roundToNearest
 
-    Seq.initInfinite
-        (fun _ ->
-            createMemberForHire
-                averageSkillLevel
-                averageAge
-                band.Genre
-                instrument)
+    Seq.initInfinite (fun _ ->
+        createMemberForHire averageSkillLevel averageAge band.Genre instrument)
 
 /// Processes the given member for hire into a current member of the band.
 let hireMember state (band: Band) (memberForHire: MemberForHire) =
     Calendar.today state
     |> Band.Member.fromMemberForHire memberForHire
     |> fun currentMember ->
-        MemberHired(band, currentMember, memberForHire.Skills)
+        MemberHired(
+            band,
+            memberForHire.Character,
+            currentMember,
+            memberForHire.Skills
+        )
 
 type FireError = AttemptToFirePlayableCharacter
 
 /// Removes a current member from the band and adds it to the past members with
 /// today as the date it was fired.
 let fireMember state (band: Band) (bandMember: CurrentMember) =
-    let character = Characters.playableCharacter state
+    let character =
+        Characters.playableCharacter state
 
-    if bandMember.Character.Id = character.Id then
+    if bandMember.CharacterId = character.Id then
         Error AttemptToFirePlayableCharacter
     else
         let pastMember =

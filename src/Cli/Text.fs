@@ -9,7 +9,10 @@ open Entities
 type VariableVerbs = | Have
 
 and CommandText =
-    | CommandCommonPrompt of status: CharacterStatus
+    | CommandCommonPrompt of
+        date: Date *
+        dayMoment: DayMoment *
+        status: CharacterStatus
     | CommandHelpDescription
     | CommandHelpEntry of string * Text
     | CommandDirectionDescription of direction: Direction
@@ -80,7 +83,11 @@ and ConcertText =
     | ConcertEnergyEnergetic
     | ConcertEnergyNormal
     | ConcertEnergyLow
-    | ConcertActionPrompt of points: Quality * status: CharacterStatus
+    | ConcertActionPrompt of
+        date: Date *
+        dayMoment: DayMoment *
+        status: CharacterStatus *
+        points: Quality
     | ConcertCommandPlayDescription
     | ConcertCommandDedicateSongDescription
     | ConcertCommandGetOffStageDescription
