@@ -26,7 +26,6 @@ let saveIfNeeded scene =
 
 let rec showScene scene =
     saveIfNeeded scene
-    lineBreak ()
 
     match scene with
     | Scene.MainMenu savegameState ->
