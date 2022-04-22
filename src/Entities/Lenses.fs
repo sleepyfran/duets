@@ -47,6 +47,10 @@ module State =
         (fun (s: State) -> s.GenreMarkets),
         (fun v (s: State) -> { s with GenreMarkets = v })
 
+    let situation_ =
+        (fun (s: State) -> s.Situation),
+        (fun v (s: State) -> { s with Situation = v })
+
     let today_ =
         (fun (s: State) -> s.Today), (fun v (s: State) -> { s with Today = v })
 

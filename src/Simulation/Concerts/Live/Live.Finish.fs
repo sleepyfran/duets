@@ -8,7 +8,8 @@ open Simulation
 let finishConcert state ongoingConcert =
     let band = Queries.Bands.currentBand state
 
-    ConcertFinished(
-        band,
-        PerformedConcert(ongoingConcert.Concert, ongoingConcert.Points)
-    )
+    [ ConcertFinished(
+          band,
+          PerformedConcert(ongoingConcert.Concert, ongoingConcert.Points)
+      )
+      SituationChanged FreeRoam ]

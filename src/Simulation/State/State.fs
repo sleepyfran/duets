@@ -1,5 +1,6 @@
 module Simulation.State.Root
 
+open Aether
 open Entities
 
 /// Applies an effect to the state.
@@ -89,5 +90,7 @@ let applyEffect state effect =
 
         Concerts.removeScheduledConcert band (ScheduledConcert concert) state
         |> Concerts.addPastConcert band pastConcert
+    | SituationChanged situation ->
+        Optic.set Lenses.State.situation_ situation state
     | WorldMoveTo (cityId, nodeId) -> World.move cityId nodeId state
     | Wait _ -> state

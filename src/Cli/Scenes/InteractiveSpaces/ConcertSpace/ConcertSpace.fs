@@ -31,7 +31,18 @@ let private getRoomDescription space room =
 
 let private getRoomObjects _ = []
 
-let private getRoomCommands _ = []
+let private getRoomCommands room =
+    match room with
+    | Backstage ->
+        let currentSituation =
+            Queries.Situations.current (State.get ())
+
+        match currentSituation with
+        | InConcert ongoingConcert ->
+            [ DoEncoreCommand.create ongoingConcert
+              EndConcertCommand.create ongoingConcert ]
+        | _ -> []
+    | _ -> []
 
 let private showConcertSpace city place placeId roomId =
     let room =
@@ -55,7 +66,7 @@ let private showConcertSpace city place placeId roomId =
 
     showWorldCommandPrompt entrances exit description objects commands
 
-let rec private showOngoingConcert place placeId roomId ongoingConcert =
+let rec private showOngoingConcert ongoingConcert =
     let character =
         Queries.Characters.playableCharacter (State.get ())
 
@@ -66,26 +77,19 @@ let rec private showOngoingConcert place placeId roomId ongoingConcert =
         Calendar.Query.dayMomentOf today
 
     let commands =
-        [ PlaySongCommands.createPlaySong
-              ongoingConcert
-              (showOngoingConcert place placeId roomId)
-          PlaySongCommands.createDedicateSong
-              ongoingConcert
-              (showOngoingConcert place placeId roomId)
-          GreetAudienceCommand.create
-              ongoingConcert
-              (showOngoingConcert place placeId roomId)
-          GetOffStageCommand.create
-              ongoingConcert
-              (showOnConcertBackstage place placeId)
-          GiveSpeechCommand.create
-              ongoingConcert
-              (showOngoingConcert place placeId roomId) ]
+        [ PlaySongCommands.createPlaySong ongoingConcert
+          PlaySongCommands.createDedicateSong ongoingConcert
+          GreetAudienceCommand.create ongoingConcert
+          GetOffStageCommand.create ongoingConcert
+          GiveSpeechCommand.create ongoingConcert ]
 
     lineBreak ()
 
     let points =
         Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
+
+    Situations.inConcert ongoingConcert
+    |> Cli.Effect.apply
 
     showCommandPromptWithoutDefaults
         (ConcertActionPrompt(today, currentDayMoment, character.Status, points)
@@ -93,20 +97,33 @@ let rec private showOngoingConcert place placeId roomId ongoingConcert =
          |> I18n.translate)
         commands
 
-and private showOnConcertBackstage place placeId roomId ongoingConcert =
-    let room =
-        Queries.World.Common.contentOf place.Rooms roomId
+let private showStage place placeId =
+    let currentSituation =
+        Queries.Situations.current (State.get ())
 
-    let commands =
-        [ DoEncoreCommand.create
-              ongoingConcert
-              (showOngoingConcert place placeId roomId)
-          EndConcertCommand.create ongoingConcert ]
+    match currentSituation with
+    | InConcert ongoingConcert -> showOngoingConcert ongoingConcert
+    | _ ->
+        ConcertSpaceStageDescription place.Space
+        |> ConcertText
+        |> I18n.translate
+        |> showMessage
 
-    showWorldCommandPromptWithoutMovement
-        (getRoomDescription place.Space room)
-        (getRoomObjects room)
-        commands
+        let band =
+            Queries.Bands.currentBand (State.get ())
+
+        let concert =
+            Queries.Concerts.scheduleForTodayInPlace
+                (State.get ())
+                band.Id
+                placeId
+            |> Option.get
+            |> Concert.fromScheduled
+
+        showOngoingConcert
+            { Events = []
+              Points = 0<quality>
+              Concert = concert }
 
 /// Creates an interactive scene inside of a concert space in the given city,
 /// place and room.
@@ -121,29 +138,7 @@ let rec concertSpace city place placeId roomId =
     match room with
     | Stage ->
         if Queries.World.ConcertSpace.canEnterStage (State.get ()) placeId then
-            ConcertSpaceStageDescription place.Space
-            |> ConcertText
-            |> I18n.translate
-            |> showMessage
-
-            let band =
-                Queries.Bands.currentBand (State.get ())
-
-            let concert =
-                Queries.Concerts.scheduleForTodayInPlace
-                    (State.get ())
-                    band.Id
-                    placeId
-                |> Option.get
-                |> Concert.fromScheduled
-
-            showOngoingConcert
-                place
-                placeId
-                roomId
-                { Events = []
-                  Points = 0<quality>
-                  Concert = concert }
+            showStage place placeId
         else
             WorldText WorldConcertSpaceKickedOutOfStage
             |> I18n.translate

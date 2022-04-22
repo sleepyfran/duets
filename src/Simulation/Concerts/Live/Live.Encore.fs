@@ -18,19 +18,15 @@ let getOffStage state ongoingConcert =
     let canPerformEncore =
         Concert.Ongoing.canPerformEncore ongoingConcert
 
-    let backstageRoomId =
-        Queries.World.Common.roomIdFromCoordinates backstageCoordinates
-        |> Option.get
-
     let finishedConcertEffects =
         if not canPerformEncore then
-            [ Finish.finishConcert state ongoingConcert ]
+            Finish.finishConcert state ongoingConcert
         else
             []
 
     Response.forEvent ongoingConcert GotOffStage 0
     |> Response.addEffects (navigationEffects @ finishedConcertEffects)
-    |> Response.mapResult (fun _ -> (canPerformEncore, backstageRoomId))
+    |> Response.mapResult (fun _ -> canPerformEncore)
 
 /// Adds a new encore to the list of events of the ongoing concert.
 let doEncore state ongoingConcert =

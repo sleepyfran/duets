@@ -15,13 +15,20 @@ open Simulation
 /// </summary>
 /// <param name="effect">Effect to apply</param>
 let rec apply effect =
-    let effects, state = Simulation.tick (State.get ()) effect
+    let effects, state =
+        Simulation.tick (State.get ()) effect
 
     State.set state
 
     effects
     |> Seq.tap Log.append
     |> Seq.iter displayEffect
+
+/// <summary>
+/// Calls <c>apply</c> one time for each given effect in the list.
+/// </summary>
+/// <param name="effects">Effects to apply</param>
+and applyMultiple effects = effects |> List.iter apply
 
 and private displayEffect effect =
     match effect with
@@ -120,8 +127,11 @@ and private displayEffect effect =
         |> I18n.translate
         |> showMessage
     | Wait _ ->
-        let today = Queries.Calendar.today (State.get ())
-        let currentDayMoment = Calendar.Query.dayMomentOf today
+        let today =
+            Queries.Calendar.today (State.get ())
+
+        let currentDayMoment =
+            Calendar.Query.dayMomentOf today
 
         CommandWaitResult(today, currentDayMoment)
         |> CommandText

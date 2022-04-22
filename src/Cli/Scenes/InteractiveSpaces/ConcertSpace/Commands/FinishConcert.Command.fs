@@ -14,13 +14,11 @@ module EndConcertCommand =
     let rec create ongoingConcert =
         { Name = "end concert"
           Description =
-              ConcertText ConcertCommandFinishConcertDescription
-              |> I18n.translate
+            ConcertText ConcertCommandFinishConcertDescription
+            |> I18n.translate
           Handler =
-              (fun _ ->
-                  Concerts.Live.Finish.finishConcert
-                      (State.get ())
-                      ongoingConcert
-                  |> Cli.Effect.apply
+            (fun _ ->
+                Concerts.Live.Finish.finishConcert (State.get ()) ongoingConcert
+                |> Cli.Effect.applyMultiple
 
-                  Scene.World) }
+                Scene.World) }

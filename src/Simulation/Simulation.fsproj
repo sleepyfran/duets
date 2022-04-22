@@ -12,6 +12,7 @@
         <Compile Include="Queries\Songs.fs" />
         <Compile Include="Queries\Repertoire.fs" />
         <Compile Include="Queries\Bank.fs" />
+        <Compile Include="Queries\Situations.fs"/>
         <Compile Include="Queries\Skills.fs" />
         <Compile Include="Queries\Characters.fs" />
         <Compile Include="Queries\Bands.fs" />
@@ -53,6 +54,7 @@
         <Compile Include="Concerts\Live\Live.Actions.fs" />
         <Compile Include="Concerts\Live\Live.Finish.fs" />
         <Compile Include="Concerts\Live\Live.Encore.fs" />
+        <Compile Include="Situations\Situations.fs"/>
         <Compile Include="Songs\Practice.fs" />
         <Compile Include="Songs\Composition\Common.fs" />
         <Compile Include="Songs\Composition\ComposeSong.fs" />

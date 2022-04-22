@@ -28,5 +28,6 @@ module EffectTypes =
         | ConcertUpdated of Band * ScheduledConcert
         | ConcertFinished of Band * PastConcert
         | ConcertCancelled of Band * PastConcert
+        | SituationChanged of Situation
         | WorldMoveTo of WorldCoordinates
         | Wait of int

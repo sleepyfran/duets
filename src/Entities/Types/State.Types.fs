@@ -18,5 +18,6 @@ module StateTypes =
           CurrentPosition: WorldCoordinates
           GenreMarkets: GenreMarketByGenre
           PlayableCharacterId: CharacterId
+          Situation: Situation
           Today: Date
           World: World }

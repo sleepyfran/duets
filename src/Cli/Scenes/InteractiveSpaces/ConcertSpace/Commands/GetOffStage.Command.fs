@@ -13,35 +13,33 @@ module GetOffStageCommand =
     /// Command which moves the person from the stage into the backstage. This
     /// might end the concert if people is not really interested in staying for
     /// the encore.
-    let rec create ongoingConcert backstageScene =
+    let rec create ongoingConcert =
         { Name = "get off stage"
           Description =
-              ConcertText ConcertCommandGetOffStageDescription
-              |> I18n.translate
+            ConcertText ConcertCommandGetOffStageDescription
+            |> I18n.translate
           Handler =
-              (fun _ ->
-                  let response =
-                      Encore.getOffStage (State.get ()) ongoingConcert
+            (fun _ ->
+                let response =
+                    Encore.getOffStage (State.get ()) ongoingConcert
 
-                  response.Effects |> List.iter Cli.Effect.apply
+                Cli.Effect.applyMultiple response.Effects
 
-                  let canPerformEncore, backstageRoomId = response.Result
+                lineBreak ()
 
-                  lineBreak ()
+                let canPerformEncore = response.Result
 
-                  if canPerformEncore then
-                      ConcertText ConcertGetOffStageEncorePossible
-                      |> I18n.translate
-                      |> showMessage
+                if canPerformEncore then
+                    ConcertText ConcertGetOffStageEncorePossible
+                    |> I18n.translate
+                    |> showMessage
 
-                      lineBreak ()
+                    lineBreak ()
+                else
+                    ConcertText ConcertGetOffStageNoEncorePossible
+                    |> I18n.translate
+                    |> showMessage
 
-                      backstageScene backstageRoomId response.OngoingConcert
-                  else
-                      ConcertText ConcertGetOffStageNoEncorePossible
-                      |> I18n.translate
-                      |> showMessage
+                    lineBreak ()
 
-                      lineBreak ()
-
-                      Scene.World) }
+                Scene.World) }
