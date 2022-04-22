@@ -51,17 +51,17 @@ and showCommandPromptWithoutDefaults title availableCommands =
 
         showTextPrompt (Literal ">")
         |> fun input ->
+            let inputTokens =
+                String.split ' ' input |> List.ofArray
+
             commandsWithEssentials
-            |> List.tryFind
-                (fun command ->
-                    let commandTokens =
-                        String.split ' ' command.Name |> List.ofArray
+            |> List.tryFind (fun command ->
+                let commandTokens =
+                    String.split ' ' command.Name |> List.ofArray
 
-                    let inputTokens = String.split ' ' input |> List.ofArray
-
-                    inputTokens
-                    |> List.truncate commandTokens.Length
-                    |> List.forall2' (=) commandTokens)
+                inputTokens
+                |> List.truncate commandTokens.Length
+                |> List.forall2' (=) commandTokens)
             |> tryRunCommand input
         |> Option.defaultWith promptForCommand
 
