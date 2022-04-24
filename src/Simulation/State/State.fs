@@ -6,49 +6,8 @@ open Entities
 /// Applies an effect to the state.
 let applyEffect state effect =
     match effect with
-    | GameCreated state -> state
-    | TimeAdvanced time -> Calendar.setTime time state
-    | SongStarted (band, unfinishedSong) ->
-        Songs.addUnfinished band unfinishedSong state
-    | SongImproved (band, (Diff (_, unfinishedSong))) ->
-        Songs.addUnfinished band unfinishedSong state
-    | SongFinished (band, finishedSong) ->
-        let song = Song.fromFinished finishedSong
-
-        Songs.removeUnfinished band song.Id state
-        |> Songs.addFinished band finishedSong
-    | SongPracticed (band, finishedSong) ->
-        let song = Song.fromFinished finishedSong
-
-        Songs.removeFinished band song.Id state
-        |> Songs.addFinished band finishedSong
-    | SongDiscarded (band, unfinishedSong) ->
-        let song =
-            Song.fromUnfinished unfinishedSong
-
-        Songs.removeUnfinished band song.Id state
-    | MemberHired (band, character, currentMember, skills) ->
-        let stateWithMember =
-            Characters.add character state
-            |> Bands.addMember band currentMember
-
-        skills
-        |> List.fold
-            (fun currentState skill ->
-                Skills.add currentMember.CharacterId skill currentState)
-            stateWithMember
-    | MemberFired (band, currentMember, pastMember) ->
-        Bands.removeMember band currentMember state
-        |> Bands.addPastMember band pastMember
-    | SkillImproved (character, Diff (_, skill)) ->
-        Skills.add character.Id skill state
-    | MoneyTransferred (account, transaction) ->
-        Bank.setBalance account transaction state
-    | MoneyEarned (account, transaction) ->
-        Bank.setBalance account transaction state
     | AlbumRecorded (band, album) ->
-        let modifiedState =
-            Albums.addUnreleased band album state
+        let modifiedState = Albums.addUnreleased band album state
 
         let (UnreleasedAlbum ua) = album
 
@@ -59,8 +18,7 @@ let applyEffect state effect =
                 Songs.removeFinished band song currentState)
             modifiedState
     | AlbumRenamed (band, unreleasedAlbum) ->
-        let (UnreleasedAlbum album) =
-            unreleasedAlbum
+        let (UnreleasedAlbum album) = unreleasedAlbum
 
         Albums.removeUnreleased band album.Id state
         |> Albums.addUnreleased band unreleasedAlbum
@@ -74,7 +32,10 @@ let applyEffect state effect =
 
         Albums.removeReleased band album.Id state
         |> Albums.addReleased band releasedAlbum
-    | GenreMarketsUpdated genreMarkets -> Market.set genreMarkets state
+    | CharacterHealthChange (character, health) ->
+        Characters.setHealth character.Id health state
+    | CharacterEnergyChange (character, energy) ->
+        Characters.setEnergy character.Id energy state
     | ConcertScheduled (band, concert) ->
         Concerts.addScheduledConcert band concert state
     | ConcertUpdated (band, concert) ->
@@ -90,7 +51,47 @@ let applyEffect state effect =
 
         Concerts.removeScheduledConcert band (ScheduledConcert concert) state
         |> Concerts.addPastConcert band pastConcert
+    | GameCreated state -> state
+    | GenreMarketsUpdated genreMarkets -> Market.set genreMarkets state
+    | MemberHired (band, character, currentMember, skills) ->
+        let stateWithMember =
+            Characters.add character state
+            |> Bands.addMember band currentMember
+
+        skills
+        |> List.fold
+            (fun currentState skill ->
+                Skills.add currentMember.CharacterId skill currentState)
+            stateWithMember
+    | MemberFired (band, currentMember, pastMember) ->
+        Bands.removeMember band currentMember state
+        |> Bands.addPastMember band pastMember
+    | MoneyTransferred (account, transaction) ->
+        Bank.setBalance account transaction state
+    | MoneyEarned (account, transaction) ->
+        Bank.setBalance account transaction state
+    | SkillImproved (character, Diff (_, skill)) ->
+        Skills.add character.Id skill state
+    | SongStarted (band, unfinishedSong) ->
+        Songs.addUnfinished band unfinishedSong state
+    | SongImproved (band, (Diff (_, unfinishedSong))) ->
+        Songs.addUnfinished band unfinishedSong state
+    | SongFinished (band, finishedSong) ->
+        let song = Song.fromFinished finishedSong
+
+        Songs.removeUnfinished band song.Id state
+        |> Songs.addFinished band finishedSong
+    | SongPracticed (band, finishedSong) ->
+        let song = Song.fromFinished finishedSong
+
+        Songs.removeFinished band song.Id state
+        |> Songs.addFinished band finishedSong
+    | SongDiscarded (band, unfinishedSong) ->
+        let song = Song.fromUnfinished unfinishedSong
+
+        Songs.removeUnfinished band song.Id state
     | SituationChanged situation ->
         Optic.set Lenses.State.situation_ situation state
+    | TimeAdvanced time -> Calendar.setTime time state
     | WorldMoveTo (cityId, nodeId) -> World.move cityId nodeId state
     | Wait _ -> state

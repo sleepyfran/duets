@@ -7,27 +7,29 @@ module EffectTypes =
     /// Defines an effect that happened after an action in the game. For example
     /// calling composeSong will create a `SongComposed` effect.
     type Effect =
+        | AlbumRecorded of Band * UnreleasedAlbum
+        | AlbumReleased of Band * ReleasedAlbum
+        | AlbumReleasedUpdate of Band * ReleasedAlbum
+        | AlbumRenamed of Band * UnreleasedAlbum
+        | CharacterHealthChange of Character * Health
+        | CharacterEnergyChange of Character * Energy
+        | ConcertScheduled of Band * ScheduledConcert
+        | ConcertFinished of Band * PastConcert
+        | ConcertUpdated of Band * ScheduledConcert
+        | ConcertCancelled of Band * PastConcert
         | GameCreated of State
-        | TimeAdvanced of Date
+        | GenreMarketsUpdated of GenreMarketByGenre
+        | MemberHired of Band * Character * CurrentMember * SkillWithLevel list
+        | MemberFired of Band * CurrentMember * PastMember
+        | MoneyEarned of BankAccountHolder * BankTransaction
+        | MoneyTransferred of BankAccountHolder * BankTransaction
+        | SkillImproved of Character * Diff<SkillWithLevel>
         | SongStarted of Band * UnfinishedSongWithQualities
         | SongImproved of Band * Diff<UnfinishedSongWithQualities>
         | SongFinished of Band * FinishedSongWithQuality
         | SongDiscarded of Band * UnfinishedSongWithQualities
         | SongPracticed of Band * FinishedSongWithQuality
-        | MemberHired of Band * Character * CurrentMember * SkillWithLevel list
-        | MemberFired of Band * CurrentMember * PastMember
-        | SkillImproved of Character * Diff<SkillWithLevel>
-        | MoneyTransferred of BankAccountHolder * BankTransaction
-        | MoneyEarned of BankAccountHolder * BankTransaction
-        | AlbumRecorded of Band * UnreleasedAlbum
-        | AlbumRenamed of Band * UnreleasedAlbum
-        | AlbumReleased of Band * ReleasedAlbum
-        | AlbumReleasedUpdate of Band * ReleasedAlbum
-        | GenreMarketsUpdated of GenreMarketByGenre
-        | ConcertScheduled of Band * ScheduledConcert
-        | ConcertUpdated of Band * ScheduledConcert
-        | ConcertFinished of Band * PastConcert
-        | ConcertCancelled of Band * PastConcert
         | SituationChanged of Situation
+        | TimeAdvanced of Date
         | WorldMoveTo of WorldCoordinates
         | Wait of int

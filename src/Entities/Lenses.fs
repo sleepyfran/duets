@@ -113,6 +113,23 @@ module Character =
         (fun (c: Character) -> c.Id),
         (fun v (c: Character) -> { c with Id = v })
 
+    let status_ =
+        (fun (c: Character) -> c.Status),
+        (fun v (c: Character) -> { c with Status = v })
+
+    module Status =
+        let energy_ =
+            (fun (c: CharacterStatus) -> c.Energy),
+            (fun v (c: CharacterStatus) -> { c with Energy = v })
+
+        let health_ =
+            (fun (c: CharacterStatus) -> c.Health),
+            (fun v (c: CharacterStatus) -> { c with Health = v })
+
+    let energy_ = status_ >-> Status.energy_
+
+    let health_ = status_ >-> Status.health_
+
 module Concerts =
     module Ongoing =
         let events_ =
@@ -185,11 +202,9 @@ module World =
             (fun (c: City) -> c.Graph),
             (fun v (c: City) -> { c with Graph = v })
 
-        let startingNode_ =
-            graph_ >-> Graph.startingNode_
+        let startingNode_ = graph_ >-> Graph.startingNode_
 
-        let connections_ =
-            graph_ >-> Graph.connections_
+        let connections_ = graph_ >-> Graph.connections_
 
         let nodes_ = graph_ >-> Graph.nodes_
 

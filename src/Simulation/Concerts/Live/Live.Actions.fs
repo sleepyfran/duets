@@ -2,15 +2,27 @@
 module Simulation.Concerts.Live.Actions
 
 open Entities
+open Simulation
 
 /// Plays the given song in the concert with the specified energy. The result
 /// depends on whether the song was already played or not and the energy.
 let playSong state ongoingConcert (finishedSong, _) energy =
     let (FinishedSong song) = finishedSong
 
+    let playableCharacter =
+        Queries.Characters.playableCharacter state
+
     { Event = PlaySong(song, energy)
       Limit = Penalized(1<times>, PointPenalization(-50))
-      Effects = []
+      Effects =
+          match energy with
+          | PerformEnergy.Energetic ->
+              [ Character.Status.changeHealth playableCharacter -2
+                Character.Status.changeEnergy playableCharacter -5 ]
+          | PerformEnergy.Normal ->
+              [ Character.Status.changeEnergy playableCharacter 3 ]
+          | PerformEnergy.Limited ->
+              [ Character.Status.changeEnergy playableCharacter 1 ]
       AffectingQualities =
           // TODO: Add this after testing; SongQuality(finishedSong, quality)
           [ SongPractice(finishedSong) ]

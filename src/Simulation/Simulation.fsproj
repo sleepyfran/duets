@@ -35,6 +35,7 @@
         <Compile Include="World\Navigation.fs" />
         <Compile Include="World\Generation\Cities\Prague.fs" />
         <Compile Include="World\Generation\Generation.fs" />
+        <Compile Include="Character\Status.fs"/>
         <Compile Include="Bank\Operations.fs" />
         <Compile Include="Albums\DailyStreams.fs" />
         <Compile Include="Albums\Hype.fs" />
