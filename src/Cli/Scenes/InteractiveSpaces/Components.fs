@@ -49,18 +49,6 @@ let showRoomConnections entrances exit =
         |> showMessage
     | _ -> ()
 
-let private createLookCommand entrances exit description objects =
-    { Name = "look"
-      Description = I18n.translate (CommandText CommandLookDescription)
-      Handler =
-        (fun _ ->
-            showMessage description
-            showObjects objects
-            lineBreak ()
-            showRoomConnections entrances exit
-
-            Scene.World) }
-
 let private createOutCommand coordinates =
     { Name = "out"
       Description = I18n.translate (CommandText CommandOutDescription)
@@ -119,7 +107,6 @@ let showWorldCommandPrompt entrances exit description objects commands =
     let commands =
         commands
         @ objectCommands
-          @ [ (createLookCommand entrances exit description objects) ]
             @ NavigationCommand.create entrances
               @ [ match exit with
                   | Some (coordinates, _) -> yield createOutCommand coordinates
@@ -152,7 +139,6 @@ let showWorldCommandPromptWithoutMovement description objects commands =
     let commands =
         commands
         @ objectCommands
-          @ [ (createLookCommand [] None description objects) ]
 
     showMessage description
 

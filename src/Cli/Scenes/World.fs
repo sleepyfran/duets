@@ -22,17 +22,6 @@ let private getEntrances nodeId graph getNodeName getCoordinates =
             |> getNodeName
             |> fun name -> (direction, name, getCoordinates roomId))
 
-let private getExit city nodeId exits =
-    exits
-    |> Map.tryFind nodeId
-    |> Option.map
-        (fun exitNodeId ->
-            let exitNodeName =
-                Queries.World.Common.contentOf city.Graph exitNodeId
-                |> getPlaceName
-
-            Node exitNodeId, exitNodeName)
-
 let rec worldScene () =
     let currentPosition =
         State.get ()
