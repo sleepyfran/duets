@@ -1,6 +1,7 @@
 module Cli.Scenes.World
 
 open Agents
+open Cli.Components
 open Cli.Text
 open Cli.Scenes.InteractiveSpaces
 open Cli.Scenes.InteractiveSpaces.Components
@@ -16,13 +17,14 @@ let private getPlaceName nodeContent =
 
 let private getEntrances nodeId graph getNodeName getCoordinates =
     Queries.World.Common.availableDirections nodeId graph
-    |> List.map
-        (fun (direction, roomId) ->
-            Queries.World.Common.contentOf graph roomId
-            |> getNodeName
-            |> fun name -> (direction, name, getCoordinates roomId))
+    |> List.map (fun (direction, roomId) ->
+        Queries.World.Common.contentOf graph roomId
+        |> getNodeName
+        |> fun name -> (direction, name, getCoordinates roomId))
 
 let rec worldScene () =
+    lineBreak ()
+
     let currentPosition =
         State.get ()
         |> Queries.World.Common.currentPosition
