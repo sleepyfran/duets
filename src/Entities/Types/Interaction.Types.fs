@@ -8,7 +8,7 @@ module InteractionTypes =
     [<RequireQualifiedAccess>]
     type FreeRoamInteraction =
         /// Allows movement into the specified direction.
-        | Move of direction: Direction
+        | Move of direction: Direction * id: NodeId
         /// Allows going out of the current place towards the given NodeId.
         | GoOut of exit: NodeId
         /// Allows waiting.
