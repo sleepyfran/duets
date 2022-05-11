@@ -61,5 +61,7 @@ let rec availableCurrently state =
         | RehearsalSpace _
         | Studio _ ->
             placeInteractions currentPosition.City placeId roomId coords.Place
+            @ defaultInteractions
     | ResolvedOutsideCoordinates coords ->
         outsideInteractions coords.Coordinates currentPosition.City
+        @ defaultInteractions
