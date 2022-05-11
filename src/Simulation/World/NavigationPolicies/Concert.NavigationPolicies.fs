@@ -6,7 +6,7 @@ open Simulation
 
 /// Returns whether the character has a concert scheduled in the current venue
 /// and it's right in this day moment and therefore can access or not the stage.
-let private canEnterStage state (coords: ResolvedPlaceCoordinates) =
+let private canEnterStage state (coords: ResolvedRoomCoordinates) =
     let placeId, _ = coords.Coordinates
 
     let timeRightNow =
@@ -26,7 +26,7 @@ let private canEnterStage state (coords: ResolvedPlaceCoordinates) =
 
 /// Returns whether the character has a concert scheduled around the time
 /// they're attempting to enter the backstage.
-let private canEnterBackstage state (coords: ResolvedPlaceCoordinates) =
+let private canEnterBackstage state (coords: ResolvedRoomCoordinates) =
     let placeId, _ = coords.Coordinates
 
     let band = Queries.Bands.currentBand state
@@ -36,7 +36,7 @@ let private canEnterBackstage state (coords: ResolvedPlaceCoordinates) =
     |> Result.ofBool EntranceError.CannotEnterBackstageOutsideConcert
 
 /// Returns whether it's possible to enter in the given coordinates.
-let canEnter state (coords: ResolvedPlaceCoordinates) =
+let canEnter state (coords: ResolvedRoomCoordinates) =
     match coords.Place.Space with
     | ConcertSpace _ ->
         match coords.Room with

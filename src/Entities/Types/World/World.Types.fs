@@ -127,7 +127,7 @@ module WorldTypes =
 
     /// Resolved coordinates for nodes that contain rooms, with the place and
     /// the room that the coordinates referred to.
-    type ResolvedPlaceCoordinates =
+    type ResolvedRoomCoordinates =
         { Coordinates: RoomCoordinates
           Place: Place
           Room: Room }
@@ -140,11 +140,11 @@ module WorldTypes =
     /// Resolved coordinates with all fields. Includes the city, the given
     /// coordinates, the content of the node and the content of the room, if any.
     type ResolvedCoordinates =
-        | ResolvedPlaceCoordinates of ResolvedPlaceCoordinates
+        | ResolvedPlaceCoordinates of ResolvedRoomCoordinates
         | ResolvedOutsideCoordinates of ResolvedOutsideCoordinates
 
     /// Contains the city and the resolved coordinates of a node and room.
-    type Coordinates =
+    type ResolvedCityCoordinates =
         { City: City
           Content: ResolvedCoordinates }
 
