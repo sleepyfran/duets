@@ -16,19 +16,15 @@ let private outsideInteractions nodeId city =
         |> Interaction.FreeRoam)
 
 let private placeInteractions city placeId roomId place =
-    let unwrappedRoomId =
-        roomId
-        |> Option.defaultValue place.Rooms.StartingNode
-
     let moveInteractions =
-        Queries.World.Common.availableDirections unwrappedRoomId place.Rooms
+        Queries.World.Common.availableDirections roomId place.Rooms
         |> List.map (fun (direction, destinationId) ->
             FreeRoamInteraction.Move(direction, Room(placeId, destinationId))
             |> Interaction.FreeRoam)
 
     let exitInteraction =
         place.Exits
-        |> Map.tryFind unwrappedRoomId
+        |> Map.tryFind roomId
         |> Option.map (fun exitId -> [ goOutFrom city exitId ])
         |> Option.defaultValue []
 
@@ -36,7 +32,7 @@ let private placeInteractions city placeId roomId place =
 
 let private concertSpaceInteractions room =
     match room with
-    | ConcertSpaceRoom.Stage -> []
+    | Room.Stage -> []
     | _ -> [ Interaction.FreeRoam FreeRoamInteraction.Wait ]
 
 /// <summary>
@@ -48,30 +44,22 @@ let rec availableCurrently state =
     let currentPosition =
         Queries.World.Common.currentPosition state
 
-    let placeId, roomId =
-        match currentPosition.Coordinates with
-        | Room (placeId, roomId) -> placeId, Some roomId
-        | Node nodeId -> nodeId, None
-
     let defaultInteractions =
         [ Interaction.FreeRoam FreeRoamInteraction.Wait ]
 
-    match currentPosition.NodeContent with
-    | OutsideNode _ -> outsideInteractions placeId currentPosition.City
-    | ConcertPlace place ->
-        let room =
-            roomId
-            |> Option.defaultValue place.Rooms.StartingNode
-            |> Queries.World.Common.contentOf place.Rooms
+    match currentPosition.Content with
+    | ResolvedPlaceCoordinates coords ->
+        let placeId, roomId = coords.Coordinates
 
-        let specificInteractions =
-            concertSpaceInteractions room
+        match coords.Place.Space with
+        | ConcertSpace space ->
+            let specificInteractions =
+                concertSpaceInteractions coords.Room
 
-        placeInteractions currentPosition.City placeId roomId place
-        @ specificInteractions
-    | RehearsalPlace place ->
-        placeInteractions currentPosition.City placeId roomId place
-        @ defaultInteractions
-    | StudioPlace place ->
-        placeInteractions currentPosition.City placeId roomId place
-        @ defaultInteractions
+            placeInteractions currentPosition.City placeId roomId coords.Place
+            @ specificInteractions
+        | RehearsalSpace _
+        | Studio _ ->
+            placeInteractions currentPosition.City placeId roomId coords.Place
+    | ResolvedOutsideCoordinates coords ->
+        outsideInteractions coords.Coordinates currentPosition.City

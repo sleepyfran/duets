@@ -5,6 +5,7 @@ open Cli.Components
 open Cli.Components.Commands
 open Cli.SceneIndex
 open Cli.Text
+open Common
 open Entities
 open Simulation
 
@@ -56,16 +57,19 @@ let private createOutCommand coordinates =
         (fun _ ->
             State.get ()
             |> World.Navigation.moveTo coordinates
-            |> Cli.Effect.apply
+            |> Result.switch Cli.Effect.apply showEntranceError
 
             Scene.World) }
 
 let private getPlaceName nodeContent =
     match nodeContent with
-    | ConcertPlace place -> Literal place.Space.Name
-    | RehearsalPlace place -> Literal place.Space.Name
-    | StudioPlace place -> Literal place.Space.Name
-    | OutsideNode node -> Literal node.Name
+    | CityNode.Place place ->
+        match place.Space with
+        | ConcertSpace space -> space.Name
+        | RehearsalSpace space -> space.Name
+        | Studio space -> space.Name
+    | CityNode.OutsideNode node -> node.Name
+    |> Literal
 
 /// Returns the coordinates and name of any exit linked with this node id, if
 /// any.
@@ -83,7 +87,7 @@ let exitOfNode city nodeId exits =
 let moveCharacter coordinates =
     State.get ()
     |> World.Navigation.moveTo coordinates
-    |> Cli.Effect.apply
+    |> Result.switch Cli.Effect.apply showEntranceError
 
     Scene.World
 
@@ -107,10 +111,10 @@ let showWorldCommandPrompt entrances exit description objects commands =
     let commands =
         commands
         @ objectCommands
-            @ NavigationCommand.create entrances
-              @ [ match exit with
-                  | Some (coordinates, _) -> yield createOutCommand coordinates
-                  | None -> () ]
+          @ NavigationCommand.create entrances
+            @ [ match exit with
+                | Some (coordinates, _) -> yield createOutCommand coordinates
+                | None -> () ]
 
     showMessage description
     showRoomConnections entrances exit
@@ -136,9 +140,7 @@ let showWorldCommandPromptWithoutMovement description objects commands =
     let objectCommands =
         List.collect (fun object -> object.Commands) objects
 
-    let commands =
-        commands
-        @ objectCommands
+    let commands = commands @ objectCommands
 
     showMessage description
 

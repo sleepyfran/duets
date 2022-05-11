@@ -32,6 +32,7 @@
         <Compile Include="State\Skills.fs" />
         <Compile Include="State\World.fs" />
         <Compile Include="State\State.fs" />
+        <Compile Include="World\NavigationPolicies\Concert.NavigationPolicies.fs"/>
         <Compile Include="World\Navigation.fs" />
         <Compile Include="World\Generation\Cities\Prague.fs" />
         <Compile Include="World\Generation\Generation.fs" />

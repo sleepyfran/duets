@@ -1,7 +1,8 @@
 namespace Cli.Components.Commands
 
 open Agents
-open Cli
+open Common
+open Cli.Components
 open Cli.SceneIndex
 open Cli.Text
 open Entities
@@ -21,7 +22,7 @@ module NavigationCommand =
     let private handle coordinates _ =
         State.get ()
         |> World.Navigation.moveTo coordinates
-        |> Effect.apply
+        |> Result.switch Cli.Effect.apply Common.showEntranceError
 
         Scene.World
 
@@ -29,22 +30,21 @@ module NavigationCommand =
     /// when executed, moves the player towards that direction.
     let create entrances =
         entrances
-        |> List.map
-            (fun (direction, _, coordinates) ->
-                let commandName =
-                    match direction with
-                    | North -> northCommand
-                    | NorthEast -> northEastCommand
-                    | East -> eastCommand
-                    | SouthEast -> southEastCommand
-                    | South -> southCommand
-                    | SouthWest -> southWestCommand
-                    | West -> westCommand
-                    | NorthWest -> northWestCommand
+        |> List.map (fun (direction, _, coordinates) ->
+            let commandName =
+                match direction with
+                | North -> northCommand
+                | NorthEast -> northEastCommand
+                | East -> eastCommand
+                | SouthEast -> southEastCommand
+                | South -> southCommand
+                | SouthWest -> southWestCommand
+                | West -> westCommand
+                | NorthWest -> northWestCommand
 
-                { Name = commandName
-                  Description =
-                      CommandDirectionDescription direction
-                      |> CommandText
-                      |> I18n.translate
-                  Handler = handle coordinates })
+            { Name = commandName
+              Description =
+                CommandDirectionDescription direction
+                |> CommandText
+                |> I18n.translate
+              Handler = handle coordinates })

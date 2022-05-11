@@ -18,11 +18,10 @@ let venueGenerator =
               Quality = quality
               Capacity = capacity }
 
-        let lobby =
-            ConcertSpaceRoom.Lobby |> World.Node.create
+        let lobby = Room.Lobby |> World.Node.create
 
         return
-            World.Place.create concertSpace lobby
-            |> ConcertPlace
+            World.Place.create (ConcertSpace concertSpace) lobby
+            |> CityNode.Place
             |> World.Node.create
     }

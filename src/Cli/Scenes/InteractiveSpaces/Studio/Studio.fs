@@ -8,17 +8,21 @@ open Simulation
 
 let getRoomName room =
     match room with
-    | MasteringRoom _ -> I18n.translate (StudioText StudioMasteringRoomName)
-    | RecordingRoom _ -> I18n.translate (StudioText StudioRecordingRoomName)
+    | Room.MasteringRoom _ ->
+        I18n.translate (StudioText StudioMasteringRoomName)
+    | Room.RecordingRoom _ ->
+        I18n.translate (StudioText StudioRecordingRoomName)
+    | _ -> Literal ""
 
 let getRoomDescription studio room =
     match room with
-    | MasteringRoom ->
+    | Room.MasteringRoom ->
         StudioMasteringRoomDescription studio
         |> StudioText
         |> I18n.translate
-    | RecordingRoom ->
+    | Room.RecordingRoom ->
         I18n.translate (StudioText StudioRecordingRoomDescription)
+    | _ -> Literal ""
 
 let getRoomObjects _ = []
 
@@ -35,7 +39,7 @@ let getRoomCommands studio room =
         not (Map.isEmpty unreleasedAlbums)
 
     match room with
-    | MasteringRoom ->
+    | Room.MasteringRoom ->
         let createRecordOption =
             (StudioText StudioTalkCreateRecord
              |> I18n.translate),
@@ -59,4 +63,4 @@ let getRoomCommands studio room =
                   |> I18n.translate
                 Options = talkOptions }
           ] ]
-    | RecordingRoom -> []
+    | _ -> []

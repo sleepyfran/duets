@@ -23,6 +23,7 @@
         <Compile Include="Components\Calendar.fs"/>
         <Compile Include="Components\Prompt.fs"/>
         <Compile Include="Components\Effect.fs"/>
+        <Compile Include="Components\Common.fs"/>
         <Compile Include="Components\Commands\Command.fs"/>
         <Compile Include="Components\Commands\Exit.Command.fs"/>
         <Compile Include="Components\Commands\Help.Command.fs"/>

@@ -8,29 +8,32 @@ open Simulation
 
 let getRoomName room =
     match room with
-    | Lobby _ -> I18n.translate (CommonText CommonLobbyName)
-    | Bar _ -> I18n.translate (CommonText CommonBarName)
-    | Stage _ -> I18n.translate (ConcertText ConcertSpaceStageName)
-    | Backstage -> I18n.translate (ConcertText ConcertSpaceBackstageName)
+    | Room.Lobby _ -> I18n.translate (CommonText CommonLobbyName)
+    | Room.Bar _ -> I18n.translate (CommonText CommonBarName)
+    | Room.Stage _ -> I18n.translate (ConcertText ConcertSpaceStageName)
+    | Room.Backstage -> I18n.translate (ConcertText ConcertSpaceBackstageName)
+    | _ -> Literal ""
 
 let getRoomDescription space room =
     match room with
-    | Lobby ->
+    | Room.Lobby ->
         I18n.translate (ConcertSpaceLobbyDescription space |> ConcertText)
-    | Bar -> I18n.translate (ConcertSpaceBarDescription space |> ConcertText)
-    | Stage ->
+    | Room.Bar ->
+        I18n.translate (ConcertSpaceBarDescription space |> ConcertText)
+    | Room.Stage ->
         I18n.translate (ConcertSpaceStageDescription space |> ConcertText)
-    | Backstage ->
+    | Room.Backstage ->
         I18n.translate (
             ConcertSpaceBackstageDescription space
             |> ConcertText
         )
+    | _ -> Literal ""
 
 let getRoomObjects _ = []
 
 let getRoomCommands room =
     match room with
-    | Backstage ->
+    | Room.Backstage ->
         let currentSituation =
             Queries.Situations.current (State.get ())
 

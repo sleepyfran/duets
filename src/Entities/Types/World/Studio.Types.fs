@@ -15,8 +15,3 @@ module StudioTypes =
         { Name: string
           Producer: Producer
           PricePerSong: Amount }
-
-    /// Defines all types of rooms that can appear inside of a studio.
-    type StudioRoom =
-        | MasteringRoom
-        | RecordingRoom

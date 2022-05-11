@@ -24,21 +24,23 @@ let private instrumentFromType instrumentType =
 
 let getRoomName room =
     match room with
-    | RehearsalSpaceRoom.Lobby -> I18n.translate (CommonText CommonLobbyName)
-    | RehearsalSpaceRoom.Bar -> I18n.translate (CommonText CommonBarName)
-    | RehearsalRoom ->
+    | Room.Lobby -> I18n.translate (CommonText CommonLobbyName)
+    | Room.Bar -> I18n.translate (CommonText CommonBarName)
+    | Room.RehearsalRoom ->
         I18n.translate (RehearsalSpaceText RehearsalSpaceRehearsalRoomName)
+    | _ -> Literal ""
 
 let getRoomDescription room =
     match room with
-    | RehearsalSpaceRoom.Lobby ->
+    | Room.Lobby ->
         I18n.translate (RehearsalSpaceText RehearsalSpaceLobbyDescription)
-    | RehearsalSpaceRoom.Bar ->
+    | Room.Bar ->
         I18n.translate (RehearsalSpaceText RehearsalSpaceBarDescription)
-    | RehearsalSpaceRoom.RehearsalRoom ->
+    | Room.RehearsalRoom ->
         I18n.translate (
             RehearsalSpaceText RehearsalSpaceRehearsalRoomDescription
         )
+    | _ -> Literal ""
 
 let getRoomObjects room =
     let state = State.get ()
@@ -49,16 +51,14 @@ let getRoomObjects room =
         |> instrumentFromType
 
     match room with
-    | RehearsalSpaceRoom.Lobby -> []
-    | RehearsalSpaceRoom.Bar -> []
-    | RehearsalSpaceRoom.RehearsalRoom -> [ characterInstrument ]
+    | Room.RehearsalRoom -> [ characterInstrument ]
+    | _ -> []
 
 let getRoomCommands room =
     match room with
-    | RehearsalSpaceRoom.Lobby -> []
-    | RehearsalSpaceRoom.Bar -> []
-    | RehearsalSpaceRoom.RehearsalRoom ->
+    | Room.RehearsalRoom ->
         [ { Name = "manage"
             Description =
               I18n.translate (RehearsalSpaceText RehearsalRoomManageDescription)
             Handler = fun _ -> Scene.Management } ]
+    | _ -> []

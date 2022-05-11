@@ -80,23 +80,22 @@ let dummyConcertSpace =
       Capacity = 1500 }
 
 let dummyVenue =
-    let lobby =
-        ConcertSpaceRoom.Lobby |> World.Node.create
+    let lobby = Room.Lobby |> World.Node.create
 
-    World.Place.create dummyConcertSpace lobby
-    |> ConcertPlace
+    World.Place.create (ConcertSpace dummyConcertSpace) lobby
+    |> CityNode.Place
     |> World.Node.create
 
 let dummyCity =
     let testBoulevard =
-        OutsideNode
+        CityNode.OutsideNode
             { Name = "Test Boulevard"
               Descriptors = []
               Type = Boulevard }
         |> World.Node.create
 
     World.City.create "Test City" testBoulevard
-    |> World.City.addNode dummyVenue
+    |> World.City.addNode (dummyVenue)
 
 let dummyConcert =
     { Id = Identity.create ()

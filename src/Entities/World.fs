@@ -9,9 +9,9 @@ let empty = { Cities = Map.empty }
 /// Creates a new world with the given cities inside of it.
 let create (cities: City list) =
     { Cities =
-          cities
-          |> List.map (fun c -> c.Id, c)
-          |> Map.ofList }
+        cities
+        |> List.map (fun c -> c.Id, c)
+        |> Map.ofList }
 
 [<RequireQualifiedAccess>]
 module Graph =
@@ -20,8 +20,8 @@ module Graph =
     let from (startingNode: Node<'a>) =
         { StartingNode = startingNode.Id
           Nodes =
-              [ (startingNode.Id, startingNode.Content) ]
-              |> Map.ofList
+            [ (startingNode.Id, startingNode.Content) ]
+            |> Map.ofList
           Connections = Map.empty }
 
     /// Adds a new node with no connections to the given graph.
@@ -77,7 +77,7 @@ module Place =
         (fromRoom: Node<'r>)
         (toRoom: Node<'r>)
         direction
-        (place: Place<'s, 'r>)
+        (place: Place)
         =
         Optic.map
             Lenses.World.Place.rooms_
@@ -85,11 +85,7 @@ module Place =
             place
 
     /// Adds an exit from the given room node to the specified city node.
-    let addExit
-        (roomNode: Node<'r>)
-        (cityNode: Node<CityNode>)
-        (place: Place<'s, 'r>)
-        =
+    let addExit (roomNode: Node<'r>) (cityNode: Node<CityNode>) (place: Place) =
         Optic.map
             Lenses.World.Place.exits
             (Map.add roomNode.Id cityNode.Id)

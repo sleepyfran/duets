@@ -186,25 +186,27 @@ module World =
 
     module Place =
         let space_ =
-            (fun (p: Place<'a, 'b>) -> p.Space),
-            (fun v (p: Place<'a, 'b>) -> { p with Space = v })
+            (fun (p: Place) -> p.Space),
+            (fun v (p: Place) -> { p with Space = v })
 
         let rooms_ =
-            (fun (p: Place<'a, 'b>) -> p.Rooms),
-            (fun v (p: Place<'a, 'b>) -> { p with Rooms = v })
+            (fun (p: Place) -> p.Rooms),
+            (fun v (p: Place) -> { p with Rooms = v })
 
         let exits =
-            (fun (p: Place<'a, 'b>) -> p.Exits),
-            (fun v (p: Place<'a, 'b>) -> { p with Exits = v })
+            (fun (p: Place) -> p.Exits),
+            (fun v (p: Place) -> { p with Exits = v })
 
     module City =
         let graph_ =
             (fun (c: City) -> c.Graph),
             (fun v (c: City) -> { c with Graph = v })
 
-        let startingNode_ = graph_ >-> Graph.startingNode_
+        let startingNode_ =
+            graph_ >-> Graph.startingNode_
 
-        let connections_ = graph_ >-> Graph.connections_
+        let connections_ =
+            graph_ >-> Graph.connections_
 
         let nodes_ = graph_ >-> Graph.nodes_
 

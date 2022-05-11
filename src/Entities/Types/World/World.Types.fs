@@ -1,5 +1,7 @@
 namespace Entities
 
+open Entities
+
 [<AutoOpen>]
 module WorldTypes =
     /// Defines all possible cardinal directions that can be used to traverse
@@ -20,6 +22,12 @@ module WorldTypes =
     /// Unique ID of a node, which represents a space inside of the world.
     type NodeId = Identity
 
+    /// Defines all possible errors why the entrance to a node might be denied.
+    [<RequireQualifiedAccess>]
+    type EntranceError =
+        | CannotEnterStageOutsideConcert
+        | CannotEnterBackstageOutsideConcert
+
     /// Defines all connections that a node has in each of its directions.
     type NodeConnections = Map<Direction, NodeId>
 
@@ -37,14 +45,31 @@ module WorldTypes =
     /// Defines the relationship between a node ID and its content.
     type Node<'a> = { Id: NodeId; Content: 'a }
 
+    // Defines all types of rooms that player can be in.
+    [<RequireQualifiedAccess>]
+    type Room =
+        | Backstage
+        | Bar
+        | Lobby
+        | MasteringRoom
+        | RecordingRoom
+        | RehearsalRoom
+        | Stage
+
+    /// Defines all the different types of places that the game supports.
+    type Space =
+        | ConcertSpace of ConcertSpace
+        | RehearsalSpace of RehearsalSpace
+        | Studio of Studio
+
     /// Defines a place inside of the game world, which wraps a given space
     /// (could be any inside space like a rehearsal place or a concert hall), the
     /// rooms that the place itself contains and the exits that connect that
     /// place with the outside.
-    type Place<'s, 'r> =
-        { Space: 's
-          Rooms: Graph<'r>
-          Exits: Map<NodeId, NodeId> }
+    type Place =
+        { Rooms: Graph<Room>
+          Exits: Map<NodeId, NodeId>
+          Space: Space }
 
     /// Defines all the different terms that can be used to describe a street.
     type OutsideNodeDescriptor =
@@ -69,19 +94,24 @@ module WorldTypes =
 
     /// Defines a node in the game, which represents one space inside of the
     /// map that the player can be in.
+    [<RequireQualifiedAccess>]
     type CityNode =
-        | ConcertPlace of Place<ConcertSpace, ConcertSpaceRoom>
-        | RehearsalPlace of Place<RehearsalSpace, RehearsalSpaceRoom>
-        | StudioPlace of Place<Studio, StudioRoom>
+        | Place of Place
         | OutsideNode of OutsideNode
 
     /// Unique identifier of a city.
     type CityId = Identity
 
+    type RoomCoordinates = NodeId * NodeId
+    type OutsideCoordinates = NodeId
+
     /// Defines the coordinates to a specific point inside a city.
     type NodeCoordinates =
-        | Room of placeId: NodeId * roomId: NodeId
-        | Node of nodeId: NodeId
+        | Room of RoomCoordinates
+        | Node of OutsideCoordinates
+
+    /// Defines all errors that can happen when trying to move to another node.
+    type MovementError = | CanNotEnterStageOutsideAConcert
 
     /// Defines the coordinates to a specific point in the game world.
     type WorldCoordinates = CityId * NodeCoordinates
@@ -94,6 +124,29 @@ module WorldTypes =
         { Id: CityId
           Name: string
           Graph: Graph<CityNode> }
+
+    /// Resolved coordinates for nodes that contain rooms, with the place and
+    /// the room that the coordinates referred to.
+    type ResolvedPlaceCoordinates =
+        { Coordinates: RoomCoordinates
+          Place: Place
+          Room: Room }
+
+    /// Resolved coordinates for nodes that do not contain rooms.
+    type ResolvedOutsideCoordinates =
+        { Coordinates: OutsideCoordinates
+          Node: OutsideNode }
+
+    /// Resolved coordinates with all fields. Includes the city, the given
+    /// coordinates, the content of the node and the content of the room, if any.
+    type ResolvedCoordinates =
+        | ResolvedPlaceCoordinates of ResolvedPlaceCoordinates
+        | ResolvedOutsideCoordinates of ResolvedOutsideCoordinates
+
+    /// Contains the city and the resolved coordinates of a node and room.
+    type Coordinates =
+        { City: City
+          Content: ResolvedCoordinates }
 
     /// Defines the game world which contains all cities.
     type World = { Cities: Map<CityId, City> }

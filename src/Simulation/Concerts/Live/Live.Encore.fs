@@ -1,5 +1,6 @@
 module Simulation.Concerts.Live.Encore
 
+open Common
 open Entities
 open Simulation
 
@@ -13,7 +14,8 @@ let getOffStage state ongoingConcert =
         |> Option.get // Not having a backstage is a problem in city creation.
 
     let navigationEffects =
-        [ World.Navigation.moveTo backstageCoordinates state ]
+        [ World.Navigation.moveTo backstageCoordinates state
+          |> Result.unwrap (* We ARE in a concert, so there's no way we'd be unable to move *)  ]
 
     let canPerformEncore =
         Concert.Ongoing.canPerformEncore ongoingConcert
@@ -35,7 +37,8 @@ let doEncore state ongoingConcert =
         |> Option.get // Not having a stage is a problem in city creation.
 
     let navigationEffects =
-        [ World.Navigation.moveTo stageCoordinates state ]
+        [ World.Navigation.moveTo stageCoordinates state
+          |> Result.unwrap (* We ARE in a concert, so there's no way we'd be unable to move *)  ]
 
     Response.forEvent ongoingConcert PerformedEncore 0
     |> Response.addEffects navigationEffects

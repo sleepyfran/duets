@@ -40,24 +40,54 @@ module Common =
         | Room (_, roomId) -> Some roomId
         | Node _ -> None
 
-    /// Returns the content of the current position of the player and an optional
+    /// Returns the content of the given coordinates and an optional
     /// ID to a room inside that place (if any).
-    let currentPosition state =
-        let (cityId, nodeCoordinates) = state.CurrentPosition
+    let rec coordinates state coords =
+        let (cityId, _) = state.CurrentPosition
 
         let city =
             Optic.get (Lenses.FromState.World.city_ cityId) state
             |> Option.get
 
-        let nodeId =
-            match nodeCoordinates with
-            | Room (placeId, _) -> placeId
-            | Node nodeId -> nodeId
+        match coords with
+        | Room (placeId, roomId) ->
+            let cityNode =
+                Optic.get (Lenses.FromState.World.node_ cityId placeId) state
+                |> Option.get
 
-        let cityNodeContent =
-            Optic.get (Lenses.FromState.World.node_ cityId nodeId) state
-            |> Option.get
+            match cityNode with
+            | CityNode.Place place ->
+                let roomContent =
+                    Optic.get (Lenses.World.Graph.node_ roomId) place.Rooms
+                    |> Option.get
 
-        {| City = city
-           Coordinates = nodeCoordinates
-           NodeContent = cityNodeContent |}
+                { City = city
+                  Content =
+                    ResolvedPlaceCoordinates
+                        { Coordinates = RoomCoordinates(placeId, roomId)
+                          Place = place
+                          Room = roomContent } }
+            | _ ->
+                failwith "Cannot reference outside node with place coordinates"
+        | Node nodeId ->
+            let cityNode =
+                Optic.get (Lenses.FromState.World.node_ cityId nodeId) state
+                |> Option.get
+
+            match cityNode with
+            | CityNode.OutsideNode outsideNode ->
+                { City = city
+                  Content =
+                    ResolvedOutsideCoordinates
+                        { Coordinates = nodeId
+                          Node = outsideNode } }
+            | CityNode.Place place ->
+                coordinates state (Room(nodeId, place.Rooms.StartingNode))
+
+    /// Returns the content of the current position of the player and an optional
+    /// ID to a room inside that place (if any).
+    let currentPosition state =
+        let (_, nodeCoordinates) =
+            state.CurrentPosition
+
+        coordinates state nodeCoordinates

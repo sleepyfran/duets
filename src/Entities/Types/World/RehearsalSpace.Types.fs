@@ -8,9 +8,3 @@ module RehearsalSpaceTypes =
         { Name: string
           Quality: Quality
           Price: Amount }
-
-    /// Defines all types of rooms that can appear inside of a rehearsal space.
-    type RehearsalSpaceRoom =
-        | Lobby
-        | Bar
-        | RehearsalRoom

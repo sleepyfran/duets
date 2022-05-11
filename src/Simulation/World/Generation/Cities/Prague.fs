@@ -6,21 +6,21 @@ let rec generate () =
     let prague = World.City.create "Prague"
 
     let wenceslasSquare =
-        OutsideNode
+        CityNode.OutsideNode
             { Name = "Václavské náměstí"
               Descriptors = [ Beautiful; Central ]
               Type = Boulevard }
         |> World.Node.create
 
     let jzpSquare =
-        OutsideNode
+        CityNode.OutsideNode
             { Name = "Náměstí Jiřího z Poděbrad"
               Descriptors = [ Beautiful ]
               Type = Square }
         |> World.Node.create
 
     let oldTownSquare =
-        OutsideNode
+        CityNode.OutsideNode
             { Name = "Staroměstské náměstí"
               Descriptors = [ Beautiful; Historical; Central ]
               Type = Square }
@@ -43,24 +43,21 @@ and addDuetsRehearsalSpace street city =
           Quality = 20<quality>
           Price = 300<dd> }
 
-    let lobby =
-        RehearsalSpaceRoom.Lobby |> World.Node.create
+    let lobby = Room.Lobby |> World.Node.create
 
-    let bar =
-        RehearsalSpaceRoom.Bar |> World.Node.create
+    let bar = Room.Bar |> World.Node.create
 
     let rehearsalRoom =
-        RehearsalSpaceRoom.RehearsalRoom
-        |> World.Node.create
+        Room.RehearsalRoom |> World.Node.create
 
     let node =
-        World.Place.create rehearsalSpace lobby
+        World.Place.create (RehearsalSpace rehearsalSpace) lobby
         |> World.Place.addRoom bar
         |> World.Place.addConnection lobby bar NorthEast
         |> World.Place.addRoom rehearsalRoom
         |> World.Place.addConnection lobby rehearsalRoom North
         |> World.Place.addExit lobby street
-        |> RehearsalPlace
+        |> CityNode.Place
         |> World.Node.create
 
     city
@@ -71,17 +68,17 @@ and addDuetsStudio street city =
     let studio = List.head (Database.studios ())
 
     let masteringRoom =
-        StudioRoom.MasteringRoom |> World.Node.create
+        Room.MasteringRoom |> World.Node.create
 
     let recordingRoom =
-        StudioRoom.RecordingRoom |> World.Node.create
+        Room.RecordingRoom |> World.Node.create
 
     let node =
-        World.Place.create studio masteringRoom
+        World.Place.create (Studio studio) masteringRoom
         |> World.Place.addRoom recordingRoom
         |> World.Place.addConnection masteringRoom recordingRoom North
         |> World.Place.addExit masteringRoom street
-        |> StudioPlace
+        |> CityNode.Place
         |> World.Node.create
 
     city
@@ -94,20 +91,17 @@ and addPalacAkropolis street city =
           Quality = 75<quality>
           Capacity = 1000 }
 
-    let lobby =
-        ConcertSpaceRoom.Lobby |> World.Node.create
+    let lobby = Room.Lobby |> World.Node.create
 
-    let bar =
-        ConcertSpaceRoom.Bar |> World.Node.create
+    let bar = Room.Bar |> World.Node.create
 
-    let stage =
-        ConcertSpaceRoom.Stage |> World.Node.create
+    let stage = Room.Stage |> World.Node.create
 
     let backstage =
-        ConcertSpaceRoom.Backstage |> World.Node.create
+        Room.Backstage |> World.Node.create
 
     let node =
-        World.Place.create concertSpace lobby
+        World.Place.create (ConcertSpace concertSpace) lobby
         |> World.Place.addRoom bar
         |> World.Place.addConnection lobby bar East
         |> World.Place.addRoom stage
@@ -116,7 +110,7 @@ and addPalacAkropolis street city =
         |> World.Place.addConnection lobby backstage NorthEast
         |> World.Place.addConnection stage backstage East
         |> World.Place.addExit lobby street
-        |> ConcertPlace
+        |> CityNode.Place
         |> World.Node.create
 
     city
@@ -129,20 +123,17 @@ and addRedutaJazzClub street city =
           Quality = 95<quality>
           Capacity = 250 }
 
-    let lobby =
-        ConcertSpaceRoom.Lobby |> World.Node.create
+    let lobby = Room.Lobby |> World.Node.create
 
-    let bar =
-        ConcertSpaceRoom.Bar |> World.Node.create
+    let bar = Room.Bar |> World.Node.create
 
-    let stage =
-        ConcertSpaceRoom.Stage |> World.Node.create
+    let stage = Room.Stage |> World.Node.create
 
     let backstage =
-        ConcertSpaceRoom.Backstage |> World.Node.create
+        Room.Backstage |> World.Node.create
 
     let node =
-        World.Place.create concertSpace lobby
+        World.Place.create (ConcertSpace concertSpace) lobby
         |> World.Place.addRoom bar
         |> World.Place.addConnection lobby bar West
         |> World.Place.addRoom stage
@@ -151,7 +142,7 @@ and addRedutaJazzClub street city =
         |> World.Place.addConnection bar backstage NorthEast
         |> World.Place.addConnection stage backstage East
         |> World.Place.addExit lobby street
-        |> ConcertPlace
+        |> CityNode.Place
         |> World.Node.create
 
     city

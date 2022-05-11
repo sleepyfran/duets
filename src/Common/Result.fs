@@ -9,6 +9,9 @@ let andThen chainedResult = Result.bind (fun _ -> chainedResult)
 /// Returns the given value if the result is Ok, otherwise returns the error.
 let transform value = Result.bind (fun _ -> Ok value)
 
+/// Returns an empty ok if the given bool is true, otherwise returns the error.
+let ofBool error bool = if bool then Ok() else Error error
+
 /// Executes either okFn or errorFn based on the given result and returns
 /// the result of each function.
 let switch okFn errorFn value =
