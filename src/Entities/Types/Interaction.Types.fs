@@ -53,3 +53,13 @@ module InteractionTypes =
         | FreeRoam of FreeRoamInteraction
         | Rehearsal of RehearsalInteraction
         | Studio of StudioInteraction
+
+    /// Defines all possible reasons why an interaction can be disabled.
+    [<RequireQualifiedAccess>]
+    type InteractionDisabledReason =
+        | NotEnoughEnergy of needed: Energy
+        | NotEnoughHealth of needed: Health
+        | NotEnoughMood of needed: Mood
+
+    /// Defines an interaction that has been disabled for a specific reason.
+    type DisabledInteraction = Interaction * InteractionDisabledReason

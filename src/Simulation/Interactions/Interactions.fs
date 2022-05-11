@@ -2,9 +2,13 @@
 
 open Entities
 
+/// Result of asking for the currently available interaction.
+type InteractionResult =
+    { Enabled: Interaction list
+      Disabled: DisabledInteraction list }
+
 let private goOutFrom city destinationId =
-    let cityNode =
-        Queries.World.Common.contentOf city.Graph destinationId
+    let cityNode = Queries.World.Common.contentOf city.Graph destinationId
 
     FreeRoamInteraction.GoOut(destinationId, cityNode)
     |> Interaction.FreeRoam
@@ -41,11 +45,9 @@ let private concertSpaceInteractions room =
 /// be later transformed into the actual flow.
 /// </summary>
 let rec availableCurrently state =
-    let currentPosition =
-        Queries.World.Common.currentPosition state
+    let currentPosition = Queries.World.Common.currentPosition state
 
-    let defaultInteractions =
-        [ Interaction.FreeRoam FreeRoamInteraction.Wait ]
+    let defaultInteractions = [ Interaction.FreeRoam FreeRoamInteraction.Wait ]
 
     match currentPosition.Content with
     | ResolvedPlaceCoordinates coords ->
@@ -53,8 +55,7 @@ let rec availableCurrently state =
 
         match coords.Place.Space with
         | ConcertSpace space ->
-            let specificInteractions =
-                concertSpaceInteractions coords.Room
+            let specificInteractions = concertSpaceInteractions coords.Room
 
             placeInteractions currentPosition.City placeId roomId coords.Place
             @ specificInteractions
