@@ -38,6 +38,8 @@ let private getAssociatedEffects effect =
     | SongPracticed (band, _) ->
         [ Composition.improveBandSkillsAfterComposing band ]
     | TimeAdvanced date -> [ runTimeDependentEffects date ]
+    | WorldMoveTo _ ->
+        [] (* TODO: Raise possible events that happen on specific places. I.E: going to stage when a concert is scheduled for the current moment -> Start concert *)
     | _ -> []
 
 /// Returns how many times the time has to be advanced for the given effect.
@@ -59,7 +61,8 @@ let rec private tick' (appliedEffects, lastState) nextEffectFns =
                 let state =
                     State.Root.applyEffect currentState effect
 
-                let associatedEffects = getAssociatedEffects effect
+                let associatedEffects =
+                    getAssociatedEffects effect
 
                 tick' (currentEffectChain @ [ effect ], state) associatedEffects)
             (appliedEffects, lastState)

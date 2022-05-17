@@ -70,19 +70,19 @@ let dummyReleasedAlbum =
       Hype = 1.0 }
 
 let dummyStudio =
-    { Name = "Test Studio"
-      Producer = dummyCharacter
+    { Producer = dummyCharacter
       PricePerSong = 200<dd> }
 
-let dummyConcertSpace =
-    { Name = "Test Venue"
-      Quality = 80<quality>
-      Capacity = 1500 }
+let dummyConcertSpace = { Capacity = 1500 }
 
 let dummyVenue =
     let lobby = Room.Lobby |> World.Node.create
 
-    World.Place.create (ConcertSpace dummyConcertSpace) lobby
+    World.Place.create
+        "Test Venue"
+        100<quality>
+        (ConcertSpace dummyConcertSpace)
+        lobby
     |> CityNode.Place
     |> World.Node.create
 
@@ -91,7 +91,7 @@ let dummyCity =
         CityNode.OutsideNode
             { Name = "Test Boulevard"
               Descriptors = []
-              Type = Boulevard }
+              Type = OutsideNodeType.Boulevard }
         |> World.Node.create
 
     World.City.create "Test City" testBoulevard

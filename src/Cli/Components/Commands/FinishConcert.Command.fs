@@ -1,4 +1,4 @@
-namespace Cli.Scenes.InteractiveSpaces.ConcertSpace.Commands
+namespace Cli.Components.Commands
 
 open Agents
 open Cli.Components.Commands
@@ -7,7 +7,7 @@ open Cli.Text
 open Simulation
 
 [<RequireQualifiedAccess>]
-module EndConcertCommand =
+module FinishConcertCommand =
     /// Puts the artist out of the ongoing concert scene, which shows them the
     /// total points accumulated during the concert, the result of it and allows
     /// them to move to other places outside the stage/backstage.

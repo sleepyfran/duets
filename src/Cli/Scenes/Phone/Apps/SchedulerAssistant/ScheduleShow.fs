@@ -50,7 +50,8 @@ let rec scheduleShow app =
     promptForDate app firstAvailableDay
 
 and private promptForDate app firstDate =
-    let monthDays = Calendar.Query.monthDaysFrom firstDate
+    let monthDays =
+        Calendar.Query.monthDaysFrom firstDate
 
     let nextMonthDate =
         Calendar.Query.firstDayOfNextMonth firstDate
@@ -67,17 +68,16 @@ and private promptForDate app firstDate =
     match selectedDate with
     | Some date ->
         Scheduler.validateNoOtherConcertsInDate (State.get ()) date
-        |> Result.switch
-            (promptForDayMoment app)
-            (fun error ->
-                showDateScheduledError date error
-                promptForDate app firstDate)
+        |> Result.switch (promptForDayMoment app) (fun error ->
+            showDateScheduledError date error
+            promptForDate app firstDate)
     | None -> promptForDate app nextMonthDate
 
 and private promptForDayMoment app date =
     // Drop the last element (Midnight) since we don't want to allow scheduling
     // on the day after the selection.
-    let availableDayMoments = Calendar.allDayMoments |> List.tail
+    let availableDayMoments =
+        Calendar.allDayMoments |> List.tail
 
     let selectedDayMoment =
         showOptionalChoicePrompt
@@ -92,7 +92,8 @@ and private promptForDayMoment app date =
     | None -> app ()
 
 and private promptForCity app date dayMoment =
-    let cities = World.Common.allCities (State.get ())
+    let cities =
+        World.Common.allCities (State.get ())
 
     let selectedCity =
         showOptionalChoicePrompt
@@ -117,11 +118,11 @@ and private promptForVenue app date dayMoment city =
             (PhoneText SchedulerAssistantAppShowVenuePrompt
              |> I18n.translate)
             (CommonText CommonCancel |> I18n.translate)
-            (fun (_, venue: ConcertSpace) -> I18n.constant venue.Name)
+            (fun (_, place: Place, _) -> I18n.constant place.Name)
             venues
 
     match selectedVenue with
-    | Some (nodeId, _) -> promptForTicketPrice app date dayMoment city nodeId
+    | Some (nodeId, _, _) -> promptForTicketPrice app date dayMoment city nodeId
     | None -> app ()
 
 and private promptForTicketPrice app date dayMoment city venueId =

@@ -34,8 +34,6 @@ let rec showScene scene =
         CharacterCreator.characterCreator () |> showScene
     | Scene.BandCreator character ->
         BandCreator.bandCreator character |> showScene
-
-    | Scene.Management -> Management.Root.managementScene () |> showScene
     | Scene.Phone -> Phone.Root.phoneScene () |> showScene
     | Scene.World -> World.worldScene () |> showScene
     | Scene.Exit ->

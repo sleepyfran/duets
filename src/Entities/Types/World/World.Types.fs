@@ -57,7 +57,7 @@ module WorldTypes =
         | Stage
 
     /// Defines all the different types of places that the game supports.
-    type Space =
+    type SpaceType =
         | ConcertSpace of ConcertSpace
         | RehearsalSpace of RehearsalSpace
         | Studio of Studio
@@ -69,7 +69,9 @@ module WorldTypes =
     type Place =
         { Rooms: Graph<Room>
           Exits: Map<NodeId, NodeId>
-          Space: Space }
+          Name: string
+          Quality: Quality
+          SpaceType: SpaceType }
 
     /// Defines all the different terms that can be used to describe a street.
     type OutsideNodeDescriptor =
@@ -80,6 +82,7 @@ module WorldTypes =
 
     /// Defines all types of streets available in the game. This changes the
     /// way the street is described to the user.
+    [<RequireQualifiedAccess>]
     type OutsideNodeType =
         | Street
         | Square

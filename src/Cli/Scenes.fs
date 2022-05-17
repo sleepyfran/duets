@@ -12,7 +12,6 @@ type Scene =
     // previous step.
     | BandCreator of Character
     | World
-    | Management
     | Phone
     // Saves the game and exits.
     | Exit

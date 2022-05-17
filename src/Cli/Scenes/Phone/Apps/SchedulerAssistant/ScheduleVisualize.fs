@@ -62,28 +62,27 @@ and private showAgenda' app firstDay =
 and showConcertList app =
     let state = State.get ()
 
-    List.iter
-        (fun concert ->
-            let city =
-                World.Common.cityById state concert.CityId
-                |> Option.get
+    List.iter (fun concert ->
+        let city =
+            World.Common.cityById state concert.CityId
+            |> Option.get
 
-            let venue =
-                World.ConcertSpace.byId state concert.CityId concert.VenueId
-                |> Option.get
+        let (place, _) =
+            World.ConcertSpace.byId state concert.CityId concert.VenueId
+            |> Option.get
 
-            CommonDateWithDay concert.Date
-            |> CommonText
-            |> I18n.translate
-            |> Some
-            |> showSeparator
+        CommonDateWithDay concert.Date
+        |> CommonText
+        |> I18n.translate
+        |> Some
+        |> showSeparator
 
-            SchedulerAssistantAppVisualizeConcertInfo(
-                concert.DayMoment,
-                venue,
-                city,
-                concert.TicketsSold
-            )
-            |> PhoneText
-            |> I18n.translate
-            |> showMessage)
+        SchedulerAssistantAppVisualizeConcertInfo(
+            concert.DayMoment,
+            place,
+            city,
+            concert.TicketsSold
+        )
+        |> PhoneText
+        |> I18n.translate
+        |> showMessage)

@@ -188,12 +188,24 @@ and commandText key =
     | CommandCommonPrompt (date, dayMoment, status) ->
         $"""{infoBar date dayMoment status}
 {TextStyles.prompt "What do you want to do? Type 'help' if you're lost"}"""
+    | CommandComposeSongDescription -> "Allows you to create a new song"
     | CommandHelpDescription ->
         "Here are all the commands you can execute right now"
     | CommandHelpEntry (entryName, entryDescription) ->
         $"{TextStyles.action entryName} — {toString entryDescription}"
+    | CommandDiscardSongDescription ->
+        "Prompts you for a song to discard from the list of unfinished songs"
     | CommandDirectionDescription direction ->
         $"Follows the {directionName direction} direction"
+    | CommandFinishSongDescription ->
+        "Prompts your for a song to finish from the list of unfinished songs"
+    | CommandFireMemberDescription -> "Allows you to fire a member of your band"
+    | CommandHireMemberDescription ->
+        "Allows you to hire a new member for your band"
+    | CommandImproveSongDescription ->
+        "Prompts you for a song to improve a previously composed song"
+    | CommandListMembersDescription ->
+        "Lists all current and past members of your band"
     | CommandLookDescription -> "Shows all the objects you have around you"
     | CommandLookEntrances entrances ->
         $"""You can go to the {listOf entrances (fun (direction, name) ->
@@ -206,6 +218,20 @@ and commandText key =
         $"- {objectName objectType |> TextStyles.object}, you can interact with it by calling {listOf commandNames id |> TextStyles.action}"
     | CommandOutDescription -> "Exits the current place"
     | CommandExitDescription -> "Exits the game saving the progress"
+    | CommandMapDescription ->
+        "Shows the map of the game where you can quickly travel to other places"
+    | CommandPhoneDescription ->
+        "Opens your phone where you can check statistics and manage your bank"
+    | CommandPracticeSongDescription ->
+        "Prompts you for a song to practice, which improves the quality when performing the song live"
+    | CommandTalkDescription ->
+        $"""Allows you to talk with a character in the world. Use as {TextStyles.information "talk to {name}"}. You can reference characters by their full name or just their first name"""
+    | CommandTalkInvalidInput ->
+        TextStyles.error
+            $"""I didn't quite catch that. Make sure you are referencing characters by their first or full name with {TextStyles.information "talk to {name}"}"""
+    | CommandTalkNpcNotFound name ->
+        TextStyles.error $"There are no characters named '{name}' around"
+    | CommandTalkNothing -> "Nothing"
     | CommandWaitDescription ->
         $"""Waits for the given amount of time. Use as {TextStyles.information "wait 4"}, where the number is the amount of day moments to wait"""
     | CommandWaitInvalidTimes input ->
@@ -215,18 +241,6 @@ and commandText key =
         $"""You waited and it's now {dayMomentName dayMoment
                                      |> String.lowercase
                                      |> TextStyles.highlight} on the {formatDate date |> TextStyles.highlight}"""
-    | CommandMapDescription ->
-        "Shows the map of the game where you can quickly travel to other places"
-    | CommandPhoneDescription ->
-        "Opens your phone where you can check statistics and manage your bank"
-    | CommandTalkDescription ->
-        $"""Allows you to talk with a character in the world. Use as {TextStyles.information "talk to {name}"}. You can reference characters by their full name or just their first name"""
-    | CommandTalkInvalidInput ->
-        TextStyles.error
-            $"""I didn't quite catch that. Make sure you are referencing characters by their first or full name with {TextStyles.information "talk to {name}"}"""
-    | CommandTalkNpcNotFound name ->
-        TextStyles.error $"There are no characters named '{name}' around"
-    | CommandTalkNothing -> "Nothing"
 
 and commonText key =
     match key with
@@ -246,8 +260,6 @@ and commonText key =
     | CommonBackToMap -> TextStyles.faded "Back to map"
     | CommonBackToPhone -> TextStyles.faded "Back to phone"
     | CommonBackToWorld -> TextStyles.faded "Back to world"
-    | CommonBarName -> "Bar"
-    | CommonLobbyName -> "Lobby"
     | CommonNothing -> "Nothing"
     | CommonSkills -> "Skills"
     | CommonSkillName skillId -> skillName skillId
@@ -276,28 +288,10 @@ and commonText key =
 
 and concertText key =
     match key with
-    | ConcertSpaceLobbyDescription space ->
-        $"""The lobby of {TextStyles.place space.Name} is mostly empty right now. Only a person asking for tickets is to be seen"""
-    | ConcertSpaceBarDescription space ->
-        $"""With a lot of overpriced drinks and a bunch of drunk people lining up for the concert, the bar of {TextStyles.place space.Name} doesn't look as bad as you'd imagine"""
-    | ConcertSpaceStageDescription space ->
-        $"""You go up the stage of {TextStyles.place space.Name} and you're temporarily blinded by the lights pointing towards you. After a few seconds you begin to see some faces in the crowd and the people start whistling and applauding. Time to give your everything!"""
-    | ConcertSpaceBackstageDescription space ->
-        match space.Quality with
-        | quality when quality < 20<quality> ->
-            $"The backstage of {TextStyles.place space.Name} has absolutely nothing to offer. It's incredibly small, dark and full of unused stuff from the venue. It seems like you'll barely fit your gear in here"
-        | quality when quality < 50<quality> ->
-            $"The backstage of {TextStyles.place space.Name} it's not that bad, but it's still a bit small. You have a section to put your gear, but there's not much more room for anything else. There seems to be a corner with some drinks, so at least something"
-        | quality when quality < 80<quality> ->
-            $"The backstage of {TextStyles.place space.Name} is pretty big and has a lot of space for the entire band. There's a corner with some drinks and food, so make sure you get something before you go out!"
-        | _ ->
-            $"The backstage of {TextStyles.place space.Name} is absolutely amazing, there's free drinks, food and even a corner with a jacuzzi for you to relax. Make sure you relax as much as possible before the big concert!"
-    | ConcertSpaceStageName -> "Stage"
-    | ConcertSpaceBackstageName -> "Backstage"
     | ConcertSpaceStartConcert -> "Start concert"
-    | ConcertFailed (band, venue, concert) ->
+    | ConcertFailed (band, place, concert) ->
         TextStyles.error
-            $"Your band {band.Name} was supposed to have a concert {formatDate concert.Date} {dayMomentName concert.DayMoment} at {venue.Name} but didn't make it in time. The concert has been cancelled and fame took a little hit because of it"
+            $"Your band {band.Name} was supposed to have a concert {formatDate concert.Date} {dayMomentName concert.DayMoment} at {place.Name} but didn't make it in time. The concert has been cancelled and fame took a little hit because of it"
     | ConcertNoSongsToPlay ->
         $"""{TextStyles.error "You don't have any finished songs to play!"} Why are you even scheduling concerts if you haven't finished any song yet? That's going to be embarrassing to explain to the audience..."""
     | ConcertSelectSongToPlay -> "Which song do you want to play?"
@@ -493,10 +487,10 @@ and phoneText key =
     | SchedulerAssistantAppShow -> "Book show"
     | SchedulerAssistantAppAgenda -> "View schedule"
     | SchedulerAssistantAppVisualizeConcertInfo (dayMoment,
-                                                 venue,
+                                                 place,
                                                  city,
                                                  ticketsSold) ->
-        $"""{TextStyles.highlight $"*{dayMomentName dayMoment}"}: Concert at {TextStyles.place venue.Name}, {TextStyles.place city.Name}. Sold {TextStyles.information ticketsSold} tickets"""
+        $"""{TextStyles.highlight $"*{dayMomentName dayMoment}"}: Concert at {TextStyles.place place.Name}, {TextStyles.place city.Name}. Sold {TextStyles.information ticketsSold} tickets"""
     | SchedulerAssistantAppVisualizeNoConcerts -> "No concerts"
     | SchedulerAssistantAppVisualizeMoreDatesPrompt ->
         "Do you want to see the next month?"
@@ -515,8 +509,8 @@ and phoneText key =
     | SchedulerAssistantAppTicketPriceTooHigh price ->
         TextStyles.error
             $"{formatNumber price} is a bit too high for a concert. Maybe a bit less?"
-    | SchedulerAssistantAppTicketDone (venue, concert) ->
-        $"""Done! You scheduled a concert in {TextStyles.place venue.Name} on {TextStyles.highlight (formatDate concert.Date)}. Be sure to be in the place at the moment of the concert, {TextStyles.danger "otherwise it'd fail miserably!"}"""
+    | SchedulerAssistantAppTicketDone (place, concert) ->
+        $"""Done! You scheduled a concert in {TextStyles.place place.Name} on {TextStyles.highlight (formatDate concert.Date)}. Be sure to be in the place at the moment of the concert, {TextStyles.danger "otherwise it'd fail miserably!"}"""
     | StatisticsAppTitle -> "Statistics"
     | StatisticsAppSectionPrompt ->
         $"""{TextStyles.prompt "What data do you want to visualize?"}"""
@@ -538,13 +532,6 @@ and phoneText key =
 
 and rehearsalText key =
     match key with
-    | RehearsalSpaceRehearsalRoomName -> "Rehearsal rooms"
-    | RehearsalSpaceLobbyDescription ->
-        $"""You are in the {TextStyles.place "lobby"} of the rehearsal room. Not much to do here, just enter already!"""
-    | RehearsalSpaceBarDescription ->
-        $"""The {TextStyles.place "rehearsal room's bar"} smells really weird. There's three people sitting and drinking beer."""
-    | RehearsalSpaceRehearsalRoomDescription ->
-        $"""You are in the {TextStyles.place "rehearsal room"} inside an old and quite smelly building. You can feel the smoke in the air and hear {TextStyles.band "AC/DC"} being played in the room nearby."""
     | RehearsalRoomManageDescription ->
         "Opens the band management menu which allows you to hire new members or fire current ones"
     | RehearsalRoomStatistics -> "Statistics"
@@ -649,12 +636,6 @@ and studioText key =
         TextStyles.success $"Your band just released {name}!"
     | StudioCommonPromptReleaseAlbum name ->
         $"""Do you want to release {TextStyles.highlight name}?"""
-    | StudioMasteringRoomName -> "Mastering room"
-    | StudioMasteringRoomDescription studio ->
-        $"""You are in the mastering room, where the producer, {TextStyles.person studio.Producer.Name} sits in front of a computer and a bunch of knobs."""
-    | StudioRecordingRoomName -> "Recording room"
-    | StudioRecordingRoomDescription ->
-        "A recording room with all the instruments you can imagine, although for now the only one that matters is the one that you can play."
     | StudioTalkIntroduction (studioName, fee) ->
         $"""Welcome to {TextStyles.place studioName}! Are you ready to record some stuff? All I ask is for {TextStyles.money fee} per song to record and master it. What do you say?"""
     | StudioTalkCreateRecord -> "Let's record a new album!"
@@ -707,6 +688,35 @@ and worldText key =
                                                                                                                                                                                                "not to get in the stage again if you're not part of the band playing"}"""
     | WorldConcertSpaceKickedOutOfBackstage ->
         $"""You tried to sneak into the {TextStyles.place "backstage"}, but the bouncers catch you as soon as you enter and kicked you out warning you {TextStyles.danger "not to enter in there if you're not part of the band playing"}"""
+    | WorldBackstageName -> "Backstage"
+    | WorldBarName -> "Bar"
+    | WorldLobbyName -> "Lobby"
+    | WorldMasteringRoomName -> "Mastering Room"
+    | WorldRecordingRoomName -> "Recording Room"
+    | WorldRehearsalRoomName -> "Rehearsal Room"
+    | WorldStageName -> "Stage"
+    | WorldBackstageDescription space ->
+        match space.Quality with
+        | quality when quality < 20<quality> ->
+            $"The backstage of {TextStyles.place space.Name} has absolutely nothing to offer. It's incredibly small, dark and full of unused stuff from the venue. It seems like you'll barely fit your gear in here"
+        | quality when quality < 50<quality> ->
+            $"The backstage of {TextStyles.place space.Name} it's not that bad, but it's still a bit small. You have a section to put your gear, but there's not much more room for anything else. There seems to be a corner with some drinks, so at least something"
+        | quality when quality < 80<quality> ->
+            $"The backstage of {TextStyles.place space.Name} is pretty big and has a lot of space for the entire band. There's a corner with some drinks and food, so make sure you get something before you go out!"
+        | _ ->
+            $"The backstage of {TextStyles.place space.Name} is absolutely amazing, there's free drinks, food and even a corner with a jacuzzi for you to relax. Make sure you relax as much as possible before the big concert!"
+    | WorldBarDescription space ->
+        $"""With a lot of overpriced drinks and a bunch of drunk people lining up for the concert, the bar of {TextStyles.place space.Name} doesn't look as bad as you'd imagine"""
+    | WorldLobbyDescription space ->
+        $"""The lobby of {TextStyles.place space.Name} is mostly empty right now. Only a person asking for tickets is to be seen"""
+    | WorldRehearsalRoomDescription _ ->
+        $"""You are in the {TextStyles.place "rehearsal room"} inside an old and quite smelly building. You can feel the smoke in the air and hear {TextStyles.band "AC/DC"} being played in the room nearby."""
+    | WorldMasteringRoomDescription _ ->
+        $"""You are in the mastering room, where the producer sits in front of a computer and a bunch of knobs."""
+    | WorldRecordingRoomDescription _ ->
+        "A recording room with all the instruments you can imagine, although for now the only one that matters is the one that you can play."
+    | WorldStageDescription space ->
+        $"""You go up the stage of {TextStyles.place space.Name} and you're temporarily blinded by the lights pointing towards you. After a few seconds you begin to see some faces in the crowd and the people start whistling and applauding. Time to give your everything!"""
 
 and fromConstant textNamespace =
     match textNamespace with

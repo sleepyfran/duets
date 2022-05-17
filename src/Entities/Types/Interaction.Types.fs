@@ -4,13 +4,25 @@ open Entities
 
 [<AutoOpen>]
 module InteractionTypes =
+    /// Interactions that can be done while on a concert.
+    [<RequireQualifiedAccess>]
+    type ConcertInteraction =
+        | DoEncore of OngoingConcert
+        | GetOffStage of OngoingConcert
+        | GiveSpeech of OngoingConcert
+        | GreetAudience of OngoingConcert
+        | FinishConcert of OngoingConcert
+        | PlaySong of OngoingConcert
+
     /// Interactions related to moving around the world.
     [<RequireQualifiedAccess>]
     type FreeRoamInteraction =
+        /// Allows going out of the current place towards the given NodeId.
+        | GoOut of exit: NodeId * coordinates: ResolvedOutsideCoordinates
         /// Allows movement into the specified direction.
         | Move of direction: Direction * coordinates: NodeCoordinates
-        /// Allows going out of the current place towards the given NodeId.
-        | GoOut of exit: NodeId * cityNode: CityNode
+        /// Allows the character to use the phone.
+        | Phone
         /// Allows waiting.
         | Wait
 
@@ -25,11 +37,13 @@ module InteractionTypes =
         /// Allows to fire a member of the band.
         | FireMember of members: CurrentMember list
         /// Allows to hire a new member for the band.
-        | HireMember of members: MemberForHire seq
+        | HireMember
         /// Allows to improve an unfinished song.
         | ImproveSong of songs: UnfinishedSongWithQualities list
         /// Allows to list the members of the band.
-        | ListMembers of members: CurrentMember list
+        | ListMembers of
+            members: CurrentMember list *
+            pastMembers: PastMember list
         /// Allows to practice a finished song.
         | PracticeSong of songs: FinishedSongWithQuality list
 
@@ -50,6 +64,7 @@ module InteractionTypes =
     /// direction towards which the movement is possible.
     [<RequireQualifiedAccess>]
     type Interaction =
+        | Concert of ConcertInteraction
         | FreeRoam of FreeRoamInteraction
         | Rehearsal of RehearsalInteraction
         | Studio of StudioInteraction
@@ -63,3 +78,10 @@ module InteractionTypes =
 
     /// Defines an interaction that has been disabled for a specific reason.
     type DisabledInteraction = Interaction * InteractionDisabledReason
+
+    /// Defines an interaction that is either enabled or disabled for a specific
+    /// reason.
+    [<RequireQualifiedAccess>]
+    type InteractionState =
+        | Enabled of Interaction
+        | Disabled of DisabledInteraction

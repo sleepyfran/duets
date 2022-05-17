@@ -12,6 +12,5 @@ module StudioTypes =
     /// Represents a recording studio where bands can record and produce their
     /// albums before releasing them to the public.
     type Studio =
-        { Name: string
-          Producer: Producer
+        { Producer: Producer
           PricePerSong: Amount }

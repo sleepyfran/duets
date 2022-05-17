@@ -10,7 +10,7 @@ let createOutsideNode name =
     CityNode.OutsideNode
         { Name = name
           Descriptors = [ Boring ]
-          Type = Street }
+          Type = OutsideNodeType.Street }
 
 [<Test>]
 let ``from returns a graph with the given node in the list of nodes and no connections``

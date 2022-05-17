@@ -1,9 +1,8 @@
-﻿namespace Cli.Scenes.InteractiveSpaces.ConcertSpace.Commands
+﻿namespace Cli.Components.Commands
 
 open Agents
 open Cli.Components
 open Cli.Components.Commands
-open Cli.Scenes.InteractiveSpaces.ConcertSpace
 open Cli.SceneIndex
 open Cli.Text
 open Entities
@@ -24,7 +23,8 @@ module PlaySongCommands =
     let private promptForSong ongoingConcert =
         let state = State.get ()
 
-        let currentBand = Queries.Bands.currentBand state
+        let currentBand =
+            Queries.Bands.currentBand state
 
         let finishedSongs =
             Queries.Repertoire.allFinishedSongsByBand state currentBand.Id
@@ -99,64 +99,58 @@ module PlaySongCommands =
     let createPlaySong ongoingConcert =
         { Name = "play song"
           Description =
-              ConcertText ConcertCommandPlayDescription
-              |> I18n.translate
+            ConcertText ConcertCommandPlayDescription
+            |> I18n.translate
           Handler =
-              (fun _ ->
-                  promptForSong ongoingConcert
-                  |> Option.bind
-                      (fun song ->
-                          let energy = promptForEnergy ()
+            (fun _ ->
+                promptForSong ongoingConcert
+                |> Option.bind (fun song ->
+                    let energy = promptForEnergy ()
 
-                          let response =
-                              playSong (State.get ()) ongoingConcert song energy
+                    let response =
+                        playSong (State.get ()) ongoingConcert song energy
 
-                          response.Effects |> Cli.Effect.applyMultiple
+                    response.Effects |> Cli.Effect.applyMultiple
 
-                          showResultWithProgressbar response song energy
+                    showResultWithProgressbar response song energy
 
-                          Some response.OngoingConcert)
-                  |> Option.defaultValue ongoingConcert
-                  |> Situations.inConcert
-                  |> Cli.Effect.apply
+                    Some response.OngoingConcert)
+                |> Option.defaultValue ongoingConcert
+                |> Situations.inConcert
+                |> Cli.Effect.apply
 
-                  Scene.World) }
+                Scene.World) }
 
     // Command which simulates dedicating a song and then playing it in a concert.
     let createDedicateSong ongoingConcert =
         { Name = "dedicate song"
           Description =
-              ConcertText ConcertCommandDedicateSongDescription
-              |> I18n.translate
+            ConcertText ConcertCommandDedicateSongDescription
+            |> I18n.translate
           Handler =
-              (fun _ ->
-                  promptForSong ongoingConcert
-                  |> Option.bind
-                      (fun song ->
-                          let energy = promptForEnergy ()
-                          Components.showSpeechProgress ()
+            (fun _ ->
+                promptForSong ongoingConcert
+                |> Option.bind (fun song ->
+                    let energy = promptForEnergy ()
+                    Common.showSpeechProgress ()
 
-                          let response =
-                              dedicateSong
-                                  (State.get ())
-                                  ongoingConcert
-                                  song
-                                  energy
+                    let response =
+                        dedicateSong (State.get ()) ongoingConcert song energy
 
-                          response.Effects |> Cli.Effect.applyMultiple
+                    response.Effects |> Cli.Effect.applyMultiple
 
-                          match response.Result with
-                          | TooManyRepetitionsPenalized
-                          | TooManyRepetitionsNotDone ->
-                              ConcertTooManyDedications
-                              |> ConcertText
-                              |> I18n.translate
-                              |> showMessage
-                          | _ -> showResultWithProgressbar response song energy
+                    match response.Result with
+                    | TooManyRepetitionsPenalized
+                    | TooManyRepetitionsNotDone ->
+                        ConcertTooManyDedications
+                        |> ConcertText
+                        |> I18n.translate
+                        |> showMessage
+                    | _ -> showResultWithProgressbar response song energy
 
-                          Some response.OngoingConcert)
-                  |> Option.defaultValue ongoingConcert
-                  |> Situations.inConcert
-                  |> Cli.Effect.apply
+                    Some response.OngoingConcert)
+                |> Option.defaultValue ongoingConcert
+                |> Situations.inConcert
+                |> Cli.Effect.apply
 
-                  Scene.World) }
+                Scene.World) }

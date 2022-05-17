@@ -63,8 +63,10 @@ module Node =
 [<RequireQualifiedAccess>]
 module Place =
     /// Creates a place with the given initial room and no exits.
-    let create space startingNode =
-        { Space = space
+    let create name quality spaceType startingNode =
+        { Name = name
+          Quality = quality
+          SpaceType = spaceType
           Rooms = Graph.from startingNode
           Exits = Map.empty }
 

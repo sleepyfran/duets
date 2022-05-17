@@ -15,8 +15,7 @@ open Simulation
 /// </summary>
 /// <param name="effect">Effect to apply</param>
 let rec apply effect =
-    let effects, state =
-        Simulation.tick (State.get ()) effect
+    let effects, state = Simulation.tick (State.get ()) effect
 
     State.set state
 
@@ -90,14 +89,13 @@ and private displayEffect effect =
         |> I18n.translate
         |> showMessage
     | ConcertScheduled (_, ScheduledConcert concert) ->
-        let venue =
-            Queries.World.ConcertSpace.byId
+        let coordinates =
+            Queries.World.Common.coordinatesOfPlace
                 (State.get ())
-                concert.CityId
-                concert.VenueId
+                (Node concert.VenueId)
             |> Option.get
 
-        SchedulerAssistantAppTicketDone(venue, concert)
+        SchedulerAssistantAppTicketDone(coordinates.Place, concert)
         |> PhoneText
         |> I18n.translate
         |> showMessage
@@ -115,23 +113,20 @@ and private displayEffect effect =
         |> I18n.translate
         |> showMessage
     | ConcertCancelled (band, FailedConcert concert) ->
-        let venue =
-            Queries.World.ConcertSpace.byId
+        let coordinates =
+            Queries.World.Common.coordinatesOfPlace
                 (State.get ())
-                concert.CityId
-                concert.VenueId
+                (Node concert.VenueId)
             |> Option.get
 
-        ConcertFailed(band, venue, concert)
+        ConcertFailed(band, coordinates.Place, concert)
         |> ConcertText
         |> I18n.translate
         |> showMessage
     | Wait _ ->
-        let today =
-            Queries.Calendar.today (State.get ())
+        let today = Queries.Calendar.today (State.get ())
 
-        let currentDayMoment =
-            Calendar.Query.dayMomentOf today
+        let currentDayMoment = Calendar.Query.dayMomentOf today
 
         CommandWaitResult(today, currentDayMoment)
         |> CommandText

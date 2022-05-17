@@ -13,15 +13,12 @@ let venueGenerator =
         let! quality = Gen.choose (0, 100) |> Gen.map ((*) 1<quality>)
         let! capacity = Gen.choose (100, 15000)
 
-        let concertSpace =
-            { Name = name
-              Quality = quality
-              Capacity = capacity }
+        let concertSpace = { Capacity = capacity }
 
         let lobby = Room.Lobby |> World.Node.create
 
         return
-            World.Place.create (ConcertSpace concertSpace) lobby
+            World.Place.create name quality (ConcertSpace concertSpace) lobby
             |> CityNode.Place
             |> World.Node.create
     }

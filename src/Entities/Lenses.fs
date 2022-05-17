@@ -186,8 +186,8 @@ module World =
 
     module Place =
         let space_ =
-            (fun (p: Place) -> p.Space),
-            (fun v (p: Place) -> { p with Space = v })
+            (fun (p: Place) -> p.SpaceType),
+            (fun v (p: Place) -> { p with SpaceType = v })
 
         let rooms_ =
             (fun (p: Place) -> p.Rooms),

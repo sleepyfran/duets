@@ -6,7 +6,8 @@ open Entities
 open Simulation
 
 let private ticketPriceModifier (band: Band) concert =
-    let ticketPrice = concert.TicketPrice / 1<dd> |> float
+    let ticketPrice =
+        concert.TicketPrice / 1<dd> |> float
 
     let ticketPriceCap =
         match band.Fame with
@@ -58,15 +59,20 @@ let private lastVisitModifier state (band: Band) concert =
 
 let private dailyTicketSell state concert attendanceCap =
     let today = Queries.Calendar.today state
-    let daysUntilConcert = (concert.Date - today).Days |> max 1
+
+    let daysUntilConcert =
+        (concert.Date - today).Days |> max 1
 
     attendanceCap / float daysUntilConcert
 
 let private concertDailyUpdate state concert =
-    let currentBand = Queries.Bands.currentBand state
-    let innerConcert = Concert.fromScheduled concert
+    let currentBand =
+        Queries.Bands.currentBand state
 
-    let venue =
+    let innerConcert =
+        Concert.fromScheduled concert
+
+    let (_, venue) =
         Queries.World.ConcertSpace.byId
             state
             innerConcert.CityId
@@ -97,7 +103,8 @@ let private concertDailyUpdate state concert =
     |> ConcertUpdated
 
 let dailyUpdate state =
-    let currentBand = Queries.Bands.currentBand state
+    let currentBand =
+        Queries.Bands.currentBand state
 
     Queries.Concerts.allScheduled state currentBand.Id
     |> Set.fold

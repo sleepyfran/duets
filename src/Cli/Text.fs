@@ -13,9 +13,16 @@ and CommandText =
         date: Date *
         dayMoment: DayMoment *
         status: CharacterStatus
+    | CommandComposeSongDescription
     | CommandHelpDescription
     | CommandHelpEntry of string * Text
+    | CommandDiscardSongDescription
     | CommandDirectionDescription of direction: Direction
+    | CommandFinishSongDescription
+    | CommandFireMemberDescription
+    | CommandHireMemberDescription
+    | CommandImproveSongDescription
+    | CommandListMembersDescription
     | CommandLookDescription
     | CommandLookNoObjectsAround
     | CommandLookVisibleObjectsPrefix
@@ -24,15 +31,16 @@ and CommandText =
     | CommandLookObjectEntry of ObjectType * string list
     | CommandOutDescription
     | CommandExitDescription
-    | CommandWaitDescription
-    | CommandWaitInvalidTimes of string
-    | CommandWaitResult of Date * DayMoment
     | CommandMapDescription
     | CommandPhoneDescription
+    | CommandPracticeSongDescription
     | CommandTalkInvalidInput
     | CommandTalkDescription
     | CommandTalkNpcNotFound of name: string
     | CommandTalkNothing
+    | CommandWaitDescription
+    | CommandWaitInvalidTimes of string
+    | CommandWaitResult of Date * DayMoment
 
 and CommonText =
     | GameName
@@ -48,8 +56,6 @@ and CommonText =
     | CommonBackToMap
     | CommonBackToPhone
     | CommonBackToWorld
-    | CommonBarName
-    | CommonLobbyName
     | CommonNothing
     | CommonSkillName of id: SkillId
     | CommonSkillImproved of
@@ -67,14 +73,8 @@ and CommonText =
     | CommonRole of instrument: InstrumentType
 
 and ConcertText =
-    | ConcertSpaceLobbyDescription of space: ConcertSpace
-    | ConcertSpaceBarDescription of space: ConcertSpace
-    | ConcertSpaceStageDescription of space: ConcertSpace
-    | ConcertSpaceBackstageDescription of space: ConcertSpace
-    | ConcertSpaceStageName
-    | ConcertSpaceBackstageName
     | ConcertSpaceStartConcert
-    | ConcertFailed of band: Band * venue: ConcertSpace * concert: Concert
+    | ConcertFailed of band: Band * place: Place * concert: Concert
     | ConcertNoSongsToPlay
     | ConcertSelectSongToPlay
     | ConcertSongNameWithPractice of song: Song
@@ -173,7 +173,7 @@ and PhoneText =
     | SchedulerAssistantAppAgenda
     | SchedulerAssistantAppVisualizeConcertInfo of
         dayMoment: DayMoment *
-        venue: ConcertSpace *
+        place: Place *
         city: City *
         ticketsSold: int
     | SchedulerAssistantAppVisualizeNoConcerts
@@ -186,7 +186,7 @@ and PhoneText =
     | SchedulerAssistantAppDateAlreadyBooked of date: Date
     | SchedulerAssistantAppTicketPriceBelowZero of price: int
     | SchedulerAssistantAppTicketPriceTooHigh of price: int
-    | SchedulerAssistantAppTicketDone of venue: ConcertSpace * concert: Concert
+    | SchedulerAssistantAppTicketDone of place: Place * concert: Concert
     | StatisticsAppTitle
     | StatisticsAppSectionPrompt
     | StatisticsAppSectionBand
@@ -201,10 +201,6 @@ and PhoneText =
     | StatisticsAppAlbumRevenue of amount: Amount
 
 and RehearsalSpaceText =
-    | RehearsalSpaceRehearsalRoomName
-    | RehearsalSpaceLobbyDescription
-    | RehearsalSpaceBarDescription
-    | RehearsalSpaceRehearsalRoomDescription
     | RehearsalRoomManageDescription
     | RehearsalRoomStatistics
     | RehearsalRoomInstrumentPlayDescription
@@ -275,10 +271,6 @@ and RehearsalSpaceText =
 and StudioText =
     | StudioCommonPromptReleaseAlbum of name: string
     | StudioCommonAlbumReleased of name: string
-    | StudioMasteringRoomName
-    | StudioMasteringRoomDescription of studio: Studio
-    | StudioRecordingRoomName
-    | StudioRecordingRoomDescription
     | StudioTalkIntroduction of studioName: string * fee: Amount
     | StudioTalkCreateRecord
     | StudioTalkContinueRecord
@@ -312,6 +304,20 @@ and WorldText =
         descriptors: OutsideNodeDescriptor list
     | WorldConcertSpaceKickedOutOfStage
     | WorldConcertSpaceKickedOutOfBackstage
+    | WorldBackstageName
+    | WorldBarName
+    | WorldLobbyName
+    | WorldMasteringRoomName
+    | WorldRecordingRoomName
+    | WorldRehearsalRoomName
+    | WorldStageName
+    | WorldBackstageDescription of place: Place
+    | WorldBarDescription of place: Place
+    | WorldLobbyDescription of place: Place
+    | WorldMasteringRoomDescription of place: Place
+    | WorldRecordingRoomDescription of place: Place
+    | WorldRehearsalRoomDescription of place: Place
+    | WorldStageDescription of place: Place
 
 and TextNamespace =
     | CommandText of CommandText

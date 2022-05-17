@@ -1,21 +1,23 @@
 [
-  {
-    "Id": "CE976276-4C91-4811-8842-90BD2062AAA6",
-    "Name": "Duets Studios",
-    "Producer": {
-      "Id": "5B13A11B-82B2-4173-9B46-776DF2FF31B8",
-      "Name": "Fran González",
-      "Age": 24,
-      "Gender": {
-        "Case": "Male"
+  [
+    "Duets Studios",
+    100,
+    {
+      "Producer": {
+        "Id": "5B13A11B-82B2-4173-9B46-776DF2FF31B8",
+        "Name": "Fran González",
+        "Age": 24,
+        "Gender": {
+          "Case": "Male"
+        },
+        "Status": {
+          "Mood": 100,
+          "Health": 100,
+          "Energy": 100,
+          "Fame": 85
+        }
       },
-      "Status": {
-        "Mood": 100,
-        "Health": 100,
-        "Energy": 100,
-        "Fame": 85
-      }
-    },
-    "PricePerSong": 1000
-  }
+      "PricePerSong": 1000
+    }
+  ]
 ]

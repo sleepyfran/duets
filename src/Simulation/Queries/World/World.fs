@@ -87,7 +87,28 @@ module Common =
     /// Returns the content of the current position of the player and an optional
     /// ID to a room inside that place (if any).
     let currentPosition state =
-        let (_, nodeCoordinates) =
-            state.CurrentPosition
+        let (_, nodeCoordinates) = state.CurrentPosition
 
         coordinates state nodeCoordinates
+
+    /// <summary>
+    /// Returns the resolved coordinates of a place or None if the given coordinates
+    /// point to a non-place node.
+    /// </summary>
+    let coordinatesOfPlace state coords =
+        let resolvedCoords = coordinates state coords
+
+        match resolvedCoords.Content with
+        | ResolvedPlaceCoordinates placeCoords -> Some placeCoords
+        | _ -> None
+
+    /// <summary>
+    /// Returns the resolved coordinates of an ourtside node or None if the given
+    /// coordinates point to a non-outside node.
+    /// </summary>
+    let coordinatesOfOutsideNode state coords =
+        let resolvedCoords = coordinates state coords
+
+        match resolvedCoords.Content with
+        | ResolvedOutsideCoordinates outsideCoords -> Some outsideCoords
+        | _ -> None

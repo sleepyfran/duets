@@ -37,7 +37,7 @@ let private canEnterBackstage state (coords: ResolvedRoomCoordinates) =
 
 /// Returns whether it's possible to enter in the given coordinates.
 let canEnter state (coords: ResolvedRoomCoordinates) =
-    match coords.Place.Space with
+    match coords.Place.SpaceType with
     | ConcertSpace _ ->
         match coords.Room with
         | Room.Stage -> canEnterStage state coords

@@ -10,14 +10,14 @@ open Simulation
 
 [<RequireQualifiedAccess>]
 module NavigationCommand =
-    let northCommand = "n"
-    let northEastCommand = "ne"
-    let eastCommand = "e"
-    let southEastCommand = "se"
-    let southCommand = "s"
-    let southWestCommand = "sw"
-    let westCommand = "w"
-    let northWestCommand = "nw"
+    let private northCommand = "n"
+    let private northEastCommand = "ne"
+    let private eastCommand = "e"
+    let private southEastCommand = "se"
+    let private southCommand = "s"
+    let private southWestCommand = "sw"
+    let private westCommand = "w"
+    let private northWestCommand = "nw"
 
     let private handle coordinates _ =
         State.get ()
@@ -28,23 +28,21 @@ module NavigationCommand =
 
     /// Creates a set of commands with the available direction as the name which,
     /// when executed, moves the player towards that direction.
-    let create entrances =
-        entrances
-        |> List.map (fun (direction, _, coordinates) ->
-            let commandName =
-                match direction with
-                | North -> northCommand
-                | NorthEast -> northEastCommand
-                | East -> eastCommand
-                | SouthEast -> southEastCommand
-                | South -> southCommand
-                | SouthWest -> southWestCommand
-                | West -> westCommand
-                | NorthWest -> northWestCommand
+    let create direction coordinates =
+        let commandName =
+            match direction with
+            | North -> northCommand
+            | NorthEast -> northEastCommand
+            | East -> eastCommand
+            | SouthEast -> southEastCommand
+            | South -> southCommand
+            | SouthWest -> southWestCommand
+            | West -> westCommand
+            | NorthWest -> northWestCommand
 
-            { Name = commandName
-              Description =
-                CommandDirectionDescription direction
-                |> CommandText
-                |> I18n.translate
-              Handler = handle coordinates })
+        { Name = commandName
+          Description =
+            CommandDirectionDescription direction
+            |> CommandText
+            |> I18n.translate
+          Handler = handle coordinates }

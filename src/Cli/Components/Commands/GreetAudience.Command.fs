@@ -1,4 +1,4 @@
-namespace Cli.Scenes.InteractiveSpaces.ConcertSpace.Commands
+namespace Cli.Components.Commands
 
 open Agents
 open Cli.Components

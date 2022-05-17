@@ -1,9 +1,8 @@
-namespace Cli.Scenes.InteractiveSpaces.ConcertSpace.Commands
+namespace Cli.Components.Commands
 
 open Agents
 open Cli.Components
 open Cli.Components.Commands
-open Cli.Scenes.InteractiveSpaces.ConcertSpace
 open Cli.SceneIndex
 open Cli.Text
 open Simulation
@@ -19,7 +18,7 @@ module GiveSpeechCommand =
             |> I18n.translate
           Handler =
             (fun _ ->
-                Components.showSpeechProgress ()
+                Common.showSpeechProgress ()
 
                 let response =
                     giveSpeech (State.get ()) ongoingConcert

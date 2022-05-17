@@ -1,4 +1,4 @@
-namespace Cli.Scenes.InteractiveSpaces.ConcertSpace.Commands
+namespace Cli.Components.Commands
 
 open Agents
 open Cli.Components
@@ -11,7 +11,7 @@ open Simulation
 module DoEncoreCommand =
     /// Returns the artist back to the stage to perform an encore. Assumes that
     /// an encore is possible and that the audience will still be there for it.
-    let rec create ongoingConcert =
+    let create ongoingConcert =
         { Name = "do encore"
           Description =
             ConcertText ConcertCommandDoEncoreDescription
