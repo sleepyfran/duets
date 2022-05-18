@@ -28,6 +28,7 @@ let private writeSavegame (state: State) =
 type SavegameAgentMessage =
     | Read of AsyncReplyChannel<SavegameState>
     | Write of State
+    | WriteSync of State * AsyncReplyChannel<unit>
 
 /// Agent in charge of writing and loading the savegame from a file.
 /// The reason behind having these operations in an agent is that, since we need
@@ -50,6 +51,9 @@ type private SavegameAgent() =
                         with
                         | _ -> channel.Reply Incompatible
                     | Write state -> writeSavegame state
+                    | WriteSync (state, channel) ->
+                        writeSavegame state
+                        channel.Reply()
 
                     return! loop ()
                 }
@@ -58,6 +62,9 @@ type private SavegameAgent() =
 
     member this.Read() = agent.PostAndReply Read
     member this.Write state = state |> Write |> agent.Post
+
+    member this.WriteSync state =
+        agent.PostAndReply(fun channel -> WriteSync(state, channel))
 
 let private savegameAgent = SavegameAgent()
 
@@ -69,3 +76,7 @@ let load = savegameAgent.Read
 /// Attempts to write the current state into the savegame file doing so in a
 /// separate thread.
 let save () = savegameAgent.Write(State.get ())
+
+/// Attempts to write the current state into the savegame file, waiting for the
+/// process to finish.
+let saveSync () = savegameAgent.WriteSync(State.get ())

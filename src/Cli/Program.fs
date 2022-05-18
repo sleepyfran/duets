@@ -37,7 +37,8 @@ let rec showScene scene =
     | Scene.Phone -> Phone.Root.phoneScene () |> showScene
     | Scene.World -> World.worldScene () |> showScene
     | Scene.Exit ->
-        Savegame.save ()
+        Savegame.saveSync ()
+
         ()
 
 [<EntryPoint>]
