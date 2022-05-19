@@ -4,11 +4,6 @@
 open Entities
 open Simulation
 
-/// Result of asking for the currently available interaction.
-type InteractionResult =
-    { Enabled: Interaction list
-      Disabled: DisabledInteraction list }
-
 let private goOutTo state destinationId =
     let cityNode =
         Queries.World.Common.coordinates state (Node destinationId)
@@ -80,18 +75,8 @@ let availableCurrently state =
             outsideInteractions coords.Coordinates currentPosition.City
             @ defaultInteractions
 
-    let enabledInteractions, disabledInteractions =
-        allAvailableInteractions
-        |> List.map InteractionState.Enabled
-        |> Requirements.Health.check state
-        |> List.fold
-            (fun acc interaction ->
-                let enabled, disabled = acc
-
-                match interaction with
-                | InteractionState.Enabled i -> (i :: enabled, disabled)
-                | InteractionState.Disabled di -> (enabled, di :: disabled))
-            ([], [])
-
-    { Enabled = enabledInteractions
-      Disabled = disabledInteractions }
+    allAvailableInteractions
+    |> List.map (fun interaction ->
+        ({ Interaction = interaction
+           State = InteractionState.Enabled }))
+    |> Requirements.Health.check state

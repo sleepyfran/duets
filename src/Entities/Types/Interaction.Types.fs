@@ -76,12 +76,14 @@ module InteractionTypes =
         | NotEnoughHealth of needed: Health
         | NotEnoughMood of needed: Mood
 
-    /// Defines an interaction that has been disabled for a specific reason.
-    type DisabledInteraction = Interaction * InteractionDisabledReason
-
-    /// Defines an interaction that is either enabled or disabled for a specific
-    /// reason.
+    /// Defines the state of an interaction, which can be enabled or disabled
+    /// for a specific reason.
     [<RequireQualifiedAccess>]
     type InteractionState =
-        | Enabled of Interaction
-        | Disabled of DisabledInteraction
+        | Enabled
+        | Disabled of InteractionDisabledReason
+
+    /// Defines an interaction and its state (enabled or disabled).
+    type InteractionWithState =
+        { Interaction: Interaction
+          State: InteractionState }

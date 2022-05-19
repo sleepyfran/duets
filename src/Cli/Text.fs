@@ -14,6 +14,9 @@ and CommandText =
         dayMoment: DayMoment *
         status: CharacterStatus
     | CommandComposeSongDescription
+    | CommandDisabledNotEnoughEnergy of energyNeeded: Energy
+    | CommandDisabledNotEnoughHealth of healthNeeded: Health
+    | CommandDisabledNotEnoughMood of moodNeeded: Mood
     | CommandHelpDescription
     | CommandHelpEntry of string * Text
     | CommandDiscardSongDescription

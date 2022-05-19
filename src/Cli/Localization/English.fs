@@ -189,6 +189,15 @@ and commandText key =
         $"""{infoBar date dayMoment status}
 {TextStyles.prompt "What do you want to do? Type 'help' if you're lost"}"""
     | CommandComposeSongDescription -> "Allows you to create a new song"
+    | CommandDisabledNotEnoughEnergy _ ->
+        TextStyles.error
+            "You don't have enough energy to do that. Try to rest first"
+    | CommandDisabledNotEnoughHealth _ ->
+        TextStyles.error
+            "You don't have enough health to do that. Try to rest or go to a doctor"
+    | CommandDisabledNotEnoughMood _ ->
+        TextStyles.error
+            "You don't really feel like doing that... Maybe something more interesting might spark your interest"
     | CommandHelpDescription ->
         "Here are all the commands you can execute right now"
     | CommandHelpEntry (entryName, entryDescription) ->

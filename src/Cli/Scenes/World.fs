@@ -29,7 +29,13 @@ let private descriptionFromCoordinates coords =
         |> WorldText
     |> I18n.translate
 
-let private showRoomConnections interactions =
+let private showRoomConnections interactionsWithState =
+    let interactions =
+        interactionsWithState
+        |> List.map (fun interactionWithState ->
+            interactionWithState.Interaction)
+
+    (* TODO: Show disabled connections in red once we don't have the I18n dependency. *)
     interactions
     |> Interaction.chooseFreeRoam (fun interaction ->
         match interaction with
@@ -85,8 +91,8 @@ let private showRoomConnections interactions =
 
 let private commandsFromInteractions interactions =
     interactions
-    |> List.collect (fun interaction ->
-        match interaction with
+    |> List.collect (fun interactionWithState ->
+        match interactionWithState.Interaction with
         | Interaction.FreeRoam freeRoamInteraction ->
             match freeRoamInteraction with
             | FreeRoamInteraction.GoOut (exit, _) -> [ OutCommand.create exit ]
@@ -125,7 +131,13 @@ let private commandsFromInteractions interactions =
                 [ ListMembersCommand.create bandMembers pastMembers ]
             | RehearsalInteraction.PracticeSong finishedSongs ->
                 [ PracticeSongCommand.create finishedSongs ]
-        | _ -> [])
+        | _ -> []
+        |> List.map (Tuple.two interactionWithState.State))
+    |> List.map (fun (interactionState, command) ->
+        match interactionState with
+        | InteractionState.Enabled -> command
+        | InteractionState.Disabled disabledReason ->
+            Command.disable disabledReason command)
 
 /// Creates the world scene, which displays information about the current place
 /// where the character is located as well as allowing the actions available
@@ -142,7 +154,7 @@ let worldScene () =
     let currentDayMoment =
         Calendar.Query.dayMomentOf today
 
-    let interactions =
+    let interactionsWithState =
         Interactions.Root.availableCurrently (State.get ())
 
     let currentPosition =
@@ -152,12 +164,10 @@ let worldScene () =
     descriptionFromCoordinates currentPosition.Content
     |> showMessage
 
-    // TODO: Take disabled also into consideration. Show disabled in red.
-    showRoomConnections interactions.Enabled
+    showRoomConnections interactionsWithState
 
     showCommandPrompt
         (CommandCommonPrompt(today, currentDayMoment, character.Status)
          |> CommandText
          |> I18n.translate)
-        (commandsFromInteractions
-            interactions.Enabled (* TODO: Take disabled also into consideration. *) )
+        (commandsFromInteractions interactionsWithState)
