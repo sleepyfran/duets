@@ -4,7 +4,7 @@ open Entities
 open Simulation
 
 /// Returns all interactions available in the current concert room.
-let internal availableCurrently state room =
+let internal availableCurrently state room defaultInteractions =
     let situation =
         Queries.Situations.current state
 
@@ -27,4 +27,4 @@ let internal availableCurrently state room =
         | Situation.InConcert ongoingConcert ->
             [ Interaction.Concert(ConcertInteraction.DoEncore ongoingConcert) ]
         | _ -> []
-    | _ -> [ Interaction.FreeRoam FreeRoamInteraction.Wait ]
+    | _ -> defaultInteractions

@@ -58,7 +58,10 @@ let availableCurrently state =
             match coords.Place.SpaceType with
             | ConcertSpace _ ->
                 let specificInteractions =
-                    ConcertSpace.availableCurrently state coords.Room
+                    ConcertSpace.availableCurrently
+                        state
+                        coords.Room
+                        defaultInteractions
 
                 placeInteractions state placeId roomId coords.Place
                 @ specificInteractions
