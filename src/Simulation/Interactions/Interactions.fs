@@ -22,7 +22,7 @@ let private outsideInteractions nodeId city =
         FreeRoamInteraction.Move(direction, Node destinationId)
         |> Interaction.FreeRoam)
 
-let private placeInteractions state placeId roomId place =
+let private navigationInteractions state placeId roomId place =
     let moveInteractions =
         Queries.World.Common.availableDirections roomId place.Rooms
         |> List.map (fun (direction, destinationId) ->
@@ -63,16 +63,16 @@ let availableCurrently state =
                         coords.Room
                         defaultInteractions
 
-                placeInteractions state placeId roomId coords.Place
+                navigationInteractions state placeId roomId coords.Place
                 @ specificInteractions
             | RehearsalSpace _ ->
                 let specificInteractions =
                     RehearsalSpace.availableCurrently state coords.Room
 
-                placeInteractions state placeId roomId coords.Place
+                navigationInteractions state placeId roomId coords.Place
                 @ specificInteractions @ defaultInteractions
             | Studio _ ->
-                placeInteractions state placeId roomId coords.Place
+                navigationInteractions state placeId roomId coords.Place
                 @ defaultInteractions
         | ResolvedOutsideCoordinates coords ->
             outsideInteractions coords.Coordinates currentPosition.City
