@@ -51,7 +51,7 @@ module InteractionTypes =
     [<RequireQualifiedAccess>]
     type StudioInteraction =
         /// Allows to create and record a new album.
-        | CreateAlbum
+        | CreateAlbum of studio: Studio * songs: FinishedSongWithQuality list
         /// Allows to edit the name of a previously recorded album.
         | EditAlbumName of albums: UnreleasedAlbum list
         /// Allows to release a previously recorded album.

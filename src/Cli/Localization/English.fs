@@ -188,6 +188,8 @@ and commandText key =
     | CommandCommonPrompt (date, dayMoment, status) ->
         $"""{infoBar date dayMoment status}
 {TextStyles.prompt "What do you want to do? Type 'help' if you're lost"}"""
+    | CommandCreateAlbumDescription ->
+        "Allows you to record one or more finished songs to create and release an album"
     | CommandComposeSongDescription -> "Allows you to create a new song"
     | CommandDisabledNotEnoughEnergy _ ->
         TextStyles.error
@@ -198,6 +200,8 @@ and commandText key =
     | CommandDisabledNotEnoughMood _ ->
         TextStyles.error
             "You don't really feel like doing that... Maybe something more interesting might spark your interest"
+    | CommandEditAlbumNameDescription ->
+        "Allows you to edit the name of an album you previously recorded but did not release"
     | CommandHelpDescription ->
         "Here are all the commands you can execute right now"
     | CommandHelpEntry (entryName, entryDescription) ->
@@ -233,6 +237,8 @@ and commandText key =
         "Opens your phone where you can check statistics and manage your bank"
     | CommandPracticeSongDescription ->
         "Prompts you for a song to practice, which improves the quality when performing the song live"
+    | CommandReleaseAlbumDescription ->
+        "Allows you to release an album you previously recorded but did not release"
     | CommandTalkDescription ->
         $"""Allows you to talk with a character in the world. Use as {TextStyles.information "talk to {name}"}. You can reference characters by their full name or just their first name"""
     | CommandTalkInvalidInput ->

@@ -93,13 +93,6 @@ let private commandsFromInteractions interactions =
     interactions
     |> List.collect (fun interactionWithState ->
         match interactionWithState.Interaction with
-        | Interaction.FreeRoam freeRoamInteraction ->
-            match freeRoamInteraction with
-            | FreeRoamInteraction.GoOut (exit, _) -> [ OutCommand.create exit ]
-            | FreeRoamInteraction.Move (direction, nodeId) ->
-                [ NavigationCommand.create direction nodeId ]
-            | FreeRoamInteraction.Phone -> [ PhoneCommand.get ]
-            | FreeRoamInteraction.Wait -> [ WaitCommand.get ]
         | Interaction.Concert concertInteraction ->
             match concertInteraction with
             | ConcertInteraction.DoEncore ongoingConcert ->
@@ -115,6 +108,13 @@ let private commandsFromInteractions interactions =
                   PlaySongCommands.createDedicateSong ongoingConcert ]
             | ConcertInteraction.GetOffStage ongoingConcert ->
                 [ GetOffStageCommand.create ongoingConcert ]
+        | Interaction.FreeRoam freeRoamInteraction ->
+            match freeRoamInteraction with
+            | FreeRoamInteraction.GoOut (exit, _) -> [ OutCommand.create exit ]
+            | FreeRoamInteraction.Move (direction, nodeId) ->
+                [ NavigationCommand.create direction nodeId ]
+            | FreeRoamInteraction.Phone -> [ PhoneCommand.get ]
+            | FreeRoamInteraction.Wait -> [ WaitCommand.get ]
         | Interaction.Rehearsal rehearsalInteraction ->
             match rehearsalInteraction with
             | RehearsalInteraction.ComposeNewSong -> [ ComposeSongCommand.get ]
@@ -131,7 +131,14 @@ let private commandsFromInteractions interactions =
                 [ ListMembersCommand.create bandMembers pastMembers ]
             | RehearsalInteraction.PracticeSong finishedSongs ->
                 [ PracticeSongCommand.create finishedSongs ]
-        | _ -> []
+        | Interaction.Studio studioInteraction ->
+            match studioInteraction with
+            | StudioInteraction.CreateAlbum (studio, finishedSongs) ->
+                [ CreateAlbumCommand.create studio finishedSongs ]
+            | StudioInteraction.EditAlbumName unreleasedAlbums ->
+                [ EditAlbumNameCommand.create unreleasedAlbums ]
+            | StudioInteraction.ReleaseAlbum unreleasedAlbums ->
+                [ ReleaseAlbumCommand.create unreleasedAlbums ]
         |> List.map (Tuple.two interactionWithState.State))
     |> List.map (fun (interactionState, command) ->
         match interactionState with

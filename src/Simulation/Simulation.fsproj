@@ -63,6 +63,7 @@
         <Compile Include="Interactions\Requirements\Interactions.Requirements.Health.fs"/>
         <Compile Include="Interactions\Interactions.RehearsalSpace.fs"/>
         <Compile Include="Interactions\Interactions.ConcertSpace.fs"/>
+        <Compile Include="Interactions\Interactions.Studio.fs"/>
         <Compile Include="Interactions\Interactions.fs"/>
         <Compile Include="Songs\Practice.fs"/>
         <Compile Include="Songs\Composition\Common.fs"/>

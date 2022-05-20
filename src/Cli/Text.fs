@@ -13,10 +13,12 @@ and CommandText =
         date: Date *
         dayMoment: DayMoment *
         status: CharacterStatus
+    | CommandCreateAlbumDescription
     | CommandComposeSongDescription
     | CommandDisabledNotEnoughEnergy of energyNeeded: Energy
     | CommandDisabledNotEnoughHealth of healthNeeded: Health
     | CommandDisabledNotEnoughMood of moodNeeded: Mood
+    | CommandEditAlbumNameDescription
     | CommandHelpDescription
     | CommandHelpEntry of string * Text
     | CommandDiscardSongDescription
@@ -37,6 +39,7 @@ and CommandText =
     | CommandMapDescription
     | CommandPhoneDescription
     | CommandPracticeSongDescription
+    | CommandReleaseAlbumDescription
     | CommandTalkInvalidInput
     | CommandTalkDescription
     | CommandTalkNpcNotFound of name: string

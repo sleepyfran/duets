@@ -57,23 +57,21 @@ let availableCurrently state =
 
             match coords.Place.SpaceType with
             | ConcertSpace _ ->
-                let specificInteractions =
-                    ConcertSpace.availableCurrently
-                        state
-                        coords.Room
-                        defaultInteractions
-
-                navigationInteractions state placeId roomId coords.Place
-                @ specificInteractions
+                ConcertSpace.availableCurrently
+                    state
+                    coords.Room
+                    (navigationInteractions state placeId roomId coords.Place)
+                    defaultInteractions
             | RehearsalSpace _ ->
                 let specificInteractions =
                     RehearsalSpace.availableCurrently state coords.Room
 
                 navigationInteractions state placeId roomId coords.Place
                 @ specificInteractions @ defaultInteractions
-            | Studio _ ->
-                navigationInteractions state placeId roomId coords.Place
-                @ defaultInteractions
+            | Studio studio ->
+                Studio.availableCurrently state studio coords.Room
+                @ navigationInteractions state placeId roomId coords.Place
+                  @ defaultInteractions
         | ResolvedOutsideCoordinates coords ->
             outsideInteractions coords.Coordinates currentPosition.City
             @ defaultInteractions
