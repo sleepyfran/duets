@@ -7,11 +7,18 @@ module InteractionTypes =
     /// Interactions that can be done while on a concert.
     [<RequireQualifiedAccess>]
     type ConcertInteraction =
+        /// Allows to play more songs after stepping out of the stage.
         | DoEncore of OngoingConcert
+        /// Moves back to the backstage, potentially ending the concert.
         | GetOffStage of OngoingConcert
+        /// Allows to give a speech to the crowd.
         | GiveSpeech of OngoingConcert
+        /// Halo!
         | GreetAudience of OngoingConcert
+        /// Finishes the concert, which computes the final score and disallows
+        /// the band from entering the stage again.
         | FinishConcert of OngoingConcert
+        /// Allows to play and/or dedicate a song.
         | PlaySong of OngoingConcert
 
     /// Interactions related to moving around the world.
