@@ -7,19 +7,17 @@ open Simulation
 open Simulation.Concerts.Live
 
 [<RequireQualifiedAccess>]
-module GreetAudienceCommand =
-    /// Command which greets the audience in the concert.
+module TuneInstrumentCommand =
+    /// Command which allows the player to tune their instrument mid-concert.
     let rec create ongoingConcert =
         Concert.createCommand
-            "greet audience"
-            CommandGreetAudienceDescription
-            greetAudience
+            "tune instrument"
+            CommandTuneInstrumentDescription
+            tuneInstrument
             (fun result points ->
                 match result with
-                | TooManyRepetitionsPenalized
-                | TooManyRepetitionsNotDone ->
-                    ConcertGreetAudienceGreetedMoreThanOnceTip points
-                | _ -> ConcertGreetAudienceDone points
+                | Done -> ConcertTuneInstrumentDone points
+                | _ -> ConcertTooMuchTuning
                 |> ConcertText
                 |> I18n.translate
                 |> showMessage)

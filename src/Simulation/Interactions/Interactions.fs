@@ -59,6 +59,7 @@ let availableCurrently state =
             | ConcertSpace _ ->
                 ConcertSpace.availableCurrently
                     state
+                    placeId
                     coords.Room
                     (navigationInteractions state placeId roomId coords.Place)
                     defaultInteractions

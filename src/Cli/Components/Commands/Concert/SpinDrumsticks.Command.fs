@@ -7,20 +7,20 @@ open Simulation
 open Simulation.Concerts.Live
 
 [<RequireQualifiedAccess>]
-module GiveSpeechCommand =
-    /// Command which simulates giving a speech during a concert.
+module SpinDrumsticksCommand =
+    /// Command which performs the action of spinning the drumsticks for drummers.
     let rec create ongoingConcert =
         Concert.createCommand
-            "give speech"
-            CommandGiveSpeechDescription
-            giveSpeech
+            "spin drumstick"
+            CommandMakeCrowdSingDescription
+            spinDrumsticks
             (fun result points ->
                 match result with
-                | LowPerformance -> ConcertSpeechGivenLowSkill points
-                | AveragePerformance -> ConcertSpeechGivenMediumSkill points
+                | LowPerformance -> ConcertDrumstickSpinningBadResult points
+                | AveragePerformance
                 | GoodPerformance
-                | GreatPerformance -> ConcertSpeechGivenHighSkill points
-                | _ -> ConcertTooManySpeeches
+                | GreatPerformance -> ConcertDrumstickSpinningGoodResult points
+                | _ -> ConcertTooManyDrumstickSpins
                 |> ConcertText
                 |> I18n.translate
                 |> showMessage)

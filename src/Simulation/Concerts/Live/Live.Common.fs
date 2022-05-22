@@ -69,8 +69,7 @@ module internal Response =
 
     /// Adds an event to the response.
     let addEvent event response =
-        { response with
-              OngoingConcert = addEvent event response.OngoingConcert }
+        { response with OngoingConcert = addEvent event response.OngoingConcert }
 
     /// Adds the given points to the point counter of the result and to the
     /// ongoing concert.
@@ -161,10 +160,9 @@ let private bandAverageSkillLevel state skillId =
     let band = Queries.Bands.currentBand state
 
     band.Members
-    |> List.averageBy
-        (fun currentMember ->
-            characterSkillLevel state currentMember.CharacterId skillId
-            |> float)
+    |> List.averageBy (fun currentMember ->
+        characterSkillLevel state currentMember.CharacterId skillId
+        |> float)
 
 let private playableCharacterSkillLevel state skillId =
     let character =
@@ -174,15 +172,13 @@ let private playableCharacterSkillLevel state skillId =
 
 let private averageAffectingQualities state action =
     action.AffectingQualities
-    |> List.averageBy
-        (fun affectingQuality ->
-            match affectingQuality with
-            | BandSkills skillId -> bandAverageSkillLevel state skillId
-            | CharacterSkill skillId ->
-                playableCharacterSkillLevel state skillId
-            | SongQuality (_, quality) -> quality / 1<quality> |> float
-            | SongPractice (FinishedSong song) ->
-                song.Practice / 1<practice> |> float)
+    |> List.averageBy (fun affectingQuality ->
+        match affectingQuality with
+        | BandSkills skillId -> bandAverageSkillLevel state skillId
+        | CharacterSkill skillId -> playableCharacterSkillLevel state skillId
+        | SongQuality (_, quality) -> quality / 1<quality> |> float
+        | SongPractice (FinishedSong song) ->
+            song.Practice / 1<practice> |> float)
 
 let private multipliersOf action =
     List.sumBy (fun multiplier -> float multiplier / 100.0) action.Multipliers
@@ -217,7 +213,8 @@ and private performAction' state ongoingConcert action =
     |> Response.addEffects action.Effects
 
 and private ratePerformance state ongoingConcert action =
-    let averageQualities = averageAffectingQualities state action
+    let averageQualities =
+        averageAffectingQualities state action
 
     let multipliers =
         if List.isEmpty action.Multipliers then
@@ -225,7 +222,8 @@ and private ratePerformance state ongoingConcert action =
         else
             multipliersOf action
 
-    let pointIncrease = averageQualities * multipliers
+    let pointIncrease =
+        averageQualities * multipliers
 
     let projectedMaximum = 100.0 * multipliers
 

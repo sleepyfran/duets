@@ -14,7 +14,7 @@ module FinishConcertCommand =
     let rec create ongoingConcert =
         { Name = "end concert"
           Description =
-            ConcertText ConcertCommandFinishConcertDescription
+            CommandText CommandFinishConcertDescription
             |> I18n.translate
           Handler =
             (fun _ ->

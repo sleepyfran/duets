@@ -161,7 +161,7 @@ and listOf (stuff: 'a list) toStr =
 /// in all other cases.
 and pluralOf singular plural quantity =
     match quantity with
-    | 1 -> singular
+    | quantity when quantity = LanguagePrimitives.Int32WithMeasure 1 -> singular
     | _ -> plural
 
 /// Returns the given singular form if the quantity is 1, or the plural form
@@ -188,6 +188,10 @@ and commandText key =
     | CommandCommonPrompt (date, dayMoment, status) ->
         $"""{infoBar date dayMoment status}
 {TextStyles.prompt "What do you want to do? Type 'help' if you're lost"}"""
+    | CommandAdjustDrumsDescription ->
+        "Allows you to adjust the drum settings. Doesn't do much, but it's important to play comfortably"
+    | CommandBassSoloDescription ->
+        "Allows you to play a bass solo and remind people that you are on stage"
     | CommandCreateAlbumDescription ->
         "Allows you to record one or more finished songs to create and release an album"
     | CommandComposeSongDescription -> "Allows you to create a new song"
@@ -200,6 +204,8 @@ and commandText key =
     | CommandDisabledNotEnoughMood _ ->
         TextStyles.error
             "You don't really feel like doing that... Maybe something more interesting might spark your interest"
+    | CommandDrumSoloDescription ->
+        "Allows you to play a drum solo and show the world that the drummer can also rock"
     | CommandEditAlbumNameDescription ->
         "Allows you to edit the name of an album you previously recorded but did not release"
     | CommandHelpDescription ->
@@ -210,9 +216,27 @@ and commandText key =
         "Prompts you for a song to discard from the list of unfinished songs"
     | CommandDirectionDescription direction ->
         $"Follows the {directionName direction} direction"
+    | CommandGiveSpeechDescription ->
+        "Allows you to give a speech to the crowd. Make sure you're actually good with words, otherwise people might not understand you"
+    | CommandPlayDescription ->
+        "Allows you to choose a song to play in the concert"
+    | CommandDedicateSongDescription ->
+        "Dedicates a song and then plays it. Might give you a little boost in points as long as you don't overdo it"
+    | CommandGetOffStageDescription ->
+        "Moves you to the backstage, where you can decide if you want to do an encore (if possible) or finish the concert for good"
+    | CommandGreetAudienceDescription ->
+        "Allows you to be a polite musician and say hello before blasting the crowd's ears"
+    | CommandDoEncoreDescription ->
+        "Moves you back to the stage where you can play more!"
+    | CommandFinishConcertDescription -> "Finishes the concert"
+    | CommandFaceBandDescription ->
+        "Makes you look towards your band, isn't that cool?"
+    | CommandFaceCrowdDescription -> "Makes you look towards the crowd again"
     | CommandFinishSongDescription ->
         "Prompts your for a song to finish from the list of unfinished songs"
     | CommandFireMemberDescription -> "Allows you to fire a member of your band"
+    | CommandGuitarSoloDescription ->
+        "Allows you to perform a guitar solo and elevate your ego to a higher dimension"
     | CommandHireMemberDescription ->
         "Allows you to hire a new member for your band"
     | CommandImproveSongDescription ->
@@ -231,14 +255,20 @@ and commandText key =
         $"- {objectName objectType |> TextStyles.object}, you can interact with it by calling {listOf commandNames id |> TextStyles.action}"
     | CommandOutDescription -> "Exits the current place"
     | CommandExitDescription -> "Exits the game saving the progress"
+    | CommandMakeCrowdSingDescription ->
+        "Allows you to try to make the crowd sing along a chant or a song, so get your voice ready"
     | CommandMapDescription ->
         "Shows the map of the game where you can quickly travel to other places"
     | CommandPhoneDescription ->
         "Opens your phone where you can check statistics and manage your bank"
     | CommandPracticeSongDescription ->
         "Prompts you for a song to practice, which improves the quality when performing the song live"
+    | CommandPutMicOnStandDescription ->
+        "Allows you to put the mic back on the stand"
     | CommandReleaseAlbumDescription ->
         "Allows you to release an album you previously recorded but did not release"
+    | CommandTakeMicDescription ->
+        "Allows you to take the mic from the stand and move freely on the stage"
     | CommandTalkDescription ->
         $"""Allows you to talk with a character in the world. Use as {TextStyles.information "talk to {name}"}. You can reference characters by their full name or just their first name"""
     | CommandTalkInvalidInput ->
@@ -247,6 +277,8 @@ and commandText key =
     | CommandTalkNpcNotFound name ->
         TextStyles.error $"There are no characters named '{name}' around"
     | CommandTalkNothing -> "Nothing"
+    | CommandTuneInstrumentDescription ->
+        "Tunes your instrument, which looks cool sometimes"
     | CommandWaitDescription ->
         $"""Waits for the given amount of time. Use as {TextStyles.information "wait 4"}, where the number is the amount of day moments to wait"""
     | CommandWaitInvalidTimes input ->
@@ -303,7 +335,16 @@ and commonText key =
 
 and concertText key =
     match key with
+    | ConcertAdjustDrumsMessage ->
+        TextStyles.success
+            "You tinker with the drum position yet again. Maybe now it'll be just right..."
     | ConcertSpaceStartConcert -> "Start concert"
+    | ConcertFaceBandMessage ->
+        TextStyles.success
+            "You're now looking towards your band... Do you look cooler now?"
+    | ConcertFaceCrowdMessage ->
+        TextStyles.success
+            "You're now looking towards the crowd, everything's normal now"
     | ConcertFailed (band, place, concert) ->
         TextStyles.error
             $"Your band {band.Name} was supposed to have a concert {formatDate concert.Date} {dayMomentName concert.DayMoment} at {place.Name} but didn't make it in time. The concert has been cancelled and fame took a little hit because of it"
@@ -322,15 +363,29 @@ and concertText key =
     | ConcertActionPrompt (date, dayMoment, status, points) ->
         $"""{infoBar date dayMoment status} | {Emoji.concert} {TextStyles.Level.from points} points
 {TextStyles.action "It's your time to shine!"} What do you want to do?"""
-    | ConcertCommandPlayDescription ->
-        "Allows you to choose a song to play in the concert"
-    | ConcertCommandDedicateSongDescription ->
-        "Dedicates a song and then plays it. Might give you a little boost in points as long as you don't overdo it"
-    | ConcertCommandGetOffStageDescription ->
-        "Moves you to the backstage, where you can decide if you want to do an encore (if possible) or finish the concert for good"
-    | ConcertCommandDoEncoreDescription ->
-        "Moves you back to the stage where you can play more!"
-    | ConcertCommandFinishConcertDescription -> "Finishes the concert"
+    | ConcertBassSoloSlappingThatBass ->
+        TextStyles.progress "Slapping that bass..."
+    | ConcertBassSoloMovingFingersQuickly ->
+        TextStyles.progress "Moving fingers REALLY quickly..."
+    | ConcertBassSoloGrooving -> TextStyles.progress "Grooving hard..."
+    | ConcertDrumSoloDoingDrumstickTricks ->
+        TextStyles.progress "Spinning drumsticks..."
+    | ConcertDrumSoloPlayingReallyFast ->
+        TextStyles.progress "Playing really fast..."
+    | ConcertDrumSoloPlayingWeirdRhythms ->
+        TextStyles.progress "Playing REALLY fast..."
+    | ConcertDrumstickSpinningBadResult points ->
+        TextStyles.Level.bad
+            $"""That didn't really go so well, your drumsticks are now on the floor and you need some new ones... That's {points} {simplePluralOf "point" points}"""
+    | ConcertDrumstickSpinningGoodResult points ->
+        TextStyles.Level.great
+            $"""Wooooooah. {points} {simplePluralOf "point" points}"""
+    | ConcertGuitarSoloDoingSomeTapping ->
+        TextStyles.progress "Doing some tapping..."
+    | ConcertGuitarSoloPlayingReallyFast ->
+        TextStyles.progress "Playing REALLY fast..."
+    | ConcertGuitarSoloPlayingWithTeeth ->
+        TextStyles.progress "Playing with teeth..."
     | ConcertPlaySongLimitedEnergyDescription ->
         TextStyles.progress
             "Barely moving and with a dull face you play the song to a confused audience..."
@@ -356,7 +411,7 @@ and concertText key =
         | Limited -> "Not like you didn't try hard anyway"
         |> fun energyText ->
             TextStyles.Level.bad
-                $"""Unfortunately it seems like you didn't practice that song enough and you made quite a lot of mistakes during the performance, you got {simplePluralOf "point" points} points. {energyText}"""
+                $"""Unfortunately it seems like you didn't practice that song enough and you made quite a lot of mistakes during the performance, you got {points} {simplePluralOf "point" points}. {energyText}"""
     | ConcertPlaySongMediumPracticeReaction (energy, points) ->
         match energy with
         | Energetic -> ""
@@ -374,6 +429,18 @@ and concertText key =
         |> fun energyText ->
             TextStyles.Level.great
                 $"""That was awesome! Your performance was great and {energyText}. You got {points} {simplePluralOf "point" points} for that"""
+    | ConcertPutMicOnStandMessage ->
+        TextStyles.success
+            "You left the mic on the stand, now let's try to figure out something to do with your hands..."
+    | ConcertSoloResultLowPerformance points ->
+        TextStyles.Level.bad
+            $"Well... That was really bad. Maybe try not to bring any extra attention towards you if your skills are not that great anyway. That got you {points} points"
+    | ConcertSoloResultAveragePerformance points ->
+        TextStyles.Level.normal
+            $"That was not bad! A little more practice wouldn't hurt, but that got you {points} points"
+    | ConcertSoloResultGreatPerformance points ->
+        TextStyles.Level.great
+            $"That was awesome! People absolutely loved you. That got you {points} points"
     | ConcertGreetAudienceGreetedMoreThanOnceTip points ->
         TextStyles.danger
             $"""The audience is confused since you've already greeted them before... How many times does a normal person say hello? Anyway, that's {points} {simplePluralOf "point" points}"""
@@ -397,7 +464,16 @@ and concertText key =
             $"Well, that didn't go as bad as it could've gone! You got {points} points"
     | ConcertFinishedGreat points ->
         TextStyles.Level.great
-            $"You nailed the concert! The crowd loved it and will definitely come for the next one! You got {points} points"
+            $"""You nailed the concert! The crowd loved it and will definitely come for the next one! You got {points} {simplePluralOf "point" points}"""
+    | ConcertMakeCrowdSingLowPerformance points ->
+        TextStyles.Level.bad
+            $"""That was a little awkward, you tried to make them sing but they were just not interested. Well, maybe next time, that got you {points} {simplePluralOf "point" points}"""
+    | ConcertMakeCrowdSingAveragePerformance points ->
+        TextStyles.Level.normal
+            $"""That was not so bad! Some fans sang along you, although not all the crowd was up for it. That got you {points} {simplePluralOf "point" points}"""
+    | ConcertMakeCrowdSingGreatPerformance points ->
+        TextStyles.Level.great
+            $"That was amazing! The entire crowd was singing along you. That's {points} points"
     | ConcertSpeechProgress -> "Blablablaba... Blablaba... Bla..."
     | ConcertSpeechGivenLowSkill points ->
         TextStyles.Level.bad
@@ -408,12 +484,29 @@ and concertText key =
     | ConcertSpeechGivenHighSkill points ->
         TextStyles.Level.great
             $"""That was amazing! You really have a way with words. That got you {points} {simplePluralOf "point" points}"""
+    | ConcertTakeMicMessage ->
+        TextStyles.success
+            "You took the microphone on your hands, free to move now!"
+    | ConcertTuneInstrumentDone points ->
+        TextStyles.success
+            $"""You tuned the instrument and it now sounds awesome. {points} more {simplePluralOf "point" points}"""
     | ConcertTooManySpeeches ->
         TextStyles.danger
             "The audience is already bored of hearing you talk. Just play some songs and stop talking!"
     | ConcertTooManyDedications ->
         TextStyles.danger
             "The audience cut you in the middle of your dedication. They are already bored of hearing you dedicate songs. Just play and stop talking!"
+    | ConcertTooManyDrumstickSpins ->
+        TextStyles.danger
+            "Nobody is really paying attention anymore, but feel free to keep doing it"
+    | ConcertTooMuchSingAlong ->
+        TextStyles.danger
+            "You've tried that too many times, the crowd does not want to sing anymore. Try something else"
+    | ConcertTooManySolos points ->
+        TextStyles.danger
+            $"The audience started booing as soon as they saw you were getting started for another solo... A bit more variation, please. That costed you {points} points"
+    | ConcertTooMuchTuning ->
+        TextStyles.danger "You tuned the instrument again. No points this time"
 
 and creatorText key =
     match key with

@@ -13,18 +13,31 @@ and CommandText =
         date: Date *
         dayMoment: DayMoment *
         status: CharacterStatus
+    | CommandAdjustDrumsDescription
+    | CommandBassSoloDescription
     | CommandCreateAlbumDescription
     | CommandComposeSongDescription
     | CommandDisabledNotEnoughEnergy of energyNeeded: Energy
     | CommandDisabledNotEnoughHealth of healthNeeded: Health
     | CommandDisabledNotEnoughMood of moodNeeded: Mood
+    | CommandDedicateSongDescription
+    | CommandPlayDescription
+    | CommandGiveSpeechDescription
+    | CommandGetOffStageDescription
+    | CommandGreetAudienceDescription
+    | CommandDoEncoreDescription
+    | CommandFinishConcertDescription
+    | CommandDrumSoloDescription
     | CommandEditAlbumNameDescription
     | CommandHelpDescription
     | CommandHelpEntry of string * Text
     | CommandDiscardSongDescription
     | CommandDirectionDescription of direction: Direction
+    | CommandFaceBandDescription
+    | CommandFaceCrowdDescription
     | CommandFinishSongDescription
     | CommandFireMemberDescription
+    | CommandGuitarSoloDescription
     | CommandHireMemberDescription
     | CommandImproveSongDescription
     | CommandListMembersDescription
@@ -34,16 +47,20 @@ and CommandText =
     | CommandLookEntrances of (Direction * Text) list
     | CommandLookExit of Text
     | CommandLookObjectEntry of ObjectType * string list
+    | CommandMakeCrowdSingDescription
     | CommandOutDescription
     | CommandExitDescription
     | CommandMapDescription
     | CommandPhoneDescription
     | CommandPracticeSongDescription
+    | CommandPutMicOnStandDescription
     | CommandReleaseAlbumDescription
+    | CommandTakeMicDescription
     | CommandTalkInvalidInput
     | CommandTalkDescription
     | CommandTalkNpcNotFound of name: string
     | CommandTalkNothing
+    | CommandTuneInstrumentDescription
     | CommandWaitDescription
     | CommandWaitInvalidTimes of string
     | CommandWaitResult of Date * DayMoment
@@ -79,7 +96,10 @@ and CommonText =
     | CommonRole of instrument: InstrumentType
 
 and ConcertText =
+    | ConcertAdjustDrumsMessage
     | ConcertSpaceStartConcert
+    | ConcertFaceBandMessage
+    | ConcertFaceCrowdMessage
     | ConcertFailed of band: Band * place: Place * concert: Concert
     | ConcertNoSongsToPlay
     | ConcertSelectSongToPlay
@@ -94,11 +114,17 @@ and ConcertText =
         dayMoment: DayMoment *
         status: CharacterStatus *
         points: Quality
-    | ConcertCommandPlayDescription
-    | ConcertCommandDedicateSongDescription
-    | ConcertCommandGetOffStageDescription
-    | ConcertCommandDoEncoreDescription
-    | ConcertCommandFinishConcertDescription
+    | ConcertBassSoloSlappingThatBass
+    | ConcertBassSoloMovingFingersQuickly
+    | ConcertBassSoloGrooving
+    | ConcertDrumSoloDoingDrumstickTricks
+    | ConcertDrumSoloPlayingReallyFast
+    | ConcertDrumSoloPlayingWeirdRhythms
+    | ConcertDrumstickSpinningBadResult of points: int
+    | ConcertDrumstickSpinningGoodResult of points: int
+    | ConcertGuitarSoloDoingSomeTapping
+    | ConcertGuitarSoloPlayingReallyFast
+    | ConcertGuitarSoloPlayingWithTeeth
     | ConcertPlaySongLimitedEnergyDescription
     | ConcertPlaySongNormalEnergyDescription
     | ConcertPlaySongEnergeticEnergyDescription
@@ -110,6 +136,10 @@ and ConcertText =
         energy: PerformEnergy *
         points: int
     | ConcertPlaySongHighPracticeReaction of energy: PerformEnergy * points: int
+    | ConcertPutMicOnStandMessage
+    | ConcertSoloResultLowPerformance of points: int
+    | ConcertSoloResultAveragePerformance of points: int
+    | ConcertSoloResultGreatPerformance of points: int
     | ConcertGreetAudienceGreetedMoreThanOnceTip of points: int
     | ConcertGreetAudienceDone of points: int
     | ConcertGetOffStageEncorePossible
@@ -118,12 +148,21 @@ and ConcertText =
     | ConcertFinishedPoorly of points: Quality
     | ConcertFinishedNormally of points: Quality
     | ConcertFinishedGreat of points: Quality
+    | ConcertMakeCrowdSingLowPerformance of points: int
+    | ConcertMakeCrowdSingAveragePerformance of points: int
+    | ConcertMakeCrowdSingGreatPerformance of points: int
     | ConcertSpeechProgress
     | ConcertSpeechGivenLowSkill of points: int
     | ConcertSpeechGivenMediumSkill of points: int
     | ConcertSpeechGivenHighSkill of points: int
+    | ConcertTuneInstrumentDone of points: int
+    | ConcertTakeMicMessage
     | ConcertTooManySpeeches
     | ConcertTooManyDedications
+    | ConcertTooManyDrumstickSpins
+    | ConcertTooManySolos of points: int
+    | ConcertTooMuchSingAlong
+    | ConcertTooMuchTuning
 
 and CreatorText =
     | CharacterCreatorInitialPrompt

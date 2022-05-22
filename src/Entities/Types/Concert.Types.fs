@@ -45,15 +45,15 @@ module ConcertTypes =
         | FaceBand
         | GotOffStage
         | PerformedEncore
-        | TuneGuitar
+        | TuneInstrument
         | GuitarSolo
-        | TuneBass
         | BassSolo
         | TakeMic
         | PutMicOnStand
         | AdjustDrums
         | SpinDrumsticks
         | DrumSolo
+        | MakeCrowdSing
 
     /// Represents a concert that is currently ongoing, where we keep all the
     /// events that the player have done during the concert and the total amount

@@ -1,12 +1,10 @@
 namespace Cli.Components.Commands
 
-open Agents
 open Cli.Components
 open Cli.Components.Commands
-open Cli.SceneIndex
 open Cli.Text
 open Entities
-open Simulation.Concerts.Live
+open Simulation.Concerts.Live.Encore
 
 [<RequireQualifiedAccess>]
 module GetOffStageCommand =
@@ -14,20 +12,12 @@ module GetOffStageCommand =
     /// might end the concert if people is not really interested in staying for
     /// the encore.
     let rec create ongoingConcert =
-        { Name = "get off stage"
-          Description =
-            ConcertText ConcertCommandGetOffStageDescription
-            |> I18n.translate
-          Handler =
-            (fun _ ->
-                let response =
-                    Encore.getOffStage (State.get ()) ongoingConcert
-
-                Cli.Effect.applyMultiple response.Effects
-
+        Concert.createCommand
+            "get off stage"
+            CommandGetOffStageDescription
+            getOffStage
+            (fun canPerformEncore _ ->
                 lineBreak ()
-
-                let canPerformEncore = response.Result
 
                 if canPerformEncore then
                     ConcertText ConcertGetOffStageEncorePossible
@@ -40,6 +30,5 @@ module GetOffStageCommand =
                     |> I18n.translate
                     |> showMessage
 
-                    lineBreak ()
-
-                Scene.World) }
+                    lineBreak ())
+            ongoingConcert

@@ -99,7 +99,7 @@ module PlaySongCommands =
     let createPlaySong ongoingConcert =
         { Name = "play song"
           Description =
-            ConcertText ConcertCommandPlayDescription
+            CommandText CommandPlayDescription
             |> I18n.translate
           Handler =
             (fun _ ->
@@ -125,14 +125,14 @@ module PlaySongCommands =
     let createDedicateSong ongoingConcert =
         { Name = "dedicate song"
           Description =
-            ConcertText ConcertCommandDedicateSongDescription
+            CommandText CommandDedicateSongDescription
             |> I18n.translate
           Handler =
             (fun _ ->
                 promptForSong ongoingConcert
                 |> Option.bind (fun song ->
                     let energy = promptForEnergy ()
-                    Common.showSpeechProgress ()
+                    Concert.showSpeechProgress ()
 
                     let response =
                         dedicateSong (State.get ()) ongoingConcert song energy

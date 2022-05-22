@@ -95,19 +95,56 @@ let private commandsFromInteractions interactions =
         match interactionWithState.Interaction with
         | Interaction.Concert concertInteraction ->
             match concertInteraction with
+            | ConcertInteraction.AdjustDrums _ ->
+                [ Command.message
+                      "adjust drums"
+                      CommandAdjustDrumsDescription
+                      ConcertAdjustDrumsMessage ]
+            | ConcertInteraction.BassSolo ongoingConcert ->
+                [ BassSoloCommand.create ongoingConcert ]
             | ConcertInteraction.DoEncore ongoingConcert ->
                 [ DoEncoreCommand.create ongoingConcert ]
+            | ConcertInteraction.DrumSolo ongoingConcert ->
+                [ DrumSoloCommand.create ongoingConcert ]
             | ConcertInteraction.FinishConcert ongoingConcert ->
                 [ FinishConcertCommand.create ongoingConcert ]
+            | ConcertInteraction.GetOffStage ongoingConcert ->
+                [ GetOffStageCommand.create ongoingConcert ]
             | ConcertInteraction.GiveSpeech ongoingConcert ->
                 [ GiveSpeechCommand.create ongoingConcert ]
             | ConcertInteraction.GreetAudience ongoingConcert ->
                 [ GreetAudienceCommand.create ongoingConcert ]
+            | ConcertInteraction.GuitarSolo ongoingConcert ->
+                [ GuitarSoloCommand.create ongoingConcert ]
+            | ConcertInteraction.FaceBand _ ->
+                [ Command.message
+                      "face band"
+                      CommandFaceBandDescription
+                      ConcertFaceBandMessage ]
+            | ConcertInteraction.FaceCrowd _ ->
+                [ Command.message
+                      "face crowd"
+                      CommandFaceCrowdDescription
+                      ConcertFaceCrowdMessage ]
+            | ConcertInteraction.MakeCrowdSing ongoingConcert ->
+                [ MakeCrowdSingCommand.create ongoingConcert ]
             | ConcertInteraction.PlaySong ongoingConcert ->
                 [ PlaySongCommands.createPlaySong ongoingConcert
                   PlaySongCommands.createDedicateSong ongoingConcert ]
-            | ConcertInteraction.GetOffStage ongoingConcert ->
-                [ GetOffStageCommand.create ongoingConcert ]
+            | ConcertInteraction.PutMicOnStand _ ->
+                [ Command.message
+                      "put mic on stand"
+                      CommandPutMicOnStandDescription
+                      ConcertPutMicOnStandMessage ]
+            | ConcertInteraction.SpinDrumsticks ongoingConcert ->
+                [ SpinDrumsticksCommand.create ongoingConcert ]
+            | ConcertInteraction.TakeMic _ ->
+                [ Command.message
+                      "take mic"
+                      CommandTakeMicDescription
+                      ConcertTakeMicMessage ]
+            | ConcertInteraction.TuneInstrument ongoingConcert ->
+                [ TuneInstrumentCommand.create ongoingConcert ]
         | Interaction.FreeRoam freeRoamInteraction ->
             match freeRoamInteraction with
             | FreeRoamInteraction.GoOut (exit, _) -> [ OutCommand.create exit ]
@@ -167,6 +204,9 @@ let worldScene () =
     let currentPosition =
         State.get ()
         |> Queries.World.Common.currentPosition
+
+    let situation =
+        Queries.Situations.current (State.get ())
 
     descriptionFromCoordinates currentPosition.Content
     |> showMessage
