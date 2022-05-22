@@ -39,6 +39,7 @@
         <Compile Include="World\Navigation.fs"/>
         <Compile Include="World\Generation\Cities\Prague.fs"/>
         <Compile Include="World\Generation\Generation.fs"/>
+        <Compile Include="Situations\Situations.fs"/>
         <Compile Include="Character\Status.fs"/>
         <Compile Include="Bank\Operations.fs"/>
         <Compile Include="Albums\DailyStreams.fs"/>
@@ -59,7 +60,6 @@
         <Compile Include="Concerts\Live\Live.Actions.fs"/>
         <Compile Include="Concerts\Live\Live.Finish.fs"/>
         <Compile Include="Concerts\Live\Live.Encore.fs"/>
-        <Compile Include="Situations\Situations.fs"/>
         <Compile Include="Interactions\Requirements\Interactions.Requirements.Health.fs"/>
         <Compile Include="Interactions\Interactions.RehearsalSpace.fs"/>
         <Compile Include="Interactions\Interactions.ConcertSpace.fs"/>

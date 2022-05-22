@@ -29,6 +29,19 @@ let private runTimeDependentEffects time state =
     |> (@) (runYearlyEffects state time)
     |> (@) (runCurrentTimeChecks state time)
 
+let private runPlaceDependentEffects (_, coords) state =
+    let resolvedCoords =
+        Queries.World.Common.coordinates state coords
+
+    match resolvedCoords.Content with
+    | ResolvedPlaceCoordinates roomCoordinates ->
+        let placeId, _ = roomCoordinates.Coordinates
+
+        match roomCoordinates.Room with
+        | Room.Stage -> Concerts.Scheduler.startScheduledConcerts state placeId
+        | _ -> []
+    | _ -> []
+
 let private getAssociatedEffects effect =
     match effect with
     | SongStarted (band, _) ->
@@ -38,8 +51,7 @@ let private getAssociatedEffects effect =
     | SongPracticed (band, _) ->
         [ Composition.improveBandSkillsAfterComposing band ]
     | TimeAdvanced date -> [ runTimeDependentEffects date ]
-    | WorldMoveTo _ ->
-        [] (* TODO: Raise possible events that happen on specific places. I.E: going to stage when a concert is scheduled for the current moment -> Start concert *)
+    | WorldMoveTo coords -> [ runPlaceDependentEffects coords ]
     | _ -> []
 
 /// Returns how many times the time has to be advanced for the given effect.

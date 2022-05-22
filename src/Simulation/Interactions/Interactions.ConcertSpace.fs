@@ -3,31 +3,6 @@ module Simulation.Interactions.ConcertSpace
 open Entities
 open Simulation
 
-(*
-TODO: Move this logic to a simulation event when player goes to stage.
-This is needed because if we leave it like this we have no way of seeing that
-the band is inside a concert and showing that in the CLI before the first event
-of the concert is done.
-*)
-let private concertIfOngoing state placeId =
-    let situation =
-        Queries.Situations.current state
-
-    match situation with
-    | Situation.InConcert ongoingConcert -> Some ongoingConcert
-    | _ ->
-        let band = Queries.Bands.currentBand state
-
-        (* Check whether we have a concert scheduled and, if so, initialize a new OngoingConcert *)
-        Queries.Concerts.scheduleForTodayInPlace state band.Id placeId
-        |> Option.map (fun scheduledConcert ->
-            let concert =
-                Concert.fromScheduled scheduledConcert
-
-            { Events = []
-              Points = 0<quality>
-              Concert = concert })
-
 let private instrumentInteractions state ongoingConcert =
     let characterBandMember =
         Queries.Bands.currentPlayableMember state
@@ -54,16 +29,15 @@ let private instrumentInteractions state ongoingConcert =
 /// Returns all interactions available in the current concert room.
 let internal availableCurrently
     state
-    placeId
     room
     navigationInteractions
     defaultInteractions
     =
-    let ongoingConcert =
-        concertIfOngoing state placeId
+    let situation =
+        Queries.Situations.current state
 
-    match ongoingConcert with
-    | Some ongoingConcert ->
+    match situation with
+    | InConcert ongoingConcert ->
         match room with
         | Room.Stage ->
             let instrumentSpecificInteractions =
@@ -84,4 +58,4 @@ let internal availableCurrently
         | Room.Backstage ->
             [ Interaction.Concert(ConcertInteraction.DoEncore ongoingConcert) ]
         | _ -> navigationInteractions @ defaultInteractions
-    | None -> navigationInteractions @ defaultInteractions
+    | _ -> navigationInteractions @ defaultInteractions

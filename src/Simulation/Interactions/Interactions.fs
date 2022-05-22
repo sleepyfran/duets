@@ -4,7 +4,7 @@
 open Entities
 open Simulation
 
-let private goOutTo state destinationId =
+let private getOutToInteractions state destinationId =
     let cityNode =
         Queries.World.Common.coordinates state (Node destinationId)
 
@@ -16,13 +16,13 @@ let private goOutTo state destinationId =
     FreeRoamInteraction.GoOut(destinationId, outsideCoordinates)
     |> Interaction.FreeRoam
 
-let private outsideInteractions nodeId city =
+let private getOutsideInteractions nodeId city =
     Queries.World.Common.availableDirections nodeId city.Graph
     |> List.map (fun (direction, destinationId) ->
         FreeRoamInteraction.Move(direction, Node destinationId)
         |> Interaction.FreeRoam)
 
-let private navigationInteractions state placeId roomId place =
+let private getNavigationInteractions state placeId roomId place =
     let moveInteractions =
         Queries.World.Common.availableDirections roomId place.Rooms
         |> List.map (fun (direction, destinationId) ->
@@ -32,7 +32,7 @@ let private navigationInteractions state placeId roomId place =
     let exitInteraction =
         place.Exits
         |> Map.tryFind roomId
-        |> Option.map (fun exitId -> [ goOutTo state exitId ])
+        |> Option.map (fun exitId -> [ getOutToInteractions state exitId ])
         |> Option.defaultValue []
 
     moveInteractions @ exitInteraction
@@ -55,26 +55,27 @@ let availableCurrently state =
         | ResolvedPlaceCoordinates coords ->
             let placeId, roomId = coords.Coordinates
 
+            let navigationInteractions =
+                getNavigationInteractions state placeId roomId coords.Place
+
             match coords.Place.SpaceType with
             | ConcertSpace _ ->
                 ConcertSpace.availableCurrently
                     state
-                    placeId
                     coords.Room
-                    (navigationInteractions state placeId roomId coords.Place)
+                    navigationInteractions
                     defaultInteractions
             | RehearsalSpace _ ->
                 let specificInteractions =
                     RehearsalSpace.availableCurrently state coords.Room
 
-                navigationInteractions state placeId roomId coords.Place
+                navigationInteractions
                 @ specificInteractions @ defaultInteractions
             | Studio studio ->
                 Studio.availableCurrently state studio coords.Room
-                @ navigationInteractions state placeId roomId coords.Place
-                  @ defaultInteractions
+                @ navigationInteractions @ defaultInteractions
         | ResolvedOutsideCoordinates coords ->
-            outsideInteractions coords.Coordinates currentPosition.City
+            getOutsideInteractions coords.Coordinates currentPosition.City
             @ defaultInteractions
 
     allAvailableInteractions

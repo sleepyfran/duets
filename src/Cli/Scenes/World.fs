@@ -213,8 +213,20 @@ let worldScene () =
 
     showRoomConnections interactionsWithState
 
+    let promptText =
+        match situation with
+        | InConcert ongoingConcert ->
+            ConcertActionPrompt(
+                today,
+                currentDayMoment,
+                character.Status,
+                ongoingConcert.Points
+            )
+            |> ConcertText
+        | _ ->
+            CommandCommonPrompt(today, currentDayMoment, character.Status)
+            |> CommandText
+
     showCommandPrompt
-        (CommandCommonPrompt(today, currentDayMoment, character.Status)
-         |> CommandText
-         |> I18n.translate)
+        (promptText |> I18n.translate)
         (commandsFromInteractions interactionsWithState)
