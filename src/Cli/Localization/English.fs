@@ -245,8 +245,8 @@ and commandText key =
         "Lists all current and past members of your band"
     | CommandLookDescription -> "Shows all the objects you have around you"
     | CommandLookEntrances entrances ->
-        $"""You can go to the {listOf entrances (fun (direction, name) ->
-                                   $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
+        $"""You can go to {listOf entrances (fun (direction, name) ->
+                               $"{TextStyles.place (toString name)} through the {directionName direction} ({TextStyles.information (directionCommand direction)})")}"""
     | CommandLookExit exit ->
         $"""There's also an exit to {TextStyles.place (toString exit)}({TextStyles.information "out"})"""
     | CommandLookNoObjectsAround -> "There are no objects around you"
