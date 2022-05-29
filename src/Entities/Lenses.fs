@@ -54,9 +54,6 @@ module State =
     let today_ =
         (fun (s: State) -> s.Today), (fun v (s: State) -> { s with Today = v })
 
-    let world_ =
-        (fun (s: State) -> s.World), (fun v (s: State) -> { s with World = v })
-
 module Album =
     let streams_ =
         (fun (a: ReleasedAlbum) -> a.Streams),
@@ -161,10 +158,6 @@ module Song =
         (fun v (s: Song) -> { s with Practice = v })
 
 module World =
-    let cities_ =
-        (fun (w: World) -> w.Cities),
-        (fun v (w: World) -> { w with Cities = v })
-
     module Graph =
         let startingNode_ =
             (fun (g: Graph<'a>) -> g.StartingNode),
@@ -212,6 +205,22 @@ module World =
 
         let nodeConnections_ nodeId =
             graph_ >-> Graph.nodeConnections_ nodeId
+
+    let cities_ =
+        (fun (w: World) -> w.Cities),
+        (fun v (w: World) -> { w with Cities = v })
+
+    /// Lenses to the current city in the world given its ID.
+    let city_ cityId = cities_ >-> Map.key_ cityId
+
+    /// Lenses to the city graph given its ID.
+    let cityGraph_ cityId = city_ cityId >?> City.graph_
+
+    /// Lenses to a specific city node in the world given its city and node IDs.
+    let node_ cityId nodeId =
+        cityGraph_ cityId
+        >?> Graph.nodes_
+        >?> Map.key_ nodeId
 
 module FromState =
     module Albums =
@@ -269,20 +278,3 @@ module FromState =
             State.bandSongRepertoire_
             >-> BandRepertoire.finishedSongs_
             >-> Map.key_ bandId
-
-    module World =
-        /// Lenses to the cities field in the world.
-        let cities_ = State.world_ >-> World.cities_
-
-        /// Lenses to the current city in the world given its ID.
-        let city_ cityId =
-            State.world_ >-> World.cities_ >-> Map.key_ cityId
-
-        /// Lenses to the city graph given its ID.
-        let cityGraph_ cityId = city_ cityId >?> World.City.graph_
-
-        /// Lenses to a specific city node in the world given its city and node IDs.
-        let node_ cityId nodeId =
-            cityGraph_ cityId
-            >?> World.Graph.nodes_
-            >?> Map.key_ nodeId

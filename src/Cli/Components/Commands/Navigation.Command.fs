@@ -7,6 +7,7 @@ open Cli.SceneIndex
 open Cli.Text
 open Entities
 open Simulation
+open Simulation.Navigation
 
 [<RequireQualifiedAccess>]
 module NavigationCommand =
@@ -21,7 +22,7 @@ module NavigationCommand =
 
     let private handle coordinates _ =
         State.get ()
-        |> World.Navigation.moveTo coordinates
+        |> Navigation.moveTo coordinates
         |> Result.switch Cli.Effect.apply Common.showEntranceError
 
         Scene.World

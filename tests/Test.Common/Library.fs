@@ -73,34 +73,10 @@ let dummyStudio =
     { Producer = dummyCharacter
       PricePerSong = 200<dd> }
 
-let dummyConcertSpace = { Capacity = 1500 }
-
-let dummyVenue =
-    let lobby = Room.Lobby |> World.Node.create
-
-    World.Place.create
-        "Test Venue"
-        100<quality>
-        (ConcertSpace dummyConcertSpace)
-        lobby
-    |> CityNode.Place
-    |> World.Node.create
-
-let dummyCity =
-    let testBoulevard =
-        CityNode.OutsideNode
-            { Name = "Test Boulevard"
-              Descriptors = []
-              Type = OutsideNodeType.Boulevard }
-        |> World.Node.create
-
-    World.City.create "Test City" testBoulevard
-    |> World.City.addNode (dummyVenue)
-
 let dummyConcert =
     { Id = Identity.create ()
-      CityId = dummyCity.Id
-      VenueId = dummyVenue.Id
+      CityId = (Identity.from "cea284b4-7714-45cc-a101-c1d69e347671")
+      VenueId = (Identity.from "1a08f39b-714e-4e26-bc8c-f07744af1777")
       Date = dummyToday.AddDays(30)
       DayMoment = Night
       TicketPrice = 20<dd>

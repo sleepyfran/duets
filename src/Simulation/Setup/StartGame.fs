@@ -8,8 +8,7 @@ open Simulation.Market
 /// the setup wizard and starts the generation process for the game simulation
 /// which includes markets for the different genres available and the game world.
 let startGame (character: Character) (band: Band) =
-    let world =
-        World.Generation.Root.generate ()
+    let world = WorldGeneration.World.get ()
 
     let initialCity = Map.head world.Cities
 
@@ -31,6 +30,5 @@ let startGame (character: Character) (band: Band) =
       GenreMarkets = GenreMarket.create (Database.genres ())
       PlayableCharacterId = character.Id
       Situation = FreeRoam
-      Today = Calendar.gameBeginning
-      World = world }
+      Today = Calendar.gameBeginning }
     |> GameCreated

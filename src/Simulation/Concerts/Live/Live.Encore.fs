@@ -3,6 +3,7 @@ module Simulation.Concerts.Live.Encore
 open Common
 open Entities
 open Simulation
+open Simulation.Navigation
 
 /// Moves the character to the backstage, checking whether an encore can or not
 /// be performed. In the event of not being able to perform encore, we finish
@@ -14,7 +15,7 @@ let getOffStage state ongoingConcert =
         |> Option.get // Not having a backstage is a problem in city creation.
 
     let navigationEffects =
-        [ World.Navigation.moveTo backstageCoordinates state
+        [ Navigation.moveTo backstageCoordinates state
           |> Result.unwrap (* We ARE in a concert, so there's no way we'd be unable to move *)  ]
 
     let canPerformEncore =
@@ -37,7 +38,7 @@ let doEncore state ongoingConcert =
         |> Option.get // Not having a stage is a problem in city creation.
 
     let navigationEffects =
-        [ World.Navigation.moveTo stageCoordinates state
+        [ Navigation.moveTo stageCoordinates state
           |> Result.unwrap (* We ARE in a concert, so there's no way we'd be unable to move *)  ]
 
     Response.forEvent ongoingConcert PerformedEncore 0

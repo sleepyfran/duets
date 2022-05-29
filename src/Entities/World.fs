@@ -56,9 +56,7 @@ module Graph =
 [<RequireQualifiedAccess>]
 module Node =
     /// Creates a new node with an auto-generated ID and the given content.
-    let create (content: 'a) =
-        { Id = Identity.create ()
-          Content = content }
+    let create id (content: 'a) = { Id = id; Content = content }
 
 [<RequireQualifiedAccess>]
 module Place =
@@ -96,8 +94,8 @@ module Place =
 [<RequireQualifiedAccess>]
 module City =
     /// Creates a city with only one initial starting node.
-    let create name (startingNode: Node<CityNode>) =
-        { Id = Identity.create ()
+    let create id name (startingNode: Node<CityNode>) =
+        { Id = id
           Name = name
           Graph = Graph.from startingNode }
 

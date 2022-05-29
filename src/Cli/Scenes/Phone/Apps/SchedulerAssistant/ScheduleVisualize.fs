@@ -59,16 +59,13 @@ and private showAgenda' app firstDay =
     | Some _ -> showAgenda' app nextMonthDate
     | None -> app ()
 
-and showConcertList app =
-    let state = State.get ()
-
+and showConcertList _ =
     List.iter (fun concert ->
         let city =
-            World.Common.cityById state concert.CityId
-            |> Option.get
+            World.Common.cityById concert.CityId |> Option.get
 
-        let (place, _) =
-            World.ConcertSpace.byId state concert.CityId concert.VenueId
+        let place, _ =
+            World.ConcertSpace.byId concert.CityId concert.VenueId
             |> Option.get
 
         CommonDateWithDay concert.Date

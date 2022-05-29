@@ -4,8 +4,6 @@ namespace Entities
 module StateTypes =
     /// Shared state of the game. Contains all state that is common to every part
     /// of the game.
-    /// TODO: Go over all the fields to make sure that references are only IDs
-    /// instead of the whole object.
     type State =
         { Bands: Map<BandId, Band>
           BandAlbumRepertoire: BandAlbumRepertoire
@@ -19,5 +17,4 @@ module StateTypes =
           GenreMarkets: GenreMarketByGenre
           PlayableCharacterId: CharacterId
           Situation: Situation
-          Today: Date
-          World: World }
+          Today: Date }

@@ -73,10 +73,7 @@ let private concertDailyUpdate state concert =
         Concert.fromScheduled concert
 
     let (_, venue) =
-        Queries.World.ConcertSpace.byId
-            state
-            innerConcert.CityId
-            innerConcert.VenueId
+        Queries.World.ConcertSpace.byId innerConcert.CityId innerConcert.VenueId
         |> Option.get
 
     let ticketPriceModifier =

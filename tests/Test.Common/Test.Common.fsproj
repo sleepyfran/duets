@@ -8,7 +8,6 @@
     <ItemGroup>
         <Compile Include="Library.fs"/>
         <Compile Include="Generators\Character.Generator.fs"/>
-        <Compile Include="Generators\City.Generator.fs"/>
         <Compile Include="Generators\Band.Generator.fs"/>
         <Compile Include="Generators\Song.Generator.fs"/>
         <Compile Include="Generators\Concert.Generator.fs"/>

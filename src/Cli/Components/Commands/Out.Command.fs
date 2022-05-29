@@ -7,6 +7,7 @@ open Cli.Text
 open Common
 open Entities
 open Simulation
+open Simulation.Navigation
 
 [<RequireQualifiedAccess>]
 module OutCommand =
@@ -16,7 +17,7 @@ module OutCommand =
           Handler =
             (fun _ ->
                 State.get ()
-                |> World.Navigation.moveTo (Node exitNodeId)
+                |> Navigation.moveTo (Node exitNodeId)
                 |> Result.switch Cli.Effect.apply Common.showEntranceError
 
                 Scene.World) }

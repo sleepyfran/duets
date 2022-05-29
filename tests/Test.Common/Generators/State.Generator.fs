@@ -5,6 +5,7 @@ open FsCheck
 open Common
 open Entities
 open Test.Common
+open Simulation
 
 let dateGenerator =
     Arb.generate<Date>
@@ -19,8 +20,7 @@ type StateGenOptions =
 
       // <-- Generators -->
       PastConcertGen: Gen<PastConcert>
-      ScheduledConcertGen: Gen<ScheduledConcert>
-      VenueGen: Gen<Node<CityNode>> }
+      ScheduledConcertGen: Gen<ScheduledConcert> }
 
 let defaultOptions =
     { BandFame = 25
@@ -35,28 +35,24 @@ let defaultOptions =
         (Concert.scheduledConcertGenerator
             { Concert.defaultOptions with
                 From = dummyToday.AddDays(1)
-                To = dummyToday.AddYears(2) })
-      VenueGen = City.venueGenerator }
+                To = dummyToday.AddYears(2) }) }
 
 let generator (opts: StateGenOptions) =
     gen {
-        let venues =
-            opts.VenueGen |> Gen.sample 0 10
-
-        let firstVenue = venues |> List.head
-
         let city =
-            { dummyCity with Graph = World.Graph.from firstVenue }
+            Queries.World.Common.allCities |> List.head
 
-        let cityWithVenues =
-            venues
-            |> List.tail
-            |> List.fold (fun city venue -> World.City.addNode venue city) city
+        let venueId, _, _ =
+            Queries.World.ConcertSpace.allInCity city.Id
+            |> List.head
 
         let scheduledConcerts =
             opts.ScheduledConcertGen
             |> Gen.map (fun (ScheduledConcert concert) ->
-                ScheduledConcert { concert with VenueId = firstVenue.Id })
+                ScheduledConcert
+                    { concert with
+                        CityId = city.Id
+                        VenueId = venueId })
             |> Gen.sample 0 opts.FutureConcertsToGenerate
 
         let pastConcerts =
@@ -90,7 +86,6 @@ let generator (opts: StateGenOptions) =
         return
             { initialState with
                 Today = Calendar.gameBeginning
-                World = World.create [ cityWithVenues ]
                 Bands = [ (band.Id, band) ] |> Map.ofList
                 CurrentBandId = band.Id
                 Concerts = [ (band.Id, timeline) ] |> Map.ofList

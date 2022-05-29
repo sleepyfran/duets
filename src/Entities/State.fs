@@ -16,5 +16,4 @@ let empty =
       GenreMarkets = Map.empty
       PlayableCharacterId = Identity.create () |> CharacterId
       Situation = FreeRoam
-      Today = Calendar.gameBeginning
-      World = World.empty }
+      Today = Calendar.gameBeginning }

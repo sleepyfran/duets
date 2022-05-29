@@ -61,10 +61,10 @@ let ``addNode adds a new node to the list of nodes and no connections`` () =
     graph.Connections |> should haveCount 0
 
 let firstNode =
-    World.Node.create (createOutsideNode "Test street")
+    World.Node.create (Identity.create ()) (createOutsideNode "Test street")
 
 let secondNode =
-    World.Node.create (createOutsideNode "Test street 2")
+    World.Node.create (Identity.create ()) (createOutsideNode "Test street 2")
 
 let cityWithMultipleNodes =
     World.Graph.from firstNode
