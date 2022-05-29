@@ -26,6 +26,15 @@ let rec generate () =
             Identity.from "3efc7f12-a3d4-4a30-a3c5-00ce3b02c3a0"
         )
 
+    let kubelikovaStreet =
+        CityNode.OutsideNode
+            { Name = "Kubelíkova"
+              Descriptors = [ Boring ]
+              Type = OutsideNodeType.Street }
+        |> World.Node.create (
+            Identity.from "0f1bc658-4302-47f2-9396-893d20cd36fd"
+        )
+
     let oldTownSquare =
         CityNode.OutsideNode
             { Name = "Staroměstské náměstí"
@@ -35,16 +44,29 @@ let rec generate () =
             Identity.from "d36c0522-665e-4552-bc2f-95031151ffa1"
         )
 
+    let narodniStreet =
+        CityNode.OutsideNode
+            { Name = "Národní"
+              Descriptors = [ Central; Boring ]
+              Type = OutsideNodeType.Street }
+        |> World.Node.create (
+            Identity.from "35efc933-f136-47f8-b97f-b1c028d9dd5c"
+        )
+
     prague wenceslasSquare
     |> World.City.addNode wenceslasSquare
     |> World.City.addNode jzpSquare
+    |> World.City.addNode kubelikovaStreet
     |> World.City.addNode oldTownSquare
+    |> World.City.addNode narodniStreet
     |> World.City.addConnection wenceslasSquare.Id jzpSquare.Id East
+    |> World.City.addConnection jzpSquare.Id kubelikovaStreet.Id North
     |> World.City.addConnection wenceslasSquare.Id oldTownSquare.Id West
+    |> World.City.addConnection oldTownSquare.Id narodniStreet.Id SouthWest
     |> addDuetsRehearsalSpace jzpSquare
     |> addDuetsStudio jzpSquare
-    |> addPalacAkropolis jzpSquare
-    |> addRedutaJazzClub oldTownSquare
+    |> addPalacAkropolis kubelikovaStreet
+    |> addRedutaJazzClub narodniStreet
 
 and addDuetsRehearsalSpace street city =
     let rehearsalSpace = { Price = 300<dd> }
