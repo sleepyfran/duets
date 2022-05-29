@@ -35,44 +35,49 @@ let private showRoomConnections interactionsWithState =
         |> List.map (fun interactionWithState ->
             interactionWithState.Interaction)
 
-    (* TODO: Show disabled connections in red once we don't have the I18n dependency. *)
-    interactions
-    |> Interaction.chooseFreeRoam (fun interaction ->
-        match interaction with
-        | FreeRoamInteraction.Move (direction, nodeCoordinates) ->
-            let coords =
-                Queries.World.Common.coordinates (State.get ()) nodeCoordinates
+    let directions =
+        interactions
+        |> Interaction.chooseFreeRoam (fun interaction ->
+            match interaction with
+            | FreeRoamInteraction.Move (direction, nodeCoordinates) ->
+                let coords =
+                    Queries.World.Common.coordinates
+                        (State.get ())
+                        nodeCoordinates
 
-            match coords.Content with
-            | ResolvedPlaceCoordinates roomCoords ->
-                let currentPosition =
-                    Queries.World.Common.currentPosition (State.get ())
+                match coords.Content with
+                | ResolvedPlaceCoordinates roomCoords ->
+                    let currentPosition =
+                        Queries.World.Common.currentPosition (State.get ())
 
-                match currentPosition.Content with
-                | ResolvedPlaceCoordinates _ ->
-                    // Character is inside the place, show connected room name.
-                    match roomCoords.Room with
-                    | Room.Backstage -> WorldBackstageName
-                    | Room.Bar -> WorldBarName
-                    | Room.Lobby -> WorldLobbyName
-                    | Room.MasteringRoom -> WorldMasteringRoomName
-                    | Room.RecordingRoom -> WorldRecordingRoomName
-                    | Room.RehearsalRoom -> WorldRehearsalRoomName
-                    | Room.Stage -> WorldStageName
-                    |> WorldText
-                    |> I18n.translate
-                | ResolvedOutsideCoordinates _ ->
-                    // Character is outside, show connected place name.
-                    roomCoords.Place.Name |> I18n.constant
-            | ResolvedOutsideCoordinates coords ->
-                coords.Node.Name |> I18n.constant
-            |> Tuple.two direction
-            |> Some
-        | _ -> None)
-    |> CommandLookEntrances
-    |> CommandText
-    |> I18n.translate
-    |> showMessage
+                    match currentPosition.Content with
+                    | ResolvedPlaceCoordinates _ ->
+                        // Character is inside the place, show connected room name.
+                        match roomCoords.Room with
+                        | Room.Backstage -> WorldBackstageName
+                        | Room.Bar -> WorldBarName
+                        | Room.Lobby -> WorldLobbyName
+                        | Room.MasteringRoom -> WorldMasteringRoomName
+                        | Room.RecordingRoom -> WorldRecordingRoomName
+                        | Room.RehearsalRoom -> WorldRehearsalRoomName
+                        | Room.Stage -> WorldStageName
+                        |> WorldText
+                        |> I18n.translate
+                    | ResolvedOutsideCoordinates _ ->
+                        // Character is outside, show connected place name.
+                        roomCoords.Place.Name |> I18n.constant
+                | ResolvedOutsideCoordinates coords ->
+                    coords.Node.Name |> I18n.constant
+                |> Tuple.two direction
+                |> Some
+            | _ -> None)
+
+    if not (List.isEmpty directions) then
+        directions
+        |> CommandLookEntrances
+        |> CommandText
+        |> I18n.translate
+        |> showMessage
 
     interactions
     |> Interaction.chooseFreeRoam (fun interaction ->
