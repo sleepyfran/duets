@@ -3,6 +3,7 @@ module Simulation.Time.AdvanceTime
 open Common
 open Fugit.Shorthand
 open Entities
+open Simulation
 
 let private advanceOnce currentTime =
     match Calendar.Query.dayMomentOf currentTime with
@@ -30,10 +31,17 @@ let private advanceTimeOnce (currentTime: Date) =
 /// Also handles the cases in which it's already midnight, in which case it'll
 /// return the dawn of next day.
 let advanceDayMoment (currentTime: Date) times =
-    [ 1 .. times ]
+    [ 1..times ]
     |> List.mapFold
         (fun time _ ->
             advanceTimeOnce time
             |> fun advancedTime -> (TimeAdvanced advancedTime, advancedTime))
         currentTime
     |> fst
+
+/// Same as advanceDayMoment but queries the current time automatically.
+let advanceDayMoment' state times =
+    let currentDate =
+        Queries.Calendar.today state
+
+    advanceDayMoment currentDate times

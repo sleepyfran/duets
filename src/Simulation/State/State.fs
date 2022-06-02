@@ -7,7 +7,8 @@ open Entities
 let applyEffect state effect =
     match effect with
     | AlbumRecorded (band, album) ->
-        let modifiedState = Albums.addUnreleased band album state
+        let modifiedState =
+            Albums.addUnreleased band album state
 
         let (UnreleasedAlbum ua) = album
 
@@ -18,7 +19,8 @@ let applyEffect state effect =
                 Songs.removeFinished band song currentState)
             modifiedState
     | AlbumRenamed (band, unreleasedAlbum) ->
-        let (UnreleasedAlbum album) = unreleasedAlbum
+        let (UnreleasedAlbum album) =
+            unreleasedAlbum
 
         Albums.removeUnreleased band album.Id state
         |> Albums.addUnreleased band unreleasedAlbum
@@ -36,6 +38,8 @@ let applyEffect state effect =
         Characters.setHealth character.Id health state
     | CharacterEnergyChange (character, energy) ->
         Characters.setEnergy character.Id energy state
+    | CharacterMoodChange (character, mood) ->
+        Characters.setMood character.Id mood state
     | ConcertScheduled (band, concert) ->
         Concerts.addScheduledConcert band concert state
     | ConcertUpdated (band, concert) ->
@@ -87,7 +91,8 @@ let applyEffect state effect =
         Songs.removeFinished band song.Id state
         |> Songs.addFinished band finishedSong
     | SongDiscarded (band, unfinishedSong) ->
-        let song = Song.fromUnfinished unfinishedSong
+        let song =
+            Song.fromUnfinished unfinishedSong
 
         Songs.removeUnfinished band song.Id state
     | SituationChanged situation ->

@@ -4,24 +4,27 @@ open Aether
 open Common
 open Entities
 
-/// Sums the given amount of health to the character's current health. Raises a
-/// CharacterHealthChange keeping the value between 0 and 100.
-let changeHealth character amount =
-    let currentHealth =
-        Optic.get Lenses.Character.health_ character
+let private addStatus lens character amount =
+    let current = Optic.get lens character
 
-    currentHealth + amount
+    current + amount
     |> Math.clamp 0 100
     |> Tuple.two character
+
+/// Sums the given amount of health to the character's current health. Raises a
+/// CharacterHealthChange keeping the value between 0 and 100.
+let addHealth character amount =
+    addStatus Lenses.Character.health_ character amount
     |> CharacterHealthChange
 
 /// Sums the given amount of energy to the character's current energy. Raises a
 /// CharacterEnergyChange keeping the value between 0 and 100.
-let changeEnergy character amount =
-    let currentEnergy =
-        Optic.get Lenses.Character.energy_ character
-
-    currentEnergy + amount
-    |> Math.clamp 0 100
-    |> Tuple.two character
+let addEnergy character amount =
+    addStatus Lenses.Character.energy_ character amount
     |> CharacterEnergyChange
+
+/// Sums the given amount of mood to the character's current mood. Raises a
+/// CharacterMoodChange keeping the value between 0 and 100.
+let addMood character amount =
+    addStatus Lenses.Character.mood_ character amount
+    |> CharacterMoodChange

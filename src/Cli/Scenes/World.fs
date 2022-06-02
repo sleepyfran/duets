@@ -14,6 +14,9 @@ let private descriptionFromCoordinates coords =
         match coordinates.Room with
         | Room.Backstage -> WorldBackstageDescription coordinates.Place
         | Room.Bar -> WorldBarDescription coordinates.Place
+        | Room.Bedroom -> WorldBedroomDescription
+        | Room.Kitchen -> WorldKitchenDescription
+        | Room.LivingRoom -> WorldLivingRoomDescription
         | Room.Lobby -> WorldLobbyDescription coordinates.Place
         | Room.MasteringRoom -> WorldMasteringRoomDescription coordinates.Place
         | Room.RecordingRoom -> WorldRecordingRoomDescription coordinates.Place
@@ -56,6 +59,9 @@ let private showRoomConnections interactionsWithState =
                         match roomCoords.Room with
                         | Room.Backstage -> WorldBackstageName
                         | Room.Bar -> WorldBarName
+                        | Room.Bedroom -> WorldBedroomName
+                        | Room.Kitchen -> WorldKitchenName
+                        | Room.LivingRoom -> WorldLivingRoomName
                         | Room.Lobby -> WorldLobbyName
                         | Room.MasteringRoom -> WorldMasteringRoomName
                         | Room.RecordingRoom -> WorldRecordingRoomName
@@ -150,6 +156,33 @@ let private commandsFromInteractions interactions =
                       ConcertTakeMicMessage ]
             | ConcertInteraction.TuneInstrument ongoingConcert ->
                 [ TuneInstrumentCommand.create ongoingConcert ]
+        | Interaction.Home homeInteraction ->
+            match homeInteraction with
+            | HomeInteraction.Eat ->
+                [ Command.interaction
+                      "eat"
+                      CommandEatDescription
+                      (Interactions.Home.eat (State.get ()))
+                      InteractionEatResult ]
+            | HomeInteraction.Sleep ->
+                [ Command.interaction
+                      "sleep"
+                      CommandSleepDescription
+                      // TODO: Allow player to choose how many hours they want to sleep.
+                      (Interactions.Home.sleep (State.get ()) 8)
+                      InteractionSleepResult ]
+            | HomeInteraction.PlayXbox ->
+                [ Command.interaction
+                      "play xbox"
+                      CommandPlayXboxDescription
+                      (Interactions.Home.playXbox (State.get ()))
+                      InteractionPlayXboxResult ]
+            | HomeInteraction.WatchTv ->
+                [ Command.interaction
+                      "watch tv"
+                      CommandWatchTvDescription
+                      (Interactions.Home.watchTv (State.get ()))
+                      InteractionWatchTvResult ]
         | Interaction.FreeRoam freeRoamInteraction ->
             match freeRoamInteraction with
             | FreeRoamInteraction.GoOut (exit, _) -> [ OutCommand.create exit ]
@@ -204,7 +237,7 @@ let worldScene () =
         Calendar.Query.dayMomentOf today
 
     let interactionsWithState =
-        Interactions.Root.availableCurrently (State.get ())
+        Queries.Interactions.availableCurrently (State.get ())
 
     let currentPosition =
         State.get ()

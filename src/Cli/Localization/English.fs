@@ -288,6 +288,14 @@ and commandText key =
         $"""You waited and it's now {dayMomentName dayMoment
                                      |> String.lowercase
                                      |> TextStyles.highlight} on the {formatDate date |> TextStyles.highlight}"""
+    | CommandEatDescription ->
+        "Allows you to get something to eat and restore some health"
+    | CommandSleepDescription ->
+        "Allows you to get some sleep and restore your energy and health"
+    | CommandPlayXboxDescription ->
+        "Allows you to play some video games and restore your mood"
+    | CommandWatchTvDescription ->
+        "Allows you to watch TV and restore your mood"
 
 and commonText key =
     match key with
@@ -545,6 +553,18 @@ and creatorText key =
     | CreatorErrorBandNameTooLong ->
         TextStyles.error "Your band's name is too long"
 
+and interactionText key =
+    match key with
+    | InteractionEatResult ->
+        TextStyles.success "You ate something and restored a bit of health"
+    | InteractionSleepResult ->
+        TextStyles.success "You got a good night sleep and feel much better"
+    | InteractionPlayXboxResult ->
+        TextStyles.success "That game was awesome! It cheered you up a bit"
+    | InteractionWatchTvResult ->
+        TextStyles.success
+            "That mindless channel switching cheered you up a bit"
+
 and mainMenuText key =
     match key with
     | MainMenuIncompatibleSavegame ->
@@ -798,6 +818,9 @@ and worldText key =
         $"""You tried to sneak into the {TextStyles.place "backstage"}, but the bouncers catch you as soon as you enter and kicked you out warning you {TextStyles.danger "not to enter in there if you're not part of the band playing"}"""
     | WorldBackstageName -> "Backstage"
     | WorldBarName -> "Bar"
+    | WorldBedroomName -> "Bedroom"
+    | WorldKitchenName -> "Kitchen"
+    | WorldLivingRoomName -> "Living room"
     | WorldLobbyName -> "Lobby"
     | WorldMasteringRoomName -> "Mastering Room"
     | WorldRecordingRoomName -> "Recording Room"
@@ -815,6 +838,12 @@ and worldText key =
             $"The backstage of {TextStyles.place space.Name} is absolutely amazing, there's free drinks, food and even a corner with a jacuzzi for you to relax. Make sure you relax as much as possible before the big concert!"
     | WorldBarDescription space ->
         $"""With a lot of overpriced drinks and a bunch of drunk people lining up for the concert, the bar of {TextStyles.place space.Name} doesn't look as bad as you'd imagine"""
+    | WorldBedroomDescription ->
+        "Your silent bedroom is looking great and cozy."
+    | WorldKitchenDescription ->
+        "You still have some rest of yesterday's food, but otherwise the kitchen is very clean."
+    | WorldLivingRoomDescription ->
+        "The living room at your place looks really nice, the couch is big and comfy and right in front of a big TV."
     | WorldLobbyDescription space ->
         $"""The lobby of {TextStyles.place space.Name} is mostly empty right now. Only a person asking for tickets is to be seen"""
     | WorldRehearsalRoomDescription _ ->
@@ -832,6 +861,7 @@ and fromConstant textNamespace =
     | CommonText key -> commonText key
     | ConcertText key -> concertText key
     | CreatorText key -> creatorText key
+    | InteractionText key -> interactionText key
     | MainMenuText key -> mainMenuText key
     | PhoneText key -> phoneText key
     | RehearsalSpaceText key -> rehearsalText key

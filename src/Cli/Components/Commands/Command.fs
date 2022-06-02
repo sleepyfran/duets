@@ -26,6 +26,21 @@ module Command =
 
                 Scene.World) }
 
+    /// Creates a command with the given name and description that when called
+    /// applies the given effects and outputs the given message.
+    let interaction name description effects message =
+        { Name = name
+          Description = CommandText description |> I18n.translate
+          Handler =
+            (fun _ ->
+                effects |> Cli.Effect.applyMultiple
+
+                InteractionText message
+                |> I18n.translate
+                |> showMessage
+
+                Scene.World) }
+
     /// Disables the command for a given reason, which removes the actual handler
     /// of the command and mocks it with a message displaying the reason why the
     /// action is not possible.

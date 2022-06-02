@@ -123,9 +123,15 @@ module Character =
             (fun (c: CharacterStatus) -> c.Health),
             (fun v (c: CharacterStatus) -> { c with Health = v })
 
+        let mood_ =
+            (fun (c: CharacterStatus) -> c.Mood),
+            (fun v (c: CharacterStatus) -> { c with Mood = v })
+
     let energy_ = status_ >-> Status.energy_
 
     let health_ = status_ >-> Status.health_
+
+    let mood_ = status_ >-> Status.mood_
 
 module Concerts =
     module Ongoing =

@@ -50,6 +50,9 @@ module WorldTypes =
     type Room =
         | Backstage
         | Bar
+        | Bedroom
+        | Kitchen
+        | LivingRoom
         | Lobby
         | MasteringRoom
         | RecordingRoom
@@ -59,6 +62,7 @@ module WorldTypes =
     /// Defines all the different types of places that the game supports.
     type SpaceType =
         | ConcertSpace of ConcertSpace
+        | Home
         | RehearsalSpace of RehearsalSpace
         | Studio of Studio
 

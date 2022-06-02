@@ -26,3 +26,10 @@ let setHealth (characterId: CharacterId) health =
         >?> Lenses.Character.Status.health_
 
     Optic.set lens health
+
+let setMood (characterId: CharacterId) mood =
+    let lens =
+        keyedCharacterStatus characterId
+        >?> Lenses.Character.Status.mood_
+
+    Optic.set lens mood

@@ -17,12 +17,12 @@ let playSong state ongoingConcert (finishedSong, _) energy =
       Effects =
         match energy with
         | PerformEnergy.Energetic ->
-            [ Character.Status.changeHealth playableCharacter -2
-              Character.Status.changeEnergy playableCharacter -5 ]
+            [ Character.Status.addHealth playableCharacter -2
+              Character.Status.addEnergy playableCharacter -5 ]
         | PerformEnergy.Normal ->
-            [ Character.Status.changeEnergy playableCharacter 3 ]
+            [ Character.Status.addEnergy playableCharacter 3 ]
         | PerformEnergy.Limited ->
-            [ Character.Status.changeEnergy playableCharacter 1 ]
+            [ Character.Status.addEnergy playableCharacter 1 ]
       AffectingQualities =
         // TODO: Add this after testing; SongQuality(finishedSong, quality)
         [ SongPractice(finishedSong) ]

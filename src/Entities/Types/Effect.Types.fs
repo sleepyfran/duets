@@ -13,6 +13,7 @@ module EffectTypes =
         | AlbumRenamed of Band * UnreleasedAlbum
         | CharacterHealthChange of Character * Health
         | CharacterEnergyChange of Character * Energy
+        | CharacterMoodChange of Character * Mood
         | ConcertScheduled of Band * ScheduledConcert
         | ConcertFinished of Band * PastConcert
         | ConcertUpdated of Band * ScheduledConcert

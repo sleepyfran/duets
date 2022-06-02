@@ -64,6 +64,10 @@ and CommandText =
     | CommandWaitDescription
     | CommandWaitInvalidTimes of string
     | CommandWaitResult of Date * DayMoment
+    | CommandEatDescription
+    | CommandSleepDescription
+    | CommandPlayXboxDescription
+    | CommandWatchTvDescription
 
 and CommonText =
     | GameName
@@ -185,6 +189,12 @@ and CreatorText =
     | CreatorErrorCharacterAgeTooOld
     | CreatorErrorBandNameTooShort
     | CreatorErrorBandNameTooLong
+
+and InteractionText =
+    | InteractionEatResult
+    | InteractionSleepResult
+    | InteractionPlayXboxResult
+    | InteractionWatchTvResult
 
 and MainMenuText =
     | MainMenuIncompatibleSavegame
@@ -351,6 +361,9 @@ and WorldText =
     | WorldConcertSpaceKickedOutOfBackstage
     | WorldBackstageName
     | WorldBarName
+    | WorldBedroomName
+    | WorldKitchenName
+    | WorldLivingRoomName
     | WorldLobbyName
     | WorldMasteringRoomName
     | WorldRecordingRoomName
@@ -358,6 +371,9 @@ and WorldText =
     | WorldStageName
     | WorldBackstageDescription of place: Place
     | WorldBarDescription of place: Place
+    | WorldBedroomDescription
+    | WorldKitchenDescription
+    | WorldLivingRoomDescription
     | WorldLobbyDescription of place: Place
     | WorldMasteringRoomDescription of place: Place
     | WorldRecordingRoomDescription of place: Place
@@ -369,6 +385,7 @@ and TextNamespace =
     | CommonText of CommonText
     | CreatorText of CreatorText
     | ConcertText of ConcertText
+    | InteractionText of InteractionText
     | MainMenuText of MainMenuText
     | PhoneText of PhoneText
     | RehearsalSpaceText of RehearsalSpaceText

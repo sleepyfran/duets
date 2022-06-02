@@ -48,6 +48,18 @@ module InteractionTypes =
         /// Tunes the player's instrument, which gives a tiny point increase.
         | TuneInstrument of OngoingConcert
 
+    /// Interactions that can be done when the character is at home.
+    [<RequireQualifiedAccess>]
+    type HomeInteraction =
+        /// Allows the character to sleep to restore health.
+        | Eat
+        /// Allows the character to play Xbox to restore mood.
+        | PlayXbox
+        /// Allows the character to sleep and restore health and energy.
+        | Sleep
+        /// Allows the character to watch TV to restore mood.
+        | WatchTv
+
     /// Interactions related to moving around the world.
     [<RequireQualifiedAccess>]
     type FreeRoamInteraction =
@@ -60,6 +72,7 @@ module InteractionTypes =
         /// Allows waiting.
         | Wait
 
+    /// Interactions that can be done when the character is on the rehearsal room.
     [<RequireQualifiedAccess>]
     type RehearsalInteraction =
         /// Allows to compose new songs.
@@ -99,6 +112,7 @@ module InteractionTypes =
     [<RequireQualifiedAccess>]
     type Interaction =
         | Concert of ConcertInteraction
+        | Home of HomeInteraction
         | FreeRoam of FreeRoamInteraction
         | Rehearsal of RehearsalInteraction
         | Studio of StudioInteraction

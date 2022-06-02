@@ -65,8 +65,43 @@ let rec generate () =
     |> World.City.addConnection oldTownSquare.Id narodniStreet.Id SouthWest
     |> addDuetsRehearsalSpace jzpSquare
     |> addDuetsStudio jzpSquare
+    |> addHome kubelikovaStreet
     |> addPalacAkropolis kubelikovaStreet
     |> addRedutaJazzClub narodniStreet
+
+and addHome street city =
+    let bedroom =
+        Room.Bedroom
+        |> World.Node.create (
+            Identity.from "f672be41-49b1-43ed-be82-7b91f4bbb656"
+        )
+
+    let kitchen =
+        Room.Kitchen
+        |> World.Node.create (
+            Identity.from "288dd409-0b10-45d5-a702-e0dca8820b0c"
+        )
+
+    let livingRoom =
+        Room.LivingRoom
+        |> World.Node.create (
+            Identity.from "21473306-5dd9-4209-9c28-e25034bbb480"
+        )
+
+    let node =
+        World.Place.create "Home" 100<quality> Home livingRoom
+        |> World.Place.addRoom kitchen
+        |> World.Place.addConnection livingRoom kitchen East
+        |> World.Place.addRoom bedroom
+        |> World.Place.addConnection livingRoom bedroom West
+        |> CityNode.Place
+        |> World.Node.create (
+            Identity.from "6d30f4da-8f6a-40cf-b008-0cfabb63b98a"
+        )
+
+    city
+    |> World.City.addNode node
+    |> World.City.addConnection street.Id node.Id East
 
 and addDuetsRehearsalSpace street city =
     let rehearsalSpace = { Price = 300<dd> }
