@@ -94,6 +94,7 @@ and addHome street city =
         |> World.Place.addConnection livingRoom kitchen East
         |> World.Place.addRoom bedroom
         |> World.Place.addConnection livingRoom bedroom West
+        |> World.Place.addExit livingRoom street
         |> CityNode.Place
         |> World.Node.create (
             Identity.from "6d30f4da-8f6a-40cf-b008-0cfabb63b98a"
