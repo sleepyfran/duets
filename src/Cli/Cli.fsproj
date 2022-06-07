@@ -21,6 +21,7 @@
         <Compile Include="Components\BarChart.fs"/>
         <Compile Include="Components\ProgressBar.fs"/>
         <Compile Include="Components\Calendar.fs"/>
+        <Compile Include="Components\Table.fs"/>
         <Compile Include="Components\Prompt.fs"/>
         <Compile Include="Components\Effect.fs"/>
         <Compile Include="Components\Common.fs"/>

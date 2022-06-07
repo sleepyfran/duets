@@ -246,11 +246,20 @@ and PhoneText =
     | StatisticsAppSectionPrompt
     | StatisticsAppSectionBand
     | StatisticsAppSectionAlbums
+    | StatisticsAppBandNameHeader
+    | StatisticsAppBandStartDateHeader
+    | StatisticsAppBandFameHeader
     | StatisticsAppBandName of name: string
     | StatisticsAppBandStartDate of date: Date
     | StatisticsAppBandFame of fame: int
     | StatisticsAppAlbumNoEntries
-    | StatisticsAppAlbumName of name: string * albumType: AlbumType
+    | StatisticsAppAlbumNameHeader
+    | StatisticsAppAlbumTypeHeader
+    | StatisticsAppAlbumReleaseDateHeader
+    | StatisticsAppAlbumStreamsHeader
+    | StatisticsAppAlbumRevenueHeader
+    | StatisticsAppAlbumName of name: string
+    | StatisticsAppAlbumType of albumType: AlbumType
     | StatisticsAppAlbumReleaseDate of date: Date
     | StatisticsAppAlbumStreams of streams: int
     | StatisticsAppAlbumRevenue of amount: Amount

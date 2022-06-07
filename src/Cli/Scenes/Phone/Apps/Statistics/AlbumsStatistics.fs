@@ -8,7 +8,9 @@ open Simulation.Queries
 let rec albumsStatisticsSubScene statisticsApp =
     let state = State.get ()
     let band = Bands.currentBand state
-    let releases = Albums.releasedByBand state band.Id
+
+    let releases =
+        Albums.releasedByBand state band.Id
 
     if List.isEmpty releases then
         PhoneText StatisticsAppAlbumNoEntries
@@ -20,30 +22,54 @@ let rec albumsStatisticsSubScene statisticsApp =
     statisticsApp ()
 
 and private showAlbums releases =
-    releases
-    |> List.iter
-        (fun releasedAlbum ->
-            let innerAlbum = releasedAlbum.Album
-            let revenue = Albums.revenue releasedAlbum
+    let tableColumns =
+        [ StatisticsAppAlbumNameHeader
+          |> PhoneText
+          |> I18n.translate
 
-            showSeparator None
+          StatisticsAppAlbumTypeHeader
+          |> PhoneText
+          |> I18n.translate
 
-            StatisticsAppAlbumName(innerAlbum.Name, innerAlbum.Type)
-            |> PhoneText
-            |> I18n.translate
-            |> showMessage
+          StatisticsAppAlbumReleaseDateHeader
+          |> PhoneText
+          |> I18n.translate
 
-            StatisticsAppAlbumReleaseDate releasedAlbum.ReleaseDate
-            |> PhoneText
-            |> I18n.translate
-            |> showMessage
+          StatisticsAppAlbumStreamsHeader
+          |> PhoneText
+          |> I18n.translate
 
-            StatisticsAppAlbumStreams releasedAlbum.Streams
-            |> PhoneText
-            |> I18n.translate
-            |> showMessage
+          StatisticsAppAlbumRevenueHeader
+          |> PhoneText
+          |> I18n.translate ]
 
-            StatisticsAppAlbumRevenue revenue
-            |> PhoneText
-            |> I18n.translate
-            |> showMessage)
+    let tableRows =
+        releases
+        |> List.fold
+            (fun acc releasedAlbum ->
+                let innerAlbum = releasedAlbum.Album
+                let revenue = Albums.revenue releasedAlbum
+
+                acc
+                @ [ StatisticsAppAlbumName innerAlbum.Name
+                    |> PhoneText
+                    |> I18n.translate
+
+                    StatisticsAppAlbumType innerAlbum.Type
+                    |> PhoneText
+                    |> I18n.translate
+
+                    StatisticsAppAlbumReleaseDate releasedAlbum.ReleaseDate
+                    |> PhoneText
+                    |> I18n.translate
+
+                    StatisticsAppAlbumStreams releasedAlbum.Streams
+                    |> PhoneText
+                    |> I18n.translate
+
+                    StatisticsAppAlbumRevenue revenue
+                    |> PhoneText
+                    |> I18n.translate ])
+            []
+
+    showTable tableColumns tableRows

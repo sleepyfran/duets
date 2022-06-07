@@ -9,19 +9,32 @@ let bandStatisticsSubScene statisticsApp =
     let state = State.get ()
     let band = Bands.currentBand state
 
-    StatisticsAppBandName band.Name
-    |> PhoneText
-    |> I18n.translate
-    |> showMessage
+    let tableColumns =
+        [ StatisticsAppBandNameHeader
+          |> PhoneText
+          |> I18n.translate
 
-    StatisticsAppBandStartDate band.StartDate
-    |> PhoneText
-    |> I18n.translate
-    |> showMessage
+          StatisticsAppBandStartDateHeader
+          |> PhoneText
+          |> I18n.translate
 
-    StatisticsAppBandFame band.Fame
-    |> PhoneText
-    |> I18n.translate
-    |> showMessage
+          StatisticsAppBandFameHeader
+          |> PhoneText
+          |> I18n.translate ]
+
+    let tableRows =
+        [ StatisticsAppBandName band.Name
+          |> PhoneText
+          |> I18n.translate
+
+          StatisticsAppBandStartDate band.StartDate
+          |> PhoneText
+          |> I18n.translate
+
+          StatisticsAppBandFame band.Fame
+          |> PhoneText
+          |> I18n.translate ]
+
+    showTable tableColumns tableRows
 
     statisticsApp ()

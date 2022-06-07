@@ -52,6 +52,9 @@ let faded text = $"[grey]{text}[/]"
 /// Pre-defined style for showing text that draws attention.
 let highlight text = $"[bold deepskyblue3]{text}[/]"
 
+/// Pre-defined style for table headers.
+let header text = $"[bold]{text}[/]"
+
 /// Pre-defined style for crossed out things.
 let crossed text = $"[strikethrough]{text}[/]"
 

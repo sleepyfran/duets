@@ -644,19 +644,25 @@ and phoneText key =
         $"""{TextStyles.prompt "What data do you want to visualize?"}"""
     | StatisticsAppSectionBand -> "Band's statistics"
     | StatisticsAppSectionAlbums -> "Albums' statistics"
+    | StatisticsAppBandNameHeader -> TextStyles.header "Name"
+    | StatisticsAppBandStartDateHeader -> TextStyles.header "Playing since"
+    | StatisticsAppBandFameHeader -> TextStyles.header "Fame"
     | StatisticsAppBandName name -> TextStyles.title name
-    | StatisticsAppBandStartDate date ->
-        $"Playing since {TextStyles.highlight date.Year}"
-    | StatisticsAppBandFame fame -> $"Fame: {TextStyles.Level.from fame}"
+    | StatisticsAppBandStartDate date -> TextStyles.highlight date.Year
+    | StatisticsAppBandFame fame -> TextStyles.Level.from fame
     | StatisticsAppAlbumNoEntries -> "No albums released yet"
-    | StatisticsAppAlbumName (name, albumT) ->
-        TextStyles.information $"{name} ({TextStyles.faded (albumType albumT)})"
+    | StatisticsAppAlbumNameHeader -> TextStyles.header "Album name"
+    | StatisticsAppAlbumTypeHeader -> TextStyles.header "Album type"
+    | StatisticsAppAlbumReleaseDateHeader -> TextStyles.header "Release date"
+    | StatisticsAppAlbumStreamsHeader -> TextStyles.header "Number of streams"
+    | StatisticsAppAlbumRevenueHeader -> TextStyles.header "Revenue"
+    | StatisticsAppAlbumName name -> TextStyles.information name
+    | StatisticsAppAlbumType albumT -> albumType albumT
     | StatisticsAppAlbumReleaseDate date ->
-        TextStyles.highlight $"Released on {formatDate date}"
+        TextStyles.highlight (formatDate date)
     | StatisticsAppAlbumStreams streams ->
-        $"Streams so far: {TextStyles.highlight (formatNumber streams)}"
-    | StatisticsAppAlbumRevenue revenue ->
-        $"Generated revenue: {TextStyles.money revenue}"
+        TextStyles.highlight (formatNumber streams)
+    | StatisticsAppAlbumRevenue revenue -> TextStyles.money revenue
 
 and rehearsalText key =
     match key with
