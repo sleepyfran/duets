@@ -73,6 +73,7 @@ module Interactions =
                 | Home ->
                     Home.availableCurrently coords.Room
                     @ navigationInteractions @ defaultInteractions
+                | Hospital -> navigationInteractions @ defaultInteractions
                 | RehearsalSpace _ ->
                     RehearsalSpace.availableCurrently state coords.Room
                     @ navigationInteractions @ defaultInteractions

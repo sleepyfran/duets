@@ -53,19 +53,32 @@ let rec generate () =
             Identity.from "35efc933-f136-47f8-b97f-b1c028d9dd5c"
         )
 
+    let uNemocniceStreet =
+        CityNode.OutsideNode
+            { Name = "U Nemocnice"
+              Descriptors = [ Boring ]
+              Type = OutsideNodeType.Street }
+        |> World.Node.create (
+            Identity.from "b77b1e81-f462-49ac-a19f-764982a421e0"
+        )
+
     prague wenceslasSquare
     |> World.City.addNode wenceslasSquare
     |> World.City.addNode jzpSquare
     |> World.City.addNode kubelikovaStreet
     |> World.City.addNode oldTownSquare
     |> World.City.addNode narodniStreet
+    |> World.City.addNode uNemocniceStreet
     |> World.City.addConnection wenceslasSquare.Id jzpSquare.Id East
     |> World.City.addConnection jzpSquare.Id kubelikovaStreet.Id North
+    |> World.City.addConnection jzpSquare.Id uNemocniceStreet.Id SouthWest
     |> World.City.addConnection wenceslasSquare.Id oldTownSquare.Id West
     |> World.City.addConnection oldTownSquare.Id narodniStreet.Id SouthWest
+    |> World.City.addConnection narodniStreet.Id uNemocniceStreet.Id South
     |> addDuetsRehearsalSpace jzpSquare
     |> addDuetsStudio jzpSquare
     |> addHome kubelikovaStreet
+    |> addGeneralUniversityHospital uNemocniceStreet
     |> addPalacAkropolis kubelikovaStreet
     |> addRedutaJazzClub narodniStreet
 
@@ -174,6 +187,29 @@ and addDuetsStudio street city =
     city
     |> World.City.addNode node
     |> World.City.addConnection street.Id node.Id East
+
+and addGeneralUniversityHospital street city =
+    let lobby =
+        Room.Lobby
+        |> World.Node.create (
+            Identity.from "79f45cef-8161-4224-8b87-9467572b251b"
+        )
+
+    let node =
+        World.Place.create
+            "General University Hospital"
+            65<quality>
+            Hospital
+            lobby
+        |> World.Place.addExit lobby street
+        |> CityNode.Place
+        |> World.Node.create (
+            Identity.from "7ec53e41-b3d5-4627-ab38-070c6743d067"
+        )
+
+    city
+    |> World.City.addNode node
+    |> World.City.addConnection street.Id node.Id South
 
 and addPalacAkropolis street city =
     let concertSpace = { Capacity = 1000 }

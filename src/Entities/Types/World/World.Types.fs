@@ -63,6 +63,7 @@ module WorldTypes =
     type SpaceType =
         | ConcertSpace of ConcertSpace
         | Home
+        | Hospital
         | RehearsalSpace of RehearsalSpace
         | Studio of Studio
 

@@ -61,7 +61,12 @@ let livingRoomDescription =
     "The living room at your place looks really nice, the couch is big and comfy and right in front of a big TV."
 
 let lobbyDescription (space: Place) =
-    $"""The lobby of {Styles.place space.Name} is mostly empty right now. Only a person asking for tickets is to be seen."""
+    match space.SpaceType with
+    | SpaceType.ConcertSpace _ ->
+        $"""The lobby of {Styles.place space.Name} is mostly empty right now. Only a person asking for tickets is to be seen."""
+    | SpaceType.Hospital ->
+        $"""There's a lot of people in the waiting room of {Styles.place space.Name} patiently waiting for their turn. You can hear a few coughs and smell sickness in the air."""
+    | _ -> ""
 
 let rehearsalRoomDescription =
     $"""You are in the {Styles.place "rehearsal room"} inside an old and quite smelly building. You can feel the smoke in the air and hear {Styles.band "AC/DC"} being played in the room nearby."""
