@@ -12,16 +12,14 @@ module GiveSpeechCommand =
     let rec create ongoingConcert =
         Concert.createCommand
             "give speech"
-            CommandGiveSpeechDescription
+            Command.giveSpeechDescription
             giveSpeech
             (fun result points ->
                 match result with
-                | LowPerformance -> ConcertSpeechGivenLowSkill points
-                | AveragePerformance -> ConcertSpeechGivenMediumSkill points
+                | LowPerformance -> Concert.speechGivenLowSkill points
+                | AveragePerformance -> Concert.speechGivenMediumSkill points
                 | GoodPerformance
-                | GreatPerformance -> ConcertSpeechGivenHighSkill points
-                | _ -> ConcertTooManySpeeches
-                |> ConcertText
-                |> I18n.translate
+                | GreatPerformance -> Concert.speechGivenHighSkill points
+                | _ -> Concert.tooManySpeeches
                 |> showMessage)
             ongoingConcert

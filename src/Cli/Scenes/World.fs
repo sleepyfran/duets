@@ -12,25 +12,22 @@ let private descriptionFromCoordinates coords =
     match coords with
     | ResolvedPlaceCoordinates coordinates ->
         match coordinates.Room with
-        | Room.Backstage -> WorldBackstageDescription coordinates.Place
-        | Room.Bar -> WorldBarDescription coordinates.Place
-        | Room.Bedroom -> WorldBedroomDescription
-        | Room.Kitchen -> WorldKitchenDescription
-        | Room.LivingRoom -> WorldLivingRoomDescription
-        | Room.Lobby -> WorldLobbyDescription coordinates.Place
-        | Room.MasteringRoom -> WorldMasteringRoomDescription coordinates.Place
-        | Room.RecordingRoom -> WorldRecordingRoomDescription coordinates.Place
-        | Room.RehearsalRoom -> WorldRehearsalRoomDescription coordinates.Place
-        | Room.Stage -> WorldStageDescription coordinates.Place
-        |> WorldText
+        | Room.Backstage -> World.backstageDescription coordinates.Place
+        | Room.Bar -> World.barDescription coordinates.Place
+        | Room.Bedroom -> World.bedroomDescription
+        | Room.Kitchen -> World.kitchenDescription
+        | Room.LivingRoom -> World.livingRoomDescription
+        | Room.Lobby -> World.lobbyDescription coordinates.Place
+        | Room.MasteringRoom -> World.masteringRoomDescription
+        | Room.RecordingRoom -> World.recordingRoomDescription
+        | Room.RehearsalRoom -> World.rehearsalRoomDescription
+        | Room.Stage -> World.stageDescription coordinates.Place
     | ResolvedOutsideCoordinates coordinates ->
         (coordinates.Node.Name, coordinates.Node.Descriptors)
-        |> match coordinates.Node.Type with
-           | OutsideNodeType.Boulevard -> WorldStreetDescription
-           | OutsideNodeType.Street -> WorldBoulevardDescription
-           | OutsideNodeType.Square -> WorldSquareDescription
-        |> WorldText
-    |> I18n.translate
+        ||> match coordinates.Node.Type with
+            | OutsideNodeType.Boulevard -> World.streetDescription
+            | OutsideNodeType.Street -> World.boulevardDescription
+            | OutsideNodeType.Square -> World.squareDescription
 
 let private showRoomConnections interactionsWithState =
     let interactions =
@@ -57,33 +54,26 @@ let private showRoomConnections interactionsWithState =
                     | ResolvedPlaceCoordinates _ ->
                         // Character is inside the place, show connected room name.
                         match roomCoords.Room with
-                        | Room.Backstage -> WorldBackstageName
-                        | Room.Bar -> WorldBarName
-                        | Room.Bedroom -> WorldBedroomName
-                        | Room.Kitchen -> WorldKitchenName
-                        | Room.LivingRoom -> WorldLivingRoomName
-                        | Room.Lobby -> WorldLobbyName
-                        | Room.MasteringRoom -> WorldMasteringRoomName
-                        | Room.RecordingRoom -> WorldRecordingRoomName
-                        | Room.RehearsalRoom -> WorldRehearsalRoomName
-                        | Room.Stage -> WorldStageName
-                        |> WorldText
-                        |> I18n.translate
+                        | Room.Backstage -> World.backstageName
+                        | Room.Bar -> World.barName
+                        | Room.Bedroom -> World.bedroomName
+                        | Room.Kitchen -> World.kitchenName
+                        | Room.LivingRoom -> World.livingRoomName
+                        | Room.Lobby -> World.lobbyName
+                        | Room.MasteringRoom -> World.masteringRoomName
+                        | Room.RecordingRoom -> World.recordingRoomName
+                        | Room.RehearsalRoom -> World.rehearsalRoomName
+                        | Room.Stage -> World.stageName
                     | ResolvedOutsideCoordinates _ ->
                         // Character is outside, show connected place name.
-                        roomCoords.Place.Name |> I18n.constant
-                | ResolvedOutsideCoordinates coords ->
-                    coords.Node.Name |> I18n.constant
+                        roomCoords.Place.Name
+                | ResolvedOutsideCoordinates coords -> coords.Node.Name
                 |> Tuple.two direction
                 |> Some
             | _ -> None)
 
     if not (List.isEmpty directions) then
-        directions
-        |> CommandLookEntrances
-        |> CommandText
-        |> I18n.translate
-        |> showMessage
+        directions |> Command.lookEntrances |> showMessage
 
     interactions
     |> Interaction.chooseFreeRoam (fun interaction ->
@@ -92,13 +82,7 @@ let private showRoomConnections interactionsWithState =
             Some coordinates.Node.Name
         | _ -> None)
     |> List.tryHead
-    |> Option.iter (
-        I18n.constant
-        >> CommandLookExit
-        >> CommandText
-        >> I18n.translate
-        >> showMessage
-    )
+    |> Option.iter (Command.lookExit >> showMessage)
 
 let private commandsFromInteractions interactions =
     interactions
@@ -109,8 +93,8 @@ let private commandsFromInteractions interactions =
             | ConcertInteraction.AdjustDrums _ ->
                 [ Command.message
                       "adjust drums"
-                      CommandAdjustDrumsDescription
-                      ConcertAdjustDrumsMessage ]
+                      Command.adjustDrumsDescription
+                      Concert.adjustDrumsMessage ]
             | ConcertInteraction.BassSolo ongoingConcert ->
                 [ BassSoloCommand.create ongoingConcert ]
             | ConcertInteraction.DoEncore ongoingConcert ->
@@ -130,13 +114,13 @@ let private commandsFromInteractions interactions =
             | ConcertInteraction.FaceBand _ ->
                 [ Command.message
                       "face band"
-                      CommandFaceBandDescription
-                      ConcertFaceBandMessage ]
+                      Command.faceBandDescription
+                      Concert.faceBandMessage ]
             | ConcertInteraction.FaceCrowd _ ->
                 [ Command.message
                       "face crowd"
-                      CommandFaceCrowdDescription
-                      ConcertFaceCrowdMessage ]
+                      Command.faceCrowdDescription
+                      Concert.faceCrowdMessage ]
             | ConcertInteraction.MakeCrowdSing ongoingConcert ->
                 [ MakeCrowdSingCommand.create ongoingConcert ]
             | ConcertInteraction.PlaySong ongoingConcert ->
@@ -145,15 +129,15 @@ let private commandsFromInteractions interactions =
             | ConcertInteraction.PutMicOnStand _ ->
                 [ Command.message
                       "put mic on stand"
-                      CommandPutMicOnStandDescription
-                      ConcertPutMicOnStandMessage ]
+                      Command.putMicOnStandDescription
+                      Concert.putMicOnStandMessage ]
             | ConcertInteraction.SpinDrumsticks ongoingConcert ->
                 [ SpinDrumsticksCommand.create ongoingConcert ]
             | ConcertInteraction.TakeMic _ ->
                 [ Command.message
                       "take mic"
-                      CommandTakeMicDescription
-                      ConcertTakeMicMessage ]
+                      Command.takeMicDescription
+                      Concert.takeMicMessage ]
             | ConcertInteraction.TuneInstrument ongoingConcert ->
                 [ TuneInstrumentCommand.create ongoingConcert ]
         | Interaction.Home homeInteraction ->
@@ -161,28 +145,28 @@ let private commandsFromInteractions interactions =
             | HomeInteraction.Eat ->
                 [ Command.interaction
                       "eat"
-                      CommandEatDescription
+                      Command.eatDescription
                       (Interactions.Home.eat (State.get ()))
-                      InteractionEatResult ]
+                      Interaction.eatResult ]
             | HomeInteraction.Sleep ->
                 [ Command.interaction
                       "sleep"
-                      CommandSleepDescription
+                      Command.sleepDescription
                       // TODO: Allow player to choose how many hours they want to sleep.
                       (Interactions.Home.sleep (State.get ()) 8)
-                      InteractionSleepResult ]
+                      Interaction.sleepResult ]
             | HomeInteraction.PlayXbox ->
                 [ Command.interaction
                       "play xbox"
-                      CommandPlayXboxDescription
+                      Command.playXboxDescription
                       (Interactions.Home.playXbox (State.get ()))
-                      InteractionPlayXboxResult ]
+                      Interaction.playXboxResult ]
             | HomeInteraction.WatchTv ->
                 [ Command.interaction
                       "watch tv"
-                      CommandWatchTvDescription
+                      Command.watchTvDescription
                       (Interactions.Home.watchTv (State.get ()))
-                      InteractionWatchTvResult ]
+                      Interaction.watchTvResult ]
         | Interaction.FreeRoam freeRoamInteraction ->
             match freeRoamInteraction with
             | FreeRoamInteraction.GoOut (exit, _) -> [ OutCommand.create exit ]
@@ -254,17 +238,13 @@ let worldScene () =
     let promptText =
         match situation with
         | InConcert ongoingConcert ->
-            ConcertActionPrompt(
-                today,
-                currentDayMoment,
-                character.Status,
+            Concert.actionPrompt
+                today
+                currentDayMoment
+                character.Status
                 ongoingConcert.Points
-            )
-            |> ConcertText
-        | _ ->
-            CommandCommonPrompt(today, currentDayMoment, character.Status)
-            |> CommandText
+        | _ -> Command.commonPrompt today currentDayMoment character.Status
 
     showCommandPrompt
-        (promptText |> I18n.translate)
+        promptText
         (commandsFromInteractions interactionsWithState)

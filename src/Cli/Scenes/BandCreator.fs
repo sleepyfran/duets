@@ -10,24 +10,18 @@ open Simulation.Setup
 
 let private showNameError error =
     match error with
-    | Band.NameTooShort -> CreatorText CreatorErrorBandNameTooShort
-    | Band.NameTooLong -> CreatorText CreatorErrorBandNameTooLong
-    |> I18n.translate
+    | Band.NameTooShort -> Creator.errorBandNameTooShort
+    | Band.NameTooLong -> Creator.errorBandNameTooLong
     |> showMessage
 
 let private instrumentNameText instrumentType =
-    CommonInstrument instrumentType
-    |> CommonText
-    |> I18n.translate
+    Generic.instrument instrumentType
 
 /// Shows a wizard to create a band for the given character.
 let rec bandCreator (character: Character) = promptForName character
 
 and private promptForName character =
-    showTextPrompt (
-        CreatorText BandCreatorInitialPrompt
-        |> I18n.translate
-    )
+    showTextPrompt Creator.bandInitialPrompt
     |> Band.validateName
     |> Result.switch
         (promptForGenre character)
@@ -37,34 +31,19 @@ and private promptForName character =
 and private promptForGenre character name =
     let genres = Database.genres ()
 
-    showChoicePrompt
-        (CreatorText BandCreatorGenrePrompt
-         |> I18n.translate)
-        I18n.constant
-        genres
+    showChoicePrompt Creator.bandGenrePrompt id genres
     |> promptForInstrument character name
 
 and private promptForInstrument character name genre =
     let instruments = Database.roles
 
-    showChoicePrompt
-        (CreatorText BandCreatorGenrePrompt
-         |> I18n.translate)
-        instrumentNameText
-        instruments
+    showChoicePrompt Creator.bandGenrePrompt instrumentNameText instruments
     |> promptForConfirmation character name genre
 
 and private promptForConfirmation character name genre instrument =
     let confirmed =
         showConfirmationPrompt (
-            BandCreatorConfirmationPrompt(
-                character.Name,
-                name,
-                genre,
-                instrument
-            )
-            |> CreatorText
-            |> I18n.translate
+            Creator.bandConfirmationPrompt character.Name name genre instrument
         )
 
     if confirmed then

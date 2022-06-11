@@ -8,7 +8,7 @@ open Entities
 /// Defines a command that can be executed by the user.
 type Command =
     { Name: string
-      Description: Text
+      Description: string
       Handler: string list -> Scene }
 
 [<RequireQualifiedAccess>]
@@ -17,12 +17,10 @@ module Command =
     /// outputs the given message.
     let message name description message =
         { Name = name
-          Description = CommandText description |> I18n.translate
+          Description = description
           Handler =
             (fun _ ->
-                ConcertText message
-                |> I18n.translate
-                |> showMessage
+                showMessage message
 
                 Scene.World) }
 
@@ -30,14 +28,12 @@ module Command =
     /// applies the given effects and outputs the given message.
     let interaction name description effects message =
         { Name = name
-          Description = CommandText description |> I18n.translate
+          Description = description
           Handler =
             (fun _ ->
                 effects |> Cli.Effect.applyMultiple
 
-                InteractionText message
-                |> I18n.translate
-                |> showMessage
+                showMessage message
 
                 Scene.World) }
 
@@ -50,13 +46,11 @@ module Command =
                 (fun _ ->
                     match disabledReason with
                     | InteractionDisabledReason.NotEnoughEnergy energyNeeded ->
-                        CommandDisabledNotEnoughEnergy energyNeeded
+                        Command.disabledNotEnoughEnergy energyNeeded
                     | InteractionDisabledReason.NotEnoughHealth healthNeeded ->
-                        CommandDisabledNotEnoughHealth healthNeeded
+                        Command.disabledNotEnoughHealth healthNeeded
                     | InteractionDisabledReason.NotEnoughMood moodNeeded ->
-                        CommandDisabledNotEnoughMood moodNeeded
-                    |> CommandText
-                    |> I18n.translate
+                        Command.disabledNotEnoughMood moodNeeded
                     |> showMessage
 
                     Scene.World) }

@@ -1,7 +1,6 @@
 [<AutoOpen>]
 module Cli.Components.ProgressBar
 
-open Cli.Localization
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Spectre.Console
 
@@ -21,7 +20,7 @@ let showProgressBarSync stepNames (stepDuration: int<second>) =
         .Start(fun ctx ->
             stepNames
             |> List.iter (fun stepName ->
-                let task = ctx.AddTask(toString stepName)
+                let task = ctx.AddTask(stepName)
 
                 for _ in 0..4 do
                     task.Increment 25.0
@@ -40,13 +39,15 @@ let showProgressBarAsync stepNames (stepDuration: int<second>) =
         .Start(fun ctx ->
             let tasks =
                 stepNames
-                |> List.map (fun name -> ctx.AddTask(toString name))
+                |> List.map (fun name -> ctx.AddTask(name))
                 |> ResizeArray
 
             let random = System.Random()
 
             for _ in 0 .. 4 * tasks.Count - 1 do
-                let randomIndex = random.Next(0, tasks.Count)
+                let randomIndex =
+                    random.Next(0, tasks.Count)
+
                 let taskToIncrement = tasks.[randomIndex]
 
                 taskToIncrement.Increment 25.0

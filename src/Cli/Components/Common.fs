@@ -7,8 +7,7 @@ open Entities
 let showEntranceError error =
     match error with
     | EntranceError.CannotEnterBackstageOutsideConcert ->
-        WorldText WorldConcertSpaceKickedOutOfBackstage
+        World.concertSpaceKickedOutOfBackstage
     | EntranceError.CannotEnterStageOutsideConcert ->
-        WorldText WorldConcertSpaceKickedOutOfStage
-    |> I18n.translate
+        World.concertSpaceKickedOutOfStage
     |> showMessage

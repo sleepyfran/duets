@@ -13,32 +13,23 @@ open Simulation.Songs.Composition.ComposeSong
 module ComposeSongCommand =
     let private showNameError error =
         match error with
-        | Song.NameTooShort -> RehearsalSpaceText ComposeSongErrorNameTooShort
-        | Song.NameTooLong -> RehearsalSpaceText ComposeSongErrorNameTooLong
-        |> I18n.translate
+        | Song.NameTooShort -> Rehearsal.composeSongErrorNameTooShort
+        | Song.NameTooLong -> Rehearsal.composeSongErrorNameTooLong
 
     let private showLengthError error =
         match error with
-        | Song.LengthTooShort ->
-            RehearsalSpaceText ComposeSongErrorLengthTooShort
-        | Song.LengthTooLong -> RehearsalSpaceText ComposeSongErrorLengthTooLong
-        |> I18n.translate
+        | Song.LengthTooShort -> Rehearsal.composeSongErrorLengthTooShort
+        | Song.LengthTooLong -> Rehearsal.composeSongErrorLengthTooLong
 
     let rec private promptForName () =
-        showTextPrompt (
-            RehearsalSpaceText ComposeSongTitlePrompt
-            |> I18n.translate
-        )
+        showTextPrompt Rehearsal.composeSongTitlePrompt
         |> Song.validateName
         |> Result.switch
             promptForLength
             (showNameError >> fun _ -> promptForName ())
 
     and private promptForLength name =
-        showLengthPrompt (
-            RehearsalSpaceText ComposeSongLengthPrompt
-            |> I18n.translate
-        )
+        showLengthPrompt (Rehearsal.composeSongLengthPrompt)
         |> Song.validateLength
         |> Result.switch
             (promptForGenre name)
@@ -47,11 +38,7 @@ module ComposeSongCommand =
     and private promptForGenre name length =
         let genres = Database.genres ()
 
-        showChoicePrompt
-            (RehearsalSpaceText ComposeSongGenrePrompt
-             |> I18n.translate)
-            I18n.constant
-            genres
+        showChoicePrompt Rehearsal.composeSongGenrePrompt id genres
         |> promptForVocalStyle name length
 
     and private promptForVocalStyle name length genre =
@@ -59,9 +46,8 @@ module ComposeSongCommand =
 
         let vocalStyle =
             showChoicePrompt
-                (RehearsalSpaceText ComposeSongVocalStylePrompt
-                 |> I18n.translate)
-                (snd >> I18n.constant)
+                Rehearsal.composeSongVocalStylePrompt
+                snd
                 vocalStyles
             |> fst
 
@@ -72,17 +58,12 @@ module ComposeSongCommand =
         let state = State.get ()
 
         showProgressBarAsync
-            [ RehearsalSpaceText ComposeSongProgressBrainstorming
-              |> I18n.translate
-              RehearsalSpaceText ComposeSongProgressConfiguringReverb
-              |> I18n.translate
-              RehearsalSpaceText ComposeSongProgressTryingChords
-              |> I18n.translate ]
+            [ Rehearsal.composeSongProgressBrainstorming
+              Rehearsal.composeSongProgressConfiguringReverb
+              Rehearsal.composeSongProgressTryingChords ]
             2<second>
 
-        ComposeSongConfirmation song.Name
-        |> RehearsalSpaceText
-        |> I18n.translate
+        Rehearsal.composeSongConfirmation song.Name
         |> showMessage
 
         composeSong state song |> Cli.Effect.apply
@@ -90,8 +71,7 @@ module ComposeSongCommand =
     /// Command to compose a new song.
     let get =
         { Name = "compose song"
-          Description =
-            I18n.translate (CommandText CommandComposeSongDescription)
+          Description = Command.composeSongDescription
           Handler =
             (fun _ ->
                 promptForName ()

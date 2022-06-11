@@ -25,38 +25,30 @@ module HireMemberCommand =
         showMemberForHire role band availableMember
 
     and private showMemberForHire role band availableMember =
-        HireMemberCharacterDescription(
-            availableMember.Character.Name,
+        Rehearsal.hireMemberCharacterDescription
+            availableMember.Character.Name
             availableMember.Character.Gender
-        )
-        |> RehearsalSpaceText
-        |> I18n.translate
         |> showMessage
 
         availableMember.Skills
-        |> List.map (fun (skill, level) ->
-            (level, I18n.translate (CommonText(CommonSkillName skill.Id))))
+        |> List.map (fun (skill, level) -> (level, Generic.skillName skill.Id))
         |> showBarChart
 
         let hired =
             showConfirmationPrompt (
-                HireMemberConfirmation availableMember.Character.Gender
-                |> RehearsalSpaceText
-                |> I18n.translate
+                Rehearsal.hireMemberConfirmation
+                    availableMember.Character.Gender
             )
 
         if hired then
             hireMember (State.get ()) band availableMember
             |> Cli.Effect.apply
 
-            RehearsalSpaceText HireMemberHired
-            |> I18n.translate
-            |> showMessage
+            Rehearsal.hireMemberHired |> showMessage
         else
             let continueHiring =
                 showConfirmationPrompt (
-                    RehearsalSpaceText HireMemberContinueConfirmation
-                    |> I18n.translate
+                    Rehearsal.hireMemberContinueConfirmation
                 )
 
             if continueHiring then
@@ -64,25 +56,20 @@ module HireMemberCommand =
             else
                 ()
 
-    let private roleText instrumentType =
-        CommonRole instrumentType
-        |> CommonText
-        |> I18n.translate
+    let private roleText instrumentType = Generic.role instrumentType
 
     /// Command to hire a new member for the band.
     let get =
         { Name = "hire member"
-          Description =
-            I18n.translate (CommandText CommandHireMemberDescription)
+          Description = Command.hireMemberDescription
           Handler =
             (fun _ ->
                 let availableRoles = Database.roles
 
                 let selectedRole =
                     showOptionalChoicePrompt
-                        (RehearsalSpaceText HireMemberRolePrompt
-                         |> I18n.translate)
-                        (CommonText CommonCancel |> I18n.translate)
+                        Rehearsal.hireMemberRolePrompt
+                        Generic.cancel
                         roleText
                         availableRoles
 

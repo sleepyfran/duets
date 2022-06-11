@@ -6,12 +6,19 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="Text.fs"/>
-        <Compile Include="TextStyles.fs"/>
         <Compile Include="Scenes.fs"/>
-        <Compile Include="Localization\Emoji.fs"/>
-        <Compile Include="Localization\English.fs"/>
-        <Compile Include="Localization\Localization.fs"/>
+        <Compile Include="Text\Emoji.fs"/>
+        <Compile Include="Text\Styles.fs"/>
+        <Compile Include="Text\Generic.fs"/>
+        <Compile Include="Text\Command.fs"/>
+        <Compile Include="Text\Concert.fs"/>
+        <Compile Include="Text\Creator.fs"/>
+        <Compile Include="Text\Interaction.fs"/>
+        <Compile Include="Text\MainMenu.fs"/>
+        <Compile Include="Text\Phone.fs"/>
+        <Compile Include="Text\Rehearsal.fs"/>
+        <Compile Include="Text\Studio.fs"/>
+        <Compile Include="Text\World.fs"/>
         <Compile Include="Components\Separator.fs"/>
         <Compile Include="Components\Layout.fs"/>
         <Compile Include="Components\Message.fs"/>
@@ -30,7 +37,6 @@
         <Compile Include="Components\Commands\Help.Command.fs"/>
         <Compile Include="Components\Commands\Navigation.Command.fs"/>
         <Compile Include="Components\Commands\Phone.Command.fs"/>
-        <Compile Include="Components\Commands\Talk.Command.fs"/>
         <Compile Include="Components\Commands\Out.Command.fs"/>
         <Compile Include="Components\Commands\Wait.Command.fs"/>
         <Compile Include="Components\Commands\Studio\Common.fs"/>

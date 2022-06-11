@@ -15,16 +15,13 @@ module FireMemberCommand =
         let character =
             Queries.Characters.find (State.get ()) bandMember.CharacterId
 
-        FireMemberListItem(character.Name, bandMember.Role)
-        |> RehearsalSpaceText
-        |> I18n.translate
+        Rehearsal.fireMemberListItem (character.Name, bandMember.Role)
 
     let rec private promptForMember bandMembers =
         let selectedMember =
             showOptionalChoicePrompt
-                (RehearsalSpaceText FireMemberPrompt
-                 |> I18n.translate)
-                (CommonText CommonCancel |> I18n.translate)
+                Rehearsal.fireMemberPrompt
+                Generic.cancel
                 textFromMember
                 bandMembers
 
@@ -38,9 +35,7 @@ module FireMemberCommand =
 
         let confirmed =
             showConfirmationPrompt (
-                FireMemberConfirmation character.Name
-                |> RehearsalSpaceText
-                |> I18n.translate
+                Rehearsal.fireMemberConfirmation character.Name
             )
 
         if confirmed then
@@ -58,14 +53,11 @@ module FireMemberCommand =
     /// Command fire a member of the band.
     let create bandMembers =
         { Name = "fire member"
-          Description =
-            I18n.translate (CommandText CommandFireMemberDescription)
+          Description = Command.fireMemberDescription
           Handler =
             (fun _ ->
                 if List.isEmpty bandMembers then
-                    RehearsalSpaceText FireMemberNoMembersToFire
-                    |> I18n.translate
-                    |> showMessage
+                    Rehearsal.fireMemberNoMembersToFire |> showMessage
                 else
                     promptForMember bandMembers
 

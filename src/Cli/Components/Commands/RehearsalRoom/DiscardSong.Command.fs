@@ -13,7 +13,7 @@ module DiscardSongCommand =
     /// Command to discard an unfinished song.
     let create unfinishedSongs =
         { Name = "discard song"
-          Description = I18n.translate (CommandText CommandWaitDescription)
+          Description = Command.waitDescription
           Handler =
             (fun _ ->
                 let state = State.get ()
@@ -23,17 +23,13 @@ module DiscardSongCommand =
 
                 let selectedSong =
                     showOptionalChoicePrompt
-                        (RehearsalSpaceText DiscardSongSelection
-                         |> I18n.translate)
-                        (CommonText CommonCancel |> I18n.translate)
+                        Rehearsal.discardSongSelection
+                        Generic.cancel
                         (fun (UnfinishedSong us, _, currentQuality) ->
-                            CommonSongWithDetails(
-                                us.Name,
-                                currentQuality,
-                                us.Length
-                            )
-                            |> CommonText
-                            |> I18n.translate)
+                            Generic.songWithDetails
+                                us.Name
+                                currentQuality
+                                us.Length)
                         unfinishedSongs
 
                 match selectedSong with

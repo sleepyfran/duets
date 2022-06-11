@@ -10,12 +10,9 @@ module DrumSoloCommand =
     let create ongoingConcert =
         Concert.createSoloCommand
             "drum solo"
-            CommandDrumSoloDescription
-            [ ConcertText ConcertDrumSoloDoingDrumstickTricks
-              |> I18n.translate
-              ConcertText ConcertDrumSoloPlayingWeirdRhythms
-              |> I18n.translate
-              ConcertText ConcertDrumSoloPlayingReallyFast
-              |> I18n.translate ]
+            Command.drumSoloDescription
+            [ Concert.drumSoloDoingDrumstickTricks
+              Concert.drumSoloPlayingWeirdRhythms
+              Concert.drumSoloPlayingReallyFast ]
             drumSolo
             ongoingConcert

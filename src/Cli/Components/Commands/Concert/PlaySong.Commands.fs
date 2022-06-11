@@ -14,11 +14,9 @@ open Simulation.Concerts.Live
 module PlaySongCommands =
     let private textFromEnergy energy =
         match energy with
-        | Energetic -> ConcertEnergyEnergetic
-        | PerformEnergy.Normal -> ConcertEnergyNormal
-        | Limited -> ConcertEnergyLow
-        |> ConcertText
-        |> I18n.translate
+        | Energetic -> Concert.energyEnergetic
+        | PerformEnergy.Normal -> Concert.energyNormal
+        | Limited -> Concert.energyLow
 
     let private promptForSong ongoingConcert =
         let state = State.get ()
@@ -30,28 +28,23 @@ module PlaySongCommands =
             Queries.Repertoire.allFinishedSongsByBand state currentBand.Id
 
         if List.isEmpty finishedSongs then
-            ConcertText ConcertNoSongsToPlay
-            |> I18n.translate
-            |> showMessage
+            Concert.noSongsToPlay |> showMessage
 
             None
         else
             showOptionalChoicePrompt
-                (ConcertText ConcertSelectSongToPlay
-                 |> I18n.translate)
-                (CommonText CommonCancel |> I18n.translate)
+                Concert.selectSongToPlay
+                Generic.cancel
                 (fun (FinishedSong fs, _) ->
                     if Concert.Ongoing.hasPlayedSong ongoingConcert fs then
-                        ConcertAlreadyPlayedSongWithPractice fs
+                        Concert.alreadyPlayedSongWithPractice fs
                     else
-                        ConcertSongNameWithPractice fs
-                    |> ConcertText
-                    |> I18n.translate)
+                        Concert.songNameWithPractice fs)
                 finishedSongs
 
     let private promptForEnergy () =
         showChoicePrompt
-            (ConcertText ConcertEnergyPrompt |> I18n.translate)
+            Concert.energyPrompt
             textFromEnergy
             [ Energetic
               PerformEnergy.Normal
@@ -63,44 +56,34 @@ module PlaySongCommands =
         match response.Result with
         | TooManyRepetitionsPenalized
         | TooManyRepetitionsNotDone ->
-            ConcertPlaySongRepeatedSongReaction song
-            |> ConcertText
-            |> I18n.translate
+            Concert.playSongRepeatedSongReaction song
             |> showMessage
         | _ ->
             match energy with
-            | Energetic -> ConcertPlaySongEnergeticEnergyDescription
-            | PerformEnergy.Normal -> ConcertPlaySongNormalEnergyDescription
-            | Limited -> ConcertPlaySongLimitedEnergyDescription
-            |> ConcertText
-            |> I18n.translate
+            | Energetic -> Concert.playSongEnergeticEnergyDescription
+            | PerformEnergy.Normal -> Concert.playSongNormalEnergyDescription
+            | Limited -> Concert.playSongLimitedEnergyDescription
             |> showMessage
 
         showProgressBarSync
-            [ ConcertPlaySongProgressPlaying song
-              |> ConcertText
-              |> I18n.translate ]
+            [ Concert.playSongProgressPlaying song ]
             (song.Length.Minutes / 1<minute/second>)
 
         match response.Result with
         | LowPerformance
         | AveragePerformance ->
-            ConcertPlaySongLowPracticeReaction(energy, response.Points)
+            Concert.playSongLowPracticeReaction energy response.Points
         | GoodPerformance ->
-            ConcertPlaySongMediumPracticeReaction(energy, response.Points)
+            Concert.playSongMediumPracticeReaction energy response.Points
         | GreatPerformance ->
-            ConcertPlaySongHighPracticeReaction(energy, response.Points)
-        | _ -> ConcertPlaySongRepeatedTipReaction response.Points
-        |> ConcertText
-        |> I18n.translate
+            Concert.playSongHighPracticeReaction energy response.Points
+        | _ -> Concert.playSongRepeatedTipReaction response.Points
         |> showMessage
 
     /// Command which simulates playing a song in a concert.
     let createPlaySong ongoingConcert =
         { Name = "play song"
-          Description =
-            CommandText CommandPlayDescription
-            |> I18n.translate
+          Description = Command.playDescription
           Handler =
             (fun _ ->
                 promptForSong ongoingConcert
@@ -124,9 +107,7 @@ module PlaySongCommands =
     // Command which simulates dedicating a song and then playing it in a concert.
     let createDedicateSong ongoingConcert =
         { Name = "dedicate song"
-          Description =
-            CommandText CommandDedicateSongDescription
-            |> I18n.translate
+          Description = Command.dedicateSongDescription
           Handler =
             (fun _ ->
                 promptForSong ongoingConcert
@@ -142,10 +123,7 @@ module PlaySongCommands =
                     match response.Result with
                     | TooManyRepetitionsPenalized
                     | TooManyRepetitionsNotDone ->
-                        ConcertTooManyDedications
-                        |> ConcertText
-                        |> I18n.translate
-                        |> showMessage
+                        Concert.tooManyDedications |> showMessage
                     | _ -> showResultWithProgressbar response song energy
 
                     Some response.OngoingConcert)

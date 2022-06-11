@@ -15,29 +15,20 @@ module PracticeSongCommand =
         match practiceSongResult with
         | SongImproved effect ->
             showProgressBarAsync
-                [ I18n.translate (
-                      RehearsalSpaceText PracticeSongProgressLosingTime
-                  )
-                  I18n.translate (
-                      RehearsalSpaceText PracticeSongProgressTryingSoloOnceMore
-                  )
-                  I18n.translate (
-                      RehearsalSpaceText PracticeSongProgressGivingUp
-                  ) ]
+                [ Rehearsal.practiceSongProgressLosingTime
+                  Rehearsal.practiceSongProgressTryingSoloOnceMore
+                  Rehearsal.practiceSongProgressGivingUp ]
                 2<second>
 
             Cli.Effect.apply effect
         | SongAlreadyImprovedToMax (FinishedSong song, _) ->
-            PracticeSongAlreadyImprovedToMax song.Name
-            |> RehearsalSpaceText
-            |> I18n.translate
+            Rehearsal.practiceSongAlreadyImprovedToMax song.Name
             |> showMessage
 
     /// Command to practice a finished song.
     let create finishedSongs =
         { Name = "practice song"
-          Description =
-            I18n.translate (CommandText CommandPracticeSongDescription)
+          Description = Command.practiceSongDescription
           Handler =
             (fun _ ->
                 let state = State.get ()
@@ -47,12 +38,12 @@ module PracticeSongCommand =
 
                 let selectedSong =
                     showOptionalChoicePrompt
-                        (RehearsalSpaceText PracticeSong |> I18n.translate)
-                        (CommonText CommonCancel |> I18n.translate)
+                        Rehearsal.practiceSong
+                        Generic.cancel
                         (fun (FinishedSong fs, _) ->
-                            PracticeSongItemDescription(fs.Name, fs.Practice)
-                            |> RehearsalSpaceText
-                            |> I18n.translate)
+                            Rehearsal.practiceSongItemDescription
+                                fs.Name
+                                fs.Practice)
                         finishedSongs
 
                 match selectedSong with

@@ -12,15 +12,13 @@ module GreetAudienceCommand =
     let rec create ongoingConcert =
         Concert.createCommand
             "greet audience"
-            CommandGreetAudienceDescription
+            Command.greetAudienceDescription
             greetAudience
             (fun result points ->
                 match result with
                 | TooManyRepetitionsPenalized
                 | TooManyRepetitionsNotDone ->
-                    ConcertGreetAudienceGreetedMoreThanOnceTip points
-                | _ -> ConcertGreetAudienceDone points
-                |> ConcertText
-                |> I18n.translate
+                    Concert.greetAudienceGreetedMoreThanOnceTip points
+                | _ -> Concert.greetAudienceDone points
                 |> showMessage)
             ongoingConcert

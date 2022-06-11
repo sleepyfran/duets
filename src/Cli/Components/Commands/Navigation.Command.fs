@@ -42,8 +42,5 @@ module NavigationCommand =
             | NorthWest -> northWestCommand
 
         { Name = commandName
-          Description =
-            CommandDirectionDescription direction
-            |> CommandText
-            |> I18n.translate
+          Description = Command.directionDescription direction
           Handler = handle coordinates }

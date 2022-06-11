@@ -13,9 +13,8 @@ type private BankMenuOptions =
 
 let private textFromOption opt =
     match opt with
-    | TransferToBand -> PhoneText BankAppTransferToBand
-    | TransferFromBand -> PhoneText BankAppTransferFromBand
-    |> I18n.translate
+    | TransferToBand -> Phone.bankAppTransferToBand
+    | TransferFromBand -> Phone.bankAppTransferFromBand
 
 /// Creates the bank scene which allows to transfer money between accounts.
 let rec bankApp () =
@@ -31,18 +30,19 @@ let rec bankApp () =
         |> fun band -> band.Id
         |> Band
 
-    let characterBalance = Bank.balanceOf state characterAccount
-    let bandBalance = Bank.balanceOf state bandAccount
+    let characterBalance =
+        Bank.balanceOf state characterAccount
 
-    BankAppWelcome(characterBalance, bandBalance)
-    |> PhoneText
-    |> I18n.translate
+    let bandBalance =
+        Bank.balanceOf state bandAccount
+
+    Phone.bankAppWelcome characterBalance bandBalance
     |> showMessage
 
     let selection =
         showOptionalChoicePrompt
-            (PhoneText BankAppPrompt |> I18n.translate)
-            (CommonText CommonBack |> I18n.translate)
+            Phone.bankAppPrompt
+            Generic.back
             textFromOption
             [ TransferToBand; TransferFromBand ]
 

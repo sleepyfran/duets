@@ -13,10 +13,7 @@ module DoEncoreCommand =
     let create ongoingConcert =
         Concert.createCommand
             "do encore"
-            CommandDoEncoreDescription
+            Command.doEncoreDescription
             doEncore
-            (fun _ _ ->
-                ConcertText ConcertEncoreComingBackToStage
-                |> I18n.translate
-                |> showMessage)
+            (fun _ _ -> Concert.encoreComingBackToStage |> showMessage)
             ongoingConcert

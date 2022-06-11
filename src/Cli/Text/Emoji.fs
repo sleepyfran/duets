@@ -1,4 +1,6 @@
-module Cli.Localization.Emoji
+[<RequireQualifiedAccess>]
+module Cli.Text.Emoji
+
 
 open Entities
 

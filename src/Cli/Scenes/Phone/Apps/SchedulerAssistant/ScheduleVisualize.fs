@@ -11,8 +11,7 @@ type private ScheduleAgendaMenuOption = | MoreDates
 
 let rec private textFromOption opt =
     match opt with
-    | MoreDates -> PhoneText SchedulerAssistantCommonMoreDates
-    |> I18n.translate
+    | MoreDates -> Phone.schedulerAssistantCommonMoreDates
 
 let rec showAgenda app =
     State.get () |> Calendar.today |> showAgenda' app
@@ -39,8 +38,7 @@ and private showAgenda' app firstDay =
     showCalendar firstDay.Year firstDay.Month calendarEvents
 
     if List.isEmpty concertsInMonth then
-        PhoneText SchedulerAssistantAppVisualizeNoConcerts
-        |> I18n.translate
+        Phone.schedulerAssistantAppVisualizeNoConcerts
         |> showMessage
     else
         showConcertList app concertsInMonth
@@ -49,9 +47,8 @@ and private showAgenda' app firstDay =
 
     let selectedOption =
         showOptionalChoicePrompt
-            (PhoneText SchedulerAssistantAppVisualizeMoreDatesPrompt
-             |> I18n.translate)
-            (CommonText CommonBack |> I18n.translate)
+            Phone.schedulerAssistantAppVisualizeMoreDatesPrompt
+            Generic.back
             textFromOption
             [ MoreDates ]
 
@@ -68,18 +65,13 @@ and showConcertList _ =
             World.ConcertSpace.byId concert.CityId concert.VenueId
             |> Option.get
 
-        CommonDateWithDay concert.Date
-        |> CommonText
-        |> I18n.translate
+        Generic.dateWithDay concert.Date
         |> Some
         |> showSeparator
 
-        SchedulerAssistantAppVisualizeConcertInfo(
-            concert.DayMoment,
-            place,
-            city,
+        Phone.schedulerAssistantAppVisualizeConcertInfo
+            concert.DayMoment
+            place
+            city
             concert.TicketsSold
-        )
-        |> PhoneText
-        |> I18n.translate
         |> showMessage)

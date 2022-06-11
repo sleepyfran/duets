@@ -10,30 +10,14 @@ let bandStatisticsSubScene statisticsApp =
     let band = Bands.currentBand state
 
     let tableColumns =
-        [ StatisticsAppBandNameHeader
-          |> PhoneText
-          |> I18n.translate
-
-          StatisticsAppBandStartDateHeader
-          |> PhoneText
-          |> I18n.translate
-
-          StatisticsAppBandFameHeader
-          |> PhoneText
-          |> I18n.translate ]
+        [ Phone.statisticsAppBandNameHeader
+          Phone.statisticsAppBandStartDateHeader
+          Phone.statisticsAppBandFameHeader ]
 
     let tableRows =
-        [ StatisticsAppBandName band.Name
-          |> PhoneText
-          |> I18n.translate
-
-          StatisticsAppBandStartDate band.StartDate
-          |> PhoneText
-          |> I18n.translate
-
-          StatisticsAppBandFame band.Fame
-          |> PhoneText
-          |> I18n.translate ]
+        [ Phone.statisticsAppBandName band.Name
+          Phone.statisticsAppBandStartDate band.StartDate
+          Phone.statisticsAppBandFame band.Fame ]
 
     showTable tableColumns tableRows
 

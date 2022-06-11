@@ -10,16 +10,14 @@ type private SchedulerMenuOption =
 
 let private textFromOption opt =
     match opt with
-    | ScheduleShow -> PhoneText SchedulerAssistantAppShow
-    | Agenda -> PhoneText SchedulerAssistantAppAgenda
-    |> I18n.translate
+    | ScheduleShow -> Phone.schedulerAssistantAppShow
+    | Agenda -> Phone.schedulerAssistantAppAgenda
 
 let rec schedulerAssistantApp () =
     let selectedChoice =
         showOptionalChoicePrompt
-            (PhoneText SchedulerAssistantAppPrompt
-             |> I18n.translate)
-            (CommonText CommonNothing |> I18n.translate)
+            Phone.schedulerAssistantAppPrompt
+            Generic.nothing
             textFromOption
             [ ScheduleShow; Agenda ]
 

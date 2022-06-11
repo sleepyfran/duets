@@ -1,5 +1,6 @@
 [<RequireQualifiedAccess>]
-module Cli.TextStyles
+module Cli.Text.Styles
+
 
 open Common
 open Entities

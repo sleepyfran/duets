@@ -1,19 +1,14 @@
 [<AutoOpen>]
 module Cli.Components.ChoicePrompt
 
-open Cli.Localization
-open Cli.Text
 open Common
 open Spectre.Console
+open Cli.Text
 
 let private showSelection choice =
     showSeparator None
 
-    toString choice
-    |> CommonChoiceSelection
-    |> CommonText
-    |> I18n.translate
-    |> showMessage
+    Generic.choiceSelection choice |> showMessage
 
     showSeparator None
 
@@ -28,12 +23,13 @@ let private showSelection choice =
 /// <param name="choices">Sequence of options to show to the user</param>
 /// <returns>The selected item</returns>
 let showChoicePrompt<'a> title optionTextFn (choices: 'a seq) =
-    let mutable selectionPrompt = SelectionPrompt<'a>()
-    selectionPrompt.Title <- toString title
+    let mutable selectionPrompt =
+        SelectionPrompt<'a>()
+
+    selectionPrompt.Title <- title
     selectionPrompt <- selectionPrompt.AddChoices(choices)
 
-    selectionPrompt <-
-        selectionPrompt.UseConverter(fun c -> optionTextFn c |> toString)
+    selectionPrompt <- selectionPrompt.UseConverter(fun c -> optionTextFn c)
 
     AnsiConsole.Prompt(selectionPrompt)
     |> Pipe.tap (optionTextFn >> showSelection)
@@ -76,23 +72,21 @@ let showOptionalChoicePrompt title backText optionTextFn choices =
 /// <param name="choices">Sequence of options to show to the user</param>
 /// <returns>The selected item(s)</returns>
 let showMultiChoicePrompt<'a> title optionTextFn (choices: 'a seq) =
-    let mutable multiSelectionPrompt = MultiSelectionPrompt<'a>()
-    multiSelectionPrompt.Title <- toString title
+    let mutable multiSelectionPrompt =
+        MultiSelectionPrompt<'a>()
 
-    multiSelectionPrompt.MoreChoicesText <-
-        I18n.translate (CommonText CommonMultiChoiceMoreChoices)
-        |> toString
+    multiSelectionPrompt.Title <- title
 
-    multiSelectionPrompt.InstructionsText <-
-        I18n.translate (CommonText CommonMultiChoiceInstructions)
-        |> toString
+    multiSelectionPrompt.MoreChoicesText <- Generic.multiChoiceMoreChoices
+
+    multiSelectionPrompt.InstructionsText <- Generic.multiChoiceInstructions
 
     multiSelectionPrompt.Required <- true
     multiSelectionPrompt.PageSize <- 10
     multiSelectionPrompt <- multiSelectionPrompt.AddChoices(choices)
 
     multiSelectionPrompt <-
-        multiSelectionPrompt.UseConverter(fun c -> optionTextFn c |> toString)
+        multiSelectionPrompt.UseConverter(fun c -> optionTextFn c)
 
     AnsiConsole.Prompt(multiSelectionPrompt)
     |> List.ofSeq

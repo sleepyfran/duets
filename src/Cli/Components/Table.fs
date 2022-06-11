@@ -1,7 +1,6 @@
 [<AutoOpen>]
 module Cli.Components.Table
 
-open Cli.Localization
 open Spectre.Console
 
 /// <summary>
@@ -13,16 +12,12 @@ open Spectre.Console
 /// <param name="rows">
 /// Row text to be shown. Each field in the list correspond with each column
 /// </param>
-let showTable columns rows =
+let showTable (columns: string list) (rows: string list) =
     let mutable table = Table()
 
     columns
-    |> List.iter (fun column -> table <- table.AddColumn(toString column))
+    |> List.iter (fun column -> table <- table.AddColumn(column))
 
-    table <-
-        rows
-        |> List.map toString
-        |> Array.ofList
-        |> table.AddRow
+    table <- rows |> Array.ofList |> table.AddRow
 
     AnsiConsole.Write table

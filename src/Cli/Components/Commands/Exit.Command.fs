@@ -8,5 +8,5 @@ module ExitCommand =
     /// Command which exits the app upon being called.
     let get =
         { Name = "exit"
-          Description = I18n.translate (CommandText CommandExitDescription)
+          Description = Command.exitDescription
           Handler = fun _ -> Scene.Exit }

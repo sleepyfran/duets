@@ -13,7 +13,7 @@ open Simulation.Navigation
 module OutCommand =
     let create exitNodeId =
         { Name = "out"
-          Description = I18n.translate (CommandText CommandOutDescription)
+          Description = Command.outDescription
           Handler =
             (fun _ ->
                 State.get ()

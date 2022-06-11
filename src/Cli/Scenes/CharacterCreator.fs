@@ -8,49 +8,39 @@ open Entities
 
 let private genderText gender =
     match gender with
-    | Male -> CreatorText CharacterCreatorGenderMale
-    | Female -> CreatorText CharacterCreatorGenderFemale
-    | Other -> CreatorText CharacterCreatorGenderOther
-    |> I18n.translate
+    | Male -> Creator.characterGenderMale
+    | Female -> Creator.characterGenderFemale
+    | Other -> Creator.characterGenderOther
 
 let private showNameError error =
     match error with
-    | Character.NameTooShort -> CreatorText CreatorErrorCharacterNameTooShort
-    | Character.NameTooLong -> CreatorText CreatorErrorCharacterNameTooLong
-    |> I18n.translate
+    | Character.NameTooShort -> Creator.errorCharacterNameTooShort
+    | Character.NameTooLong -> Creator.errorCharacterNameTooLong
     |> showMessage
 
 let private showAgeError error =
     match error with
-    | Character.AgeTooYoung -> CreatorText CreatorErrorCharacterAgeTooYoung
-    | Character.AgeTooOld -> CreatorText CreatorErrorCharacterAgeTooOld
-    |> I18n.translate
+    | Character.AgeTooYoung -> Creator.errorCharacterAgeTooYoung
+    | Character.AgeTooOld -> Creator.errorCharacterAgeTooOld
     |> showMessage
 
 /// Shows a wizard to create a character.
 let rec characterCreator () = promptForName ()
 
 and private promptForName () =
-    showTextPrompt (
-        CreatorText CharacterCreatorInitialPrompt
-        |> I18n.translate
-    )
+    showTextPrompt Creator.characterInitialPrompt
     |> Character.validateName
     |> Result.switch promptForGender (showNameError >> promptForName)
 
 and private promptForGender name =
     showChoicePrompt
-        (CreatorText CharacterCreatorGenderPrompt
-         |> I18n.translate)
+        Creator.characterGenderPrompt
         genderText
         [ Male; Female; Other ]
     |> promptForAge name
 
 and private promptForAge name gender =
-    showNumberPrompt (
-        CreatorText CharacterCreatorAgePrompt
-        |> I18n.translate
-    )
+    showNumberPrompt Creator.characterAgePrompt
     |> Character.validateAge
     |> Result.switch
         (Character.from name gender >> Scene.BandCreator)

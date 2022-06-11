@@ -30,7 +30,7 @@ let rec showCommandPrompt title availableCommands =
         lineBreak ()
         showMessage title
 
-        showTextPrompt (Literal ">")
+        showTextPrompt ">"
         |> fun input ->
             let inputTokens =
                 String.split ' ' input |> List.ofArray
@@ -58,7 +58,6 @@ and private tryRunCommand input command =
         |> command.Handler
         |> Some
     | None ->
-        I18n.translate (CommonText CommonInvalidCommand)
-        |> showMessage
+        Generic.invalidCommand |> showMessage
 
         None

@@ -1,7 +1,6 @@
 [<AutoOpen>]
 module Cli.Components.Prompt
 
-open Cli.Localization
 open Cli.Text
 open Common
 open Entities
@@ -14,21 +13,21 @@ open Spectre.Console
 /// <returns>
 /// <i>true</i> if the user answered yes or <i>false</i> if no
 /// </returns>
-let showConfirmationPrompt title = AnsiConsole.Confirm(toString title)
+let showConfirmationPrompt title = AnsiConsole.Confirm(title)
 
 /// <summary>
 /// Renders a basic text prompt, forcing the user to write at least one character.
 /// </summary>
 /// <param name="title">Title of the prompt to show when asking</param>
 /// <returns>The text given by the user</returns>
-let showTextPrompt title = AnsiConsole.Ask<string>(toString title)
+let showTextPrompt title = AnsiConsole.Ask<string>(title)
 
 /// <summary>
 /// Renders a basic integer prompt, forcing the user to give a valid number.
 /// </summary>
 /// <param name="title">Title of the prompt to show when asking</param>
 /// <returns>The integer given by the user</returns>
-let showNumberPrompt title = AnsiConsole.Ask<int>(toString title)
+let showNumberPrompt title = AnsiConsole.Ask<int>(title)
 
 /// <summary>
 /// Renders a prompt that accepts lengths in the format minutes:seconds.
@@ -36,16 +35,13 @@ let showNumberPrompt title = AnsiConsole.Ask<int>(toString title)
 /// <param name="title">Title of the prompt to show when asking</param>
 /// <returns>The length given by the user</returns>
 let showLengthPrompt title =
-    let mutable lengthPrompt = TextPrompt<string>(toString title)
+    let mutable lengthPrompt =
+        TextPrompt<string>(title)
 
     let validate (length: string) =
         match Time.Length.parse length with
         | Ok _ -> ValidationResult.Success()
-        | Error _ ->
-            ValidationResult.Error(
-                I18n.translate (CommonText CommonInvalidLength)
-                |> toString
-            )
+        | Error _ -> ValidationResult.Error(Generic.invalidLength)
 
     lengthPrompt.Validator <- Func.toFunc validate
 

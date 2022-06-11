@@ -10,18 +10,14 @@ module HelpCommand =
     /// commands as a list.
     let create (commands: Command list) =
         { Name = "help"
-          Description = I18n.translate (CommandText CommandHelpDescription)
+          Description = Command.helpDescription
           Handler =
-              fun _ ->
-                  I18n.translate (CommandText CommandHelpDescription)
-                  |> showMessage
+            fun _ ->
+                showMessage Command.helpDescription
 
-                  commands
-                  |> List.iter
-                      (fun command ->
-                          CommandHelpEntry(command.Name, command.Description)
-                          |> CommandText
-                          |> I18n.translate
-                          |> showMessage)
+                commands
+                |> List.iter (fun command ->
+                    Command.helpEntry command.Name command.Description
+                    |> showMessage)
 
-                  Scene.World }
+                Scene.World }

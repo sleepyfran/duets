@@ -12,16 +12,14 @@ module SpinDrumsticksCommand =
     let rec create ongoingConcert =
         Concert.createCommand
             "spin drumstick"
-            CommandMakeCrowdSingDescription
+            Command.makeCrowdSingDescription
             spinDrumsticks
             (fun result points ->
                 match result with
-                | LowPerformance -> ConcertDrumstickSpinningBadResult points
+                | LowPerformance -> Concert.drumstickSpinningBadResult points
                 | AveragePerformance
                 | GoodPerformance
-                | GreatPerformance -> ConcertDrumstickSpinningGoodResult points
-                | _ -> ConcertTooManyDrumstickSpins
-                |> ConcertText
-                |> I18n.translate
+                | GreatPerformance -> Concert.drumstickSpinningGoodResult points
+                | _ -> Concert.tooManyDrumstickSpins
                 |> showMessage)
             ongoingConcert

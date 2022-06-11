@@ -12,18 +12,16 @@ module MakeCrowdSingCommand =
     let rec create ongoingConcert =
         Concert.createCommand
             "make crowd sing"
-            CommandMakeCrowdSingDescription
+            Command.makeCrowdSingDescription
             makeCrowdSing
             (fun result points ->
                 match result with
-                | LowPerformance -> ConcertMakeCrowdSingLowPerformance points
+                | LowPerformance -> Concert.makeCrowdSingLowPerformance points
                 | AveragePerformance ->
-                    ConcertMakeCrowdSingLowPerformance points
+                    Concert.makeCrowdSingLowPerformance points
                 | GoodPerformance
                 | GreatPerformance ->
-                    ConcertMakeCrowdSingGreatPerformance points
-                | _ -> ConcertTooMuchSingAlong
-                |> ConcertText
-                |> I18n.translate
+                    Concert.makeCrowdSingGreatPerformance points
+                | _ -> Concert.tooMuchSingAlong
                 |> showMessage)
             ongoingConcert

@@ -14,10 +14,7 @@ open Simulation.Studio.RecordAlbum
 [<RequireQualifiedAccess>]
 module CreateAlbumCommand =
     let rec private promptForName studio finishedSongs =
-        showTextPrompt (
-            StudioText StudioCreateRecordName
-            |> I18n.translate
-        )
+        showTextPrompt (Studio.createRecordName)
         |> Album.validateName
         |> Result.switch
             (promptForTrackList studio finishedSongs)
@@ -29,12 +26,9 @@ module CreateAlbumCommand =
         let band = Queries.Bands.currentBand state
 
         showMultiChoicePrompt
-            (StudioText StudioCreateTrackListPrompt
-             |> I18n.translate)
+            Studio.createTrackListPrompt
             (fun ((FinishedSong fs), currentQuality) ->
-                CommonSongWithDetails(fs.Name, currentQuality, fs.Length)
-                |> CommonText
-                |> I18n.translate)
+                Generic.songWithDetails fs.Name currentQuality fs.Length)
             finishedSongs
         |> promptForConfirmation studio band name
 
@@ -47,12 +41,9 @@ module CreateAlbumCommand =
 
         let confirmed =
             showConfirmationPrompt (
-                StudioConfirmRecordingPrompt(
-                    unreleasedAlbum.Name,
+                Studio.confirmRecordingPrompt
+                    unreleasedAlbum.Name
                     unreleasedAlbum.Type
-                )
-                |> StudioText
-                |> I18n.translate
             )
 
         if confirmed then
@@ -65,19 +56,15 @@ module CreateAlbumCommand =
 
         match recordAlbum state studio band album with
         | Error (NotEnoughFunds studioBill) ->
-            StudioCreateErrorNotEnoughMoney(studioBill)
-            |> StudioText
-            |> I18n.translate
+            Studio.createErrorNotEnoughMoney (studioBill)
             |> showMessage
         | Ok (album, effects) -> recordWithProgressBar studio band album effects
 
     and private recordWithProgressBar _ band album effects =
         showProgressBarAsync
-            [ I18n.translate (StudioText StudioCreateProgressEatingSnacks)
-              I18n.translate (
-                  StudioText StudioCreateProgressRecordingWeirdSounds
-              )
-              I18n.translate (StudioText StudioCreateProgressMovingKnobs) ]
+            [ Studio.createProgressEatingSnacks
+              Studio.createProgressRecordingWeirdSounds
+              Studio.createProgressMovingKnobs ]
             3<second>
 
         List.iter Cli.Effect.apply effects
@@ -87,14 +74,11 @@ module CreateAlbumCommand =
     /// Command to create a new album and potentially release.
     let create studio finishedSongs =
         { Name = "create album"
-          Description =
-            I18n.translate (CommandText CommandCreateAlbumDescription)
+          Description = Command.createAlbumDescription
           Handler =
             (fun _ ->
                 if List.isEmpty finishedSongs then
-                    StudioText StudioCreateNoSongs
-                    |> I18n.translate
-                    |> showMessage
+                    Studio.createNoSongs |> showMessage
                 else
                     promptForName studio finishedSongs
 

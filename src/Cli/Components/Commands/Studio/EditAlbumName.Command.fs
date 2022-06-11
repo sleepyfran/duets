@@ -18,18 +18,14 @@ module EditAlbumNameCommand =
             Queries.Bands.currentBand state
 
         showChoicePrompt
-            (StudioText StudioContinueRecordPrompt
-             |> I18n.translate)
-            (fun (UnreleasedAlbum album) -> I18n.constant album.Name)
+            Studio.continueRecordPrompt
+            (fun (UnreleasedAlbum album) -> album.Name)
             unreleasedAlbums
         |> promptForAlbumName currentBand
 
     and private promptForAlbumName band album =
         let name =
-            showTextPrompt (
-                StudioText StudioCreateRecordName
-                |> I18n.translate
-            )
+            showTextPrompt Studio.createRecordName
 
         Album.validateName name
         |> Result.switch
@@ -40,8 +36,7 @@ module EditAlbumNameCommand =
     /// Command to edit the name of an unreleased album.
     let create unreleasedAlbums =
         { Name = "edit album name"
-          Description =
-            I18n.translate (CommandText CommandEditAlbumNameDescription)
+          Description = Command.editAlbumNameDescription
           Handler =
             (fun _ ->
                 promptForAlbum unreleasedAlbums

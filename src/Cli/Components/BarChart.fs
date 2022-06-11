@@ -1,7 +1,6 @@
 [<AutoOpen>]
 module Cli.Components.BarChart
 
-open Cli.Localization
 open Spectre.Console
 
 /// Returns the associated color given the level of a skill or the quality
@@ -25,11 +24,7 @@ let showBarChart items =
         barChart.AddItems(
             items,
             fun (progress, label) ->
-                BarChartItem(
-                    toString label,
-                    float progress,
-                    colorForLevel progress
-                )
+                BarChartItem(label, float progress, colorForLevel progress)
         )
 
     AnsiConsole.Write(barChart)

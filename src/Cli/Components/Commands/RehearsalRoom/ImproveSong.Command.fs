@@ -20,33 +20,23 @@ module ImproveSongCommand =
             showImprovingProgress ()
             List.iter Cli.Effect.apply effects
 
-            RehearsalSpaceText ImproveSongReachedMaxQuality
-            |> I18n.translate
+            Rehearsal.improveSongReachedMaxQuality
             |> showMessage
         | ReachedMaxQualityAlready, _ ->
-            RehearsalSpaceText ImproveSongReachedMaxQuality
-            |> I18n.translate
+            Rehearsal.improveSongReachedMaxQuality
             |> showMessage
 
     and private showImprovingProgress () =
         showProgressBarAsync
-            [ I18n.translate (
-                  RehearsalSpaceText ImproveSongProgressAddingSomeMelodies
-              )
-              I18n.translate (
-                  RehearsalSpaceText ImproveSongProgressPlayingFoosball
-              )
-              I18n.translate (
-                  RehearsalSpaceText
-                      ImproveSongProgressModifyingChordsFromAnotherSong
-              ) ]
+            [ Rehearsal.improveSongProgressAddingSomeMelodies
+              Rehearsal.improveSongProgressPlayingFoosball
+              Rehearsal.improveSongProgressModifyingChordsFromAnotherSong ]
             2<second>
 
     /// Command to improve an unfinished song.
     let create unfinishedSongs =
         { Name = "improve song"
-          Description =
-            I18n.translate (CommandText CommandImproveSongDescription)
+          Description = Command.improveSongDescription
           Handler =
             (fun _ ->
                 let state = State.get ()
@@ -56,17 +46,13 @@ module ImproveSongCommand =
 
                 let selectedSong =
                     showOptionalChoicePrompt
-                        (RehearsalSpaceText ImproveSongSelection
-                         |> I18n.translate)
-                        (CommonText CommonCancel |> I18n.translate)
+                        Rehearsal.improveSongSelection
+                        Generic.cancel
                         (fun (UnfinishedSong us, _, currentQuality) ->
-                            CommonSongWithDetails(
-                                us.Name,
-                                currentQuality,
-                                us.Length
-                            )
-                            |> CommonText
-                            |> I18n.translate)
+                            Generic.songWithDetails
+                                us.Name
+                                currentQuality
+                                us.Length)
                         unfinishedSongs
 
                 match selectedSong with

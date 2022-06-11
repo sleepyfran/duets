@@ -14,21 +14,17 @@ module GetOffStageCommand =
     let rec create ongoingConcert =
         Concert.createCommand
             "get off stage"
-            CommandGetOffStageDescription
+            Command.getOffStageDescription
             getOffStage
             (fun canPerformEncore _ ->
                 lineBreak ()
 
                 if canPerformEncore then
-                    ConcertText ConcertGetOffStageEncorePossible
-                    |> I18n.translate
-                    |> showMessage
+                    Concert.getOffStageEncorePossible |> showMessage
 
                     lineBreak ()
                 else
-                    ConcertText ConcertGetOffStageNoEncorePossible
-                    |> I18n.translate
-                    |> showMessage
+                    Concert.getOffStageNoEncorePossible |> showMessage
 
                     lineBreak ())
             ongoingConcert

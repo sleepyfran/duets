@@ -11,33 +11,22 @@ open Simulation
 open Simulation.Concerts
 open Simulation.Queries
 
-let private textFromDate date =
-    CommonDateWithDay date
-    |> CommonText
-    |> I18n.translate
+let private textFromDate date = Generic.dateWithDay date
 
-let private textFromDayMoment dayMoment =
-    CommonDayMomentWithTime dayMoment
-    |> CommonText
-    |> I18n.translate
+let private textFromDayMoment dayMoment = Generic.dayMomentWithTime dayMoment
 
 let private showDateScheduledError date error =
     match error with
     | Scheduler.DateAlreadyScheduled ->
-        SchedulerAssistantAppDateAlreadyBooked date
-        |> PhoneText
-    |> I18n.translate
+        Phone.schedulerAssistantAppDateAlreadyBooked date
     |> showMessage
 
 let private showTicketPriceError ticketPrice error =
     match error with
     | Concert.PriceBelowZero ->
-        SchedulerAssistantAppTicketPriceBelowZero ticketPrice
-        |> PhoneText
+        Phone.schedulerAssistantAppTicketPriceBelowZero ticketPrice
     | Concert.PriceTooHigh ->
-        SchedulerAssistantAppTicketPriceTooHigh ticketPrice
-        |> PhoneText
-    |> I18n.translate
+        Phone.schedulerAssistantAppTicketPriceTooHigh ticketPrice
     |> showMessage
 
 let rec scheduleShow app =
@@ -58,10 +47,8 @@ and private promptForDate app firstDate =
 
     let selectedDate =
         showOptionalChoicePrompt
-            (PhoneText SchedulerAssistantAppShowDatePrompt
-             |> I18n.translate)
-            (PhoneText SchedulerAssistantCommonMoreDates
-             |> I18n.translate)
+            Phone.schedulerAssistantAppShowDatePrompt
+            Phone.schedulerAssistantCommonMoreDates
             textFromDate
             monthDays
 
@@ -81,9 +68,8 @@ and private promptForDayMoment app date =
 
     let selectedDayMoment =
         showOptionalChoicePrompt
-            (PhoneText SchedulerAssistantAppShowTimePrompt
-             |> I18n.translate)
-            (CommonText CommonCancel |> I18n.translate)
+            Phone.schedulerAssistantAppShowTimePrompt
+            Generic.cancel
             textFromDayMoment
             availableDayMoments
 
@@ -96,10 +82,9 @@ and private promptForCity app date dayMoment =
 
     let selectedCity =
         showOptionalChoicePrompt
-            (PhoneText SchedulerAssistantAppShowCityPrompt
-             |> I18n.translate)
-            (CommonText CommonCancel |> I18n.translate)
-            (fun (city: City) -> I18n.constant city.Name)
+            Phone.schedulerAssistantAppShowCityPrompt
+            Generic.cancel
+            (fun (city: City) -> city.Name)
             cities
 
     match selectedCity with
@@ -112,10 +97,9 @@ and private promptForVenue app date dayMoment city =
 
     let selectedVenue =
         showOptionalChoicePrompt
-            (PhoneText SchedulerAssistantAppShowVenuePrompt
-             |> I18n.translate)
-            (CommonText CommonCancel |> I18n.translate)
-            (fun (_, place: Place, _) -> I18n.constant place.Name)
+            Phone.schedulerAssistantAppShowVenuePrompt
+            Generic.cancel
+            (fun (_, place: Place, _) -> place.Name)
             venues
 
     match selectedVenue with
@@ -124,10 +108,7 @@ and private promptForVenue app date dayMoment city =
 
 and private promptForTicketPrice app date dayMoment city venueId =
     let ticketPrice =
-        showNumberPrompt (
-            PhoneText SchedulerAssistantAppTicketPricePrompt
-            |> I18n.translate
-        )
+        showNumberPrompt Phone.schedulerAssistantAppTicketPricePrompt
 
     Concert.validatePrice ticketPrice
     |> Result.switch

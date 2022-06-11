@@ -1,7 +1,6 @@
 [<AutoOpen>]
 module Cli.Components.Separator
 
-open Cli.Localization
 open Spectre.Console
 
 /// Renders a line into the screen with an optional text that, if given, shows
@@ -11,7 +10,7 @@ let showSeparator text =
     rule.Style <- Style.Parse("blue dim")
 
     match text with
-    | Some text -> rule.Title <- toString text
+    | Some text -> rule.Title <- text
     | None -> ()
 
     AnsiConsole.Write(rule)

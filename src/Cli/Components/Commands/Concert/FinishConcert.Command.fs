@@ -13,9 +13,7 @@ module FinishConcertCommand =
     /// them to move to other places outside the stage/backstage.
     let rec create ongoingConcert =
         { Name = "end concert"
-          Description =
-            CommandText CommandFinishConcertDescription
-            |> I18n.translate
+          Description = Command.finishConcertDescription
           Handler =
             (fun _ ->
                 Concerts.Live.Finish.finishConcert (State.get ()) ongoingConcert

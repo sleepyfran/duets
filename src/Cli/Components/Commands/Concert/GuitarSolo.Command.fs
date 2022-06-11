@@ -10,12 +10,9 @@ module GuitarSoloCommand =
     let create ongoingConcert =
         Concert.createSoloCommand
             "guitar solo"
-            CommandGuitarSoloDescription
-            [ ConcertText ConcertGuitarSoloPlayingReallyFast
-              |> I18n.translate
-              ConcertText ConcertGuitarSoloPlayingWithTeeth
-              |> I18n.translate
-              ConcertText ConcertGuitarSoloDoingSomeTapping
-              |> I18n.translate ]
+            Command.guitarSoloDescription
+            [ Concert.guitarSoloPlayingReallyFast
+              Concert.guitarSoloPlayingWithTeeth
+              Concert.guitarSoloDoingSomeTapping ]
             guitarSolo
             ongoingConcert

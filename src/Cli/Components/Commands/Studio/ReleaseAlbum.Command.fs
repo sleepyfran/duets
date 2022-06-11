@@ -12,8 +12,7 @@ module ReleaseAlbumCommand =
     /// Command to release an unreleased album.
     let create unreleasedAlbums =
         { Name = "release album"
-          Description =
-            I18n.translate (CommandText CommandReleaseAlbumDescription)
+          Description = Command.releaseAlbumDescription
           Handler =
             (fun _ ->
                 let state = State.get ()
@@ -22,9 +21,8 @@ module ReleaseAlbumCommand =
                     Queries.Bands.currentBand state
 
                 showChoicePrompt
-                    (StudioText StudioContinueRecordPrompt
-                     |> I18n.translate)
-                    (fun (UnreleasedAlbum album) -> I18n.constant album.Name)
+                    Studio.continueRecordPrompt
+                    (fun (UnreleasedAlbum album) -> album.Name)
                     unreleasedAlbums
                 |> Studio.promptToReleaseAlbum currentBand
 

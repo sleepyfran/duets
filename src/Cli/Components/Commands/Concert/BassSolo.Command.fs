@@ -10,12 +10,9 @@ module BassSoloCommand =
     let create ongoingConcert =
         Concert.createSoloCommand
             "bass solo"
-            CommandBassSoloDescription
-            [ ConcertText ConcertBassSoloMovingFingersQuickly
-              |> I18n.translate
-              ConcertText ConcertBassSoloSlappingThatBass
-              |> I18n.translate
-              ConcertText ConcertBassSoloGrooving
-              |> I18n.translate ]
+            Command.bassSoloDescription
+            [ Concert.bassSoloMovingFingersQuickly
+              Concert.bassSoloSlappingThatBass
+              Concert.bassSoloGrooving ]
             bassSolo
             ongoingConcert

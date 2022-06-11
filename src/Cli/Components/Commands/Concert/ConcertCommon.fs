@@ -13,10 +13,7 @@ open Simulation.Concerts.Live
 module Concert =
     /// Shows a progress bar with the default speech progress text.
     let showSpeechProgress () =
-        showProgressBarSync
-            [ ConcertText ConcertSpeechProgress
-              |> I18n.translate ]
-            2<second>
+        showProgressBarSync [ Concert.speechProgress ] 2<second>
 
     type private ActionFun<'a> =
         State -> OngoingConcert -> OngoingConcertEventResponse<'a>
@@ -36,7 +33,7 @@ module Concert =
         ongoingConcert
         =
         { Name = name
-          Description = I18n.translate (CommandText description)
+          Description = description
           Handler =
             (fun _ ->
                 let response =
@@ -70,13 +67,11 @@ module Concert =
                 showProgressBarAsync progressText 2<second>
 
                 match result with
-                | LowPerformance -> ConcertSoloResultLowPerformance points
+                | LowPerformance -> Concert.soloResultLowPerformance points
                 | AveragePerformance ->
-                    ConcertSoloResultAveragePerformance points
+                    Concert.soloResultAveragePerformance points
                 | GoodPerformance
-                | GreatPerformance -> ConcertSoloResultGreatPerformance points
-                | _ -> ConcertTooManySolos points
-                |> ConcertText
-                |> I18n.translate
+                | GreatPerformance -> Concert.soloResultGreatPerformance points
+                | _ -> Concert.tooManySolos points
                 |> showMessage)
             ongoingConcert

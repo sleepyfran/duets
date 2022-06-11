@@ -12,13 +12,11 @@ module TuneInstrumentCommand =
     let rec create ongoingConcert =
         Concert.createCommand
             "tune instrument"
-            CommandTuneInstrumentDescription
+            Command.tuneInstrumentDescription
             tuneInstrument
             (fun result points ->
                 match result with
-                | Done -> ConcertTuneInstrumentDone points
-                | _ -> ConcertTooMuchTuning
-                |> ConcertText
-                |> I18n.translate
+                | Done -> Concert.tuneInstrumentDone points
+                | _ -> Concert.tooMuchTuning
                 |> showMessage)
             ongoingConcert

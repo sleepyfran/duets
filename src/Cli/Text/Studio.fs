@@ -1,0 +1,58 @@
+[<RequireQualifiedAccess>]
+module Cli.Text.Studio
+
+let commonAlbumReleased name =
+    Styles.success $"Your band just released {name}!"
+
+let commonPromptReleaseAlbum name =
+    $"""Do you want to release {Styles.highlight name}?"""
+
+let createNoSongs =
+    Styles.error
+        "You don't have any finished song to record. Create some songs first and finish them in the rehearsal room"
+
+let createRecordName =
+    $"""What's going to be the {Styles.highlight "name"} of the record?"""
+
+let createTrackListPrompt =
+    $"""Select what {Styles.highlight "songs"} will be on the {Styles.highlight "track-list"}. You can select multiple. The order in which you select them will be the order in which they'll appear in the album"""
+
+let confirmRecordingPrompt name albumRecordType =
+    $"""Are you sure you want to record {Styles.album name}? Given its track-list it will be released as a {Styles.information (Generic.albumType albumRecordType)}"""
+
+let createErrorNameTooShort =
+    Styles.error "The name of the album is too short"
+
+let createErrorNameTooLong =
+    Styles.error "The name of the album is too long"
+
+let createErrorNotEnoughMoney studioBill =
+    Styles.error
+        $"""Your band doesn't have enough money to pay the studio fee. The studio is asking for {Styles.money studioBill}, but you don't have enough money on the band's account. Check the Bank app on your phone to transfer money to your band's account"""
+
+let createAlbumRecorded albumName =
+    Styles.success $"Your band just finished recording {albumName}!"
+
+let createProgressEatingSnacks =
+    Styles.progress "Eating some snacks"
+
+let createProgressRecordingWeirdSounds =
+    Styles.progress "Recording weird sounds"
+
+let createProgressMovingKnobs =
+    Styles.progress "Moving knobs up and down"
+
+let continueRecordPrompt =
+    "Which record do you want to continue working on?"
+
+let continueRecordActionPrompt =
+    "What do you want to do with this album?"
+
+let continueRecordActionPromptEditName =
+    "Edit name"
+
+let continueRecordActionPromptRelease =
+    "Release"
+
+let continueRecordAlbumRenamed albumName =
+    Styles.success $"""The album was renamed to "{albumName}"""

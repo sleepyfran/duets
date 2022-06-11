@@ -8,5 +8,5 @@ module PhoneCommand =
     /// Command which opens the phone of the user.
     let get =
         { Name = "phone"
-          Description = I18n.translate (CommandText CommandPhoneDescription)
+          Description = Command.phoneDescription
           Handler = fun _ -> Scene.Phone }

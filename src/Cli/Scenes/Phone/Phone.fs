@@ -14,22 +14,21 @@ type private PhoneMenuOption =
 
 let private textFromOption opt =
     match opt with
-    | Bank -> PhoneText PhoneOptionBank
-    | Statistics -> PhoneText PhoneOptionStatistics
-    | Scheduler -> PhoneText PhoneOptionScheduler
-    |> I18n.translate
+    | Bank -> Phone.optionBank
+    | Statistics -> Phone.optionStatistics
+    | Scheduler -> Phone.optionScheduler
 
 let rec phoneScene () =
-    let currentDate = State.get () |> Queries.Calendar.today
+    let currentDate =
+        State.get () |> Queries.Calendar.today
 
-    let dayMoment = Calendar.Query.dayMomentOf currentDate
+    let dayMoment =
+        Calendar.Query.dayMomentOf currentDate
 
     let selection =
         showOptionalChoicePrompt
-            (PhonePrompt(currentDate, dayMoment)
-             |> PhoneText
-             |> I18n.translate)
-            (CommonText CommonBackToWorld |> I18n.translate)
+            (Phone.prompt currentDate dayMoment)
+            Generic.backToWorld
             textFromOption
             [ Bank; Statistics; Scheduler ]
 

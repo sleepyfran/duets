@@ -11,11 +11,7 @@ open Simulation.Bank.Operations
 /// and confirms the transaction.
 let rec transferSubScene bankApp sender receiver =
     let amount =
-        showNumberPrompt (
-            BankAppTransferAmount receiver
-            |> PhoneText
-            |> I18n.translate
-        )
+        showNumberPrompt (Phone.bankAppTransferAmount receiver)
 
     if amount > 0 then
         transfer (State.get ()) sender receiver (amount * 1<dd>)
@@ -23,12 +19,9 @@ let rec transferSubScene bankApp sender receiver =
             match result with
             | Ok effects -> effects |> List.iter Effect.apply
             | Error (NotEnoughFunds _) ->
-                PhoneText BankAppTransferNotEnoughFunds
-                |> I18n.translate
-                |> showMessage
+                Phone.bankAppTransferNotEnoughFunds |> showMessage
     else
-        PhoneText BankAppTransferNothingTransferred
-        |> I18n.translate
+        Phone.bankAppTransferNothingTransferred
         |> showMessage
 
     bankApp ()

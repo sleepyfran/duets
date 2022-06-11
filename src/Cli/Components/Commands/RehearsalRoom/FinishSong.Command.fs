@@ -13,8 +13,7 @@ module FinishSongCommand =
     /// Command to finish an unfinished song.
     let create unfinishedSongs =
         { Name = "finish song"
-          Description =
-            I18n.translate (CommandText CommandFinishSongDescription)
+          Description = Command.finishSongDescription
           Handler =
             (fun _ ->
                 let state = State.get ()
@@ -24,17 +23,13 @@ module FinishSongCommand =
 
                 let selectedSong =
                     showOptionalChoicePrompt
-                        (RehearsalSpaceText FinishSongSelection
-                         |> I18n.translate)
-                        (CommonText CommonCancel |> I18n.translate)
+                        Rehearsal.finishSongSelection
+                        Generic.cancel
                         (fun (UnfinishedSong us, _, currentQuality) ->
-                            CommonSongWithDetails(
-                                us.Name,
-                                currentQuality,
-                                us.Length
-                            )
-                            |> CommonText
-                            |> I18n.translate)
+                            Generic.songWithDetails
+                                us.Name
+                                currentQuality
+                                us.Length)
                         unfinishedSongs
 
                 match selectedSong with

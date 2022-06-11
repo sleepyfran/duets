@@ -11,9 +11,8 @@ module Studio =
     /// Shows an error indicating what made the album name validation fail.
     let showAlbumNameError error =
         match error with
-        | Album.NameTooShort -> StudioText StudioCreateErrorNameTooShort
-        | Album.NameTooLong -> StudioText StudioCreateErrorNameTooLong
-        |> I18n.translate
+        | Album.NameTooShort -> Studio.createErrorNameTooShort
+        | Album.NameTooLong -> Studio.createErrorNameTooLong
         |> showMessage
 
     /// Shows a prompt that asks the user if they want to release an album and
@@ -25,11 +24,7 @@ module Studio =
         let state = State.get ()
 
         let confirmed =
-            showConfirmationPrompt (
-                StudioCommonPromptReleaseAlbum album.Name
-                |> StudioText
-                |> I18n.translate
-            )
+            showConfirmationPrompt (Studio.commonPromptReleaseAlbum album.Name)
 
         if confirmed then
             releaseAlbum state band unreleasedAlbum

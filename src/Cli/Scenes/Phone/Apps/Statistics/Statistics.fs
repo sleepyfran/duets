@@ -10,16 +10,14 @@ type private StatisticsOption =
 
 let private textFromOption opt =
     match opt with
-    | Band -> PhoneText StatisticsAppSectionBand
-    | Albums -> PhoneText StatisticsAppSectionAlbums
-    |> I18n.translate
+    | Band -> Phone.statisticsAppSectionBand
+    | Albums -> Phone.statisticsAppSectionAlbums
 
 let rec statisticsApp () =
     let selectedChoice =
         showOptionalChoicePrompt
-            (PhoneText StatisticsAppSectionPrompt
-             |> I18n.translate)
-            (CommonText CommonBackToPhone |> I18n.translate)
+            Phone.statisticsAppSectionPrompt
+            Generic.backToPhone
             textFromOption
             [ Band; Albums ]
 
