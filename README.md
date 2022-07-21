@@ -7,7 +7,7 @@ Duets will be a music simulation focused on allowing the player to be the leader
 Duets is built with F# as an interactive CLI game. You can clone and run the CLI with:
 
 ```bash
-git clone https://github.com/duets/game.git duets
+git clone https://github.com/sleepyfran/duets.git
 cd duets
 dotnet build
 dotnet run --project src/Cli/Cli.fsproj
