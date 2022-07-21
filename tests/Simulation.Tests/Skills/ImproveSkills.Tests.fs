@@ -41,7 +41,7 @@ let ``should increase skills by one if random is more than 50`` () =
             staticRandom randomValue
             |> Simulation.RandomGen.change
 
-            Composition.improveBandSkillsAfterComposing dummyBand dummyState
+            Composition.improveBandSkillsChance dummyBand dummyState
             |> matchesImprovementValue)
 
 [<Test>]
@@ -54,7 +54,7 @@ let ``should not increase skills that is already at a 100`` () =
             (Skill.create SkillId.Composition, 100)
             dummyState
 
-    Composition.improveBandSkillsAfterComposing dummyBand state
+    Composition.improveBandSkillsChance dummyBand state
     |> should haveLength 2
 
     let state =
@@ -63,7 +63,7 @@ let ``should not increase skills that is already at a 100`` () =
             (dummyBand.Genre |> SkillId.Genre |> Skill.create, 100)
             state
 
-    Composition.improveBandSkillsAfterComposing dummyBand state
+    Composition.improveBandSkillsChance dummyBand state
     |> should haveLength 1
 
 [<Test>]
@@ -74,5 +74,5 @@ let ``should not increase skills if random is less than 50`` () =
             staticRandom randomValue
             |> Simulation.RandomGen.change
 
-            Composition.improveBandSkillsAfterComposing dummyBand dummyState
+            Composition.improveBandSkillsChance dummyBand dummyState
             |> should haveLength 0)

@@ -1,58 +1,14 @@
 [<RequireQualifiedAccess>]
 module Simulation.Simulation
 
-
 open Entities
-open Simulation.Market
-open Simulation.Skills.ImproveSkills
 open Simulation.Time.AdvanceTime
-open Simulation.Queries
-
-let private runYearlyEffects state time =
-    if Calendar.Query.isFirstMomentOfYear time then
-        [ state.GenreMarkets |> GenreMarket.update ]
-    else
-        []
-
-let private runDailyEffects state time =
-    match Calendar.Query.dayMomentOf time with
-    | Morning ->
-        Albums.DailyUpdate.dailyUpdate state
-        |> (@) (Concerts.DailyUpdate.dailyUpdate state)
-    | _ -> []
-
-let rec private runCurrentTimeChecks state time =
-    Concerts.Scheduler.moveFailedConcerts state time
-
-let private runTimeDependentEffects time state =
-    runDailyEffects state time
-    |> (@) (runYearlyEffects state time)
-    |> (@) (runCurrentTimeChecks state time)
-
-let private runPlaceDependentEffects (_, coords) state =
-    let resolvedCoords =
-        Queries.World.Common.coordinates state coords
-
-    match resolvedCoords.Content with
-    | ResolvedPlaceCoordinates roomCoordinates ->
-        let placeId, _ = roomCoordinates.Coordinates
-
-        match roomCoordinates.Room with
-        | Room.Stage -> Concerts.Scheduler.startScheduledConcerts state placeId
-        | _ -> []
-    | _ -> []
 
 let private getAssociatedEffects effect =
     match effect with
-    | SongStarted (band, _) ->
-        [ Composition.improveBandSkillsAfterComposing band ]
-    | SongImproved (band, _) ->
-        [ Composition.improveBandSkillsAfterComposing band ]
-    | SongPracticed (band, _) ->
-        [ Composition.improveBandSkillsAfterComposing band ]
-    | TimeAdvanced date -> [ runTimeDependentEffects date ]
-    | WorldMoveTo coords -> [ runPlaceDependentEffects coords ]
-    | _ -> []
+    | TimeAdvanced date -> [ Events.Time.run date ]
+    | WorldMoveTo coords -> [ Events.Place.run coords ]
+    | effect -> Events.Skill.run effect
 
 /// Returns how many times the time has to be advanced for the given effect.
 let private timeAdvanceOfEffect effect =
