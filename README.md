@@ -4,7 +4,7 @@ Duets will be a music simulation focused on allowing the player to be the leader
 
 # 🛠 Run it locally
 
-Duets is built with F# as an interactive CLI game. You can clone and run the CLI with:
+Duets is built with F# as an interactive CLI game. You can clone and run the CLI with building from source:
 
 ```bash
 git clone https://github.com/sleepyfran/duets.git
@@ -13,7 +13,16 @@ dotnet build
 dotnet run --project src/Cli/Cli.fsproj
 ```
 
-You need the latest .NET to run this. You can follow the installation details [here](https://dotnet.microsoft.com/download).
+(You need the latest .NET to run this. You can follow the installation details [here](https://dotnet.microsoft.com/download).)
+
+Or using docker:
+
+```bash
+git clone https://github.com/sleepyfran/duets.git
+cd duets
+docker build -t duets .
+docker run -it duets
+```
 
 # 🧪 Testing
 
