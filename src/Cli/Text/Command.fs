@@ -109,9 +109,6 @@ let lookNoObjectsAround =
 let lookVisibleObjectsPrefix =
     "You can see:"
 
-let lookObjectEntry objectType commandNames =
-    $"- {Generic.objectName objectType |> Styles.object}, you can interact with it by calling {Generic.listOf commandNames id |> Styles.action}"
-
 let outDescription =
     "Exits the current place"
 

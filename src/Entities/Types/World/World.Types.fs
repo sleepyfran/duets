@@ -16,9 +16,6 @@ module WorldTypes =
         | West
         | NorthWest
 
-    /// Defines all the different objects that can appear in the game world.
-    type ObjectType = Instrument of InstrumentType
-
     /// Unique ID of a node, which represents a space inside of the world.
     type NodeId = Identity
 

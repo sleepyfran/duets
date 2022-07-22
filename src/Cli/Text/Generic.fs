@@ -136,11 +136,6 @@ let descriptorText descriptor =
     | Central -> "Central"
     | Historical -> "Historical"
 
-/// Returns the name of the given object type.
-let objectName object =
-    match object with
-    | ObjectType.Instrument instrument -> instrumentName instrument
-
 /// Returns a formatted list as empty if it contains nothing, "a" if it contains
 /// only one element, "a and b" with two elements and "a, b and c" for all other
 /// lengths.
