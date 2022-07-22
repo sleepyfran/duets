@@ -1,6 +1,5 @@
 module Simulation.Tests.Simulation
 
-
 open FsUnit
 open NUnit.Framework
 open Test.Common

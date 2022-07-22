@@ -57,7 +57,7 @@ let ``ConcertCancelled removes scheduled concert and adds it as failed to past c
     let state = State.generateOne stateGenOptions
 
     let state =
-        ConcertCancelled(dummyBand, FailedConcert dummyConcert)
+        ConcertCancelled(dummyBand, FailedConcert(dummyConcert, BandDidNotMakeIt))
         |> State.Root.applyEffect state
 
     let scheduledConcerts = Concerts.allScheduled state dummyBand.Id

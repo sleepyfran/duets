@@ -1,6 +1,7 @@
 namespace Simulation.Queries.World
 
 open Aether
+open Aether.Operators
 open Common
 open Entities
 open Simulation.WorldGeneration
@@ -109,7 +110,7 @@ module Common =
         | _ -> None
 
     /// <summary>
-    /// Returns the resolved coordinates of an ourtside node or None if the given
+    /// Returns the resolved coordinates of an outside node or None if the given
     /// coordinates point to a non-outside node.
     /// </summary>
     let coordinatesOfOutsideNode state coords =
@@ -119,3 +120,14 @@ module Common =
         match resolvedCoords.Content with
         | ResolvedOutsideCoordinates outsideCoords -> Some outsideCoords
         | _ -> None
+
+    /// Returns the list of coordinates to a given type of place in the current city.
+    let coordinatesOf state spaceTypeKey =
+        let position = currentPosition state
+
+        let spaceTypeLens =
+            Lenses.World.City.index_ >-> Map.key_ spaceTypeKey
+
+        position.City
+        |> Optic.get spaceTypeLens
+        |> Option.defaultValue []

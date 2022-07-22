@@ -42,7 +42,7 @@ let pastConcertGenerator (opts: ConcertGenOptions) =
         let! quality = Gen.choose (0, 100) |> Gen.map ((*) 1<quality>)
 
         if failed then
-            return FailedConcert concert
+            return FailedConcert(concert, BandDidNotMakeIt)
         else
             return PerformedConcert(concert, quality)
     }

@@ -1,5 +1,8 @@
 module Common.List
 
+/// Creates a new list containing only the given item.
+let ofItem item = [item]
+
 /// Like `forall2` but returns true instead of throwing an exception when the
 /// size of the collections differ.
 let forall2' predicate source1 source2 =

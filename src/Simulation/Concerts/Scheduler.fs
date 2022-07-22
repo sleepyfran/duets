@@ -30,6 +30,15 @@ let scheduleConcert state date dayMoment cityId venueId ticketPrice =
 
     ConcertScheduled(currentBand, (ScheduledConcert concert))
 
+/// Fails the given concert with the given fail reason, creating a ConcertCancelled
+/// effect to do so.
+let failConcert state concert failReason =
+    let band = Queries.Bands.currentBand state
+
+    FailedConcert(concert, failReason)
+    |> Tuple.two band
+    |> ConcertCancelled
+
 /// Checks whether there's any concert that was supposed to happen but didn't
 /// (eg: the band didn't make it to the concert and therefore the concert
 /// didn't happen) this creates the ConcertFailed effect which moves the concerts
@@ -50,14 +59,13 @@ let moveFailedConcerts state date =
             |> Calendar.Transform.changeDayMoment concert.DayMoment
 
         if date > concertDate then
-            FailedConcert concert
-            |> Tuple.two currentBand
-            |> ConcertCancelled
-            |> Some
+            failConcert state concert BandDidNotMakeIt |> Some
         else
             None)
     |> List.ofSeq
 
+/// Starts any scheduled concert that should be happening right now when getting
+/// into a place.
 let startScheduledConcerts state placeId =
     let situation =
         Queries.Situations.current state

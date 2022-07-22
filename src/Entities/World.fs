@@ -66,11 +66,20 @@ module Place =
           Quality = quality
           SpaceType = spaceType
           Rooms = Graph.from startingNode
+          RoomIndex =
+            [ (startingNode.Content, [ startingNode.Id ]) ]
+            |> Map.ofList
           Exits = Map.empty }
 
     /// Adds a room to the place.
-    let addRoom room =
-        Optic.map Lenses.World.Place.rooms_ (Graph.addNode room)
+    let addRoom room place =
+        Optic.map Lenses.World.Place.rooms_ (Graph.addNode room) place
+        |> Optic.map
+            Lenses.World.Place.roomIndex_
+            (Map.change room.Content (fun list ->
+                match list with
+                | Some list -> list @ [ room.Id ] |> Some
+                | None -> [ room.Id ] |> Some))
 
     /// Adds a connection between two room nodes in the specified direction.
     let addConnection
@@ -93,15 +102,38 @@ module Place =
 
 [<RequireQualifiedAccess>]
 module City =
+    let private addToIndex (node: Node<CityNode>) index =
+        match node.Content with
+        | CityNode.Place place ->
+            let mapKey =
+                match place.SpaceType with
+                | ConcertSpace _ -> SpaceTypeIndex.ConcertSpace
+                | Home -> SpaceTypeIndex.Home
+                | Hospital -> SpaceTypeIndex.Hospital
+                | RehearsalSpace _ -> SpaceTypeIndex.RehearsalSpace
+                | Studio _ -> SpaceTypeIndex.Studio
+
+            Map.change
+                mapKey
+                (fun list ->
+                    match list with
+                    | Some list -> list @ [ node.Id ] |> Some
+                    | None -> [ node.Id ] |> Some)
+                index
+        | _ -> index
+
     /// Creates a city with only one initial starting node.
     let create id name (startingNode: Node<CityNode>) =
         { Id = id
           Name = name
-          Graph = Graph.from startingNode }
+          Graph = Graph.from startingNode
+          Index = addToIndex startingNode Map.empty }
 
-    /// Adds a node to the city.
-    let addNode (node: Node<CityNode>) =
-        Optic.map Lenses.World.City.graph_ (Graph.addNode node)
+    /// Adds a node to the city, which adds it to the graph and to the index by
+    /// its type.
+    let addNode (node: Node<CityNode>) city =
+        Optic.map Lenses.World.City.graph_ (Graph.addNode node) city
+        |> Optic.map Lenses.World.City.index_ (addToIndex node)
 
     /// Adds a connection between nodes of the city.
     let addConnection fromNodeId toNodeId direction =

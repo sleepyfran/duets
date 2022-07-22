@@ -86,21 +86,24 @@ module PlaySongCommands =
           Description = Command.playDescription
           Handler =
             (fun _ ->
-                promptForSong ongoingConcert
-                |> Option.bind (fun song ->
+                let selectedSong =
+                    promptForSong ongoingConcert
+
+                match selectedSong with
+                | Some song ->
                     let energy = promptForEnergy ()
 
                     let response =
                         playSong (State.get ()) ongoingConcert song energy
 
-                    response.Effects |> Cli.Effect.applyMultiple
-
                     showResultWithProgressbar response song energy
 
-                    Some response.OngoingConcert)
-                |> Option.defaultValue ongoingConcert
-                |> Situations.inConcert
-                |> Cli.Effect.apply
+                    response.OngoingConcert
+                    |> Situations.inConcert
+                    |> Cli.Effect.apply
+
+                    response.Effects |> Cli.Effect.applyMultiple
+                | None -> ()
 
                 Scene.World) }
 
@@ -110,15 +113,16 @@ module PlaySongCommands =
           Description = Command.dedicateSongDescription
           Handler =
             (fun _ ->
-                promptForSong ongoingConcert
-                |> Option.bind (fun song ->
+                let selectedSong =
+                    promptForSong ongoingConcert
+
+                match selectedSong with
+                | Some song ->
                     let energy = promptForEnergy ()
                     Concert.showSpeechProgress ()
 
                     let response =
                         dedicateSong (State.get ()) ongoingConcert song energy
-
-                    response.Effects |> Cli.Effect.applyMultiple
 
                     match response.Result with
                     | TooManyRepetitionsPenalized
@@ -126,9 +130,11 @@ module PlaySongCommands =
                         Concert.tooManyDedications |> showMessage
                     | _ -> showResultWithProgressbar response song energy
 
-                    Some response.OngoingConcert)
-                |> Option.defaultValue ongoingConcert
-                |> Situations.inConcert
-                |> Cli.Effect.apply
+                    response.OngoingConcert
+                    |> Situations.inConcert
+                    |> Cli.Effect.apply
+
+                    response.Effects |> Cli.Effect.applyMultiple
+                | None -> ()
 
                 Scene.World) }

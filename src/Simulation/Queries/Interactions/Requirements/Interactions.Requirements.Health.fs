@@ -27,11 +27,6 @@ module HealthRequirements =
                 match interactionWithState.State with
                 | InteractionState.Enabled ->
                     match interactionWithState.Interaction with
-                    | Interaction.Concert concertInteraction ->
-                        match concertInteraction with
-                        | ConcertInteraction.FinishConcert _ ->
-                            interactionWithState
-                        | _ -> disable interactionWithState
                     | Interaction.Rehearsal rehearsalInteraction ->
                         match rehearsalInteraction with
                         | RehearsalInteraction.FireMember _

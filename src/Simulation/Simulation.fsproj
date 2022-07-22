@@ -70,6 +70,8 @@
         <Compile Include="Songs\Composition\ImproveSong.fs" />
         <Compile Include="Songs\Composition\FinishSong.fs" />
         <Compile Include="Songs\Composition\DiscardSong.fs" />
+        <Compile Include="Events\Character\Hospitalization.fs" />
+        <Compile Include="Events\Character\Character.Events.fs" />
         <Compile Include="Events\Place.Events.fs" />
         <Compile Include="Events\Time.Events.fs" />
         <Compile Include="Events\Skill.Events.fs" />

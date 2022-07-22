@@ -67,12 +67,23 @@ module WorldTypes =
         | RehearsalSpace of RehearsalSpace
         | Studio of Studio
 
+    /// Re-defines all types of places above but without its content, to be able
+    /// to reference them on a map.
+    [<RequireQualifiedAccess>]
+    type SpaceTypeIndex =
+        | ConcertSpace
+        | Home
+        | Hospital
+        | RehearsalSpace
+        | Studio
+
     /// Defines a place inside of the game world, which wraps a given space
     /// (could be any inside space like a rehearsal place or a concert hall), the
     /// rooms that the place itself contains and the exits that connect that
     /// place with the outside.
     type Place =
         { Rooms: Graph<Room>
+          RoomIndex: Map<Room, NodeId list>
           Exits: Map<NodeId, NodeId>
           Name: string
           Quality: Quality
@@ -111,12 +122,12 @@ module WorldTypes =
     type CityId = Identity
 
     type RoomCoordinates = NodeId * NodeId
-    type OutsideCoordinates = NodeId
+    type SingleNodeCoordinates = NodeId
 
     /// Defines the coordinates to a specific point inside a city.
     type NodeCoordinates =
         | Room of RoomCoordinates
-        | Node of OutsideCoordinates
+        | Node of SingleNodeCoordinates
 
     /// Defines all errors that can happen when trying to move to another node.
     type MovementError = | CanNotEnterStageOutsideAConcert
@@ -131,7 +142,12 @@ module WorldTypes =
     type City =
         { Id: CityId
           Name: string
-          Graph: Graph<CityNode> }
+          Graph: Graph<CityNode>
+          /// Defines an index of types of spaces that are inside of the city
+          /// and their coordinates. This allows for quickly retrieving coordinates
+          /// to different spaces without having to traverse the entire graph
+          /// looking for them.
+          Index: Map<SpaceTypeIndex, SingleNodeCoordinates list> }
 
     /// Resolved coordinates for nodes that contain rooms, with the place and
     /// the room that the coordinates referred to.
@@ -142,7 +158,7 @@ module WorldTypes =
 
     /// Resolved coordinates for nodes that do not contain rooms.
     type ResolvedOutsideCoordinates =
-        { Coordinates: OutsideCoordinates
+        { Coordinates: SingleNodeCoordinates
           Node: OutsideNode }
 
     /// Resolved coordinates with all fields. Includes the city, the given

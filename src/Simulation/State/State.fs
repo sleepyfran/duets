@@ -36,6 +36,9 @@ let applyEffect state effect =
         |> Albums.addReleased band releasedAlbum
     | CharacterHealthChange (character, health) ->
         Characters.setHealth character.Id health state
+    | CharacterHealthDepleted _ -> state
+    | CharacterHospitalized (_, (cityId, nodeId)) ->
+        World.move cityId nodeId state
     | CharacterEnergyChange (character, energy) ->
         Characters.setEnergy character.Id energy state
     | CharacterMoodChange (character, mood) ->

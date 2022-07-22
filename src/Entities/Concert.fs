@@ -70,7 +70,7 @@ let validatePrice ticketPrice =
 let fromPast (concert: PastConcert) =
     match concert with
     | PerformedConcert (concert, _) -> concert
-    | FailedConcert concert -> concert
+    | FailedConcert(concert, _) -> concert
 
 /// Returns the inner concert inside a scheduled concert.
 let fromScheduled (ScheduledConcert concert) = concert

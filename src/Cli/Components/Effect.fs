@@ -32,6 +32,17 @@ and applyMultiple effects = effects |> List.iter apply
 
 and private displayEffect effect =
     match effect with
+    | CharacterHealthDepleted _ ->
+        lineBreak ()
+        wait 5000<millisecond>
+        showMessage Events.healthDepletedFirst
+        wait 5000<millisecond>
+        showMessage Events.healthDepletedSecond
+        wait 5000<millisecond>
+        lineBreak ()
+    | CharacterHospitalized _ ->
+        showMessage Events.hospitalized
+        lineBreak ()
     | SongImproved (_, Diff (before, after)) ->
         let (_, _, previousQuality) = before
         let (_, _, currentQuality) = after
@@ -93,14 +104,17 @@ and private displayEffect effect =
         | q when q < 75<quality> -> Concert.finishedNormally q
         | q -> Concert.finishedGreat q
         |> showMessage
-    | ConcertCancelled (band, FailedConcert concert) ->
+    | ConcertCancelled (band, FailedConcert (concert, reason)) ->
         let coordinates =
             Queries.World.Common.coordinatesOfPlace
                 (State.get ())
                 (Node concert.VenueId)
             |> Option.get
 
-        Concert.failed band coordinates.Place concert
+        match reason with
+        | BandDidNotMakeIt ->
+            Concert.failedBandMissing band coordinates.Place concert
+        | CharacterPassedOut -> Concert.failedCharacterPassedOut
         |> showMessage
     | Wait _ ->
         let today =

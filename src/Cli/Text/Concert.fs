@@ -17,7 +17,11 @@ let faceCrowdMessage =
     Styles.success
         "You're now looking towards the crowd, everything's normal now"
 
-let failed (band: Band) (place: Place) concert =
+let failedCharacterPassedOut =
+    Styles.error
+        "Your concert failed because your character passed out in the middle of it. Maybe keep an eye on your health next time? At least the surprise of the crowd will hopefully generate some buzz around your band"
+
+let failedBandMissing (band: Band) (place: Place) concert =
     Styles.error
         $"Your band {band.Name} was supposed to have a concert {Generic.formatDate concert.Date} {Generic.dayMomentName concert.DayMoment} at {place.Name} but didn't make it in time. The concert has been cancelled and fame took a little hit because of it"
 

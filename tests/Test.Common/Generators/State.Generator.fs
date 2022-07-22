@@ -85,6 +85,7 @@ let generator (opts: StateGenOptions) =
 
         return
             { initialState with
+                CurrentPosition = (city.Id, Node venueId)
                 Today = Calendar.gameBeginning
                 Bands = [ (band.Id, band) ] |> Map.ofList
                 CurrentBandId = band.Id

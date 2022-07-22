@@ -44,10 +44,7 @@ let private lastVisitModifier state (band: Band) concert =
 
     match lastConcertInCity with
     | Some lastConcert ->
-        let lastConcert =
-            match lastConcert with
-            | PerformedConcert (concert, _) -> concert
-            | FailedConcert concert -> concert
+        let lastConcert = Concert.fromPast lastConcert
 
         concert.Date - lastConcert.Date
         |> fun span ->

@@ -192,6 +192,10 @@ module World =
             (fun (p: Place) -> p.Rooms),
             (fun v (p: Place) -> { p with Rooms = v })
 
+        let roomIndex_ =
+            (fun (p: Place) -> p.RoomIndex),
+            (fun v (p: Place) -> { p with RoomIndex = v })
+
         let exits =
             (fun (p: Place) -> p.Exits),
             (fun v (p: Place) -> { p with Exits = v })
@@ -200,6 +204,10 @@ module World =
         let graph_ =
             (fun (c: City) -> c.Graph),
             (fun v (c: City) -> { c with Graph = v })
+
+        let index_ =
+            (fun (c: City) -> c.Index),
+            (fun v (c: City) -> { c with Index = v })
 
         let startingNode_ =
             graph_ >-> Graph.startingNode_
