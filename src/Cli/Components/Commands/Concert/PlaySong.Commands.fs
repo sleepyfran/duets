@@ -98,10 +98,6 @@ module PlaySongCommands =
 
                     showResultWithProgressbar response song energy
 
-                    response.OngoingConcert
-                    |> Situations.inConcert
-                    |> Cli.Effect.apply
-
                     response.Effects |> Cli.Effect.applyMultiple
                 | None -> ()
 
@@ -129,10 +125,6 @@ module PlaySongCommands =
                     | TooManyRepetitionsNotDone ->
                         Concert.tooManyDedications |> showMessage
                     | _ -> showResultWithProgressbar response song energy
-
-                    response.OngoingConcert
-                    |> Situations.inConcert
-                    |> Cli.Effect.apply
 
                     response.Effects |> Cli.Effect.applyMultiple
                 | None -> ()

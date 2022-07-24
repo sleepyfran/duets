@@ -41,10 +41,6 @@ module Concert =
 
                 afterActionFn response.Result response.Points
 
-                response.OngoingConcert
-                |> Situations.inConcert
-                |> Cli.Effect.apply
-
                 response.Effects |> Cli.Effect.applyMultiple
 
                 Scene.World) }
