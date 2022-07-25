@@ -10,16 +10,21 @@ module HealthRequirements =
     let private disable interactionWithState =
         { interactionWithState with
             State =
-                (InteractionDisabledReason.NotEnoughHealth minimumHealth)
+                InteractionDisabledReason.NotEnoughAttribute(
+                    CharacterAttribute.Health,
+                    minimumHealth
+                )
                 |> InteractionState.Disabled }
 
     /// Checks that the player has more than 10 points of health or disables
     /// all interactions that cannot be performed with low health.
     let check state interactions =
-        let character =
-            Queries.Characters.playableCharacter state
+        let characterHealth =
+            Queries.Characters.playableCharacterAttribute
+                state
+                CharacterAttribute.Health
 
-        if character.Status.Health > minimumHealth then
+        if characterHealth > minimumHealth then
             interactions
         else
             interactions

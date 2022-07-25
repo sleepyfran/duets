@@ -10,12 +10,7 @@
         "Gender": {
           "Case": "Male"
         },
-        "Status": {
-          "Mood": 100,
-          "Health": 100,
-          "Energy": 100,
-          "Fame": 85
-        }
+        "Attributes": []
       },
       "PricePerSong": 1000
     }

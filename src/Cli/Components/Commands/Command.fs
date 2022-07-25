@@ -45,12 +45,16 @@ module Command =
             Handler =
                 (fun _ ->
                     match disabledReason with
-                    | InteractionDisabledReason.NotEnoughEnergy energyNeeded ->
-                        Command.disabledNotEnoughEnergy energyNeeded
-                    | InteractionDisabledReason.NotEnoughHealth healthNeeded ->
-                        Command.disabledNotEnoughHealth healthNeeded
-                    | InteractionDisabledReason.NotEnoughMood moodNeeded ->
-                        Command.disabledNotEnoughMood moodNeeded
+                    | InteractionDisabledReason.NotEnoughAttribute (attribute,
+                                                                    amountNeeded) ->
+                        match attribute with
+                        | CharacterAttribute.Energy ->
+                            Command.disabledNotEnoughEnergy amountNeeded
+                        | CharacterAttribute.Health ->
+                            Command.disabledNotEnoughHealth amountNeeded
+                        | CharacterAttribute.Mood ->
+                            Command.disabledNotEnoughMood amountNeeded
+                        | _ -> ""
                     |> showMessage
 
                     Scene.World) }

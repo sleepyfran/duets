@@ -35,7 +35,6 @@
         <Compile Include="Concerts\Live.PlaySong.Tests.fs" />
         <Compile Include="Concerts\Live.GreetAudience.Tests.fs" />
         <Compile Include="Concerts\Live.DedicateSong.Tests.fs" />
-        <Compile Include="Character\Status.Tests.fs" />
         <Compile Include="Market\GenreMarket.Tests.fs" />
         <Compile Include="Time\AdvanceTime.Tests.fs" />
         <Compile Include="Songs\ComposeSong.Tests.fs" />

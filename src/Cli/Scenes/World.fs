@@ -211,8 +211,13 @@ let private commandsFromInteractions interactions =
 let worldScene () =
     lineBreak ()
 
-    let character =
-        Queries.Characters.playableCharacter (State.get ())
+    let mood, health, energy, fame =
+        Queries.Characters.playableCharacterAttribute4
+            (State.get ())
+            CharacterAttribute.Mood
+            CharacterAttribute.Health
+            CharacterAttribute.Energy
+            CharacterAttribute.Fame
 
     let today =
         Queries.Calendar.today (State.get ())
@@ -241,9 +246,13 @@ let worldScene () =
             Concert.actionPrompt
                 today
                 currentDayMoment
-                character.Status
+                mood
+                health
+                energy
+                fame
                 ongoingConcert.Points
-        | _ -> Command.commonPrompt today currentDayMoment character.Status
+        | _ ->
+            Command.commonPrompt today currentDayMoment mood health energy fame
 
     showCommandPrompt
         promptText

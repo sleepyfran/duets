@@ -110,28 +110,12 @@ module Character =
         (fun (c: Character) -> c.Id),
         (fun v (c: Character) -> { c with Id = v })
 
-    let status_ =
-        (fun (c: Character) -> c.Status),
-        (fun v (c: Character) -> { c with Status = v })
+    let attributes_ =
+        (fun (c: Character) -> c.Attributes),
+        (fun v (c: Character) -> { c with Attributes = v })
 
-    module Status =
-        let energy_ =
-            (fun (c: CharacterStatus) -> c.Energy),
-            (fun v (c: CharacterStatus) -> { c with Energy = v })
-
-        let health_ =
-            (fun (c: CharacterStatus) -> c.Health),
-            (fun v (c: CharacterStatus) -> { c with Health = v })
-
-        let mood_ =
-            (fun (c: CharacterStatus) -> c.Mood),
-            (fun v (c: CharacterStatus) -> { c with Mood = v })
-
-    let energy_ = status_ >-> Status.energy_
-
-    let health_ = status_ >-> Status.health_
-
-    let mood_ = status_ >-> Status.mood_
+    let attribute_ attr =
+        attributes_ >-> Map.keyWithDefault_ attr 0
 
 module Concerts =
     module Ongoing =

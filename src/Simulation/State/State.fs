@@ -34,15 +34,11 @@ let applyEffect state effect =
 
         Albums.removeReleased band album.Id state
         |> Albums.addReleased band releasedAlbum
-    | CharacterHealthChange (character, health) ->
-        Characters.setHealth character.Id health state
+    | CharacterAttributeChanged (character, attribute, amount) ->
+        Characters.setAttribute character.Id attribute amount state
     | CharacterHealthDepleted _ -> state
     | CharacterHospitalized (_, (cityId, nodeId)) ->
         World.move cityId nodeId state
-    | CharacterEnergyChange (character, energy) ->
-        Characters.setEnergy character.Id energy state
-    | CharacterMoodChange (character, mood) ->
-        Characters.setMood character.Id mood state
     | ConcertScheduled (band, concert) ->
         Concerts.addScheduledConcert band concert state
     | ConcertUpdated (band, concert) ->

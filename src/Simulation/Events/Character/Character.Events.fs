@@ -7,6 +7,9 @@ open Entities
 /// character.
 let internal run effect =
     match effect with
-    | CharacterHealthDepleted character ->
+    | CharacterAttributeChanged (character, attribute, amount) when
+        attribute = CharacterAttribute.Health
+        && amount < 10
+        ->
         [ Hospitalization.hospitalize character ]
     | _ -> []

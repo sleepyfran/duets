@@ -8,6 +8,12 @@ type CharacterAgeValidationError =
     | AgeTooYoung
     | AgeTooOld
 
+let private defaultAttributes =
+    [ (CharacterAttribute.Mood, 100)
+      (CharacterAttribute.Health, 100)
+      (CharacterAttribute.Energy, 100) ]
+    |> Map.ofList
+
 /// Base character that has no real properties. Only to be used while
 /// populating a character during a transformation.
 let empty =
@@ -15,11 +21,7 @@ let empty =
       Name = ""
       Age = 0
       Gender = Gender.Other
-      Status =
-          { Mood = 100
-            Health = 100
-            Energy = 100
-            Fame = 0 } }
+      Attributes = defaultAttributes }
 
 /// Creates a character from the given parameters, generating a random
 /// ID for it.
@@ -28,11 +30,7 @@ let from name gender age =
       Name = name
       Age = age
       Gender = gender
-      Status =
-          { Mood = 100
-            Health = 100
-            Energy = 100
-            Fame = 0 } }
+      Attributes = defaultAttributes }
 
 /// Validates whether the name of the character is valid or not.
 let validateName (name: string) =

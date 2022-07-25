@@ -169,8 +169,8 @@ let formatNumber (amount: 'a) = System.String.Format("{0:#,0}", amount)
 let formatDate (date: Date) = $"{date.Day}/{date.Month}/{date.Year}"
 
 /// Formats the character status into a bar that can be shown to the user.
-let infoBar (date: Date) (dayMoment: DayMoment) (s: CharacterStatus) =
-    $"""{Emoji.dayMoment dayMoment} {dayMomentName dayMoment |> Styles.time} of {formatDate date |> Styles.time} | {Emoji.mood s.Mood} {Styles.Level.from s.Mood} | {Emoji.health} {Styles.Level.from s.Health} | {Emoji.energy} {Styles.Level.from s.Energy} | {Emoji.fame} {Styles.Level.from s.Fame}"""
+let infoBar (date: Date) (dayMoment: DayMoment) mood health energy fame =
+    $"""{Emoji.dayMoment dayMoment} {dayMomentName dayMoment |> Styles.time} of {formatDate date |> Styles.time} | {Emoji.mood mood} {Styles.Level.from mood} | {Emoji.health} {Styles.Level.from health} | {Emoji.energy} {Styles.Level.from energy} | {Emoji.fame} {Styles.Level.from fame}"""
 
 let gameName = "Duets"
 let youAreIn place = $"You're currently in {place}"

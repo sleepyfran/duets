@@ -11,11 +11,12 @@ module EffectTypes =
         | AlbumReleased of Band * ReleasedAlbum
         | AlbumReleasedUpdate of Band * ReleasedAlbum
         | AlbumRenamed of Band * UnreleasedAlbum
-        | CharacterHealthChange of Character * Health
+        | CharacterAttributeChanged of
+            character: Character *
+            attribute: CharacterAttribute *
+            amount: CharacterAttributeAmount
         | CharacterHealthDepleted of Character
         | CharacterHospitalized of Character * WorldCoordinates
-        | CharacterEnergyChange of Character * Energy
-        | CharacterMoodChange of Character * Mood
         | ConcertScheduled of Band * ScheduledConcert
         | ConcertFinished of Band * PastConcert
         | ConcertUpdated of Band * ScheduledConcert

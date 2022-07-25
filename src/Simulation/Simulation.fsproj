@@ -43,7 +43,7 @@
         <Compile Include="WorldNavigation\Policies\Concert.NavigationPolicies.fs" />
         <Compile Include="WorldNavigation\Navigation.fs" />
         <Compile Include="Situations\Situations.fs" />
-        <Compile Include="Character\Status.fs" />
+        <Compile Include="Character\Attributes.fs"/>
         <Compile Include="Bank\Operations.fs" />
         <Compile Include="Albums\DailyStreams.fs" />
         <Compile Include="Albums\Hype.fs" />

@@ -3,8 +3,8 @@ module Cli.Text.Command
 
 open Common
 
-let commonPrompt date dayMoment status =
-    $"""{Generic.infoBar date dayMoment status}
+let commonPrompt date dayMoment mood health energy fame =
+    $"""{Generic.infoBar date dayMoment mood health energy fame}
 {Styles.prompt "What do you want to do? Type 'help' if you're lost"}"""
 
 let adjustDrumsDescription =

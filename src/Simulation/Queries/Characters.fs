@@ -15,6 +15,20 @@ module Characters =
         |> Optic.get Lenses.State.characters_
         |> Map.find playableCharacterId
 
+    /// Returns the value of an attribute from the playable character.
+    let playableCharacterAttribute state attribute =
+        playableCharacter state
+        |> Optic.get (Lenses.Character.attribute_ attribute)
+        |> Option.defaultValue 0
+
+    /// Returns a tuple of four values with the value of the given attributes
+    /// from the playable character.
+    let playableCharacterAttribute4 state attr1 attr2 attr3 attr4 =
+        (playableCharacterAttribute state attr1,
+         playableCharacterAttribute state attr2,
+         playableCharacterAttribute state attr3,
+         playableCharacterAttribute state attr4)
+
     /// Returns a character given its ID. Throws an exception if the key is not
     /// found.
     let find state id =

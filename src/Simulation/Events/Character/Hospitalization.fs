@@ -38,6 +38,7 @@ let hospitalize character state =
         |> Calendar.Ops.addDays 7
 
     concertCancellationEffects
-    @ [ CharacterHospitalized(character, hospitalCoordinates)
+    @ [ CharacterHealthDepleted character
+        CharacterHospitalized(character, hospitalCoordinates)
         TimeAdvanced oneWeekLater
-        CharacterHealthChange(character, 100) ]
+        CharacterAttributeChanged(character, CharacterAttribute.Health, 100) ]

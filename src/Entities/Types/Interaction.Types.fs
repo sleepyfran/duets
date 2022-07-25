@@ -120,9 +120,9 @@ module InteractionTypes =
     /// Defines all possible reasons why an interaction can be disabled.
     [<RequireQualifiedAccess>]
     type InteractionDisabledReason =
-        | NotEnoughEnergy of needed: Energy
-        | NotEnoughHealth of needed: Health
-        | NotEnoughMood of needed: Mood
+        | NotEnoughAttribute of
+            attribute: CharacterAttribute *
+            amount: CharacterAttributeAmount
 
     /// Defines the state of an interaction, which can be enabled or disabled
     /// for a specific reason.
