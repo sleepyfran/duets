@@ -36,19 +36,15 @@ module ComposeSongCommand =
             (showLengthError >> fun _ -> promptForLength name)
 
     and private promptForGenre name length =
-        let genres = Database.genres ()
-
-        showChoicePrompt Rehearsal.composeSongGenrePrompt id genres
+        showChoicePrompt Rehearsal.composeSongGenrePrompt id Data.Genres.all
         |> promptForVocalStyle name length
 
     and private promptForVocalStyle name length genre =
-        let vocalStyles = Database.vocalStyles
-
         let vocalStyle =
             showChoicePrompt
                 Rehearsal.composeSongVocalStylePrompt
                 snd
-                vocalStyles
+                Data.VocalStyles.allNames
             |> fst
 
         Song.from name length vocalStyle genre

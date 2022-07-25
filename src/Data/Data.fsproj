@@ -4,22 +4,24 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="Data\Roles.fs"/>
-        <Compile Include="Data\VocalStyles.fs"/>
-        <Content Include="Data\genres.json">
+        <Compile Include="ResourceLoader.fs" />
+        <Content Include="Resources\genres.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="Data\npcs.json">
+        <Content Include="Resources\npcs.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="Data\studios.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Compile Include="Database.fs"/>
+        <Compile Include="Items\Drink.Items.fs" />
+        <Compile Include="Genres.fs" />
+        <Compile Include="Npcs.fs" />
+        <Compile Include="Roles.fs" />
+        <Compile Include="VocalStyles.fs" />
+        <Compile Include="World\Generation\Cities\Prague.fs" />
+        <Compile Include="World\World.fs" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Common\Common.fsproj"/>
-        <ProjectReference Include="..\Entities\Entities.fsproj"/>
+        <ProjectReference Include="..\Common\Common.fsproj" />
+        <ProjectReference Include="..\Entities\Entities.fsproj" />
     </ItemGroup>
     <ItemGroup>
         <None Update="Data/*.json">
@@ -28,6 +30,6 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="FSharp.SystemTextJson" Version="0.16.6"/>
+        <PackageReference Include="FSharp.SystemTextJson" Version="0.16.6" />
     </ItemGroup>
 </Project>

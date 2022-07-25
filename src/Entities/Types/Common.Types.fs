@@ -29,3 +29,11 @@ module CommonTypes =
 
     /// Represents the fame of a character or a band, between 0 and 100.
     type Fame = int
+
+    /// Measure for counting milliliters of something.
+    [<Measure>]
+    type milliliter
+
+    /// Measure for counting grams of something.
+    [<Measure>]
+    type gram

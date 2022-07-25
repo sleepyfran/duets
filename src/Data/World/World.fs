@@ -1,4 +1,4 @@
-module Simulation.WorldGeneration.World
+module Data.World.World
 
 open Entities
 

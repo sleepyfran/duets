@@ -1,4 +1,4 @@
-module Simulation.WorldGeneration.Cities.Prague
+module Data.World.Cities.Prague
 
 open Entities
 
@@ -159,8 +159,9 @@ and addDuetsRehearsalSpace street city =
     |> World.City.addConnection street.Id node.Id NorthWest
 
 and addDuetsStudio street city =
-    let studioName, quality, studio =
-        List.head (Database.studios ())
+    let studio =
+        { Producer = Character.from "Fran González" Male 26
+          PricePerSong = 1000<dd> }
 
     let masteringRoom =
         Room.MasteringRoom
@@ -175,7 +176,11 @@ and addDuetsStudio street city =
         )
 
     let node =
-        World.Place.create studioName quality (Studio studio) masteringRoom
+        World.Place.create
+            "Duets Studio"
+            80<quality>
+            (Studio studio)
+            masteringRoom
         |> World.Place.addRoom recordingRoom
         |> World.Place.addConnection masteringRoom recordingRoom North
         |> World.Place.addExit masteringRoom street

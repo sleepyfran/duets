@@ -4,7 +4,7 @@ open Aether
 open Aether.Operators
 open Common
 open Entities
-open Simulation.WorldGeneration
+open Data.World
 
 module ConcertSpace =
     let private mapConcertSpaceFromCityNode fn cityNode =

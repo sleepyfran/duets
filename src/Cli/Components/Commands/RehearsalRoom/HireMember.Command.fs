@@ -64,7 +64,7 @@ module HireMemberCommand =
           Description = Command.hireMemberDescription
           Handler =
             (fun _ ->
-                let availableRoles = Database.roles
+                let availableRoles = Data.Roles.all
 
                 let selectedRole =
                     showOptionalChoicePrompt

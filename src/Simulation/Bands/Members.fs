@@ -23,7 +23,7 @@ let private createMemberForHire averageSkillLevel averageAge genre instrument =
     |> List.map (fun id -> Skill.createFromAverageLevel id averageSkillLevel)
     |> fun skills ->
         let npc =
-            Database.randomNpc ()
+            Data.Npcs.random ()
             |> fun (name, gender) ->
                 Character.from name gender (ageFromAverage averageAge)
 

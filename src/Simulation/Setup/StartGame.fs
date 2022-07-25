@@ -1,6 +1,7 @@
 module Simulation.Setup
 
 open Common
+open Data.World
 open Entities
 open Simulation.Market
 
@@ -8,7 +9,7 @@ open Simulation.Market
 /// the setup wizard and starts the generation process for the game simulation
 /// which includes markets for the different genres available and the game world.
 let startGame (character: Character) (band: Band) =
-    let world = WorldGeneration.World.get ()
+    let world = World.get ()
 
     let initialCity = Map.head world.Cities
 
@@ -27,7 +28,7 @@ let startGame (character: Character) (band: Band) =
         |> Map.ofList
       CurrentBandId = band.Id
       CurrentPosition = initialCity.Id, Node initialCity.Graph.StartingNode
-      GenreMarkets = GenreMarket.create (Database.genres ())
+      GenreMarkets = GenreMarket.create Data.Genres.all
       PlayableCharacterId = character.Id
       Situation = FreeRoam
       Today = Calendar.gameBeginning }

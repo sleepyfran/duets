@@ -29,15 +29,11 @@ and private promptForName character =
          >> (fun _ -> promptForName character))
 
 and private promptForGenre character name =
-    let genres = Database.genres ()
-
-    showChoicePrompt Creator.bandGenrePrompt id genres
+    showChoicePrompt Creator.bandGenrePrompt id Data.Genres.all
     |> promptForInstrument character name
 
 and private promptForInstrument character name genre =
-    let instruments = Database.roles
-
-    showChoicePrompt Creator.bandGenrePrompt instrumentNameText instruments
+    showChoicePrompt Creator.bandGenrePrompt instrumentNameText Data.Roles.all
     |> promptForConfirmation character name genre
 
 and private promptForConfirmation character name genre instrument =
@@ -50,8 +46,7 @@ and private promptForConfirmation character name genre instrument =
         let characterMember =
             Band.Member.from character.Id instrument (Calendar.gameBeginning)
 
-        let band =
-            Band.from name genre characterMember Calendar.gameBeginning
+        let band = Band.from name genre characterMember Calendar.gameBeginning
 
         startGame character band |> Effect.apply
         clearScreen ()

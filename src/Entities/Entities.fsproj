@@ -18,6 +18,7 @@
         <Compile Include="Types\World\RehearsalSpace.Types.fs" />
         <Compile Include="Types\World\Studio.Types.fs" />
         <Compile Include="Types\World\World.Types.fs" />
+        <Compile Include="Types\Item.Types.fs" />
         <Compile Include="Types\Concert.Types.fs" />
         <Compile Include="Types\Situations.Types.fs" />
         <Compile Include="Types\Interaction.Types.fs" />

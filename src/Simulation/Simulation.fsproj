@@ -6,10 +6,8 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="Constants.fs" />
+        <Compile Include="Config.fs" />
         <Compile Include="RandomGen.fs" />
-        <Compile Include="WorldGeneration\Generation\Cities\Prague.fs" />
-        <Compile Include="WorldGeneration\World.fs" />
         <Compile Include="Queries\Albums.fs" />
         <Compile Include="Queries\Songs.fs" />
         <Compile Include="Queries\Repertoire.fs" />
@@ -43,8 +41,8 @@
         <Compile Include="WorldNavigation\Policies\Concert.NavigationPolicies.fs" />
         <Compile Include="WorldNavigation\Navigation.fs" />
         <Compile Include="Situations\Situations.fs" />
-        <Compile Include="Character\Attributes.fs"/>
-        <Compile Include="Bank\Operations.fs" />
+		<Compile Include="Character\Attributes.fs" />
+		<Compile Include="Bank\Operations.fs" />
         <Compile Include="Albums\DailyStreams.fs" />
         <Compile Include="Albums\Hype.fs" />
         <Compile Include="Albums\Revenue.fs" />
@@ -78,7 +76,7 @@
         <Compile Include="Setup\StartGame.fs" />
         <Compile Include="Simulation.fs" />
         <ProjectReference Include="..\Common\Common.fsproj" />
-        <ProjectReference Include="..\Database\Database.fsproj" />
+        <ProjectReference Include="..\Data\Data.fsproj" />
         <PackageReference Include="Aether" Version="8.3.1" />
         <PackageReference Include="Fugit" Version="0.4.1" />
     </ItemGroup>

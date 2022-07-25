@@ -1,29 +1,29 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{720B3148-5BE5-4460-9263-9A461F8B9F85}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Cli", "src\Cli\Cli.fsproj", "{6ED6EC20-32B0-4E8D-8E28-CAB6CD424247}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Cli", "src\Cli\Cli.fsproj", "{6ED6EC20-32B0-4E8D-8E28-CAB6CD424247}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Database", "src\Database\Database.fsproj", "{39D3FEDD-8481-435B-AE37-C1AED1BADC18}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Data", "src\Data\Data.fsproj", "{39D3FEDD-8481-435B-AE37-C1AED1BADC18}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Entities", "src\Entities\Entities.fsproj", "{D9280926-6073-4B96-8CFF-5CD4F3017E33}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Entities", "src\Entities\Entities.fsproj", "{D9280926-6073-4B96-8CFF-5CD4F3017E33}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Simulation", "src\Simulation\Simulation.fsproj", "{2DF6557C-C5B4-4083-943C-0C8D2F317A3D}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Simulation", "src\Simulation\Simulation.fsproj", "{2DF6557C-C5B4-4083-943C-0C8D2F317A3D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FDDB1410-F606-4415-9BAA-B4AAB9B635AF}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Simulation.Tests", "tests\Simulation.Tests\Simulation.Tests.fsproj", "{E8B8516E-F1AD-4BC2-A543-AFFC826B8FF8}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Simulation.Tests", "tests\Simulation.Tests\Simulation.Tests.fsproj", "{E8B8516E-F1AD-4BC2-A543-AFFC826B8FF8}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Test.Common", "tests\Test.Common\Test.Common.fsproj", "{7C770866-B3A4-4A83-9E01-4CD6175D90EE}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Test.Common", "tests\Test.Common\Test.Common.fsproj", "{7C770866-B3A4-4A83-9E01-4CD6175D90EE}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Common", "src\Common\Common.fsproj", "{6BF9BAE1-FBF4-49BA-8D33-37CF6A3B47C2}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Common", "src\Common\Common.fsproj", "{6BF9BAE1-FBF4-49BA-8D33-37CF6A3B47C2}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Entities.Tests", "tests\Entities.Tests\Entities.Tests.fsproj", "{10DB3A4E-8D9A-4AB8-8DCA-5A14D1E5BB3C}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Entities.Tests", "tests\Entities.Tests\Entities.Tests.fsproj", "{10DB3A4E-8D9A-4AB8-8DCA-5A14D1E5BB3C}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Agents", "src\Agents\Agents.fsproj", "{BAA431D0-1FE0-49F0-840A-491D6D51C799}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Agents", "src\Agents\Agents.fsproj", "{BAA431D0-1FE0-49F0-840A-491D6D51C799}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +33,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6ED6EC20-32B0-4E8D-8E28-CAB6CD424247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -147,6 +144,9 @@ Global
 		{BAA431D0-1FE0-49F0-840A-491D6D51C799}.Release|x86.ActiveCfg = Release|Any CPU
 		{BAA431D0-1FE0-49F0-840A-491D6D51C799}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6ED6EC20-32B0-4E8D-8E28-CAB6CD424247} = {720B3148-5BE5-4460-9263-9A461F8B9F85}
 		{39D3FEDD-8481-435B-AE37-C1AED1BADC18} = {720B3148-5BE5-4460-9263-9A461F8B9F85}
@@ -157,5 +157,8 @@ Global
 		{6BF9BAE1-FBF4-49BA-8D33-37CF6A3B47C2} = {720B3148-5BE5-4460-9263-9A461F8B9F85}
 		{10DB3A4E-8D9A-4AB8-8DCA-5A14D1E5BB3C} = {FDDB1410-F606-4415-9BAA-B4AAB9B635AF}
 		{BAA431D0-1FE0-49F0-840A-491D6D51C799} = {720B3148-5BE5-4460-9263-9A461F8B9F85}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {457F12FB-E00C-461F-97A5-DA53821932E1}
 	EndGlobalSection
 EndGlobal

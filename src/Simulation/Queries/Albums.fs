@@ -4,7 +4,7 @@ module Albums =
     open Aether
     open Common
     open Entities
-    open Simulation.Constants
+    open Simulation
 
     /// Returns all unreleased albums by the given band. If no unreleased albums
     /// could be found, returns an empty map.
@@ -49,6 +49,6 @@ module Albums =
 
     /// Calculates the generated revenue of the album.
     let revenue album =
-        float album.Streams * revenuePerStream
+        float album.Streams * Config.Revenue.revenuePerStream
         |> Math.roundToNearest
         |> (*) 1<dd>

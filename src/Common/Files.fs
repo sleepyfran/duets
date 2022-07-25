@@ -32,7 +32,7 @@ type DataKey =
 let dataFile key =
     let dataDirectory =
         Directory.GetParent(__SOURCE_DIRECTORY__)
-        |> fun baseDir -> Path.Combine(baseDir.FullName, "Database/Data")
+        |> fun baseDir -> Path.Combine(baseDir.FullName, "Data/Resources")
 
     match key with
     | Genres -> Path.Combine(dataDirectory, "genres.json")

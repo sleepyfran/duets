@@ -4,7 +4,7 @@ open Aether
 open Aether.Operators
 open Common
 open Entities
-open Simulation.WorldGeneration
+open Data.World
 
 module Common =
     /// Returns all cities available in the game world.
