@@ -65,7 +65,8 @@ module internal Response =
               Result = result }
 
     /// Adds the given set of effects to the response.
-    let addEffects effects response = { response with Effects = effects }
+    let addEffects effects response =
+        { response with Effects = response.Effects @ effects }
 
     /// Adds an event to the response.
     let addEvent event response =
@@ -165,7 +166,8 @@ let private bandAverageSkillLevel state skillId =
         |> float)
 
 let private playableCharacterSkillLevel state skillId =
-    let character = Queries.Characters.playableCharacter state
+    let character =
+        Queries.Characters.playableCharacter state
 
     characterSkillLevel state character.Id skillId
 
@@ -221,7 +223,8 @@ and private performAction' state ongoingConcert action =
     |> Response.addEffects action.Effects
 
 and private ratePerformance state ongoingConcert action =
-    let averageQualities = averageAffectingQualities state action
+    let averageQualities =
+        averageAffectingQualities state action
 
     let multipliers =
         if List.isEmpty action.Multipliers then
@@ -229,7 +232,8 @@ and private ratePerformance state ongoingConcert action =
         else
             multipliersOf action
 
-    let pointIncrease = averageQualities * multipliers
+    let pointIncrease =
+        averageQualities * multipliers
 
     let projectedMaximum = 100.0 * multipliers
 

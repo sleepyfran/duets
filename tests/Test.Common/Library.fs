@@ -168,6 +168,8 @@ let addReleasedAlbum (band: Band) album =
 
 let ongoingConcertFromResponse response = response.OngoingConcert
 
+let effectsFromResponse response = response.Effects
+
 let resultFromResponse response = response.Result
 
 let pointsFromResponse response = response.Points

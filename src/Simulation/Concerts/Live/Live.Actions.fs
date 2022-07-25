@@ -29,12 +29,12 @@ let playSong state ongoingConcert (finishedSong, _) energy =
             [ Character.Attribute.add
                   playableCharacter
                   CharacterAttribute.Energy
-                  3 ]
+                  -3 ]
         | PerformEnergy.Limited ->
             [ Character.Attribute.add
                   playableCharacter
                   CharacterAttribute.Energy
-                  1 ]
+                  -1 ]
       AffectingQualities =
         // TODO: Add this after testing; SongQuality(finishedSong, quality)
         [ SongPractice(finishedSong) ]
