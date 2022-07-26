@@ -6,7 +6,7 @@ open Entities
 /// a bunch of places interconnected, in the future this should procedurally
 /// generate the world and all the cities in it.
 let rec private generate () =
-    let prague = Cities.Prague.generate ()
+    let prague = Cities.Prague.Root.generate ()
     World.create [ prague ]
 
 /// Returns the game world. This function internally memos the calls to

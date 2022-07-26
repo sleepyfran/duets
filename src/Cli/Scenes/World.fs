@@ -12,16 +12,16 @@ let private descriptionFromCoordinates coords =
     match coords with
     | ResolvedPlaceCoordinates coordinates ->
         match coordinates.Room with
-        | Room.Backstage -> World.backstageDescription coordinates.Place
-        | Room.Bar -> World.barDescription coordinates.Place
-        | Room.Bedroom -> World.bedroomDescription
-        | Room.Kitchen -> World.kitchenDescription
-        | Room.LivingRoom -> World.livingRoomDescription
-        | Room.Lobby -> World.lobbyDescription coordinates.Place
-        | Room.MasteringRoom -> World.masteringRoomDescription
-        | Room.RecordingRoom -> World.recordingRoomDescription
-        | Room.RehearsalRoom -> World.rehearsalRoomDescription
-        | Room.Stage -> World.stageDescription coordinates.Place
+        | RoomType.Backstage -> World.backstageDescription coordinates.Place
+        | RoomType.Bar _ -> World.barDescription coordinates.Place
+        | RoomType.Bedroom -> World.bedroomDescription
+        | RoomType.Kitchen -> World.kitchenDescription
+        | RoomType.LivingRoom -> World.livingRoomDescription
+        | RoomType.Lobby -> World.lobbyDescription coordinates.Place
+        | RoomType.MasteringRoom -> World.masteringRoomDescription
+        | RoomType.RecordingRoom -> World.recordingRoomDescription
+        | RoomType.RehearsalRoom -> World.rehearsalRoomDescription
+        | RoomType.Stage -> World.stageDescription coordinates.Place
     | ResolvedOutsideCoordinates coordinates ->
         (coordinates.Node.Name, coordinates.Node.Descriptors)
         ||> match coordinates.Node.Type with
@@ -54,16 +54,16 @@ let private showRoomConnections interactionsWithState =
                     | ResolvedPlaceCoordinates _ ->
                         // Character is inside the place, show connected room name.
                         match roomCoords.Room with
-                        | Room.Backstage -> World.backstageName
-                        | Room.Bar -> World.barName
-                        | Room.Bedroom -> World.bedroomName
-                        | Room.Kitchen -> World.kitchenName
-                        | Room.LivingRoom -> World.livingRoomName
-                        | Room.Lobby -> World.lobbyName
-                        | Room.MasteringRoom -> World.masteringRoomName
-                        | Room.RecordingRoom -> World.recordingRoomName
-                        | Room.RehearsalRoom -> World.rehearsalRoomName
-                        | Room.Stage -> World.stageName
+                        | RoomType.Backstage -> World.backstageName
+                        | RoomType.Bar _ -> World.barName
+                        | RoomType.Bedroom -> World.bedroomName
+                        | RoomType.Kitchen -> World.kitchenName
+                        | RoomType.LivingRoom -> World.livingRoomName
+                        | RoomType.Lobby -> World.lobbyName
+                        | RoomType.MasteringRoom -> World.masteringRoomName
+                        | RoomType.RecordingRoom -> World.recordingRoomName
+                        | RoomType.RehearsalRoom -> World.rehearsalRoomName
+                        | RoomType.Stage -> World.stageName
                     | ResolvedOutsideCoordinates _ ->
                         // Character is outside, show connected place name.
                         roomCoords.Place.Name
@@ -167,9 +167,15 @@ let private commandsFromInteractions interactions =
                       Command.watchTvDescription
                       (Interactions.Home.watchTv (State.get ()))
                       Interaction.watchTvResult ]
+        | Interaction.Item itemInteraction ->
+            match itemInteraction with
+            | ItemInteraction.Drink -> [ DrinkCommand.get ]
+            | ItemInteraction.Eat -> []
         | Interaction.FreeRoam freeRoamInteraction ->
             match freeRoamInteraction with
             | FreeRoamInteraction.GoOut (exit, _) -> [ OutCommand.create exit ]
+            | FreeRoamInteraction.Inventory inventory ->
+                [ InventoryCommand.create inventory ]
             | FreeRoamInteraction.Move (direction, nodeId) ->
                 [ NavigationCommand.create direction nodeId ]
             | FreeRoamInteraction.Phone -> [ PhoneCommand.get ]
@@ -190,6 +196,10 @@ let private commandsFromInteractions interactions =
                 [ ListMembersCommand.create bandMembers pastMembers ]
             | RehearsalInteraction.PracticeSong finishedSongs ->
                 [ PracticeSongCommand.create finishedSongs ]
+        | Interaction.Bar shopInteraction ->
+            match shopInteraction with
+            | BarInteraction.Order shop -> [ OrderCommand.create shop ]
+            | BarInteraction.SeeMenu shop -> [ SeeMenuCommand.create shop ]
         | Interaction.Studio studioInteraction ->
             match studioInteraction with
             | StudioInteraction.CreateAlbum (studio, finishedSongs) ->
@@ -240,19 +250,18 @@ let worldScene () =
 
     showRoomConnections interactionsWithState
 
+    let characterAttributes =
+        Queries.Characters.allPlayableCharacterAttributes (State.get ())
+
     let promptText =
         match situation with
         | InConcert ongoingConcert ->
             Concert.actionPrompt
                 today
                 currentDayMoment
-                mood
-                health
-                energy
-                fame
+                characterAttributes
                 ongoingConcert.Points
-        | _ ->
-            Command.commonPrompt today currentDayMoment mood health energy fame
+        | _ -> Command.commonPrompt today currentDayMoment characterAttributes
 
     showCommandPrompt
         promptText

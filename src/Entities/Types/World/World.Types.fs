@@ -44,7 +44,22 @@ module WorldTypes =
 
     // Defines all types of rooms that player can be in.
     [<RequireQualifiedAccess>]
-    type Room =
+    type RoomType =
+        | Backstage
+        | Bar of shop: Shop
+        | Bedroom
+        | Kitchen
+        | LivingRoom
+        | Lobby
+        | MasteringRoom
+        | RecordingRoom
+        | RehearsalRoom
+        | Stage
+
+    /// Re-defines all types of rooms above but without its content, to be able
+    /// to reference them on a map.
+    [<RequireQualifiedAccess>]
+    type RoomTypeIndex =
         | Backstage
         | Bar
         | Bedroom
@@ -79,8 +94,8 @@ module WorldTypes =
     /// rooms that the place itself contains and the exits that connect that
     /// place with the outside.
     type Place =
-        { Rooms: Graph<Room>
-          RoomIndex: Map<Room, NodeId list>
+        { Rooms: Graph<RoomType>
+          RoomIndex: Map<RoomType, NodeId list>
           Exits: Map<NodeId, NodeId>
           Name: string
           Quality: Quality
@@ -151,7 +166,7 @@ module WorldTypes =
     type ResolvedRoomCoordinates =
         { Coordinates: RoomCoordinates
           Place: Place
-          Room: Room }
+          Room: RoomType }
 
     /// Resolved coordinates for nodes that do not contain rooms.
     type ResolvedOutsideCoordinates =

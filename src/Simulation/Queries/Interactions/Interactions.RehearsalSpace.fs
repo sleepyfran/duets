@@ -38,7 +38,7 @@ module RehearsalSpace =
             |> (not << List.isEmpty)
 
         match room with
-        | Room.RehearsalRoom ->
+        | RoomType.RehearsalRoom ->
             [ yield Interaction.Rehearsal RehearsalInteraction.ComposeNewSong
               if hasUnfinishedSongs then
                   yield

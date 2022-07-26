@@ -32,6 +32,24 @@ and applyMultiple effects = effects |> List.iter apply
 
 and private displayEffect effect =
     match effect with
+    | AlbumRecorded (_, UnreleasedAlbum album) ->
+        Studio.createAlbumRecorded album.Name
+        |> showMessage
+    | AlbumRenamed (_, UnreleasedAlbum album) ->
+        Studio.continueRecordAlbumRenamed album.Name
+        |> showMessage
+    | AlbumReleased (_, releasedAlbum) ->
+        Studio.commonAlbumReleased releasedAlbum.Album.Name
+        |> showMessage
+    | CharacterAttributeChanged (character, attr, amount) ->
+        match attr with
+        | CharacterAttribute.Drunkenness ->
+            match amount with
+            | amount when amount < 25 -> Events.feelingTipsy
+            | amount when amount < 50 -> Events.feelingDrunk
+            | _ -> Events.feelingReallyDrunk
+            |> showMessage
+        | _ -> ()
     | CharacterHealthDepleted _ ->
         lineBreak ()
         wait 5000<millisecond>
@@ -43,47 +61,6 @@ and private displayEffect effect =
     | CharacterHospitalized _ ->
         showMessage Events.hospitalized
         lineBreak ()
-    | SongImproved (_, Diff (before, after)) ->
-        let (_, _, previousQuality) = before
-        let (_, _, currentQuality) = after
-
-        Rehearsal.improveSongCanBeFurtherImproved (
-            previousQuality,
-            currentQuality
-        )
-        |> showMessage
-    | SongPracticed (_, (FinishedSong song, _)) ->
-        Rehearsal.practiceSongImproved song.Name song.Practice
-        |> showMessage
-    | SongDiscarded (_, (UnfinishedSong song, _, _)) ->
-        Rehearsal.discardSongDiscarded song.Name
-        |> showMessage
-    | SongFinished (_, (FinishedSong song, quality)) ->
-        Rehearsal.finishSongFinished (song.Name, quality)
-        |> showMessage
-    | SkillImproved (character, Diff (before, after)) ->
-        let (skill, previousLevel) = before
-        let (_, currentLevel) = after
-
-        Generic.skillImproved
-            character.Name
-            character.Gender
-            skill
-            previousLevel
-            currentLevel
-        |> showMessage
-    | MoneyTransferred (holder, transaction) ->
-        Phone.bankAppTransferSuccess holder transaction
-        |> showMessage
-    | AlbumRecorded (_, UnreleasedAlbum album) ->
-        Studio.createAlbumRecorded album.Name
-        |> showMessage
-    | AlbumRenamed (_, UnreleasedAlbum album) ->
-        Studio.continueRecordAlbumRenamed album.Name
-        |> showMessage
-    | AlbumReleased (_, releasedAlbum) ->
-        Studio.commonAlbumReleased releasedAlbum.Album.Name
-        |> showMessage
     | ConcertScheduled (_, ScheduledConcert concert) ->
         let coordinates =
             Queries.World.Common.coordinatesOfPlace
@@ -115,6 +92,41 @@ and private displayEffect effect =
         | BandDidNotMakeIt ->
             Concert.failedBandMissing band coordinates.Place concert
         | CharacterPassedOut -> Concert.failedCharacterPassedOut
+        |> showMessage
+    | InventoryItemAdded item -> Inventory.itemAdded item.Brand |> showMessage
+    | InventoryItemRemoved item ->
+        Inventory.itemRemoved item.Brand |> showMessage
+    | MoneyTransferred (holder, transaction) ->
+        Phone.bankAppTransferSuccess holder transaction
+        |> showMessage
+    | SongImproved (_, Diff (before, after)) ->
+        let (_, _, previousQuality) = before
+        let (_, _, currentQuality) = after
+
+        Rehearsal.improveSongCanBeFurtherImproved (
+            previousQuality,
+            currentQuality
+        )
+        |> showMessage
+    | SongPracticed (_, (FinishedSong song, _)) ->
+        Rehearsal.practiceSongImproved song.Name song.Practice
+        |> showMessage
+    | SongDiscarded (_, (UnfinishedSong song, _, _)) ->
+        Rehearsal.discardSongDiscarded song.Name
+        |> showMessage
+    | SongFinished (_, (FinishedSong song, quality)) ->
+        Rehearsal.finishSongFinished (song.Name, quality)
+        |> showMessage
+    | SkillImproved (character, Diff (before, after)) ->
+        let (skill, previousLevel) = before
+        let (_, currentLevel) = after
+
+        Generic.skillImproved
+            character.Name
+            character.Gender
+            skill
+            previousLevel
+            currentLevel
         |> showMessage
     | Wait _ ->
         let today =

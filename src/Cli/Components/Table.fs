@@ -12,12 +12,13 @@ open Spectre.Console
 /// <param name="rows">
 /// Row text to be shown. Each field in the list correspond with each column
 /// </param>
-let showTable (columns: string list) (rows: string list) =
+let showTable (columns: string list) (rows: (string list) list) =
     let mutable table = Table()
 
     columns
     |> List.iter (fun column -> table <- table.AddColumn(column))
 
-    table <- rows |> Array.ofList |> table.AddRow
+    rows
+    |> List.iter (fun row -> table <- row |> Array.ofList |> table.AddRow)
 
     AnsiConsole.Write table

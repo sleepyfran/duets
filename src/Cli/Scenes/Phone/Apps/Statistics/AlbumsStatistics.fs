@@ -29,18 +29,14 @@ and private showAlbums releases =
 
     let tableRows =
         releases
-        |> List.fold
-            (fun acc releasedAlbum ->
-                let innerAlbum = releasedAlbum.Album
-                let revenue = Albums.revenue releasedAlbum
+        |> List.map (fun releasedAlbum ->
+            let innerAlbum = releasedAlbum.Album
+            let revenue = Albums.revenue releasedAlbum
 
-                acc
-                @ [ Phone.statisticsAppAlbumName innerAlbum.Name
-                    Phone.statisticsAppAlbumType innerAlbum.Type
-                    Phone.statisticsAppAlbumReleaseDate
-                        releasedAlbum.ReleaseDate
-                    Phone.statisticsAppAlbumStreams releasedAlbum.Streams
-                    Phone.statisticsAppAlbumRevenue revenue ])
-            []
+            [ Phone.statisticsAppAlbumName innerAlbum.Name
+              Phone.statisticsAppAlbumType innerAlbum.Type
+              Phone.statisticsAppAlbumReleaseDate releasedAlbum.ReleaseDate
+              Phone.statisticsAppAlbumStreams releasedAlbum.Streams
+              Phone.statisticsAppAlbumRevenue revenue ])
 
     showTable tableColumns tableRows

@@ -1,4 +1,4 @@
-module Data.World.Cities.Prague
+module Data.World.Cities.Prague.Root
 
 open Entities
 
@@ -84,19 +84,19 @@ let rec generate () =
 
 and addHome street city =
     let bedroom =
-        Room.Bedroom
+        RoomType.Bedroom
         |> World.Node.create (
             Identity.from "f672be41-49b1-43ed-be82-7b91f4bbb656"
         )
 
     let kitchen =
-        Room.Kitchen
+        RoomType.Kitchen
         |> World.Node.create (
             Identity.from "288dd409-0b10-45d5-a702-e0dca8820b0c"
         )
 
     let livingRoom =
-        Room.LivingRoom
+        RoomType.LivingRoom
         |> World.Node.create (
             Identity.from "21473306-5dd9-4209-9c28-e25034bbb480"
         )
@@ -121,19 +121,19 @@ and addDuetsRehearsalSpace street city =
     let rehearsalSpace = { Price = 300<dd> }
 
     let lobby =
-        Room.Lobby
+        RoomType.Lobby
         |> World.Node.create (
             Identity.from "6b31ecb9-0df6-4b3c-b2af-77d75eb25d31"
         )
 
     let bar =
-        Room.Bar
+        RoomType.Bar(Shops.genericBar 1<multiplier>)
         |> World.Node.create (
             Identity.from "c082e6e2-42e9-4bbc-bea2-9690d54ad36d"
         )
 
     let rehearsalRoom =
-        Room.RehearsalRoom
+        RoomType.RehearsalRoom
         |> World.Node.create (
             Identity.from "89537bd2-9902-47ab-bd72-a4f5b6056e6b"
         )
@@ -164,13 +164,13 @@ and addDuetsStudio street city =
           PricePerSong = 1000<dd> }
 
     let masteringRoom =
-        Room.MasteringRoom
+        RoomType.MasteringRoom
         |> World.Node.create (
             Identity.from "d050db29-0e04-46dd-a917-c41f2225931d"
         )
 
     let recordingRoom =
-        Room.RecordingRoom
+        RoomType.RecordingRoom
         |> World.Node.create (
             Identity.from "69d7a19e-2a08-4cb1-9f7f-269d4b0d0d9f"
         )
@@ -195,7 +195,7 @@ and addDuetsStudio street city =
 
 and addGeneralUniversityHospital street city =
     let lobby =
-        Room.Lobby
+        RoomType.Lobby
         |> World.Node.create (
             Identity.from "79f45cef-8161-4224-8b87-9467572b251b"
         )
@@ -220,25 +220,25 @@ and addPalacAkropolis street city =
     let concertSpace = { Capacity = 1000 }
 
     let lobby =
-        Room.Lobby
+        RoomType.Lobby
         |> World.Node.create (
             Identity.from "6c9bf67e-76fa-4c3a-a693-42fcc3a39a39"
         )
 
     let bar =
-        Room.Bar
+        RoomType.Bar(Shops.genericBar 2<multiplier>)
         |> World.Node.create (
             Identity.from "30d888e5-70d1-4ee3-a661-4595276d7f98"
         )
 
     let stage =
-        Room.Stage
+        RoomType.Stage
         |> World.Node.create (
             Identity.from "8bca0085-48e0-407b-a7b1-3649dc33945e"
         )
 
     let backstage =
-        Room.Backstage
+        RoomType.Backstage
         |> World.Node.create (
             Identity.from "a0d49337-9eb2-4090-b935-48b1267bed24"
         )
@@ -270,25 +270,25 @@ and addRedutaJazzClub street city =
     let concertSpace = { Capacity = 250 }
 
     let lobby =
-        Room.Lobby
+        RoomType.Lobby
         |> World.Node.create (
             Identity.from "51f9de6d-c8f4-47ff-be27-203e9b3718fc"
         )
 
     let bar =
-        Room.Bar
+        RoomType.Bar(Shops.genericBar 2<multiplier>)
         |> World.Node.create (
             Identity.from "2bf83a32-ba46-4489-97d0-c8d6c05ec79e"
         )
 
     let stage =
-        Room.Stage
+        RoomType.Stage
         |> World.Node.create (
             Identity.from "7dfdc1d4-d453-44fc-933d-148c26e752bd"
         )
 
     let backstage =
-        Room.Backstage
+        RoomType.Backstage
         |> World.Node.create (
             Identity.from "9ff3840f-d955-4221-b655-e661edd34dda"
         )

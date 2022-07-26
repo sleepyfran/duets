@@ -41,6 +41,7 @@ module ConcertSpace =
         state
         room
         navigationInteractions
+        genericRoomInteractions
         defaultInteractions
         =
         let situation =
@@ -49,7 +50,7 @@ module ConcertSpace =
         match situation with
         | InConcert ongoingConcert ->
             match room with
-            | Room.Stage ->
+            | RoomType.Stage ->
                 let instrumentSpecificInteractions =
                     instrumentInteractions state ongoingConcert
 
@@ -75,12 +76,16 @@ module ConcertSpace =
                       ConcertInteraction.FaceCrowd ongoingConcert
                   ) ]
                 @ instrumentSpecificInteractions
-            | Room.Backstage ->
+            | RoomType.Backstage ->
                 [ Interaction.Concert(
                       ConcertInteraction.DoEncore ongoingConcert
                   )
                   Interaction.Concert(
                       ConcertInteraction.FinishConcert ongoingConcert
                   ) ]
-            | _ -> navigationInteractions @ defaultInteractions
-        | _ -> navigationInteractions @ defaultInteractions
+            | _ ->
+                navigationInteractions
+                @ genericRoomInteractions @ defaultInteractions
+        | _ ->
+            navigationInteractions
+            @ genericRoomInteractions @ defaultInteractions

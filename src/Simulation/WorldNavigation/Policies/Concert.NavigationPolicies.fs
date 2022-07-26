@@ -42,7 +42,7 @@ module Concert =
         match coords.Place.SpaceType with
         | ConcertSpace _ ->
             match coords.Room with
-            | Room.Stage -> canEnterStage state coords
-            | Room.Backstage -> canEnterBackstage state coords
+            | RoomType.Stage -> canEnterStage state coords
+            | RoomType.Backstage -> canEnterBackstage state coords
             | _ -> Ok()
         | _ -> Ok()

@@ -46,6 +46,7 @@
         <Compile Include="Studio\RecordAlbum.Tests.fs" />
         <Compile Include="Studio\ReleaseAlbum.Tests.fs" />
         <Compile Include="Studio\RenameAlbum.Tests.fs" />
+        <Compile Include="Interactions\Drink.Interactions.Test.fs" />
         <Compile Include="Events\Simulation.Character.Events.Tests.fs" />
         <Compile Include="Simulation.Tests.fs" />
         <Compile Include="Program.fs" />

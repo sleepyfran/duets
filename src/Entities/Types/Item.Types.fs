@@ -19,6 +19,9 @@ module ItemTypes =
 
     /// Defines an item of the game that can be consumed by the player.
     type Item =
-        { BasePrice: Amount
+        { Price: Amount
           Brand: string
           Type: ItemType }
+
+    /// Defines the inventory of the character.
+    type Inventory = Item list

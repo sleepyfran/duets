@@ -1,7 +1,14 @@
 module Common.List
 
 /// Creates a new list containing only the given item.
-let ofItem item = [item]
+let ofItem item = [ item ]
+
+/// Removes the first occurrence of the given item (if any) in the list.
+let rec removeFirstOccurrenceOf item list =
+    match list with
+    | head :: tail when head = item -> tail
+    | head :: tail -> head :: removeFirstOccurrenceOf item tail
+    | _ -> []
 
 /// Like `forall2` but returns true instead of throwing an exception when the
 /// size of the collections differ.

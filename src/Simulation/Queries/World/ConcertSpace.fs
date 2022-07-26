@@ -73,12 +73,12 @@ module ConcertSpace =
     let closestBackstage =
         closestRoom (fun currentPlaceId nodeId room ->
             match room with
-            | Room.Backstage -> Room(currentPlaceId, nodeId) |> Some
+            | RoomType.Backstage -> Room(currentPlaceId, nodeId) |> Some
             | _ -> None)
 
     /// Finds the closest stage connected to the current position.
     let closestStage =
         closestRoom (fun currentPlaceId nodeId room ->
             match room with
-            | Room.Stage -> Room(currentPlaceId, nodeId) |> Some
+            | RoomType.Stage -> Room(currentPlaceId, nodeId) |> Some
             | _ -> None)

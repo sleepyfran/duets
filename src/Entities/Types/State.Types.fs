@@ -15,6 +15,7 @@ module StateTypes =
           CurrentBandId: BandId
           CurrentPosition: WorldCoordinates
           GenreMarkets: GenreMarketByGenre
+          CharacterInventory: Inventory
           PlayableCharacterId: CharacterId
           Situation: Situation
           Today: Date }

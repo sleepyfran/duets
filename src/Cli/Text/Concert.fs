@@ -45,8 +45,8 @@ let energyEnergetic = "Energetic"
 let energyNormal = "Normal"
 let energyLow = "Low"
 
-let actionPrompt date dayMoment mood health energy fame points =
-    $"""{Generic.infoBar date dayMoment mood health energy fame} | {Emoji.concert} {Styles.Level.from points} points
+let actionPrompt date dayMoment attributes points =
+    $"""{Generic.infoBar date dayMoment attributes} | {Emoji.concert} {Styles.Level.from points} points
 {Styles.action "It's your time to shine!"} What do you want to do?"""
 
 let bassSoloSlappingThatBass =

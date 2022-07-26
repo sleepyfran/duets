@@ -56,6 +56,8 @@ let applyEffect state effect =
         |> Concerts.addPastConcert band pastConcert
     | GameCreated state -> state
     | GenreMarketsUpdated genreMarkets -> Market.set genreMarkets state
+    | InventoryItemAdded item -> Inventory.add item state
+    | InventoryItemRemoved item -> Inventory.remove item state
     | MemberHired (band, character, currentMember, skills) ->
         let stateWithMember =
             Characters.add character state

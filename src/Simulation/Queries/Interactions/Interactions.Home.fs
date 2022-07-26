@@ -6,9 +6,9 @@ open Entities
 module Home =
     let internal availableCurrently room =
         match room with
-        | Room.Bedroom -> [ Interaction.Home HomeInteraction.Sleep ]
-        | Room.Kitchen -> [ Interaction.Home HomeInteraction.Eat ]
-        | Room.LivingRoom ->
+        | RoomType.Bedroom -> [ Interaction.Home HomeInteraction.Sleep ]
+        | RoomType.Kitchen -> [ Interaction.Home HomeInteraction.Eat ]
+        | RoomType.LivingRoom ->
             [ Interaction.Home HomeInteraction.PlayXbox
               Interaction.Home HomeInteraction.WatchTv ]
         | _ -> []

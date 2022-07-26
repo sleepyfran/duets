@@ -42,6 +42,20 @@ module Interactions =
 
         moveInteractions @ exitInteraction
 
+    let private getGenericRoomInteractions room =
+        match room with
+        | RoomType.Bar bar -> Shop.barInteractions bar
+        | _ -> []
+
+    let private getInventoryInteractions (items: Item list) =
+        items
+        |> Set.ofList
+        |> Set.map (fun item ->
+            match item.Type with
+            | ItemType.Drink _ -> ItemInteraction.Drink |> Interaction.Item
+            | ItemType.Food _ -> ItemInteraction.Eat |> Interaction.Item)
+        |> List.ofSeq
+
     /// <summary>
     /// Returns all interactions that are available in the current context. This
     /// effectively returns all available actions in the current context that can
@@ -51,9 +65,17 @@ module Interactions =
         let currentPosition =
             Queries.World.Common.currentPosition state
 
+        let inventory = Queries.Inventory.get state
+
+        let inventoryInteractions =
+            getInventoryInteractions inventory
+
         let defaultInteractions =
-            [ Interaction.FreeRoam FreeRoamInteraction.Wait
-              Interaction.FreeRoam FreeRoamInteraction.Phone ]
+            inventoryInteractions
+            @ [ FreeRoamInteraction.Inventory inventory
+                |> Interaction.FreeRoam
+                Interaction.FreeRoam FreeRoamInteraction.Phone
+                Interaction.FreeRoam FreeRoamInteraction.Wait ]
 
         let allAvailableInteractions =
             match currentPosition.Content with
@@ -63,12 +85,16 @@ module Interactions =
                 let navigationInteractions =
                     getNavigationInteractions state placeId roomId coords.Place
 
+                let genericRoomInteractions =
+                    getGenericRoomInteractions coords.Room
+
                 match coords.Place.SpaceType with
                 | ConcertSpace _ ->
                     ConcertSpace.availableCurrently
                         state
                         coords.Room
                         navigationInteractions
+                        genericRoomInteractions
                         defaultInteractions
                 | Home ->
                     Home.availableCurrently coords.Room
@@ -76,7 +102,8 @@ module Interactions =
                 | Hospital -> navigationInteractions @ defaultInteractions
                 | RehearsalSpace _ ->
                     RehearsalSpace.availableCurrently state coords.Room
-                    @ navigationInteractions @ defaultInteractions
+                    @ navigationInteractions
+                      @ genericRoomInteractions @ defaultInteractions
                 | Studio studio ->
                     Studio.availableCurrently state studio coords.Room
                     @ navigationInteractions @ defaultInteractions

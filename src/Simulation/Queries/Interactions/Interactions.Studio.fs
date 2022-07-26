@@ -23,7 +23,7 @@ module Studio =
             not (List.isEmpty unreleasedAlbums)
 
         match room with
-        | Room.MasteringRoom ->
+        | RoomType.MasteringRoom ->
             [ yield
                   StudioInteraction.CreateAlbum(studio, finishedSongs)
                   |> Interaction.Studio

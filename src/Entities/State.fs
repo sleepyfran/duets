@@ -14,6 +14,7 @@ let empty =
       CurrentBandId = Identity.create () |> BandId
       CurrentPosition = Identity.create (), Node(Identity.create ())
       GenreMarkets = Map.empty
+      CharacterInventory = List.empty
       PlayableCharacterId = Identity.create () |> CharacterId
       Situation = FreeRoam
       Today = Calendar.gameBeginning }

@@ -15,9 +15,11 @@
         <Compile Include="Text\Creator.fs" />
         <Compile Include="Text\Events.fs" />
         <Compile Include="Text\Interaction.fs" />
+        <Compile Include="Text\Inventory.fs" />
         <Compile Include="Text\MainMenu.fs" />
         <Compile Include="Text\Phone.fs" />
         <Compile Include="Text\Rehearsal.fs" />
+        <Compile Include="Text\Shop.fs" />
         <Compile Include="Text\Studio.fs" />
         <Compile Include="Text\World.fs" />
         <Compile Include="Components\Separator.fs" />
@@ -39,6 +41,7 @@
         <Compile Include="Components\Commands\Help.Command.fs" />
         <Compile Include="Components\Commands\Navigation.Command.fs" />
         <Compile Include="Components\Commands\Phone.Command.fs" />
+        <Compile Include="Components\Commands\Inventory.Command.fs" />
         <Compile Include="Components\Commands\Out.Command.fs" />
         <Compile Include="Components\Commands\Wait.Command.fs" />
         <Compile Include="Components\Commands\Studio\Common.fs" />
@@ -66,6 +69,9 @@
         <Compile Include="Components\Commands\Concert\MakeCrowdSing.Command.fs" />
         <Compile Include="Components\Commands\Concert\TuneInstrument.Command.fs" />
         <Compile Include="Components\Commands\Concert\SpinDrumsticks.Command.fs" />
+        <Compile Include="Components\Commands\Shop\SeeMenu.Command.fs" />
+        <Compile Include="Components\Commands\Shop\Bar\Order.Command.fs" />
+        <Compile Include="Components\Commands\Items\Drink.Command.fs" />
         <Compile Include="Components\CommandPrompt.fs" />
         <Compile Include="Scenes\BandCreator.fs" />
         <Compile Include="Scenes\CharacterCreator.fs" />

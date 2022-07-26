@@ -3,8 +3,8 @@ module Cli.Text.Command
 
 open Common
 
-let commonPrompt date dayMoment mood health energy fame =
-    $"""{Generic.infoBar date dayMoment mood health energy fame}
+let commonPrompt date dayMoment attributes =
+    $"""{Generic.infoBar date dayMoment attributes}
 {Styles.prompt "What do you want to do? Type 'help' if you're lost"}"""
 
 let adjustDrumsDescription =
@@ -37,10 +37,14 @@ let editAlbumNameDescription =
     "Allows you to edit the name of an album you previously recorded but did not release"
 
 let helpDescription =
-    "Here are all the commands you can execute right now"
+    "Here are all the commands you can execute right now:"
 
 let helpEntry entryName entryDescription =
     $"{Styles.action entryName} — {entryDescription}"
+
+let helpFooter =
+    Styles.faded
+        $"""Remember that when referencing items you {Styles.highlight "don't"} need to write diacritics"""
 
 let discardSongDescription =
     "Prompts you for a song to discard from the list of unfinished songs"
@@ -173,3 +177,15 @@ let playXboxDescription =
 
 let watchTvDescription =
     "Allows you to watch TV and restore your mood"
+
+let orderDescription =
+    $"""Allows you to order an item from the establishment's menu. Use either as {Styles.information "order {item name}"} or use without arguments to select interactively"""
+
+let seeMenuDescription =
+    "Displays the available items that can be bought in this establishment"
+
+let inventoryDescription =
+    "Displays the items that you are currently carrying"
+
+let drinkDescription =
+    $"""Allows you to drink a given item. Use as {Styles.information "drink {item name}"}"""

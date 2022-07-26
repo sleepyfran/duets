@@ -19,6 +19,6 @@ let bandStatisticsSubScene statisticsApp =
           Phone.statisticsAppBandStartDate band.StartDate
           Phone.statisticsAppBandFame band.Fame ]
 
-    showTable tableColumns tableRows
+    showTable tableColumns [ tableRows ]
 
     statisticsApp ()

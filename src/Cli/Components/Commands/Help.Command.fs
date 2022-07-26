@@ -20,4 +20,7 @@ module HelpCommand =
                     Command.helpEntry command.Name command.Description
                     |> showMessage)
 
+                lineBreak ()
+                showMessage Command.helpFooter
+
                 Scene.World }

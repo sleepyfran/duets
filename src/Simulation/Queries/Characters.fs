@@ -21,6 +21,15 @@ module Characters =
         |> Optic.get (Lenses.Character.attribute_ attribute)
         |> Option.defaultValue 0
 
+    /// Returns a list with all the character's attributes.
+    let allPlayableCharacterAttributes state =
+        [ CharacterAttribute.Health
+          CharacterAttribute.Energy
+          CharacterAttribute.Mood
+          CharacterAttribute.Drunkenness
+          CharacterAttribute.Fame ]
+        |> List.map (fun attr -> (attr, playableCharacterAttribute state attr))
+
     /// Returns a tuple of four values with the value of the given attributes
     /// from the playable character.
     let playableCharacterAttribute4 state attr1 attr2 attr3 attr4 =

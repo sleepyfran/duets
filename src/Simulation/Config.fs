@@ -5,7 +5,7 @@ module Simulation.Config
 
 module LifeSimulation =
     /// Maximum amount of alcohol that the character can take before getting injured.
-    let maximumAlcoholAmount = 500
+    let maximumAlcoholAmount = 350
 
 module Revenue =
     /// Indicates how many dd a band makes per stream.

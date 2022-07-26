@@ -7,7 +7,7 @@ let private runRoomEvents (coords: ResolvedRoomCoordinates) state =
     let placeId, _ = coords.Coordinates
 
     match coords.Room with
-    | Room.Stage -> Concerts.Scheduler.startScheduledConcerts state placeId
+    | RoomType.Stage -> Concerts.Scheduler.startScheduledConcerts state placeId
     | _ -> []
 
 /// Runs all the effects that are associated with the current place. This currently

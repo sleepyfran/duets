@@ -26,6 +26,9 @@ let person name = $"[bold lightgreen_1]{name}[/]"
 /// Pre-defined style for referencing places in text.
 let place name = $"[bold lightsalmon1]{name}[/]"
 
+/// Pre-defined style for referencing items in text.
+let item name = $"[bold lightsalmon1]{name}[/]"
+
 /// Pre-defined style for referencing time in text.
 let time text = $"[bold grey70]{text}[/]"
 
@@ -92,6 +95,15 @@ module Level =
             normal l
         | level when level < (LanguagePrimitives.Int32WithMeasure 80) -> good l
         | _ -> great l
+
+    /// Pre-defined styles for showing levels that are worse the closer they are to 100.
+    let fromInverted l =
+        match l with
+        | level when level < (LanguagePrimitives.Int32WithMeasure 30) -> great l
+        | level when level < (LanguagePrimitives.Int32WithMeasure 60) -> good l
+        | level when level < (LanguagePrimitives.Int32WithMeasure 80) ->
+            normal l
+        | _ -> bad l
 
 /// Pre-defined style for a title.
 let title text = $"[bold underline]{text}[/]"

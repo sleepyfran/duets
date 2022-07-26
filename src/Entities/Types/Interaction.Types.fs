@@ -48,6 +48,15 @@ module InteractionTypes =
         /// Tunes the player's instrument, which gives a tiny point increase.
         | TuneInstrument of OngoingConcert
 
+    /// Interactions that can be performed in a bar.
+    [<RequireQualifiedAccess>]
+    type BarInteraction =
+        /// Allows the character to order a certain item from a selection of
+        /// available items in a bar.
+        | Order of Item list
+        /// Allows the character to peek at the available items on the bar.
+        | SeeMenu of Item list
+
     /// Interactions that can be done when the character is at home.
     [<RequireQualifiedAccess>]
     type HomeInteraction =
@@ -60,11 +69,19 @@ module InteractionTypes =
         /// Allows the character to watch TV to restore mood.
         | WatchTv
 
+    /// Interactions that can be done referencing an item in particular.
+    [<RequireQualifiedAccess>]
+    type ItemInteraction =
+        | Drink
+        | Eat
+
     /// Interactions related to moving around the world.
     [<RequireQualifiedAccess>]
     type FreeRoamInteraction =
         /// Allows going out of the current place towards the given NodeId.
         | GoOut of exit: NodeId * coordinates: ResolvedOutsideCoordinates
+        /// Allows the user to see what they are currently carrying.
+        | Inventory of inventory: Item list
         /// Allows movement into the specified direction.
         | Move of direction: Direction * coordinates: NodeCoordinates
         /// Allows the character to use the phone.
@@ -113,8 +130,10 @@ module InteractionTypes =
     type Interaction =
         | Concert of ConcertInteraction
         | Home of HomeInteraction
+        | Item of ItemInteraction
         | FreeRoam of FreeRoamInteraction
         | Rehearsal of RehearsalInteraction
+        | Bar of BarInteraction
         | Studio of StudioInteraction
 
     /// Defines all possible reasons why an interaction can be disabled.
