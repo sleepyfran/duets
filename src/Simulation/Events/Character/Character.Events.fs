@@ -1,15 +1,26 @@
 module Simulation.Events.Character.Character
 
 open Entities
+open Simulation
 
 /// Runs all the events associated with a character. For example, when the health
 /// of the character goes below a certain threshold we should hospitalize the
 /// character.
 let internal run effect =
     match effect with
-    | CharacterAttributeChanged (character, attribute, amount) when
+    | CharacterAttributeChanged (character, attribute, Diff (_, amount)) when
         attribute = CharacterAttribute.Health
         && amount < 10
         ->
         [ Hospitalization.hospitalize character ]
+    | TimeAdvanced _ ->
+        [ fun state ->
+              (* When the character is drunk, reduce their drunkenness every hour. *)
+              let character =
+                  Queries.Characters.playableCharacter state
+
+              [ Character.Attribute.map
+                    character
+                    CharacterAttribute.Drunkenness
+                    (Character.Attribute.addIfMoreThanZero -5) ] ]
     | _ -> []

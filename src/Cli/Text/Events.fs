@@ -23,3 +23,10 @@ let feelingDrunk =
 let feelingReallyDrunk =
     Styles.danger
         "You feel really drunk. Your eyes are blurry and your legs don't seem to be able to follow the same pattern. A part of your body asks you to stop, but the other one wants a bit more fun..."
+
+let soberingTipsy =
+    Styles.information "You're feeling much better now, just slightly tipsy"
+
+let soberingDrunk =
+    Styles.information
+        "You're starting to get sober, still feeling really drunk, but better than before"

@@ -221,7 +221,7 @@ let ``playSong should decrease health by 2 points and energy by 5 when performin
             match effect with
             | CharacterAttributeChanged (_, attr, amount) ->
                 attr |> should equal CharacterAttribute.Health
-                amount |> should equal 98
+                amount |> should equal (Diff(100, 98))
             | _ -> failwith "Effect was not of correct type"
 
         effects
@@ -230,7 +230,7 @@ let ``playSong should decrease health by 2 points and energy by 5 when performin
             match effect with
             | CharacterAttributeChanged (_, attr, amount) ->
                 attr |> should equal CharacterAttribute.Energy
-                amount |> should equal 95
+                amount |> should equal (Diff(100, 95))
             | _ -> failwith "Effect was not of correct type"
 
 [<Test>]
@@ -253,7 +253,7 @@ let ``playSong should energy by 3 points when performing normally`` () =
             match effect with
             | CharacterAttributeChanged (_, attr, amount) ->
                 attr |> should equal CharacterAttribute.Energy
-                amount |> should equal 97
+                amount |> should equal (Diff(100, 97))
             | _ -> failwith "Effect was not of correct type"
 
 [<Test>]
@@ -272,5 +272,5 @@ let ``playSong should energy by 1 point when performing in limited`` () =
             match effect with
             | CharacterAttributeChanged (_, attr, amount) ->
                 attr |> should equal CharacterAttribute.Energy
-                amount |> should equal 99
+                amount |> should equal (Diff(100, 99))
             | _ -> failwith "Effect was not of correct type"

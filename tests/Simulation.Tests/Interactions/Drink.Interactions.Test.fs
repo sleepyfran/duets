@@ -30,7 +30,11 @@ let ``Drinking a cola increases energy by 1`` () =
     |> List.item 1
     |> should
         equal
-        (CharacterAttributeChanged(character, CharacterAttribute.Energy, 1))
+        (CharacterAttributeChanged(
+            character,
+            CharacterAttribute.Energy,
+            Diff(0, 1)
+        ))
 
 [<Test>]
 let ``Drinking a beer of 500ml and 4.4 in alcohol increases drunkenness by 6``
@@ -44,7 +48,11 @@ let ``Drinking a beer of 500ml and 4.4 in alcohol increases drunkenness by 6``
     |> List.item 1
     |> should
         equal
-        (CharacterAttributeChanged(character, CharacterAttribute.Drunkenness, 6))
+        (CharacterAttributeChanged(
+            character,
+            CharacterAttribute.Drunkenness,
+            Diff(0, 6)
+        ))
 
 [<Test>]
 let ``Drinking a beer of 500ml and 5.4 in alcohol increases drunkenness by 8``
@@ -58,7 +66,11 @@ let ``Drinking a beer of 500ml and 5.4 in alcohol increases drunkenness by 8``
     |> List.item 1
     |> should
         equal
-        (CharacterAttributeChanged(character, CharacterAttribute.Drunkenness, 8))
+        (CharacterAttributeChanged(
+            character,
+            CharacterAttribute.Drunkenness,
+            Diff(0, 8)
+        ))
 
 [<Test>]
 let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16``
@@ -88,7 +100,7 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
         (CharacterAttributeChanged(
             updatedCharacter,
             CharacterAttribute.Drunkenness,
-            16
+            Diff(8, 16)
         ))
 
 [<Test>]

@@ -8,9 +8,9 @@ let private getAssociatedEffects effect =
     match effect with
     | TimeAdvanced date -> [ Events.Time.run date ]
     | WorldMoveTo coords -> [ Events.Place.run coords ]
-    | effect ->
-        Events.Skill.run effect
-        @ Events.Character.Character.run effect
+    | _ -> []
+    @ Events.Skill.run effect
+      @ Events.Character.Character.run effect
 
 /// Returns how many times the time has to be advanced for the given effect.
 let private timeAdvanceOfEffect effect =

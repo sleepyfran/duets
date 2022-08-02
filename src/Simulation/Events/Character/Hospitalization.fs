@@ -41,4 +41,8 @@ let hospitalize character state =
     @ [ CharacterHealthDepleted character
         CharacterHospitalized(character, hospitalCoordinates)
         TimeAdvanced oneWeekLater
-        CharacterAttributeChanged(character, CharacterAttribute.Health, 100) ]
+        CharacterAttributeChanged(
+            character,
+            CharacterAttribute.Health,
+            Diff(0, 100)
+        ) ]

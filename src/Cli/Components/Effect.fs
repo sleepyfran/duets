@@ -41,14 +41,24 @@ and private displayEffect effect =
     | AlbumReleased (_, releasedAlbum) ->
         Studio.commonAlbumReleased releasedAlbum.Album.Name
         |> showMessage
-    | CharacterAttributeChanged (character, attr, amount) ->
+    | CharacterAttributeChanged (_, attr, Diff (previous, current)) ->
         match attr with
         | CharacterAttribute.Drunkenness ->
-            match amount with
-            | amount when amount < 25 -> Events.feelingTipsy
-            | amount when amount < 50 -> Events.feelingDrunk
-            | _ -> Events.feelingReallyDrunk
-            |> showMessage
+            if previous < current then
+                (* We are drinking more. *)
+                match current with
+                | amount when amount < 25 -> Events.feelingTipsy
+                | amount when amount < 50 -> Events.feelingDrunk
+                | _ -> Events.feelingReallyDrunk
+                |> showMessage
+            else
+                (* Character is sobering up. *)
+                match (previous, current) with
+                | prev, curr when prev > 25 && curr <= 25 ->
+                    Events.soberingTipsy |> showMessage
+                | prev, curr when prev > 50 && curr <= 50 ->
+                    Events.soberingDrunk |> showMessage
+                | _ -> ()
         | _ -> ()
     | CharacterHealthDepleted _ ->
         lineBreak ()
