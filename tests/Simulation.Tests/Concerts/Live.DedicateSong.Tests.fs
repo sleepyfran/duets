@@ -13,19 +13,18 @@ open Simulation.Concerts.Live
 let ``dedicateSong adds 10 points on top of the result of play song`` () =
     Generators.Song.finishedGenerator Generators.Song.defaultOptions
     |> Gen.sample 0 1000
-    |> List.iter
-        (fun song ->
-            let response =
-                dedicateSong dummyState dummyOngoingConcert song Energetic
+    |> List.iter (fun song ->
+        let response =
+            dedicateSong dummyState dummyOngoingConcert song Energetic
 
-            response
-            |> ongoingConcertFromResponse
-            |> Optic.get Lenses.Concerts.Ongoing.points_
-            |> should be (inRange 10<quality> 25<quality>)
+        response
+        |> ongoingConcertFromResponse
+        |> Optic.get Lenses.Concerts.Ongoing.points_
+        |> should be (inRange 10<quality> 25<quality>)
 
-            response
-            |> pointsFromResponse
-            |> should be (inRange 10<quality> 25<quality>))
+        response
+        |> pointsFromResponse
+        |> should be (inRange 10<quality> 25<quality>))
 
 [<Test>]
 let ``dedicateSong adds a dedicated song event to the event list`` () =
@@ -40,7 +39,8 @@ let ``dedicateSong returns result from play song`` () =
     let response =
         dedicateSong dummyState dummyOngoingConcert dummyFinishedSong Energetic
 
-    response.Result |> should be (ofCase <@ LowPerformance @>)
+    response.Result
+    |> should be (ofCase <@ AveragePerformance @>)
 
 [<Test>]
 let ``dedicateSong returns TooManyDedications if more than two songs were dedicated``

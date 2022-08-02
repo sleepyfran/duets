@@ -6,7 +6,7 @@ open Simulation
 
 /// Plays the given song in the concert with the specified energy. The result
 /// depends on whether the song was already played or not and the energy.
-let playSong state ongoingConcert (finishedSong, _) energy =
+let playSong state ongoingConcert (finishedSong, quality) energy =
     let (FinishedSong song) = finishedSong
 
     let playableCharacter =
@@ -36,8 +36,8 @@ let playSong state ongoingConcert (finishedSong, _) energy =
                   CharacterAttribute.Energy
                   -1 ]
       AffectingQualities =
-        // TODO: Add this after testing; SongQuality(finishedSong, quality)
-        [ SongPractice(finishedSong) ]
+        [ SongPractice(finishedSong)
+          SongQuality(finishedSong, quality) ]
       Multipliers =
         [ match energy with
           | PerformEnergy.Energetic -> 15

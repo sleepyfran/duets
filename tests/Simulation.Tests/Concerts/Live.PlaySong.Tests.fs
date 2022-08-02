@@ -80,8 +80,15 @@ let ``playSong decreases points by 50 if song has been played already`` () =
     |> should equal 0
 
 [<Test>]
-let ``playSong returns low performance result if practice is below 25`` () =
-    Generators.Song.finishedGenerator { PracticeMin = 0; PracticeMax = 24 }
+let ``playSong returns low performance result if practice and quality ares below 25``
+    ()
+    =
+    Generators.Song.finishedGenerator
+        { Generators.Song.defaultOptions with
+            PracticeMin = 0
+            PracticeMax = 24
+            QualityMin = 0
+            QualityMax = 24 }
     |> Gen.sample 0 1000
     |> List.iter (fun song ->
         let response =
@@ -92,10 +99,15 @@ let ``playSong returns low performance result if practice is below 25`` () =
         |> should be (ofCase <@ LowPerformance @>))
 
 [<Test>]
-let ``playSong returns average performance result if practice is between 25 50``
+let ``playSong returns average performance result if practice and quality ares between 25 50``
     ()
     =
-    Generators.Song.finishedGenerator { PracticeMin = 25; PracticeMax = 49 }
+    Generators.Song.finishedGenerator
+        { Generators.Song.defaultOptions with
+            PracticeMin = 25
+            PracticeMax = 49
+            QualityMin = 25
+            QualityMax = 49 }
     |> Gen.sample 0 1000
     |> List.iter (fun song ->
         let response =
@@ -106,8 +118,15 @@ let ``playSong returns average performance result if practice is between 25 50``
         |> should be (ofCase <@ AveragePerformance @>))
 
 [<Test>]
-let ``playSong returns good performance result if practice is below 75`` () =
-    Generators.Song.finishedGenerator { PracticeMin = 50; PracticeMax = 74 }
+let ``playSong returns good performance result if practice and quality are below 75``
+    ()
+    =
+    Generators.Song.finishedGenerator
+        { Generators.Song.defaultOptions with
+            PracticeMin = 50
+            PracticeMax = 74
+            QualityMin = 50
+            QualityMax = 74 }
     |> Gen.sample 0 1000
     |> List.iter (fun song ->
         let response =
@@ -118,8 +137,13 @@ let ``playSong returns good performance result if practice is below 75`` () =
         |> should be (ofCase <@ GoodPerformance @>))
 
 [<Test>]
-let ``playSong returns great performance result if practice is above 75`` () =
-    Generators.Song.finishedGenerator { PracticeMin = 76; PracticeMax = 100 }
+let ``playSong returns great performance result if practice and quality are above 75``
+    ()
+    =
+    Generators.Song.finishedGenerator
+        { Generators.Song.defaultOptions with
+            PracticeMin = 76
+            PracticeMax = 100 }
     |> Gen.sample 0 1000
     |> List.iter (fun song ->
         let response =

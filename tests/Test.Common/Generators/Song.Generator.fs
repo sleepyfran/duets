@@ -5,9 +5,17 @@ open FsCheck
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Entities
 
-type SongGenOptions = { PracticeMin: int; PracticeMax: int }
+type SongGenOptions =
+    { PracticeMin: int
+      PracticeMax: int
+      QualityMin: int
+      QualityMax: int }
 
-let defaultOptions = { PracticeMin = 0; PracticeMax = 100 }
+let defaultOptions =
+    { PracticeMin = 0
+      PracticeMax = 100
+      QualityMin = 100
+      QualityMax = 100 }
 
 let generator opts =
     gen {
@@ -26,14 +34,17 @@ let generator opts =
 
         return
             { initialSong with
-                  Practice = practice
-                  Length = length }
+                Practice = practice
+                Length = length }
     }
 
 let finishedGenerator opts =
     gen {
         let! song = generator opts
-        let! quality = Gen.choose (0, 100) |> Gen.map ((*) 1<quality>)
+
+        let! quality =
+            Gen.choose (opts.QualityMin, opts.QualityMax)
+            |> Gen.map ((*) 1<quality>)
 
         return FinishedSongWithQuality(FinishedSong song, quality)
     }
