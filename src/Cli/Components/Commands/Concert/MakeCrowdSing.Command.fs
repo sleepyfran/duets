@@ -16,11 +16,11 @@ module MakeCrowdSingCommand =
             makeCrowdSing
             (fun result points ->
                 match result with
-                | LowPerformance -> Concert.makeCrowdSingLowPerformance points
-                | AveragePerformance ->
+                | LowPerformance _ -> Concert.makeCrowdSingLowPerformance points
+                | AveragePerformance _ ->
                     Concert.makeCrowdSingLowPerformance points
-                | GoodPerformance
-                | GreatPerformance ->
+                | GoodPerformance _
+                | GreatPerformance _ ->
                     Concert.makeCrowdSingGreatPerformance points
                 | _ -> Concert.tooMuchSingAlong
                 |> showMessage)

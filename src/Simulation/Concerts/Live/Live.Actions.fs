@@ -35,8 +35,9 @@ let playSong state ongoingConcert (finishedSong, quality) energy =
                   playableCharacter
                   CharacterAttribute.Energy
                   -1 ]
-      AffectingQualities =
-        [ SongPractice(finishedSong)
+      ScoreRules =
+        [ CharacterDrunkenness
+          SongPractice(finishedSong)
           SongQuality(finishedSong, quality) ]
       Multipliers =
         [ match energy with
@@ -52,7 +53,7 @@ let greetAudience state ongoingConcert =
     { Event = GreetAudience
       Limit = Penalized(1<times>, PointPenalization(-10))
       Effects = []
-      AffectingQualities = []
+      ScoreRules = []
       Multipliers = [ 5 ] }
     |> performAction state ongoingConcert
 
@@ -61,7 +62,9 @@ let giveSpeech state ongoingConcert =
     { Event = GiveSpeech
       Limit = NoAction(3<times>)
       Effects = []
-      AffectingQualities = [ CharacterSkill(SkillId.Speech) ]
+      ScoreRules =
+        [ CharacterDrunkenness
+          CharacterSkill(SkillId.Speech) ]
       Multipliers = [ 5 ] }
     |> performAction state ongoingConcert
 
@@ -84,7 +87,9 @@ let bassSolo state ongoingConcert =
     { Event = BassSolo
       Limit = Penalized(2<times>, PointPenalization(-5))
       Effects = []
-      AffectingQualities = [ CharacterSkill(SkillId.Instrument Bass) ]
+      ScoreRules =
+        [ CharacterDrunkenness
+          CharacterSkill(SkillId.Instrument Bass) ]
       Multipliers = [ 5 ] }
     |> performAction state ongoingConcert
 
@@ -94,7 +99,9 @@ let drumSolo state ongoingConcert =
     { Event = DrumSolo
       Limit = Penalized(2<times>, PointPenalization(-5))
       Effects = []
-      AffectingQualities = [ CharacterSkill(SkillId.Instrument Drums) ]
+      ScoreRules =
+        [ CharacterDrunkenness
+          CharacterSkill(SkillId.Instrument Drums) ]
       Multipliers = [ 5 ] }
     |> performAction state ongoingConcert
 
@@ -104,7 +111,9 @@ let guitarSolo state ongoingConcert =
     { Event = GuitarSolo
       Limit = Penalized(2<times>, PointPenalization(-5))
       Effects = []
-      AffectingQualities = [ CharacterSkill(SkillId.Instrument Guitar) ]
+      ScoreRules =
+        [ CharacterDrunkenness
+          CharacterSkill(SkillId.Instrument Guitar) ]
       Multipliers = [ 5 ] }
     |> performAction state ongoingConcert
 
@@ -114,7 +123,9 @@ let makeCrowdSing state ongoingConcert =
     { Event = MakeCrowdSing
       Limit = Penalized(2<times>, PointPenalization(-5))
       Effects = []
-      AffectingQualities = [ CharacterSkill(SkillId.Instrument Vocals) ]
+      ScoreRules =
+        [ CharacterDrunkenness
+          CharacterSkill(SkillId.Instrument Vocals) ]
       Multipliers = [ 5 ] }
     |> performAction state ongoingConcert
 
@@ -124,7 +135,9 @@ let spinDrumsticks state ongoingConcert =
     { Event = SpinDrumsticks
       Limit = NoAction(5<times>)
       Effects = []
-      AffectingQualities = [ CharacterSkill(SkillId.Instrument Drums) ]
+      ScoreRules =
+        [ CharacterDrunkenness
+          CharacterSkill(SkillId.Instrument Drums) ]
       Multipliers = [ 2 ] }
     |> performAction state ongoingConcert
 
@@ -133,6 +146,6 @@ let tuneInstrument state ongoingConcert =
     { Event = TuneInstrument
       Limit = NoAction(3<times>)
       Effects = []
-      AffectingQualities = []
+      ScoreRules = []
       Multipliers = [ 1 ] }
     |> performAction state ongoingConcert

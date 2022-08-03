@@ -2,6 +2,7 @@
 module Cli.Text.Concert
 
 open Entities
+open Simulation.Concerts.Live
 
 let adjustDrumsMessage =
     Styles.success
@@ -106,21 +107,37 @@ let playSongRepeatedTipReaction points =
     Styles.information
         $"""That got you {points} {Generic.simplePluralOf "point" points}. Try not to repeat songs in a concert, it's never good"""
 
-let playSongLowPracticeReaction energy points =
+let playSongLowPerformanceReaction energy reasons points =
     match energy with
     | Energetic ->
         "At least your energetic performance gave the audience some nice feeling"
     | PerformEnergy.Normal
-    | Limited -> "Not like you didn't try hard anyway"
+    | Limited -> "Not like you tried hard anyway"
     |> fun energyText ->
+        let reasonsText =
+            Generic.listOf reasons (fun reason ->
+                match reason with
+                | CharacterDrunk -> "you were quite drunk"
+                | LowPractice -> "you didn't practice the song enough"
+                | LowSkill -> "you didn't practice at home enough"
+                | LowQuality -> "the song was not that good")
+
         Styles.Level.bad
-            $"""Unfortunately it seems like you didn't practice that song enough and you made quite a lot of mistakes during the performance, you got {points} {Generic.simplePluralOf "point" points}. {energyText}"""
+            $"""Unfortunately it seems like {reasonsText}. You got {points} {Generic.simplePluralOf "point" points}. {energyText}"""
 
-let playSongMediumPracticeReaction energy points =
+let playSongMediumPerformanceReaction reasons points =
+    let reasonsText =
+        Generic.listOf reasons (fun reason ->
+            match reason with
+            | CharacterDrunk -> "being drunk"
+            | LowPractice -> "not having practiced the song enough"
+            | LowSkill -> "not having good skills"
+            | LowQuality -> "the song not being so good")
+
     Styles.Level.normal
-        $"""You didn't nail the performance, but at least you didn't mess up badly, you got {points} {Generic.simplePluralOf "point" points}"""
+        $"""You didn't nail the performance, probably {reasonsText} didn't help. But anyway, you got {points} {Generic.simplePluralOf "point" points}"""
 
-let playSongHighPracticeReaction energy points =
+let playSongHighPerformanceReaction energy points =
     match energy with
     | Energetic -> "the audience really enjoyed your energy"
     | PerformEnergy.Normal -> "the audience quite liked your energy"
@@ -134,13 +151,25 @@ let putMicOnStandMessage =
     Styles.success
         "You left the mic on the stand, now let's try to figure out something to do with your hands..."
 
-let soloResultLowPerformance points =
-    Styles.Level.bad
-        $"Well... That was really bad. Maybe try not to bring any extra attention towards you if your skills are not that great anyway. That got you {points} points"
+let soloResultLowPerformance reasons points =
+    let reasonsText =
+        Generic.listOf reasons (fun reason ->
+            match reason with
+            | CharacterDrunk -> "you are drunk"
+            | _ -> "your skills are not that great anyway")
 
-let soloResultAveragePerformance points =
+    Styles.Level.bad
+        $"Well... That was really bad. Maybe try not to bring any extra attention towards you if {reasonsText}. That got you {points} points"
+
+let soloResultAveragePerformance reasons points =
+    let reasonsText =
+        Generic.listOf reasons (fun reason ->
+            match reason with
+            | CharacterDrunk -> "not being drunk"
+            | _ -> "a little more practice")
+
     Styles.Level.normal
-        $"That was not bad! A little more practice wouldn't hurt, but that got you {points} points"
+        $"That was not bad, maybe {reasonsText} wouldn't hurt, but that got you {points} points"
 
 let soloResultGreatPerformance points =
     Styles.Level.great

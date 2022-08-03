@@ -70,13 +70,16 @@ module PlaySongCommands =
             (song.Length.Minutes / 1<minute/second>)
 
         match response.Result with
-        | LowPerformance
-        | AveragePerformance ->
-            Concert.playSongLowPracticeReaction energy response.Points
-        | GoodPerformance ->
-            Concert.playSongMediumPracticeReaction energy response.Points
+        | LowPerformance reasons
+        | AveragePerformance reasons ->
+            Concert.playSongLowPerformanceReaction
+                energy
+                reasons
+                response.Points
+        | GoodPerformance reasons ->
+            Concert.playSongMediumPerformanceReaction reasons response.Points
         | GreatPerformance ->
-            Concert.playSongHighPracticeReaction energy response.Points
+            Concert.playSongHighPerformanceReaction energy response.Points
         | _ -> Concert.playSongRepeatedTipReaction response.Points
         |> showMessage
 

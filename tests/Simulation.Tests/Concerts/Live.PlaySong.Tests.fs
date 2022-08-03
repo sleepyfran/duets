@@ -7,6 +7,7 @@ open Test.Common
 
 open Aether
 open Entities
+open Simulation
 open Simulation.Concerts.Live
 
 [<Test>]
@@ -152,6 +153,33 @@ let ``playSong returns great performance result if practice and quality are abov
         response
         |> resultFromResponse
         |> should be (ofCase <@ GreatPerformance @>))
+
+[<Test>]
+let ``playSong lowers result depending on character's drunkenness`` () =
+    [ (20, <@ GreatPerformance @>)
+      (35, <@ GoodPerformance [ CharacterDrunk ] @>)
+      (55, <@ AveragePerformance [ CharacterDrunk ] @>)
+      (80, <@ LowPerformance [ CharacterDrunk ] @>) ]
+    |> List.iter (fun (drunkenness, expectedResult) ->
+        Generators.Song.finishedGenerator
+            { Generators.Song.defaultOptions with
+                PracticeMin = 100
+                PracticeMax = 100 }
+        |> Gen.sample 0 1
+        |> List.iter (fun song ->
+            let drunkState =
+                Character.Attribute.add
+                    dummyCharacter
+                    CharacterAttribute.Drunkenness
+                    drunkenness
+                |> State.Root.applyEffect dummyState
+
+            let response =
+                playSong drunkState dummyOngoingConcert song Energetic
+
+            response
+            |> resultFromResponse
+            |> should be (ofCase expectedResult)))
 
 [<Test>]
 let ``playSong does not decrease points below 0`` () =

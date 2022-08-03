@@ -16,10 +16,11 @@ module SpinDrumsticksCommand =
             spinDrumsticks
             (fun result points ->
                 match result with
-                | LowPerformance -> Concert.drumstickSpinningBadResult points
-                | AveragePerformance
-                | GoodPerformance
-                | GreatPerformance -> Concert.drumstickSpinningGoodResult points
+                | LowPerformance _ -> Concert.drumstickSpinningBadResult points
+                | AveragePerformance _
+                | GoodPerformance _
+                | GreatPerformance _ ->
+                    Concert.drumstickSpinningGoodResult points
                 | _ -> Concert.tooManyDrumstickSpins
                 |> showMessage)
             ongoingConcert

@@ -15,11 +15,13 @@ module GiveSpeechCommand =
             Command.giveSpeechDescription
             giveSpeech
             (fun result points ->
+                Concert.showSpeechProgress ()
+
                 match result with
-                | LowPerformance -> Concert.speechGivenLowSkill points
-                | AveragePerformance -> Concert.speechGivenMediumSkill points
-                | GoodPerformance
-                | GreatPerformance -> Concert.speechGivenHighSkill points
+                | LowPerformance _ -> Concert.speechGivenLowSkill points
+                | AveragePerformance _ -> Concert.speechGivenMediumSkill points
+                | GoodPerformance _
+                | GreatPerformance _ -> Concert.speechGivenHighSkill points
                 | _ -> Concert.tooManySpeeches
                 |> showMessage)
             ongoingConcert

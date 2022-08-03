@@ -63,11 +63,13 @@ module Concert =
                 showProgressBarAsync progressText 2<second>
 
                 match result with
-                | LowPerformance -> Concert.soloResultLowPerformance points
-                | AveragePerformance ->
-                    Concert.soloResultAveragePerformance points
-                | GoodPerformance
-                | GreatPerformance -> Concert.soloResultGreatPerformance points
+                | LowPerformance reasons ->
+                    Concert.soloResultLowPerformance reasons points
+                | AveragePerformance reasons ->
+                    Concert.soloResultAveragePerformance reasons points
+                | GoodPerformance _
+                | GreatPerformance _ ->
+                    Concert.soloResultGreatPerformance points
                 | _ -> Concert.tooManySolos points
                 |> showMessage)
             ongoingConcert

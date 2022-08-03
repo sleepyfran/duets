@@ -103,12 +103,18 @@ type internal Limit =
     | Penalized of limit: int<times> * penalization: Penalization
     | NoAction of limit: int<times>
 
-/// Defines all the different qualities that can be used to calculate the
+/// Defines all the different rules that can be used to calculate the
 /// point increase for an action during a concert.
-type internal AffectingQuality =
+type internal ScoreRule =
+    /// Increases the points the higher the average skill of the band is.
     | BandSkills of skills: SkillId
+    /// Decreases the points the higher the drunkenness amount of the character.
+    | CharacterDrunkenness
+    /// Increases the points the higher the skill of the character is.
     | CharacterSkill of skill: SkillId
+    /// Increases the points the higher the quality of the song.
     | SongQuality of song: FinishedSongWithQuality
+    /// Increases the points the higher the practice of the song.
     | SongPractice of song: FinishedSong
 
 /// A multiplier that will be applied after calculating the final points from
@@ -123,19 +129,26 @@ type internal ConcertAction =
     { Event: ConcertEvent
       Limit: Limit
       Effects: Effect list
-      AffectingQualities: AffectingQuality list
+      ScoreRules: ScoreRule list
       Multipliers: Multiplier list }
+
+/// Adds extra details as of why a certain result was obtained.
+type ConcertEventResultReason =
+    | CharacterDrunk
+    | LowPractice
+    | LowSkill
+    | LowQuality
 
 /// Defines the result of an event in the concert.
 type ConcertEventResult =
     /// Indicates an action with done with no rating required.
     | Done
     /// A performance that got less than 25% of the maximum points.
-    | LowPerformance
+    | LowPerformance of ConcertEventResultReason list
     /// A performance that got between 25% and 50% of the maximum points.
-    | AveragePerformance
+    | AveragePerformance of ConcertEventResultReason list
     /// A performance that got between 50% and 75% of the maximum points.
-    | GoodPerformance
+    | GoodPerformance of ConcertEventResultReason list
     /// A performance that got between 75% and 100% of the maximum points.
     | GreatPerformance
     /// Performance was not done because it was repeated too many times.
@@ -171,15 +184,95 @@ let private playableCharacterSkillLevel state skillId =
 
     characterSkillLevel state character.Id skillId
 
-let private averageAffectingQualities state action =
-    action.AffectingQualities
-    |> List.averageBy (fun affectingQuality ->
-        match affectingQuality with
-        | BandSkills skillId -> bandAverageSkillLevel state skillId
-        | CharacterSkill skillId -> playableCharacterSkillLevel state skillId
-        | SongQuality (_, quality) -> quality / 1<quality> |> float
-        | SongPractice (FinishedSong song) ->
-            song.Practice / 1<practice> |> float)
+let private averageableAffectingQuality state affectingQuality =
+    match affectingQuality with
+    | BandSkills skillId -> [ bandAverageSkillLevel state skillId ]
+    | CharacterSkill skillId -> [ playableCharacterSkillLevel state skillId ]
+    | SongQuality (_, quality) -> [ quality / 1<quality> |> float ]
+    | SongPractice (FinishedSong song) ->
+        [ song.Practice / 1<practice> |> float ]
+    | _ -> []
+
+/// Computes the qualities (values between 0 and 100) that after being averaged
+/// give the base score of the action with the reasons for that score.
+let private baseScoreWithReasons state action =
+    let reasons, qualities =
+        action.ScoreRules
+        |> List.fold
+            (fun (reasons, scores) aq ->
+                match aq with
+                | BandSkills skillId ->
+                    let avgSkill =
+                        bandAverageSkillLevel state skillId
+
+                    if avgSkill < 50 then
+                        (reasons @ [ LowSkill ], scores @ [ avgSkill ])
+                    else
+                        (reasons, scores @ [ avgSkill ])
+                | CharacterSkill skillId ->
+                    let avgSkill =
+                        playableCharacterSkillLevel state skillId
+
+                    if avgSkill < 50 then
+                        (reasons @ [ LowSkill ], scores @ [ avgSkill ])
+                    else
+                        (reasons, scores @ [ avgSkill ])
+                | SongQuality (_, quality) ->
+                    let q = quality / 1<quality> |> float
+
+                    if q < 50 then
+                        (reasons @ [ LowQuality ], scores @ [ q ])
+                    else
+                        (reasons, scores @ [ q ])
+                | SongPractice (FinishedSong song) ->
+                    let p = song.Practice / 1<practice> |> float
+
+                    if p < 50 then
+                        (reasons @ [ LowPractice ], scores @ [ p ])
+                    else
+                        (reasons, scores @ [ p ])
+                | _ -> (reasons, scores))
+            ([], [])
+
+    if List.isEmpty qualities then
+        [], 100.0
+    else
+        let avgQualities = qualities |> List.average
+        reasons, avgQualities
+
+/// Computes the average modifier to apply based on the score rules that are
+/// modifiers (value between 0.0 and 1.0) rather than a quality (value between
+/// 0 and 100).
+let private modifiersWithReasons state action =
+    let reasons, modifiers =
+        action.ScoreRules
+        |> List.fold
+            (fun (reasons, modifiers) aq ->
+                match aq with
+                | CharacterDrunkenness ->
+                    let characterDrunkenness =
+                        Queries.Characters.playableCharacterAttribute
+                            state
+                            CharacterAttribute.Drunkenness
+
+                    let res amount =
+                        (reasons @ [ CharacterDrunk ], modifiers @ [ amount ])
+
+                    match characterDrunkenness with
+                    | amount when amount < 5 -> (reasons, modifiers)
+                    | amount when amount < 25 -> res 0.75
+                    | amount when amount < 50 -> res 0.5
+                    | amount when amount < 70 -> res 0.25
+                    | _ -> res 0.05
+                | _ -> (reasons, modifiers))
+            ([], [])
+
+    if List.isEmpty modifiers then
+        [], 1.0
+    else
+        let avgModifiers = modifiers |> List.average
+
+        reasons, avgModifiers
 
 let private multipliersOf action =
     List.sumBy (fun multiplier -> float multiplier / 100.0) action.Multipliers
@@ -212,7 +305,7 @@ let rec internal performAction state ongoingConcert action =
             response
 
 and private performAction' state ongoingConcert action =
-    if List.isEmpty action.AffectingQualities then
+    if List.isEmpty action.ScoreRules then
         // An action with no affecting qualities does not really require any
         // calculations. Just use the multiplier section to sum the points.
         let points = List.sum action.Multipliers
@@ -223,8 +316,8 @@ and private performAction' state ongoingConcert action =
     |> Response.addEffects action.Effects
 
 and private ratePerformance state ongoingConcert action =
-    let averageQualities =
-        averageAffectingQualities state action
+    let qualityReasons, baseScore =
+        baseScoreWithReasons state action
 
     let multipliers =
         if List.isEmpty action.Multipliers then
@@ -232,18 +325,26 @@ and private ratePerformance state ongoingConcert action =
         else
             multipliersOf action
 
+    let modifierReasons, modifier =
+        modifiersWithReasons state action
+
     let pointIncrease =
-        averageQualities * multipliers
+        baseScore * modifier * multipliers
 
     let projectedMaximum = 100.0 * multipliers
 
     let performanceStep = projectedMaximum / 4.0
 
+    let resultReasons =
+        qualityReasons @ modifierReasons
+
     let result =
         match pointIncrease with
-        | points when points < performanceStep -> LowPerformance
-        | points when points < performanceStep * 2.0 -> AveragePerformance
-        | points when points < performanceStep * 3.0 -> GoodPerformance
+        | points when points < performanceStep -> LowPerformance resultReasons
+        | points when points < performanceStep * 2.0 ->
+            AveragePerformance resultReasons
+        | points when points < performanceStep * 3.0 ->
+            GoodPerformance resultReasons
         | _ -> GreatPerformance
 
     Response.forEvent'
