@@ -2,7 +2,6 @@
 module Cli.Text.Rehearsal
 
 open Common
-open Entities
 
 let manageDescription =
     "Opens the band management menu which allows you to hire new members or fire current ones"
@@ -148,14 +147,28 @@ let fireMemberConfirmed name = Styles.danger $"You fired {name}"
 let memberListCurrentTitle =
     Styles.title "Current members"
 
-let memberListCurrentMember name role (since: Date) =
-    $"{name} ({Generic.instrumentName role}) since {since.Year}"
+let memberListNameHeader =
+    Styles.header "Name"
+
+let memberListRoleHeader =
+    Styles.header "Role"
+
+let memberListSinceHeader =
+    Styles.header "Since"
+
+let memberListUntilHeader =
+    Styles.header "Until"
 
 let memberListPastTitle =
     Styles.title "Past members"
 
-let memberListPastMember name role (since: Date) (until: Date) =
-    $"{name} ({Generic.instrumentName role}) from {since.Year} until {until.Year}"
+let memberListName = Styles.person
+
+let memberListRole = Generic.roleName
+
+let memberListSince = Generic.formatDate
+
+let memberListUntil = Generic.formatDate
 
 let managementTitle = "Management"
 

@@ -15,34 +15,49 @@ module ListMembersCommand =
           Description = Command.listMembersDescription
           Handler =
             (fun _ ->
-                Rehearsal.memberListCurrentTitle |> showMessage
+                let currentMemberColumns =
+                    [ Rehearsal.memberListNameHeader
+                      Rehearsal.memberListRoleHeader
+                      Rehearsal.memberListSinceHeader ]
 
-                currentMembers
-                |> List.iter (fun cm ->
-                    let character =
-                        Queries.Characters.find (State.get ()) cm.CharacterId
-
-                    Rehearsal.memberListCurrentMember
-                        character.Name
-                        cm.Role
-                        cm.Since
-                    |> showMessage)
-
-                if not (List.isEmpty pastMembers) then
-                    Rehearsal.memberListPastTitle |> showMessage
-
-                    pastMembers
-                    |> List.iter (fun pm ->
+                let currentMemberRows =
+                    currentMembers
+                    |> List.map (fun cm ->
                         let character =
                             Queries.Characters.find
                                 (State.get ())
-                                pm.CharacterId
+                                cm.CharacterId
 
-                        Rehearsal.memberListPastMember
-                            character.Name
-                            pm.Role
-                            (fst pm.Period)
-                            (snd pm.Period)
-                        |> showMessage)
+                        [ Rehearsal.memberListName character.Name
+                          Rehearsal.memberListRole cm.Role
+                          Rehearsal.memberListSince cm.Since ])
+
+                showTableWithTitle
+                    Rehearsal.memberListCurrentTitle
+                    currentMemberColumns
+                    currentMemberRows
+
+                if not (List.isEmpty pastMembers) then
+                    let pastMemberColumns =
+                        currentMemberColumns
+                        @ [ Rehearsal.memberListUntilHeader ]
+
+                    let pastMemberRows =
+                        pastMembers
+                        |> List.map (fun pm ->
+                            let character =
+                                Queries.Characters.find
+                                    (State.get ())
+                                    pm.CharacterId
+
+                            [ Rehearsal.memberListName character.Name
+                              Rehearsal.memberListRole pm.Role
+                              Rehearsal.memberListSince (fst pm.Period)
+                              Rehearsal.memberListUntil (snd pm.Period) ])
+
+                    showTableWithTitle
+                        Rehearsal.memberListPastTitle
+                        pastMemberColumns
+                        pastMemberRows
 
                 Scene.World) }
