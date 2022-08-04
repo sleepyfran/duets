@@ -1,32 +1,902 @@
 [
   [
-    "Bruce Ross",
+    "Brenton Butler",
     {
       "Case": "Male"
     }
   ],
   [
-    "Lana Hunt",
+    "Ramon Adkins",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Seymour Wells",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Armand Townsend",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Lynn Bass",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Sammy Munoz",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Emil Villarreal",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Ignacio Vega",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Gayle Robles",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Lane Mays",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Carlton Reese",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Mohammad Delacruz",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Richie Chen",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Josiah Short",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Carol Simmons",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Jacinto Norman",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Hubert Medina",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Carmen House",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Antione Kelley",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Van Lucas",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Dirk Nash",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Daron Lin",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Eugenio Horn",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Darius Curtis",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Rex Snow",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Jack Copeland",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Steve Rice",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Jae Weber",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Bradford Hobbs",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Santos Schneider",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Owen Olsen",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Jerry Huffman",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Noble Hutchinson",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Jarred Chambers",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Milan Preston",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Samuel Jacobson",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Quintin Higgins",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Gerard Mullen",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Chadwick Romero",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Neville Deleon",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Norbert Durham",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Jeff Lang",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Rupert Stafford",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Jon Sanders",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Tyler Saunders",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Vance Wang",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Foster Garcia",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Ezra Nolan",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Malcolm Schmidt",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Jose Dalton",
+    {
+      "Case": "Male"
+    }
+  ],
+  [
+    "Cecile Logan",
     {
       "Case": "Female"
     }
   ],
   [
-    "Joyce Parker",
+    "Abby Rios",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Courtney Perry",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Myrtle Moss",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Deanne Blair",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Linda Reed",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Angie Carpenter",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Dolly Wong",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Lola Henderson",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Violet Irwin",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Deidre Collier",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Cristina Hull",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Francesca Townsend",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Helen Hartman",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Marjorie Stevens",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Celina Pollard",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Julia Lawson",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Ollie Wall",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Suzette Beasley",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Yvette Patterson",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Barbra Valenzuela",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Helena Joyce",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Jeri Calhoun",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Amparo Gilbert",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Christina Leon",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Hilary Rangel",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Bertha Savage",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Lily Wyatt",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Lizzie Meadows",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Maryellen Faulkner",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Katheryn Johnson",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Rachelle Daniels",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Leanne Mann",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Marilyn Roach",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Sophie Wilcox",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Chandra Andersen",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Corine Jensen",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Lessie Morton",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Marietta Lamb",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Elsie Wilson",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Tanya Vincent",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Yolanda Maxwell",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Tia Bridges",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Erica Mcgee",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Kaye Grant",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Minerva Juarez",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Samantha Chapman",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Adrienne Barnett",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Tamara Chen",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Rene Parker",
+    {
+      "Case": "Female"
+    }
+  ],
+  [
+    "Shelby Stevenson",
     {
       "Case": "Other"
     }
   ],
   [
-    "Wilson Edwards",
+    "Savannah Christensen",
     {
-      "Case": "Male"
+      "Case": "Other"
     }
   ],
   [
-    "Olivia Bennet",
+    "Dixie Figueroa",
     {
-      "Case": "Female"
+      "Case": "Other"
+    }
+  ],
+  [
+    "Lea Ewing",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Seth Trevino",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Cathleen Walter",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Kendrick Terrell",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Stan Mayo",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Lucinda Soto",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Isabelle Cooke",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Malcom Cummings",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Rod Henry",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Theo Walters",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Jeffrey Garrett",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Chung Suarez",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Robby Mckenzie",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Sharlene Farrell",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Dorsey Bray",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Matilda Gallagher",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Jolene Kaiser",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Jermaine Frank",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Nicky Chase",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Sheena Mccoy",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Mckinley Frye",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Stacy Raymond",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Daniel Hooper",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Mattie Kramer",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Mitchell Short",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Bennie Zimmerman",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Chandra Cordova",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Saundra Burnett",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Nettie Villa",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Hershel Reilly",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Courtney Haney",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Gil Mcmahon",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Marylou Holder",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Audra Valdez",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Bobbie Poole",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Gonzalo Logan",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Marshall Mccall",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Walker Monroe",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Lacy Butler",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Julie Hartman",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Lupe Pace",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Ellsworth Landry",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Justine Turner",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Arturo Khan",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Letitia Arellano",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Roland Sims",
+    {
+      "Case": "Other"
+    }
+  ],
+  [
+    "Mai Mcdaniel",
+    {
+      "Case": "Other"
     }
   ]
 ]
