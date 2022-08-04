@@ -90,10 +90,7 @@ let possessiveAdjectiveForGender gender =
 
 /// Returns the correct conjugation for the given verb that matches with the
 /// specified gender.
-let verbConjugationForGender verb gender =
-    verbConjugationByGender [ verb ] [
-        gender
-    ]
+let verbConjugationForGender verb gender = verbConjugationByGender[verb][gender]
 
 /// Returns the correct name of the given account holder.
 let accountHolderName holder =
