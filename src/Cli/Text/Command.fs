@@ -189,3 +189,14 @@ let inventoryDescription =
 
 let drinkDescription =
     $"""Allows you to drink a given item. Use as {Styles.information "drink {item name}"}"""
+
+let meDescription =
+    "Shows information about your character"
+
+let private meItem header value =
+    $"""- {Styles.header header}: {value}"""
+
+let meName name = meItem "Name" name
+
+let meBirthdayAge birthday age =
+    meItem "Birthday" $"{Generic.formatDate birthday} ({age} years old)"

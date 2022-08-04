@@ -23,7 +23,8 @@ open Common
 /// </returns>
 let rec showCommandPrompt title availableCommands =
     let commandsWithEssentials =
-        availableCommands @ [ ExitCommand.get ]
+        availableCommands
+        @ [ ExitCommand.get; MeCommand.get ]
         |> fun commands -> [ HelpCommand.create commands ] @ commands
 
     let rec promptForCommand () =
