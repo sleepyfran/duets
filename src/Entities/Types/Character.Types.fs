@@ -37,7 +37,7 @@ module CharacterTypes =
     type Character =
         { Id: CharacterId
           Name: string
-          Age: int
+          Birthday: Date
           Gender: Gender
           Attributes: CharacterAttributes }
 

@@ -2,6 +2,7 @@
 module Cli.Text.Creator
 
 open Common
+open Entities
 
 let characterInitialPrompt =
     $"""Creating a new game, what's the {Styles.highlight "name"} of your character?"""
@@ -13,8 +14,13 @@ let characterGenderMale = "Male"
 let characterGenderFemale = "Female"
 let characterGenderOther = "Other"
 
-let characterAgePrompt =
-    $"""How {Styles.highlight "old"} are they? (Minimum 18)"""
+let characterBirthdayInfo =
+    Styles.faded
+        $"The game starts on {Generic.formatDate Calendar.gameBeginning} and your character has to be at least 18 by then"
+
+let characterBirthdayPrompt gender =
+    $"""When is {Generic.possessiveAdjectiveForGender gender
+                 |> String.lowercase} birthday? (format {Styles.information "dd/mm/YYYY"})"""
 
 let bandInitialPrompt =
     $"""Let's create your first band. What's the {Styles.highlight "band's name"}?"""

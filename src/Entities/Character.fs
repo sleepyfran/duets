@@ -19,16 +19,18 @@ let private defaultAttributes =
 let empty =
     { Id = CharacterId <| Identity.create ()
       Name = ""
-      Age = 0
+      Birthday =
+        Calendar.gameBeginning
+        |> Calendar.Ops.addYears -25
       Gender = Gender.Other
       Attributes = defaultAttributes }
 
 /// Creates a character from the given parameters, generating a random
 /// ID for it.
-let from name gender age =
+let from name gender birthday =
     { Id = CharacterId <| Identity.create ()
       Name = name
-      Age = age
+      Birthday = birthday
       Gender = gender
       Attributes = defaultAttributes }
 
@@ -42,7 +44,10 @@ let validateName (name: string) =
         Ok name
 
 /// Validates whether the age of the character is valid or not.
-let validateAge age =
+let validateBirthday birthday =
+    let age =
+        Calendar.Query.yearsBetween birthday Calendar.gameBeginning
+
     if age < 18 then Error AgeTooYoung
     else if age > 80 then Error AgeTooOld
-    else Ok age
+    else Ok birthday

@@ -10,7 +10,10 @@ open Simulation.Bands.Members
 
 let bandMember =
     let hiredCharacter =
-        Character.from "Test" Other 28
+        Character.from
+            "Test"
+            Other
+            (Calendar.Ops.addYears -28 Calendar.gameBeginning)
 
     Band.Member.from hiredCharacter.Id Guitar dummyToday
 

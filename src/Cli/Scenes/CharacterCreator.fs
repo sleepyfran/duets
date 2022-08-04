@@ -37,13 +37,16 @@ and private promptForGender name =
         Creator.characterGenderPrompt
         genderText
         [ Male; Female; Other ]
-    |> promptForAge name
+    |> promptForBirthday name
 
-and private promptForAge name gender =
-    showNumberPrompt Creator.characterAgePrompt
-    |> Character.validateAge
+and private promptForBirthday name gender =
+    Creator.characterBirthdayInfo |> showMessage
+
+    Creator.characterBirthdayPrompt gender
+    |> showDatePrompt
+    |> Character.validateBirthday
     |> Result.switch
         (Character.from name gender >> Scene.BandCreator)
         (fun error ->
             showAgeError error
-            promptForAge name gender)
+            promptForBirthday name gender)

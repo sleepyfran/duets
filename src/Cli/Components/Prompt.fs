@@ -30,6 +30,32 @@ let showTextPrompt title = AnsiConsole.Ask<string>(title)
 let showNumberPrompt title = AnsiConsole.Ask<int>(title)
 
 /// <summary>
+/// Renders a prompt that accepts a date in the dd/mm/YYYY format.
+/// </summary>
+/// <param name="title">Title of the prompt to show when asking</param>
+/// <returns>The date given by the user</returns>
+let showDatePrompt title =
+    let mutable datePrompt =
+        TextPrompt<string>(title)
+
+    let validate (date: string) =
+        match Calendar.Parse.date date with
+        | Some _ -> ValidationResult.Success()
+        | None -> ValidationResult.Error(Generic.invalidDate)
+
+    datePrompt.Validator <- Func.toFunc validate
+
+    AnsiConsole.Prompt(datePrompt)
+    |> fun date ->
+        match Calendar.Parse.date date with
+        | Some date -> date
+        | None ->
+            raise (
+                invalidOp
+                    "The given input was not a correct date. This should've been caught by the validator but apparently it didn't :)"
+            )
+
+/// <summary>
 /// Renders a prompt that accepts lengths in the format minutes:seconds.
 /// </summary>
 /// <param name="title">Title of the prompt to show when asking</param>
@@ -52,5 +78,5 @@ let showLengthPrompt title =
         | _ ->
             raise (
                 invalidOp
-                    "The given input was not a correct length. This should've caught by the validator but apparently it didn't :)"
+                    "The given input was not a correct length. This should've been caught by the validator but apparently it didn't :)"
             )

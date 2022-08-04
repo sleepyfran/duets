@@ -57,4 +57,5 @@ module Bands =
         band.Members
         |> List.map (fun currentMember ->
             Characters.find state currentMember.CharacterId)
-        |> List.averageBy (fun character -> float character.Age)
+        |> List.averageBy (fun character ->
+            Characters.ageOf state character |> float)

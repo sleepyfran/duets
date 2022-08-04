@@ -3,20 +3,30 @@ module Simulation.Bands.Members
 open Aether
 open Common
 open Entities
-open Simulation.Queries
+open Simulation
 
 /// Derives an age that will be +-5 of a given average but no less than 18
 /// or more than 80.
-let private ageFromAverage avg =
-    System.Random().Next(-5, 5)
-    |> (+) avg
-    |> Math.clamp 18 80
+let private birthdayFromAverageAge state avg =
+    let computedAge =
+        System.Random().Next(-5, 5)
+        |> (+) avg
+        |> Math.clamp 18 80
+
+    let today = Queries.Calendar.today state
+    today |> Calendar.Ops.addYears -computedAge
 
 /// Creates a member that is available for being hired. The member will have
 /// some skills auto-generated around the given `averageSkillLevel` for the
 /// specified genre, instrument and plus the composition skill and also an
 /// age around the average age of the band.
-let private createMemberForHire averageSkillLevel averageAge genre instrument =
+let private createMemberForHire
+    state
+    averageSkillLevel
+    averageAge
+    genre
+    instrument
+    =
     [ SkillId.Composition
       SkillId.Instrument instrument
       SkillId.Genre genre ]
@@ -25,7 +35,10 @@ let private createMemberForHire averageSkillLevel averageAge genre instrument =
         let npc =
             Data.Npcs.random ()
             |> fun (name, gender) ->
-                Character.from name gender (ageFromAverage averageAge)
+                Character.from
+                    name
+                    gender
+                    (birthdayFromAverageAge state averageAge)
 
         Band.MemberForHire.from npc instrument skills
 
@@ -33,18 +46,24 @@ let private createMemberForHire averageSkillLevel averageAge genre instrument =
 /// looking for the given instrument.
 let membersForHire state band instrument =
     let averageSkillLevel =
-        Bands.averageSkillLevel state band
+        Queries.Bands.averageSkillLevel state band
         |> Math.roundToNearest
 
     let averageAge =
-        Bands.averageAge state band |> Math.roundToNearest
+        Queries.Bands.averageAge state band
+        |> Math.roundToNearest
 
     Seq.initInfinite (fun _ ->
-        createMemberForHire averageSkillLevel averageAge band.Genre instrument)
+        createMemberForHire
+            state
+            averageSkillLevel
+            averageAge
+            band.Genre
+            instrument)
 
 /// Processes the given member for hire into a current member of the band.
 let hireMember state (band: Band) (memberForHire: MemberForHire) =
-    Calendar.today state
+    Queries.Calendar.today state
     |> Band.Member.fromMemberForHire memberForHire
     |> fun currentMember ->
         MemberHired(
@@ -60,13 +79,13 @@ type FireError = AttemptToFirePlayableCharacter
 /// today as the date it was fired.
 let fireMember state (band: Band) (bandMember: CurrentMember) =
     let character =
-        Characters.playableCharacter state
+        Queries.Characters.playableCharacter state
 
     if bandMember.CharacterId = character.Id then
         Error AttemptToFirePlayableCharacter
     else
         let pastMember =
-            Band.PastMember.fromMember bandMember (Calendar.today state)
+            Band.PastMember.fromMember bandMember (Queries.Calendar.today state)
 
         (band, bandMember, pastMember)
         |> MemberFired

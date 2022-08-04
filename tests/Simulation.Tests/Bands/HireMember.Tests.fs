@@ -5,6 +5,7 @@ open NUnit.Framework
 open FsUnit
 
 open Entities
+open Simulation
 open Simulation.Bands.Members
 
 let instrument =
@@ -56,7 +57,8 @@ let MembersForHireShouldExposeMembersWithSkillLevelAroundBandsAverage () =
 
 [<Test>]
 let MembersForHireShouldExposeMembersWithAgeAroundBandsAverage () =
-    let characterAge = dummyCharacter.Age
+    let characterAge =
+        Queries.Characters.ageOf state dummyCharacter
 
     let assertAgeRange =
         fun age ->
@@ -66,7 +68,9 @@ let MembersForHireShouldExposeMembersWithAgeAroundBandsAverage () =
             age
             |> should be (greaterThanOrEqualTo (characterAge - 5))
 
-    assertOnMembers (fun m -> assertAgeRange m.Character.Age)
+    assertOnMembers (fun m ->
+        Queries.Characters.ageOf state m.Character
+        |> assertAgeRange)
 
 [<Test>]
 let HireMemberShouldGeneratedHiredMemberEffect () =

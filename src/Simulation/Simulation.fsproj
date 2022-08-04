@@ -8,6 +8,7 @@
     <ItemGroup>
         <Compile Include="Config.fs" />
         <Compile Include="RandomGen.fs" />
+        <Compile Include="Queries\Calendar.fs"/>
         <Compile Include="Queries\Albums.fs" />
         <Compile Include="Queries\Songs.fs" />
         <Compile Include="Queries\Repertoire.fs" />
@@ -16,7 +17,6 @@
         <Compile Include="Queries\Situations.fs" />
         <Compile Include="Queries\Skills.fs" />
         <Compile Include="Queries\Bands.fs" />
-        <Compile Include="Queries\Calendar.fs" />
         <Compile Include="Queries\GenreMarkets.fs" />
         <Compile Include="Queries\Concerts.fs" />
         <Compile Include="Queries\Inventory.fs" />

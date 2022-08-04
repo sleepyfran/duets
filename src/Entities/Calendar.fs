@@ -1,5 +1,6 @@
 module Entities.Calendar
 
+open Common
 open Fugit.Months
 open System
 
@@ -16,6 +17,9 @@ let allDayMoments =
 module Ops =
     /// Adds the given number of days to the date.
     let addDays n (date: Date) = date.AddDays(float n)
+
+    /// Adds the given number of years to the date.
+    let addYears n (date: Date) = date.AddYears(n)
 
 [<RequireQualifiedAccess>]
 module Query =
@@ -59,6 +63,17 @@ module Query =
         [ date.Day .. DateTime.DaysInMonth(date.Year, date.Month) ]
         |> Seq.map (fun day -> DateTime(date.Year, date.Month, day))
 
+    /// Returns the number of years between to dates.
+    let yearsBetween (fromDate: Date) (toDate: Date) =
+        (*
+        SOMEHOW there's no way of getting the number of years between two dates
+        by default on .NET, so estimate it by diving the number of days between
+        the days in a year with a little twist added to account for leap years.
+        Number taken from: https://en.wikipedia.org/wiki/Leap_year
+        *)
+        (toDate - fromDate).TotalDays / 365.2425
+        |> Math.roundToNearest
+
 [<RequireQualifiedAccess>]
 module Transform =
     /// Returns the given date with the hour set to the specified day moment.
@@ -67,7 +82,8 @@ module Transform =
         |> fun hour -> DateTime(date.Year, date.Month, date.Day, hour, 0, 0)
 
     /// Returns the given date with the hour set to 00:00.
-    let resetDayMoment = changeDayMoment Midnight
+    let resetDayMoment =
+        changeDayMoment Midnight
 
     /// Returns the given date with the hour set to the specified day moment.
     let changeDayMoment' (date: Date) dayMoment = changeDayMoment dayMoment date
@@ -76,7 +92,8 @@ module Transform =
 module Parse =
     /// Attempts to parse a given string into a date.
     let date (strDate: string) =
-        let couldParse, parsedDate = DateTime.TryParse strDate
+        let couldParse, parsedDate =
+            DateTime.TryParse strDate
 
         if couldParse then
             Some parsedDate

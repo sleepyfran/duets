@@ -10,13 +10,25 @@ open Simulation.Concerts.Live
 open Simulation.Setup
 
 let dummyCharacter =
-    Character.from "Test" Other 24
+    Character.from
+        "Test"
+        Other
+        (Calendar.gameBeginning
+         |> Calendar.Ops.addYears -24)
 
 let dummyCharacter2 =
-    Character.from "Test 2" Female 35
+    Character.from
+        "Test 2"
+        Female
+        (Calendar.gameBeginning
+         |> Calendar.Ops.addYears -35)
 
 let dummyCharacter3 =
-    Character.from "Test 3" Male 28
+    Character.from
+        "Test 3"
+        Male
+        (Calendar.gameBeginning
+         |> Calendar.Ops.addYears -28)
 
 let dummyBand =
     { Band.empty with

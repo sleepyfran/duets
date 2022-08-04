@@ -114,6 +114,10 @@ module Character =
         (fun (c: Character) -> c.Id),
         (fun v (c: Character) -> { c with Id = v })
 
+    let birthday_ =
+        (fun (c: Character) -> c.Birthday),
+        (fun v (c: Character) -> { c with Birthday = v })
+
     let attributes_ =
         (fun (c: Character) -> c.Attributes),
         (fun v (c: Character) -> { c with Attributes = v })

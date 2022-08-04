@@ -90,7 +90,10 @@ let possessiveAdjectiveForGender gender =
 
 /// Returns the correct conjugation for the given verb that matches with the
 /// specified gender.
-let verbConjugationForGender verb gender = verbConjugationByGender[verb][gender]
+let verbConjugationForGender verb gender =
+    verbConjugationByGender [ verb ] [
+        gender
+    ]
 
 /// Returns the correct name of the given account holder.
 let accountHolderName holder =
@@ -232,6 +235,10 @@ let skillImproved
     Styles.success
         $"""{characterName} improved {(possessiveAdjectiveForGender characterGender)
                                       |> String.lowercase} {skillName skill.Id |> String.lowercase} skill from {previousLevel} to {currentLevel}"""
+
+let invalidDate =
+    Styles.error
+        $"""Couldn't recognize that date. Try the format {Styles.information "dd/mm/YYYY"} as in 03/07/2022 for 3rd of August of 2022"""
 
 let invalidLength =
     Styles.error

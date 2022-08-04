@@ -31,7 +31,11 @@ let ``SkillImproved should add skill if not present`` () =
 let ``SkillImproved should add skill even if character is not present in the map``
     ()
     =
-    let madeUpCharacter = Character.from "Made Up" Male 25
+    let madeUpCharacter =
+        Character.from
+            "Made Up"
+            Male
+            (Calendar.Ops.addYears -25 Calendar.gameBeginning)
 
     let skills =
         SkillImproved(madeUpCharacter, Diff(skill, skill))

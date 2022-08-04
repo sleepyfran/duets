@@ -1,5 +1,6 @@
 module Data.World.Cities.Prague.Root
 
+open Fugit.Months
 open Entities
 
 let rec generate () =
@@ -159,8 +160,10 @@ and addDuetsRehearsalSpace street city =
     |> World.City.addConnection street.Id node.Id NorthWest
 
 and addDuetsStudio street city =
+    let producerBirthday = October 2 1996
+
     let studio =
-        { Producer = Character.from "Fran González" Male 26
+        { Producer = Character.from "Fran González" Male producerBirthday
           PricePerSong = 1000<dd> }
 
     let masteringRoom =
