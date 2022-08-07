@@ -66,6 +66,8 @@ let lobbyDescription (space: Place) =
         $"""The lobby of {Styles.place space.Name} is mostly empty right now. Only a person asking for tickets is to be seen."""
     | SpaceType.Hospital ->
         $"""There's a lot of people in the waiting room of {Styles.place space.Name} patiently waiting for their turn. You can hear a few coughs and smell sickness in the air."""
+    | SpaceType.RehearsalSpace _ ->
+        $"""You are in the lobby of {Styles.place space.Name}, there's a few posters of upcoming concerts nearby to your right and a few hand-written notes of bands looking for people to join them to your left. Aside from that there's nothing to do here"""
     | _ -> ""
 
 let rehearsalRoomDescription =
