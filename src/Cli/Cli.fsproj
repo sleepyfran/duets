@@ -39,7 +39,7 @@
         <Compile Include="Components\Commands\Command.fs" />
         <Compile Include="Components\Commands\Exit.Command.fs" />
         <Compile Include="Components\Commands\Help.Command.fs" />
-        <Compile Include="Components\Commands\Me.Command.fs"/>
+        <Compile Include="Components\Commands\Me.Command.fs" />
         <Compile Include="Components\Commands\Navigation.Command.fs" />
         <Compile Include="Components\Commands\Phone.Command.fs" />
         <Compile Include="Components\Commands\Inventory.Command.fs" />
@@ -91,7 +91,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="FSharpx.Extras" Version="3.0.0" />
-        <PackageReference Include="Spectre.Console" Version="0.43.0" />
+        <PackageReference Include="Spectre.Console" Version="0.44.0" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="../Agents/Agents.fsproj" />
