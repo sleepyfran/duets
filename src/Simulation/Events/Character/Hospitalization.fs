@@ -7,9 +7,6 @@ open Simulation
 /// Hospitalizes the given character, cancelling any activity that they are doing
 /// in the current moment.
 let hospitalize characterId state =
-    let character =
-        Queries.Characters.byId state characterId
-
     let currentPosition =
         Queries.World.Common.currentPosition state
 
@@ -41,8 +38,8 @@ let hospitalize characterId state =
         |> Calendar.Ops.addDays 7
 
     concertCancellationEffects
-    @ [ CharacterHealthDepleted character
-        CharacterHospitalized(character, hospitalCoordinates)
+    @ [ CharacterHealthDepleted characterId
+        CharacterHospitalized(characterId, hospitalCoordinates)
         TimeAdvanced oneWeekLater
         CharacterAttributeChanged(
             characterId,

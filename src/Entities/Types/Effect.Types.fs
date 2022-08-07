@@ -15,8 +15,8 @@ module EffectTypes =
             character: CharacterId *
             attribute: CharacterAttribute *
             diff: Diff<CharacterAttributeAmount>
-        | CharacterHealthDepleted of Character
-        | CharacterHospitalized of Character * WorldCoordinates
+        | CharacterHealthDepleted of CharacterId
+        | CharacterHospitalized of CharacterId * WorldCoordinates
         | ConcertScheduled of Band * ScheduledConcert
         | ConcertFinished of Band * PastConcert
         | ConcertUpdated of Band * ScheduledConcert
