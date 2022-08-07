@@ -12,7 +12,7 @@ module EffectTypes =
         | AlbumReleasedUpdate of Band * ReleasedAlbum
         | AlbumRenamed of Band * UnreleasedAlbum
         | CharacterAttributeChanged of
-            character: Character *
+            character: CharacterId *
             attribute: CharacterAttribute *
             diff: Diff<CharacterAttributeAmount>
         | CharacterHealthDepleted of Character

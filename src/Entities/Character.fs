@@ -8,7 +8,7 @@ type CharacterAgeValidationError =
     | AgeTooYoung
     | AgeTooOld
 
-let private defaultAttributes =
+let defaultAttributes =
     [ (CharacterAttribute.Mood, 100)
       (CharacterAttribute.Health, 100)
       (CharacterAttribute.Energy, 100) ]

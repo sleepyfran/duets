@@ -7,33 +7,41 @@ open Entities
 let private createEffect character attribute prev curr =
     CharacterAttributeChanged(character, attribute, Diff(prev, curr))
 
-/// Sums the given amount of the attribute to the character's current one. Clamping
-/// the value between 0 and 100.
-let add character attribute amount =
-    let previousAmount =
-        Optic.get (Lenses.Character.attribute_ attribute) character
-        |> Option.defaultValue 0
-
-    previousAmount
-    |> (+) amount
-    |> Math.clamp 0 100
-    |> createEffect character attribute previousAmount
+let private attrValue character attribute =
+    Optic.get (Lenses.Character.attribute_ attribute) character
+    |> Option.defaultValue 0
 
 /// Applies the given mapping function to the current value of the character's
 /// attribute, clamping the value between 0 and 100.
-let map character attribute fn =
+let map character attribute mapping =
     let currentAmount =
-        Optic.get (Lenses.Character.attribute_ attribute) character
-        |> Option.defaultValue 0
+        attrValue character attribute
 
-    fn currentAmount
+    mapping currentAmount
     |> Math.clamp 0 100
-    |> createEffect character attribute currentAmount
+    |> createEffect character.Id attribute currentAmount
 
-/// Function to pass into the map that reduces the amount by a given quantity if
-/// it is more than zero.
-let addIfMoreThanZero reduceAmount currentAmount =
-    if currentAmount > 0 then
-        currentAmount + reduceAmount
+/// Sums the given amount of the attribute to the character's current one. Clamping
+/// the value between 0 and 100.
+let add character attribute amount = map character attribute ((+) amount)
+
+/// Conditionally calls map only if the condition function returns true with
+/// the current character's attribute value.
+let conditionalMap character attribute condition mapping =
+    if condition then
+        [ map character attribute mapping ]
     else
-        currentAmount
+        []
+
+/// Conditionally calls add only if the condition function returns true with
+/// the current character's attribute value.
+let conditionalAdd character attribute condition amount =
+    conditionalMap character attribute condition ((+) amount)
+
+/// Function to pass into the conditional add function that only applies the
+/// value if the current amount is more than a given amount.
+let moreThan character attr amount = attrValue character attr > amount
+
+/// Function to pass into the conditional add function that only applies the
+/// value if the current amount is more than zero.
+let moreThanZero character attr = moreThan character attr 0

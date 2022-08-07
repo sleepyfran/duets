@@ -66,6 +66,9 @@ let generator (opts: StateGenOptions) =
         let! initialState = Arb.generate<State>
         let! playableCharacter = Arb.generate<Character>
 
+        let playableCharacter =
+            { playableCharacter with Attributes = Character.defaultAttributes }
+
         let! bandMembers = Gen.listOfLength 4 Arb.generate<CurrentMember>
 
         let bandCharacters =

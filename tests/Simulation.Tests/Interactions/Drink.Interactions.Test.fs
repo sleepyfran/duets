@@ -16,27 +16,6 @@ let character =
     Queries.Characters.playableCharacter state
 
 [<Test>]
-let ``Drinking a cola increases energy by 1`` () =
-    let cola =
-        { Brand = "Pepsi"
-          Price = 1<dd>
-          Type = Cola(150<milliliter>) |> Drink }
-
-    let effects =
-        Items.consume state cola Items.Drink
-        |> Result.unwrap
-
-    effects
-    |> List.item 1
-    |> should
-        equal
-        (CharacterAttributeChanged(
-            character,
-            CharacterAttribute.Energy,
-            Diff(0, 1)
-        ))
-
-[<Test>]
 let ``Drinking a beer of 500ml and 4.4 in alcohol increases drunkenness by 6``
     ()
     =
@@ -49,7 +28,7 @@ let ``Drinking a beer of 500ml and 4.4 in alcohol increases drunkenness by 6``
     |> should
         equal
         (CharacterAttributeChanged(
-            character,
+            character.Id,
             CharacterAttribute.Drunkenness,
             Diff(0, 6)
         ))
@@ -67,7 +46,7 @@ let ``Drinking a beer of 500ml and 5.4 in alcohol increases drunkenness by 8``
     |> should
         equal
         (CharacterAttributeChanged(
-            character,
+            character.Id,
             CharacterAttribute.Drunkenness,
             Diff(0, 8)
         ))
@@ -98,7 +77,7 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
     |> should
         equal
         (CharacterAttributeChanged(
-            updatedCharacter,
+            updatedCharacter.Id,
             CharacterAttribute.Drunkenness,
             Diff(8, 16)
         ))

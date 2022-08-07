@@ -6,14 +6,18 @@ module Characters =
     open Common
     open Entities
 
+    /// Returns a character given its ID.
+    let byId state id =
+        state
+        |> Optic.get Lenses.State.characters_
+        |> Map.find id
+
     /// Returns the character that the player is playing with.
     let playableCharacter state =
         let playableCharacterId =
             state |> Optic.get Lenses.State.playableCharacter_
 
-        state
-        |> Optic.get Lenses.State.characters_
-        |> Map.find playableCharacterId
+        byId state playableCharacterId
 
     /// Returns the value of an attribute from the playable character.
     let playableCharacterAttribute state attribute =

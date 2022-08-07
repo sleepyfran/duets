@@ -35,7 +35,7 @@ let applyEffect state effect =
         Albums.removeReleased band album.Id state
         |> Albums.addReleased band releasedAlbum
     | CharacterAttributeChanged (character, attribute, Diff (_, amount)) ->
-        Characters.setAttribute character.Id attribute amount state
+        Characters.setAttribute character attribute amount state
     | CharacterHealthDepleted _ -> state
     | CharacterHospitalized (_, (cityId, nodeId)) ->
         World.move cityId nodeId state

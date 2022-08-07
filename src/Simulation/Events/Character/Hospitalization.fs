@@ -6,7 +6,10 @@ open Simulation
 
 /// Hospitalizes the given character, cancelling any activity that they are doing
 /// in the current moment.
-let hospitalize character state =
+let hospitalize characterId state =
+    let character =
+        Queries.Characters.byId state characterId
+
     let currentPosition =
         Queries.World.Common.currentPosition state
 
@@ -42,7 +45,7 @@ let hospitalize character state =
         CharacterHospitalized(character, hospitalCoordinates)
         TimeAdvanced oneWeekLater
         CharacterAttributeChanged(
-            character,
+            characterId,
             CharacterAttribute.Health,
             Diff(0, 100)
         ) ]
