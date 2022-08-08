@@ -3,6 +3,8 @@ module Cli.Text.Command
 
 open Common
 
+let prompt = Styles.faded ">"
+
 let commonPrompt date dayMoment attributes =
     $"""{Generic.infoBar date dayMoment attributes}
 {Styles.prompt "What do you want to do? Type 'help' if you're lost"}"""

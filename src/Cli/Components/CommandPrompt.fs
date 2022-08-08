@@ -1,9 +1,113 @@
 [<AutoOpen>]
 module Cli.Components.CommandPrompt
 
+open System.Threading
 open Cli.Text
 open Cli.Components.Commands
 open Common
+open RadLine
+open Spectre.Console
+open System
+
+type CommandCompletion(availableCommands: Command list) =
+    interface ITextCompletion with
+        member this.GetCompletions(prefix, word, _) =
+            availableCommands
+            |> List.filter (fun cmd ->
+                String.nonEmptyContains prefix cmd.Name
+                || String.nonEmptyContains word cmd.Name)
+            |> List.choose (fun cmd ->
+                let tokens = String.split ' ' cmd.Name
+
+                match tokens with
+                | [| fullCommand |] ->
+                    if String.nonEmptyContains word fullCommand then
+                        Some cmd.Name
+                    else
+                        None
+                | [| firstWord; secondWord |] ->
+                    (* Player has already introduced the full first word, autocomplete the second. *)
+                    if prefix.Trim() = firstWord then
+                        Some secondWord
+                    (* Player has introduced part of the first word, so autocomplete it. *)
+                    else if String.nonEmptyContains word firstWord then
+                        Some firstWord
+                    else
+                        None
+                | _ -> None)
+            |> Seq.ofList
+
+type private HistoryAgentMsg =
+    | Add of string
+    | Get of AsyncReplyChannel<string list>
+
+type private HistoryAgent() =
+    let agent =
+        MailboxProcessor.Start
+        <| fun inbox ->
+            let rec loop history =
+                async {
+                    let! msg = inbox.Receive()
+
+                    match msg with
+                    | Add command -> return! loop (history @ [ command ])
+                    | Get channel -> channel.Reply history
+
+                    return! loop history
+                }
+
+            loop []
+
+    member public this.Add command = Add command |> agent.Post
+    member public this.Get() = agent.PostAndReply Get
+
+let private historyAgent = HistoryAgent()
+
+let private editor availableCommands =
+    let e = LineEditor()
+    e.Prompt <- LineEditorPrompt Command.prompt
+    e.MultiLine <- false
+    e.Completion <- CommandCompletion(availableCommands)
+
+    (*
+    TODO: Consider a better way of keeping the history without duplicating it. Maybe a static editor wouldn't be that bad idea.
+    *)
+    historyAgent.Get() |> List.iter e.History.Add
+
+    (*
+    Setup history with up and down arrow. By default RadLine includes the
+    history navigation as CTRL + Arrow but that doesn't really work properly
+    in macOS and it's confusing anyway. Since the prompt is not multi-line we
+    can use the normal arrow keys, so override.
+    *)
+    e.KeyBindings.Remove(ConsoleKey.UpArrow)
+    e.KeyBindings.Remove(ConsoleKey.DownArrow)
+    e.KeyBindings.Add<PreviousHistoryCommand>(ConsoleKey.UpArrow)
+    e.KeyBindings.Add<NextHistoryCommand>(ConsoleKey.DownArrow)
+
+    (* Highlight all recognized commands in green. *)
+    let mutable highlighter = WordHighlighter()
+
+    availableCommands
+    |> List.iter (fun cmd ->
+        (*
+        Highlight command names in green, but if a command has more than one
+        token (for example: "compose song"), highlight the first token in green
+        and the second one in a lighter green. This is done mainly to overcome
+        RadLine's lack of support of spaces in the highlighter.
+        *)
+        String.split ' ' cmd.Name
+        |> Array.iteri (fun index token ->
+            let tokenColor =
+                match index with
+                | 0 -> Color.Green
+                | _ -> Color.SpringGreen4
+
+            highlighter <-
+                highlighter.AddWord(token, Style(foreground = tokenColor))))
+
+    e.Highlighter <- highlighter
+    e
 
 /// <summary>
 /// Renders a command prompt that the given available commands and the exit/help
@@ -27,12 +131,18 @@ let rec showCommandPrompt title availableCommands =
         @ [ ExitCommand.get; MeCommand.get ]
         |> fun commands -> [ HelpCommand.create commands ] @ commands
 
+    let prompt = editor commandsWithEssentials
+
     let rec promptForCommand () =
         lineBreak ()
         showMessage title
 
-        showTextPrompt ">"
+        prompt.ReadLine(CancellationToken.None)
+        |> Async.AwaitTask
+        |> Async.RunSynchronously
         |> fun input ->
+            historyAgent.Add input
+
             let inputTokens =
                 String.split ' ' input |> List.ofArray
 

@@ -1,5 +1,6 @@
 module Common.String
 
+open System
 open System.Globalization
 
 /// Calls Split on the given string with the specified separator.
@@ -10,6 +11,11 @@ let startsWith (subStr: string) (str: string) = str.StartsWith(subStr)
 
 /// Calls Contains on `str` with `subStr` as the parameter.
 let contains (subStr: string) (str: string) = str.Contains(subStr)
+
+/// Calls contains only if subStr is not empty.
+let nonEmptyContains (subStr: string) (str: string) =
+    (String.IsNullOrEmpty(subStr) |> not)
+    && contains subStr str
 
 /// Checks whether the given `str` contains the `subStr` without taking any
 /// diacritics or casing into account.
