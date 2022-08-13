@@ -45,8 +45,7 @@ module Characters =
     /// Returns a character given its ID. Throws an exception if the key is not
     /// found.
     let find state id =
-        let lens =
-            Lenses.State.characters_ >-> Map.key_ id
+        let lens = Lenses.State.characters_ >-> Map.key_ id
 
         Optic.get lens state |> Option.get
 
@@ -54,7 +53,6 @@ module Characters =
     let ageOf state character =
         let today = Calendar.today state
 
-        let birthday =
-            Optic.get Lenses.Character.birthday_ character
+        let birthday = Optic.get Lenses.Character.birthday_ character
 
         Calendar.Query.yearsBetween birthday today

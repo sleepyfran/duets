@@ -11,8 +11,7 @@ open Simulation
 ///   This calculates how the drink impacts the player depending on its quantity
 ///   and alcoholic content, increasing the character's drunkenness.
 let rec drink state item =
-    let character =
-        Queries.Characters.playableCharacter state
+    let character = Queries.Characters.playableCharacter state
 
     match item with
     | Beer (amount, alcoholContent) ->
@@ -21,8 +20,7 @@ let rec drink state item =
         [ Character.Attribute.add character CharacterAttribute.Energy 1 ]
 
 and private drinkAlcohol character amount alcoholContent =
-    let amountOfAlcohol =
-        (float amount * alcoholContent) / 100.0
+    let amountOfAlcohol = (float amount * alcoholContent) / 100.0
 
     let quantityUntilMax =
         (amountOfAlcohol

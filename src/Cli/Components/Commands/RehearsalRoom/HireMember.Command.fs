@@ -15,8 +15,7 @@ module HireMemberCommand =
 
         let band = Queries.Bands.currentBand state
 
-        let instrument =
-            Instrument.createInstrument role
+        let instrument = Instrument.createInstrument role
 
         let availableMember =
             membersForHire state band instrument.Type

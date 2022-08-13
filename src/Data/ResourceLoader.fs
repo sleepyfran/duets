@@ -8,4 +8,3 @@ let internal load key =
     |> Files.readAll
     |> Option.defaultValue ""
     |> Serializer.deserialize
-

@@ -32,8 +32,7 @@ module Bands =
     /// actions in which the playable character should not be taken into
     /// consideration.
     let currentBandMembersWithoutPlayableCharacter state =
-        let mainCharacter =
-            Characters.playableCharacter state
+        let mainCharacter = Characters.playableCharacter state
 
         currentBandMembers state
         |> List.filter (fun c -> c.CharacterId <> mainCharacter.Id)
@@ -59,3 +58,12 @@ module Bands =
             Characters.find state currentMember.CharacterId)
         |> List.averageBy (fun character ->
             Characters.ageOf state character |> float)
+
+    /// Gives an estimate of the band's fame between 0 and 100 based on the
+    /// total amount of people willing to listen to the band's genre.
+    let estimatedFameLevel state (band: Band) =
+        let marketSize = GenreMarkets.usefulMarketOf state band.Genre
+
+        (float band.Fans / marketSize) * 100.0
+        |> Math.roundToNearest
+        |> Math.clamp 1 100

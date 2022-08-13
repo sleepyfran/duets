@@ -18,8 +18,7 @@ module FinishSongCommand =
             (fun _ ->
                 let state = State.get ()
 
-                let currentBand =
-                    Queries.Bands.currentBand state
+                let currentBand = Queries.Bands.currentBand state
 
                 let selectedSong =
                     showOptionalChoicePrompt

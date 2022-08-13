@@ -32,17 +32,20 @@ let dummyCharacter3 =
 
 let dummyBand =
     { Band.empty with
+        Name = "Dummy Band"
+        Genre = "Jazz"
         Members =
             [ Band.Member.from dummyCharacter.Id Guitar (Calendar.gameBeginning) ] }
 
 let dummyBandWithMultipleMembers =
-    { Band.empty with
+    { dummyBand with
         Members =
             [ Band.Member.from dummyCharacter.Id Guitar (Calendar.gameBeginning)
               Band.Member.from dummyCharacter2.Id Bass (Calendar.gameBeginning)
               Band.Member.from dummyCharacter3.Id Drums (Calendar.gameBeginning) ] }
 
-let dummySong = Song.empty
+let dummySong =
+    { Song.empty with Genre = "Jazz" }
 
 let dummyFinishedSong =
     (FinishedSong dummySong, 50<quality>)
@@ -78,7 +81,6 @@ let dummyReleasedAlbum =
     { Album = dummyAlbum
       ReleaseDate = dummyToday
       Streams = 0
-      MaxDailyStreams = 1000
       Hype = 1.0 }
 
 let dummyStudio =
@@ -96,7 +98,11 @@ let dummyConcert =
 
 let dummyState =
     startGame dummyCharacter dummyBand
-    |> fun (GameCreated state) -> state
+    |> fun (GameCreated state) ->
+        { state with
+            GenreMarkets =
+                [ "Jazz", { MarketPoint = 2.5; Fluctuation = 1.0 } ]
+                |> Map.ofList }
 
 let dummyStateWithMultipleMembers =
     startGame dummyCharacter dummyBandWithMultipleMembers
@@ -172,9 +178,9 @@ let addFunds account amount =
         balance + amount)
 
 /// Adds the specified album to the band's released albums.
-let addReleasedAlbum (band: Band) album =
+let addReleasedAlbum (bandId: BandId) album =
     let releasedLenses =
-        Lenses.FromState.Albums.releasedByBand_ band.Id
+        Lenses.FromState.Albums.releasedByBand_ bandId
 
     Optic.map releasedLenses (Map.add album.Album.Id album)
 

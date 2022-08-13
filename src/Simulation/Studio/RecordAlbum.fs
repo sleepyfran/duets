@@ -32,8 +32,7 @@ let private recordAlbum' state studio band (UnreleasedAlbum album) =
 let private generatePayment state studio (band: Band) (UnreleasedAlbum album) =
     let bandAccount = Band band.Id
 
-    let studioBill =
-        studio.PricePerSong * List.length album.TrackList
+    let studioBill = studio.PricePerSong * List.length album.TrackList
 
     expense state bandAccount studioBill
 
@@ -43,8 +42,7 @@ let private generatePayment state studio (band: Band) (UnreleasedAlbum album) =
 /// the payment to the studio.
 let recordAlbum state studio band unreleasedAlbum =
     recordAlbum' state studio band unreleasedAlbum
-    |> Result.bind
-        (fun (album, prevEffect) ->
-            match generatePayment state studio band album with
-            | Ok effects -> Ok(album, [ prevEffect ] @ effects)
-            | Error error -> Error error)
+    |> Result.bind (fun (album, prevEffect) ->
+        match generatePayment state studio band album with
+        | Ok effects -> Ok(album, [ prevEffect ] @ effects)
+        | Error error -> Error error)

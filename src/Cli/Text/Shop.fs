@@ -15,8 +15,7 @@ let itemPrice price = Styles.money price
 let itemInteractiveRow item =
     $"{item.Brand} ({Styles.money item.Price})"
 
-let itemPrompt =
-    "Which item do you want to order?"
+let itemPrompt = "Which item do you want to order?"
 
 let itemNotFound input =
     Styles.error $"There's no \"{input}\" in the menu"

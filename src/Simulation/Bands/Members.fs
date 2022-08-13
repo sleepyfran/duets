@@ -78,8 +78,7 @@ type FireError = AttemptToFirePlayableCharacter
 /// Removes a current member from the band and adds it to the past members with
 /// today as the date it was fired.
 let fireMember state (band: Band) (bandMember: CurrentMember) =
-    let character =
-        Queries.Characters.playableCharacter state
+    let character = Queries.Characters.playableCharacter state
 
     if bandMember.CharacterId = character.Id then
         Error AttemptToFirePlayableCharacter

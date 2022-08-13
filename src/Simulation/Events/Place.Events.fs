@@ -17,5 +17,6 @@ let internal run (_, coords) state =
     let resolvedCoords = Queries.World.Common.coordinates state coords
 
     match resolvedCoords.Content with
-    | ResolvedPlaceCoordinates roomCoordinates -> runRoomEvents roomCoordinates state
+    | ResolvedPlaceCoordinates roomCoordinates ->
+        runRoomEvents roomCoordinates state
     | _ -> []

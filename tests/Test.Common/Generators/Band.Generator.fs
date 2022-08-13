@@ -7,7 +7,7 @@ open Entities
 let generator =
     gen {
         let! initialBand = Arb.generate<Band>
-        let! fame = Gen.choose (0, 100)
+        let! fans = Gen.choose (0, 1000000)
 
-        return { initialBand with Fame = fame }
+        return { initialBand with Fans = fans }
     }

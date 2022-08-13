@@ -25,8 +25,7 @@ module Albums =
     /// Returns all released albums by the given band ordered by release date.
     /// If no released albums could be found, returns an empty list.
     let releasedByBand state bandId =
-        let releasedAlbumLens =
-            Lenses.FromState.Albums.releasedByBand_ bandId
+        let releasedAlbumLens = Lenses.FromState.Albums.releasedByBand_ bandId
 
         state
         |> Optic.get releasedAlbumLens
@@ -49,6 +48,7 @@ module Albums =
 
     /// Calculates the generated revenue of the album.
     let revenue album =
-        float album.Streams * Config.Revenue.revenuePerStream
+        float album.Streams
+        * Config.Revenue.revenuePerStream
         |> Math.roundToNearest
         |> (*) 1<dd>

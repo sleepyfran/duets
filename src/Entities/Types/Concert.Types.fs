@@ -64,13 +64,13 @@ module ConcertTypes =
           Concert: Concert }
 
     /// Represents a concert that hasn't happened yet.
-    type ScheduledConcert = ScheduledConcert of Concert
+    type ScheduledConcert = ScheduledConcert of Concert * scheduledOn: Date
 
     /// Specifies a reason why a concert failed.
     type FailedConcertReason =
         | BandDidNotMakeIt
         | CharacterPassedOut
-    
+
     /// Represents a concert that has either been successfully performed, with
     /// the quality of the concert associated, or a concert that failed for
     /// one reason or another.

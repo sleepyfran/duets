@@ -5,8 +5,7 @@ open Simulation
 
 /// Sobers up the character after each passing time unit.
 let soberUpAfterTime state =
-    let character =
-        Queries.Characters.playableCharacter state
+    let character = Queries.Characters.playableCharacter state
 
     Character.Attribute.conditionalAdd
         character
@@ -18,8 +17,7 @@ let soberUpAfterTime state =
 
 /// Reduces the health of the character when they're too drunk.
 let reduceHealth state =
-    let character =
-        Queries.Characters.playableCharacter state
+    let character = Queries.Characters.playableCharacter state
 
     Character.Attribute.conditionalAdd
         character

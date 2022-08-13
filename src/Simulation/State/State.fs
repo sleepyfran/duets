@@ -7,8 +7,7 @@ open Entities
 let applyEffect state effect =
     match effect with
     | AlbumRecorded (band, album) ->
-        let modifiedState =
-            Albums.addUnreleased band album state
+        let modifiedState = Albums.addUnreleased band album state
 
         let (UnreleasedAlbum ua) = album
 
@@ -19,8 +18,7 @@ let applyEffect state effect =
                 Songs.removeFinished band song currentState)
             modifiedState
     | AlbumRenamed (band, unreleasedAlbum) ->
-        let (UnreleasedAlbum album) =
-            unreleasedAlbum
+        let (UnreleasedAlbum album) = unreleasedAlbum
 
         Albums.removeUnreleased band album.Id state
         |> Albums.addUnreleased band unreleasedAlbum
@@ -34,6 +32,7 @@ let applyEffect state effect =
 
         Albums.removeReleased band album.Id state
         |> Albums.addReleased band releasedAlbum
+    | BandFansChanged (band, Diff (_, fans)) -> Bands.changeFans band fans state
     | CharacterAttributeChanged (character, attribute, Diff (_, amount)) ->
         Characters.setAttribute character attribute amount state
     | CharacterHealthDepleted _ -> state
@@ -41,18 +40,20 @@ let applyEffect state effect =
         World.move cityId nodeId state
     | ConcertScheduled (band, concert) ->
         Concerts.addScheduledConcert band concert state
-    | ConcertUpdated (band, concert) ->
+    | ConcertUpdated (band, scheduledConcert) ->
+        let concert = Concert.fromScheduled scheduledConcert
+
         Concerts.removeScheduledConcert band concert state
-        |> Concerts.addScheduledConcert band concert
+        |> Concerts.addScheduledConcert band scheduledConcert
     | ConcertFinished (band, pastConcert) ->
         let concert = Concert.fromPast pastConcert
 
-        Concerts.removeScheduledConcert band (ScheduledConcert concert) state
+        Concerts.removeScheduledConcert band concert state
         |> Concerts.addPastConcert band pastConcert
     | ConcertCancelled (band, pastConcert) ->
         let concert = Concert.fromPast pastConcert
 
-        Concerts.removeScheduledConcert band (ScheduledConcert concert) state
+        Concerts.removeScheduledConcert band concert state
         |> Concerts.addPastConcert band pastConcert
     | GameCreated state -> state
     | GenreMarketsUpdated genreMarkets -> Market.set genreMarkets state
@@ -92,8 +93,7 @@ let applyEffect state effect =
         Songs.removeFinished band song.Id state
         |> Songs.addFinished band finishedSong
     | SongDiscarded (band, unfinishedSong) ->
-        let song =
-            Song.fromUnfinished unfinishedSong
+        let song = Song.fromUnfinished unfinishedSong
 
         Songs.removeUnfinished band song.Id state
     | SituationChanged situation ->

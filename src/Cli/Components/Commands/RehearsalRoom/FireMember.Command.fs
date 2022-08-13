@@ -41,8 +41,7 @@ module FireMemberCommand =
         if confirmed then
             let state = State.get ()
 
-            let currentBand =
-                Queries.Bands.currentBand state
+            let currentBand = Queries.Bands.currentBand state
 
             fireMember state currentBand bandMember
             |> Result.unwrap

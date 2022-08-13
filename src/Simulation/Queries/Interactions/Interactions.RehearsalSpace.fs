@@ -8,30 +8,25 @@ open Simulation
 module RehearsalSpace =
     /// Returns all interactions available in the current rehearsal room.
     let internal availableCurrently state room =
-        let currentBand =
-            Queries.Bands.currentBand state
+        let currentBand = Queries.Bands.currentBand state
 
         let unfinishedSongs =
             Queries.Songs.unfinishedByBand state currentBand.Id
             |> List.ofMapValues
 
-        let hasUnfinishedSongs =
-            unfinishedSongs |> (not << List.isEmpty)
+        let hasUnfinishedSongs = unfinishedSongs |> (not << List.isEmpty)
 
         let finishedSongs =
             Queries.Repertoire.allFinishedSongsByBand state currentBand.Id
 
-        let hasFinishedSongs =
-            finishedSongs |> (not << List.isEmpty)
+        let hasFinishedSongs = finishedSongs |> (not << List.isEmpty)
 
         let bandMembersWithoutPlayableCharacter =
             Queries.Bands.currentBandMembersWithoutPlayableCharacter state
 
-        let currentBandMembers =
-            Queries.Bands.currentBandMembers state
+        let currentBandMembers = Queries.Bands.currentBandMembers state
 
-        let pastBandMembers =
-            Queries.Bands.pastBandMembers state
+        let pastBandMembers = Queries.Bands.pastBandMembers state
 
         let hasMembersAsideOfPlayableCharacter =
             bandMembersWithoutPlayableCharacter

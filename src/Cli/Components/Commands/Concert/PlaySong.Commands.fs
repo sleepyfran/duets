@@ -21,8 +21,7 @@ module PlaySongCommands =
     let private promptForSong ongoingConcert =
         let state = State.get ()
 
-        let currentBand =
-            Queries.Bands.currentBand state
+        let currentBand = Queries.Bands.currentBand state
 
         let finishedSongs =
             Queries.Repertoire.allFinishedSongsByBand state currentBand.Id
@@ -89,8 +88,7 @@ module PlaySongCommands =
           Description = Command.playDescription
           Handler =
             (fun _ ->
-                let selectedSong =
-                    promptForSong ongoingConcert
+                let selectedSong = promptForSong ongoingConcert
 
                 match selectedSong with
                 | Some song ->
@@ -112,8 +110,7 @@ module PlaySongCommands =
           Description = Command.dedicateSongDescription
           Handler =
             (fun _ ->
-                let selectedSong =
-                    promptForSong ongoingConcert
+                let selectedSong = promptForSong ongoingConcert
 
                 match selectedSong with
                 | Some song ->

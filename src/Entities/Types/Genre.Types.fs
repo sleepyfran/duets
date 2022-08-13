@@ -15,8 +15,9 @@ module GenreTypes =
     type GenreCompatibility = Genre * Genre * byte
 
     /// Defines the potential market of a genre by:
-    /// - Market point: modifier between 0.1 and 5 that, multiplied by 4 million
-    ///   gives the total amount of people willing to listen to the genre.
+    /// - Market point: modifier between 0.1 and 5 that, multiplied by the default
+    ///   the market size, gives the total amount of people willing to listen to
+    ///   the genre.
     /// - Fluctuation: modifier between 1 and 1.1 that indicates how much the
     ///   market point will vary yearly. This fluctuation can randomly happen
     ///   in a positive or negative way.

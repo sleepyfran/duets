@@ -8,8 +8,7 @@ let itemAdded itemName =
 let itemRemoved itemName =
     Styles.danger $"{itemName} has been removed from your inventory"
 
-let noItems =
-    "You are not carrying anything"
+let noItems = "You are not carrying anything"
 
 let itemsCurrentlyCarrying =
     "These are the things you're currently carrying around:"
@@ -20,7 +19,6 @@ let itemRow item =
 let itemNotFound name =
     Styles.error $"You don't have any item called \"{name}\""
 
-let itemNotDrinkable =
-    Styles.error "You can't drink that!"
+let itemNotDrinkable = Styles.error "You can't drink that!"
 
 let drunkItem = Styles.success "*Gulp*"

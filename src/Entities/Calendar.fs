@@ -82,8 +82,7 @@ module Transform =
         |> fun hour -> DateTime(date.Year, date.Month, date.Day, hour, 0, 0)
 
     /// Returns the given date with the hour set to 00:00.
-    let resetDayMoment =
-        changeDayMoment Midnight
+    let resetDayMoment = changeDayMoment Midnight
 
     /// Returns the given date with the hour set to the specified day moment.
     let changeDayMoment' (date: Date) dayMoment = changeDayMoment dayMoment date
@@ -92,8 +91,7 @@ module Transform =
 module Parse =
     /// Attempts to parse a given string into a date.
     let date (strDate: string) =
-        let couldParse, parsedDate =
-            DateTime.TryParse strDate
+        let couldParse, parsedDate = DateTime.TryParse strDate
 
         if couldParse then
             Some parsedDate
@@ -114,5 +112,4 @@ module Parse =
         | _ -> Dawn
 
 /// Returns the date in which the game starts.
-let gameBeginning =
-    January 1 2015 |> Transform.changeDayMoment Dawn
+let gameBeginning = January 1 2015 |> Transform.changeDayMoment Dawn

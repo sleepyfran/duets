@@ -41,7 +41,6 @@ let advanceDayMoment (currentTime: Date) times =
 
 /// Same as advanceDayMoment but queries the current time automatically.
 let advanceDayMoment' state times =
-    let currentDate =
-        Queries.Calendar.today state
+    let currentDate = Queries.Calendar.today state
 
     advanceDayMoment currentDate times

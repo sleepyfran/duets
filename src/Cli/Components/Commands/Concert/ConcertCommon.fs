@@ -36,8 +36,7 @@ module Concert =
           Description = description
           Handler =
             (fun _ ->
-                let response =
-                    action (State.get ()) ongoingConcert
+                let response = action (State.get ()) ongoingConcert
 
                 afterActionFn response.Result response.Points
 

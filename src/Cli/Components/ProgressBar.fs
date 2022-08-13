@@ -45,8 +45,7 @@ let showProgressBarAsync stepNames (stepDuration: int<second>) =
             let random = System.Random()
 
             for _ in 0 .. 4 * tasks.Count - 1 do
-                let randomIndex =
-                    random.Next(0, tasks.Count)
+                let randomIndex = random.Next(0, tasks.Count)
 
                 let taskToIncrement = tasks.[randomIndex]
 

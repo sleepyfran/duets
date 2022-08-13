@@ -92,8 +92,7 @@ module Common =
     /// Returns the content of the current position of the player and an optional
     /// ID to a room inside that place (if any).
     let currentPosition state =
-        let (_, nodeCoordinates) =
-            state.CurrentPosition
+        let (_, nodeCoordinates) = state.CurrentPosition
 
         coordinates state nodeCoordinates
 
@@ -102,8 +101,7 @@ module Common =
     /// point to a non-place node.
     /// </summary>
     let coordinatesOfPlace state coords =
-        let resolvedCoords =
-            coordinates state coords
+        let resolvedCoords = coordinates state coords
 
         match resolvedCoords.Content with
         | ResolvedPlaceCoordinates placeCoords -> Some placeCoords
@@ -114,8 +112,7 @@ module Common =
     /// coordinates point to a non-outside node.
     /// </summary>
     let coordinatesOfOutsideNode state coords =
-        let resolvedCoords =
-            coordinates state coords
+        let resolvedCoords = coordinates state coords
 
         match resolvedCoords.Content with
         | ResolvedOutsideCoordinates outsideCoords -> Some outsideCoords
@@ -125,8 +122,7 @@ module Common =
     let coordinatesOf state spaceTypeKey =
         let position = currentPosition state
 
-        let spaceTypeLens =
-            Lenses.World.City.index_ >-> Map.key_ spaceTypeKey
+        let spaceTypeLens = Lenses.World.City.index_ >-> Map.key_ spaceTypeKey
 
         position.City
         |> Optic.get spaceTypeLens

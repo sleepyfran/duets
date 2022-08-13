@@ -30,11 +30,9 @@ let rec bankApp () =
         |> fun band -> band.Id
         |> Band
 
-    let characterBalance =
-        Bank.balanceOf state characterAccount
+    let characterBalance = Bank.balanceOf state characterAccount
 
-    let bandBalance =
-        Bank.balanceOf state bandAccount
+    let bandBalance = Bank.balanceOf state bandAccount
 
     Phone.bankAppWelcome characterBalance bandBalance
     |> showMessage

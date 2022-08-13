@@ -18,8 +18,7 @@ let getOffStage state ongoingConcert =
         [ Navigation.moveTo backstageCoordinates state
           |> Result.unwrap (* We ARE in a concert, so there's no way we'd be unable to move *)  ]
 
-    let canPerformEncore =
-        Concert.Ongoing.canPerformEncore ongoingConcert
+    let canPerformEncore = Concert.Ongoing.canPerformEncore ongoingConcert
 
     let finishedConcertEffects =
         if not canPerformEncore then

@@ -14,8 +14,7 @@ module EditAlbumNameCommand =
     let rec private promptForAlbum unreleasedAlbums =
         let state = State.get ()
 
-        let currentBand =
-            Queries.Bands.currentBand state
+        let currentBand = Queries.Bands.currentBand state
 
         showChoicePrompt
             Studio.continueRecordPrompt
@@ -24,8 +23,7 @@ module EditAlbumNameCommand =
         |> promptForAlbumName currentBand
 
     and private promptForAlbumName band album =
-        let name =
-            showTextPrompt Studio.createRecordName
+        let name = showTextPrompt Studio.createRecordName
 
         Album.validateName name
         |> Result.switch

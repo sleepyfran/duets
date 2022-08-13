@@ -50,5 +50,6 @@ let pastConcertGenerator (opts: ConcertGenOptions) =
 let scheduledConcertGenerator (opts: ConcertGenOptions) =
     gen {
         let! concert = generator opts
-        return ScheduledConcert concert
+        let! scheduledOn = dateGenerator { opts with To = concert.Date }
+        return ScheduledConcert(concert, scheduledOn)
     }

@@ -15,6 +15,28 @@ module LifeSimulation =
     /// time passes when the drunkenness surpasses 85% of the level above.
     let drunkHealthReduceRate = -15
 
+module MusicSimulation =
+    /// Amount that will divide the album quality and then multiply the useful
+    /// genre market to get the total amount of streams of non-fans of the band.
+    /// The bigger the number the smaller the amount of streams a band will get
+    /// from non-fans, which is kept as a big number on purpose to slow down the
+    /// growth of the band. This is the base cap since it'll be reduced by factors
+    /// of 10ths the bigger the fame of the band.
+    let baseNonFanStreamCap = 100000000.0
+
+    /// Base amount of people that is willing to listen to a genre. When
+    /// multiplied with the market point of a genre market, it gives the actual
+    /// amount of people interested in a genre in a specific point in time.
+    let defaultMarketSize = 1000000 (* 1 million. *)
+
+    /// Percentage that when multiplied with the daily streams, will yield the
+    /// amount of new fans that the band got that day.
+    let fanIncreasePercentage = 0.2
+
+    /// Percentage out of the total number of fans that will stream an album or
+    /// song daily.
+    let fanStreamingPercentage = 0.10
+
 module Revenue =
     /// Indicates how many dd a band makes per stream.
     let revenuePerStream = 0.5

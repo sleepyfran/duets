@@ -11,7 +11,7 @@ let empty =
       StartDate = Calendar.gameBeginning
       Name = ""
       Genre = ""
-      Fame = 1
+      Fans = 0
       Members = []
       PastMembers = [] }
 
@@ -21,7 +21,7 @@ let from name genre initialMember today =
       StartDate = today
       Name = name
       Genre = genre
-      Fame = 1
+      Fans = 0
       Members = [ initialMember ]
       PastMembers = [] }
 

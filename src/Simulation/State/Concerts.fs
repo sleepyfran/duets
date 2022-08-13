@@ -18,9 +18,11 @@ let addPastConcert (band: Band) (concert: PastConcert) =
 
     Optic.map concertsLens (Set.add concert)
 
-let removeScheduledConcert (band: Band) (concert: ScheduledConcert) =
+let removeScheduledConcert (band: Band) (concert: Concert) =
     let concertsLens =
         Lenses.FromState.Concerts.allByBand_ band.Id
         >?> Lenses.Concerts.Timeline.scheduled_
 
-    Optic.map concertsLens (Set.remove concert)
+    Optic.map
+        concertsLens
+        (Set.filter (fun (ScheduledConcert (c, _)) -> c.Id <> concert.Id))

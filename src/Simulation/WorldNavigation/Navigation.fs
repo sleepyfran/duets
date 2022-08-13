@@ -8,8 +8,7 @@ open Simulation
 module Navigation =
     /// Moves the player to the specific node ID.
     let moveTo coordinates state =
-        let currentPosition =
-            Queries.World.Common.currentPosition state
+        let currentPosition = Queries.World.Common.currentPosition state
 
         let destinationCoords =
             Queries.World.Common.coordinates state coordinates

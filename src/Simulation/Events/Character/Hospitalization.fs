@@ -7,11 +7,9 @@ open Simulation
 /// Hospitalizes the given character, cancelling any activity that they are doing
 /// in the current moment.
 let hospitalize characterId state =
-    let currentPosition =
-        Queries.World.Common.currentPosition state
+    let currentPosition = Queries.World.Common.currentPosition state
 
-    let situation =
-        Queries.Situations.current state
+    let situation = Queries.Situations.current state
 
     let concertCancellationEffects =
         match situation with

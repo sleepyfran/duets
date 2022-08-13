@@ -39,11 +39,9 @@ let rec scheduleShow app =
     promptForDate app firstAvailableDay
 
 and private promptForDate app firstDate =
-    let monthDays =
-        Calendar.Query.monthDaysFrom firstDate
+    let monthDays = Calendar.Query.monthDaysFrom firstDate
 
-    let nextMonthDate =
-        Calendar.Query.firstDayOfNextMonth firstDate
+    let nextMonthDate = Calendar.Query.firstDayOfNextMonth firstDate
 
     let selectedDate =
         showOptionalChoicePrompt
@@ -63,8 +61,7 @@ and private promptForDate app firstDate =
 and private promptForDayMoment app date =
     // Drop the last element (Midnight) since we don't want to allow scheduling
     // on the day after the selection.
-    let availableDayMoments =
-        Calendar.allDayMoments |> List.tail
+    let availableDayMoments = Calendar.allDayMoments |> List.tail
 
     let selectedDayMoment =
         showOptionalChoicePrompt
@@ -92,8 +89,7 @@ and private promptForCity app date dayMoment =
     | None -> app ()
 
 and private promptForVenue app date dayMoment city =
-    let venues =
-        World.ConcertSpace.allInCity city.Id
+    let venues = World.ConcertSpace.allInCity city.Id
 
     let selectedVenue =
         showOptionalChoicePrompt

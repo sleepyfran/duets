@@ -8,7 +8,7 @@
     <ItemGroup>
         <Compile Include="Config.fs" />
         <Compile Include="RandomGen.fs" />
-        <Compile Include="Queries\Calendar.fs"/>
+        <Compile Include="Queries\Calendar.fs" />
         <Compile Include="Queries\Albums.fs" />
         <Compile Include="Queries\Songs.fs" />
         <Compile Include="Queries\Repertoire.fs" />
@@ -16,8 +16,8 @@
         <Compile Include="Queries\Bank.fs" />
         <Compile Include="Queries\Situations.fs" />
         <Compile Include="Queries\Skills.fs" />
-        <Compile Include="Queries\Bands.fs" />
         <Compile Include="Queries\GenreMarkets.fs" />
+        <Compile Include="Queries\Bands.fs" />
         <Compile Include="Queries\Concerts.fs" />
         <Compile Include="Queries\Inventory.fs" />
         <Compile Include="Queries\World\World.fs" />
@@ -48,6 +48,7 @@
 		<Compile Include="Bank\Operations.fs" />
         <Compile Include="Albums\DailyStreams.fs" />
         <Compile Include="Albums\Hype.fs" />
+        <Compile Include="Albums\FanIncrease.fs" />
         <Compile Include="Albums\Revenue.fs" />
         <Compile Include="Albums\DailyUpdate.fs" />
         <Compile Include="Time\AdvanceTime.fs" />
@@ -75,7 +76,7 @@
         <Compile Include="Songs\Composition\DiscardSong.fs" />
         <Compile Include="Shop\Shop.fs" />
         <Compile Include="Events\Character\Hospitalization.fs" />
-        <Compile Include="Events\Character\Drunkenness.fs"/>
+        <Compile Include="Events\Character\Drunkenness.fs" />
         <Compile Include="Events\Character\Character.Events.fs" />
         <Compile Include="Events\Place.Events.fs" />
         <Compile Include="Events\Time.Events.fs" />

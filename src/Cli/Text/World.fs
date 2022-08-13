@@ -51,8 +51,7 @@ let backstageDescription space =
 let barDescription (space: Place) =
     $"""With a lot of overpriced drinks and a bunch of drunk people lining up for the concert, the bar of {Styles.place space.Name} doesn't look as bad as you'd imagine."""
 
-let bedroomDescription =
-    "Your silent bedroom is looking great and cozy."
+let bedroomDescription = "Your silent bedroom is looking great and cozy."
 
 let kitchenDescription =
     "You still have some rest of yesterday's food, but otherwise the kitchen is very clean."

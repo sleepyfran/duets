@@ -24,6 +24,9 @@ module BandTypes =
           Role: InstrumentType
           Period: Period }
 
+    /// Number of fans that a band has.
+    type Fans = int
+
     /// Represents any band inside the game, be it one that is controlled by the
     /// player or the ones that are created automatically to fill the game world.
     type Band =
@@ -31,6 +34,6 @@ module BandTypes =
           StartDate: Date
           Name: string
           Genre: Genre
-          Fame: Fame
+          Fans: Fans
           Members: CurrentMember list
           PastMembers: PastMember list }

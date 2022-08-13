@@ -14,8 +14,7 @@ let private attrValue character attribute =
 /// Applies the given mapping function to the current value of the character's
 /// attribute, clamping the value between 0 and 100.
 let map character attribute mapping =
-    let currentAmount =
-        attrValue character attribute
+    let currentAmount = attrValue character attribute
 
     mapping currentAmount
     |> Math.clamp 0 100

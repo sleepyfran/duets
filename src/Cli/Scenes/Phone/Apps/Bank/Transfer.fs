@@ -10,8 +10,7 @@ open Simulation.Bank.Operations
 /// Asks for the amount that the user wants to transfer from the two accounts
 /// and confirms the transaction.
 let rec transferSubScene bankApp sender receiver =
-    let amount =
-        showNumberPrompt (Phone.bankAppTransferAmount receiver)
+    let amount = showNumberPrompt (Phone.bankAppTransferAmount receiver)
 
     if amount > 0 then
         transfer (State.get ()) sender receiver (amount * 1<dd>)

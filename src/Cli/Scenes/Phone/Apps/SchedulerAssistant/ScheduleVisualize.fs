@@ -21,8 +21,7 @@ and private showAgenda' app firstDay =
 
     let currentBand = Bands.currentBand state
 
-    let nextMonthDate =
-        Calendar.Query.firstDayOfNextMonth firstDay
+    let nextMonthDate = Calendar.Query.firstDayOfNextMonth firstDay
 
     let concertsInMonth =
         Concerts.scheduleForMonth state currentBand.Id firstDay
@@ -58,8 +57,7 @@ and private showAgenda' app firstDay =
 
 and showConcertList _ =
     List.iter (fun concert ->
-        let city =
-            World.Common.cityById concert.CityId |> Option.get
+        let city = World.Common.cityById concert.CityId |> Option.get
 
         let place, _ =
             World.ConcertSpace.byId concert.CityId concert.VenueId

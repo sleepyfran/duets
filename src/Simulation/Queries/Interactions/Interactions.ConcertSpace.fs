@@ -6,8 +6,7 @@ open Simulation
 
 module ConcertSpace =
     let private instrumentInteractions state ongoingConcert =
-        let characterBandMember =
-            Queries.Bands.currentPlayableMember state
+        let characterBandMember = Queries.Bands.currentPlayableMember state
 
         let stringInstrumentsCommonInteractions =
             [ Interaction.Concert(
@@ -44,8 +43,7 @@ module ConcertSpace =
         genericRoomInteractions
         defaultInteractions
         =
-        let situation =
-            Queries.Situations.current state
+        let situation = Queries.Situations.current state
 
         match situation with
         | InConcert ongoingConcert ->

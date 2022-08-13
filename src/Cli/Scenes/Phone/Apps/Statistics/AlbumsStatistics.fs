@@ -9,8 +9,7 @@ let rec albumsStatisticsSubScene statisticsApp =
     let state = State.get ()
     let band = Bands.currentBand state
 
-    let releases =
-        Albums.releasedByBand state band.Id
+    let releases = Albums.releasedByBand state band.Id
 
     if List.isEmpty releases then
         Phone.statisticsAppAlbumNoEntries |> showMessage

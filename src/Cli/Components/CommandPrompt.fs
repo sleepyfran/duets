@@ -143,8 +143,7 @@ let rec showCommandPrompt title availableCommands =
         |> fun input ->
             historyAgent.Add input
 
-            let inputTokens =
-                String.split ' ' input |> List.ofArray
+            let inputTokens = String.split ' ' input |> List.ofArray
 
             commandsWithEssentials
             |> List.tryFind (fun command ->

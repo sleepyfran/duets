@@ -7,8 +7,7 @@ open Entities.Skill
 
 /// Computes the score associated with each member of the band for the song.
 let qualityForMember state genre (currentMember: CurrentMember) =
-    let genreSkill =
-        create <| SkillId.Genre genre
+    let genreSkill = create <| SkillId.Genre genre
 
     let influencingSkills =
         [ SkillId.Composition

@@ -45,8 +45,7 @@ let validateName (name: string) =
 
 /// Validates whether the age of the character is valid or not.
 let validateBirthday birthday =
-    let age =
-        Calendar.Query.yearsBetween birthday Calendar.gameBeginning
+    let age = Calendar.Query.yearsBetween birthday Calendar.gameBeginning
 
     if age < 18 then Error AgeTooYoung
     else if age > 80 then Error AgeTooOld

@@ -179,8 +179,7 @@ let private bandAverageSkillLevel state skillId =
         |> float)
 
 let private playableCharacterSkillLevel state skillId =
-    let character =
-        Queries.Characters.playableCharacter state
+    let character = Queries.Characters.playableCharacter state
 
     characterSkillLevel state character.Id skillId
 
@@ -202,16 +201,14 @@ let private baseScoreWithReasons state action =
             (fun (reasons, scores) aq ->
                 match aq with
                 | BandSkills skillId ->
-                    let avgSkill =
-                        bandAverageSkillLevel state skillId
+                    let avgSkill = bandAverageSkillLevel state skillId
 
                     if avgSkill < 50 then
                         (reasons @ [ LowSkill ], scores @ [ avgSkill ])
                     else
                         (reasons, scores @ [ avgSkill ])
                 | CharacterSkill skillId ->
-                    let avgSkill =
-                        playableCharacterSkillLevel state skillId
+                    let avgSkill = playableCharacterSkillLevel state skillId
 
                     if avgSkill < 50 then
                         (reasons @ [ LowSkill ], scores @ [ avgSkill ])
@@ -316,8 +313,7 @@ and private performAction' state ongoingConcert action =
     |> Response.addEffects action.Effects
 
 and private ratePerformance state ongoingConcert action =
-    let qualityReasons, baseScore =
-        baseScoreWithReasons state action
+    let qualityReasons, baseScore = baseScoreWithReasons state action
 
     let multipliers =
         if List.isEmpty action.Multipliers then
@@ -325,18 +321,15 @@ and private ratePerformance state ongoingConcert action =
         else
             multipliersOf action
 
-    let modifierReasons, modifier =
-        modifiersWithReasons state action
+    let modifierReasons, modifier = modifiersWithReasons state action
 
-    let pointIncrease =
-        baseScore * modifier * multipliers
+    let pointIncrease = baseScore * modifier * multipliers
 
     let projectedMaximum = 100.0 * multipliers
 
     let performanceStep = projectedMaximum / 4.0
 
-    let resultReasons =
-        qualityReasons @ modifierReasons
+    let resultReasons = qualityReasons @ modifierReasons
 
     let result =
         match pointIncrease with

@@ -19,11 +19,9 @@ let private textFromOption opt =
     | Scheduler -> Phone.optionScheduler
 
 let rec phoneScene () =
-    let currentDate =
-        State.get () |> Queries.Calendar.today
+    let currentDate = State.get () |> Queries.Calendar.today
 
-    let dayMoment =
-        Calendar.Query.dayMomentOf currentDate
+    let dayMoment = Calendar.Query.dayMomentOf currentDate
 
     let selection =
         showOptionalChoicePrompt

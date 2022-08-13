@@ -10,16 +10,18 @@ open Simulation.Studio.ReleaseAlbum
 
 let band =
     { dummyBand with
-          Fame = 50
-          Genre = "Test" }
+        Fans = 1000000
+        Genre = "Test" }
 
 let state =
     { dummyState with
-          GenreMarkets =
-              [ ("Test", { MarketPoint = 3.0; Fluctuation = 1.0 }) ]
-              |> Map.ofList }
+        GenreMarkets =
+            [ ("Test", { MarketPoint = 3.0; Fluctuation = 1.0 }) ]
+            |> Map.ofList }
 
-let single = { dummyAlbum with Type = Single }
+let single =
+    { dummyAlbum with Type = Single }
+
 let ep = { dummyAlbum with Type = EP }
 let lp = { dummyAlbum with Type = LP }
 
@@ -35,7 +37,6 @@ let ``releaseAlbum should create effect with correct streams and hype for single
             { Album = single
               ReleaseDate = dummyToday
               Streams = 0
-              MaxDailyStreams = 300000
               Hype = 1.0 }
         ))
 
@@ -51,7 +52,6 @@ let ``releaseAlbum should create effect with correct streams and hype for EP``
             { Album = ep
               ReleaseDate = dummyToday
               Streams = 0
-              MaxDailyStreams = 210000
               Hype = 1.0 }
         ))
 
@@ -67,13 +67,12 @@ let ``releaseAlbum should create effect with correct streams and hype for LP``
             { Album = lp
               ReleaseDate = dummyToday
               Streams = 0
-              MaxDailyStreams = 300000
               Hype = 1.0 }
         ))
 
 [<Test>]
 let ``releaseAlbum should apply proper low fame modifier`` () =
-    let lowFameBand = { band with Fame = 5 }
+    let lowFameBand = { band with Fans = 5 }
 
     releaseAlbum state lowFameBand (UnreleasedAlbum lp)
     |> should
@@ -83,13 +82,12 @@ let ``releaseAlbum should apply proper low fame modifier`` () =
             { Album = lp
               ReleaseDate = dummyToday
               Streams = 0
-              MaxDailyStreams = 300
               Hype = 1.0 }
         ))
 
 [<Test>]
 let ``releaseAlbum should apply proper average fame modifier`` () =
-    let lowFameBand = { band with Fame = 25 }
+    let lowFameBand = { band with Fans = 25 }
 
     releaseAlbum state lowFameBand (UnreleasedAlbum lp)
     |> should
@@ -99,13 +97,12 @@ let ``releaseAlbum should apply proper average fame modifier`` () =
             { Album = lp
               ReleaseDate = dummyToday
               Streams = 0
-              MaxDailyStreams = 15000
               Hype = 1.0 }
         ))
 
 [<Test>]
 let ``releaseAlbum should apply proper big fame modifier`` () =
-    let lowFameBand = { band with Fame = 50 }
+    let lowFameBand = { band with Fans = 50 }
 
     releaseAlbum state lowFameBand (UnreleasedAlbum lp)
     |> should
@@ -115,13 +112,12 @@ let ``releaseAlbum should apply proper big fame modifier`` () =
             { Album = lp
               ReleaseDate = dummyToday
               Streams = 0
-              MaxDailyStreams = 300000
               Hype = 1.0 }
         ))
 
 [<Test>]
 let ``releaseAlbum should apply proper ultra fame modifier`` () =
-    let lowFameBand = { band with Fame = 100 }
+    let lowFameBand = { band with Fans = 100 }
 
     releaseAlbum state lowFameBand (UnreleasedAlbum lp)
     |> should
@@ -131,34 +127,33 @@ let ``releaseAlbum should apply proper ultra fame modifier`` () =
             { Album = lp
               ReleaseDate = dummyToday
               Streams = 0
-              MaxDailyStreams = 6000000
               Hype = 1.0 }
         ))
 
 [<Test>]
 let ``releaseAlbum should apply proper low score modifier`` () =
-    let lowFameBand = { band with Fame = 1 }
+    let lowFameBand = { band with Fans = 1 }
 
     let lowScoreTrackList =
         [ RecordedSong(
-            FinishedSong
-                { Id = SongId <| Identity.create ()
-                  Name = "Test 1"
-                  Length =
+              FinishedSong
+                  { Id = SongId <| Identity.create ()
+                    Name = "Test 1"
+                    Length =
                       { Minutes = 1<minute>
                         Seconds = 6<second> }
-                  VocalStyle = Instrumental
-                  Genre = "Test"
-                  Practice = 0<practice> },
-            2<quality>
+                    VocalStyle = Instrumental
+                    Genre = "Test"
+                    Practice = 0<practice> },
+              2<quality>
           )
           RecordedSong(
               FinishedSong
                   { Id = SongId <| Identity.create ()
                     Name = "Test 2"
                     Length =
-                        { Minutes = 1<minute>
-                          Seconds = 6<second> }
+                      { Minutes = 1<minute>
+                        Seconds = 6<second> }
                     VocalStyle = Instrumental
                     Genre = "Test"
                     Practice = 0<practice> },
@@ -166,8 +161,7 @@ let ``releaseAlbum should apply proper low score modifier`` () =
           ) ]
 
     let lowScoreAlbum =
-        { lp with
-              TrackList = lowScoreTrackList }
+        { lp with TrackList = lowScoreTrackList }
 
     releaseAlbum state lowFameBand (UnreleasedAlbum lowScoreAlbum)
     |> should
@@ -177,6 +171,5 @@ let ``releaseAlbum should apply proper low score modifier`` () =
             { Album = lowScoreAlbum
               ReleaseDate = dummyToday
               Streams = 0
-              MaxDailyStreams = 2
               Hype = 1.0 }
         ))

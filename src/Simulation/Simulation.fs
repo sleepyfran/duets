@@ -28,11 +28,9 @@ let rec private tick' (appliedEffects, lastState) nextEffectFns =
         effectFn lastState
         |> List.fold
             (fun (currentEffectChain, currentState) effect ->
-                let state =
-                    State.Root.applyEffect currentState effect
+                let state = State.Root.applyEffect currentState effect
 
-                let associatedEffects =
-                    getAssociatedEffects effect
+                let associatedEffects = getAssociatedEffects effect
 
                 tick' (currentEffectChain @ [ effect ], state) associatedEffects)
             (appliedEffects, lastState)

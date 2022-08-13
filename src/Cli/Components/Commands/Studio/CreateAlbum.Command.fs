@@ -33,11 +33,9 @@ module CreateAlbumCommand =
         |> promptForConfirmation studio band name
 
     and private promptForConfirmation studio band name selectedSongs =
-        let album =
-            Album.Unreleased.from name selectedSongs
+        let album = Album.Unreleased.from name selectedSongs
 
-        let (UnreleasedAlbum unreleasedAlbum) =
-            album
+        let (UnreleasedAlbum unreleasedAlbum) = album
 
         let confirmed =
             showConfirmationPrompt (

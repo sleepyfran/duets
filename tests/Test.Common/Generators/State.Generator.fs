@@ -14,7 +14,8 @@ let dateGenerator =
         && date < Calendar.gameBeginning.AddYears(2))
 
 type StateGenOptions =
-    { BandFame: int
+    { BandFansMin: int
+      BandFansMax: int
       FutureConcertsToGenerate: int
       PastConcertsToGenerate: int
 
@@ -23,7 +24,8 @@ type StateGenOptions =
       ScheduledConcertGen: Gen<ScheduledConcert> }
 
 let defaultOptions =
-    { BandFame = 25
+    { BandFansMin = 0
+      BandFansMax = 25
       FutureConcertsToGenerate = 0
       PastConcertsToGenerate = 0
       PastConcertGen =
@@ -48,11 +50,13 @@ let generator (opts: StateGenOptions) =
 
         let scheduledConcerts =
             opts.ScheduledConcertGen
-            |> Gen.map (fun (ScheduledConcert concert) ->
-                ScheduledConcert
+            |> Gen.map (fun (ScheduledConcert (concert, scheduledOn)) ->
+                ScheduledConcert(
                     { concert with
                         CityId = city.Id
-                        VenueId = venueId })
+                        VenueId = venueId },
+                    scheduledOn
+                ))
             |> Gen.sample 0 opts.FutureConcertsToGenerate
 
         let pastConcerts =
@@ -81,9 +85,11 @@ let generator (opts: StateGenOptions) =
 
                 (cm.CharacterId, character))
 
+        let! bandFame = Gen.choose (opts.BandFansMin, opts.BandFansMax)
+
         let band =
             { dummyBand with
-                Fame = opts.BandFame
+                Fans = bandFame
                 Members = bandMembers }
 
         return
@@ -97,7 +103,10 @@ let generator (opts: StateGenOptions) =
                     bandCharacters
                     @ [ (playableCharacter.Id, playableCharacter) ]
                     |> Map.ofList
-                PlayableCharacterId = playableCharacter.Id }
+                PlayableCharacterId = playableCharacter.Id
+                GenreMarkets =
+                    [ "Jazz", { MarketPoint = 2.9; Fluctuation = 1.0 } ]
+                    |> Map.ofList }
     }
 
 let generateOne opts =

@@ -9,8 +9,7 @@ open Simulation
 let playSong state ongoingConcert (finishedSong, quality) energy =
     let (FinishedSong song) = finishedSong
 
-    let playableCharacter =
-        Queries.Characters.playableCharacter state
+    let playableCharacter = Queries.Characters.playableCharacter state
 
     { Event = PlaySong(song, energy)
       Limit = Penalized(1<times>, PointPenalization(-50))

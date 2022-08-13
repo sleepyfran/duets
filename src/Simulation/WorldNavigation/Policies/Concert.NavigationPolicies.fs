@@ -11,13 +11,12 @@ module Concert =
     let private canEnterStage state (coords: ResolvedRoomCoordinates) =
         let placeId, _ = coords.Coordinates
 
-        let timeRightNow =
-            Queries.Calendar.today state
+        let timeRightNow = Queries.Calendar.today state
 
         let band = Queries.Bands.currentBand state
 
         Queries.Concerts.scheduleForTodayInPlace state band.Id placeId
-        |> Option.map (fun (ScheduledConcert concert) ->
+        |> Option.map (fun (ScheduledConcert (concert, _)) ->
             let dateWithDayMoment =
                 concert.Date
                 |> Calendar.Transform.changeDayMoment concert.DayMoment

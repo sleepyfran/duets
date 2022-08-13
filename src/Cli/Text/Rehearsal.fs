@@ -6,8 +6,7 @@ open Common
 let manageDescription =
     "Opens the band management menu which allows you to hire new members or fire current ones"
 
-let composePrompt =
-    "What do you want to compose?"
+let composePrompt = "What do you want to compose?"
 
 let composeSong = "Compose new song"
 
@@ -39,8 +38,7 @@ let composeSongErrorLengthTooShort =
 let composeSongErrorLengthTooLong =
     Styles.error "Songs can't be more than 30 minutes long"
 
-let composeSongProgressBrainstorming =
-    Styles.progress "Brainstorming..."
+let composeSongProgressBrainstorming = Styles.progress "Brainstorming..."
 
 let composeSongProgressConfiguringReverb =
     Styles.progress "Configuring reverb..."
@@ -48,11 +46,9 @@ let composeSongProgressConfiguringReverb =
 let composeSongProgressTryingChords =
     Styles.progress "Trying out some chords..."
 
-let improveSong =
-    "Improve an unfinished song"
+let improveSong = "Improve an unfinished song"
 
-let improveSongSelection =
-    "Which song do you want to improve?"
+let improveSongSelection = "Which song do you want to improve?"
 
 let improveSongCanBeFurtherImproved (previousQuality, currentQuality) =
     Styles.success
@@ -65,8 +61,7 @@ let improveSongReachedMaxQuality =
 let improveSongProgressAddingSomeMelodies =
     Styles.progress "Adding some melodies..."
 
-let improveSongProgressPlayingFoosball =
-    Styles.progress "Playing foosball..."
+let improveSongProgressPlayingFoosball = Styles.progress "Playing foosball..."
 
 let improveSongProgressModifyingChordsFromAnotherSong =
     Styles.progress
@@ -81,20 +76,16 @@ let finishSongFinished (name, quality) =
     Styles.success
         $"""Your band finished the song "{name}". The result quality is {quality}"""
 
-let discardSong =
-    "Discard an unfinished song"
+let discardSong = "Discard an unfinished song"
 
-let discardSongSelection =
-    Styles.danger "Which song do you want to discard?"
+let discardSongSelection = Styles.danger "Which song do you want to discard?"
 
 let discardSongDiscarded name =
     Styles.error $"Your band decided to stop working on {name}"
 
-let practiceSong =
-    "Practice a finished song"
+let practiceSong = "Practice a finished song"
 
-let practiceSongSelection =
-    "Which song do you want to practice?"
+let practiceSongSelection = "Which song do you want to practice?"
 
 let practiceSongItemDescription name practiceLevel =
     $"""{Styles.song name} (Practice level: {Styles.Level.from practiceLevel}%%)"""
@@ -105,17 +96,14 @@ let practiceSongImproved name practiceLevel =
 let practiceSongAlreadyImprovedToMax name =
     $"Your band already knows {Styles.song name} perfectly"
 
-let practiceSongProgressLosingTime =
-    Styles.progress "Losing time..."
+let practiceSongProgressLosingTime = Styles.progress "Losing time..."
 
 let practiceSongProgressTryingSoloOnceMore =
     Styles.progress "Trying that solo once more..."
 
-let practiceSongProgressGivingUp =
-    Styles.progress "Giving up..."
+let practiceSongProgressGivingUp = Styles.progress "Giving up..."
 
-let hireMemberRolePrompt =
-    "What role are you looking to hire?"
+let hireMemberRolePrompt = "What role are you looking to hire?"
 
 let hireMemberCharacterDescription name gender =
     $"{Styles.highlight name} is interested in joining your band. {Generic.subjectPronounForGender gender} {Generic.verbConjugationForGender Generic.Have gender
@@ -124,8 +112,7 @@ let hireMemberCharacterDescription name gender =
 let hireMemberConfirmation gender =
     $"Do you want to hire {Generic.objectPronounForGender gender}?"
 
-let hireMemberHired =
-    Styles.success "You just hired a new member!"
+let hireMemberHired = Styles.success "You just hired a new member!"
 
 let hireMemberContinueConfirmation =
     "Do you want to continue looking for members?"
@@ -136,31 +123,24 @@ let fireMemberListItem (name, role) =
 let fireMemberNoMembersToFire =
     Styles.error "You are the only member of the band, you can't fire yourself!"
 
-let fireMemberPrompt =
-    $"""Who do you want to {Styles.danger "fire"}?"""
+let fireMemberPrompt = $"""Who do you want to {Styles.danger "fire"}?"""
 
 let fireMemberConfirmation name =
     Styles.danger $"Are you sure you want to fire {name}?"
 
 let fireMemberConfirmed name = Styles.danger $"You fired {name}"
 
-let memberListCurrentTitle =
-    Styles.title "Current members"
+let memberListCurrentTitle = Styles.title "Current members"
 
-let memberListNameHeader =
-    Styles.header "Name"
+let memberListNameHeader = Styles.header "Name"
 
-let memberListRoleHeader =
-    Styles.header "Role"
+let memberListRoleHeader = Styles.header "Role"
 
-let memberListSinceHeader =
-    Styles.header "Since"
+let memberListSinceHeader = Styles.header "Since"
 
-let memberListUntilHeader =
-    Styles.header "Until"
+let memberListUntilHeader = Styles.header "Until"
 
-let memberListPastTitle =
-    Styles.title "Past members"
+let memberListPastTitle = Styles.title "Past members"
 
 let memberListName = Styles.person
 
@@ -172,11 +152,9 @@ let memberListUntil = Generic.formatDate
 
 let managementTitle = "Management"
 
-let managementPrompt =
-    "What do you want to to?"
+let managementPrompt = "What do you want to to?"
 
-let managementHireMember =
-    "Hire a new member"
+let managementHireMember = "Hire a new member"
 
 let managementFireMember = "Fire a member"
 let managementMemberList = "List members"

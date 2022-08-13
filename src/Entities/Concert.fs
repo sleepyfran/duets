@@ -16,14 +16,13 @@ module Ongoing =
     /// Returns the number of times that an event was performed.
     let timesDoneEvent ongoingConcert event =
         Optic.get Lenses.Concerts.Ongoing.events_ ongoingConcert
-        |> List.filter
-            (fun performedEvent ->
-                match performedEvent with
-                | PlaySong (playedSong, _) ->
-                    match event with
-                    | PlaySong (song, _) -> playedSong = song
-                    | _ -> false
-                | _ -> performedEvent = event)
+        |> List.filter (fun performedEvent ->
+            match performedEvent with
+            | PlaySong (playedSong, _) ->
+                match event with
+                | PlaySong (song, _) -> playedSong = song
+                | _ -> false
+            | _ -> performedEvent = event)
         |> List.length
         |> (*) 1<times>
 
@@ -39,8 +38,7 @@ module Ongoing =
         let timesPerformedEncores =
             timesDoneEvent ongoingConcert PerformedEncore
 
-        let points =
-            Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
+        let points = Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
 
         points > 50<quality>
         && timesPerformedEncores = 0<times>
@@ -70,7 +68,7 @@ let validatePrice ticketPrice =
 let fromPast (concert: PastConcert) =
     match concert with
     | PerformedConcert (concert, _) -> concert
-    | FailedConcert(concert, _) -> concert
+    | FailedConcert (concert, _) -> concert
 
 /// Returns the inner concert inside a scheduled concert.
-let fromScheduled (ScheduledConcert concert) = concert
+let fromScheduled (ScheduledConcert (concert, _)) = concert

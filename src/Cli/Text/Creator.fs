@@ -7,8 +7,7 @@ open Entities
 let characterInitialPrompt =
     $"""Creating a new game, what's the {Styles.highlight "name"} of your character?"""
 
-let characterGenderPrompt =
-    $"""What's their {Styles.highlight "gender"}?"""
+let characterGenderPrompt = $"""What's their {Styles.highlight "gender"}?"""
 
 let characterGenderMale = "Male"
 let characterGenderFemale = "Female"
@@ -39,17 +38,12 @@ let bandConfirmationPrompt characterName bandName bandGenre instrument =
 let errorCharacterNameTooShort =
     Styles.error "Your character's name is too short"
 
-let errorCharacterNameTooLong =
-    Styles.error "Your character's name is too long"
+let errorCharacterNameTooLong = Styles.error "Your character's name is too long"
 
-let errorCharacterAgeTooYoung =
-    Styles.error "Your character is too young"
+let errorCharacterAgeTooYoung = Styles.error "Your character is too young"
 
-let errorCharacterAgeTooOld =
-    Styles.error "Your character is too old"
+let errorCharacterAgeTooOld = Styles.error "Your character is too old"
 
-let errorBandNameTooShort =
-    Styles.error "Your band's name is too short"
+let errorBandNameTooShort = Styles.error "Your band's name is too short"
 
-let errorBandNameTooLong =
-    Styles.error "Your band's name is too long"
+let errorBandNameTooLong = Styles.error "Your band's name is too long"

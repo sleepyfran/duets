@@ -20,8 +20,7 @@ module OrderCommand =
 
         match selectedItem with
         | Some item ->
-            let orderResult =
-                Shop.order (State.get ()) item
+            let orderResult = Shop.order (State.get ()) item
 
             match orderResult with
             | Ok effects -> Cli.Effect.applyMultiple effects
@@ -29,8 +28,7 @@ module OrderCommand =
         | None -> ()
 
     let private orderFromArgs input availableItems =
-        let orderResult =
-            Shop.orderByName (State.get ()) input availableItems
+        let orderResult = Shop.orderByName (State.get ()) input availableItems
 
         match orderResult with
         | Ok effects -> Cli.Effect.applyMultiple effects

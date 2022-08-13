@@ -15,8 +15,7 @@ open Simulation
 /// </summary>
 /// <param name="effect">Effect to apply</param>
 let rec apply effect =
-    let effects, state =
-        Simulation.tick (State.get ()) effect
+    let effects, state = Simulation.tick (State.get ()) effect
 
     State.set state
 
@@ -71,7 +70,7 @@ and private displayEffect effect =
     | CharacterHospitalized _ ->
         showMessage Events.hospitalized
         lineBreak ()
-    | ConcertScheduled (_, ScheduledConcert concert) ->
+    | ConcertScheduled (_, ScheduledConcert (concert, _)) ->
         let coordinates =
             Queries.World.Common.coordinatesOfPlace
                 (State.get ())
@@ -139,11 +138,9 @@ and private displayEffect effect =
             currentLevel
         |> showMessage
     | Wait _ ->
-        let today =
-            Queries.Calendar.today (State.get ())
+        let today = Queries.Calendar.today (State.get ())
 
-        let currentDayMoment =
-            Calendar.Query.dayMomentOf today
+        let currentDayMoment = Calendar.Query.dayMomentOf today
 
         Command.waitResult today currentDayMoment
         |> showMessage

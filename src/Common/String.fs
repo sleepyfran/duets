@@ -20,8 +20,7 @@ let nonEmptyContains (subStr: string) (str: string) =
 /// Checks whether the given `str` contains the `subStr` without taking any
 /// diacritics or casing into account.
 let diacriticInsensitiveContains (subStr: string) (str: string) =
-    let compareInfo =
-        CultureInfo.InvariantCulture.CompareInfo
+    let compareInfo = CultureInfo.InvariantCulture.CompareInfo
 
     compareInfo.IndexOf(
         subStr.ToUpper(),

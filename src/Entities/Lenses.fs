@@ -64,11 +64,10 @@ module Album =
         (fun v (a: ReleasedAlbum) -> { a with Streams = v })
 
 module Band =
-    let id_ =
-        (fun (c: Band) -> c.Id), (fun v (c: Band) -> { c with Id = v })
+    let id_ = (fun (c: Band) -> c.Id), (fun v (c: Band) -> { c with Id = v })
 
-    let fame_ =
-        (fun (b: Band) -> b.Fame), (fun v (b: Band) -> { b with Fame = v })
+    let fans_ =
+        (fun (b: Band) -> b.Fans), (fun v (b: Band) -> { b with Fans = v })
 
     let members_ =
         (fun (b: Band) -> b.Members),
@@ -137,9 +136,9 @@ module Concerts =
 
     module Scheduled =
         let ticketsSold_ =
-            (fun (ScheduledConcert c) -> c.TicketsSold),
-            (fun v (ScheduledConcert c) ->
-                ScheduledConcert { c with TicketsSold = v })
+            (fun (ScheduledConcert (c, _)) -> c.TicketsSold),
+            (fun v (ScheduledConcert (c, s)) ->
+                ScheduledConcert({ c with TicketsSold = v }, s))
 
     module Timeline =
         let scheduled_ =
@@ -201,11 +200,9 @@ module World =
             (fun (c: City) -> c.Index),
             (fun v (c: City) -> { c with Index = v })
 
-        let startingNode_ =
-            graph_ >-> Graph.startingNode_
+        let startingNode_ = graph_ >-> Graph.startingNode_
 
-        let connections_ =
-            graph_ >-> Graph.connections_
+        let connections_ = graph_ >-> Graph.connections_
 
         let nodes_ = graph_ >-> Graph.nodes_
 
@@ -233,12 +230,12 @@ module FromState =
         let unreleasedByBand_ bandId =
             State.bandAlbumRepertoire_
             >-> BandRepertoire.unreleasedAlbums_
-            >-> Map.key_ bandId
+            >-> Map.keyWithDefault_ bandId Map.empty
 
         let releasedByBand_ bandId =
             State.bandAlbumRepertoire_
             >-> BandRepertoire.releasedAlbums_
-            >-> Map.key_ bandId
+            >-> Map.keyWithDefault_ bandId Map.empty
 
     module BankAccount =
         /// Lens into a specific account.

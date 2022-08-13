@@ -28,8 +28,12 @@ module AlbumTypes =
     type ReleasedAlbum =
         { Album: Album
           ReleaseDate: Date
+          /// Total amount of streams that the album has had so far.
           Streams: int
-          MaxDailyStreams: int
+          /// Represents a sudden burst of interest in the album. When freshly
+          /// released, it'll be 1.0 unless some advertisement was done to
+          /// increase it and can fluctuate depending on actions that the band
+          /// does. This is used when calculating the daily streams.
           Hype: float }
 
     /// Collection of albums (either released or unreleased) by a band.

@@ -33,8 +33,7 @@ let applySkillModificationChance
     =
     let random = RandomGen.genBetween 0 100
 
-    let character =
-        Queries.Characters.find state characterId
+    let character = Queries.Characters.find state characterId
 
     if random > chance then
         modifyCharacterSkills state character skills improvementAmount

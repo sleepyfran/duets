@@ -35,8 +35,7 @@ let showNumberPrompt title = AnsiConsole.Ask<int>(title)
 /// <param name="title">Title of the prompt to show when asking</param>
 /// <returns>The date given by the user</returns>
 let showDatePrompt title =
-    let mutable datePrompt =
-        TextPrompt<string>(title)
+    let mutable datePrompt = TextPrompt<string>(title)
 
     let validate (date: string) =
         match Calendar.Parse.date date with
@@ -61,8 +60,7 @@ let showDatePrompt title =
 /// <param name="title">Title of the prompt to show when asking</param>
 /// <returns>The length given by the user</returns>
 let showLengthPrompt title =
-    let mutable lengthPrompt =
-        TextPrompt<string>(title)
+    let mutable lengthPrompt = TextPrompt<string>(title)
 
     let validate (length: string) =
         match Time.Length.parse length with

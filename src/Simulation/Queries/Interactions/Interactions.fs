@@ -62,13 +62,11 @@ module Interactions =
     /// be later transformed into the actual flow.
     /// </summary>
     let availableCurrently state =
-        let currentPosition =
-            Queries.World.Common.currentPosition state
+        let currentPosition = Queries.World.Common.currentPosition state
 
         let inventory = Queries.Inventory.get state
 
-        let inventoryInteractions =
-            getInventoryInteractions inventory
+        let inventoryInteractions = getInventoryInteractions inventory
 
         let defaultInteractions =
             inventoryInteractions

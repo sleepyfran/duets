@@ -229,11 +229,9 @@ let worldScene () =
             CharacterAttribute.Energy
             CharacterAttribute.Fame
 
-    let today =
-        Queries.Calendar.today (State.get ())
+    let today = Queries.Calendar.today (State.get ())
 
-    let currentDayMoment =
-        Calendar.Query.dayMomentOf today
+    let currentDayMoment = Calendar.Query.dayMomentOf today
 
     let interactionsWithState =
         Queries.Interactions.availableCurrently (State.get ())
@@ -242,8 +240,7 @@ let worldScene () =
         State.get ()
         |> Queries.World.Common.currentPosition
 
-    let situation =
-        Queries.Situations.current (State.get ())
+    let situation = Queries.Situations.current (State.get ())
 
     descriptionFromCoordinates currentPosition.Content
     |> showMessage

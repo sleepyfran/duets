@@ -10,25 +10,25 @@ open Simulation
 open Simulation.Time.AdvanceTime
 
 let state =
-    { dummyState with
-          Today = dummyTodayMiddleOfYear }
+    { dummyState with Today = dummyTodayMiddleOfYear }
 
 let stateInMorning =
     { state with
-          Today =
-              state.Today
-              |> Calendar.Transform.changeDayMoment Morning }
+        Today =
+            state.Today
+            |> Calendar.Transform.changeDayMoment Morning }
 
 let stateInMidnightBeforeGameStart =
     { state with
-          Today =
-              Calendar.gameBeginning
-              |> Calendar.Transform.changeDayMoment Midnight }
+        Today =
+            Calendar.gameBeginning
+            |> Calendar.Transform.changeDayMoment Midnight }
 
 let unfinishedSong =
     (UnfinishedSong dummySong, 10<quality>, 10<quality>)
 
-let songStartedEffect = SongStarted(dummyBand, unfinishedSong)
+let songStartedEffect =
+    SongStarted(dummyBand, unfinishedSong)
 
 let effectsWithTimeIncrease =
     [ (songStartedEffect, 1)
@@ -58,11 +58,10 @@ let ``tick should not apply the given effect more than once`` () =
 [<Test>]
 let ``tick should advance time by corresponding effect type`` () =
     effectsWithTimeIncrease
-    |> List.iter
-        (fun (effect, timeIncrease) ->
-            Simulation.tick state effect
-            |> fst
-            |> checkTimeIncrease timeIncrease)
+    |> List.iter (fun (effect, timeIncrease) ->
+        Simulation.tick state effect
+        |> fst
+        |> checkTimeIncrease timeIncrease)
 
 let filterDailyUpdateEffects effect =
     match effect with
@@ -76,24 +75,19 @@ let ``tick should update album streams every day`` () =
     let state =
         dummyState
         |> addReleasedAlbum
-            dummyBand
-            (Album.Released.fromUnreleased
-                dummyUnreleasedAlbum
-                dummyToday
-                1500
-                1.0)
+            dummyBand.Id
+            (Album.Released.fromUnreleased dummyUnreleasedAlbum dummyToday 1.0)
 
     Simulation.tick state songStartedEffect
     |> fst
     |> List.filter filterDailyUpdateEffects
-    |> should haveLength 2
+    |> should haveLength 1
 
 [<Test>]
 let ``tick should update all scheduled concerts every day`` () =
     let state =
         State.generateOne
-            { State.defaultOptions with
-                  FutureConcertsToGenerate = 10 }
+            { State.defaultOptions with FutureConcertsToGenerate = 10 }
 
     Simulation.tick state songStartedEffect
     |> fst
@@ -130,11 +124,10 @@ let ``tick should update markets every year in the dawn`` () =
 let ``tick should check for failed concerts in every time update`` () =
     let state =
         State.generateOne
-            { State.defaultOptions with
-                  FutureConcertsToGenerate = 0 }
+            { State.defaultOptions with FutureConcertsToGenerate = 0 }
         |> State.Concerts.addScheduledConcert
             dummyBand
-            (ScheduledConcert dummyConcert)
+            (ScheduledConcert(dummyConcert, dummyToday))
 
     let dateAfterConcert =
         Simulation.Queries.Calendar.today state
@@ -147,9 +140,8 @@ let ``tick should check for failed concerts in every time update`` () =
 
     Simulation.tick stateAfterConcert songStartedEffect
     |> fst
-    |> List.filter
-        (fun effect ->
-            match effect with
-            | ConcertCancelled _ -> true
-            | _ -> false)
+    |> List.filter (fun effect ->
+        match effect with
+        | ConcertCancelled _ -> true
+        | _ -> false)
     |> should haveLength 1

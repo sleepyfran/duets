@@ -8,14 +8,12 @@ type VariableVerb = Have
 
 /// Dictionary of conjugations of verb based on the gender.
 let private verbConjugationByGender =
-    dict [
-        (Have,
-         dict [
-             (Male, "Has")
-             (Female, "Has")
-             (Other, "Have")
-         ])
-    ]
+    [ (Have,
+       [ (Male, "Has")
+         (Female, "Has")
+         (Other, "Have") ]
+       |> Map.ofList) ]
+    |> Map.ofList
 
 /// Returns the formatted instrument name given its type.
 let instrumentName instrumentType =
@@ -90,7 +88,10 @@ let possessiveAdjectiveForGender gender =
 
 /// Returns the correct conjugation for the given verb that matches with the
 /// specified gender.
-let verbConjugationForGender verb gender = verbConjugationByGender[verb][gender]
+let verbConjugationForGender verb gender =
+    verbConjugationByGender
+    |> Map.find verb
+    |> Map.find gender
 
 /// Returns the correct name of the given account holder.
 let accountHolderName holder =
@@ -207,16 +208,13 @@ let noUnfinishedSongs =
 let back = Styles.faded "Go back"
 let cancel = Styles.faded "Cancel"
 
-let backToMainMenu =
-    Styles.faded "Back to main menu"
+let backToMainMenu = Styles.faded "Back to main menu"
 
 let backToMap = Styles.faded "Back to map"
 
-let backToPhone =
-    Styles.faded "Back to phone"
+let backToPhone = Styles.faded "Back to phone"
 
-let backToWorld =
-    Styles.faded "Back to world"
+let backToWorld = Styles.faded "Back to world"
 
 let nothing = Styles.faded "Nothing"
 

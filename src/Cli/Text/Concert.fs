@@ -29,8 +29,7 @@ let failedBandMissing (band: Band) (place: Place) concert =
 let noSongsToPlay =
     $"""{Styles.error "You don't have any finished songs to play!"} Why are you even scheduling concerts if you haven't finished any song yet? That's going to be embarrassing to explain to the audience..."""
 
-let selectSongToPlay =
-    "Which song do you want to play?"
+let selectSongToPlay = "Which song do you want to play?"
 
 let songNameWithPractice (song: Song) =
     $"""{Styles.song song.Name} (Practice level: {Styles.Level.from song.Practice}%%)"""
@@ -39,8 +38,7 @@ let alreadyPlayedSongWithPractice (song: Song) =
     Styles.crossed
         $"""{Styles.song song.Name} (Practice level: {Styles.Level.from song.Practice}%%) (Already played)"""
 
-let energyPrompt =
-    "How much energy do you want to put into this?"
+let energyPrompt = "How much energy do you want to put into this?"
 
 let energyEnergetic = "Energetic"
 let energyNormal = "Normal"
@@ -50,23 +48,18 @@ let actionPrompt date dayMoment attributes points =
     $"""{Generic.infoBar date dayMoment attributes} | {Emoji.concert} {Styles.Level.from points} points
 {Styles.action "It's your time to shine!"} What do you want to do?"""
 
-let bassSoloSlappingThatBass =
-    Styles.progress "Slapping that bass..."
+let bassSoloSlappingThatBass = Styles.progress "Slapping that bass..."
 
 let bassSoloMovingFingersQuickly =
     Styles.progress "Moving fingers REALLY quickly..."
 
-let bassSoloGrooving =
-    Styles.progress "Grooving hard..."
+let bassSoloGrooving = Styles.progress "Grooving hard..."
 
-let drumSoloDoingDrumstickTricks =
-    Styles.progress "Spinning drumsticks..."
+let drumSoloDoingDrumstickTricks = Styles.progress "Spinning drumsticks..."
 
-let drumSoloPlayingReallyFast =
-    Styles.progress "Playing really fast..."
+let drumSoloPlayingReallyFast = Styles.progress "Playing really fast..."
 
-let drumSoloPlayingWeirdRhythms =
-    Styles.progress "Playing REALLY fast..."
+let drumSoloPlayingWeirdRhythms = Styles.progress "Playing REALLY fast..."
 
 let drumstickSpinningBadResult points =
     Styles.Level.bad
@@ -76,14 +69,11 @@ let drumstickSpinningGoodResult points =
     Styles.Level.great
         $"""Wooooooah. {points} {Generic.simplePluralOf "point" points}"""
 
-let guitarSoloDoingSomeTapping =
-    Styles.progress "Doing some tapping..."
+let guitarSoloDoingSomeTapping = Styles.progress "Doing some tapping..."
 
-let guitarSoloPlayingReallyFast =
-    Styles.progress "Playing REALLY fast..."
+let guitarSoloPlayingReallyFast = Styles.progress "Playing REALLY fast..."
 
-let guitarSoloPlayingWithTeeth =
-    Styles.progress "Playing with teeth..."
+let guitarSoloPlayingWithTeeth = Styles.progress "Playing with teeth..."
 
 let playSongLimitedEnergyDescription =
     Styles.progress
@@ -219,8 +209,7 @@ let makeCrowdSingGreatPerformance points =
     Styles.Level.great
         $"That was amazing! The entire crowd was singing along you. That's {points} points"
 
-let speechProgress =
-    "Blablablaba... Blablaba... Bla..."
+let speechProgress = "Blablablaba... Blablaba... Bla..."
 
 let speechGivenLowSkill points =
     Styles.Level.bad

@@ -4,14 +4,12 @@ open Aether
 open Entities
 
 let private applyToUnfinished bandId op =
-    let unfinishedSongLens =
-        Lenses.FromState.Songs.unfinishedByBand_ bandId
+    let unfinishedSongLens = Lenses.FromState.Songs.unfinishedByBand_ bandId
 
     Optic.map unfinishedSongLens op
 
 let private applyToFinished bandId op =
-    let finishedSongLens =
-        Lenses.FromState.Songs.finishedByBand_ bandId
+    let finishedSongLens = Lenses.FromState.Songs.finishedByBand_ bandId
 
     Optic.map finishedSongLens op
 

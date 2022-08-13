@@ -23,8 +23,7 @@ let private showSelection choice =
 /// <param name="choices">Sequence of options to show to the user</param>
 /// <returns>The selected item</returns>
 let showChoicePrompt<'a> title optionTextFn (choices: 'a seq) =
-    let mutable selectionPrompt =
-        SelectionPrompt<'a>()
+    let mutable selectionPrompt = SelectionPrompt<'a>()
 
     selectionPrompt.Title <- title
     selectionPrompt <- selectionPrompt.AddChoices(choices)
@@ -72,8 +71,7 @@ let showOptionalChoicePrompt title backText optionTextFn choices =
 /// <param name="choices">Sequence of options to show to the user</param>
 /// <returns>The selected item(s)</returns>
 let showMultiChoicePrompt<'a> title optionTextFn (choices: 'a seq) =
-    let mutable multiSelectionPrompt =
-        MultiSelectionPrompt<'a>()
+    let mutable multiSelectionPrompt = MultiSelectionPrompt<'a>()
 
     multiSelectionPrompt.Title <- title
 

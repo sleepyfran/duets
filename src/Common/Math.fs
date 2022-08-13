@@ -15,6 +15,8 @@ let clampFloat (min: float) (max: float) (value: float) =
 /// Rounds a float to its nearest int.
 let roundToNearest (flt: float) = System.Math.Round(flt) |> int
 
+/// Ceils a float to its upper nearest integer value.
+let ceil (flt: float) = System.Math.Ceiling flt
+
 /// Rounds a float to its upper nearest int.
-let ceilToNearest (flt: float) =
-    System.Math.Ceiling flt |> roundToNearest
+let ceilToNearest (flt: float) = ceil flt |> roundToNearest

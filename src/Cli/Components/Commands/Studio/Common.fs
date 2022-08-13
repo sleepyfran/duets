@@ -18,8 +18,7 @@ module Studio =
     /// Shows a prompt that asks the user if they want to release an album and
     /// handles the release.
     let rec promptToReleaseAlbum band unreleasedAlbum =
-        let (UnreleasedAlbum album) =
-            unreleasedAlbum
+        let (UnreleasedAlbum album) = unreleasedAlbum
 
         let state = State.get ()
 

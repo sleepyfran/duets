@@ -18,8 +18,7 @@ module DrinkCommand =
             (fun args ->
                 let input = args |> String.concat " "
 
-                let item =
-                    Queries.Inventory.findByName (State.get ()) input
+                let item = Queries.Inventory.findByName (State.get ()) input
 
                 match item with
                 | Some item ->

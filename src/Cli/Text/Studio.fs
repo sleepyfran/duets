@@ -20,11 +20,9 @@ let createTrackListPrompt =
 let confirmRecordingPrompt name albumRecordType =
     $"""Are you sure you want to record {Styles.album name}? Given its track-list it will be released as a {Styles.information (Generic.albumType albumRecordType)}"""
 
-let createErrorNameTooShort =
-    Styles.error "The name of the album is too short"
+let createErrorNameTooShort = Styles.error "The name of the album is too short"
 
-let createErrorNameTooLong =
-    Styles.error "The name of the album is too long"
+let createErrorNameTooLong = Styles.error "The name of the album is too long"
 
 let createErrorNotEnoughMoney studioBill =
     Styles.error
@@ -33,26 +31,20 @@ let createErrorNotEnoughMoney studioBill =
 let createAlbumRecorded albumName =
     Styles.success $"Your band just finished recording {albumName}!"
 
-let createProgressEatingSnacks =
-    Styles.progress "Eating some snacks"
+let createProgressEatingSnacks = Styles.progress "Eating some snacks"
 
 let createProgressRecordingWeirdSounds =
     Styles.progress "Recording weird sounds"
 
-let createProgressMovingKnobs =
-    Styles.progress "Moving knobs up and down"
+let createProgressMovingKnobs = Styles.progress "Moving knobs up and down"
 
-let continueRecordPrompt =
-    "Which record do you want to continue working on?"
+let continueRecordPrompt = "Which record do you want to continue working on?"
 
-let continueRecordActionPrompt =
-    "What do you want to do with this album?"
+let continueRecordActionPrompt = "What do you want to do with this album?"
 
-let continueRecordActionPromptEditName =
-    "Edit name"
+let continueRecordActionPromptEditName = "Edit name"
 
-let continueRecordActionPromptRelease =
-    "Release"
+let continueRecordActionPromptRelease = "Release"
 
 let continueRecordAlbumRenamed albumName =
     Styles.success $"""The album was renamed to "{albumName}"""
