@@ -7,6 +7,9 @@ let clamp (min: int<_>) (max: int<_>) (value: int<_>) =
     else if value > max then max
     else value
 
+/// Wraps clamp passing the value twice so that only the lower bound is clamped.
+let lowerClamp (min: int<_>) (value: int<_>) = clamp min value value
+
 /// Wraps Math.Clamp, which returns a clamped value between the inclusive range
 /// of min and max.
 let clampFloat (min: float) (max: float) (value: float) =

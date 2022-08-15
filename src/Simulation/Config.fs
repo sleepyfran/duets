@@ -24,6 +24,22 @@ module MusicSimulation =
     /// of 10ths the bigger the fame of the band.
     let baseNonFanStreamCap = 100000000.0
 
+    /// Indicates the percentage of the crowd of a concert that the band will
+    /// lose as fans after getting low points on a concert.
+    let concertLowPointFanDecreaseRate = -0.30
+
+    /// Indicates the percentage of the crowd of a concert that the band will
+    /// gain as fans after getting medium points on a concert.
+    let concertMediumPointFanIncreaseRate = 0.15
+
+    /// Indicates the percentage of the crowd of a concert that the band will
+    /// gain as fans after getting good points on a concert.
+    let concertGoodPointFanIncreaseRate = 0.25
+
+    /// Indicates the percentage of the crowd of a concert that the band will
+    /// gain as fans after getting high points on a concert.
+    let concertHighPointFanIncreaseRate = 0.5
+
     /// Base amount of people that is willing to listen to a genre. When
     /// multiplied with the market point of a genre market, it gives the actual
     /// amount of people interested in a genre in a specific point in time.
