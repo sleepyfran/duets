@@ -17,7 +17,7 @@ let bandStatisticsSubScene statisticsApp =
     let tableRows =
         [ Phone.statisticsAppBandName band.Name
           Phone.statisticsAppBandStartDate band.StartDate
-          $"{band.Fans}" ]
+          Phone.statisticsAppBandFans band.Fans ]
 
     showTable tableColumns [ tableRows ]
 

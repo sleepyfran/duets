@@ -78,11 +78,11 @@ let schedulerAssistantAppDateAlreadyBooked date =
 
 let schedulerAssistantAppTicketPriceBelowZero price =
     Styles.error
-        $"The price can't be below zero! {Generic.formatNumber price} is not valid"
+        $"The price can't be below zero! {Styles.number price} is not valid"
 
 let schedulerAssistantAppTicketPriceTooHigh price =
     Styles.error
-        $"{Generic.formatNumber price} is a bit too high for a concert. Maybe a bit less?"
+        $"{Styles.number price} is a bit too high for a concert. Maybe a bit less?"
 
 let schedulerAssistantAppTicketDone (place: Place) concert =
     $"""Done! You scheduled a concert in {Styles.place place.Name} on {Styles.highlight (Generic.formatDate concert.Date)}. Be sure to be in the place at the moment of the concert, {Styles.danger "otherwise it'd fail miserably!"}"""
@@ -103,7 +103,10 @@ let statisticsAppBandStartDateHeader = Styles.header "Playing since"
 let statisticsAppBandFansHeader = Styles.header "Fans"
 
 let statisticsAppBandName name = Styles.title name
+
 let statisticsAppBandStartDate (date: Date) = Styles.highlight date.Year
+
+let statisticsAppBandFans = Styles.number
 
 let statisticsAppAlbumNoEntries = "No albums released yet"
 
@@ -124,6 +127,6 @@ let statisticsAppAlbumReleaseDate date =
     Styles.highlight (Generic.formatDate date)
 
 let statisticsAppAlbumStreams streams =
-    Styles.highlight (Generic.formatNumber streams)
+    Styles.highlight (Styles.number streams)
 
 let statisticsAppAlbumRevenue revenue = Styles.money revenue

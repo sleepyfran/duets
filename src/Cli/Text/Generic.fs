@@ -161,9 +161,6 @@ let pluralOf singular plural quantity =
 let simplePluralOf singular quantity =
     pluralOf singular $"{singular}s" quantity
 
-/// Formats a number with the thousands specifier.
-let formatNumber (amount: 'a) = System.String.Format("{0:#,0}", amount)
-
 /// Formats a date to the dd/mm/yyyy format.
 /// TODO: Figure out why localization does not work when using
 /// ToString("d", CurrentCulture).
