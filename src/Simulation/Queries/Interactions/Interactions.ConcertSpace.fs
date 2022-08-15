@@ -53,9 +53,6 @@ module ConcertSpace =
                     instrumentInteractions state ongoingConcert
 
                 [ Interaction.Concert(
-                      ConcertInteraction.FinishConcert ongoingConcert
-                  )
-                  Interaction.Concert(
                       ConcertInteraction.GiveSpeech ongoingConcert
                   )
                   Interaction.Concert(
