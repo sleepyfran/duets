@@ -221,14 +221,6 @@ let private commandsFromInteractions interactions =
 let worldScene () =
     lineBreak ()
 
-    let mood, health, energy, fame =
-        Queries.Characters.playableCharacterAttribute4
-            (State.get ())
-            CharacterAttribute.Mood
-            CharacterAttribute.Health
-            CharacterAttribute.Energy
-            CharacterAttribute.Fame
-
     let today = Queries.Calendar.today (State.get ())
 
     let currentDayMoment = Calendar.Query.dayMomentOf today
