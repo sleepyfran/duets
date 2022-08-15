@@ -1,0 +1,557 @@
+{
+  "Bands": [
+    [
+      "279c4489-374a-4141-8429-2ac0a726b929",
+      {
+        "Id": "279c4489-374a-4141-8429-2ac0a726b929",
+        "StartDate": "2015-01-01T06:00:00",
+        "Name": "Vessels",
+        "Genre": "Jazz",
+        "Fans": 65509,
+        "Members": [
+          {
+            "CharacterId": "7adb13f0-46d8-49be-8c62-881ac6d90a93",
+            "Role": {
+              "Case": "Bass"
+            },
+            "Since": "2015-02-04T06:00:00"
+          },
+          {
+            "CharacterId": "5fe82a61-7087-4cc4-bb4c-0af85668670f",
+            "Role": {
+              "Case": "Drums"
+            },
+            "Since": "2015-01-11T06:00:00"
+          },
+          {
+            "CharacterId": "7c97d0b9-9708-4141-a844-c7ea0a082b8f",
+            "Role": {
+              "Case": "Guitar"
+            },
+            "Since": "2015-01-01T06:00:00"
+          }
+        ],
+        "PastMembers": []
+      }
+    ]
+  ],
+  "BandAlbumRepertoire": {
+    "UnreleasedAlbums": [
+      [
+        "279c4489-374a-4141-8429-2ac0a726b929",
+        []
+      ]
+    ],
+    "ReleasedAlbums": [
+      [
+        "279c4489-374a-4141-8429-2ac0a726b929",
+        [
+          [
+            "74bb96f5-6a24-4ffc-97b3-530b17e606e3",
+            {
+              "Album": {
+                "Id": "74bb96f5-6a24-4ffc-97b3-530b17e606e3",
+                "Name": "Midnights",
+                "TrackList": [
+                  [
+                    {
+                      "Id": "78dd98d7-f390-4081-8fb9-34c35df7c4b8",
+                      "Name": "Midnight In Prague",
+                      "Length": {
+                        "Minutes": 12,
+                        "Seconds": 34
+                      },
+                      "VocalStyle": {
+                        "Case": "Instrumental"
+                      },
+                      "Genre": "Jazz",
+                      "Practice": 74
+                    },
+                    80
+                  ],
+                  [
+                    {
+                      "Id": "d257e064-4261-4e26-a3da-b69b06429a86",
+                      "Name": "Baby Blue",
+                      "Length": {
+                        "Minutes": 8,
+                        "Seconds": 34
+                      },
+                      "VocalStyle": {
+                        "Case": "Instrumental"
+                      },
+                      "Genre": "Jazz",
+                      "Practice": 85
+                    },
+                    100
+                  ],
+                  [
+                    {
+                      "Id": "d2ba7131-c6c9-45ea-a837-a504e7a917fd",
+                      "Name": "Through My Veins",
+                      "Length": {
+                        "Minutes": 18,
+                        "Seconds": 12
+                      },
+                      "VocalStyle": {
+                        "Case": "Instrumental"
+                      },
+                      "Genre": "Jazz",
+                      "Practice": 100
+                    },
+                    94
+                  ]
+                ],
+                "Type": {
+                  "Case": "LP"
+                }
+              },
+              "ReleaseDate": "2015-06-15T00:00:00",
+              "Streams": 21929,
+              "Hype": 0.1
+            }
+          ]
+        ]
+      ]
+    ]
+  },
+  "BandSongRepertoire": {
+    "UnfinishedSongs": [
+      [
+        "279c4489-374a-4141-8429-2ac0a726b929",
+        []
+      ]
+    ],
+    "FinishedSongs": [
+      [
+        "279c4489-374a-4141-8429-2ac0a726b929",
+        []
+      ]
+    ]
+  },
+  "BankAccounts": [
+    [
+      {
+        "Case": "Character",
+        "Fields": [
+          "7c97d0b9-9708-4141-a844-c7ea0a082b8f"
+        ]
+      },
+      {
+        "Holder": {
+          "Case": "Character",
+          "Fields": [
+            "7c97d0b9-9708-4141-a844-c7ea0a082b8f"
+          ]
+        },
+        "Balance": 10000
+      }
+    ],
+    [
+      {
+        "Case": "Band",
+        "Fields": [
+          "279c4489-374a-4141-8429-2ac0a726b929"
+        ]
+      },
+      {
+        "Holder": {
+          "Case": "Band",
+          "Fields": [
+            "279c4489-374a-4141-8429-2ac0a726b929"
+          ]
+        },
+        "Balance": 25092
+      }
+    ]
+  ],
+  "Characters": [
+    [
+      "5fe82a61-7087-4cc4-bb4c-0af85668670f",
+      {
+        "Id": "5fe82a61-7087-4cc4-bb4c-0af85668670f",
+        "Name": "Suzette Beasley",
+        "Birthday": "1993-01-01T06:00:00",
+        "Gender": {
+          "Case": "Female"
+        },
+        "Attributes": [
+          [
+            {
+              "Case": "Energy"
+            },
+            100
+          ],
+          [
+            {
+              "Case": "Health"
+            },
+            100
+          ],
+          [
+            {
+              "Case": "Mood"
+            },
+            100
+          ]
+        ]
+      }
+    ],
+    [
+      "7adb13f0-46d8-49be-8c62-881ac6d90a93",
+      {
+        "Id": "7adb13f0-46d8-49be-8c62-881ac6d90a93",
+        "Name": "Angie Carpenter",
+        "Birthday": "1996-01-01T06:00:00",
+        "Gender": {
+          "Case": "Female"
+        },
+        "Attributes": [
+          [
+            {
+              "Case": "Energy"
+            },
+            100
+          ],
+          [
+            {
+              "Case": "Health"
+            },
+            100
+          ],
+          [
+            {
+              "Case": "Mood"
+            },
+            100
+          ]
+        ]
+      }
+    ],
+    [
+      "7c97d0b9-9708-4141-a844-c7ea0a082b8f",
+      {
+        "Id": "7c97d0b9-9708-4141-a844-c7ea0a082b8f",
+        "Name": "James Vessel",
+        "Birthday": "1996-02-10T00:00:00",
+        "Gender": {
+          "Case": "Male"
+        },
+        "Attributes": [
+          [
+            {
+              "Case": "Energy"
+            },
+            100
+          ],
+          [
+            {
+              "Case": "Health"
+            },
+            100
+          ],
+          [
+            {
+              "Case": "Mood"
+            },
+            100
+          ]
+        ]
+      }
+    ]
+  ],
+  "CharacterSkills": [
+    [
+      "5fe82a61-7087-4cc4-bb4c-0af85668670f",
+      [
+        [
+          {
+            "Case": "Composition"
+          },
+          [
+            {
+              "Id": {
+                "Case": "Composition"
+              },
+              "Category": {
+                "Case": "Music"
+              }
+            },
+            94
+          ]
+        ],
+        [
+          {
+            "Case": "Genre",
+            "Fields": [
+              "Jazz"
+            ]
+          },
+          [
+            {
+              "Id": {
+                "Case": "Genre",
+                "Fields": [
+                  "Jazz"
+                ]
+              },
+              "Category": {
+                "Case": "Music"
+              }
+            },
+            94
+          ]
+        ],
+        [
+          {
+            "Case": "Instrument",
+            "Fields": [
+              {
+                "Case": "Drums"
+              }
+            ]
+          },
+          [
+            {
+              "Id": {
+                "Case": "Instrument",
+                "Fields": [
+                  {
+                    "Case": "Drums"
+                  }
+                ]
+              },
+              "Category": {
+                "Case": "Music"
+              }
+            },
+            97
+          ]
+        ]
+      ]
+    ],
+    [
+      "7adb13f0-46d8-49be-8c62-881ac6d90a93",
+      [
+        [
+          {
+            "Case": "Composition"
+          },
+          [
+            {
+              "Id": {
+                "Case": "Composition"
+              },
+              "Category": {
+                "Case": "Music"
+              }
+            },
+            99
+          ]
+        ],
+        [
+          {
+            "Case": "Genre",
+            "Fields": [
+              "Jazz"
+            ]
+          },
+          [
+            {
+              "Id": {
+                "Case": "Genre",
+                "Fields": [
+                  "Jazz"
+                ]
+              },
+              "Category": {
+                "Case": "Music"
+              }
+            },
+            94
+          ]
+        ],
+        [
+          {
+            "Case": "Instrument",
+            "Fields": [
+              {
+                "Case": "Bass"
+              }
+            ]
+          },
+          [
+            {
+              "Id": {
+                "Case": "Instrument",
+                "Fields": [
+                  {
+                    "Case": "Bass"
+                  }
+                ]
+              },
+              "Category": {
+                "Case": "Music"
+              }
+            },
+            99
+          ]
+        ]
+      ]
+    ],
+    [
+      "7c97d0b9-9708-4141-a844-c7ea0a082b8f",
+      [
+        [
+          {
+            "Case": "Composition"
+          },
+          [
+            {
+              "Id": {
+                "Case": "Composition"
+              },
+              "Category": {
+                "Case": "Music"
+              }
+            },
+            100
+          ]
+        ],
+        [
+          {
+            "Case": "Genre",
+            "Fields": [
+              "Jazz"
+            ]
+          },
+          [
+            {
+              "Id": {
+                "Case": "Genre",
+                "Fields": [
+                  "Jazz"
+                ]
+              },
+              "Category": {
+                "Case": "Music"
+              }
+            },
+            99
+          ]
+        ],
+        [
+          {
+            "Case": "Instrument",
+            "Fields": [
+              {
+                "Case": "Guitar"
+              }
+            ]
+          },
+          [
+            {
+              "Id": {
+                "Case": "Instrument",
+                "Fields": [
+                  {
+                    "Case": "Guitar"
+                  }
+                ]
+              },
+              "Category": {
+                "Case": "Music"
+              }
+            },
+            89
+          ]
+        ]
+      ]
+    ]
+  ],
+  "Concerts": [
+    [
+      "279c4489-374a-4141-8429-2ac0a726b929",
+      {
+        "ScheduledEvents": [
+          {
+            "Case": "ScheduledConcert",
+            "Fields": [
+              {
+                "Id": "580b32fb-cf84-4431-b8fc-dc41e4288e6a",
+                "CityId": "cea284b4-7714-45cc-a101-c1d69e347671",
+                "VenueId": "1a08f39b-714e-4e26-bc8c-f07744af1777",
+                "Date": "2015-08-07T00:00:00",
+                "DayMoment": {
+                  "Case": "Dusk"
+                },
+                "TicketPrice": 15,
+                "TicketsSold": 646
+              },
+              "2015-07-20T06:00:00"
+            ]
+          }
+        ],
+        "PastEvents": []
+      }
+    ]
+  ],
+  "CurrentBandId": "279c4489-374a-4141-8429-2ac0a726b929",
+  "CurrentPosition": [
+    "cea284b4-7714-45cc-a101-c1d69e347671",
+    {
+      "Case": "Node",
+      "Fields": [
+        "1a08f39b-714e-4e26-bc8c-f07744af1777"
+      ]
+    }
+  ],
+  "GenreMarkets": {
+    "Ambient": {
+      "MarketPoint": 1.4787674162450961,
+      "Fluctuation": 0.1485552603558116
+    },
+    "Black Metal": {
+      "MarketPoint": 1.463219315904597,
+      "Fluctuation": 0.567255768877148
+    },
+    "Blackgaze": {
+      "MarketPoint": 2.9058771308591482,
+      "Fluctuation": 0.364561835243731
+    },
+    "Electronic": {
+      "MarketPoint": 2.17985073286797,
+      "Fluctuation": 0.40643581077621627
+    },
+    "Folk": {
+      "MarketPoint": 4.92573255366694,
+      "Fluctuation": 1.0102047494079545
+    },
+    "Hip-Hop": {
+      "MarketPoint": 0.7664059119314253,
+      "Fluctuation": 0.5446368595849035
+    },
+    "Jazz": {
+      "MarketPoint": 2.8931133793575037,
+      "Fluctuation": 0.7692043336181964
+    },
+    "Pop": {
+      "MarketPoint": 2.1472918428112426,
+      "Fluctuation": 0.15413992492507603
+    },
+    "Rock": {
+      "MarketPoint": 3.180899448038655,
+      "Fluctuation": 0.9832548774547586
+    },
+    "Shoegaze": {
+      "MarketPoint": 0.9664970905651014,
+      "Fluctuation": 0.6510844399685113
+    }
+  },
+  "CharacterInventory": [],
+  "PlayableCharacterId": "7c97d0b9-9708-4141-a844-c7ea0a082b8f",
+  "Situation": {
+    "Case": "FreeRoam"
+  },
+  "Today": "2015-08-07T20:00:00"
+}
