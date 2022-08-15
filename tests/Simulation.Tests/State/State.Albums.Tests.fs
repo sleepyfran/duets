@@ -1,4 +1,5 @@
-module Simulation.State.Tests.Albums
+module Simulation.Tests.State.Albums
+
 
 
 open FsUnit

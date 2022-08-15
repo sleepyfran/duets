@@ -1,4 +1,5 @@
-module Simulation.State.Tests.Skills
+module Simulation.Tests.State.Skills
+
 
 
 open FsUnit
@@ -11,8 +12,7 @@ open Entities
 open Simulation
 open Simulation.Queries
 
-let skill =
-    Skill.createWithLevel SkillId.Composition 10
+let skill = Skill.createWithLevel SkillId.Composition 10
 
 let querySkills character state =
     Skills.characterSkillsWithLevel state character

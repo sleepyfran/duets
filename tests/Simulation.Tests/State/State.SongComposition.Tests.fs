@@ -1,4 +1,5 @@
-module Simulation.State.Tests.SongComposition
+module Simulation.Tests.State.SongComposition
+
 
 
 open FsUnit
@@ -9,8 +10,7 @@ open Entities
 open Simulation
 open Simulation.Queries
 
-let unfinishedSong =
-    UnfinishedSong(dummySong), 35<quality>, 7<quality>
+let unfinishedSong = UnfinishedSong(dummySong), 35<quality>, 7<quality>
 
 let startSong () =
     SongStarted(dummyBand, unfinishedSong)
@@ -26,8 +26,7 @@ let SongStartedShouldAddUnfinishedSong () =
 let SongImprovedShouldReplaceUnfinishedSong () =
     let state = startSong ()
 
-    let improvedSong =
-        (UnfinishedSong dummySong, 35<quality>, 14<quality>)
+    let improvedSong = (UnfinishedSong dummySong, 35<quality>, 14<quality>)
 
     SongImproved(dummyBand, Diff(unfinishedSong, improvedSong))
     |> State.Root.applyEffect state

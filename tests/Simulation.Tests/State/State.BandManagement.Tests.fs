@@ -1,4 +1,5 @@
-module Simulation.State.Tests.BandManagement
+module Simulation.Tests.State.BandManagement
+
 
 
 open FsUnit
@@ -16,11 +17,9 @@ let hiredCharacter =
         Other
         (Calendar.Ops.addYears -18 Calendar.gameBeginning)
 
-let hiredMember =
-    Band.Member.from hiredCharacter.Id Guitar dummyToday
+let hiredMember = Band.Member.from hiredCharacter.Id Guitar dummyToday
 
-let memberSkills =
-    [ (Skill.createWithLevel SkillId.Composition 10) ]
+let memberSkills = [ (Skill.createWithLevel SkillId.Composition 10) ]
 
 let hireMember () =
     MemberHired(dummyBand, hiredCharacter, hiredMember, memberSkills)
@@ -59,8 +58,7 @@ let ``MemberFired should remove band member and add past member`` () =
     |> Bands.currentBandMembersWithoutPlayableCharacter
     |> should haveLength 1
 
-    let firedMember =
-        Band.PastMember.fromMember hiredMember dummyToday
+    let firedMember = Band.PastMember.fromMember hiredMember dummyToday
 
     let state =
         MemberFired(dummyBand, hiredMember, firedMember)

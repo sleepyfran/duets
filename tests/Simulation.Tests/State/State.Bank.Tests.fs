@@ -1,4 +1,5 @@
-module Simulation.State.Tests.Bank
+module Simulation.Tests.State.Bank
+
 
 
 open FsUnit
@@ -16,8 +17,7 @@ let testBalance createTransfer expectedBalance =
         createTransfer holder
         |> State.Root.applyEffect dummyState
 
-    let balanceLenses =
-        Lenses.FromState.BankAccount.balanceOf_ holder
+    let balanceLenses = Lenses.FromState.BankAccount.balanceOf_ holder
 
     let balance =
         Optic.get balanceLenses state
