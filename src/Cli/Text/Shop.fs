@@ -12,8 +12,7 @@ let itemType t = Generic.itemTypeDetail t
 
 let itemPrice price = Styles.money price
 
-let itemInteractiveRow item =
-    $"{item.Brand} ({Styles.money item.Price})"
+let itemInteractiveRow (item, price) = $"{item.Brand} ({Styles.money price})"
 
 let itemPrompt = "Which item do you want to order?"
 

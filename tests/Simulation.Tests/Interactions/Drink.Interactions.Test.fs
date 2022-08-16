@@ -9,18 +9,19 @@ open Entities
 open Simulation
 open Simulation.Interactions
 
-let state =
-    State.generateOne State.defaultOptions
+let state = State.generateOne State.defaultOptions
 
-let character =
-    Queries.Characters.playableCharacter state
+let character = Queries.Characters.playableCharacter state
 
 [<Test>]
 let ``Drinking a beer of 500ml and 4.4 in alcohol increases drunkenness by 6``
     ()
     =
     let effects =
-        Items.consume state Data.Items.Drink.Beer.pilsnerUrquellPint Items.Drink
+        Items.consume
+            state
+            (fst Data.Items.Drink.Beer.pilsnerUrquellPint)
+            Items.Drink
         |> Result.unwrap
 
     effects
@@ -38,7 +39,7 @@ let ``Drinking a beer of 500ml and 5.4 in alcohol increases drunkenness by 8``
     ()
     =
     let effects =
-        Items.consume state Data.Items.Drink.Beer.matushkaPint Items.Drink
+        Items.consume state (fst Data.Items.Drink.Beer.matushkaPint) Items.Drink
         |> Result.unwrap
 
     effects
@@ -56,7 +57,7 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
     ()
     =
     let effects =
-        Items.consume state Data.Items.Drink.Beer.matushkaPint Items.Drink
+        Items.consume state (fst Data.Items.Drink.Beer.matushkaPint) Items.Drink
         |> Result.unwrap
 
     let updatedState =
@@ -65,12 +66,11 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
     let updatedEffects =
         Items.consume
             updatedState
-            Data.Items.Drink.Beer.matushkaPint
+            (fst Data.Items.Drink.Beer.matushkaPint)
             Items.Drink
         |> Result.unwrap
 
-    let updatedCharacter =
-        Queries.Characters.playableCharacter updatedState
+    let updatedCharacter = Queries.Characters.playableCharacter updatedState
 
     updatedEffects
     |> List.item 1
@@ -84,8 +84,7 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
 
 [<Test>]
 let ``Drinking any item should remove it from the inventory`` () =
-    let item =
-        Data.Items.Drink.Beer.pilsnerUrquellPint
+    let item = fst Data.Items.Drink.Beer.pilsnerUrquellPint
 
     let effects =
         Items.consume state item Items.Drink

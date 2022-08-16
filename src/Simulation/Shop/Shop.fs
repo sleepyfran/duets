@@ -9,10 +9,10 @@ type ItemOrderError =
     | NotEnoughFunds
 
 /// Attempts to order an item checking if the character has enough money.
-let order state item =
+let order state (item, price) =
     let characterAccount = Queries.Bank.playableCharacterAccount state
 
-    let paymentStatus = expense state characterAccount item.Price
+    let paymentStatus = expense state characterAccount price
 
     match paymentStatus with
     | Ok paymentEffects -> paymentEffects @ [ InventoryItemAdded item ] |> Ok
@@ -24,7 +24,7 @@ let order state item =
 let orderByName state name availableItems =
     let foundItem =
         availableItems
-        |> List.tryFind (fun item ->
+        |> List.tryFind (fun (item, _) ->
             String.diacriticInsensitiveContains name item.Brand)
 
     match foundItem with

@@ -18,10 +18,10 @@ module ItemTypes =
         | Food of FoodItemType
 
     /// Defines an item of the game that can be consumed by the player.
-    type Item =
-        { Price: Amount
-          Brand: string
-          Type: ItemType }
+    type Item = { Brand: string; Type: ItemType }
+
+    /// Defines an item that can be purchased, with the item itself and its price.
+    type PurchasableItem = Item * Amount
 
     /// Defines the inventory of the character.
     type Inventory = Item list

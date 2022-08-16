@@ -7,7 +7,7 @@ module Shop =
         let multiplier = shop.PriceModifier / 1<multiplier>
 
         shop.AvailableItems
-        |> List.map (fun item -> { item with Price = item.Price * multiplier })
+        |> List.map (fun (item, price) -> item, price * multiplier)
 
     /// Gather all available interactions inside a bar, calculating all the final
     /// prices of the items in the menu.

@@ -53,9 +53,9 @@ module InteractionTypes =
     type BarInteraction =
         /// Allows the character to order a certain item from a selection of
         /// available items in a bar.
-        | Order of Item list
+        | Order of PurchasableItem list
         /// Allows the character to peek at the available items on the bar.
-        | SeeMenu of Item list
+        | SeeMenu of PurchasableItem list
 
     /// Interactions that can be done when the character is at home.
     [<RequireQualifiedAccess>]

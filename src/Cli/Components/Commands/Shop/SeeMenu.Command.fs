@@ -8,7 +8,7 @@ open Entities
 [<RequireQualifiedAccess>]
 module SeeMenuCommand =
     /// Command to display the menu available on a restaurant or bar.
-    let create (availableItems: Item list) =
+    let create (availableItems: PurchasableItem list) =
         { Name = "see menu"
           Description = Command.seeMenuDescription
           Handler =
@@ -20,10 +20,10 @@ module SeeMenuCommand =
 
                 let tableRows =
                     availableItems
-                    |> List.map (fun item ->
+                    |> List.map (fun (item, price) ->
                         [ item.Brand
                           Shop.itemType item.Type
-                          Shop.itemPrice item.Price ])
+                          Shop.itemPrice price ])
 
                 showTable tableColumns tableRows
 
