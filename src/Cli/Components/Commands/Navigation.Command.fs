@@ -20,12 +20,16 @@ module NavigationCommand =
     let private westCommand = "w"
     let private northWestCommand = "nw"
 
-    let private handle coordinates _ =
+    let private handle coordinates =
         State.get ()
         |> Navigation.moveTo coordinates
-        |> Result.switch Cli.Effect.apply Common.showEntranceError
-
-        Scene.World
+        |> Result.switch
+            (fun effect ->
+                Cli.Effect.apply effect
+                Scene.WorldAfterMovement)
+            (fun error ->
+                Common.showEntranceError error
+                Scene.World)
 
     /// Creates a set of commands with the available direction as the name which,
     /// when executed, moves the player towards that direction.
@@ -43,4 +47,10 @@ module NavigationCommand =
 
         { Name = commandName
           Description = Command.directionDescription direction
-          Handler = handle coordinates }
+          Handler =
+            fun _ ->
+                World.movementDescription direction |> showMessage
+
+                wait 1000<millisecond>
+
+                handle coordinates }

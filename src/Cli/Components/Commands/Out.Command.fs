@@ -16,8 +16,12 @@ module OutCommand =
           Description = Command.outDescription
           Handler =
             (fun _ ->
+                World.outDescription |> showMessage
+
+                wait 1000<millisecond>
+
                 State.get ()
                 |> Navigation.moveTo (Node exitNodeId)
                 |> Result.switch Cli.Effect.apply Common.showEntranceError
 
-                Scene.World) }
+                Scene.WorldAfterMovement) }

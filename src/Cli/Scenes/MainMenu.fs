@@ -33,7 +33,8 @@ let rec mainMenu savegameState =
     if savegameState = Savegame.Incompatible then
         MainMenu.incompatibleSavegame |> showMessage
 
-    let hasSavegameAvailable = savegameState = Savegame.Available
+    let hasSavegameAvailable =
+        savegameState = Savegame.Available
 
     let selectedChoice =
         showOptionalChoicePrompt
@@ -45,12 +46,13 @@ let rec mainMenu savegameState =
 
     match selectedChoice with
     | Some NewGame -> createNewGame savegameState hasSavegameAvailable
-    | Some LoadGame -> Scene.World
+    | Some LoadGame -> Scene.WorldAfterMovement
     | None -> Scene.Exit
 
 and private createNewGame savegameState hasSavegameAvailable =
     if hasSavegameAvailable then
-        let confirmed = showConfirmationPrompt MainMenu.newGameReplacePrompt
+        let confirmed =
+            showConfirmationPrompt MainMenu.newGameReplacePrompt
 
         if confirmed then
             Scene.CharacterCreator

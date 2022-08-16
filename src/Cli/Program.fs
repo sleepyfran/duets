@@ -35,10 +35,14 @@ let rec showScene scene =
     | Scene.BandCreator character ->
         BandCreator.bandCreator character |> showScene
     | Scene.Phone -> Phone.Root.phoneScene () |> showScene
-    | Scene.World -> World.worldScene () |> showScene
+    | Scene.World ->
+        World.worldScene World.IgnoreDescription
+        |> showScene
+    | Scene.WorldAfterMovement ->
+        World.worldScene World.ShowDescription
+        |> showScene
     | Scene.Exit ->
         Savegame.saveSync ()
-
         ()
 
 [<EntryPoint>]

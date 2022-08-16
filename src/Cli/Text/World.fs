@@ -6,6 +6,11 @@ open Entities
 
 let title = "World"
 
+let movementDescription direction =
+    $"You make your way to the {Generic.directionName direction}..."
+
+let outDescription = "You make your way out"
+
 let streetDescription name descriptors =
     $"""{Styles.place name} is a {Generic.listOf descriptors (Generic.descriptorText >> String.lowercase)} street"""
 
@@ -51,7 +56,8 @@ let backstageDescription space =
 let barDescription (space: Place) =
     $"""With a lot of overpriced drinks and a bunch of drunk people lining up for the concert, the bar of {Styles.place space.Name} doesn't look as bad as you'd imagine."""
 
-let bedroomDescription = "Your silent bedroom is looking great and cozy."
+let bedroomDescription =
+    "Your silent bedroom is looking great and cozy."
 
 let kitchenDescription =
     "You still have some rest of yesterday's food, but otherwise the kitchen is very clean."
