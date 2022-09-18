@@ -100,6 +100,7 @@ let private commandsFromInteractions interactions =
             | FreeRoamInteraction.GoOut (exit, _) -> [ OutCommand.create exit ]
             | FreeRoamInteraction.Inventory inventory ->
                 [ InventoryCommand.create inventory ]
+            | FreeRoamInteraction.Look items -> [ LookCommand.create items ]
             | FreeRoamInteraction.Move (direction, nodeId) ->
                 [ NavigationCommand.create direction nodeId ]
             | FreeRoamInteraction.Phone -> [ PhoneCommand.get ]

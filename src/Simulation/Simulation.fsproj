@@ -20,6 +20,7 @@
         <Compile Include="Queries\Bands.fs" />
         <Compile Include="Queries\Concerts.fs" />
         <Compile Include="Queries\Inventory.fs" />
+        <Compile Include="Queries\Items.fs"/>
         <Compile Include="Queries\World\World.fs" />
         <Compile Include="Queries\World\ConcertSpace.fs" />
         <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Health.fs" />

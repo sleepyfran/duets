@@ -3,7 +3,6 @@ namespace Cli.Components.Commands
 open Cli.Components
 open Cli.SceneIndex
 open Cli.Text
-open Entities
 
 [<RequireQualifiedAccess>]
 module InventoryCommand =
@@ -15,12 +14,12 @@ module InventoryCommand =
           Handler =
             fun _ ->
                 if List.isEmpty inventory then
-                    Inventory.noItems |> showMessage
+                    Items.noItemsInventory |> showMessage
                 else
-                    Inventory.itemsCurrentlyCarrying |> showMessage
+                    Items.itemsCurrentlyCarrying |> showMessage
 
                     inventory
-                    |> List.map Inventory.itemRow
+                    |> List.map Items.itemRow
                     |> List.iter showMessage
 
                 Scene.World }

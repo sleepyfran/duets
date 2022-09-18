@@ -18,16 +18,20 @@ module DrinkCommand =
             (fun args ->
                 let input = args |> String.concat " "
 
-                let item = Queries.Inventory.findByName (State.get ()) input
+                let currentCoords =
+                    Queries.World.Common.currentWorldCoordinates (State.get ())
+
+                let item =
+                    Queries.Items.findByName (State.get ()) currentCoords input
 
                 match item with
                 | Some item ->
                     match Items.consume (State.get ()) item Items.Drink with
                     | Ok effects ->
-                        Inventory.drunkItem |> showMessage
+                        Items.drunkItem |> showMessage
                         wait 1000<millisecond>
                         effects |> Cli.Effect.applyMultiple
-                    | Error _ -> Inventory.itemNotDrinkable |> showMessage
-                | None -> Inventory.itemNotFound input |> showMessage
+                    | Error _ -> Items.itemNotDrinkable |> showMessage
+                | None -> Items.itemNotFound input |> showMessage
 
                 Scene.World) }

@@ -58,13 +58,18 @@ module State =
     let today_ =
         (fun (s: State) -> s.Today), (fun v (s: State) -> { s with Today = v })
 
+    let worldItems_ =
+        (fun (s: State) -> s.WorldItems),
+        (fun v (s: State) -> { s with WorldItems = v })
+
 module Album =
     let streams_ =
         (fun (a: ReleasedAlbum) -> a.Streams),
         (fun v (a: ReleasedAlbum) -> { a with Streams = v })
 
 module Band =
-    let id_ = (fun (c: Band) -> c.Id), (fun v (c: Band) -> { c with Id = v })
+    let id_ =
+        (fun (c: Band) -> c.Id), (fun v (c: Band) -> { c with Id = v })
 
     let fans_ =
         (fun (b: Band) -> b.Fans), (fun v (b: Band) -> { b with Fans = v })
@@ -200,9 +205,11 @@ module World =
             (fun (c: City) -> c.Index),
             (fun v (c: City) -> { c with Index = v })
 
-        let startingNode_ = graph_ >-> Graph.startingNode_
+        let startingNode_ =
+            graph_ >-> Graph.startingNode_
 
-        let connections_ = graph_ >-> Graph.connections_
+        let connections_ =
+            graph_ >-> Graph.connections_
 
         let nodes_ = graph_ >-> Graph.nodes_
 

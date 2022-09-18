@@ -44,10 +44,12 @@ module Common =
         | Room (_, roomId) -> Some roomId
         | Node _ -> None
 
-    /// Returns the content of the given coordinates and an optional
-    /// ID to a room inside that place (if any).
-    let rec coordinates state coords =
-        let cityId, _ = state.CurrentPosition
+    /// Returns the current full world coordinates of the character.
+    let currentWorldCoordinates state = state.CurrentPosition
+
+    /// Returns of the content of the given coordinates inside of the given
+    /// city.
+    let rec coordinatesInCity cityId coords =
         let world = World.get ()
 
         let city =
@@ -87,12 +89,21 @@ module Common =
                         { Coordinates = nodeId
                           Node = outsideNode } }
             | CityNode.Place place ->
-                coordinates state (Room(nodeId, place.Rooms.StartingNode))
+                coordinatesInCity
+                    cityId
+                    (Room(nodeId, place.Rooms.StartingNode))
+
+    /// Returns the content of the given coordinates and an optional
+    /// ID to a room inside that place (if any).
+    let rec coordinates state coords =
+        let cityId, _ = state.CurrentPosition
+        coordinatesInCity cityId coords
 
     /// Returns the content of the current position of the player and an optional
     /// ID to a room inside that place (if any).
     let currentPosition state =
-        let (_, nodeCoordinates) = state.CurrentPosition
+        let (_, nodeCoordinates) =
+            state.CurrentPosition
 
         coordinates state nodeCoordinates
 
@@ -101,7 +112,8 @@ module Common =
     /// point to a non-place node.
     /// </summary>
     let coordinatesOfPlace state coords =
-        let resolvedCoords = coordinates state coords
+        let resolvedCoords =
+            coordinates state coords
 
         match resolvedCoords.Content with
         | ResolvedPlaceCoordinates placeCoords -> Some placeCoords
@@ -112,18 +124,42 @@ module Common =
     /// coordinates point to a non-outside node.
     /// </summary>
     let coordinatesOfOutsideNode state coords =
-        let resolvedCoords = coordinates state coords
+        let resolvedCoords =
+            coordinates state coords
 
         match resolvedCoords.Content with
         | ResolvedOutsideCoordinates outsideCoords -> Some outsideCoords
         | _ -> None
 
-    /// Returns the list of coordinates to a given type of place in the current city.
-    let coordinatesOf state spaceTypeKey =
-        let position = currentPosition state
+    /// Returns the list of coordinates of a given type of place in the given city.
+    let coordinatesOfSpacesIn city spaceTypeKey =
+        let spaceTypeLens =
+            Lenses.World.City.index_ >-> Map.key_ spaceTypeKey
 
-        let spaceTypeLens = Lenses.World.City.index_ >-> Map.key_ spaceTypeKey
-
-        position.City
+        city
         |> Optic.get spaceTypeLens
         |> Option.defaultValue []
+
+
+    /// Returns the list of coordinates of a given type of a place and room
+    /// in the given city.
+    let coordinatesOfRoomsIn
+        city
+        spaceTypeKey
+        roomTypeKey
+        : RoomCoordinates list =
+        coordinatesOfSpacesIn city spaceTypeKey
+        |> List.map (Node >> coordinatesInCity city.Id)
+        |> List.collect (fun node ->
+            match node.Content with
+            | ResolvedPlaceCoordinates placeCoords ->
+                placeCoords.Place.RoomIndex
+                |> Map.tryFind roomTypeKey
+                |> Option.defaultValue []
+                |> List.map (fst placeCoords.Coordinates |> Tuple.two)
+            | _ -> [])
+
+    /// Returns the list of coordinates to a given type of place in the current city.
+    let coordinatesOf state =
+        let position = currentPosition state
+        coordinatesOfSpacesIn position.City

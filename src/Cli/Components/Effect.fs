@@ -15,7 +15,8 @@ open Simulation
 /// </summary>
 /// <param name="effect">Effect to apply</param>
 let rec apply effect =
-    let effects, state = Simulation.tick (State.get ()) effect
+    let effects, state =
+        Simulation.tick (State.get ()) effect
 
     State.set state
 
@@ -102,9 +103,12 @@ and private displayEffect effect =
             Concert.failedBandMissing band coordinates.Place concert
         | CharacterPassedOut -> Concert.failedCharacterPassedOut
         |> showMessage
-    | InventoryItemAdded item -> Inventory.itemAdded item.Brand |> showMessage
-    | InventoryItemRemoved item ->
-        Inventory.itemRemoved item.Brand |> showMessage
+    | ItemAddedToInventory item ->
+        Items.itemAddedToInventory item.Brand
+        |> showMessage
+    | ItemRemovedFromInventory item ->
+        Items.itemRemovedFromInventory item.Brand
+        |> showMessage
     | MoneyTransferred (holder, transaction) ->
         Phone.bankAppTransferSuccess holder transaction
         |> showMessage
@@ -138,9 +142,11 @@ and private displayEffect effect =
             currentLevel
         |> showMessage
     | Wait _ ->
-        let today = Queries.Calendar.today (State.get ())
+        let today =
+            Queries.Calendar.today (State.get ())
 
-        let currentDayMoment = Calendar.Query.dayMomentOf today
+        let currentDayMoment =
+            Calendar.Query.dayMomentOf today
 
         Command.waitResult today currentDayMoment
         |> showMessage

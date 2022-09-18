@@ -47,7 +47,7 @@ module Interactions =
         | RoomType.Bar bar -> Shop.barInteractions bar
         | _ -> []
 
-    let private getInventoryInteractions (items: Item list) =
+    let private getItemInteractions (items: Item list) =
         items
         |> Set.ofList
         |> Set.map (fun item ->
@@ -62,15 +62,25 @@ module Interactions =
     /// be later transformed into the actual flow.
     /// </summary>
     let availableCurrently state =
-        let currentPosition = Queries.World.Common.currentPosition state
+        let currentPosition =
+            Queries.World.Common.currentPosition state
+
+        let currentWorldCoords =
+            Queries.World.Common.currentWorldCoordinates state
 
         let inventory = Queries.Inventory.get state
 
-        let inventoryInteractions = getInventoryInteractions inventory
+        let itemsInPlace =
+            Queries.Items.allIn state currentWorldCoords
+
+        let itemInteractions =
+            inventory @ itemsInPlace |> getItemInteractions
 
         let defaultInteractions =
-            inventoryInteractions
+            itemInteractions
             @ [ FreeRoamInteraction.Inventory inventory
+                |> Interaction.FreeRoam
+                FreeRoamInteraction.Look itemsInPlace
                 |> Interaction.FreeRoam
                 Interaction.FreeRoam FreeRoamInteraction.Phone
                 Interaction.FreeRoam FreeRoamInteraction.Wait ]

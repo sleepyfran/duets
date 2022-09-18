@@ -2,6 +2,13 @@
 
 [<AutoOpen>]
 module ItemTypes =
+    /// Defines where an item is placed in the game.
+    [<RequireQualifiedAccess>]
+    type ItemLocation =
+        | Inventory
+        | World
+        | Nowhere
+
     /// Defines all types of drinks available in the game.
     type DrinkItemType =
         | Beer of amount: int<milliliter> * alcoholContent: float
@@ -9,6 +16,7 @@ module ItemTypes =
 
     /// Defines all types of food available in the game.
     type FoodItemType =
+        | Burger of amount: int<gram>
         | Fries of amount: int<gram>
         | Nachos of amount: int<gram>
 

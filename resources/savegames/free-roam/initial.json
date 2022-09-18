@@ -538,5 +538,6 @@
 	"Situation": {
 		"Case": "FreeRoam"
 	},
-	"Today": "2015-07-20T06:00:00"
+	"Today": "2015-07-20T06:00:00",
+	"WorldItems": []
 }

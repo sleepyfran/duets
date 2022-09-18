@@ -7,7 +7,8 @@ open Entities
 let applyEffect state effect =
     match effect with
     | AlbumRecorded (band, album) ->
-        let modifiedState = Albums.addUnreleased band album state
+        let modifiedState =
+            Albums.addUnreleased band album state
 
         let (UnreleasedAlbum ua) = album
 
@@ -18,7 +19,8 @@ let applyEffect state effect =
                 Songs.removeFinished band song currentState)
             modifiedState
     | AlbumRenamed (band, unreleasedAlbum) ->
-        let (UnreleasedAlbum album) = unreleasedAlbum
+        let (UnreleasedAlbum album) =
+            unreleasedAlbum
 
         Albums.removeUnreleased band album.Id state
         |> Albums.addUnreleased band unreleasedAlbum
@@ -41,7 +43,8 @@ let applyEffect state effect =
     | ConcertScheduled (band, concert) ->
         Concerts.addScheduledConcert band concert state
     | ConcertUpdated (band, scheduledConcert) ->
-        let concert = Concert.fromScheduled scheduledConcert
+        let concert =
+            Concert.fromScheduled scheduledConcert
 
         Concerts.removeScheduledConcert band concert state
         |> Concerts.addScheduledConcert band scheduledConcert
@@ -57,8 +60,9 @@ let applyEffect state effect =
         |> Concerts.addPastConcert band pastConcert
     | GameCreated state -> state
     | GenreMarketsUpdated genreMarkets -> Market.set genreMarkets state
-    | InventoryItemAdded item -> Inventory.add item state
-    | InventoryItemRemoved item -> Inventory.remove item state
+    | ItemAddedToInventory item -> Inventory.add item state
+    | ItemRemovedFromInventory item -> Inventory.remove item state
+    | ItemRemovedFromWorld (coords, item) -> World.remove coords item state
     | MemberHired (band, character, currentMember, skills) ->
         let stateWithMember =
             Characters.add character state
@@ -93,7 +97,8 @@ let applyEffect state effect =
         Songs.removeFinished band song.Id state
         |> Songs.addFinished band finishedSong
     | SongDiscarded (band, unfinishedSong) ->
-        let song = Song.fromUnfinished unfinishedSong
+        let song =
+            Song.fromUnfinished unfinishedSong
 
         Songs.removeUnfinished band song.Id state
     | SituationChanged situation ->

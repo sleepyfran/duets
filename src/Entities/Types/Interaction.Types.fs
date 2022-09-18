@@ -82,6 +82,8 @@ module InteractionTypes =
         | GoOut of exit: NodeId * coordinates: ResolvedOutsideCoordinates
         /// Allows the user to see what they are currently carrying.
         | Inventory of inventory: Item list
+        /// Allows the user to look around and see which objects are available.
+        | Look of items: Item list
         /// Allows movement into the specified direction.
         | Move of direction: Direction * coordinates: NodeCoordinates
         /// Allows the character to use the phone.

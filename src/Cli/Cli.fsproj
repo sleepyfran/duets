@@ -15,7 +15,7 @@
         <Compile Include="Text\Creator.fs" />
         <Compile Include="Text\Events.fs" />
         <Compile Include="Text\Interaction.fs" />
-        <Compile Include="Text\Inventory.fs" />
+        <Compile Include="Text\Items.fs"/>
         <Compile Include="Text\MainMenu.fs" />
         <Compile Include="Text\Phone.fs" />
         <Compile Include="Text\Rehearsal.fs" />
@@ -91,6 +91,7 @@
         <Compile Include="Program.fs" />
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="AvsAn" Version="3.2.0"/>
         <PackageReference Include="FSharpx.Extras" Version="3.0.0" />
         <PackageReference Include="RadLine" Version="0.6.0"/>
         <PackageReference Include="Spectre.Console" Version="0.44.0" />

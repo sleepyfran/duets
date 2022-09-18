@@ -1,6 +1,7 @@
 [<RequireQualifiedAccess>]
 module Cli.Text.Generic
 
+open AvsAnLib
 open Common
 open Entities
 
@@ -85,6 +86,10 @@ let possessiveAdjectiveForGender gender =
     | Male -> "His"
     | Female -> "Her"
     | Other -> "Its"
+
+/// Returns the indeterminate article 'a' or 'an' that should precede a given
+/// word.
+let indeterminateArticleFor word = (AvsAn.Query word).Article
 
 /// Returns the correct conjugation for the given verb that matches with the
 /// specified gender.
@@ -205,13 +210,16 @@ let noUnfinishedSongs =
 let back = Styles.faded "Go back"
 let cancel = Styles.faded "Cancel"
 
-let backToMainMenu = Styles.faded "Back to main menu"
+let backToMainMenu =
+    Styles.faded "Back to main menu"
 
 let backToMap = Styles.faded "Back to map"
 
-let backToPhone = Styles.faded "Back to phone"
+let backToPhone =
+    Styles.faded "Back to phone"
 
-let backToWorld = Styles.faded "Back to world"
+let backToWorld =
+    Styles.faded "Back to world"
 
 let nothing = Styles.faded "Nothing"
 
@@ -260,6 +268,7 @@ let itemType itemType =
         | Cola _ -> "Cola"
     | Food food ->
         match food with
+        | Burger _ -> "Burger"
         | Fries _ -> "Fries"
         | Nachos _ -> "Nachos"
 
@@ -272,5 +281,18 @@ let itemTypeDetail itemType =
         | Cola ml -> $"""{Styles.item "Cola"} ({ml}ml)"""
     | Food food ->
         match food with
+        | Burger mg -> $"""{Styles.item "Burger"} ({mg} mg)"""
         | Fries mg -> $"""{Styles.item "Fries"} ({mg} mg)"""
         | Nachos mg -> $"""{Styles.item "Nachos"} ({mg} mg)"""
+
+let itemName (item: Item) =
+    match item.Type with
+    | Drink drink ->
+        match drink with
+        | Beer _ -> $"{item.Brand} beer"
+        | Cola _ -> "cola"
+    | Food food ->
+        match food with
+        | Burger _ -> "burger"
+        | Fries _ -> "fries"
+        | Nachos _ -> "nachos"

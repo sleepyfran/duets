@@ -95,7 +95,7 @@ module WorldTypes =
     /// place with the outside.
     type Place =
         { Rooms: Graph<RoomType>
-          RoomIndex: Map<RoomType, NodeId list>
+          RoomIndex: Map<RoomTypeIndex, NodeId list>
           Exits: Map<NodeId, NodeId>
           Name: string
           Quality: Quality
@@ -183,6 +183,9 @@ module WorldTypes =
     type ResolvedCityCoordinates =
         { City: City
           Content: ResolvedCoordinates }
+
+    /// Contains all the items that a specific location has.
+    type WorldItems = Map<WorldCoordinates, Item list>
 
     /// Defines the game world which contains all cities.
     type World = { Cities: Map<CityId, City> }

@@ -9,9 +9,11 @@ open Entities
 open Simulation
 open Simulation.Interactions
 
-let state = State.generateOne State.defaultOptions
+let state =
+    State.generateOne State.defaultOptions
 
-let character = Queries.Characters.playableCharacter state
+let character =
+    Queries.Characters.playableCharacter state
 
 [<Test>]
 let ``Drinking a beer of 500ml and 4.4 in alcohol increases drunkenness by 6``
@@ -25,7 +27,7 @@ let ``Drinking a beer of 500ml and 4.4 in alcohol increases drunkenness by 6``
         |> Result.unwrap
 
     effects
-    |> List.item 1
+    |> List.item 0
     |> should
         equal
         (CharacterAttributeChanged(
@@ -43,7 +45,7 @@ let ``Drinking a beer of 500ml and 5.4 in alcohol increases drunkenness by 8``
         |> Result.unwrap
 
     effects
-    |> List.item 1
+    |> List.item 0
     |> should
         equal
         (CharacterAttributeChanged(
@@ -61,7 +63,7 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
         |> Result.unwrap
 
     let updatedState =
-        Simulation.State.Root.applyEffect state (effects |> List.item 1)
+        Simulation.State.Root.applyEffect state (effects |> List.item 0)
 
     let updatedEffects =
         Items.consume
@@ -70,10 +72,11 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
             Items.Drink
         |> Result.unwrap
 
-    let updatedCharacter = Queries.Characters.playableCharacter updatedState
+    let updatedCharacter =
+        Queries.Characters.playableCharacter updatedState
 
     updatedEffects
-    |> List.item 1
+    |> List.item 0
     |> should
         equal
         (CharacterAttributeChanged(
@@ -83,8 +86,14 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
         ))
 
 [<Test>]
-let ``Drinking any item should remove it from the inventory`` () =
-    let item = fst Data.Items.Drink.Beer.pilsnerUrquellPint
+let ``Drinking an item should remove it from the inventory if it was there``
+    ()
+    =
+    let item =
+        fst Data.Items.Drink.Beer.pilsnerUrquellPint
+
+    let state =
+        state |> State.Inventory.add item
 
     let effects =
         Items.consume state item Items.Drink
@@ -92,4 +101,13 @@ let ``Drinking any item should remove it from the inventory`` () =
 
     effects
     |> List.item 0
-    |> should equal (InventoryItemRemoved item)
+    |> should equal (ItemRemovedFromInventory item)
+
+[<Test>]
+let ``Drinking non-drink items should not be allowed`` () =
+    let item =
+        fst Data.Items.Food.FastFood.genericBurger
+
+    Items.consume state item Items.Drink
+    |> Result.unwrapError
+    |> should be (ofCase <@@ Items.ActionNotPossible @@>)

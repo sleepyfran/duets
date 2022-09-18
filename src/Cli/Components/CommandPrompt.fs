@@ -128,9 +128,7 @@ let private editor availableCommands =
 let rec showCommandPrompt title availableCommands =
     let commandsWithEssentials =
         availableCommands
-        @ [ ExitCommand.get
-            LookCommand.get
-            MeCommand.get ]
+        @ [ ExitCommand.get; MeCommand.get ]
         |> fun commands -> [ HelpCommand.create commands ] @ commands
 
     let prompt = editor commandsWithEssentials

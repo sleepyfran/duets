@@ -17,4 +17,5 @@ let empty =
       CharacterInventory = List.empty
       PlayableCharacterId = Identity.create () |> CharacterId
       Situation = FreeRoam
-      Today = Calendar.gameBeginning }
+      Today = Calendar.gameBeginning
+      WorldItems = Map.empty }

@@ -24,8 +24,9 @@ module EffectTypes =
         | ConcertCancelled of Band * PastConcert
         | GameCreated of State
         | GenreMarketsUpdated of GenreMarketByGenre
-        | InventoryItemAdded of Item
-        | InventoryItemRemoved of Item
+        | ItemAddedToInventory of Item
+        | ItemRemovedFromInventory of Item
+        | ItemRemovedFromWorld of WorldCoordinates * Item
         | MemberHired of Band * Character * CurrentMember * SkillWithLevel list
         | MemberFired of Band * CurrentMember * PastMember
         | MoneyEarned of BankAccountHolder * BankTransaction

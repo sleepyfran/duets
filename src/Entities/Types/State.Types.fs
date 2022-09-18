@@ -18,4 +18,5 @@ module StateTypes =
           CharacterInventory: Inventory
           PlayableCharacterId: CharacterId
           Situation: Situation
-          Today: Date }
+          Today: Date
+          WorldItems: WorldItems }

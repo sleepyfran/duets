@@ -60,26 +60,41 @@ module Node =
 
 [<RequireQualifiedAccess>]
 module Place =
+    let private addToIndex (node: Node<RoomType>) index =
+        let mapKey =
+            match node.Content with
+            | RoomType.Backstage -> RoomTypeIndex.Backstage
+            | RoomType.Bar _ -> RoomTypeIndex.Bar
+            | RoomType.Bedroom -> RoomTypeIndex.Bedroom
+            | RoomType.Kitchen -> RoomTypeIndex.Kitchen
+            | RoomType.LivingRoom -> RoomTypeIndex.LivingRoom
+            | RoomType.Lobby -> RoomTypeIndex.Lobby
+            | RoomType.MasteringRoom -> RoomTypeIndex.MasteringRoom
+            | RoomType.RecordingRoom -> RoomTypeIndex.RecordingRoom
+            | RoomType.RehearsalRoom -> RoomTypeIndex.RehearsalRoom
+            | RoomType.Stage -> RoomTypeIndex.Stage
+
+        Map.change
+            mapKey
+            (fun list ->
+                match list with
+                | Some list -> list @ [ node.Id ] |> Some
+                | None -> [ node.Id ] |> Some)
+            index
+
     /// Creates a place with the given initial room and no exits.
     let create name quality spaceType startingNode =
         { Name = name
           Quality = quality
           SpaceType = spaceType
           Rooms = Graph.from startingNode
-          RoomIndex =
-            [ (startingNode.Content, [ startingNode.Id ]) ]
-            |> Map.ofList
+          RoomIndex = addToIndex startingNode Map.empty
           Exits = Map.empty }
 
     /// Adds a room to the place.
     let addRoom room place =
         Optic.map Lenses.World.Place.rooms_ (Graph.addNode room) place
-        |> Optic.map
-            Lenses.World.Place.roomIndex_
-            (Map.change room.Content (fun list ->
-                match list with
-                | Some list -> list @ [ room.Id ] |> Some
-                | None -> [ room.Id ] |> Some))
+        |> Optic.map Lenses.World.Place.roomIndex_ (addToIndex room)
 
     /// Adds a connection between two room nodes in the specified direction.
     let addConnection
