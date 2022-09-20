@@ -57,23 +57,24 @@ module InteractionTypes =
         /// Allows the character to peek at the available items on the bar.
         | SeeMenu of PurchasableItem list
 
-    /// Interactions that can be done when the character is at home.
+    /// Interactions that can be done to consume an item in particular.
     [<RequireQualifiedAccess>]
-    type HomeInteraction =
-        /// Allows the character to sleep to restore health.
+    type ConsumableItemInteraction =
+        | Drink
         | Eat
-        /// Allows the character to play Xbox to restore mood.
-        | PlayXbox
-        /// Allows the character to sleep and restore health and energy.
-        | Sleep
-        /// Allows the character to watch TV to restore mood.
-        | WatchTv
 
     /// Interactions that can be done referencing an item in particular.
     [<RequireQualifiedAccess>]
+    type InteractiveItemInteraction =
+        | Sleep
+        | Play
+        | Watch
+
+    /// Interactions related to items in the world or the character's inventory.
+    [<RequireQualifiedAccess>]
     type ItemInteraction =
-        | Drink
-        | Eat
+        | Consumable of ConsumableItemInteraction
+        | Interactive of InteractiveItemInteraction
 
     /// Interactions related to moving around the world.
     [<RequireQualifiedAccess>]
@@ -131,7 +132,6 @@ module InteractionTypes =
     [<RequireQualifiedAccess>]
     type Interaction =
         | Concert of ConcertInteraction
-        | Home of HomeInteraction
         | Item of ItemInteraction
         | FreeRoam of FreeRoamInteraction
         | Rehearsal of RehearsalInteraction

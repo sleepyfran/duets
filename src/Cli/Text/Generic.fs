@@ -260,39 +260,36 @@ let songWithDetails name quality length =
 let instrument instrumentType = instrumentName instrumentType
 let role instrumentType = roleName instrumentType
 
-let itemType itemType =
-    match itemType with
-    | Drink drink ->
-        match drink with
-        | Beer _ -> "Beer"
-        | Cola _ -> "Cola"
-    | Food food ->
-        match food with
-        | Burger _ -> "Burger"
-        | Fries _ -> "Fries"
-        | Nachos _ -> "Nachos"
-
-let itemTypeDetail itemType =
-    match itemType with
-    | Drink drink ->
-        match drink with
-        | Beer (ml, alcohol) ->
-            $"""{Styles.item "Beer"} ({ml}ml, {alcohol}%%)"""
-        | Cola ml -> $"""{Styles.item "Cola"} ({ml}ml)"""
-    | Food food ->
-        match food with
-        | Burger mg -> $"""{Styles.item "Burger"} ({mg} mg)"""
-        | Fries mg -> $"""{Styles.item "Fries"} ({mg} mg)"""
-        | Nachos mg -> $"""{Styles.item "Nachos"} ({mg} mg)"""
-
 let itemName (item: Item) =
     match item.Type with
-    | Drink drink ->
+    | Consumable (Drink drink) ->
         match drink with
         | Beer _ -> $"{item.Brand} beer"
         | Cola _ -> "cola"
-    | Food food ->
+    | Consumable (Food food) ->
         match food with
         | Burger _ -> "burger"
         | Fries _ -> "fries"
         | Nachos _ -> "nachos"
+    | Interactive (Electronics electronic) ->
+        match electronic with
+        | GameConsole -> item.Brand
+        | TV -> $"{item.Brand} TV"
+    | Interactive (Furniture furniture) ->
+        match furniture with
+        | Bed -> "bed"
+    |> Styles.item
+
+let itemNameWithDetail (item: Item) =
+    match item.Type with
+    | Consumable (Drink drink) ->
+        match drink with
+        | Beer (ml, alcohol) ->
+            $"""{Styles.item "Beer"} ({ml}ml, {alcohol}%%)"""
+        | Cola ml -> $"""{Styles.item "Cola"} ({ml}ml)"""
+    | Consumable (Food food) ->
+        match food with
+        | Burger mg -> $"""{Styles.item "Burger"} ({mg} mg)"""
+        | Fries mg -> $"""{Styles.item "Fries"} ({mg} mg)"""
+        | Nachos mg -> $"""{Styles.item "Nachos"} ({mg} mg)"""
+    | Interactive _ -> itemName item

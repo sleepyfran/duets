@@ -20,13 +20,13 @@
         <Compile Include="Queries\Bands.fs" />
         <Compile Include="Queries\Concerts.fs" />
         <Compile Include="Queries\Inventory.fs" />
-        <Compile Include="Queries\Items.fs"/>
         <Compile Include="Queries\World\World.fs" />
         <Compile Include="Queries\World\ConcertSpace.fs" />
+        <Compile Include="Queries\Items.fs"/>
         <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Health.fs" />
+        <Compile Include="Queries\Interactions\Interactions.Items.fs"/>
         <Compile Include="Queries\Interactions\Interactions.ConcertSpace.fs" />
         <Compile Include="Queries\Interactions\Interactions.RehearsalSpace.fs" />
-        <Compile Include="Queries\Interactions\Interactions.Home.fs" />
         <Compile Include="Queries\Interactions\Interactions.Shop.fs" />
         <Compile Include="Queries\Interactions\Interactions.Studio.fs" />
         <Compile Include="Queries\Interactions\Interactions.fs" />
@@ -60,8 +60,8 @@
         <Compile Include="Bands\Members.fs" />
         <Compile Include="Skills\ImproveSkills.Common.fs" />
         <Compile Include="Skills\ImproveSkills.Composition.fs" />
-        <Compile Include="Interactions\Home.Interactions.fs" />
         <Compile Include="Interactions\Items\Drink.Interactions.fs" />
+        <Compile Include="Interactions\Items\Food.Interactions.fs"/>
         <Compile Include="Interactions\Items\Item.Interactions.fs" />
         <Compile Include="Concerts\DailyUpdate.fs" />
         <Compile Include="Concerts\Scheduler.fs" />

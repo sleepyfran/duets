@@ -22,7 +22,7 @@ module SeeMenuCommand =
                     availableItems
                     |> List.map (fun (item, price) ->
                         [ item.Brand
-                          Shop.itemType item.Type
+                          Shop.itemType item
                           Shop.itemPrice price ])
 
                 showTable tableColumns tableRows

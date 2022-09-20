@@ -44,8 +44,30 @@ module Common =
         | Room (_, roomId) -> Some roomId
         | Node _ -> None
 
-    /// Returns the current full world coordinates of the character.
-    let currentWorldCoordinates state = state.CurrentPosition
+    /// Returns the current full world coordinates of the character, always
+    /// giving the default starting node of a place if the coordinates pointing
+    /// to it are not entirely resolved.
+    let currentWorldCoordinates state =
+        let world = World.get ()
+        let cityId, coords = state.CurrentPosition
+
+        let fullCoords =
+            match coords with
+            | Node nodeId ->
+                let cityNode =
+                    Optic.get (Lenses.World.node_ cityId nodeId) world
+                    |> Option.get
+
+                (*
+                    If the coordinates are pointing to a place, resolve with the
+                    default starting node of the place.
+                *)
+                match cityNode with
+                | CityNode.Place place -> Room(nodeId, place.Rooms.StartingNode)
+                | _ -> Node nodeId
+            | _ -> coords
+
+        cityId, fullCoords
 
     /// Returns of the content of the given coordinates inside of the given
     /// city.

@@ -7,17 +7,35 @@ open Entities
 open Simulation
 open Simulation.Market
 
+let private addItemsIn city spaceType roomType (items: Item list) =
+    Queries.World.Common.coordinatesOfRoomsIn city spaceType roomType
+    |> List.map (fun coords -> ((city.Id, Room coords), items))
+
 let private initialWorldItems initialCity =
-    Queries.World.Common.coordinatesOfRoomsIn
-        initialCity
-        SpaceTypeIndex.Home
-        RoomTypeIndex.Kitchen
-    |> List.map (fun coords ->
-        let kitchenItems =
+    let kitchenItems =
+        addItemsIn
+            initialCity
+            SpaceTypeIndex.Home
+            RoomTypeIndex.Kitchen
             [ fst Food.FastFood.genericBurger
               fst Drink.Beer.kozelPint ]
 
-        ((initialCity.Id, Room coords), kitchenItems))
+    let bedroomItems =
+        addItemsIn
+            initialCity
+            SpaceTypeIndex.Home
+            RoomTypeIndex.Bedroom
+            [ fst Furniture.Bed.ikeaBed ]
+
+    let livingRoomItems =
+        addItemsIn
+            initialCity
+            SpaceTypeIndex.Home
+            RoomTypeIndex.LivingRoom
+            [ fst Electronics.Tv.lgTv
+              fst Electronics.GameConsole.xbox ]
+
+    kitchenItems @ bedroomItems @ livingRoomItems
     |> Map.ofList
 
 /// Sets up the initial game state based on the data provided by the user in

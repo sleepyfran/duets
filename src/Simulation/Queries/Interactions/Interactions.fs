@@ -47,15 +47,6 @@ module Interactions =
         | RoomType.Bar bar -> Shop.barInteractions bar
         | _ -> []
 
-    let private getItemInteractions (items: Item list) =
-        items
-        |> Set.ofList
-        |> Set.map (fun item ->
-            match item.Type with
-            | ItemType.Drink _ -> ItemInteraction.Drink |> Interaction.Item
-            | ItemType.Food _ -> ItemInteraction.Eat |> Interaction.Item)
-        |> List.ofSeq
-
     /// <summary>
     /// Returns all interactions that are available in the current context. This
     /// effectively returns all available actions in the current context that can
@@ -74,7 +65,8 @@ module Interactions =
             Queries.Items.allIn state currentWorldCoords
 
         let itemInteractions =
-            inventory @ itemsInPlace |> getItemInteractions
+            inventory @ itemsInPlace
+            |> Items.getItemInteractions
 
         let defaultInteractions =
             itemInteractions
@@ -104,9 +96,7 @@ module Interactions =
                         navigationInteractions
                         genericRoomInteractions
                         defaultInteractions
-                | Home ->
-                    Home.availableCurrently coords.Room
-                    @ navigationInteractions @ defaultInteractions
+                | Home -> navigationInteractions @ defaultInteractions
                 | Hospital -> navigationInteractions @ defaultInteractions
                 | RehearsalSpace _ ->
                     RehearsalSpace.availableCurrently state coords.Room

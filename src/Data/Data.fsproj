@@ -13,6 +13,8 @@
         </Content>
         <Compile Include="Items\Drink.Items.fs"/>
         <Compile Include="Items\Food.Items.fs"/>
+        <Compile Include="Items\Electronics.Items.fs"/>
+        <Compile Include="Items\Furniture.Items.fs"/>
         <Compile Include="Genres.fs"/>
         <Compile Include="Npcs.fs"/>
         <Compile Include="Roles.fs"/>

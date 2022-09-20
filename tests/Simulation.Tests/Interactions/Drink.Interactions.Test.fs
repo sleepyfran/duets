@@ -23,7 +23,7 @@ let ``Drinking a beer of 500ml and 4.4 in alcohol increases drunkenness by 6``
         Items.consume
             state
             (fst Data.Items.Drink.Beer.pilsnerUrquellPint)
-            Items.Drink
+            ConsumableItemInteraction.Drink
         |> Result.unwrap
 
     effects
@@ -41,7 +41,10 @@ let ``Drinking a beer of 500ml and 5.4 in alcohol increases drunkenness by 8``
     ()
     =
     let effects =
-        Items.consume state (fst Data.Items.Drink.Beer.matushkaPint) Items.Drink
+        Items.consume
+            state
+            (fst Data.Items.Drink.Beer.matushkaPint)
+            ConsumableItemInteraction.Drink
         |> Result.unwrap
 
     effects
@@ -59,7 +62,10 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
     ()
     =
     let effects =
-        Items.consume state (fst Data.Items.Drink.Beer.matushkaPint) Items.Drink
+        Items.consume
+            state
+            (fst Data.Items.Drink.Beer.matushkaPint)
+            ConsumableItemInteraction.Drink
         |> Result.unwrap
 
     let updatedState =
@@ -69,7 +75,7 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
         Items.consume
             updatedState
             (fst Data.Items.Drink.Beer.matushkaPint)
-            Items.Drink
+            ConsumableItemInteraction.Drink
         |> Result.unwrap
 
     let updatedCharacter =
@@ -96,7 +102,7 @@ let ``Drinking an item should remove it from the inventory if it was there``
         state |> State.Inventory.add item
 
     let effects =
-        Items.consume state item Items.Drink
+        Items.consume state item ConsumableItemInteraction.Drink
         |> Result.unwrap
 
     effects
@@ -108,6 +114,6 @@ let ``Drinking non-drink items should not be allowed`` () =
     let item =
         fst Data.Items.Food.FastFood.genericBurger
 
-    Items.consume state item Items.Drink
+    Items.consume state item ConsumableItemInteraction.Drink
     |> Result.unwrapError
     |> should be (ofCase <@@ Items.ActionNotPossible @@>)

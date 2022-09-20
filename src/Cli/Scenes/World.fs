@@ -64,37 +64,18 @@ let private commandsFromInteractions interactions =
                       Concert.takeMicMessage ]
             | ConcertInteraction.TuneInstrument ongoingConcert ->
                 [ TuneInstrumentCommand.create ongoingConcert ]
-        | Interaction.Home homeInteraction ->
-            match homeInteraction with
-            | HomeInteraction.Eat ->
-                [ Command.interaction
-                      "eat"
-                      Command.eatDescription
-                      (Interactions.Home.eat (State.get ()))
-                      Interaction.eatResult ]
-            | HomeInteraction.Sleep ->
-                [ Command.interaction
-                      "sleep"
-                      Command.sleepDescription
-                      // TODO: Allow player to choose how many hours they want to sleep.
-                      (Interactions.Home.sleep (State.get ()) 8)
-                      Interaction.sleepResult ]
-            | HomeInteraction.PlayXbox ->
-                [ Command.interaction
-                      "play xbox"
-                      Command.playXboxDescription
-                      (Interactions.Home.playXbox (State.get ()))
-                      Interaction.playXboxResult ]
-            | HomeInteraction.WatchTv ->
-                [ Command.interaction
-                      "watch tv"
-                      Command.watchTvDescription
-                      (Interactions.Home.watchTv (State.get ()))
-                      Interaction.watchTvResult ]
         | Interaction.Item itemInteraction ->
             match itemInteraction with
-            | ItemInteraction.Drink -> [ DrinkCommand.get ]
-            | ItemInteraction.Eat -> []
+            | ItemInteraction.Consumable ConsumableItemInteraction.Drink ->
+                [ ConsumeCommands.drink ]
+            | ItemInteraction.Consumable ConsumableItemInteraction.Eat ->
+                [ ConsumeCommands.eat ]
+            | ItemInteraction.Interactive InteractiveItemInteraction.Sleep ->
+                [ InteractiveCommand.sleep ]
+            | ItemInteraction.Interactive InteractiveItemInteraction.Play ->
+                [ InteractiveCommand.play ]
+            | ItemInteraction.Interactive InteractiveItemInteraction.Watch ->
+                [ InteractiveCommand.watch ]
         | Interaction.FreeRoam freeRoamInteraction ->
             match freeRoamInteraction with
             | FreeRoamInteraction.GoOut (exit, _) -> [ OutCommand.create exit ]

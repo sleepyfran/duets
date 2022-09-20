@@ -3,6 +3,7 @@ namespace Simulation.Queries
 open Aether
 open Common
 open Entities
+open Simulation
 
 module Items =
     /// Returns all the items currently available in the given coordinates.
@@ -11,12 +12,10 @@ module Items =
         |> Map.tryFind coords
         |> Option.defaultValue []
 
-    /// Attempts to find an item in the given world position or the character's
-    /// inventory by name.
-    let findByName state locationCoords name =
-        allIn state locationCoords @ Inventory.get state
-        |> List.tryFind (fun item ->
-            String.diacriticInsensitiveContains name item.Brand)
+    /// Returns all the items currently available in the current location.
+    let allInCurrentLocation state =
+        Queries.World.Common.currentWorldCoordinates state
+        |> allIn state
 
     /// Determines whether the given item is located in the given world location,
     /// the character's inventory or none of them.

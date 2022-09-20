@@ -8,13 +8,14 @@ let itemTypeHeader = Styles.header "Type"
 
 let itemPriceHeader = Styles.header "Price"
 
-let itemType t = Generic.itemTypeDetail t
+let itemType t = Generic.itemNameWithDetail t
 
 let itemPrice price = Styles.money price
 
 let itemInteractiveRow (item, price) = $"{item.Brand} ({Styles.money price})"
 
-let itemPrompt = "Which item do you want to order?"
+let itemPrompt =
+    "Which item do you want to order?"
 
 let itemNotFound input =
     Styles.error $"There's no \"{input}\" in the menu"
