@@ -1,0 +1,15 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="Button">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="#212121" />
+        <Setter Property="BorderBrush" Value="#414141" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="15" />
+    </Style>
+
+    <Style Selector="Button.exit">
+        <Setter Property="BorderBrush" Value="#B2474D" />
+    </Style>
+</Styles>
