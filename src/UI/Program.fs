@@ -16,6 +16,8 @@ type MainWindow() as this =
         base.MinHeight <- 720.0
         this.Content <- MainMenu.view
         this.Background <- Theme.Brush.bg
+        this.Padding <- Thickness(0, 10)
+        this.ExtendClientAreaToDecorationsHint <- true
 
 #if DEBUG
         this.AttachDevTools()
