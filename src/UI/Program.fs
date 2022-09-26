@@ -14,7 +14,8 @@ type MainWindow() as this =
         base.Title <- "UI"
         base.MinWidth <- 1280.0
         base.MinHeight <- 720.0
-        this.Content <- MainMenu.view
+        this.Content <- SceneRoot.view
+
         this.Background <- Theme.Brush.bg
         this.Padding <- Thickness(0, 10)
         this.ExtendClientAreaToDecorationsHint <- true

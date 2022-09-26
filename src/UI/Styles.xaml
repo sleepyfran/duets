@@ -1,15 +1,51 @@
 <Styles
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <SolidColorBrush x:Key="ContainerBg">#212121</SolidColorBrush>
+        <SolidColorBrush x:Key="Bg">#414141</SolidColorBrush>
+        <SolidColorBrush x:Key="Disabled">#1A1A1A</SolidColorBrush>
+        <SolidColorBrush x:Key="DisabledBorder">#424242</SolidColorBrush>
+        <SolidColorBrush x:Key="DestructiveOp">#B2474D</SolidColorBrush>
+        <SolidColorBrush x:Key="Selected">#47B2A6</SolidColorBrush>
+        <CornerRadius x:Key="DefaultRadius">4</CornerRadius>
+    </Styles.Resources>
+
     <Style Selector="Button">
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Background" Value="#212121" />
-        <Setter Property="BorderBrush" Value="#414141" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Background" Value="{DynamicResource ContainerBg}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Bg}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource DefaultRadius}" />
         <Setter Property="Padding" Value="15" />
     </Style>
 
-    <Style Selector="Button.exit">
-        <Setter Property="BorderBrush" Value="#B2474D" />
+    <Style Selector="Button:disabled /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource Disabled}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DisabledBorder}" />
     </Style>
+
+    <Style Selector="Button.menu">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
+
+    <Style Selector="Button.selected">
+        <Setter Property="Background" Value="{DynamicResource Selected}" />
+    </Style>
+
+    <Style Selector="Button.exit">
+        <Setter Property="BorderBrush" Value="{DynamicResource DestructiveOp}" />
+    </Style>
+
+    <Style Selector="TextBox">
+        <Setter Property="Background" Value="{DynamicResource Bg}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource DefaultRadius}" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style Selector="DatePicker">
+        <Setter Property="Background" Value="{DynamicResource Bg}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource DefaultRadius}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Height" Value="35" />
+    </Style>
+
 </Styles>

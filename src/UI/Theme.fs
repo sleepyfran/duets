@@ -17,3 +17,11 @@ module Brush =
 
     let destructive =
         ImmutableSolidColorBrush(Color.FromUInt32(Color.destructive))
+
+module Layout =
+    let borderThickness = 2
+
+module Padding =
+    let small = 5
+    let medium = 10
+    let big = 25

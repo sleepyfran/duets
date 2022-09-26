@@ -8,17 +8,30 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Theme.fs" />
-        <Compile Include="Scenes\MainMenu.fs" />
-        <Compile Include="Program.fs" />
-        <AvaloniaResource Include="**\*.xaml" />
+        <Compile Include="Theme.fs"/>
+        <Compile Include="Scene.fs"/>
+        <Compile Include="Components\Picker.fs"/>
+        <Compile Include="Components\Divider.fs"/>
+        <Compile Include="Scenes\NewGame.fs"/>
+        <Compile Include="Scenes\MainMenu.fs"/>
+        <Compile Include="Scenes\SceneRoot.fs"/>
+        <Compile Include="Program.fs"/>
+        <AvaloniaResource Include="**\*.xaml"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.12" />
-        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.12" />
-        <PackageReference Include="JaggerJo.Avalonia.FuncUI" Version="0.5.0" />
-        <PackageReference Include="JaggerJo.Avalonia.FuncUI.DSL" Version="0.5.0" />
-        <PackageReference Include="JaggerJo.Avalonia.FuncUI.Elmish" Version="0.5.0" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.12"/>
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.12"/>
+        <PackageReference Include="JaggerJo.Avalonia.FuncUI" Version="0.5.0"/>
+        <PackageReference Include="JaggerJo.Avalonia.FuncUI.DSL" Version="0.5.0"/>
+        <PackageReference Include="JaggerJo.Avalonia.FuncUI.Elmish" Version="0.5.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Agents\Agents.fsproj"/>
+        <ProjectReference Include="..\Common\Common.fsproj"/>
+        <ProjectReference Include="..\Data\Data.fsproj"/>
+        <ProjectReference Include="..\Entities\Entities.fsproj"/>
+        <ProjectReference Include="..\Simulation\Simulation.fsproj"/>
     </ItemGroup>
 </Project>
