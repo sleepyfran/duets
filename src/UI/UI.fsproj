@@ -10,8 +10,13 @@
     <ItemGroup>
         <Compile Include="Theme.fs"/>
         <Compile Include="Scene.fs"/>
+        <Compile Include="Store.fs"/>
+        <Compile Include="Text\Character.fs"/>
+        <Compile Include="Text\Music.fs"/>
+        <Compile Include="Hooks\Scene.Hook.fs"/>
         <Compile Include="Components\Picker.fs"/>
         <Compile Include="Components\Divider.fs"/>
+        <Compile Include="Components\Effect.fs"/>
         <Compile Include="Scenes\NewGame.fs"/>
         <Compile Include="Scenes\MainMenu.fs"/>
         <Compile Include="Scenes\SceneRoot.fs"/>

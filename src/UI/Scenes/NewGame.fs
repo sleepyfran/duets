@@ -1,26 +1,48 @@
 module UI.Scenes.NewGame
 
-open System
 open Avalonia.Controls
 open Avalonia.FuncUI
 open Avalonia.FuncUI.DSL
 open Avalonia.Layout
+open Common
 open Entities
+open Simulation.Setup
+open System
+open UI
 open UI.Components
+open UI.Hooks.Scene
+open UI.SceneIndex
 
-let private characterCreator
-    characterName
-    characterGender
-    (characterBirthday: IWritable<Date>)
-    =
+let characterState =
+    {|
+        Name = new State<string>("")
+        Gender = new State<Gender>(Gender.Other)
+        Birthday =
+            new State<Date>(
+                Calendar.gameBeginning
+                |> Calendar.Ops.addYears -18
+            )
+    |}
+
+let bandState =
+    {|
+        Name = new State<string>("")
+        Genre = new State<Genre>(Data.Genres.all |> List.head)
+        CharacterInstrument =
+            new State<InstrumentType>(Data.Roles.all |> List.head)
+    |}
+
+let private characterCreator =
     Component.create (
         "CharacterCreator",
         fun ctx ->
-            let name = ctx.usePassed characterName
-            let gender = ctx.usePassed characterGender
+            let name = ctx.usePassed characterState.Name
+
+            let gender =
+                ctx.usePassed characterState.Gender
 
             let birthday =
-                ctx.usePassed characterBirthday
+                ctx.usePassed characterState.Birthday
 
             let birthdaySelected (dateOffset: System.Nullable<DateTimeOffset>) =
                 birthday.Set dateOffset.Value.DateTime
@@ -41,17 +63,14 @@ let private characterCreator
                     ]
                     Picker.view
                         gender
-                        (function
-                        | Male -> "♂ Male"
-                        | Female -> "♀ Female"
-                        | Other -> "⚥ Other")
+                        Text.Character.gender
                         [ Male; Female; Other ]
 
                     TextBlock.create [
                         TextBlock.text "Birthday:"
                     ]
                     DatePicker.create [
-                        DatePicker.selectedDate characterBirthday.Current
+                        DatePicker.selectedDate birthday.Current
                         DatePicker.onSelectedDateChanged birthdaySelected
                         Calendar.gameBeginning.AddYears -18
                         |> DatePicker.maxYear
@@ -60,12 +79,15 @@ let private characterCreator
             ]
     )
 
-let private bandCreator bandName bandGenre =
+let private bandCreator =
     Component.create (
         "BandCreator",
         fun ctx ->
-            let name = ctx.usePassed bandName
-            let genre = ctx.usePassed bandGenre
+            let name = ctx.usePassed bandState.Name
+            let genre = ctx.usePassed bandState.Genre
+
+            let instrument =
+                ctx.usePassed bandState.CharacterInstrument
 
             StackPanel.create [
                 StackPanel.spacing 10
@@ -83,6 +105,11 @@ let private bandCreator bandName bandGenre =
                             "Genre: (you can always change this later)"
                     ]
                     Picker.view genre id Data.Genres.all
+
+                    TextBlock.create [
+                        TextBlock.text "Which instrument will you play?"
+                    ]
+                    Picker.view instrument Text.Music.roleName Data.Roles.all
                 ]
             ]
     )
@@ -91,26 +118,52 @@ let view =
     Component.create (
         "NewGame",
         fun ctx ->
-            let characterName = ctx.useState ""
+            let switchTo = ctx.useSceneSwitcher ()
+
+            let characterName =
+                ctx.usePassedRead characterState.Name
 
             let characterGender =
-                ctx.useState Gender.Other
+                ctx.usePassedRead characterState.Gender
 
             let characterBirthday =
-                Date.Now.AddYears -20 |> ctx.useState
+                ctx.usePassedRead characterState.Birthday
 
-            let bandName = ctx.useState ""
+            let bandName =
+                ctx.usePassedRead bandState.Name
 
             let bandGenre =
-                Data.Genres.all |> List.head |> ctx.useState
+                ctx.usePassedRead bandState.Genre
+
+            let characterInstrument =
+                ctx.usePassedRead bandState.CharacterInstrument
 
             let newGameEnabled =
-                (String.IsNullOrEmpty characterName.Current |> not)
-                && (String.IsNullOrEmpty bandName.Current |> not)
+                (Character.validateName characterName.Current
+                 |> Result.isOk)
+                && (Band.validateName bandName.Current |> Result.isOk)
 
             let onNewGame _ =
-                Console.WriteLine
-                    $"{characterName.Current} {characterGender.Current} {characterBirthday.Current} {bandName.Current} {bandGenre.Current}"
+                let character =
+                    Character.from
+                        characterName.Current
+                        characterGender.Current
+                        characterBirthday.Current
+
+                let band =
+                    Band.Member.from
+                        character.Id
+                        characterInstrument.Current
+                        Calendar.gameBeginning
+                    |> fun mem ->
+                        Band.from
+                            bandName.Current
+                            bandGenre.Current
+                            mem
+                            Calendar.gameBeginning
+
+                startGame character band |> Effect.apply
+                switchTo Scene.InGame
 
             StackPanel.create [
                 StackPanel.horizontalAlignment HorizontalAlignment.Center
@@ -122,13 +175,10 @@ let view =
                     ]
 
                     characterCreator
-                        characterName
-                        characterGender
-                        characterBirthday
 
                     Divider.view
 
-                    bandCreator bandName bandGenre
+                    bandCreator
 
                     Divider.view
 

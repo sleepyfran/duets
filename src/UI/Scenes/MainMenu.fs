@@ -8,6 +8,7 @@ open Avalonia.Layout
 open Avalonia.Media
 open UI
 open UI.SceneIndex
+open UI.Hooks.Scene
 
 type private MainMenuOption =
     | NewGame
@@ -22,13 +23,15 @@ let private gameVersion =
         .GetName()
         .Version.ToString()
 
-let view (scene: IWritable<Scene>) =
+let view =
     Component.create (
         "MainMenu",
-        fun _ ->
+        fun ctx ->
+            let switchTo = ctx.useSceneSwitcher ()
+
             let exit _ = System.Environment.Exit(0)
 
-            let newGame _ = scene.Set Scene.NewGame
+            let newGame _ = switchTo Scene.NewGame
 
             let savegameStatus = Savegame.load ()
 
@@ -37,42 +40,41 @@ let view (scene: IWritable<Scene>) =
                 | Savegame.Available -> true
                 | _ -> false
 
-            StackPanel.create [ StackPanel.horizontalAlignment
-                                    HorizontalAlignment.Center
-                                StackPanel.spacing 10
-                                StackPanel.children [ TextBlock.create [ TextBlock.text
-                                                                             "duets"
-                                                                         TextBlock.fontSize
-                                                                             64
-                                                                         TextBlock.fontWeight
-                                                                             FontWeight.Bold ]
+            StackPanel.create [
+                StackPanel.horizontalAlignment HorizontalAlignment.Center
+                StackPanel.spacing 10
+                StackPanel.children [
+                    TextBlock.create [
+                        TextBlock.text "duets"
+                        TextBlock.fontSize 64
+                        TextBlock.fontWeight FontWeight.Bold
+                    ]
 
-                                                      TextBlock.create [ TextBlock.text
-                                                                             $"v{gameVersion}"
-                                                                         TextBlock.fontSize
-                                                                             20
-                                                                         TextBlock.foreground
-                                                                             Theme.Brush.bg
-                                                                         TextBlock.horizontalAlignment
-                                                                             HorizontalAlignment.Right ]
+                    TextBlock.create [
+                        TextBlock.text $"v{gameVersion}"
+                        TextBlock.fontSize 20
+                        TextBlock.foreground Theme.Brush.bg
+                        TextBlock.horizontalAlignment HorizontalAlignment.Right
+                    ]
 
-                                                      Button.create [ Button.content
-                                                                          "New game"
-                                                                      Button.onClick
-                                                                          newGame
-                                                                      Button.classes [ "menu" ] ]
+                    Button.create [
+                        Button.content "New game"
+                        Button.onClick newGame
+                        Button.classes [ "menu" ]
+                    ]
 
-                                                      Button.create [ Button.content
-                                                                          "Load game"
-                                                                      Button.isEnabled
-                                                                          loadGameEnabled
-                                                                      Button.classes [ "menu" ] ]
+                    Button.create [
+                        Button.content "Load game"
+                        Button.isEnabled loadGameEnabled
+                        Button.classes [ "menu" ]
+                    ]
 
-                                                      Button.create [ Button.content
-                                                                          "Exit"
-                                                                      Button.borderBrush
-                                                                          Theme.Brush.destructive
-                                                                      Button.classes [ "menu" ]
-                                                                      Button.onClick
-                                                                          exit ] ] ]
+                    Button.create [
+                        Button.content "Exit"
+                        Button.borderBrush Theme.Brush.destructive
+                        Button.classes [ "menu" ]
+                        Button.onClick exit
+                    ]
+                ]
+            ]
     )
