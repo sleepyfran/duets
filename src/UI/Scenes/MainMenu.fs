@@ -16,12 +16,7 @@ type private MainMenuOption =
     | Exit
 
 let private gameVersion =
-    System
-        .Reflection
-        .Assembly
-        .GetEntryAssembly()
-        .GetName()
-        .Version.ToString()
+    System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString()
 
 let view =
     Component.create (
@@ -32,6 +27,7 @@ let view =
             let exit _ = System.Environment.Exit(0)
 
             let newGame _ = switchTo Scene.NewGame
+            let loadGame _ = switchTo Scene.InGame
 
             let savegameStatus = Savegame.load ()
 
@@ -66,6 +62,7 @@ let view =
                     Button.create [
                         Button.content "Load game"
                         Button.isEnabled loadGameEnabled
+                        Button.onClick loadGame
                         Button.classes [ "menu" ]
                     ]
 
