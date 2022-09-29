@@ -8,9 +8,7 @@ module Characters =
 
     /// Returns a character given its ID.
     let byId state id =
-        state
-        |> Optic.get Lenses.State.characters_
-        |> Map.find id
+        state |> Optic.get Lenses.State.characters_ |> Map.find id
 
     /// Returns the character that the player is playing with.
     let playableCharacter state =
@@ -27,12 +25,21 @@ module Characters =
 
     /// Returns a list with all the character's attributes.
     let allPlayableCharacterAttributes state =
-        [ CharacterAttribute.Health
-          CharacterAttribute.Energy
-          CharacterAttribute.Mood
-          CharacterAttribute.Drunkenness
-          CharacterAttribute.Fame ]
+        [
+            CharacterAttribute.Health
+            CharacterAttribute.Energy
+            CharacterAttribute.Mood
+            CharacterAttribute.Drunkenness
+            CharacterAttribute.Fame
+        ]
         |> List.map (fun attr -> (attr, playableCharacterAttribute state attr))
+
+    /// Returns a tuple of three values with the value of the given attributes
+    /// from the playable character.
+    let playableCharacterAttribute3 state attr1 attr2 attr3 =
+        (playableCharacterAttribute state attr1,
+         playableCharacterAttribute state attr2,
+         playableCharacterAttribute state attr3)
 
     /// Returns a tuple of four values with the value of the given attributes
     /// from the playable character.

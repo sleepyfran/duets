@@ -1,21 +1,44 @@
 module UI.Components.Header
 
-open Agents
 open Avalonia.Controls
 open Avalonia.FuncUI
 open Avalonia.FuncUI.DSL
+open Avalonia.FuncUI.Types
 open Avalonia.Layout
 open Entities
 open Simulation
 open UI
+open UI.Hooks.GameState
 
-let view =
-    let today = Queries.Calendar.today (State.get ())
+let private headerText text customAttrs =
+    [
+        TextBlock.verticalAlignment VerticalAlignment.Center
+        TextBlock.text text
+    ]
+    @ customAttrs
+    |> TextBlock.create
+    :> IView
+
+let private characterAttributes state =
+    let attrs = Queries.Characters.allPlayableCharacterAttributes state
+
+    let allowedAttributes = [
+        CharacterAttribute.Health
+        CharacterAttribute.Energy
+        CharacterAttribute.Fame
+    ]
+
+    attrs
+    |> List.filter (fun (attr, _) -> allowedAttributes |> List.contains attr)
+    |> List.map (fun (attr, amount) ->
+        headerText $"{Text.Emoji.attribute attr amount} {amount}" [])
+
+let view (ctx: IComponentContext) =
+    let state = ctx.useGameState ()
+
+    let today = Queries.Calendar.today state
 
     let currentDayMoment = Calendar.Query.dayMomentOf today
-
-    let characterAttributes =
-        Queries.Characters.allPlayableCharacterAttributes (State.get ())
 
     StackPanel.create [
         StackPanel.dock Dock.Top
@@ -31,28 +54,28 @@ let view =
                 Border.child (
                     StackPanel.create [
                         StackPanel.orientation Orientation.Horizontal
-                        StackPanel.verticalAlignment VerticalAlignment.Center
-                        StackPanel.spacing 10
+                        StackPanel.verticalAlignment VerticalAlignment.Stretch
+                        StackPanel.spacing 5
                         StackPanel.margin (10, 0)
-                        StackPanel.children [
-                            TextBlock.create [
-                                TextBlock.text
-                                    $"""{Text.Date.format today} {Text.Emoji.dayMoment currentDayMoment}"""
-                            ]
-                            TextBlock.create [
-                                TextBlock.foreground Theme.Brush.fg
-                                Text.Date.dayMomentName currentDayMoment
-                                |> TextBlock.text
-                            ]
+                        [
+                            headerText (Text.Date.format today) []
+
+                            headerText (Text.Emoji.dayMoment currentDayMoment) []
+
+                            headerText
+                                (Text.Date.dayMomentName currentDayMoment)
+                                [ (TextBlock.foreground Theme.Brush.fg) ]
 
                             Divider.horizontal
                         ]
+                        @ characterAttributes state
+                        |> StackPanel.children
                     ]
                 )
             ]
 
-            Button.create [ Button.content "🗺️ Map" ]
+            Button.create [ Button.isEnabled false; Button.content "🗺️ Map" ]
 
-            Button.create [ Button.content "📱 Phone" ]
+            Button.create [ Button.isEnabled false; Button.content "📱 Phone" ]
         ]
     ]
