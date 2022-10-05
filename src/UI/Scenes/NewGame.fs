@@ -143,9 +143,11 @@ let view =
                 startGame character band |> Effect.apply
                 switchTo Scene.InGame
 
+            let onBack _ = switchTo Scene.MainMenu
+
             StackPanel.create [
                 StackPanel.horizontalAlignment HorizontalAlignment.Center
-                StackPanel.spacing 20
+                StackPanel.spacing Theme.Padding.big
                 StackPanel.children [
                     TextBlock.create [
                         TextBlock.text
@@ -160,10 +162,22 @@ let view =
 
                     Divider.vertical
 
-                    Button.create [
-                        Button.content "➡️ Start game"
-                        Button.isEnabled newGameEnabled
-                        Button.onClick onNewGame
+                    StackPanel.create [
+                        StackPanel.orientation Orientation.Horizontal
+                        StackPanel.spacing Theme.Padding.small
+                        StackPanel.children [
+                            Button.create [
+                                Button.content "➡️ Start game"
+                                Button.isEnabled newGameEnabled
+                                Button.onClick onNewGame
+                            ]
+
+                            Button.create [
+                                Button.content "Go back"
+                                Button.classes [ "destructive" ]
+                                Button.onClick onBack
+                            ]
+                        ]
                     ]
                 ]
             ]

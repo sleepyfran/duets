@@ -38,7 +38,7 @@ let view =
 
             StackPanel.create [
                 StackPanel.horizontalAlignment HorizontalAlignment.Center
-                StackPanel.spacing 10
+                StackPanel.spacing Theme.Padding.medium
                 StackPanel.children [
                     TextBlock.create [
                         TextBlock.text "duets"
@@ -68,8 +68,7 @@ let view =
 
                     Button.create [
                         Button.content "Exit"
-                        Button.borderBrush Theme.Brush.destructive
-                        Button.classes [ "menu" ]
+                        Button.classes [ "menu"; "destructive" ]
                         Button.onClick exit
                     ]
                 ]
