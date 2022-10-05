@@ -7,15 +7,21 @@ open Avalonia.FuncUI.Types
 open Avalonia.Layout
 open UI
 
-let view (selectedValue: IWritable<'a>) (optionTextFn: 'a -> string) values =
+type PickerInput<'a> = {
+    Selected: IWritable<'a>
+    ToText: 'a -> string
+    Values: 'a list
+}
+
+let create input =
     Component.create (
         "Picker",
         fun ctx ->
-            let value = ctx.usePassed selectedValue
+            let value = ctx.usePassed input.Selected
 
             WrapPanel.create [
                 WrapPanel.orientation Orientation.Horizontal
-                values
+                input.Values
                 |> List.map (fun item ->
                     Button.create [
                         Button.margin (
@@ -24,11 +30,8 @@ let view (selectedValue: IWritable<'a>) (optionTextFn: 'a -> string) values =
                             Theme.Padding.small,
                             Theme.Padding.small
                         )
-                        item |> optionTextFn |> Button.content
-                        if value.Current = item then
-                            [ "selected" ]
-                        else
-                            []
+                        item |> input.ToText |> Button.content
+                        if value.Current = item then [ "selected" ] else []
                         |> Button.classes
                         Button.onClick (fun _ -> value.Set item)
                     ]

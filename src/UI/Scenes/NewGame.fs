@@ -49,11 +49,12 @@ let private characterCreator =
                     ]
 
                     TextBlock.create [ TextBlock.text "Gender:" ]
-                    Picker.view gender Text.Character.gender [
-                        Male
-                        Female
-                        Other
-                    ]
+                    Picker.create
+                        {
+                            Selected = gender
+                            ToText = Text.Character.gender
+                            Values = [ Male; Female; Other ]
+                        }
 
                     TextBlock.create [ TextBlock.text "Birthday:" ]
                     DatePicker.create [
@@ -88,12 +89,22 @@ let private bandCreator =
                         TextBlock.text
                             "Genre: (you can always change this later)"
                     ]
-                    Picker.view genre id Data.Genres.all
+                    Picker.create
+                        {
+                            Selected = genre
+                            ToText = id
+                            Values = Data.Genres.all
+                        }
 
                     TextBlock.create [
                         TextBlock.text "Which instrument will you play?"
                     ]
-                    Picker.view instrument Text.Music.roleName Data.Roles.all
+                    Picker.create
+                        {
+                            Selected = instrument
+                            ToText = Text.Music.roleName
+                            Values = Data.Roles.all
+                        }
                 ]
             ]
     )
