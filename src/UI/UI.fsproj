@@ -21,6 +21,7 @@
         <Compile Include="Components\Divider.fs" />
         <Compile Include="Components\Effect.fs" />
         <Compile Include="Components\Header.fs" />
+        <Compile Include="Components\Choice.fs"/>
         <Compile Include="Scenes\NewGame.fs" />
         <Compile Include="Scenes\MainMenu.fs" />
         <Compile Include="Scenes\SceneRoot.fs" />
