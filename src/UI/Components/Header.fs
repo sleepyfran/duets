@@ -20,7 +20,8 @@ let private headerText text customAttrs =
     :> IView
 
 let private characterAttributes state =
-    let attrs = Queries.Characters.allPlayableCharacterAttributes state
+    let attrs =
+        Queries.Characters.allPlayableCharacterAttributes state
 
     let allowedAttributes = [
         CharacterAttribute.Health
@@ -31,14 +32,27 @@ let private characterAttributes state =
     attrs
     |> List.filter (fun (attr, _) -> allowedAttributes |> List.contains attr)
     |> List.map (fun (attr, amount) ->
-        headerText $"{Text.Emoji.attribute attr amount} {amount}" [])
+        StackPanel.create [
+            StackPanel.orientation Orientation.Horizontal
+            StackPanel.verticalAlignment VerticalAlignment.Center
+            StackPanel.spacing 5
+            StackPanel.children [
+                TextBlock.create [
+                    Text.Emoji.attribute attr amount |> TextBlock.text
+                ]
+
+                TextBlock.create [ $"{amount}" |> TextBlock.text ]
+            ]
+        ]
+        :> IView)
 
 let view (ctx: IComponentContext) =
     let state = ctx.useGameState ()
 
     let today = Queries.Calendar.today state
 
-    let currentDayMoment = Calendar.Query.dayMomentOf today
+    let currentDayMoment =
+        Calendar.Query.dayMomentOf today
 
     StackPanel.create [
         StackPanel.dock Dock.Top
@@ -64,7 +78,9 @@ let view (ctx: IComponentContext) =
 
                             headerText
                                 (Text.Date.dayMomentName currentDayMoment)
-                                [ (TextBlock.foreground Theme.Brush.fg) ]
+                                [
+                                    (TextBlock.foreground Theme.Brush.fg)
+                                ]
 
                             Divider.horizontal
                         ]
@@ -74,8 +90,14 @@ let view (ctx: IComponentContext) =
                 )
             ]
 
-            Button.create [ Button.isEnabled false; Button.content "🗺️ Map" ]
+            Button.create [
+                Button.isEnabled false
+                Button.content "🗺️ Map"
+            ]
 
-            Button.create [ Button.isEnabled false; Button.content "📱 Phone" ]
+            Button.create [
+                Button.isEnabled false
+                Button.content "📱 Phone"
+            ]
         ]
     ]
