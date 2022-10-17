@@ -19,6 +19,18 @@ let private headerText text customAttrs =
     |> TextBlock.create
     :> IView
 
+let private headerEmojiText emoji text =
+    StackPanel.create [
+        StackPanel.orientation Orientation.Horizontal
+        StackPanel.verticalAlignment VerticalAlignment.Center
+        StackPanel.spacing 5
+        StackPanel.children [
+            TextBlock.create [ TextBlock.text emoji ]
+
+            TextBlock.create [ TextBlock.text text ]
+        ]
+    ]
+    :> IView
 let private characterAttributes state =
     let attrs =
         Queries.Characters.allPlayableCharacterAttributes state
@@ -32,19 +44,17 @@ let private characterAttributes state =
     attrs
     |> List.filter (fun (attr, _) -> allowedAttributes |> List.contains attr)
     |> List.map (fun (attr, amount) ->
-        StackPanel.create [
-            StackPanel.orientation Orientation.Horizontal
-            StackPanel.verticalAlignment VerticalAlignment.Center
-            StackPanel.spacing 5
-            StackPanel.children [
-                TextBlock.create [
-                    Text.Emoji.attribute attr amount |> TextBlock.text
-                ]
+        headerEmojiText (Text.Emoji.attribute attr amount) $"{amount}")
 
-                TextBlock.create [ $"{amount}" |> TextBlock.text ]
-            ]
-        ]
-        :> IView)
+let private concertAttributes state =
+    let situation =
+        Queries.Situations.current state
+
+    match situation with
+    | InConcert ongoingConcert -> [
+        headerEmojiText Text.Emoji.concert $"{ongoingConcert.Points}"
+      ]
+    | _ -> []
 
 let view (ctx: IComponentContext) =
     let state = ctx.useGameState ()
@@ -83,8 +93,10 @@ let view (ctx: IComponentContext) =
                                 ]
 
                             Divider.horizontal
+
+                            yield! characterAttributes state
+                            yield! concertAttributes state
                         ]
-                        @ characterAttributes state
                         |> StackPanel.children
                     ]
                 )
