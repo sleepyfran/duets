@@ -14,12 +14,22 @@ let private content scene =
         fun ctx ->
             let currentScene = ctx.usePassedRead scene
 
+            let rec onScroll (x: ScrollChangedEventArgs) =
+                if x.ExtentDelta.Y > 0 then
+                    match x.Source with
+                    | :? ScrollViewer as scrollViewer ->
+                        scrollViewer.ScrollToEnd()
+                    | _ -> ()
+
+                ()
+
             Border.create [
                 Border.background Theme.Brush.containerBg
                 Border.cornerRadius 10
                 Border.margin (80, 30)
                 Border.child (
                     ScrollViewer.create [
+                        ScrollViewer.onScrollChanged onScroll
                         ScrollViewer.content (
                             StackPanel.create [
                                 StackPanel.horizontalAlignment
