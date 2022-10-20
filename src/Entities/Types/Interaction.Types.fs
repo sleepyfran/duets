@@ -12,6 +12,8 @@ module InteractionTypes =
         /// Performs a bass solo, which gives points based on the player's
         /// bass skills.
         | BassSolo of OngoingConcert
+        /// Dedicates a song to a certain someone.
+        | DedicateSong of OngoingConcert
         /// Allows to play more songs after stepping out of the stage.
         | DoEncore of OngoingConcert
         /// Performs a drum solo, which gives points based on the player's
@@ -37,7 +39,7 @@ module InteractionTypes =
         /// sing a few lines. Gives points depending on the player's vocal skills
         /// and the band fame.
         | MakeCrowdSing of OngoingConcert
-        /// Allows to play and/or dedicate a song.
+        /// Allows to play a song.
         | PlaySong of OngoingConcert
         /// Makes the character put the microphone back on the stand.
         | PutMicOnStand of OngoingConcert

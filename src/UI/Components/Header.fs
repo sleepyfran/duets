@@ -31,6 +31,7 @@ let private headerEmojiText emoji text =
         ]
     ]
     :> IView
+
 let private characterAttributes state =
     let attrs =
         Queries.Characters.allPlayableCharacterAttributes state
@@ -59,7 +60,8 @@ let private concertAttributes state =
 let view (ctx: IComponentContext) =
     let state = ctx.useGameState ()
 
-    let today = Queries.Calendar.today state
+    let today =
+        Queries.Calendar.today state.Current
 
     let currentDayMoment =
         Calendar.Query.dayMomentOf today
@@ -94,8 +96,8 @@ let view (ctx: IComponentContext) =
 
                             Divider.horizontal
 
-                            yield! characterAttributes state
-                            yield! concertAttributes state
+                            yield! characterAttributes state.Current
+                            yield! concertAttributes state.Current
                         ]
                         |> StackPanel.children
                     ]

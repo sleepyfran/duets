@@ -39,10 +39,7 @@ let private content scene =
                                     match currentScene.Current with
                                     | Scene.NewGame -> NewGame.view
                                     | Scene.MainMenu -> MainMenu.view
-                                    | Scene.InGame ->
-                                        TextBlock.create [
-                                            TextBlock.text "Coming soon"
-                                        ]
+                                    | Scene.InGame -> InGame.Root.view
                                 ]
                             ]
                         )
@@ -53,7 +50,8 @@ let private content scene =
 
 let view =
     Component(fun ctx ->
-        let currentScene = ctx.usePassedRead Store.shared.CurrentScene
+        let currentScene =
+            ctx.usePassedRead Store.shared.CurrentScene
 
         DockPanel.create [
             DockPanel.children [

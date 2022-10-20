@@ -37,13 +37,14 @@ type App() =
     override this.OnFrameworkInitializationCompleted() =
         match this.ApplicationLifetime with
         | :? IClassicDesktopStyleApplicationLifetime as desktopLifetime ->
-            desktopLifetime.MainWindow <- MainWindow()
+            let mainWindow = MainWindow()
+            desktopLifetime.MainWindow <- mainWindow
         | _ -> ()
 
 module Program =
 
     [<EntryPoint>]
-    let main (args: string []) =
+    let main (args: string[]) =
         AppBuilder
             .Configure<App>()
             .UsePlatformDetect()

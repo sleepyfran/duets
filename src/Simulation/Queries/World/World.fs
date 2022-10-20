@@ -44,6 +44,12 @@ module Common =
         | Room (_, roomId) -> Some roomId
         | Node _ -> None
 
+    /// Returns the room ID or the node ID depending on the coordinates.
+    let nodeIdFromResolvedCoordinates coordinates =
+        match coordinates with
+        | ResolvedPlaceCoordinates coords -> snd coords.Coordinates
+        | ResolvedOutsideCoordinates coords -> coords.Coordinates
+
     /// Returns the current full world coordinates of the character, always
     /// giving the default starting node of a place if the coordinates pointing
     /// to it are not entirely resolved.
@@ -90,12 +96,16 @@ module Common =
                     Optic.get (Lenses.World.Graph.node_ roomId) place.Rooms
                     |> Option.get
 
-                { City = city
-                  Content =
-                    ResolvedPlaceCoordinates
-                        { Coordinates = RoomCoordinates(placeId, roomId)
-                          Place = place
-                          Room = roomContent } }
+                {
+                    City = city
+                    Content =
+                        ResolvedPlaceCoordinates
+                            {
+                                Coordinates = RoomCoordinates(placeId, roomId)
+                                Place = place
+                                Room = roomContent
+                            }
+                }
             | _ ->
                 failwith "Cannot reference outside node with place coordinates"
         | Node nodeId ->
@@ -104,12 +114,15 @@ module Common =
                 |> Option.get
 
             match cityNode with
-            | CityNode.OutsideNode outsideNode ->
-                { City = city
-                  Content =
+            | CityNode.OutsideNode outsideNode -> {
+                City = city
+                Content =
                     ResolvedOutsideCoordinates
-                        { Coordinates = nodeId
-                          Node = outsideNode } }
+                        {
+                            Coordinates = nodeId
+                            Node = outsideNode
+                        }
+              }
             | CityNode.Place place ->
                 coordinatesInCity
                     cityId

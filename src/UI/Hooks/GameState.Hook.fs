@@ -18,12 +18,18 @@ type IComponentContext with
         use this state as a "force re-render", so that whenever the state in the
         agent changes, this hook will re-render.
         *)
-        let forceRender = this.useState State.empty
+        let forceRender =
+            this.useState Option<State>.None
 
         this.useEffect (
-            handler = (fun _ -> Agents.State.subscribe forceRender.Set),
+            handler =
+                (fun _ -> Agents.State.subscribe (Some >> forceRender.Set)),
             triggers = [ EffectTrigger.AfterInit ]
         )
 
-        (* Return the ACTUAL state. *)
-        State.get ()
+        (* Always return a value. *)
+        forceRender
+        |> State.readMap (fun state ->
+            match state with
+            | Some state -> state
+            | None -> State.get ())

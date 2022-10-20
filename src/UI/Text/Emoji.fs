@@ -1,6 +1,16 @@
-module UI.Text.Emoji
+module rec UI.Text.Emoji
 
 open Entities
+
+let attribute attr amount =
+    match attr with
+    | CharacterAttribute.Drunkenness -> "🥴"
+    | CharacterAttribute.Energy -> "🔋"
+    | CharacterAttribute.Fame -> "🌟"
+    | CharacterAttribute.Health -> "🫀"
+    | CharacterAttribute.Mood -> mood amount
+
+let concert = "🎫"
 
 let dayMoment =
     function
@@ -18,11 +28,3 @@ let private mood =
     | m when m < 50 -> "😐"
     | m when m < 75 -> "🙂"
     | _ -> "😁"
-
-let attribute attr amount =
-    match attr with
-    | CharacterAttribute.Drunkenness -> "🥴"
-    | CharacterAttribute.Energy -> "🔋"
-    | CharacterAttribute.Fame -> "🌟"
-    | CharacterAttribute.Health -> "🫀"
-    | CharacterAttribute.Mood -> mood amount
