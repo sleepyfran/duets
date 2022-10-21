@@ -11,12 +11,14 @@
         <Compile Include="Theme.fs"/>
         <Compile Include="Scene.fs"/>
         <Compile Include="Store.fs"/>
+        <Compile Include="Text\Base.fs"/>
         <Compile Include="Text\Emoji.fs"/>
         <Compile Include="Text\Character.fs"/>
         <Compile Include="Text\Music.fs"/>
         <Compile Include="Text\Date.fs"/>
         <Compile Include="Text\World\Directions.fs"/>
         <Compile Include="Text\World\Interactions.fs"/>
+        <Compile Include="Text\World\Places.fs"/>
         <Compile Include="Hooks\Scene.Hook.fs"/>
         <Compile Include="Hooks\GameState.Hook.fs"/>
         <Compile Include="Components\Picker.fs"/>

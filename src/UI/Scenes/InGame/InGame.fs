@@ -2,6 +2,7 @@ module UI.Scenes.InGame.Root
 
 open Agents
 open Avalonia.Controls
+open Avalonia.Controls.Documents
 open Avalonia.FuncUI
 open Avalonia.FuncUI.DSL
 open Avalonia.FuncUI.Types
@@ -14,14 +15,18 @@ open UI.Components
 open UI.Hooks.GameState
 open UI.Scenes.InGame.Types
 
-let private textFromCoordinates coords =
+let private textFromCoordinates coords : IView =
     match coords with
     | ResolvedPlaceCoordinates coordinates ->
-        match coordinates.Room with
-        | RoomType.Stage ->
-            $"You're blinded by the lights in {coordinates.Place.Name}. Time to give your everything!"
-        | _ -> "You are somewhere else"
-    | ResolvedOutsideCoordinates coordinates -> "You are outside :o"
+        Run.create [
+            match coordinates.Room with
+            | RoomType.Stage ->
+                $"You're blinded by the lights in {coordinates.Place.Name}. Time to give your everything!"
+            | _ -> "You are somewhere else"
+            |> Run.text
+        ]
+    | ResolvedOutsideCoordinates coordinates ->
+        Text.World.Places.outsideCoordinatesDescription coordinates
 
 let private categorizeInteractions interactions =
     let freeRoamInteractions, restOfInteractions =
@@ -88,8 +93,7 @@ let private createInteractionsChoiceView
         |> categorizeInteractions
 
     let message =
-        textFromCoordinates coords.Content
-        |> fun x -> [ Bold.simple x :> IView ]
+        [ textFromCoordinates coords.Content ]
         |> createMessage
 
     let choices =
