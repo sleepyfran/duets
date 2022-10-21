@@ -1,6 +1,7 @@
-module UI.Text.World.Interactions
+module rec UI.Text.World.Interactions
 
 open Entities
+open Simulation
 
 let get state interactionWithState =
     match interactionWithState.Interaction with
@@ -40,7 +41,7 @@ let get state interactionWithState =
         | FreeRoamInteraction.GoOut _ -> "🔙 Go out"
         | FreeRoamInteraction.Look _ -> "👀 Look around"
         | FreeRoamInteraction.Move (direction, destination) ->
-            $"🚶Move to {Directions.directionName direction} ({Directions.destinationName state destination})"
+            moveText state direction destination
         | FreeRoamInteraction.Wait -> "⏸️ Wait"
         | _ -> "Not supported"
     | Interaction.Rehearsal rehearsalInteraction ->
@@ -62,3 +63,22 @@ let get state interactionWithState =
         | StudioInteraction.CreateAlbum _ -> "💿 Create album"
         | StudioInteraction.EditAlbumName _ -> "✏️ Edit album name"
         | StudioInteraction.ReleaseAlbum _ -> "✅ Release album"
+let private moveText state direction destination =
+    let coords =
+        Queries.World.Common.coordinates state destination
+
+    match coords.Content with
+    | ResolvedPlaceCoordinates roomCoords ->
+        let currentPosition =
+            Queries.World.Common.currentPosition state
+
+        match currentPosition.Content with
+        | ResolvedPlaceCoordinates _ ->
+            (* Character is inside of a place, display as move and the room name. *)
+            $"🚶Move to {Directions.directionName direction} ({Directions.roomName roomCoords.Room})"
+        | ResolvedOutsideCoordinates _ ->
+            (* Character is outside connecting to a place, display as enter and the place name. *)
+            $"🔼 Enter {Directions.directionName direction} ({roomCoords.Place.Name})"
+    | ResolvedOutsideCoordinates coords ->
+        (* Character is outside, connecting to an outside node. Display as move and the place name. *)
+        $"🚶Move to {Directions.directionName direction} ({coords.Node.Name})"
