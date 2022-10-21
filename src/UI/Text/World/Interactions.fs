@@ -2,13 +2,13 @@ module UI.Text.World.Interactions
 
 open Entities
 
-let get interactionWithState =
+let get state interactionWithState =
     match interactionWithState.Interaction with
     | Interaction.Concert concertInteraction ->
         match concertInteraction with
         | ConcertInteraction.AdjustDrums _ -> "🥁 Adjust drums"
         | ConcertInteraction.BassSolo _ -> "🎸 Bass solo"
-        | ConcertInteraction.DedicateSong _ -> "💬 Dedicate a song" 
+        | ConcertInteraction.DedicateSong _ -> "💬 Dedicate a song"
         | ConcertInteraction.DoEncore _ -> "🎶 Perform encore"
         | ConcertInteraction.DrumSolo _ -> "🥁 Drum solo"
         | ConcertInteraction.FinishConcert _ -> "⏹️ End concert"
@@ -39,8 +39,8 @@ let get interactionWithState =
         match freeRoamInteraction with
         | FreeRoamInteraction.GoOut _ -> "🔙 Go out"
         | FreeRoamInteraction.Look _ -> "👀 Look around"
-        | FreeRoamInteraction.Move (direction, _) ->
-            $"🚶Move to {Directions.directionName direction}"
+        | FreeRoamInteraction.Move (direction, destination) ->
+            $"🚶Move to {Directions.directionName direction} ({Directions.destinationName state destination})"
         | FreeRoamInteraction.Wait -> "⏸️ Wait"
         | _ -> "Not supported"
     | Interaction.Rehearsal rehearsalInteraction ->

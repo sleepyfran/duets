@@ -97,7 +97,7 @@ let private createInteractionsChoiceView
             {
                 Id = nodeId.ToString()
                 OnSelected = (handleInteraction state viewStack)
-                ToText = Text.World.Interactions.get
+                ToText = (Text.World.Interactions.get state.Current)
                 Values = Choice.Sectioned interactions
             }
 
