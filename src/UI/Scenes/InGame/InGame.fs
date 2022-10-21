@@ -73,7 +73,7 @@ let rec handleInteraction
     | Effects effects -> applyEffects state.Current effects
     | Nothing -> ()
 
-let private createNewView
+let private createInteractionsChoiceView
     (state: IReadable<State>)
     (viewStack: IWritable<IView list>)
     =
@@ -115,7 +115,7 @@ let view =
                 handler =
                     (fun _ ->
                         viewStack.Current
-                        @ (createNewView state viewStack)
+                        @ (createInteractionsChoiceView state viewStack)
                         |> viewStack.Set),
                 triggers = [ EffectTrigger.AfterChange state ]
             )
