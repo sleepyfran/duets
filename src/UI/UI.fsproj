@@ -25,7 +25,6 @@
         <Compile Include="Components\Header.fs"/>
         <Compile Include="Components\Choice.fs"/>
         <Compile Include="Scenes\InGame\Types.fs"/>
-        <Compile Include="Scenes\InGame\FreeRoam.fs"/>
         <Compile Include="Scenes\InGame\InGame.fs"/>
         <Compile Include="Scenes\NewGame.fs"/>
         <Compile Include="Scenes\MainMenu.fs"/>

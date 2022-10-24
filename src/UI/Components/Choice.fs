@@ -7,10 +7,6 @@ open Avalonia.FuncUI.Types
 open Avalonia.Layout
 open UI
 
-type ChoiceValues<'a> =
-    | Simple of 'a list
-    | Sectioned of 'a list list
-
 type ChoiceInput<'a> = {
     /// ID that the component will have associated. This is needed for FuncUI
     /// to detect that we're creating new choices:
@@ -21,7 +17,7 @@ type ChoiceInput<'a> = {
     /// Function to call when we want to display an option.
     ToText: 'a -> string
     /// List of values that will be shown.
-    Values: ChoiceValues<'a>
+    Values: 'a list
 }
 
 let create input =
@@ -36,34 +32,14 @@ let create input =
                 | Some value when value = item -> true
                 | _ -> false
 
-            match input.Values with
-            | Simple items ->
-                createSimpleChoice input items selectedValue isValueSelected
-            | Sectioned sections ->
-                createSectionedChoice
-                    input
-                    sections
-                    selectedValue
-                    isValueSelected
+            WrapPanel.create [
+                WrapPanel.orientation Orientation.Horizontal
+                createChoices input selectedValue isValueSelected
+                |> WrapPanel.children
+            ]
     )
 
-let createSimpleChoice input items selectedValue isValueSelected =
-    WrapPanel.create [
-        WrapPanel.orientation Orientation.Horizontal
-        createChoices input items selectedValue isValueSelected
-        |> WrapPanel.children
-    ]
-
-let createSectionedChoice input sections selectedValue isValueSelected =
-    StackPanel.create [
-        StackPanel.orientation Orientation.Vertical
-        sections
-        |> List.map (fun items ->
-            createSimpleChoice input items selectedValue isValueSelected)
-        |> StackPanel.children
-    ]
-
-let private createChoices input items selectedValue isValueSelected =
+let private createChoices input selectedValue isValueSelected =
     let selectValue item =
         if selectedValue.Current.IsNone then
             item |> Some |> selectedValue.Set
@@ -71,7 +47,7 @@ let private createChoices input items selectedValue isValueSelected =
         else
             () (* We don't want to notify multiple times the same value. *)
 
-    items
+    input.Values
     |> List.map (fun item ->
         Button.create [
             Button.margin (0, 0, Theme.Padding.small, Theme.Padding.small)

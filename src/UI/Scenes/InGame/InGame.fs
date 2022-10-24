@@ -16,26 +16,29 @@ open UI.Hooks.GameState
 open UI.Scenes.InGame.Types
 
 let private textFromCoordinates (place: Place) : IView =
-    Run.create [ Run.text "" ]
-
-let private categorizeInteractions interactions =
-    let freeRoamInteractions, restOfInteractions =
-        interactions
-        |> List.partition (fun item ->
-            match item.Interaction with
-            | Interaction.FreeRoam _ -> true
-            | _ -> false)
-
-    (* Order them so that the movement and free-roam interactions will always be in the end. *)
-    [
-        restOfInteractions
-        freeRoamInteractions
+    Span.create [
+        Span.inlines [
+            match place.Type with
+            | RehearsalSpace _ ->
+                Run.create [
+                    Run.text
+                        "You’re in the rehearsal room, the previous band left all their empty beers and a bunch of cigarettes on the floor. Your band’s morale has decreased a bit."
+                ]
+                :> IView
+            | _ -> Run.create []
+        ]
     ]
+
+let private filterInteractions interactions =
+    interactions
+    |> List.filter (fun item ->
+        match item.Interaction with
+        | Interaction.FreeRoam _ -> false
+        | _ -> true)
 
 let private runInteraction state interaction =
     match interaction.Interaction with
-    | Interaction.FreeRoam fr -> FreeRoam.runFreeRoamInteraction state fr
-    | _ -> failwith "Oops. Still not quite there yet!"
+    | _ -> Nothing
 
 let private createMessage (content: IView list) : IView =
     RichTextBlock.create [ RichTextBlock.inlines content ]
@@ -79,7 +82,7 @@ let private createInteractionsChoiceView
 
     let interactions =
         Queries.Interactions.availableCurrently state.Current
-        |> categorizeInteractions
+        |> filterInteractions
 
     let message =
         [ textFromCoordinates currentPlace ]
@@ -91,7 +94,7 @@ let private createInteractionsChoiceView
                 Id = placeId.ToString()
                 OnSelected = (handleInteraction state viewStack)
                 ToText = (Text.World.Interactions.get state.Current)
-                Values = Choice.Sectioned interactions
+                Values = interactions
             }
 
     [ message; choices ]
