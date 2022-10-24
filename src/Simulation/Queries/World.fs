@@ -19,6 +19,7 @@ module World =
         |> Optic.get (Lenses.World.city_ cityId)
         |> Option.get (* Not finding a city by its ID is a problem in city creation. *)
 
+    /// Returns a place inside a given city by its ID.
     let placeInCityById cityId placeId =
         let city = cityById cityId
         Map.find placeId city.PlaceIndex

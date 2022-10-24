@@ -6,6 +6,7 @@ open Aether.Operators
 open Common
 open Fugit.Months
 open Entities
+open Simulation
 open Simulation.Concerts.Live
 open Simulation.Setup
 
@@ -111,8 +112,8 @@ let dummyConcert = {
     Id = Identity.create ()
     CityId = Prague
     VenueId =
-        (Identity.from "1a08f39b-714e-4e26-bc8c-f07744af1777")
-        |> PlaceId
+        Queries.World.placeIdsOf Prague PlaceTypeIndex.ConcertSpace
+        |> List.head
     Date = dummyToday.AddDays(30)
     DayMoment = Night
     TicketPrice = 20<dd>
