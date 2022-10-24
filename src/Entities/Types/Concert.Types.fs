@@ -10,13 +10,15 @@ module ConcertTypes =
     /// Represents a single concert in a venue.
     [<CustomEquality; CustomComparison>]
     type Concert =
-        { Id: ConcertId
-          CityId: CityId
-          VenueId: NodeId
-          Date: Date
-          DayMoment: DayMoment
-          TicketPrice: Amount
-          TicketsSold: int }
+        {
+            Id: ConcertId
+            CityId: CityId
+            VenueId: PlaceId
+            Date: Date
+            DayMoment: DayMoment
+            TicketPrice: Amount
+            TicketsSold: int
+        }
         override x.Equals(obj) =
             match obj with
             | :? Concert as c -> (x.Id = c.Id)
@@ -58,10 +60,11 @@ module ConcertTypes =
     /// Represents a concert that is currently ongoing, where we keep all the
     /// events that the player have done during the concert and the total amount
     /// of points gathered.
-    type OngoingConcert =
-        { Events: ConcertEvent list
-          Points: Quality
-          Concert: Concert }
+    type OngoingConcert = {
+        Events: ConcertEvent list
+        Points: Quality
+        Concert: Concert
+    }
 
     /// Represents a concert that hasn't happened yet.
     type ScheduledConcert = ScheduledConcert of Concert * scheduledOn: Date
@@ -81,10 +84,11 @@ module ConcertTypes =
     /// Defines a timeline of concerts as two lists: one for the events that
     /// have already happened and another for the ones that will happen in the
     /// future.
-    type ConcertTimeline =
+    type ConcertTimeline = {
         // TODO: Consider moving into simple lists since we're not really using any nicety from the Set module.
-        { ScheduledEvents: Set<ScheduledConcert>
-          PastEvents: Set<PastConcert> }
+        ScheduledEvents: Set<ScheduledConcert>
+        PastEvents: Set<PastConcert>
+    }
 
     /// Holds all concerts scheduled by all bands in the game.
     type ConcertsByBand = Map<BandId, ConcertTimeline>

@@ -81,14 +81,8 @@ module InteractionTypes =
     /// Interactions related to moving around the world.
     [<RequireQualifiedAccess>]
     type FreeRoamInteraction =
-        /// Allows going out of the current place towards the given NodeId.
-        | GoOut of exit: NodeId * coordinates: ResolvedOutsideCoordinates
         /// Allows the user to see what they are currently carrying.
         | Inventory of inventory: Item list
-        /// Allows the user to look around and see which objects are available.
-        | Look of items: Item list
-        /// Allows movement into the specified direction.
-        | Move of direction: Direction * coordinates: NodeCoordinates
         /// Allows the character to use the phone.
         | Phone
         /// Allows waiting.
@@ -155,6 +149,7 @@ module InteractionTypes =
         | Disabled of InteractionDisabledReason
 
     /// Defines an interaction and its state (enabled or disabled).
-    type InteractionWithState =
-        { Interaction: Interaction
-          State: InteractionState }
+    type InteractionWithState = {
+        Interaction: Interaction
+        State: InteractionState
+    }

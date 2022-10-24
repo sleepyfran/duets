@@ -6,7 +6,7 @@ open Simulation
 
 module Studio =
     /// Returns all interactions available in the current studio room.
-    let internal availableCurrently state studio room =
+    let internal availableCurrently state studio =
         let currentBand =
             Queries.Bands.currentBand state
 
@@ -21,17 +21,16 @@ module Studio =
         let hasUnreleasedAlbums =
             not (List.isEmpty unreleasedAlbums)
 
-        match room with
-        | RoomType.MasteringRoom ->
-            [ yield
-                  StudioInteraction.CreateAlbum(studio, finishedSongs)
-                  |> Interaction.Studio
-              if hasUnreleasedAlbums then
-                  yield
-                      StudioInteraction.EditAlbumName unreleasedAlbums
-                      |> Interaction.Studio
+        [
+            yield
+                StudioInteraction.CreateAlbum(studio, finishedSongs)
+                |> Interaction.Studio
+            if hasUnreleasedAlbums then
+                yield
+                    StudioInteraction.EditAlbumName unreleasedAlbums
+                    |> Interaction.Studio
 
-                  yield
-                      StudioInteraction.ReleaseAlbum unreleasedAlbums
-                      |> Interaction.Studio ]
-        | _ -> []
+                yield
+                    StudioInteraction.ReleaseAlbum unreleasedAlbums
+                    |> Interaction.Studio
+        ]

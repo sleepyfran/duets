@@ -1,320 +1,115 @@
-module Data.World.Cities.Prague.Root
+module rec Data.World.Cities.Prague.Root
 
 open Fugit.Months
 open Entities
 
 let rec generate () =
-    let prague =
-        World.City.create
-            (Identity.from "cea284b4-7714-45cc-a101-c1d69e347671")
-            "Prague"
+    let createPrague = World.City.create Prague
 
-    let wenceslasSquare =
-        CityNode.OutsideNode
-            { Name = "Václavské náměstí"
-              Descriptors = [ Beautiful; Central ]
-              Type = OutsideNodeType.Boulevard }
-        |> World.Node.create (
-            Identity.from "1b6f9892-def3-4e6c-aee8-3414e8301a11"
-        )
+    let newTown = {
+        Id =
+            "feb334c9-b399-4ff3-83ab-577ddde0f18e"
+            |> Identity.from
+            |> ZoneId
+        Name = "Nové Město"
+    }
 
-    let jzpSquare =
-        CityNode.OutsideNode
-            { Name = "Náměstí Jiřího z Poděbrad"
-              Descriptors = [ Beautiful ]
-              Type = OutsideNodeType.Square }
-        |> World.Node.create (
-            Identity.from "3efc7f12-a3d4-4a30-a3c5-00ce3b02c3a0"
-        )
+    let vinohrady = {
+        Id =
+            "8702f3d8-2d82-4a18-9e2a-fa12338de616"
+            |> Identity.from
+            |> ZoneId
+        Name = "Vinohrady"
+    }
 
-    let kubelikovaStreet =
-        CityNode.OutsideNode
-            { Name = "Kubelíkova"
-              Descriptors = [ Boring ]
-              Type = OutsideNodeType.Street }
-        |> World.Node.create (
-            Identity.from "0f1bc658-4302-47f2-9396-893d20cd36fd"
-        )
+    createHome vinohrady
+    |> createPrague
+    |> addDuetsRehearsalSpace vinohrady
+    |> addDuetsStudio vinohrady
+    |> addGeneralUniversityHospital newTown
+    |> addPalacAkropolis vinohrady
+    |> addRedutaJazzClub newTown
 
-    let oldTownSquare =
-        CityNode.OutsideNode
-            { Name = "Staroměstské náměstí"
-              Descriptors = [ Beautiful; Historical; Central ]
-              Type = OutsideNodeType.Square }
-        |> World.Node.create (
-            Identity.from "d36c0522-665e-4552-bc2f-95031151ffa1"
-        )
+let createHome zone = {
+    Id =
+        "6ef3c1ab-dec4-44ea-ac95-f53eff3a1c58"
+        |> Identity.from
+        |> PlaceId
+    Name = "Home"
+    Quality = 100<quality>
+    Type = Home
+    Zone = zone
+}
 
-    let narodniStreet =
-        CityNode.OutsideNode
-            { Name = "Národní"
-              Descriptors = [ Central; Boring ]
-              Type = OutsideNodeType.Street }
-        |> World.Node.create (
-            Identity.from "35efc933-f136-47f8-b97f-b1c028d9dd5c"
-        )
-
-    let uNemocniceStreet =
-        CityNode.OutsideNode
-            { Name = "U Nemocnice"
-              Descriptors = [ Boring ]
-              Type = OutsideNodeType.Street }
-        |> World.Node.create (
-            Identity.from "b77b1e81-f462-49ac-a19f-764982a421e0"
-        )
-
-    prague wenceslasSquare
-    |> World.City.addNode wenceslasSquare
-    |> World.City.addNode jzpSquare
-    |> World.City.addNode kubelikovaStreet
-    |> World.City.addNode oldTownSquare
-    |> World.City.addNode narodniStreet
-    |> World.City.addNode uNemocniceStreet
-    |> World.City.addConnection wenceslasSquare.Id jzpSquare.Id East
-    |> World.City.addConnection jzpSquare.Id kubelikovaStreet.Id North
-    |> World.City.addConnection jzpSquare.Id uNemocniceStreet.Id SouthWest
-    |> World.City.addConnection wenceslasSquare.Id oldTownSquare.Id West
-    |> World.City.addConnection oldTownSquare.Id narodniStreet.Id SouthWest
-    |> World.City.addConnection narodniStreet.Id uNemocniceStreet.Id South
-    |> addDuetsRehearsalSpace jzpSquare
-    |> addDuetsStudio jzpSquare
-    |> addHome kubelikovaStreet
-    |> addGeneralUniversityHospital uNemocniceStreet
-    |> addPalacAkropolis kubelikovaStreet
-    |> addRedutaJazzClub narodniStreet
-
-and addHome street city =
-    let bedroom =
-        RoomType.Bedroom
-        |> World.Node.create (
-            Identity.from "f672be41-49b1-43ed-be82-7b91f4bbb656"
-        )
-
-    let kitchen =
-        RoomType.Kitchen
-        |> World.Node.create (
-            Identity.from "288dd409-0b10-45d5-a702-e0dca8820b0c"
-        )
-
-    let livingRoom =
-        RoomType.LivingRoom
-        |> World.Node.create (
-            Identity.from "21473306-5dd9-4209-9c28-e25034bbb480"
-        )
-
-    let node =
-        World.Place.create "Home" 100<quality> Home livingRoom
-        |> World.Place.addRoom kitchen
-        |> World.Place.addConnection livingRoom kitchen East
-        |> World.Place.addRoom bedroom
-        |> World.Place.addConnection livingRoom bedroom West
-        |> World.Place.addExit livingRoom street
-        |> CityNode.Place
-        |> World.Node.create (
-            Identity.from "6d30f4da-8f6a-40cf-b008-0cfabb63b98a"
-        )
-
-    city
-    |> World.City.addNode node
-    |> World.City.addConnection street.Id node.Id East
-
-and addDuetsRehearsalSpace street city =
+let addDuetsRehearsalSpace zone =
     let rehearsalSpace = { Price = 300<dd> }
 
-    let lobby =
-        RoomType.Lobby
-        |> World.Node.create (
-            Identity.from "6b31ecb9-0df6-4b3c-b2af-77d75eb25d31"
-        )
-
-    let bar =
-        RoomType.Bar(Shops.genericBar 1<multiplier>)
-        |> World.Node.create (
-            Identity.from "c082e6e2-42e9-4bbc-bea2-9690d54ad36d"
-        )
-
-    let rehearsalRoom =
-        RoomType.RehearsalRoom
-        |> World.Node.create (
-            Identity.from "89537bd2-9902-47ab-bd72-a4f5b6056e6b"
-        )
-
-    let node =
+    let place =
         World.Place.create
+            ("e2352c71-f18d-4594-816e-e1780506aa33"
+             |> Identity.from)
             "Duets Rehearsal Place"
             20<quality>
             (RehearsalSpace rehearsalSpace)
-            lobby
-        |> World.Place.addRoom bar
-        |> World.Place.addConnection lobby bar NorthEast
-        |> World.Place.addRoom rehearsalRoom
-        |> World.Place.addConnection lobby rehearsalRoom North
-        |> World.Place.addExit lobby street
-        |> CityNode.Place
-        |> World.Node.create (
-            Identity.from "fec78931-1447-472c-b37f-d093235447c3"
-        )
+            zone
 
-    city
-    |> World.City.addNode node
-    |> World.City.addConnection street.Id node.Id NorthWest
+    World.City.addPlace place
 
-and addDuetsStudio street city =
+let addDuetsStudio zone =
     let producerBirthday = October 2 1996
 
-    let studio =
-        { Producer = Character.from "Fran González" Male producerBirthday
-          PricePerSong = 1000<dd> }
+    let studio = {
+        Producer = Character.from "Fran González" Male producerBirthday
+        PricePerSong = 1000<dd>
+    }
 
-    let masteringRoom =
-        RoomType.MasteringRoom
-        |> World.Node.create (
-            Identity.from "d050db29-0e04-46dd-a917-c41f2225931d"
-        )
-
-    let recordingRoom =
-        RoomType.RecordingRoom
-        |> World.Node.create (
-            Identity.from "69d7a19e-2a08-4cb1-9f7f-269d4b0d0d9f"
-        )
-
-    let node =
+    let place =
         World.Place.create
+            ("54d72a48-e394-4897-ba3f-dff8941b09df"
+             |> Identity.from)
             "Duets Studio"
             80<quality>
             (Studio studio)
-            masteringRoom
-        |> World.Place.addRoom recordingRoom
-        |> World.Place.addConnection masteringRoom recordingRoom North
-        |> World.Place.addExit masteringRoom street
-        |> CityNode.Place
-        |> World.Node.create (
-            Identity.from "0857ab74-186b-48dd-b6dc-e1922f49ea6a"
-        )
+            zone
 
-    city
-    |> World.City.addNode node
-    |> World.City.addConnection street.Id node.Id East
+    World.City.addPlace place
 
-and addGeneralUniversityHospital street city =
-    let lobby =
-        RoomType.Lobby
-        |> World.Node.create (
-            Identity.from "79f45cef-8161-4224-8b87-9467572b251b"
-        )
-
-    let node =
+let addGeneralUniversityHospital zone =
+    let place =
         World.Place.create
+            ("734504a7-c994-40f0-bb0e-70d398f0798a"
+             |> Identity.from)
             "General University Hospital"
             65<quality>
             Hospital
-            lobby
-        |> World.Place.addExit lobby street
-        |> CityNode.Place
-        |> World.Node.create (
-            Identity.from "7ec53e41-b3d5-4627-ab38-070c6743d067"
-        )
+            zone
 
-    city
-    |> World.City.addNode node
-    |> World.City.addConnection street.Id node.Id South
+    World.City.addPlace place
 
-and addPalacAkropolis street city =
+let addPalacAkropolis zone =
     let concertSpace = { Capacity = 1000 }
 
-    let lobby =
-        RoomType.Lobby
-        |> World.Node.create (
-            Identity.from "6c9bf67e-76fa-4c3a-a693-42fcc3a39a39"
-        )
-
-    let bar =
-        RoomType.Bar(Shops.genericBar 2<multiplier>)
-        |> World.Node.create (
-            Identity.from "30d888e5-70d1-4ee3-a661-4595276d7f98"
-        )
-
-    let stage =
-        RoomType.Stage
-        |> World.Node.create (
-            Identity.from "8bca0085-48e0-407b-a7b1-3649dc33945e"
-        )
-
-    let backstage =
-        RoomType.Backstage
-        |> World.Node.create (
-            Identity.from "a0d49337-9eb2-4090-b935-48b1267bed24"
-        )
-
-    let node =
+    let place =
         World.Place.create
+            ("349b0fa9-d5fb-49a6-8a8b-c1513d0627f5"
+             |> Identity.from)
             "Palác Akropolis"
             75<quality>
             (ConcertSpace concertSpace)
-            lobby
-        |> World.Place.addRoom bar
-        |> World.Place.addConnection lobby bar East
-        |> World.Place.addRoom stage
-        |> World.Place.addConnection lobby stage North
-        |> World.Place.addRoom backstage
-        |> World.Place.addConnection lobby backstage NorthEast
-        |> World.Place.addConnection stage backstage East
-        |> World.Place.addExit lobby street
-        |> CityNode.Place
-        |> World.Node.create (
-            Identity.from "1a08f39b-714e-4e26-bc8c-f07744af1777"
-        )
+            zone
 
-    city
-    |> World.City.addNode node
-    |> World.City.addConnection street.Id node.Id North
+    World.City.addPlace place
 
-and addRedutaJazzClub street city =
+let addRedutaJazzClub zone =
     let concertSpace = { Capacity = 250 }
 
-    let lobby =
-        RoomType.Lobby
-        |> World.Node.create (
-            Identity.from "51f9de6d-c8f4-47ff-be27-203e9b3718fc"
-        )
-
-    let bar =
-        RoomType.Bar(Shops.genericBar 2<multiplier>)
-        |> World.Node.create (
-            Identity.from "2bf83a32-ba46-4489-97d0-c8d6c05ec79e"
-        )
-
-    let stage =
-        RoomType.Stage
-        |> World.Node.create (
-            Identity.from "7dfdc1d4-d453-44fc-933d-148c26e752bd"
-        )
-
-    let backstage =
-        RoomType.Backstage
-        |> World.Node.create (
-            Identity.from "9ff3840f-d955-4221-b655-e661edd34dda"
-        )
-
-    let node =
+    let place =
         World.Place.create
+            ("1eb502e6-ebc8-4846-9a07-11c10f962a51"
+             |> Identity.from)
             "Reduta Jazz Club"
             95<quality>
             (ConcertSpace concertSpace)
-            lobby
-        |> World.Place.addRoom bar
-        |> World.Place.addConnection lobby bar West
-        |> World.Place.addRoom stage
-        |> World.Place.addConnection bar stage North
-        |> World.Place.addRoom backstage
-        |> World.Place.addConnection bar backstage NorthEast
-        |> World.Place.addConnection stage backstage East
-        |> World.Place.addExit lobby street
-        |> CityNode.Place
-        |> World.Node.create (
-            Identity.from "3076affc-80cb-426b-870b-48718adb1a9d"
-        )
+            zone
 
-    city
-    |> World.City.addNode node
-    |> World.City.addConnection street.Id node.Id West
+    World.City.addPlace place

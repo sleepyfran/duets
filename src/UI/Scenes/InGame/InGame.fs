@@ -15,18 +15,8 @@ open UI.Components
 open UI.Hooks.GameState
 open UI.Scenes.InGame.Types
 
-let private textFromCoordinates coords : IView =
-    match coords with
-    | ResolvedPlaceCoordinates coordinates ->
-        Run.create [
-            match coordinates.Room with
-            | RoomType.Stage ->
-                $"You're blinded by the lights in {coordinates.Place.Name}. Time to give your everything!"
-            | _ -> "You are somewhere else"
-            |> Run.text
-        ]
-    | ResolvedOutsideCoordinates coordinates ->
-        Text.World.Places.outsideCoordinatesDescription coordinates
+let private textFromCoordinates (place: Place) : IView =
+    Run.create [ Run.text "" ]
 
 let private categorizeInteractions interactions =
     let freeRoamInteractions, restOfInteractions =
@@ -82,24 +72,23 @@ let private createInteractionsChoiceView
     (state: IReadable<State>)
     (viewStack: IWritable<IView list>)
     =
-    let coords =
-        Queries.World.Common.currentPosition state.Current
+    let currentPlace =
+        Queries.World.currentPlace state.Current
 
-    let nodeId =
-        Queries.World.Common.nodeIdFromResolvedCoordinates coords.Content
+    let (PlaceId placeId) = currentPlace.Id
 
     let interactions =
         Queries.Interactions.availableCurrently state.Current
         |> categorizeInteractions
 
     let message =
-        [ textFromCoordinates coords.Content ]
+        [ textFromCoordinates currentPlace ]
         |> createMessage
 
     let choices =
         Choice.create
             {
-                Id = nodeId.ToString()
+                Id = placeId.ToString()
                 OnSelected = (handleInteraction state viewStack)
                 ToText = (Text.World.Interactions.get state.Current)
                 Values = Choice.Sectioned interactions

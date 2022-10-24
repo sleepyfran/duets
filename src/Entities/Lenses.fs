@@ -58,10 +58,6 @@ module State =
     let today_ =
         (fun (s: State) -> s.Today), (fun v (s: State) -> { s with Today = v })
 
-    let worldItems_ =
-        (fun (s: State) -> s.WorldItems),
-        (fun v (s: State) -> { s with WorldItems = v })
-
 module Album =
     let streams_ =
         (fun (a: ReleasedAlbum) -> a.Streams),
@@ -160,61 +156,23 @@ module Song =
         (fun v (s: Song) -> { s with Practice = v })
 
 module World =
-    module Graph =
-        let startingNode_ =
-            (fun (g: Graph<'a>) -> g.StartingNode),
-            (fun v (g: Graph<'a>) -> { g with StartingNode = v })
+    module City =
+        let placeByTypeIndex_ =
+            (fun (c: City) -> c.PlaceByTypeIndex),
+            (fun v (c: City) -> { c with PlaceByTypeIndex = v })
 
-        let connections_ =
-            (fun (g: Graph<'a>) -> g.Connections),
-            (fun v (g: Graph<'a>) -> { g with Connections = v })
+        let placeIndex_ =
+            (fun (c: City) -> c.PlaceIndex),
+            (fun v (c: City) -> { c with PlaceIndex = v })
 
-        let nodes_ =
-            (fun (g: Graph<'a>) -> g.Nodes),
-            (fun v (g: Graph<'a>) -> { g with Nodes = v })
-
-        let node_ nodeId = nodes_ >-> Map.key_ nodeId
-
-        let nodeConnections_ nodeId =
-            connections_
-            >-> Map.keyWithDefault_ nodeId Map.empty
+        let zoneIndex_ =
+            (fun (c: City) -> c.ZoneIndex),
+            (fun v (c: City) -> { c with ZoneIndex = v })
 
     module Place =
-        let space_ =
-            (fun (p: Place) -> p.SpaceType),
-            (fun v (p: Place) -> { p with SpaceType = v })
-
-        let rooms_ =
-            (fun (p: Place) -> p.Rooms),
-            (fun v (p: Place) -> { p with Rooms = v })
-
-        let roomIndex_ =
-            (fun (p: Place) -> p.RoomIndex),
-            (fun v (p: Place) -> { p with RoomIndex = v })
-
-        let exits =
-            (fun (p: Place) -> p.Exits),
-            (fun v (p: Place) -> { p with Exits = v })
-
-    module City =
-        let graph_ =
-            (fun (c: City) -> c.Graph),
-            (fun v (c: City) -> { c with Graph = v })
-
-        let index_ =
-            (fun (c: City) -> c.Index),
-            (fun v (c: City) -> { c with Index = v })
-
-        let startingNode_ =
-            graph_ >-> Graph.startingNode_
-
-        let connections_ =
-            graph_ >-> Graph.connections_
-
-        let nodes_ = graph_ >-> Graph.nodes_
-
-        let nodeConnections_ nodeId =
-            graph_ >-> Graph.nodeConnections_ nodeId
+        let type_ =
+            (fun (p: Place) -> p.Type),
+            (fun v (p: Place) -> { p with Type = v })
 
     let cities_ =
         (fun (w: World) -> w.Cities),
@@ -222,15 +180,6 @@ module World =
 
     /// Lenses to the current city in the world given its ID.
     let city_ cityId = cities_ >-> Map.key_ cityId
-
-    /// Lenses to the city graph given its ID.
-    let cityGraph_ cityId = city_ cityId >?> City.graph_
-
-    /// Lenses to a specific city node in the world given its city and node IDs.
-    let node_ cityId nodeId =
-        cityGraph_ cityId
-        >?> Graph.nodes_
-        >?> Map.key_ nodeId
 
 module FromState =
     module Albums =
@@ -269,8 +218,10 @@ module FromState =
             State.concerts_
             >-> Map.keyWithDefault_
                     bandId
-                    { ScheduledEvents = Set.empty
-                      PastEvents = Set.empty }
+                    {
+                        ScheduledEvents = Set.empty
+                        PastEvents = Set.empty
+                    }
 
     module GenreMarkets =
         /// Lens into a specific genre market given its genre ID.

@@ -17,7 +17,6 @@
     <ItemGroup>
         <Compile Include="Album.Tests.fs"/>
         <Compile Include="Time.Tests.fs"/>
-        <Compile Include="World.Tests.fs"/>
         <Compile Include="Program.fs"/>
     </ItemGroup>
 
