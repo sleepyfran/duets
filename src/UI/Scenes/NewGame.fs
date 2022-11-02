@@ -17,7 +17,10 @@ let characterState = {|
     Name = new State<string>("")
     Gender = new State<Gender>(Gender.Other)
     Birthday =
-        new State<Date>(Calendar.gameBeginning |> Calendar.Ops.addYears -18)
+        new State<Date>(
+            Calendar.gameBeginning
+            |> Calendar.Ops.addYears -18
+        )
 |}
 
 let bandState = {|
@@ -32,37 +35,38 @@ let private characterCreator =
         fun ctx ->
             let name = ctx.usePassed characterState.Name
 
-            let gender = ctx.usePassed characterState.Gender
+            let gender =
+                ctx.usePassed characterState.Gender
 
-            let birthday = ctx.usePassed characterState.Birthday
+            let birthday =
+                ctx.usePassed characterState.Birthday
 
             let birthdaySelected (dateOffset: System.Nullable<DateTimeOffset>) =
                 birthday.Set dateOffset.Value.DateTime
 
-            StackPanel.create [
-                StackPanel.spacing 10
-                StackPanel.children [
-                    TextBlock.create [ TextBlock.text "Your character's name:" ]
-                    TextBox.create [
-                        TextBox.watermark "Character's name"
-                        TextBox.onTextChanged name.Set
-                    ]
+            Layout.vertical [
+                TextBlock.create [
+                    TextBlock.text "Your character's name:"
+                ]
+                TextBox.create [
+                    TextBox.watermark "Character's name"
+                    TextBox.onTextChanged name.Set
+                ]
 
-                    TextBlock.create [ TextBlock.text "Gender:" ]
-                    Picker.create
-                        {
-                            Selected = gender
-                            ToText = Text.Character.gender
-                            Values = [ Male; Female; Other ]
-                        }
+                TextBlock.create [ TextBlock.text "Gender:" ]
+                Picker.create
+                    {
+                        Selected = gender
+                        ToText = Text.Character.gender
+                        Values = [ Male; Female; Other ]
+                    }
 
-                    TextBlock.create [ TextBlock.text "Birthday:" ]
-                    DatePicker.create [
-                        DatePicker.selectedDate birthday.Current
-                        DatePicker.onSelectedDateChanged birthdaySelected
-                        Calendar.gameBeginning.AddYears -18
-                        |> DatePicker.maxYear
-                    ]
+                TextBlock.create [ TextBlock.text "Birthday:" ]
+                DatePicker.create [
+                    DatePicker.selectedDate birthday.Current
+                    DatePicker.onSelectedDateChanged birthdaySelected
+                    Calendar.gameBeginning.AddYears -18
+                    |> DatePicker.maxYear
                 ]
             ]
     )
@@ -74,38 +78,35 @@ let private bandCreator =
             let name = ctx.usePassed bandState.Name
             let genre = ctx.usePassed bandState.Genre
 
-            let instrument = ctx.usePassed bandState.CharacterInstrument
+            let instrument =
+                ctx.usePassed bandState.CharacterInstrument
 
-            StackPanel.create [
-                StackPanel.spacing 10
-                StackPanel.children [
-                    TextBlock.create [ TextBlock.text "Your band's name:" ]
-                    TextBox.create [
-                        TextBox.watermark "Band's name"
-                        TextBox.onTextChanged name.Set
-                    ]
-
-                    TextBlock.create [
-                        TextBlock.text
-                            "Genre: (you can always change this later)"
-                    ]
-                    Picker.create
-                        {
-                            Selected = genre
-                            ToText = id
-                            Values = Data.Genres.all
-                        }
-
-                    TextBlock.create [
-                        TextBlock.text "Which instrument will you play?"
-                    ]
-                    Picker.create
-                        {
-                            Selected = instrument
-                            ToText = Text.Music.roleName
-                            Values = Data.Roles.all
-                        }
+            Layout.vertical [
+                TextBlock.create [ TextBlock.text "Your band's name:" ]
+                TextBox.create [
+                    TextBox.watermark "Band's name"
+                    TextBox.onTextChanged name.Set
                 ]
+
+                TextBlock.create [
+                    TextBlock.text "Genre: (you can always change this later)"
+                ]
+                Picker.create
+                    {
+                        Selected = genre
+                        ToText = id
+                        Values = Data.Genres.all
+                    }
+
+                TextBlock.create [
+                    TextBlock.text "Which instrument will you play?"
+                ]
+                Picker.create
+                    {
+                        Selected = instrument
+                        ToText = Text.Music.roleName
+                        Values = Data.Roles.all
+                    }
             ]
     )
 
@@ -115,21 +116,27 @@ let view =
         fun ctx ->
             let switchTo = ctx.useSceneSwitcher ()
 
-            let characterName = ctx.usePassedRead characterState.Name
+            let characterName =
+                ctx.usePassedRead characterState.Name
 
-            let characterGender = ctx.usePassedRead characterState.Gender
+            let characterGender =
+                ctx.usePassedRead characterState.Gender
 
-            let characterBirthday = ctx.usePassedRead characterState.Birthday
+            let characterBirthday =
+                ctx.usePassedRead characterState.Birthday
 
-            let bandName = ctx.usePassedRead bandState.Name
+            let bandName =
+                ctx.usePassedRead bandState.Name
 
-            let bandGenre = ctx.usePassedRead bandState.Genre
+            let bandGenre =
+                ctx.usePassedRead bandState.Genre
 
             let characterInstrument =
                 ctx.usePassedRead bandState.CharacterInstrument
 
             let newGameEnabled =
-                (Character.validateName characterName.Current |> Result.isOk)
+                (Character.validateName characterName.Current
+                 |> Result.isOk)
                 && (Band.validateName bandName.Current |> Result.isOk)
 
             let onNewGame _ =
@@ -152,7 +159,8 @@ let view =
                             Calendar.gameBeginning
 
                 startGame character band |> Effect.apply
-                switchTo Scene.InGame
+
+                Scene.InGame |> switchTo
 
             let onBack _ = switchTo Scene.MainMenu
 

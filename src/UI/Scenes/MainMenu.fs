@@ -27,7 +27,8 @@ let view =
             let exit _ = System.Environment.Exit(0)
 
             let newGame _ = switchTo Scene.NewGame
-            let loadGame _ = switchTo Scene.InGame
+
+            let loadGame _ = Scene.InGame |> switchTo
 
             let savegameStatus = Savegame.load ()
 

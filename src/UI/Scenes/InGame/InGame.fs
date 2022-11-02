@@ -1,8 +1,6 @@
 module UI.Scenes.InGame.Root
 
-open Agents
 open Avalonia.Controls
-open Avalonia.Controls.Documents
 open Avalonia.FuncUI
 open Avalonia.FuncUI.DSL
 open Avalonia.FuncUI.Types
@@ -13,21 +11,8 @@ open Simulation
 open UI
 open UI.Components
 open UI.Hooks.GameState
-open UI.Scenes.InGame.Types
-
-let private textFromCoordinates (place: Place) : IView =
-    Span.create [
-        Span.inlines [
-            match place.Type with
-            | RehearsalSpace _ ->
-                Run.create [
-                    Run.text
-                        "You’re in the rehearsal room, the previous band left all their empty beers and a bunch of cigarettes on the floor. Your band’s morale has decreased a bit."
-                ]
-                :> IView
-            | _ -> Run.create []
-        ]
-    ]
+open UI.Hooks.ViewStack
+open UI.Types
 
 let private filterInteractions interactions =
     interactions
@@ -36,44 +21,30 @@ let private filterInteractions interactions =
         | Interaction.FreeRoam _ -> false
         | _ -> true)
 
-let private runInteraction state interaction =
+let private runInteraction _ interaction =
     match interaction.Interaction with
+    | Interaction.Rehearsal rehearsalInteraction ->
+        match rehearsalInteraction with
+        | RehearsalInteraction.ComposeNewSong ->
+            Subcomponent [
+                Interactions.RehearsalRoom.ComposeSong.view
+            ]
+        | _ -> Nothing
     | _ -> Nothing
-
-let private createMessage (content: IView list) : IView =
-    RichTextBlock.create [ RichTextBlock.inlines content ]
-
-let private applyEffects state effects =
-    effects
-    |> List.iter (fun effect ->
-        let effects, state =
-            Simulation.tick state effect
-
-        State.set state
-
-        effects |> Seq.iter Log.append
-    (* TODO: Display effects! *)
-    )
 
 let rec handleInteraction
     (state: IReadable<State>)
-    (viewStack: IWritable<IView list>)
+    (viewStack: ViewStack)
     interaction
     =
     let action =
         runInteraction state.Current interaction
 
-    match action with
-    | Message content ->
-        createMessage content :: viewStack.Current
-        |> viewStack.Set
-    | Subcomponent views -> views @ viewStack.Current |> viewStack.Set
-    | Effects effects -> applyEffects state.Current effects
-    | Nothing -> ()
+    viewStack.AddAction action
 
-let private createInteractionsChoiceView
+let private addInteractionsChoiceView
     (state: IReadable<State>)
-    (viewStack: IWritable<IView list>)
+    (viewStack: ViewStack)
     =
     let currentPlace =
         Queries.World.currentPlace state.Current
@@ -84,11 +55,11 @@ let private createInteractionsChoiceView
         Queries.Interactions.availableCurrently state.Current
         |> filterInteractions
 
-    let message =
-        [ textFromCoordinates currentPlace ]
-        |> createMessage
+    [ Text.World.Places.text currentPlace ]
+    |> Message
+    |> viewStack.AddAction
 
-    let choices =
+    [
         Choice.create
             {
                 Id = placeId.ToString()
@@ -96,29 +67,32 @@ let private createInteractionsChoiceView
                 ToText = (Text.World.Interactions.get state.Current)
                 Values = interactions
             }
-
-    [ message; choices ]
+        :> IView
+    ]
+    |> Subcomponent
+    |> viewStack.AddAction
 
 let view =
     Component.create (
         "InGame",
         fun ctx ->
             let state = ctx.useGameState ()
+            let viewStack = ctx.useViewStack ()
 
-            let viewStack = ctx.useState<IView list> []
+            let currentScene =
+                ctx.usePassedRead Store.shared.CurrentScene
 
             ctx.useEffect (
-                handler =
-                    (fun _ ->
-                        viewStack.Current
-                        @ (createInteractionsChoiceView state viewStack)
-                        |> viewStack.Set),
-                triggers = [ EffectTrigger.AfterChange state ]
+                handler = (fun _ -> addInteractionsChoiceView state viewStack),
+                triggers = [
+                    EffectTrigger.AfterInit
+                    EffectTrigger.AfterChange currentScene
+                ]
             )
 
             StackPanel.create [
                 StackPanel.orientation Orientation.Vertical
                 StackPanel.spacing 15
-                StackPanel.children [ yield! viewStack.Current ]
+                StackPanel.children [ yield! viewStack.Stack.Current ]
             ]
     )

@@ -12,7 +12,7 @@ type IComponentContext with
     member this.useSceneSwitcher() : Scene -> unit =
         fun scene ->
             match scene with
-            | Scene.InGame -> Savegame.save ()
+            | Scene.InGame _ -> Savegame.save ()
             | _ -> ()
 
             Store.shared.CurrentScene.Set scene

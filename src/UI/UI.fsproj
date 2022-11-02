@@ -11,20 +11,25 @@
         <Compile Include="Theme.fs"/>
         <Compile Include="Scene.fs"/>
         <Compile Include="Store.fs"/>
+        <Compile Include="Types.fs"/>
         <Compile Include="Text\Base.fs"/>
         <Compile Include="Text\Emoji.fs"/>
         <Compile Include="Text\Character.fs"/>
         <Compile Include="Text\Music.fs"/>
         <Compile Include="Text\Date.fs"/>
         <Compile Include="Text\World\Interactions.fs"/>
+        <Compile Include="Text\World\Places.fs"/>
         <Compile Include="Hooks\Scene.Hook.fs"/>
         <Compile Include="Hooks\GameState.Hook.fs"/>
+        <Compile Include="Hooks\ViewStack.Hook.fs"/>
+        <Compile Include="Components\Layout.fs"/>
+        <Compile Include="Components\MultiProgressBar.fs"/>
         <Compile Include="Components\Picker.fs"/>
         <Compile Include="Components\Divider.fs"/>
         <Compile Include="Components\Effect.fs"/>
         <Compile Include="Components\Header.fs"/>
         <Compile Include="Components\Choice.fs"/>
-        <Compile Include="Scenes\InGame\Types.fs"/>
+        <Compile Include="Components\Interactions\RehearsalRoom\ComposeSong.fs"/>
         <Compile Include="Scenes\InGame\InGame.fs"/>
         <Compile Include="Scenes\NewGame.fs"/>
         <Compile Include="Scenes\MainMenu.fs"/>
@@ -37,7 +42,7 @@
         <PackageReference Include="Avalonia.Desktop" Version="11.0.0-preview2"/>
         <PackageReference Include="Avalonia.Diagnostics" Version="11.0.0-preview2"/>
         <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.0-preview2"/>
-        <PackageReference Include="JaggerJo.Avalonia.FuncUI" Version="0.6.0-preview2"/>
+        <PackageReference Include="JaggerJo.Avalonia.FuncUI" Version="0.6.0-preview3"/>
         <PackageReference Include="JaggerJo.Avalonia.FuncUI.Elmish" Version="0.5.0"/>
     </ItemGroup>
 

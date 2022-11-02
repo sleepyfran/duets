@@ -1,4 +1,4 @@
-module UI.Scenes.InGame.Types
+module UI.Types
 
 open Avalonia.FuncUI.Types
 open Entities

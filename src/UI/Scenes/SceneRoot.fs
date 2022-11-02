@@ -55,8 +55,9 @@ let view =
 
         DockPanel.create [
             DockPanel.children [
-                if currentScene.Current = Scene.InGame then
-                    Header.view ctx
+                match currentScene.Current with
+                | Scene.InGame _ -> Header.view ctx
+                | _ -> ()
 
                 content currentScene
             ]
