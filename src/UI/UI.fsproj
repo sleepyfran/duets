@@ -22,6 +22,7 @@
         <Compile Include="Hooks\Scene.Hook.fs"/>
         <Compile Include="Hooks\GameState.Hook.fs"/>
         <Compile Include="Hooks\ViewStack.Hook.fs"/>
+        <Compile Include="Hooks\Effect.Hook.fs"/>
         <Compile Include="Components\Layout.fs"/>
         <Compile Include="Components\MultiProgressBar.fs"/>
         <Compile Include="Components\Picker.fs"/>

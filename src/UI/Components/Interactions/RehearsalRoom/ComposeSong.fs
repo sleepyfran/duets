@@ -1,5 +1,6 @@
 module UI.Components.Interactions.RehearsalRoom.ComposeSong
 
+open Agents
 open Avalonia.Controls
 open Avalonia.FuncUI
 open Avalonia.FuncUI.DSL
@@ -8,19 +9,25 @@ open Common
 open Entities
 open Entities.Time
 open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
+open Simulation.Songs.Composition.ComposeSong
 open UI.Components
+open UI.Hooks.Effect
 open UI.Hooks.Scene
 open UI.Hooks.ViewStack
 open UI.SceneIndex
 open UI.Types
 
-let private compositionProgress =
+let private compositionProgress song =
     Component.create (
         "Rehearsal-ComposeSong-CompositionProgress",
         fun ctx ->
+            let runEffects = ctx.useEffectRunner ()
             let switchTo = ctx.useSceneSwitcher ()
 
-            let onProgressFinish _ = Scene.InGame |> switchTo
+            let onProgressFinish _ =
+                composeSong (State.get ()) song |> List.ofItem |> runEffects
+
+                Scene.InGame |> switchTo
 
             Layout.vertical [
                 MultiProgressBar.view
@@ -45,8 +52,7 @@ let view =
 
             let name = ctx.useState ""
 
-            let length =
-                Length.from 3<minute> 45<second> |> ctx.useState
+            let length = Length.from 3<minute> 45<second> |> ctx.useState
 
             let lengthChanged l = Length.parse l |> length.Set
 
@@ -56,14 +62,24 @@ let view =
                 |> Result.andThen (
                     match length.Current with
                     | Ok l ->
-                        Song.validateLength l
-                        |> Result.mapError (fun _ -> ())
+                        Song.validateLength l |> Result.mapError (fun _ -> ())
                     | _ -> Error()
                 )
                 |> Result.isOk
 
             let onCreate _ =
-                [ compositionProgress :> IView ]
+                let songLength =
+                    length.Current
+                    |> Result.unwrap (* Validated in createEnabled. *)
+
+                let song =
+                    Song.from
+                        name.Current
+                        songLength
+                        VocalStyle.Growl
+                        "Blackgaze"
+
+                [ compositionProgress song :> IView ]
                 |> Subcomponent
                 |> viewStack.AddAction
 
