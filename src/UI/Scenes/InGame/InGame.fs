@@ -1,5 +1,6 @@
 module UI.Scenes.InGame.Root
 
+open Agents
 open Avalonia.Controls
 open Avalonia.FuncUI
 open Avalonia.FuncUI.DSL
@@ -10,7 +11,6 @@ open Entities
 open Simulation
 open UI
 open UI.Components
-open UI.Hooks.GameState
 open UI.Hooks.ViewStack
 open UI.Types
 
@@ -26,45 +26,33 @@ let private runInteraction _ interaction =
     | Interaction.Rehearsal rehearsalInteraction ->
         match rehearsalInteraction with
         | RehearsalInteraction.ComposeNewSong ->
-            Subcomponent [
-                Interactions.RehearsalRoom.ComposeSong.view
-            ]
+            Subcomponent [ Interactions.RehearsalRoom.ComposeSong.view ]
         | _ -> Nothing
     | _ -> Nothing
 
-let rec handleInteraction
-    (state: IReadable<State>)
-    (viewStack: ViewStack)
-    interaction
-    =
-    let action =
-        runInteraction state.Current interaction
+let rec handleInteraction state (viewStack: ViewStack) interaction =
+    let action = runInteraction state interaction
 
     viewStack.AddAction action
 
-let private addInteractionsChoiceView
-    (state: IReadable<State>)
-    (viewStack: ViewStack)
-    =
-    let currentPlace =
-        Queries.World.currentPlace state.Current
+let private addInteractionsChoiceView (viewStack: ViewStack) =
+    let state = State.get ()
+
+    let currentPlace = Queries.World.currentPlace state
 
     let (PlaceId placeId) = currentPlace.Id
 
     let interactions =
-        Queries.Interactions.availableCurrently state.Current
-        |> filterInteractions
+        Queries.Interactions.availableCurrently state |> filterInteractions
 
-    [ Text.World.Places.text currentPlace ]
-    |> Message
-    |> viewStack.AddAction
+    [ Text.World.Places.text currentPlace ] |> Message |> viewStack.AddAction
 
     [
         Choice.create
             {
                 Id = placeId.ToString()
                 OnSelected = (handleInteraction state viewStack)
-                ToText = (Text.World.Interactions.get state.Current)
+                ToText = (Text.World.Interactions.get state)
                 Values = interactions
             }
         :> IView
@@ -76,18 +64,24 @@ let view =
     Component.create (
         "InGame",
         fun ctx ->
-            let state = ctx.useGameState ()
             let viewStack = ctx.useViewStack ()
 
-            let currentScene =
-                ctx.usePassedRead Store.shared.CurrentScene
+            let currentScene = ctx.usePassedRead Store.shared.CurrentScene
 
             ctx.useEffect (
-                handler = (fun _ -> addInteractionsChoiceView state viewStack),
-                triggers = [
-                    EffectTrigger.AfterInit
-                    EffectTrigger.AfterChange currentScene
-                ]
+                handler = (fun _ -> addInteractionsChoiceView viewStack),
+                triggers = [ EffectTrigger.AfterInit ]
+            )
+
+            ctx.useEffect (
+                handler =
+                    (fun _ ->
+                        [ Divider.vertical :> IView ]
+                        |> InGameAction.Subcomponent
+                        |> viewStack.AddAction
+
+                        addInteractionsChoiceView viewStack),
+                triggers = [ EffectTrigger.AfterChange currentScene ]
             )
 
             StackPanel.create [
