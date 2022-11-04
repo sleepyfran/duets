@@ -31,7 +31,7 @@ let private compositionProgress =
                                 "Configuring reverb..."
                                 "Playing foosball..."
                             ]
-                        StepDuration = 2<second>
+                        StepDuration = 1<second>
                         OnFinish = onProgressFinish
                     }
             ]
