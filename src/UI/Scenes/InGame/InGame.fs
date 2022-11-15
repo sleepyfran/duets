@@ -52,7 +52,12 @@ let private addInteractionsChoiceView (viewStack: ViewStack) =
             {
                 Id = placeId.ToString()
                 OnSelected = (handleInteraction state viewStack)
-                ToText = (Text.World.Interactions.get state)
+                ChoiceContent =
+                    (fun item -> {
+                        Text = Text.World.Interactions.get state item
+                        Classes = []
+                        Enabled = true
+                    })
                 Values = interactions
             }
         :> IView

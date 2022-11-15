@@ -99,17 +99,12 @@ let view =
                     MaskedTextBox.onTextChanged lengthChanged
                 ]
 
-                Layout.horizontal [ (* TODO: Change to choice *)
-                    Button.create [
-                        Button.content "Create"
-                        Button.isEnabled createEnabled
-                        Button.onClick onCreate
-                    ]
-
-                    Button.create [
-                        Button.content "Cancel"
-                        Button.classes [ "destructive" ]
-                    ]
-                ]
+                Choice.createCancellable
+                    {
+                        ActionLabel = "Create"
+                        ActionEnabled = createEnabled
+                        OnAction = onCreate
+                        OnCancel = (fun () -> ())
+                    }
             ]
     )
