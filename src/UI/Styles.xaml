@@ -8,6 +8,7 @@
         <SolidColorBrush x:Key="DisabledBorder">#424242</SolidColorBrush>
         <SolidColorBrush x:Key="DestructiveOp">#B2474D</SolidColorBrush>
         <SolidColorBrush x:Key="Interactive">#47B2A6</SolidColorBrush>
+        <SolidColorBrush x:Key="Success">#2FAA65</SolidColorBrush>
         <CornerRadius x:Key="DefaultRadius">4</CornerRadius>
     </Styles.Resources>
 
@@ -21,7 +22,7 @@
     <Style Selector="Button:pointerover /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource Interactive}" />
     </Style>
-    
+
     <Style Selector="Button:disabled /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource Disabled}" />
         <Setter Property="BorderBrush" Value="{DynamicResource DisabledBorder}" />
@@ -34,7 +35,7 @@
     <Style Selector="Button.destructive:pointerover /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource DestructiveOp}" />
     </Style>
-    
+
     <Style Selector="Button.menu">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
     </Style>
@@ -42,7 +43,7 @@
     <Style Selector="Button.selected">
         <Setter Property="Background" Value="{DynamicResource Interactive}" />
     </Style>
-    
+
     <Style Selector="TextBox">
         <Setter Property="Background" Value="{DynamicResource Bg}" />
         <Setter Property="CornerRadius" Value="{DynamicResource DefaultRadius}" />
@@ -54,6 +55,10 @@
         <Setter Property="CornerRadius" Value="{DynamicResource DefaultRadius}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Height" Value="35" />
+    </Style>
+
+    <Style Selector="Run.success">
+        <Setter Property="Foreground" Value="{DynamicResource Success}" />
     </Style>
 
 </Styles>

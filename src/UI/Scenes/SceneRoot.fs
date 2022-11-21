@@ -5,7 +5,6 @@ open Avalonia.FuncUI
 open Avalonia.FuncUI.DSL
 open Avalonia.Layout
 open UI
-open UI.Components
 open UI.SceneIndex
 
 let private content scene =
@@ -50,13 +49,12 @@ let private content scene =
 
 let view =
     Component(fun ctx ->
-        let currentScene =
-            ctx.usePassedRead Store.shared.CurrentScene
+        let currentScene = ctx.usePassedRead Store.shared.CurrentScene
 
         DockPanel.create [
             DockPanel.children [
                 match currentScene.Current with
-                | Scene.InGame _ -> Header.view ctx
+                | Scene.InGame _ -> Scenes.InGame.Header.view ctx
                 | _ -> ()
 
                 content currentScene

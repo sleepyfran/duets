@@ -26,7 +26,7 @@ let private runInteraction _ interaction =
     | Interaction.Rehearsal rehearsalInteraction ->
         match rehearsalInteraction with
         | RehearsalInteraction.ComposeNewSong ->
-            Subcomponent [ Interactions.RehearsalRoom.ComposeSong.view ]
+            Subcomponent [ RehearsalRoom.ComposeSong.view ]
         | _ -> Nothing
     | _ -> Nothing
 

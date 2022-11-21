@@ -1,12 +1,14 @@
 module rec UI.Hooks.Effect
 
 open Agents
+open Avalonia.Controls.Documents
 open Avalonia.FuncUI
 open Avalonia.FuncUI.DSL
 open Avalonia.FuncUI.Types
 open Common
 open Entities
 open Simulation
+open UI.Components.Run
 open UI.Hooks.ViewStack
 open UI.Types
 
@@ -21,9 +23,8 @@ let private displayEffect viewStack effect =
     match effect with
     | SongStarted (_, (UnfinishedSong song, _, _)) ->
         [
-            Run.createText
-                $"""Your band has started working on the song "{song.Name}". You can finish or improve it through the compose section in the rehearsal room"""
-            :> IView
+            Run.success
+                $"""Your band has started working on a {song.Genre} song called "{song.Name}". You can cancel, finish or improve it in the rehearsal room"""
         ]
         |> InGameAction.Message
         |> viewStack.AddAction

@@ -1,4 +1,4 @@
-module UI.Components.Interactions.RehearsalRoom.ComposeSong
+module UI.Scenes.InGame.RehearsalRoom.ComposeSong
 
 open Agents
 open Avalonia.Controls
@@ -10,6 +10,7 @@ open Entities
 open Entities.Time
 open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
 open Simulation.Songs.Composition.ComposeSong
+open UI
 open UI.Components
 open UI.Hooks.Effect
 open UI.Hooks.Scene
@@ -21,11 +22,11 @@ let private compositionProgress song =
     Component.create (
         "Rehearsal-ComposeSong-CompositionProgress",
         fun ctx ->
-            let runEffects = ctx.useEffectRunner ()
+            let applyEffects = ctx.useEffectRunner ()
             let switchTo = ctx.useSceneSwitcher ()
 
             let onProgressFinish _ =
-                composeSong (State.get ()) song |> List.ofItem |> runEffects
+                composeSong (State.get ()) song |> List.ofItem |> applyEffects
 
                 Scene.InGame |> switchTo
 
@@ -54,6 +55,10 @@ let view =
 
             let length = Length.from 3<minute> 45<second> |> ctx.useState
 
+            let genre = ctx.useState Data.Genres.all.Head
+
+            let vocalStyle = ctx.useState VocalStyle.Normal
+
             let lengthChanged l = Length.parse l |> length.Set
 
             let createEnabled =
@@ -76,8 +81,8 @@ let view =
                     Song.from
                         name.Current
                         songLength
-                        VocalStyle.Growl
-                        "Blackgaze"
+                        vocalStyle.Current
+                        genre.Current
 
                 [ compositionProgress song :> IView ]
                 |> Subcomponent
@@ -98,6 +103,22 @@ let view =
                     MaskedTextBox.mask "00:00"
                     MaskedTextBox.onTextChanged lengthChanged
                 ]
+
+                TextBlock.create [ TextBlock.text "Song's genre:" ]
+                Picker.create
+                    {
+                        Selected = genre
+                        ToText = id
+                        Values = Data.Genres.all
+                    }
+
+                TextBlock.create [ TextBlock.text "Song's vocal style:" ]
+                Picker.create
+                    {
+                        Selected = vocalStyle
+                        ToText = Text.Music.vocalStyleName
+                        Values = Data.VocalStyles.all
+                    }
 
                 Choice.createCancellable
                     {

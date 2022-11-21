@@ -1,4 +1,4 @@
-module UI.Components.Header
+module UI.Scenes.InGame.Header
 
 open Avalonia.Controls
 open Avalonia.FuncUI
@@ -8,6 +8,7 @@ open Avalonia.Layout
 open Entities
 open Simulation
 open UI
+open UI.Components
 open UI.Hooks.GameState
 
 let private headerText text customAttrs =
@@ -33,8 +34,7 @@ let private headerEmojiText emoji text =
     :> IView
 
 let private characterAttributes state =
-    let attrs =
-        Queries.Characters.allPlayableCharacterAttributes state
+    let attrs = Queries.Characters.allPlayableCharacterAttributes state
 
     let allowedAttributes = [
         CharacterAttribute.Health
@@ -48,8 +48,7 @@ let private characterAttributes state =
         headerEmojiText (Text.Emoji.attribute attr amount) $"{amount}")
 
 let private concertAttributes state =
-    let situation =
-        Queries.Situations.current state
+    let situation = Queries.Situations.current state
 
     match situation with
     | InConcert ongoingConcert -> [
@@ -60,11 +59,9 @@ let private concertAttributes state =
 let view (ctx: IComponentContext) =
     let state = ctx.useGameState ()
 
-    let today =
-        Queries.Calendar.today state.Current
+    let today = Queries.Calendar.today state.Current
 
-    let currentDayMoment =
-        Calendar.Query.dayMomentOf today
+    let currentDayMoment = Calendar.Query.dayMomentOf today
 
     StackPanel.create [
         StackPanel.dock Dock.Top
@@ -90,9 +87,7 @@ let view (ctx: IComponentContext) =
 
                             headerText
                                 (Text.Date.dayMomentName currentDayMoment)
-                                [
-                                    (TextBlock.foreground Theme.Brush.fg)
-                                ]
+                                [ (TextBlock.foreground Theme.Brush.fg) ]
 
                             Divider.horizontal
 
@@ -104,14 +99,8 @@ let view (ctx: IComponentContext) =
                 )
             ]
 
-            Button.create [
-                Button.isEnabled false
-                Button.content "🗺️ Map"
-            ]
+            Button.create [ Button.isEnabled false; Button.content "🗺️ Map" ]
 
-            Button.create [
-                Button.isEnabled false
-                Button.content "📱 Phone"
-            ]
+            Button.create [ Button.isEnabled false; Button.content "📱 Phone" ]
         ]
     ]
