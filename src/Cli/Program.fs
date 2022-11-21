@@ -5,7 +5,6 @@ open Cli.Scenes
 open System.Globalization
 open System.Threading
 
-
 /// Determines whether the given scene is out of gameplay (main menu, creators,
 /// etc.) or not.
 let private outOfGameplayScene scene =
@@ -36,11 +35,9 @@ let rec showScene scene =
         BandCreator.bandCreator character |> showScene
     | Scene.Phone -> Phone.Root.phoneScene () |> showScene
     | Scene.World ->
-        World.worldScene World.IgnoreDescription
-        |> showScene
+        World.worldScene World.WorldMode.IgnoreDescription |> showScene
     | Scene.WorldAfterMovement ->
-        World.worldScene World.ShowDescription
-        |> showScene
+        World.worldScene World.WorldMode.ShowDescription |> showScene
     | Scene.Exit ->
         Savegame.saveSync ()
         ()

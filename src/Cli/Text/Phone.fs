@@ -54,7 +54,7 @@ let schedulerAssistantAppVisualizeConcertInfo
     (city: City)
     ticketsSold
     =
-    $"""{Styles.highlight $"*{Generic.dayMomentName dayMoment}"}: Concert at {Styles.place place.Name}, {Styles.place city.Name}. Sold {Styles.information ticketsSold} tickets"""
+    $"""{Styles.highlight $"*{Generic.dayMomentName dayMoment}"}: Concert at {Styles.place place.Name}, {Styles.place (Generic.cityName city.Id)}. Sold {Styles.information ticketsSold} tickets"""
 
 let schedulerAssistantAppVisualizeNoConcerts = "No concerts"
 

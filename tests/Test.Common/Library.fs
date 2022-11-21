@@ -6,6 +6,7 @@ open Aether.Operators
 open Common
 open Fugit.Months
 open Entities
+open Simulation
 open Simulation.Concerts.Live
 open Simulation.Setup
 
@@ -35,14 +36,32 @@ let dummyBand =
         Name = "Dummy Band"
         Genre = "Jazz"
         Members =
-            [ Band.Member.from dummyCharacter.Id Guitar (Calendar.gameBeginning) ] }
+            [
+                Band.Member.from
+                    dummyCharacter.Id
+                    Guitar
+                    (Calendar.gameBeginning)
+            ]
+    }
 
 let dummyBandWithMultipleMembers =
     { dummyBand with
         Members =
-            [ Band.Member.from dummyCharacter.Id Guitar (Calendar.gameBeginning)
-              Band.Member.from dummyCharacter2.Id Bass (Calendar.gameBeginning)
-              Band.Member.from dummyCharacter3.Id Drums (Calendar.gameBeginning) ] }
+            [
+                Band.Member.from
+                    dummyCharacter.Id
+                    Guitar
+                    (Calendar.gameBeginning)
+                Band.Member.from
+                    dummyCharacter2.Id
+                    Bass
+                    (Calendar.gameBeginning)
+                Band.Member.from
+                    dummyCharacter3.Id
+                    Drums
+                    (Calendar.gameBeginning)
+            ]
+    }
 
 let dummySong =
     { Song.empty with Genre = "Jazz" }
@@ -77,41 +96,50 @@ let dummyAlbum =
 let dummyUnreleasedAlbum =
     UnreleasedAlbum dummyAlbum
 
-let dummyReleasedAlbum =
-    { Album = dummyAlbum
-      ReleaseDate = dummyToday
-      Streams = 0
-      Hype = 1.0 }
+let dummyReleasedAlbum = {
+    Album = dummyAlbum
+    ReleaseDate = dummyToday
+    Streams = 0
+    Hype = 1.0
+}
 
-let dummyStudio =
-    { Producer = dummyCharacter
-      PricePerSong = 200<dd> }
+let dummyStudio = {
+    Producer = dummyCharacter
+    PricePerSong = 200<dd>
+}
 
-let dummyConcert =
-    { Id = Identity.create ()
-      CityId = (Identity.from "cea284b4-7714-45cc-a101-c1d69e347671")
-      VenueId = (Identity.from "1a08f39b-714e-4e26-bc8c-f07744af1777")
-      Date = dummyToday.AddDays(30)
-      DayMoment = Night
-      TicketPrice = 20<dd>
-      TicketsSold = 0 }
+let dummyConcert = {
+    Id = Identity.create ()
+    CityId = Prague
+    VenueId =
+        Queries.World.placeIdsOf Prague PlaceTypeIndex.ConcertSpace
+        |> List.head
+    Date = dummyToday.AddDays(30)
+    DayMoment = Night
+    TicketPrice = 20<dd>
+    TicketsSold = 0
+}
 
 let dummyState =
     startGame dummyCharacter dummyBand
     |> fun (GameCreated state) ->
         { state with
             GenreMarkets =
-                [ "Jazz", { MarketPoint = 2.5; Fluctuation = 1.0 } ]
-                |> Map.ofList }
+                [
+                    "Jazz", { MarketPoint = 2.5; Fluctuation = 1.0 }
+                ]
+                |> Map.ofList
+        }
 
 let dummyStateWithMultipleMembers =
     startGame dummyCharacter dummyBandWithMultipleMembers
     |> fun (GameCreated state) -> state
 
-let dummyOngoingConcert =
-    { Events = []
-      Points = 0<quality>
-      Concert = dummyConcert }
+let dummyOngoingConcert = {
+    Events = []
+    Points = 0<quality>
+    Concert = dummyConcert
+}
 
 /// Adds a given member to the given band.
 let addMember (band: Band) bandMember =

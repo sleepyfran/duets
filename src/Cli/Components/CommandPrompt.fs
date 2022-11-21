@@ -64,27 +64,6 @@ type private HistoryAgent() =
 let private historyAgent = HistoryAgent()
 
 let private editor availableCommands =
-    let e = LineEditor()
-    e.Prompt <- LineEditorPrompt Command.prompt
-    e.MultiLine <- false
-    e.Completion <- CommandCompletion(availableCommands)
-
-    (*
-    TODO: Consider a better way of keeping the history without duplicating it. Maybe a static editor wouldn't be that bad idea.
-    *)
-    historyAgent.Get() |> List.iter e.History.Add
-
-    (*
-    Setup history with up and down arrow. By default RadLine includes the
-    history navigation as CTRL + Arrow but that doesn't really work properly
-    in macOS and it's confusing anyway. Since the prompt is not multi-line we
-    can use the normal arrow keys, so override.
-    *)
-    e.KeyBindings.Remove(ConsoleKey.UpArrow)
-    e.KeyBindings.Remove(ConsoleKey.DownArrow)
-    e.KeyBindings.Add<PreviousHistoryCommand>(ConsoleKey.UpArrow)
-    e.KeyBindings.Add<NextHistoryCommand>(ConsoleKey.DownArrow)
-
     (* Highlight all recognized commands in green. *)
     let mutable highlighter = WordHighlighter()
 
@@ -106,8 +85,31 @@ let private editor availableCommands =
             highlighter <-
                 highlighter.AddWord(token, Style(foreground = tokenColor))))
 
-    e.Highlighter <- highlighter
-    e
+    let editor =
+        LineEditor(
+            Prompt = LineEditorPrompt Command.prompt,
+            MultiLine = false,
+            Completion = CommandCompletion(availableCommands),
+            Highlighter = highlighter
+        )
+
+    (*
+    TODO: Consider a better way of keeping the history without duplicating it. Maybe a static editor wouldn't be that bad idea.
+    *)
+    historyAgent.Get() |> List.iter editor.History.Add
+
+    (*
+    Setup history with up and down arrow. By default RadLine includes the
+    history navigation as CTRL + Arrow but that doesn't really work properly
+    in macOS and it's confusing anyway. Since the prompt is not multi-line we
+    can use the normal arrow keys, so override.
+    *)
+    editor.KeyBindings.Remove(ConsoleKey.UpArrow)
+    editor.KeyBindings.Remove(ConsoleKey.DownArrow)
+    editor.KeyBindings.Add<PreviousHistoryCommand>(ConsoleKey.UpArrow)
+    editor.KeyBindings.Add<NextHistoryCommand>(ConsoleKey.DownArrow)
+
+    editor
 
 /// <summary>
 /// Renders a command prompt that the given available commands and the exit/help
@@ -127,8 +129,7 @@ let private editor availableCommands =
 /// </returns>
 let rec showCommandPrompt title availableCommands =
     let commandsWithEssentials =
-        availableCommands
-        @ [ ExitCommand.get; MeCommand.get ]
+        availableCommands @ [ ExitCommand.get; MeCommand.get ]
         |> fun commands -> [ HelpCommand.create commands ] @ commands
 
     let prompt = editor commandsWithEssentials
@@ -143,8 +144,7 @@ let rec showCommandPrompt title availableCommands =
         |> fun input ->
             historyAgent.Add input
 
-            let inputTokens =
-                String.split ' ' input |> List.ofArray
+            let inputTokens = String.split ' ' input |> List.ofArray
 
             commandsWithEssentials
             |> List.tryFind (fun command ->

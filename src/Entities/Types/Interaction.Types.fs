@@ -12,6 +12,8 @@ module InteractionTypes =
         /// Performs a bass solo, which gives points based on the player's
         /// bass skills.
         | BassSolo of OngoingConcert
+        /// Dedicates a song to a certain someone.
+        | DedicateSong of OngoingConcert
         /// Allows to play more songs after stepping out of the stage.
         | DoEncore of OngoingConcert
         /// Performs a drum solo, which gives points based on the player's
@@ -37,7 +39,7 @@ module InteractionTypes =
         /// sing a few lines. Gives points depending on the player's vocal skills
         /// and the band fame.
         | MakeCrowdSing of OngoingConcert
-        /// Allows to play and/or dedicate a song.
+        /// Allows to play a song.
         | PlaySong of OngoingConcert
         /// Makes the character put the microphone back on the stand.
         | PutMicOnStand of OngoingConcert
@@ -79,14 +81,10 @@ module InteractionTypes =
     /// Interactions related to moving around the world.
     [<RequireQualifiedAccess>]
     type FreeRoamInteraction =
-        /// Allows going out of the current place towards the given NodeId.
-        | GoOut of exit: NodeId * coordinates: ResolvedOutsideCoordinates
-        /// Allows the user to see what they are currently carrying.
+        /// Allows the player to see what they are currently carrying.
         | Inventory of inventory: Item list
-        /// Allows the user to look around and see which objects are available.
-        | Look of items: Item list
-        /// Allows movement into the specified direction.
-        | Move of direction: Direction * coordinates: NodeCoordinates
+        /// Allows the player to travel around the current city.
+        | Map
         /// Allows the character to use the phone.
         | Phone
         /// Allows waiting.
@@ -153,6 +151,7 @@ module InteractionTypes =
         | Disabled of InteractionDisabledReason
 
     /// Defines an interaction and its state (enabled or disabled).
-    type InteractionWithState =
-        { Interaction: Interaction
-          State: InteractionState }
+    type InteractionWithState = {
+        Interaction: Interaction
+        State: InteractionState
+    }

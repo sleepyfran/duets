@@ -9,11 +9,7 @@ type VariableVerb = Have
 
 /// Dictionary of conjugations of verb based on the gender.
 let private verbConjugationByGender =
-    [ (Have,
-       [ (Male, "Has")
-         (Female, "Has")
-         (Other, "Have") ]
-       |> Map.ofList) ]
+    [ (Have, [ (Male, "Has"); (Female, "Has"); (Other, "Have") ] |> Map.ofList) ]
     |> Map.ofList
 
 /// Returns the formatted instrument name given its type.
@@ -41,30 +37,6 @@ let skillName id =
         $"{instrumentName instrument} (Instrument)"
     | SkillId.MusicProduction -> "Music production"
     | SkillId.Speech -> "Speech"
-
-/// Returns the command associated with the given direction.
-let directionCommand direction =
-    match direction with
-    | North -> "n"
-    | NorthEast -> "ne"
-    | East -> "e"
-    | SouthEast -> "se"
-    | South -> "s"
-    | SouthWest -> "sw"
-    | West -> "w"
-    | NorthWest -> "nw"
-
-/// Returns the name of the given direction.
-let directionName direction =
-    match direction with
-    | North -> "north"
-    | NorthEast -> "north east"
-    | East -> "east"
-    | SouthEast -> "south east"
-    | South -> "south"
-    | SouthWest -> "south west"
-    | West -> "west"
-    | NorthWest -> "north west"
 
 /// Returns the correct pronoun for the given gender (he, she, they).
 let subjectPronounForGender gender =
@@ -94,9 +66,7 @@ let indeterminateArticleFor word = (AvsAn.Query word).Article
 /// Returns the correct conjugation for the given verb that matches with the
 /// specified gender.
 let verbConjugationForGender verb gender =
-    verbConjugationByGender
-    |> Map.find verb
-    |> Map.find gender
+    verbConjugationByGender |> Map.find verb |> Map.find gender
 
 /// Returns the correct name of the given account holder.
 let accountHolderName holder =
@@ -118,11 +88,7 @@ let dayMomentName dayMoment =
 /// Returns the formatted time of a given day moment.
 let dayMomentTime dayMoment =
     Calendar.Query.timeOfDayMoment dayMoment
-    |> fun hour ->
-        if hour > 9 then
-            $"{hour}:00"
-        else
-            $"0{hour}:00"
+    |> fun hour -> if hour > 9 then $"{hour}:00" else $"0{hour}:00"
 
 /// Returns the name of the day in the given date.
 let dayName (date: Date) = date.DayOfWeek.ToString()
@@ -134,13 +100,10 @@ let albumType t =
     | EP -> "EP"
     | LP -> "LP"
 
-/// Returns the name of a descriptor.
-let descriptorText descriptor =
-    match descriptor with
-    | Beautiful -> "Beautiful"
-    | Boring -> "Boring"
-    | Central -> "Central"
-    | Historical -> "Historical"
+/// Returns the name of a city given its id.
+let cityName id =
+    match id with
+    | Prague -> "Prague"
 
 /// Returns a formatted list as empty if it contains nothing, "a" if it contains
 /// only one element, "a and b" with two elements and "a, b and c" for all other
@@ -210,16 +173,13 @@ let noUnfinishedSongs =
 let back = Styles.faded "Go back"
 let cancel = Styles.faded "Cancel"
 
-let backToMainMenu =
-    Styles.faded "Back to main menu"
+let backToMainMenu = Styles.faded "Back to main menu"
 
 let backToMap = Styles.faded "Back to map"
 
-let backToPhone =
-    Styles.faded "Back to phone"
+let backToPhone = Styles.faded "Back to phone"
 
-let backToWorld =
-    Styles.faded "Back to world"
+let backToWorld = Styles.faded "Back to world"
 
 let nothing = Styles.faded "Nothing"
 
@@ -233,8 +193,7 @@ let skillImproved
     currentLevel
     =
     Styles.success
-        $"""{characterName} improved {(possessiveAdjectiveForGender characterGender)
-                                      |> String.lowercase} {skillName skill.Id |> String.lowercase} skill from {previousLevel} to {currentLevel}"""
+        $"""{characterName} improved {(possessiveAdjectiveForGender characterGender) |> String.lowercase} {skillName skill.Id |> String.lowercase} skill from {previousLevel} to {currentLevel}"""
 
 let invalidDate =
     Styles.error

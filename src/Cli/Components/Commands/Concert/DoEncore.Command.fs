@@ -14,6 +14,6 @@ module DoEncoreCommand =
         Concert.createCommand
             "do encore"
             Command.doEncoreDescription
-            doEncore
+            (fun _ -> doEncore)
             (fun _ _ -> Concert.encoreComingBackToStage |> showMessage)
             ongoingConcert

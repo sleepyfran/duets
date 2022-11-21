@@ -15,7 +15,7 @@ type Scene =
     /// with different objects.
     | World
     /// Shows the world scene after character's movement same as before, but
-    /// displaying details about the current room.
+    /// displaying details about the current place.
     | WorldAfterMovement
     | Phone
     // Saves the game and exits.

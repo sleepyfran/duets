@@ -63,8 +63,7 @@ module Command =
             $"{verb} {formattedPrepositions} [[item]]"
 
     let private findItem itemName =
-        Queries.Items.allInCurrentLocation (State.get ())
-        @ Queries.Inventory.get (State.get ())
+        Queries.Inventory.get (State.get ())
         |> List.tryFind (fun item ->
             String.diacriticInsensitiveContains itemName item.Brand
             || String.diacriticInsensitiveContains

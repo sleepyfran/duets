@@ -20,9 +20,7 @@
         <Compile Include="Queries\Bands.fs" />
         <Compile Include="Queries\Concerts.fs" />
         <Compile Include="Queries\Inventory.fs" />
-        <Compile Include="Queries\World\World.fs" />
-        <Compile Include="Queries\World\ConcertSpace.fs" />
-        <Compile Include="Queries\Items.fs"/>
+        <Compile Include="Queries\World.fs"/>
         <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Health.fs" />
         <Compile Include="Queries\Interactions\Interactions.Items.fs"/>
         <Compile Include="Queries\Interactions\Interactions.ConcertSpace.fs" />
@@ -42,7 +40,6 @@
         <Compile Include="State\Skills.fs" />
         <Compile Include="State\World.fs" />
         <Compile Include="State\State.fs" />
-        <Compile Include="WorldNavigation\Policies\Concert.NavigationPolicies.fs" />
         <Compile Include="WorldNavigation\Navigation.fs" />
         <Compile Include="Situations\Situations.fs" />
 		<Compile Include="Character\Attributes.fs" />

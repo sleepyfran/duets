@@ -9,7 +9,6 @@ open Common
 open Entities
 open Simulation
 open Simulation.Concerts
-open Simulation.Queries
 
 let private textFromDate date = Generic.dateWithDay date
 
@@ -33,8 +32,7 @@ let rec scheduleShow app =
     // Skip 5 days to give enough time for the scheduler to compute some ticket
     // purchases, otherwise the concert would be empty.
     let firstAvailableDay =
-        Calendar.today (State.get ())
-        |> Calendar.Ops.addDays 5
+        Queries.Calendar.today (State.get ()) |> Calendar.Ops.addDays 5
 
     promptForDate app firstAvailableDay
 
@@ -75,13 +73,13 @@ and private promptForDayMoment app date =
     | None -> app ()
 
 and private promptForCity app date dayMoment =
-    let cities = World.Common.allCities
+    let cities = Queries.World.allCities
 
     let selectedCity =
         showOptionalChoicePrompt
             Phone.schedulerAssistantAppShowCityPrompt
             Generic.cancel
-            (fun (city: City) -> city.Name)
+            (fun (city: City) -> Generic.cityName city.Id)
             cities
 
     match selectedCity with
@@ -89,17 +87,19 @@ and private promptForCity app date dayMoment =
     | None -> app ()
 
 and private promptForVenue app date dayMoment city =
-    let venues = World.ConcertSpace.allInCity city.Id
+    let venues =
+        Queries.World.placeIdsOf city.Id PlaceTypeIndex.ConcertSpace
+        |> List.map (Queries.World.placeInCityById city.Id)
 
     let selectedVenue =
         showOptionalChoicePrompt
             Phone.schedulerAssistantAppShowVenuePrompt
             Generic.cancel
-            (fun (_, place: Place, _) -> place.Name)
+            (fun (place: Place) -> place.Name)
             venues
 
     match selectedVenue with
-    | Some (nodeId, _, _) -> promptForTicketPrice app date dayMoment city nodeId
+    | Some place -> promptForTicketPrice app date dayMoment city place.Id
     | None -> app ()
 
 and private promptForTicketPrice app date dayMoment city venueId =

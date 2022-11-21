@@ -3,6 +3,7 @@ module Cli.Scenes.World
 open Agents
 open Cli.Components
 open Cli.Components.Commands
+open Cli.Components.Commands.Map
 open Cli.Text
 open Common
 open Entities
@@ -48,8 +49,9 @@ let private commandsFromInteractions interactions =
             | ConcertInteraction.MakeCrowdSing ongoingConcert ->
                 [ MakeCrowdSingCommand.create ongoingConcert ]
             | ConcertInteraction.PlaySong ongoingConcert ->
-                [ PlaySongCommands.createPlaySong ongoingConcert
-                  PlaySongCommands.createDedicateSong ongoingConcert ]
+                [ PlaySongCommands.createPlaySong ongoingConcert ]
+            | ConcertInteraction.DedicateSong ongoingConcert ->
+                [ PlaySongCommands.createDedicateSong ongoingConcert ]
             | ConcertInteraction.PutMicOnStand _ ->
                 [ Command.message
                       "put mic on stand"
@@ -78,12 +80,9 @@ let private commandsFromInteractions interactions =
                 [ InteractiveCommand.watch ]
         | Interaction.FreeRoam freeRoamInteraction ->
             match freeRoamInteraction with
-            | FreeRoamInteraction.GoOut (exit, _) -> [ OutCommand.create exit ]
             | FreeRoamInteraction.Inventory inventory ->
                 [ InventoryCommand.create inventory ]
-            | FreeRoamInteraction.Look items -> [ LookCommand.create items ]
-            | FreeRoamInteraction.Move (direction, nodeId) ->
-                [ NavigationCommand.create direction nodeId ]
+            | FreeRoamInteraction.Map -> [ MapCommand.get ]
             | FreeRoamInteraction.Phone -> [ PhoneCommand.get ]
             | FreeRoamInteraction.Wait -> [ WaitCommand.get ]
         | Interaction.Rehearsal rehearsalInteraction ->
@@ -131,26 +130,19 @@ type WorldMode =
 let worldScene mode =
     lineBreak ()
 
-    let today =
-        Queries.Calendar.today (State.get ())
+    let today = Queries.Calendar.today (State.get ())
 
-    let currentDayMoment =
-        Calendar.Query.dayMomentOf today
+    let currentDayMoment = Calendar.Query.dayMomentOf today
 
     let interactionsWithState =
         Queries.Interactions.availableCurrently (State.get ())
 
-    let currentPosition =
-        State.get ()
-        |> Queries.World.Common.currentPosition
+    let currentPlace = State.get () |> Queries.World.currentPlace
 
-    let situation =
-        Queries.Situations.current (State.get ())
+    let situation = Queries.Situations.current (State.get ())
 
     match mode with
-    | ShowDescription ->
-        showCoordinateDescription currentPosition.Content
-        showRoomConnections interactionsWithState
+    | ShowDescription -> World.placeDescription currentPlace |> showMessage
     | IgnoreDescription -> ()
 
     let characterAttributes =

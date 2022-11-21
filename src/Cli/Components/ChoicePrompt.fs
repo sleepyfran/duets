@@ -29,7 +29,7 @@ let showChoicePrompt<'a> title optionTextFn (choices: 'a seq) =
     selectionPrompt <- selectionPrompt.AddChoices(choices)
 
     selectionPrompt <- selectionPrompt.UseConverter(fun c -> optionTextFn c)
-
+    
     AnsiConsole.Prompt(selectionPrompt)
     |> Pipe.tap (optionTextFn >> showSelection)
 

@@ -6,7 +6,8 @@ open Entities
 open Simulation
 
 let private ticketPriceModifier state bandFame concert =
-    let ticketPrice = concert.TicketPrice / 1<dd> |> float
+    let ticketPrice =
+        concert.TicketPrice / 1<dd> |> float
 
     let ticketPriceCap =
         match bandFame with
@@ -32,7 +33,8 @@ let private ticketPriceModifier state bandFame concert =
     else
         // If the price is the same as the price cap or just slightly up, reduce
         // until right before the cap was surpassed.
-        let adaptedPrice = ticketPrice - (ticketPrice - ticketPriceCap) - 1.0
+        let adaptedPrice =
+            ticketPrice - (ticketPrice - ticketPriceCap) - 1.0
 
         1.0 - (adaptedPrice / ticketPriceCap) ** 20.0
 
@@ -42,7 +44,8 @@ let private lastVisitModifier state (band: Band) concert =
 
     match lastConcertInCity with
     | Some lastConcert ->
-        let lastConcert = Concert.fromPast lastConcert
+        let lastConcert =
+            Concert.fromPast lastConcert
 
         concert.Date - lastConcert.Date
         |> fun span ->
@@ -53,26 +56,36 @@ let private lastVisitModifier state (band: Band) concert =
     | None -> 1.0
 
 let private dailyTicketSell concert attendanceCap =
-    let (ScheduledConcert (concert, dateScheduled)) = concert
+    let (ScheduledConcert (concert, dateScheduled)) =
+        concert
 
-    let daysUntilConcert = (concert.Date - dateScheduled).Days |> max 1
+    let daysUntilConcert =
+        (concert.Date - dateScheduled).Days |> max 1
 
     attendanceCap / float daysUntilConcert
 
-let private concertDailyUpdate state concert =
-    let currentBand = Queries.Bands.currentBand state
+let private concertDailyUpdate state scheduledConcert =
+    let currentBand =
+        Queries.Bands.currentBand state
 
-    let innerConcert = Concert.fromScheduled concert
+    let concert =
+        Concert.fromScheduled scheduledConcert
 
-    let (_, venue) =
-        Queries.World.ConcertSpace.byId innerConcert.CityId innerConcert.VenueId
-        |> Option.get
+    let venue =
+        Queries.World.placeInCurrentCityById state concert.VenueId
+        |> fun place ->
+            match place.Type with
+            | ConcertSpace concertSpace -> concertSpace
+            | _ -> failwith "How did we get here?"
 
-    let bandFame = Queries.Bands.estimatedFameLevel state currentBand
+    let bandFame =
+        Queries.Bands.estimatedFameLevel state currentBand
 
-    let ticketPriceModifier = ticketPriceModifier state bandFame innerConcert
+    let ticketPriceModifier =
+        ticketPriceModifier state bandFame concert
 
-    let lastVisitModifier = lastVisitModifier state currentBand innerConcert
+    let lastVisitModifier =
+        lastVisitModifier state currentBand concert
 
     let fanAttendanceCap =
         float currentBand.Fans
@@ -87,21 +100,20 @@ let private concertDailyUpdate state concert =
         * ticketPriceModifier
 
     let dailyTicketsSold =
-        dailyTicketSell concert nonFansAttendanceCap
-        |> (+) (dailyTicketSell concert fanAttendanceCap)
+        dailyTicketSell scheduledConcert nonFansAttendanceCap
+        |> (+) (dailyTicketSell scheduledConcert fanAttendanceCap)
         |> Math.roundToNearest
 
     Optic.map
         Lenses.Concerts.Scheduled.ticketsSold_
         (fun soldTickets -> min venue.Capacity (soldTickets + dailyTicketsSold))
-        concert
+        scheduledConcert
     |> Tuple.two currentBand
     |> ConcertUpdated
 
 let dailyUpdate state =
-    let currentBand = Queries.Bands.currentBand state
+    let currentBand =
+        Queries.Bands.currentBand state
 
     Queries.Concerts.allScheduled state currentBand.Id
-    |> Set.fold
-        (fun acc concert -> acc @ [ concertDailyUpdate state concert ])
-        []
+    |> Set.fold (fun acc concert -> acc @ [ concertDailyUpdate state concert ]) []
