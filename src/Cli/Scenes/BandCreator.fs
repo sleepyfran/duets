@@ -50,6 +50,6 @@ and private promptForConfirmation character name genre instrument =
 
         startGame character band |> Effect.apply
         clearScreen ()
-        Scene.World
+        Scene.WorldAfterMovement
     else
         Scene.CharacterCreator
