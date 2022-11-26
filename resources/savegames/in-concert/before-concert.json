@@ -51,12 +51,12 @@
             {
               "Album": {
                 "Id": "74bb96f5-6a24-4ffc-97b3-530b17e606e3",
-                "Name": "Midnights",
+                "Name": "Everybody Digs Vessels",
                 "TrackList": [
                   [
                     {
                       "Id": "78dd98d7-f390-4081-8fb9-34c35df7c4b8",
-                      "Name": "Midnight In Prague",
+                      "Name": "Peace Piece",
                       "Length": {
                         "Minutes": 12,
                         "Seconds": 34
@@ -72,7 +72,7 @@
                   [
                     {
                       "Id": "d257e064-4261-4e26-a3da-b69b06429a86",
-                      "Name": "Baby Blue",
+                      "Name": "Night and Day",
                       "Length": {
                         "Minutes": 8,
                         "Seconds": 34
@@ -88,7 +88,7 @@
                   [
                     {
                       "Id": "d2ba7131-c6c9-45ea-a837-a504e7a917fd",
-                      "Name": "Through My Veins",
+                      "Name": "Young and Foolish",
                       "Length": {
                         "Minutes": 18,
                         "Seconds": 12
@@ -479,8 +479,10 @@
             "Fields": [
               {
                 "Id": "580b32fb-cf84-4431-b8fc-dc41e4288e6a",
-                "CityId": "cea284b4-7714-45cc-a101-c1d69e347671",
-                "VenueId": "1a08f39b-714e-4e26-bc8c-f07744af1777",
+                "CityId": {
+                  "Case": "Prague"
+                },
+                "VenueId": "349b0fa9-d5fb-49a6-8a8b-c1513d0627f5",
                 "Date": "2015-08-07T00:00:00",
                 "DayMoment": {
                   "Case": "Dusk"
@@ -498,13 +500,10 @@
   ],
   "CurrentBandId": "279c4489-374a-4141-8429-2ac0a726b929",
   "CurrentPosition": [
-    "cea284b4-7714-45cc-a101-c1d69e347671",
     {
-      "Case": "Node",
-      "Fields": [
-        "1a08f39b-714e-4e26-bc8c-f07744af1777"
-      ]
-    }
+      "Case": "Prague"
+    },
+    "349b0fa9-d5fb-49a6-8a8b-c1513d0627f5"
   ],
   "GenreMarkets": {
     "Ambient": {
