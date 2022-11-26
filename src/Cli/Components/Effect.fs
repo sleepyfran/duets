@@ -1,5 +1,5 @@
 [<RequireQualifiedAccess>]
-module Cli.Effect
+module rec Cli.Effect
 
 open Agents
 open Cli.Components
@@ -9,25 +9,31 @@ open Entities
 open Simulation
 
 /// <summary>
+/// Applies the initial tick of the game.
+/// </summary>
+let applyInitialAfterLoad () =
+    Simulation.initialTick (State.get ()) ||> digest
+
+/// <summary>
 /// Applies an effect to the simulation and displays any message or action that
 /// is associated with that effect. For example, transferring money displays a
 /// message with the transaction.
 /// </summary>
 /// <param name="effect">Effect to apply</param>
-let rec apply effect =
-    let effects, state = Simulation.tick (State.get ()) effect
-
-    State.set state
-
-    effects |> Seq.tap Log.append |> Seq.iter displayEffect
+let apply effect =
+    Simulation.tick (State.get ()) effect ||> digest
 
 /// <summary>
 /// Calls <c>apply</c> one time for each given effect in the list.
 /// </summary>
 /// <param name="effects">Effects to apply</param>
-and applyMultiple effects = effects |> List.iter apply
+let applyMultiple effects = effects |> List.iter apply
 
-and private displayEffect effect =
+let private digest effects state =
+    State.set state
+    effects |> Seq.tap Log.append |> Seq.iter displayEffect
+
+let private displayEffect effect =
     match effect with
     | AlbumRecorded (_, UnreleasedAlbum album) ->
         Studio.createAlbumRecorded album.Name |> showMessage
@@ -129,6 +135,6 @@ and private displayEffect effect =
         Queries.World.placeInCityById cityId placeId
         |> World.movedTo
         |> showMessage
-        
+
         wait 1000<millisecond>
     | _ -> ()
