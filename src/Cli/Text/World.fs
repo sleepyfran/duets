@@ -14,4 +14,7 @@ let placeTypeName (placeType: PlaceTypeIndex) =
     | PlaceTypeIndex.RehearsalSpace -> "Rehearsal space"
     | PlaceTypeIndex.Studio -> "Studio"
 
+let placeWithZone (place: Place) =
+    $"{Styles.place place.Name} ({place.Zone.Name})"
+
 let movedTo (place: Place) = $"You make your way to {place.Name}..."

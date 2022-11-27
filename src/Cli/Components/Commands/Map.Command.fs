@@ -15,7 +15,7 @@ let private showPlaceChoice placesInCity places =
         showOptionalChoicePrompt
             Command.mapChoosePlace
             Generic.back
-            (fun (place: Place) -> place.Name)
+            World.placeWithZone
             places
 
     match selectedPlace with
