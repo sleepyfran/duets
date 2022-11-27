@@ -8,6 +8,8 @@ let optionBank = "Bank App"
 let optionStatistics = "Statistics App"
 let optionScheduler = "Scheduler App"
 
+let putDown = Styles.faded "Leave phone"
+
 let prompt dateTime dayMoment =
     $"""{Styles.title "DuetsPhone v1.0"}
 {Generic.dayMomentName dayMoment |> Styles.time} of {Generic.formatDate dateTime |> Styles.time}"""

@@ -26,7 +26,7 @@ let rec phoneScene () =
     let selection =
         showOptionalChoicePrompt
             (Phone.prompt currentDate dayMoment)
-            Generic.backToWorld
+            Phone.putDown
             textFromOption
             [ Bank; Statistics; Scheduler ]
 
