@@ -10,8 +10,6 @@ open Entities
 open Simulation
 open Simulation.Concerts
 
-let private textFromDate date = Generic.dateWithDay date
-
 let private textFromDayMoment dayMoment = Generic.dayMomentWithTime dayMoment
 
 let private showDateScheduledError date error =
@@ -32,21 +30,16 @@ let rec scheduleShow app =
     // Skip 5 days to give enough time for the scheduler to compute some ticket
     // purchases, otherwise the concert would be empty.
     let firstAvailableDay =
-        Queries.Calendar.today (State.get ()) |> Calendar.Ops.addDays 5
+        Queries.Calendar.today (State.get ())
+        |> Calendar.Ops.addDays 5
 
     promptForDate app firstAvailableDay
 
 and private promptForDate app firstDate =
-    let monthDays = Calendar.Query.monthDaysFrom firstDate
-
-    let nextMonthDate = Calendar.Query.firstDayOfNextMonth firstDate
-
     let selectedDate =
-        showOptionalChoicePrompt
+        showInteractiveDatePrompt
             Phone.schedulerAssistantAppShowDatePrompt
-            Phone.schedulerAssistantCommonMoreDates
-            textFromDate
-            monthDays
+            firstDate
 
     match selectedDate with
     | Some date ->
@@ -54,12 +47,13 @@ and private promptForDate app firstDate =
         |> Result.switch (promptForDayMoment app) (fun error ->
             showDateScheduledError date error
             promptForDate app firstDate)
-    | None -> promptForDate app nextMonthDate
+    | None -> app ()
 
 and private promptForDayMoment app date =
     // Drop the last element (Midnight) since we don't want to allow scheduling
     // on the day after the selection.
-    let availableDayMoments = Calendar.allDayMoments |> List.tail
+    let availableDayMoments =
+        Calendar.allDayMoments |> List.tail
 
     let selectedDayMoment =
         showOptionalChoicePrompt

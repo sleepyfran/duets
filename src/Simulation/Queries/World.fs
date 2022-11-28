@@ -9,7 +9,9 @@ open Data.World
 module World =
     /// Returns all cities available in the game world.
     let allCities =
-        World.get () |> Optic.get Lenses.World.cities_ |> List.ofMapValues
+        World.get ()
+        |> Optic.get Lenses.World.cities_
+        |> List.ofMapValues
 
     /// Returns a specific city given its ID.
     let cityById cityId =
@@ -49,6 +51,14 @@ module World =
     let placeIdsOf cityId placeType =
         cityById cityId
         |> Optic.get (
-            Lenses.World.City.placeByTypeIndex_ >-> Map.key_ placeType
+            Lenses.World.City.placeByTypeIndex_
+            >-> Map.key_ placeType
         )
         |> Option.defaultValue []
+
+    /// Returns the distance between the given cities.
+    let distanceBetween city1 city2 =
+        let connection =
+            World.connectionBetween city1 city2
+
+        World.distances |> Map.find connection

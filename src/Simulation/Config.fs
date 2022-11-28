@@ -43,7 +43,8 @@ module MusicSimulation =
     /// Base amount of people that is willing to listen to a genre. When
     /// multiplied with the market point of a genre market, it gives the actual
     /// amount of people interested in a genre in a specific point in time.
-    let defaultMarketSize = 1000000 (* 1 million. *)
+    let defaultMarketSize =
+        1000000 (* 1 million. *)
 
     /// Percentage that when multiplied with the daily streams, will yield the
     /// amount of new fans that the band got that day.
@@ -56,3 +57,7 @@ module MusicSimulation =
 module Revenue =
     /// Indicates how many dd a band makes per stream.
     let revenuePerStream = 0.5
+
+module Travel =
+    /// Price per kilometers for buying plane tickets.
+    let pricePerKm = 2

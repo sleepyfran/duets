@@ -34,8 +34,9 @@ let showNumberPrompt title = AnsiConsole.Ask<int>(title)
 /// </summary>
 /// <param name="title">Title of the prompt to show when asking</param>
 /// <returns>The date given by the user</returns>
-let showDatePrompt title =
-    let mutable datePrompt = TextPrompt<string>(title)
+let showTextDatePrompt title =
+    let mutable datePrompt =
+        TextPrompt<string>(title)
 
     let validate (date: string) =
         match Calendar.Parse.date date with
@@ -54,13 +55,51 @@ let showDatePrompt title =
                     "The given input was not a correct date. This should've been caught by the validator but apparently it didn't :)"
             )
 
+type private InteractiveDatePromptOption =
+    | Date of Date
+    | NextMonth
+
+/// <summary>
+/// Renders a choice prompt with all the dates of the month after the given
+/// first date. Returns some date if character selected something, none if the
+/// prompt was cancelled.
+/// </summary>
+let rec showInteractiveDatePrompt title firstDate =
+    let monthDays =
+        Calendar.Query.monthDaysFrom firstDate
+        |> Seq.map Date
+
+    let nextMonthDate =
+        Calendar.Query.firstDayOfNextMonth firstDate
+
+    let toText opt =
+        match opt with
+        | Date date -> Generic.dateWithDay date
+        | NextMonth -> Generic.moreDates
+
+    let selectedDate =
+        showOptionalChoicePrompt
+            title
+            Generic.cancel
+            toText
+            (seq {
+                yield! monthDays
+                yield NextMonth
+            })
+
+    match selectedDate with
+    | Some (Date date) -> Some date
+    | Some NextMonth -> showInteractiveDatePrompt title nextMonthDate
+    | None -> None
+
 /// <summary>
 /// Renders a prompt that accepts lengths in the format minutes:seconds.
 /// </summary>
 /// <param name="title">Title of the prompt to show when asking</param>
 /// <returns>The length given by the user</returns>
 let showLengthPrompt title =
-    let mutable lengthPrompt = TextPrompt<string>(title)
+    let mutable lengthPrompt =
+        TextPrompt<string>(title)
 
     let validate (length: string) =
         match Time.Length.parse length with

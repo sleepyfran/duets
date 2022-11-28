@@ -22,6 +22,7 @@ module EffectTypes =
         | ConcertFinished of Band * PastConcert
         | ConcertUpdated of Band * ScheduledConcert
         | ConcertCancelled of Band * PastConcert
+        | FlightBooked of Flight
         | GameCreated of State
         | GenreMarketsUpdated of GenreMarketByGenre
         | ItemAddedToInventory of Item

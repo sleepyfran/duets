@@ -7,29 +7,28 @@ open Entities
 let empty = { Cities = Map.empty }
 
 /// Creates a new world with the given cities inside of it.
-let create (cities: City list) = {
-    Cities =
+let create (cities: City list) =
+    { Cities =
         cities
         |> List.map (fun c -> c.Id, c)
-        |> Map.ofList
-}
+        |> Map.ofList }
 
 [<RequireQualifiedAccess>]
 module Place =
     /// Creates a place with the given initial room and no exits.
-    let create id name quality placeType zone = {
-        Id = PlaceId id
-        Name = name
-        Quality = quality
-        Type = placeType
-        Zone = zone
-    }
+    let create id name quality placeType zone =
+        { Id = PlaceId id
+          Name = name
+          Quality = quality
+          Type = placeType
+          Zone = zone }
 
 [<RequireQualifiedAccess>]
 module City =
     let private addToPlaceByTypeIndex place index =
         let mapKey =
             match place.Type with
+            | Airport -> PlaceTypeIndex.Airport
             | Bar _ -> PlaceTypeIndex.Bar
             | ConcertSpace _ -> PlaceTypeIndex.ConcertSpace
             | Home -> PlaceTypeIndex.Home
@@ -50,12 +49,11 @@ module City =
             | None -> [ place.Id ] |> Some)
 
     /// Creates a city with only one initial starting node.
-    let create id place = {
-        Id = id
-        PlaceByTypeIndex = addToPlaceByTypeIndex place Map.empty
-        PlaceIndex = [ (place.Id, place) ] |> Map.ofList
-        ZoneIndex = addToZoneIndex place Map.empty
-    }
+    let create id place =
+        { Id = id
+          PlaceByTypeIndex = addToPlaceByTypeIndex place Map.empty
+          PlaceIndex = [ (place.Id, place) ] |> Map.ofList
+          ZoneIndex = addToZoneIndex place Map.empty }
 
     /// Adds a new place to the city.
     let addPlace place city =

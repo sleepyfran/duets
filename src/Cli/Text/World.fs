@@ -7,6 +7,7 @@ let placeDescription (place: Place) = $"You are at {Styles.place place.Name}"
 
 let placeTypeName (placeType: PlaceTypeIndex) =
     match placeType with
+    | PlaceTypeIndex.Airport -> "Airport"
     | PlaceTypeIndex.Bar -> "Bar"
     | PlaceTypeIndex.ConcertSpace -> "Concert space"
     | PlaceTypeIndex.Home -> "Home"

@@ -34,3 +34,7 @@ module CommonTypes =
     /// Measure for counting grams of something.
     [<Measure>]
     type gram
+
+    /// Measure for counting kilometers.
+    [<Measure>]
+    type km

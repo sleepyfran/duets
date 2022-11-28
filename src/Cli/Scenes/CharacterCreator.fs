@@ -43,7 +43,7 @@ and private promptForBirthday name gender =
     Creator.characterBirthdayInfo |> showMessage
 
     Creator.characterBirthdayPrompt gender
-    |> showDatePrompt
+    |> showTextDatePrompt
     |> Character.validateBirthday
     |> Result.switch
         (Character.from name gender >> Scene.BandCreator)

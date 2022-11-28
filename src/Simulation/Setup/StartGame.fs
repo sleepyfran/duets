@@ -17,28 +17,25 @@ let startGame (character: Character) (band: Band) =
         Queries.World.placeIdsOf initialCity.Id PlaceTypeIndex.RehearsalSpace
         |> List.head (* We need at least one rehearsal space in the city. *)
 
-    {
-        Bands = [ (band.Id, band) ] |> Map.ofList
-        BandAlbumRepertoire = Band.AlbumRepertoire.emptyFor band.Id
-        BandSongRepertoire = Band.SongRepertoire.emptyFor band.Id
-        BankAccounts =
-            [
-                (Character character.Id,
-                 BankAccount.forCharacterWithBalance character.Id 10000<dd>)
-                (Band band.Id, BankAccount.forBand band.Id)
-            ]
-            |> Map.ofSeq
-        Characters = [ (character.Id, character) ] |> Map.ofList
-        CharacterSkills = [ (character.Id, Map.empty) ] |> Map.ofList
-        Concerts =
-            [ (band.Id, Concert.Timeline.empty) ]
-            |> Map.ofList
-        CurrentBandId = band.Id
-        CurrentPosition = initialCity.Id, initialPlace
-        GenreMarkets = GenreMarket.create Data.Genres.all
-        CharacterInventory = List.empty
-        PlayableCharacterId = character.Id
-        Situation = FreeRoam
-        Today = Calendar.gameBeginning
-    }
+    { Bands = [ (band.Id, band) ] |> Map.ofList
+      BandAlbumRepertoire = Band.AlbumRepertoire.emptyFor band.Id
+      BandSongRepertoire = Band.SongRepertoire.emptyFor band.Id
+      BankAccounts =
+        [ (Character character.Id,
+           BankAccount.forCharacterWithBalance character.Id 10000<dd>)
+          (Band band.Id, BankAccount.forBand band.Id) ]
+        |> Map.ofSeq
+      Characters = [ (character.Id, character) ] |> Map.ofList
+      CharacterSkills = [ (character.Id, Map.empty) ] |> Map.ofList
+      Concerts =
+        [ (band.Id, Concert.Timeline.empty) ]
+        |> Map.ofList
+      CurrentBandId = band.Id
+      CurrentPosition = initialCity.Id, initialPlace
+      Flights = []
+      GenreMarkets = GenreMarket.create Data.Genres.all
+      CharacterInventory = List.empty
+      PlayableCharacterId = character.Id
+      Situation = FreeRoam
+      Today = Calendar.gameBeginning }
     |> GameCreated

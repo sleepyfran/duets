@@ -5,6 +5,7 @@ open Entities
 
 let title = "Phone"
 let optionBank = "Bank App"
+let optionFlights = "Flights App"
 let optionStatistics = "Statistics App"
 let optionScheduler = "Scheduler App"
 
@@ -14,16 +15,21 @@ let prompt dateTime dayMoment =
     $"""{Styles.title "DuetsPhone v1.0"}
 {Generic.dayMomentName dayMoment |> Styles.time} of {Generic.formatDate dateTime |> Styles.time}"""
 
+(* --- Bank --- *)
+
 let bankAppTitle = "Bank"
 
 let bankAppWelcome characterBalance bandBalance =
     $"""{Styles.highlight "You"} currently have {Styles.money characterBalance}. {Styles.highlight "Your band"} has {Styles.money bandBalance}"""
 
-let bankAppPrompt = "What do you want to do?"
+let bankAppPrompt =
+    "What do you want to do?"
 
-let bankAppTransferToBand = "Transfer money to band"
+let bankAppTransferToBand =
+    "Transfer money to band"
 
-let bankAppTransferFromBand = "Transfer money from band"
+let bankAppTransferFromBand =
+    "Transfer money from band"
 
 let bankAppTransferAmount holder =
     match holder with
@@ -40,15 +46,61 @@ let bankAppTransferSuccess holder transaction =
 let bankAppTransferNotEnoughFunds =
     Styles.error "Not enough funds in the sender account"
 
-let bankAppTransferNothingTransferred = Styles.success "Nothing transferred"
+let bankAppTransferNothingTransferred =
+    Styles.success "Nothing transferred"
 
-let schedulerAssistantCommonMoreDates = Styles.faded "More dates"
+(* --- Flights --- *)
+let flightsNoUpcomingWelcome =
+    "No upcoming flights"
 
-let schedulerAssistantAppPrompt = Styles.prompt "What do you want to book?"
+let flightsOriginHeader =
+    Styles.header "Origin"
+
+let flightsDestinationHeader =
+    Styles.header "Destination"
+
+let flightsDateHeader = Styles.header "Date"
+
+let flightsCityRow city = Generic.cityName city |> Styles.place
+
+let flightsDateRow =
+    Generic.dateWithDayMoment
+
+let flightsAppPrompt =
+    "What do you want to do?"
+
+let bookFlightOption = "Book a flight"
+
+let bookFlightOriginPrompt =
+    "Where are you flying from?"
+
+let bookFlightDestinationPrompt =
+    "What's your destination?"
+
+let bookFlightDatePrompt destination =
+    $"When are you flying to {Generic.cityName destination |> Styles.place}?"
+
+let chooseFlightPrompt = "Choose a flight:"
+
+let flightInformation (flight: Flight) =
+    $"{Generic.dateWithDay flight.Date} @ {Generic.dayMomentName flight.DayMoment}, price: {Styles.money flight.Price}"
+
+let flightPurchaseConfirmation (flight: Flight) =
+    $"Are you sure you want to spend {Styles.money flight.Price} in a flight from {Generic.cityName flight.Origin |> Styles.place} to {Generic.cityName flight.Destination
+                                                                                                                                       |> Styles.place}?"
+
+let flightsNotEnoughFunds amount =
+    $"You don't have enough money to buy the ticket. Make sure you have at least {Styles.money amount} in your bank."
+
+(* --- Scheduler --- *)
+
+let schedulerAssistantAppPrompt =
+    Styles.prompt "What do you want to book?"
 
 let schedulerAssistantAppShow = "Book show"
 
-let schedulerAssistantAppAgenda = "View schedule"
+let schedulerAssistantAppAgenda =
+    "View schedule"
 
 let schedulerAssistantAppVisualizeConcertInfo
     dayMoment
@@ -58,18 +110,23 @@ let schedulerAssistantAppVisualizeConcertInfo
     =
     $"""{Styles.highlight $"*{Generic.dayMomentName dayMoment}"}: Concert at {Styles.place place.Name}, {Styles.place (Generic.cityName city.Id)}. Sold {Styles.information ticketsSold} tickets"""
 
-let schedulerAssistantAppVisualizeNoConcerts = "No concerts"
+let schedulerAssistantAppVisualizeNoConcerts =
+    "No concerts"
 
 let schedulerAssistantAppVisualizeMoreDatesPrompt =
     "Do you want to see the next month?"
 
-let schedulerAssistantAppShowDatePrompt = "When is the concert happening?"
+let schedulerAssistantAppShowDatePrompt =
+    "When is the concert happening?"
 
-let schedulerAssistantAppShowTimePrompt = "At what time?"
+let schedulerAssistantAppShowTimePrompt =
+    "At what time?"
 
-let schedulerAssistantAppShowCityPrompt = "In which city?"
+let schedulerAssistantAppShowCityPrompt =
+    "In which city?"
 
-let schedulerAssistantAppShowVenuePrompt = "In which venue?"
+let schedulerAssistantAppShowVenuePrompt =
+    "In which venue?"
 
 let schedulerAssistantAppTicketPricePrompt =
     $"""What will the price of each ticket be? {Styles.danger
@@ -89,20 +146,27 @@ let schedulerAssistantAppTicketPriceTooHigh price =
 let schedulerAssistantAppTicketDone (place: Place) concert =
     $"""Done! You scheduled a concert in {Styles.place place.Name} on {Styles.highlight (Generic.formatDate concert.Date)}. Be sure to be in the place at the moment of the concert, {Styles.danger "otherwise it'd fail miserably!"}"""
 
+(* --- Statistics --- *)
+
 let statisticsAppTitle = "Statistics"
 
 let statisticsAppSectionPrompt =
     $"""{Styles.prompt "What data do you want to visualize?"}"""
 
-let statisticsAppSectionBand = "Band's statistics"
+let statisticsAppSectionBand =
+    "Band's statistics"
 
-let statisticsAppSectionAlbums = "Albums' statistics"
+let statisticsAppSectionAlbums =
+    "Albums' statistics"
 
-let statisticsAppBandNameHeader = Styles.header "Name"
+let statisticsAppBandNameHeader =
+    Styles.header "Name"
 
-let statisticsAppBandStartDateHeader = Styles.header "Playing since"
+let statisticsAppBandStartDateHeader =
+    Styles.header "Playing since"
 
-let statisticsAppBandFansHeader = Styles.header "Fans"
+let statisticsAppBandFansHeader =
+    Styles.header "Fans"
 
 let statisticsAppBandName name = Styles.title name
 
@@ -110,17 +174,23 @@ let statisticsAppBandStartDate (date: Date) = Styles.highlight date.Year
 
 let statisticsAppBandFans = Styles.number
 
-let statisticsAppAlbumNoEntries = "No albums released yet"
+let statisticsAppAlbumNoEntries =
+    "No albums released yet"
 
-let statisticsAppAlbumNameHeader = Styles.header "Album name"
+let statisticsAppAlbumNameHeader =
+    Styles.header "Album name"
 
-let statisticsAppAlbumTypeHeader = Styles.header "Album type"
+let statisticsAppAlbumTypeHeader =
+    Styles.header "Album type"
 
-let statisticsAppAlbumReleaseDateHeader = Styles.header "Release date"
+let statisticsAppAlbumReleaseDateHeader =
+    Styles.header "Release date"
 
-let statisticsAppAlbumStreamsHeader = Styles.header "Number of streams"
+let statisticsAppAlbumStreamsHeader =
+    Styles.header "Number of streams"
 
-let statisticsAppAlbumRevenueHeader = Styles.header "Revenue"
+let statisticsAppAlbumRevenueHeader =
+    Styles.header "Revenue"
 
 let statisticsAppAlbumName name = Styles.information name
 let statisticsAppAlbumType albumT = Generic.albumType albumT

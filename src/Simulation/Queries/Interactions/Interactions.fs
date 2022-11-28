@@ -12,29 +12,35 @@ module Interactions =
     /// be later transformed into the actual flow.
     /// </summary>
     let availableCurrently state =
-        let currentPlace = Queries.World.currentPlace state
+        let currentPlace =
+            Queries.World.currentPlace state
 
         let inventory = Queries.Inventory.get state
 
-        let itemInteractions = Items.getItemInteractions inventory
+        let itemInteractions =
+            Items.getItemInteractions inventory
 
         let defaultInteractions =
             itemInteractions
-            @ [ FreeRoamInteraction.Inventory inventory |> Interaction.FreeRoam
+            @ [ FreeRoamInteraction.Inventory inventory
+                |> Interaction.FreeRoam
                 Interaction.FreeRoam FreeRoamInteraction.Map
                 Interaction.FreeRoam FreeRoamInteraction.Phone
                 Interaction.FreeRoam FreeRoamInteraction.Wait ]
 
         match currentPlace.Type with
+        | Airport -> defaultInteractions
         | Bar bar -> Shop.barInteractions bar @ defaultInteractions
         | ConcertSpace _ ->
             ConcertSpace.availableCurrently state defaultInteractions
         | Home -> defaultInteractions
         | Hospital -> defaultInteractions
         | RehearsalSpace _ ->
-            RehearsalSpace.availableCurrently state @ defaultInteractions
+            RehearsalSpace.availableCurrently state
+            @ defaultInteractions
         | Studio studio ->
-            Studio.availableCurrently state studio @ defaultInteractions
+            Studio.availableCurrently state studio
+            @ defaultInteractions
         |> List.map (fun interaction ->
             { Interaction = interaction
               State = InteractionState.Enabled })

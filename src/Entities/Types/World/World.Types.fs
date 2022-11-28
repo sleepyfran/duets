@@ -12,6 +12,7 @@ module WorldTypes =
 
     /// Defines all the different types of places that the game supports.
     type PlaceType =
+        | Airport
         | Bar of Shop
         | ConcertSpace of ConcertSpace
         | Home
@@ -23,6 +24,7 @@ module WorldTypes =
     /// to reference them on a map.
     [<RequireQualifiedAccess>]
     type PlaceTypeIndex =
+        | Airport
         | Bar
         | ConcertSpace
         | Home
@@ -37,28 +39,28 @@ module WorldTypes =
     /// (could be any inside space like a rehearsal place or a concert hall), the
     /// rooms that the place itself contains and the exits that connect that
     /// place with the outside.
-    type Place = {
-        Id: PlaceId
-        Name: string
-        Quality: Quality
-        Type: PlaceType
-        Zone: Zone
-    }
+    type Place =
+        { Id: PlaceId
+          Name: string
+          Quality: Quality
+          Type: PlaceType
+          Zone: Zone }
 
     /// ID for a city in the game world, which declared every possible city
     /// available in the game.
-    type CityId = | Prague
+    type CityId =
+        | Prague
+        | Madrid
 
     /// Defines a city in the world as a connection of nodes with one of them
     /// being the entrypoint. Nodes can be rooms, places or streets that
     /// connect with each other via a direction that the user will use to
     /// navigate the map.
-    type City = {
-        Id: CityId
-        PlaceByTypeIndex: Map<PlaceTypeIndex, PlaceId list>
-        PlaceIndex: Map<PlaceId, Place>
-        ZoneIndex: Map<ZoneId, PlaceId list>
-    }
+    type City =
+        { Id: CityId
+          PlaceByTypeIndex: Map<PlaceTypeIndex, PlaceId list>
+          PlaceIndex: Map<PlaceId, Place>
+          ZoneIndex: Map<ZoneId, PlaceId list> }
 
     /// Defines a position in the world.
     type WorldCoordinates = CityId * PlaceId
