@@ -9,11 +9,13 @@ let freeRoam = SituationChanged FreeRoam
 /// given ongoing concert. This should also be used to update the ongoing
 /// concert situation.
 let inConcert ongoingConcert =
-    InConcert ongoingConcert |> SituationChanged
+    InConcert ongoingConcert
+    |> Concert
+    |> SituationChanged
 
 /// Sets the current situation to in backstage with no current concert.
 let inBackstage =
-    InBackstage None |> SituationChanged
+    InBackstage None |> Concert |> SituationChanged
 
 /// Sets the current situation that the character is in to in backstage with
 /// the given ongoing concert.
@@ -21,4 +23,5 @@ let inBackstageWithConcert ongoingConcert =
     ongoingConcert
     |> Some
     |> InBackstage
+    |> Concert
     |> SituationChanged

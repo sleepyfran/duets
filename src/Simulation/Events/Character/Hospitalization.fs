@@ -16,7 +16,8 @@ let hospitalize characterId state =
     let concertCancellationEffects =
         match situation with
         (* When we are in the middle of a concert we first need to cancel it. *)
-        | Situation.InConcert ongoingConcert ->
+        | Concert (InConcert ongoingConcert)
+        | Concert (InBackstage (Some ongoingConcert)) ->
             let failConcertEffect =
                 Concerts.Scheduler.failConcert
                     state
@@ -37,13 +38,11 @@ let hospitalize characterId state =
         |> Calendar.Ops.addDays 7
 
     concertCancellationEffects
-    @ [
-        CharacterHealthDepleted characterId
+    @ [ CharacterHealthDepleted characterId
         CharacterHospitalized(characterId, hospitalCoordinates)
         TimeAdvanced oneWeekLater
         CharacterAttributeChanged(
             characterId,
             CharacterAttribute.Health,
             Diff(0, 100)
-        )
-    ]
+        ) ]

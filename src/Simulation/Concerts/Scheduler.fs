@@ -8,7 +8,8 @@ type ScheduleError = | DateAlreadyScheduled
 
 /// Validates that there's no other concert scheduled for the given date.
 let validateNoOtherConcertsInDate state date =
-    let currentBand = Queries.Bands.currentBand state
+    let currentBand =
+        Queries.Bands.currentBand state
 
     let concertForDay =
         Queries.Concerts.scheduleForDay state currentBand.Id date
@@ -23,9 +24,11 @@ let validateNoOtherConcertsInDate state date =
 let scheduleConcert state date dayMoment cityId venueId ticketPrice =
     let today = Queries.Calendar.today state
 
-    let currentBand = Queries.Bands.currentBand state
+    let currentBand =
+        Queries.Bands.currentBand state
 
-    let concert = Concert.create date dayMoment cityId venueId ticketPrice
+    let concert =
+        Concert.create date dayMoment cityId venueId ticketPrice
 
     ConcertScheduled(currentBand, (ScheduledConcert(concert, today)))
 
@@ -43,9 +46,11 @@ let failConcert state concert failReason =
 /// didn't happen) this creates the ConcertFailed effect which moves the concerts
 /// to past concerts with the failed type.
 let moveFailedConcerts state date =
-    let currentBand = Queries.Bands.currentBand state
+    let currentBand =
+        Queries.Bands.currentBand state
 
-    let scheduledConcerts = Queries.Concerts.allScheduled state currentBand.Id
+    let scheduledConcerts =
+        Queries.Concerts.allScheduled state currentBand.Id
 
     scheduledConcerts
     |> Seq.choose (fun (ScheduledConcert (concert, _)) ->
@@ -64,10 +69,11 @@ let moveFailedConcerts state date =
 /// Starts any scheduled concert that should be happening right now when getting
 /// into a place.
 let startScheduledConcerts state placeId =
-    let situation = Queries.Situations.current state
+    let situation =
+        Queries.Situations.current state
 
     match situation with
-    | Situation.InConcert _ ->
+    | Concert (InConcert _) ->
         [] (* Concert already started, no need to do anything. *)
     | _ ->
         let band = Queries.Bands.currentBand state
@@ -75,7 +81,8 @@ let startScheduledConcerts state placeId =
         (* Check whether we have a concert scheduled and, if so, initialize a new OngoingConcert. *)
         Queries.Concerts.scheduleForTodayInPlace state band.Id placeId
         |> Option.map (fun scheduledConcert ->
-            let concert = Concert.fromScheduled scheduledConcert
+            let concert =
+                Concert.fromScheduled scheduledConcert
 
             [ Situations.inConcert
                   { Events = []

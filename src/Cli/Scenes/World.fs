@@ -130,16 +130,20 @@ type WorldMode =
 let worldScene mode =
     lineBreak ()
 
-    let today = Queries.Calendar.today (State.get ())
+    let today =
+        Queries.Calendar.today (State.get ())
 
-    let currentDayMoment = Calendar.Query.dayMomentOf today
+    let currentDayMoment =
+        Calendar.Query.dayMomentOf today
 
     let interactionsWithState =
         Queries.Interactions.availableCurrently (State.get ())
 
-    let currentPlace = State.get () |> Queries.World.currentPlace
+    let currentPlace =
+        State.get () |> Queries.World.currentPlace
 
-    let situation = Queries.Situations.current (State.get ())
+    let situation =
+        Queries.Situations.current (State.get ())
 
     match mode with
     | ShowDescription -> World.placeDescription currentPlace |> showMessage
@@ -150,7 +154,8 @@ let worldScene mode =
 
     let promptText =
         match situation with
-        | InConcert ongoingConcert ->
+        | Concert (InConcert ongoingConcert)
+        | Concert (InBackstage (Some ongoingConcert)) ->
             Concert.actionPrompt
                 today
                 currentDayMoment
