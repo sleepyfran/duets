@@ -106,10 +106,10 @@ let private commandsFromInteractions interactions =
                 [ ListMembersCommand.create bandMembers pastMembers ]
             | RehearsalInteraction.PracticeSong finishedSongs ->
                 [ PracticeSongCommand.create finishedSongs ]
-        | Interaction.Bar shopInteraction ->
+        | Interaction.Shop shopInteraction ->
             match shopInteraction with
-            | BarInteraction.Order shop -> [ OrderCommand.create shop ]
-            | BarInteraction.SeeMenu shop -> [ SeeMenuCommand.create shop ]
+            | ShopInteraction.Order shop -> [ OrderCommand.create shop ]
+            | ShopInteraction.SeeMenu shop -> [ SeeMenuCommand.create shop ]
         | Interaction.Studio studioInteraction ->
             match studioInteraction with
             | StudioInteraction.CreateAlbum (studio, finishedSongs) ->

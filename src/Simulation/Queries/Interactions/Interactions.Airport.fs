@@ -1,5 +1,6 @@
 namespace Simulation.Queries.Internal.Interactions
 
+open Data.World
 open Entities
 open Entities.SituationTypes
 open Simulation
@@ -16,13 +17,19 @@ module Airport =
               |> Interaction.Airport ]
         | _ -> []
 
-    let private airplaneInteractions state flight defaultInteractions =
-        defaultInteractions
-        |> List.filter (fun interaction ->
-            match interaction with
-            | Interaction.FreeRoam FreeRoamInteraction.Map -> false
-            | Interaction.FreeRoam FreeRoamInteraction.Wait -> false
-            | _ -> true)
+    let private airplaneInteractions _ _ defaultInteractions =
+        let nonMovementInteractions =
+            defaultInteractions
+            |> List.filter (fun interaction ->
+                match interaction with
+                | Interaction.FreeRoam FreeRoamInteraction.Map -> false
+                | Interaction.FreeRoam FreeRoamInteraction.Wait -> false
+                | _ -> true)
+
+        nonMovementInteractions
+        @ Shop.shopInteractions
+            { AvailableItems = AirplaneItems.drinks @ AirplaneItems.food
+              PriceModifier = 10<multiplier> }
 
     let interactions state defaultInteractions =
         let situation =

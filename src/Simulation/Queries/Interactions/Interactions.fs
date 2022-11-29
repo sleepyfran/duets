@@ -30,7 +30,7 @@ module Interactions =
 
         match currentPlace.Type with
         | Airport -> Airport.interactions state defaultInteractions
-        | Bar bar -> Shop.barInteractions bar @ defaultInteractions
+        | Bar bar -> Shop.shopInteractions bar @ defaultInteractions
         | ConcertSpace _ ->
             ConcertSpace.availableCurrently state defaultInteractions
         | Home -> defaultInteractions

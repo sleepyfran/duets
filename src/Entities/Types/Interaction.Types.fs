@@ -11,7 +11,7 @@ module InteractionTypes =
 
     /// Interactions that can be performed in a bar.
     [<RequireQualifiedAccess>]
-    type BarInteraction =
+    type ShopInteraction =
         /// Allows the character to order a certain item from a selection of
         /// available items in a bar.
         | Order of PurchasableItem list
@@ -135,11 +135,11 @@ module InteractionTypes =
     [<RequireQualifiedAccess>]
     type Interaction =
         | Airport of AirportInteraction
-        | Bar of BarInteraction
         | Concert of ConcertInteraction
         | FreeRoam of FreeRoamInteraction
         | Item of ItemInteraction
         | Rehearsal of RehearsalInteraction
+        | Shop of ShopInteraction
         | Studio of StudioInteraction
 
     /// Defines all possible reasons why an interaction can be disabled.

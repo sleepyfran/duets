@@ -22,6 +22,7 @@
         <Compile Include="World\Cities\Prague\Prague.Shops.fs"/>
         <Compile Include="World\Cities\Prague\Prague.fs"/>
         <Compile Include="World\Cities\Madrid\Madrid.fs"/>
+        <Compile Include="World\AirplaneItems.fs"/>
         <Compile Include="World\World.fs"/>
         <None Include="Util\NpcGen.fsx"/>
     </ItemGroup>
