@@ -2,6 +2,11 @@ module Cli.Text.Airport
 
 open Entities
 
+let planeActionPrompt date dayMoment attributes flight =
+    $"""{Generic.infoBar date dayMoment attributes}
+{Emoji.flying} Flying to {Generic.cityName flight.Destination
+                          |> Styles.place}. What do you want to do?"""
+
 let passingSecurityCheck =
     Styles.progress "Passing security check..."
 

@@ -159,6 +159,12 @@ let worldScene mode =
 
     let promptText =
         match situation with
+        | Airport (Flying flight) ->
+            Airport.planeActionPrompt
+                today
+                currentDayMoment
+                characterAttributes
+                flight
         | Concert (InConcert ongoingConcert)
         | Concert (InBackstage (Some ongoingConcert)) ->
             Concert.actionPrompt

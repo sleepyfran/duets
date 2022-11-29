@@ -4,6 +4,9 @@ module Cli.Text.Emoji
 
 open Entities
 
+/// Emoji for representing actions inside of a plane.
+let flying = ":airplane_departure:"
+
 /// Emoji for representing actions related to concerts. IMPORTANT: Do NOT remove
 /// the space in the end since the emoji does not seem to render well without it.
 let concert = ":admission_tickets: "
