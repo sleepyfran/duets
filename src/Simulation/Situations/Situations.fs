@@ -1,6 +1,7 @@
 module Simulation.Situations
 
 open Entities
+open Entities.SituationTypes
 
 /// Sets the current situation to free roam.
 let freeRoam = SituationChanged FreeRoam
@@ -25,3 +26,7 @@ let inBackstageWithConcert ongoingConcert =
     |> InBackstage
     |> Concert
     |> SituationChanged
+
+/// Sets the current situation to inside of the plane, flying somewhere.
+let onboardedInPlane flight =
+    flight |> Flying |> Airport |> SituationChanged

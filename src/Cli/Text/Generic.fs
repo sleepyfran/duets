@@ -1,6 +1,7 @@
 [<RequireQualifiedAccess>]
 module Cli.Text.Generic
 
+open System
 open AvsAnLib
 open Common
 open Entities
@@ -144,6 +145,16 @@ let simplePluralOf singular quantity =
 /// TODO: Figure out why localization does not work when using
 /// ToString("d", CurrentCulture).
 let formatDate (date: Date) = $"{date.Day}/{date.Month}/{date.Year}"
+
+/// Formats a given amount of minutes into hours and minutes.
+let duration (minutes: int<minute>) =
+    let timeSpan =
+        TimeSpan(0, minutes / 1<minute>, 0)
+
+    let hours = timeSpan.Hours
+    let minutes = timeSpan.Minutes
+
+    $"""{hours} {simplePluralOf "hour" hours} and {minutes} {simplePluralOf "minute" minutes}"""
 
 /// Formats the character status into a bar that can be shown to the user.
 let infoBar

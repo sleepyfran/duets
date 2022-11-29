@@ -1,7 +1,9 @@
 namespace Entities
 
-[<AutoOpen>]
-module SituationsTypes =
+module SituationTypes =
+    /// Situations that happen while on an airport/airplane.
+    type AirportSituation = Flying of Flight
+
     /// Situations that happen while on a concert.
     type ConcertSituation =
         | InConcert of OngoingConcert
@@ -11,5 +13,7 @@ module SituationsTypes =
     type Situation =
         /// Player is exploring the world in no specific situation.
         | FreeRoam
+        /// Player is inside of an airport about to flight or flying.
+        | Airport of AirportSituation
         /// Player is performing a concert.
         | Concert of ConcertSituation

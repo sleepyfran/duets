@@ -11,4 +11,13 @@ let all state =
     let today = Queries.Calendar.today state
 
     Optic.get Lenses.State.flights_ state
-    |> List.partition (fun flight -> flight.Date < today)
+    |> List.partition (fun flight ->
+        flight.Date < Calendar.Transform.resetDayMoment today)
+
+/// Retrieves a flight booked for today, if any.
+let today state =
+    let today = Queries.Calendar.today state
+
+    Optic.get Lenses.State.flights_ state
+    |> List.tryFind (fun flight ->
+        flight.Date = Calendar.Transform.resetDayMoment today)

@@ -2,6 +2,7 @@ module Simulation.Events.Character.Hospitalization
 
 open Common
 open Entities
+open Entities.SituationTypes
 open Simulation
 
 /// Hospitalizes the given character, cancelling any activity that they are doing

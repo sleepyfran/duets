@@ -1,6 +1,6 @@
 module Entities.State
 
-open Entities
+open Entities.SituationTypes
 
 /// Creates an empty state with all the fields set to its empty representation.
 let empty =

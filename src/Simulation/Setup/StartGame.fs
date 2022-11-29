@@ -3,6 +3,7 @@ module Simulation.Setup
 open Common
 open Data.World
 open Entities
+open Entities.SituationTypes
 open Simulation
 open Simulation.Market
 

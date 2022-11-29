@@ -7,12 +7,17 @@ open Cli.Components.Commands.Map
 open Cli.Text
 open Common
 open Entities
+open Entities.SituationTypes
 open Simulation
 
 let private commandsFromInteractions interactions =
     interactions
     |> List.collect (fun interactionWithState ->
         match interactionWithState.Interaction with
+        | Interaction.Airport airportInteraction ->
+            match airportInteraction with
+            | AirportInteraction.BoardAirplane flight ->
+                [ BoardPlaneCommand.create flight ]
         | Interaction.Concert concertInteraction ->
             match concertInteraction with
             | ConcertInteraction.AdjustDrums _ ->

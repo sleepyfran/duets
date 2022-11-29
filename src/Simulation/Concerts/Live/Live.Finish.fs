@@ -2,6 +2,7 @@ module Simulation.Concerts.Live.Finish
 
 open Common
 open Entities
+open Entities.SituationTypes
 open Simulation
 
 /// Creates a ConcertFinished effect which adds the concert to the history of
@@ -25,7 +26,8 @@ let finishConcert state ongoingConcert =
             * Config.MusicSimulation.concertHighPointFanIncreaseRate
         |> Math.ceilToNearest
 
-    let updatedFans = band.Fans + fanGain |> Math.lowerClamp 0
+    let updatedFans =
+        band.Fans + fanGain |> Math.lowerClamp 0
 
     [ ConcertFinished(
           band,

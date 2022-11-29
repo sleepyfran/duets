@@ -13,27 +13,28 @@
         <Compile Include="Queries\Songs.fs" />
         <Compile Include="Queries\Repertoire.fs" />
         <Compile Include="Queries\Characters.fs" />
-        <Compile Include="Queries\Bank.fs" />
-        <Compile Include="Queries\Situations.fs" />
+        <Compile Include="Queries\Bank.fs"/>
+        <Compile Include="Queries\Situations.fs"/>
         <Compile Include="Queries\Flights.fs"/>
-        <Compile Include="Queries\Skills.fs" />
-        <Compile Include="Queries\GenreMarkets.fs" />
-        <Compile Include="Queries\Bands.fs" />
-        <Compile Include="Queries\Concerts.fs" />
-        <Compile Include="Queries\Inventory.fs" />
+        <Compile Include="Queries\Skills.fs"/>
+        <Compile Include="Queries\GenreMarkets.fs"/>
+        <Compile Include="Queries\Bands.fs"/>
+        <Compile Include="Queries\Concerts.fs"/>
+        <Compile Include="Queries\Inventory.fs"/>
         <Compile Include="Queries\World.fs"/>
-        <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Health.fs" />
+        <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Health.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Items.fs"/>
-        <Compile Include="Queries\Interactions\Interactions.ConcertSpace.fs" />
-        <Compile Include="Queries\Interactions\Interactions.RehearsalSpace.fs" />
-        <Compile Include="Queries\Interactions\Interactions.Shop.fs" />
-        <Compile Include="Queries\Interactions\Interactions.Studio.fs" />
-        <Compile Include="Queries\Interactions\Interactions.fs" />
-        <Compile Include="State\Albums.fs" />
-        <Compile Include="State\Bank.fs" />
-        <Compile Include="State\Characters.fs" />
-        <Compile Include="State\Calendar.fs" />
-        <Compile Include="State\Concerts.fs" />
+        <Compile Include="Queries\Interactions\Interactions.Airport.fs"/>
+        <Compile Include="Queries\Interactions\Interactions.ConcertSpace.fs"/>
+        <Compile Include="Queries\Interactions\Interactions.RehearsalSpace.fs"/>
+        <Compile Include="Queries\Interactions\Interactions.Shop.fs"/>
+        <Compile Include="Queries\Interactions\Interactions.Studio.fs"/>
+        <Compile Include="Queries\Interactions\Interactions.fs"/>
+        <Compile Include="State\Albums.fs"/>
+        <Compile Include="State\Bank.fs"/>
+        <Compile Include="State\Characters.fs"/>
+        <Compile Include="State\Calendar.fs"/>
+        <Compile Include="State\Concerts.fs"/>
         <Compile Include="State\Flights.fs"/>
         <Compile Include="State\Market.fs" />
         <Compile Include="State\Songs.fs" />
@@ -48,16 +49,16 @@
 		<Compile Include="Bank\Operations.fs" />
         <Compile Include="Albums\DailyStreams.fs" />
         <Compile Include="Albums\Hype.fs" />
-        <Compile Include="Albums\FanIncrease.fs" />
-        <Compile Include="Albums\Revenue.fs" />
-        <Compile Include="Albums\DailyUpdate.fs" />
-        <Compile Include="Time\AdvanceTime.fs" />
-        <Compile Include="Studio/ReleaseAlbum.fs" />
-        <Compile Include="Studio/RecordAlbum.fs" />
-        <Compile Include="Studio/RenameAlbum.fs" />
-        <Compile Include="Market\GenreMarket.fs" />
-        <Compile Include="Bands\Members.fs" />
-        <Compile Include="Skills\ImproveSkills.Common.fs" />
+        <Compile Include="Albums\FanIncrease.fs"/>
+        <Compile Include="Albums\Revenue.fs"/>
+        <Compile Include="Albums\DailyUpdate.fs"/>
+        <Compile Include="Time\AdvanceTime.fs"/>
+        <Compile Include="Studio/ReleaseAlbum.fs"/>
+        <Compile Include="Studio/RecordAlbum.fs"/>
+        <Compile Include="Studio/RenameAlbum.fs"/>
+        <Compile Include="Market\GenreMarket.fs"/>
+        <Compile Include="Bands\Members.fs"/>
+        <Compile Include="Skills\ImproveSkills.Common.fs"/>
         <Compile Include="Skills\ImproveSkills.Composition.fs"/>
         <Compile Include="Interactions\Items\Drink.Interactions.fs"/>
         <Compile Include="Interactions\Items\Food.Interactions.fs"/>
@@ -70,6 +71,7 @@
         <Compile Include="Concerts\Live\Live.Encore.fs"/>
         <Compile Include="Flights\TicketGeneration.fs"/>
         <Compile Include="Flights\Booking.fs"/>
+        <Compile Include="Flights\BoardPlane.fs"/>
         <Compile Include="Songs\Practice.fs"/>
         <Compile Include="Songs\Composition\Common.fs"/>
         <Compile Include="Songs\Composition\ComposeSong.fs"/>
@@ -80,14 +82,14 @@
         <Compile Include="Events\Character\Hospitalization.fs"/>
         <Compile Include="Events\Character\Drunkenness.fs"/>
         <Compile Include="Events\Character\Character.Events.fs"/>
-        <Compile Include="Events\Place.Events.fs" />
-        <Compile Include="Events\Time.Events.fs" />
-        <Compile Include="Events\Skill.Events.fs" />
-        <Compile Include="Setup\StartGame.fs" />
-        <Compile Include="Simulation.fs" />
-        <ProjectReference Include="..\Common\Common.fsproj" />
-        <ProjectReference Include="..\Data\Data.fsproj" />
-        <PackageReference Include="Aether" Version="8.3.1" />
-        <PackageReference Include="Fugit" Version="0.4.1" />
+        <Compile Include="Events\Place.Events.fs"/>
+        <Compile Include="Events\Time.Events.fs"/>
+        <Compile Include="Events\Skill.Events.fs"/>
+        <Compile Include="Setup\StartGame.fs"/>
+        <Compile Include="Simulation.fs"/>
+        <ProjectReference Include="..\Common\Common.fsproj"/>
+        <ProjectReference Include="..\Data\Data.fsproj"/>
+        <PackageReference Include="Aether" Version="8.3.1"/>
+        <PackageReference Include="Fugit" Version="0.4.1"/>
     </ItemGroup>
 </Project>

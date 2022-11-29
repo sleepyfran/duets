@@ -1,6 +1,6 @@
 namespace Entities
 
-open Entities
+open Entities.SituationTypes
 
 [<AutoOpen>]
 module EffectTypes =

@@ -2,6 +2,7 @@ module Simulation.Concerts.Scheduler
 
 open Common
 open Entities
+open Entities.SituationTypes
 open Simulation
 
 type ScheduleError = | DateAlreadyScheduled

@@ -2,6 +2,7 @@
 module Cli.Text.Command
 
 open Common
+open Entities
 
 let prompt = Styles.faded ">"
 
@@ -18,7 +19,8 @@ let bassSoloDescription =
 let createAlbumDescription =
     "Allows you to record one or more finished songs to create and release an album"
 
-let composeSongDescription = "Allows you to create a new song"
+let composeSongDescription =
+    "Allows you to create a new song"
 
 let disabledNotEnoughEnergy _ =
     Styles.error "You don't have enough energy to do that. Try to rest first"
@@ -37,7 +39,8 @@ let drumSoloDescription =
 let editAlbumNameDescription =
     "Allows you to edit the name of an album you previously recorded but did not release"
 
-let helpDescription = "Here are all the commands you can execute right now:"
+let helpDescription =
+    "Here are all the commands you can execute right now:"
 
 let helpEntry entryName entryDescription =
     $"{Styles.action entryName} — {entryDescription}"
@@ -52,7 +55,8 @@ let discardSongDescription =
 let giveSpeechDescription =
     "Allows you to give a speech to the crowd. Make sure you're actually good with words, otherwise people might not understand you"
 
-let playDescription = "Allows you to choose a song to play in the concert"
+let playDescription =
+    "Allows you to choose a song to play in the concert"
 
 let dedicateSongDescription =
     "Dedicates a song and then plays it. Might give you a little boost in points as long as you don't overdo it"
@@ -63,41 +67,53 @@ let getOffStageDescription =
 let greetAudienceDescription =
     "Allows you to be a polite musician and say hello before blasting the crowd's ears"
 
-let doEncoreDescription = "Moves you back to the stage where you can play more!"
+let doEncoreDescription =
+    "Moves you back to the stage where you can play more!"
 
-let finishConcertDescription = "Finishes the concert"
+let finishConcertDescription =
+    "Finishes the concert"
 
-let faceBandDescription = "Makes you look towards your band, isn't that cool?"
+let faceBandDescription =
+    "Makes you look towards your band, isn't that cool?"
 
-let faceCrowdDescription = "Makes you look towards the crowd again"
+let faceCrowdDescription =
+    "Makes you look towards the crowd again"
 
 let finishSongDescription =
     "Prompts your for a song to finish from the list of unfinished songs"
 
-let fireMemberDescription = "Allows you to fire a member of your band"
+let fireMemberDescription =
+    "Allows you to fire a member of your band"
 
 let guitarSoloDescription =
     "Allows you to perform a guitar solo and elevate your ego to a higher dimension"
 
-let hireMemberDescription = "Allows you to hire a new member for your band"
+let hireMemberDescription =
+    "Allows you to hire a new member for your band"
 
 let improveSongDescription =
     "Prompts you for a song to improve a previously composed song"
 
-let listMembersDescription = "Lists all current and past members of your band"
+let listMembersDescription =
+    "Lists all current and past members of your band"
 
-let lookDescription = "Shows all the objects you have around you"
+let lookDescription =
+    "Shows all the objects you have around you"
 
 let lookExit exit =
     $"""There's also an exit to {Styles.place exit} ({Styles.information "out"})"""
 
-let lookNoObjectsAround = "There are no objects around you"
+let lookNoObjectsAround =
+    "There are no objects around you"
 
-let lookVisibleObjectsPrefix = "You can see:"
+let lookVisibleObjectsPrefix =
+    "You can see:"
 
-let outDescription = "Exits the current place"
+let outDescription =
+    "Exits the current place"
 
-let exitDescription = "Exits the game saving the progress"
+let exitDescription =
+    "Exits the game saving the progress"
 
 let makeCrowdSingDescription =
     "Allows you to try to make the crowd sing along a chant or a song, so get your voice ready"
@@ -108,7 +124,8 @@ let phoneDescription =
 let practiceSongDescription =
     "Prompts you for a song to practice, which improves the quality when performing the song live"
 
-let putMicOnStandDescription = "Allows you to put the mic back on the stand"
+let putMicOnStandDescription =
+    "Allows you to put the mic back on the stand"
 
 let releaseAlbumDescription =
     "Allows you to release an album you previously recorded but did not release"
@@ -138,7 +155,9 @@ let waitInvalidTimes input =
     Styles.error $"The given amount '{input}' is not valid. Try a real number"
 
 let waitResult date dayMoment =
-    $"""You waited and it's now {Generic.dayMomentName dayMoment |> String.lowercase |> Styles.highlight} on the {Generic.formatDate date |> Styles.highlight}"""
+    $"""You waited and it's now {Generic.dayMomentName dayMoment
+                                 |> String.lowercase
+                                 |> Styles.highlight} on the {Generic.formatDate date |> Styles.highlight}"""
 
 let sleepDescription =
     "Allows you to get some sleep and restore your energy and health"
@@ -146,7 +165,8 @@ let sleepDescription =
 let playConsoleDescription =
     "Allows you to play some video games and restore your mood"
 
-let watchTvDescription = "Allows you to watch TV and restore your mood"
+let watchTvDescription =
+    "Allows you to watch TV and restore your mood"
 
 let orderDescription =
     $"""Allows you to order an item from the establishment's menu. Use either as {Styles.information "order {item name}"} or use without arguments to select interactively"""
@@ -154,7 +174,8 @@ let orderDescription =
 let seeMenuDescription =
     "Displays the available items that can be bought in this establishment"
 
-let inventoryDescription = "Displays the items that you are currently carrying"
+let inventoryDescription =
+    "Displays the items that you are currently carrying"
 
 let drinkDescription =
     $"""Allows you to drink a given item. Use as {Styles.information "drink {item name}"}"""
@@ -162,7 +183,8 @@ let drinkDescription =
 let eatDescription =
     $"""Allows you to eat a given item. Use as {Styles.information "eat {item name}"}"""
 
-let meDescription = "Shows information about your character"
+let meDescription =
+    "Shows information about your character"
 
 let private meItem header value =
     $"""- {Styles.header header}: {value}"""
@@ -181,8 +203,12 @@ let mapDescription =
 let mapChoosePlaceTypePrompt =
     Styles.prompt "Which type of place do you want to travel to?"
 
-let mapChoosePlace = Styles.prompt "Which place do you want to travel to?"
+let mapChoosePlace =
+    Styles.prompt "Which place do you want to travel to?"
 
 let mapTip =
     Styles.faded
         "Tip: In order to travel anywhere outside this city, use the airport to fly to another city"
+
+let boardPlaneDescription flight =
+    $"Boards your plane to {Generic.cityName flight.Destination}"

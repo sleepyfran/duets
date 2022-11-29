@@ -1,5 +1,7 @@
 namespace Entities
 
+open Entities.SituationTypes
+
 [<AutoOpen>]
 module StateTypes =
     /// Shared state of the game. Contains all state that is common to every part

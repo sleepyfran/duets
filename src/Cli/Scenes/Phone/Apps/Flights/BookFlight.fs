@@ -28,7 +28,7 @@ let bookFlight flightsApp =
             allCitiesExceptOrigin
 
     let initialDate =
-        Queries.Calendar.today (State.get ())
+        Queries.Calendar.tomorrow (State.get ())
 
     let date =
         showInteractiveDatePrompt

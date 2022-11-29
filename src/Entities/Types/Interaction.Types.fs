@@ -4,6 +4,20 @@ open Entities
 
 [<AutoOpen>]
 module InteractionTypes =
+    [<RequireQualifiedAccess>]
+    type AirportInteraction =
+        /// Allows the character to board a flight they've previously booked.
+        | BoardAirplane of Flight
+
+    /// Interactions that can be performed in a bar.
+    [<RequireQualifiedAccess>]
+    type BarInteraction =
+        /// Allows the character to order a certain item from a selection of
+        /// available items in a bar.
+        | Order of PurchasableItem list
+        /// Allows the character to peek at the available items on the bar.
+        | SeeMenu of PurchasableItem list
+
     /// Interactions that can be done while on a concert.
     [<RequireQualifiedAccess>]
     type ConcertInteraction =
@@ -49,15 +63,6 @@ module InteractionTypes =
         | TakeMic of OngoingConcert
         /// Tunes the player's instrument, which gives a tiny point increase.
         | TuneInstrument of OngoingConcert
-
-    /// Interactions that can be performed in a bar.
-    [<RequireQualifiedAccess>]
-    type BarInteraction =
-        /// Allows the character to order a certain item from a selection of
-        /// available items in a bar.
-        | Order of PurchasableItem list
-        /// Allows the character to peek at the available items on the bar.
-        | SeeMenu of PurchasableItem list
 
     /// Interactions that can be done to consume an item in particular.
     [<RequireQualifiedAccess>]
@@ -129,11 +134,12 @@ module InteractionTypes =
     /// direction towards which the movement is possible.
     [<RequireQualifiedAccess>]
     type Interaction =
-        | Concert of ConcertInteraction
-        | Item of ItemInteraction
-        | FreeRoam of FreeRoamInteraction
-        | Rehearsal of RehearsalInteraction
+        | Airport of AirportInteraction
         | Bar of BarInteraction
+        | Concert of ConcertInteraction
+        | FreeRoam of FreeRoamInteraction
+        | Item of ItemInteraction
+        | Rehearsal of RehearsalInteraction
         | Studio of StudioInteraction
 
     /// Defines all possible reasons why an interaction can be disabled.
@@ -151,7 +157,6 @@ module InteractionTypes =
         | Disabled of InteractionDisabledReason
 
     /// Defines an interaction and its state (enabled or disabled).
-    type InteractionWithState = {
-        Interaction: Interaction
-        State: InteractionState
-    }
+    type InteractionWithState =
+        { Interaction: Interaction
+          State: InteractionState }

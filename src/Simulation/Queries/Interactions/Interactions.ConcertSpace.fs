@@ -1,7 +1,7 @@
 namespace Simulation.Queries.Internal.Interactions
 
-
 open Entities
+open Entities.SituationTypes
 open Simulation
 
 module ConcertSpace =
