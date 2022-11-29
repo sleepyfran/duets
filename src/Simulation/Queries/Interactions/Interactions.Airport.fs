@@ -16,12 +16,19 @@ module Airport =
               |> Interaction.Airport ]
         | _ -> []
 
-    let private airplaneInteractions _ _ = []
+    let private airplaneInteractions state flight defaultInteractions =
+        defaultInteractions
+        |> List.filter (fun interaction ->
+            match interaction with
+            | Interaction.FreeRoam FreeRoamInteraction.Map -> false
+            | Interaction.FreeRoam FreeRoamInteraction.Wait -> false
+            | _ -> true)
 
-    let interactions state =
+    let interactions state defaultInteractions =
         let situation =
             Queries.Situations.current state
 
         match situation with
-        | Airport (Flying flight) -> airplaneInteractions state flight
+        | Airport (Flying flight) ->
+            airplaneInteractions state flight defaultInteractions
         | _ -> airportInteractions state

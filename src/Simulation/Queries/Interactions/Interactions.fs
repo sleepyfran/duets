@@ -29,7 +29,7 @@ module Interactions =
                 Interaction.FreeRoam FreeRoamInteraction.Wait ]
 
         match currentPlace.Type with
-        | Airport -> Airport.interactions state @ defaultInteractions
+        | Airport -> Airport.interactions state defaultInteractions
         | Bar bar -> Shop.barInteractions bar @ defaultInteractions
         | ConcertSpace _ ->
             ConcertSpace.availableCurrently state defaultInteractions
