@@ -59,6 +59,7 @@ let applyEffect state effect =
         Concerts.removeScheduledConcert band concert state
         |> Concerts.addPastConcert band pastConcert
     | FlightBooked flight -> Flights.addBooking flight state
+    | FlightUpdated flight -> Flights.change flight state
     | GameCreated state -> state
     | GenreMarketsUpdated genreMarkets -> Market.set genreMarkets state
     | ItemAddedToInventory item -> Inventory.add item state

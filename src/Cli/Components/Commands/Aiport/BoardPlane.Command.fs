@@ -30,11 +30,11 @@ module BoardPlaneCommand =
 
                 showProgressBarAsync [ Airport.waitingToBoard ] 5<second>
 
-                let effect, flightTime = boardPlane flight
+                let effects, flightTime = boardPlane flight
 
                 Airport.planeBoarded flight flightTime
                 |> showMessage
 
-                Effect.apply effect
+                effects |> Effect.applyMultiple
 
                 Scene.World }

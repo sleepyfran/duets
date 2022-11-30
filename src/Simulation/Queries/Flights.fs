@@ -12,7 +12,8 @@ let all state =
 
     Optic.get Lenses.State.flights_ state
     |> List.partition (fun flight ->
-        flight.Date < Calendar.Transform.resetDayMoment today)
+        flight.Date < Calendar.Transform.resetDayMoment today
+        || flight.AlreadyUsed)
 
 /// Retrieves any flight that is currently possible for the character to board.
 let availableForBoarding state =
@@ -20,6 +21,7 @@ let availableForBoarding state =
         Queries.Calendar.today state
 
     Optic.get Lenses.State.flights_ state
+    |> List.filter (fun flight -> not flight.AlreadyUsed)
     |> List.tryFind (fun flight ->
         let earliestDayMomentToBoard =
             flight.DayMoment

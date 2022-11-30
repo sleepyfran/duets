@@ -487,6 +487,7 @@
   ],
   "Flights": [
     {
+      "Id": "c3109230-4d81-4c27-ad83-14b28dd82de4",
       "Origin": {
         "Case": "Prague"
       },
@@ -497,7 +498,8 @@
       "Date": "2015-07-21T00:00:00",
       "DayMoment": {
         "Case": "Morning"
-      }
+      },
+      "AlreadyUsed": false
     }
   ],
   "GenreMarkets": {

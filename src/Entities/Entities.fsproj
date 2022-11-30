@@ -35,6 +35,7 @@
         <Compile Include="Character.fs" />
         <Compile Include="Band.fs" />
         <Compile Include="Song.fs" />
+        <Compile Include="Flight.fs"/>
         <Compile Include="Instrument.fs" />
         <Compile Include="Skill.fs" />
         <Compile Include="Concert.fs" />

@@ -29,10 +29,12 @@ let boardPlane flight =
     let flightTimeInMinutes =
         flightTimeInSeconds / 60<second / minute>
 
-    let situationEffects =
+    let situationEffect =
         Situations.onboardedInPlane flight
 
-    situationEffects, flightTimeInMinutes
+    [ situationEffect
+      FlightUpdated { flight with AlreadyUsed = true } ],
+    flightTimeInMinutes
 
 /// Passes as many day moments needed for the flight to complete and leaves
 /// the character in the destination's airport.

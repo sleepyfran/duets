@@ -17,11 +17,13 @@ let destination =
     (Queries.World.allCities.Item 1).Id (* Madrid *)
 
 let testTicket =
-    { Origin = origin
+    { Id = Identity.create ()
+      Origin = origin
       Destination = destination
       Price = 100<dd>
       Date = dummyToday
-      DayMoment = Morning }
+      DayMoment = Morning
+      AlreadyUsed = false }
 
 let state =
     State.generateOne State.defaultOptions
@@ -46,14 +48,22 @@ let ``passSecurityCheck should drop all drinks from inventory`` () =
         |> should be (ofCase <@ ItemRemovedFromInventory @>))
 
 [<Test>]
-let ``boardPlane should returns an effect that sets the situation to flying``
+let ``boardPlane should return an effect that sets the situation to flying``
     ()
     =
     let effect, _ = boardPlane testTicket
 
-    match effect with
+    match effect.Head with
     | SituationChanged (Airport (Flying flight)) ->
         flight |> should equal testTicket
+    | _ -> failwith "Incorrect situation"
+
+[<Test>]
+let ``boardPlane should return an effect that marks the ticket as used`` () =
+    let effect, _ = boardPlane testTicket
+
+    match effect.Item 1 with
+    | FlightUpdated flight -> flight.AlreadyUsed |> should equal true
     | _ -> failwith "Incorrect situation"
 
 [<Test>]

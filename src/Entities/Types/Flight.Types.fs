@@ -5,8 +5,10 @@ module FlightTypes =
     /// Defines a flight ticket that the character holds to travel between
     /// two cities in the game.
     type Flight =
-        { Origin: CityId
+        { Id: Identity
+          Origin: CityId
           Destination: CityId
-          Price: int<dd>
+          Price: Amount
           Date: Date
-          DayMoment: DayMoment }
+          DayMoment: DayMoment
+          AlreadyUsed: bool }

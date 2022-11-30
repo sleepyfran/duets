@@ -15,8 +15,4 @@ let private createTicket origin destination date dayMoment =
         |> (*) Config.Travel.pricePerKm
         |> (*) 1<dd / km>
 
-    { Origin = origin
-      Destination = destination
-      Price = ticketPrice
-      Date = date
-      DayMoment = dayMoment }
+    Flight.create origin destination ticketPrice date dayMoment
