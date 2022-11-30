@@ -18,6 +18,8 @@ let private commandsFromInteractions interactions =
             match airportInteraction with
             | AirportInteraction.BoardAirplane flight ->
                 [ BoardPlaneCommand.create flight ]
+            | AirportInteraction.WaitUntilLanding flight ->
+                [ WaitForLandingCommand.create flight ]
         | Interaction.Concert concertInteraction ->
             match concertInteraction with
             | ConcertInteraction.AdjustDrums _ ->

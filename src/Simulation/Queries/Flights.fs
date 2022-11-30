@@ -14,10 +14,24 @@ let all state =
     |> List.partition (fun flight ->
         flight.Date < Calendar.Transform.resetDayMoment today)
 
-/// Retrieves a flight booked for today, if any.
-let today state =
-    let today = Queries.Calendar.today state
+/// Retrieves any flight that is currently possible for the character to board.
+let availableForBoarding state =
+    let currentDate =
+        Queries.Calendar.today state
 
     Optic.get Lenses.State.flights_ state
     |> List.tryFind (fun flight ->
-        flight.Date = Calendar.Transform.resetDayMoment today)
+        let earliestDayMomentToBoard =
+            flight.DayMoment
+            |> Calendar.Query.previousDayMoment
+
+        let earliestBoardingDate =
+            flight.Date
+            |> Calendar.Transform.changeDayMoment earliestDayMomentToBoard
+
+        let latestBoardingDate =
+            flight.Date
+            |> Calendar.Transform.changeDayMoment flight.DayMoment
+
+        earliestBoardingDate = currentDate
+        || latestBoardingDate = currentDate)

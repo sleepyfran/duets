@@ -6,14 +6,8 @@ open Entities
 open Simulation
 
 let private advanceOnce currentTime =
-    match Calendar.Query.dayMomentOf currentTime with
-    | Dawn -> Morning
-    | Morning -> Midday
-    | Midday -> Sunset
-    | Sunset -> Dusk
-    | Dusk -> Night
-    | Night -> Midnight
-    | Midnight -> Dawn
+    Calendar.Query.dayMomentOf currentTime
+    |> Calendar.Query.nextDayMoment
     |> Calendar.Transform.changeDayMoment' currentTime
 
 let private advanceDay (currentTime: Date) =
@@ -41,6 +35,7 @@ let advanceDayMoment (currentTime: Date) times =
 
 /// Same as advanceDayMoment but queries the current time automatically.
 let advanceDayMoment' state times =
-    let currentDate = Queries.Calendar.today state
+    let currentDate =
+        Queries.Calendar.today state
 
     advanceDayMoment currentDate times

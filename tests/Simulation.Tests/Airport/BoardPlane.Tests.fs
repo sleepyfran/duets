@@ -8,7 +8,7 @@ open Test.Common.Generators
 open Entities
 open Entities.SituationTypes
 open Simulation
-open Simulation.Flights.BoardPlane
+open Simulation.Flights.Airport
 
 let origin =
     Queries.World.allCities.Head.Id (* Prague*)

@@ -7,7 +7,7 @@ open Cli.SceneIndex
 open Cli.Text
 open Entities
 open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
-open Simulation.Flights.BoardPlane
+open Simulation.Flights.Airport
 
 [<RequireQualifiedAccess>]
 module BoardPlaneCommand =

@@ -47,6 +47,28 @@ module Query =
         | Night -> 22
         | Midnight -> 0
 
+    /// Returns the next day moment from the given one.
+    let nextDayMoment dayMoment =
+        match dayMoment with
+        | Dawn -> Morning
+        | Morning -> Midday
+        | Midday -> Sunset
+        | Sunset -> Dusk
+        | Dusk -> Night
+        | Night -> Midnight
+        | Midnight -> Dawn
+
+    /// Returns the previous day moment from the given one.
+    let previousDayMoment dayMoment =
+        match dayMoment with
+        | Dawn -> Midnight
+        | Morning -> Dawn
+        | Midday -> Morning
+        | Sunset -> Midday
+        | Dusk -> Sunset
+        | Night -> Dusk
+        | Midnight -> Night
+
     /// Determines whether the given date is the first day of the year or not.
     let isFirstMomentOfYear (date: Date) =
         date.Day = 1
@@ -82,7 +104,8 @@ module Transform =
         |> fun hour -> DateTime(date.Year, date.Month, date.Day, hour, 0, 0)
 
     /// Returns the given date with the hour set to 00:00.
-    let resetDayMoment = changeDayMoment Midnight
+    let resetDayMoment =
+        changeDayMoment Midnight
 
     /// Returns the given date with the hour set to the specified day moment.
     let changeDayMoment' (date: Date) dayMoment = changeDayMoment dayMoment date
@@ -91,7 +114,8 @@ module Transform =
 module Parse =
     /// Attempts to parse a given string into a date.
     let date (strDate: string) =
-        let couldParse, parsedDate = DateTime.TryParse strDate
+        let couldParse, parsedDate =
+            DateTime.TryParse strDate
 
         if couldParse then
             Some parsedDate
@@ -112,4 +136,5 @@ module Parse =
         | _ -> Dawn
 
 /// Returns the date in which the game starts.
-let gameBeginning = January 1 2015 |> Transform.changeDayMoment Dawn
+let gameBeginning =
+    January 1 2015 |> Transform.changeDayMoment Dawn

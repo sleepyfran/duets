@@ -1,8 +1,10 @@
-module Simulation.Flights.BoardPlane
+module Simulation.Flights.Airport
 
 open Entities
 open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
 open Simulation
+open Simulation.Time
+open Simulation.Navigation
 
 /// Makes the character go through the airport's security check, which will
 /// check for any non-permitted items and take them away from the character.
@@ -31,3 +33,20 @@ let boardPlane flight =
         Situations.onboardedInPlane flight
 
     situationEffects, flightTimeInMinutes
+
+/// Passes as many day moments needed for the flight to complete and leaves
+/// the character in the destination's airport.
+let leavePlane state flight =
+    let flightTime = calculateFlightTime flight
+    let dayMomentPerHourInSeconds = 3600<second>
+
+    let dayMomentsNeeded =
+        flightTime / dayMomentPerHourInSeconds
+
+    let destinationAirport =
+        Queries.World.placeIdsOf flight.Destination PlaceTypeIndex.Airport
+        |> List.head (* All cities must have an airport. *)
+
+    [ yield! AdvanceTime.advanceDayMoment' state dayMomentsNeeded
+      Navigation.travelTo flight.Destination destinationAirport
+      Situations.freeRoam ]

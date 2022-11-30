@@ -20,3 +20,12 @@ let waitingToBoard =
 let planeBoarded flight time =
     Styles.success
         $"You boarded the plane to {Generic.cityName flight.Destination}. You should be there in around {Generic.duration time}"
+
+let waitForLanding =
+    Styles.progress "Waiting for the plane to land..."
+
+let gettingOffPlane =
+    Styles.progress "Getting off plane..."
+
+let passingPassportControl =
+    Styles.progress "Passing passport control..."

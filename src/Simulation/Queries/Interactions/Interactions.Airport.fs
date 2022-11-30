@@ -9,7 +9,7 @@ open Simulation
 module Airport =
     let private airportInteractions state =
         let todayFlight =
-            Queries.Flights.today state
+            Queries.Flights.availableForBoarding state
 
         match todayFlight with
         | Some flight ->
@@ -17,7 +17,7 @@ module Airport =
               |> Interaction.Airport ]
         | _ -> []
 
-    let private airplaneInteractions _ _ defaultInteractions =
+    let private airplaneInteractions _ flight defaultInteractions =
         let nonMovementInteractions =
             defaultInteractions
             |> List.filter (fun interaction ->
@@ -26,10 +26,13 @@ module Airport =
                 | Interaction.FreeRoam FreeRoamInteraction.Wait -> false
                 | _ -> true)
 
-        nonMovementInteractions
-        @ Shop.shopInteractions
-            { AvailableItems = AirplaneItems.drinks @ AirplaneItems.food
-              PriceModifier = 10<multiplier> }
+        [ yield! nonMovementInteractions
+          yield!
+              Shop.shopInteractions
+                  { AvailableItems = AirplaneItems.drinks @ AirplaneItems.food
+                    PriceModifier = 10<multiplier> }
+          AirportInteraction.WaitUntilLanding flight
+          |> Interaction.Airport ]
 
     let interactions state defaultInteractions =
         let situation =
@@ -38,4 +41,4 @@ module Airport =
         match situation with
         | Airport (Flying flight) ->
             airplaneInteractions state flight defaultInteractions
-        | _ -> airportInteractions state
+        | _ -> airportInteractions state @ defaultInteractions

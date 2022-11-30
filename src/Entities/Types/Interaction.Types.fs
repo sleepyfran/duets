@@ -8,6 +8,8 @@ module InteractionTypes =
     type AirportInteraction =
         /// Allows the character to board a flight they've previously booked.
         | BoardAirplane of Flight
+        /// Allows the character to wait until the flight ends.
+        | WaitUntilLanding of Flight
 
     /// Interactions that can be performed in a bar.
     [<RequireQualifiedAccess>]

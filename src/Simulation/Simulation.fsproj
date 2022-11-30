@@ -71,7 +71,7 @@
         <Compile Include="Concerts\Live\Live.Encore.fs"/>
         <Compile Include="Flights\TicketGeneration.fs"/>
         <Compile Include="Flights\Booking.fs"/>
-        <Compile Include="Flights\BoardPlane.fs"/>
+        <Compile Include="Flights\Airport.fs"/>
         <Compile Include="Songs\Practice.fs"/>
         <Compile Include="Songs\Composition\Common.fs"/>
         <Compile Include="Songs\Composition\ComposeSong.fs"/>
