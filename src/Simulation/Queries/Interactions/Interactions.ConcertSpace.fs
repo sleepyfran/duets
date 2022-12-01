@@ -5,6 +5,14 @@ open Entities.SituationTypes
 open Simulation
 
 module ConcertSpace =
+    let private startConcertInteraction state placeId =
+        let band = Queries.Bands.currentBand state
+
+        Queries.Concerts.scheduleForTodayInPlace state band.Id placeId
+        |> Option.map (fun _ ->
+            [ Interaction.Concert(ConcertInteraction.StartConcert placeId) ])
+        |> Option.defaultValue []
+
     let private instrumentInteractions state ongoingConcert =
         let characterBandMember =
             Queries.Bands.currentPlayableMember state
@@ -37,7 +45,7 @@ module ConcertSpace =
               ) ]
 
     /// Returns all interactions available in the current concert room.
-    let internal availableCurrently state defaultInteractions =
+    let internal availableCurrently state defaultInteractions placeId =
         let situation =
             Queries.Situations.current state
 
@@ -58,4 +66,6 @@ module ConcertSpace =
         | Concert (InBackstage (Some concert)) ->
             [ Interaction.Concert(ConcertInteraction.DoEncore concert)
               Interaction.Concert(ConcertInteraction.FinishConcert concert) ] (* TODO: Add interactions that are specific to only the backstage outside a concert. *)
-        | _ -> defaultInteractions
+        | _ ->
+            defaultInteractions
+            @ startConcertInteraction state placeId

@@ -32,7 +32,10 @@ module Interactions =
         | Airport -> Airport.interactions state defaultInteractions
         | Bar bar -> Shop.shopInteractions bar @ defaultInteractions
         | ConcertSpace _ ->
-            ConcertSpace.availableCurrently state defaultInteractions
+            ConcertSpace.availableCurrently
+                state
+                defaultInteractions
+                currentPlace.Id
         | Home -> defaultInteractions
         | Hospital -> defaultInteractions
         | RehearsalSpace _ ->

@@ -8,7 +8,8 @@ let private getAssociatedEffects effect =
     match effect with
     | TimeAdvanced date -> [ Events.Time.run date ]
     | _ -> []
-    @ Events.Skill.run effect @ Events.Character.Character.run effect
+    @ Events.Skill.run effect
+      @ Events.Character.Character.run effect
 
 /// Returns how many times the time has to be advanced for the given effect.
 let private timeAdvanceOfEffect effect =
@@ -26,9 +27,11 @@ let rec private tick' (appliedEffects, lastState) nextEffectFns =
         effectFn lastState
         |> List.fold
             (fun (currentEffectChain, currentState) effect ->
-                let state = State.Root.applyEffect currentState effect
+                let state =
+                    State.Root.applyEffect currentState effect
 
-                let associatedEffects = getAssociatedEffects effect
+                let associatedEffects =
+                    getAssociatedEffects effect
 
                 tick' (currentEffectChain @ [ effect ], state) associatedEffects)
             (appliedEffects, lastState)
@@ -46,16 +49,9 @@ let rec private tick' (appliedEffects, lastState) nextEffectFns =
 let tick currentState effect =
     let timeEffects =
         [ fun state ->
-              timeAdvanceOfEffect effect |> advanceDayMoment state.Today ]
-
-    let placeEffects = [ Events.Place.run ]
+              timeAdvanceOfEffect effect
+              |> advanceDayMoment state.Today ]
 
     let effectFn = fun _ -> [ effect ]
 
-    tick' ([], currentState) (timeEffects @ placeEffects @ [ effectFn ])
-
-/// Performs the initial tick after the game has been loaded, which doesn't apply
-/// any effect by itself but checks if there's any effect needed to be applied.
-let initialTick currentState =
-    let placeEffects = [ Events.Place.run ]
-    tick' ([], currentState) placeEffects
+    tick' ([], currentState) (timeEffects @ [ effectFn ])

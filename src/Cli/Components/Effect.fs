@@ -9,12 +9,6 @@ open Entities
 open Simulation
 
 /// <summary>
-/// Applies the initial tick of the game.
-/// </summary>
-let applyInitialAfterLoad () =
-    Simulation.initialTick (State.get ()) ||> digest
-
-/// <summary>
 /// Applies an effect to the simulation and displays any message or action that
 /// is associated with that effect. For example, transferring money displays a
 /// message with the transaction.
@@ -31,16 +25,22 @@ let applyMultiple effects = effects |> List.iter apply
 
 let private digest effects state =
     State.set state
-    effects |> Seq.tap Log.append |> Seq.iter displayEffect
+
+    effects
+    |> Seq.tap Log.append
+    |> Seq.iter displayEffect
 
 let private displayEffect effect =
     match effect with
     | AlbumRecorded (_, UnreleasedAlbum album) ->
-        Studio.createAlbumRecorded album.Name |> showMessage
+        Studio.createAlbumRecorded album.Name
+        |> showMessage
     | AlbumRenamed (_, UnreleasedAlbum album) ->
-        Studio.continueRecordAlbumRenamed album.Name |> showMessage
+        Studio.continueRecordAlbumRenamed album.Name
+        |> showMessage
     | AlbumReleased (_, releasedAlbum) ->
-        Studio.commonAlbumReleased releasedAlbum.Album.Name |> showMessage
+        Studio.commonAlbumReleased releasedAlbum.Album.Name
+        |> showMessage
     | CharacterAttributeChanged (_, attr, Diff (previous, current)) ->
         match attr with
         | CharacterAttribute.Drunkenness ->
@@ -72,9 +72,11 @@ let private displayEffect effect =
         showMessage Events.hospitalized
         lineBreak ()
     | ConcertScheduled (_, ScheduledConcert (concert, _)) ->
-        let place = Queries.World.placeInCityById concert.CityId concert.VenueId
+        let place =
+            Queries.World.placeInCityById concert.CityId concert.VenueId
 
-        Phone.schedulerAssistantAppTicketDone place concert |> showMessage
+        Phone.schedulerAssistantAppTicketDone place concert
+        |> showMessage
     | ConcertFinished (_, pastConcert) ->
         let quality =
             match pastConcert with
@@ -87,18 +89,22 @@ let private displayEffect effect =
         | q -> Concert.finishedGreat q
         |> showMessage
     | ConcertCancelled (band, FailedConcert (concert, reason)) ->
-        let place = Queries.World.placeInCityById concert.CityId concert.VenueId
+        let place =
+            Queries.World.placeInCityById concert.CityId concert.VenueId
 
         match reason with
         | BandDidNotMakeIt -> Concert.failedBandMissing band place concert
         | CharacterPassedOut -> Concert.failedCharacterPassedOut
         |> showMessage
     | ItemAddedToInventory item ->
-        Items.itemAddedToInventory item.Brand |> showMessage
+        Items.itemAddedToInventory item.Brand
+        |> showMessage
     | ItemRemovedFromInventory item ->
-        Items.itemRemovedFromInventory item.Brand |> showMessage
+        Items.itemRemovedFromInventory item.Brand
+        |> showMessage
     | MoneyTransferred (holder, transaction) ->
-        Phone.bankAppTransferSuccess holder transaction |> showMessage
+        Phone.bankAppTransferSuccess holder transaction
+        |> showMessage
     | SongImproved (_, Diff (before, after)) ->
         let (_, _, previousQuality) = before
         let (_, _, currentQuality) = after
@@ -109,11 +115,14 @@ let private displayEffect effect =
         )
         |> showMessage
     | SongPracticed (_, (FinishedSong song, _)) ->
-        Rehearsal.practiceSongImproved song.Name song.Practice |> showMessage
+        Rehearsal.practiceSongImproved song.Name song.Practice
+        |> showMessage
     | SongDiscarded (_, (UnfinishedSong song, _, _)) ->
-        Rehearsal.discardSongDiscarded song.Name |> showMessage
+        Rehearsal.discardSongDiscarded song.Name
+        |> showMessage
     | SongFinished (_, (FinishedSong song, quality)) ->
-        Rehearsal.finishSongFinished (song.Name, quality) |> showMessage
+        Rehearsal.finishSongFinished (song.Name, quality)
+        |> showMessage
     | SkillImproved (character, Diff (before, after)) ->
         let (skill, previousLevel) = before
         let (_, currentLevel) = after
@@ -126,11 +135,14 @@ let private displayEffect effect =
             currentLevel
         |> showMessage
     | Wait _ ->
-        let today = Queries.Calendar.today (State.get ())
+        let today =
+            Queries.Calendar.today (State.get ())
 
-        let currentDayMoment = Calendar.Query.dayMomentOf today
+        let currentDayMoment =
+            Calendar.Query.dayMomentOf today
 
-        Command.waitResult today currentDayMoment |> showMessage
+        Command.waitResult today currentDayMoment
+        |> showMessage
     | WorldMoveTo (cityId, placeId) ->
         Queries.World.placeInCityById cityId placeId
         |> World.movedTo

@@ -6,11 +6,11 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="Scenes.fs" />
-        <Compile Include="Text\Emoji.fs" />
-        <Compile Include="Text\Styles.fs" />
-        <Compile Include="Text\Generic.fs" />
-        <Compile Include="Text\Command.fs" />
+        <Compile Include="Scenes.fs"/>
+        <Compile Include="Text\Emoji.fs"/>
+        <Compile Include="Text\Styles.fs"/>
+        <Compile Include="Text\Generic.fs"/>
+        <Compile Include="Text\Command.fs"/>
         <Compile Include="Text\Concert.fs"/>
         <Compile Include="Text\Creator.fs"/>
         <Compile Include="Text\Events.fs"/>
@@ -59,6 +59,7 @@
         <Compile Include="Components\Commands\RehearsalRoom\DiscardSong.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\ComposeSong.Command.fs"/>
         <Compile Include="Components\Commands\Concert\ConcertCommon.fs"/>
+        <Compile Include="Components\Commands\Concert\StartConcert.Command.fs"/>
         <Compile Include="Components\Commands\Concert\DoEncore.Command.fs"/>
         <Compile Include="Components\Commands\Concert\FinishConcert.Command.fs"/>
         <Compile Include="Components\Commands\Concert\GetOffStage.Command.fs"/>

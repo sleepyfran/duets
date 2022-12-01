@@ -22,6 +22,8 @@ let private commandsFromInteractions interactions =
                 [ WaitForLandingCommand.create flight ]
         | Interaction.Concert concertInteraction ->
             match concertInteraction with
+            | ConcertInteraction.StartConcert placeId ->
+                [ StartConcertCommand.create placeId ]
             | ConcertInteraction.AdjustDrums _ ->
                 [ Command.message
                       "adjust drums"

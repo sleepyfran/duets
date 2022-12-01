@@ -215,3 +215,6 @@ let boardPlaneDescription flight =
 
 let waitForLandingDescription =
     "Makes you wait until the plane lands and lets you enter the destination airport"
+
+let startConcertDescription =
+    "Starts the concert that you scheduled here"
