@@ -257,6 +257,7 @@ let itemName (item: Item) =
     | Consumable (Food food) ->
         match food with
         | Burger _ -> "burger"
+        | Chips _ -> "chips"
         | Fries _ -> "fries"
         | Nachos _ -> "nachos"
     | Interactive (Electronics electronic) ->
@@ -278,6 +279,7 @@ let itemNameWithDetail (item: Item) =
     | Consumable (Food food) ->
         match food with
         | Burger mg -> $"""{Styles.item "Burger"} ({mg} mg)"""
+        | Chips mg -> $"""{Styles.item "Chips"} ({mg} mg)"""
         | Fries mg -> $"""{Styles.item "Fries"} ({mg} mg)"""
         | Nachos mg -> $"""{Styles.item "Nachos"} ({mg} mg)"""
     | Interactive _ -> itemName item

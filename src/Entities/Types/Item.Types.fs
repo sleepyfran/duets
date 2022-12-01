@@ -19,6 +19,7 @@ module ItemTypes =
     /// Defines all types of food available in the game.
     type FoodItemType =
         | Burger of amount: int<gram>
+        | Chips of amount: int<gram>
         | Fries of amount: int<gram>
         | Nachos of amount: int<gram>
 
