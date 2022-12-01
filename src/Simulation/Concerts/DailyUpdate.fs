@@ -72,7 +72,7 @@ let private concertDailyUpdate state scheduledConcert =
         Concert.fromScheduled scheduledConcert
 
     let venue =
-        Queries.World.placeInCurrentCityById state concert.VenueId
+        Queries.World.placeInCityById concert.CityId concert.VenueId
         |> fun place ->
             match place.Type with
             | ConcertSpace concertSpace -> concertSpace
@@ -116,4 +116,6 @@ let dailyUpdate state =
         Queries.Bands.currentBand state
 
     Queries.Concerts.allScheduled state currentBand.Id
-    |> Set.fold (fun acc concert -> acc @ [ concertDailyUpdate state concert ]) []
+    |> Set.fold
+        (fun acc concert -> acc @ [ concertDailyUpdate state concert ])
+        []
