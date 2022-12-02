@@ -9,11 +9,11 @@ module CalendarTypes =
     /// unbearably long in-game, these are the moments that of the day that
     /// we will show the user depending on the real time from the date.
     type DayMoment =
-        | Dawn
+        | EarlyMorning
         | Morning
         | Midday
-        | Sunset
-        | Dusk
+        | Afternoon
+        | Evening
         | Night
         | Midnight
 

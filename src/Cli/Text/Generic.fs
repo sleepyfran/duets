@@ -84,11 +84,11 @@ let accountHolderName holder =
 /// Returns the name of the given moment of the day.
 let dayMomentName dayMoment =
     match dayMoment with
-    | Dawn -> "Dawn"
+    | EarlyMorning -> "Early morning"
     | Morning -> "Morning"
     | Midday -> "Midday"
-    | Sunset -> "Sunset"
-    | Dusk -> "Dusk"
+    | Afternoon -> "Afternoon"
+    | Evening -> "Evening"
     | Night -> "Night"
     | Midnight -> "Midnight"
 

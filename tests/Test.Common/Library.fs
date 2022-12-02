@@ -79,7 +79,7 @@ let dummyToday = Calendar.gameBeginning
 
 let dummyTodayMiddleOfYear =
     June 20 2021
-    |> Calendar.Transform.changeDayMoment Dawn
+    |> Calendar.Transform.changeDayMoment EarlyMorning
 
 let dummyCharacterBankAccount =
     BankAccount.forCharacter dummyCharacter.Id

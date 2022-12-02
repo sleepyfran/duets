@@ -6,7 +6,7 @@ open Simulation
 /// Generates the tickets available for a given date between two cities.
 let ticketsAvailable origin destination date =
     (* Day moments in which they can fly. *)
-    [ Morning; Midday; Sunset ]
+    [ Morning; Midday; Afternoon ]
     |> List.map (createTicket origin destination date)
 
 let private createTicket origin destination date dayMoment =

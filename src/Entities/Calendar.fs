@@ -6,11 +6,11 @@ open System
 
 let allDayMoments =
     [ Midnight
-      Dawn
+      EarlyMorning
       Morning
       Midday
-      Sunset
-      Dusk
+      Afternoon
+      Evening
       Night ]
 
 [<RequireQualifiedAccess>]
@@ -27,53 +27,53 @@ module Query =
     /// not have an equivalent.
     let dayMomentOf (date: Date) =
         match date.Hour with
-        | 6 -> Dawn
+        | 6 -> EarlyMorning
         | 10 -> Morning
         | 14 -> Midday
-        | 18 -> Sunset
-        | 20 -> Dusk
+        | 18 -> Afternoon
+        | 20 -> Evening
         | 22 -> Night
         | 0 -> Midnight
-        | _ -> Dawn
+        | _ -> EarlyMorning
 
     /// Returns the associated time in a day of the given day moment.
     let timeOfDayMoment dayMoment =
         match dayMoment with
-        | Dawn -> 6
+        | EarlyMorning -> 6
         | Morning -> 10
         | Midday -> 14
-        | Sunset -> 18
-        | Dusk -> 20
+        | Afternoon -> 18
+        | Evening -> 20
         | Night -> 22
         | Midnight -> 0
 
     /// Returns the next day moment from the given one.
     let nextDayMoment dayMoment =
         match dayMoment with
-        | Dawn -> Morning
+        | EarlyMorning -> Morning
         | Morning -> Midday
-        | Midday -> Sunset
-        | Sunset -> Dusk
-        | Dusk -> Night
+        | Midday -> Afternoon
+        | Afternoon -> Evening
+        | Evening -> Night
         | Night -> Midnight
-        | Midnight -> Dawn
+        | Midnight -> EarlyMorning
 
     /// Returns the previous day moment from the given one.
     let previousDayMoment dayMoment =
         match dayMoment with
-        | Dawn -> Midnight
-        | Morning -> Dawn
+        | EarlyMorning -> Midnight
+        | Morning -> EarlyMorning
         | Midday -> Morning
-        | Sunset -> Midday
-        | Dusk -> Sunset
-        | Night -> Dusk
+        | Afternoon -> Midday
+        | Evening -> Afternoon
+        | Night -> Evening
         | Midnight -> Night
 
     /// Determines whether the given date is the first day of the year or not.
     let isFirstMomentOfYear (date: Date) =
         date.Day = 1
         && date.Month = 1
-        && dayMomentOf date = Dawn
+        && dayMomentOf date = EarlyMorning
 
     /// Returns the first date of the next month of the given date.
     let firstDayOfNextMonth (date: Date) =
@@ -126,15 +126,15 @@ module Parse =
     /// no compatible day moment is given.
     let dayMoment (strDayMoment: string) =
         match strDayMoment with
-        | "Dawn" -> Dawn
+        | "EarlyMorning" -> EarlyMorning
         | "Morning" -> Morning
         | "Midday" -> Midday
-        | "Sunset" -> Sunset
-        | "Dusk" -> Dusk
+        | "Afternoon" -> Afternoon
+        | "Evening" -> Evening
         | "Night" -> Night
         | "Midnight" -> Midnight
-        | _ -> Dawn
+        | _ -> EarlyMorning
 
 /// Returns the date in which the game starts.
 let gameBeginning =
-    January 1 2015 |> Transform.changeDayMoment Dawn
+    January 1 2015 |> Transform.changeDayMoment EarlyMorning

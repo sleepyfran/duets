@@ -14,11 +14,11 @@ let concert = ":admission_tickets: "
 /// Returns the correct emoji for showing the current day moment.
 let dayMoment dayMoment =
     match dayMoment with
-    | Dawn -> ":six_o_clock:"
+    | EarlyMorning -> ":six_o_clock:"
     | Morning -> ":ten_o_clock:"
     | Midday -> ":two_o_clock:"
-    | Sunset -> ":six_o_clock:"
-    | Dusk -> ":eight_o_clock:"
+    | Afternoon -> ":six_o_clock:"
+    | Evening -> ":eight_o_clock:"
     | Night -> ":ten_o_clock:"
     | Midnight -> ":twelve_o_clock:"
 
