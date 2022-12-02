@@ -60,4 +60,4 @@ module Revenue =
 
 module Travel =
     /// Price per kilometers for buying plane tickets.
-    let pricePerKm = 2
+    let pricePerKm = 0.067m

@@ -98,7 +98,7 @@ and private promptForVenue app date dayMoment city =
 
 and private promptForTicketPrice app date dayMoment city venueId =
     let ticketPrice =
-        showNumberPrompt Phone.schedulerAssistantAppTicketPricePrompt
+        showDecimalPrompt Phone.schedulerAssistantAppTicketPricePrompt
 
     Concert.validatePrice ticketPrice
     |> Result.switch

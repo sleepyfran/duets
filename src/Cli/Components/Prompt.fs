@@ -30,6 +30,13 @@ let showTextPrompt title = AnsiConsole.Ask<string>(title)
 let showNumberPrompt title = AnsiConsole.Ask<int>(title)
 
 /// <summary>
+/// Renders a basic decimal prompt, forcing the user to give a valid number.
+/// </summary>
+/// <param name="title">Title of the prompt to show when asking</param>
+/// <returns>The decimal given by the user</returns>
+let showDecimalPrompt title = AnsiConsole.Ask<decimal>(title)
+
+/// <summary>
 /// Renders a prompt that accepts a date in the dd/mm/YYYY format.
 /// </summary>
 /// <param name="title">Title of the prompt to show when asking</param>

@@ -81,7 +81,7 @@ let ``tick should update album streams every day`` () =
     Simulation.tick state songStartedEffect
     |> fst
     |> List.filter filterDailyUpdateEffects
-    |> should haveLength 1
+    |> should haveLength 2
 
 [<Test>]
 let ``tick should update all scheduled concerts every day`` () =

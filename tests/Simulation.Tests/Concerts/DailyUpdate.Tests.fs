@@ -64,7 +64,7 @@ let ``sold tickets get lower when band fame is lower`` () =
             (ScheduledConcert(
                 { dummyConcert with
                     Date = dummyToday.AddDays(1)
-                    TicketPrice = 2<dd> },
+                    TicketPrice = 2m<dd> },
                 dummyToday
             ))
 
@@ -102,7 +102,7 @@ let ``daily sold tickets are calculated based on how many days are left until th
             (ScheduledConcert(
                 { dummyConcert with
                     Date = dummyToday.AddDays(15)
-                    TicketPrice = 10<dd> },
+                    TicketPrice = 10m<dd> },
                 dummyToday
             ))
         |> actAndGetConcert
@@ -122,51 +122,51 @@ let actAndGetConcertWithPrice price =
 [<Test>]
 let ``sold tickets decrease if ticket price gets close to the price cap`` () =
     let concert =
-        actAndGetConcertWithPrice 23<dd>
+        actAndGetConcertWithPrice 23m<dd>
 
     concert.TicketsSold |> should equal 4
 
     let concert =
-        actAndGetConcertWithPrice 24<dd>
+        actAndGetConcertWithPrice 24m<dd>
 
     concert.TicketsSold |> should equal 3
 
     let concert =
-        actAndGetConcertWithPrice 25<dd>
+        actAndGetConcertWithPrice 25m<dd>
 
     concert.TicketsSold |> should equal 2
 
 [<Test>]
 let ``sold tickets decrease when price goes slightly above price cap`` () =
     let concert =
-        actAndGetConcertWithPrice 26<dd>
+        actAndGetConcertWithPrice 26m<dd>
 
     concert.TicketsSold |> should equal 2
 
     let concert =
-        actAndGetConcertWithPrice 27<dd>
+        actAndGetConcertWithPrice 27m<dd>
 
     concert.TicketsSold |> should equal 1
 
     let concert =
-        actAndGetConcertWithPrice 28<dd>
+        actAndGetConcertWithPrice 28m<dd>
 
     concert.TicketsSold |> should equal 1
 
 [<Test>]
 let ``sold tickets decrease a lot when price goes over price cap`` () =
     let concert =
-        actAndGetConcertWithPrice 29<dd>
+        actAndGetConcertWithPrice 29m<dd>
 
     concert.TicketsSold |> should equal 1
 
     let concert =
-        actAndGetConcertWithPrice 30<dd>
+        actAndGetConcertWithPrice 30m<dd>
 
     concert.TicketsSold |> should equal 1
 
     let concert =
-        actAndGetConcertWithPrice 50<dd>
+        actAndGetConcertWithPrice 50m<dd>
 
     concert.TicketsSold |> should equal 0
 

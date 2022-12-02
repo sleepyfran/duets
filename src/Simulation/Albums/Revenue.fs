@@ -1,6 +1,5 @@
 module Simulation.Albums.Revenue
 
-open Common
 open Entities
 open Simulation
 
@@ -9,5 +8,5 @@ open Simulation
 let albumRevenue (previousDayStreams: int) =
     float previousDayStreams
     * Config.Revenue.revenuePerStream
-    |> Math.roundToNearest
-    |> (*) 1<dd>
+    |> decimal
+    |> (*) 1m<dd>

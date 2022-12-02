@@ -11,7 +11,8 @@ open Entities
 open Simulation
 open Simulation.Albums.DailyUpdate
 
-let album = Album.Released.fromUnreleased dummyUnreleasedAlbum dummyToday 1.0
+let album =
+    Album.Released.fromUnreleased dummyUnreleasedAlbum dummyToday 1.0
 
 let state =
     State.generateOne
@@ -56,14 +57,14 @@ let ``dailyUpdate should return list without money transfer if quantity is 0``
     ()
     =
     let unknownAlbum =
-        Album.Released.fromUnreleased dummyUnreleasedAlbum dummyToday 0.1
+        Album.Released.fromUnreleased dummyUnreleasedAlbum dummyToday 0
 
     let state =
         dummyState
         |> addReleasedAlbum dummyBand.Id unknownAlbum
 
     let updateEffects = dailyUpdate state
-    updateEffects |> should haveLength 2
+    updateEffects |> should haveLength 1
 
 let private testDailyUpdateWith minFans maxFans maxFanDifference =
     State.generateN

@@ -18,7 +18,7 @@ module CommonTypes =
     type times
 
     /// Defines an amount in the in-game currency.
-    type Amount = int<dd>
+    type Amount = decimal<dd>
 
     /// Measure for the quality of something, as a percentage.
     [<Measure>]

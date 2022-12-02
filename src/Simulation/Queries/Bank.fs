@@ -6,7 +6,8 @@ module Bank =
 
     /// Returns the playable character's bank account.
     let playableCharacterAccount state =
-        let character = Characters.playableCharacter state
+        let character =
+            Characters.playableCharacter state
 
         Character character.Id
 
@@ -14,4 +15,4 @@ module Bank =
     let balanceOf state holder =
         state
         |> Optic.get (Lenses.FromState.BankAccount.balanceOf_ holder)
-        |> Option.defaultValue 0<dd>
+        |> Option.defaultValue 0m<dd>

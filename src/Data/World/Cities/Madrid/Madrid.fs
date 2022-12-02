@@ -124,7 +124,7 @@ let addWurlitzer zone =
 
 (* -------- Rehearsal Rooms --------- *)
 let addJackOnTheRocks zone =
-    let rehearsalSpace = { Price = 150<dd> }
+    let rehearsalSpace = { Price = 150m<dd> }
 
     { Id =
         "479ec3de-10ef-41a5-a158-882ef031c125"
@@ -137,7 +137,7 @@ let addJackOnTheRocks zone =
     |> World.City.addPlace
 
 let addPandorasVox zone =
-    let rehearsalSpace = { Price = 700<dd> }
+    let rehearsalSpace = { Price = 700m<dd> }
 
     { Id =
         "85ebaab3-3e1c-4c3b-afb2-d6ba2944ab9c"

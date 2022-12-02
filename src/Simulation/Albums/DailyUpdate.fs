@@ -20,13 +20,16 @@ let private bandDailyUpdate state bandId albumsByBand =
         let previousDayStreams =
             previousDayFanStreams + previousDayNonFanStreams
 
-        let streams = previousDayStreams + album.Streams
+        let streams =
+            previousDayStreams + album.Streams
 
-        let dailyRevenue = albumRevenue previousDayStreams
+        let dailyRevenue =
+            albumRevenue previousDayStreams
 
         let recalculatedHype = reduceDailyHype album
 
-        let fanIncrease = calculateFanIncrease previousDayNonFanStreams
+        let fanIncrease =
+            calculateFanIncrease previousDayNonFanStreams
 
         [ yield
               AlbumReleasedUpdate(
@@ -34,7 +37,7 @@ let private bandDailyUpdate state bandId albumsByBand =
                   Album.Released.update album streams recalculatedHype
               )
 
-          if dailyRevenue > 0<dd> then
+          if dailyRevenue > 0m<dd> then
               yield (income state bandAccount dailyRevenue)
 
           if fanIncrease > 0 then

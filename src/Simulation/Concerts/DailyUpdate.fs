@@ -5,9 +5,9 @@ open Common
 open Entities
 open Simulation
 
-let private ticketPriceModifier state bandFame concert =
+let private ticketPriceModifier bandFame concert =
     let ticketPrice =
-        concert.TicketPrice / 1<dd> |> float
+        concert.TicketPrice / 1m<dd> |> float
 
     let ticketPriceCap =
         match bandFame with
@@ -82,7 +82,7 @@ let private concertDailyUpdate state scheduledConcert =
         Queries.Bands.estimatedFameLevel state currentBand
 
     let ticketPriceModifier =
-        ticketPriceModifier state bandFame concert
+        ticketPriceModifier bandFame concert
 
     let lastVisitModifier =
         lastVisitModifier state currentBand concert

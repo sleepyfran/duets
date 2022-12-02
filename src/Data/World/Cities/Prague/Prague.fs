@@ -60,7 +60,7 @@ let addAirport zone =
     |> World.City.addPlace
 
 let addDuetsRehearsalSpace zone =
-    let rehearsalSpace = { Price = 300<dd> }
+    let rehearsalSpace = { Price = 300m<dd> }
 
     let place =
         World.Place.create
@@ -78,7 +78,7 @@ let addDuetsStudio zone =
 
     let studio =
         { Producer = Character.from "Fran González" Male producerBirthday
-          PricePerSong = 1000<dd> }
+          PricePerSong = 1000m<dd> }
 
     let place =
         World.Place.create

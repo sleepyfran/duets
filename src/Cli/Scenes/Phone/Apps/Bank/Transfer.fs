@@ -11,10 +11,10 @@ open Simulation.Bank.Operations
 /// and confirms the transaction.
 let transferSubScene bankApp sender receiver =
     let amount =
-        showNumberPrompt (Phone.bankAppTransferAmount receiver)
+        showDecimalPrompt (Phone.bankAppTransferAmount receiver)
 
-    if amount > 0 then
-        transfer (State.get ()) sender receiver (amount * 1<dd>)
+    if amount > 0m then
+        transfer (State.get ()) sender receiver (amount * 1m<dd>)
         |> fun result ->
             match result with
             | Ok effects -> effects |> List.iter Effect.apply

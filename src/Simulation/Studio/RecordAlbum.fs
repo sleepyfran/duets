@@ -32,7 +32,9 @@ let private recordAlbum' state studio band (UnreleasedAlbum album) =
 let private generatePayment state studio (band: Band) (UnreleasedAlbum album) =
     let bandAccount = Band band.Id
 
-    let studioBill = studio.PricePerSong * List.length album.TrackList
+    let studioBill =
+        studio.PricePerSong
+        * (List.length album.TrackList |> decimal)
 
     expense state bandAccount studioBill
 

@@ -14,10 +14,10 @@ let ``recordAlbum should fail if the band does not have enough money`` () =
     Album.Unreleased.from "Simple Math" [ dummyRecordedSong ]
     |> recordAlbum dummyState dummyStudio dummyBand
     |> Result.unwrapError
-    |> should be (ofCase <@ NotEnoughFunds(200<dd>) @>)
+    |> should be (ofCase <@ NotEnoughFunds(200m<dd>) @>)
 
 let state =
-    addFunds dummyBandBankAccount.Holder 40000<dd> dummyState
+    addFunds dummyBandBankAccount.Holder 40000m<dd> dummyState
 
 [<Test>]
 let ``recordAlbum should create album if parameters are correct`` () =
@@ -74,7 +74,8 @@ let ``recordAlbum should generate AlbumRecorded and MoneyTransferred`` () =
     let albumTitle = "Black Brick"
     let albumTrackList = [ dummyRecordedSong ]
 
-    let album = Album.from albumTitle albumTrackList
+    let album =
+        Album.from albumTitle albumTrackList
 
     Album.Unreleased.from albumTitle albumTrackList
     |> recordAlbum state dummyStudio dummyBand
@@ -91,7 +92,9 @@ let ``recordAlbum should generate AlbumRecorded and MoneyTransferred`` () =
         |> should
             be
             (ofCase
-                <@ MoneyTransferred(
-                    dummyBandBankAccount.Holder,
-                    Outgoing(200<dd>, 200<dd>)
-                ) @>)
+                <@
+                    MoneyTransferred(
+                        dummyBandBankAccount.Holder,
+                        Outgoing(200m<dd>, 200m<dd>)
+                    )
+                @>)

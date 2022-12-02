@@ -6,19 +6,19 @@ module FastFood =
     let genericBurger: PurchasableItem =
         { Brand = "Burger"
           Type = Burger 150<gram> |> Food |> Consumable },
-        95<dd>
+        2.5m<dd>
 
     let genericChips: PurchasableItem =
         { Brand = "Chips"
           Type = Chips 150<gram> |> Food |> Consumable },
-        55<dd>
+        0.5m<dd>
 
     let genericFries: PurchasableItem =
         { Brand = "Fries"
           Type = Fries 200<gram> |> Food |> Consumable },
-        80<dd>
+        1.2m<dd>
 
     let genericNachos: PurchasableItem =
         { Brand = "Nachos"
           Type = Nachos 300<gram> |> Food |> Consumable },
-        85<dd>
+        2.3m<dd>

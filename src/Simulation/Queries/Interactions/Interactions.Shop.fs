@@ -5,7 +5,7 @@ open Entities
 module Shop =
     let private itemsWithFinalPrice shop =
         let multiplier =
-            shop.PriceModifier / 1<multiplier>
+            shop.PriceModifier |> decimal
 
         shop.AvailableItems
         |> List.map (fun (item, price) -> item, price * multiplier)

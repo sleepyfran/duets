@@ -11,17 +11,19 @@ open Entities
 open Simulation
 
 let testBalance createTransfer expectedBalance =
-    let holder = dummyCharacterBankAccount.Holder
+    let holder =
+        dummyCharacterBankAccount.Holder
 
     let state =
         createTransfer holder
         |> State.Root.applyEffect dummyState
 
-    let balanceLenses = Lenses.FromState.BankAccount.balanceOf_ holder
+    let balanceLenses =
+        Lenses.FromState.BankAccount.balanceOf_ holder
 
     let balance =
         Optic.get balanceLenses state
-        |> Option.defaultValue 0<dd>
+        |> Option.defaultValue 0m<dd>
 
     balance |> should equal expectedBalance
 
@@ -30,27 +32,27 @@ let ``MoneyTransferred should set balance to the account when transfer is incomi
     ()
     =
     testBalance
-        (fun holder -> MoneyTransferred(holder, Incoming(50<dd>, 100<dd>)))
-        100<dd>
+        (fun holder -> MoneyTransferred(holder, Incoming(50m<dd>, 100m<dd>)))
+        100m<dd>
 
 [<Test>]
 let ``MoneyTransferred should set balance to the account when transfer is outgoing``
     ()
     =
     testBalance
-        (fun holder -> MoneyTransferred(holder, Outgoing(50<dd>, 0<dd>)))
-        0<dd>
+        (fun holder -> MoneyTransferred(holder, Outgoing(50m<dd>, 0m<dd>)))
+        0m<dd>
 
 [<Test>]
 let ``MoneyEarned sets balance to the account when transfer is incoming`` () =
     testBalance
-        (fun holder -> MoneyEarned(holder, Incoming(50<dd>, 50<dd>)))
-        50<dd>
+        (fun holder -> MoneyEarned(holder, Incoming(50m<dd>, 50m<dd>)))
+        50m<dd>
 
 [<Test>]
 let ``MoneyEarned sets balance to the account when transfer is outgoing (not that it should happen, but anyway.)``
     ()
     =
     testBalance
-        (fun holder -> MoneyEarned(holder, Outgoing(50<dd>, 0<dd>)))
-        0<dd>
+        (fun holder -> MoneyEarned(holder, Outgoing(50m<dd>, 0m<dd>)))
+        0m<dd>

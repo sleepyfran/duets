@@ -4,12 +4,12 @@ open Entities
 
 module GameConsole =
     let xbox: PurchasableItem =
-        { Brand = "Xbox"
+        { Brand = "Xbox Series X"
           Type = GameConsole |> Electronics |> Interactive },
-        7000<dd>
+        550m<dd>
 
 module Tv =
     let lgTv: PurchasableItem =
         { Brand = "LG"
           Type = TV |> Electronics |> Interactive },
-        8000<dd>
+        850m<dd>

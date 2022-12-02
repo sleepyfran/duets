@@ -12,7 +12,8 @@ let ticketsAvailable origin destination date =
 let private createTicket origin destination date dayMoment =
     let ticketPrice =
         Queries.World.distanceBetween origin destination
+        |> decimal
         |> (*) Config.Travel.pricePerKm
-        |> (*) 1<dd / km>
+        |> (*) 1m<dd>
 
     Flight.create origin destination ticketPrice date dayMoment

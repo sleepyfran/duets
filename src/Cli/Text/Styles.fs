@@ -20,8 +20,12 @@ let success text = $"[bold green3]{text}[/]"
 /// Pre-defined style for showing numbers.
 let number (value: int<_>) = System.String.Format("{0:#,0}", value)
 
+/// Pre-defined style for showing decimal numbers.
+let decimal (value: decimal<_>) =
+    System.String.Format("{0:#,##0.00}", value)
+
 /// Pre-defined style for showing money amounts.
-let money (amount: Amount) = $"[bold green3]{number amount}d$[/]"
+let money (amount: Amount) = $"[bold green3]{decimal amount}d$[/]"
 
 /// Pre-defined style for referencing people in text.
 let person name = $"[bold lightgreen_1]{name}[/]"

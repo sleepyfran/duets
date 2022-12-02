@@ -38,14 +38,15 @@ module Ongoing =
         let timesPerformedEncores =
             timesDoneEvent ongoingConcert PerformedEncore
 
-        let points = Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
+        let points =
+            Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
 
         points > 50<quality>
         && timesPerformedEncores = 0<times>
 
 /// Creates a concert from the given parameter.
 let create date dayMoment cityId venueId ticketPrice =
-    let ticketAmount = ticketPrice * 1<dd>
+    let ticketAmount = ticketPrice * 1m<dd>
 
     { Id = Identity.create ()
       CityId = cityId
@@ -57,9 +58,9 @@ let create date dayMoment cityId venueId ticketPrice =
 
 /// Validates that the ticket price is not below zero or a too high number.
 let validatePrice ticketPrice =
-    if ticketPrice < 0 then
+    if ticketPrice < 0m then
         Error PriceBelowZero
-    else if ticketPrice > 10000 then
+    else if ticketPrice > 10000m then
         Error PriceTooHigh
     else
         Ok ticketPrice

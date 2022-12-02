@@ -137,11 +137,11 @@ let schedulerAssistantAppDateAlreadyBooked date =
 
 let schedulerAssistantAppTicketPriceBelowZero price =
     Styles.error
-        $"The price can't be below zero! {Styles.number price} is not valid"
+        $"The price can't be below zero! {Styles.decimal price} is not valid"
 
 let schedulerAssistantAppTicketPriceTooHigh price =
     Styles.error
-        $"{Styles.number price} is a bit too high for a concert. Maybe a bit less?"
+        $"{Styles.decimal price} is a bit too high for a concert. Maybe a bit less?"
 
 let schedulerAssistantAppTicketDone (place: Place) concert =
     $"""Done! You scheduled a concert in {Styles.place place.Name} on {Styles.highlight (Generic.formatDate concert.Date)}. Be sure to be in the place at the moment of the concert, {Styles.danger "otherwise it'd fail miserably!"}"""

@@ -6,4 +6,4 @@ module Bed =
     let ikeaBed: PurchasableItem =
         { Brand = "IKEA"
           Type = Bed |> Furniture |> Interactive },
-        9500<dd>
+        450m<dd>
