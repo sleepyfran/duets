@@ -3,6 +3,12 @@ module Cli.SceneIndex
 open Agents
 open Entities
 
+/// Defines whether we should save before exiting the game or not.
+[<RequireQualifiedAccess>]
+type ExitMode =
+    | SaveGame
+    | SkipSave
+
 /// Defines the index of all scenes available in the game that can be instantiated.
 [<RequireQualifiedAccess>]
 type Scene =
@@ -19,4 +25,4 @@ type Scene =
     | WorldAfterMovement
     | Phone
     // Saves the game and exits.
-    | Exit
+    | Exit of ExitMode

@@ -43,7 +43,7 @@ let rec mainMenu savegameState =
     match selectedChoice with
     | Some NewGame -> createNewGame savegameState hasSavegameAvailable
     | Some LoadGame -> Scene.WorldAfterMovement
-    | None -> Scene.Exit
+    | None -> Scene.Exit ExitMode.SkipSave
 
 and private createNewGame savegameState hasSavegameAvailable =
     if hasSavegameAvailable then

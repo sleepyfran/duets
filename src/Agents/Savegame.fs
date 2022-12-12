@@ -1,6 +1,5 @@
 ﻿module Agents.Savegame
 
-
 open Common
 open Entities
 

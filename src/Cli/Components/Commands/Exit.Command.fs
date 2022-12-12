@@ -9,4 +9,4 @@ module ExitCommand =
     let get =
         { Name = "exit"
           Description = Command.exitDescription
-          Handler = fun _ -> Scene.Exit }
+          Handler = fun _ -> Scene.Exit ExitMode.SaveGame }

@@ -38,9 +38,10 @@ let rec showScene scene =
         World.worldScene World.WorldMode.IgnoreDescription |> showScene
     | Scene.WorldAfterMovement ->
         World.worldScene World.WorldMode.ShowDescription |> showScene
-    | Scene.Exit ->
-        Savegame.saveSync ()
-        ()
+    | Scene.Exit exitMode ->
+        match exitMode with
+        | ExitMode.SaveGame -> Savegame.saveSync ()
+        | _ -> ()
 
 [<EntryPoint>]
 let main _ =
