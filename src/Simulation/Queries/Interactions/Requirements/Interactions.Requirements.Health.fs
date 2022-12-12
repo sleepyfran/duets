@@ -5,14 +5,12 @@ open Entities
 open Simulation
 
 module HealthRequirements =
-    let private minimumHealth = 10
-
     let private disable interactionWithState =
         { interactionWithState with
             State =
                 InteractionDisabledReason.NotEnoughAttribute(
                     CharacterAttribute.Health,
-                    minimumHealth
+                    Config.LifeSimulation.Interactions.minimumHealthRequired
                 )
                 |> InteractionState.Disabled }
 
@@ -24,7 +22,9 @@ module HealthRequirements =
                 state
                 CharacterAttribute.Health
 
-        if characterHealth > minimumHealth then
+        if
+            characterHealth > Config.LifeSimulation.Interactions.minimumHealthRequired
+        then
             interactions
         else
             interactions

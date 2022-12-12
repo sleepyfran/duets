@@ -9,11 +9,9 @@ open Simulation.Time
 let workAttributeChange state (job: Job) =
     let character = Queries.Characters.playableCharacter state
 
-    match job.Id with
-    | Bartender ->
-        [ Attribute.add character CharacterAttribute.Energy -20
-          Attribute.add character CharacterAttribute.Mood -10
-          Attribute.add character CharacterAttribute.Health -2 ]
+    job.ShiftAttributeEffect
+    |> List.map (fun attributeChange ->
+        attributeChange ||> Attribute.add character)
 
 /// Starts a work shift in the given job, passing the necessary amount of day
 /// moments until the shift ends, paying the character the earned amount and

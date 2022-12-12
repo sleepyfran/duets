@@ -24,7 +24,12 @@ let private generateBartenderJob cityId placeId shop =
     { Id = Bartender
       CurrentStage = initialCareerStage
       Location = cityId, placeId
-      Schedule = JobSchedule.Free 2<dayMoments> }
+      Schedule = JobSchedule.Free 2<dayMoments>
+      ShiftAttributeEffect = [
+          CharacterAttribute.Energy, -20
+          CharacterAttribute.Mood, -10
+          CharacterAttribute.Health, -2
+      ] }
 
 let private generateJobs cityId (places: Place list) =
     places

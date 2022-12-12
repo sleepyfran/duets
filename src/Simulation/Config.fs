@@ -4,6 +4,13 @@
 module Simulation.Config
 
 module LifeSimulation =
+    module Interactions =
+        /// Minimum amount of health needed to perform any interaction.
+        let minimumHealthRequired = 10
+        
+        /// Minimum amount of energy needed to do a rehearsal room interaction.
+        let minimumEnergyRequiredToRehearse = 10
+    
     /// Maximum amount of alcohol that the character can take before getting injured.
     let maximumAlcoholAmount = 350
 

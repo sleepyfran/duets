@@ -26,9 +26,14 @@ module CareerTypes =
     [<RequireQualifiedAccess>]
     type JobSchedule = Free of duration: ShiftDuration
 
+    /// Defines the effect that performing a job's shift has on the character's
+    /// attribute.
+    type JobShiftAttributeEffect = CharacterAttribute * int
+
     /// Defines a job that either the character holds or can apply to.
     type Job =
         { Id: CareerId
           CurrentStage: CareerStage
           Location: WorldCoordinates
-          Schedule: JobSchedule }
+          Schedule: JobSchedule
+          ShiftAttributeEffect: JobShiftAttributeEffect list }
