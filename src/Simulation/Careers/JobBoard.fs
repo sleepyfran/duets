@@ -24,7 +24,7 @@ let private generateBartenderJob cityId placeId shop =
     { Id = Bartender
       CurrentStage = initialCareerStage
       Location = cityId, placeId
-      Schedule = JobSchedule.Free }
+      Schedule = JobSchedule.Free 2<dayMoments> }
 
 let private generateJobs cityId (places: Place list) =
     places

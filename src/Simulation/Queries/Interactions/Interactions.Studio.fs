@@ -7,8 +7,7 @@ open Simulation
 module Studio =
     /// Returns all interactions available in the current studio room.
     let internal availableCurrently state studio =
-        let currentBand =
-            Queries.Bands.currentBand state
+        let currentBand = Queries.Bands.currentBand state
 
         let finishedSongs =
             Queries.Songs.finishedByBand state currentBand.Id
@@ -18,19 +17,14 @@ module Studio =
             Queries.Albums.unreleasedByBand state currentBand.Id
             |> List.ofMapValues
 
-        let hasUnreleasedAlbums =
-            not (List.isEmpty unreleasedAlbums)
+        let hasUnreleasedAlbums = not (List.isEmpty unreleasedAlbums)
 
-        [
-            yield
-                StudioInteraction.CreateAlbum(studio, finishedSongs)
-                |> Interaction.Studio
-            if hasUnreleasedAlbums then
-                yield
-                    StudioInteraction.EditAlbumName unreleasedAlbums
+        [ StudioInteraction.CreateAlbum(studio, finishedSongs)
+          |> Interaction.Studio
+          if hasUnreleasedAlbums then
+              yield!
+                  [ StudioInteraction.EditAlbumName unreleasedAlbums
                     |> Interaction.Studio
 
-                yield
                     StudioInteraction.ReleaseAlbum unreleasedAlbums
-                    |> Interaction.Studio
-        ]
+                    |> Interaction.Studio ] ]

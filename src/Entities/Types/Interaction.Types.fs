@@ -11,15 +11,11 @@ module InteractionTypes =
         /// Allows the character to wait until the flight ends.
         | WaitUntilLanding of Flight
 
-    /// Interactions that can be performed in a bar.
     [<RequireQualifiedAccess>]
-    type ShopInteraction =
-        /// Allows the character to order a certain item from a selection of
-        /// available items in a bar.
-        | Order of PurchasableItem list
-        /// Allows the character to peek at the available items on the bar.
-        | SeeMenu of PurchasableItem list
-
+    type CareerInteraction =
+        /// Starts a work shift in the given job.
+        | Work of job: Job
+    
     /// Interactions that can be done while on a concert.
     [<RequireQualifiedAccess>]
     type ConcertInteraction =
@@ -120,6 +116,15 @@ module InteractionTypes =
             pastMembers: PastMember list
         /// Allows to practice a finished song.
         | PracticeSong of songs: FinishedSongWithQuality list
+        
+    /// Interactions that can be performed in a bar.
+    [<RequireQualifiedAccess>]
+    type ShopInteraction =
+        /// Allows the character to order a certain item from a selection of
+        /// available items in a bar.
+        | Order of PurchasableItem list
+        /// Allows the character to peek at the available items on the bar.
+        | SeeMenu of PurchasableItem list
 
     /// Interactions that can only be performed inside of a studio.
     [<RequireQualifiedAccess>]
@@ -139,6 +144,7 @@ module InteractionTypes =
     [<RequireQualifiedAccess>]
     type Interaction =
         | Airport of AirportInteraction
+        | Career of CareerInteraction
         | Concert of ConcertInteraction
         | FreeRoam of FreeRoamInteraction
         | Item of ItemInteraction

@@ -8,25 +8,27 @@ module CareerTypes =
     /// Wrapper around a byte that holds the stage number in which a career
     /// is currently in.
     type CareerStageId = CareerStageId of byte
-    
+
     /// Defines one specific stage inside of a career, which defines an ID and
     /// a base salary that will later get multiplied by the type of place that
     /// employees this stage.
-    type CareerStage = {
-        Id: CareerStageId
-        BaseSalaryPerDayMoment: Amount
-    }
-    
+    type CareerStage =
+        { Id: CareerStageId
+          BaseSalaryPerDayMoment: Amount }
+
+    /// Number of day moments that it takes to perform a shift in a job.
+    [<RequireQualifiedAccess>]
+    type ShiftDuration = int<dayMoments>
+
     /// Defines the schedule of a job. Which each option meaning:
     /// - Free: No assigned schedule, player is free to work whenever they feel
     ///   like it.
     [<RequireQualifiedAccess>]
-    type JobSchedule = Free
+    type JobSchedule = Free of duration: ShiftDuration
 
     /// Defines a job that either the character holds or can apply to.
-    type Job = {
-        Id: CareerId
-        CurrentStage: CareerStage
-        Location: WorldCoordinates
-        Schedule: JobSchedule
-    }
+    type Job =
+        { Id: CareerId
+          CurrentStage: CareerStage
+          Location: WorldCoordinates
+          Schedule: JobSchedule }

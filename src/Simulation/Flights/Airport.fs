@@ -44,6 +44,7 @@ let leavePlane state flight =
 
     let dayMomentsNeeded =
         flightTime / dayMomentPerHourInSeconds
+        |> (*) 1<dayMoments>
 
     let destinationAirport =
         Queries.World.placeIdsOf flight.Destination PlaceTypeIndex.Airport

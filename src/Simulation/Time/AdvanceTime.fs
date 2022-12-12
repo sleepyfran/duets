@@ -11,8 +11,7 @@ let private advanceOnce currentTime =
     |> Calendar.Transform.changeDayMoment' currentTime
 
 let private advanceDay (currentTime: Date) =
-    currentTime + oneDay
-    |> Calendar.Transform.changeDayMoment Midnight
+    currentTime + oneDay |> Calendar.Transform.changeDayMoment Midnight
 
 let private advanceTimeOnce (currentTime: Date) =
     (if Calendar.Query.dayMomentOf currentTime = Night then
@@ -24,8 +23,8 @@ let private advanceTimeOnce (currentTime: Date) =
 /// times. For example, if currently it's morning, this will advance to midday.
 /// Also handles the cases in which it's already midnight, in which case it'll
 /// return the dawn of next day.
-let advanceDayMoment (currentTime: Date) times =
-    [ 1..times ]
+let advanceDayMoment (currentTime: Date) (times: int<dayMoments>) =
+    [ 1 .. (times / 1<dayMoments>) ]
     |> List.mapFold
         (fun time _ ->
             advanceTimeOnce time
@@ -35,7 +34,6 @@ let advanceDayMoment (currentTime: Date) times =
 
 /// Same as advanceDayMoment but queries the current time automatically.
 let advanceDayMoment' state times =
-    let currentDate =
-        Queries.Calendar.today state
+    let currentDate = Queries.Calendar.today state
 
     advanceDayMoment currentDate times

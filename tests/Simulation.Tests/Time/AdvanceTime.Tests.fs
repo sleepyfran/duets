@@ -20,7 +20,7 @@ let hourMatches (hour: int) (TimeAdvanced date) = date.Hour |> should equal hour
 [<Test>]
 let ``advanceDayMoment should return next day moment`` () =
     let effects =
-        advanceDayMoment Calendar.gameBeginning 1
+        advanceDayMoment Calendar.gameBeginning 1<dayMoments>
 
     effects |> should haveLength 1
 
@@ -36,7 +36,7 @@ let ``advanceDayMoment should roll over next day if current day moment is midnig
         Calendar.gameBeginning
         |> Calendar.Transform.changeDayMoment Night
 
-    let effects = advanceDayMoment initialDate 1
+    let effects = advanceDayMoment initialDate 1<dayMoments>
 
     effects |> should haveLength 1
 
@@ -47,7 +47,7 @@ let ``advanceDayMoment should roll over next day if current day moment is midnig
 [<Test>]
 let ``advanceDayMoment 2 should return 2 day moments later`` () =
     let effects =
-        advanceDayMoment Calendar.gameBeginning 2
+        advanceDayMoment Calendar.gameBeginning 2<dayMoments>
 
     effects |> should haveLength 2
 

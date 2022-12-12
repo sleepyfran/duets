@@ -46,7 +46,7 @@
         <Compile Include="Components\Commands\Inventory.Command.fs"/>
         <Compile Include="Components\Commands\Wait.Command.fs"/>
         <Compile Include="Components\Commands\Aiport\BoardPlane.Command.fs"/>
-        <Compile Include="Components\Commands\Aiport\WaitForLanding.fs"/>
+        <Compile Include="Components\Commands\Aiport\WaitForLanding.Command.fs"/>
         <Compile Include="Components\Commands\Studio\Common.fs"/>
         <Compile Include="Components\Commands\Studio\CreateAlbum.Command.fs"/>
         <Compile Include="Components\Commands\Studio\EditAlbumName.Command.fs"/>
@@ -59,6 +59,7 @@
         <Compile Include="Components\Commands\RehearsalRoom\FinishSong.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\DiscardSong.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\ComposeSong.Command.fs"/>
+        <Compile Include="Components\Commands\Career\Work.Command.fs"/>
         <Compile Include="Components\Commands\Concert\ConcertCommon.fs"/>
         <Compile Include="Components\Commands\Concert\StartConcert.Command.fs"/>
         <Compile Include="Components\Commands\Concert\DoEncore.Command.fs"/>

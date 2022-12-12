@@ -17,8 +17,8 @@ module WaitCommand =
                 match args with
                 | timeAmount :: _ ->
                     match System.Int32.TryParse timeAmount with
-                    | true, num -> Wait num |> Effect.apply
+                    | true, num -> num * 1<dayMoments> |> Wait |> Effect.apply
                     | _ -> showMessage (Command.waitInvalidTimes timeAmount)
-                | _ -> Wait 1 |> Effect.apply
+                | _ -> Wait 1<dayMoments> |> Effect.apply
 
                 Scene.World) }

@@ -9,14 +9,11 @@ open Entities
 open Simulation
 open Simulation.Time.AdvanceTime
 
-let state =
-    { dummyState with Today = dummyTodayMiddleOfYear }
+let state = { dummyState with Today = dummyTodayMiddleOfYear }
 
 let stateInMorning =
     { state with
-        Today =
-            state.Today
-            |> Calendar.Transform.changeDayMoment Morning }
+        Today = state.Today |> Calendar.Transform.changeDayMoment Morning }
 
 let stateInMidnightBeforeGameStart =
     { state with
@@ -24,23 +21,21 @@ let stateInMidnightBeforeGameStart =
             Calendar.gameBeginning
             |> Calendar.Transform.changeDayMoment Midnight }
 
-let unfinishedSong =
-    (UnfinishedSong dummySong, 10<quality>, 10<quality>)
+let unfinishedSong = (UnfinishedSong dummySong, 10<quality>, 10<quality>)
 
-let songStartedEffect =
-    SongStarted(dummyBand, unfinishedSong)
+let songStartedEffect = SongStarted(dummyBand, unfinishedSong)
 
 let effectsWithTimeIncrease =
-    [ (songStartedEffect, 1)
-      (SongImproved(dummyBand, Diff(unfinishedSong, unfinishedSong)), 1)
-      (AlbumRecorded(dummyBand, dummyUnreleasedAlbum), 2) ]
+    [ (songStartedEffect, 1<dayMoments>)
+      (SongImproved(dummyBand, Diff(unfinishedSong, unfinishedSong)),
+       1<dayMoments>)
+      (AlbumRecorded(dummyBand, dummyUnreleasedAlbum), 2<dayMoments>) ]
 
 let checkTimeIncrease timeIncrease effects =
     effects
     |> should
         contain
-        (advanceDayMoment dummyTodayMiddleOfYear timeIncrease
-         |> List.head)
+        (advanceDayMoment dummyTodayMiddleOfYear timeIncrease |> List.head)
 
 [<Test>]
 let ``tick should apply the given effect`` () =
@@ -59,9 +54,7 @@ let ``tick should not apply the given effect more than once`` () =
 let ``tick should advance time by corresponding effect type`` () =
     effectsWithTimeIncrease
     |> List.iter (fun (effect, timeIncrease) ->
-        Simulation.tick state effect
-        |> fst
-        |> checkTimeIncrease timeIncrease)
+        Simulation.tick state effect |> fst |> checkTimeIncrease timeIncrease)
 
 let filterDailyUpdateEffects effect =
     match effect with
@@ -135,8 +128,7 @@ let ``tick should check for failed concerts in every time update`` () =
         |> Calendar.Transform.changeDayMoment Midnight
 
     let stateAfterConcert =
-        TimeAdvanced dateAfterConcert
-        |> State.Root.applyEffect state
+        TimeAdvanced dateAfterConcert |> State.Root.applyEffect state
 
     Simulation.tick stateAfterConcert songStartedEffect
     |> fst

@@ -43,4 +43,4 @@ module EffectTypes =
         | SituationChanged of Situation
         | TimeAdvanced of Date
         | WorldMoveTo of WorldCoordinates
-        | Wait of int
+        | Wait of int<dayMoments>

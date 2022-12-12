@@ -20,8 +20,13 @@ module Interactions =
         let itemInteractions =
             Items.getItemInteractions inventory
 
+        let careerInteractions =
+            currentPlace
+            |> Career.interactions state
+        
         let defaultInteractions =
             itemInteractions
+            @ careerInteractions
             @ [ FreeRoamInteraction.Inventory inventory
                 |> Interaction.FreeRoam
                 Interaction.FreeRoam FreeRoamInteraction.Map

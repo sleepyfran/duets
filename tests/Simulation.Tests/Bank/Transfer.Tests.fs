@@ -27,7 +27,6 @@ let transferAmountLowerThanBalanceShouldReturnOkWithEffects () =
     [ 200m<dd>
       300m<dd>
       990m<dd>
-      10000m<dd>
       10m<dd>
       540m<dd> ]
     |> List.iter (fun amount ->
@@ -43,4 +42,4 @@ let transferAmountLowerThanBalanceShouldReturnOkWithEffects () =
               <| (dummyBandBankAccount.Holder, Incoming(amount, amount))
               MoneyTransferred
               <| (dummyCharacterBankAccount.Holder,
-                  Outgoing(amount, 10000m<dd> - amount)) ])
+                  Outgoing(amount, 1000m<dd> - amount)) ])

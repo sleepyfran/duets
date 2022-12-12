@@ -20,6 +20,10 @@ let private commandsFromInteractions interactions =
                 [ BoardPlaneCommand.create flight ]
             | AirportInteraction.WaitUntilLanding flight ->
                 [ WaitForLandingCommand.create flight ]
+        | Interaction.Career careerInteraction ->
+            match careerInteraction with
+            | CareerInteraction.Work job ->
+                [ WorkCommand.create job ]
         | Interaction.Concert concertInteraction ->
             match concertInteraction with
             | ConcertInteraction.StartConcert placeId ->

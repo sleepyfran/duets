@@ -23,7 +23,7 @@ let startGame (character: Character) (band: Band) =
       BandSongRepertoire = Band.SongRepertoire.emptyFor band.Id
       BankAccounts =
         [ (Character character.Id,
-           BankAccount.forCharacterWithBalance character.Id 10000m<dd>)
+           BankAccount.forCharacterWithBalance character.Id 1000m<dd>)
           (Band band.Id, BankAccount.forBand band.Id) ]
         |> Map.ofSeq
       Career = None

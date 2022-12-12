@@ -25,6 +25,7 @@
         <Compile Include="Queries\World.fs"/>
         <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Health.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Items.fs"/>
+        <Compile Include="Queries\Interactions\Interactions.Career.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Shop.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Airport.fs"/>
         <Compile Include="Queries\Interactions\Interactions.ConcertSpace.fs"/>
@@ -73,6 +74,7 @@
         <Compile Include="Concerts\Live\Live.Encore.fs"/>
         <Compile Include="Careers\JobBoard.fs"/>
         <Compile Include="Careers\Employment.fs"/>
+        <Compile Include="Careers\Work.fs"/>
         <Compile Include="Flights\TicketGeneration.fs"/>
         <Compile Include="Flights\Booking.fs"/>
         <Compile Include="Flights\Airport.fs"/>

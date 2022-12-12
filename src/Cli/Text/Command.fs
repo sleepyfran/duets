@@ -218,3 +218,6 @@ let waitForLandingDescription =
 
 let startConcertDescription =
     "Starts the concert that you scheduled here"
+
+let workDescription (job: Job) =
+    $"Starts a shift in your work as {Career.name job.Id}. It will take {Career.shiftDurationDescription job.Schedule}"
