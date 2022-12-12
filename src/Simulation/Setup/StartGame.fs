@@ -26,6 +26,7 @@ let startGame (character: Character) (band: Band) =
            BankAccount.forCharacterWithBalance character.Id 10000m<dd>)
           (Band band.Id, BankAccount.forBand band.Id) ]
         |> Map.ofSeq
+      Career = None
       Characters = [ (character.Id, character) ] |> Map.ofList
       CharacterSkills = [ (character.Id, Map.empty) ] |> Map.ofList
       Concerts =

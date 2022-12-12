@@ -15,6 +15,7 @@
         <Compile Include="Items\Food.Items.fs"/>
         <Compile Include="Items\Electronics.Items.fs"/>
         <Compile Include="Items\Furniture.Items.fs"/>
+        <Compile Include="Careers.fs"/>
         <Compile Include="Genres.fs"/>
         <Compile Include="Npcs.fs"/>
         <Compile Include="Roles.fs"/>

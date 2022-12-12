@@ -11,6 +11,7 @@ module StateTypes =
           BandAlbumRepertoire: BandAlbumRepertoire
           BandSongRepertoire: BandSongRepertoire
           BankAccounts: Map<BankAccountHolder, BankAccount>
+          Career: Job option
           Characters: Map<CharacterId, Character>
           CharacterSkills: CharacterSkills
           Concerts: ConcertsByBand

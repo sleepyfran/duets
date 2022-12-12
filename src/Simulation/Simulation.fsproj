@@ -13,6 +13,7 @@
         <Compile Include="Queries\Songs.fs"/>
         <Compile Include="Queries\Repertoire.fs"/>
         <Compile Include="Queries\Characters.fs"/>
+        <Compile Include="Queries\Career.fs"/>
         <Compile Include="Queries\Bank.fs"/>
         <Compile Include="Queries\Situations.fs"/>
         <Compile Include="Queries\Flights.fs"/>
@@ -36,6 +37,7 @@
         <Compile Include="State\Calendar.fs"/>
         <Compile Include="State\Concerts.fs"/>
         <Compile Include="State\Flights.fs"/>
+        <Compile Include="State\Career.fs"/>
         <Compile Include="State\Market.fs"/>
         <Compile Include="State\Songs.fs"/>
         <Compile Include="State\Inventory.fs"/>
@@ -69,6 +71,8 @@
         <Compile Include="Concerts\Live\Live.Actions.fs"/>
         <Compile Include="Concerts\Live\Live.Finish.fs"/>
         <Compile Include="Concerts\Live\Live.Encore.fs"/>
+        <Compile Include="Careers\JobBoard.fs"/>
+        <Compile Include="Careers\Employment.fs"/>
         <Compile Include="Flights\TicketGeneration.fs"/>
         <Compile Include="Flights\Booking.fs"/>
         <Compile Include="Flights\Airport.fs"/>

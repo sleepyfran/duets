@@ -10,6 +10,7 @@ open Simulation
 type private PhoneMenuOption =
     | Bank
     | Flights
+    | Jobs
     | Statistics
     | Scheduler
 
@@ -17,6 +18,7 @@ let private textFromOption opt =
     match opt with
     | Bank -> Phone.optionBank
     | Flights -> Phone.optionFlights
+    | Jobs -> Phone.optionJobs
     | Statistics -> Phone.optionStatistics
     | Scheduler -> Phone.optionScheduler
 
@@ -32,11 +34,12 @@ let rec phoneScene () =
             (Phone.prompt currentDate dayMoment)
             Phone.putDown
             textFromOption
-            [ Bank; Flights; Statistics; Scheduler ]
+            [ Bank; Flights; Jobs; Statistics; Scheduler ]
 
     match selection with
     | Some Bank -> Apps.Bank.Root.bankApp ()
     | Some Flights -> Apps.Flights.Root.flightsApp ()
+    | Some Jobs -> Apps.Jobs.Root.jobsApp ()
     | Some Statistics -> Apps.Statistics.Root.statisticsApp ()
     | Some Scheduler -> Apps.SchedulerAssistant.Root.schedulerAssistantApp ()
     | None -> Scene.World

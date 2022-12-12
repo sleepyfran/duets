@@ -18,6 +18,8 @@ module EffectTypes =
             diff: Diff<CharacterAttributeAmount>
         | CharacterHealthDepleted of CharacterId
         | CharacterHospitalized of CharacterId * WorldCoordinates
+        | CareerAccept of CharacterId * Job
+        | CareerLeave of CharacterId * Job
         | ConcertScheduled of Band * ScheduledConcert
         | ConcertFinished of Band * PastConcert
         | ConcertUpdated of Band * ScheduledConcert

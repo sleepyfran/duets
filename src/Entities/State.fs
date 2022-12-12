@@ -8,6 +8,7 @@ let empty =
       BandSongRepertoire = Band.SongRepertoire.empty
       BandAlbumRepertoire = Band.AlbumRepertoire.empty
       BankAccounts = Map.empty
+      Career = None
       Characters = Map.empty
       CharacterSkills = Map.empty
       Concerts = Map.empty

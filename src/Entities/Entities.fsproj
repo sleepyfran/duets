@@ -20,6 +20,7 @@
         <Compile Include="Types\World\Studio.Types.fs" />
         <Compile Include="Types\World\Shop.Types.fs" />
         <Compile Include="Types\World\World.Types.fs" />
+        <Compile Include="Types\Career.Types.fs"/>
         <Compile Include="Types\Concert.Types.fs" />
         <Compile Include="Types\Flight.Types.fs"/>
         <Compile Include="Types\Situations.Types.fs" />

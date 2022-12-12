@@ -7,20 +7,18 @@ open Entities
 let applyEffect state effect =
     match effect with
     | AlbumRecorded (band, album) ->
-        let modifiedState =
-            Albums.addUnreleased band album state
+        let modifiedState = Albums.addUnreleased band album state
 
         let (UnreleasedAlbum ua) = album
 
         ua.TrackList
-        |> List.map (fun ((FinishedSong fs), _) -> fs.Id)
+        |> List.map (fun (FinishedSong fs, _) -> fs.Id)
         |> List.fold
             (fun currentState song ->
                 Songs.removeFinished band song currentState)
             modifiedState
     | AlbumRenamed (band, unreleasedAlbum) ->
-        let (UnreleasedAlbum album) =
-            unreleasedAlbum
+        let (UnreleasedAlbum album) = unreleasedAlbum
 
         Albums.removeUnreleased band album.Id state
         |> Albums.addUnreleased band unreleasedAlbum
@@ -40,11 +38,12 @@ let applyEffect state effect =
     | CharacterHealthDepleted _ -> state
     | CharacterHospitalized (_, (cityId, nodeId)) ->
         World.move cityId nodeId state
+    | CareerAccept (_, job) -> Career.set (Some job) state
+    | CareerLeave _ -> Career.set None state
     | ConcertScheduled (band, concert) ->
         Concerts.addScheduledConcert band concert state
     | ConcertUpdated (band, scheduledConcert) ->
-        let concert =
-            Concert.fromScheduled scheduledConcert
+        let concert = Concert.fromScheduled scheduledConcert
 
         Concerts.removeScheduledConcert band concert state
         |> Concerts.addScheduledConcert band scheduledConcert
@@ -66,8 +65,7 @@ let applyEffect state effect =
     | ItemRemovedFromInventory item -> Inventory.remove item state
     | MemberHired (band, character, currentMember, skills) ->
         let stateWithMember =
-            Characters.add character state
-            |> Bands.addMember band currentMember
+            Characters.add character state |> Bands.addMember band currentMember
 
         skills
         |> List.fold
@@ -98,8 +96,7 @@ let applyEffect state effect =
         Songs.removeFinished band song.Id state
         |> Songs.addFinished band finishedSong
     | SongDiscarded (band, unfinishedSong) ->
-        let song =
-            Song.fromUnfinished unfinishedSong
+        let song = Song.fromUnfinished unfinishedSong
 
         Songs.removeUnfinished band song.Id state
     | SituationChanged situation ->

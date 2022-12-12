@@ -35,6 +35,10 @@ module State =
         (fun (s: State) -> s.CharacterSkills),
         (fun v (s: State) -> { s with CharacterSkills = v })
 
+    let career_ =
+        (fun (s: State) -> s.Career),
+        (fun v (s: State) -> { s with Career = v })
+    
     let concerts_ =
         (fun (s: State) -> s.Concerts),
         (fun v (s: State) -> { s with Concerts = v })
@@ -50,7 +54,7 @@ module State =
     let genreMarkets_ =
         (fun (s: State) -> s.GenreMarkets),
         (fun v (s: State) -> { s with GenreMarkets = v })
-
+    
     let characterInventory_ =
         (fun (s: State) -> s.CharacterInventory),
         (fun v (s: State) -> { s with CharacterInventory = v })

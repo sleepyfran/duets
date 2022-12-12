@@ -10,6 +10,7 @@
         <Compile Include="Text\Emoji.fs"/>
         <Compile Include="Text\Styles.fs"/>
         <Compile Include="Text\Generic.fs"/>
+        <Compile Include="Text\Career.fs"/>
         <Compile Include="Text\Command.fs"/>
         <Compile Include="Text\Concert.fs"/>
         <Compile Include="Text\Creator.fs"/>
@@ -83,6 +84,8 @@
         <Compile Include="Scenes\Phone\Apps\Bank\Bank.fs"/>
         <Compile Include="Scenes\Phone\Apps\Flights\BookFlight.fs"/>
         <Compile Include="Scenes\Phone\Apps\Flights\Flights.fs"/>
+        <Compile Include="Scenes\Phone\Apps\Jobs\FindJob.fs"/>
+        <Compile Include="Scenes\Phone\Apps\Jobs\Jobs.fs"/>
         <Compile Include="Scenes\Phone\Apps\SchedulerAssistant\ScheduleShow.fs"/>
         <Compile Include="Scenes\Phone\Apps\SchedulerAssistant\ScheduleVisualize.fs"/>
         <Compile Include="Scenes\Phone\Apps\SchedulerAssistant\SchedulerAssistant.fs"/>
