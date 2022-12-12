@@ -38,6 +38,9 @@ module World =
         |> Map.map (fun _ placeIds ->
             placeIds |> List.map (placeInCityById cityId))
 
+    /// Returns the current world coordinates the character is in currently.
+    let currentCoordinates state = state.CurrentPosition
+    
     /// Returns the city in which the character is in currently.
     let currentCity state = fst state.CurrentPosition |> cityById
 
@@ -45,7 +48,7 @@ module World =
     let currentPlace state =
         let _, placeId = state.CurrentPosition
         placeInCurrentCityById state placeId
-
+    
     /// Returns a list of IDs of the places with the given type inside of the
     /// given city.
     let placeIdsOf cityId placeType =

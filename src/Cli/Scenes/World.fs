@@ -95,6 +95,7 @@ let private commandsFromInteractions interactions =
             match freeRoamInteraction with
             | FreeRoamInteraction.Inventory inventory ->
                 [ InventoryCommand.create inventory ]
+            | FreeRoamInteraction.Look items -> [ LookCommand.create items ]
             | FreeRoamInteraction.Map -> [ MapCommand.get ]
             | FreeRoamInteraction.Phone -> [ PhoneCommand.get ]
             | FreeRoamInteraction.Wait -> [ WaitCommand.get ]

@@ -30,6 +30,7 @@ module EffectTypes =
         | GenreMarketsUpdated of GenreMarketByGenre
         | ItemAddedToInventory of Item
         | ItemRemovedFromInventory of Item
+        | ItemRemovedFromWorld of WorldCoordinates * Item
         | MemberHired of Band * Character * CurrentMember * SkillWithLevel list
         | MemberFired of Band * CurrentMember * PastMember
         | MoneyEarned of BankAccountHolder * BankTransaction

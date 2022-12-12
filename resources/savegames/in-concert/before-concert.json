@@ -554,5 +554,103 @@
     "Case": "FreeRoam"
   },
   "Today": "2015-08-07T20:00:00",
-  "WorldItems": []
+  "WorldItems": [
+    [
+      [
+        {
+          "Case": "Prague"
+        },
+        "6ef3c1ab-dec4-44ea-ac95-f53eff3a1c58"
+      ],
+      [
+        {
+          "Brand": "Burger",
+          "Type": {
+            "Case": "Consumable",
+            "Fields": [
+              {
+                "Case": "Food",
+                "Fields": [
+                  {
+                    "Case": "Burger",
+                    "Fields": [
+                      150
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "Brand": "Kozel",
+          "Type": {
+            "Case": "Consumable",
+            "Fields": [
+              {
+                "Case": "Drink",
+                "Fields": [
+                  {
+                    "Case": "Beer",
+                    "Fields": [
+                      500,
+                      4.6
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "Brand": "IKEA",
+          "Type": {
+            "Case": "Interactive",
+            "Fields": [
+              {
+                "Case": "Furniture",
+                "Fields": [
+                  {
+                    "Case": "Bed"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "Brand": "LG",
+          "Type": {
+            "Case": "Interactive",
+            "Fields": [
+              {
+                "Case": "Electronics",
+                "Fields": [
+                  {
+                    "Case": "TV"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "Brand": "Xbox Series X",
+          "Type": {
+            "Case": "Interactive",
+            "Fields": [
+              {
+                "Case": "Electronics",
+                "Fields": [
+                  {
+                    "Case": "GameConsole"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    ]
+  ]
 }

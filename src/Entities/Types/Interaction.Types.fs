@@ -88,6 +88,8 @@ module InteractionTypes =
     type FreeRoamInteraction =
         /// Allows the player to see what they are currently carrying.
         | Inventory of inventory: Item list
+        /// Allows the user to look around and see which objects are available.
+        | Look of items: Item list
         /// Allows the player to travel around the current city.
         | Map
         /// Allows the character to use the phone.

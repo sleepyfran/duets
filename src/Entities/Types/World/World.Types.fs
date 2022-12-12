@@ -64,6 +64,9 @@ module WorldTypes =
 
     /// Defines a position in the world.
     type WorldCoordinates = CityId * PlaceId
+    
+    /// Contains all the items that a specific location has.
+    type WorldItems = Map<WorldCoordinates, Item list>
 
     /// Defines the game world which contains all cities.
     type World = { Cities: Map<CityId, City> }

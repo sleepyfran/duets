@@ -63,7 +63,10 @@ module Command =
             $"{verb} {formattedPrepositions} [[item]]"
 
     let private findItem itemName =
-        Queries.Inventory.get (State.get ())
+        let currentPosition = Queries.World.currentCoordinates (State.get ())
+
+        Queries.Items.allIn (State.get ()) currentPosition
+        @ Queries.Inventory.get (State.get ())
         |> List.tryFind (fun item ->
             String.diacriticInsensitiveContains itemName item.Brand
             || String.diacriticInsensitiveContains
@@ -105,9 +108,7 @@ module Command =
                         afterInteractionFn
                         itemName
                 | None ->
-                    usageSample input
-                    |> Command.wrongUsage
-                    |> showMessage
+                    usageSample input |> Command.wrongUsage |> showMessage
 
                     Scene.World }
 

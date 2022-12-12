@@ -40,6 +40,7 @@
         <Compile Include="Components\Commands\Command.fs"/>
         <Compile Include="Components\Commands\Exit.Command.fs"/>
         <Compile Include="Components\Commands\Help.Command.fs"/>
+        <Compile Include="Components\Commands\Look.Command.fs"/>
         <Compile Include="Components\Commands\Map.Command.fs"/>
         <Compile Include="Components\Commands\Me.Command.fs"/>
         <Compile Include="Components\Commands\Phone.Command.fs"/>

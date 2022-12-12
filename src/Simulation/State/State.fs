@@ -63,6 +63,7 @@ let applyEffect state effect =
     | GenreMarketsUpdated genreMarkets -> Market.set genreMarkets state
     | ItemAddedToInventory item -> Inventory.add item state
     | ItemRemovedFromInventory item -> Inventory.remove item state
+    | ItemRemovedFromWorld (coords, item) -> World.remove coords item state
     | MemberHired (band, character, currentMember, skills) ->
         let stateWithMember =
             Characters.add character state |> Bands.addMember band currentMember

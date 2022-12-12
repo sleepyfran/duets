@@ -27,7 +27,7 @@ let ``Drinking a beer of 500ml and 4.4 in alcohol increases drunkenness by 6``
         |> Result.unwrap
 
     effects
-    |> List.item 1
+    |> List.item 0
     |> should
         equal
         (CharacterAttributeChanged(
@@ -48,7 +48,7 @@ let ``Drinking a beer of 500ml and 5.4 in alcohol increases drunkenness by 8``
         |> Result.unwrap
 
     effects
-    |> List.item 1
+    |> List.item 0
     |> should
         equal
         (CharacterAttributeChanged(
@@ -69,7 +69,7 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
         |> Result.unwrap
 
     let updatedState =
-        Simulation.State.Root.applyEffect state (effects |> List.item 1)
+        Simulation.State.Root.applyEffect state (effects |> List.item 0)
 
     let updatedEffects =
         Items.consume
@@ -82,7 +82,7 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
         Queries.Characters.playableCharacter updatedState
 
     updatedEffects
-    |> List.item 1
+    |> List.item 0
     |> should
         equal
         (CharacterAttributeChanged(

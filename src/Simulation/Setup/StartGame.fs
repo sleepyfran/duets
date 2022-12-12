@@ -1,11 +1,28 @@
 module Simulation.Setup
 
 open Common
+open Data.Items
 open Data.World
 open Entities
 open Entities.SituationTypes
 open Simulation
 open Simulation.Market
+
+let private initialWorldItems (initialCity: City) =
+    let homeId =
+        Queries.World.placeIdsOf initialCity.Id PlaceTypeIndex.Home |> List.head
+
+    let kitchenItems =
+        [ fst Food.FastFood.genericBurger; fst Drink.Beer.kozelPint ]
+
+    let bedroomItems = [ fst Furniture.Bed.ikeaBed ]
+
+    let livingRoomItems =
+        [ fst Electronics.Tv.lgTv; fst Electronics.GameConsole.xbox ]
+
+    [ (initialCity.Id, homeId),
+      (List.concat [ kitchenItems; bedroomItems; livingRoomItems ]) ]
+    |> Map.ofList
 
 /// Sets up the initial game state based on the data provided by the user in
 /// the setup wizard and starts the generation process for the game simulation
@@ -29,9 +46,7 @@ let startGame (character: Character) (band: Band) =
       Career = None
       Characters = [ (character.Id, character) ] |> Map.ofList
       CharacterSkills = [ (character.Id, Map.empty) ] |> Map.ofList
-      Concerts =
-        [ (band.Id, Concert.Timeline.empty) ]
-        |> Map.ofList
+      Concerts = [ (band.Id, Concert.Timeline.empty) ] |> Map.ofList
       CurrentBandId = band.Id
       CurrentPosition = initialCity.Id, initialPlace
       Flights = []
@@ -39,5 +54,6 @@ let startGame (character: Character) (band: Band) =
       CharacterInventory = List.empty
       PlayableCharacterId = character.Id
       Situation = FreeRoam
-      Today = Calendar.gameBeginning }
+      Today = Calendar.gameBeginning
+      WorldItems = initialWorldItems initialCity }
     |> GameCreated

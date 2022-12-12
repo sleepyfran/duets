@@ -38,7 +38,7 @@ module State =
     let career_ =
         (fun (s: State) -> s.Career),
         (fun v (s: State) -> { s with Career = v })
-    
+
     let concerts_ =
         (fun (s: State) -> s.Concerts),
         (fun v (s: State) -> { s with Concerts = v })
@@ -54,7 +54,7 @@ module State =
     let genreMarkets_ =
         (fun (s: State) -> s.GenreMarkets),
         (fun v (s: State) -> { s with GenreMarkets = v })
-    
+
     let characterInventory_ =
         (fun (s: State) -> s.CharacterInventory),
         (fun v (s: State) -> { s with CharacterInventory = v })
@@ -66,14 +66,17 @@ module State =
     let today_ =
         (fun (s: State) -> s.Today), (fun v (s: State) -> { s with Today = v })
 
+    let worldItems_ =
+        (fun (s: State) -> s.WorldItems),
+        (fun v (s: State) -> { s with WorldItems = v })
+
 module Album =
     let streams_ =
         (fun (a: ReleasedAlbum) -> a.Streams),
         (fun v (a: ReleasedAlbum) -> { a with Streams = v })
 
 module Band =
-    let id_ =
-        (fun (c: Band) -> c.Id), (fun v (c: Band) -> { c with Id = v })
+    let id_ = (fun (c: Band) -> c.Id), (fun v (c: Band) -> { c with Id = v })
 
     let fans_ =
         (fun (b: Band) -> b.Fans), (fun v (b: Band) -> { b with Fans = v })
@@ -207,8 +210,7 @@ module FromState =
 
         /// Lens into the balance of a specific account.
         let balanceOf_ id =
-            State.bankAccounts_ >-> Map.key_ id
-            >?> BankAccount.balance_
+            State.bankAccounts_ >-> Map.key_ id >?> BankAccount.balance_
 
     module Bands =
         /// Lens into a specific band given the state and its id.
