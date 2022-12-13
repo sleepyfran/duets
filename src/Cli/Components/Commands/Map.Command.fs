@@ -45,7 +45,12 @@ module MapCommand =
           Description = Command.mapDescription
           Handler =
             fun _ ->
-                showMessage Command.mapTip
+                Queries.World.currentCity (State.get ())
+                |> fun city -> city.Id
+                |> Command.mapCurrentCity
+                |> showMessage
+
+                Command.mapTip |> showMessage
                 lineBreak ()
 
                 let selectedPlace =
