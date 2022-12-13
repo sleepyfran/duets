@@ -1,12 +1,10 @@
-module Cli.Scenes.BandCreator
+module Cli.Scenes.NewGame.BandCreator
 
-open Cli
 open Cli.Components
 open Cli.Text
 open Cli.SceneIndex
 open Common
 open Entities
-open Simulation.Setup
 
 let private showNameError error =
     match error with
@@ -18,15 +16,16 @@ let private instrumentNameText instrumentType =
     Generic.instrument instrumentType
 
 /// Shows a wizard to create a band for the given character.
-let rec bandCreator (character: Character) = promptForName character
+let rec bandCreator (character: Character) =
+    showSeparator None
+    promptForName character
 
 and private promptForName character =
     showTextPrompt Creator.bandInitialPrompt
     |> Band.validateName
     |> Result.switch
         (promptForGenre character)
-        (showNameError
-         >> (fun _ -> promptForName character))
+        (showNameError >> (fun _ -> promptForName character))
 
 and private promptForGenre character name =
     showChoicePrompt Creator.bandGenrePrompt id Data.Genres.all
@@ -48,8 +47,6 @@ and private promptForConfirmation character name genre instrument =
 
         let band = Band.from name genre characterMember Calendar.gameBeginning
 
-        startGame character band |> Effect.apply
-        clearScreen ()
-        Scene.WorldAfterMovement
+        Scene.WorldCreator(character, band)
     else
         Scene.CharacterCreator

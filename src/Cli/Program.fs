@@ -9,9 +9,10 @@ open System.Threading
 /// etc.) or not.
 let private outOfGameplayScene scene =
     match scene with
-    | Scene.MainMenu _ -> true
-    | Scene.CharacterCreator _ -> true
-    | Scene.BandCreator _ -> true
+    | Scene.MainMenu _
+    | Scene.CharacterCreator _
+    | Scene.BandCreator _
+    | Scene.WorldCreator _ -> true
     | _ -> false
 
 /// Saves the game to the savegame file only if the screen is not the main menu,
@@ -30,9 +31,11 @@ let rec showScene scene =
     | Scene.MainMenu savegameState ->
         MainMenu.mainMenu savegameState |> showScene
     | Scene.CharacterCreator ->
-        CharacterCreator.characterCreator () |> showScene
+        NewGame.CharacterCreator.characterCreator () |> showScene
     | Scene.BandCreator character ->
-        BandCreator.bandCreator character |> showScene
+        NewGame.BandCreator.bandCreator character |> showScene
+    | Scene.WorldCreator (character, band) ->
+        NewGame.WorldCreator.worldCreator character band |> showScene
     | Scene.Phone -> Phone.Root.phoneScene () |> showScene
     | Scene.World ->
         World.worldScene World.WorldMode.IgnoreDescription |> showScene

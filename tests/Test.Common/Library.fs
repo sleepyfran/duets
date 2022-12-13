@@ -4,6 +4,7 @@ module Test.Common.Root
 open Aether
 open Aether.Operators
 open Common
+open Data.World
 open Fugit.Months
 open Entities
 open Simulation
@@ -14,22 +15,19 @@ let dummyCharacter =
     Character.from
         "Test"
         Other
-        (Calendar.gameBeginning
-         |> Calendar.Ops.addYears -24)
+        (Calendar.gameBeginning |> Calendar.Ops.addYears -24)
 
 let dummyCharacter2 =
     Character.from
         "Test 2"
         Female
-        (Calendar.gameBeginning
-         |> Calendar.Ops.addYears -35)
+        (Calendar.gameBeginning |> Calendar.Ops.addYears -35)
 
 let dummyCharacter3 =
     Character.from
         "Test 3"
         Male
-        (Calendar.gameBeginning
-         |> Calendar.Ops.addYears -28)
+        (Calendar.gameBeginning |> Calendar.Ops.addYears -28)
 
 let dummyBand =
     { Band.empty with
@@ -45,14 +43,11 @@ let dummyBandWithMultipleMembers =
               Band.Member.from dummyCharacter2.Id Bass (Calendar.gameBeginning)
               Band.Member.from dummyCharacter3.Id Drums (Calendar.gameBeginning) ] }
 
-let dummySong =
-    { Song.empty with Genre = "Jazz" }
+let dummySong = { Song.empty with Genre = "Jazz" }
 
-let dummyFinishedSong =
-    (FinishedSong dummySong, 50<quality>)
+let dummyFinishedSong = (FinishedSong dummySong, 50<quality>)
 
-let dummyRecordedSong =
-    RecordedSong dummyFinishedSong
+let dummyRecordedSong = RecordedSong dummyFinishedSong
 
 let dummyRecordedSongWithLength length =
     RecordedSong(FinishedSong { dummySong with Length = length }, 50<quality>)
@@ -60,23 +55,18 @@ let dummyRecordedSongWithLength length =
 let dummyToday = Calendar.gameBeginning
 
 let dummyTodayMiddleOfYear =
-    June 20 2021
-    |> Calendar.Transform.changeDayMoment EarlyMorning
+    June 20 2021 |> Calendar.Transform.changeDayMoment EarlyMorning
 
-let dummyCharacterBankAccount =
-    BankAccount.forCharacter dummyCharacter.Id
+let dummyCharacterBankAccount = BankAccount.forCharacter dummyCharacter.Id
 
-let dummyBandBankAccount =
-    BankAccount.forBand dummyBand.Id
+let dummyBandBankAccount = BankAccount.forBand dummyBand.Id
 
 let dummyTargetBankAccount =
     BankAccount.forCharacter (CharacterId(Identity.create ()))
 
-let dummyAlbum =
-    Album.from "Test Album" [ dummyRecordedSong ]
+let dummyAlbum = Album.from "Test Album" [ dummyRecordedSong ]
 
-let dummyUnreleasedAlbum =
-    UnreleasedAlbum dummyAlbum
+let dummyUnreleasedAlbum = UnreleasedAlbum dummyAlbum
 
 let dummyReleasedAlbum =
     { Album = dummyAlbum
@@ -88,19 +78,22 @@ let dummyStudio =
     { Producer = dummyCharacter
       PricePerSong = 200m<dd> }
 
+let dummyCity =
+    let world = World.get ()
+    world.Cities |> Map.head
+
 let dummyConcert =
     { Id = Identity.create ()
       CityId = Prague
       VenueId =
-        Queries.World.placeIdsOf Prague PlaceTypeIndex.ConcertSpace
-        |> List.head
+        Queries.World.placeIdsOf Prague PlaceTypeIndex.ConcertSpace |> List.head
       Date = dummyToday.AddDays(30)
       DayMoment = Night
       TicketPrice = 20m<dd>
       TicketsSold = 0 }
 
 let dummyState =
-    startGame dummyCharacter dummyBand
+    startGame dummyCharacter dummyBand dummyCity
     |> fun (GameCreated state) ->
         { state with
             GenreMarkets =
@@ -108,7 +101,7 @@ let dummyState =
                 |> Map.ofList }
 
 let dummyStateWithMultipleMembers =
-    startGame dummyCharacter dummyBandWithMultipleMembers
+    startGame dummyCharacter dummyBandWithMultipleMembers dummyCity
     |> fun (GameCreated state) -> state
 
 let dummyOngoingConcert =
@@ -118,8 +111,7 @@ let dummyOngoingConcert =
 
 /// Adds a given member to the given band.
 let addMember (band: Band) bandMember =
-    let memberLens =
-        Lenses.FromState.Bands.members_ band.Id
+    let memberLens = Lenses.FromState.Bands.members_ band.Id
 
     Optic.map memberLens (List.append [ bandMember ])
 
@@ -146,32 +138,25 @@ let addSkillsTo
 
 /// Adds an unfinished song to the given state.
 let addUnfinishedSong (band: Band) unfinishedSong =
-    let (UnfinishedSong (song), _, _) =
-        unfinishedSong
+    let (UnfinishedSong (song), _, _) = unfinishedSong
 
-    let unfinishedSongLenses =
-        Lenses.FromState.Songs.unfinishedByBand_ band.Id
+    let unfinishedSongLenses = Lenses.FromState.Songs.unfinishedByBand_ band.Id
 
     Optic.map unfinishedSongLenses (Map.add song.Id unfinishedSong)
 
 /// Returns the last unfinished song that was created.
 let lastUnfinishedSong (band: Band) state =
-    state.BandSongRepertoire.UnfinishedSongs
-    |> Map.find band.Id
-    |> Map.head
+    state.BandSongRepertoire.UnfinishedSongs |> Map.find band.Id |> Map.head
 
 /// Returns the last finished song that was added.
 let lastFinishedSong (band: Band) state =
-    state.BandSongRepertoire.FinishedSongs
-    |> Map.find band.Id
-    |> Map.head
+    state.BandSongRepertoire.FinishedSongs |> Map.find band.Id |> Map.head
 
 /// Adds a finished song to the given state.
 let addFinishedSong (band: Band) finishedSong =
     let (FinishedSong (song), _) = finishedSong
 
-    let finishedSongLenses =
-        Lenses.FromState.Songs.finishedByBand_ band.Id
+    let finishedSongLenses = Lenses.FromState.Songs.finishedByBand_ band.Id
 
     Optic.map finishedSongLenses (Map.add song.Id finishedSong)
 
@@ -182,8 +167,7 @@ let addFunds account amount =
 
 /// Adds the specified album to the band's released albums.
 let addReleasedAlbum (bandId: BandId) album =
-    let releasedLenses =
-        Lenses.FromState.Albums.releasedByBand_ bandId
+    let releasedLenses = Lenses.FromState.Albums.releasedByBand_ bandId
 
     Optic.map releasedLenses (Map.add album.Album.Id album)
 

@@ -80,8 +80,9 @@
         <Compile Include="Components\Commands\Items\Consume.Command.fs"/>
         <Compile Include="Components\Commands\Items\Interactive.Command.fs"/>
         <Compile Include="Components\CommandPrompt.fs"/>
-        <Compile Include="Scenes\BandCreator.fs"/>
-        <Compile Include="Scenes\CharacterCreator.fs"/>
+        <Compile Include="Scenes\NewGame\BandCreator.fs"/>
+        <Compile Include="Scenes\NewGame\CharacterCreator.fs"/>
+        <Compile Include="Scenes\NewGame\WorldCreator.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\Transfer.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\Bank.fs"/>
         <Compile Include="Scenes\Phone\Apps\Flights\BookFlight.fs"/>

@@ -2,7 +2,6 @@ module Simulation.Setup
 
 open Common
 open Data.Items
-open Data.World
 open Entities
 open Entities.SituationTypes
 open Simulation
@@ -27,13 +26,10 @@ let private initialWorldItems (initialCity: City) =
 /// Sets up the initial game state based on the data provided by the user in
 /// the setup wizard and starts the generation process for the game simulation
 /// which includes markets for the different genres available and the game world.
-let startGame (character: Character) (band: Band) =
-    let world = World.get ()
-    let initialCity = Map.head world.Cities
-
+let startGame (character: Character) (band: Band) (initialCity: City) =
     let initialPlace =
-        Queries.World.placeIdsOf initialCity.Id PlaceTypeIndex.RehearsalSpace
-        |> List.head (* We need at least one rehearsal space in the city. *)
+        Queries.World.placeIdsOf initialCity.Id PlaceTypeIndex.Home
+        |> List.head (* We need at least one home in the city. *)
 
     { Bands = [ (band.Id, band) ] |> Map.ofList
       BandAlbumRepertoire = Band.AlbumRepertoire.emptyFor band.Id

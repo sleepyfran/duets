@@ -1,4 +1,4 @@
-module Cli.Scenes.CharacterCreator
+module Cli.Scenes.NewGame.CharacterCreator
 
 open Cli.Components
 open Cli.SceneIndex

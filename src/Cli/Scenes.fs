@@ -14,9 +14,12 @@ type ExitMode =
 type Scene =
     | MainMenu of Savegame.SavegameState
     | CharacterCreator
-    // Band creator needs a character the character that was created in the
+    // Band creator needs the playable character  that was created in the
     // previous step.
     | BandCreator of Character
+    /// World creator needs the playable character and the band created in
+    /// the previous steps.
+    | WorldCreator of Character * Band
     /// Shows the world and allows the character to move around and interact
     /// with different objects.
     | World

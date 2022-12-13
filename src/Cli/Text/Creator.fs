@@ -18,11 +18,10 @@ let characterBirthdayInfo =
         $"The game starts on {Generic.formatDate Calendar.gameBeginning} and your character has to be at least 18 by then"
 
 let characterBirthdayPrompt gender =
-    $"""When is {Generic.possessiveAdjectiveForGender gender
-                 |> String.lowercase} birthday? (format {Styles.information "dd/mm/YYYY"})"""
+    $"""When is {Generic.possessiveAdjectiveForGender gender |> String.lowercase} {Styles.highlight "birthday"}? (format {Styles.information "dd/mm/YYYY"})"""
 
 let bandInitialPrompt =
-    $"""Let's create your first band. What's the {Styles.highlight "band's name"}?"""
+    $"""Let's create your first band. What's the band's {Styles.highlight "name"}?"""
 
 let bandGenrePrompt =
     $"""What {Styles.highlight "genre"} are they going to be playing? You can always change this later"""
@@ -31,9 +30,13 @@ let bandInstrumentPrompt =
     $"""And lastly, what will you be {Styles.highlight "playing"}?"""
 
 let bandConfirmationPrompt characterName bandName bandGenre instrument =
-    $"""You'll be playing as {Styles.highlight characterName} in the band {Styles.highlight bandName} playing {Styles.highlight bandGenre} as a {Generic.roleName instrument
-                                                                                                                                                 |> String.lowercase
-                                                                                                                                                 |> Styles.highlight}"""
+    $"""You'll be playing as {Styles.highlight characterName} in the band {Styles.highlight bandName} playing {Styles.highlight bandGenre} as a {Generic.roleName instrument |> String.lowercase |> Styles.highlight}"""
+
+let cityInfo =
+    Styles.faded
+        "You need an initial city to start, but you will be able to move anywhere else after the game starts"
+
+let cityPrompt = $"""Which city do you want to {Styles.highlight "live"} in?"""
 
 let errorCharacterNameTooShort =
     Styles.error "Your character's name is too short"
