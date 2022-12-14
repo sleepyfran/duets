@@ -3,7 +3,7 @@ module Data.World.Cities.Prague.RehearsalSpaces
 open Entities
 
 let addDuetsRehearsalSpace zone =
-    let rehearsalSpace = { Price = 300m<dd> }
+    let rehearsalSpace = { Price = 55m<dd> }
 
     let place =
         World.Place.create

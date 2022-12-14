@@ -8,7 +8,7 @@ let addDuetsStudio zone =
 
     let studio =
         { Producer = Character.from "Fran González" Male producerBirthday
-          PricePerSong = 1000m<dd> }
+          PricePerSong = 250m<dd> }
 
     let place =
         World.Place.create

@@ -32,7 +32,7 @@ module MusicSimulation =
     /// from non-fans, which is kept as a big number on purpose to slow down the
     /// growth of the band. This is the base cap since it'll be reduced by factors
     /// of 10ths the bigger the fame of the band.
-    let baseNonFanStreamCap = 100000000.0
+    let baseNonFanStreamCap = 100000000.0 (* 100 million. *)
 
     /// Indicates the percentage of the crowd of a concert that the band will
     /// lose as fans after getting low points on a concert.
@@ -66,7 +66,7 @@ module MusicSimulation =
 
 module Revenue =
     /// Indicates how many dd a band makes per stream.
-    let revenuePerStream = 0.5
+    let revenuePerStream = 0.0055
 
 module Travel =
     /// Price per kilometers for buying plane tickets.
