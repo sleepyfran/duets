@@ -16,15 +16,16 @@ let rec drink state item =
     match item with
     | Beer (amount, alcoholContent) ->
         drinkAlcohol character amount alcoholContent
+    | Coffee amount -> drinkCoffee character amount
     | Cola _ ->
         [ Character.Attribute.add character CharacterAttribute.Energy 1 ]
+    | Lemonade _ -> []
 
 and private drinkAlcohol character amount alcoholContent =
     let amountOfAlcohol = (float amount * alcoholContent) / 100.0
 
     let quantityUntilMax =
-        (amountOfAlcohol
-         / float Config.LifeSimulation.maximumAlcoholAmount)
+        (amountOfAlcohol / float Config.LifeSimulation.maximumAlcoholAmount)
         * 100.0
         |> Math.roundToNearest
 
@@ -32,3 +33,10 @@ and private drinkAlcohol character amount alcoholContent =
           character
           CharacterAttribute.Drunkenness
           quantityUntilMax ]
+
+and private drinkCoffee character amount =
+    let energyGained =
+        (float amount * float Config.LifeSimulation.energyPerCoffeeMl)
+        |> Math.roundToNearest
+
+    [ Character.Attribute.add character CharacterAttribute.Energy energyGained ]

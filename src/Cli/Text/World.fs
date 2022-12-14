@@ -9,10 +9,12 @@ let placeTypeName (placeType: PlaceTypeIndex) =
     match placeType with
     | PlaceTypeIndex.Airport -> "Airport"
     | PlaceTypeIndex.Bar -> "Bar"
+    | PlaceTypeIndex.Cafe -> "Café"
     | PlaceTypeIndex.ConcertSpace -> "Concert space"
     | PlaceTypeIndex.Home -> "Home"
     | PlaceTypeIndex.Hospital -> "Hospital"
     | PlaceTypeIndex.RehearsalSpace -> "Rehearsal space"
+    | PlaceTypeIndex.Restaurant -> "Restaurant"
     | PlaceTypeIndex.Studio -> "Studio"
 
 let placeWithZone (place: Place) =

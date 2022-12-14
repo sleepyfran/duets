@@ -14,10 +14,12 @@ module WorldTypes =
     type PlaceType =
         | Airport
         | Bar of Shop
+        | Cafe of Shop
         | ConcertSpace of ConcertSpace
         | Home
         | Hospital
         | RehearsalSpace of RehearsalSpace
+        | Restaurant of Shop
         | Studio of Studio
 
     /// Re-defines all types of places above but without its content, to be able
@@ -26,10 +28,12 @@ module WorldTypes =
     type PlaceTypeIndex =
         | Airport
         | Bar
+        | Cafe
         | ConcertSpace
         | Home
         | Hospital
         | RehearsalSpace
+        | Restaurant
         | Studio
 
     /// ID for a place in the game world.

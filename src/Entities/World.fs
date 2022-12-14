@@ -8,10 +8,7 @@ let empty = { Cities = Map.empty }
 
 /// Creates a new world with the given cities inside of it.
 let create (cities: City list) =
-    { Cities =
-        cities
-        |> List.map (fun c -> c.Id, c)
-        |> Map.ofList }
+    { Cities = cities |> List.map (fun c -> c.Id, c) |> Map.ofList }
 
 [<RequireQualifiedAccess>]
 module Place =
@@ -30,10 +27,12 @@ module City =
             match place.Type with
             | Airport -> PlaceTypeIndex.Airport
             | Bar _ -> PlaceTypeIndex.Bar
+            | Cafe _ -> PlaceTypeIndex.Cafe
             | ConcertSpace _ -> PlaceTypeIndex.ConcertSpace
             | Home -> PlaceTypeIndex.Home
             | Hospital -> PlaceTypeIndex.Hospital
             | RehearsalSpace _ -> PlaceTypeIndex.RehearsalSpace
+            | Restaurant _ -> PlaceTypeIndex.Restaurant
             | Studio _ -> PlaceTypeIndex.Studio
 
         Map.change

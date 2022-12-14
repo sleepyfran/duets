@@ -10,11 +10,7 @@ type VariableVerb = Have
 
 /// Dictionary of conjugations of verb based on the gender.
 let private verbConjugationByGender =
-    [ (Have,
-       [ (Male, "Has")
-         (Female, "Has")
-         (Other, "Have") ]
-       |> Map.ofList) ]
+    [ (Have, [ (Male, "Has"); (Female, "Has"); (Other, "Have") ] |> Map.ofList) ]
     |> Map.ofList
 
 /// Returns the formatted instrument name given its type.
@@ -71,9 +67,7 @@ let indeterminateArticleFor word = (AvsAn.Query word).Article
 /// Returns the correct conjugation for the given verb that matches with the
 /// specified gender.
 let verbConjugationForGender verb gender =
-    verbConjugationByGender
-    |> Map.find verb
-    |> Map.find gender
+    verbConjugationByGender |> Map.find verb |> Map.find gender
 
 /// Returns the correct name of the given account holder.
 let accountHolderName holder =
@@ -95,11 +89,7 @@ let dayMomentName dayMoment =
 /// Returns the formatted time of a given day moment.
 let dayMomentTime dayMoment =
     Calendar.Query.timeOfDayMoment dayMoment
-    |> fun hour ->
-        if hour > 9 then
-            $"{hour}:00"
-        else
-            $"0{hour}:00"
+    |> fun hour -> if hour > 9 then $"{hour}:00" else $"0{hour}:00"
 
 /// Returns the name of the day in the given date.
 let dayName (date: Date) = date.DayOfWeek.ToString()
@@ -148,8 +138,7 @@ let formatDate (date: Date) = $"{date.Day}/{date.Month}/{date.Year}"
 
 /// Formats a given amount of minutes into hours and minutes.
 let duration (minutes: int<minute>) =
-    let timeSpan =
-        TimeSpan(0, minutes / 1<minute>, 0)
+    let timeSpan = TimeSpan(0, minutes / 1<minute>, 0)
 
     let hours = timeSpan.Hours
     let minutes = timeSpan.Minutes
@@ -195,16 +184,13 @@ let noUnfinishedSongs =
 let back = Styles.faded "Go back"
 let cancel = Styles.faded "Cancel"
 
-let backToMainMenu =
-    Styles.faded "Back to main menu"
+let backToMainMenu = Styles.faded "Back to main menu"
 
 let backToMap = Styles.faded "Back to map"
 
-let backToPhone =
-    Styles.faded "Back to phone"
+let backToPhone = Styles.faded "Back to phone"
 
-let backToWorld =
-    Styles.faded "Back to world"
+let backToWorld = Styles.faded "Back to world"
 
 let nothing = Styles.faded "Nothing"
 
@@ -218,8 +204,7 @@ let skillImproved
     currentLevel
     =
     Styles.success
-        $"""{characterName} improved {(possessiveAdjectiveForGender characterGender)
-                                      |> String.lowercase} {skillName skill.Id |> String.lowercase} skill from {previousLevel} to {currentLevel}"""
+        $"""{characterName} improved {(possessiveAdjectiveForGender characterGender) |> String.lowercase} {skillName skill.Id |> String.lowercase} skill from {previousLevel} to {currentLevel}"""
 
 let invalidDate =
     Styles.error
@@ -253,13 +238,16 @@ let itemName (item: Item) =
     | Consumable (Drink drink) ->
         match drink with
         | Beer _ -> $"{item.Brand} beer"
+        | Coffee _ -> item.Brand |> String.lowercase
         | Cola _ -> "cola"
+        | Lemonade _ -> "lemonade"
     | Consumable (Food food) ->
         match food with
         | Burger _ -> "burger"
         | Chips _ -> "chips"
         | Fries _ -> "fries"
         | Nachos _ -> "nachos"
+        | _ -> item.Brand |> String.lowercase
     | Interactive (Electronics electronic) ->
         match electronic with
         | GameConsole -> item.Brand
@@ -275,13 +263,22 @@ let itemNameWithDetail (item: Item) =
         match drink with
         | Beer (ml, alcohol) ->
             $"""{Styles.item "Beer"} ({ml}ml, {alcohol}%%)"""
+        | Coffee ml -> $"""{Styles.item item.Brand} ({ml}ml of coffee)"""
         | Cola ml -> $"""{Styles.item "Cola"} ({ml}ml)"""
+        | Lemonade ml -> $"""{Styles.item "Lemonade"} ({ml}ml)"""
     | Consumable (Food food) ->
         match food with
         | Burger mg -> $"""{Styles.item "Burger"} ({mg} mg)"""
         | Chips mg -> $"""{Styles.item "Chips"} ({mg} mg)"""
         | Fries mg -> $"""{Styles.item "Fries"} ({mg} mg)"""
         | Nachos mg -> $"""{Styles.item "Nachos"} ({mg} mg)"""
+        | Gyozas pieces
+        | NemCuon pieces ->
+            $"""{Styles.item item.Brand} ({pieces} {simplePluralOf "piece" pieces})"""
+        | BunBo mg
+        | PhoBo mg
+        | Ramen mg
+        | Wakame mg -> $"""{Styles.item item.Brand} ({mg} mg)"""
     | Interactive _ -> itemName item
 
 let moreDates = Styles.faded "More dates"

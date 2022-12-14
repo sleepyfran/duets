@@ -11,6 +11,9 @@ module LifeSimulation =
         /// Minimum amount of energy needed to do a rehearsal room interaction.
         let minimumEnergyRequiredToRehearse = 10
     
+    /// Energy gained per milliliter of coffee ingested.
+    let energyPerCoffeeMl = 4
+    
     /// Maximum amount of alcohol that the character can take before getting injured.
     let maximumAlcoholAmount = 350
 
