@@ -14,11 +14,12 @@ let private getAssociatedEffects effect =
 /// Returns how many times the time has to be advanced for the given effect.
 let private timeAdvanceOfEffect effect =
     match effect with
-    | SongStarted _ -> 1<dayMoments>
-    | SongImproved _ -> 1<dayMoments>
     | AlbumRecorded _ -> 56<dayMoments> // One week
+    | ConcertFinished _ -> 1<dayMoments>
+    | SongImproved _ -> 1<dayMoments>
     | SongPracticed _ -> 1<dayMoments>
-    | Wait times -> times
+    | SongStarted _ -> 1<dayMoments>
+    | Wait dayMoments -> dayMoments
     | _ -> 0<dayMoments>
 
 let rec private tick' (appliedEffects, lastState) nextEffectFns =

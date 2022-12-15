@@ -92,6 +92,8 @@ let dummyConcert =
       TicketPrice = 20m<dd>
       TicketsSold = 0 }
 
+let dummyPastConcert = PastConcert.PerformedConcert(dummyConcert, 100<quality>)
+
 let dummyState =
     startGame dummyCharacter dummyBand dummyCity
     |> fun (GameCreated state) ->

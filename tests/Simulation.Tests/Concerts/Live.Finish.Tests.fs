@@ -14,12 +14,23 @@ open Simulation
 
 let private attendance = 1000
 
-let private calculateExpected fans (modifier: float) =
+let private calculateExpectedFanGain fans (modifier: float) =
     let fanChange = float attendance * modifier |> Math.ceilToNearest
 
     fans + fanChange |> Math.lowerClamp 0
 
-let private simulateAndCheck minConcertPoints maxConcertPoints expectedFn =
+let private assertFanGain modifier state band concert =
+    let (Diff (_, updatedFans)) =
+        finishConcert state concert
+        |> List.choose (fun effect ->
+            match effect with
+            | BandFansChanged (_, diff) -> Some diff
+            | _ -> None)
+        |> List.head
+
+    updatedFans |> should equal (calculateExpectedFanGain band.Fans modifier)
+
+let private simulateAndCheck minConcertPoints maxConcertPoints assertFn =
     State.generateN
         { State.defaultOptions with
             BandFansMin = 100
@@ -41,48 +52,59 @@ let private simulateAndCheck minConcertPoints maxConcertPoints expectedFn =
                 Concert = concertWithAttendance
                 Points = randomPoints * 1<quality> }
 
-        let (Diff (_, updatedFans)) =
-            finishConcert state concertWithPoints
-            |> List.choose (fun effect ->
-                match effect with
-                | BandFansChanged (_, diff) -> Some diff
-                | _ -> None)
-            |> List.head
-
-        updatedFans |> should equal (expectedFn band))
+        assertFn state band concertWithPoints)
 
 [<Test>]
 let ``finishing the concert with less than 40 points should decrease the band fans by 30% of the attendance``
     ()
     =
-    simulateAndCheck 0 40 (fun band ->
-        calculateExpected
-            band.Fans
-            Config.MusicSimulation.concertLowPointFanDecreaseRate)
+    simulateAndCheck
+        0
+        40
+        (assertFanGain Config.MusicSimulation.concertLowPointFanDecreaseRate)
 
 [<Test>]
 let ``finishing the concert with points between 41 and 65 increases the band fame by 0.15``
     ()
     =
-    simulateAndCheck 41 65 (fun band ->
-        calculateExpected
-            band.Fans
-            Config.MusicSimulation.concertMediumPointFanIncreaseRate)
+    simulateAndCheck
+        41
+        65
+        (assertFanGain Config.MusicSimulation.concertMediumPointFanIncreaseRate)
 
 [<Test>]
 let ``finishing the concert with points between 66 and 85 increases the band fame by 25% of the attendance``
     ()
     =
-    simulateAndCheck 66 85 (fun band ->
-        calculateExpected
-            band.Fans
-            Config.MusicSimulation.concertGoodPointFanIncreaseRate)
+    simulateAndCheck
+        66
+        85
+        (assertFanGain Config.MusicSimulation.concertGoodPointFanIncreaseRate)
 
 [<Test>]
 let ``finishing the concert with more than 85 points increases the band fame by 50% of the attendance``
     ()
     =
-    simulateAndCheck 86 100 (fun band ->
-        calculateExpected
-            band.Fans
-            Config.MusicSimulation.concertHighPointFanIncreaseRate)
+    simulateAndCheck
+        86
+        100
+        (assertFanGain Config.MusicSimulation.concertHighPointFanIncreaseRate)
+
+
+[<Test>]
+let ``finishing the concert should grant the band the earnings from the tickets sold``
+    ()
+    =
+    simulateAndCheck 0 100 (fun state _ concert ->
+        let moneyEarned =
+            finishConcert state concert
+            |> List.choose (fun effect ->
+                match effect with
+                | MoneyEarned (_, Incoming (amount, _)) -> Some amount
+                | _ -> None)
+            |> List.head
+
+        moneyEarned
+        |> should
+            equal
+            (decimal concert.Concert.TicketsSold * concert.Concert.TicketPrice))

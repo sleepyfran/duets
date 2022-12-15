@@ -26,10 +26,13 @@ let unfinishedSong = (UnfinishedSong dummySong, 10<quality>, 10<quality>)
 let songStartedEffect = SongStarted(dummyBand, unfinishedSong)
 
 let effectsWithTimeIncrease =
-    [ (songStartedEffect, 1<dayMoments>)
-      (SongImproved(dummyBand, Diff(unfinishedSong, unfinishedSong)),
-       1<dayMoments>)
-      (AlbumRecorded(dummyBand, dummyUnreleasedAlbum), 2<dayMoments>) ]
+    [ AlbumRecorded(dummyBand, dummyUnreleasedAlbum), 2<dayMoments>
+      ConcertFinished(dummyBand, dummyPastConcert), 1<dayMoments>
+      songStartedEffect, 1<dayMoments>
+      SongImproved(dummyBand, Diff(unfinishedSong, unfinishedSong)),
+      1<dayMoments>
+      SongPracticed(dummyBand, dummyFinishedSong), 1<dayMoments>
+      Wait 1<dayMoments>, 1<dayMoments> ]
 
 let checkTimeIncrease timeIncrease effects =
     effects
