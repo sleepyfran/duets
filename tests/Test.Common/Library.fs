@@ -45,6 +45,8 @@ let dummyBandWithMultipleMembers =
 
 let dummySong = { Song.empty with Genre = "Jazz" }
 
+let dummyUnfinishedSong = (UnfinishedSong dummySong, 50<quality>, 50<quality>)
+
 let dummyFinishedSong = (FinishedSong dummySong, 50<quality>)
 
 let dummyRecordedSong = RecordedSong dummyFinishedSong

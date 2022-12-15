@@ -3,6 +3,7 @@ module Simulation.Character.Attribute
 open Aether
 open Common
 open Entities
+open Simulation
 
 let private createEffect character attribute prev curr =
     CharacterAttributeChanged(character, attribute, Diff(prev, curr))
@@ -23,6 +24,11 @@ let map character attribute mapping =
 /// Sums the given amount of the attribute to the character's current one. Clamping
 /// the value between 0 and 100.
 let add character attribute amount = map character attribute ((+) amount)
+
+/// Same as add but automatically applying it to the current playable character.
+let addToPlayable attribute amount state =
+    let character = Queries.Characters.playableCharacter state
+    [ add character attribute amount ]
 
 /// Conditionally calls map only if the condition function returns true with
 /// the current character's attribute value.

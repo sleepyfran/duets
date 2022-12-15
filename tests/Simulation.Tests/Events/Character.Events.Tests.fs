@@ -9,8 +9,7 @@ open Entities
 open Simulation
 
 let lowCharacterHealthEffect state =
-    let character =
-        Queries.Characters.playableCharacter state
+    let character = Queries.Characters.playableCharacter state
 
     CharacterAttributeChanged(
         character.Id,
@@ -20,8 +19,7 @@ let lowCharacterHealthEffect state =
 
 [<Test>]
 let ``tick of low character health should generate health depleted`` () =
-    let state =
-        State.generateOne State.defaultOptions
+    let state = State.generateOne State.defaultOptions
 
     Simulation.tick state (lowCharacterHealthEffect state)
     |> fst
@@ -30,8 +28,7 @@ let ``tick of low character health should generate health depleted`` () =
 
 [<Test>]
 let ``tick of low character health should hospitalize character`` () =
-    let state =
-        State.generateOne State.defaultOptions
+    let state = State.generateOne State.defaultOptions
 
     Simulation.tick state (lowCharacterHealthEffect state)
     |> fst
@@ -58,34 +55,61 @@ let ``tick of low character health during concert should cancel concert`` () =
 
 [<Test>]
 let ``tick of low character health advances one week`` () =
-    let state =
-        State.generateOne State.defaultOptions
+    let state = State.generateOne State.defaultOptions
 
-    let oneWeekLater =
-        Calendar.gameBeginning |> Calendar.Ops.addDays 7
+    let oneWeekLater = Calendar.gameBeginning |> Calendar.Ops.addDays 7
 
     Simulation.tick state (lowCharacterHealthEffect state)
     |> fst
     |> should contain (TimeAdvanced oneWeekLater)
 
+let private assertAttributeChanged attribute amount effect =
+    let state = State.generateOne State.defaultOptions
+
+    let character = Queries.Characters.playableCharacter state
+
+    Simulation.tick state effect
+    |> fst
+    |> List.choose (fun effect ->
+        match effect with
+        | CharacterAttributeChanged (characterId, attr, diff) ->
+            Some(characterId, attr, diff)
+        | _ -> None)
+    |> List.head
+    |> fun (characterId, attr, Diff (_, currentAmount)) ->
+        characterId |> should equal character.Id
+        attr |> should equal attribute
+        currentAmount |> should equal amount
+
+[<Test>]
+let ``tick of song improved should decrease energy`` () =
+    SongImproved(dummyBand, Diff(dummyUnfinishedSong, dummyUnfinishedSong))
+    |> assertAttributeChanged CharacterAttribute.Energy 80
+
+[<Test>]
+let ``tick of song started should decrease energy`` () =
+    SongStarted(dummyBand, dummyUnfinishedSong)
+    |> assertAttributeChanged CharacterAttribute.Energy 80
+
+[<Test>]
+let ``tick of song practiced should decrease energy`` () =
+    SongPracticed(dummyBand, dummyFinishedSong)
+    |> assertAttributeChanged CharacterAttribute.Energy 90
+
 [<Test>]
 let ``tick of passing time should decrease character's drunkenness`` () =
-    let state =
-        State.generateOne State.defaultOptions
+    let state = State.generateOne State.defaultOptions
 
-    let character =
-        Queries.Characters.playableCharacter state
+    let character = Queries.Characters.playableCharacter state
 
     let stateAfterGettingDrunk =
         Character.Attribute.add character CharacterAttribute.Drunkenness 15
         |> State.Root.applyEffect state
 
-    let character =
-        Queries.Characters.playableCharacter stateAfterGettingDrunk
+    let character = Queries.Characters.playableCharacter stateAfterGettingDrunk
 
     let oneDayMomentLater =
-        Calendar.gameBeginning
-        |> Calendar.Transform.changeDayMoment Morning
+        Calendar.gameBeginning |> Calendar.Transform.changeDayMoment Morning
 
     Simulation.tick stateAfterGettingDrunk (TimeAdvanced oneDayMomentLater)
     |> fst
@@ -102,25 +126,20 @@ let ``tick of passing time should decrease character's drunkenness`` () =
 let ``tick of passing time should decrease character's health when passing 85 in drunkenness``
     ()
     =
-    let state =
-        State.generateOne State.defaultOptions
+    let state = State.generateOne State.defaultOptions
 
-    let character =
-        Queries.Characters.playableCharacter state
+    let character = Queries.Characters.playableCharacter state
 
     let stateAfterGettingDrunk =
         Character.Attribute.add character CharacterAttribute.Drunkenness 95
         |> State.Root.applyEffect state
 
-    let character =
-        Queries.Characters.playableCharacter stateAfterGettingDrunk
+    let character = Queries.Characters.playableCharacter stateAfterGettingDrunk
 
     let oneDayMomentLater =
-        Calendar.gameBeginning
-        |> Calendar.Transform.changeDayMoment Morning
+        Calendar.gameBeginning |> Calendar.Transform.changeDayMoment Morning
 
-    let expectedHealth =
-        100 + Config.LifeSimulation.drunkHealthReduceRate
+    let expectedHealth = 100 + Config.LifeSimulation.drunkHealthReduceRate
 
     Simulation.tick stateAfterGettingDrunk (TimeAdvanced oneDayMomentLater)
     |> fst
