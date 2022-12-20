@@ -30,7 +30,7 @@ module HireMemberCommand =
         |> showMessage
 
         availableMember.Skills
-        |> List.map (fun (skill, level) -> (level, Generic.skillName skill.Id))
+        |> List.map (fun (skill, level) -> (level, Skill.skillName skill.Id))
         |> showBarChart
 
         let hired =

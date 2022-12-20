@@ -19,6 +19,7 @@
         <Compile Include="Genres.fs"/>
         <Compile Include="Npcs.fs"/>
         <Compile Include="Roles.fs"/>
+        <Compile Include="Skills.fs"/>
         <Compile Include="VocalStyles.fs"/>
         <Compile Include="World\Cities\Prague\Prague.CommonItems.fs"/>
         <Compile Include="World\Cities\Prague\Prague.Bars.fs"/>

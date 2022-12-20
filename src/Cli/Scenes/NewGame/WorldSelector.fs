@@ -1,4 +1,4 @@
-module rec Cli.Scenes.NewGame.WorldCreator
+module rec Cli.Scenes.NewGame.WorldSelector
 
 open Cli
 open Cli.Components
@@ -9,10 +9,10 @@ open Simulation
 open Simulation.Setup
 
 /// Shows a wizard that allows the player to customize the game world.
-let worldCreator character band =
+let worldSelector character band initialSkills =
     showSeparator None
     let cities = Queries.World.allCities
-    
+
     Creator.cityInfo |> showMessage
 
     let selectedCity =
@@ -21,7 +21,7 @@ let worldCreator character band =
             (fun (city: City) -> Generic.cityName city.Id)
             cities
 
-    startGame character band selectedCity |> Effect.apply
+    startGame character band initialSkills selectedCity |> Effect.apply
 
     clearScreen ()
 

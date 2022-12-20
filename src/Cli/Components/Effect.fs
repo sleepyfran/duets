@@ -121,7 +121,7 @@ let private displayEffect effect =
         let (skill, previousLevel) = before
         let (_, currentLevel) = after
 
-        Generic.skillImproved
+        Skill.skillImproved
             character.Name
             character.Gender
             skill

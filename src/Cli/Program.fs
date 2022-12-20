@@ -12,7 +12,8 @@ let private outOfGameplayScene scene =
     | Scene.MainMenu _
     | Scene.CharacterCreator _
     | Scene.BandCreator _
-    | Scene.WorldCreator _ -> true
+    | Scene.SkillEditor _
+    | Scene.WorldSelector _ -> true
     | _ -> false
 
 /// Saves the game to the savegame file only if the screen is not the main menu,
@@ -34,8 +35,11 @@ let rec showScene scene =
         NewGame.CharacterCreator.characterCreator () |> showScene
     | Scene.BandCreator character ->
         NewGame.BandCreator.bandCreator character |> showScene
-    | Scene.WorldCreator (character, band) ->
-        NewGame.WorldCreator.worldCreator character band |> showScene
+    | Scene.SkillEditor (character, characterMember, band) ->
+        NewGame.SkillEditor.skillEditor character characterMember band
+        |> showScene
+    | Scene.WorldSelector (character, band, skills) ->
+        NewGame.WorldSelector.worldSelector character band skills |> showScene
     | Scene.Phone -> Phone.Root.phoneScene () |> showScene
     | Scene.World ->
         World.worldScene World.WorldMode.IgnoreDescription |> showScene

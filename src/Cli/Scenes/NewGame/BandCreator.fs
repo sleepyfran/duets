@@ -32,7 +32,7 @@ and private promptForGenre character name =
     |> promptForInstrument character name
 
 and private promptForInstrument character name genre =
-    showChoicePrompt Creator.bandGenrePrompt instrumentNameText Data.Roles.all
+    showChoicePrompt Creator.bandInstrumentPrompt instrumentNameText Data.Roles.all
     |> promptForConfirmation character name genre
 
 and private promptForConfirmation character name genre instrument =
@@ -47,6 +47,6 @@ and private promptForConfirmation character name genre instrument =
 
         let band = Band.from name genre characterMember Calendar.gameBeginning
 
-        Scene.WorldCreator(character, band)
+        Scene.SkillEditor(character, characterMember, band)
     else
         Scene.CharacterCreator

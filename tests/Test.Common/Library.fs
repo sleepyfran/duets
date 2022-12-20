@@ -97,7 +97,7 @@ let dummyConcert =
 let dummyPastConcert = PastConcert.PerformedConcert(dummyConcert, 100<quality>)
 
 let dummyState =
-    startGame dummyCharacter dummyBand dummyCity
+    startGame dummyCharacter dummyBand [] dummyCity
     |> fun (GameCreated state) ->
         { state with
             GenreMarkets =
@@ -105,7 +105,7 @@ let dummyState =
                 |> Map.ofList }
 
 let dummyStateWithMultipleMembers =
-    startGame dummyCharacter dummyBandWithMultipleMembers dummyCity
+    startGame dummyCharacter dummyBandWithMultipleMembers [] dummyCity
     |> fun (GameCreated state) -> state
 
 let dummyOngoingConcert =

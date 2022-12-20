@@ -26,10 +26,21 @@ let private initialWorldItems (initialCity: City) =
 /// Sets up the initial game state based on the data provided by the user in
 /// the setup wizard and starts the generation process for the game simulation
 /// which includes markets for the different genres available and the game world.
-let startGame (character: Character) (band: Band) (initialCity: City) =
+let startGame
+    (character: Character)
+    (band: Band)
+    (initialSkills: SkillWithLevel list)
+    (initialCity: City)
+    =
     let initialPlace =
         Queries.World.placeIdsOf initialCity.Id PlaceTypeIndex.Home
         |> List.head (* We need at least one home in the city. *)
+
+    let initialSkillMap =
+        initialSkills
+        |> List.fold
+            (fun acc (skill, level) -> Map.add skill.Id (skill, level) acc)
+            Map.empty
 
     { Bands = [ (band.Id, band) ] |> Map.ofList
       BandAlbumRepertoire = Band.AlbumRepertoire.emptyFor band.Id
@@ -41,7 +52,7 @@ let startGame (character: Character) (band: Band) (initialCity: City) =
         |> Map.ofSeq
       Career = None
       Characters = [ (character.Id, character) ] |> Map.ofList
-      CharacterSkills = [ (character.Id, Map.empty) ] |> Map.ofList
+      CharacterSkills = [ (character.Id, initialSkillMap) ] |> Map.ofList
       Concerts = [ (band.Id, Concert.Timeline.empty) ] |> Map.ofList
       CurrentBandId = band.Id
       CurrentPosition = initialCity.Id, initialPlace

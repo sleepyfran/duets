@@ -29,16 +29,6 @@ let roleName instrumentType =
     | Guitar -> "Guitarist"
     | Vocals -> "Singer"
 
-/// Returns the formatted skill name given its ID.
-let skillName id =
-    match id with
-    | SkillId.Composition -> "Composition"
-    | SkillId.Genre genre -> $"{genre} (Genre)"
-    | SkillId.Instrument instrument ->
-        $"{instrumentName instrument} (Instrument)"
-    | SkillId.MusicProduction -> "Music production"
-    | SkillId.Speech -> "Speech"
-
 /// Returns the correct pronoun for the given gender (he, she, they).
 let subjectPronounForGender gender =
     match gender with
@@ -183,6 +173,8 @@ let noUnfinishedSongs =
 
 let back = Styles.faded "Go back"
 let cancel = Styles.faded "Cancel"
+let doneOption = Styles.faded "Done"
+let skipOption = Styles.faded "Skip"
 
 let backToMainMenu = Styles.faded "Back to main menu"
 
@@ -195,16 +187,6 @@ let backToWorld = Styles.faded "Back to world"
 let nothing = Styles.faded "Nothing"
 
 let skills = "Skills"
-
-let skillImproved
-    characterName
-    characterGender
-    (skill: Skill)
-    previousLevel
-    currentLevel
-    =
-    Styles.success
-        $"""{characterName} improved {(possessiveAdjectiveForGender characterGender) |> String.lowercase} {skillName skill.Id |> String.lowercase} skill from {previousLevel} to {currentLevel}"""
 
 let invalidDate =
     Styles.error

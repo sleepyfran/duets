@@ -30,6 +30,30 @@ let showTextPrompt title = AnsiConsole.Ask<string>(title)
 let showNumberPrompt title = AnsiConsole.Ask<int>(title)
 
 /// <summary>
+/// Renders a basic integer prompt that forces the user to give a valid number
+/// between the given inclusive range.
+/// </summary>
+/// <param name="min">Minimum number allowed</param>
+/// <param name="max">Maximum number allowed</param>
+/// <param name="title">Title of the prompt to show when asking</param>
+let showRangedNumberPrompt min max title =
+    let title = $"""{title} {Styles.faded $"(Between {min} and {max})"}"""
+
+    TextPrompt<int>(
+        title,
+        Validator =
+            (fun number ->
+                match number with
+                | n when n >= min && n <= max -> ValidationResult.Success()
+                | n ->
+                    ValidationResult.Error(
+                        $"{n} is not between {min} and {max}. Choose another number"
+                        |> Styles.error
+                    ))
+    )
+    |> AnsiConsole.Prompt
+
+/// <summary>
 /// Renders a basic decimal prompt, forcing the user to give a valid number.
 /// </summary>
 /// <param name="title">Title of the prompt to show when asking</param>
@@ -42,8 +66,7 @@ let showDecimalPrompt title = AnsiConsole.Ask<decimal>(title)
 /// <param name="title">Title of the prompt to show when asking</param>
 /// <returns>The date given by the user</returns>
 let showTextDatePrompt title =
-    let mutable datePrompt =
-        TextPrompt<string>(title)
+    let mutable datePrompt = TextPrompt<string>(title)
 
     let validate (date: string) =
         match Calendar.Parse.date date with
@@ -72,12 +95,9 @@ type private InteractiveDatePromptOption =
 /// prompt was cancelled.
 /// </summary>
 let rec showInteractiveDatePrompt title firstDate =
-    let monthDays =
-        Calendar.Query.monthDaysFrom firstDate
-        |> Seq.map Date
+    let monthDays = Calendar.Query.monthDaysFrom firstDate |> Seq.map Date
 
-    let nextMonthDate =
-        Calendar.Query.firstDayOfNextMonth firstDate
+    let nextMonthDate = Calendar.Query.firstDayOfNextMonth firstDate
 
     let toText opt =
         match opt with
@@ -105,8 +125,7 @@ let rec showInteractiveDatePrompt title firstDate =
 /// <param name="title">Title of the prompt to show when asking</param>
 /// <returns>The length given by the user</returns>
 let showLengthPrompt title =
-    let mutable lengthPrompt =
-        TextPrompt<string>(title)
+    let mutable lengthPrompt = TextPrompt<string>(title)
 
     let validate (length: string) =
         match Time.Length.parse length with

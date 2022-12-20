@@ -24,6 +24,7 @@
         <Compile Include="Text\Studio.fs"/>
         <Compile Include="Text\World.fs"/>
         <Compile Include="Text\Airport.fs"/>
+        <Compile Include="Text\Skill.fs"/>
         <Compile Include="Components\Separator.fs"/>
         <Compile Include="Components\Layout.fs"/>
         <Compile Include="Components\Message.fs"/>
@@ -80,9 +81,10 @@
         <Compile Include="Components\Commands\Items\Consume.Command.fs"/>
         <Compile Include="Components\Commands\Items\Interactive.Command.fs"/>
         <Compile Include="Components\CommandPrompt.fs"/>
-        <Compile Include="Scenes\NewGame\BandCreator.fs"/>
         <Compile Include="Scenes\NewGame\CharacterCreator.fs"/>
-        <Compile Include="Scenes\NewGame\WorldCreator.fs"/>
+        <Compile Include="Scenes\NewGame\BandCreator.fs"/>
+        <Compile Include="Scenes\NewGame\SkillEditor.fs"/>
+        <Compile Include="Scenes\NewGame\WorldSelector.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\Transfer.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\Bank.fs"/>
         <Compile Include="Scenes\Phone\Apps\Flights\BookFlight.fs"/>

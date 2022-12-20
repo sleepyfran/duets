@@ -4,6 +4,7 @@ open Agents
 open Cli.Components
 open Cli.SceneIndex
 open Cli.Text
+open Common
 open Simulation
 
 [<RequireQualifiedAccess>]
@@ -20,13 +21,25 @@ module MeCommand =
                 let age =
                     Queries.Characters.ageOf (State.get ()) playableCharacter
 
-                showSeparator None
+                Some "Character info" |> showSeparator
 
-                Command.meName playableCharacter.Name
-                |> showMessage
+                Command.meName playableCharacter.Name |> showMessage
 
                 Command.meBirthdayAge playableCharacter.Birthday age
                 |> showMessage
+
+                Some "Skills" |> showSeparator
+
+                let skills =
+                    Queries.Skills.characterSkillsWithLevel
+                        (State.get ())
+                        playableCharacter.Id
+                    |> List.ofMapValues
+
+                skills
+                |> List.map (fun (skill, level) ->
+                    (level, Skill.skillName skill.Id))
+                |> showBarChart
 
                 showSeparator None
 
