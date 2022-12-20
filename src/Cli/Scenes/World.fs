@@ -22,8 +22,7 @@ let private commandsFromInteractions interactions =
                 [ WaitForLandingCommand.create flight ]
         | Interaction.Career careerInteraction ->
             match careerInteraction with
-            | CareerInteraction.Work job ->
-                [ WorkCommand.create job ]
+            | CareerInteraction.Work job -> [ WorkCommand.create job ]
         | Interaction.Concert concertInteraction ->
             match concertInteraction with
             | ConcertInteraction.StartConcert placeId ->
@@ -134,6 +133,15 @@ let private commandsFromInteractions interactions =
         | InteractionState.Disabled disabledReason ->
             Command.disable disabledReason command)
 
+let private filterAttributesForInfoBar =
+    List.choose (fun (attr, amount) ->
+        match attr with
+        | CharacterAttribute.Energy
+        | CharacterAttribute.Health
+        | CharacterAttribute.Mood when amount <= 50 -> Some(attr, amount)
+        | CharacterAttribute.Drunkenness when amount > 0 -> Some(attr, amount)
+        | _ -> None)
+
 type WorldMode =
     | IgnoreDescription
     | ShowDescription
@@ -144,20 +152,16 @@ type WorldMode =
 let worldScene mode =
     lineBreak ()
 
-    let today =
-        Queries.Calendar.today (State.get ())
+    let today = Queries.Calendar.today (State.get ())
 
-    let currentDayMoment =
-        Calendar.Query.dayMomentOf today
+    let currentDayMoment = Calendar.Query.dayMomentOf today
 
     let interactionsWithState =
         Queries.Interactions.availableCurrently (State.get ())
 
-    let currentPlace =
-        State.get () |> Queries.World.currentPlace
+    let currentPlace = State.get () |> Queries.World.currentPlace
 
-    let situation =
-        Queries.Situations.current (State.get ())
+    let situation = Queries.Situations.current (State.get ())
 
     match mode with
     | ShowDescription -> World.placeDescription currentPlace |> showMessage
@@ -165,6 +169,7 @@ let worldScene mode =
 
     let characterAttributes =
         Queries.Characters.allPlayableCharacterAttributes (State.get ())
+        |> filterAttributesForInfoBar
 
     let promptText =
         match situation with
