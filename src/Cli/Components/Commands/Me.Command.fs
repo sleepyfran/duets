@@ -5,10 +5,33 @@ open Cli.Components
 open Cli.SceneIndex
 open Cli.Text
 open Common
+open Entities
 open Simulation
 
 [<RequireQualifiedAccess>]
 module MeCommand =
+    let private showCharacterInfo character =
+        let age = Queries.Characters.ageOf (State.get ()) character
+
+        Command.meName character.Name |> showMessage
+
+        Command.meBirthdayAge character.Birthday age |> showMessage
+
+    let private showCharacterAttributes _ =
+        Queries.Characters.allPlayableCharacterAttributes (State.get ())
+        |> List.map (fun (attr, amount) ->
+            (amount, Character.attributeName attr))
+        |> showBarChart
+
+    let private showCharacterSkills (character: Character) =
+        let skills =
+            Queries.Skills.characterSkillsWithLevel (State.get ()) character.Id
+            |> List.ofMapValues
+
+        skills
+        |> List.map (fun (skill, level) -> (level, Skill.skillName skill.Id))
+        |> showBarChart
+
     /// Command which displays the information of the playable character.
     let get =
         { Name = "@me"
@@ -18,28 +41,17 @@ module MeCommand =
                 let playableCharacter =
                     Queries.Characters.playableCharacter (State.get ())
 
-                let age =
-                    Queries.Characters.ageOf (State.get ()) playableCharacter
-
                 Some "Character info" |> showSeparator
 
-                Command.meName playableCharacter.Name |> showMessage
+                showCharacterInfo playableCharacter
 
-                Command.meBirthdayAge playableCharacter.Birthday age
-                |> showMessage
+                Some "Attributes" |> showSeparator
+
+                showCharacterAttributes playableCharacter
 
                 Some "Skills" |> showSeparator
 
-                let skills =
-                    Queries.Skills.characterSkillsWithLevel
-                        (State.get ())
-                        playableCharacter.Id
-                    |> List.ofMapValues
-
-                skills
-                |> List.map (fun (skill, level) ->
-                    (level, Skill.skillName skill.Id))
-                |> showBarChart
+                showCharacterSkills playableCharacter
 
                 showSeparator None
 

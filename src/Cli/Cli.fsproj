@@ -25,6 +25,7 @@
         <Compile Include="Text\World.fs"/>
         <Compile Include="Text\Airport.fs"/>
         <Compile Include="Text\Skill.fs"/>
+        <Compile Include="Text\Character.fs"/>
         <Compile Include="Components\Separator.fs"/>
         <Compile Include="Components\Layout.fs"/>
         <Compile Include="Components\Message.fs"/>
