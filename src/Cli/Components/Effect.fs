@@ -77,7 +77,7 @@ let private displayEffect effect =
     | ConcertScheduled (_, ScheduledConcert (concert, _)) ->
         let place = Queries.World.placeInCityById concert.CityId concert.VenueId
 
-        Phone.schedulerAssistantAppTicketDone place concert |> showMessage
+        Phone.concertAssistantAppTicketDone place concert |> showMessage
     | ConcertFinished (_, pastConcert) ->
         let quality =
             match pastConcert with

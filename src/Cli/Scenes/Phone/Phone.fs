@@ -11,35 +11,36 @@ type private PhoneMenuOption =
     | Bank
     | Flights
     | Jobs
+    | Calendar
     | Statistics
-    | Scheduler
+    | ConcertAssistant
 
 let private textFromOption opt =
     match opt with
-    | Bank -> Phone.optionBank
-    | Flights -> Phone.optionFlights
-    | Jobs -> Phone.optionJobs
-    | Statistics -> Phone.optionStatistics
-    | Scheduler -> Phone.optionScheduler
+    | Bank -> "Bank"
+    | Flights -> "Flights" 
+    | Jobs -> "Jobs"
+    | Calendar -> "Calendar"
+    | Statistics -> "Statistics" 
+    | ConcertAssistant -> "Concert Assistant"
 
 let rec phoneScene () =
-    let currentDate =
-        State.get () |> Queries.Calendar.today
+    let currentDate = State.get () |> Queries.Calendar.today
 
-    let dayMoment =
-        Calendar.Query.dayMomentOf currentDate
+    let dayMoment = Calendar.Query.dayMomentOf currentDate
 
     let selection =
         showOptionalChoicePrompt
             (Phone.prompt currentDate dayMoment)
             Phone.putDown
             textFromOption
-            [ Bank; Flights; Jobs; Statistics; Scheduler ]
+            [ Bank; Flights; Jobs; Calendar; Statistics; ConcertAssistant ]
 
     match selection with
     | Some Bank -> Apps.Bank.Root.bankApp ()
     | Some Flights -> Apps.Flights.Root.flightsApp ()
     | Some Jobs -> Apps.Jobs.Root.jobsApp ()
+    | Some Calendar -> Apps.Calendar.Root.calendarApp ()
     | Some Statistics -> Apps.Statistics.Root.statisticsApp ()
-    | Some Scheduler -> Apps.SchedulerAssistant.Root.schedulerAssistantApp ()
+    | Some ConcertAssistant -> Apps.ConcertAssistant.Root.concertAssistantApp ()
     | None -> Scene.World

@@ -4,11 +4,6 @@ module Cli.Text.Phone
 open Entities
 
 let title = "Phone"
-let optionBank = "Bank App"
-let optionFlights = "Flights App"
-let optionJobs = "Jobs App"
-let optionStatistics = "Statistics App"
-let optionScheduler = "Scheduler App"
 
 let putDown = Styles.faded "Leave phone"
 
@@ -85,8 +80,9 @@ let flightsNotEnoughFunds amount =
 
 (* --- Jobs --- *)
 let currentJobDescription (job: Job) (placeName: string) =
-    Styles.faded $"""You currently work as {Career.name job.Id} at {placeName} earning ${Styles.money job.CurrentStage.BaseSalaryPerDayMoment} per day moment. {match job.Schedule with
-                                                                                                                                                                | JobSchedule.Free _ -> "You don't have any schedule"}"""
+    Styles.faded
+        $"""You currently work as {Career.name job.Id} at {placeName} earning ${Styles.money job.CurrentStage.BaseSalaryPerDayMoment} per day moment. {match job.Schedule with
+                                                                                                                                                       | JobSchedule.Free _ -> "You don't have any schedule"}"""
 
 let unemployed = Styles.faded "You are currently unemployed"
 
@@ -114,49 +110,41 @@ let findJobAcceptLeaveConfirmation
 
 (* --- Scheduler --- *)
 
-let schedulerAssistantAppPrompt = Styles.prompt "What do you want to book?"
+let concertAssistantAppPrompt = Styles.prompt "What do you want to book?"
 
-let schedulerAssistantAppShow = "Book show"
+let concertAssistantAppShow = "Book show"
 
-let schedulerAssistantAppAgenda = "View schedule"
+let concertAssistantAppAgenda = "View schedule"
 
-let schedulerAssistantAppVisualizeConcertInfo
-    dayMoment
-    (place: Place)
-    (city: City)
-    ticketsSold
-    =
-    $"""{Styles.highlight $"*{Generic.dayMomentName dayMoment}"}: Concert at {Styles.place place.Name}, {Styles.place (Generic.cityName city.Id)}. Sold {Styles.information ticketsSold} tickets"""
+let concertAssistantAppVisualizeNoConcerts = "No concerts"
 
-let schedulerAssistantAppVisualizeNoConcerts = "No concerts"
-
-let schedulerAssistantAppVisualizeMoreDatesPrompt =
+let concertAssistantAppVisualizeMoreDatesPrompt =
     "Do you want to see the next month?"
 
-let schedulerAssistantAppShowDatePrompt = "When is the concert happening?"
+let concertAssistantAppShowDatePrompt = "When is the concert happening?"
 
-let schedulerAssistantAppShowTimePrompt = "At what time?"
+let concertAssistantAppShowTimePrompt = "At what time?"
 
-let schedulerAssistantAppShowCityPrompt = "In which city?"
+let concertAssistantAppShowCityPrompt = "In which city?"
 
-let schedulerAssistantAppShowVenuePrompt = "In which venue?"
+let concertAssistantAppShowVenuePrompt = "In which venue?"
 
-let schedulerAssistantAppTicketPricePrompt =
+let concertAssistantAppTicketPricePrompt =
     $"""What will the price of each ticket be? {Styles.danger
                                                     "Keep in mind that putting high prices might affect how many people will go"}"""
 
-let schedulerAssistantAppDateAlreadyBooked date =
+let concertAssistantAppDateAlreadyBooked date =
     Styles.error $"You already have a concert on {Generic.formatDate date}!"
 
-let schedulerAssistantAppTicketPriceBelowZero price =
+let concertAssistantAppTicketPriceBelowZero price =
     Styles.error
         $"The price can't be below zero! {Styles.decimal price} is not valid"
 
-let schedulerAssistantAppTicketPriceTooHigh price =
+let concertAssistantAppTicketPriceTooHigh price =
     Styles.error
         $"{Styles.decimal price} is a bit too high for a concert. Maybe a bit less?"
 
-let schedulerAssistantAppTicketDone (place: Place) concert =
+let concertAssistantAppTicketDone (place: Place) concert =
     $"""Done! You scheduled a concert in {Styles.place place.Name} on {Styles.highlight (Generic.formatDate concert.Date)}. Be sure to be in the place at the moment of the concert, {Styles.danger "otherwise it'd fail miserably!"}"""
 
 (* --- Statistics --- *)

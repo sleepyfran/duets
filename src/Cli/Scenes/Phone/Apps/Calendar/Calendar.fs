@@ -1,0 +1,76 @@
+module rec Cli.Scenes.Phone.Apps.Calendar.Root
+
+open Agents
+open Cli.Components
+open Cli.SceneIndex
+open Cli.Text
+open Entities
+open Simulation
+
+type private CalendarMenuOption =
+    | NextMonth
+    | PreviousMonth
+
+let rec private textFromOption opt =
+    match opt with
+    | NextMonth -> "Next month"
+    | PreviousMonth -> "Previous month"
+    |> Styles.faded
+
+let rec calendarApp () =
+    State.get () |> Queries.Calendar.today |> calendarApp'
+
+let private calendarApp' firstDay =
+    let nextMonthDate = Calendar.Query.firstDayOfNextMonth firstDay
+    let previousMonthDate = Calendar.Query.firstDayOfPreviousMonth firstDay
+
+    let calendarEvents =
+        Queries.CalendarEvents.allOfDateMonth (State.get ()) firstDay
+
+    let calendarEventDates = calendarEvents |> List.map fst
+
+    lineBreak ()
+
+    showCalendar firstDay.Year firstDay.Month calendarEventDates
+
+    if List.isEmpty calendarEvents then
+        "No events this month" |> showMessage
+    else
+        showEventList calendarEvents
+
+    lineBreak ()
+
+    let selectedOption =
+        showOptionalChoicePrompt
+            Phone.concertAssistantAppVisualizeMoreDatesPrompt
+            Generic.back
+            textFromOption
+            [ NextMonth; PreviousMonth ]
+
+    match selectedOption with
+    | Some NextMonth -> calendarApp' nextMonthDate
+    | Some PreviousMonth -> calendarApp' previousMonthDate
+    | None -> Scene.Phone
+
+let private showEventList dateGroupedEvents =
+    dateGroupedEvents
+    |> List.iter (fun (date, events) ->
+        Generic.dateWithDay date |> Some |> showSeparator
+
+        events
+        |> List.iter (fun event ->
+            match event with
+            | CalendarEventType.Flight flight -> showFlight flight
+            | CalendarEventType.Concert concert -> showConcert concert))
+
+let private showFlight flight =
+    $"""{Styles.highlight $"*{Generic.dayMomentName flight.DayMoment}"}: Flight from {Generic.cityName flight.Origin |> Styles.place} to {Generic.cityName flight.Destination |> Styles.place}"""
+    |> showMessage
+
+let private showConcert concert =
+    let city = Queries.World.cityById concert.CityId
+
+    let place = Queries.World.placeInCityById concert.CityId concert.VenueId
+
+    $"""{Styles.highlight $"*{Generic.dayMomentName concert.DayMoment}"}: Concert at {Styles.place place.Name}, {Styles.place (Generic.cityName city.Id)}. Sold {Styles.information concert.TicketsSold} tickets"""
+    |> showMessage

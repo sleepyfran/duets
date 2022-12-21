@@ -5,13 +5,7 @@ open Fugit.Months
 open System
 
 let allDayMoments =
-    [ Midnight
-      EarlyMorning
-      Morning
-      Midday
-      Afternoon
-      Evening
-      Night ]
+    [ Midnight; EarlyMorning; Morning; Midday; Afternoon; Evening; Night ]
 
 [<RequireQualifiedAccess>]
 module Ops =
@@ -71,14 +65,17 @@ module Query =
 
     /// Determines whether the given date is the first day of the year or not.
     let isFirstMomentOfYear (date: Date) =
-        date.Day = 1
-        && date.Month = 1
-        && dayMomentOf date = EarlyMorning
+        date.Day = 1 && date.Month = 1 && dayMomentOf date = EarlyMorning
 
-    /// Returns the first date of the next month of the given date.
+    /// Returns the first date of the next month from the given date.
     let firstDayOfNextMonth (date: Date) =
         let dateWithAddedMonth = date.AddMonths(1)
         DateTime(dateWithAddedMonth.Year, dateWithAddedMonth.Month, 1)
+
+    /// Returns the first date of the previous month from the given date.
+    let firstDayOfPreviousMonth (date: Date) =
+        let dateWithSubtractedMonth = date.AddMonths(-1)
+        DateTime(dateWithSubtractedMonth.Year, dateWithSubtractedMonth.Month, 1)
 
     /// Retrieves all dates from today until the end of the month.
     let monthDaysFrom (date: Date) =
@@ -93,8 +90,7 @@ module Query =
         the days in a year with a little twist added to account for leap years.
         Number taken from: https://en.wikipedia.org/wiki/Leap_year
         *)
-        (toDate - fromDate).TotalDays / 365.2425
-        |> Math.roundToNearest
+        (toDate - fromDate).TotalDays / 365.2425 |> Math.roundToNearest
 
 [<RequireQualifiedAccess>]
 module Transform =
@@ -104,8 +100,7 @@ module Transform =
         |> fun hour -> DateTime(date.Year, date.Month, date.Day, hour, 0, 0)
 
     /// Returns the given date with the hour set to 00:00.
-    let resetDayMoment =
-        changeDayMoment Midnight
+    let resetDayMoment = changeDayMoment Midnight
 
     /// Returns the given date with the hour set to the specified day moment.
     let changeDayMoment' (date: Date) dayMoment = changeDayMoment dayMoment date
@@ -114,13 +109,9 @@ module Transform =
 module Parse =
     /// Attempts to parse a given string into a date.
     let date (strDate: string) =
-        let couldParse, parsedDate =
-            DateTime.TryParse strDate
+        let couldParse, parsedDate = DateTime.TryParse strDate
 
-        if couldParse then
-            Some parsedDate
-        else
-            None
+        if couldParse then Some parsedDate else None
 
     /// Attempts to parse a given string into a day moment. Returns dawn if
     /// no compatible day moment is given.
@@ -136,5 +127,4 @@ module Parse =
         | _ -> EarlyMorning
 
 /// Returns the date in which the game starts.
-let gameBeginning =
-    January 1 2015 |> Transform.changeDayMoment EarlyMorning
+let gameBeginning = January 1 2015 |> Transform.changeDayMoment EarlyMorning

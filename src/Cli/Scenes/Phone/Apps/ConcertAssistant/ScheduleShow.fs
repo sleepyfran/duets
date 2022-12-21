@@ -1,4 +1,4 @@
-module Cli.Scenes.Phone.Apps.SchedulerAssistant.Show
+module Cli.Scenes.Phone.Apps.ConcertAssistant.Show
 
 open Agents
 open Cli
@@ -15,15 +15,15 @@ let private textFromDayMoment dayMoment = Generic.dayMomentWithTime dayMoment
 let private showDateScheduledError date error =
     match error with
     | Scheduler.DateAlreadyScheduled ->
-        Phone.schedulerAssistantAppDateAlreadyBooked date
+        Phone.concertAssistantAppDateAlreadyBooked date
     |> showMessage
 
 let private showTicketPriceError ticketPrice error =
     match error with
     | Concert.PriceBelowZero ->
-        Phone.schedulerAssistantAppTicketPriceBelowZero ticketPrice
+        Phone.concertAssistantAppTicketPriceBelowZero ticketPrice
     | Concert.PriceTooHigh ->
-        Phone.schedulerAssistantAppTicketPriceTooHigh ticketPrice
+        Phone.concertAssistantAppTicketPriceTooHigh ticketPrice
     |> showMessage
 
 let rec scheduleShow app =
@@ -38,7 +38,7 @@ let rec scheduleShow app =
 and private promptForDate app firstDate =
     let selectedDate =
         showInteractiveDatePrompt
-            Phone.schedulerAssistantAppShowDatePrompt
+            Phone.concertAssistantAppShowDatePrompt
             firstDate
 
     match selectedDate with
@@ -57,7 +57,7 @@ and private promptForDayMoment app date =
 
     let selectedDayMoment =
         showOptionalChoicePrompt
-            Phone.schedulerAssistantAppShowTimePrompt
+            Phone.concertAssistantAppShowTimePrompt
             Generic.cancel
             textFromDayMoment
             availableDayMoments
@@ -71,7 +71,7 @@ and private promptForCity app date dayMoment =
 
     let selectedCity =
         showOptionalChoicePrompt
-            Phone.schedulerAssistantAppShowCityPrompt
+            Phone.concertAssistantAppShowCityPrompt
             Generic.cancel
             (fun (city: City) -> Generic.cityName city.Id)
             cities
@@ -87,7 +87,7 @@ and private promptForVenue app date dayMoment city =
 
     let selectedVenue =
         showOptionalChoicePrompt
-            Phone.schedulerAssistantAppShowVenuePrompt
+            Phone.concertAssistantAppShowVenuePrompt
             Generic.cancel
             (fun (place: Place) -> place.Name)
             venues
@@ -98,7 +98,7 @@ and private promptForVenue app date dayMoment city =
 
 and private promptForTicketPrice app date dayMoment city venueId =
     let ticketPrice =
-        showDecimalPrompt Phone.schedulerAssistantAppTicketPricePrompt
+        showDecimalPrompt Phone.concertAssistantAppTicketPricePrompt
 
     Concert.validatePrice ticketPrice
     |> Result.switch

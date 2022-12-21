@@ -485,7 +485,7 @@
                 "VenueId": "349b0fa9-d5fb-49a6-8a8b-c1513d0627f5",
                 "Date": "2015-08-07T00:00:00",
                 "DayMoment": {
-                  "Case": "Dusk"
+                  "Case": "Night"
                 },
                 "TicketPrice": 15,
                 "TicketsSold": 646

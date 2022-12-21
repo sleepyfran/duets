@@ -21,6 +21,7 @@
         <Compile Include="Queries\GenreMarkets.fs"/>
         <Compile Include="Queries\Bands.fs"/>
         <Compile Include="Queries\Concerts.fs"/>
+        <Compile Include="Queries\CalendarEvents.fs"/>
         <Compile Include="Queries\Inventory.fs"/>
         <Compile Include="Queries\Items.fs"/>
         <Compile Include="Queries\World.fs"/>

@@ -92,12 +92,12 @@
         <Compile Include="Scenes\Phone\Apps\Flights\Flights.fs"/>
         <Compile Include="Scenes\Phone\Apps\Jobs\FindJob.fs"/>
         <Compile Include="Scenes\Phone\Apps\Jobs\Jobs.fs"/>
-        <Compile Include="Scenes\Phone\Apps\SchedulerAssistant\ScheduleShow.fs"/>
-        <Compile Include="Scenes\Phone\Apps\SchedulerAssistant\ScheduleVisualize.fs"/>
-        <Compile Include="Scenes\Phone\Apps\SchedulerAssistant\SchedulerAssistant.fs"/>
+        <Compile Include="Scenes\Phone\Apps\ConcertAssistant\ScheduleShow.fs"/>
+        <Compile Include="Scenes\Phone\Apps\ConcertAssistant\ConcertAssistant.fs"/>
         <Compile Include="Scenes\Phone\Apps\Statistics\AlbumsStatistics.fs"/>
         <Compile Include="Scenes\Phone\Apps\Statistics\BandStatistics.fs"/>
         <Compile Include="Scenes\Phone\Apps\Statistics\Statistics.fs"/>
+        <Compile Include="Scenes\Phone\Apps\Calendar\Calendar.fs"/>
         <Compile Include="Scenes\Phone\Phone.fs"/>
         <Compile Include="Scenes\MainMenu.fs"/>
         <Compile Include="Scenes\World.fs"/>
