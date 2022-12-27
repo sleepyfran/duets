@@ -122,8 +122,8 @@ let simplePluralOf singular quantity =
     pluralOf singular $"{singular}s" quantity
 
 /// Formats a date to the dd/mm/yyyy format.
-/// TODO: Figure out why localization does not work when using
-/// ToString("d", CurrentCulture).
+/// TODO: Figure out why localization does not work when using ToString("d", CurrentCulture).
+/// TODO: Rename to something else than an action to be consistent with the rest of the file.
 let formatDate (date: Date) = $"{date.Day}/{date.Month}/{date.Year}"
 
 /// Formats a given amount of minutes into hours and minutes.

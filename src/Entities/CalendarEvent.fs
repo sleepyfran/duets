@@ -1,7 +1,10 @@
 module Entities.CalendarEvent
 
-/// Returns the date of the event
+/// Returns the date and day moment of the event
 let date eventType =
-    match eventType with
-    | CalendarEventType.Flight flight -> flight.Date
-    | CalendarEventType.Concert concert -> concert.Date
+    let date, dayMoment =
+        match eventType with
+        | CalendarEventType.Flight flight -> flight.Date, flight.DayMoment
+        | CalendarEventType.Concert concert -> concert.Date, concert.DayMoment
+
+    Calendar.Transform.resetDayMoment date, dayMoment

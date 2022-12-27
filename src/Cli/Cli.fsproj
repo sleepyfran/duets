@@ -34,6 +34,7 @@
         <Compile Include="Components\GameInfo.fs"/>
         <Compile Include="Components\BarChart.fs"/>
         <Compile Include="Components\ProgressBar.fs"/>
+        <Compile Include="Components\Notification.fs"/>
         <Compile Include="Components\Calendar.fs"/>
         <Compile Include="Components\Table.fs"/>
         <Compile Include="Components\Prompt.fs"/>

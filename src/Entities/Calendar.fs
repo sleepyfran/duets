@@ -1,7 +1,8 @@
-module Entities.Calendar
+module rec Entities.Calendar
 
 open Common
 open Fugit.Months
+open Fugit.Shorthand
 open System
 
 let allDayMoments =
@@ -62,6 +63,24 @@ module Query =
         | Evening -> Afternoon
         | Night -> Evening
         | Midnight -> Night
+
+    /// Returns the resulting date after advancing the day moment of the given
+    /// one.
+    let next (date: Date) =
+        let nextDayMoment =
+            Calendar.Query.dayMomentOf date |> Calendar.Query.nextDayMoment
+
+        if nextDayMoment = Midnight then
+            (*
+            The next day moment is not in the current date anymore, so advance
+            the current date as well.
+            *)
+            date + oneDay |> Transform.changeDayMoment nextDayMoment
+        else
+            (*
+            The next day moment is still within the current day.
+            *)
+            nextDayMoment |> Calendar.Transform.changeDayMoment' date
 
     /// Determines whether the given date is the first day of the year or not.
     let isFirstMomentOfYear (date: Date) =

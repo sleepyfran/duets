@@ -76,6 +76,7 @@ let applyEffect state effect =
     | MemberFired (band, currentMember, pastMember) ->
         Bands.removeMember band currentMember state
         |> Bands.addPastMember band pastMember
+    | NotificationEventHappeningSoon _ -> state
     | MoneyTransferred (account, transaction) ->
         Bank.setBalance account transaction state
     | MoneyEarned (account, transaction) ->

@@ -2,6 +2,7 @@ module Simulation.Events.Time
 
 open Entities
 open Simulation
+open Simulation.Calendar
 open Simulation.Market
 
 let private runYearlyEffects state time =
@@ -19,6 +20,7 @@ let private runDailyEffects state time =
 
 let rec private runCurrentTimeChecks state time =
     Concerts.Scheduler.moveFailedConcerts state time
+    @ Notifications.createHappeningSoon state time
 
 let private runTimeDependentEffects time state =
     runDailyEffects state time

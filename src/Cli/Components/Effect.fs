@@ -102,6 +102,23 @@ let private displayEffect effect =
         Items.itemRemovedFromInventory item.Brand |> showMessage
     | MoneyTransferred (holder, transaction) ->
         Phone.bankAppTransferSuccess holder transaction |> showMessage
+    | NotificationEventHappeningSoon event ->
+        match event with
+        | CalendarEventType.Flight flight ->
+            $"Flight from {Generic.cityName flight.Origin |> Styles.place}",
+            flight.Date,
+            flight.DayMoment
+        | CalendarEventType.Concert concert ->
+            let venue =
+                Queries.World.placeInCityById concert.CityId concert.VenueId
+
+            $"Concert at {venue.Name |> Styles.place} in {Generic.cityName concert.CityId |> Styles.place}",
+            concert.Date,
+            concert.DayMoment
+        |> fun (typeText, date, dayMoment) ->
+            $"{typeText} scheduled for {Generic.formatDate date |> Styles.time} @ {Generic.dayMomentName dayMoment |> Styles.time}"
+            |> Styles.highlight
+        |> showNotification "Upcoming event"
     | SongImproved (_, Diff (before, after)) ->
         let (_, _, previousQuality) = before
         let (_, _, currentQuality) = after

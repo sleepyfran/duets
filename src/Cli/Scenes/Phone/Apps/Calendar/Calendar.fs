@@ -31,7 +31,9 @@ let private calendarApp' firstDay =
 
     lineBreak ()
 
-    showCalendar firstDay.Year firstDay.Month calendarEventDates
+    calendarEventDates
+    |> List.map fst
+    |> showCalendar firstDay.Year firstDay.Month
 
     if List.isEmpty calendarEvents then
         "No events this month" |> showMessage
@@ -54,7 +56,7 @@ let private calendarApp' firstDay =
 
 let private showEventList dateGroupedEvents =
     dateGroupedEvents
-    |> List.iter (fun (date, events) ->
+    |> List.iter (fun ((date, _), events) ->
         Generic.dateWithDay date |> Some |> showSeparator
 
         events

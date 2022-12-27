@@ -1,23 +1,8 @@
 module Simulation.Time.AdvanceTime
 
 open Common
-open Fugit.Shorthand
 open Entities
 open Simulation
-
-let private advanceOnce currentTime =
-    Calendar.Query.dayMomentOf currentTime
-    |> Calendar.Query.nextDayMoment
-    |> Calendar.Transform.changeDayMoment' currentTime
-
-let private advanceDay (currentTime: Date) =
-    currentTime + oneDay |> Calendar.Transform.changeDayMoment Midnight
-
-let private advanceTimeOnce (currentTime: Date) =
-    (if Calendar.Query.dayMomentOf currentTime = Night then
-         advanceDay currentTime
-     else
-         advanceOnce currentTime)
 
 /// Advances the current time to the next day moment by the given number of
 /// times. For example, if currently it's morning, this will advance to midday.
@@ -27,7 +12,7 @@ let advanceDayMoment (currentTime: Date) (times: int<dayMoments>) =
     [ 1 .. (times / 1<dayMoments>) ]
     |> List.mapFold
         (fun time _ ->
-            advanceTimeOnce time
+            Calendar.Query.next time
             |> fun advancedTime -> (TimeAdvanced advancedTime, advancedTime))
         currentTime
     |> fst

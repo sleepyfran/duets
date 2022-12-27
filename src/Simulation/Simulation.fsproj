@@ -81,6 +81,7 @@
         <Compile Include="Flights\TicketGeneration.fs"/>
         <Compile Include="Flights\Booking.fs"/>
         <Compile Include="Flights\Airport.fs"/>
+        <Compile Include="Calendar\Notifications.fs"/>
         <Compile Include="Songs\Practice.fs"/>
         <Compile Include="Songs\Composition\Common.fs"/>
         <Compile Include="Songs\Composition\ComposeSong.fs"/>
@@ -91,8 +92,8 @@
         <Compile Include="Events\Character\Hospitalization.fs"/>
         <Compile Include="Events\Character\Drunkenness.fs"/>
         <Compile Include="Events\Character\Character.Events.fs"/>
-        <Compile Include="Events\Time.Events.fs"/>
         <Compile Include="Events\Skill.Events.fs"/>
+        <Compile Include="Events\Time.Events.fs"/>
         <Compile Include="Setup\StartGame.fs"/>
         <Compile Include="Simulation.fs"/>
         <ProjectReference Include="..\Common\Common.fsproj"/>

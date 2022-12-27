@@ -19,6 +19,4 @@ module CalendarEvents =
         (* Put them together and group by the date without taking the hour into consideration. *)
         flights @ concerts
         |> List.sortBy CalendarEvent.date
-        |> List.groupBy (
-            CalendarEvent.date >> Calendar.Transform.resetDayMoment
-        )
+        |> List.groupBy CalendarEvent.date

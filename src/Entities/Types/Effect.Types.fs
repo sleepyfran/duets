@@ -35,6 +35,7 @@ module EffectTypes =
         | MemberFired of Band * CurrentMember * PastMember
         | MoneyEarned of BankAccountHolder * BankTransaction
         | MoneyTransferred of BankAccountHolder * BankTransaction
+        | NotificationEventHappeningSoon of CalendarEventType
         | SkillImproved of Character * Diff<SkillWithLevel>
         | SongStarted of Band * UnfinishedSongWithQualities
         | SongImproved of Band * Diff<UnfinishedSongWithQualities>
