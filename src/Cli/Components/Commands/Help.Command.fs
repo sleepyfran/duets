@@ -15,10 +15,15 @@ module HelpCommand =
             fun _ ->
                 showMessage Command.helpDescription
 
-                commands
-                |> List.iter (fun command ->
-                    Command.helpEntry command.Name command.Description
-                    |> showMessage)
+                let columns =
+                    [ Styles.header "Command"; Styles.header "Description" ]
+
+                let rows =
+                    commands
+                    |> List.map (fun command ->
+                        [ Styles.highlight command.Name; command.Description ])
+
+                showTable columns rows
 
                 lineBreak ()
                 showMessage Command.helpFooter

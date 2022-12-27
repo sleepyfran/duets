@@ -40,9 +40,6 @@ let editAlbumNameDescription =
 
 let helpDescription = "Here are all the commands you can execute right now:"
 
-let helpEntry entryName entryDescription =
-    $"{Styles.action entryName} — {entryDescription}"
-
 let helpFooter =
     Styles.faded
         $"""Remember that when referencing items you {Styles.highlight "don't"} need to write diacritics"""
