@@ -15,7 +15,7 @@ module InteractionTypes =
     type CareerInteraction =
         /// Starts a work shift in the given job.
         | Work of job: Job
-    
+
     /// Interactions that can be done while on a concert.
     [<RequireQualifiedAccess>]
     type ConcertInteraction =
@@ -116,9 +116,13 @@ module InteractionTypes =
         | ListMembers of
             members: CurrentMember list *
             pastMembers: PastMember list
+        /// Allows to list all unfinished and finished songs that the band has composed.
+        | ListSongs of
+            unfinished: UnfinishedSongWithQualities list *
+            finished: FinishedSongWithQuality list
         /// Allows to practice a finished song.
         | PracticeSong of songs: FinishedSongWithQuality list
-        
+
     /// Interactions that can be performed in a bar.
     [<RequireQualifiedAccess>]
     type ShopInteraction =

@@ -112,6 +112,8 @@ let private commandsFromInteractions interactions =
                 [ ImproveSongCommand.create unfinishedSongs ]
             | RehearsalInteraction.ListMembers (bandMembers, pastMembers) ->
                 [ ListMembersCommand.create bandMembers pastMembers ]
+            | RehearsalInteraction.ListSongs (unfinishedSongs, finishedSongs) ->
+                [ ListSongsCommand.create unfinishedSongs finishedSongs ]
             | RehearsalInteraction.PracticeSong finishedSongs ->
                 [ PracticeSongCommand.create finishedSongs ]
         | Interaction.Shop shopInteraction ->
