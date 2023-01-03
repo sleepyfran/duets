@@ -28,9 +28,12 @@ module MeCommand =
             Queries.Skills.characterSkillsWithLevel (State.get ()) character.Id
             |> List.ofMapValues
 
-        skills
-        |> List.map (fun (skill, level) -> (level, Skill.skillName skill.Id))
-        |> showBarChart
+        if List.isEmpty skills then
+            Styles.faded "No skills learned yet" |> showMessage
+        else
+            skills
+            |> List.map (fun (skill, level) -> (level, Skill.skillName skill.Id))
+            |> showBarChart
 
     /// Command which displays the information of the playable character.
     let get =
