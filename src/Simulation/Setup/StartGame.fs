@@ -7,20 +7,25 @@ open Entities.SituationTypes
 open Simulation
 open Simulation.Market
 
-let private initialWorldItems (initialCity: City) =
-    let homeId =
-        Queries.World.placeIdsOf initialCity.Id PlaceTypeIndex.Home |> List.head
+let private allInitialWorldItems =
+    Queries.World.allCities
+    |> List.map (fun city ->
+        let homeId =
+            Queries.World.placeIdsOf city.Id PlaceTypeIndex.Home |> List.head
 
-    let kitchenItems =
-        [ fst Food.FastFood.genericBurger; fst Drink.Beer.kozelPint ]
+        let kitchenItems =
+            [ fst Food.FastFood.genericBurger
+              fst Drink.SoftDrinks.cocaColaBottle
+              fst Drink.Coffee.doubleEspresso ]
 
-    let bedroomItems = [ fst Furniture.Bed.ikeaBed ]
+        let bedroomItems = [ fst Furniture.Bed.ikeaBed ]
 
-    let livingRoomItems =
-        [ fst Electronics.Tv.lgTv; fst Electronics.GameConsole.xbox ]
+        let livingRoomItems =
+            [ fst Electronics.Tv.lgTv; fst Electronics.GameConsole.xbox ]
 
-    [ (initialCity.Id, homeId),
-      (List.concat [ kitchenItems; bedroomItems; livingRoomItems ]) ]
+        [ (city.Id, homeId),
+          (List.concat [ kitchenItems; bedroomItems; livingRoomItems ]) ])
+    |> List.concat
     |> Map.ofList
 
 /// Sets up the initial game state based on the data provided by the user in
@@ -62,5 +67,5 @@ let startGame
       PlayableCharacterId = character.Id
       Situation = FreeRoam
       Today = Calendar.gameBeginning
-      WorldItems = initialWorldItems initialCity }
+      WorldItems = allInitialWorldItems }
     |> GameCreated
