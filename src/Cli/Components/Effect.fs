@@ -26,7 +26,7 @@ let applyMultiple effects = effects |> List.iter apply
 let private digest effects state =
     State.set state
 
-    effects |> Seq.tap Log.append |> Seq.iter displayEffect
+    effects |> Seq.tap Log.appendEffect |> Seq.iter displayEffect
 
 let private displayEffect effect =
     match effect with

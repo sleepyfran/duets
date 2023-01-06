@@ -4,13 +4,15 @@ module Agents.Log
 open Common
 open Entities
 
-type LogAgentMessage = Append of Effect
+type LogAgentMessage =
+    | AppendEffect of Effect
+    | AppendMessage of string
 
-let private appendEffect (effect: Effect) =
-    effect
-    |> Serializer.serialize
-    |> fun content -> $"{content}\n"
-    |> Files.append (Files.logPath ())
+let private appendToLog (str: string) =
+    str |> (fun content -> $"{content}\n") |> Files.append (Files.logPath ())
+
+let private appendEffectToLog (effect: Effect) =
+    effect |> Serializer.serialize |> appendToLog
 
 /// Agent in charge of writing to the activity log. See `Savegame.fs` for the
 /// reasoning behind have this operation and the savegame operations in an
@@ -24,16 +26,21 @@ type private LogAgent() =
                     let! msg = inbox.Receive()
 
                     match msg with
-                    | Append effect -> appendEffect effect
+                    | AppendEffect effect -> appendEffectToLog effect
+                    | AppendMessage message -> appendToLog message
 
                     return! loop ()
                 }
 
             loop ()
 
-    member this.Append effect = effect |> Append |> agent.Post
+    member this.Append effect = effect |> AppendEffect |> agent.Post
+    member this.Append str = str |> AppendMessage |> agent.Post
 
 let private logAgent = LogAgent()
 
 /// Attempts to write the given effect to the activity log.
-let append = logAgent.Append
+let appendEffect (effect: Effect) = logAgent.Append effect
+
+/// Attempts to write the given message to the activity log.
+let appendMessage (msg: string) = logAgent.Append msg

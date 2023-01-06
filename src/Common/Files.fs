@@ -14,13 +14,15 @@ let duetsFolder () =
 
 /// Returns the path to the savegame file.
 let savegamePath () =
-    duetsFolder ()
-    |> fun duetsPath -> Path.Combine(duetsPath, "savegame.json")
+    duetsFolder () |> fun duetsPath -> Path.Combine(duetsPath, "savegame.json")
 
 /// Returns the path to the log file.
 let logPath () =
-    duetsFolder ()
-    |> fun duetsPath -> Path.Combine(duetsPath, "activity.log")
+    duetsFolder () |> fun duetsPath -> Path.Combine(duetsPath, "activity.log")
+
+/// Returns the path to the stats file.
+let statsPath () =
+    duetsFolder () |> fun duetsPath -> Path.Combine(duetsPath, "stats.json")
 
 /// Defines the key of the JSON data to fetch.
 type DataKey =
@@ -44,8 +46,8 @@ let dataFile key =
 let readAll path =
     try
         File.ReadAllText path |> Some
-    with
-    | _ -> None
+    with _ ->
+        None
 
 /// Writes the content in the specified path. Creates the file if it's not
 /// created already. Notice that while the file is automatically created the

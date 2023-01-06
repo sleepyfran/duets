@@ -54,9 +54,13 @@ let rec showScene scene =
 let main _ =
     clearScreen ()
 
+    Stats.startTrackingTime ()
+
     // Set default culture to UK for sane defaults :)
     Thread.CurrentThread.CurrentCulture <- CultureInfo("en-UK")
 
     Savegame.load () |> Scene.MainMenu |> showScene
+
+    Stats.stopTrackingAndSave ()
 
     0

@@ -9,6 +9,7 @@
         <Compile Include="State.fs"/>
         <Compile Include="Log.fs"/>
         <Compile Include="Savegame.fs"/>
+        <Compile Include="Stats.fs"/>
     </ItemGroup>
 
     <ItemGroup>
