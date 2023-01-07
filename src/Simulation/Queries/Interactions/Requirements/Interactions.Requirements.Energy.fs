@@ -29,7 +29,8 @@ module EnergyRequirements =
         match rehearsalInteraction with
         | RehearsalInteraction.FireMember _
         | RehearsalInteraction.HireMember
-        | RehearsalInteraction.ListMembers _ -> interactionWithState
+        | RehearsalInteraction.ListMembers _
+        | RehearsalInteraction.ListSongs _ -> interactionWithState
         | _ ->
             disableIfLessEnergy
                 interactionWithState
