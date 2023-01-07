@@ -40,17 +40,19 @@ let generate () =
 
 (* -------- Home --------- *)
 let createHome zone =
-    { Id = "6ef3c1ab-dec4-44ea-ac95-f53eff3a1c58" |> Identity.from |> PlaceId
-      Name = "Home"
-      Quality = 100<quality>
-      Type = Home
-      Zone = zone }
+    World.Place.create
+        ("6ef3c1ab-dec4-44ea-ac95-f53eff3a1c58" |> Identity.from)
+        "Home"
+        100<quality>
+        Home
+        zone
 
 (* -------- Airport --------- *)
 let addAirport zone =
-    { Id = "b6246716-5340-4dd2-b095-c8129d3a1cb3" |> Identity.from |> PlaceId
-      Name = "Aeropuerto Adolfo Suárez Madrid-Barajas"
-      Quality = 90<quality>
-      Type = Airport
-      Zone = zone }
+    World.Place.create
+        ("b6246716-5340-4dd2-b095-c8129d3a1cb3" |> Identity.from)
+        "Aeropuerto Adolfo Suárez Madrid-Barajas"
+        90<quality>
+        Airport
+        zone
     |> World.City.addPlace

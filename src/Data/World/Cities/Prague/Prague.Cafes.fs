@@ -2,6 +2,7 @@ module Data.World.Cities.Prague.Cafes
 
 open Entities
 open Data.Items.Drink
+open Data.World
 
 let addMamaCoffee zone =
     let shop =
@@ -14,6 +15,7 @@ let addMamaCoffee zone =
         85<quality>
         (Cafe shop)
         zone
+    |> World.Place.changeOpeningHours Everywhere.Common.cafeOpeningHours
     |> World.City.addPlace
 
 let addTheMiners zone =
@@ -21,12 +23,11 @@ let addTheMiners zone =
         { AvailableItems = Coffee.all
           PriceModifier = 2<multiplier> }
 
-    let place =
-        World.Place.create
-            ("ce9a608c-8e39-4456-9c10-fc48d8f25fc6" |> Identity.from)
-            "The Miners"
-            75<quality>
-            (Cafe shop)
-            zone
-
-    World.City.addPlace place
+    World.Place.create
+        ("ce9a608c-8e39-4456-9c10-fc48d8f25fc6" |> Identity.from)
+        "The Miners"
+        75<quality>
+        (Cafe shop)
+        zone
+    |> World.Place.changeOpeningHours Everywhere.Common.cafeOpeningHours
+    |> World.City.addPlace

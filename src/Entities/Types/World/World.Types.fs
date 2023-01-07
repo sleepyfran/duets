@@ -1,5 +1,6 @@
 namespace Entities
 
+open System
 open Entities
 
 [<AutoOpen>]
@@ -9,6 +10,13 @@ module WorldTypes =
 
     /// Defines a zone inside of a city where places are contained.
     type Zone = { Id: ZoneId; Name: string }
+
+    /// Defines the opening hours of one place, which can be always open (24/7)
+    /// or a selection of day moments for some given days.
+    [<RequireQualifiedAccess>]
+    type PlaceOpeningHours =
+        | AlwaysOpen
+        | OpeningHours of days: DayOfWeek list * dayMoments: DayMoment list
 
     /// Defines all the different types of places that the game supports.
     type PlaceType =
@@ -48,6 +56,7 @@ module WorldTypes =
           Name: string
           Quality: Quality
           Type: PlaceType
+          OpeningHours: PlaceOpeningHours
           Zone: Zone }
 
     /// ID for a city in the game world, which declared every possible city
@@ -68,7 +77,7 @@ module WorldTypes =
 
     /// Defines a position in the world.
     type WorldCoordinates = CityId * PlaceId
-    
+
     /// Contains all the items that a specific location has.
     type WorldItems = Map<WorldCoordinates, Item list>
 

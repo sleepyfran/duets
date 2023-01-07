@@ -1,6 +1,7 @@
 module Data.World.Cities.Prague.Bars
 
 open Entities
+open Data.World
 
 let addBeerGeek zone =
     let shop =
@@ -13,6 +14,7 @@ let addBeerGeek zone =
         80<quality>
         (Bar shop)
         zone
+    |> World.Place.changeOpeningHours Everywhere.Common.barOpeningHours
     |> World.City.addPlace
 
 let addPubble zone =
@@ -26,4 +28,5 @@ let addPubble zone =
         85<quality>
         (Bar shop)
         zone
+    |> World.Place.changeOpeningHours Everywhere.Common.barOpeningHours
     |> World.City.addPlace

@@ -3,6 +3,7 @@ module Data.World.Cities.Prague.Restaurants
 open Entities
 open Data.Items.Food
 open Data.Items.Drink
+open Data.World
 
 let addChilliAndLime zone =
     let food =
@@ -28,6 +29,7 @@ let addChilliAndLime zone =
         85<quality>
         (Restaurant shop)
         zone
+    |> World.Place.changeOpeningHours Everywhere.Common.restaurantOpeningHours
     |> World.City.addPlace
 
 let addTaiko zone =
@@ -52,4 +54,5 @@ let addTaiko zone =
         90<quality>
         (Restaurant shop)
         zone
+    |> World.Place.changeOpeningHours Everywhere.Common.restaurantOpeningHours
     |> World.City.addPlace
