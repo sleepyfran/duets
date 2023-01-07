@@ -56,7 +56,7 @@ let improveSongCanBeFurtherImproved (previousQuality, currentQuality) =
 
 let improveSongReachedMaxQuality =
     Styles.success
-        "Your band has decided that the song does not need any further improvements. You can add it to the band's repertoire from the 'Finish an unfinished song' option"
+        $"""Your band has decided that the song does not need any further improvements. You can add it to the band's repertoire by using {Styles.information "finish song"}"""
 
 let improveSongProgressAddingSomeMelodies =
     Styles.progress "Adding some melodies..."
