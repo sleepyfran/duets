@@ -81,8 +81,11 @@ let dayMomentTime dayMoment =
     Calendar.Query.timeOfDayMoment dayMoment
     |> fun hour -> if hour > 9 then $"{hour}:00" else $"0{hour}:00"
 
+/// Returns the name of the given day.
+let dayName (day: DayOfWeek) = day.ToString()
+
 /// Returns the name of the day in the given date.
-let dayName (date: Date) = date.DayOfWeek.ToString()
+let todayName (date: Date) = date.DayOfWeek.ToString()
 
 /// Returns the formatted name for an album type.
 let albumType t =
@@ -204,7 +207,7 @@ let dayMomentWithTime dayMoment =
     $"""{Styles.highlight (dayMomentName dayMoment)} {Styles.faded $"({dayMomentTime dayMoment})"}"""
 
 let dateWithDay date =
-    $"""{Styles.highlight (dayName date)}, {Styles.faded (formatDate date)}"""
+    $"""{Styles.highlight (todayName date)}, {Styles.faded (formatDate date)}"""
 
 let dateWithDayMoment date dayMoment =
     $"{dateWithDay date} {dayMomentName dayMoment |> Styles.faded}"

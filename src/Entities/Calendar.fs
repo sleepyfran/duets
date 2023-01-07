@@ -8,6 +8,24 @@ open System
 let allDayMoments =
     [ Midnight; EarlyMorning; Morning; Midday; Afternoon; Evening; Night ]
 
+let weekday =
+    [ DayOfWeek.Monday
+      DayOfWeek.Tuesday
+      DayOfWeek.Wednesday
+      DayOfWeek.Thursday
+      DayOfWeek.Wednesday
+      DayOfWeek.Friday ]
+
+let everyDay =
+    [ DayOfWeek.Monday
+      DayOfWeek.Tuesday
+      DayOfWeek.Wednesday
+      DayOfWeek.Thursday
+      DayOfWeek.Wednesday
+      DayOfWeek.Friday
+      DayOfWeek.Saturday
+      DayOfWeek.Sunday ]
+
 [<RequireQualifiedAccess>]
 module Ops =
     /// Adds the given number of days to the date.

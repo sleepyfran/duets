@@ -83,3 +83,8 @@ module WorldTypes =
 
     /// Defines the game world which contains all cities.
     type World = { Cities: Map<CityId, City> }
+    
+    // Defines all possible errors why the entrance to a place might be denied.
+    [<RequireQualifiedAccess>]
+    type PlaceEntranceError =
+        | CannotEnterOutsideOpeningHours

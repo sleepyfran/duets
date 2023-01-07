@@ -3,7 +3,6 @@ module Cli.Scenes.World
 open Agents
 open Cli.Components
 open Cli.Components.Commands
-open Cli.Components.Commands.Map
 open Cli.Text
 open Common
 open Entities

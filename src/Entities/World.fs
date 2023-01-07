@@ -2,7 +2,6 @@ module Entities.World
 
 open Aether
 open Entities
-open System
 
 /// Creates an empty world.
 let empty = { Cities = Map.empty }
@@ -13,27 +12,6 @@ let create (cities: City list) =
 
 [<RequireQualifiedAccess>]
 module Place =
-    module OpeningHours =
-        /// List of days from Monday to Friday.
-        let weekday =
-            [ DayOfWeek.Monday
-              DayOfWeek.Tuesday
-              DayOfWeek.Wednesday
-              DayOfWeek.Thursday
-              DayOfWeek.Wednesday
-              DayOfWeek.Friday ]
-
-        /// List of every day of the week.
-        let everyDay =
-            [ DayOfWeek.Monday
-              DayOfWeek.Tuesday
-              DayOfWeek.Wednesday
-              DayOfWeek.Thursday
-              DayOfWeek.Wednesday
-              DayOfWeek.Friday
-              DayOfWeek.Saturday
-              DayOfWeek.Sunday ]
-
     /// Creates a place with the given initial room and no exits.
     let create id name quality placeType zone =
         { Id = PlaceId id
