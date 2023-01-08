@@ -5,6 +5,7 @@ open Entities
 
 let name t =
     match t with
+    | Barista -> "Barista"
     | Bartender -> "Bartender"
 
 let shiftDurationDescription schedule =
@@ -26,6 +27,9 @@ let careerLeft (job: Job) placeName =
 
 let workShiftEvent (job: Job) =
     match job.Id with
+    | Barista ->
+        [ "You start your barista shift, there's not much people and the ones that are in the cafe are just sitting with their coffee already"
+          "There's a lot of people coming in and ordering stuff, get ready for some lattes!" ]
     | Bartender ->
         [ "You start your bartender shift, the day is quite calm"
           "Among all the noise in the bar, you start your crazy day as bartender..." ]

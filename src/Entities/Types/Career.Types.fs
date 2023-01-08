@@ -3,7 +3,9 @@ namespace Entities
 [<AutoOpen>]
 module CareerTypes =
     /// Defines all the different careers that the game supports.
-    type CareerId = | Bartender
+    type CareerId =
+        | Barista
+        | Bartender
 
     /// Wrapper around a byte that holds the stage number in which a career
     /// is currently in.

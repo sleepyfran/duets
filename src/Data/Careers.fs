@@ -4,7 +4,13 @@ open Entities
 
 [<RequireQualifiedAccess>]
 module Careers =
-    let all = [ Bartender ]
+    let all = [ Barista; Bartender ]
+
+[<RequireQualifiedAccess>]
+module BaristaCareer =
+    let stages =
+        [ { Id = CareerStageId 0uy
+            BaseSalaryPerDayMoment = 2m<dd> } ]
 
 [<RequireQualifiedAccess>]
 module BartenderCareer =
