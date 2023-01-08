@@ -12,7 +12,7 @@ let addBut zone =
         95<quality>
         (ConcertSpace concertSpace)
         zone
-    |> World.Place.changeOpeningHours Everywhere.Common.servicesOpeningHours
+    |> World.Place.changeOpeningHours Everywhere.Common.concertSpaceOpeningHours
     |> World.City.addPlace
 
 let addWurlitzer zone =
@@ -24,5 +24,5 @@ let addWurlitzer zone =
         85<quality>
         (ConcertSpace concertSpace)
         zone
-    |> World.Place.changeOpeningHours Everywhere.Common.servicesOpeningHours
+    |> World.Place.changeOpeningHours Everywhere.Common.concertSpaceOpeningHours
     |> World.City.addPlace

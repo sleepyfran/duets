@@ -30,8 +30,7 @@ let rec scheduleShow app =
     // Skip 5 days to give enough time for the scheduler to compute some ticket
     // purchases, otherwise the concert would be empty.
     let firstAvailableDay =
-        Queries.Calendar.today (State.get ())
-        |> Calendar.Ops.addDays 5
+        Queries.Calendar.today (State.get ()) |> Calendar.Ops.addDays 5
 
     promptForDate app firstAvailableDay
 
@@ -50,10 +49,9 @@ and private promptForDate app firstDate =
     | None -> app ()
 
 and private promptForDayMoment app date =
-    // Drop the last element (Midnight) since we don't want to allow scheduling
-    // on the day after the selection.
-    let availableDayMoments =
-        Calendar.allDayMoments |> List.tail
+    // Skip the first four elements since the concert spaces are closed at those
+    // times anyway: Midnight, early morning, morning and midday.
+    let availableDayMoments = Calendar.allDayMoments |> List.skip 4
 
     let selectedDayMoment =
         showOptionalChoicePrompt

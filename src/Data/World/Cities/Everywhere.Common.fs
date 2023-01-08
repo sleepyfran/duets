@@ -16,6 +16,13 @@ let cafeOpeningHours =
         [ EarlyMorning; Morning; Midday; Afternoon; Evening ]
     )
 
+/// Usual concert space hours around the world.
+let concertSpaceOpeningHours =
+    PlaceOpeningHours.OpeningHours(
+        Calendar.everyDay,
+        [ Afternoon; Evening; Night ]
+    )
+
 /// Usual restaurant hours around the world.
 let restaurantOpeningHours =
     PlaceOpeningHours.OpeningHours(
