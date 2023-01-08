@@ -9,5 +9,5 @@ open Simulation
 let canEnter state cityId placeId =
     let place = (cityId, placeId) ||> Queries.World.placeInCityById
 
-    Queries.World.placeCurrentlyOpen state place
+    Queries.World.placeCurrentlyOpen' state place
     |> Result.ofBool PlaceEntranceError.CannotEnterOutsideOpeningHours

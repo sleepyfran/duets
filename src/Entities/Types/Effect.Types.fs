@@ -43,6 +43,7 @@ module EffectTypes =
         | SongDiscarded of Band * UnfinishedSongWithQualities
         | SongPracticed of Band * FinishedSongWithQuality
         | SituationChanged of Situation
+        | PlaceClosed of Place
         | TimeAdvanced of Date
         | WorldMoveTo of WorldCoordinates
         | Wait of int<dayMoments>

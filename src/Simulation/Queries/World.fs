@@ -64,8 +64,7 @@ module World =
         World.distances |> Map.find connection
 
     /// Returns whether the given place is currently open or not.
-    let placeCurrentlyOpen state place =
-        let currentTime = Queries.Calendar.today state
+    let placeCurrentlyOpen place currentTime =
         let currentDayMoment = Calendar.Query.dayMomentOf currentTime
 
         match place.OpeningHours with
@@ -73,3 +72,7 @@ module World =
         | PlaceOpeningHours.OpeningHours (daysOfWeekOpen, dayMomentsOpen) ->
             (daysOfWeekOpen |> List.contains currentTime.DayOfWeek
              && dayMomentsOpen |> List.contains currentDayMoment)
+
+    /// Like `placeCurrentlyOpen` but implicitly passing the current time.
+    let placeCurrentlyOpen' state place =
+        Queries.Calendar.today state |> placeCurrentlyOpen place

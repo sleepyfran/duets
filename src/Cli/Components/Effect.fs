@@ -145,6 +145,18 @@ let private displayEffect effect =
             previousLevel
             currentLevel
         |> showMessage
+    | PlaceClosed place ->
+        Styles.danger $"{place.Name} is closing and they're kicking you out."
+        |> showMessage
+
+        "Choose where you want to go next" |> showMessage
+
+        let rec displayMapUntilChoice () =
+            match showMap () with
+            | effects when effects.Length > 0 -> applyMultiple effects
+            | _ -> displayMapUntilChoice ()
+
+        displayMapUntilChoice ()
     | Wait _ ->
         let today = Queries.Calendar.today (State.get ())
 
