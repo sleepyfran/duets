@@ -81,8 +81,8 @@ let flightsNotEnoughFunds amount =
 (* --- Jobs --- *)
 let currentJobDescription (job: Job) (placeName: string) =
     Styles.faded
-        $"""You currently work as {Career.name job.Id} at {placeName} earning ${Styles.money job.CurrentStage.BaseSalaryPerDayMoment} per day moment. {match job.Schedule with
-                                                                                                                                                       | JobSchedule.Free _ -> "You don't have any schedule"}"""
+        $"""You currently work as {Career.name job.Id} at {placeName} earning {Styles.money job.CurrentStage.BaseSalaryPerDayMoment} per day moment. {match job.Schedule with
+                                                                                                                                                      | JobSchedule.Free _ -> "You don't have any schedule"}"""
 
 let unemployed = Styles.faded "You are currently unemployed"
 
