@@ -9,7 +9,7 @@ let putDown = Styles.faded "Leave phone"
 
 let prompt dateTime dayMoment =
     $"""{Styles.title "DuetsPhone v1.0"}
-{Generic.dayMomentName dayMoment |> Styles.time} of {Generic.formatDate dateTime |> Styles.time}"""
+{Generic.dayMomentName dayMoment |> Styles.time} of {Date.simple dateTime |> Styles.time}"""
 
 let optionPrompt = "What do you want to do?"
 
@@ -134,7 +134,7 @@ let concertAssistantAppTicketPricePrompt =
                                                     "Keep in mind that putting high prices might affect how many people will go"}"""
 
 let concertAssistantAppDateAlreadyBooked date =
-    Styles.error $"You already have a concert on {Generic.formatDate date}!"
+    Styles.error $"You already have a concert on {Date.simple date}!"
 
 let concertAssistantAppTicketPriceBelowZero price =
     Styles.error
@@ -145,7 +145,7 @@ let concertAssistantAppTicketPriceTooHigh price =
         $"{Styles.decimal price} is a bit too high for a concert. Maybe a bit less?"
 
 let concertAssistantAppTicketDone (place: Place) concert =
-    $"""Done! You scheduled a concert in {Styles.place place.Name} on {Styles.highlight (Generic.formatDate concert.Date)}. Be sure to be in the place at the moment of the concert, {Styles.danger "otherwise it'd fail miserably!"}"""
+    $"""Done! You scheduled a concert in {Styles.place place.Name} on {Styles.highlight (Date.simple concert.Date)}. Be sure to be in the place at the moment of the concert, {Styles.danger "otherwise it'd fail miserably!"}"""
 
 (* --- Statistics --- *)
 
@@ -186,7 +186,7 @@ let statisticsAppAlbumName name = Styles.information name
 let statisticsAppAlbumType albumT = Generic.albumType albumT
 
 let statisticsAppAlbumReleaseDate date =
-    Styles.highlight (Generic.formatDate date)
+    Styles.highlight (Date.simple date)
 
 let statisticsAppAlbumStreams streams =
     Styles.highlight (Styles.number streams)

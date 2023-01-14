@@ -124,11 +124,6 @@ let pluralOf singular plural quantity =
 let simplePluralOf singular quantity =
     pluralOf singular $"{singular}s" quantity
 
-/// Formats a date to the dd/mm/yyyy format.
-/// TODO: Figure out why localization does not work when using ToString("d", CurrentCulture).
-/// TODO: Rename to something else than an action to be consistent with the rest of the file.
-let formatDate (date: Date) = $"{date.Day}/{date.Month}/{date.Year}"
-
 /// Formats a given amount of minutes into hours and minutes.
 let duration (minutes: int<minute>) =
     let timeSpan = TimeSpan(0, minutes / 1<minute>, 0)
@@ -145,7 +140,7 @@ let infoBar
     (attributes: (CharacterAttribute * CharacterAttributeAmount) list)
     =
     let baseBar =
-        $"""{Emoji.dayMoment dayMoment} {dayMomentName dayMoment |> Styles.time} of {formatDate date |> Styles.time}"""
+        $"""{Emoji.dayMoment dayMoment} {dayMomentName dayMoment |> Styles.time} of {Date.withDayName date |> Styles.time}"""
 
     attributes
     |> List.fold
@@ -207,7 +202,7 @@ let dayMomentWithTime dayMoment =
     $"""{Styles.highlight (dayMomentName dayMoment)} {Styles.faded $"({dayMomentTime dayMoment})"}"""
 
 let dateWithDay date =
-    $"""{Styles.highlight (todayName date)}, {Styles.faded (formatDate date)}"""
+    $"""{Styles.highlight (todayName date)}, {Styles.faded (Date.simple date)}"""
 
 let dateWithDayMoment date dayMoment =
     $"{dateWithDay date} {dayMomentName dayMoment |> Styles.faded}"

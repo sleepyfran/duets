@@ -24,7 +24,7 @@ let failedCharacterPassedOut =
 
 let failedBandMissing (band: Band) (place: Place) concert =
     Styles.error
-        $"Your band {band.Name} was supposed to have a concert {Generic.formatDate concert.Date} {Generic.dayMomentName concert.DayMoment} at {place.Name} but didn't make it in time. The concert has been cancelled and fame took a little hit because of it"
+        $"Your band {band.Name} was supposed to have a concert {Date.simple concert.Date} {Generic.dayMomentName concert.DayMoment} at {place.Name} but didn't make it in time. The concert has been cancelled and fame took a little hit because of it"
 
 let noSongsToPlay =
     $"""{Styles.error "You don't have any finished songs to play!"} Why are you even scheduling concerts if you haven't finished any song yet? That's going to be embarrassing to explain to the audience..."""

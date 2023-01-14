@@ -146,9 +146,9 @@ let memberListName = Styles.person
 
 let memberListRole = Generic.roleName
 
-let memberListSince = Generic.formatDate
+let memberListSince = Date.simple
 
-let memberListUntil = Generic.formatDate
+let memberListUntil = Date.simple
 
 let managementTitle = "Management"
 

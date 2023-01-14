@@ -136,7 +136,7 @@ let waitInvalidTimes input =
     Styles.error $"The given amount '{input}' is not valid. Try a real number"
 
 let waitResult date dayMoment =
-    $"""You waited and it's now {Generic.dayMomentName dayMoment |> String.lowercase |> Styles.highlight} on the {Generic.formatDate date |> Styles.highlight}"""
+    $"""You waited and it's now {Generic.dayMomentName dayMoment |> String.lowercase |> Styles.highlight} on the {Date.simple date |> Styles.highlight}"""
 
 let sleepDescription =
     "Allows you to get some sleep and restore your energy and health"
@@ -168,7 +168,7 @@ let private meItem header value =
 let meName name = meItem "Name" name
 
 let meBirthdayAge birthday age =
-    meItem "Birthday" $"{Generic.formatDate birthday} ({age} years old)"
+    meItem "Birthday" $"{Date.simple birthday} ({age} years old)"
 
 let wrongUsage usageSample =
     Styles.error $"Can't recognize that. Use as: {usageSample}"

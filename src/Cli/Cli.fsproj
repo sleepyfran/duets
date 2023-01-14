@@ -9,6 +9,7 @@
         <Compile Include="Scenes.fs"/>
         <Compile Include="Text\Emoji.fs"/>
         <Compile Include="Text\Styles.fs"/>
+        <Compile Include="Text\Date.fs"/>
         <Compile Include="Text\Generic.fs"/>
         <Compile Include="Text\Career.fs"/>
         <Compile Include="Text\Command.fs"/>

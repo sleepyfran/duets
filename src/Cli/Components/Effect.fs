@@ -116,7 +116,7 @@ let private displayEffect effect =
             concert.Date,
             concert.DayMoment
         |> fun (typeText, date, dayMoment) ->
-            $"{typeText} scheduled for {Generic.formatDate date |> Styles.time} @ {Generic.dayMomentName dayMoment |> Styles.time}"
+            $"{typeText} scheduled for {Date.simple date |> Styles.time} @ {Generic.dayMomentName dayMoment |> Styles.time}"
             |> Styles.highlight
         |> showNotification "Upcoming event"
     | SongImproved (_, Diff (before, after)) ->
