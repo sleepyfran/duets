@@ -11,12 +11,31 @@ open Simulation
 open Simulation.Concerts.Live
 
 [<Test>]
-let ``playSong energetic energy gives up to 15 points`` () =
+let ``playSong with energetic energy gives up to 25 points when song is long``
+    ()
+    =
+    Generators.Song.finishedGenerator
+        { Generators.Song.defaultOptions with
+            LengthRange = 10<minute>, 20<minute> }
+    |> Gen.sample 0 1000
+    |> List.iter (fun song ->
+        let response = playSong dummyState dummyOngoingConcert song Energetic
+
+        response
+        |> ongoingConcertFromResponse
+        |> Optic.get Lenses.Concerts.Ongoing.points_
+        |> should be (inRange 0<quality> 25<quality>)
+
+        response
+        |> pointsFromResponse
+        |> should be (inRange 0<quality> 25<quality>))
+
+[<Test>]
+let ``playSong with energetic energy gives up to 15 points`` () =
     Generators.Song.finishedGenerator Generators.Song.defaultOptions
     |> Gen.sample 0 1000
     |> List.iter (fun song ->
-        let response =
-            playSong dummyState dummyOngoingConcert song Energetic
+        let response = playSong dummyState dummyOngoingConcert song Energetic
 
         response
         |> ongoingConcertFromResponse
@@ -28,7 +47,26 @@ let ``playSong energetic energy gives up to 15 points`` () =
         |> should be (inRange 0<quality> 15<quality>))
 
 [<Test>]
-let ``playSong normal energy gives up to 8 points`` () =
+let ``playSong with normal energy gives up to 15 points when song is long`` () =
+    Generators.Song.finishedGenerator
+        { Generators.Song.defaultOptions with
+            LengthRange = 10<minute>, 20<minute> }
+    |> Gen.sample 0 1000
+    |> List.iter (fun song ->
+        let response =
+            playSong dummyState dummyOngoingConcert song PerformEnergy.Normal
+
+        response
+        |> ongoingConcertFromResponse
+        |> Optic.get Lenses.Concerts.Ongoing.points_
+        |> should be (inRange 0<quality> 15<quality>)
+
+        response
+        |> pointsFromResponse
+        |> should be (inRange 0<quality> 15<quality>))
+
+[<Test>]
+let ``playSong with normal energy gives up to 8 points`` () =
     Generators.Song.finishedGenerator Generators.Song.defaultOptions
     |> Gen.sample 0 1000
     |> List.iter (fun song ->
@@ -45,12 +83,29 @@ let ``playSong normal energy gives up to 8 points`` () =
         |> should be (inRange 0<quality> 8<quality>))
 
 [<Test>]
-let ``playSong limited energy gives up to 2 points`` () =
+let ``playSong with limited energy gives up to 8 points when song is long`` () =
+    Generators.Song.finishedGenerator
+        { Generators.Song.defaultOptions with
+            LengthRange = 10<minute>, 20<minute> }
+    |> Gen.sample 0 1000
+    |> List.iter (fun song ->
+        let response = playSong dummyState dummyOngoingConcert song Limited
+
+        response
+        |> ongoingConcertFromResponse
+        |> Optic.get Lenses.Concerts.Ongoing.points_
+        |> should be (inRange 0<quality> 8<quality>)
+
+        response
+        |> pointsFromResponse
+        |> should be (inRange 0<quality> 8<quality>))
+
+[<Test>]
+let ``playSong with limited energy gives up to 2 points`` () =
     Generators.Song.finishedGenerator Generators.Song.defaultOptions
     |> Gen.sample 0 1000
     |> List.iter (fun song ->
-        let response =
-            playSong dummyState dummyOngoingConcert song Limited
+        let response = playSong dummyState dummyOngoingConcert song Limited
 
         response
         |> ongoingConcertFromResponse
@@ -92,8 +147,7 @@ let ``playSong returns low performance result if practice and quality ares below
             QualityMax = 24 }
     |> Gen.sample 0 1000
     |> List.iter (fun song ->
-        let response =
-            playSong dummyState dummyOngoingConcert song Energetic
+        let response = playSong dummyState dummyOngoingConcert song Energetic
 
         response
         |> resultFromResponse
@@ -111,8 +165,7 @@ let ``playSong returns average performance result if practice and quality ares b
             QualityMax = 49 }
     |> Gen.sample 0 1000
     |> List.iter (fun song ->
-        let response =
-            playSong dummyState dummyOngoingConcert song Energetic
+        let response = playSong dummyState dummyOngoingConcert song Energetic
 
         response
         |> resultFromResponse
@@ -130,8 +183,7 @@ let ``playSong returns good performance result if practice and quality are below
             QualityMax = 74 }
     |> Gen.sample 0 1000
     |> List.iter (fun song ->
-        let response =
-            playSong dummyState dummyOngoingConcert song Energetic
+        let response = playSong dummyState dummyOngoingConcert song Energetic
 
         response
         |> resultFromResponse
@@ -147,8 +199,7 @@ let ``playSong returns great performance result if practice and quality are abov
             PracticeMax = 100 }
     |> Gen.sample 0 1000
     |> List.iter (fun song ->
-        let response =
-            playSong dummyState dummyOngoingConcert song Energetic
+        let response = playSong dummyState dummyOngoingConcert song Energetic
 
         response
         |> resultFromResponse
@@ -177,9 +228,7 @@ let ``playSong lowers result depending on character's drunkenness`` () =
             let response =
                 playSong drunkState dummyOngoingConcert song Energetic
 
-            response
-            |> resultFromResponse
-            |> should be (ofCase expectedResult)))
+            response |> resultFromResponse |> should be (ofCase expectedResult)))
 
 [<Test>]
 let ``playSong does not decrease points below 0`` () =
@@ -200,8 +249,7 @@ let ``playSong does not decrease points below 0`` () =
 
 [<Test>]
 let ``playSong should add points to the previous count to ongoing concert`` () =
-    let ongoingConcert =
-        { dummyOngoingConcert with Points = 50<quality> }
+    let ongoingConcert = { dummyOngoingConcert with Points = 50<quality> }
 
     Generators.Song.finishedGenerator
         { Generators.Song.defaultOptions with PracticeMin = 1 }
@@ -214,8 +262,7 @@ let ``playSong should add points to the previous count to ongoing concert`` () =
 
 [<Test>]
 let ``playSong does not increase above 100`` () =
-    let ongoingConcert =
-        { dummyOngoingConcert with Points = 98<quality> }
+    let ongoingConcert = { dummyOngoingConcert with Points = 98<quality> }
 
     Generators.Song.finishedGenerator Generators.Song.defaultOptions
     |> Gen.sample 0 1000

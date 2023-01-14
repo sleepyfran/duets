@@ -8,6 +8,7 @@ open Simulation
 /// depends on whether the song was already played or not and the energy.
 let playSong state ongoingConcert (finishedSong, quality) energy =
     let (FinishedSong song) = finishedSong
+    let isLongSong = song.Length.Minutes > 10<minute>
 
     let playableCharacter = Queries.Characters.playableCharacter state
 
@@ -40,8 +41,11 @@ let playSong state ongoingConcert (finishedSong, quality) energy =
           SongQuality(finishedSong, quality) ]
       Multipliers =
         [ match energy with
+          | PerformEnergy.Energetic when isLongSong -> 25
           | PerformEnergy.Energetic -> 15
+          | PerformEnergy.Normal when isLongSong -> 15
           | PerformEnergy.Normal -> 8
+          | PerformEnergy.Limited when isLongSong -> 8
           | PerformEnergy.Limited -> 2 ] }
     |> performAction state ongoingConcert
 

@@ -9,19 +9,30 @@ type SongGenOptions =
     { PracticeMin: int
       PracticeMax: int
       QualityMin: int
-      QualityMax: int }
+      QualityMax: int
+      LengthRange: int<minute> * int<minute> }
 
 let defaultOptions =
     { PracticeMin = 0
       PracticeMax = 100
       QualityMin = 100
-      QualityMax = 100 }
+      QualityMax = 100
+      LengthRange = 3<minute>, 5<minute> }
 
 let generator opts =
     gen {
         let! initialSong = Arb.generate<Song>
 
-        let! lengthMinute = Gen.choose (1, 10) |> Gen.map ((*) 1<minute>)
+        let minMinutes, maxMinutes = opts.LengthRange
+
+        let! lengthMinute =
+            Gen.choose (
+                minMinutes / 1<minute>,
+                (* Reduce one minute since seconds can go up to 59. *)
+                (maxMinutes - 1<minute>) / 1<minute>
+            )
+            |> Gen.map ((*) 1<minute>)
+
         let! lengthSeconds = Gen.choose (0, 59) |> Gen.map ((*) 1<second>)
 
         let length =
