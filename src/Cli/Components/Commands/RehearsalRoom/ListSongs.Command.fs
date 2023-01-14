@@ -14,7 +14,10 @@ module ListSongsCommand =
         let rows =
             unfinishedSongs
             |> List.map (fun (UnfinishedSong song, _, quality) ->
-                [ song.Name; $"{Styles.Level.from quality}%%"; "-" ])
+                [ song.Name
+                  Songs.length song.Length
+                  $"{Styles.Level.from quality}%%"
+                  "-" ])
 
         showTableWithTitle "Unfinished songs" columns rows
 
@@ -26,6 +29,7 @@ module ListSongsCommand =
             finishedSongs
             |> List.map (fun (FinishedSong song, quality) ->
                 [ song.Name
+                  Songs.length song.Length
                   $"{Styles.Level.from quality}%%"
                   $"{Styles.Level.from song.Practice}%%" ])
 
@@ -42,7 +46,8 @@ module ListSongsCommand =
           Handler =
             (fun _ ->
                 let columns =
-                    [ "Name"; "Quality"; "Practice" ] |> List.map Styles.header
+                    [ "Name"; "Length"; "Quality"; "Practice" ]
+                    |> List.map Styles.header
 
                 showUnfinishedTable columns unfinishedSongs
                 showFinishedTable columns finishedSongs
