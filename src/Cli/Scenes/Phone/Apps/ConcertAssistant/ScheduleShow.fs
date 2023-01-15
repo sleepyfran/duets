@@ -87,7 +87,11 @@ and private promptForVenue app date dayMoment city =
         showOptionalChoicePrompt
             Phone.concertAssistantAppShowVenuePrompt
             Generic.cancel
-            (fun (place: Place) -> place.Name)
+            (fun (place: Place) ->
+                match place.Type with
+                | ConcertSpace concertSpace ->
+                    $"{place.Name} (Capacity: {concertSpace.Capacity})"
+                | _ -> place.Name)
             venues
 
     match selectedVenue with

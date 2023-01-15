@@ -27,7 +27,7 @@ let songStartedEffect = SongStarted(dummyBand, unfinishedSong)
 
 let effectsWithTimeIncrease =
     [ AlbumRecorded(dummyBand, dummyUnreleasedAlbum), 2<dayMoments>
-      ConcertFinished(dummyBand, dummyPastConcert), 1<dayMoments>
+      ConcertFinished(dummyBand, dummyPastConcert, 0m<dd>), 1<dayMoments>
       songStartedEffect, 1<dayMoments>
       SongImproved(dummyBand, Diff(unfinishedSong, unfinishedSong)),
       1<dayMoments>

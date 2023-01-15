@@ -78,17 +78,21 @@ let private displayEffect effect =
         let place = Queries.World.placeInCityById concert.CityId concert.VenueId
 
         Phone.concertAssistantAppTicketDone place concert |> showMessage
-    | ConcertFinished (_, pastConcert) ->
+    | ConcertFinished (_, pastConcert, income) ->
+        let concert = Concert.fromPast pastConcert
+
         let quality =
             match pastConcert with
             | PerformedConcert (_, quality) -> quality
             | _ -> 0<quality>
 
         match quality with
-        | q when q < 35<quality> -> Concert.finishedPoorly q
-        | q when q < 75<quality> -> Concert.finishedNormally q
-        | q -> Concert.finishedGreat q
+        | q when q < 35<quality> -> Concert.finishedPoorly
+        | q when q < 75<quality> -> Concert.finishedNormally
+        | _ -> Concert.finishedGreat
         |> showMessage
+
+        Concert.concertSummary concert.TicketsSold income |> showMessage
     | ConcertCancelled (band, FailedConcert (concert, reason)) ->
         let place = Queries.World.placeInCityById concert.CityId concert.VenueId
 

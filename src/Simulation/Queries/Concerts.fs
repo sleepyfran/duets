@@ -2,14 +2,14 @@ module Simulation.Queries.Concerts
 
 open Aether
 open Aether.Operators
+open Common
 open Entities
 open Simulation
 
 let private bandSchedule state bandId =
     let concertsLens = Lenses.FromState.Concerts.allByBand_ bandId
 
-    Optic.get concertsLens state
-    |> Option.defaultValue Concert.Timeline.empty
+    Optic.get concertsLens state |> Option.defaultValue Concert.Timeline.empty
 
 /// Returns a concert, if any scheduled, for the given band and date.
 let scheduleForDay state bandId date =
@@ -37,6 +37,20 @@ let scheduleForTodayInPlace state bandId placeId =
         else
             None)
 
+/// Returns a concert, if any scheduled, for the current day moment and date.
+let scheduledForRightNow state bandId placeId =
+    let currentDayMoment =
+        Queries.Calendar.today state |> Calendar.Query.dayMomentOf
+
+    scheduleForTodayInPlace state bandId placeId
+    |> Option.bind (fun scheduledConcert ->
+        let concert = Concert.fromScheduled scheduledConcert
+
+        if concert.DayMoment = currentDayMoment then
+            Some scheduledConcert
+        else
+            None)
+
 /// Returns the concerts that are scheduled around today. Adds any concert that
 /// is currently scheduled today or tomorrow or happened in the last day.
 let scheduledAroundDate state bandId =
@@ -49,10 +63,7 @@ let scheduledAroundDate state bandId =
         |> Option.bind (fun concert ->
             let spanBetween = concert.Date - today
 
-            if spanBetween.Days <= 1 then
-                Some concert
-            else
-                None)
+            if spanBetween.Days <= 1 then Some concert else None)
 
     let lastPerformedConcert =
         Seq.tryLast timeline.PastEvents
@@ -60,14 +71,9 @@ let scheduledAroundDate state bandId =
         |> Option.bind (fun concert ->
             let spanBetween = today - concert.Date
 
-            if spanBetween.Days <= 1 then
-                Some concert
-            else
-                None)
+            if spanBetween.Days <= 1 then Some concert else None)
 
-    [ nextScheduledConcert
-      lastPerformedConcert ]
-    |> List.choose id
+    [ nextScheduledConcert; lastPerformedConcert ] |> List.choose id
 
 /// Returns all date from today to the end of the month that have a concert
 /// scheduled.
@@ -81,8 +87,7 @@ let allScheduled state bandId =
         Lenses.FromState.Concerts.allByBand_ bandId
         >?> Lenses.Concerts.Timeline.scheduled_
 
-    Optic.get lenses state
-    |> Option.defaultValue Set.empty
+    Optic.get lenses state |> Option.defaultValue Set.empty
 
 /// Returns all past concerts.
 let allPast state bandId =
@@ -90,8 +95,7 @@ let allPast state bandId =
         Lenses.FromState.Concerts.allByBand_ bandId
         >?> Lenses.Concerts.Timeline.pastEvents_
 
-    Optic.get lenses state
-    |> Option.defaultValue Set.empty
+    Optic.get lenses state |> Option.defaultValue Set.empty
 
 /// Returns the last concert that happened in the city, if any.
 let lastConcertInCity state bandId cityId =
@@ -103,8 +107,24 @@ let lastConcertInCity state bandId cityId =
     |> Option.defaultValue Set.empty
     |> Set.toSeq
     |> Seq.filter (fun concert ->
-        Concert.fromPast concert
-        |> fun c -> c.CityId = cityId)
+        Concert.fromPast concert |> fun c -> c.CityId = cityId)
     |> Seq.sortByDescending (fun concert ->
         Concert.fromPast concert |> fun c -> c.Date)
     |> Seq.tryHead
+
+/// Calculates the percentage of people that came to the concert out of the
+/// entire capacity of the venue.
+let attendancePercentage concert =
+    let venue = Queries.World.placeInCityById concert.CityId concert.VenueId
+
+    let capacity =
+        match venue.Type with
+        | PlaceType.ConcertSpace concertSpace -> concertSpace.Capacity
+        | _ ->
+            (* We don't really support concerts outside of a concert space, but
+            lets just returned this to make it "compatible". *)
+            0
+
+    (float concert.TicketsSold / float capacity)
+    |> (*) 100.0
+    |> Math.roundToNearest

@@ -9,6 +9,7 @@
         <Compile Include="Config.fs"/>
         <Compile Include="RandomGen.fs"/>
         <Compile Include="Queries\Calendar.fs"/>
+        <Compile Include="Queries\World.fs"/>
         <Compile Include="Queries\Albums.fs"/>
         <Compile Include="Queries\Songs.fs"/>
         <Compile Include="Queries\Repertoire.fs"/>
@@ -20,11 +21,10 @@
         <Compile Include="Queries\Skills.fs"/>
         <Compile Include="Queries\GenreMarkets.fs"/>
         <Compile Include="Queries\Bands.fs"/>
-        <Compile Include="Queries\Concerts.fs"/>
-        <Compile Include="Queries\CalendarEvents.fs"/>
         <Compile Include="Queries\Inventory.fs"/>
         <Compile Include="Queries\Items.fs"/>
-        <Compile Include="Queries\World.fs"/>
+        <Compile Include="Queries\Concerts.fs"/>
+        <Compile Include="Queries\CalendarEvents.fs"/>
         <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Health.fs"/>
         <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Energy.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Items.fs"/>

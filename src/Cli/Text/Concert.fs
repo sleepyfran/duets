@@ -185,17 +185,20 @@ let encoreComingBackToStage =
     Styles.success
         "You come back to the stage and the the audience starts clapping with enthusiasm!"
 
-let finishedPoorly points =
+let finishedPoorly =
     Styles.Level.bad
-        $"The concert ended poorly, you didn't get enough attention from the crowd to keep them entertained. You got {points} points"
+        "The concert was a disaster. The audience was visibly disappointed and let out a chorus of boos and jeers. Your performance was lacklustre and uninspired, and it was clear that you had not put in enough practice. The crowd began to filter out of the venue before the concert was even over, and you were left standing on stage, feeling embarrassed and defeated. Your reputation as a musician has taken a hit."
 
-let finishedNormally points =
+let finishedNormally =
     Styles.Level.normal
-        $"Well, that didn't go as bad as it could've gone! You got {points} points"
+        "The concert was mediocre. The audience seemed to enjoy it, but there were not many standing ovations. Your performance was decent, but it lacked the energy and passion that would have made it truly memorable. You could tell that the crowd was a bit underwhelmed and that you didn't quite live up to their expectations. Overall, the concert was okay. Your reputation as a musician remains intact, but you may need to work harder to impress audiences in the future."
 
-let finishedGreat points =
+let finishedGreat =
     Styles.Level.great
-        $"""You nailed the concert! The crowd loved it and will definitely come for the next one! You got {points} {Generic.simplePluralOf "point" points}"""
+        "The concert was a huge success! The audience was on their feet, cheering, and clapping throughout the performance. Your playing was spot on, and you had great stage presence that kept everyone engaged throughout the show. The crowd sang along to many of your songs and it was clear that you had a real connection with your fans. The crowd left the venue feeling satisfied and entertained. Your reputation as a musician has been solidified."
+
+let concertSummary attendance income =
+    Styles.highlight $"""{attendance} {Generic.pluralOf "person" "people" attendance} came to the concert and you made {Styles.money income} in tickets"""
 
 let makeCrowdSingLowPerformance points =
     Styles.Level.bad

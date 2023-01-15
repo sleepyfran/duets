@@ -39,7 +39,8 @@ let finishConcert state ongoingConcert =
 
     [ ConcertFinished(
           band,
-          PerformedConcert(ongoingConcert.Concert, ongoingConcert.Points)
+          PerformedConcert(ongoingConcert.Concert, ongoingConcert.Points),
+          concertEarnings
       )
       BandFansChanged(band, Diff(band.Fans, updatedFans))
       Operations.income state bandAccount concertEarnings

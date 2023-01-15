@@ -20,7 +20,7 @@ module InteractionTypes =
     [<RequireQualifiedAccess>]
     type ConcertInteraction =
         /// Starts a scheduled concert.
-        | StartConcert of PlaceId
+        | StartConcert of ScheduledConcert
         /// Makes the character adjust the drum setting. Does nothing.
         | AdjustDrums of OngoingConcert
         /// Performs a bass solo, which gives points based on the player's

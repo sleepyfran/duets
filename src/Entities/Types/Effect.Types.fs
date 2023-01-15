@@ -21,7 +21,7 @@ module EffectTypes =
         | CareerAccept of CharacterId * Job
         | CareerLeave of CharacterId * Job
         | ConcertScheduled of Band * ScheduledConcert
-        | ConcertFinished of Band * PastConcert
+        | ConcertFinished of band: Band * concert: PastConcert * income: Amount
         | ConcertUpdated of Band * ScheduledConcert
         | ConcertCancelled of Band * PastConcert
         | FlightBooked of Flight

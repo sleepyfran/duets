@@ -9,8 +9,8 @@ module ConcertSpace =
         let band = Queries.Bands.currentBand state
 
         Queries.Concerts.scheduleForTodayInPlace state band.Id placeId
-        |> Option.map (fun _ ->
-            [ Interaction.Concert(ConcertInteraction.StartConcert placeId) ])
+        |> Option.map (fun concert ->
+            [ Interaction.Concert(ConcertInteraction.StartConcert concert) ])
         |> Option.defaultValue []
 
     let private instrumentInteractions state ongoingConcert =

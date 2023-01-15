@@ -12,7 +12,7 @@ module FinishConcertCommand =
     /// total points accumulated during the concert, the result of it and allows
     /// them to move to other places outside the stage/backstage.
     let rec create ongoingConcert =
-        { Name = "end concert"
+        { Name = "finish concert"
           Description = Command.finishConcertDescription
           Handler =
             (fun _ ->

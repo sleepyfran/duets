@@ -47,7 +47,7 @@ let applyEffect state effect =
 
         Concerts.removeScheduledConcert band concert state
         |> Concerts.addScheduledConcert band scheduledConcert
-    | ConcertFinished (band, pastConcert) ->
+    | ConcertFinished (band, pastConcert, _) ->
         let concert = Concert.fromPast pastConcert
 
         Concerts.removeScheduledConcert band concert state
