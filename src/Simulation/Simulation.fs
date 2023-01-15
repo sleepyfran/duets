@@ -55,4 +55,4 @@ let tick currentState effect =
 
     let effectFn = fun _ -> [ effect ]
 
-    tick' ([], currentState) ([ effectFn ] @ timeEffects)
+    tick' ([], currentState) (effectFn :: timeEffects)
