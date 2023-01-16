@@ -150,6 +150,8 @@ let private displayEffect effect =
             currentLevel
         |> showMessage
     | PlaceClosed place ->
+        lineBreak ()
+        
         Styles.danger $"{place.Name} is closing and they're kicking you out."
         |> showMessage
 
