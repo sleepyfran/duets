@@ -96,6 +96,7 @@
         <Compile Include="Events\Place\ClosingTime.fs"/>
         <Compile Include="Events\Skill.Events.fs"/>
         <Compile Include="Events\Time.Events.fs"/>
+        <Compile Include="Events\Events.fs"/>
         <Compile Include="Setup\StartGame.fs"/>
         <Compile Include="Simulation.fs"/>
         <ProjectReference Include="..\Common\Common.fsproj"/>

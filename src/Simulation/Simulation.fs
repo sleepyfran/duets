@@ -3,13 +3,7 @@ module Simulation.Simulation
 
 open Entities
 open Simulation.Time.AdvanceTime
-
-let private getAssociatedEffects effect =
-    match effect with
-    | TimeAdvanced date -> [ Events.Time.run date ]
-    | _ -> []
-    @ Events.Skill.run effect
-      @ Events.Character.Character.run effect
+open Simulation.Events
 
 /// Returns how many times the time has to be advanced for the given effect.
 let private timeAdvanceOfEffect effect =
@@ -32,7 +26,7 @@ let rec private tick' (appliedEffects, lastState) nextEffectFns =
                     State.Root.applyEffect currentState effect
 
                 let associatedEffects =
-                    getAssociatedEffects effect
+                    Events.associatedEffects effect
 
                 tick' (currentEffectChain @ [ effect ], state) associatedEffects)
             (appliedEffects, lastState)
@@ -55,4 +49,4 @@ let tick currentState effect =
 
     let effectFn = fun _ -> [ effect ]
 
-    tick' ([], currentState) (effectFn :: timeEffects)
+    tick' ([], currentState) (effectFn :: timeEffects @ Events.endOfChainEffects)

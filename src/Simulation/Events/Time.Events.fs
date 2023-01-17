@@ -21,7 +21,6 @@ let private runDailyEffects state time =
 let rec private runCurrentTimeChecks state time =
     Concerts.Scheduler.moveFailedConcerts state time
     @ Notifications.createHappeningSoon state time
-      @ Place.ClosingTime.checkCurrentPlace state time
 
 /// Runs all the events associated with the current time of the game, this
 /// includes all daily, yearly and current time effects such as updating the
