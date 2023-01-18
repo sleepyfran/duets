@@ -34,9 +34,12 @@ let private mood m =
 
 let attribute attr amount =
     match attr with
+    | CharacterAttribute.Bladder -> ":toilet:"
     | CharacterAttribute.Drunkenness -> ":woozy_face:"
     | CharacterAttribute.Energy -> ":battery:"
     | CharacterAttribute.Fame -> ":glowing_star:"
     | CharacterAttribute.Health ->
         ":anatomical_heart: " (* Do NOT remove the space in the end *)
+    | CharacterAttribute.Hunger -> ":pot_of_food:"
+    | CharacterAttribute.Hygiene -> ":shower:"
     | CharacterAttribute.Mood -> mood amount

@@ -16,10 +16,13 @@ module CharacterTypes =
     /// Identifier of an attribute of a character.
     [<RequireQualifiedAccess>]
     type CharacterAttribute =
+        | Bladder
         | Drunkenness
         | Energy
         | Fame
         | Health
+        | Hunger
+        | Hygiene
         | Mood
 
     /// Wraps an int to define the amount of an attribute. These are always

@@ -12,9 +12,12 @@ type CharacterAgeValidationError =
 
 let defaultAttributes =
     [
-        (CharacterAttribute.Mood, 100)
-        (CharacterAttribute.Health, 100)
+        (CharacterAttribute.Bladder, 100)
         (CharacterAttribute.Energy, 100)
+        (CharacterAttribute.Health, 100)
+        (CharacterAttribute.Hunger, 100)
+        (CharacterAttribute.Hygiene, 100)
+        (CharacterAttribute.Mood, 100)
     ]
     |> Map.ofList
 
