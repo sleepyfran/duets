@@ -21,9 +21,18 @@ module EnergyRequirements =
                 else
                     InteractionState.Enabled }
 
-    let private disableRehearsalInteraction
-        characterEnergy
+    let private disableIfLessEnergyThanMinimum
         interactionWithState
+        currentEnergy
+        =
+        disableIfLessEnergy
+            interactionWithState
+            currentEnergy
+            Config.LifeSimulation.Interactions.minimumEnergyRequired
+
+    let private disableRehearsalInteraction
+        interactionWithState
+        characterEnergy
         rehearsalInteraction
         =
         match rehearsalInteraction with
@@ -35,11 +44,11 @@ module EnergyRequirements =
             disableIfLessEnergy
                 interactionWithState
                 characterEnergy
-                Config.LifeSimulation.Interactions.minimumEnergyRequiredToRehearse
+                Config.LifeSimulation.Interactions.minimumEnergyRequired
 
     let private disableCareerInteraction
-        characterEnergy
         interactionWithState
+        characterEnergy
         careerInteraction
         =
         match careerInteraction with
@@ -78,13 +87,25 @@ module EnergyRequirements =
                 match interactionWithState.Interaction with
                 | Interaction.Rehearsal rehearsalInteraction ->
                     disableRehearsalInteraction
-                        characterEnergy
                         interactionWithState
+                        characterEnergy
                         rehearsalInteraction
                 | Interaction.Career careerInteraction ->
                     disableCareerInteraction
-                        characterEnergy
                         interactionWithState
+                        characterEnergy
                         careerInteraction
-                | _ -> interactionWithState
+                | Interaction.FreeRoam (FreeRoamInteraction.Wait _) ->
+                    disableIfLessEnergyThanMinimum
+                        interactionWithState
+                        characterEnergy
+                | Interaction.FreeRoam _ -> interactionWithState
+                | Interaction.Item (ItemInteraction.Consumable _) ->
+                    interactionWithState
+                | Interaction.Item (ItemInteraction.Interactive InteractiveItemInteraction.Sleep) ->
+                    interactionWithState
+                | _ ->
+                    disableIfLessEnergyThanMinimum
+                        interactionWithState
+                        characterEnergy
             | _ -> interactionWithState)

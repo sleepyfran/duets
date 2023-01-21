@@ -40,25 +40,25 @@ let interact state (item: Item) action =
                      |> InteractiveItemType.Furniture
                      |> Interactive)
         ->
-        [ Character.Attribute.add character CharacterAttribute.Energy 80
+        [ yield! Time.AdvanceTime.advanceDayMoment' state 2<dayMoments>
+          Character.Attribute.add character CharacterAttribute.Energy 80
           Character.Attribute.add character CharacterAttribute.Health 16 ]
-        @ Time.AdvanceTime.advanceDayMoment' state 2<dayMoments>
         |> Ok
     | InteractiveItemInteraction.Play when
         item.Type = (ElectronicsItemType.GameConsole
                      |> InteractiveItemType.Electronics
                      |> Interactive)
         ->
-        [ Character.Attribute.add character CharacterAttribute.Mood 6 ]
-        @ Time.AdvanceTime.advanceDayMoment' state 1<dayMoments>
+        [ yield! Time.AdvanceTime.advanceDayMoment' state 1<dayMoments>
+          Character.Attribute.add character CharacterAttribute.Mood 6 ]
         |> Ok
     | InteractiveItemInteraction.Watch when
         item.Type = (ElectronicsItemType.TV
                      |> InteractiveItemType.Electronics
                      |> Interactive)
         ->
-        [ Character.Attribute.add character CharacterAttribute.Mood 5 ]
-        @ Time.AdvanceTime.advanceDayMoment' state 1<dayMoments>
+        [ yield! Time.AdvanceTime.advanceDayMoment' state 1<dayMoments>
+          Character.Attribute.add character CharacterAttribute.Mood 5 ]
         |> Ok
     | _ -> Error ActionNotPossible
 

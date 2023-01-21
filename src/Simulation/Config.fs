@@ -8,8 +8,9 @@ module LifeSimulation =
         /// Minimum amount of health needed to perform any interaction.
         let minimumHealthRequired = 10
         
-        /// Minimum amount of energy needed to do a rehearsal room interaction.
-        let minimumEnergyRequiredToRehearse = 10
+        /// Minimum amount of energy needed to do any non-movement or item
+        /// consumption related interaction.
+        let minimumEnergyRequired = 10
     
     /// Energy gained per milliliter of coffee ingested.
     let energyPerCoffeeMl = 4
