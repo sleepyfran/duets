@@ -26,7 +26,7 @@ module FastFood =
 module JapaneseFood =
     let gyoza: PurchasableItem =
         { Brand = "Gyoza"
-          Type = Gyozas 4<times> |> Food |> Consumable },
+          Type = Gyozas 100<gram> |> Food |> Consumable },
         3.3m<dd>
 
     let misoRamen: PurchasableItem =
@@ -52,12 +52,12 @@ module VietnameseFood =
 
     let nemCuonBo: PurchasableItem =
         { Brand = "Nem cuốn bò"
-          Type = NemCuon 2<times> |> Food |> Consumable },
+          Type = NemCuon 100<gram> |> Food |> Consumable },
         3.50m<dd>
 
     let nemCuonTom: PurchasableItem =
         { Brand = "Nem cuốn tôm"
-          Type = NemCuon 2<times> |> Food |> Consumable },
+          Type = NemCuon 100<gram> |> Food |> Consumable },
         3.35m<dd>
 
     let phoBo: PurchasableItem =

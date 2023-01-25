@@ -25,16 +25,7 @@ module Characters =
 
     /// Returns a list with all the character's attributes.
     let allPlayableCharacterAttributes state =
-        [
-            CharacterAttribute.Bladder
-            CharacterAttribute.Drunkenness
-            CharacterAttribute.Energy
-            CharacterAttribute.Health
-            CharacterAttribute.Hunger
-            CharacterAttribute.Hygiene
-            CharacterAttribute.Mood
-            CharacterAttribute.Fame
-        ]
+        Character.allAttributes
         |> List.map (fun attr -> (attr, playableCharacterAttribute state attr))
 
     /// Returns a tuple of three values with the value of the given attributes

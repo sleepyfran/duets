@@ -24,9 +24,9 @@ module ItemTypes =
         | BunBo of amount: int<gram>
         | Chips of amount: int<gram>
         | Fries of amount: int<gram>
-        | Gyozas of pieces: int<times>
+        | Gyozas of amount: int<gram>
         | Nachos of amount: int<gram>
-        | NemCuon of pieces: int<times>
+        | NemCuon of amount: int<gram>
         | PhoBo of amount: int<gram>
         | Ramen of amount: int<gram>
         | Wakame of amount: int<gram>
