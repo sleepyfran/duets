@@ -8,11 +8,9 @@ open Simulation
 /// Hospitalizes the given character, cancelling any activity that they are doing
 /// in the current moment.
 let hospitalize characterId state =
-    let currentCity =
-        Queries.World.currentCity state
+    let currentCity = Queries.World.currentCity state
 
-    let situation =
-        Queries.Situations.current state
+    let situation = Queries.Situations.current state
 
     let concertCancellationEffects =
         match situation with
@@ -34,9 +32,7 @@ let hospitalize characterId state =
         |> List.head (* We need at least one hospital in the city. *)
         |> Tuple.two currentCity.Id
 
-    let oneWeekLater =
-        Queries.Calendar.today state
-        |> Calendar.Ops.addDays 7
+    let oneWeekLater = Queries.Calendar.today state |> Calendar.Ops.addDays 7
 
     concertCancellationEffects
     @ [ CharacterHealthDepleted characterId
@@ -45,5 +41,10 @@ let hospitalize characterId state =
         CharacterAttributeChanged(
             characterId,
             CharacterAttribute.Health,
+            Diff(0, 100)
+        )
+        CharacterAttributeChanged(
+            characterId,
+            CharacterAttribute.Hunger,
             Diff(0, 100)
         ) ]

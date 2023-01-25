@@ -18,5 +18,7 @@ let internal run effect =
     | SongPracticed _ ->
         [ Character.Attribute.addToPlayable CharacterAttribute.Energy -10 ]
     | TimeAdvanced _ ->
-        [ Drunkenness.soberUpAfterTime; Drunkenness.reduceHealth ]
+        [ Drunkenness.soberUpAfterTime
+          Drunkenness.reduceHealth
+          Hunger.reduceHealth ]
     | _ -> []

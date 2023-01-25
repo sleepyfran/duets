@@ -6,7 +6,10 @@ open Entities
 open Simulation
 
 let private createEffect character attribute prev curr =
-    CharacterAttributeChanged(character, attribute, Diff(prev, curr))
+    if prev = curr then
+        []
+    else
+        [ CharacterAttributeChanged(character, attribute, Diff(prev, curr)) ]
 
 let private attrValue character attribute =
     Optic.get (Lenses.Character.attribute_ attribute) character
@@ -28,15 +31,12 @@ let add character attribute amount = map character attribute ((+) amount)
 /// Same as add but automatically applying it to the current playable character.
 let addToPlayable attribute amount state =
     let character = Queries.Characters.playableCharacter state
-    [ add character attribute amount ]
+    add character attribute amount
 
 /// Conditionally calls map only if the condition function returns true with
 /// the current character's attribute value.
 let conditionalMap character attribute condition mapping =
-    if condition then
-        [ map character attribute mapping ]
-    else
-        []
+    if condition then map character attribute mapping else []
 
 /// Conditionally calls add only if the condition function returns true with
 /// the current character's attribute value.
@@ -46,6 +46,10 @@ let conditionalAdd character attribute condition amount =
 /// Function to pass into the conditional add function that only applies the
 /// value if the current amount is more than a given amount.
 let moreThan character attr amount = attrValue character attr > amount
+
+/// Function to pass into the conditional add function that only applies the
+/// value if the current amount is less than a given amount.
+let lessThan character attr amount = attrValue character attr < amount
 
 /// Function to pass into the conditional add function that only applies the
 /// value if the current amount is more than zero.

@@ -11,21 +11,17 @@ type CharacterAgeValidationError =
     | AgeTooOld
 
 let allAttributes =
-    [ CharacterAttribute.Bladder
-      CharacterAttribute.Drunkenness
+    [ CharacterAttribute.Drunkenness
       CharacterAttribute.Energy
       CharacterAttribute.Health
       CharacterAttribute.Hunger
-      CharacterAttribute.Hygiene
       CharacterAttribute.Mood
       CharacterAttribute.Fame ]
 
 let defaultAttributes =
-    [ (CharacterAttribute.Bladder, 100)
-      (CharacterAttribute.Energy, 100)
+    [ (CharacterAttribute.Energy, 100)
       (CharacterAttribute.Health, 100)
       (CharacterAttribute.Hunger, 100)
-      (CharacterAttribute.Hygiene, 100)
       (CharacterAttribute.Mood, 100) ]
     |> Map.ofList
 

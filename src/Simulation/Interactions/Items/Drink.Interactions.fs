@@ -17,8 +17,7 @@ let rec drink state item =
     | Beer (amount, alcoholContent) ->
         drinkAlcohol character amount alcoholContent
     | Coffee amount -> drinkCoffee character amount
-    | Cola _ ->
-        [ Character.Attribute.add character CharacterAttribute.Energy 1 ]
+    | Cola _ -> Character.Attribute.add character CharacterAttribute.Energy 1
     | Lemonade _ -> []
 
 and private drinkAlcohol character amount alcoholContent =
@@ -29,14 +28,14 @@ and private drinkAlcohol character amount alcoholContent =
         * 100.0
         |> Math.roundToNearest
 
-    [ Character.Attribute.add
-          character
-          CharacterAttribute.Drunkenness
-          quantityUntilMax ]
+    Character.Attribute.add
+        character
+        CharacterAttribute.Drunkenness
+        quantityUntilMax
 
 and private drinkCoffee character amount =
     let energyGained =
         (float amount * float Config.LifeSimulation.energyPerCoffeeMl)
         |> Math.roundToNearest
 
-    [ Character.Attribute.add character CharacterAttribute.Energy energyGained ]
+    Character.Attribute.add character CharacterAttribute.Energy energyGained

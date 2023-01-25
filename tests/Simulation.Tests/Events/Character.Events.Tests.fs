@@ -104,7 +104,7 @@ let ``tick of passing time should decrease character's drunkenness`` () =
 
     let stateAfterGettingDrunk =
         Character.Attribute.add character CharacterAttribute.Drunkenness 15
-        |> State.Root.applyEffect state
+        |> State.Root.applyEffects state
 
     let character = Queries.Characters.playableCharacter stateAfterGettingDrunk
 
@@ -132,7 +132,7 @@ let ``tick of passing time should decrease character's health when passing 85 in
 
     let stateAfterGettingDrunk =
         Character.Attribute.add character CharacterAttribute.Drunkenness 95
-        |> State.Root.applyEffect state
+        |> State.Root.applyEffects state
 
     let character = Queries.Characters.playableCharacter stateAfterGettingDrunk
 

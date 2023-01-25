@@ -53,5 +53,5 @@ let ``Consuming food increases hunger based on the amount`` () =
         (CharacterAttributeChanged(
             character.Id,
             CharacterAttribute.Hunger,
-            Diff(50, 95)
+            Diff(50, 100)
         ))

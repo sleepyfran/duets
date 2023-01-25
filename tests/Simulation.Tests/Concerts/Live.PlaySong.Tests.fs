@@ -223,7 +223,7 @@ let ``playSong lowers result depending on character's drunkenness`` () =
                     dummyCharacter
                     CharacterAttribute.Drunkenness
                     drunkenness
-                |> State.Root.applyEffect dummyState
+                |> State.Root.applyEffects dummyState
 
             let response =
                 playSong drunkState dummyOngoingConcert song Energetic

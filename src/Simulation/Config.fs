@@ -25,6 +25,10 @@ module LifeSimulation =
     /// Rate at which the character's health is reduced each time a unit of
     /// time passes when the drunkenness surpasses 85% of the level above.
     let drunkHealthReduceRate = -15
+    
+    /// Rate at which the character's health is reduced each time a unit of
+    /// time passes when the hunger gets below 5.
+    let hungerHealthReduceRage = -20
 
 module MusicSimulation =
     /// Amount that will divide the album quality and then multiply the useful

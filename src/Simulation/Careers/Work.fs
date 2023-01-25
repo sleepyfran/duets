@@ -10,7 +10,7 @@ let workAttributeChange state (job: Job) =
     let character = Queries.Characters.playableCharacter state
 
     job.ShiftAttributeEffect
-    |> List.map (fun attributeChange ->
+    |> List.collect (fun attributeChange ->
         attributeChange ||> Attribute.add character)
 
 /// Starts a work shift in the given job, passing the necessary amount of day

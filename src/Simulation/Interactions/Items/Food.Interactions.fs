@@ -23,16 +23,16 @@ let eat state item =
     | Wakame amount -> eatNormalFood character amount
 
 let private calculateHungerIncrease amount =
-    float amount / 10.0 |> Math.roundToNearest
+    float amount * 0.15 |> Math.roundToNearest
 
 let private eatJunkFood character amount =
     let hungerIncrease = calculateHungerIncrease amount
     let healthDecrease = float amount / 100.0 |> Math.roundToNearest |> ((*) -1)
 
-    [ Character.Attribute.add character CharacterAttribute.Hunger hungerIncrease
-      Character.Attribute.add character CharacterAttribute.Health healthDecrease ]
+    [ yield! Character.Attribute.add character CharacterAttribute.Hunger hungerIncrease
+      yield! Character.Attribute.add character CharacterAttribute.Health healthDecrease ]
 
 let private eatNormalFood character amount =
     let hungerIncrease = calculateHungerIncrease amount
 
-    [ Character.Attribute.add character CharacterAttribute.Hunger hungerIncrease ]
+    Character.Attribute.add character CharacterAttribute.Hunger hungerIncrease

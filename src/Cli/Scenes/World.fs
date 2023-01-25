@@ -139,7 +139,8 @@ let private filterAttributesForInfoBar =
         match attr with
         | CharacterAttribute.Energy
         | CharacterAttribute.Health
-        | CharacterAttribute.Mood when amount <= 50 -> Some(attr, amount)
+        | CharacterAttribute.Mood
+        | CharacterAttribute.Hunger when amount <= 50 -> Some(attr, amount)
         | CharacterAttribute.Drunkenness when amount > 0 -> Some(attr, amount)
         | _ -> None)
 

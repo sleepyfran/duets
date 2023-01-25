@@ -107,3 +107,7 @@ let applyEffect state effect =
     | TimeAdvanced time -> Calendar.setTime time state
     | WorldMoveTo (cityId, nodeId) -> World.move cityId nodeId state
     | Wait _ -> state
+
+/// Applies multiple effects to the given initial state and returns the result.
+let applyEffects initialState effects =
+    (initialState, effects) ||> List.fold applyEffect
