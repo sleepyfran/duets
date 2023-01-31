@@ -15,13 +15,14 @@ open Simulation
 /// </summary>
 /// <param name="effect">Effect to apply</param>
 let apply effect =
-    Simulation.tick (State.get ()) effect ||> digest
+    Simulation.tickOne (State.get ()) effect ||> digest
 
 /// <summary>
 /// Calls <c>apply</c> one time for each given effect in the list.
 /// </summary>
 /// <param name="effects">Effects to apply</param>
-let applyMultiple effects = effects |> List.iter apply
+let applyMultiple effects =
+    effects |> Simulation.tickMultiple (State.get ()) ||> digest
 
 let private digest effects state =
     State.set state
@@ -151,7 +152,7 @@ let private displayEffect effect =
         |> showMessage
     | PlaceClosed place ->
         lineBreak ()
-        
+
         Styles.danger $"{place.Name} is closing and they're kicking you out."
         |> showMessage
 

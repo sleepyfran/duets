@@ -2,51 +2,66 @@
 module Simulation.Simulation
 
 open Entities
-open Simulation.Time.AdvanceTime
 open Simulation.Events
 
-/// Returns how many times the time has to be advanced for the given effect.
-let private timeAdvanceOfEffect effect =
-    match effect with
-    | AlbumRecorded _ -> 56<dayMoments> // One week
-    | ConcertFinished _ -> 1<dayMoments>
-    | SongImproved _ -> 1<dayMoments>
-    | SongPracticed _ -> 1<dayMoments>
-    | SongStarted _ -> 1<dayMoments>
-    | Wait dayMoments -> dayMoments
-    | _ -> 0<dayMoments>
+type private TickState =
+    { AppliedEffects: Effect list
+      State: State }
 
-let rec private tick' (appliedEffects, lastState) nextEffectFns =
+let rec private tick' tickState (nextEffectFns: EffectFn list) : TickState =
     match nextEffectFns with
-    | effectFn :: rest ->
-        effectFn lastState
-        |> List.fold
-            (fun (currentEffectChain, currentState) effect ->
-                let state =
-                    State.Root.applyEffect currentState effect
+    | effectFn :: rest -> effectFn tickState.State |> tickEffect tickState rest
+    | [] -> tickState
 
-                let associatedEffects =
-                    Events.associatedEffects effect
+and private tickEffect tickState nextEffectFns effects =
+    match effects with
+    | [] -> tick' tickState nextEffectFns
+    | effect :: restOfEffects ->
+        let updatedState = State.Root.applyEffect tickState.State effect
+        let associatedEffectFns = Events.associatedEffects effect
 
-                tick' (currentEffectChain @ [ effect ], state) associatedEffects)
-            (appliedEffects, lastState)
-        |> fun acc -> tick' acc rest
-    | [] -> (appliedEffects, lastState)
+        (* Tick all the associated effects first, and pass the rest of the
+           effects that come after the current one that was applied plus all
+           the other effect functions that are left to be applied.
+           tickAssociatedEffects will then decide what to apply and what to
+           discard. *)
+        tickAssociatedEffects
+            { AppliedEffects = tickState.AppliedEffects @ [ effect ]
+              State = updatedState }
+            associatedEffectFns
+            (* Prepend the rest of the effects so that they'll be processed
+               before the next effects on the chain. *)
+            ((fun _ -> restOfEffects) :: nextEffectFns)
 
-/// Ticks the simulation, which applies the given effect to the state and
-/// retrieves associated effects (for example: compose song -> improve skills)
-/// and applies them to the state, gathering any associated effects of that one
-/// until no effects are left and ticking the clock for how much the time
-/// should be advanced for the given effect.
-///
+and private tickAssociatedEffects tickState associatedEffects nextEffectFns =
+    match associatedEffects with
+    | BreakChain effectFns :: _ ->
+        (* Breaking the chain means discarding the tail of associated effects
+           and also the rest of the effect fns that were left to be applied. *)
+        tick' tickState effectFns
+    | ContinueChain effectFns :: restOfAssociatedEffects ->
+        (* When continuing a chain, we pre-pend all the effect functions that
+           were generated in this associated effect to the actual tail of effect
+           functions that are left to be applied. *)
+        effectFns @ nextEffectFns
+        |> tickAssociatedEffects tickState restOfAssociatedEffects
+    | [] -> tick' tickState nextEffectFns
+
+//// Ticks the simulation by applying multiple effects, gathering its associated
+/// effects and applying them as well.
 /// Returns a tuple with the list of all the effects that were applied in the
 /// order in which they were applied and the updated state.
-let tick currentState effect =
-    let timeEffects =
-        [ fun state ->
-              timeAdvanceOfEffect effect
-              |> advanceDayMoment state.Today ]
+let rec tickMultiple currentState effects =
+    let effectFns = fun _ -> effects
 
-    let effectFn = fun _ -> [ effect ]
+    (* TODO: Re-add time events. *)
+    let tickResult =
+        tick'
+            { AppliedEffects = []
+              State = currentState }
+            (effectFns :: Events.endOfChainEffects)
 
-    tick' ([], currentState) (effectFn :: timeEffects @ Events.endOfChainEffects)
+    tickResult.AppliedEffects, tickResult.State
+
+/// Same as `tickMultiple` but with one effect.
+let tickOne currentState effect = tickMultiple currentState [ effect ]

@@ -33,5 +33,8 @@ let internal run effect =
         [ runDailyEffects time
           runYearlyEffects time
           runCurrentTimeChecks time ]
-    | Wait times -> [ AttributeChange.applyAfterWait times ]
-    | _ -> []
+        |> ContinueChain
+        |> Some
+    | Wait times ->
+        [ AttributeChange.applyAfterWait times ] |> ContinueChain |> Some
+    | _ -> None

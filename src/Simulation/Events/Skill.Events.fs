@@ -9,7 +9,10 @@ open Simulation.Skills.ImproveSkills
 /// character and the rest of the band.
 let internal run effect =
     match effect with
-    | SongStarted (band, _) -> [ Composition.improveBandSkillsChance band ]
-    | SongImproved (band, _) -> [ Composition.improveBandSkillsChance band ]
-    | SongPracticed (band, _) -> [ Composition.improveBandSkillsChance band ]
-    | _ -> []
+    | SongStarted (band, _) ->
+        [ Composition.improveBandSkillsChance band ] |> ContinueChain |> Some
+    | SongImproved (band, _) ->
+        [ Composition.improveBandSkillsChance band ] |> ContinueChain |> Some
+    | SongPracticed (band, _) ->
+        [ Composition.improveBandSkillsChance band ] |> ContinueChain |> Some
+    | _ -> None

@@ -2,6 +2,7 @@ module Simulation.Events.Character.Character
 
 open Entities
 open Simulation
+open Simulation.Events
 
 /// Runs all the events associated with a character. For example, when the health
 /// of the character goes below a certain threshold we should hospitalize the
@@ -11,14 +12,20 @@ let internal run effect =
     | CharacterAttributeChanged (character, attribute, Diff (_, amount)) when
         attribute = CharacterAttribute.Health && amount < 10
         ->
-        [ Hospitalization.hospitalize character ]
+        BreakChain [ Hospitalization.hospitalize character ] |> Some
     | SongImproved _
     | SongStarted _ ->
-        [ Character.Attribute.addToPlayable CharacterAttribute.Energy -20 ]
+        ContinueChain
+            [ Character.Attribute.addToPlayable CharacterAttribute.Energy -20 ]
+        |> Some
     | SongPracticed _ ->
-        [ Character.Attribute.addToPlayable CharacterAttribute.Energy -10 ]
+        ContinueChain
+            [ Character.Attribute.addToPlayable CharacterAttribute.Energy -10 ]
+        |> Some
     | TimeAdvanced _ ->
-        [ Drunkenness.soberUpAfterTime
-          Drunkenness.reduceHealth
-          Hunger.reduceHealth ]
-    | _ -> []
+        ContinueChain
+            [ Drunkenness.soberUpAfterTime
+              Drunkenness.reduceHealth
+              Hunger.reduceHealth ]
+        |> Some
+    | _ -> None

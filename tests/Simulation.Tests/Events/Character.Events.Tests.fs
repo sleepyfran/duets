@@ -21,7 +21,7 @@ let lowCharacterHealthEffect state =
 let ``tick of low character health should generate health depleted`` () =
     let state = State.generateOne State.defaultOptions
 
-    Simulation.tick state (lowCharacterHealthEffect state)
+    Simulation.tickOne state (lowCharacterHealthEffect state)
     |> fst
     |> List.item 1
     |> should be (ofCase <@ CharacterHealthDepleted @>)
@@ -30,7 +30,7 @@ let ``tick of low character health should generate health depleted`` () =
 let ``tick of low character health should hospitalize character`` () =
     let state = State.generateOne State.defaultOptions
 
-    Simulation.tick state (lowCharacterHealthEffect state)
+    Simulation.tickOne state (lowCharacterHealthEffect state)
     |> fst
     |> List.item 2
     |> should be (ofCase <@ CharacterHospitalized @>)
@@ -48,7 +48,7 @@ let ``tick of low character health during concert should cancel concert`` () =
               Points = 0<quality> }
         |> State.Root.applyEffect state
 
-    Simulation.tick stateOnConcert (lowCharacterHealthEffect state)
+    Simulation.tickOne stateOnConcert (lowCharacterHealthEffect state)
     |> fst
     |> List.item 1
     |> should be (ofCase <@ ConcertCancelled @>)
@@ -59,7 +59,7 @@ let ``tick of low character health advances one week`` () =
 
     let oneWeekLater = Calendar.gameBeginning |> Calendar.Ops.addDays 7
 
-    Simulation.tick state (lowCharacterHealthEffect state)
+    Simulation.tickOne state (lowCharacterHealthEffect state)
     |> fst
     |> should contain (TimeAdvanced oneWeekLater)
 
@@ -68,7 +68,7 @@ let private assertAttributeChanged attribute amount effect =
 
     let character = Queries.Characters.playableCharacter state
 
-    Simulation.tick state effect
+    Simulation.tickOne state effect
     |> fst
     |> List.choose (fun effect ->
         match effect with
@@ -111,7 +111,7 @@ let ``tick of passing time should decrease character's drunkenness`` () =
     let oneDayMomentLater =
         Calendar.gameBeginning |> Calendar.Transform.changeDayMoment Morning
 
-    Simulation.tick stateAfterGettingDrunk (TimeAdvanced oneDayMomentLater)
+    Simulation.tickOne stateAfterGettingDrunk (TimeAdvanced oneDayMomentLater)
     |> fst
     |> should
         contain
@@ -141,7 +141,7 @@ let ``tick of passing time should decrease character's health when passing 85 in
 
     let expectedHealth = 100 + Config.LifeSimulation.drunkHealthReduceRate
 
-    Simulation.tick stateAfterGettingDrunk (TimeAdvanced oneDayMomentLater)
+    Simulation.tickOne stateAfterGettingDrunk (TimeAdvanced oneDayMomentLater)
     |> fst
     |> should
         contain

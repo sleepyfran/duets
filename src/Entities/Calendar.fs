@@ -26,6 +26,9 @@ let everyDay =
       DayOfWeek.Saturday
       DayOfWeek.Sunday ]
 
+module DayMoments =
+    let oneWeek = Calendar.allDayMoments |> List.length |> (*) 7<dayMoments>
+
 [<RequireQualifiedAccess>]
 module Ops =
     /// Adds the given number of days to the date.

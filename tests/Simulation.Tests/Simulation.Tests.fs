@@ -1,13 +1,14 @@
 module Simulation.Tests.Simulation
 
+open System
 open FsUnit
 open NUnit.Framework
+open Simulation.Time
 open Test.Common
 open Test.Common.Generators
 
 open Entities
 open Simulation
-open Simulation.Time.AdvanceTime
 
 let state = { dummyState with Today = dummyTodayMiddleOfYear }
 
@@ -25,39 +26,82 @@ let unfinishedSong = (UnfinishedSong dummySong, 10<quality>, 10<quality>)
 
 let songStartedEffect = SongStarted(dummyBand, unfinishedSong)
 
-let effectsWithTimeIncrease =
-    [ AlbumRecorded(dummyBand, dummyUnreleasedAlbum), 2<dayMoments>
-      ConcertFinished(dummyBand, dummyPastConcert, 0m<dd>), 1<dayMoments>
-      songStartedEffect, 1<dayMoments>
-      SongImproved(dummyBand, Diff(unfinishedSong, unfinishedSong)),
-      1<dayMoments>
-      SongPracticed(dummyBand, dummyFinishedSong), 1<dayMoments>
-      Wait 1<dayMoments>, 1<dayMoments> ]
-
 let checkTimeIncrease timeIncrease effects =
     effects
     |> should
         contain
-        (advanceDayMoment dummyTodayMiddleOfYear timeIncrease |> List.head)
+        (AdvanceTime.advanceDayMoment dummyTodayMiddleOfYear timeIncrease
+         |> List.head)
 
 [<Test>]
 let ``tick should apply the given effect`` () =
-    Simulation.tick state songStartedEffect
+    Simulation.tickOne state songStartedEffect
     |> fst
     |> should contain songStartedEffect
 
 [<Test>]
+let ``tick should apply multiple given effects`` () =
+    Simulation.tickMultiple state [ songStartedEffect; songStartedEffect ]
+    |> fst
+    |> List.filter (function
+        | SongStarted _ -> true
+        | _ -> false)
+    |> List.length
+    |> should equal 2
+
+[<Test>]
+let ``tick should gather and apply associated effects`` () =
+    AdvanceTime.advanceDayMoment' state 1<dayMoments>
+    |> Simulation.tickMultiple state
+    |> fst
+    |> should
+        equal
+        [ TimeAdvanced(DateTime(2021, 6, 20, 10, 0, 0))
+          CharacterAttributeChanged(
+              dummyCharacter.Id,
+              CharacterAttribute.Hunger,
+              Diff(100, 80)
+          ) ]
+
+[<Test>]
+let ``tick should stop the chain of effects when a BreakChain associated effect is raised``
+    ()
+    =
+    let stateToHospitalize =
+        [ CharacterAttributeChanged(
+              dummyCharacter.Id,
+              CharacterAttribute.Health,
+              Diff(100, 1)
+          )
+          CharacterAttributeChanged(
+              dummyCharacter.Id,
+              CharacterAttribute.Hunger,
+              Diff(100, 1)
+          ) ]
+        |> State.Root.applyEffects state
+
+    let skippedEffect =
+        CharacterAttributeChanged(
+            dummyCharacter.Id,
+            CharacterAttribute.Drunkenness,
+            Diff(0, 10)
+        )
+
+    let result =
+        [ yield! AdvanceTime.advanceDayMoment' state 1<dayMoments>
+          (* Break chain should happen after advancing the moment *)
+          skippedEffect ]
+        |> Simulation.tickMultiple stateToHospitalize
+        |> fst
+
+    result |> should not' (contain skippedEffect)
+
+[<Test>]
 let ``tick should not apply the given effect more than once`` () =
-    Simulation.tick state songStartedEffect
+    Simulation.tickOne state songStartedEffect
     |> fst
     |> List.filter (fun effect -> effect = songStartedEffect)
     |> should haveLength 1
-
-[<Test>]
-let ``tick should advance time by corresponding effect type`` () =
-    effectsWithTimeIncrease
-    |> List.iter (fun (effect, timeIncrease) ->
-        Simulation.tick state effect |> fst |> checkTimeIncrease timeIncrease)
 
 let filterDailyUpdateEffects effect =
     match effect with
@@ -74,7 +118,8 @@ let ``tick should update album streams every day`` () =
             dummyBand.Id
             (Album.Released.fromUnreleased dummyUnreleasedAlbum dummyToday 1.0)
 
-    Simulation.tick state songStartedEffect
+    AdvanceTime.advanceDayMoment' state 1<dayMoments>
+    |> Simulation.tickMultiple state
     |> fst
     |> List.filter filterDailyUpdateEffects
     |> should haveLength 2
@@ -85,7 +130,8 @@ let ``tick should update all scheduled concerts every day`` () =
         State.generateOne
             { State.defaultOptions with FutureConcertsToGenerate = 10 }
 
-    Simulation.tick state songStartedEffect
+    AdvanceTime.advanceDayMoment' state 1<dayMoments>
+    |> Simulation.tickMultiple state
     |> fst
     |> List.filter filterDailyUpdateEffects
     |> should haveLength 10
@@ -94,7 +140,7 @@ let ``tick should update all scheduled concerts every day`` () =
 let ``tick should not update album streams or concerts if morning has passed``
     ()
     =
-    Simulation.tick stateInMorning songStartedEffect
+    Simulation.tickOne stateInMorning songStartedEffect
     |> fst
     |> List.filter filterDailyUpdateEffects
     |> should haveLength 0
@@ -106,12 +152,14 @@ let filterMarketUpdateEffects effect =
 
 [<Test>]
 let ``tick should update markets every year in the dawn`` () =
-    Simulation.tick stateInMidnightBeforeGameStart songStartedEffect
+    AdvanceTime.advanceDayMoment' stateInMidnightBeforeGameStart 1<dayMoments>
+    |> Simulation.tickMultiple stateInMidnightBeforeGameStart
     |> fst
     |> List.filter filterMarketUpdateEffects
     |> should haveLength 1
 
-    Simulation.tick dummyState songStartedEffect
+    AdvanceTime.advanceDayMoment' dummyState 1<dayMoments>
+    |> Simulation.tickMultiple dummyState
     |> fst
     |> List.filter filterMarketUpdateEffects
     |> should haveLength 0
@@ -133,7 +181,8 @@ let ``tick should check for failed concerts in every time update`` () =
     let stateAfterConcert =
         TimeAdvanced dateAfterConcert |> State.Root.applyEffect state
 
-    Simulation.tick stateAfterConcert songStartedEffect
+    AdvanceTime.advanceDayMoment' stateAfterConcert 1<dayMoments>
+    |> Simulation.tickMultiple stateAfterConcert
     |> fst
     |> List.filter (fun effect ->
         match effect with

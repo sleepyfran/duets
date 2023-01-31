@@ -4,6 +4,7 @@ open Common
 open Entities
 open Entities.SituationTypes
 open Simulation
+open Simulation.Time
 
 /// Hospitalizes the given character, cancelling any activity that they are doing
 /// in the current moment.
@@ -32,12 +33,10 @@ let hospitalize characterId state =
         |> List.head (* We need at least one hospital in the city. *)
         |> Tuple.two currentCity.Id
 
-    let oneWeekLater = Queries.Calendar.today state |> Calendar.Ops.addDays 7
-
     concertCancellationEffects
     @ [ CharacterHealthDepleted characterId
         CharacterHospitalized(characterId, hospitalCoordinates)
-        TimeAdvanced oneWeekLater
+        yield! AdvanceTime.advanceDayMoment' state Calendar.DayMoments.oneWeek
         CharacterAttributeChanged(
             characterId,
             CharacterAttribute.Health,

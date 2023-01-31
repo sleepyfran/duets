@@ -91,6 +91,7 @@
         <Compile Include="Songs\Composition\FinishSong.fs"/>
         <Compile Include="Songs\Composition\DiscardSong.fs"/>
         <Compile Include="Shop\Shop.fs"/>
+        <Compile Include="Events\Types.fs"/>
         <Compile Include="Events\Character\Hospitalization.fs"/>
         <Compile Include="Events\Character\Drunkenness.fs"/>
         <Compile Include="Events\Character\Hunger.fs"/>
