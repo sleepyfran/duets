@@ -13,17 +13,16 @@ open Simulation.Songs.Practice
 module PracticeSongCommand =
     let private showPracticeSong practiceSongResult =
         match practiceSongResult with
-        | SongImproved effect ->
+        | SongImproved effects ->
             showProgressBarAsync
                 [ Rehearsal.practiceSongProgressLosingTime
                   Rehearsal.practiceSongProgressTryingSoloOnceMore
                   Rehearsal.practiceSongProgressGivingUp ]
                 2<second>
 
-            Cli.Effect.apply effect
+            Cli.Effect.applyMultiple effects
         | SongAlreadyImprovedToMax (FinishedSong song, _) ->
-            Rehearsal.practiceSongAlreadyImprovedToMax song.Name
-            |> showMessage
+            Rehearsal.practiceSongAlreadyImprovedToMax song.Name |> showMessage
 
     /// Command to practice a finished song.
     let create finishedSongs =
@@ -46,7 +45,9 @@ module PracticeSongCommand =
                         finishedSongs
 
                 match selectedSong with
-                | Some song -> practiceSong currentBand song |> showPracticeSong
+                | Some song ->
+                    practiceSong (State.get ()) currentBand song
+                    |> showPracticeSong
                 | None -> ()
 
                 Scene.World) }

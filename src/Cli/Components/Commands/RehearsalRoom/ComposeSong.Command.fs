@@ -47,8 +47,7 @@ module ComposeSongCommand =
                 Data.VocalStyles.allNames
             |> fst
 
-        Song.from name length vocalStyle genre
-        |> composeWithProgressbar
+        Song.from name length vocalStyle genre |> composeWithProgressbar
 
     and private composeWithProgressbar song =
         let state = State.get ()
@@ -59,10 +58,9 @@ module ComposeSongCommand =
               Rehearsal.composeSongProgressTryingChords ]
             2<second>
 
-        Rehearsal.composeSongConfirmation song.Name
-        |> showMessage
+        Rehearsal.composeSongConfirmation song.Name |> showMessage
 
-        composeSong state song |> Cli.Effect.apply
+        composeSong state song |> Cli.Effect.applyMultiple
 
     /// Command to compose a new song.
     let get =

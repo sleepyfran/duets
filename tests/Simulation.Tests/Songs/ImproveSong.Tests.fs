@@ -27,18 +27,17 @@ let createSongImprovedEffect max prev current =
     )
 
 [<Test>]
-let ``Should improve song if it's possible and return CanBeImproved`` () =
+let ``Should improve song if it's possible, return CanBeImproved and advance one day moment`` () =
     let song = lastUnfinishedSong dummyBand state
 
-    improveSong dummyBand song
-    |> fun status ->
-        match status with
-        | (CanBeImproved, effects) -> effects
-        | _ -> invalidOp "Unexpected status"
-    |> should equal [ createSongImprovedEffect 35 7 14 ]
+    let result = improveSong dummyState dummyBand song
+
+    fst result |> should be (ofCase <@ CanBeImproved @>)
+    snd result |> should contain (createSongImprovedEffect 35 7 14)
+    snd result |> should contain (TimeAdvanced(dummyTodayOneDayMomentAfter))
 
 [<Test>]
-let ``Should improve for one last time if possible and return ReachedMaxQualityInLastImprovement``
+let ``Should improve for one last time if possible, return ReachedMaxQualityInLastImprovement and advance one day moment``
     ()
     =
     let updatedState =
@@ -47,14 +46,13 @@ let ``Should improve for one last time if possible and return ReachedMaxQualityI
             (UnfinishedSong dummySong, 35<quality>, 28<quality>)
             dummyState
 
-    let song =
-        lastUnfinishedSong dummyBand updatedState
+    let song = lastUnfinishedSong dummyBand updatedState
 
-    improveSong dummyBand song
-    |> should
-        equal
-        (ReachedMaxQualityInLastImprovement,
-         [ createSongImprovedEffect 35 28 35 ])
+    let result = improveSong updatedState dummyBand song
+
+    fst result |> should be (ofCase <@ ReachedMaxQualityInLastImprovement @>)
+    snd result |> should contain (createSongImprovedEffect 35 28 35)
+    snd result |> should contain (TimeAdvanced(dummyTodayOneDayMomentAfter))
 
 [<Test>]
 let ``Should not allow improvement if it already reached max quality and return ReachedMaxQualityAlready``
@@ -66,13 +64,9 @@ let ``Should not allow improvement if it already reached max quality and return 
             (UnfinishedSong dummySong, 35<quality>, 35<quality>)
             dummyState
 
-    let song =
-        lastUnfinishedSong dummyBand updatedState
+    let song = lastUnfinishedSong dummyBand updatedState
 
-    let result = improveSong dummyBand song
+    let result = improveSong dummyState dummyBand song
 
-    result
-    |> fst
-    |> should be (ofCase (<@ ReachedMaxQualityAlready @>))
-
-    result |> snd |> should haveLength 0
+    fst result |> should be (ofCase (<@ ReachedMaxQualityAlready @>))
+    snd result |> should haveLength 0

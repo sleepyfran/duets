@@ -56,6 +56,9 @@ let dummyRecordedSongWithLength length =
 
 let dummyToday = Calendar.gameBeginning
 
+let dummyTodayOneDayMomentAfter =
+    dummyToday |> Calendar.Transform.changeDayMoment Morning
+
 let dummyTodayMiddleOfYear =
     June 20 2021 |> Calendar.Transform.changeDayMoment EarlyMorning
 

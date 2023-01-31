@@ -15,33 +15,46 @@ let dummyFinishedWithPracticeLevel practice =
 let ``practiceSong should generate SongPracticed with increase if practice level is below 100``
     ()
     =
-    practiceSong dummyBand dummyFinishedSong
-    |> should
-        equal
-        (SongImproved(
-            SongPracticed(
+    let result = practiceSong dummyState dummyBand dummyFinishedSong
+
+    match result with
+    | SongImproved effects ->
+        effects
+        |> should
+            contain
+            (SongPracticed(
                 dummyBand,
                 dummyFinishedWithPracticeLevel 20<practice>
-            )
-        ))
+            ))
+    | _ -> failwith "Unexpected result"
 
 [<Test>]
 let ``practiceSong should allow practice level to get to 100`` () =
-    practiceSong dummyBand (dummyFinishedWithPracticeLevel 80<practice>)
-    |> should
-        equal
-        (SongImproved(
-            SongPracticed(
+    let result =
+        practiceSong
+            dummyState
+            dummyBand
+            (dummyFinishedWithPracticeLevel 80<practice>)
+
+    match result with
+    | SongImproved effects ->
+        effects
+        |> should
+            contain
+            (SongPracticed(
                 dummyBand,
                 dummyFinishedWithPracticeLevel 100<practice>
-            )
-        ))
+            ))
+    | _ -> failwith "Unexpected result"
 
 [<Test>]
 let ``practiceSong should return SongAlreadyImprovedToMax if level is already 100 or more``
     ()
     =
-    practiceSong dummyBand (dummyFinishedWithPracticeLevel 100<practice>)
+    practiceSong
+        dummyState
+        dummyBand
+        (dummyFinishedWithPracticeLevel 100<practice>)
     |> should
         equal
         (SongAlreadyImprovedToMax(dummyFinishedWithPracticeLevel 100<practice>))

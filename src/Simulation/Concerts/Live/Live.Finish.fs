@@ -5,6 +5,7 @@ open Entities
 open Entities.SituationTypes
 open Simulation
 open Simulation.Bank
+open Simulation.Time
 
 let private calculateFanGain ongoingConcert =
     match ongoingConcert.Points with
@@ -44,4 +45,5 @@ let finishConcert state ongoingConcert =
       )
       BandFansChanged(band, Diff(band.Fans, updatedFans))
       Operations.income state bandAccount concertEarnings
+      yield! AdvanceTime.advanceDayMoment' state 1<dayMoments>
       SituationChanged FreeRoam ]

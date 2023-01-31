@@ -3,6 +3,7 @@ module Simulation.Songs.Composition.ComposeSong
 open Common
 open Simulation.Queries
 open Entities
+open Simulation.Time
 
 /// Orchestrates the song composition, which calculates the qualities of a song
 /// and adds them with the song to the band's unfinished songs.
@@ -12,6 +13,10 @@ let composeSong state song =
 
     let initialQuality = calculateQualityIncreaseOf maximumQuality
 
-    (UnfinishedSong song, maximumQuality, initialQuality)
-    |> Tuple.two band
-    |> SongStarted
+    let songStartedEffect =
+        (UnfinishedSong song, maximumQuality, initialQuality)
+        |> Tuple.two band
+        |> SongStarted
+
+    [ songStartedEffect
+      yield! AdvanceTime.advanceDayMoment' state 1<dayMoments> ]

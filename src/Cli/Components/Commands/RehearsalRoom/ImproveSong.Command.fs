@@ -20,11 +20,9 @@ module ImproveSongCommand =
             showImprovingProgress ()
             List.iter Cli.Effect.apply effects
 
-            Rehearsal.improveSongReachedMaxQuality
-            |> showMessage
+            Rehearsal.improveSongReachedMaxQuality |> showMessage
         | ReachedMaxQualityAlready, _ ->
-            Rehearsal.improveSongReachedMaxQuality
-            |> showMessage
+            Rehearsal.improveSongReachedMaxQuality |> showMessage
 
     and private showImprovingProgress () =
         showProgressBarAsync
@@ -55,7 +53,9 @@ module ImproveSongCommand =
                         unfinishedSongs
 
                 match selectedSong with
-                | Some song -> improveSong currentBand song |> showImproveSong
+                | Some song ->
+                    improveSong (State.get ()) currentBand song
+                    |> showImproveSong
                 | None -> ()
 
                 Scene.World) }

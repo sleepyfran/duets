@@ -5,6 +5,7 @@ open Simulation
 open Simulation.Calendar
 open Simulation.Character
 open Simulation.Market
+open Simulation.Time
 
 let private runYearlyEffects time state =
     if Calendar.Query.isFirstMomentOfYear time then
@@ -36,5 +37,8 @@ let internal run effect =
         |> ContinueChain
         |> Some
     | Wait times ->
-        [ AttributeChange.applyAfterWait times ] |> ContinueChain |> Some
+        [ fun state -> AdvanceTime.advanceDayMoment' state times
+          AttributeChange.applyAfterWait times ]
+        |> ContinueChain
+        |> Some
     | _ -> None

@@ -10,13 +10,22 @@ open Simulation.Songs.Composition.ComposeSong
 [<Test>]
 let ``composeSong should generate a SongStarted effect`` () =
     composeSong dummyState dummySong
+    |> List.head
     |> should
         be
         (ofCase
-            <@ SongStarted(
-                dummyBand,
-                (UnfinishedSong dummySong, 5<quality>, 1<quality>)
-            ) @>)
+            <@
+                SongStarted(
+                    dummyBand,
+                    (UnfinishedSong dummySong, 5<quality>, 1<quality>)
+                )
+            @>)
+
+[<Test>]
+let ``composeSong should advance time 1 day moment`` () =
+    composeSong dummyState dummySong
+    |> List.item 1
+    |> should be (ofCase <@ TimeAdvanced(dummyTodayOneDayMomentAfter) @>)
 
 [<Test>]
 let ``Qualities are calculated based on member skills`` () =
@@ -30,6 +39,7 @@ let ``Qualities are calculated based on member skills`` () =
             (Skill.createWithLevel (SkillId.Genre dummyBand.Genre) 50)
 
     composeSong state dummySong
+    |> List.head
     |> should
         equal
         (SongStarted(
@@ -56,6 +66,7 @@ let ``Qualities should be calculated based on members skills but never go above 
         |> addSkillsTo dummyCharacter3 skills
 
     composeSong state dummySong
+    |> List.head
     |> should
         equal
         (SongStarted(
