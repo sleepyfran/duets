@@ -16,20 +16,22 @@ module EditAlbumNameCommand =
 
         let currentBand = Queries.Bands.currentBand state
 
-        showChoicePrompt
-            Studio.continueRecordPrompt
+        showOptionalChoicePrompt
+            "Which album do you want to edit?"
+            Generic.cancel
             (fun (UnreleasedAlbum album) -> album.Name)
             unreleasedAlbums
-        |> promptForAlbumName currentBand
+        |> Option.iter (promptForAlbumName currentBand)
 
     and private promptForAlbumName band album =
         let name = showTextPrompt Studio.createRecordName
 
         Album.validateName name
         |> Result.switch
-            (fun name -> renameAlbum band album name |> Cli.Effect.apply)
-            (Studio.showAlbumNameError
-             >> fun _ -> promptForAlbumName band album)
+            (fun name ->
+                renameAlbum band album name |> Cli.Effect.apply
+                $"Album renamed to {name}" |> Styles.success |> showMessage)
+            (Studio.showAlbumNameError >> fun _ -> promptForAlbumName band album)
 
     /// Command to edit the name of an unreleased album.
     let create unreleasedAlbums =

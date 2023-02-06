@@ -207,8 +207,10 @@ let dateWithDay date =
 let dateWithDayMoment date dayMoment =
     $"{dateWithDay date} {dayMomentName dayMoment |> Styles.faded}"
 
-let songWithDetails name quality length =
-    $"""{name} (Quality: {Styles.Level.from quality}%%, Length: {length.Minutes}:{length.Seconds})"""
+let length l = $"{l.Minutes}:{l.Seconds}"
+
+let songWithDetails name (quality: Quality) songLength =
+    $"""{name} (Quality: {Styles.Level.from quality}%%, Length: {length songLength})"""
 
 let instrument instrumentType = instrumentName instrumentType
 let role instrumentType = roleName instrumentType

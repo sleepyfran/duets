@@ -24,7 +24,7 @@ let ``AlbumRecorded should add an unreleased album and remove all track list fro
     |> should haveCount 1
 
     let state =
-        AlbumRecorded(dummyBand, dummyUnreleasedAlbum)
+        AlbumStarted(dummyBand, dummyUnreleasedAlbum)
         |> State.Root.applyEffect state
 
     Albums.unreleasedByBand state dummyBand.Id
@@ -38,11 +38,11 @@ let ``AlbumRenamed should remove replace album with same with different name``
     ()
     =
     let state =
-        AlbumRecorded(dummyBand, dummyUnreleasedAlbum)
+        AlbumStarted(dummyBand, dummyUnreleasedAlbum)
         |> State.Root.applyEffect dummyState
 
     let state =
-        AlbumRenamed(
+        AlbumUpdated(
             dummyBand,
             UnreleasedAlbum { dummyAlbum with Name = "Test." }
         )
@@ -55,7 +55,7 @@ let ``AlbumRenamed should remove replace album with same with different name``
 [<Test>]
 let ``AlbumReleased should remove unreleased album and add it as released`` () =
     let state =
-        AlbumRecorded(dummyBand, dummyUnreleasedAlbum)
+        AlbumStarted(dummyBand, dummyUnreleasedAlbum)
         |> State.Root.applyEffect dummyState
 
     let state =

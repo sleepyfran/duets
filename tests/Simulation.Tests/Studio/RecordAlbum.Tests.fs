@@ -11,26 +11,11 @@ open Simulation.Studio.RecordAlbum
 
 [<Test>]
 let ``recordAlbum should fail if the band does not have enough money`` () =
-    Album.Unreleased.from "Simple Math" [ dummyRecordedSong ]
-    |> recordAlbum dummyState dummyStudio dummyBand
+    startAlbum dummyState dummyStudio dummyBand "Simple Math" dummyRecordedSong
     |> Result.unwrapError
     |> should be (ofCase <@ NotEnoughFunds(200m<dd>) @>)
 
-let state =
-    addFunds dummyBandBankAccount.Holder 40000m<dd> dummyState
-
-[<Test>]
-let ``recordAlbum should create album if parameters are correct`` () =
-    Album.Unreleased.from "Black Brick" [ dummyRecordedSong ]
-    |> recordAlbum state dummyStudio dummyBand
-    |> Result.unwrap
-    |> fun ((UnreleasedAlbum album), _) ->
-        album.Name |> should equal "Black Brick"
-
-        album.TrackList
-        |> should equal [ dummyRecordedSong ]
-
-        album.Type |> should be (ofCase <@ Single @>)
+let state = addFunds dummyBandBankAccount.Holder 40000m<dd> dummyState
 
 [<Test>]
 let ``recordAlbum should add 20% of the producer's skill to each song in the track list``
@@ -42,12 +27,22 @@ let ``recordAlbum should add 20% of the producer's skill to each song in the tra
             dummyCharacter
             (Skill.createWithLevel SkillId.MusicProduction 75)
 
-    Album.Unreleased.from "Infinite Granite" [ dummyRecordedSong ]
-    |> recordAlbum state dummyStudio dummyBand
-    |> Result.unwrap
-    |> fun ((UnreleasedAlbum album), _) ->
-        album.TrackList
-        |> List.iter (fun (_, quality) -> quality |> should equal 65<quality>)
+    let (UnreleasedAlbum album) =
+        startAlbum
+            state
+            dummyStudio
+            dummyBand
+            "Infinite Granite"
+            dummyRecordedSong
+        |> Result.unwrap
+        |> List.choose (fun eff ->
+            match eff with
+            | AlbumStarted (_, unreleasedAlbum) -> Some unreleasedAlbum
+            | _ -> None)
+        |> List.head
+
+    album.TrackList
+    |> List.iter (fun (_, quality) -> quality |> should equal 65<quality>)
 
 [<Test>]
 let ``recordAlbum should not add producer's skill if quality is already 100``
@@ -59,36 +54,33 @@ let ``recordAlbum should not add producer's skill if quality is already 100``
             dummyCharacter
             (Skill.createWithLevel SkillId.MusicProduction 100)
 
-    let song =
-        RecordedSong(FinishedSong dummySong, 100<quality>)
+    let song = RecordedSong(FinishedSong dummySong, 100<quality>)
 
-    Album.Unreleased.from "Infinite Granite" [ RecordedSong song ]
-    |> recordAlbum state dummyStudio dummyBand
-    |> Result.unwrap
-    |> fun ((UnreleasedAlbum album), _) ->
-        album.TrackList
-        |> List.iter (fun (_, quality) -> quality |> should equal 100<quality>)
+    let (UnreleasedAlbum album) =
+        startAlbum state dummyStudio dummyBand "Infinite Granite" song
+        |> Result.unwrap
+        |> List.choose (fun eff ->
+            match eff with
+            | AlbumStarted (_, unreleasedAlbum) -> Some unreleasedAlbum
+            | _ -> None)
+        |> List.head
+
+    album.TrackList
+    |> List.iter (fun (_, quality) -> quality |> should equal 100<quality>)
 
 [<Test>]
 let ``recordAlbum should generate AlbumRecorded and MoneyTransferred`` () =
     let albumTitle = "Black Brick"
-    let albumTrackList = [ dummyRecordedSong ]
 
-    let album =
-        Album.from albumTitle albumTrackList
-
-    Album.Unreleased.from albumTitle albumTrackList
-    |> recordAlbum state dummyStudio dummyBand
+    startAlbum state dummyStudio dummyBand albumTitle dummyRecordedSong
     |> Result.unwrap
-    |> fun (_, effects) ->
-        effects |> should haveLength 2
+    |> fun effects ->
+        effects |> should haveLength 4
 
-        List.head effects
-        |> should
-            be
-            (ofCase <@ AlbumRecorded(dummyBand, UnreleasedAlbum album) @>)
+        effects |> List.item 2 |> should be (ofCase <@ AlbumStarted @>)
 
-        List.item 1 effects
+        effects
+        |> List.item 3
         |> should
             be
             (ofCase

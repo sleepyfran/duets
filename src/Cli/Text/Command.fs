@@ -16,9 +16,6 @@ let adjustDrumsDescription =
 let bassSoloDescription =
     "Allows you to play a bass solo and remind people that you are on stage"
 
-let createAlbumDescription =
-    "Allows you to record one or more finished songs to create and release an album"
-
 let composeSongDescription = "Allows you to create a new song"
 
 let disabledNotEnoughEnergy _ =

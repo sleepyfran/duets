@@ -137,8 +137,12 @@ module InteractionTypes =
     type StudioInteraction =
         /// Allows to create and record a new album.
         | CreateAlbum of studio: Studio * songs: FinishedSongWithQuality list
-        /// Allows to edit the name of a previously recorded album.
+        /// Allows to record another song for a previously created album.
+        | AddSongToAlbum of studio: Studio * unreleasedAlbums: UnreleasedAlbum list * songs: FinishedSongWithQuality list
+        /// Allows to edit the name of a previously created album.
         | EditAlbumName of albums: UnreleasedAlbum list
+        /// Allows to list all the unreleased albums.
+        | ListUnreleasedAlbums of albums: UnreleasedAlbum list
         /// Allows to release a previously recorded album.
         | ReleaseAlbum of albums: UnreleasedAlbum list
 

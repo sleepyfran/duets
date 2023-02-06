@@ -19,10 +19,11 @@ module ReleaseAlbumCommand =
 
                 let currentBand = Queries.Bands.currentBand state
 
-                showChoicePrompt
-                    Studio.continueRecordPrompt
+                showOptionalChoicePrompt
+                    "Which album do you want to release?"
+                    Generic.cancel
                     (fun (UnreleasedAlbum album) -> album.Name)
                     unreleasedAlbums
-                |> Studio.promptToReleaseAlbum currentBand
+                |> Option.iter (Studio.promptToReleaseAlbum currentBand)
 
                 Scene.World) }

@@ -123,8 +123,12 @@ let private commandsFromInteractions interactions =
             match studioInteraction with
             | StudioInteraction.CreateAlbum (studio, finishedSongs) ->
                 [ CreateAlbumCommand.create studio finishedSongs ]
+            | StudioInteraction.AddSongToAlbum (studio, albums, finishedSongs) ->
+                [ RecordSongCommand.create studio albums finishedSongs ]
             | StudioInteraction.EditAlbumName unreleasedAlbums ->
                 [ EditAlbumNameCommand.create unreleasedAlbums ]
+            | StudioInteraction.ListUnreleasedAlbums unreleasedAlbums ->
+                [ ListUnreleasedAlbumsCommand.create unreleasedAlbums ]
             | StudioInteraction.ReleaseAlbum unreleasedAlbums ->
                 [ ReleaseAlbumCommand.create unreleasedAlbums ]
         |> List.map (Tuple.two interactionWithState.State))

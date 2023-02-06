@@ -31,10 +31,6 @@ let private digest effects state =
 
 let private displayEffect effect =
     match effect with
-    | AlbumRecorded (_, UnreleasedAlbum album) ->
-        Studio.createAlbumRecorded album.Name |> showMessage
-    | AlbumRenamed (_, UnreleasedAlbum album) ->
-        Studio.continueRecordAlbumRenamed album.Name |> showMessage
     | AlbumReleased (_, releasedAlbum) ->
         Studio.commonAlbumReleased releasedAlbum.Album.Name |> showMessage
     | CharacterAttributeChanged (_, attr, Diff (previous, current)) ->

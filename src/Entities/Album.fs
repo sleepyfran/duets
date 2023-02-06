@@ -6,7 +6,7 @@ open FSharp.Data.UnitSystems.SI.UnitNames
 let private twentyFiveMinutes = 25 * 60<second>
 
 /// Determines the length of the given track list.
-let length trackList =
+let lengthInSeconds trackList =
     List.fold
         (fun albumLength ((FinishedSong s), _) ->
             albumLength + Time.Length.inSeconds s.Length)
@@ -26,7 +26,7 @@ let recordType trackList =
     else if List.length trackList = 1 then
         Ok Single
     else
-        match length trackList with
+        match lengthInSeconds trackList with
         | l when l <= twentyFiveMinutes -> Ok EP
         | _ -> Ok LP
 
@@ -38,14 +38,20 @@ let validateName name =
     | l when l > 100 -> Error NameTooLong
     | _ -> Ok name
 
-/// Creates an album given its name and the list of songs that define the track
-/// list.
-let from (name: string) (trackList: RecordedSong list) =
+/// Creates an album given its name and the initial song of the track-list.
+let from name initialSong =
     { Id = AlbumId <| Identity.create ()
       Name = name
-      TrackList = trackList
-      // We've already validated the track list before.
-      Type = recordType trackList |> Result.unwrap }
+      TrackList = [ initialSong ]
+      Type = Single }
+
+/// Adds the given song to the album and recomputes the album type.
+let addSong song album =
+    let updatedTrackList = album.TrackList @ [ song ]
+
+    { album with
+        TrackList = updatedTrackList
+        Type = recordType updatedTrackList |> Result.unwrap }
 
 /// Returns the inner album of an unreleased album.
 let fromUnreleased (UnreleasedAlbum album) = album

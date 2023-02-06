@@ -35,7 +35,6 @@
         <Compile Include="Queries\Interactions\Interactions.RehearsalSpace.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Studio.fs"/>
         <Compile Include="Queries\Interactions\Interactions.fs"/>
-        <Compile Include="State\Albums.fs"/>
         <Compile Include="State\Bank.fs"/>
         <Compile Include="State\Characters.fs"/>
         <Compile Include="State\Calendar.fs"/>
@@ -44,6 +43,7 @@
         <Compile Include="State\Career.fs"/>
         <Compile Include="State\Market.fs"/>
         <Compile Include="State\Songs.fs"/>
+        <Compile Include="State\Albums.fs"/>
         <Compile Include="State\Inventory.fs"/>
         <Compile Include="State\Bands.fs"/>
         <Compile Include="State\Skills.fs"/>

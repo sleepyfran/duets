@@ -14,7 +14,7 @@ open Simulation.Studio.RecordAlbum
 [<RequireQualifiedAccess>]
 module CreateAlbumCommand =
     let rec private promptForName studio finishedSongs =
-        showTextPrompt (Studio.createRecordName)
+        showTextPrompt Studio.createRecordName
         |> Album.validateName
         |> Result.switch
             (promptForTrackList studio finishedSongs)
@@ -22,43 +22,37 @@ module CreateAlbumCommand =
              >> fun _ -> promptForName studio finishedSongs)
 
     and private promptForTrackList studio finishedSongs name =
-        let state = State.get ()
-        let band = Queries.Bands.currentBand state
-
-        showMultiChoicePrompt
+        showOptionalChoicePrompt
             Studio.createTrackListPrompt
-            (fun ((FinishedSong fs), currentQuality) ->
+            Generic.cancel
+            (fun (FinishedSong fs, currentQuality) ->
                 Generic.songWithDetails fs.Name currentQuality fs.Length)
             finishedSongs
-        |> promptForConfirmation studio band name
+        |> Option.iter (promptForConfirmation studio finishedSongs name)
 
-    and private promptForConfirmation studio band name selectedSongs =
-        let album = Album.Unreleased.from name selectedSongs
-
-        let (UnreleasedAlbum unreleasedAlbum) = album
+    and private promptForConfirmation studio finishedSongs name selectedSong =
+        let FinishedSong fs, _ = selectedSong
 
         let confirmed =
-            showConfirmationPrompt (
-                Studio.confirmRecordingPrompt
-                    unreleasedAlbum.Name
-                    unreleasedAlbum.Type
-            )
+            Studio.confirmRecordingPrompt fs.Name |> showConfirmationPrompt
 
         if confirmed then
-            checkBankAndRecordAlbum studio band album
+            checkBankAndRecordAlbum studio name selectedSong
         else
-            ()
+            promptForTrackList studio finishedSongs name
 
-    and private checkBankAndRecordAlbum studio band album =
+    and private checkBankAndRecordAlbum studio albumName selectedSong =
         let state = State.get ()
 
-        match recordAlbum state studio band album with
-        | Error (NotEnoughFunds studioBill) ->
-            Studio.createErrorNotEnoughMoney (studioBill)
-            |> showMessage
-        | Ok (album, effects) -> recordWithProgressBar studio band album effects
+        let band = Queries.Bands.currentBand state
+        let result = startAlbum state studio band albumName selectedSong
 
-    and private recordWithProgressBar _ band album effects =
+        match result with
+        | Ok effects -> recordWithProgressBar albumName effects
+        | Error (NotEnoughFunds studioBill) ->
+            Studio.createErrorNotEnoughMoney studioBill |> showMessage
+
+    and private recordWithProgressBar albumName effects =
         showProgressBarAsync
             [ Studio.createProgressEatingSnacks
               Studio.createProgressRecordingWeirdSounds
@@ -66,13 +60,13 @@ module CreateAlbumCommand =
             3<second>
 
         List.iter Cli.Effect.apply effects
-
-        Studio.promptToReleaseAlbum band album
+        Studio.createAlbumRecorded albumName |> showMessage
 
     /// Command to create a new album and potentially release.
     let create studio finishedSongs =
         { Name = "create album"
-          Description = Command.createAlbumDescription
+          Description =
+            "Allows you to create a new album and record a song for it"
           Handler =
             (fun _ ->
                 if List.isEmpty finishedSongs then

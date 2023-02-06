@@ -26,6 +26,6 @@ let ``renameAlbum should generate AlbumRenamed effect`` () =
     renameAlbum dummyBand dummyUnreleasedAlbum "Great Mass Of Color"
     |> fun effect ->
         match effect with
-        | AlbumRenamed (_, UnreleasedAlbum album) ->
+        | AlbumUpdated (_, UnreleasedAlbum album) ->
             album.Name |> should equal "Great Mass Of Color"
         | _ -> raise <| invalidOp "Not possible"

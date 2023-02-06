@@ -69,7 +69,7 @@ let dummyBandBankAccount = BankAccount.forBand dummyBand.Id
 let dummyTargetBankAccount =
     BankAccount.forCharacter (CharacterId(Identity.create ()))
 
-let dummyAlbum = Album.from "Test Album" [ dummyRecordedSong ]
+let dummyAlbum = Album.from "Test Album" dummyRecordedSong
 
 let dummyUnreleasedAlbum = UnreleasedAlbum dummyAlbum
 

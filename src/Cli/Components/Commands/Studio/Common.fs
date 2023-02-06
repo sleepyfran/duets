@@ -17,14 +17,15 @@ module Studio =
 
     /// Shows a prompt that asks the user if they want to release an album and
     /// handles the release.
-    let rec promptToReleaseAlbum band unreleasedAlbum =
+    let promptToReleaseAlbum band unreleasedAlbum =
         let (UnreleasedAlbum album) = unreleasedAlbum
 
         let state = State.get ()
 
         let confirmed =
-            showConfirmationPrompt (Studio.commonPromptReleaseAlbum album.Name)
+            showConfirmationPrompt (
+                Studio.commonPromptReleaseAlbum album.Name album.Type
+            )
 
         if confirmed then
-            releaseAlbum state band unreleasedAlbum
-            |> Cli.Effect.apply
+            releaseAlbum state band unreleasedAlbum |> Cli.Effect.apply

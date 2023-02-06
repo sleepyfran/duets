@@ -6,22 +6,15 @@ open Entities
 /// Applies an effect to the state.
 let applyEffect state effect =
     match effect with
-    | AlbumRecorded (band, album) ->
-        let modifiedState = Albums.addUnreleased band album state
-
-        let (UnreleasedAlbum ua) = album
-
-        ua.TrackList
-        |> List.map (fun (FinishedSong fs, _) -> fs.Id)
-        |> List.fold
-            (fun currentState song ->
-                Songs.removeFinished band song currentState)
-            modifiedState
-    | AlbumRenamed (band, unreleasedAlbum) ->
+    | AlbumStarted (band, album) ->
+        Albums.addUnreleased band album state
+        |> Albums.removeTrackListFromFinishedSongs band album
+    | AlbumUpdated (band, unreleasedAlbum) ->
         let (UnreleasedAlbum album) = unreleasedAlbum
 
         Albums.removeUnreleased band album.Id state
         |> Albums.addUnreleased band unreleasedAlbum
+        |> Albums.removeTrackListFromFinishedSongs band unreleasedAlbum
     | AlbumReleased (band, releasedAlbum) ->
         let album = releasedAlbum.Album
 

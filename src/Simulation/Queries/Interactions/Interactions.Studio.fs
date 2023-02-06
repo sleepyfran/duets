@@ -23,7 +23,17 @@ module Studio =
           |> Interaction.Studio
           if hasUnreleasedAlbums then
               yield!
-                  [ StudioInteraction.EditAlbumName unreleasedAlbums
+                  [ StudioInteraction.AddSongToAlbum(
+                        studio,
+                        unreleasedAlbums,
+                        finishedSongs
+                    )
+                    |> Interaction.Studio
+
+                    StudioInteraction.EditAlbumName unreleasedAlbums
+                    |> Interaction.Studio
+
+                    StudioInteraction.ListUnreleasedAlbums unreleasedAlbums
                     |> Interaction.Studio
 
                     StudioInteraction.ReleaseAlbum unreleasedAlbums
