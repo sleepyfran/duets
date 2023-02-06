@@ -254,9 +254,8 @@ let itemNameWithDetail (item: Item) =
         | Chips mg -> $"""{Styles.item "Chips"} ({mg} mg)"""
         | Fries mg -> $"""{Styles.item "Fries"} ({mg} mg)"""
         | Nachos mg -> $"""{Styles.item "Nachos"} ({mg} mg)"""
-        | Gyozas pieces
-        | NemCuon pieces ->
-            $"""{Styles.item item.Brand} ({pieces} {simplePluralOf "piece" pieces})"""
+        | Gyozas mg
+        | NemCuon mg -> $"""{Styles.item item.Brand} ({mg} mg)"""
         | BunBo mg
         | PhoBo mg
         | Ramen mg
