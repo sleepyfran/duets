@@ -25,10 +25,12 @@ let workShift state (job: Job) =
 
     let characterAccount = Queries.Bank.playableCharacterAccount state
 
-    let shiftPay =
+    let shiftSalary =
         job.CurrentStage.BaseSalaryPerDayMoment * decimal shiftDayMoments
-        |> income state characterAccount
+
+    let shiftPay = shiftSalary |> income state characterAccount
 
     let attributeEffects = workAttributeChange state job
 
-    [ yield! timeEffects; yield shiftPay; yield! attributeEffects ]
+    (shiftSalary,
+     [ yield! timeEffects; yield shiftPay; yield! attributeEffects ])

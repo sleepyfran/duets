@@ -36,5 +36,5 @@ let workShiftEvent (job: Job) =
     |> List.sample
     |> Styles.progress
 
-let workShiftFinished =
-    Styles.success "You finished your shift and earned some money"
+let workShiftFinished salary =
+    Styles.success $"You finished your shift and earned {Styles.money salary}"

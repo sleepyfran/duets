@@ -19,8 +19,9 @@ module WorkCommand =
 
                 wait 5000<millisecond>
 
-                workShift (State.get ()) job |> Effect.applyMultiple
+                let salary, effects = workShift (State.get ()) job
 
-                Career.workShiftFinished |> showMessage
+                Career.workShiftFinished salary |> showMessage
+                effects |> Effect.applyMultiple
 
                 Scene.WorldAfterMovement }
