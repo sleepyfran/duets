@@ -32,11 +32,10 @@ let noSongsToPlay =
 let selectSongToPlay = "Which song do you want to play?"
 
 let songNameWithPractice (song: Song) =
-    $"""{Styles.song song.Name} (Practice level: {Styles.Level.from song.Practice}%%)"""
+    $"""{Styles.song song.Name} (Length: {song.Length |> Generic.length |> Styles.time}, Practice level: {Styles.Level.from song.Practice}%%)"""
 
 let alreadyPlayedSongWithPractice (song: Song) =
-    Styles.crossed
-        $"""{Styles.song song.Name} (Practice level: {Styles.Level.from song.Practice}%%) (Already played)"""
+    Styles.crossed $"""{Styles.song song.Name} (Already played)"""
 
 let energyPrompt = "How much energy do you want to put into this?"
 
@@ -198,7 +197,8 @@ let finishedGreat =
         "The concert was a huge success! The audience was on their feet, cheering, and clapping throughout the performance. Your playing was spot on, and you had great stage presence that kept everyone engaged throughout the show. The crowd sang along to many of your songs and it was clear that you had a real connection with your fans. The crowd left the venue feeling satisfied and entertained. Your reputation as a musician has been solidified."
 
 let concertSummary attendance income =
-    Styles.highlight $"""{attendance} {Generic.pluralOf "person" "people" attendance} came to the concert and you made {Styles.money income} in tickets"""
+    Styles.highlight
+        $"""{attendance} {Generic.pluralOf "person" "people" attendance} came to the concert and you made {Styles.money income} in tickets"""
 
 let makeCrowdSingLowPerformance points =
     Styles.Level.bad
