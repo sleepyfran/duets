@@ -34,7 +34,7 @@ let ``Consuming junk food reduces health`` () =
         (CharacterAttributeChanged(
             character.Id,
             CharacterAttribute.Health,
-            Diff(50, 48)
+            Diff(50, 46)
         ))
 
 [<Test>]

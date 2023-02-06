@@ -1,12 +1,11 @@
 module Data.World.Cities.Prague.Cafes
 
 open Entities
-open Data.Items.Drink
 open Data.World
 
 let addMamaCoffee zone =
     let shop =
-        { AvailableItems = Coffee.all
+        { AvailableItems = Everywhere.Common.coffeeShopItems
           PriceModifier = 2<multiplier> }
 
     World.Place.create
@@ -20,7 +19,7 @@ let addMamaCoffee zone =
 
 let addTheMiners zone =
     let shop =
-        { AvailableItems = Coffee.all
+        { AvailableItems = Everywhere.Common.coffeeShopItems
           PriceModifier = 2<multiplier> }
 
     World.Place.create

@@ -23,12 +23,16 @@ module ItemTypes =
         | Burger of amount: int<gram>
         | BunBo of amount: int<gram>
         | Chips of amount: int<gram>
+        | Croissant of amount: int<gram>
         | Fries of amount: int<gram>
+        | Fruits of amount: int<gram>
+        | GranolaBowl of amount: int<gram>
         | Gyozas of amount: int<gram>
         | Nachos of amount: int<gram>
         | NemCuon of amount: int<gram>
         | PhoBo of amount: int<gram>
         | Ramen of amount: int<gram>
+        | Sandwich of amount: int<gram>
         | Wakame of amount: int<gram>
 
     (* --------------- INTERACTIVE --------------- *)

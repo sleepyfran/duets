@@ -2,10 +2,36 @@
 
 open Entities
 
+module BreakfastFood =
+    let avocadoEggSandwich: PurchasableItem =
+        { Brand = "Avocado Egg Sandwich"
+          Type = Sandwich 150<gram> |> Food |> Consumable },
+        3.4m<dd>
+
+    let bltSandwich: PurchasableItem =
+        { Brand = "BLT Sandwich"
+          Type = Sandwich 200<gram> |> Food |> Consumable },
+        3.2m<dd>
+
+    let croissant: PurchasableItem =
+        { Brand = "Croissant"
+          Type = Croissant 100<gram> |> Food |> Consumable },
+        1.2m<dd>
+
+    let fruitPlate: PurchasableItem =
+        { Brand = "Fruit Plate"
+          Type = Fruits 200<gram> |> Food |> Consumable },
+        2.8m<dd>
+
+    let granolaBowl: PurchasableItem =
+        { Brand = "Yogurt Granola Bowl"
+          Type = GranolaBowl 250<gram> |> Food |> Consumable },
+        3m<dd>
+
 module FastFood =
     let genericBurger: PurchasableItem =
         { Brand = "Burger"
-          Type = Burger 150<gram> |> Food |> Consumable },
+          Type = Burger 400<gram> |> Food |> Consumable },
         2.5m<dd>
 
     let genericChips: PurchasableItem =
@@ -15,7 +41,7 @@ module FastFood =
 
     let genericFries: PurchasableItem =
         { Brand = "Fries"
-          Type = Fries 200<gram> |> Food |> Consumable },
+          Type = Fries 250<gram> |> Food |> Consumable },
         1.2m<dd>
 
     let genericNachos: PurchasableItem =

@@ -12,14 +12,18 @@ let eat state item =
 
     match item with
     | Burger amount
+    | Croissant amount 
     | Chips amount
     | Fries amount
     | Nachos amount -> eatJunkFood character amount
     | BunBo amount
+    | Fruits amount
+    | GranolaBowl amount
     | Gyozas amount
     | NemCuon amount
     | PhoBo amount
     | Ramen amount
+    | Sandwich amount
     | Wakame amount -> eatNormalFood character amount
 
 let private calculateHungerIncrease amount =

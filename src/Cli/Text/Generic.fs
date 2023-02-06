@@ -250,15 +250,19 @@ let itemNameWithDetail (item: Item) =
         | Lemonade ml -> $"""{Styles.item "Lemonade"} ({ml}ml)"""
     | Consumable (Food food) ->
         match food with
-        | Burger mg -> $"""{Styles.item "Burger"} ({mg} mg)"""
-        | Chips mg -> $"""{Styles.item "Chips"} ({mg} mg)"""
-        | Fries mg -> $"""{Styles.item "Fries"} ({mg} mg)"""
-        | Nachos mg -> $"""{Styles.item "Nachos"} ({mg} mg)"""
+        | Burger mg
+        | Chips mg
+        | Croissant mg
+        | Fries mg
+        | Fruits mg
+        | GranolaBowl mg
         | Gyozas mg
-        | NemCuon mg -> $"""{Styles.item item.Brand} ({mg} mg)"""
+        | Nachos mg
+        | NemCuon mg
         | BunBo mg
         | PhoBo mg
         | Ramen mg
+        | Sandwich mg
         | Wakame mg -> $"""{Styles.item item.Brand} ({mg} mg)"""
     | Interactive _ -> itemName item
 

@@ -1,6 +1,8 @@
 module Data.World.Everywhere.Common
 
 open Entities
+open Data.Items.Drink
+open Data.Items.Food
 
 /// Usual bar opening hours around the world.
 let barOpeningHours =
@@ -36,3 +38,12 @@ let servicesOpeningHours =
         Calendar.everyDay,
         [ Midday; Afternoon; Evening ]
     )
+
+/// Usual stuff in coffee shops everywhere.
+let coffeeShopItems =
+    [ BreakfastFood.avocadoEggSandwich
+      BreakfastFood.bltSandwich
+      BreakfastFood.croissant
+      BreakfastFood.fruitPlate
+      BreakfastFood.granolaBowl ]
+    @ Coffee.all
