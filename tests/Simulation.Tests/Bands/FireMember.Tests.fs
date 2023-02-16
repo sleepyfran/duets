@@ -1,12 +1,12 @@
-module Simulation.Tests.Bands.FireMember
+module Duets.Simulation.Tests.Bands.FireMember
 
 open Test.Common
 open NUnit.Framework
 open FsUnit
 
-open Common
-open Entities
-open Simulation.Bands.Members
+open Duets.Common
+open Duets.Entities
+open Duets.Simulation.Bands.Members
 
 let bandMember =
     let hiredCharacter =

@@ -1,4 +1,4 @@
-module Simulation.Tests.State.Skills
+module Duets.Simulation.Tests.State.Skills
 
 
 
@@ -7,10 +7,10 @@ open NUnit.Framework
 open Test.Common
 
 open Aether
-open Common
-open Entities
-open Simulation
-open Simulation.Queries
+open Duets.Common
+open Duets.Entities
+open Duets.Simulation
+open Duets.Simulation.Queries
 
 let skill = Skill.createWithLevel SkillId.Composition 10
 

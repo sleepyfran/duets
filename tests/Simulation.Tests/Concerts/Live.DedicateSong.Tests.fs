@@ -1,4 +1,4 @@
-module Simulation.Tests.Concerts.Live.DedicateSong
+module Duets.Simulation.Tests.Concerts.Live.DedicateSong
 
 open FsCheck
 open FsUnit
@@ -6,8 +6,8 @@ open NUnit.Framework
 open Test.Common
 
 open Aether
-open Entities
-open Simulation.Concerts.Live
+open Duets.Entities
+open Duets.Simulation.Concerts.Live
 
 [<Test>]
 let ``dedicateSong adds 10 points on top of the result of play song`` () =

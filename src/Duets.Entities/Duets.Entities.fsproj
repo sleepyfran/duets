@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <RootNamespace>Entities</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="Types\Common.Types.fs"/>
+        <Compile Include="Types\Calendar.Types.fs"/>
+        <Compile Include="Types\Genre.Types.fs"/>
+        <Compile Include="Types\Instrument.Types.fs"/>
+        <Compile Include="Types\Skill.Types.fs"/>
+        <Compile Include="Types\Character.Types.fs"/>
+        <Compile Include="Types\Band.Types.fs"/>
+        <Compile Include="Types\Song.Types.fs"/>
+        <Compile Include="Types\Album.Types.fs"/>
+        <Compile Include="Types\Bank.Types.fs"/>
+        <Compile Include="Types\Item.Types.fs"/>
+        <Compile Include="Types\World\ConcertSpace.Types.fs"/>
+        <Compile Include="Types\World\RehearsalSpace.Types.fs"/>
+        <Compile Include="Types\World\Studio.Types.fs"/>
+        <Compile Include="Types\World\Shop.Types.fs"/>
+        <Compile Include="Types\World\World.Types.fs"/>
+        <Compile Include="Types\Career.Types.fs"/>
+        <Compile Include="Types\Concert.Types.fs"/>
+        <Compile Include="Types\Flight.Types.fs"/>
+        <Compile Include="Types\CalendarEvent.Types.fs"/>
+        <Compile Include="Types\Situations.Types.fs"/>
+        <Compile Include="Types\Interaction.Types.fs"/>
+        <Compile Include="Types\State.Types.fs"/>
+        <Compile Include="Types\Effect.Types.fs"/>
+        <Compile Include="Lenses.fs"/>
+        <Compile Include="Identity.fs"/>
+        <Compile Include="Calendar.fs"/>
+        <Compile Include="CalendarEvent.fs"/>
+        <Compile Include="Time.fs"/>
+        <Compile Include="Album.fs"/>
+        <Compile Include="BankAccount.fs"/>
+        <Compile Include="Character.fs"/>
+        <Compile Include="Band.fs"/>
+        <Compile Include="Song.fs"/>
+        <Compile Include="Flight.fs"/>
+        <Compile Include="Instrument.fs"/>
+        <Compile Include="Skill.fs"/>
+        <Compile Include="Concert.fs"/>
+        <Compile Include="Interaction.fs"/>
+        <Compile Include="World.fs"/>
+        <Compile Include="State.fs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Aether" Version="8.3.1"/>
+        <PackageReference Include="Fugit" Version="0.4.1"/>
+    </ItemGroup>
+</Project>

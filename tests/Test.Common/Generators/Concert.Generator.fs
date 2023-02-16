@@ -1,10 +1,10 @@
 module Test.Common.Generators.Concert
 
 open FsCheck
-open Simulation
+open Duets.Simulation
 
-open Common
-open Entities
+open Duets.Common
+open Duets.Entities
 
 type ConcertGenOptions =
     { From: Date

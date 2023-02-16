@@ -5,13 +5,13 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{720B3148-5BE5-4460-9263-9A461F8B9F85}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Cli", "src\Cli\Cli.fsproj", "{6ED6EC20-32B0-4E8D-8E28-CAB6CD424247}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Duets.Cli", "src\Duets.Cli\Duets.Cli.fsproj", "{6ED6EC20-32B0-4E8D-8E28-CAB6CD424247}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Data", "src\Data\Data.fsproj", "{39D3FEDD-8481-435B-AE37-C1AED1BADC18}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Duets.Data", "src\Duets.Data\Duets.Data.fsproj", "{39D3FEDD-8481-435B-AE37-C1AED1BADC18}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Entities", "src\Entities\Entities.fsproj", "{D9280926-6073-4B96-8CFF-5CD4F3017E33}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Duets.Entities", "src\Duets.Entities\Duets.Entities.fsproj", "{D9280926-6073-4B96-8CFF-5CD4F3017E33}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Simulation", "src\Simulation\Simulation.fsproj", "{2DF6557C-C5B4-4083-943C-0C8D2F317A3D}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Duets.Simulation", "src\Duets.Simulation\Duets.Simulation.fsproj", "{2DF6557C-C5B4-4083-943C-0C8D2F317A3D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FDDB1410-F606-4415-9BAA-B4AAB9B635AF}"
 EndProject
@@ -19,11 +19,11 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Simulation.Tests", "tests\S
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Test.Common", "tests\Test.Common\Test.Common.fsproj", "{7C770866-B3A4-4A83-9E01-4CD6175D90EE}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Common", "src\Common\Common.fsproj", "{6BF9BAE1-FBF4-49BA-8D33-37CF6A3B47C2}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Duets.Common", "src\Duets.Common\Duets.Common.fsproj", "{6BF9BAE1-FBF4-49BA-8D33-37CF6A3B47C2}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Entities.Tests", "tests\Entities.Tests\Entities.Tests.fsproj", "{10DB3A4E-8D9A-4AB8-8DCA-5A14D1E5BB3C}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Agents", "src\Agents\Agents.fsproj", "{BAA431D0-1FE0-49F0-840A-491D6D51C799}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Duets.Agents", "src\Duets.Agents\Duets.Agents.fsproj", "{BAA431D0-1FE0-49F0-840A-491D6D51C799}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

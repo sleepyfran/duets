@@ -1,11 +1,11 @@
-module Simulation.Tests.Notifications
+module Duets.Simulation.Tests.Notifications
 
 open FsCheck
 open FsUnit
 open NUnit.Framework
 
-open Entities
-open Simulation.Calendar
+open Duets.Entities
+open Duets.Simulation.Calendar
 open Test.Common
 open Test.Common.Generators
 

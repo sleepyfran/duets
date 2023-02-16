@@ -2,7 +2,7 @@ module Test.Common.Generators.Character
 
 open FsCheck
 
-open Entities
+open Duets.Entities
 
 type CharacterGenOptions = { Id: CharacterId option }
 

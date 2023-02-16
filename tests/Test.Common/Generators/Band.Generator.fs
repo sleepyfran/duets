@@ -2,7 +2,7 @@ module Test.Common.Generators.Band
 
 open FsCheck
 
-open Entities
+open Duets.Entities
 
 let generator =
     gen {

@@ -1,11 +1,11 @@
-module Simulation.Tests.Songs.FinishSong
+module Duets.Simulation.Tests.Songs.FinishSong
 
-open Entities
+open Duets.Entities
 open Test.Common
 open NUnit.Framework
 open FsUnit
 
-open Simulation.Songs.Composition.FinishSong
+open Duets.Simulation.Songs.Composition.FinishSong
 
 [<Test>]
 let FinishSongShouldGenerateSongFinishedEffect () =

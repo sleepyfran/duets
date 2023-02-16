@@ -1,13 +1,14 @@
-module Simulation.Tests.Interactions.Food
+module Duets.Simulation.Tests.Interactions.Food
 
 open FsUnit
 open NUnit.Framework
 open Test.Common.Generators
 
-open Common
-open Entities
-open Simulation
-open Simulation.Interactions
+open Duets
+open Duets.Common
+open Duets.Entities
+open Duets.Simulation
+open Duets.Simulation.Interactions
 
 let initialState = State.generateOne State.defaultOptions
 

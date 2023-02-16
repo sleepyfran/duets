@@ -1,11 +1,11 @@
-module Simulation.Tests.Bank.Queries
+module Duets.Simulation.Tests.Bank.Queries
 
 open NUnit.Framework
 open FsUnit
 open Test.Common
 
-open Entities
-open Simulation.Queries.Bank
+open Duets.Entities
+open Duets.Simulation.Queries.Bank
 
 [<Test>]
 let balanceOfShouldReturnCorrectBalance () =

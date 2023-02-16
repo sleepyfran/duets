@@ -1,13 +1,13 @@
-module Simulation.Tests.Studio.RecordAlbum
+module Duets.Simulation.Tests.Studio.RecordAlbum
 
 open FsUnit
 open NUnit.Framework
 open Test.Common
 
-open Common
-open Entities
-open Simulation.Bank.Operations
-open Simulation.Studio.RecordAlbum
+open Duets.Common
+open Duets.Entities
+open Duets.Simulation.Bank.Operations
+open Duets.Simulation.Studio.RecordAlbum
 
 [<Test>]
 let ``recordAlbum should fail if the band does not have enough money`` () =

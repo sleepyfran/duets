@@ -1,12 +1,12 @@
-module Entities.Tests.Album
+module Duets.Entities.Tests.Album
 
 open FSharp.Data.UnitSystems.SI.UnitNames
 open FsUnit
 open NUnit.Framework
 open Test.Common
 
-open Common
-open Entities
+open Duets.Common
+open Duets.Entities
 
 [<Test>]
 let ``validateName should fail if name is empty`` () =

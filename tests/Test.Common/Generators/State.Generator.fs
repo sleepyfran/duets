@@ -2,10 +2,10 @@ module Test.Common.Generators.State
 
 open FsCheck
 
-open Common
-open Entities
+open Duets.Common
+open Duets.Entities
 open Test.Common
-open Simulation
+open Duets.Simulation
 
 let dateGenerator =
     Arb.generate<Date>

@@ -1,4 +1,4 @@
-module Simulation.Tests.Concerts.Live.PlaySong
+module Duets.Simulation.Tests.Concerts.Live.PlaySong
 
 open FsCheck
 open FsUnit
@@ -6,9 +6,9 @@ open NUnit.Framework
 open Test.Common
 
 open Aether
-open Entities
-open Simulation
-open Simulation.Concerts.Live
+open Duets.Entities
+open Duets.Simulation
+open Duets.Simulation.Concerts.Live
 
 [<Test>]
 let ``playSong with energetic energy gives up to 25 points when song is long``

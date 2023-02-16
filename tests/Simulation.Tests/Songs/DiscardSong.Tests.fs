@@ -1,11 +1,11 @@
-module Simulation.Tests.Songs.DiscardSong
+module Duets.Simulation.Tests.Songs.DiscardSong
 
-open Entities
+open Duets.Entities
 open Test.Common
 open NUnit.Framework
 open FsUnit
 
-open Simulation.Songs.Composition.DiscardSong
+open Duets.Simulation.Songs.Composition.DiscardSong
 
 [<Test>]
 let DiscardSongShouldGenerateSongDiscarded () =

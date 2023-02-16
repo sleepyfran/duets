@@ -1,12 +1,12 @@
-module Simulation.Tests.Bands.HireMember
+module Duets.Simulation.Tests.Bands.HireMember
 
 open Test.Common
 open NUnit.Framework
 open FsUnit
 
-open Entities
-open Simulation
-open Simulation.Bands.Members
+open Duets.Entities
+open Duets.Simulation
+open Duets.Simulation.Bands.Members
 
 let instrument =
     Instrument.createInstrument Guitar

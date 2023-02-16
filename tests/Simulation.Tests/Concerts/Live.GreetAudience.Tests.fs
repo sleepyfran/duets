@@ -1,12 +1,12 @@
-module Simulation.Tests.Concerts.Live.GreetAudience
+module Duets.Simulation.Tests.Concerts.Live.GreetAudience
 
 open FsUnit
 open NUnit.Framework
 open Test.Common
 
 open Aether
-open Entities
-open Simulation.Concerts.Live
+open Duets.Entities
+open Duets.Simulation.Concerts.Live
 
 [<Test>]
 let ``greetAudience gives 5 points when greeting for the first time`` () =

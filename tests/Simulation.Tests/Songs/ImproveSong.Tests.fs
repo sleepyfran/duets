@@ -1,11 +1,11 @@
-module Simulation.Tests.Songs.ImproveSong
+module Duets.Simulation.Tests.Songs.ImproveSong
 
 open Test.Common
 open NUnit.Framework
 open FsUnit
 
-open Entities
-open Simulation.Songs.Composition.ImproveSong
+open Duets.Entities
+open Duets.Simulation.Songs.Composition.ImproveSong
 
 let state =
     dummyState

@@ -1,12 +1,12 @@
-module Simulation.Tests.Events.Character
+module Duets.Simulation.Tests.Events.Character
 
 open FsUnit
 open NUnit.Framework
 open Test.Common
 open Test.Common.Generators
 
-open Entities
-open Simulation
+open Duets.Entities
+open Duets.Simulation
 
 let lowCharacterHealthEffect state =
     let character = Queries.Characters.playableCharacter state

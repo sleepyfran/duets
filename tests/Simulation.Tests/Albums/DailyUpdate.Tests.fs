@@ -1,4 +1,4 @@
-module Simulation.Tests.Albums.DailyUpdate
+module Duets.Simulation.Tests.Albums.DailyUpdate
 
 open Aether
 open Aether.Operators
@@ -7,9 +7,9 @@ open NUnit.Framework
 open Test.Common
 open Test.Common.Generators
 
-open Entities
-open Simulation
-open Simulation.Albums.DailyUpdate
+open Duets.Entities
+open Duets.Simulation
+open Duets.Simulation.Albums.DailyUpdate
 
 let album =
     Album.Released.fromUnreleased dummyUnreleasedAlbum dummyToday 1.0

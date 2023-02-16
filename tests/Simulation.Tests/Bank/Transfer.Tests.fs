@@ -1,12 +1,12 @@
-module Simulation.Tests.Bank.Transfer
+module Duets.Simulation.Tests.Bank.Transfer
 
 open NUnit.Framework
 open FsUnit
 open Test.Common
 
-open Common
-open Entities
-open Simulation.Bank.Operations
+open Duets.Common
+open Duets.Entities
+open Duets.Simulation.Bank.Operations
 
 [<Test>]
 let transferAmountHigherThanBalanceShouldReturnNotEnoughFunds () =

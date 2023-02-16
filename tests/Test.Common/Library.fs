@@ -3,13 +3,13 @@ module Test.Common.Root
 
 open Aether
 open Aether.Operators
-open Common
-open Data.World
+open Duets.Common
+open Duets.Data.World
 open Fugit.Months
-open Entities
-open Simulation
-open Simulation.Concerts.Live
-open Simulation.Setup
+open Duets.Entities
+open Duets.Simulation
+open Duets.Simulation.Concerts.Live
+open Duets.Simulation.Setup
 
 let dummyCharacter =
     Character.from

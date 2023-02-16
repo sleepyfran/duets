@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Entities\Entities.fsproj"/>
+        <ProjectReference Include="..\..\src\Duets.Entities\Duets.Entities.fsproj"/>
         <ProjectReference Include="..\Test.Common\Test.Common.fsproj"/>
     </ItemGroup>
 </Project>

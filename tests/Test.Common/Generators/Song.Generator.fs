@@ -3,7 +3,7 @@ module Test.Common.Generators.Song
 open FsCheck
 
 open FSharp.Data.UnitSystems.SI.UnitNames
-open Entities
+open Duets.Entities
 
 type SongGenOptions =
     { PracticeMin: int

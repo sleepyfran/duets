@@ -1,13 +1,13 @@
-module Simulation.Tests.State.Concerts
+module Duets.Simulation.Tests.State.Concerts
 
 open FsUnit
 open NUnit.Framework
 open Test.Common
 open Test.Common.Generators
 
-open Entities
-open Simulation
-open Simulation.Queries
+open Duets.Entities
+open Duets.Simulation
+open Duets.Simulation.Queries
 
 let private stateGenOptions =
     { State.defaultOptions with FutureConcertsToGenerate = 0 }

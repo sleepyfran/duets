@@ -1,11 +1,11 @@
-module Simulation.Tests.Songs.ComposeSong
+module Duets.Simulation.Tests.Songs.ComposeSong
 
 open Test.Common
 open NUnit.Framework
 open FsUnit
 
-open Entities
-open Simulation.Songs.Composition.ComposeSong
+open Duets.Entities
+open Duets.Simulation.Songs.Composition.ComposeSong
 
 [<Test>]
 let ``composeSong should generate a SongStarted effect`` () =

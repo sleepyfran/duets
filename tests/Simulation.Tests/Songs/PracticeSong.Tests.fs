@@ -1,11 +1,11 @@
-module Simulation.Tests.Songs.PracticeSong
+module Duets.Simulation.Tests.Songs.PracticeSong
 
 open Test.Common
 open NUnit.Framework
 open FsUnit
 
-open Entities
-open Simulation.Songs.Practice
+open Duets.Entities
+open Duets.Simulation.Songs.Practice
 
 let dummyFinishedWithPracticeLevel practice =
     let (FinishedSong song, _) = dummyFinishedSong

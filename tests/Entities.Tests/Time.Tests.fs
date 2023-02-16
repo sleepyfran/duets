@@ -1,11 +1,11 @@
-module Entities.Tests.Time
+module Duets.Entities.Tests.Time
 
 open FSharp.Data.UnitSystems.SI.UnitNames
 open FsUnit
 open NUnit.Framework
 
-open Common
-open Entities
+open Duets.Common
+open Duets.Entities
 
 [<Test>]
 let ``from should succeed if the given minutes and seconds are valid`` () =

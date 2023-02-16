@@ -1,4 +1,4 @@
-module Simulation.Tests.State.SongComposition
+module Duets.Simulation.Tests.State.SongComposition
 
 
 
@@ -6,9 +6,9 @@ open FsUnit
 open NUnit.Framework
 open Test.Common
 
-open Entities
-open Simulation
-open Simulation.Queries
+open Duets.Entities
+open Duets.Simulation
+open Duets.Simulation.Queries
 
 let unfinishedSong = UnfinishedSong(dummySong), 35<quality>, 7<quality>
 

@@ -1,12 +1,12 @@
-module Simulation.Tests.Studio.RenameAlbum
+module Duets.Simulation.Tests.Studio.RenameAlbum
 
 open FsUnit
 open NUnit.Framework
 open Test.Common
 
-open Common
-open Entities
-open Simulation.Studio.RenameAlbum
+open Duets.Common
+open Duets.Entities
+open Duets.Simulation.Studio.RenameAlbum
 
 [<Test>]
 let rec ``validateName should fail if name is empty`` () =

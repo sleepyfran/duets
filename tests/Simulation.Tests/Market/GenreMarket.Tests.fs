@@ -1,10 +1,10 @@
-module Simulation.Tests.Market.GenreMarket
+module Duets.Simulation.Tests.Market.GenreMarket
 
 open FsUnit
 open NUnit.Framework
 
-open Entities
-open Simulation.Market
+open Duets.Entities
+open Duets.Simulation.Market
 
 let unwrap (GenreMarketsUpdated market) = market
 

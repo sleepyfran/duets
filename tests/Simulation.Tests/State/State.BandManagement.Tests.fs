@@ -1,4 +1,4 @@
-module Simulation.Tests.State.BandManagement
+module Duets.Simulation.Tests.State.BandManagement
 
 
 
@@ -6,10 +6,10 @@ open FsUnit
 open NUnit.Framework
 open Test.Common
 
-open Common
-open Entities
-open Simulation
-open Simulation.Queries
+open Duets.Common
+open Duets.Entities
+open Duets.Simulation
+open Duets.Simulation.Queries
 
 let hiredCharacter =
     Character.from

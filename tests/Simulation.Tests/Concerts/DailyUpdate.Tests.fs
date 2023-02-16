@@ -1,4 +1,4 @@
-module Simulation.Tests.Concerts.DailyUpdate
+module Duets.Simulation.Tests.Concerts.DailyUpdate
 
 open NUnit.Framework
 open FsCheck
@@ -7,8 +7,9 @@ open Test.Common
 open Test.Common.Generators
 
 open Aether
-open Entities
-open Simulation
+open Duets.Entities
+open Duets
+open Duets.Simulation
 
 let actAndGetConcert state =
     Concerts.DailyUpdate.dailyUpdate state

@@ -1,4 +1,4 @@
-module Simulation.Tests.State.Bank
+module Duets.Simulation.Tests.State.Bank
 
 
 
@@ -7,8 +7,8 @@ open NUnit.Framework
 open Test.Common
 
 open Aether
-open Entities
-open Simulation
+open Duets.Entities
+open Duets.Simulation
 
 let testBalance createTransfer expectedBalance =
     let holder =

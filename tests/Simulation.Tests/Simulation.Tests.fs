@@ -1,14 +1,15 @@
-module Simulation.Tests.Simulation
+module Duets.Simulation.Tests.Simulation
 
 open System
 open FsUnit
 open NUnit.Framework
-open Simulation.Time
+open Duets
+open Duets.Simulation.Time
 open Test.Common
 open Test.Common.Generators
 
-open Entities
-open Simulation
+open Duets.Entities
+open Duets.Simulation
 
 let state = { dummyState with Today = dummyTodayMiddleOfYear }
 

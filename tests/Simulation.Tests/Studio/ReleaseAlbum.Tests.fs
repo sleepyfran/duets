@@ -1,12 +1,12 @@
-module Simulation.Tests.Studio.ReleaseAlbum
+module Duets.Simulation.Tests.Studio.ReleaseAlbum
 
 open FSharp.Data.UnitSystems.SI.UnitNames
 open FsUnit
 open NUnit.Framework
 open Test.Common
 
-open Entities
-open Simulation.Studio.ReleaseAlbum
+open Duets.Entities
+open Duets.Simulation.Studio.ReleaseAlbum
 
 let band =
     { dummyBand with

@@ -1,11 +1,12 @@
-module Simulation.Tests.Skills.ImproveSkills
+module Duets.Simulation.Tests.Skills.ImproveSkills
 
 open NUnit.Framework
 open FsUnit
 open Test.Common
 
-open Entities
-open Simulation.Skills.ImproveSkills
+open Duets.Entities
+open Duets
+open Duets.Simulation.Skills.ImproveSkills
 
 let unwrapDiff (Diff (_, (_, level))) = level
 

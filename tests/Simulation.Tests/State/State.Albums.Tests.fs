@@ -1,4 +1,4 @@
-module Simulation.Tests.State.Albums
+module Duets.Simulation.Tests.State.Albums
 
 
 
@@ -7,10 +7,10 @@ open NUnit.Framework
 open Test.Common
 
 open Aether
-open Common
-open Entities
-open Simulation
-open Simulation.Queries
+open Duets.Common
+open Duets.Entities
+open Duets.Simulation
+open Duets.Simulation.Queries
 
 [<Test>]
 let ``AlbumRecorded should add an unreleased album and remove all track list from finished songs``

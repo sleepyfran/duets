@@ -1,14 +1,15 @@
-module Simulation.Tests.Airport.BoardPlane
+module Duets.Simulation.Tests.Airport.BoardPlane
 
 open NUnit.Framework
 open FsUnit
 open Test.Common
 open Test.Common.Generators
 
-open Entities
-open Entities.SituationTypes
-open Simulation
-open Simulation.Flights.Airport
+open Duets
+open Duets.Entities
+open Duets.Entities.SituationTypes
+open Duets.Simulation
+open Duets.Simulation.Flights.Airport
 
 let origin =
     Queries.World.allCities.Head.Id (* Prague*)

@@ -1,10 +1,10 @@
-module Entities.Tests.Calendar
+module Duets.Entities.Tests.Calendar
 
 open FsUnit
 open Fugit.Months
 open NUnit.Framework
 
-open Entities
+open Duets.Entities
 
 let private baseDate =
     January 9 2023

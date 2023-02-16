@@ -1,12 +1,12 @@
-module Simulation.Tests.State.Setup
+module Duets.Simulation.Tests.State.Setup
 
 
 
 open FsUnit
 open NUnit.Framework
 open Test.Common
-open Entities
-open Simulation
+open Duets.Entities
+open Duets.Simulation
 
 [<Test>]
 let GameCreatedShouldInitializeState () =

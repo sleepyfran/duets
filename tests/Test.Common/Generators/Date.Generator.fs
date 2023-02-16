@@ -1,7 +1,7 @@
 module Test.Common.Generators.Date
 
 open System
-open Entities
+open Duets.Entities
 open FsCheck
 
 let dateGenerator (fromDate: Date) (toDate: Date) =

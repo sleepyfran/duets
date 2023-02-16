@@ -1,13 +1,13 @@
-module Simulation.Tests.Time.AdvanceTime_Tests
+module Duets.Simulation.Tests.Time.AdvanceTime_Tests
 
 open System
 open FsUnit
 open Fugit.Shorthand
 open NUnit.Framework
 
-open Entities
-open Simulation.Queries
-open Simulation.Time.AdvanceTime
+open Duets.Entities
+open Duets.Simulation.Queries
+open Duets.Simulation.Time.AdvanceTime
 
 let dateMatches (expected: DateTime) (TimeAdvanced actual) =
     expected.Year |> should equal actual.Year

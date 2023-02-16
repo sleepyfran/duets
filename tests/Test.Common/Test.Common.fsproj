@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Simulation\Simulation.fsproj" />
+        <ProjectReference Include="..\..\src\Duets.Simulation\Duets.Simulation.fsproj"/>
     </ItemGroup>
 
     <ItemGroup>
