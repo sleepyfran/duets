@@ -74,6 +74,19 @@ let private moveToPlace availablePlaces (place: Place) =
         showSeparator None
 
         askForPlace availablePlaces
+    | Error PlaceEntranceError.CannotEnterWithoutRental ->
+        showSeparator None
+
+        Styles.error "You cannot enter this place without renting it first"
+        |> showMessage
+
+        Styles.information
+            "Try to use your phone to rent it out and come back again afterwards"
+        |> showMessage
+
+        showSeparator None
+
+        askForPlace availablePlaces
 
 let private askForPlace availablePlaces =
     let selectedPlace = availablePlaces |> showPlaceTypeChoice

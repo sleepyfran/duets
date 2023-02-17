@@ -66,6 +66,7 @@ let startGame
       GenreMarkets = GenreMarket.create Data.Genres.all
       CharacterInventory = List.empty
       PlayableCharacterId = character.Id
+      Rentals = Map.empty
       Situation = FreeRoam
       Today = Calendar.gameBeginning
       WorldItems = allInitialWorldItems }

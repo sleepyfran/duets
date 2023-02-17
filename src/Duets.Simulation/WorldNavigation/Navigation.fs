@@ -10,6 +10,9 @@ module Navigation =
         let currentCity = Queries.World.currentCity state
 
         Navigation.Policies.OpeningHours.canEnter state currentCity.Id placeId
+        |> Result.andThen (
+            Navigation.Policies.Rental.canEnter state currentCity.Id placeId
+        )
         |> Result.transform (WorldMoveTo(currentCity.Id, placeId))
 
     /// Moves the player to the specific place ID inside the given city ID.

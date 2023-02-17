@@ -21,6 +21,7 @@ module StateTypes =
           GenreMarkets: GenreMarketByGenre
           CharacterInventory: Inventory
           PlayableCharacterId: CharacterId
+          Rentals: CharacterRentals
           Situation: Situation
           Today: Date
           WorldItems: WorldItems }
