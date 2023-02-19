@@ -52,17 +52,24 @@ let ``tick should apply multiple given effects`` () =
 
 [<Test>]
 let ``tick should gather and apply associated effects`` () =
-    AdvanceTime.advanceDayMoment' state 1<dayMoments>
-    |> Simulation.tickMultiple state
-    |> fst
+    let effects =
+        AdvanceTime.advanceDayMoment' state 1<dayMoments>
+        |> Simulation.tickMultiple state
+        |> fst
+
+    effects
+    |> List.head
+    |> should equal (TimeAdvanced(DateTime(2021, 6, 20, 10, 0, 0)))
+
+    effects
+    |> List.item 1
     |> should
         equal
-        [ TimeAdvanced(DateTime(2021, 6, 20, 10, 0, 0))
-          CharacterAttributeChanged(
-              dummyCharacter.Id,
-              CharacterAttribute.Hunger,
-              Diff(100, 80)
-          ) ]
+        (CharacterAttributeChanged(
+            dummyCharacter.Id,
+            CharacterAttribute.Hunger,
+            Diff(100, 80)
+        ))
 
 [<Test>]
 let ``tick should stop the chain of effects when a BreakChain associated effect is raised``

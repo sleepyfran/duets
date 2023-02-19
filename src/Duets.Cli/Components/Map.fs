@@ -102,3 +102,9 @@ let private askForPlace availablePlaces =
 /// place opening hours and any other policies it might have.
 let showMap () =
     Queries.World.allPlacesInCurrentCity (State.get ()) |> askForPlace
+
+/// Shows the map, forcing the user to make a choice.
+let showMapUntilChoice () =
+    match showMap () with
+    | effects when effects.Length > 0 -> effects
+    | _ -> showMapUntilChoice ()

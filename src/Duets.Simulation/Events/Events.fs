@@ -9,4 +9,6 @@ let associatedEffects effect =
     |> List.choose id
 
 /// Retrieves all the effects that have to happen at the end of an effect chain.
-let endOfChainEffects = [ Place.ClosingTime.checkCurrentPlace ]
+let endOfChainEffects =
+    [ Place.ClosingTime.checkCurrentPlace
+      Place.RentalExpiration.checkCurrentPlace ]

@@ -7,6 +7,7 @@ open Duets.Cli.Text
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation
+open Duets.Simulation.Events.Place
 
 /// <summary>
 /// Applies an effect to the simulation and displays any message or action that
@@ -120,6 +121,25 @@ let private displayEffect effect =
             $"{typeText} scheduled for {Date.simple date |> Styles.time} @ {Generic.dayMomentName dayMoment |> Styles.time}"
             |> Styles.highlight
         |> showNotification "Upcoming event"
+    | PlaceClosed place ->
+        lineBreak ()
+
+        Styles.danger $"{place.Name} is closing and they're kicking you out."
+        |> showMessage
+
+        "Choose where you want to go next" |> showMessage
+
+        showMapUntilChoice () |> applyMultiple
+    | RentalExpired place ->
+        lineBreak ()
+
+        Styles.danger
+            $"You didn't pay this month's rent, so you can no longer access {place.Name}"
+        |> showMessage
+
+        "Choose where you want to go next" |> showMessage
+
+        showMapUntilChoice () |> applyMultiple
     | SongImproved (_, Diff (before, after)) ->
         let (_, _, previousQuality) = before
         let (_, _, currentQuality) = after
@@ -146,20 +166,6 @@ let private displayEffect effect =
             previousLevel
             currentLevel
         |> showMessage
-    | PlaceClosed place ->
-        lineBreak ()
-
-        Styles.danger $"{place.Name} is closing and they're kicking you out."
-        |> showMessage
-
-        "Choose where you want to go next" |> showMessage
-
-        let rec displayMapUntilChoice () =
-            match showMap () with
-            | effects when effects.Length > 0 -> applyMultiple effects
-            | _ -> displayMapUntilChoice ()
-
-        displayMapUntilChoice ()
     | Wait _ ->
         let today = Queries.Calendar.today (State.get ())
 

@@ -98,6 +98,7 @@
         <Compile Include="Events\Character\Hunger.fs" />
         <Compile Include="Events\Character\Character.Events.fs" />
         <Compile Include="Events\Place\ClosingTime.fs" />
+        <Compile Include="Events\Place\RentalExpiration.fs" />
         <Compile Include="Events\Skill.Events.fs" />
         <Compile Include="Events\Time.Events.fs" />
         <Compile Include="Events\Events.fs" />

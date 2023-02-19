@@ -75,6 +75,7 @@ let applyEffect state effect =
     | MoneyEarned (account, transaction) ->
         Bank.setBalance account transaction state
     | PlaceClosed _ -> state
+    | RentalExpired _ -> state
     | SkillImproved (character, Diff (_, skill)) ->
         Skills.add character.Id skill state
     | SongStarted (band, unfinishedSong) ->
