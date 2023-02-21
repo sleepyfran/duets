@@ -80,7 +80,7 @@ and private promptForCity app date dayMoment =
 
 and private promptForVenue app date dayMoment city =
     let venues =
-        Queries.World.placeIdsOf city.Id PlaceTypeIndex.ConcertSpace
+        Queries.World.placeIdsByTypeInCity city.Id PlaceTypeIndex.ConcertSpace
         |> List.map (Queries.World.placeInCityById city.Id)
 
     let selectedVenue =

@@ -29,7 +29,7 @@ let hospitalize characterId state =
         | _ -> []
 
     let hospitalCoordinates =
-        Queries.World.placeIdsOf currentCity.Id PlaceTypeIndex.Hospital
+        Queries.World.placeIdsByTypeInCity currentCity.Id PlaceTypeIndex.Hospital
         |> List.head (* We need at least one hospital in the city. *)
         |> Tuple.two currentCity.Id
 

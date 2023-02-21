@@ -3,7 +3,7 @@ module rec Duets.Data.World.Cities.Madrid.Root
 open Duets.Entities
 
 let generate () =
-    let createMadrid = World.City.create Madrid
+    let createMadrid = World.City.create Madrid 2.3
 
     let arganzuela =
         { Id = "59771ed6-2cfb-4ec4-a5e8-23a93673b804" |> Identity.from |> ZoneId

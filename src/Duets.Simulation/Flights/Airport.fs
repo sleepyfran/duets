@@ -47,7 +47,7 @@ let leavePlane state flight =
         |> (*) 1<dayMoments>
 
     let destinationAirport =
-        Queries.World.placeIdsOf flight.Destination PlaceTypeIndex.Airport
+        Queries.World.placeIdsByTypeInCity flight.Destination PlaceTypeIndex.Airport
         |> List.head (* All cities must have an airport. *)
 
     [ yield! AdvanceTime.advanceDayMoment' state dayMomentsNeeded

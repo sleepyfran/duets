@@ -9,6 +9,7 @@ open Duets.Simulation
 
 type private PhoneMenuOption =
     | Bank
+    | BnB
     | Flights
     | Jobs
     | Calendar
@@ -18,6 +19,7 @@ type private PhoneMenuOption =
 let private textFromOption opt =
     match opt with
     | Bank -> "Bank"
+    | BnB -> "DuetsBnB"
     | Flights -> "Flights" 
     | Jobs -> "Jobs"
     | Calendar -> "Calendar"
@@ -34,10 +36,11 @@ let rec phoneScene () =
             (Phone.prompt currentDate dayMoment)
             Phone.putDown
             textFromOption
-            [ Bank; Flights; Jobs; Calendar; Statistics; ConcertAssistant ]
+            [ Bank; BnB; Flights; Jobs; Calendar; Statistics; ConcertAssistant ]
 
     match selection with
     | Some Bank -> Apps.Bank.Root.bankApp ()
+    | Some BnB -> Apps.BnB.Root.bnbApp ()
     | Some Flights -> Apps.Flights.Root.flightsApp ()
     | Some Jobs -> Apps.Jobs.Root.jobsApp ()
     | Some Calendar -> Apps.Calendar.Root.calendarApp ()

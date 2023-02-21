@@ -96,6 +96,8 @@
         <Compile Include="Scenes\NewGame\WorldSelector.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\Transfer.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\Bank.fs"/>
+        <Compile Include="Scenes\Phone\Apps\BnB\Rent.fs"/>
+        <Compile Include="Scenes\Phone\Apps\BnB\BnB.fs"/>
         <Compile Include="Scenes\Phone\Apps\Flights\BookFlight.fs"/>
         <Compile Include="Scenes\Phone\Apps\Flights\Flights.fs"/>
         <Compile Include="Scenes\Phone\Apps\Jobs\FindJob.fs"/>
@@ -114,6 +116,7 @@
     <ItemGroup>
         <PackageReference Include="AvsAn" Version="3.2.0"/>
         <PackageReference Include="FSharpx.Extras" Version="3.0.0"/>
+        <PackageReference Include="FsToolkit.ErrorHandling" Version="4.3.0"/>
         <PackageReference Include="RadLine" Version="0.6.0"/>
         <PackageReference Include="Spectre.Console" Version="0.44.0"/>
     </ItemGroup>

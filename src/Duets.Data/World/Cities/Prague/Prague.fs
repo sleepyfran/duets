@@ -3,7 +3,7 @@ module rec Duets.Data.World.Cities.Prague.Root
 open Duets.Entities
 
 let generate () =
-    let createPrague = World.City.create Prague
+    let createPrague = World.City.create Prague 1.8
 
     let newTown =
         { Id = "feb334c9-b399-4ff3-83ab-577ddde0f18e" |> Identity.from |> ZoneId

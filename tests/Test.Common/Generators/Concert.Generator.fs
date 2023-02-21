@@ -21,7 +21,7 @@ let generator opts =
         let city = Queries.World.allCities |> List.head
 
         let venueId =
-            Queries.World.placeIdsOf city.Id PlaceTypeIndex.ConcertSpace
+            Queries.World.placeIdsByTypeInCity city.Id PlaceTypeIndex.ConcertSpace
             |> List.head
 
         let! concert = Arb.generate<Concert>

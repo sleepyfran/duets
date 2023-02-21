@@ -19,6 +19,7 @@
         <Compile Include="Func.fs"/>
         <Compile Include="String.fs"/>
         <Compile Include="Pipe.fs"/>
+        <Compile Include="Option.fs"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Aether" Version="8.3.1"/>

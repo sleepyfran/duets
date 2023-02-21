@@ -53,10 +53,11 @@ module City =
             | None -> [ place.Id ] |> Some)
 
     /// Creates a city with only one initial starting node.
-    let create id place =
+    let create id costModifier place =
         { Id = id
           PlaceByTypeIndex = addToPlaceByTypeIndex place Map.empty
           PlaceIndex = [ (place.Id, place) ] |> Map.ofList
+          PlaceCostModifier = costModifier
           ZoneIndex = addToZoneIndex place Map.empty }
 
     /// Adds a new place to the city.

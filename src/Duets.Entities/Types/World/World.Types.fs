@@ -73,6 +73,9 @@ module WorldTypes =
         { Id: CityId
           PlaceByTypeIndex: Map<PlaceTypeIndex, PlaceId list>
           PlaceIndex: Map<PlaceId, Place>
+          /// Modifier that will be used when calculating the price of places
+          /// inside of the city.
+          PlaceCostModifier: float
           ZoneIndex: Map<ZoneId, PlaceId list> }
 
     /// Defines a position in the world.

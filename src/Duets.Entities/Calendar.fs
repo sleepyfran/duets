@@ -34,6 +34,9 @@ module Ops =
     /// Adds the given number of days to the date.
     let addDays n (date: Date) = date.AddDays(float n)
 
+    /// Adds the given number of months to the date.
+    let addMonths n (date: Date) = date.AddMonths(n)
+
     /// Adds the given number of years to the date.
     let addYears n (date: Date) = date.AddYears(n)
 

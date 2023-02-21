@@ -12,7 +12,7 @@ let private allInitialWorldItems =
     Queries.World.allCities
     |> List.map (fun city ->
         let homeId =
-            Queries.World.placeIdsOf city.Id PlaceTypeIndex.Home |> List.head
+            Queries.World.placeIdsByTypeInCity city.Id PlaceTypeIndex.Home |> List.head
 
         let kitchenItems =
             [ fst Food.FastFood.genericBurger
@@ -39,7 +39,7 @@ let startGame
     (initialCity: City)
     =
     let initialPlace =
-        Queries.World.placeIdsOf initialCity.Id PlaceTypeIndex.Home
+        Queries.World.placeIdsByTypeInCity initialCity.Id PlaceTypeIndex.Home
         |> List.head (* We need at least one home in the city. *)
 
     let initialSkillMap =

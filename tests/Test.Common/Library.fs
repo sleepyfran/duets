@@ -91,7 +91,7 @@ let dummyConcert =
     { Id = Identity.create ()
       CityId = Prague
       VenueId =
-        Queries.World.placeIdsOf Prague PlaceTypeIndex.ConcertSpace |> List.head
+        Queries.World.placeIdsByTypeInCity Prague PlaceTypeIndex.ConcertSpace |> List.head
       Date = dummyToday.AddDays(30)
       DayMoment = Night
       TicketPrice = 20m<dd>

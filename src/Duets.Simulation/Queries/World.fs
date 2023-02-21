@@ -50,12 +50,17 @@ module World =
 
     /// Returns a list of IDs of the places with the given type inside of the
     /// given city.
-    let placeIdsOf cityId placeType =
+    let placeIdsByTypeInCity cityId placeType =
         cityById cityId
         |> Optic.get (
             Lenses.World.City.placeByTypeIndex_ >-> Map.key_ placeType
         )
         |> Option.defaultValue []
+
+    /// Returns a list of places with the given type inside of a city.
+    let placesByTypeInCity cityId placeType =
+        placeIdsByTypeInCity cityId placeType
+        |> List.map (placeInCityById cityId)
 
     /// Returns the distance between the given cities.
     let distanceBetween city1 city2 =

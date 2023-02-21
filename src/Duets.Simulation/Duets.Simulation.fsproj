@@ -46,6 +46,7 @@
         <Compile Include="State\Albums.fs" />
         <Compile Include="State\Inventory.fs" />
         <Compile Include="State\Bands.fs" />
+        <Compile Include="State\Rentals.fs"/>
         <Compile Include="State\Skills.fs" />
         <Compile Include="State\World.fs" />
         <Compile Include="State\State.fs" />
@@ -85,6 +86,7 @@
         <Compile Include="Flights\Booking.fs" />
         <Compile Include="Flights\Airport.fs" />
         <Compile Include="Calendar\Notifications.fs" />
+        <Compile Include="Rentals\RentPlace.fs"/>
         <Compile Include="Songs\Practice.fs" />
         <Compile Include="Songs\Composition\Common.fs" />
         <Compile Include="Songs\Composition\ComposeSong.fs" />
@@ -104,6 +106,7 @@
         <Compile Include="Events\Events.fs" />
         <Compile Include="Setup\StartGame.fs" />
         <Compile Include="Simulation.fs" />
+        <PackageReference Include="FsToolkit.ErrorHandling" Version="4.3.0"/>
         <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj" />
         <ProjectReference Include="..\Duets.Data\Duets.Data.fsproj" />
         <PackageReference Include="Aether" Version="8.3.1" />

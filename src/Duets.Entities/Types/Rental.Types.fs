@@ -7,7 +7,7 @@ module RentalTypes =
     /// rentals like a hotel room, where there's just one payment.
     type RentalType =
         | Monthly of paymentDate: Date
-        | OneTime
+        | OneTime of until: Date
 
     /// Defines a rental that the character holds over some place.
     type Rental =
