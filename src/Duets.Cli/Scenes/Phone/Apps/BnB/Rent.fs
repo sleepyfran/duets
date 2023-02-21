@@ -77,9 +77,7 @@ and displayPlaceInformation cityId placeType place =
             effects |> Effect.applyMultiple
 
             match rental.RentalType with
-            | Monthly paymentDate ->
-                let nextPaymentDate = paymentDate |> Calendar.Ops.addMonths 1
-
+            | Monthly nextPaymentDate ->
                 $"You've started renting a {place.Name |> String.lowercase} in {Generic.cityName cityId |> Styles.place}, you can now access it. Your next payment date is {Date.simple nextPaymentDate}. You will get a notification before it's time to pay again, but make sure you do it otherwise the rent will expire and you won't be able to access the place anymore"
             | OneTime untilDate ->
                 $"You've rented {place.Name} in {Generic.cityName cityId} and you can now access it until {Date.simple untilDate}"

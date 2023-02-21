@@ -16,7 +16,9 @@ let rentPlace state cityId (place: Place) =
     | Home ->
         let characterAccount = Queries.Bank.playableCharacterAccount state
         let rentalPrice = Queries.Rentals.calculateRentalPrice cityId place
-        let today = Queries.Calendar.today state
+
+        let nextPaymentDate =
+            Queries.Calendar.today state |> Calendar.Ops.addMonths 1
 
         result {
             let! expenseEffects =
@@ -27,7 +29,7 @@ let rentPlace state cityId (place: Place) =
             let rental =
                 { Amount = rentalPrice
                   Coords = cityId, place.Id
-                  RentalType = Monthly today }
+                  RentalType = Monthly nextPaymentDate }
 
             return rental, expenseEffects @ [ RentalAdded rental ]
         }
