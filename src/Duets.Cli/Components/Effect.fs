@@ -7,7 +7,6 @@ open Duets.Cli.Text
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation
-open Duets.Simulation.Events.Place
 
 /// <summary>
 /// Applies an effect to the simulation and displays any message or action that
@@ -130,16 +129,23 @@ let private displayEffect effect =
         "Choose where you want to go next" |> showMessage
 
         showMapUntilChoice () |> applyMultiple
-    | RentalExpired place ->
+    | RentalExpired rental ->
         lineBreak ()
 
+        let currentPlace = Queries.World.currentPlace (State.get ())
+        let expiredPlace = rental.Coords ||> Queries.World.placeInCityById
+
         Styles.danger
-            $"You didn't pay this month's rent, so you can no longer access {place.Name}"
+            $"You didn't pay this month's rent, so you can no longer access {expiredPlace.Name}"
         |> showMessage
 
-        "Choose where you want to go next" |> showMessage
+        (* If the player is currently here, kick them out! *)
+        if currentPlace = expiredPlace then
+            "Since your rent has ran out, you need to go somewhere else"
+            |> Styles.error
+            |> showMessage
 
-        showMapUntilChoice () |> applyMultiple
+            showMapUntilChoice () |> applyMultiple
     | SongImproved (_, Diff (before, after)) ->
         let (_, _, previousQuality) = before
         let (_, _, currentQuality) = after

@@ -3,25 +3,22 @@ module Duets.Simulation.Events.Place.RentalExpiration
 open Duets.Entities
 open Duets.Simulation
 
-let private checkPlaceRental state cityId (place: Place) =
-    let placeRental = Queries.Rentals.getForCoords state (cityId, place.Id)
+let rec private expireRentalIfNeeded rental currentDate untilDate =
+    if currentDate > untilDate then
+        [ RentalExpired rental ]
+    else
+        []
 
-    match placeRental with
-    | Some _ -> []
-    | None -> [ RentalExpired place ]
+let private checkPlaceRental currentDate rental =
+    match rental.RentalType with
+    | Monthly untilDate
+    | OneTime untilDate -> expireRentalIfNeeded rental currentDate untilDate
 
 /// Checks if the current place requires any sort of rental and if so, checks
 /// that the character still holds the rental required to be here.
 let checkCurrentPlace state =
-    let currentCity = Queries.World.currentCity state
-    let currentPlace = Queries.World.currentPlace state
+    let currentDate =
+        Queries.Calendar.today state |> Calendar.Transform.resetDayMoment
 
-    let requiresRental =
-        match currentPlace.Type with
-        | PlaceType.Home -> true
-        | _ -> false
-
-    if requiresRental then
-        checkPlaceRental state currentCity.Id currentPlace
-    else
-        []
+    Queries.Rentals.all state
+    |> List.fold (fun _ -> checkPlaceRental currentDate) []

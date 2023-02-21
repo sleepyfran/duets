@@ -37,7 +37,7 @@ module EffectTypes =
         | MoneyTransferred of BankAccountHolder * BankTransaction
         | NotificationEventHappeningSoon of CalendarEventType
         | RentalAdded of Rental
-        | RentalExpired of Place
+        | RentalExpired of Rental
         | SkillImproved of Character * Diff<SkillWithLevel>
         | SongStarted of Band * UnfinishedSongWithQualities
         | SongImproved of Band * Diff<UnfinishedSongWithQualities>
