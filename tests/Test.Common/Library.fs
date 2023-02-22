@@ -87,11 +87,16 @@ let dummyCity =
     let world = World.get ()
     world.Cities |> Map.head
 
+let dummyPlace =
+    Queries.World.placesByTypeInCity dummyCity.Id PlaceTypeIndex.Home
+    |> List.head
+
 let dummyConcert =
     { Id = Identity.create ()
       CityId = Prague
       VenueId =
-        Queries.World.placeIdsByTypeInCity Prague PlaceTypeIndex.ConcertSpace |> List.head
+        Queries.World.placeIdsByTypeInCity Prague PlaceTypeIndex.ConcertSpace
+        |> List.head
       Date = dummyToday.AddDays(30)
       DayMoment = Night
       TicketPrice = 20m<dd>

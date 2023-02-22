@@ -22,7 +22,7 @@ let private runDailyEffects time state =
 
 let rec private runCurrentTimeChecks time state =
     Concerts.Scheduler.moveFailedConcerts state time
-    @ Notifications.createHappeningSoon state time
+    @ Notifications.createNotifications state time
       @ AttributeChange.applyAfterTimeChange state
 
 /// Runs all the events associated with the current time of the game, this

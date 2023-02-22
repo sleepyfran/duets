@@ -23,13 +23,13 @@ let private createFlightGen fromDate toDate =
     }
 
 [<Test>]
-let ``createHappeningSoon returns nothing when no events are scheduled`` () =
+let ``createNotifications returns nothing when no events are scheduled`` () =
     let state = State.generateOne State.defaultOptions
 
-    Notifications.createHappeningSoon state dummyToday |> should be Empty
+    Notifications.createNotifications state dummyToday |> should be Empty
 
 [<Test>]
-let ``createHappeningSoon returns nothing if the next event is happening after the next day moment``
+let ``createNotifications returns nothing if the next event is happening after the next day moment``
     ()
     =
     let flightGen = createFlightGen dummyToday dummyTodayMiddleOfYear
@@ -40,10 +40,10 @@ let ``createHappeningSoon returns nothing if the next event is happening after t
             FlightGen = flightGen }
         10
     |> List.iter (fun state ->
-        Notifications.createHappeningSoon state dummyToday |> should be Empty)
+        Notifications.createNotifications state dummyToday |> should be Empty)
 
 [<Test>]
-let ``createHappeningSoon returns flight event if it's happening in the day moment after the current one``
+let ``createNotifications returns flight event if it's happening in the day moment after the current one``
     ()
     =
     let nextDayMomentFromDummy = dummyToday |> Calendar.Query.next
@@ -57,16 +57,16 @@ let ``createHappeningSoon returns flight event if it's happening in the day mome
                 FlightsToGenerate = 1
                 FlightGen = flightGen }
 
-    let effects = Notifications.createHappeningSoon state dummyToday
+    let effects = Notifications.createNotifications state dummyToday
     let firstEffect = effects |> List.head
 
     match firstEffect with
-    | NotificationEventHappeningSoon calendarEventType ->
+    | Notification (Notification.CalendarEvent calendarEventType) ->
         calendarEventType |> should be (ofCase <@ CalendarEventType.Flight @>)
     | _ -> failwith "Incorrect effect raised!"
 
 [<Test>]
-let ``createHappeningSoon returns concert event if it's happening in the day moment after the current one``
+let ``createNotifications returns concert event if it's happening in the day moment after the current one``
     ()
     =
     let nextDayMomentFromDummy = dummyToday |> Calendar.Query.next
@@ -84,10 +84,89 @@ let ``createHappeningSoon returns concert event if it's happening in the day mom
                 FutureConcertsToGenerate = 1
                 ScheduledConcertGen = concertGen }
 
-    let effects = Notifications.createHappeningSoon state dummyToday
+    let effects = Notifications.createNotifications state dummyToday
     let firstEffect = effects |> List.head
 
     match firstEffect with
-    | NotificationEventHappeningSoon calendarEventType ->
+    | Notification (Notification.CalendarEvent calendarEventType) ->
         calendarEventType |> should be (ofCase <@ CalendarEventType.Concert @>)
     | _ -> failwith "Incorrect effect raised!"
+
+[<Test>]
+let ``createNotifications returns rental payment reminder if a monthly rental will expire a week from the current date``
+    ()
+    =
+    let nextWeekFromDummyToday = dummyToday |> Calendar.Ops.addDays 7
+
+    let dummyRental =
+        { RentalType = Monthly nextWeekFromDummyToday
+          Amount = 900m<dd>
+          Coords = dummyCity.Id, dummyPlace.Id }
+
+    let state =
+        State.generateOne
+            { State.defaultOptions with FutureConcertsToGenerate = 0 }
+
+    let state =
+        { state with
+            Rentals =
+                [ (dummyCity.Id, dummyPlace.Id), dummyRental ] |> Map.ofList }
+
+    let effects = Notifications.createNotifications state dummyToday
+    let firstEffect = effects |> List.head
+
+    match firstEffect with
+    | Notification (Notification.RentalNotification rentalNotificationType) ->
+        rentalNotificationType
+        |> should be (ofCase <@ RentalNotificationType.RentalDueInOneWeek @>)
+    | _ -> failwith "Incorrect effect raised!"
+
+[<Test>]
+let ``createNotifications returns rental payment reminder if a monthly rental will expire tomorrow``
+    ()
+    =
+    let tomorrowFromDummyToday = dummyToday |> Calendar.Ops.addDays 1
+
+    let dummyRental =
+        { RentalType = Monthly tomorrowFromDummyToday
+          Amount = 900m<dd>
+          Coords = dummyCity.Id, dummyPlace.Id }
+
+    let state =
+        State.generateOne
+            { State.defaultOptions with FutureConcertsToGenerate = 0 }
+
+    let state =
+        { state with
+            Rentals =
+                [ (dummyCity.Id, dummyPlace.Id), dummyRental ] |> Map.ofList }
+
+    let effects = Notifications.createNotifications state dummyToday
+    let firstEffect = effects |> List.head
+
+    match firstEffect with
+    | Notification (Notification.RentalNotification rentalNotificationType) ->
+        rentalNotificationType
+        |> should be (ofCase <@ RentalNotificationType.RentalDueTomorrow @>)
+    | _ -> failwith "Incorrect effect raised!"
+
+[<Test>]
+let ``createNotifications returns nothing for rentals that are one time`` () =
+    let nextWeekFromDummyToday = dummyToday |> Calendar.Ops.addDays 7
+
+    let dummyRental =
+        { RentalType = OneTime nextWeekFromDummyToday
+          Amount = 900m<dd>
+          Coords = dummyCity.Id, dummyPlace.Id }
+
+    let state =
+        State.generateOne
+            { State.defaultOptions with FutureConcertsToGenerate = 0 }
+
+    let state =
+        { state with
+            Rentals =
+                [ (dummyCity.Id, dummyPlace.Id), dummyRental ] |> Map.ofList }
+
+    let effects = Notifications.createNotifications state dummyToday
+    effects |> should be Empty

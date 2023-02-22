@@ -103,23 +103,41 @@ let private displayEffect effect =
         Items.itemRemovedFromInventory item.Brand |> showMessage
     | MoneyTransferred (holder, transaction) ->
         Phone.bankAppTransferSuccess holder transaction |> showMessage
-    | NotificationEventHappeningSoon event ->
-        match event with
-        | CalendarEventType.Flight flight ->
-            $"Flight from {Generic.cityName flight.Origin |> Styles.place}",
-            flight.Date,
-            flight.DayMoment
-        | CalendarEventType.Concert concert ->
+    | Notification notification ->
+        let createCalendarNotification typeText date dayMoment =
+            $"{typeText} scheduled for {Date.simple date |> Styles.time} @ {Generic.dayMomentName dayMoment |> Styles.time}"
+            |> Styles.highlight
+            |> showNotification "Upcoming event"
+
+        let createRentalNotification text =
+            text |> Styles.highlight |> showNotification "Upcoming payment"
+
+        match notification with
+        | Notification.CalendarEvent (CalendarEventType.Flight flight) ->
+            createCalendarNotification
+                $"Flight from {Generic.cityName flight.Origin |> Styles.place}"
+                flight.Date
+                flight.DayMoment
+        | Notification.CalendarEvent (CalendarEventType.Concert concert) ->
             let venue =
                 Queries.World.placeInCityById concert.CityId concert.VenueId
 
-            $"Concert at {venue.Name |> Styles.place} in {Generic.cityName concert.CityId |> Styles.place}",
-            concert.Date,
-            concert.DayMoment
-        |> fun (typeText, date, dayMoment) ->
-            $"{typeText} scheduled for {Date.simple date |> Styles.time} @ {Generic.dayMomentName dayMoment |> Styles.time}"
-            |> Styles.highlight
-        |> showNotification "Upcoming event"
+            createCalendarNotification
+                $"Concert at {venue.Name |> Styles.place} in {Generic.cityName concert.CityId |> Styles.place}"
+                concert.Date
+                concert.DayMoment
+        | Notification.RentalNotification (RentalNotificationType.RentalDueTomorrow rental) ->
+            let cityId, _ = rental.Coords
+            let place = rental.Coords ||> Queries.World.placeInCityById
+
+            $"Your rental of {place.Name} in {Generic.cityName cityId |> Styles.place} will expire tomorrow if you don't pay the next rent.\nYou can do so from your phone's bank app"
+            |> createRentalNotification
+        | Notification.RentalNotification (RentalNotificationType.RentalDueInOneWeek rental) ->
+            let cityId, _ = rental.Coords
+            let place = rental.Coords ||> Queries.World.placeInCityById
+
+            $"Your rental of {place.Name} in {Generic.cityName cityId |> Styles.place} is set to expire in one week unless you pay the next rent.\nHead over to your phone's bank app to do so"
+            |> createRentalNotification
     | PlaceClosed place ->
         lineBreak ()
 

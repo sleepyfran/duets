@@ -24,8 +24,9 @@
         <Compile Include="Types\Career.Types.fs" />
         <Compile Include="Types\Concert.Types.fs" />
         <Compile Include="Types\Flight.Types.fs" />
+        <Compile Include="Types\Rental.Types.fs"/>
         <Compile Include="Types\CalendarEvent.Types.fs" />
-        <Compile Include="Types\Rental.Types.fs" />
+        <Compile Include="Types\Notification.Types.fs"/>
         <Compile Include="Types\Situations.Types.fs" />
         <Compile Include="Types\Interaction.Types.fs" />
         <Compile Include="Types\State.Types.fs" />
