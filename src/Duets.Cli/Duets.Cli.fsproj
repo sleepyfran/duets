@@ -97,6 +97,7 @@
         <Compile Include="Scenes\Phone\Apps\Bank\Transfer.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\UpcomingPayments.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\Bank.fs"/>
+        <Compile Include="Scenes\Phone\Apps\BnB\List.fs"/>
         <Compile Include="Scenes\Phone\Apps\BnB\Rent.fs"/>
         <Compile Include="Scenes\Phone\Apps\BnB\BnB.fs"/>
         <Compile Include="Scenes\Phone\Apps\Flights\BookFlight.fs"/>
