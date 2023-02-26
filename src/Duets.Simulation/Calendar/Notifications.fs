@@ -26,7 +26,7 @@ let private createRentalDueNotifications state date =
     let tomorrowDate = date |> Calendar.Ops.addDays 1
     let nextWeekDate = date |> Calendar.Ops.addDays 7
 
-    Queries.Rentals.all state
+    Queries.Rentals.allUpcoming state
     |> List.choose (fun rental ->
         match rental.RentalType with
         | Monthly nextPaymentDate ->
