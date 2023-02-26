@@ -22,10 +22,6 @@ let bankAppWelcome characterBalance bandBalance =
 
 let bankAppPrompt = "What do you want to do?"
 
-let bankAppTransferToBand = "Transfer money to band"
-
-let bankAppTransferFromBand = "Transfer money from band"
-
 let bankAppTransferAmount holder =
     match holder with
     | Character _ -> "How much do you want to transfer to your band?"

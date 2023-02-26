@@ -44,6 +44,7 @@
         <Compile Include="Flight.fs" />
         <Compile Include="Instrument.fs" />
         <Compile Include="Skill.fs" />
+        <Compile Include="Rental.fs"/>
         <Compile Include="Concert.fs" />
         <Compile Include="Interaction.fs" />
         <Compile Include="World.fs" />

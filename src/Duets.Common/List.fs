@@ -44,3 +44,6 @@ let sampleIndex list =
 /// Returns a random element from the list. If the passed list is empty, throws
 /// since there are no elements to pick.
 let sample list = List.item (sampleIndex list) list
+
+/// Returns whether the given list has any element or not.
+let isNotEmpty list = List.isEmpty list |> not

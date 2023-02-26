@@ -4,49 +4,56 @@ open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
+open Duets.Common
 open Duets.Entities
-open Duets.Simulation.Queries
+open Duets.Simulation
 
 type private BankMenuOptions =
     | TransferToBand
     | TransferFromBand
+    | PayRental
 
 let private textFromOption opt =
     match opt with
-    | TransferToBand -> Phone.bankAppTransferToBand
-    | TransferFromBand -> Phone.bankAppTransferFromBand
+    | TransferToBand -> "Transfer money to band"
+    | TransferFromBand -> "Transfer money from band"
+    | PayRental -> Styles.warning "Pay for next month's rent"
 
 /// Creates the bank scene which allows to transfer money between accounts.
 let rec bankApp () =
     let state = State.get ()
 
     let characterAccount =
-        Characters.playableCharacter state
+        Queries.Characters.playableCharacter state
         |> fun character -> character.Id
         |> Character
 
     let bandAccount =
-        Bands.currentBand state
-        |> fun band -> band.Id
-        |> Band
+        Queries.Bands.currentBand state |> (fun band -> band.Id) |> Band
 
-    let characterBalance = Bank.balanceOf state characterAccount
+    let characterBalance = Queries.Bank.balanceOf state characterAccount
 
-    let bandBalance = Bank.balanceOf state bandAccount
+    let bandBalance = Queries.Bank.balanceOf state bandAccount
 
-    Phone.bankAppWelcome characterBalance bandBalance
-    |> showMessage
+    let upcomingPayments = Queries.Rentals.allUpcoming state
+
+    Phone.bankAppWelcome characterBalance bandBalance |> showMessage
 
     let selection =
         showOptionalChoicePrompt
             Phone.bankAppPrompt
             Generic.back
             textFromOption
-            [ TransferToBand; TransferFromBand ]
+            [ TransferToBand
+              TransferFromBand
+              if List.isNotEmpty upcomingPayments then
+                  PayRental ]
 
     match selection with
     | Some TransferToBand ->
-        Transfer.transferSubScene bankApp characterAccount bandAccount
+        Transfer.transfer bankApp characterAccount bandAccount
     | Some TransferFromBand ->
-        Transfer.transferSubScene bankApp bandAccount characterAccount
+        Transfer.transfer bankApp bandAccount characterAccount
+    | Some PayRental ->
+        UpcomingPayments.upcomingPayments bankApp upcomingPayments
     | None -> Scene.Phone

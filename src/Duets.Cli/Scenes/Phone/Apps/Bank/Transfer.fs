@@ -9,9 +9,8 @@ open Duets.Simulation.Bank.Operations
 
 /// Asks for the amount that the user wants to transfer from the two accounts
 /// and confirms the transaction.
-let transferSubScene bankApp sender receiver =
-    let amount =
-        showDecimalPrompt (Phone.bankAppTransferAmount receiver)
+let transfer bankApp sender receiver =
+    let amount = showDecimalPrompt (Phone.bankAppTransferAmount receiver)
 
     if amount > 0m then
         transfer (State.get ()) sender receiver (amount * 1m<dd>)
@@ -21,7 +20,6 @@ let transferSubScene bankApp sender receiver =
             | Error (NotEnoughFunds _) ->
                 Phone.bankAppTransferNotEnoughFunds |> showMessage
     else
-        Phone.bankAppTransferNothingTransferred
-        |> showMessage
+        Phone.bankAppTransferNothingTransferred |> showMessage
 
     bankApp ()

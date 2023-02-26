@@ -38,6 +38,7 @@ module EffectTypes =
         | Notification of Notification
         | RentalAdded of Rental
         | RentalExpired of Rental
+        | RentalUpdated of Rental
         | SkillImproved of Character * Diff<SkillWithLevel>
         | SongStarted of Band * UnfinishedSongWithQualities
         | SongImproved of Band * Diff<UnfinishedSongWithQualities>

@@ -14,6 +14,9 @@ let error text = $"[bold red]{text}[/]"
 /// Pre-defined style for actions that cannot be undone.
 let danger text = $"[red3]{text}[/]"
 
+/// Pre-defined style for warnings and actions that might have unwanted consequences.
+let warning text = $"[orange3]{text}[/]"
+
 /// Pre-defined style for success messages.
 let success text = $"[bold green3]{text}[/]"
 

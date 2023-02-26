@@ -77,6 +77,7 @@ let applyEffect state effect =
     | PlaceClosed _ -> state
     | RentalAdded rental -> Rentals.add rental state
     | RentalExpired rental -> Rentals.remove rental state
+    | RentalUpdated rental -> Rentals.remove rental state |> Rentals.add rental
     | SkillImproved (character, Diff (_, skill)) ->
         Skills.add character.Id skill state
     | SongStarted (band, unfinishedSong) ->
