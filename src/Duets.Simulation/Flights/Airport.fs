@@ -16,38 +16,30 @@ let passSecurityCheck state =
         | _ -> false)
     |> List.map ItemRemovedFromInventory
 
-let private calculateFlightTime flight =
-    Queries.World.distanceBetween flight.Origin flight.Destination
-    |> (*) 8<second / km>
-
 /// Boards the plane to the given flight, returning how many hours the trip will
 /// take and sets the situation to in-flight.
 let boardPlane flight =
-    let flightTimeInSeconds =
-        calculateFlightTime flight
+    let flightTimeInSeconds = Queries.Flights.flightTime flight
 
-    let flightTimeInMinutes =
-        flightTimeInSeconds / 60<second / minute>
+    let flightTimeInMinutes = flightTimeInSeconds / 60<second / minute>
 
-    let situationEffect =
-        Situations.onboardedInPlane flight
+    let situationEffect = Situations.onboardedInPlane flight
 
-    [ situationEffect
-      FlightUpdated { flight with AlreadyUsed = true } ],
+    [ situationEffect; FlightUpdated { flight with AlreadyUsed = true } ],
     flightTimeInMinutes
 
 /// Passes as many day moments needed for the flight to complete and leaves
 /// the character in the destination's airport.
 let leavePlane state flight =
-    let flightTime = calculateFlightTime flight
-    let dayMomentPerHourInSeconds = 3600<second>
-
     let dayMomentsNeeded =
-        flightTime / dayMomentPerHourInSeconds
-        |> (*) 1<dayMoments>
+        AirportInteraction.WaitUntilLanding flight
+        |> Interaction.Airport
+        |> Queries.InteractionTime.timeRequired
 
     let destinationAirport =
-        Queries.World.placeIdsByTypeInCity flight.Destination PlaceTypeIndex.Airport
+        Queries.World.placeIdsByTypeInCity
+            flight.Destination
+            PlaceTypeIndex.Airport
         |> List.head (* All cities must have an airport. *)
 
     [ yield! AdvanceTime.advanceDayMoment' state dayMomentsNeeded

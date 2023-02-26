@@ -4,6 +4,7 @@ open Common
 open Duets.Common
 open Duets.Simulation.Queries
 open Duets.Entities
+open Duets.Simulation
 open Duets.Simulation.Time
 
 /// Orchestrates the song composition, which calculates the qualities of a song
@@ -20,4 +21,8 @@ let composeSong state song =
         |> SongStarted
 
     [ songStartedEffect
-      yield! AdvanceTime.advanceDayMoment' state 1<dayMoments> ]
+      yield!
+          RehearsalInteraction.ComposeNewSong
+          |> Interaction.Rehearsal
+          |> Queries.InteractionTime.timeRequired
+          |> AdvanceTime.advanceDayMoment' state ]

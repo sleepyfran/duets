@@ -34,13 +34,19 @@ let consume state (item: Item) action =
 let interact state (item: Item) action =
     let character = Queries.Characters.playableCharacter state
 
+    let timeEffects =
+        ItemInteraction.Interactive action
+        |> Interaction.Item
+        |> Queries.InteractionTime.timeRequired
+        |> Time.AdvanceTime.advanceDayMoment' state
+
     match action with
     | InteractiveItemInteraction.Sleep when
         item.Type = (FurnitureItemType.Bed
                      |> InteractiveItemType.Furniture
                      |> Interactive)
         ->
-        [ yield! Time.AdvanceTime.advanceDayMoment' state 2<dayMoments>
+        [ yield! timeEffects
           yield! Character.Attribute.add character CharacterAttribute.Energy 80
           yield! Character.Attribute.add character CharacterAttribute.Health 16 ]
         |> Ok
@@ -49,7 +55,7 @@ let interact state (item: Item) action =
                      |> InteractiveItemType.Electronics
                      |> Interactive)
         ->
-        [ yield! Time.AdvanceTime.advanceDayMoment' state 1<dayMoments>
+        [ yield! timeEffects
           yield! Character.Attribute.add character CharacterAttribute.Mood 6 ]
         |> Ok
     | InteractiveItemInteraction.Watch when
@@ -57,7 +63,7 @@ let interact state (item: Item) action =
                      |> InteractiveItemType.Electronics
                      |> Interactive)
         ->
-        [ yield! Time.AdvanceTime.advanceDayMoment' state 1<dayMoments>
+        [ yield! timeEffects
           yield! Character.Attribute.add character CharacterAttribute.Mood 5 ]
         |> Ok
     | _ -> Error ActionNotPossible

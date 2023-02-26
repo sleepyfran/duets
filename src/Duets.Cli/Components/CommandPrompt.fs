@@ -128,11 +128,7 @@ let private editor availableCommands =
 /// The scene that the last executed command returned.
 /// </returns>
 let rec showCommandPrompt title availableCommands =
-    let commandsWithEssentials =
-        availableCommands @ [ ExitCommand.get; MeCommand.get ]
-        |> fun commands -> [ HelpCommand.create commands ] @ commands
-
-    let prompt = editor commandsWithEssentials
+    let prompt = editor availableCommands
 
     let rec promptForCommand () =
         lineBreak ()
@@ -146,7 +142,7 @@ let rec showCommandPrompt title availableCommands =
 
             let inputTokens = String.split ' ' input |> List.ofArray
 
-            commandsWithEssentials
+            availableCommands
             |> List.tryFind (fun command ->
                 let commandTokens =
                     String.split ' ' command.Name |> List.ofArray

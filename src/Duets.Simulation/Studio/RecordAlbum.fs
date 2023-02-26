@@ -2,12 +2,12 @@ module Duets.Simulation.Studio.RecordAlbum
 
 open Duets.Common
 open Duets.Entities
-open Duets.Simulation.Queries
+open Duets.Simulation
 open Duets.Simulation.Bank.Operations
 open Duets.Simulation.Time
 
 let private productionQualityImprovement state studio =
-    Skills.characterSkillWithLevel
+    Queries.Skills.characterSkillWithLevel
         state
         studio.Producer.Id
         SkillId.MusicProduction
@@ -28,7 +28,12 @@ let private generatePaymentForOneSong state studio (band: Band) =
 
 let private generateEffectsAfterBilling state studio band effects =
     let billingResult = generatePaymentForOneSong state studio band
-    let timeEffects = AdvanceTime.advanceDayMoment' state 2<dayMoments>
+
+    let timeEffects =
+        StudioInteraction.CreateAlbum(studio, [])
+        |> Interaction.Studio
+        |> Queries.InteractionTime.timeRequired
+        |> AdvanceTime.advanceDayMoment' state
 
     match billingResult with
     | Ok billingEffects -> Ok(timeEffects @ effects @ billingEffects)

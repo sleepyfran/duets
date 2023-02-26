@@ -16,10 +16,11 @@ let workAttributeChange state (job: Job) =
 /// Starts a work shift in the given job, passing the necessary amount of day
 /// moments until the shift ends, paying the character the earned amount and
 /// reducing the needed attributes from the character.
-let workShift state (job: Job) =
+let workShift state job =
     let shiftDayMoments =
-        match job.Schedule with
-        | JobSchedule.Free duration -> duration
+        CareerInteraction.Work job
+        |> Interaction.Career
+        |> Queries.InteractionTime.timeRequired
 
     let timeEffects = AdvanceTime.advanceDayMoment' state shiftDayMoments
 

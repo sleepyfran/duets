@@ -3,6 +3,7 @@ module Duets.Simulation.Songs.Practice
 open Aether
 open Duets.Common
 open Duets.Entities
+open Duets.Simulation
 open Duets.Simulation.Time
 
 type PracticeSongResult =
@@ -25,5 +26,9 @@ let practiceSong state band (finishedSong: FinishedSongWithQuality) =
         let songWithPractice = (FinishedSong updatedSong, quality)
 
         [ SongPracticed(band, songWithPractice)
-          yield! AdvanceTime.advanceDayMoment' state 1<dayMoments> ]
+          yield!
+              RehearsalInteraction.PracticeSong []
+              |> Interaction.Rehearsal
+              |> Queries.InteractionTime.timeRequired
+              |> AdvanceTime.advanceDayMoment' state ]
         |> SongImproved

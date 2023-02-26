@@ -11,8 +11,8 @@ open Duets.Simulation
 
 let private commandsFromInteractions interactions =
     interactions
-    |> List.collect (fun interactionWithState ->
-        match interactionWithState.Interaction with
+    |> List.collect (fun interactionWithMetadata ->
+        match interactionWithMetadata.Interaction with
         | Interaction.Airport airportInteraction ->
             match airportInteraction with
             | AirportInteraction.BoardAirplane flight ->
@@ -131,12 +131,13 @@ let private commandsFromInteractions interactions =
                 [ ListUnreleasedAlbumsCommand.create unreleasedAlbums ]
             | StudioInteraction.ReleaseAlbum unreleasedAlbums ->
                 [ ReleaseAlbumCommand.create unreleasedAlbums ]
-        |> List.map (Tuple.two interactionWithState.State))
-    |> List.map (fun (interactionState, command) ->
-        match interactionState with
+        |> List.map (Tuple.two interactionWithMetadata))
+    |> List.map (fun (interactionWithMetadata, command) ->
+        match interactionWithMetadata.State with
         | InteractionState.Enabled -> command
         | InteractionState.Disabled disabledReason ->
-            Command.disable disabledReason command)
+            Command.disable disabledReason command
+        |> Tuple.two interactionWithMetadata.TimeAdvance)
 
 let private filterAttributesForInfoBar =
     List.choose (fun (attr, amount) ->
@@ -194,6 +195,11 @@ let worldScene mode =
                 ongoingConcert.Points
         | _ -> Command.commonPrompt today currentDayMoment characterAttributes
 
-    showCommandPrompt
-        promptText
-        (commandsFromInteractions interactionsWithState)
+    let commandsWithMetadata =
+        commandsFromInteractions interactionsWithState
+        @ [ (0<dayMoments>, ExitCommand.get); (0<dayMoments>, MeCommand.get) ]
+
+    commandsWithMetadata
+    |> List.map snd
+    |> (@) [ HelpCommand.create commandsWithMetadata ]
+    |> showCommandPrompt promptText

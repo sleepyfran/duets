@@ -3,6 +3,7 @@ module Duets.Simulation.Songs.Composition.ImproveSong
 open Common
 open Duets.Common
 open Duets.Entities
+open Duets.Simulation
 open Duets.Simulation.Time
 
 let private improveSong' state band song maxQuality (quality: Quality) =
@@ -19,7 +20,11 @@ let private improveSong' state band song maxQuality (quality: Quality) =
 
     let effects =
         [ SongImproved(band, Diff(songBeforeUpgrade, songWithUpdatedQualities))
-          yield! AdvanceTime.advanceDayMoment' state 1<dayMoments> ]
+          yield!
+              RehearsalInteraction.ImproveSong []
+              |> Interaction.Rehearsal
+              |> Queries.InteractionTime.timeRequired
+              |> AdvanceTime.advanceDayMoment' state ]
 
     if canBeFurtherImproved then
         (CanBeImproved, effects)

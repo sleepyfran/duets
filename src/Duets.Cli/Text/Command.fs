@@ -37,10 +37,6 @@ let editAlbumNameDescription =
 
 let helpDescription = "Here are all the commands you can execute right now:"
 
-let helpFooter =
-    Styles.faded
-        $"""Remember that when referencing items you {Styles.highlight "don't"} need to write diacritics"""
-
 let discardSongDescription =
     "Prompts you for a song to discard from the list of unfinished songs"
 

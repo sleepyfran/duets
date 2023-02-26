@@ -3,6 +3,7 @@ module Duets.Simulation.Queries.Flights
 open Aether
 open Duets.Entities
 open Duets.Simulation
+open FSharp.Data.UnitSystems.SI.UnitNames
 
 /// Retrieves a tuple containing all flights booked. First element is past bookings
 /// (those that are passed) and the second is future bookings (any element whose
@@ -46,3 +47,17 @@ let availableForBoarding state =
             flight.Date |> Calendar.Transform.changeDayMoment flight.DayMoment
 
         earliestBoardingDate = currentDate || latestBoardingDate = currentDate)
+
+/// Calculates the total amount of minutes that it'd take to complete the given
+/// flight.
+let flightTime flight =
+    Queries.World.distanceBetween flight.Origin flight.Destination
+    |> (*) 8<second / km>
+
+/// Calculates the total amount of day moments that it'd take to complete the
+/// given flight.
+let flightDayMoments flight =
+    let flightTime = flightTime flight
+    let dayMomentPerHourInSeconds = 3600<second>
+
+    flightTime / dayMomentPerHourInSeconds |> (*) 1<dayMoments>

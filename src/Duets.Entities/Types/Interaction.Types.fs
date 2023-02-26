@@ -138,7 +138,10 @@ module InteractionTypes =
         /// Allows to create and record a new album.
         | CreateAlbum of studio: Studio * songs: FinishedSongWithQuality list
         /// Allows to record another song for a previously created album.
-        | AddSongToAlbum of studio: Studio * unreleasedAlbums: UnreleasedAlbum list * songs: FinishedSongWithQuality list
+        | AddSongToAlbum of
+            studio: Studio *
+            unreleasedAlbums: UnreleasedAlbum list *
+            songs: FinishedSongWithQuality list
         /// Allows to edit the name of a previously created album.
         | EditAlbumName of albums: UnreleasedAlbum list
         /// Allows to list all the unreleased albums.
@@ -176,7 +179,9 @@ module InteractionTypes =
         | Enabled
         | Disabled of InteractionDisabledReason
 
-    /// Defines an interaction and its state (enabled or disabled).
-    type InteractionWithState =
+    /// Wraps an interaction and adds whether it's enabled or not and the amount
+    /// of time that it'll take to perform it.
+    type InteractionWithMetadata =
         { Interaction: Interaction
-          State: InteractionState }
+          State: InteractionState
+          TimeAdvance: int<dayMoments> }

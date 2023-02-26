@@ -14,6 +14,9 @@ let concert = ":admission_tickets: "
 /// Emoji for representing a notification.
 let notification = ":bell:"
 
+/// Emoji for a clock in a random time.
+let clock = ":eight_o_clock:"
+
 /// Returns the correct emoji for showing the current day moment.
 let dayMoment dayMoment =
     match dayMoment with

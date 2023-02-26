@@ -1,6 +1,5 @@
 ﻿namespace Duets.Simulation.Queries
 
-
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Queries.Internal.Interactions
@@ -15,7 +14,7 @@ module Interactions =
         let currentCity = Queries.World.currentCity state
         let currentPlace = Queries.World.currentPlace state
 
-        let inventory = Queries.Inventory.get state
+        let inventory = Inventory.get state
 
         let itemsInPlace =
             Queries.Items.allIn state (currentCity.Id, currentPlace.Id)
@@ -55,6 +54,7 @@ module Interactions =
             Studio.availableCurrently state studio @ defaultInteractions
         |> List.map (fun interaction ->
             { Interaction = interaction
-              State = InteractionState.Enabled })
+              State = InteractionState.Enabled
+              TimeAdvance = InteractionTime.timeRequired interaction })
         |> HealthRequirements.check state
         |> EnergyRequirements.check state
