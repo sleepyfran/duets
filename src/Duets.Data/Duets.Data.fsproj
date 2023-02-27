@@ -34,6 +34,7 @@
         <Compile Include="World\Cities\Prague\Prague.fs"/>
         <Compile Include="World\Cities\Madrid\Madrid.CommonItems.fs"/>
         <Compile Include="World\Cities\Madrid\Madrid.Bars.fs"/>
+        <Compile Include="World\Cities\Madrid\Madrid.Cafes.fs"/>
         <Compile Include="World\Cities\Madrid\Madrid.ConcertSpaces.fs"/>
         <Compile Include="World\Cities\Madrid\Madrid.RehearsalSpaces.fs"/>
         <Compile Include="World\Cities\Madrid\Madrid.fs"/>

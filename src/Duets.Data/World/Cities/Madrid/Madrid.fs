@@ -33,6 +33,8 @@ let generate () =
     |> createMadrid
     |> addAirport barajas
     |> Bars.addWrongWay universidad
+    |> Cafes.addAmbuCoffee universidad
+    |> Cafes.addMisionCafe universidad
     |> ConcertSpaces.addBut justicia
     |> ConcertSpaces.addWurlitzer sol
     |> RehearsalSpaces.addJackOnTheRocks puenteDeVallecas
