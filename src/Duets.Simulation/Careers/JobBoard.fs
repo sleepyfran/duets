@@ -65,5 +65,6 @@ let availableJobsInCurrentCity state jobType =
     |> Queries.World.placeIdsByTypeInCity currentCity.Id
     |> List.map (Queries.World.placeInCurrentCityById state)
     |> List.chunkBySize 5
-    |> List.sample
-    |> generateJobs currentCity.Id
+    |> List.trySample
+    |> Option.map (generateJobs currentCity.Id)
+    |> Option.defaultValue []

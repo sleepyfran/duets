@@ -35,15 +35,19 @@ let averageByOrDefault projection defaultValue list =
     else
         list |> List.averageBy projection
 
-/// Returns a random index from the list. If the passed list is empty, throws
-/// since there are no elements to pick.
+/// Returns a random index from the list.
 let sampleIndex list =
     let maxIndex = List.length list - 1
+    let maxIndex = if maxIndex < 0 then 0 else maxIndex
     Random.between 0 maxIndex
 
 /// Returns a random element from the list. If the passed list is empty, throws
 /// since there are no elements to pick.
 let sample list = List.item (sampleIndex list) list
+
+/// Returns a random element from the list. If the passed list is empty, returns
+/// None.
+let trySample list = List.tryItem (sampleIndex list) list
 
 /// Returns whether the given list has any element or not.
 let isNotEmpty list = List.isEmpty list |> not

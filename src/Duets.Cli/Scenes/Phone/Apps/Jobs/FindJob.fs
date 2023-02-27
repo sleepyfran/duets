@@ -25,16 +25,21 @@ let private findJobForType jobsApp currentCareer jobType =
     let availableJobs =
         JobBoard.availableJobsInCurrentCity (State.get ()) jobType
 
-    let selectedJob =
-        showOptionalChoicePrompt
-            Phone.findJobSelectPrompt
-            Generic.back
-            jobItemText
-            availableJobs
+    if List.isEmpty availableJobs then
+        "There are no available jobs like this here at this time"
+        |> Styles.error
+        |> showMessage
+    else
+        let selectedJob =
+            showOptionalChoicePrompt
+                Phone.findJobSelectPrompt
+                Generic.back
+                jobItemText
+                availableJobs
 
-    match selectedJob with
-    | Some job -> askForJobConfirmation currentCareer job
-    | None -> ()
+        match selectedJob with
+        | Some job -> askForJobConfirmation currentCareer job
+        | None -> ()
 
     jobsApp ()
 
