@@ -12,7 +12,8 @@ let private allInitialWorldItems =
     Queries.World.allCities
     |> List.map (fun city ->
         let homeId =
-            Queries.World.placeIdsByTypeInCity city.Id PlaceTypeIndex.Home |> List.head
+            Queries.World.placeIdsByTypeInCity city.Id PlaceTypeIndex.Home
+            |> List.head
 
         let kitchenItems =
             [ fst Food.FastFood.genericBurger
@@ -38,9 +39,18 @@ let startGame
     (initialSkills: SkillWithLevel list)
     (initialCity: City)
     =
-    let initialPlace =
+    let initialPlaceId =
         Queries.World.placeIdsByTypeInCity initialCity.Id PlaceTypeIndex.Home
         |> List.head (* We need at least one home in the city. *)
+
+    let initialPlace =
+        (initialCity.Id, initialPlaceId) ||> Queries.World.placeInCityById
+
+    let initialRental =
+        Rentals.RentPlace.createRental
+            Calendar.gameBeginning
+            initialCity.Id
+            initialPlace
 
     let initialSkillMap =
         initialSkills
@@ -61,12 +71,13 @@ let startGame
       CharacterSkills = [ (character.Id, initialSkillMap) ] |> Map.ofList
       Concerts = [ (band.Id, Concert.Timeline.empty) ] |> Map.ofList
       CurrentBandId = band.Id
-      CurrentPosition = initialCity.Id, initialPlace
+      CurrentPosition = initialCity.Id, initialPlaceId
       Flights = []
       GenreMarkets = GenreMarket.create Data.Genres.all
       CharacterInventory = List.empty
       PlayableCharacterId = character.Id
-      Rentals = Map.empty
+      Rentals =
+        [ (initialCity.Id, initialPlaceId), initialRental ] |> Map.ofList
       Situation = FreeRoam
       Today = Calendar.gameBeginning
       WorldItems = allInitialWorldItems }
