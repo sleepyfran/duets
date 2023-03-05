@@ -2,6 +2,7 @@ module Duets.Simulation.Tests.Simulation
 
 open System
 open FsUnit
+open Fugit.Months
 open NUnit.Framework
 open Duets
 open Duets.Simulation.Time
@@ -17,10 +18,10 @@ let stateInMorning =
     { state with
         Today = state.Today |> Calendar.Transform.changeDayMoment Morning }
 
-let stateInMidnightBeforeGameStart =
+let stateInMidnightBeforeNewYear =
     { state with
         Today =
-            Calendar.gameBeginning
+            January 1 2023
             |> Calendar.Transform.changeDayMoment Midnight }
 
 let unfinishedSong = (UnfinishedSong dummySong, 10<quality>, 10<quality>)
@@ -159,9 +160,9 @@ let filterMarketUpdateEffects effect =
     | _ -> false
 
 [<Test>]
-let ``tick should update markets every year in the dawn`` () =
-    AdvanceTime.advanceDayMoment' stateInMidnightBeforeGameStart 1<dayMoments>
-    |> Simulation.tickMultiple stateInMidnightBeforeGameStart
+let ``tick should update markets every year in the early morning`` () =
+    AdvanceTime.advanceDayMoment' stateInMidnightBeforeNewYear 1<dayMoments>
+    |> Simulation.tickMultiple stateInMidnightBeforeNewYear
     |> fst
     |> List.filter filterMarketUpdateEffects
     |> should haveLength 1
