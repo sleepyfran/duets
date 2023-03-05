@@ -1,9 +1,9 @@
 module rec Duets.Entities.Calendar
 
 open Duets.Common
-open Fugit.Months
 open Fugit.Shorthand
 open System
+open System.Globalization
 
 let allDayMoments =
     [ Midnight; EarlyMorning; Morning; Midday; Afternoon; Evening; Night ]
@@ -150,9 +150,15 @@ module Transform =
 
 [<RequireQualifiedAccess>]
 module Parse =
-    /// Attempts to parse a given string into a date.
+    /// Attempts to parse a given string in the format dd/mm/yyyy into a date.
     let date (strDate: string) =
-        let couldParse, parsedDate = DateTime.TryParse strDate
+        let couldParse, parsedDate =
+            DateTime.TryParseExact(
+                strDate,
+                "dd/MM/yyyy",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None
+            )
 
         if couldParse then Some parsedDate else None
 
