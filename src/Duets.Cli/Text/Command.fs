@@ -122,8 +122,7 @@ let talkNothing = "Nothing"
 let tuneInstrumentDescription =
     "Tunes your instrument, which looks cool sometimes"
 
-let waitDescription =
-    $"""Waits for the given amount of time. Use as {Styles.information "wait 4"}, where the number is the amount of day moments to wait"""
+let waitDescription = "Waits for one day moment without doing anything"
 
 let waitInvalidTimes input =
     Styles.error $"The given amount '{input}' is not valid. Try a real number"
