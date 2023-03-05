@@ -11,4 +11,4 @@ let reduceHealth state =
         character
         CharacterAttribute.Health
         (Character.Attribute.lessThan character CharacterAttribute.Hunger 5)
-        Config.LifeSimulation.hungerHealthReduceRage
+        Config.LifeSimulation.hungerHealthReduceRate

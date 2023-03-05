@@ -69,7 +69,7 @@ let ``tick should gather and apply associated effects`` () =
         (CharacterAttributeChanged(
             dummyCharacter.Id,
             CharacterAttribute.Hunger,
-            Diff(100, 80)
+            Diff(100, 85)
         ))
 
 [<Test>]

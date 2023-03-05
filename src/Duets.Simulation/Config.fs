@@ -7,14 +7,18 @@ module LifeSimulation =
     module Interactions =
         /// Minimum amount of health needed to perform any interaction.
         let minimumHealthRequired = 10
-        
+
         /// Minimum amount of energy needed to do any non-movement or item
         /// consumption related interaction.
         let minimumEnergyRequired = 10
-    
+
+    /// Rate at which the character's energy is reduced each time a unit of time
+    /// passes.
+    let energyReductionRate = -20
+
     /// Energy gained per milliliter of coffee ingested.
     let energyPerCoffeeMl = 4
-    
+
     /// Maximum amount of alcohol that the character can take before getting injured.
     let maximumAlcoholAmount = 350
 
@@ -25,10 +29,14 @@ module LifeSimulation =
     /// Rate at which the character's health is reduced each time a unit of
     /// time passes when the drunkenness surpasses 85% of the level above.
     let drunkHealthReduceRate = -15
-    
+
+    /// Rate at which the character's hunger is reduced each time a unit of
+    /// time passes.
+    let hungerReductionRate = -15
+
     /// Rate at which the character's health is reduced each time a unit of
     /// time passes when the hunger gets below 5.
-    let hungerHealthReduceRage = -20
+    let hungerHealthReduceRate = -20
 
 module MusicSimulation =
     /// Amount that will divide the album quality and then multiply the useful
@@ -58,8 +66,7 @@ module MusicSimulation =
     /// Base amount of people that is willing to listen to a genre. When
     /// multiplied with the market point of a genre market, it gives the actual
     /// amount of people interested in a genre in a specific point in time.
-    let defaultMarketSize =
-        1000000 (* 1 million. *)
+    let defaultMarketSize = 1000000 (* 1 million. *)
 
     /// Percentage that when multiplied with the daily streams, will yield the
     /// amount of new fans that the band got that day.
