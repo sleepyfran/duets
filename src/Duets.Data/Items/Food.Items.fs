@@ -90,3 +90,22 @@ module VietnameseFood =
         { Brand = "Phở Bò"
           Type = PhoBo 350<gram> |> Food |> Consumable },
         5.45m<dd>
+
+let all =
+    [ BreakfastFood.croissant
+      BreakfastFood.bltSandwich
+      BreakfastFood.fruitPlate
+      BreakfastFood.granolaBowl
+      BreakfastFood.avocadoEggSandwich
+      FastFood.genericBurger
+      FastFood.genericChips
+      FastFood.genericFries
+      FastFood.genericNachos
+      JapaneseFood.gyoza
+      JapaneseFood.wakame
+      JapaneseFood.misoRamen
+      JapaneseFood.tonkotsuRamen
+      VietnameseFood.phoBo
+      VietnameseFood.nemCuonBo
+      VietnameseFood.nemCuonTom
+      VietnameseFood.bunBoNamBo ]
