@@ -78,8 +78,17 @@ let applyEffect state effect =
     | RentalAdded rental -> Rentals.add rental state
     | RentalExpired rental -> Rentals.remove rental state
     | RentalUpdated rental -> Rentals.remove rental state |> Rentals.add rental
+    | SituationChanged situation ->
+        Optic.set Lenses.State.situation_ situation state
     | SkillImproved (character, Diff (_, skill)) ->
         Skills.add character.Id skill state
+    | SocialNetworkAccountChanged (socialNetworkKey, socialNetworkAccountId) ->
+        SocialNetworks.switchAccount
+            socialNetworkKey
+            socialNetworkAccountId
+            state
+    | SocialNetworkPost (socialNetworkKey, post) ->
+        SocialNetworks.addPost socialNetworkKey post state
     | SongStarted (band, unfinishedSong) ->
         Songs.addUnfinished band unfinishedSong state
     | SongImproved (band, (Diff (_, unfinishedSong))) ->
@@ -98,8 +107,6 @@ let applyEffect state effect =
         let song = Song.fromUnfinished unfinishedSong
 
         Songs.removeUnfinished band song.Id state
-    | SituationChanged situation ->
-        Optic.set Lenses.State.situation_ situation state
     | TimeAdvanced time -> Calendar.setTime time state
     | WorldMoveTo (cityId, nodeId) -> World.move cityId nodeId state
     | Wait _ -> state

@@ -39,13 +39,17 @@ module EffectTypes =
         | RentalAdded of Rental
         | RentalExpired of Rental
         | RentalUpdated of Rental
+        | SituationChanged of Situation
         | SkillImproved of Character * Diff<SkillWithLevel>
+        | SocialNetworkAccountChanged of
+            SocialNetworkKey *
+            SocialNetworkAccountId
+        | SocialNetworkPost of SocialNetworkKey * SocialNetworkPost
         | SongStarted of Band * UnfinishedSongWithQualities
         | SongImproved of Band * Diff<UnfinishedSongWithQualities>
         | SongFinished of Band * FinishedSongWithQuality
         | SongDiscarded of Band * UnfinishedSongWithQualities
         | SongPracticed of Band * FinishedSongWithQuality
-        | SituationChanged of Situation
         | PlaceClosed of Place
         | TimeAdvanced of Date
         | WorldMoveTo of WorldCoordinates

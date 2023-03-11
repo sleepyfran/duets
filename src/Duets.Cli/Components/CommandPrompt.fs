@@ -112,7 +112,7 @@ let private editor availableCommands =
     editor
 
 /// <summary>
-/// Renders a command prompt that the given available commands and the exit/help
+/// Renders a command prompt with the given available commands and the exit/help
 /// command. The prompt will keep on asking for a command as long as the handler
 /// of that command returns None instead of some Scene. This is done so commands
 /// that just do a side-effect or show some input but then need to return to the

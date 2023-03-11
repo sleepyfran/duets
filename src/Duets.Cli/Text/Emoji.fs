@@ -17,6 +17,12 @@ let notification = ":bell:"
 /// Emoji for a clock in a random time.
 let clock = ":eight_o_clock:"
 
+/// Emoji for the Mastodon app.
+let mastodon = ":elephant:"
+
+/// Emoji for boosts in social network apps.
+let boost = ":star:"
+
 /// Returns the correct emoji for showing the current day moment.
 let dayMoment dayMoment =
     match dayMoment with

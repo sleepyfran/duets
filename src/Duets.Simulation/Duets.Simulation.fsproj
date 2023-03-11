@@ -23,6 +23,7 @@
         <Compile Include="Queries\Rentals.fs" />
         <Compile Include="Queries\Inventory.fs" />
         <Compile Include="Queries\Items.fs" />
+        <Compile Include="Queries\SocialNetworks.fs"/>
         <Compile Include="Queries\Concerts.fs" />
         <Compile Include="Queries\CalendarEvents.fs" />
         <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Health.fs" />
@@ -49,6 +50,7 @@
         <Compile Include="State\Bands.fs" />
         <Compile Include="State\Rentals.fs"/>
         <Compile Include="State\Skills.fs" />
+        <Compile Include="State\SocialNetworks.fs"/>
         <Compile Include="State\World.fs" />
         <Compile Include="State\State.fs" />
         <Compile Include="WorldNavigation\Policies\OpeningHours.Policies.fs" />
@@ -57,16 +59,16 @@
         <Compile Include="Situations\Situations.fs" />
         <Compile Include="Character\Attributes.fs" />
         <Compile Include="Character\AttributeChange.fs" />
-        <Compile Include="Bank\Operations.fs" />
-        <Compile Include="Albums\DailyStreams.fs" />
-        <Compile Include="Albums\Hype.fs" />
-        <Compile Include="Albums\FanIncrease.fs" />
-        <Compile Include="Albums\Revenue.fs" />
-        <Compile Include="Albums\DailyUpdate.fs" />
-        <Compile Include="Time\AdvanceTime.fs" />
-        <Compile Include="Studio/ReleaseAlbum.fs" />
-        <Compile Include="Studio/RecordAlbum.fs" />
-        <Compile Include="Studio/RenameAlbum.fs" />
+        <Compile Include="Bank\Operations.fs"/>
+        <Compile Include="Albums\DailyStreams.fs"/>
+        <Compile Include="Albums\Hype.fs"/>
+        <Compile Include="Albums\FanIncrease.fs"/>
+        <Compile Include="Albums\Revenue.fs"/>
+        <Compile Include="Albums\DailyUpdate.fs"/>
+        <Compile Include="Time\AdvanceTime.fs"/>
+        <Compile Include="Studio/ReleaseAlbum.fs"/>
+        <Compile Include="Studio/RecordAlbum.fs"/>
+        <Compile Include="Studio/RenameAlbum.fs"/>
         <Compile Include="Market\GenreMarket.fs"/>
         <Compile Include="Bands\Members.fs"/>
         <Compile Include="Skills\ImproveSkills.Common.fs"/>
@@ -95,6 +97,7 @@
         <Compile Include="Songs\Composition\ImproveSong.fs"/>
         <Compile Include="Songs\Composition\FinishSong.fs"/>
         <Compile Include="Songs\Composition\DiscardSong.fs"/>
+        <Compile Include="SocialNetworks\SocialNetworks.fs"/>
         <Compile Include="Shop\Shop.fs"/>
         <Compile Include="Events\Types.fs"/>
         <Compile Include="Events\Character\Hospitalization.fs"/>
@@ -109,9 +112,9 @@
         <Compile Include="Setup\StartGame.fs"/>
         <Compile Include="Simulation.fs"/>
         <PackageReference Include="FsToolkit.ErrorHandling" Version="4.3.0"/>
-        <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj" />
-        <ProjectReference Include="..\Duets.Data\Duets.Data.fsproj" />
-        <PackageReference Include="Aether" Version="8.3.1" />
-        <PackageReference Include="Fugit" Version="0.4.1" />
+        <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj"/>
+        <ProjectReference Include="..\Duets.Data\Duets.Data.fsproj"/>
+        <PackageReference Include="Aether" Version="8.3.1"/>
+        <PackageReference Include="Fugit" Version="0.4.1"/>
     </ItemGroup>
 </Project>

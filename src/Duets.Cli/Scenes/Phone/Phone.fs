@@ -10,21 +10,33 @@ open Duets.Simulation
 type private PhoneMenuOption =
     | Bank
     | BnB
+    | Calendar
+    | ConcertAssistant
     | Flights
     | Jobs
-    | Calendar
+    | Mastodon
     | Statistics
-    | ConcertAssistant
 
 let private textFromOption opt =
     match opt with
     | Bank -> "Bank"
     | BnB -> "DuetsBnB"
-    | Flights -> "Flights" 
-    | Jobs -> "Jobs"
     | Calendar -> "Calendar"
-    | Statistics -> "Statistics" 
     | ConcertAssistant -> "Concert Assistant"
+    | Flights -> "Flights"
+    | Jobs -> "Jobs"
+    | Mastodon -> "Mastodon"
+    | Statistics -> "Statistics"
+
+let private availableApps =
+    [ Bank
+      BnB
+      Calendar
+      ConcertAssistant
+      Flights
+      Jobs
+      Mastodon
+      Statistics ]
 
 let rec phoneScene () =
     let currentDate = State.get () |> Queries.Calendar.today
@@ -36,14 +48,15 @@ let rec phoneScene () =
             (Phone.prompt currentDate dayMoment)
             Phone.putDown
             textFromOption
-            [ Bank; BnB; Flights; Jobs; Calendar; Statistics; ConcertAssistant ]
+            availableApps
 
     match selection with
     | Some Bank -> Apps.Bank.Root.bankApp ()
     | Some BnB -> Apps.BnB.Root.bnbApp ()
+    | Some Calendar -> Apps.Calendar.Root.calendarApp ()
+    | Some ConcertAssistant -> Apps.ConcertAssistant.Root.concertAssistantApp ()
     | Some Flights -> Apps.Flights.Root.flightsApp ()
     | Some Jobs -> Apps.Jobs.Root.jobsApp ()
-    | Some Calendar -> Apps.Calendar.Root.calendarApp ()
+    | Some Mastodon -> Apps.Mastodon.Root.mastodonApp ()
     | Some Statistics -> Apps.Statistics.Root.statisticsApp ()
-    | Some ConcertAssistant -> Apps.ConcertAssistant.Root.concertAssistantApp ()
     | None -> Scene.World

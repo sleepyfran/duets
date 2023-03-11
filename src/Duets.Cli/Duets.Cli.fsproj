@@ -40,6 +40,7 @@
         <Compile Include="Components\Map.fs"/>
         <Compile Include="Components\Notification.fs"/>
         <Compile Include="Components\Calendar.fs"/>
+        <Compile Include="Components\Post.fs"/>
         <Compile Include="Components\Table.fs"/>
         <Compile Include="Components\Prompt.fs"/>
         <Compile Include="Components\VisualEffects.fs"/>
@@ -110,6 +111,11 @@
         <Compile Include="Scenes\Phone\Apps\Statistics\BandStatistics.fs"/>
         <Compile Include="Scenes\Phone\Apps\Statistics\Statistics.fs"/>
         <Compile Include="Scenes\Phone\Apps\Calendar\Calendar.fs"/>
+        <Compile Include="Scenes\Phone\Apps\Mastodon\Commands\Timeline.Mastodon.Command.fs"/>
+        <Compile Include="Scenes\Phone\Apps\Mastodon\Commands\SwitchAccount.Mastodon.Command.fs"/>
+        <Compile Include="Scenes\Phone\Apps\Mastodon\Commands\Post.Mastodon.Command.fs"/>
+        <Compile Include="Scenes\Phone\Apps\Mastodon\Commands\Exit.Mastodon.Command.fs"/>
+        <Compile Include="Scenes\Phone\Apps\Mastodon\Mastodon.fs"/>
         <Compile Include="Scenes\Phone\Phone.fs"/>
         <Compile Include="Scenes\MainMenu.fs"/>
         <Compile Include="Scenes\World.fs"/>

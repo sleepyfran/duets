@@ -23,5 +23,6 @@ module StateTypes =
           PlayableCharacterId: CharacterId
           Rentals: CharacterRentals
           Situation: Situation
+          SocialNetworks: SocialNetworks
           Today: Date
           WorldItems: WorldItems }

@@ -20,5 +20,12 @@ let empty =
       PlayableCharacterId = Identity.create () |> CharacterId
       Rentals = Map.empty
       Situation = FreeRoam
+      SocialNetworks =
+        { Mastodon =
+            { CurrentAccount =
+                Identity.create ()
+                |> CharacterId
+                |> SocialNetworkAccountId.Character
+              Accounts = Map.empty } }
       Today = Calendar.gameBeginning
       WorldItems = Map.empty }

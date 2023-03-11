@@ -67,6 +67,10 @@ module State =
         (fun (s: State) -> s.Situation),
         (fun v (s: State) -> { s with Situation = v })
 
+    let socialNetworks_ =
+        (fun (s: State) -> s.SocialNetworks),
+        (fun v (s: State) -> { s with SocialNetworks = v })
+
     let today_ =
         (fun (s: State) -> s.Today), (fun v (s: State) -> { s with Today = v })
 
@@ -164,6 +168,21 @@ module Concerts =
         let pastEvents_ =
             (fun (t: ConcertTimeline) -> t.PastEvents),
             (fun v (t: ConcertTimeline) -> { t with PastEvents = v })
+
+module SocialNetworks =
+    let mastodon_ =
+        (fun (s: SocialNetworks) -> s.Mastodon),
+        (fun v (s: SocialNetworks) -> { s with Mastodon = v })
+
+module SocialNetwork =
+    let accounts_ =
+        (fun (s: SocialNetwork) -> s.Accounts),
+        (fun v (s: SocialNetwork) -> { s with Accounts = v })
+
+    module Account =
+        let posts_ =
+            (fun (s: SocialNetworkAccount) -> s.Posts),
+            (fun v (s: SocialNetworkAccount) -> { s with Posts = v })
 
 module Song =
     let practice_ =

@@ -28,6 +28,7 @@
         <Compile Include="Types\CalendarEvent.Types.fs" />
         <Compile Include="Types\Notification.Types.fs"/>
         <Compile Include="Types\Situations.Types.fs" />
+        <Compile Include="Types\SocialNetwork.Types.fs"/>
         <Compile Include="Types\Interaction.Types.fs" />
         <Compile Include="Types\State.Types.fs" />
         <Compile Include="Types\Effect.Types.fs" />
@@ -47,6 +48,7 @@
         <Compile Include="Skill.fs" />
         <Compile Include="Rental.fs"/>
         <Compile Include="Concert.fs" />
+        <Compile Include="SocialNetwork.fs"/>
         <Compile Include="Interaction.fs" />
         <Compile Include="World.fs" />
         <Compile Include="State.fs" />
