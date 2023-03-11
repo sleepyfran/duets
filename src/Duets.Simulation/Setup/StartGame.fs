@@ -79,7 +79,7 @@ let startGame
       Rentals =
         [ (initialCity.Id, initialPlaceId), initialRental ] |> Map.ofList
       Situation = FreeRoam
-      SocialNetworks = SocialNetwork.create character band
+      SocialNetworks = SocialNetwork.empty
       Today = Calendar.gameBeginning
       WorldItems = allInitialWorldItems }
     |> GameCreated

@@ -3,8 +3,17 @@ module Duets.Simulation.SocialNetworks
 open Duets.Entities
 open Duets.Simulation
 
+/// Creates a new account for the given type (character or band) with the
+/// specified handle.
+let signUpForAccount socialNetworkKey accountId handle =
+    let account = SocialNetwork.Account.createEmpty accountId handle
+
+    [ SocialNetworkAccountCreated(socialNetworkKey, account)
+      SocialNetworkAccountChanged(socialNetworkKey, account.Id) ]
+
 /// Generates an effect that flips between the character and the band's account
-/// depending on the currently active account.
+/// depending on the currently active account. Assumes that there's always going
+/// to be a second account available for switching, otherwise does nothing.
 let switchAccount state socialNetworkKey =
     let playableCharacter = Queries.Characters.playableCharacter state
     let currentBand = Queries.Bands.currentBand state
@@ -12,14 +21,22 @@ let switchAccount state socialNetworkKey =
     let currentAccount =
         Queries.SocialNetworks.currentAccount state socialNetworkKey
 
-    let updatedAccount =
-        match currentAccount.Id with
-        | SocialNetworkAccountId.Character _ ->
-            SocialNetworkAccountId.Band currentBand.Id
-        | SocialNetworkAccountId.Band _ ->
-            SocialNetworkAccountId.Character playableCharacter.Id
+    let allAccounts = Queries.SocialNetworks.allAccounts state socialNetworkKey
 
-    SocialNetworkAccountChanged(socialNetworkKey, updatedAccount)
+    match currentAccount with
+    | Some account ->
+        let updatedAccountId =
+            match account.Id with
+            | SocialNetworkAccountId.Character _ ->
+                SocialNetworkAccountId.Band currentBand.Id
+            | SocialNetworkAccountId.Band _ ->
+                SocialNetworkAccountId.Character playableCharacter.Id
+
+        if Map.containsKey updatedAccountId allAccounts then
+            [ SocialNetworkAccountChanged(socialNetworkKey, updatedAccountId) ]
+        else
+            []
+    | None -> []
 
 /// Adds a new post to the given account, with the defined text.
 let postToMastodon state (account: SocialNetworkAccount) text =

@@ -10,6 +10,11 @@ module SocialNetworkTypes =
         | Character of CharacterId
         | Band of BandId
 
+    [<RequireQualifiedAccess>]
+    type SocialNetworkCurrentAccountStatus =
+        | NoAccountCreated
+        | Account of SocialNetworkAccountId
+
     /// Defines a post that an account made in a social network of the game.
     type SocialNetworkPost =
         { AccountId: SocialNetworkAccountId
@@ -28,7 +33,7 @@ module SocialNetworkTypes =
     /// Represents a social network inside of the game, with all the accounts
     /// inside of it (which contain the posts), and the currently selected account.
     type SocialNetwork =
-        { CurrentAccount: SocialNetworkAccountId
+        { CurrentAccount: SocialNetworkCurrentAccountStatus
           Accounts: Map<SocialNetworkAccountId, SocialNetworkAccount> }
 
     /// Defines all social networks in the game, with their current state.

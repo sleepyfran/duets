@@ -14,13 +14,19 @@ let rec mastodonApp () =
             (State.get ())
             SocialNetworkKey.Mastodon
 
+    match currentAccount with
+    | Some account -> showPrompt account
+    | None -> SignUp.showInitialSignUpFlow mastodonApp
+
+and private showPrompt account =
     let promptText =
-        $"""{Emoji.mastodon} {$"@{currentAccount.Handle}" |> Styles.highlight} | {$"{Styles.number currentAccount.Followers} followers" |> Styles.Level.good}"""
+        $"""{Emoji.mastodon} {$"@{account.Handle}" |> Styles.highlight} | {$"{Styles.number account.Followers} followers" |> Styles.Level.good}"""
 
     let appCommands =
-        [ Mastodon.Commands.TimelineCommand.create currentAccount mastodonApp
+        [ Mastodon.Commands.TimelineCommand.create account mastodonApp
+          Mastodon.Commands.SignUpCommand.create mastodonApp
           Mastodon.Commands.SwitchAccountCommand.create mastodonApp
-          Mastodon.Commands.PostCommand.create currentAccount mastodonApp
+          Mastodon.Commands.PostCommand.create account mastodonApp
           Mastodon.Commands.ExitCommand.get ]
 
     appCommands

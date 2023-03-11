@@ -10,11 +10,31 @@ module SocialNetworks =
         match key with
         | SocialNetworkKey.Mastodon -> socialNetworks.Mastodon
 
-    /// Returns the current active account of the given social network.
+    /// Returns all the current accounts for the given social network.
+    let allAccounts state key =
+        let socialNetwork = socialNetworkByKey state key
+        socialNetwork.Accounts
+
+    /// Returns all accounts that can be registered for the current character
+    /// and its bands and haven't been yet.
+    let unregisteredAccounts state key =
+        let character = Characters.playableCharacter state
+        let band = Bands.currentBand state
+        let allRegisteredAccounts = allAccounts state key
+
+        [ SocialNetworkAccountId.Character character.Id
+          SocialNetworkAccountId.Band band.Id ]
+        |> List.filter (fun accountId ->
+            not (Map.containsKey accountId allRegisteredAccounts))
+
+    /// Returns the current active account of the given social network, if any.
     let currentAccount state key =
         let socialNetwork = socialNetworkByKey state key
-        (* TODO: Should we handle the absence of a value? *)
-        Map.find socialNetwork.CurrentAccount socialNetwork.Accounts
+
+        match socialNetwork.CurrentAccount with
+        | SocialNetworkCurrentAccountStatus.NoAccountCreated -> None
+        | SocialNetworkCurrentAccountStatus.Account id ->
+            Map.tryFind id socialNetwork.Accounts
 
     /// Retrieves the full timeline of posts of a given account.
     let timeline (_: State) (account: SocialNetworkAccount) =

@@ -18,6 +18,6 @@ module SwitchAccountCommand =
                 SocialNetworks.switchAccount
                     (State.get ())
                     SocialNetworkKey.Mastodon
-                |> Effect.apply
+                |> Effect.applyMultiple
 
                 mastodonApp () }

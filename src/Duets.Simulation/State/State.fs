@@ -82,10 +82,12 @@ let applyEffect state effect =
         Optic.set Lenses.State.situation_ situation state
     | SkillImproved (character, Diff (_, skill)) ->
         Skills.add character.Id skill state
+    | SocialNetworkAccountCreated (socialNetworkKey, socialNetworkAccount) ->
+        SocialNetworks.addAccount socialNetworkKey socialNetworkAccount state
     | SocialNetworkAccountChanged (socialNetworkKey, socialNetworkAccountId) ->
         SocialNetworks.switchAccount
             socialNetworkKey
-            socialNetworkAccountId
+            (SocialNetworkCurrentAccountStatus.Account socialNetworkAccountId)
             state
     | SocialNetworkPost (socialNetworkKey, post) ->
         SocialNetworks.addPost socialNetworkKey post state

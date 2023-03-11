@@ -21,6 +21,13 @@ let addPost id (post: SocialNetworkPost) =
 
     Optic.map lens (fun posts -> post :: posts)
 
+let addAccount id (account: SocialNetworkAccount) =
+    let lens = socialNetworkLens_ id >-> Lenses.SocialNetwork.accounts_
+
+    let add = Map.add account.Id account
+
+    Optic.map lens add
+
 let switchAccount id account =
     let lens = socialNetworkLens_ id
 

@@ -23,9 +23,7 @@ let empty =
       SocialNetworks =
         { Mastodon =
             { CurrentAccount =
-                Identity.create ()
-                |> CharacterId
-                |> SocialNetworkAccountId.Character
+                SocialNetworkCurrentAccountStatus.NoAccountCreated
               Accounts = Map.empty } }
       Today = Calendar.gameBeginning
       WorldItems = Map.empty }

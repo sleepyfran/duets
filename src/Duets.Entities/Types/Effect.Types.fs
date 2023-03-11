@@ -41,6 +41,7 @@ module EffectTypes =
         | RentalUpdated of Rental
         | SituationChanged of Situation
         | SkillImproved of Character * Diff<SkillWithLevel>
+        | SocialNetworkAccountCreated of SocialNetworkKey * SocialNetworkAccount
         | SocialNetworkAccountChanged of
             SocialNetworkKey *
             SocialNetworkAccountId
