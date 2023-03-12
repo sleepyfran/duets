@@ -21,6 +21,20 @@ let addPost id (post: SocialNetworkPost) =
 
     Optic.map lens (fun posts -> post :: posts)
 
+let updateReposts id post reposts =
+    let lens =
+        socialNetworkLens_ id
+        >-> Lenses.SocialNetwork.accounts_
+        >-> Map.key_ post.AccountId
+        >?> Lenses.SocialNetwork.Account.posts_
+
+    Optic.map lens (fun posts ->
+        let postIdx = posts |> List.findIndex (fun p -> p.Id = post.Id)
+
+        let post = posts |> List.item postIdx
+
+        posts |> List.updateAt postIdx { post with Reposts = reposts })
+
 let addAccount id (account: SocialNetworkAccount) =
     let lens = socialNetworkLens_ id >-> Lenses.SocialNetwork.accounts_
 

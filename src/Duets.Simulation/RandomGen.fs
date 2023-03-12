@@ -5,6 +5,7 @@ type GenBetweenFunc = int -> int -> int
 
 type RandomGenAgentMessage =
     | Change of System.Random
+    | Reset
     | Gen of AsyncReplyChannel<int>
     | GenBetween of min: int * max: int * channel: AsyncReplyChannel<int>
 
@@ -25,6 +26,7 @@ type private RandomGenAgent() =
 
                     match msg with
                     | Change r -> return! loop r
+                    | Reset -> return! loop defaultRandom
                     | Gen channel -> random.Next() |> channel.Reply
                     | GenBetween (min, max, channel) ->
                         random.Next(min, max) |> channel.Reply
@@ -35,6 +37,7 @@ type private RandomGenAgent() =
             loop defaultRandom
 
     member this.Change genFunc = genFunc |> agent.Post
+    member this.Reset() = Reset |> agent.Post
     member this.Gen = agent.PostAndReply Gen
 
     member this.GenBetween min max =
@@ -43,6 +46,8 @@ type private RandomGenAgent() =
 let private randomGenAgent = RandomGenAgent()
 
 let change impl = Change impl |> randomGenAgent.Change
+
+let reset = randomGenAgent.Reset
 
 let gen = randomGenAgent.Gen
 

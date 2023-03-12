@@ -100,6 +100,12 @@ let applyEffect state effect =
             state
     | SocialNetworkPost (socialNetworkKey, post) ->
         SocialNetworks.addPost socialNetworkKey post state
+    | SocialNetworkPostReposted (socialNetworkKey, socialNetworkPost, reposts) ->
+        SocialNetworks.updateReposts
+            socialNetworkKey
+            socialNetworkPost
+            reposts
+            state
     | SongStarted (band, unfinishedSong) ->
         Songs.addUnfinished band unfinishedSong state
     | SongImproved (band, (Diff (_, unfinishedSong))) ->

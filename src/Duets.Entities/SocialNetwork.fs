@@ -34,7 +34,8 @@ module Account =
 module Post =
     /// Creates a post the given account, date and text, with no reposts.
     let create accountId date text =
-        { AccountId = accountId
+        { Id = Identity.create ()
+          AccountId = accountId
           Timestamp = date
           Text = text
           Reposts = 0 }

@@ -50,6 +50,7 @@ module EffectTypes =
             SocialNetworkKey *
             SocialNetworkAccountId
         | SocialNetworkPost of SocialNetworkKey * SocialNetworkPost
+        | SocialNetworkPostReposted of SocialNetworkKey * SocialNetworkPost * int
         | SongStarted of Band * UnfinishedSongWithQualities
         | SongImproved of Band * Diff<UnfinishedSongWithQualities>
         | SongFinished of Band * FinishedSongWithQuality

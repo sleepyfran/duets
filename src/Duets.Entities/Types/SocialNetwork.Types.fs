@@ -10,6 +10,8 @@ module SocialNetworkTypes =
         | Character of CharacterId
         | Band of BandId
 
+    type SocialNetworkPostId = Identity
+
     [<RequireQualifiedAccess>]
     type SocialNetworkCurrentAccountStatus =
         | NoAccountCreated
@@ -17,7 +19,8 @@ module SocialNetworkTypes =
 
     /// Defines a post that an account made in a social network of the game.
     type SocialNetworkPost =
-        { AccountId: SocialNetworkAccountId
+        { Id: SocialNetworkPostId
+          AccountId: SocialNetworkAccountId
           Timestamp: Date
           Text: string
           Reposts: int }

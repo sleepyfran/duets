@@ -23,7 +23,8 @@ type StateGenOptions =
       // <-- Generators -->
       PastConcertGen: Gen<PastConcert>
       ScheduledConcertGen: Gen<ScheduledConcert>
-      FlightGen: Gen<Flight> }
+      FlightGen: Gen<Flight>
+      PostGen: Gen<SocialNetworkPost> }
 
 let defaultOptions =
     { BandFansMin = 0
@@ -41,14 +42,17 @@ let defaultOptions =
             { Concert.defaultOptions with
                 From = dummyToday.AddDays(1)
                 To = dummyToday.AddYears(2) })
-      FlightGen = Arb.generate<Flight> }
+      FlightGen = Arb.generate<Flight>
+      PostGen = Arb.generate<SocialNetworkPost> }
 
 let generator (opts: StateGenOptions) =
     gen {
         let city = Queries.World.allCities |> List.head
 
         let venueId =
-            Queries.World.placeIdsByTypeInCity city.Id PlaceTypeIndex.ConcertSpace
+            Queries.World.placeIdsByTypeInCity
+                city.Id
+                PlaceTypeIndex.ConcertSpace
             |> List.head
 
         let scheduledConcerts =

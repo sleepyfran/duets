@@ -33,7 +33,7 @@ module DailyUpdate =
             [ increaseFollowers account.Id account.Followers followersNeeded ]
         else
             []
-
+            
     /// Performs the daily update of all the character's social network accounts,
     /// which checks that each has all the followers they should.
     let dailyUpdate state =

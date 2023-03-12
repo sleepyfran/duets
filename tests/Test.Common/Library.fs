@@ -11,6 +11,11 @@ open Duets.Simulation
 open Duets.Simulation.Concerts.Live
 open Duets.Simulation.Setup
 
+let staticRandom value =
+    { new System.Random() with
+        override this.Next() = value
+        override this.Next(_, _) = value }
+
 let dummyCharacter =
     Character.from
         "Test"

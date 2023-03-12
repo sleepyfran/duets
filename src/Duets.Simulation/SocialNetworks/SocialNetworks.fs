@@ -1,5 +1,6 @@
 namespace Duets.Simulation.SocialNetworks
 
+open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 

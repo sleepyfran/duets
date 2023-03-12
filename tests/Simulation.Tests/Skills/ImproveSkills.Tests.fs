@@ -29,11 +29,6 @@ let matchesImprovementValue effects =
     genreLevel |> should equal 1
     instrumentLevel |> should equal 1
 
-let staticRandom value =
-    { new System.Random() with
-        override this.Next() = value
-        override this.Next(_, _) = value }
-
 [<Test>]
 let ``should increase skills by one if random is more than 50`` () =
     [ 60; 55; 51; 100; 78; 80 ]

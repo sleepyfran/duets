@@ -41,3 +41,14 @@ module SocialNetworks =
         (* Keeping the unused state so that in the future we can easily modify
         this to actually retrieve more stuff and not just the current account. *)
         account.Posts
+
+    /// Retrieves all the posts from a given account that were posted in the
+    /// past N days.
+    let postsFromPreviousNDays state account days =
+        let targetDate =
+            Calendar.today state
+            |> Calendar.Ops.addDays (-days)
+            |> Calendar.Transform.resetDayMoment
+
+        timeline state account
+        |> List.takeWhile (fun post -> post.Timestamp >= targetDate)

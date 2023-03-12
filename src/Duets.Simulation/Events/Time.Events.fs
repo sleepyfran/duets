@@ -25,6 +25,7 @@ let rec private runCurrentTimeChecks time state =
     Concerts.Scheduler.moveFailedConcerts state time
     @ Notifications.createNotifications state time
       @ AttributeChange.applyAfterTimeChange state
+        @ SocialNetworks.Reposts.applyToLatestAfterTimeChange state
 
 /// Runs all the events associated with the current time of the game, this
 /// includes all daily, yearly and current time effects such as updating the
