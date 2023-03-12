@@ -21,6 +21,12 @@ let checkRepostValueIs value effect =
     | SocialNetworkPostReposted (_, _, reposts) -> reposts |> should equal value
     | _ -> failwith "Unknown effect raised"
 
+let checkFollowerValueIs value effect =
+    match effect with
+    | SocialNetworkAccountFollowersChanged (_, _, Diff (_, curr)) ->
+        curr |> should equal value
+    | _ -> failwith "Unknown effect raised"
+
 [<Test>]
 let ``should not raise effects if there's no accounts`` () =
     State.generateOne State.defaultOptions
@@ -70,3 +76,18 @@ let ``should generate effect with new repost count`` () =
         |> SocialNetworks.Reposts.applyToLatestAfterTimeChange
         |> List.head
         |> checkRepostValueIs expected)
+
+[<Test>]
+let ``should generate effect with new follower count`` () =
+    [ 1, 145015; 2, 145029; 3, 145044 ]
+    |> List.iter (fun (random, expected) ->
+        staticRandom random |> RandomGen.change
+
+        State.generateOne State.defaultOptions
+        |> State.SocialNetworks.addAccount
+            SocialNetworkKey.Mastodon
+            { testAccount with Followers = 145000 }
+        |> State.SocialNetworks.addPost SocialNetworkKey.Mastodon testPost
+        |> SocialNetworks.Reposts.applyToLatestAfterTimeChange
+        |> List.item 1
+        |> checkFollowerValueIs expected)

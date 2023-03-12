@@ -9,6 +9,9 @@ module Reposts =
         ((float (RandomGen.genBetween 0 3)) * 0.001) * float account.Followers
         |> Math.ceilToNearest
 
+    let private calculateNewFollowers reposts =
+        float reposts * 0.1 |> Math.ceilToNearest
+
     /// Generates reposts for all posts posted from the character and band accounts
     /// in the last 3 days, based on the reach that the post should have in this
     /// specific moment.
@@ -25,14 +28,23 @@ module Reposts =
                         state
                         account
                         3
-                    |> List.map (fun post ->
+                    |> List.collect (fun post ->
                         let updatedReposts = post.Reposts + newReposts
+                        let newFollowers = calculateNewFollowers updatedReposts
 
-                        SocialNetworkPostReposted(
-                            SocialNetworkKey.Mastodon,
-                            post,
-                            updatedReposts
-                        ))
+                        let updatedFollowerCount =
+                            account.Followers + newFollowers
+
+                        [ SocialNetworkPostReposted(
+                              SocialNetworkKey.Mastodon,
+                              post,
+                              updatedReposts
+                          )
+                          SocialNetworkAccountFollowersChanged(
+                              SocialNetworkKey.Mastodon,
+                              post.AccountId,
+                              Diff(account.Followers, updatedFollowerCount)
+                          ) ])
                 else
                     []
                 @ effects)
