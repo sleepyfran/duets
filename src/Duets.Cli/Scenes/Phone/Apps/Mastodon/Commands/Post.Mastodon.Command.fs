@@ -21,7 +21,7 @@ module PostCommand =
                     showTextPrompt
                         $"What's on your mind? Will be posted as {Styles.highlight account.Handle}"
 
-                SocialNetworks.postToMastodon (State.get ()) account tootText
+                SocialNetworks.Post.toMastodon (State.get ()) account tootText
                 |> Effect.apply
 
                 mastodonApp () }

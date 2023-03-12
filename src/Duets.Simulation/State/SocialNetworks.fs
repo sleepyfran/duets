@@ -28,6 +28,17 @@ let addAccount id (account: SocialNetworkAccount) =
 
     Optic.map lens add
 
+let rec updateFollowers id (accountId: SocialNetworkAccountId) followers =
+    let lens = socialNetworkLens_ id >-> Lenses.SocialNetwork.accounts_
+
+    let changeFollowers =
+        Map.change accountId (fun account ->
+            match account with
+            | Some account -> { account with Followers = followers } |> Some
+            | None -> None)
+
+    Optic.map lens changeFollowers
+
 let switchAccount id account =
     let lens = socialNetworkLens_ id
 

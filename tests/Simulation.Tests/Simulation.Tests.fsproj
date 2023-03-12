@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Include="State\State.Albums.Tests.fs" />
+        <Compile Include="State\State.Albums.Tests.fs"/>
         <Compile Include="State\State.Bank.Tests.fs"/>
         <Compile Include="State\State.BandManagement.Tests.fs"/>
         <Compile Include="State\State.SongComposition.Tests.fs"/>
@@ -40,6 +40,7 @@
         <Compile Include="Market\GenreMarket.Tests.fs"/>
         <Compile Include="Notifications\Notification.Tests.fs"/>
         <Compile Include="Time\AdvanceTime.Tests.fs"/>
+        <Compile Include="SocialNetworks\DailyUpdate.Tests.fs"/>
         <Compile Include="Songs\ComposeSong.Tests.fs"/>
         <Compile Include="Songs\ImproveSong.Tests.fs"/>
         <Compile Include="Songs\FinishSong.Tests.fs"/>

@@ -18,6 +18,7 @@ let private runDailyEffects time state =
     | Morning ->
         Albums.DailyUpdate.dailyUpdate state
         |> (@) (Concerts.DailyUpdate.dailyUpdate state)
+    | Midday -> SocialNetworks.DailyUpdate.dailyUpdate state
     | _ -> []
 
 let rec private runCurrentTimeChecks time state =

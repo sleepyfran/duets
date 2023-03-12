@@ -23,6 +23,14 @@ module Account =
           Followers = 0
           Posts = List.empty }
 
+    /// Creates a social network account for the given ID with the handle and
+    /// followers specified.
+    let create id handle followers =
+        { Id = id
+          Handle = handle |> removeTrailingAts
+          Followers = followers
+          Posts = List.empty }
+
 module Post =
     /// Creates a post the given account, date and text, with no reposts.
     let create accountId date text =

@@ -15,7 +15,7 @@ module SwitchAccountCommand =
             "Switches between your character's and your band's account"
           Handler =
             fun _ ->
-                SocialNetworks.switchAccount
+                SocialNetworks.Account.switch
                     (State.get ())
                     SocialNetworkKey.Mastodon
                 |> Effect.applyMultiple

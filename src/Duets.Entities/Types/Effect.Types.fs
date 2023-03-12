@@ -42,7 +42,11 @@ module EffectTypes =
         | SituationChanged of Situation
         | SkillImproved of Character * Diff<SkillWithLevel>
         | SocialNetworkAccountCreated of SocialNetworkKey * SocialNetworkAccount
-        | SocialNetworkAccountChanged of
+        | SocialNetworkAccountFollowersChanged of
+            SocialNetworkKey *
+            SocialNetworkAccountId *
+            Diff<int>
+        | SocialNetworkCurrentAccountChanged of
             SocialNetworkKey *
             SocialNetworkAccountId
         | SocialNetworkPost of SocialNetworkKey * SocialNetworkPost

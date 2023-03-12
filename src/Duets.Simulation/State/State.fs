@@ -84,7 +84,16 @@ let applyEffect state effect =
         Skills.add character.Id skill state
     | SocialNetworkAccountCreated (socialNetworkKey, socialNetworkAccount) ->
         SocialNetworks.addAccount socialNetworkKey socialNetworkAccount state
-    | SocialNetworkAccountChanged (socialNetworkKey, socialNetworkAccountId) ->
+    | SocialNetworkAccountFollowersChanged (socialNetworkKey,
+                                            socialNetworkAccountId,
+                                            Diff (_, followers)) ->
+        SocialNetworks.updateFollowers
+            socialNetworkKey
+            socialNetworkAccountId
+            followers
+            state
+    | SocialNetworkCurrentAccountChanged (socialNetworkKey,
+                                          socialNetworkAccountId) ->
         SocialNetworks.switchAccount
             socialNetworkKey
             (SocialNetworkCurrentAccountStatus.Account socialNetworkAccountId)

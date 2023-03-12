@@ -58,7 +58,7 @@ and private askForAccountId possibleAccounts =
 and private askForHandle accountId =
     let handle = "What will the account handle be?" |> showTextPrompt
 
-    SocialNetworks.signUpForAccount SocialNetworkKey.Mastodon accountId handle
+    SocialNetworks.Account.signUp SocialNetworkKey.Mastodon accountId handle
     |> Effect.applyMultiple
 
     "Account created!" |> Styles.success |> showMessage
