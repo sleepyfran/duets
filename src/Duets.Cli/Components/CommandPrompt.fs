@@ -130,6 +130,8 @@ let private editor availableCommands =
 let rec showCommandPrompt title availableCommands =
     let prompt = editor availableCommands
 
+    let commandsWithCheats = availableCommands @ Commands.Cheats.Index.all
+
     let rec promptForCommand () =
         lineBreak ()
         showMessage title
@@ -142,7 +144,7 @@ let rec showCommandPrompt title availableCommands =
 
             let inputTokens = String.split ' ' input |> List.ofArray
 
-            availableCommands
+            commandsWithCheats
             |> List.tryFind (fun command ->
                 let commandTokens =
                     String.split ' ' command.Name |> List.ofArray

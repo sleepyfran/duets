@@ -90,6 +90,9 @@
         <Compile Include="Components\Commands\Shop\Bar\Order.Command.fs"/>
         <Compile Include="Components\Commands\Items\Consume.Command.fs"/>
         <Compile Include="Components\Commands\Items\Interactive.Command.fs"/>
+        <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>
+        <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
+        <Compile Include="Components\Commands\Cheats\Index.fs"/>
         <Compile Include="Components\CommandPrompt.fs"/>
         <Compile Include="Scenes\NewGame\CharacterCreator.fs"/>
         <Compile Include="Scenes\NewGame\BandCreator.fs"/>
