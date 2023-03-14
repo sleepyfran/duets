@@ -59,8 +59,9 @@ module CreateAlbumCommand =
               Studio.createProgressMovingKnobs ]
             3<second>
 
-        List.iter Duets.Cli.Effect.apply effects
         Studio.createAlbumRecorded albumName |> showMessage
+        
+        List.iter Duets.Cli.Effect.apply effects
 
     /// Command to create a new album and potentially release.
     let create studio finishedSongs =

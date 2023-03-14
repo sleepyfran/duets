@@ -36,7 +36,7 @@ let private generateEffectsAfterBilling state studio band effects =
         |> AdvanceTime.advanceDayMoment' state
 
     match billingResult with
-    | Ok billingEffects -> Ok(timeEffects @ effects @ billingEffects)
+    | Ok billingEffects -> Ok(effects @ billingEffects @ timeEffects)
     | Error error -> Error error
 
 /// Applies the improvement in quality given by the producer of the given studio

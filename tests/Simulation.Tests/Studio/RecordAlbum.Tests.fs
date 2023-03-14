@@ -77,10 +77,10 @@ let ``recordAlbum should generate AlbumRecorded and MoneyTransferred`` () =
     |> fun effects ->
         effects |> should haveLength 4
 
-        effects |> List.item 2 |> should be (ofCase <@ AlbumStarted @>)
+        effects |> List.item 0 |> should be (ofCase <@ AlbumStarted @>)
 
         effects
-        |> List.item 3
+        |> List.item 1
         |> should
             be
             (ofCase

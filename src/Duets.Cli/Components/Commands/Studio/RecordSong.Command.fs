@@ -75,11 +75,11 @@ module RecordSongCommand =
               Studio.createProgressMovingKnobs ]
             3<second>
 
-        List.iter Duets.Cli.Effect.apply effects
-
         $"Added {song.Name} to {album.Name}. It is now a {Generic.albumType album.Type}"
         |> Styles.success
         |> showMessage
+        
+        List.iter Duets.Cli.Effect.apply effects
 
     /// Command to record a new song for a previously started album.
     let create studio unreleasedAlbums finishedSongs =

@@ -18,9 +18,8 @@ module ImproveSongCommand =
             List.iter Duets.Cli.Effect.apply effects
         | ReachedMaxQualityInLastImprovement, effects ->
             showImprovingProgress ()
-            List.iter Duets.Cli.Effect.apply effects
-
             Rehearsal.improveSongReachedMaxQuality |> showMessage
+            List.iter Duets.Cli.Effect.apply effects
         | ReachedMaxQualityAlready, _ ->
             Rehearsal.improveSongReachedMaxQuality |> showMessage
 
