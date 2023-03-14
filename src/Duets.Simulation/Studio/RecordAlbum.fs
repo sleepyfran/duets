@@ -58,3 +58,4 @@ let recordSongForAlbum state studio band (UnreleasedAlbum album) song =
 
     [ AlbumUpdated(band, UnreleasedAlbum updatedAlbum) ]
     |> generateEffectsAfterBilling state studio band
+    |> Result.map (fun effects -> updatedAlbum, effects)

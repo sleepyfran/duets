@@ -60,15 +60,11 @@ module RecordSongCommand =
         let result = recordSongForAlbum state studio band album song
 
         match result with
-        | Ok effects -> recordWithProgressBar album song effects
+        | Ok (album, effects) -> recordWithProgressBar album song effects
         | Error (NotEnoughFunds studioBill) ->
             Studio.createErrorNotEnoughMoney studioBill |> showMessage
 
-    and private recordWithProgressBar
-        (UnreleasedAlbum album)
-        (FinishedSong song, _)
-        effects
-        =
+    and private recordWithProgressBar album (FinishedSong song, _) effects =
         showProgressBarAsync
             [ Studio.createProgressEatingSnacks
               Studio.createProgressRecordingWeirdSounds
@@ -78,13 +74,14 @@ module RecordSongCommand =
         $"Added {song.Name} to {album.Name}. It is now a {Generic.albumType album.Type}"
         |> Styles.success
         |> showMessage
-        
+
         List.iter Duets.Cli.Effect.apply effects
 
     /// Command to record a new song for a previously started album.
     let create studio unreleasedAlbums finishedSongs =
         { Name = "record song"
-          Description = "Allows you to record a song and add it to a previously created album that hasn't been released yet"
+          Description =
+            "Allows you to record a song and add it to a previously created album that hasn't been released yet"
           Handler =
             (fun _ ->
                 if List.isEmpty finishedSongs then
