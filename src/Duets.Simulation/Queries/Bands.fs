@@ -1,26 +1,35 @@
 namespace Duets.Simulation.Queries
 
+open Aether
+open Aether.Operators
+open Duets.Common
+open Duets.Entities
+
 module Bands =
-    open Aether
-    open Duets.Common
-    open Duets.Entities
-
     /// Returns the band given its ID.
-    let byId state bandId = state.Bands |> Map.find bandId
+    let ofCharacterById state bandId =
+        let lens = Lenses.State.bands_ >-> Lenses.Bands.characterBand_ bandId
+        Optic.get lens state |> Option.get
 
-    /// Returns the currently selected band in the game.
+    /// Returns the ID of the currently selected character band in the game.
+    let currentBandId =
+        Lenses.State.bands_ >-> Lenses.Bands.current_ |> Optic.get
+
+    /// Returns the currently selected character band in the game.
     let currentBand state =
-        state.Bands |> Map.find state.CurrentBandId
+        let currentId = currentBandId state
+
+        let lens = Lenses.State.bands_ >-> Lenses.Bands.characterBand_ currentId
+
+        Optic.get lens state |> Option.get
 
     /// Returns all current members of the current band.
     let currentBandMembers state =
-        currentBand state
-        |> Optic.get Lenses.Band.members_
+        currentBand state |> Optic.get Lenses.Band.members_
 
     /// Returns all past members of the current band.
     let pastBandMembers state =
-        currentBand state
-        |> Optic.get Lenses.Band.pastMembers_
+        currentBand state |> Optic.get Lenses.Band.pastMembers_
 
     /// Returns a member that matches the given characterId
     let currentMemberById state characterId =

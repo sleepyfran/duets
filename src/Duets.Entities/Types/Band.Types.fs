@@ -37,3 +37,13 @@ module BandTypes =
           Fans: Fans
           Members: CurrentMember list
           PastMembers: PastMember list }
+        
+    /// Map of bands by their ID. Can include the character's and simulated bands.
+    type BandMap = Map<BandId, Band>
+    
+    /// Includes all the bands in the game.
+    type Bands = {
+        Current: BandId
+        Character: BandMap
+        Simulated: BandMap
+    }

@@ -104,8 +104,10 @@ let generator (opts: StateGenOptions) =
             { initialState with
                 CurrentPosition = (city.Id, venueId)
                 Today = Calendar.gameBeginning
-                Bands = [ (band.Id, band) ] |> Map.ofList
-                CurrentBandId = band.Id
+                Bands =
+                    { Current = band.Id
+                      Character = [ (band.Id, band) ] |> Map.ofList
+                      Simulated = Map.empty }
                 Concerts = [ (band.Id, timeline) ] |> Map.ofList
                 Characters =
                     bandCharacters

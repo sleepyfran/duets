@@ -126,12 +126,6 @@ let dummyOngoingConcert =
       Points = 0<quality>
       Concert = dummyConcert }
 
-/// Adds a given member to the given band.
-let addMember (band: Band) bandMember =
-    let memberLens = Lenses.FromState.Bands.members_ band.Id
-
-    Optic.map memberLens (List.append [ bandMember ])
-
 /// Adds a given skill to the given character.
 let addSkillTo (character: Character) (skillWithLevel: SkillWithLevel) =
     let (skill, _) = skillWithLevel

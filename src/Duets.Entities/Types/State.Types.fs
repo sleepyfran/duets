@@ -7,7 +7,7 @@ module StateTypes =
     /// Shared state of the game. Contains all state that is common to every part
     /// of the game.
     type State =
-        { Bands: Map<BandId, Band>
+        { Bands: Bands
           BandAlbumRepertoire: BandAlbumRepertoire
           BandSongRepertoire: BandSongRepertoire
           BankAccounts: Map<BankAccountHolder, BankAccount>
@@ -15,7 +15,6 @@ module StateTypes =
           Characters: Map<CharacterId, Character>
           CharacterSkills: CharacterSkills
           Concerts: ConcertsByBand
-          CurrentBandId: BandId
           CurrentPosition: WorldCoordinates
           Flights: Flight list
           GenreMarkets: GenreMarketByGenre

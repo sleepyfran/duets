@@ -6,6 +6,7 @@ open FsUnit
 
 open Duets.Common
 open Duets.Entities
+open Duets.Simulation
 open Duets.Simulation.Bands.Members
 
 let bandMember =
@@ -17,13 +18,11 @@ let bandMember =
 
     Band.Member.from hiredCharacter.Id Guitar dummyToday
 
-let state =
-    dummyState |> addMember dummyBand bandMember
+let state = dummyState |> State.Bands.addMember dummyBand bandMember
 
 [<Test>]
 let FireMemberFailsIfGivenMemberIsPlayableCharacter () =
-    let playableMember =
-        Band.Member.from dummyCharacter.Id Guitar dummyToday
+    let playableMember = Band.Member.from dummyCharacter.Id Guitar dummyToday
 
     fireMember state dummyBand playableMember
     |> Result.unwrapError
@@ -36,8 +35,10 @@ let FireMemberGeneratesMemberFiredEffect () =
     |> should
         be
         (ofCase
-            <@ MemberFired(
-                dummyBand,
-                bandMember,
-                Band.PastMember.fromMember bandMember dummyToday
-            ) @>)
+            <@
+                MemberFired(
+                    dummyBand,
+                    bandMember,
+                    Band.PastMember.fromMember bandMember dummyToday
+                )
+            @>)

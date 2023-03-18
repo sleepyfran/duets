@@ -11,8 +11,7 @@ open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Albums.DailyUpdate
 
-let album =
-    Album.Released.fromUnreleased dummyUnreleasedAlbum dummyToday 1.0
+let album = Album.Released.fromUnreleased dummyUnreleasedAlbum dummyToday 1.0
 
 let state =
     State.generateOne
@@ -48,9 +47,7 @@ let ``dailyUpdate should sum new streams to the current count and update hype``
 let ``dailyUpdate should return list with money transfer if quantity is more than 0``
     ()
     =
-    dailyUpdate state
-    |> List.item 1
-    |> should be (ofCase <@ MoneyEarned @>)
+    dailyUpdate state |> List.item 1 |> should be (ofCase <@ MoneyEarned @>)
 
 [<Test>]
 let ``dailyUpdate should return list without money transfer if quantity is 0``
@@ -59,9 +56,7 @@ let ``dailyUpdate should return list without money transfer if quantity is 0``
     let unknownAlbum =
         Album.Released.fromUnreleased dummyUnreleasedAlbum dummyToday 0
 
-    let state =
-        dummyState
-        |> addReleasedAlbum dummyBand.Id unknownAlbum
+    let state = dummyState |> addReleasedAlbum dummyBand.Id unknownAlbum
 
     let updateEffects = dailyUpdate state
     updateEffects |> should haveLength 1
@@ -74,9 +69,7 @@ let private testDailyUpdateWith minFans maxFans maxFanDifference =
         100
     |> List.iter (fun state ->
         let updateEffects =
-            state
-            |> addReleasedAlbum state.CurrentBandId album
-            |> dailyUpdate
+            state |> addReleasedAlbum state.Bands.Current album |> dailyUpdate
 
         let effect =
             updateEffects

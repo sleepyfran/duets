@@ -47,7 +47,7 @@ and private askForAccountId possibleAccounts =
 
                 $"For me, {character.Name |> Styles.highlight}"
             | SocialNetworkAccountId.Band bandId ->
-                let band = Queries.Bands.byId (State.get ()) bandId
+                let band = Queries.Bands.ofCharacterById (State.get ()) bandId
                 $"For my band, {band.Name |> Styles.highlight}")
             possibleAccounts
 

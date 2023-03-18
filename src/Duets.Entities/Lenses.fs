@@ -111,6 +111,23 @@ module BankAccount =
         (fun (b: BankAccount) -> b.Balance),
         (fun v (b: BankAccount) -> { b with Balance = v })
 
+module Bands =
+    let current_ =
+        (fun (b: Bands) -> b.Current),
+        (fun v (b: Bands) -> { b with Current = v })
+
+    let characterBands_ =
+        (fun (b: Bands) -> b.Character),
+        (fun v (b: Bands) -> { b with Character = v })
+
+    let characterBand_ id = characterBands_ >-> Map.key_ id
+
+    let simulatedBands_ =
+        (fun (b: Bands) -> b.Simulated),
+        (fun v (b: Bands) -> { b with Simulated = v })
+
+    let simulatedBand_ id = simulatedBands_ >-> Map.key_ id
+
 module BandRepertoire =
     let unfinishedSongs_ =
         (fun (br: BandSongRepertoire) -> br.UnfinishedSongs),
@@ -234,16 +251,6 @@ module FromState =
         /// Lens into the balance of a specific account.
         let balanceOf_ id =
             State.bankAccounts_ >-> Map.key_ id >?> BankAccount.balance_
-
-    module Bands =
-        /// Lens into a specific band given the state and its id.
-        let band_ id = State.bands_ >-> Map.key_ id
-
-        /// Lens into the members of a specific band given the state and its id.
-        let members_ id = band_ id >?> Band.members_
-
-        /// Lens into the past members of a specific band given the state and its id.
-        let pastMembers_ id = band_ id >?> Band.pastMembers_
 
     module Concerts =
         /// Lens into all the concerts currently scheduled.

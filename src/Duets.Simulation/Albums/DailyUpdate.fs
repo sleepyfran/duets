@@ -9,7 +9,7 @@ open Duets.Simulation.Albums.Revenue
 open Duets.Simulation.Bank.Operations
 
 let private bandDailyUpdate state bandId albumsByBand =
-    let band = Bands.byId state bandId
+    let band = Bands.ofCharacterById state bandId
     let bandAccount = Band band.Id
 
     albumsByBand

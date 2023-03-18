@@ -4,7 +4,10 @@ open Duets.Entities.SituationTypes
 
 /// Creates an empty state with all the fields set to its empty representation.
 let empty =
-    { Bands = Map.empty
+    { Bands =
+        { Current = Identity.create () |> BandId
+          Character = Map.empty
+          Simulated = Map.empty }
       BandSongRepertoire = Band.SongRepertoire.empty
       BandAlbumRepertoire = Band.AlbumRepertoire.empty
       BankAccounts = Map.empty
@@ -12,7 +15,6 @@ let empty =
       Characters = Map.empty
       CharacterSkills = Map.empty
       Concerts = Map.empty
-      CurrentBandId = Identity.create () |> BandId
       CurrentPosition = (Prague, Identity.create () |> PlaceId)
       Flights = []
       GenreMarkets = Map.empty

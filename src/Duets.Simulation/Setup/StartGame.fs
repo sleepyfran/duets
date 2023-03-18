@@ -58,7 +58,10 @@ let startGame
             (fun acc (skill, level) -> Map.add skill.Id (skill, level) acc)
             Map.empty
 
-    { Bands = [ (band.Id, band) ] |> Map.ofList
+    { Bands =
+        { Current = band.Id
+          Character = [ (band.Id, band) ] |> Map.ofList
+          Simulated = Map.empty }
       BandAlbumRepertoire = Band.AlbumRepertoire.emptyFor band.Id
       BandSongRepertoire = Band.SongRepertoire.emptyFor band.Id
       BankAccounts =
@@ -70,7 +73,6 @@ let startGame
       Characters = [ (character.Id, character) ] |> Map.ofList
       CharacterSkills = [ (character.Id, initialSkillMap) ] |> Map.ofList
       Concerts = [ (band.Id, Concert.Timeline.empty) ] |> Map.ofList
-      CurrentBandId = band.Id
       CurrentPosition = initialCity.Id, initialPlaceId
       Flights = []
       GenreMarkets = GenreMarket.create Data.Genres.all
