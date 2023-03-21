@@ -15,3 +15,11 @@ let add (characterId: CharacterId) (skillWithLevel: SkillWithLevel) =
     let addSkill map = Map.add skill.Id skillWithLevel map
 
     Optic.map skillLens addSkill
+
+let addMultiple
+    (characterId: CharacterId)
+    (skillsWithLevel: SkillWithLevel list)
+    state
+    =
+    skillsWithLevel
+    |> List.fold (fun acc skill -> add characterId skill acc) state

@@ -10,6 +10,9 @@ let rec removeFirstOccurrenceOf item list =
     | head :: tail -> head :: removeFirstOccurrenceOf item tail
     | _ -> []
 
+/// Like fold but passing the list before the initial value.
+let fold' folder list state = List.fold folder state list
+
 /// Like `forall2` but returns true instead of throwing an exception when the
 /// size of the collections differ.
 let forall2' predicate source1 source2 =

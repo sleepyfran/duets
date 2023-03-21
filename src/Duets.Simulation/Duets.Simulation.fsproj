@@ -8,26 +8,26 @@
         <Compile Include="Config.fs" />
         <Compile Include="RandomGen.fs" />
         <Compile Include="Queries\Calendar.fs" />
-        <Compile Include="Queries\World.fs" />
-        <Compile Include="Queries\Albums.fs" />
-        <Compile Include="Queries\Songs.fs" />
-        <Compile Include="Queries\Repertoire.fs" />
-        <Compile Include="Queries\Characters.fs" />
-        <Compile Include="Queries\Career.fs" />
-        <Compile Include="Queries\Bank.fs" />
-        <Compile Include="Queries\Situations.fs" />
-        <Compile Include="Queries\Flights.fs" />
-        <Compile Include="Queries\Skills.fs" />
-        <Compile Include="Queries\GenreMarkets.fs" />
-        <Compile Include="Queries\Bands.fs" />
-        <Compile Include="Queries\Rentals.fs" />
-        <Compile Include="Queries\Inventory.fs" />
-        <Compile Include="Queries\Items.fs" />
+        <Compile Include="Queries\World.fs"/>
+        <Compile Include="Queries\Albums.fs"/>
+        <Compile Include="Queries\Songs.fs"/>
+        <Compile Include="Queries\Repertoire.fs"/>
+        <Compile Include="Queries\Characters.fs"/>
+        <Compile Include="Queries\Career.fs"/>
+        <Compile Include="Queries\Bank.fs"/>
+        <Compile Include="Queries\Situations.fs"/>
+        <Compile Include="Queries\Flights.fs"/>
+        <Compile Include="Queries\Skills.fs"/>
+        <Compile Include="Queries\GenreMarkets.fs"/>
+        <Compile Include="Queries\Bands.fs"/>
+        <Compile Include="Queries\Rentals.fs"/>
+        <Compile Include="Queries\Inventory.fs"/>
+        <Compile Include="Queries\Items.fs"/>
         <Compile Include="Queries\SocialNetworks.fs"/>
-        <Compile Include="Queries\Concerts.fs" />
-        <Compile Include="Queries\CalendarEvents.fs" />
-        <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Health.fs" />
-        <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Energy.fs" />
+        <Compile Include="Queries\Concerts.fs"/>
+        <Compile Include="Queries\CalendarEvents.fs"/>
+        <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Health.fs"/>
+        <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Energy.fs"/>
         <Compile Include="Queries\Interactions\InteractionTime.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Items.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Career.fs"/>
@@ -71,6 +71,7 @@
         <Compile Include="Studio/RenameAlbum.fs"/>
         <Compile Include="Market\GenreMarket.fs"/>
         <Compile Include="Bands\Members.fs"/>
+        <Compile Include="Bands\Generation.fs"/>
         <Compile Include="Skills\ImproveSkills.Common.fs"/>
         <Compile Include="Skills\ImproveSkills.Composition.fs"/>
         <Compile Include="Interactions\Items\Drink.Interactions.fs"/>
@@ -113,9 +114,15 @@
         <Compile Include="Events\Events.fs"/>
         <Compile Include="Setup\StartGame.fs"/>
         <Compile Include="Simulation.fs"/>
-        <PackageReference Include="FsToolkit.ErrorHandling" Version="4.3.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj"/>
         <ProjectReference Include="..\Duets.Data\Duets.Data.fsproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FsToolkit.ErrorHandling" Version="4.3.0"/>
         <PackageReference Include="Aether" Version="8.3.1"/>
         <PackageReference Include="Fugit" Version="0.4.1"/>
     </ItemGroup>

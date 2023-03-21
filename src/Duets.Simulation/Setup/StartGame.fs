@@ -58,6 +58,8 @@ let startGame
             (fun acc (skill, level) -> Map.add skill.Id (skill, level) acc)
             Map.empty
 
+    let initialGenreMarket = GenreMarket.create Data.Genres.all
+
     { Bands =
         { Current = band.Id
           Character = [ (band.Id, band) ] |> Map.ofList
@@ -75,7 +77,7 @@ let startGame
       Concerts = [ (band.Id, Concert.Timeline.empty) ] |> Map.ofList
       CurrentPosition = initialCity.Id, initialPlaceId
       Flights = []
-      GenreMarkets = GenreMarket.create Data.Genres.all
+      GenreMarkets = initialGenreMarket
       CharacterInventory = List.empty
       PlayableCharacterId = character.Id
       Rentals =
@@ -84,4 +86,5 @@ let startGame
       SocialNetworks = SocialNetwork.empty
       Today = Calendar.gameBeginning
       WorldItems = allInitialWorldItems }
+    |> Bands.Generation.addInitialBandsToState 
     |> GameCreated

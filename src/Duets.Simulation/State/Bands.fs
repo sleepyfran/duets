@@ -19,6 +19,13 @@ let private createBandLens (band: Band) state =
     |> Option.defaultValue
         characterBandsLens (* Default to character, worst case scenario the Optic will do nothing since it's a Prism. *)
 
+let addSimulated (band: Band) =
+    let lens = Lenses.State.bands_ >-> Lenses.Bands.simulatedBands_
+
+    let addBand = Map.add band.Id band
+
+    Optic.map lens addBand
+
 let addMember (band: Band) (currentMember: CurrentMember) state =
     let membersLens = createBandLens band state >?> Lenses.Band.members_
 

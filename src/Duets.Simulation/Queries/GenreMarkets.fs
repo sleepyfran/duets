@@ -17,6 +17,6 @@ module GenreMarkets =
     /// the market point by the default market size.
     let usefulMarketOf state genre =
         let market = from state genre
-
+        
         market.MarketPoint
         |> (*) (float Config.MusicSimulation.defaultMarketSize)

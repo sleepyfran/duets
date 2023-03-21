@@ -26,7 +26,10 @@ let statsPath () =
 
 /// Defines the key of the JSON data to fetch.
 type DataKey =
+    | Adjectives
+    | Adverbs
     | Genres
+    | Nouns
     | Npcs
     | Studios
 
@@ -37,7 +40,10 @@ let dataFile key =
         |> fun baseDir -> Path.Combine(baseDir.FullName, "Duets.Data/Resources")
 
     match key with
+    | Adjectives -> Path.Combine(dataDirectory, "adjectives.json")
+    | Adverbs -> Path.Combine(dataDirectory, "adverbs.json")
     | Genres -> Path.Combine(dataDirectory, "genres.json")
+    | Nouns -> Path.Combine(dataDirectory, "nouns.json")
     | Npcs -> Path.Combine(dataDirectory, "npcs.json")
     | Studios -> Path.Combine(dataDirectory, "studios.json")
 

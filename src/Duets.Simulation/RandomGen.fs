@@ -38,7 +38,7 @@ type private RandomGenAgent() =
 
     member this.Change genFunc = genFunc |> agent.Post
     member this.Reset() = Reset |> agent.Post
-    member this.Gen = agent.PostAndReply Gen
+    member this.Gen () = agent.PostAndReply Gen
 
     member this.GenBetween min max =
         agent.PostAndReply(fun channel -> GenBetween(min, max, channel))
@@ -52,3 +52,13 @@ let reset = randomGenAgent.Reset
 let gen = randomGenAgent.Gen
 
 let genBetween = randomGenAgent.GenBetween
+
+let sampleIndex list =
+    let maxIndex = List.length list - 1
+    let maxIndex = if maxIndex < 0 then 0 else maxIndex
+    genBetween 0 maxIndex
+
+let choice choices = List.item (sampleIndex choices) choices
+
+let tryChoice choices =
+    List.tryItem (sampleIndex choices) choices

@@ -6,9 +6,12 @@
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="ResourceLoader.fs"/>
+        <Content Include="Resources\adjectives.json"/>
+        <Content Include="Resources\adverbs.json"/>
         <Content Include="Resources\genres.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="Resources\nouns.json"/>
         <Content Include="Resources\npcs.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
@@ -22,6 +25,7 @@
         <Compile Include="Roles.fs"/>
         <Compile Include="Skills.fs"/>
         <Compile Include="VocalStyles.fs"/>
+        <Compile Include="Words.fs"/>
         <Compile Include="World\Cities\Everywhere.Common.fs"/>
         <Compile Include="World\Cities\Prague\Prague.CommonItems.fs"/>
         <Compile Include="World\Cities\Prague\Prague.Bars.fs"/>
@@ -41,6 +45,7 @@
         <Compile Include="World\AirplaneItems.fs"/>
         <Compile Include="World\World.fs"/>
         <None Include="Util\NpcGen.fsx"/>
+        <Content Include="ATTRIBUTIONS.md"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj"/>

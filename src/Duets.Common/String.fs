@@ -14,8 +14,7 @@ let contains (subStr: string) (str: string) = str.Contains(subStr)
 
 /// Calls contains only if subStr is not empty.
 let nonEmptyContains (subStr: string) (str: string) =
-    (String.IsNullOrEmpty(subStr) |> not)
-    && contains subStr str
+    (String.IsNullOrEmpty(subStr) |> not) && contains subStr str
 
 /// Checks whether the given `str` contains the `subStr` without taking any
 /// diacritics or casing into account.
@@ -36,3 +35,7 @@ let trimStart (str: string) = str.TrimStart()
 
 /// Makes the given string lowercase.
 let lowercase (str: string) = str.ToLower()
+
+/// Transforms the given string into "Title Case".
+let titleCase (str: string) =
+    CultureInfo.InvariantCulture.TextInfo.ToTitleCase str
