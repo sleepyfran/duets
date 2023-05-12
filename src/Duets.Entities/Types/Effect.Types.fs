@@ -10,6 +10,7 @@ module EffectTypes =
         | AlbumStarted of Band * UnreleasedAlbum
         | AlbumReleased of Band * ReleasedAlbum
         | AlbumReleasedUpdate of Band * ReleasedAlbum
+        | AlbumReviewsReceived of Band * ReleasedAlbum
         | AlbumUpdated of Band * UnreleasedAlbum
         | BandFansChanged of Band * Diff<Fans>
         | CharacterAttributeChanged of

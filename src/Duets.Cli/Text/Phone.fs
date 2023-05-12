@@ -150,10 +150,6 @@ let statisticsAppTitle = "Statistics"
 let statisticsAppSectionPrompt =
     $"""{Styles.prompt "What data do you want to visualize?"}"""
 
-let statisticsAppSectionBand = "Band's statistics"
-
-let statisticsAppSectionAlbums = "Albums' statistics"
-
 let statisticsAppBandNameHeader = Styles.header "Name"
 
 let statisticsAppBandStartDateHeader = Styles.header "Playing since"

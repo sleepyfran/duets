@@ -19,47 +19,48 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Include="State\State.Albums.Tests.fs"/>
-        <Compile Include="State\State.Bank.Tests.fs"/>
-        <Compile Include="State\State.BandManagement.Tests.fs"/>
-        <Compile Include="State\State.SongComposition.Tests.fs"/>
-        <Compile Include="State\State.Setup.Tests.fs"/>
-        <Compile Include="State\State.Skills.Tests.fs"/>
-        <Compile Include="State\State.Concerts.Tests.fs"/>
-        <Compile Include="Airport\BoardPlane.Tests.fs"/>
-        <Compile Include="Albums\DailyUpdate.Tests.fs"/>
-        <Compile Include="Bands\HireMember.Tests.fs"/>
-        <Compile Include="Bands\FireMember.Tests.fs"/>
-        <Compile Include="Bank\Transfer.Tests.fs"/>
-        <Compile Include="Bank\Queries.Tests.fs"/>
-        <Compile Include="Concerts\DailyUpdate.Tests.fs"/>
-        <Compile Include="Concerts\Live.PlaySong.Tests.fs"/>
-        <Compile Include="Concerts\Live.GreetAudience.Tests.fs"/>
-        <Compile Include="Concerts\Live.DedicateSong.Tests.fs"/>
-        <Compile Include="Concerts\Live.Finish.Tests.fs"/>
-        <Compile Include="Market\GenreMarket.Tests.fs"/>
-        <Compile Include="Notifications\Notification.Tests.fs"/>
-        <Compile Include="Time\AdvanceTime.Tests.fs"/>
-        <Compile Include="SocialNetworks\DailyUpdate.Tests.fs"/>
-        <Compile Include="SocialNetworks\Reposts.Tests.fs"/>
-        <Compile Include="Songs\ComposeSong.Tests.fs"/>
-        <Compile Include="Songs\ImproveSong.Tests.fs"/>
-        <Compile Include="Songs\FinishSong.Tests.fs"/>
-        <Compile Include="Songs\DiscardSong.Tests.fs"/>
-        <Compile Include="Songs\PracticeSong.Tests.fs"/>
-        <Compile Include="Skills\ImproveSkills.Tests.fs"/>
-        <Compile Include="Studio\RecordAlbum.Tests.fs"/>
-        <Compile Include="Studio\ReleaseAlbum.Tests.fs"/>
-        <Compile Include="Studio\RenameAlbum.Tests.fs"/>
-        <Compile Include="Interactions\Drink.Interactions.Test.fs"/>
-        <Compile Include="Interactions\Food.Interactions.Test.fs"/>
-        <Compile Include="Events\Character.Events.Tests.fs"/>
-        <Compile Include="Simulation.Tests.fs"/>
-        <Compile Include="Program.fs"/>
+        <Compile Include="State\State.Albums.Tests.fs" />
+        <Compile Include="State\State.Bank.Tests.fs" />
+        <Compile Include="State\State.BandManagement.Tests.fs" />
+        <Compile Include="State\State.SongComposition.Tests.fs" />
+        <Compile Include="State\State.Setup.Tests.fs" />
+        <Compile Include="State\State.Skills.Tests.fs" />
+        <Compile Include="State\State.Concerts.Tests.fs" />
+        <Compile Include="Airport\BoardPlane.Tests.fs" />
+        <Compile Include="Albums\DailyUpdate.Tests.fs" />
+        <Compile Include="Albums\ReviewGeneration.Tests.fs" />
+        <Compile Include="Bands\HireMember.Tests.fs" />
+        <Compile Include="Bands\FireMember.Tests.fs" />
+        <Compile Include="Bank\Transfer.Tests.fs" />
+        <Compile Include="Bank\Queries.Tests.fs" />
+        <Compile Include="Concerts\DailyUpdate.Tests.fs" />
+        <Compile Include="Concerts\Live.PlaySong.Tests.fs" />
+        <Compile Include="Concerts\Live.GreetAudience.Tests.fs" />
+        <Compile Include="Concerts\Live.DedicateSong.Tests.fs" />
+        <Compile Include="Concerts\Live.Finish.Tests.fs" />
+        <Compile Include="Market\GenreMarket.Tests.fs" />
+        <Compile Include="Notifications\Notification.Tests.fs" />
+        <Compile Include="Time\AdvanceTime.Tests.fs" />
+        <Compile Include="SocialNetworks\DailyUpdate.Tests.fs" />
+        <Compile Include="SocialNetworks\Reposts.Tests.fs" />
+        <Compile Include="Songs\ComposeSong.Tests.fs" />
+        <Compile Include="Songs\ImproveSong.Tests.fs" />
+        <Compile Include="Songs\FinishSong.Tests.fs" />
+        <Compile Include="Songs\DiscardSong.Tests.fs" />
+        <Compile Include="Songs\PracticeSong.Tests.fs" />
+        <Compile Include="Skills\ImproveSkills.Tests.fs" />
+        <Compile Include="Studio\RecordAlbum.Tests.fs" />
+        <Compile Include="Studio\ReleaseAlbum.Tests.fs" />
+        <Compile Include="Studio\RenameAlbum.Tests.fs" />
+        <Compile Include="Interactions\Drink.Interactions.Test.fs" />
+        <Compile Include="Interactions\Food.Interactions.Test.fs" />
+        <Compile Include="Events\Character.Events.Tests.fs" />
+        <Compile Include="Simulation.Tests.fs" />
+        <Compile Include="Program.fs" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Duets.Simulation\Duets.Simulation.fsproj"/>
+        <ProjectReference Include="..\..\src\Duets.Simulation\Duets.Simulation.fsproj" />
         <ProjectReference Include="..\Test.Common\Test.Common.fsproj" />
     </ItemGroup>
 

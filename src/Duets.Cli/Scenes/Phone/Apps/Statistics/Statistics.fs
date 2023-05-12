@@ -7,11 +7,13 @@ open Duets.Cli.Text
 type private StatisticsOption =
     | Band
     | Albums
+    | Reviews
 
 let private textFromOption opt =
     match opt with
-    | Band -> Phone.statisticsAppSectionBand
-    | Albums -> Phone.statisticsAppSectionAlbums
+    | Band -> "Band statistics"
+    | Albums -> "Album statistics"
+    | Reviews -> "Album reviews"
 
 let rec statisticsApp () =
     let selectedChoice =
@@ -19,9 +21,10 @@ let rec statisticsApp () =
             Phone.statisticsAppSectionPrompt
             Generic.backToPhone
             textFromOption
-            [ Band; Albums ]
+            [ Band; Albums; Reviews ]
 
     match selectedChoice with
     | Some Band -> Band.bandStatisticsSubScene statisticsApp
     | Some Albums -> Albums.albumsStatisticsSubScene statisticsApp
+    | Some Reviews -> AlbumReviews.reviewsStatisticsSubScene statisticsApp
     | None -> Scene.Phone

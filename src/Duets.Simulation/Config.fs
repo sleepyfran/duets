@@ -39,6 +39,10 @@ module LifeSimulation =
     let hungerHealthReduceRate = -20
 
 module MusicSimulation =
+    /// Minimum number of fans that a band has to have in order to produce
+    /// reviews after releasing an album.
+    let minimumFanBaseForReviews = 2000
+
     /// Amount that will divide the album quality and then multiply the useful
     /// genre market to get the total amount of streams of non-fans of the band.
     /// The bigger the number the smaller the amount of streams a band will get

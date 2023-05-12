@@ -37,7 +37,8 @@ let ``releaseAlbum should create effect with correct streams and hype for single
             { Album = single
               ReleaseDate = dummyToday
               Streams = 0
-              Hype = 1.0 }
+              Hype = 1.0
+              Reviews = [] }
         ))
 
 [<Test>]
@@ -52,7 +53,8 @@ let ``releaseAlbum should create effect with correct streams and hype for EP``
             { Album = ep
               ReleaseDate = dummyToday
               Streams = 0
-              Hype = 1.0 }
+              Hype = 1.0
+              Reviews = [] }
         ))
 
 [<Test>]
@@ -67,7 +69,8 @@ let ``releaseAlbum should create effect with correct streams and hype for LP``
             { Album = lp
               ReleaseDate = dummyToday
               Streams = 0
-              Hype = 1.0 }
+              Hype = 1.0
+              Reviews = []}
         ))
 
 [<Test>]
@@ -82,7 +85,8 @@ let ``releaseAlbum should apply proper low fame modifier`` () =
             { Album = lp
               ReleaseDate = dummyToday
               Streams = 0
-              Hype = 1.0 }
+              Hype = 1.0
+              Reviews = []}
         ))
 
 [<Test>]
@@ -97,7 +101,8 @@ let ``releaseAlbum should apply proper average fame modifier`` () =
             { Album = lp
               ReleaseDate = dummyToday
               Streams = 0
-              Hype = 1.0 }
+              Hype = 1.0
+              Reviews = []}
         ))
 
 [<Test>]
@@ -112,7 +117,8 @@ let ``releaseAlbum should apply proper big fame modifier`` () =
             { Album = lp
               ReleaseDate = dummyToday
               Streams = 0
-              Hype = 1.0 }
+              Hype = 1.0
+              Reviews = []}
         ))
 
 [<Test>]
@@ -127,7 +133,8 @@ let ``releaseAlbum should apply proper ultra fame modifier`` () =
             { Album = lp
               ReleaseDate = dummyToday
               Streams = 0
-              Hype = 1.0 }
+              Hype = 1.0
+              Reviews = []}
         ))
 
 [<Test>]
@@ -171,5 +178,6 @@ let ``releaseAlbum should apply proper low score modifier`` () =
             { Album = lowScoreAlbum
               ReleaseDate = dummyToday
               Streams = 0
-              Hype = 1.0 }
+              Hype = 1.0
+              Reviews = []}
         ))

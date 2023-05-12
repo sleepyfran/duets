@@ -31,9 +31,21 @@ let private digest effects state =
 
 let private displayEffect effect =
     match effect with
-    | AlbumReleased (_, releasedAlbum) ->
+    | AlbumReleased(_, releasedAlbum) ->
         Studio.commonAlbumReleased releasedAlbum.Album.Name |> showMessage
-    | CharacterAttributeChanged (_, attr, Diff (previous, current)) ->
+    | AlbumReviewsReceived(_, releasedAlbum) ->
+        $"The reviews for your album {releasedAlbum.Album.Name} just came in!"
+        |> showMessage
+
+        let accepted = showConfirmationPrompt "Do you want to see them now?"
+
+        if accepted then
+            showReviews releasedAlbum
+        else
+            "Reviews are always accessible via the phone"
+            |> Styles.faded
+            |> showMessage
+    | CharacterAttributeChanged(_, attr, Diff(previous, current)) ->
         match attr with
         | CharacterAttribute.Drunkenness ->
             if previous < current then
@@ -63,24 +75,24 @@ let private displayEffect effect =
     | CharacterHospitalized _ ->
         showMessage Events.hospitalized
         lineBreak ()
-    | CareerAccept (_, job) ->
+    | CareerAccept(_, job) ->
         let place = job.Location ||> Queries.World.placeInCityById
 
         Career.careerChange job place.Name |> showMessage
-    | CareerLeave (_, job) ->
+    | CareerLeave(_, job) ->
         let place = job.Location ||> Queries.World.placeInCityById
 
         Career.careerLeft job place.Name |> showMessage
-    | ConcertScheduled (_, ScheduledConcert (concert, _)) ->
+    | ConcertScheduled(_, ScheduledConcert(concert, _)) ->
         let place = Queries.World.placeInCityById concert.CityId concert.VenueId
 
         Phone.concertAssistantAppTicketDone place concert |> showMessage
-    | ConcertFinished (_, pastConcert, income) ->
+    | ConcertFinished(_, pastConcert, income) ->
         let concert = Concert.fromPast pastConcert
 
         let quality =
             match pastConcert with
-            | PerformedConcert (_, quality) -> quality
+            | PerformedConcert(_, quality) -> quality
             | _ -> 0<quality>
 
         match quality with
@@ -90,7 +102,7 @@ let private displayEffect effect =
         |> showMessage
 
         Concert.concertSummary concert.TicketsSold income |> showMessage
-    | ConcertCancelled (band, FailedConcert (concert, reason)) ->
+    | ConcertCancelled(band, FailedConcert(concert, reason)) ->
         let place = Queries.World.placeInCityById concert.CityId concert.VenueId
 
         match reason with
@@ -101,7 +113,7 @@ let private displayEffect effect =
         Items.itemAddedToInventory item.Brand |> showMessage
     | ItemRemovedFromInventory item ->
         Items.itemRemovedFromInventory item.Brand |> showMessage
-    | MoneyTransferred (holder, transaction) ->
+    | MoneyTransferred(holder, transaction) ->
         Phone.bankAppTransferSuccess holder transaction |> showMessage
     | Notification notification ->
         let createCalendarNotification typeText date dayMoment =
@@ -113,12 +125,12 @@ let private displayEffect effect =
             text |> Styles.highlight |> showNotification "Upcoming payment"
 
         match notification with
-        | Notification.CalendarEvent (CalendarEventType.Flight flight) ->
+        | Notification.CalendarEvent(CalendarEventType.Flight flight) ->
             createCalendarNotification
                 $"Flight from {Generic.cityName flight.Origin |> Styles.place}"
                 flight.Date
                 flight.DayMoment
-        | Notification.CalendarEvent (CalendarEventType.Concert concert) ->
+        | Notification.CalendarEvent(CalendarEventType.Concert concert) ->
             let venue =
                 Queries.World.placeInCityById concert.CityId concert.VenueId
 
@@ -126,13 +138,13 @@ let private displayEffect effect =
                 $"Concert at {venue.Name |> Styles.place} in {Generic.cityName concert.CityId |> Styles.place}"
                 concert.Date
                 concert.DayMoment
-        | Notification.RentalNotification (RentalNotificationType.RentalDueTomorrow rental) ->
+        | Notification.RentalNotification(RentalNotificationType.RentalDueTomorrow rental) ->
             let cityId, _ = rental.Coords
             let place = rental.Coords ||> Queries.World.placeInCityById
 
             $"Your rental of {place.Name} in {Generic.cityName cityId |> Styles.place} will expire tomorrow if you don't pay the next rent.\nYou can do so from your phone's bank app"
             |> createRentalNotification
-        | Notification.RentalNotification (RentalNotificationType.RentalDueInOneWeek rental) ->
+        | Notification.RentalNotification(RentalNotificationType.RentalDueInOneWeek rental) ->
             let cityId, _ = rental.Coords
             let place = rental.Coords ||> Queries.World.placeInCityById
 
@@ -164,7 +176,7 @@ let private displayEffect effect =
             |> showMessage
 
             showMapUntilChoice () |> applyMultiple
-    | SongImproved (_, Diff (before, after)) ->
+    | SongImproved(_, Diff(before, after)) ->
         let (_, _, previousQuality) = before
         let (_, _, currentQuality) = after
 
@@ -173,13 +185,13 @@ let private displayEffect effect =
             currentQuality
         )
         |> showMessage
-    | SongPracticed (_, (FinishedSong song, _)) ->
+    | SongPracticed(_, (FinishedSong song, _)) ->
         Rehearsal.practiceSongImproved song.Name song.Practice |> showMessage
-    | SongDiscarded (_, (UnfinishedSong song, _, _)) ->
+    | SongDiscarded(_, (UnfinishedSong song, _, _)) ->
         Rehearsal.discardSongDiscarded song.Name |> showMessage
-    | SongFinished (_, (FinishedSong song, quality)) ->
+    | SongFinished(_, (FinishedSong song, quality)) ->
         Rehearsal.finishSongFinished (song.Name, quality) |> showMessage
-    | SkillImproved (character, Diff (before, after)) ->
+    | SkillImproved(character, Diff(before, after)) ->
         let (skill, previousLevel) = before
         let (_, currentLevel) = after
 
@@ -196,7 +208,7 @@ let private displayEffect effect =
         let currentDayMoment = Calendar.Query.dayMomentOf today
 
         Command.waitResult today currentDayMoment |> showMessage
-    | WorldMoveTo (cityId, placeId) ->
+    | WorldMoveTo(cityId, placeId) ->
         Queries.World.placeInCityById cityId placeId
         |> World.movedTo
         |> showMessage

@@ -82,7 +82,8 @@ let dummyReleasedAlbum =
     { Album = dummyAlbum
       ReleaseDate = dummyToday
       Streams = 0
-      Hype = 1.0 }
+      Hype = 1.0
+      Reviews = [] }
 
 let dummyStudio =
     { Producer = dummyCharacter

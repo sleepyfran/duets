@@ -124,6 +124,10 @@ module Query =
     let monthDaysFrom (date: Date) =
         [ date.Day .. DateTime.DaysInMonth(date.Year, date.Month) ]
         |> Seq.map (fun day -> DateTime(date.Year, date.Month, day))
+        
+    /// Returns the number of days between the two given dates.
+    let daysBetween (fromDate: Date) (toDate: Date) =
+        (fromDate - toDate).Days
 
     /// Returns the number of years between to dates.
     let yearsBetween (fromDate: Date) (toDate: Date) =

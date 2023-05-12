@@ -115,7 +115,7 @@ let rec showInteractiveDatePrompt title firstDate =
             })
 
     match selectedDate with
-    | Some (Date date) -> Some date
+    | Some(Date date) -> Some date
     | Some NextMonth -> showInteractiveDatePrompt title nextMonthDate
     | None -> None
 
@@ -143,3 +143,11 @@ let showLengthPrompt title =
                 invalidOp
                     "The given input was not a correct length. This should've been caught by the validator but apparently it didn't :)"
             )
+
+/// <summary>
+/// Renders a prompt that blocks the user until they press any key.
+/// </summary>
+let showContinuationPrompt () =
+    "Press any key to continue..." |> showMessage
+
+    AnsiConsole.Console.Input.ReadKey(true) |> ignore

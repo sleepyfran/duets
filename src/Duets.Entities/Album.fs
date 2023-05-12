@@ -80,4 +80,12 @@ module Released =
         { Album = album
           ReleaseDate = releaseDate
           Streams = 0
-          Hype = hype }
+          Hype = hype
+          Reviews = [] }
+
+module Review =
+    /// Creates a review given a reviewer and a score, making sure the score
+    /// stays between 0 and 100.
+    let create reviewer score =
+        { Reviewer = reviewer
+          Score = score |> Math.clamp 0 100 }

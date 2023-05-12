@@ -15,13 +15,16 @@ module Bands =
     let currentBandId =
         Lenses.State.bands_ >-> Lenses.Bands.current_ |> Optic.get
 
-    /// Returns the currently selected character band in the game.
-    let currentBand state =
-        let currentId = currentBandId state
-
-        let lens = Lenses.State.bands_ >-> Lenses.Bands.characterBand_ currentId
+    /// Returns a band that matches the given ID.
+    let byId state bandId =
+        let lens = Lenses.State.bands_ >-> Lenses.Bands.characterBand_ bandId
 
         Optic.get lens state |> Option.get
+    
+    /// Returns the currently selected character band in the game.
+    let currentBand state =
+        currentBandId state
+        |> byId state
 
     /// Returns all current members of the current band.
     let currentBandMembers state =
@@ -67,7 +70,7 @@ module Bands =
             Characters.find state currentMember.CharacterId)
         |> List.averageBy (fun character ->
             Characters.ageOf state character |> float)
-
+    
     /// Gives an estimate of the band's fame between 0 and 100 based on the
     /// total amount of people willing to listen to the band's genre.
     let estimatedFameLevel state (band: Band) =
