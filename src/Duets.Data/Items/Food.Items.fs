@@ -28,6 +28,9 @@ module BreakfastFood =
           Type = GranolaBowl 250<gram> |> Food |> Consumable },
         3m<dd>
 
+    let all =
+        [ croissant; bltSandwich; fruitPlate; granolaBowl; avocadoEggSandwich ]
+
 module FastFood =
     let genericBurger: PurchasableItem =
         { Brand = "Burger"
@@ -49,6 +52,8 @@ module FastFood =
           Type = Nachos 300<gram> |> Food |> Consumable },
         2.3m<dd>
 
+    let all = [ genericBurger; genericChips; genericFries; genericNachos ]
+
 module JapaneseFood =
     let gyoza: PurchasableItem =
         { Brand = "Gyoza"
@@ -65,10 +70,89 @@ module JapaneseFood =
           Type = Ramen 450<gram> |> Food |> Consumable },
         6.3m<dd>
 
+    let salmonNigiriSushi: PurchasableItem =
+        { Brand = "Salmon Nigiri"
+          Type = Sushi 100<gram> |> Food |> Consumable },
+        7m<dd>
+
+    let tunaNigiriSushi: PurchasableItem =
+        { Brand = "Tuna Nigiri"
+          Type = Sushi 100<gram> |> Food |> Consumable },
+        7m<dd>
+
+    let avocadoNigiriSushi: PurchasableItem =
+        { Brand = "Avocado Nigiri"
+          Type = Sushi 100<gram> |> Food |> Consumable },
+        7m<dd>
+
+    let salmonMakiSushi: PurchasableItem =
+        { Brand = "Salmon Maki"
+          Type = Sushi 100<gram> |> Food |> Consumable },
+        7.2m<dd>
+
+    let avocadoMakiSushi: PurchasableItem =
+        { Brand = "Avocado Maki"
+          Type = Sushi 100<gram> |> Food |> Consumable },
+        7.2m<dd>
+
+    let californiaRollSushi: PurchasableItem =
+        { Brand = "California Roll"
+          Type = Sushi 150<gram> |> Food |> Consumable },
+        7.8m<dd>
+
     let wakame: PurchasableItem =
         { Brand = "Wakame"
           Type = Wakame 100<gram> |> Food |> Consumable },
         2.5m<dd>
+
+    let all =
+        [ gyoza
+          wakame
+          misoRamen
+          tonkotsuRamen
+          avocadoMakiSushi
+          avocadoNigiriSushi
+          californiaRollSushi
+          salmonMakiSushi
+          salmonNigiriSushi
+          tunaNigiriSushi ]
+
+module MeatFood =
+    let steakChimichurri: PurchasableItem =
+        { Brand = "Steak Chimichurri"
+          Type = Steak 300<gram> |> Food |> Consumable },
+        9.5m<dd>
+
+    let herbChicken: PurchasableItem =
+        { Brand = "Herb Chicken"
+          Type = Chicken 300<gram> |> Food |> Consumable },
+        6.5m<dd>
+
+    let all = [ steakChimichurri; herbChicken ]
+
+module VegetarianFood =
+    let falafelWithHummus: PurchasableItem =
+        { Brand = "Falafel with Hummus"
+          Type = Falafel 300<gram> |> Food |> Consumable },
+        4.5m<dd>
+
+    let falafelWithTahini: PurchasableItem =
+        { Brand = "Falafel with Tahini"
+          Type = Falafel 300<gram> |> Food |> Consumable },
+        4.3m<dd>
+
+    let avocadoSalad =
+        { Brand = "Avocado Salad"
+          Type = Salad 300<gram> |> Food |> Consumable },
+        4.1m<dd>
+
+    let goatCheeseSalad =
+        { Brand = "Goat Cheese Salad"
+          Type = Salad 300<gram> |> Food |> Consumable },
+        4.5m<dd>
+
+    let all =
+        [ falafelWithHummus; falafelWithTahini; avocadoSalad; goatCheeseSalad ]
 
 module VietnameseFood =
     let bunBoNamBo: PurchasableItem =
@@ -91,21 +175,12 @@ module VietnameseFood =
           Type = PhoBo 350<gram> |> Food |> Consumable },
         5.45m<dd>
 
+    let all = [ phoBo; nemCuonBo; nemCuonTom; bunBoNamBo ]
+
 let all =
-    [ BreakfastFood.croissant
-      BreakfastFood.bltSandwich
-      BreakfastFood.fruitPlate
-      BreakfastFood.granolaBowl
-      BreakfastFood.avocadoEggSandwich
-      FastFood.genericBurger
-      FastFood.genericChips
-      FastFood.genericFries
-      FastFood.genericNachos
-      JapaneseFood.gyoza
-      JapaneseFood.wakame
-      JapaneseFood.misoRamen
-      JapaneseFood.tonkotsuRamen
-      VietnameseFood.phoBo
-      VietnameseFood.nemCuonBo
-      VietnameseFood.nemCuonTom
-      VietnameseFood.bunBoNamBo ]
+    BreakfastFood.all
+    @ FastFood.all
+    @ JapaneseFood.all
+    @ MeatFood.all
+    @ VegetarianFood.all
+    @ VietnameseFood.all

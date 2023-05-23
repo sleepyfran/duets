@@ -1,9 +1,9 @@
-module Duets.Data.World.Cities.Madrid.CommonItems
+module Duets.Data.World.Cities.Madrid.CityCommonItems
 
 open Duets.Data.Items
 
 /// List of most common beers sold in Madrid pubs.
-let pubDrinks =
+let beers =
     [ Drink.Beer.pilsnerUrquellPint
       Drink.Beer.estrellaGaliciaBottle
       Drink.Beer.guinnessPint ]

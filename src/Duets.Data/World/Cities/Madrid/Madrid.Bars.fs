@@ -5,7 +5,7 @@ open Duets.Data.World
 
 let addWrongWay zone =
     let shop =
-        { AvailableItems = CommonItems.pubDrinks @ CommonItems.pubFood
+        { AvailableItems = CityCommonItems.beers @ CityCommonItems.pubFood
           PriceModifier = 3<multiplier> }
 
     World.Place.create

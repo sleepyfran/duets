@@ -1,9 +1,9 @@
-module Duets.Data.World.Cities.Prague.CommonItems
+module Duets.Data.World.Cities.Prague.CityCommonItems
 
 open Duets.Data.Items
 
 /// List of most common beers sold in pubs Prague.
-let pubDrinks =
+let beers =
     [ Drink.Beer.pilsnerUrquellPint
       Drink.Beer.kozelPint
       Drink.Beer.staropramenPint

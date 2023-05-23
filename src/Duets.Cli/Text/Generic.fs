@@ -217,42 +217,43 @@ let role instrumentType = roleName instrumentType
 
 let itemName (item: Item) =
     match item.Type with
-    | Consumable (Drink drink) ->
+    | Consumable(Drink drink) ->
         match drink with
         | Beer _ -> $"{item.Brand} beer"
         | Coffee _ -> item.Brand |> String.lowercase
         | Cola _ -> "cola"
         | Lemonade _ -> "lemonade"
-    | Consumable (Food food) ->
+    | Consumable(Food food) ->
         match food with
         | Burger _ -> "burger"
         | Chips _ -> "chips"
         | Fries _ -> "fries"
         | Nachos _ -> "nachos"
         | _ -> item.Brand |> String.lowercase
-    | Interactive (Electronics electronic) ->
+    | Interactive(Electronics electronic) ->
         match electronic with
         | GameConsole -> item.Brand
         | TV -> $"{item.Brand} TV"
-    | Interactive (Furniture furniture) ->
+    | Interactive(Furniture furniture) ->
         match furniture with
         | Bed -> "bed"
     |> Styles.item
 
 let itemNameWithDetail (item: Item) =
     match item.Type with
-    | Consumable (Drink drink) ->
+    | Consumable(Drink drink) ->
         match drink with
-        | Beer (ml, alcohol) ->
-            $"""{Styles.item "Beer"} ({ml}ml, {alcohol}%%)"""
+        | Beer(ml, alcohol) -> $"""{Styles.item "Beer"} ({ml}ml, {alcohol}%%)"""
         | Coffee ml -> $"""{Styles.item item.Brand} ({ml}ml of coffee)"""
         | Cola ml -> $"""{Styles.item "Cola"} ({ml}ml)"""
         | Lemonade ml -> $"""{Styles.item "Lemonade"} ({ml}ml)"""
-    | Consumable (Food food) ->
+    | Consumable(Food food) ->
         match food with
         | Burger mg
         | Chips mg
+        | Chicken mg
         | Croissant mg
+        | Falafel mg
         | Fries mg
         | Fruits mg
         | GranolaBowl mg
@@ -262,7 +263,10 @@ let itemNameWithDetail (item: Item) =
         | BunBo mg
         | PhoBo mg
         | Ramen mg
+        | Salad mg
         | Sandwich mg
+        | Steak mg
+        | Sushi mg
         | Wakame mg -> $"""{Styles.item item.Brand} ({mg} mg)"""
     | Interactive _ -> itemName item
 

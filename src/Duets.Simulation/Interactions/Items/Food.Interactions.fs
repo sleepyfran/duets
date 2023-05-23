@@ -12,18 +12,23 @@ let eat state item =
 
     match item with
     | Burger amount
-    | Croissant amount 
+    | Croissant amount
     | Chips amount
     | Fries amount
     | Nachos amount -> eatJunkFood character amount
     | BunBo amount
+    | Chicken amount
+    | Falafel amount
     | Fruits amount
     | GranolaBowl amount
     | Gyozas amount
     | NemCuon amount
     | PhoBo amount
     | Ramen amount
+    | Salad amount
     | Sandwich amount
+    | Steak amount
+    | Sushi amount
     | Wakame amount -> eatNormalFood character amount
 
 let private calculateHungerIncrease amount =
@@ -33,8 +38,16 @@ let private eatJunkFood character amount =
     let hungerIncrease = calculateHungerIncrease amount
     let healthDecrease = float amount / 100.0 |> Math.roundToNearest |> ((*) -1)
 
-    [ yield! Character.Attribute.add character CharacterAttribute.Hunger hungerIncrease
-      yield! Character.Attribute.add character CharacterAttribute.Health healthDecrease ]
+    [ yield!
+          Character.Attribute.add
+              character
+              CharacterAttribute.Hunger
+              hungerIncrease
+      yield!
+          Character.Attribute.add
+              character
+              CharacterAttribute.Health
+              healthDecrease ]
 
 let private eatNormalFood character amount =
     let hungerIncrease = calculateHungerIncrease amount

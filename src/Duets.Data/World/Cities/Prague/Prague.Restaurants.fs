@@ -56,3 +56,21 @@ let addTaiko zone =
         zone
     |> World.Place.changeOpeningHours Everywhere.Common.restaurantOpeningHours
     |> World.City.addPlace
+
+let addForkys zone =
+    let food = VegetarianFood.all
+
+    let drinks = SoftDrinks.all
+
+    let shop =
+        { AvailableItems = drinks @ food
+          PriceModifier = 1<multiplier> }
+
+    World.Place.create
+        ("1c10d339-892e-4870-81f3-8f3f11d6b3a3" |> Identity.from)
+        "Forky's"
+        81<quality>
+        (Restaurant shop)
+        zone
+    |> World.Place.changeOpeningHours Everywhere.Common.restaurantOpeningHours
+    |> World.City.addPlace

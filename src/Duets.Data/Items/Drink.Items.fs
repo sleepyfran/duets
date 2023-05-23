@@ -58,6 +58,19 @@ module Beer =
           Type = Beer(500<milliliter>, 4.7) |> Drink |> Consumable },
         1.5m<dd>
 
+    let all =
+        [ cernaHoraPint
+          estrellaGaliciaBottle
+          gambrinusPint
+          guinnessPint
+          kozelPint
+          matushkaPint
+          pilsnerUrquellPint
+          saigonBottle
+          sapporoBottle
+          singhaBottle
+          staropramenPint ]
+
 module Coffee =
     let espresso: PurchasableItem =
         { Brand = "Espresso"
@@ -91,3 +104,5 @@ module SoftDrinks =
         { Brand = "Homemade lemonade"
           Type = Lemonade 500<milliliter> |> Drink |> Consumable },
         0.9m<dd>
+
+    let all = [ cocaColaBottle; homemadeLemonade ]

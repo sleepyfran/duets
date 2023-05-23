@@ -39,6 +39,8 @@ let generate () =
     |> ConcertSpaces.addWurlitzer sol
     |> RehearsalSpaces.addJackOnTheRocks puenteDeVallecas
     |> RehearsalSpaces.addPandorasVox arganzuela
+    |> Restaurants.addSumo universidad
+    |> Restaurants.addHonestGreens universidad
 
 (* -------- Home --------- *)
 let createHome zone =

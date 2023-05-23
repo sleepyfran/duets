@@ -5,7 +5,7 @@ open Duets.Data.World
 
 let addBeerGeek zone =
     let shop =
-        { AvailableItems = CommonItems.pubDrinks @ CommonItems.pubFood
+        { AvailableItems = CityCommonItems.beers @ CityCommonItems.pubFood
           PriceModifier = 3<multiplier> }
 
     World.Place.create
@@ -19,7 +19,7 @@ let addBeerGeek zone =
 
 let addPubble zone =
     let shop =
-        { AvailableItems = CommonItems.pubDrinks @ CommonItems.pubFood
+        { AvailableItems = CityCommonItems.beers @ CityCommonItems.pubFood
           PriceModifier = 2<multiplier> }
 
     World.Place.create
