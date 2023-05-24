@@ -1,6 +1,7 @@
 open Duets.Agents
 open Duets.Cli.SceneIndex
 open Duets.Cli.Components
+open Duets.Cli.Text
 open Duets.Cli.Scenes
 open System.Globalization
 open System.Threading
@@ -19,39 +20,51 @@ let private outOfGameplayScene scene =
 /// Saves the game to the savegame file only if the screen is not the main menu,
 /// character creator or band creator, which still have unreliable data or
 /// might not have data at all.
-let saveIfNeeded scene =
-    if not (outOfGameplayScene scene) then
+let saveIfNeeded skipSaving scene =
+    if not (outOfGameplayScene scene) && not skipSaving then
         Savegame.save ()
     else
         ()
 
-let rec showScene scene =
-    saveIfNeeded scene
+let rec showScene skipSaving scene =
+    saveIfNeeded skipSaving scene
 
     match scene with
     | Scene.MainMenu savegameState ->
-        MainMenu.mainMenu savegameState |> showScene
+        MainMenu.mainMenu savegameState |> showScene skipSaving
     | Scene.CharacterCreator ->
-        NewGame.CharacterCreator.characterCreator () |> showScene
+        NewGame.CharacterCreator.characterCreator () |> showScene skipSaving
     | Scene.BandCreator character ->
-        NewGame.BandCreator.bandCreator character |> showScene
-    | Scene.SkillEditor (character, characterMember, band) ->
+        NewGame.BandCreator.bandCreator character |> showScene skipSaving
+    | Scene.SkillEditor(character, characterMember, band) ->
         NewGame.SkillEditor.skillEditor character characterMember band
-        |> showScene
-    | Scene.WorldSelector (character, band, skills) ->
-        NewGame.WorldSelector.worldSelector character band skills |> showScene
-    | Scene.Phone -> Phone.Root.phoneScene () |> showScene
+        |> showScene skipSaving
+    | Scene.WorldSelector(character, band, skills) ->
+        NewGame.WorldSelector.worldSelector character band skills
+        |> showScene skipSaving
+    | Scene.Phone -> Phone.Root.phoneScene () |> showScene skipSaving
     | Scene.World ->
-        World.worldScene World.WorldMode.IgnoreDescription |> showScene
+        World.worldScene World.WorldMode.IgnoreDescription
+        |> showScene skipSaving
     | Scene.WorldAfterMovement ->
-        World.worldScene World.WorldMode.ShowDescription |> showScene
+        World.worldScene World.WorldMode.ShowDescription |> showScene skipSaving
     | Scene.Exit exitMode ->
         match exitMode with
-        | ExitMode.SaveGame -> Savegame.saveSync ()
+        | ExitMode.SaveGame when not skipSaving -> Savegame.saveSync ()
         | _ -> ()
 
+let private parseNoSavingArg args =
+    args |> Array.tryHead |> Option.exists (fun arg -> arg = "--no-saving")
+
 [<EntryPoint>]
-let main _ =
+let main args =
+    let skipSaving = parseNoSavingArg args
+
+    if skipSaving then
+        Styles.danger
+            "--no-saving arg detected, all changes during gameplay won't be persisted!"
+        |> showMessage
+
     clearScreen ()
 
     Stats.startTrackingTime ()
@@ -59,7 +72,7 @@ let main _ =
     // Set default culture to UK for sane defaults :)
     Thread.CurrentThread.CurrentCulture <- CultureInfo("en-UK")
 
-    Savegame.load () |> Scene.MainMenu |> showScene
+    Savegame.load () |> Scene.MainMenu |> showScene skipSaving
 
     Stats.stopTrackingAndSave ()
 
