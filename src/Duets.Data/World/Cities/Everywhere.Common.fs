@@ -36,7 +36,7 @@ let restaurantOpeningHours =
 let servicesOpeningHours =
     PlaceOpeningHours.OpeningHours(
         Calendar.everyDay,
-        [ Midday; Afternoon; Evening ]
+        [ Morning; Midday; Afternoon; Evening ]
     )
 
 /// Usual stuff in coffee shops everywhere.
