@@ -41,6 +41,9 @@ let generate () =
     |> RehearsalSpaces.addPandorasVox arganzuela
     |> Restaurants.addSumo universidad
     |> Restaurants.addHonestGreens universidad
+    |> Studios.addCasaSonora sol
+    |> Studios.addRobinGroove universidad
+    |> Studios.addTheMetalFactory arganzuela
 
 (* -------- Home --------- *)
 let createHome zone =
