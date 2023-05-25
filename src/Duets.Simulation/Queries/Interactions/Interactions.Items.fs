@@ -1,5 +1,6 @@
 namespace Duets.Simulation.Queries.Internal.Interactions
 
+open Duets.Data.Items
 open Duets.Entities
 
 module Items =
@@ -13,6 +14,7 @@ module Items =
     let private furnitureInteractions furniture =
         match furniture with
         | FurnitureItemType.Bed -> InteractiveItemInteraction.Sleep
+        | FurnitureItemType.Stove -> Food.all |> InteractiveItemInteraction.Cook
         |> ItemInteraction.Interactive
         |> Interaction.Item
 
@@ -21,16 +23,16 @@ module Items =
         |> Set.ofList
         |> Set.map (fun item ->
             match item.Type with
-            | Consumable (ConsumableItemType.Drink _) ->
+            | Consumable(ConsumableItemType.Drink _) ->
                 ConsumableItemInteraction.Drink
                 |> ItemInteraction.Consumable
                 |> Interaction.Item
-            | Consumable (ConsumableItemType.Food _) ->
+            | Consumable(ConsumableItemType.Food _) ->
                 ConsumableItemInteraction.Eat
                 |> ItemInteraction.Consumable
                 |> Interaction.Item
-            | Interactive (InteractiveItemType.Electronics electronicsItemType) ->
+            | Interactive(InteractiveItemType.Electronics electronicsItemType) ->
                 electronicsInteractions electronicsItemType
-            | Interactive (InteractiveItemType.Furniture furnitureItemType) ->
+            | Interactive(InteractiveItemType.Furniture furnitureItemType) ->
                 furnitureInteractions furnitureItemType)
         |> List.ofSeq

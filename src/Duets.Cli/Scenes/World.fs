@@ -83,6 +83,8 @@ let private commandsFromInteractions interactions =
                 [ ConsumeCommands.drink ]
             | ItemInteraction.Consumable ConsumableItemInteraction.Eat ->
                 [ ConsumeCommands.eat ]
+            | ItemInteraction.Interactive(InteractiveItemInteraction.Cook items) ->
+                [ CookCommand.create items ]
             | ItemInteraction.Interactive InteractiveItemInteraction.Sleep ->
                 [ InteractiveCommand.sleep ]
             | ItemInteraction.Interactive InteractiveItemInteraction.Play ->
@@ -109,9 +111,9 @@ let private commandsFromInteractions interactions =
             | RehearsalInteraction.HireMember -> [ HireMemberCommand.get ]
             | RehearsalInteraction.ImproveSong unfinishedSongs ->
                 [ ImproveSongCommand.create unfinishedSongs ]
-            | RehearsalInteraction.ListMembers (bandMembers, pastMembers) ->
+            | RehearsalInteraction.ListMembers(bandMembers, pastMembers) ->
                 [ ListMembersCommand.create bandMembers pastMembers ]
-            | RehearsalInteraction.ListSongs (unfinishedSongs, finishedSongs) ->
+            | RehearsalInteraction.ListSongs(unfinishedSongs, finishedSongs) ->
                 [ ListSongsCommand.create unfinishedSongs finishedSongs ]
             | RehearsalInteraction.PracticeSong finishedSongs ->
                 [ PracticeSongCommand.create finishedSongs ]
@@ -121,9 +123,9 @@ let private commandsFromInteractions interactions =
             | ShopInteraction.SeeMenu shop -> [ SeeMenuCommand.create shop ]
         | Interaction.Studio studioInteraction ->
             match studioInteraction with
-            | StudioInteraction.CreateAlbum (studio, finishedSongs) ->
+            | StudioInteraction.CreateAlbum(studio, finishedSongs) ->
                 [ CreateAlbumCommand.create studio finishedSongs ]
-            | StudioInteraction.AddSongToAlbum (studio, albums, finishedSongs) ->
+            | StudioInteraction.AddSongToAlbum(studio, albums, finishedSongs) ->
                 [ RecordSongCommand.create studio albums finishedSongs ]
             | StudioInteraction.EditAlbumName unreleasedAlbums ->
                 [ EditAlbumNameCommand.create unreleasedAlbums ]
@@ -180,14 +182,14 @@ let worldScene mode =
 
     let promptText =
         match situation with
-        | Airport (Flying flight) ->
+        | Airport(Flying flight) ->
             Airport.planeActionPrompt
                 today
                 currentDayMoment
                 characterAttributes
                 flight
-        | Concert (InConcert ongoingConcert)
-        | Concert (InBackstage (Some ongoingConcert)) ->
+        | Concert(InConcert ongoingConcert)
+        | Concert(InBackstage(Some ongoingConcert)) ->
             Concert.actionPrompt
                 today
                 currentDayMoment

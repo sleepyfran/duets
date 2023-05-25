@@ -73,6 +73,7 @@ module InteractionTypes =
     /// Interactions that can be done referencing an item in particular.
     [<RequireQualifiedAccess>]
     type InteractiveItemInteraction =
+        | Cook of PurchasableItem list
         | Sleep
         | Play
         | Watch

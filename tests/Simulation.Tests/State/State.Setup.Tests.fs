@@ -1,7 +1,5 @@
 module Duets.Simulation.Tests.State.Setup
 
-
-
 open FsUnit
 open NUnit.Framework
 open Test.Common

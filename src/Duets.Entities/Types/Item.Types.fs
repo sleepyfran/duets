@@ -48,7 +48,9 @@ module ItemTypes =
         | GameConsole
 
     /// Defines all kinds of furniture available in the game.
-    type FurnitureItemType = | Bed
+    type FurnitureItemType =
+        | Bed
+        | Stove
 
     /// Defines all types of items that can be consumed in the game, categorized
     /// by its kind.

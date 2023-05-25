@@ -20,7 +20,8 @@ let private allInitialWorldItems =
               fst Drink.SoftDrinks.cocaColaBottle
               fst Drink.Coffee.doubleEspresso ]
 
-        let bedroomItems = [ fst Furniture.Bed.ikeaBed ]
+        let bedroomItems =
+            [ fst Furniture.Bed.ikeaBed; fst Furniture.Stove.lgStove ]
 
         let livingRoomItems =
             [ fst Electronics.Tv.lgTv; fst Electronics.GameConsole.xbox ]
@@ -86,5 +87,5 @@ let startGame
       SocialNetworks = SocialNetwork.empty
       Today = Calendar.gameBeginning
       WorldItems = allInitialWorldItems }
-    |> Bands.Generation.addInitialBandsToState 
+    |> Bands.Generation.addInitialBandsToState
     |> GameCreated

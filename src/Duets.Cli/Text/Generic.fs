@@ -237,6 +237,7 @@ let itemName (item: Item) =
     | Interactive(Furniture furniture) ->
         match furniture with
         | Bed -> "bed"
+        | Stove -> "stove"
     |> Styles.item
 
 let itemNameWithDetail (item: Item) =

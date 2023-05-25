@@ -6,17 +6,18 @@ module InteractionTime =
     /// Returns how many day moments a certain interaction should advance.
     let timeRequired interaction =
         match interaction with
-        | Interaction.Airport (AirportInteraction.WaitUntilLanding flight) ->
+        | Interaction.Airport(AirportInteraction.WaitUntilLanding flight) ->
             Flights.flightDayMoments flight
-        | Interaction.Career (CareerInteraction.Work job) ->
+        | Interaction.Career(CareerInteraction.Work job) ->
             Career.jobDuration job
-        | Interaction.Concert (ConcertInteraction.FinishConcert _) ->
+        | Interaction.Concert(ConcertInteraction.FinishConcert _) ->
             2<dayMoments>
-        | Interaction.Item (ItemInteraction.Interactive interactiveInteraction) ->
+        | Interaction.Item(ItemInteraction.Interactive interactiveInteraction) ->
             match interactiveInteraction with
+            | InteractiveItemInteraction.Sleep -> 2<dayMoments>
             | InteractiveItemInteraction.Play
             | InteractiveItemInteraction.Watch -> 1<dayMoments>
-            | InteractiveItemInteraction.Sleep -> 2<dayMoments>
+            | InteractiveItemInteraction.Cook _ -> 0<dayMoments>
         | Interaction.FreeRoam FreeRoamInteraction.Wait -> 1<dayMoments>
         | Interaction.Rehearsal rehearsalInteraction ->
             match rehearsalInteraction with
