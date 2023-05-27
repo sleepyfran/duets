@@ -34,20 +34,17 @@ module SongTypes =
           Genre: Genre
           Practice: Practice }
 
-    /// Defines a song that is still being developed by the band.
-    type UnfinishedSong = UnfinishedSong of Song
-    /// Defines a song that has been consider finished and it's part of the band's
-    /// repertoire and cannot be further developed anymore.
-    type FinishedSong = FinishedSong of Song
+    /// Defines a song that has been started but not finished yet. It accepts
+    /// a generic parameter so that we can hold either the entire song object
+    /// or just the ID.
+    type Unfinished<'s> =
+        | Unfinished of song: 's * max: MaxQuality * current: Quality
 
-    /// Shapes a relation between an unfinished song, its max quality and the
-    /// current quality.
-    type UnfinishedSongWithQualities = UnfinishedSong * MaxQuality * Quality
-    /// Shapes a relation between a finished song and its quality.
-    type FinishedSongWithQuality = FinishedSong * Quality
-    /// Shapes a relation between a finished song and the combination of the
-    /// quality of the song itself with the quality of the production.
-    type RecordedSong = FinishedSong * Quality
+    /// Defines a song that has been finished and can be recorded and played live.
+    type Finished<'s> = Finished of song: 's * quality: Quality
+
+    /// Defines a song that has been recorded and can be played live.
+    type Recorded<'s> = Recorded of song: 's * totalQuality: Quality
 
     /// Indicates whether the song can be further improved or if it has reached its
     /// maximum quality and thus cannot be improved. All variants wrap an int that
@@ -63,5 +60,5 @@ module SongTypes =
     /// Represents the repertoire of a band with its unfinished and finished songs.
     /// Only finished songs can be recorded and played live.
     type BandSongRepertoire =
-        { UnfinishedSongs: SongsByBand<UnfinishedSongWithQualities>
-          FinishedSongs: SongsByBand<FinishedSongWithQuality> }
+        { UnfinishedSongs: SongsByBand<Unfinished<Song>>
+          FinishedSongs: SongsByBand<Finished<Song>> }

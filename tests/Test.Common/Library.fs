@@ -50,14 +50,15 @@ let dummyBandWithMultipleMembers =
 
 let dummySong = { Song.empty with Genre = "Jazz" }
 
-let dummyUnfinishedSong = (UnfinishedSong dummySong, 50<quality>, 50<quality>)
+let dummyUnfinishedSong = Unfinished(dummySong, 50<quality>, 50<quality>)
 
-let dummyFinishedSong = (FinishedSong dummySong, 50<quality>)
+let dummyFinishedSong = Finished(dummySong, 50<quality>)
 
-let dummyRecordedSong = RecordedSong dummyFinishedSong
+let dummyRecordedSong = Recorded(dummySong, 50<quality>)
+let dummyRecordedSongRef = Recorded(dummySong.Id, 50<quality>)
 
 let dummyRecordedSongWithLength length =
-    RecordedSong(FinishedSong { dummySong with Length = length }, 50<quality>)
+    Recorded({ dummySong with Length = length }, 50<quality>)
 
 let dummyToday = Calendar.gameBeginning
 
@@ -74,7 +75,7 @@ let dummyBandBankAccount = BankAccount.forBand dummyBand.Id
 let dummyTargetBankAccount =
     BankAccount.forCharacter (CharacterId(Identity.create ()))
 
-let dummyAlbum = Album.from "Test Album" dummyRecordedSong
+let dummyAlbum = Album.from dummyBand "Test Album" dummyRecordedSongRef
 
 let dummyUnreleasedAlbum = UnreleasedAlbum dummyAlbum
 
@@ -149,8 +150,8 @@ let addSkillsTo
     |> List.fold (fun state skill -> addSkillTo character skill state) state
 
 /// Adds an unfinished song to the given state.
-let addUnfinishedSong (band: Band) unfinishedSong =
-    let (UnfinishedSong (song), _, _) = unfinishedSong
+let addUnfinishedSong (band: Band) (unfinishedSong: Unfinished<Song>) =
+    let (Unfinished(song, _, _)) = unfinishedSong
 
     let unfinishedSongLenses = Lenses.FromState.Songs.unfinishedByBand_ band.Id
 
@@ -165,8 +166,8 @@ let lastFinishedSong (band: Band) state =
     state.BandSongRepertoire.FinishedSongs |> Map.find band.Id |> Map.head
 
 /// Adds a finished song to the given state.
-let addFinishedSong (band: Band) finishedSong =
-    let (FinishedSong (song), _) = finishedSong
+let addFinishedSong (band: Band) (finishedSong: Finished<Song>) =
+    let (Finished(song, _)) = finishedSong
 
     let finishedSongLenses = Lenses.FromState.Songs.finishedByBand_ band.Id
 

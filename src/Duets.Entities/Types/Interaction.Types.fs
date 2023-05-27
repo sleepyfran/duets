@@ -104,25 +104,25 @@ module InteractionTypes =
         /// Allows to compose new songs.
         | ComposeNewSong
         /// Allows to discard an unfinished song.
-        | DiscardSong of songs: UnfinishedSongWithQualities list
+        | DiscardSong of songs: Unfinished<Song> list
         /// Allows to finish an unfinished song.
-        | FinishSong of songs: UnfinishedSongWithQualities list
+        | FinishSong of songs: Unfinished<Song> list
         /// Allows to fire a member of the band.
         | FireMember of members: CurrentMember list
         /// Allows to hire a new member for the band.
         | HireMember
         /// Allows to improve an unfinished song.
-        | ImproveSong of songs: UnfinishedSongWithQualities list
+        | ImproveSong of songs: Unfinished<Song> list
         /// Allows to list the members of the band.
         | ListMembers of
             members: CurrentMember list *
             pastMembers: PastMember list
         /// Allows to list all unfinished and finished songs that the band has composed.
         | ListSongs of
-            unfinished: UnfinishedSongWithQualities list *
-            finished: FinishedSongWithQuality list
+            unfinished: Unfinished<Song> list *
+            finished: Finished<Song> list
         /// Allows to practice a finished song.
-        | PracticeSong of songs: FinishedSongWithQuality list
+        | PracticeSong of songs: Finished<Song> list
 
     /// Interactions that can be performed in a bar.
     [<RequireQualifiedAccess>]
@@ -137,12 +137,12 @@ module InteractionTypes =
     [<RequireQualifiedAccess>]
     type StudioInteraction =
         /// Allows to create and record a new album.
-        | CreateAlbum of studio: Studio * songs: FinishedSongWithQuality list
+        | CreateAlbum of studio: Studio * songs: Finished<Song> list
         /// Allows to record another song for a previously created album.
         | AddSongToAlbum of
             studio: Studio *
             unreleasedAlbums: UnreleasedAlbum list *
-            songs: FinishedSongWithQuality list
+            songs: Finished<Song> list
         /// Allows to edit the name of a previously created album.
         | EditAlbumName of albums: UnreleasedAlbum list
         /// Allows to list all the unreleased albums.

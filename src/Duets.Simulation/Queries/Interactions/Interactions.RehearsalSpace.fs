@@ -17,7 +17,8 @@ module RehearsalSpace =
         let hasUnfinishedSongs = unfinishedSongs |> (not << List.isEmpty)
 
         let finishedSongs =
-            Queries.Repertoire.allFinishedSongsByBand state currentBand.Id
+            Queries.Songs.finishedByBand state currentBand.Id
+            |> List.ofMapValues
 
         let hasFinishedSongs = finishedSongs |> (not << List.isEmpty)
 

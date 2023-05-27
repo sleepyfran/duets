@@ -17,13 +17,13 @@ module RecordSongCommand =
         showOptionalChoicePrompt
             $"""Select which {Styles.highlight "song"} will be added to the album"""
             Generic.cancel
-            (fun (FinishedSong fs, currentQuality) ->
+            (fun (Finished((fs: Song), currentQuality)) ->
                 Generic.songWithDetails fs.Name currentQuality fs.Length)
             finishedSongs
         |> Option.iter (promptForAlbum studio unreleasedAlbums finishedSongs)
 
     and private promptForAlbum studio unreleasedAlbums finishedSongs song =
-        let FinishedSong fs, _ = song
+        let (Finished(fs, _)) = song
 
         showOptionalChoicePrompt
             $"Which album do you want to {fs.Name} to?"
@@ -42,7 +42,7 @@ module RecordSongCommand =
         unreleasedAlbum
         =
         let album = Album.fromUnreleased unreleasedAlbum
-        let FinishedSong fs, _ = song
+        let (Finished(fs, _)) = song
 
         let confirmed =
             $"Are you sure you want to add {fs.Name} to the album {album.Name}"
@@ -60,11 +60,11 @@ module RecordSongCommand =
         let result = recordSongForAlbum state studio band album song
 
         match result with
-        | Ok (album, effects) -> recordWithProgressBar album song effects
-        | Error (NotEnoughFunds studioBill) ->
+        | Ok(album, effects) -> recordWithProgressBar album song effects
+        | Error(NotEnoughFunds studioBill) ->
             Studio.createErrorNotEnoughMoney studioBill |> showMessage
 
-    and private recordWithProgressBar album (FinishedSong song, _) effects =
+    and private recordWithProgressBar album (Finished(song, _)) effects =
         showProgressBarAsync
             [ Studio.createProgressEatingSnacks
               Studio.createProgressRecordingWeirdSounds

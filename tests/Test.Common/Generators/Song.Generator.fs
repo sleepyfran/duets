@@ -57,5 +57,5 @@ let finishedGenerator opts =
             Gen.choose (opts.QualityMin, opts.QualityMax)
             |> Gen.map ((*) 1<quality>)
 
-        return FinishedSongWithQuality(FinishedSong song, quality)
+        return Finished(song, quality)
     }

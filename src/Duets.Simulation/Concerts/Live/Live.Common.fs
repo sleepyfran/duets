@@ -6,12 +6,11 @@ open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 
-type OngoingConcertEventResponse<'r> = {
-    Effects: Effect list
-    OngoingConcert: OngoingConcert
-    Points: int
-    Result: 'r
-}
+type OngoingConcertEventResponse<'r> =
+    { Effects: Effect list
+      OngoingConcert: OngoingConcert
+      Points: int
+      Result: 'r }
 
 let private addPoints ongoingConcert points =
     Optic.map
@@ -27,21 +26,19 @@ let private addEvent event =
 module internal Response =
     /// Returns an empty response that contains only the given ongoing concert
     /// with no modifications.
-    let empty ongoingConcert = {
-        Effects = []
-        OngoingConcert = ongoingConcert
-        Points = 0
-        Result = ()
-    }
+    let empty ongoingConcert =
+        { Effects = []
+          OngoingConcert = ongoingConcert
+          Points = 0
+          Result = () }
 
     /// Returns an empty response that contains only the given ongoing concert
     /// with no modifications and a result.
-    let empty' ongoingConcert result = {
-        Effects = []
-        OngoingConcert = ongoingConcert
-        Points = 0
-        Result = result
-    }
+    let empty' ongoingConcert result =
+        { Effects = []
+          OngoingConcert = ongoingConcert
+          Points = 0
+          Result = result }
 
     /// Adds the given points to the given ongoing concert making sure that the
     /// value does not go above 100 or below 0, adds the given event as well and
@@ -49,12 +46,11 @@ module internal Response =
     let forEvent ongoingConcert event points =
         addPoints ongoingConcert points
         |> addEvent event
-        |> fun updatedOngoingConcert -> {
-            Effects = []
-            OngoingConcert = updatedOngoingConcert
-            Points = points
-            Result = ()
-           }
+        |> fun updatedOngoingConcert ->
+            { Effects = []
+              OngoingConcert = updatedOngoingConcert
+              Points = points
+              Result = () }
 
     /// Adds the given points to the given ongoing concert making sure that the
     /// value does not go above 100 or below 0, adds the given event as well and
@@ -62,18 +58,16 @@ module internal Response =
     let forEvent' ongoingConcert event points result =
         addPoints ongoingConcert points
         |> addEvent event
-        |> fun updatedOngoingConcert -> {
-            Effects = []
-            OngoingConcert = updatedOngoingConcert
-            Points = points
-            Result = result
-           }
+        |> fun updatedOngoingConcert ->
+            { Effects = []
+              OngoingConcert = updatedOngoingConcert
+              Points = points
+              Result = result }
 
     /// Adds the given set of effects to the response.
     let addEffects effects response =
         { response with
-            Effects = response.Effects @ effects
-        }
+            Effects = response.Effects @ effects }
 
     /// Adds one effect to the response.
     let addEffect effect = addEffects [ effect ]
@@ -81,26 +75,23 @@ module internal Response =
     /// Adds an event to the response.
     let addEvent event response =
         { response with
-            OngoingConcert = addEvent event response.OngoingConcert
-        }
+            OngoingConcert = addEvent event response.OngoingConcert }
 
     /// Adds the given points to the point counter of the result and to the
     /// ongoing concert.
-    let addPoints points response = {
-        Effects = response.Effects
-        OngoingConcert = addPoints response.OngoingConcert points
-        Points = response.Points + points
-        Result = response.Result
-    }
+    let addPoints points response =
+        { Effects = response.Effects
+          OngoingConcert = addPoints response.OngoingConcert points
+          Points = response.Points + points
+          Result = response.Result }
 
     /// Maps the result of the response applying the current value to the given
     /// function and setting the result to the return value of the function.
-    let mapResult mapFn response = {
-        Effects = response.Effects
-        OngoingConcert = response.OngoingConcert
-        Points = response.Points
-        Result = mapFn response.Result
-    }
+    let mapResult mapFn response =
+        { Effects = response.Effects
+          OngoingConcert = response.OngoingConcert
+          Points = response.Points
+          Result = mapFn response.Result }
 
 /// Defines a penalization for an action which affects different things in an
 /// ongoing concert. The number should be *negative*, since the points are
@@ -127,9 +118,9 @@ type internal ScoreRule =
     /// Increases the points the higher the skill of the character is.
     | CharacterSkill of skill: SkillId
     /// Increases the points the higher the quality of the song.
-    | SongQuality of song: FinishedSongWithQuality
+    | SongQuality of song: Finished<Song>
     /// Increases the points the higher the practice of the song.
-    | SongPractice of song: FinishedSong
+    | SongPractice of song: Finished<Song>
 
 /// A multiplier that will be applied after calculating the final points from
 /// the affecting qualities.
@@ -139,13 +130,12 @@ type internal Multiplier = int
 /// data type to be passed into the runAction function which takes care of
 /// all the nitty-gritty of calculating the outcomes of events based on the
 /// given rules.
-type internal ConcertAction = {
-    Event: ConcertEvent
-    Limit: Limit
-    Effects: Effect list
-    ScoreRules: ScoreRule list
-    Multipliers: Multiplier list
-}
+type internal ConcertAction =
+    { Event: ConcertEvent
+      Limit: Limit
+      Effects: Effect list
+      ScoreRules: ScoreRule list
+      Multipliers: Multiplier list }
 
 /// Adds extra details as of why a certain result was obtained.
 type ConcertEventResultReason =
@@ -190,25 +180,20 @@ let private bandAverageSkillLevel state skillId =
 
     band.Members
     |> List.averageBy (fun currentMember ->
-        characterSkillLevel state currentMember.CharacterId skillId
-        |> float)
+        characterSkillLevel state currentMember.CharacterId skillId |> float)
 
 let private playableCharacterSkillLevel state skillId =
-    let character =
-        Queries.Characters.playableCharacter state
+    let character = Queries.Characters.playableCharacter state
 
     characterSkillLevel state character.Id skillId
 
 let private averageableAffectingQuality state affectingQuality =
     match affectingQuality with
     | BandSkills skillId -> [ bandAverageSkillLevel state skillId ]
-    | CharacterSkill skillId -> [
-        playableCharacterSkillLevel state skillId
-      ]
-    | SongQuality (_, quality) -> [ quality / 1<quality> |> float ]
-    | SongPractice (FinishedSong song) -> [
-        song.Practice / 1<practice> |> float
-      ]
+    | CharacterSkill skillId -> [ playableCharacterSkillLevel state skillId ]
+    | SongQuality(Finished(_, quality)) -> [ quality / 1<quality> |> float ]
+    | SongPractice(Finished(song, _)) ->
+        [ song.Practice / 1<practice> |> float ]
     | _ -> []
 
 /// Computes the qualities (values between 0 and 100) that after being averaged
@@ -220,29 +205,27 @@ let private baseScoreWithReasons state action =
             (fun (reasons, scores) aq ->
                 match aq with
                 | BandSkills skillId ->
-                    let avgSkill =
-                        bandAverageSkillLevel state skillId
+                    let avgSkill = bandAverageSkillLevel state skillId
 
                     if avgSkill < 50 then
                         (reasons @ [ LowSkill ], scores @ [ avgSkill ])
                     else
                         (reasons, scores @ [ avgSkill ])
                 | CharacterSkill skillId ->
-                    let avgSkill =
-                        playableCharacterSkillLevel state skillId
+                    let avgSkill = playableCharacterSkillLevel state skillId
 
                     if avgSkill < 50 then
                         (reasons @ [ LowSkill ], scores @ [ avgSkill ])
                     else
                         (reasons, scores @ [ avgSkill ])
-                | SongQuality (_, quality) ->
+                | SongQuality(Finished(_, quality)) ->
                     let q = quality / 1<quality> |> float
 
                     if q < 50 then
                         (reasons @ [ LowQuality ], scores @ [ q ])
                     else
                         (reasons, scores @ [ q ])
-                | SongPractice (FinishedSong song) ->
+                | SongPractice(Finished(song, _)) ->
                     let p = song.Practice / 1<practice> |> float
 
                     if p < 50 then
@@ -301,7 +284,7 @@ let rec internal performAction state ongoingConcert action =
 
     match action.Limit with
     | NoLimit -> performAction' state ongoingConcert action
-    | Penalized (limit, penalization) ->
+    | Penalized(limit, penalization) ->
         if timesPerformedEvent < limit then
             performAction' state ongoingConcert action
         else
@@ -319,9 +302,7 @@ let rec internal performAction state ongoingConcert action =
         them.
         *)
         Response.addEffects
-            [
-                Situations.inConcert response.OngoingConcert
-            ]
+            [ Situations.inConcert response.OngoingConcert ]
             response
 
 and private performAction' state ongoingConcert action =
@@ -336,8 +317,7 @@ and private performAction' state ongoingConcert action =
     |> Response.addEffects action.Effects
 
 and private ratePerformance state ongoingConcert action =
-    let qualityReasons, baseScore =
-        baseScoreWithReasons state action
+    let qualityReasons, baseScore = baseScoreWithReasons state action
 
     let multipliers =
         if List.isEmpty action.Multipliers then
@@ -345,18 +325,15 @@ and private ratePerformance state ongoingConcert action =
         else
             multipliersOf action
 
-    let modifierReasons, modifier =
-        modifiersWithReasons state action
+    let modifierReasons, modifier = modifiersWithReasons state action
 
-    let pointIncrease =
-        baseScore * modifier * multipliers
+    let pointIncrease = baseScore * modifier * multipliers
 
     let projectedMaximum = 100.0 * multipliers
 
     let performanceStep = projectedMaximum / 4.0
 
-    let resultReasons =
-        qualityReasons @ modifierReasons
+    let resultReasons = qualityReasons @ modifierReasons
 
     let result =
         match pointIncrease with

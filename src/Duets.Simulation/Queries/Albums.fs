@@ -57,10 +57,20 @@ module Albums =
 
                 daysSinceRelease = days))
 
+    /// Returns the resolved track list of an album.
+    let trackList state album =
+        album.TrackList
+        |> List.map (fun (Recorded(trackId, quality)) ->
+            let (Finished(fullSong, _)) =
+                Songs.finishedByBandAndSongId state album.BandId trackId
+                |> Option.get
+
+            Recorded(fullSong, quality))
+
     /// Returns the average quality of the songs in the album.
     let quality album =
         album.TrackList
-        |> List.map (fun (_, quality) -> float quality)
+        |> List.map (fun (Recorded(_, quality)) -> float quality)
         |> List.average
         |> Math.roundToNearest
 

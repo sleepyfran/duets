@@ -21,17 +21,21 @@ module CreateAlbumCommand =
             (Studio.showAlbumNameError
              >> fun _ -> promptForName studio finishedSongs)
 
-    and private promptForTrackList studio finishedSongs name =
-        showOptionalChoicePrompt
+    and private promptForTrackList
+        studio
+        (finishedSongs: Finished<Song> seq)
+        name
+        =
+        finishedSongs
+        |> showOptionalChoicePrompt
             Studio.createTrackListPrompt
             Generic.cancel
-            (fun (FinishedSong fs, currentQuality) ->
+            (fun (Finished(fs, currentQuality)) ->
                 Generic.songWithDetails fs.Name currentQuality fs.Length)
-            finishedSongs
         |> Option.iter (promptForConfirmation studio finishedSongs name)
 
     and private promptForConfirmation studio finishedSongs name selectedSong =
-        let FinishedSong fs, _ = selectedSong
+        let (Finished(fs, _)) = selectedSong
 
         let confirmed =
             Studio.confirmRecordingPrompt fs.Name |> showConfirmationPrompt
@@ -49,7 +53,7 @@ module CreateAlbumCommand =
 
         match result with
         | Ok effects -> recordWithProgressBar albumName effects
-        | Error (NotEnoughFunds studioBill) ->
+        | Error(NotEnoughFunds studioBill) ->
             Studio.createErrorNotEnoughMoney studioBill |> showMessage
 
     and private recordWithProgressBar albumName effects =
@@ -60,7 +64,7 @@ module CreateAlbumCommand =
             3<second>
 
         Studio.createAlbumRecorded albumName |> showMessage
-        
+
         List.iter Duets.Cli.Effect.apply effects
 
     /// Command to create a new album and potentially release.

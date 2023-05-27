@@ -5,6 +5,7 @@ open Duets.Cli.Components
 open Duets.Cli.Components.Commands
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
+open Duets.Common
 open Duets.Entities
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Duets.Simulation
@@ -24,7 +25,8 @@ module PlaySongCommands =
         let currentBand = Queries.Bands.currentBand state
 
         let finishedSongs =
-            Queries.Repertoire.allFinishedSongsByBand state currentBand.Id
+            Queries.Songs.finishedByBand state currentBand.Id
+            |> List.ofMapValues
 
         if List.isEmpty finishedSongs then
             Concert.noSongsToPlay |> showMessage
@@ -34,7 +36,7 @@ module PlaySongCommands =
             showOptionalChoicePrompt
                 Concert.selectSongToPlay
                 Generic.cancel
-                (fun (FinishedSong fs, _) ->
+                (fun (Finished(fs, _)) ->
                     if Concert.Ongoing.hasPlayedSong ongoingConcert fs then
                         Concert.alreadyPlayedSongWithPractice fs
                     else
@@ -45,18 +47,15 @@ module PlaySongCommands =
         showChoicePrompt
             Concert.energyPrompt
             textFromEnergy
-            [ Energetic
-              PerformEnergy.Normal
-              Limited ]
+            [ Energetic; PerformEnergy.Normal; Limited ]
 
     let private showResultWithProgressbar response songWithQuality energy =
-        let (FinishedSong song, _) = songWithQuality
+        let (Finished(song, _)) = songWithQuality
 
         match response.Result with
         | TooManyRepetitionsPenalized
         | TooManyRepetitionsNotDone ->
-            Concert.playSongRepeatedSongReaction song
-            |> showMessage
+            Concert.playSongRepeatedSongReaction song |> showMessage
         | _ ->
             match energy with
             | Energetic -> Concert.playSongEnergeticEnergyDescription
@@ -66,7 +65,7 @@ module PlaySongCommands =
 
         showProgressBarSync
             [ Concert.playSongProgressPlaying song ]
-            (song.Length.Minutes / 1<minute/second>)
+            (song.Length.Minutes / 1<minute / second>)
 
         match response.Result with
         | LowPerformance reasons

@@ -13,7 +13,7 @@ open Duets.Simulation
 open Duets.Simulation.Queries
 
 [<Test>]
-let ``AlbumRecorded should add an unreleased album and remove all track list from finished songs``
+let ``AlbumRecorded should add an unreleased album``
     ()
     =
     let state =
@@ -29,9 +29,6 @@ let ``AlbumRecorded should add an unreleased album and remove all track list fro
 
     Albums.unreleasedByBand state dummyBand.Id
     |> should haveCount 1
-
-    Songs.finishedByBand state dummyBand.Id
-    |> should haveCount 0
 
 [<Test>]
 let ``AlbumRenamed should remove replace album with same with different name``

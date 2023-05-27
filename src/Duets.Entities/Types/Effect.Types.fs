@@ -51,12 +51,15 @@ module EffectTypes =
             SocialNetworkKey *
             SocialNetworkAccountId
         | SocialNetworkPost of SocialNetworkKey * SocialNetworkPost
-        | SocialNetworkPostReposted of SocialNetworkKey * SocialNetworkPost * int
-        | SongStarted of Band * UnfinishedSongWithQualities
-        | SongImproved of Band * Diff<UnfinishedSongWithQualities>
-        | SongFinished of Band * FinishedSongWithQuality
-        | SongDiscarded of Band * UnfinishedSongWithQualities
-        | SongPracticed of Band * FinishedSongWithQuality
+        | SocialNetworkPostReposted of
+            SocialNetworkKey *
+            SocialNetworkPost *
+            int
+        | SongStarted of Band * Unfinished<Song>
+        | SongImproved of Band * Diff<Unfinished<Song>>
+        | SongFinished of Band * Finished<Song>
+        | SongDiscarded of Band * Unfinished<Song>
+        | SongPracticed of Band * Finished<Song>
         | PlaceClosed of Place
         | TimeAdvanced of Date
         | WorldMoveTo of WorldCoordinates

@@ -11,7 +11,7 @@ open Duets.Simulation.Studio.RecordAlbum
 
 [<Test>]
 let ``recordAlbum should fail if the band does not have enough money`` () =
-    startAlbum dummyState dummyStudio dummyBand "Simple Math" dummyRecordedSong
+    startAlbum dummyState dummyStudio dummyBand "Simple Math" dummyFinishedSong
     |> Result.unwrapError
     |> should be (ofCase <@ NotEnoughFunds(200m<dd>) @>)
 
@@ -33,16 +33,17 @@ let ``recordAlbum should add 20% of the producer's skill to each song in the tra
             dummyStudio
             dummyBand
             "Infinite Granite"
-            dummyRecordedSong
+            dummyFinishedSong
         |> Result.unwrap
         |> List.choose (fun eff ->
             match eff with
-            | AlbumStarted (_, unreleasedAlbum) -> Some unreleasedAlbum
+            | AlbumStarted(_, unreleasedAlbum) -> Some unreleasedAlbum
             | _ -> None)
         |> List.head
 
     album.TrackList
-    |> List.iter (fun (_, quality) -> quality |> should equal 65<quality>)
+    |> List.iter (fun (Recorded(_, quality)) ->
+        quality |> should equal 65<quality>)
 
 [<Test>]
 let ``recordAlbum should not add producer's skill if quality is already 100``
@@ -54,25 +55,26 @@ let ``recordAlbum should not add producer's skill if quality is already 100``
             dummyCharacter
             (Skill.createWithLevel SkillId.MusicProduction 100)
 
-    let song = RecordedSong(FinishedSong dummySong, 100<quality>)
+    let song = Finished(dummySong, 100<quality>)
 
     let (UnreleasedAlbum album) =
         startAlbum state dummyStudio dummyBand "Infinite Granite" song
         |> Result.unwrap
         |> List.choose (fun eff ->
             match eff with
-            | AlbumStarted (_, unreleasedAlbum) -> Some unreleasedAlbum
+            | AlbumStarted(_, unreleasedAlbum) -> Some unreleasedAlbum
             | _ -> None)
         |> List.head
 
     album.TrackList
-    |> List.iter (fun (_, quality) -> quality |> should equal 100<quality>)
+    |> List.iter (fun (Recorded(_, quality)) ->
+        quality |> should equal 100<quality>)
 
 [<Test>]
 let ``recordAlbum should generate AlbumRecorded and MoneyTransferred`` () =
     let albumTitle = "Black Brick"
 
-    startAlbum state dummyStudio dummyBand albumTitle dummyRecordedSong
+    startAlbum state dummyStudio dummyBand albumTitle dummyFinishedSong
     |> Result.unwrap
     |> fun effects ->
         effects |> should haveLength 4

@@ -6,10 +6,10 @@ open FSharp.Data.UnitSystems.SI.UnitNames
 let private twentyFiveMinutes = 25 * 60<second>
 
 /// Determines the length of the given track list.
-let lengthInSeconds trackList =
+let lengthInSeconds (trackList: TrackList) =
     List.fold
-        (fun albumLength ((FinishedSong s), _) ->
-            albumLength + Time.Length.inSeconds s.Length)
+        (fun albumLength (Recorded(song, _)) ->
+            albumLength + Time.Length.inSeconds song.Length)
         0<second>
         trackList
 
@@ -39,19 +39,23 @@ let validateName name =
     | _ -> Ok name
 
 /// Creates an album given its name and the initial song of the track-list.
-let from name initialSong =
+let from (band: Band) name initialSong =
     { Id = AlbumId <| Identity.create ()
+      BandId = band.Id
       Name = name
       TrackList = [ initialSong ]
       Type = Single }
 
 /// Adds the given song to the album and recomputes the album type.
-let addSong song album =
-    let updatedTrackList = album.TrackList @ [ song ]
+let updateTrackList album (trackList: TrackList) =
+    let updatedTrackList =
+        trackList
+        |> List.map (fun (Recorded(song, quality)) ->
+            Recorded(song.Id, quality))
 
     { album with
         TrackList = updatedTrackList
-        Type = recordType updatedTrackList |> Result.unwrap }
+        Type = recordType trackList |> Result.unwrap }
 
 /// Returns the inner album of an unreleased album.
 let fromUnreleased (UnreleasedAlbum album) = album
@@ -61,7 +65,8 @@ let fromReleased releasedAlbum = releasedAlbum.Album
 
 module Unreleased =
     /// Creates an unreleased album given a name and a track list.
-    let from name trackList = from name trackList |> UnreleasedAlbum
+    let from band name trackList =
+        from band name trackList |> UnreleasedAlbum
 
     /// Modifies the name of the given album validating that it's correct.
     let modifyName (UnreleasedAlbum album) name =

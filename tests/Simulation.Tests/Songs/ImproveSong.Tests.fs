@@ -15,19 +15,21 @@ let state =
         (Skill.createWithLevel (SkillId.Genre dummyBand.Genre) 50)
     |> addUnfinishedSong
         dummyBand
-        (UnfinishedSong dummySong, 35<quality>, 7<quality>)
+        (Unfinished(dummySong, 35<quality>, 7<quality>))
 
 let createSongImprovedEffect max prev current =
     SongImproved(
         dummyBand,
         Diff(
-            (UnfinishedSong(dummySong), max * 1<quality>, prev * 1<quality>),
-            (UnfinishedSong(dummySong), max * 1<quality>, current * 1<quality>)
+            Unfinished(dummySong, max * 1<quality>, prev * 1<quality>),
+            Unfinished(dummySong, max * 1<quality>, current * 1<quality>)
         )
     )
 
 [<Test>]
-let ``Should improve song if it's possible, return CanBeImproved and advance one day moment`` () =
+let ``Should improve song if it's possible, return CanBeImproved and advance one day moment``
+    ()
+    =
     let song = lastUnfinishedSong dummyBand state
 
     let result = improveSong dummyState dummyBand song
@@ -43,7 +45,7 @@ let ``Should improve for one last time if possible, return ReachedMaxQualityInLa
     let updatedState =
         addUnfinishedSong
             dummyBand
-            (UnfinishedSong dummySong, 35<quality>, 28<quality>)
+            (Unfinished(dummySong, 35<quality>, 28<quality>))
             dummyState
 
     let song = lastUnfinishedSong dummyBand updatedState
@@ -61,7 +63,7 @@ let ``Should not allow improvement if it already reached max quality and return 
     let updatedState =
         addUnfinishedSong
             dummyBand
-            (UnfinishedSong dummySong, 35<quality>, 35<quality>)
+            (Unfinished(dummySong, 35<quality>, 35<quality>))
             dummyState
 
     let song = lastUnfinishedSong dummyBand updatedState

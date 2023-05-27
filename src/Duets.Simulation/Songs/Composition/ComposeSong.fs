@@ -16,7 +16,7 @@ let composeSong state song =
     let initialQuality = calculateQualityIncreaseOf maximumQuality
 
     let songStartedEffect =
-        (UnfinishedSong song, maximumQuality, initialQuality)
+        Unfinished(song, maximumQuality, initialQuality)
         |> Tuple.two band
         |> SongStarted
 

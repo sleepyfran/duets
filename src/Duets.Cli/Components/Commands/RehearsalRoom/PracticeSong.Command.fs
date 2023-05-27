@@ -21,7 +21,7 @@ module PracticeSongCommand =
                 2<second>
 
             Duets.Cli.Effect.applyMultiple effects
-        | SongAlreadyImprovedToMax (FinishedSong song, _) ->
+        | SongAlreadyImprovedToMax (Finished (song, _)) ->
             Rehearsal.practiceSongAlreadyImprovedToMax song.Name |> showMessage
 
     /// Command to practice a finished song.
@@ -38,7 +38,7 @@ module PracticeSongCommand =
                     showOptionalChoicePrompt
                         Rehearsal.practiceSong
                         Generic.cancel
-                        (fun (FinishedSong fs, _) ->
+                        (fun (Finished (fs: Song, _)) ->
                             Rehearsal.practiceSongItemDescription
                                 fs.Name
                                 fs.Practice)

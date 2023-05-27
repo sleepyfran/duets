@@ -9,9 +9,8 @@
         <Compile Include="RandomGen.fs" />
         <Compile Include="Queries\Calendar.fs" />
         <Compile Include="Queries\World.fs" />
-        <Compile Include="Queries\Albums.fs" />
         <Compile Include="Queries\Songs.fs" />
-        <Compile Include="Queries\Repertoire.fs" />
+        <Compile Include="Queries\Albums.fs"/>
         <Compile Include="Queries\Characters.fs" />
         <Compile Include="Queries\Career.fs" />
         <Compile Include="Queries\Bank.fs" />

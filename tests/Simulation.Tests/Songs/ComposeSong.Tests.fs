@@ -17,7 +17,7 @@ let ``composeSong should generate a SongStarted effect`` () =
             <@
                 SongStarted(
                     dummyBand,
-                    (UnfinishedSong dummySong, 5<quality>, 1<quality>)
+                    Unfinished(dummySong, 5<quality>, 1<quality>)
                 )
             @>)
 
@@ -44,7 +44,7 @@ let ``Qualities are calculated based on member skills`` () =
         equal
         (SongStarted(
             dummyBand,
-            (UnfinishedSong dummySong, 33<quality>, 7<quality>)
+            Unfinished(dummySong, 33<quality>, 7<quality>)
         ))
 
 [<Test>]
@@ -71,5 +71,5 @@ let ``Qualities should be calculated based on members skills but never go above 
         equal
         (SongStarted(
             dummyBandWithMultipleMembers,
-            (UnfinishedSong dummySong, 100<quality>, 20<quality>)
+            Unfinished(dummySong, 100<quality>, 20<quality>)
         ))

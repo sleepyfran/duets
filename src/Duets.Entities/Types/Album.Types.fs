@@ -12,11 +12,20 @@ module AlbumTypes =
         | EP
         | LP
 
+    /// Defines the track list of an album as a reference to the song in the
+    /// repertoire.
+    type TrackListRef = Recorded<SongId> list
+
+    /// Defines the track list of an album after all the songs have been
+    /// retrieved from the repertoire.
+    type TrackList = Recorded<Song> list
+
     /// Represents a band's album.
     type Album =
         { Id: AlbumId
+          BandId: BandId
           Name: string
-          TrackList: RecordedSong list
+          TrackList: TrackListRef
           Type: AlbumType }
 
     /// Defines an album that was recorded but hasn't been released.

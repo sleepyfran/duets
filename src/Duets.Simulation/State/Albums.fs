@@ -32,10 +32,3 @@ let removeReleased (band: Band) albumId =
     let removeReleasedAlbum = Map.remove albumId
 
     applyToReleased band.Id removeReleasedAlbum
-
-let removeTrackListFromFinishedSongs band (UnreleasedAlbum album) state =
-    album.TrackList
-    |> List.map (fun (FinishedSong fs, _) -> fs.Id)
-    |> List.fold
-        (fun currentState song -> Songs.removeFinished band song currentState)
-        state

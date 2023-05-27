@@ -123,7 +123,7 @@ let ``playSong decreases points by 50 if song has been played already`` () =
         |> Gen.sample 0 1
         |> List.head
 
-    let FinishedSong song, _ = finishedSong
+    let (Finished(song, _)) = finishedSong
 
     let ongoingConcert =
         { dummyOngoingConcert with

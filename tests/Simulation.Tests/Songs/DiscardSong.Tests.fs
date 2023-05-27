@@ -10,7 +10,7 @@ open Duets.Simulation.Songs.Composition.DiscardSong
 [<Test>]
 let DiscardSongShouldGenerateSongDiscarded () =
     let unfinishedSong =
-        (UnfinishedSong dummySong, 35<quality>, 7<quality>)
+        Unfinished(dummySong, 35<quality>, 7<quality>)
 
     discardSong dummyBand unfinishedSong
     |> should be (ofCase <@ SongDiscarded(dummyBand, unfinishedSong) @>)

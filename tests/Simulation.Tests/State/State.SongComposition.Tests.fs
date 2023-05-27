@@ -10,7 +10,7 @@ open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Queries
 
-let unfinishedSong = UnfinishedSong(dummySong), 35<quality>, 7<quality>
+let unfinishedSong = Unfinished(dummySong, 35<quality>, 7<quality>)
 
 let startSong () =
     SongStarted(dummyBand, unfinishedSong)
@@ -26,7 +26,7 @@ let SongStartedShouldAddUnfinishedSong () =
 let SongImprovedShouldReplaceUnfinishedSong () =
     let state = startSong ()
 
-    let improvedSong = (UnfinishedSong dummySong, 35<quality>, 14<quality>)
+    let improvedSong = Unfinished(dummySong, 35<quality>, 14<quality>)
 
     SongImproved(dummyBand, Diff(unfinishedSong, improvedSong))
     |> State.Root.applyEffect state
@@ -48,7 +48,7 @@ let SongDiscardedShouldRemoveUnfinishedSong () =
 let SongFinishedShouldRemoveUnfinishedAndAddFinishedSong () =
     let state = startSong ()
 
-    let finishedSong = (FinishedSong dummySong, 14<quality>)
+    let finishedSong = Finished(dummySong, 14<quality>)
 
     let state =
         SongFinished(dummyBand, finishedSong)

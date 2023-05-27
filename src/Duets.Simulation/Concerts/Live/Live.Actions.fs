@@ -6,8 +6,8 @@ open Duets.Simulation
 
 /// Plays the given song in the concert with the specified energy. The result
 /// depends on whether the song was already played or not and the energy.
-let playSong state ongoingConcert (finishedSong, quality) energy =
-    let (FinishedSong song) = finishedSong
+let playSong state ongoingConcert finishedSong energy =
+    let (Finished(song, quality)) = finishedSong
     let isLongSong = song.Length.Minutes > 10<minute>
 
     let playableCharacter = Queries.Characters.playableCharacter state
@@ -40,7 +40,7 @@ let playSong state ongoingConcert (finishedSong, quality) energy =
       ScoreRules =
         [ CharacterDrunkenness
           SongPractice(finishedSong)
-          SongQuality(finishedSong, quality) ]
+          SongQuality(finishedSong) ]
       Multipliers =
         [ match energy with
           | PerformEnergy.Energetic when isLongSong -> 25

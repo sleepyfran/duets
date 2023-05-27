@@ -177,19 +177,19 @@ let private displayEffect effect =
 
             showMapUntilChoice () |> applyMultiple
     | SongImproved(_, Diff(before, after)) ->
-        let (_, _, previousQuality) = before
-        let (_, _, currentQuality) = after
+        let (Unfinished(_, _, previousQuality)) = before
+        let (Unfinished(_, _, currentQuality)) = after
 
         Rehearsal.improveSongCanBeFurtherImproved (
             previousQuality,
             currentQuality
         )
         |> showMessage
-    | SongPracticed(_, (FinishedSong song, _)) ->
+    | SongPracticed(_, Finished(song, _)) ->
         Rehearsal.practiceSongImproved song.Name song.Practice |> showMessage
-    | SongDiscarded(_, (UnfinishedSong song, _, _)) ->
+    | SongDiscarded(_, Unfinished(song, _, _)) ->
         Rehearsal.discardSongDiscarded song.Name |> showMessage
-    | SongFinished(_, (FinishedSong song, quality)) ->
+    | SongFinished(_, Finished(song, quality)) ->
         Rehearsal.finishSongFinished (song.Name, quality) |> showMessage
     | SkillImproved(character, Diff(before, after)) ->
         let (skill, previousLevel) = before

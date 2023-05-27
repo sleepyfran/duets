@@ -50,7 +50,6 @@
         <Compile Include="Songs\PracticeSong.Tests.fs" />
         <Compile Include="Skills\ImproveSkills.Tests.fs" />
         <Compile Include="Studio\RecordAlbum.Tests.fs" />
-        <Compile Include="Studio\ReleaseAlbum.Tests.fs" />
         <Compile Include="Studio\RenameAlbum.Tests.fs" />
         <Compile Include="Interactions\Drink.Interactions.Test.fs" />
         <Compile Include="Interactions\Food.Interactions.Test.fs" />

@@ -44,7 +44,7 @@ module ImproveSongCommand =
                     showOptionalChoicePrompt
                         Rehearsal.improveSongSelection
                         Generic.cancel
-                        (fun (UnfinishedSong us, _, currentQuality) ->
+                        (fun (Unfinished(us: Song, _, currentQuality)) ->
                             Generic.songWithDetails
                                 us.Name
                                 currentQuality

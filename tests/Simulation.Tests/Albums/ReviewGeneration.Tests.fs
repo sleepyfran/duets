@@ -36,9 +36,8 @@ let addAlbumWithReviews state =
 
 let addAlbumWithQuality quality =
     let unreleasedAlbum =
-        (FinishedSong dummySong, quality * 1<quality>)
-        |> RecordedSong
-        |> Album.from "Testing"
+        Recorded(dummySong.Id, quality * 1<quality>)
+        |> Album.from dummyBand "Testing"
         |> UnreleasedAlbum
 
     let releasedAlbum =

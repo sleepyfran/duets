@@ -7,7 +7,7 @@ open Duets.Simulation
 open Duets.Simulation.Time
 
 let private improveSong' state band song maxQuality (quality: Quality) =
-    let songBeforeUpgrade = (song, maxQuality, quality)
+    let songBeforeUpgrade = Unfinished(song, maxQuality, quality)
     let increase = calculateQualityIncreaseOf maxQuality
 
     let updatedQuality =
@@ -16,7 +16,7 @@ let private improveSong' state band song maxQuality (quality: Quality) =
     let canBeFurtherImproved =
         maxQuality > updatedQuality && updatedQuality < 100<quality>
 
-    let songWithUpdatedQualities = (song, maxQuality, updatedQuality)
+    let songWithUpdatedQualities = Unfinished(song, maxQuality, updatedQuality)
 
     let effects =
         [ SongImproved(band, Diff(songBeforeUpgrade, songWithUpdatedQualities))
@@ -34,7 +34,7 @@ let private improveSong' state band song maxQuality (quality: Quality) =
 /// Orchestrates the improvement of a song, which calculates the increase that
 /// should happen in this action and returns whether the song can be further
 /// increased or not.
-let improveSong state band (song, maxQuality, currentQuality) =
+let improveSong state band (Unfinished(song, maxQuality, currentQuality)) =
     if currentQuality >= maxQuality then
         (ReachedMaxQualityAlready, [])
     else

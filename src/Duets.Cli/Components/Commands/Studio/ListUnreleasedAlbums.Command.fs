@@ -1,10 +1,12 @@
 namespace Duets.Cli.Components.Commands
 
+open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Common
 open Duets.Entities
+open Duets.Simulation
 
 [<RequireQualifiedAccess>]
 module ListUnreleasedAlbumsCommand =
@@ -23,15 +25,19 @@ module ListUnreleasedAlbumsCommand =
                 let rows =
                     unreleasedAlbums
                     |> List.map (fun (UnreleasedAlbum album) ->
+                        let albumTrackList =
+                            Queries.Albums.trackList (State.get ()) album
+
                         let trackList =
-                            album.TrackList
+                            albumTrackList
                             |> List.fold
-                                (fun (idx, acc) (FinishedSong song, quality) ->
+                                (fun (idx, acc) (Recorded(song, quality)) ->
                                     let updatedIdx = idx + 1
 
                                     let separator =
                                         if
-                                            updatedIdx <> album.TrackList.Length
+                                            updatedIdx
+                                            <> album.TrackList.Length
                                         then
                                             "\n"
                                         else
@@ -43,7 +49,7 @@ module ListUnreleasedAlbumsCommand =
                             |> snd
 
                         let formattedLength =
-                            Album.lengthInSeconds album.TrackList
+                            Album.lengthInSeconds albumTrackList
                             |> Time.Length.fromSeconds
                             |> Result.unwrap
                             |> Generic.length

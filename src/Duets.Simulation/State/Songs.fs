@@ -13,13 +13,13 @@ let private applyToFinished bandId op =
 
     Optic.map finishedSongLens op
 
-let addUnfinished (band: Band) unfinishedSong =
+let addUnfinished (band: Band) (unfinishedSong: Unfinished<Song>) =
     let song = Song.fromUnfinished unfinishedSong
 
     let addUnfinishedSong = Map.add song.Id unfinishedSong
     applyToUnfinished band.Id addUnfinishedSong
 
-let addFinished (band: Band) finishedSong =
+let addFinished (band: Band) (finishedSong: Finished<Song>) =
     let song = Song.fromFinished finishedSong
 
     let addFinishedSong = Map.add song.Id finishedSong

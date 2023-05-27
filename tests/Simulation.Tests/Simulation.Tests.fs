@@ -24,7 +24,7 @@ let stateInMidnightBeforeNewYear =
             January 1 2023
             |> Calendar.Transform.changeDayMoment Midnight }
 
-let unfinishedSong = (UnfinishedSong dummySong, 10<quality>, 10<quality>)
+let unfinishedSong = Unfinished(dummySong, 10<quality>, 10<quality>)
 
 let songStartedEffect = SongStarted(dummyBand, unfinishedSong)
 

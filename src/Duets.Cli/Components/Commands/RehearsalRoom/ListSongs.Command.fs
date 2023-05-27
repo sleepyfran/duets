@@ -9,11 +9,11 @@ open Duets.Entities
 module ListSongsCommand =
     let private showUnfinishedTable
         columns
-        (unfinishedSongs: UnfinishedSongWithQualities list)
+        (unfinishedSongs: Unfinished<Song> list)
         =
         let rows =
             unfinishedSongs
-            |> List.map (fun (UnfinishedSong song, _, quality) ->
+            |> List.map (fun (Unfinished(song, _, quality)) ->
                 [ song.Name
                   Songs.length song.Length
                   $"{Styles.Level.from quality}%%"
@@ -23,11 +23,11 @@ module ListSongsCommand =
 
     let private showFinishedTable
         columns
-        (finishedSongs: FinishedSongWithQuality list)
+        (finishedSongs: Finished<Song> list)
         =
         let rows =
             finishedSongs
-            |> List.map (fun (FinishedSong song, quality) ->
+            |> List.map (fun (Finished(song, quality)) ->
                 [ song.Name
                   Songs.length song.Length
                   $"{Styles.Level.from quality}%%"
@@ -37,8 +37,8 @@ module ListSongsCommand =
 
     /// Command to list all songs, finished and unfinished.
     let create
-        (unfinishedSongs: UnfinishedSongWithQualities list)
-        (finishedSongs: FinishedSongWithQuality list)
+        (unfinishedSongs: Unfinished<Song> list)
+        (finishedSongs: Finished<Song> list)
         =
         { Name = "list songs"
           Description =

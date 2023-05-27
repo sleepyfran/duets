@@ -8,8 +8,8 @@ open Duets.Entities
 open Duets.Simulation.Songs.Practice
 
 let dummyFinishedWithPracticeLevel practice =
-    let (FinishedSong song, _) = dummyFinishedSong
-    (FinishedSong { song with Practice = practice }, snd dummyFinishedSong)
+    let (Finished(song, quality)) = dummyFinishedSong
+    Finished({ song with Practice = practice }, quality)
 
 [<Test>]
 let ``practiceSong should generate SongPracticed with increase if practice level is below 100``
