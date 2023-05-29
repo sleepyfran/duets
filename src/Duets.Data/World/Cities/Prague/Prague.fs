@@ -5,17 +5,21 @@ open Duets.Entities
 let generate () =
     let createPrague = World.City.create Prague 1.8
 
-    let holesovice =
+    let holešovice =
         { Id = "8e17b833-72b3-4aff-af42-62a80363ab45" |> Identity.from |> ZoneId
           Name = "Holešovice" }
 
-    let newTown =
+    let novéMěsto =
         { Id = "feb334c9-b399-4ff3-83ab-577ddde0f18e" |> Identity.from |> ZoneId
           Name = "Nové Město" }
 
-    let ruzyne =
+    let ruzyně =
         { Id = "8a681792-f431-4275-b791-cc5db047bb77" |> Identity.from |> ZoneId
           Name = "Ruzyně" }
+
+    let strašnice =
+        { Id = "ed537edd-110d-4088-b47d-21236d0b6133" |> Identity.from |> ZoneId
+          Name = "Strašnice" }
 
     let smichov =
         { Id = "977a09e8-de33-4e62-8cbb-22b2daab30b2" |> Identity.from |> ZoneId
@@ -25,29 +29,30 @@ let generate () =
         { Id = "8702f3d8-2d82-4a18-9e2a-fa12338de616" |> Identity.from |> ZoneId
           Name = "Vinohrady" }
 
-    let zizkov =
+    let žižkov =
         { Id = "992937a6-5d65-465d-86f8-e1061a05427f" |> Identity.from |> ZoneId
           Name = "Žižkov" }
 
     createHome vinohrady
     |> createPrague
-    |> addAirport ruzyne
+    |> addAirport ruzyně
     |> Bars.addBeerGeek vinohrady
     |> Bars.addPubble vinohrady
     |> Cafes.addMamaCoffee vinohrady
     |> Cafes.addTheMiners vinohrady
-    |> ConcertSpaces.addDivadloArcha newTown
+    |> ConcertSpaces.addDivadloArcha novéMěsto
     |> ConcertSpaces.addFuturum smichov
-    |> ConcertSpaces.addKampusHybernska newTown
-    |> ConcertSpaces.addLucerna newTown
-    |> ConcertSpaces.addPalacAkropolis zizkov
-    |> ConcertSpaces.addRedutaJazzClub newTown
+    |> ConcertSpaces.addKampusHybernska novéMěsto
+    |> ConcertSpaces.addLucerna novéMěsto
+    |> ConcertSpaces.addPalacAkropolis žižkov
+    |> ConcertSpaces.addRedutaJazzClub novéMěsto
     |> ConcertSpaces.addUnderdogs smichov
-    |> Hospitals.addGeneralUniversityHospital newTown
-    |> RehearsalSpaces.addDuetsRehearsalSpace vinohrady
-    |> Restaurants.addChilliAndLime zizkov
-    |> Restaurants.addTaiko zizkov
-    |> Restaurants.addForkys holesovice
+    |> Hospitals.addGeneralUniversityHospital novéMěsto
+    |> RehearsalSpaces.addCheapAndFast ruzyně
+    |> RehearsalSpaces.addZkusebnyTovarna strašnice
+    |> Restaurants.addChilliAndLime žižkov
+    |> Restaurants.addTaiko žižkov
+    |> Restaurants.addForkys holešovice
     |> Studios.addDuetsStudio vinohrady
 
 (* -------- Home --------- *)
