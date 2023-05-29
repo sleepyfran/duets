@@ -250,25 +250,25 @@ let itemNameWithDetail (item: Item) =
         | Lemonade ml -> $"""{Styles.item "Lemonade"} ({ml}ml)"""
     | Consumable(Food food) ->
         match food with
-        | Burger mg
-        | Chips mg
-        | Chicken mg
-        | Croissant mg
-        | Falafel mg
-        | Fries mg
-        | Fruits mg
-        | GranolaBowl mg
-        | Gyozas mg
-        | Nachos mg
-        | NemCuon mg
-        | BunBo mg
-        | PhoBo mg
-        | Ramen mg
-        | Salad mg
-        | Sandwich mg
-        | Steak mg
-        | Sushi mg
-        | Wakame mg -> $"""{Styles.item item.Brand} ({mg} mg)"""
+        | Burger g
+        | Chips g
+        | Chicken g
+        | Croissant g
+        | Falafel g
+        | Fries g
+        | Fruits g
+        | GranolaBowl g
+        | Gyozas g
+        | Nachos g
+        | NemCuon g
+        | BunBo g
+        | PhoBo g
+        | Ramen g
+        | Salad g
+        | Sandwich g
+        | Steak g
+        | Sushi g
+        | Wakame g -> $"""{Styles.item item.Brand} ({g}g)"""
     | Interactive _ -> itemName item
 
 let moreDates = Styles.faded "More dates"
