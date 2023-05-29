@@ -52,6 +52,14 @@ let empty =
       Genre = ""
       Practice = 0<practice> }
 
+module Finished =
+    /// Returns the song contained in a finished song that has a status attached.
+    let fromFinishedWithStatus (FinishedWithRecordingStatus(song, _)) = song
+
+    /// Returns a finished song with whether it has been recorded or not.
+    let attachStatus recorded song =
+        FinishedWithRecordingStatus(song, recorded)
+
 module VocalStyle =
     /// Returns a VocalStyle given its string representation. If no match is found,
     /// normal is returned instead.

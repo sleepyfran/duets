@@ -9,15 +9,16 @@ module Songs =
     let unfinishedByBand state bandId =
         let unfinishedSongLens = Lenses.FromState.Songs.unfinishedByBand_ bandId
 
-        state
-        |> Optic.get unfinishedSongLens
-        |> Option.defaultValue Map.empty
+        state |> Optic.get unfinishedSongLens |> Option.defaultValue Map.empty
 
     /// Returns a specific song given the ID of the band that holds it and the ID
     /// of the song to retrieve.
     let unfinishedByBandAndSongId state bandId songId =
-        unfinishedByBand state bandId
-        |> Map.tryFind songId
+        unfinishedByBand state bandId |> Map.tryFind songId
+
+    let private toFinishedSongs songs =
+        songs
+        |> Map.map (fun _ song -> song |> Song.Finished.fromFinishedWithStatus)
 
     /// Returns all finished songs by the given band. If no finished songs could
     /// be found, returns an empty map.
@@ -26,6 +27,20 @@ module Songs =
 
         state
         |> Optic.get finishedSongLens
+        |> Option.map toFinishedSongs
+        |> Option.defaultValue Map.empty
+
+    /// Returns all finished songs by the given band that have not been recorded.
+    let finishedNonRecordedByBand state bandId =
+        let finishedSongLens = Lenses.FromState.Songs.finishedByBand_ bandId
+
+        state
+        |> Optic.get finishedSongLens
+        |> Option.map (fun songs ->
+            songs
+            |> Map.filter (fun _ (FinishedWithRecordingStatus(_, recorded)) ->
+                recorded = false))
+        |> Option.map toFinishedSongs
         |> Option.defaultValue Map.empty
 
     /// Returns a specific finished song given its ID and the band's ID.

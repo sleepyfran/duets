@@ -134,7 +134,7 @@
         <PackageReference Include="FSharpx.Extras" Version="3.0.0" />
         <PackageReference Include="FsToolkit.ErrorHandling" Version="4.3.0" />
         <PackageReference Include="RadLine" Version="0.6.0" />
-        <PackageReference Include="Spectre.Console" Version="0.44.0" />
+        <PackageReference Include="Spectre.Console" Version="0.47.0"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Duets.Agents\Duets.Agents.fsproj" />

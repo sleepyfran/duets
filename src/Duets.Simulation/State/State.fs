@@ -6,12 +6,15 @@ open Duets.Entities
 /// Applies an effect to the state.
 let applyEffect state effect =
     match effect with
-    | AlbumStarted(band, album) -> Albums.addUnreleased band album state
+    | AlbumStarted(band, unreleasedAlbum) ->
+        Albums.addUnreleased band unreleasedAlbum state
+        |> Albums.markTrackListAsRecorded band unreleasedAlbum
     | AlbumUpdated(band, unreleasedAlbum) ->
         let (UnreleasedAlbum album) = unreleasedAlbum
 
         Albums.removeUnreleased band album.Id state
         |> Albums.addUnreleased band unreleasedAlbum
+        |> Albums.markTrackListAsRecorded band unreleasedAlbum
     | AlbumReleased(band, releasedAlbum) ->
         let album = releasedAlbum.Album
 
@@ -118,10 +121,7 @@ let applyEffect state effect =
         Songs.removeUnfinished band song.Id state
         |> Songs.addFinished band finishedSong
     | SongPracticed(band, finishedSong) ->
-        let song = Song.fromFinished finishedSong
-
-        Songs.removeFinished band song.Id state
-        |> Songs.addFinished band finishedSong
+        Songs.updateFinished band finishedSong state
     | SongDiscarded(band, unfinishedSong) ->
         let song = Song.fromUnfinished unfinishedSong
 

@@ -43,6 +43,11 @@ module SongTypes =
     /// Defines a song that has been finished and can be recorded and played live.
     type Finished<'s> = Finished of song: 's * quality: Quality
 
+    /// Defines a song that has been finished with whether it has been recorded
+    /// or not.
+    type FinishedWithRecordingStatus<'s> =
+        | FinishedWithRecordingStatus of song: Finished<'s> * recorded: bool
+
     /// Defines a song that has been recorded and can be played live.
     type Recorded<'s> = Recorded of song: 's * totalQuality: Quality
 
@@ -61,4 +66,4 @@ module SongTypes =
     /// Only finished songs can be recorded and played live.
     type BandSongRepertoire =
         { UnfinishedSongs: SongsByBand<Unfinished<Song>>
-          FinishedSongs: SongsByBand<Finished<Song>> }
+          FinishedSongs: SongsByBand<FinishedWithRecordingStatus<Song>> }

@@ -14,7 +14,7 @@ open Spectre.Console
 let showCalendar year month (events: Date list) =
     let mutable calendar = Calendar(year, month)
     calendar.Culture <- System.Threading.Thread.CurrentThread.CurrentCulture
-    calendar.HightlightStyle <- Style.Parse("deepskyblue3 bold")
+    calendar.HighlightStyle <- Style.Parse("deepskyblue3 bold")
 
     for event in events do
         calendar <-

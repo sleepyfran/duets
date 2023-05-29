@@ -165,14 +165,6 @@ let lastUnfinishedSong (band: Band) state =
 let lastFinishedSong (band: Band) state =
     state.BandSongRepertoire.FinishedSongs |> Map.find band.Id |> Map.head
 
-/// Adds a finished song to the given state.
-let addFinishedSong (band: Band) (finishedSong: Finished<Song>) =
-    let (Finished(song, _)) = finishedSong
-
-    let finishedSongLenses = Lenses.FromState.Songs.finishedByBand_ band.Id
-
-    Optic.map finishedSongLenses (Map.add song.Id finishedSong)
-
 /// Adds the specified funds to the given account.
 let addFunds account amount =
     Optic.map (Lenses.FromState.BankAccount.balanceOf_ account) (fun balance ->

@@ -13,14 +13,11 @@ open Duets.Simulation.Queries
 let unfinishedSong = Unfinished(dummySong, 35<quality>, 7<quality>)
 
 let startSong () =
-    SongStarted(dummyBand, unfinishedSong)
-    |> State.Root.applyEffect dummyState
+    SongStarted(dummyBand, unfinishedSong) |> State.Root.applyEffect dummyState
 
 [<Test>]
 let SongStartedShouldAddUnfinishedSong () =
-    startSong ()
-    |> lastUnfinishedSong dummyBand
-    |> should equal unfinishedSong
+    startSong () |> lastUnfinishedSong dummyBand |> should equal unfinishedSong
 
 [<Test>]
 let SongImprovedShouldReplaceUnfinishedSong () =
@@ -38,11 +35,9 @@ let SongDiscardedShouldRemoveUnfinishedSong () =
     let state = startSong ()
 
     let state =
-        SongDiscarded(dummyBand, unfinishedSong)
-        |> State.Root.applyEffect state
+        SongDiscarded(dummyBand, unfinishedSong) |> State.Root.applyEffect state
 
-    Songs.unfinishedByBand state dummyBand.Id
-    |> should haveCount 0
+    Songs.unfinishedByBand state dummyBand.Id |> should haveCount 0
 
 [<Test>]
 let SongFinishedShouldRemoveUnfinishedAndAddFinishedSong () =
@@ -51,12 +46,10 @@ let SongFinishedShouldRemoveUnfinishedAndAddFinishedSong () =
     let finishedSong = Finished(dummySong, 14<quality>)
 
     let state =
-        SongFinished(dummyBand, finishedSong)
-        |> State.Root.applyEffect state
+        SongFinished(dummyBand, finishedSong) |> State.Root.applyEffect state
 
-    Songs.unfinishedByBand state dummyBand.Id
-    |> should haveCount 0
+    Songs.unfinishedByBand state dummyBand.Id |> should haveCount 0
 
     state
     |> lastFinishedSong dummyBand
-    |> should equal finishedSong
+    |> should equal (FinishedWithRecordingStatus(finishedSong, false))

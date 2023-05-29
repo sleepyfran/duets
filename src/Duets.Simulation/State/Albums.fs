@@ -18,6 +18,15 @@ let addUnreleased (band: Band) unreleasedAlbum =
     let addUnreleasedAlbum = Map.add album.Id unreleasedAlbum
     applyToUnreleased band.Id addUnreleasedAlbum
 
+let markTrackListAsRecorded (band: Band) unreleasedAlbum state =
+    let album = Album.fromUnreleased unreleasedAlbum
+
+    album.TrackList
+    |> List.fold
+        (fun acc (Recorded(songId, _)) ->
+            Songs.updateRecordedStatus band songId true acc)
+        state
+
 let addReleased (band: Band) releasedAlbum =
     let album = releasedAlbum.Album
     let addReleasedAlbum = Map.add album.Id releasedAlbum
