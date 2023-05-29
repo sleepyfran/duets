@@ -5,6 +5,10 @@ open Duets.Entities
 let generate () =
     let createPrague = World.City.create Prague 1.8
 
+    let dejvice =
+        { Id = "6d174bdd-7c1f-4fc9-a4b2-8f517a889ed3" |> Identity.from |> ZoneId
+          Name = "Dejvice" }
+
     let holešovice =
         { Id = "8e17b833-72b3-4aff-af42-62a80363ab45" |> Identity.from |> ZoneId
           Name = "Holešovice" }
@@ -54,6 +58,9 @@ let generate () =
     |> Restaurants.addTaiko žižkov
     |> Restaurants.addForkys holešovice
     |> Studios.addDuetsStudio vinohrady
+    |> Studios.addSmeckyStudios novéMěsto
+    |> Studios.addStudioFaust dejvice
+    |> Studios.addSquatStudio novéMěsto
 
 (* -------- Home --------- *)
 let createHome zone =
