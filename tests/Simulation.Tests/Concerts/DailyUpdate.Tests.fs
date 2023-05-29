@@ -70,7 +70,7 @@ let ``sold tickets get lower when band fame is lower`` () =
             ))
 
     let concert = actAndGetConcert state
-    concert.TicketsSold |> should equal 17
+    concert.TicketsSold |> should equal 19
 
 [<Test>]
 let ``sold tickets get added to the previously sold tickets`` () =
@@ -184,7 +184,7 @@ let ``sold tickets are capped to venue capacity`` () =
             ))
         |> actAndGetConcert
 
-    concert.TicketsSold |> should equal 1000
+    concert.TicketsSold |> should equal 1200
 
 [<Test>]
 let ``sold tickets should not decrease out of the normal cap when last visit to the city was more than 180 days ago``
@@ -284,4 +284,4 @@ let ``does not compute daily tickets sold as infinity when the days until the co
             ))
         |> actAndGetConcert
 
-    concert.TicketsSold |> should equal 1000
+    concert.TicketsSold |> should equal 1200

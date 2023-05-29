@@ -9,9 +9,17 @@ let generate () =
         { Id = "59771ed6-2cfb-4ec4-a5e8-23a93673b804" |> Identity.from |> ZoneId
           Name = "Arganzuela" }
 
+    let arguelles =
+        { Id = "743e96a2-09df-4081-a191-54c4305b1a75" |> Identity.from |> ZoneId
+          Name = "Argüelles" }
+
     let barajas =
         { Id = "59d311af-6564-48a8-857f-8fe9f46bd422" |> Identity.from |> ZoneId
           Name = "Barajas" }
+
+    let embajadores =
+        { Id = "da7b5d1f-ba48-4b12-a636-2e07b220b649" |> Identity.from |> ZoneId
+          Name = "Embajadores" }
 
     let justicia =
         { Id = "f9312427-2795-4980-a6b0-887d013245a7" |> Identity.from |> ZoneId
@@ -20,6 +28,10 @@ let generate () =
     let sol =
         { Id = "e1d1e975-c92d-468f-81d2-c4745b2994ab" |> Identity.from |> ZoneId
           Name = "Sol" }
+
+    let palacio =
+        { Id = "466cd431-dfb7-4e99-b649-5822b73caf19" |> Identity.from |> ZoneId
+          Name = "Palacio" }
 
     let puenteDeVallecas =
         { Id = "13468cbf-92aa-467b-b183-32dd3e22fdd8" |> Identity.from |> ZoneId
@@ -36,6 +48,10 @@ let generate () =
     |> Cafes.addAmbuCoffee universidad
     |> Cafes.addMisionCafe universidad
     |> ConcertSpaces.addBut justicia
+    |> ConcertSpaces.addCaracol embajadores
+    |> ConcertSpaces.addMon arguelles
+    |> ConcertSpaces.addNuevoApolo embajadores
+    |> ConcertSpaces.addShoko palacio
     |> ConcertSpaces.addWurlitzer sol
     |> RehearsalSpaces.addJackOnTheRocks puenteDeVallecas
     |> RehearsalSpaces.addPandorasVox arganzuela

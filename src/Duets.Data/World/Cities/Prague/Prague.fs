@@ -17,6 +17,10 @@ let generate () =
         { Id = "8a681792-f431-4275-b791-cc5db047bb77" |> Identity.from |> ZoneId
           Name = "Ruzyně" }
 
+    let smichov =
+        { Id = "977a09e8-de33-4e62-8cbb-22b2daab30b2" |> Identity.from |> ZoneId
+          Name = "Smichov" }
+
     let vinohrady =
         { Id = "8702f3d8-2d82-4a18-9e2a-fa12338de616" |> Identity.from |> ZoneId
           Name = "Vinohrady" }
@@ -32,8 +36,13 @@ let generate () =
     |> Bars.addPubble vinohrady
     |> Cafes.addMamaCoffee vinohrady
     |> Cafes.addTheMiners vinohrady
+    |> ConcertSpaces.addDivadloArcha newTown
+    |> ConcertSpaces.addFuturum smichov
+    |> ConcertSpaces.addKampusHybernska newTown
+    |> ConcertSpaces.addLucerna newTown
     |> ConcertSpaces.addPalacAkropolis zizkov
     |> ConcertSpaces.addRedutaJazzClub newTown
+    |> ConcertSpaces.addUnderdogs smichov
     |> Hospitals.addGeneralUniversityHospital newTown
     |> RehearsalSpaces.addDuetsRehearsalSpace vinohrady
     |> Restaurants.addChilliAndLime zizkov
