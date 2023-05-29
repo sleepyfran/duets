@@ -55,14 +55,28 @@ let studioSpaceDescription place =
         Styles.Level.good
             "The studio looks great, seems to have been recently renovated. The equipment looks new and shiny. The producer is waiting for you to start recording!"
 
+let rehearsalSpaceDescription place =
+    match place.Quality with
+    | q when q < 30<quality> ->
+        Styles.Level.bad
+            "The room looks terrible. There's empty cans of beer overflowing the trash can, the floor is covered in cigarette butts, and the walls are covered in graffiti. All the instruments seem to be overused, but they'll do the job"
+    | q when q < 60<quality> ->
+        Styles.Level.normal
+            "The room looks okay. It's not the best looking place, but it's still a good place to rehearse. The instruments seem to be in a good condition"
+    | _ ->
+        Styles.Level.good
+            "The room looks great, seems to have been recently renovated. The instruments look new and shiny"
+
 let studioPrice studio =
     $"Each song will cost {Styles.money studio.PricePerSong} to record and produce"
 
 let placeDescription (place: Place) =
     match place.Type with
     | PlaceType.ConcertSpace _ -> concertSpaceDescription place
+    | PlaceType.RehearsalSpace _ ->
+        $"{defaultPlaceDescription place}. {rehearsalSpaceDescription place}"
     | PlaceType.Studio studio ->
-        $"{studioSpaceDescription place}\n{studioPrice studio}"
+        $"{defaultPlaceDescription place}. {studioSpaceDescription place}\n{studioPrice studio}"
     | _ -> defaultPlaceDescription place
 
 let placeTypeName (placeType: PlaceTypeIndex) =
