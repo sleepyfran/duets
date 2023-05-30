@@ -70,7 +70,7 @@ let ``sold tickets get lower when band fame is lower`` () =
             ))
 
     let concert = actAndGetConcert state
-    concert.TicketsSold |> should equal 19
+    concert.TicketsSold |> should equal 22
 
 [<Test>]
 let ``sold tickets get added to the previously sold tickets`` () =
@@ -225,7 +225,7 @@ let ``sold tickets decrease to 70% of the normal cap when last visit to the city
                 Concert.pastConcertGenerator
                     { Concert.defaultOptions with
                         From = dummyToday.AddDays(1)
-                        To = dummyToday.AddDays(20) }
+                        To = dummyToday.AddDays(15) }
         }
 
     let concert =

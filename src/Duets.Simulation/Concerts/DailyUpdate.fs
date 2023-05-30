@@ -94,7 +94,7 @@ let private concertDailyUpdate state scheduledConcert =
         * lastVisitModifier
 
     let nonFansAttendanceCap =
-        (float bandFame / 100.0)
+        (float bandFame / 80.0)
         * (float venue.Capacity)
         * lastVisitModifier
         * ticketPriceModifier
