@@ -32,7 +32,8 @@ let ``createNotifications returns nothing when no events are scheduled`` () =
 let ``createNotifications returns nothing if the next event is happening after the next day moment``
     ()
     =
-    let flightGen = createFlightGen dummyToday dummyTodayMiddleOfYear
+    let flightGen =
+        dummyToday |> Calendar.Ops.addMonths 6 |> createFlightGen dummyToday
 
     State.generateN
         { State.defaultOptions with
@@ -61,7 +62,7 @@ let ``createNotifications returns flight event if it's happening in the day mome
     let firstEffect = effects |> List.head
 
     match firstEffect with
-    | Notification (Notification.CalendarEvent calendarEventType) ->
+    | Notification(Notification.CalendarEvent calendarEventType) ->
         calendarEventType |> should be (ofCase <@ CalendarEventType.Flight @>)
     | _ -> failwith "Incorrect effect raised!"
 
@@ -88,7 +89,7 @@ let ``createNotifications returns concert event if it's happening in the day mom
     let firstEffect = effects |> List.head
 
     match firstEffect with
-    | Notification (Notification.CalendarEvent calendarEventType) ->
+    | Notification(Notification.CalendarEvent calendarEventType) ->
         calendarEventType |> should be (ofCase <@ CalendarEventType.Concert @>)
     | _ -> failwith "Incorrect effect raised!"
 
@@ -105,7 +106,8 @@ let ``createNotifications returns rental payment reminder if a monthly rental wi
 
     let state =
         State.generateOne
-            { State.defaultOptions with FutureConcertsToGenerate = 0 }
+            { State.defaultOptions with
+                FutureConcertsToGenerate = 0 }
 
     let state =
         { state with
@@ -116,7 +118,7 @@ let ``createNotifications returns rental payment reminder if a monthly rental wi
     let firstEffect = effects |> List.head
 
     match firstEffect with
-    | Notification (Notification.RentalNotification rentalNotificationType) ->
+    | Notification(Notification.RentalNotification rentalNotificationType) ->
         rentalNotificationType
         |> should be (ofCase <@ RentalNotificationType.RentalDueInOneWeek @>)
     | _ -> failwith "Incorrect effect raised!"
@@ -134,7 +136,8 @@ let ``createNotifications returns rental payment reminder if a monthly rental wi
 
     let state =
         State.generateOne
-            { State.defaultOptions with FutureConcertsToGenerate = 0 }
+            { State.defaultOptions with
+                FutureConcertsToGenerate = 0 }
 
     let state =
         { state with
@@ -145,7 +148,7 @@ let ``createNotifications returns rental payment reminder if a monthly rental wi
     let firstEffect = effects |> List.head
 
     match firstEffect with
-    | Notification (Notification.RentalNotification rentalNotificationType) ->
+    | Notification(Notification.RentalNotification rentalNotificationType) ->
         rentalNotificationType
         |> should be (ofCase <@ RentalNotificationType.RentalDueTomorrow @>)
     | _ -> failwith "Incorrect effect raised!"
@@ -161,7 +164,8 @@ let ``createNotifications returns nothing for rentals that are one time`` () =
 
     let state =
         State.generateOne
-            { State.defaultOptions with FutureConcertsToGenerate = 0 }
+            { State.defaultOptions with
+                FutureConcertsToGenerate = 0 }
 
     let state =
         { state with

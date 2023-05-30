@@ -192,6 +192,7 @@ let ``sold tickets should not decrease out of the normal cap when last visit to 
     =
     let concertInCityGenerator =
         gen {
+            (* The concert is scheduled in 30 days, thus the weird from and to. *)
             return!
                 Concert.pastConcertGenerator
                     { Concert.defaultOptions with
@@ -214,16 +215,17 @@ let ``sold tickets should not decrease out of the normal cap when last visit to 
     concert.TicketsSold |> should equal 10
 
 [<Test>]
-let ``sold tickets decrease to 70% of the normal cap when last visit to the city was less than 180 days ago``
+let ``sold tickets decrease to 70% of the normal cap when last visit to the city was less than 30 days ago``
     ()
     =
     let concertInCityGenerator =
         gen {
+            (* The concert is scheduled in 30 days, thus the weird from and to. *)
             return!
                 Concert.pastConcertGenerator
                     { Concert.defaultOptions with
-                        From = dummyToday.AddDays(-60)
-                        To = dummyToday.AddDays(-20) }
+                        From = dummyToday.AddDays(1)
+                        To = dummyToday.AddDays(20) }
         }
 
     let concert =
@@ -241,16 +243,17 @@ let ``sold tickets decrease to 70% of the normal cap when last visit to the city
     concert.TicketsSold |> should equal 7
 
 [<Test>]
-let ``sold tickets decrease to 20% of the normal cap when last visit to the city was less than 30 days ago``
+let ``sold tickets decrease to 20% of the normal cap when last visit to the city was less than 10 days ago``
     ()
     =
     let concertInCityGenerator =
         gen {
+            (* The concert is scheduled in 30 days, thus the weird from and to. *)
             return!
                 Concert.pastConcertGenerator
                     { Concert.defaultOptions with
-                        From = dummyToday.AddDays(10)
-                        To = dummyToday.AddDays(29) }
+                        From = dummyToday.AddDays(20)
+                        To = dummyToday.AddDays(30) }
         }
 
     let concert =

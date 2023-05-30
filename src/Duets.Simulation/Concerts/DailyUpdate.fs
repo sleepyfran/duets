@@ -50,8 +50,8 @@ let private lastVisitModifier state (band: Band) concert =
         concert.Date - lastConcert.Date
         |> fun span ->
             match span.Days with
-            | days when days < 30 -> 0.2
-            | days when days < 180 -> 0.7
+            | days when days <= 10 -> 0.2
+            | days when days <= 30 -> 0.7
             | _ -> 1.0
     | None -> 1.0
 
