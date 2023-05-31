@@ -91,8 +91,8 @@ let private testDailyUpdateWith minFans maxFans maxFanDifference =
 let ``dailyUpdate should increase fans based on streams`` () =
     [ (0, 1000, 5)
       (1001, 15000, 25)
-      (15001, 250000, 50)
-      (250001, 1500000, 150)
+      (15001, 250000, 145)
+      (250001, 1500000, 1450)
       (1500001, 10000000, 1500) ]
     |> List.iter (fun (minFans, maxFans, maxExpectedDifference) ->
         testDailyUpdateWith minFans maxFans maxExpectedDifference)

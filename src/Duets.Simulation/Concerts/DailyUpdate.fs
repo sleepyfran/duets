@@ -6,8 +6,7 @@ open Duets.Entities
 open Duets.Simulation
 
 let private ticketPriceModifier bandFame concert =
-    let ticketPrice =
-        concert.TicketPrice / 1m<dd> |> float
+    let ticketPrice = concert.TicketPrice / 1m<dd> |> float
 
     let ticketPriceCap =
         match bandFame with
@@ -33,8 +32,7 @@ let private ticketPriceModifier bandFame concert =
     else
         // If the price is the same as the price cap or just slightly up, reduce
         // until right before the cap was surpassed.
-        let adaptedPrice =
-            ticketPrice - (ticketPrice - ticketPriceCap) - 1.0
+        let adaptedPrice = ticketPrice - (ticketPrice - ticketPriceCap) - 1.0
 
         1.0 - (adaptedPrice / ticketPriceCap) ** 20.0
 
@@ -44,8 +42,7 @@ let private lastVisitModifier state (band: Band) concert =
 
     match lastConcertInCity with
     | Some lastConcert ->
-        let lastConcert =
-            Concert.fromPast lastConcert
+        let lastConcert = Concert.fromPast lastConcert
 
         concert.Date - lastConcert.Date
         |> fun span ->
@@ -56,20 +53,35 @@ let private lastVisitModifier state (band: Band) concert =
     | None -> 1.0
 
 let private dailyTicketSell concert attendanceCap =
-    let (ScheduledConcert (concert, dateScheduled)) =
-        concert
+    let (ScheduledConcert(concert, dateScheduled)) = concert
 
-    let daysUntilConcert =
-        (concert.Date - dateScheduled).Days |> max 1
+    let daysUntilConcert = (concert.Date - dateScheduled).Days |> max 1
 
     attendanceCap / float daysUntilConcert
 
-let private concertDailyUpdate state scheduledConcert =
-    let currentBand =
-        Queries.Bands.currentBand state
+let private calculateNonFansAttendanceCap
+    market
+    bandFame
+    lastVisitModifier
+    ticketPriceModifier
+    =
+    let conversionRate =
+        match bandFame with
+        | fame when fame <= 40 -> 0.00005 (* 0.005% *)
+        | fame when fame <= 60 -> 0.0001 (* 0.01% *)
+        | fame when fame <= 80 -> 0.00015 (* 0.015% *)
+        | fame when fame <= 100 -> 0.0002 (* 0.02% *)
+        | _ -> 0.00001 (* 0.001% *)
 
-    let concert =
-        Concert.fromScheduled scheduledConcert
+    (market * (float bandFame / 100.0) * conversionRate)
+    * lastVisitModifier
+    * ticketPriceModifier
+    |> Math.ceilToNearest
+
+let private concertDailyUpdate state scheduledConcert =
+    let currentBand = Queries.Bands.currentBand state
+
+    let concert = Concert.fromScheduled scheduledConcert
 
     let venue =
         Queries.World.placeInCityById concert.CityId concert.VenueId
@@ -78,26 +90,22 @@ let private concertDailyUpdate state scheduledConcert =
             | ConcertSpace concertSpace -> concertSpace
             | _ -> failwith "How did we get here?"
 
-    let bandFame =
-        Queries.Bands.estimatedFameLevel state currentBand
+    let bandFame = Queries.Bands.estimatedFameLevel state currentBand
+    let market = Queries.GenreMarkets.usefulMarketOf state currentBand.Genre
 
-    let ticketPriceModifier =
-        ticketPriceModifier bandFame concert
+    let ticketPriceModifier = ticketPriceModifier bandFame concert
 
-    let lastVisitModifier =
-        lastVisitModifier state currentBand concert
+    let lastVisitModifier = lastVisitModifier state currentBand concert
 
     let fanAttendanceCap =
-        float currentBand.Fans
-        * 0.15
-        * ticketPriceModifier
-        * lastVisitModifier
+        float currentBand.Fans * 0.15 * ticketPriceModifier * lastVisitModifier
 
     let nonFansAttendanceCap =
-        (float bandFame / 80.0)
-        * (float venue.Capacity)
-        * lastVisitModifier
-        * ticketPriceModifier
+        calculateNonFansAttendanceCap
+            market
+            bandFame
+            lastVisitModifier
+            ticketPriceModifier
 
     let dailyTicketsSold =
         dailyTicketSell scheduledConcert nonFansAttendanceCap
@@ -112,8 +120,7 @@ let private concertDailyUpdate state scheduledConcert =
     |> ConcertUpdated
 
 let dailyUpdate state =
-    let currentBand =
-        Queries.Bands.currentBand state
+    let currentBand = Queries.Bands.currentBand state
 
     Queries.Concerts.allScheduled state currentBand.Id
     |> Set.fold

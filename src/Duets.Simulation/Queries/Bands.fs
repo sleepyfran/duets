@@ -20,11 +20,9 @@ module Bands =
         let lens = Lenses.State.bands_ >-> Lenses.Bands.characterBand_ bandId
 
         Optic.get lens state |> Option.get
-    
+
     /// Returns the currently selected character band in the game.
-    let currentBand state =
-        currentBandId state
-        |> byId state
+    let currentBand state = currentBandId state |> byId state
 
     /// Returns all current members of the current band.
     let currentBandMembers state =
@@ -70,12 +68,23 @@ module Bands =
             Characters.find state currentMember.CharacterId)
         |> List.averageBy (fun character ->
             Characters.ageOf state character |> float)
-    
+
     /// Gives an estimate of the band's fame between 0 and 100 based on the
     /// total amount of people willing to listen to the band's genre.
     let estimatedFameLevel state (band: Band) =
-        let marketSize = GenreMarkets.usefulMarketOf state band.Genre
+        let normalizedMarketSize =
+            GenreMarkets.usefulMarketOf state band.Genre |> System.Math.Log10
 
-        (float band.Fans / marketSize) * 100.0
+        let normalizedFans = System.Math.Log10(band.Fans)
+
+        let fameScalingFactor =
+            match band.Fans with
+            | fans when fans < 1000 -> 4.0
+            | fans when fans < 10000 -> 2.5
+            | fans when fans < 100000 -> 2.0
+            | fans when fans < 800000 -> 1.5
+            | _ -> 1
+
+        (normalizedFans / (fameScalingFactor * normalizedMarketSize)) * 100.0
         |> Math.roundToNearest
         |> Math.clamp 1 100

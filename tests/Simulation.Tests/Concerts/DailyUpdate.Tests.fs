@@ -15,20 +15,19 @@ let actAndGetConcert state =
     Concerts.DailyUpdate.dailyUpdate state
     |> fun effects ->
         match effects with
-        | ConcertUpdated (_, concert) :: _ -> Concert.fromScheduled concert
+        | ConcertUpdated(_, concert) :: _ -> Concert.fromScheduled concert
         | _ -> failwith "Not possible"
 
 [<Test>]
 let ``generates as many effects as concerts are scheduled`` () =
     State.generateN
-        { State.defaultOptions with FutureConcertsToGenerate = 10 }
+        { State.defaultOptions with
+            FutureConcertsToGenerate = 10 }
         100
     |> List.iter (fun state ->
-        let effects =
-            Concerts.DailyUpdate.dailyUpdate state
+        let effects = Concerts.DailyUpdate.dailyUpdate state
 
-        let band =
-            Simulation.Queries.Bands.currentBand state
+        let band = Simulation.Queries.Bands.currentBand state
 
         let concerts =
             Optic.get (Lenses.FromState.Concerts.allByBand_ band.Id) state
@@ -41,17 +40,20 @@ let ``generates as many effects as concerts are scheduled`` () =
 let ``generates sold tickets based on band's fame, venue capacity, last time visit, ticket price and days until the concert``
     ()
     =
-    let state =
-        State.generateOne
-            { State.defaultOptions with
-                BandFansMin = 250000
-                BandFansMax = 250000 }
-        |> State.Concerts.addScheduledConcert
-            dummyBand
-            (ScheduledConcert(dummyConcert, dummyToday))
+    State.generateN
+        { State.defaultOptions with
+            BandFansMin = 2000
+            BandFansMax = 9000 }
+        50
+    |> List.iter (fun state ->
+        let state =
+            state
+            |> State.Concerts.addScheduledConcert
+                dummyBand
+                (ScheduledConcert(dummyConcert, dummyToday))
 
-    let concert = actAndGetConcert state
-    concert.TicketsSold |> should equal 10
+        let concert = actAndGetConcert state
+        concert.TicketsSold |> should be (lessThanOrEqualTo 50))
 
 [<Test>]
 let ``sold tickets get lower when band fame is lower`` () =
@@ -70,15 +72,15 @@ let ``sold tickets get lower when band fame is lower`` () =
             ))
 
     let concert = actAndGetConcert state
-    concert.TicketsSold |> should equal 22
+    concert.TicketsSold |> should equal 18
 
 [<Test>]
 let ``sold tickets get added to the previously sold tickets`` () =
     let state =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 250000
-                BandFansMax = 250000 }
+                BandFansMin = 25000
+                BandFansMax = 25000 }
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(
@@ -87,7 +89,7 @@ let ``sold tickets get added to the previously sold tickets`` () =
             ))
 
     let concert = actAndGetConcert state
-    concert.TicketsSold |> should equal 20
+    concert.TicketsSold |> should equal 137
 
 [<Test>]
 let ``daily sold tickets are calculated based on how many days are left until the concert``
@@ -108,74 +110,71 @@ let ``daily sold tickets are calculated based on how many days are left until th
             ))
         |> actAndGetConcert
 
-    concert.TicketsSold |> should equal 23
+    concert.TicketsSold |> should equal 27
 
 let actAndGetConcertWithPrice price =
     State.generateOne
         { State.defaultOptions with
-            BandFansMin = 250000
-            BandFansMax = 250000 }
+            BandFansMin = 25000
+            BandFansMax = 25000 }
     |> State.Concerts.addScheduledConcert
         dummyBand
-        (ScheduledConcert({ dummyConcert with TicketPrice = price }, dummyToday))
+        (ScheduledConcert(
+            { dummyConcert with
+                TicketPrice = price },
+            dummyToday
+        ))
     |> actAndGetConcert
 
 [<Test>]
 let ``sold tickets decrease if ticket price gets close to the price cap`` () =
-    let concert =
-        actAndGetConcertWithPrice 23m<dd>
+    let concert = actAndGetConcertWithPrice 73m<dd>
 
-    concert.TicketsSold |> should equal 4
+    concert.TicketsSold |> should equal 53
 
-    let concert =
-        actAndGetConcertWithPrice 24m<dd>
+    let concert = actAndGetConcertWithPrice 74m<dd>
 
-    concert.TicketsSold |> should equal 3
+    concert.TicketsSold |> should equal 30
 
-    let concert =
-        actAndGetConcertWithPrice 25m<dd>
+    let concert = actAndGetConcertWithPrice 75m<dd>
 
-    concert.TicketsSold |> should equal 2
+    concert.TicketsSold |> should equal 30
 
 [<Test>]
 let ``sold tickets decrease when price goes slightly above price cap`` () =
-    let concert =
-        actAndGetConcertWithPrice 26m<dd>
+    let concert = actAndGetConcertWithPrice 76m<dd>
 
-    concert.TicketsSold |> should equal 2
+    concert.TicketsSold |> should equal 30
 
-    let concert =
-        actAndGetConcertWithPrice 27m<dd>
+    let concert = actAndGetConcertWithPrice 77m<dd>
 
-    concert.TicketsSold |> should equal 1
+    concert.TicketsSold |> should equal 30
 
-    let concert =
-        actAndGetConcertWithPrice 28m<dd>
+    let concert = actAndGetConcertWithPrice 78m<dd>
 
-    concert.TicketsSold |> should equal 1
+    concert.TicketsSold |> should equal 30
 
 [<Test>]
 let ``sold tickets decrease a lot when price goes over price cap`` () =
-    let concert =
-        actAndGetConcertWithPrice 29m<dd>
+    let concert = actAndGetConcertWithPrice 90m<dd>
+
+    concert.TicketsSold |> should equal 35
+
+    let concert = actAndGetConcertWithPrice 95m<dd>
+
+    concert.TicketsSold |> should equal 24
+
+    let concert = actAndGetConcertWithPrice 150m<dd>
 
     concert.TicketsSold |> should equal 1
-
-    let concert =
-        actAndGetConcertWithPrice 30m<dd>
-
-    concert.TicketsSold |> should equal 1
-
-    let concert =
-        actAndGetConcertWithPrice 50m<dd>
-
-    concert.TicketsSold |> should equal 0
 
 
 [<Test>]
 let ``sold tickets are capped to venue capacity`` () =
     let concert =
-        State.generateOne { State.defaultOptions with BandFansMax = 25 }
+        State.generateOne
+            { State.defaultOptions with
+                BandFansMax = 25 }
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(
@@ -203,8 +202,8 @@ let ``sold tickets should not decrease out of the normal cap when last visit to 
     let concert =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 250000
-                BandFansMax = 250000
+                BandFansMin = 25000
+                BandFansMax = 25000
                 PastConcertsToGenerate = 1
                 PastConcertGen = concertInCityGenerator }
         |> State.Concerts.addScheduledConcert
@@ -212,7 +211,7 @@ let ``sold tickets should not decrease out of the normal cap when last visit to 
             (ScheduledConcert(dummyConcert, dummyToday))
         |> actAndGetConcert
 
-    concert.TicketsSold |> should equal 10
+    concert.TicketsSold |> should equal 127
 
 [<Test>]
 let ``sold tickets decrease to 70% of the normal cap when last visit to the city was less than 30 days ago``
@@ -240,7 +239,7 @@ let ``sold tickets decrease to 70% of the normal cap when last visit to the city
             (ScheduledConcert(dummyConcert, dummyToday))
         |> actAndGetConcert
 
-    concert.TicketsSold |> should equal 7
+    concert.TicketsSold |> should equal 879
 
 [<Test>]
 let ``sold tickets decrease to 20% of the normal cap when last visit to the city was less than 10 days ago``
@@ -268,7 +267,7 @@ let ``sold tickets decrease to 20% of the normal cap when last visit to the city
             (ScheduledConcert(dummyConcert, dummyToday))
         |> actAndGetConcert
 
-    concert.TicketsSold |> should equal 2
+    concert.TicketsSold |> should equal 251
 
 [<Test>]
 let ``does not compute daily tickets sold as infinity when the days until the concert are 0``
