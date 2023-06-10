@@ -88,3 +88,10 @@ module Bands =
         (normalizedFans / (fameScalingFactor * normalizedMarketSize)) * 100.0
         |> Math.roundToNearest
         |> Math.clamp 1 100
+
+    /// Returns all simulated bands.
+    let allSimulated state =
+        let simulatedLens_ =
+            Lenses.State.bands_ >-> Lenses.Bands.simulatedBands_
+
+        Optic.get simulatedLens_ state

@@ -79,6 +79,7 @@
         <Compile Include="Interactions\Items\Item.Interactions.fs" />
         <Compile Include="Concerts\DailyUpdate.fs" />
         <Compile Include="Concerts\Scheduler.fs" />
+        <Compile Include="Concerts\OpeningActOpportunities.fs"/>
         <Compile Include="Concerts\Live\Live.Common.fs" />
         <Compile Include="Concerts\Live\Live.Actions.fs" />
         <Compile Include="Concerts\Live\Live.Finish.fs" />

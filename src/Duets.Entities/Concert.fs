@@ -18,9 +18,9 @@ module Ongoing =
         Optic.get Lenses.Concerts.Ongoing.events_ ongoingConcert
         |> List.filter (fun performedEvent ->
             match performedEvent with
-            | PlaySong (playedSong, _) ->
+            | PlaySong(playedSong, _) ->
                 match event with
-                | PlaySong (song, _) -> playedSong = song
+                | PlaySong(song, _) -> playedSong = song
                 | _ -> false
             | _ -> performedEvent = event)
         |> List.length
@@ -38,14 +38,12 @@ module Ongoing =
         let timesPerformedEncores =
             timesDoneEvent ongoingConcert PerformedEncore
 
-        let points =
-            Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
+        let points = Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
 
-        points > 50<quality>
-        && timesPerformedEncores = 0<times>
+        points > 50<quality> && timesPerformedEncores = 0<times>
 
 /// Creates a concert from the given parameter.
-let create date dayMoment cityId venueId ticketPrice =
+let create date dayMoment cityId venueId ticketPrice participationType =
     let ticketAmount = ticketPrice * 1m<dd>
 
     { Id = Identity.create ()
@@ -54,22 +52,20 @@ let create date dayMoment cityId venueId ticketPrice =
       Date = date
       DayMoment = dayMoment
       TicketPrice = ticketAmount
-      TicketsSold = 0 }
+      TicketsSold = 0
+      ParticipationType = participationType }
 
 /// Validates that the ticket price is not below zero or a too high number.
 let validatePrice ticketPrice =
-    if ticketPrice < 0m then
-        Error PriceBelowZero
-    else if ticketPrice > 10000m then
-        Error PriceTooHigh
-    else
-        Ok ticketPrice
+    if ticketPrice < 0m then Error PriceBelowZero
+    else if ticketPrice > 10000m then Error PriceTooHigh
+    else Ok ticketPrice
 
 /// Returns the inner concert inside a past concert.
 let fromPast (concert: PastConcert) =
     match concert with
-    | PerformedConcert (concert, _) -> concert
-    | FailedConcert (concert, _) -> concert
+    | PerformedConcert(concert, _) -> concert
+    | FailedConcert(concert, _) -> concert
 
 /// Returns the inner concert inside a scheduled concert.
-let fromScheduled (ScheduledConcert (concert, _)) = concert
+let fromScheduled (ScheduledConcert(concert, _)) = concert

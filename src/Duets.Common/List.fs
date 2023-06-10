@@ -25,6 +25,10 @@ let forall2' predicate source1 source2 =
 /// by `ofSeq` into an actual tuple.
 let ofMap (map: Map<_, _>) =
     List.ofSeq map |> List.map (fun kvp -> (kvp.Key, kvp.Value))
+    
+/// Returns a list created from the keys of a map ignoring its values.
+let ofMapKeys (map: Map<_, _>) =
+   List.ofSeq map |> List.map (fun kvp -> kvp.Key) 
 
 /// Returns a list created from the values of a map ignoring its keys.
 let ofMapValues (map: Map<_, _>) =

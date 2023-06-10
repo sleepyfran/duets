@@ -108,8 +108,6 @@ let findJobAcceptLeaveConfirmation
 
 let concertAssistantAppPrompt = Styles.prompt "What do you want to book?"
 
-let concertAssistantAppShow = "Book show"
-
 let concertAssistantAppAgenda = "View schedule"
 
 let concertAssistantAppVisualizeNoConcerts = "No concerts"

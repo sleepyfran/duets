@@ -4,11 +4,14 @@ open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 
-type private ConcertMenuOption = | ScheduleShow
+type private ConcertMenuOption =
+    | ScheduleSoloShow
+    | ScheduleOpeningActShow
 
 let private textFromOption opt =
     match opt with
-    | ScheduleShow -> Phone.concertAssistantAppShow
+    | ScheduleSoloShow -> "Schedule a show with your band as the headliner"
+    | ScheduleOpeningActShow -> "Scheduled a show supporting another band"
 
 let rec concertAssistantApp () =
     let selectedChoice =
@@ -16,8 +19,9 @@ let rec concertAssistantApp () =
             Phone.concertAssistantAppPrompt
             Generic.nothing
             textFromOption
-            [ ScheduleShow ]
+            [ ScheduleSoloShow; ScheduleOpeningActShow ]
 
     match selectedChoice with
-    | Some ScheduleShow -> Show.scheduleShow concertAssistantApp
+    | Some ScheduleSoloShow -> SoloShow.scheduleShow concertAssistantApp
+    | Some ScheduleOpeningActShow -> OpeningAct.scheduleShow concertAssistantApp
     | None -> Scene.Phone

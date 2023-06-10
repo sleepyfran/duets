@@ -107,8 +107,9 @@ let dummyConcert =
       Date = dummyToday.AddDays(30)
       DayMoment = Night
       TicketPrice = 20m<dd>
-      TicketsSold = 0 }
-
+      TicketsSold = 0
+      ParticipationType = Headliner }
+    
 let dummyPastConcert = PastConcert.PerformedConcert(dummyConcert, 100<quality>)
 
 let dummyState =

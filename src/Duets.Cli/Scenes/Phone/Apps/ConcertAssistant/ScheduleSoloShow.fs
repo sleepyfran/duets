@@ -1,4 +1,4 @@
-module Duets.Cli.Scenes.Phone.Apps.ConcertAssistant.Show
+module Duets.Cli.Scenes.Phone.Apps.ConcertAssistant.SoloShow
 
 open Duets.Agents
 open Duets.Cli
@@ -110,7 +110,7 @@ and private promptForTicketPrice app date dayMoment city venueId =
             promptForTicketPrice app date dayMoment city venueId)
 
 and private scheduleConcert app date dayMoment city venueId ticketPrice =
-    Scheduler.scheduleConcert
+    Scheduler.scheduleHeadlinerConcert
         (State.get ())
         date
         dayMoment

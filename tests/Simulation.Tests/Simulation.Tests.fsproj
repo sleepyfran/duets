@@ -38,6 +38,7 @@
         <Compile Include="Concerts\Live.GreetAudience.Tests.fs" />
         <Compile Include="Concerts\Live.DedicateSong.Tests.fs" />
         <Compile Include="Concerts\Live.Finish.Tests.fs" />
+        <Compile Include="Concerts\OpeningActOpportunities.Tests.fs"/>
         <Compile Include="Market\GenreMarket.Tests.fs" />
         <Compile Include="Notifications\Notification.Tests.fs" />
         <Compile Include="Time\AdvanceTime.Tests.fs" />

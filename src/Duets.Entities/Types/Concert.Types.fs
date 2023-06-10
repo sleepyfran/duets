@@ -6,6 +6,11 @@ open Duets.Entities
 module ConcertTypes =
     /// Unique identifier of a concert.
     type ConcertId = Identity
+    
+    /// Defines the type of participation of a band in a concert.
+    type ParticipationType =
+        | Headliner
+        | OpeningAct of headliner: BandId
 
     /// Represents a single concert in a venue.
     [<CustomEquality; CustomComparison>]
@@ -18,6 +23,7 @@ module ConcertTypes =
             DayMoment: DayMoment
             TicketPrice: Amount
             TicketsSold: int
+            ParticipationType: ParticipationType
         }
         override x.Equals(obj) =
             match obj with

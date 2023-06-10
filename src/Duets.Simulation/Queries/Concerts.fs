@@ -128,3 +128,15 @@ let attendancePercentage concert =
     (float concert.TicketsSold / float capacity)
     |> (*) 100.0
     |> Math.roundToNearest
+
+/// Calculates a fair ticket price for the concert, based on the fame of the
+/// given band.
+let fairTicketPrice state band =
+    let bandFame = Bands.estimatedFameLevel state band
+
+    match bandFame with
+    | fame when fame < 15 -> 10.0m
+    | fame when fame < 30 -> 25.0m
+    | fame when fame < 60 -> 75.0m
+    | fame when fame < 80 -> 100.0m
+    | _ -> 150.0m
