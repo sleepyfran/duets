@@ -287,3 +287,25 @@ let ``does not compute daily tickets sold as infinity when the days until the co
         |> actAndGetConcert
 
     concert.TicketsSold |> should equal 1200
+
+[<Test>]
+let ``computes daily tickets based on headliner if participation type is opening act``
+    ()
+    =
+    let concert =
+        State.generateOne
+            { State.defaultOptions with
+                BandFansMin = 250
+                BandFansMax = 250 }
+        |> State.Bands.addSimulated { dummyHeadlinerBand with Fans = 1200 }
+        |> State.Concerts.addScheduledConcert
+            dummyBand
+            (ScheduledConcert(
+                { dummyConcert with
+                    Date = dummyToday
+                    ParticipationType = OpeningAct dummyHeadlinerBand.Id },
+                dummyToday
+            ))
+        |> actAndGetConcert
+
+    concert.TicketsSold |> should equal 206

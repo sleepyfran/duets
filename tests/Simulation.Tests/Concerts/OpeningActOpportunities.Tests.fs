@@ -10,12 +10,6 @@ open NUnit.Framework
 open Test.Common
 open Test.Common.Generators
 
-let headliner =
-    { dummyBand with
-        Id = Identity.create () |> BandId
-        Name = "The Headliners"
-        Fans = 10000 }
-
 [<Test>]
 let ``applyToConcertOpportunity returns NotEnoughFame if headliner fame is more than 25 of the band's fame``
     ()
@@ -28,7 +22,7 @@ let ``applyToConcertOpportunity returns NotEnoughFame if headliner fame is more 
 
     OpeningActOpportunities.applyToConcertOpportunity
         state
-        headliner
+        dummyHeadlinerBand
         dummyConcert
     |> Result.unwrapError
     |> should be (ofCase <@ OpeningActOpportunities.NotEnoughFame @>)
@@ -45,7 +39,7 @@ let ``applyToConcertOpportunity returns NotEnoughReleases if band does not have 
 
     OpeningActOpportunities.applyToConcertOpportunity
         state
-        headliner
+        dummyHeadlinerBand
         dummyConcert
     |> Result.unwrapError
     |> should be (ofCase <@ OpeningActOpportunities.NotEnoughReleases @>)
@@ -66,7 +60,7 @@ let ``applyToConcertOpportunity returns AnotherConcertAlreadyScheduled if band a
 
     OpeningActOpportunities.applyToConcertOpportunity
         state
-        headliner
+        dummyHeadlinerBand
         dummyConcert
     |> Result.unwrapError
     |> should
@@ -86,7 +80,7 @@ let ``applyToConcertOpportunity returns ok with effects if all checks succeed``
 
     OpeningActOpportunities.applyToConcertOpportunity
         state
-        headliner
+        dummyHeadlinerBand
         dummyConcert
     |> Result.unwrap
     |> should be (ofCase <@ ConcertScheduled @>)
@@ -104,7 +98,7 @@ let ``applyToConcertOpportunity returns ok if band fame is higher than headliner
 
     OpeningActOpportunities.applyToConcertOpportunity
         state
-        headliner
+        dummyHeadlinerBand
         dummyConcert
     |> Result.unwrap
     |> should be (ofCase <@ ConcertScheduled @>)

@@ -48,6 +48,12 @@ let dummyBandWithMultipleMembers =
               Band.Member.from dummyCharacter2.Id Bass (Calendar.gameBeginning)
               Band.Member.from dummyCharacter3.Id Drums (Calendar.gameBeginning) ] }
 
+let dummyHeadlinerBand =
+    { dummyBand with
+        Id = Identity.create () |> BandId
+        Name = "The Headliners"
+        Fans = 12000 }
+
 let dummySong = { Song.empty with Genre = "Jazz" }
 
 let dummyUnfinishedSong = Unfinished(dummySong, 50<quality>, 50<quality>)

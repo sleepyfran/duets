@@ -73,9 +73,14 @@ let private calculateNonFansAttendanceCap
     |> Math.ceilToNearest
 
 let private concertDailyUpdate state scheduledConcert =
+    let concert = Concert.fromScheduled scheduledConcert
+
     let currentBand = Queries.Bands.currentBand state
 
-    let concert = Concert.fromScheduled scheduledConcert
+    let band =
+        match concert.ParticipationType with
+        | Headliner -> currentBand
+        | OpeningAct headlinerId -> Queries.Bands.byId state headlinerId
 
     let venue =
         Queries.World.placeInCityById concert.CityId concert.VenueId
@@ -84,15 +89,15 @@ let private concertDailyUpdate state scheduledConcert =
             | ConcertSpace concertSpace -> concertSpace
             | _ -> failwith "How did we get here?"
 
-    let bandFame = Queries.Bands.estimatedFameLevel state currentBand
-    let market = Queries.GenreMarkets.usefulMarketOf state currentBand.Genre
+    let bandFame = Queries.Bands.estimatedFameLevel state band
+    let market = Queries.GenreMarkets.usefulMarketOf state band.Genre
 
-    let ticketPriceModifier = ticketPriceModifier state currentBand concert
+    let ticketPriceModifier = ticketPriceModifier state band concert
 
-    let lastVisitModifier = lastVisitModifier state currentBand concert
+    let lastVisitModifier = lastVisitModifier state band concert
 
     let fanAttendanceCap =
-        float currentBand.Fans * 0.15 * ticketPriceModifier * lastVisitModifier
+        float band.Fans * 0.15 * ticketPriceModifier * lastVisitModifier
 
     let nonFansAttendanceCap =
         calculateNonFansAttendanceCap

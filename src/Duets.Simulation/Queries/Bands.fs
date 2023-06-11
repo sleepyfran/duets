@@ -17,9 +17,15 @@ module Bands =
 
     /// Returns a band that matches the given ID.
     let byId state bandId =
-        let lens = Lenses.State.bands_ >-> Lenses.Bands.characterBand_ bandId
+        let characterBands =
+            Lenses.State.bands_ >-> Lenses.Bands.characterBand_ bandId
 
-        Optic.get lens state |> Option.get
+        let simulatedBands =
+            Lenses.State.bands_ >-> Lenses.Bands.simulatedBand_ bandId
+
+        Optic.get characterBands state
+        |> Option.orElse (Optic.get simulatedBands state)
+        |> Option.get
 
     /// Returns the currently selected character band in the game.
     let currentBand state = currentBandId state |> byId state
