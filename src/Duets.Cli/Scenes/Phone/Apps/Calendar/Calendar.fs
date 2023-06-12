@@ -71,8 +71,17 @@ let private showFlight flight =
 
 let private showConcert concert =
     let city = Queries.World.cityById concert.CityId
-
     let place = Queries.World.placeInCityById concert.CityId concert.VenueId
 
-    $"""{Styles.highlight $"*{Generic.dayMomentName concert.DayMoment}"}: Concert at {Styles.place place.Name}, {Styles.place (Generic.cityName city.Id)}. Sold {Styles.information concert.TicketsSold} tickets"""
+    let concertInformation =
+        match concert.ParticipationType with
+        | Headliner ->
+            $"Concert at {Styles.place place.Name}, {Styles.place (Generic.cityName city.Id)}. Sold {Styles.information concert.TicketsSold} tickets"
+        | OpeningAct(bandId, _) ->
+            let headliner = Queries.Bands.byId (State.get ()) bandId
+
+            $"Opening for {Styles.band headliner.Name} at {Styles.place place.Name}, {Styles.place (Generic.cityName city.Id)}. Sold {Styles.information concert.TicketsSold} tickets"
+
+
+    $"""{Styles.highlight $"*{Generic.dayMomentName concert.DayMoment}"}: {concertInformation}"""
     |> showMessage
