@@ -21,17 +21,22 @@ let private calculateExpectedFanGain fans (modifier: float) =
     fans + fanChange |> Math.lowerClamp 0
 
 let private assertFanGain modifier state band concert =
-    let (Diff (_, updatedFans)) =
+    let (Diff(_, updatedFans)) =
         finishConcert state concert
         |> List.choose (fun effect ->
             match effect with
-            | BandFansChanged (_, diff) -> Some diff
+            | BandFansChanged(_, diff) -> Some diff
             | _ -> None)
         |> List.head
 
     updatedFans |> should equal (calculateExpectedFanGain band.Fans modifier)
 
-let private simulateAndCheck minConcertPoints maxConcertPoints assertFn =
+let private simulateAndCheck'
+    minConcertPoints
+    maxConcertPoints
+    participationType
+    assertFn
+    =
     State.generateN
         { State.defaultOptions with
             BandFansMin = 100
@@ -46,7 +51,9 @@ let private simulateAndCheck minConcertPoints maxConcertPoints assertFn =
             |> List.head
 
         let concertWithAttendance =
-            { dummyConcert with TicketsSold = attendance }
+            { dummyConcert with
+                TicketsSold = attendance
+                ParticipationType = participationType }
 
         let concertWithPoints =
             { dummyOngoingConcert with
@@ -54,6 +61,9 @@ let private simulateAndCheck minConcertPoints maxConcertPoints assertFn =
                 Points = randomPoints * 1<quality> }
 
         assertFn state band concertWithPoints)
+
+let private simulateAndCheck minConcertPoints maxConcertPoints assertFn =
+    simulateAndCheck' minConcertPoints maxConcertPoints Headliner assertFn
 
 [<Test>]
 let ``finishing the concert advances one day moment`` () =
@@ -109,7 +119,7 @@ let ``finishing the concert should grant the band the earnings from the tickets 
             finishConcert state concert
             |> List.choose (fun effect ->
                 match effect with
-                | MoneyEarned (_, Incoming (amount, _)) -> Some amount
+                | MoneyEarned(_, Incoming(amount, _)) -> Some amount
                 | _ -> None)
             |> List.head
 
@@ -117,3 +127,27 @@ let ``finishing the concert should grant the band the earnings from the tickets 
         |> should
             equal
             (decimal concert.Concert.TicketsSold * concert.Concert.TicketPrice))
+
+[<Test>]
+let ``finishing an opening act concert should grant the band the correct percentage of the tickets sold``
+    ()
+    =
+    simulateAndCheck'
+        0
+        100
+        (OpeningAct(dummyHeadlinerBand.Id, 50<percent>))
+        (fun state _ concert ->
+            let moneyEarned =
+                finishConcert state concert
+                |> List.choose (fun effect ->
+                    match effect with
+                    | MoneyEarned(_, Incoming(amount, _)) -> Some amount
+                    | _ -> None)
+                |> List.head
+
+            let expectedEarnings =
+                decimal concert.Concert.TicketsSold
+                * concert.Concert.TicketPrice
+                * 0.5m
+
+            moneyEarned |> should equal expectedEarnings)

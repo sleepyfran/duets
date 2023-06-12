@@ -24,8 +24,17 @@ let private calculateFanGain ongoingConcert =
     |> Math.ceilToNearest
 
 let private calculateEarnings ongoingConcert =
+    let earningPercentage =
+        match ongoingConcert.Concert.ParticipationType with
+        | Headliner -> 1.0
+        | OpeningAct(_, earningPercentage) ->
+            let percent = earningPercentage / 1<percent> |> float
+            percent / 100.0
+        |> decimal
+
     decimal ongoingConcert.Concert.TicketsSold
     * ongoingConcert.Concert.TicketPrice
+    * earningPercentage
 
 /// Creates a ConcertFinished effect which adds the concert to the history of
 /// the band and stops them from being able to perform in the venue for the day.

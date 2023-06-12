@@ -101,7 +101,7 @@ let private displayEffect effect =
         | _ -> Concert.finishedGreat
         |> showMessage
 
-        Concert.concertSummary concert.TicketsSold income |> showMessage
+        Concert.concertSummary concert income |> showMessage
     | ConcertCancelled(band, FailedConcert(concert, reason)) ->
         let place = Queries.World.placeInCityById concert.CityId concert.VenueId
 

@@ -196,9 +196,14 @@ let finishedGreat =
     Styles.Level.great
         "The concert was a huge success! The audience was on their feet, cheering, and clapping throughout the performance. Your playing was spot on, and you had great stage presence that kept everyone engaged throughout the show. The crowd sang along to many of your songs and it was clear that you had a real connection with your fans. The crowd left the venue feeling satisfied and entertained. Your reputation as a musician has been solidified."
 
-let concertSummary attendance income =
-    Styles.highlight
+let concertSummary concert income =
+    let attendance = concert.TicketsSold
+
+    match concert.ParticipationType with
+    | Headliner ->
         $"""{attendance} {Generic.pluralOf "person" "people" attendance} came to the concert and you made {Styles.money income} in tickets"""
+    | OpeningAct _ ->
+        $"""{attendance} {Generic.pluralOf "person" "people" attendance} came to the concert and you made {Styles.money income} in your share of the tickets"""
 
 let makeCrowdSingLowPerformance points =
     Styles.Level.bad
