@@ -80,7 +80,7 @@ let private concertDailyUpdate state scheduledConcert =
     let band =
         match concert.ParticipationType with
         | Headliner -> currentBand
-        | OpeningAct headlinerId -> Queries.Bands.byId state headlinerId
+        | OpeningAct(headlinerId, _) -> Queries.Bands.byId state headlinerId
 
     let venue =
         Queries.World.placeInCityById concert.CityId concert.VenueId

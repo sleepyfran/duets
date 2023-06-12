@@ -10,7 +10,7 @@ module ConcertTypes =
     /// Defines the type of participation of a band in a concert.
     type ParticipationType =
         | Headliner
-        | OpeningAct of headliner: BandId
+        | OpeningAct of headliner: BandId * earningPercentage: int<percent>
 
     /// Represents a single concert in a venue.
     [<CustomEquality; CustomComparison>]

@@ -55,7 +55,7 @@ let private promptForConcert app allPotentialConcerts date concertsOnDate =
                         concert.CityId
                         concert.VenueId
 
-                $"Opening for {Styles.highlight band.Name} ({band.Genre}/{band.Fans |> Styles.number} fans) in {place.Name}")
+                $"Headliner {Styles.highlight band.Name} ({band.Genre}/{band.Fans |> Styles.number} fans) @ {Styles.place place.Name}")
             concertsOnDate
 
     match selectedConcert with
@@ -89,8 +89,13 @@ let private applyForOpportunity
 
     match applicationResult with
     | Ok effect ->
+        let earningPercentage =
+            match concert.ParticipationType with
+            | Headliner -> 100<percent>
+            | OpeningAct(_, earningPercentage) -> earningPercentage
+
         let accepted =
-            $"Awesome! {headliner.Name} wants to play with you! Do you want to schedule the concert?"
+            $"Awesome! {headliner.Name} wants to play with you! Do you want to schedule the concert? They are offering you {earningPercentage |> Styles.percentage} of the ticket sales"
             |> Styles.success
             |> showConfirmationPrompt
 

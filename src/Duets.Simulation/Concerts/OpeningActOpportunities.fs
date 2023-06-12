@@ -30,6 +30,7 @@ let private generateOpeningActShowsOnDate state headlinerBands cityId date =
         let venue = venuesInCity |> List.sample
         let headliner = headlinerBands |> List.sample
         let ticketPrice = Queries.Concerts.fairTicketPrice state headliner
+        let earningPercentage = calculateEarningPercentage state headliner
 
         let concert =
             Concert.create
@@ -38,9 +39,18 @@ let private generateOpeningActShowsOnDate state headlinerBands cityId date =
                 cityId
                 venue.Id
                 ticketPrice
-                (OpeningAct headliner.Id)
+                (OpeningAct(headliner.Id, earningPercentage))
 
         (headliner, concert))
+
+let private calculateEarningPercentage state headliner =
+    let fameLevel = Queries.Bands.estimatedFameLevel state headliner
+
+    match fameLevel with
+    | level when level < 30 -> 50<percent>
+    | level when level < 50 -> 30<percent>
+    | level when level < 70 -> 20<percent>
+    | _ -> 10<percent>
 
 type OpeningActApplicationError =
     | NotEnoughFame

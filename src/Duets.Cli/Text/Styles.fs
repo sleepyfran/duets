@@ -1,5 +1,5 @@
 [<RequireQualifiedAccess>]
-module Duets.Cli.Text.Styles
+module rec Duets.Cli.Text.Styles
 
 
 open Duets.Common
@@ -32,6 +32,9 @@ let money (amount: Amount) = $"[bold green3]{decimal amount}d$[/]"
 
 /// Pre-defined style for referencing people in text.
 let person name = $"[bold lightgreen_1]{name}[/]"
+
+/// Pre-defined style for showing percentages.
+let percentage value = $"{value |> Level.from}%%"
 
 /// Pre-defined style for referencing places in text.
 let place name = $"[bold lightsalmon1]{name}[/]"

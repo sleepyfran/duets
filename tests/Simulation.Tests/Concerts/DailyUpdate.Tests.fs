@@ -303,7 +303,8 @@ let ``computes daily tickets based on headliner if participation type is opening
             (ScheduledConcert(
                 { dummyConcert with
                     Date = dummyToday
-                    ParticipationType = OpeningAct dummyHeadlinerBand.Id },
+                    ParticipationType =
+                        OpeningAct(dummyHeadlinerBand.Id, 50<percent>) },
                 dummyToday
             ))
         |> actAndGetConcert

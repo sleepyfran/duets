@@ -38,3 +38,7 @@ module CommonTypes =
     /// Measure for counting kilometers.
     [<Measure>]
     type km
+    
+    /// Measure for percentages.
+    [<Measure>]
+    type percent
