@@ -109,6 +109,13 @@ let ``finishing the concert with more than 85 points increases the band fame by 
         100
         (assertFanGain Config.MusicSimulation.concertHighPointFanIncreaseRate)
 
+[<Test>]
+let ``finishing an opening concert only applies 20% of the fan gain`` () =
+    simulateAndCheck'
+        86
+        100
+        (OpeningAct(dummyHeadlinerBand.Id, 50<percent>))
+        (assertFanGain 0.1) (* 20% of 50% = 10% *)
 
 [<Test>]
 let ``finishing the concert should grant the band the earnings from the tickets sold``

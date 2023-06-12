@@ -8,20 +8,27 @@ open Duets.Simulation.Bank
 open Duets.Simulation.Time
 
 let private calculateFanGain ongoingConcert =
-    match ongoingConcert.Points with
-    | p when p <= 40<quality> ->
-        float ongoingConcert.Concert.TicketsSold
-        * Config.MusicSimulation.concertLowPointFanDecreaseRate
-    | p when p <= 65<quality> ->
-        float ongoingConcert.Concert.TicketsSold
-        * Config.MusicSimulation.concertMediumPointFanIncreaseRate
-    | p when p <= 85<quality> ->
-        float ongoingConcert.Concert.TicketsSold
-        * Config.MusicSimulation.concertGoodPointFanIncreaseRate
-    | _ ->
-        float ongoingConcert.Concert.TicketsSold
-        * Config.MusicSimulation.concertHighPointFanIncreaseRate
-    |> Math.ceilToNearest
+    let participationFactor =
+        match ongoingConcert.Concert.ParticipationType with
+        | Headliner -> 1.0
+        | OpeningAct _ -> 0.2
+
+    let qualityFactor =
+        match ongoingConcert.Points with
+        | p when p <= 40<quality> ->
+            float ongoingConcert.Concert.TicketsSold
+            * Config.MusicSimulation.concertLowPointFanDecreaseRate
+        | p when p <= 65<quality> ->
+            float ongoingConcert.Concert.TicketsSold
+            * Config.MusicSimulation.concertMediumPointFanIncreaseRate
+        | p when p <= 85<quality> ->
+            float ongoingConcert.Concert.TicketsSold
+            * Config.MusicSimulation.concertGoodPointFanIncreaseRate
+        | _ ->
+            float ongoingConcert.Concert.TicketsSold
+            * Config.MusicSimulation.concertHighPointFanIncreaseRate
+
+    qualityFactor * participationFactor |> Math.ceilToNearest
 
 let private calculateEarnings ongoingConcert =
     let earningPercentage =
