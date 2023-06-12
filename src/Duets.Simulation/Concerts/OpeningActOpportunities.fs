@@ -47,10 +47,10 @@ let private calculateEarningPercentage state headliner =
     let fameLevel = Queries.Bands.estimatedFameLevel state headliner
 
     match fameLevel with
-    | level when level < 30 -> 50<percent>
-    | level when level < 50 -> 30<percent>
-    | level when level < 70 -> 20<percent>
-    | _ -> 10<percent>
+    | level when level < 30 -> 20<percent>
+    | level when level < 50 -> 15<percent>
+    | level when level < 70 -> 10<percent>
+    | _ -> 5<percent>
 
 type OpeningActApplicationError =
     | NotEnoughFame
