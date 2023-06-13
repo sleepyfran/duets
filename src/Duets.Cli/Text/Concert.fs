@@ -1,7 +1,9 @@
 [<RequireQualifiedAccess>]
 module Duets.Cli.Text.Concert
 
+open Duets.Agents
 open Duets.Entities
+open Duets.Simulation
 open Duets.Simulation.Concerts.Live
 
 let adjustDrumsMessage =
@@ -202,8 +204,9 @@ let concertSummary concert income =
     match concert.ParticipationType with
     | Headliner ->
         $"""{attendance} {Generic.pluralOf "person" "people" attendance} came to the concert and you made {Styles.money income} in tickets"""
-    | OpeningAct _ ->
-        $"""{attendance} {Generic.pluralOf "person" "people" attendance} came to the concert and you made {Styles.money income} in your share of the tickets"""
+    | OpeningAct(headlinerId, _) ->
+        let band = Queries.Bands.byId (State.get ()) headlinerId
+        $"""{attendance} {Generic.pluralOf "person" "people" attendance} came to {band.Name}'s concert. Your band made {Styles.money income} in your share of the tickets"""
 
 let makeCrowdSingLowPerformance points =
     Styles.Level.bad
