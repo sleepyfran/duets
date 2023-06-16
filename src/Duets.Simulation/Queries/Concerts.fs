@@ -135,8 +135,7 @@ let fairTicketPrice state band =
     let bandFame = Bands.estimatedFameLevel state band
 
     match bandFame with
-    | fame when fame < 15 -> 10.0m
-    | fame when fame < 30 -> 25.0m
-    | fame when fame < 60 -> 75.0m
-    | fame when fame < 80 -> 100.0m
-    | _ -> 150.0m
+    | fame when fame < 25 -> 10.0m
+    | fame when fame < 60 -> 25.0m
+    | fame when fame < 80 -> 75.0m
+    | _ -> 100.0m

@@ -89,7 +89,7 @@ let ``sold tickets get added to the previously sold tickets`` () =
             ))
 
     let concert = actAndGetConcert state
-    concert.TicketsSold |> should equal 137
+    concert.TicketsSold |> should equal 135
 
 [<Test>]
 let ``daily sold tickets are calculated based on how many days are left until the concert``
@@ -110,7 +110,7 @@ let ``daily sold tickets are calculated based on how many days are left until th
             ))
         |> actAndGetConcert
 
-    concert.TicketsSold |> should equal 27
+    concert.TicketsSold |> should equal 24
 
 let actAndGetConcertWithPrice price =
     State.generateOne
@@ -128,45 +128,45 @@ let actAndGetConcertWithPrice price =
 
 [<Test>]
 let ``sold tickets decrease if ticket price gets close to the price cap`` () =
-    let concert = actAndGetConcertWithPrice 73m<dd>
+    let concert = actAndGetConcertWithPrice 23m<dd>
 
-    concert.TicketsSold |> should equal 53
+    concert.TicketsSold |> should equal 103
 
-    let concert = actAndGetConcertWithPrice 74m<dd>
+    let concert = actAndGetConcertWithPrice 24m<dd>
 
-    concert.TicketsSold |> should equal 30
+    concert.TicketsSold |> should equal 71
 
-    let concert = actAndGetConcertWithPrice 75m<dd>
+    let concert = actAndGetConcertWithPrice 25m<dd>
 
-    concert.TicketsSold |> should equal 30
+    concert.TicketsSold |> should equal 71
 
 [<Test>]
 let ``sold tickets decrease when price goes slightly above price cap`` () =
-    let concert = actAndGetConcertWithPrice 76m<dd>
+    let concert = actAndGetConcertWithPrice 26m<dd>
 
-    concert.TicketsSold |> should equal 30
+    concert.TicketsSold |> should equal 71
 
-    let concert = actAndGetConcertWithPrice 77m<dd>
+    let concert = actAndGetConcertWithPrice 27m<dd>
 
-    concert.TicketsSold |> should equal 30
+    concert.TicketsSold |> should equal 71
 
-    let concert = actAndGetConcertWithPrice 78m<dd>
+    let concert = actAndGetConcertWithPrice 28m<dd>
 
-    concert.TicketsSold |> should equal 30
+    concert.TicketsSold |> should equal 71
 
 [<Test>]
 let ``sold tickets decrease a lot when price goes over price cap`` () =
-    let concert = actAndGetConcertWithPrice 90m<dd>
+    let concert = actAndGetConcertWithPrice 30m<dd>
 
     concert.TicketsSold |> should equal 35
 
-    let concert = actAndGetConcertWithPrice 95m<dd>
+    let concert = actAndGetConcertWithPrice 35m<dd>
 
-    concert.TicketsSold |> should equal 24
+    concert.TicketsSold |> should equal 12
 
-    let concert = actAndGetConcertWithPrice 150m<dd>
+    let concert = actAndGetConcertWithPrice 60m<dd>
 
-    concert.TicketsSold |> should equal 1
+    concert.TicketsSold |> should equal 0
 
 
 [<Test>]
@@ -211,7 +211,7 @@ let ``sold tickets should not decrease out of the normal cap when last visit to 
             (ScheduledConcert(dummyConcert, dummyToday))
         |> actAndGetConcert
 
-    concert.TicketsSold |> should equal 127
+    concert.TicketsSold |> should equal 125
 
 [<Test>]
 let ``sold tickets decrease to 70% of the normal cap when last visit to the city was less than 30 days ago``
@@ -239,7 +239,7 @@ let ``sold tickets decrease to 70% of the normal cap when last visit to the city
             (ScheduledConcert(dummyConcert, dummyToday))
         |> actAndGetConcert
 
-    concert.TicketsSold |> should equal 879
+    concert.TicketsSold |> should equal 869
 
 [<Test>]
 let ``sold tickets decrease to 20% of the normal cap when last visit to the city was less than 10 days ago``
@@ -267,7 +267,7 @@ let ``sold tickets decrease to 20% of the normal cap when last visit to the city
             (ScheduledConcert(dummyConcert, dummyToday))
         |> actAndGetConcert
 
-    concert.TicketsSold |> should equal 251
+    concert.TicketsSold |> should equal 248
 
 [<Test>]
 let ``does not compute daily tickets sold as infinity when the days until the concert are 0``
@@ -303,10 +303,11 @@ let ``computes daily tickets based on headliner if participation type is opening
             (ScheduledConcert(
                 { dummyConcert with
                     Date = dummyToday
+                    TicketPrice = 6m<dd> 
                     ParticipationType =
                         OpeningAct(dummyHeadlinerBand.Id, 50<percent>) },
                 dummyToday
             ))
         |> actAndGetConcert
 
-    concert.TicketsSold |> should equal 206
+    concert.TicketsSold |> should equal 208
