@@ -150,6 +150,8 @@ let statisticsAppSectionPrompt =
 
 let statisticsAppBandNameHeader = Styles.header "Name"
 
+let statisticsAppBandGenreHeader = Styles.header "Genre"
+
 let statisticsAppBandStartDateHeader = Styles.header "Playing since"
 
 let statisticsAppBandFansHeader = Styles.header "Fans"

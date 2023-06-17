@@ -11,11 +11,13 @@ let bandStatisticsSubScene statisticsApp =
 
     let tableColumns =
         [ Phone.statisticsAppBandNameHeader
+          Phone.statisticsAppBandGenreHeader
           Phone.statisticsAppBandStartDateHeader
           Phone.statisticsAppBandFansHeader ]
 
     let tableRows =
         [ Phone.statisticsAppBandName band.Name
+          band.Genre
           Phone.statisticsAppBandStartDate band.StartDate
           Phone.statisticsAppBandFans band.Fans ]
 
