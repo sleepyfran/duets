@@ -82,7 +82,7 @@ module Album =
     let streams_ =
         (fun (a: ReleasedAlbum) -> a.Streams),
         (fun v (a: ReleasedAlbum) -> { a with Streams = v })
-        
+
     let reviews_ =
         (fun (a: ReleasedAlbum) -> a.Reviews),
         (fun v (a: ReleasedAlbum) -> { a with Reviews = v })
@@ -177,8 +177,8 @@ module Concerts =
 
     module Scheduled =
         let ticketsSold_ =
-            (fun (ScheduledConcert (c, _)) -> c.TicketsSold),
-            (fun v (ScheduledConcert (c, s)) ->
+            (fun (ScheduledConcert(c, _)) -> c.TicketsSold),
+            (fun v (ScheduledConcert(c, s)) ->
                 ScheduledConcert({ c with TicketsSold = v }, s))
 
     module Timeline =
@@ -211,6 +211,24 @@ module Song =
         (fun v (s: Song) -> { s with Practice = v })
 
 module World =
+    module Graph =
+        let startingNode_ =
+            (fun (g: Graph<'a>) -> g.StartingNode),
+            (fun v (g: Graph<'a>) -> { g with StartingNode = v })
+
+        let connections_ =
+            (fun (g: Graph<'a>) -> g.Connections),
+            (fun v (g: Graph<'a>) -> { g with Connections = v })
+
+        let nodes_ =
+            (fun (g: Graph<'a>) -> g.Nodes),
+            (fun v (g: Graph<'a>) -> { g with Nodes = v })
+
+        let node_ nodeId = nodes_ >-> Map.key_ nodeId
+
+        let nodeConnections_ nodeId =
+            connections_ >-> Map.keyWithDefault_ nodeId Map.empty
+
     module City =
         let placeByTypeIndex_ =
             (fun (c: City) -> c.PlaceByTypeIndex),
@@ -261,9 +279,9 @@ module FromState =
         let allByBand_ bandId =
             State.concerts_
             >-> Map.keyWithDefault_
-                    bandId
-                    { ScheduledEvents = Set.empty
-                      PastEvents = Set.empty }
+                bandId
+                { ScheduledEvents = Set.empty
+                  PastEvents = Set.empty }
 
     module GenreMarkets =
         /// Lens into a specific genre market given its genre ID.

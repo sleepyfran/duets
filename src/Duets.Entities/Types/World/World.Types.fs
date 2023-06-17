@@ -5,6 +5,35 @@ open Duets.Entities
 
 [<AutoOpen>]
 module WorldTypes =
+    /// Defines all possible cardinal directions that can be used to traverse
+    /// the room map.
+    type Direction =
+        | North
+        | NorthEast
+        | East
+        | SouthEast
+        | South
+        | SouthWest
+        | West
+        | NorthWest
+
+    /// Unique ID of a node, which represents a space inside of the world.
+    type NodeId = NodeId of Identity
+
+    /// Defines all connections that a node has in each of its directions.
+    type NodeConnections = Map<Direction, NodeId>
+
+    /// Represents a graph that can be used to create connections between
+    /// different nodes in each of the available directions. All connected
+    /// nodes are considered undirected, meaning that if A and B are connected
+    /// then the player can go from A to B and B to A. These connections are
+    /// made in the opposite direction, so if A connects through the North to
+    /// B, then B connects through the South to A.
+    type Graph<'a> =
+        { StartingNode: NodeId
+          Nodes: Map<NodeId, 'a>
+          Connections: Map<NodeId, NodeConnections> }
+
     /// ID for a zone in a city.
     type ZoneId = ZoneId of Identity
 
@@ -17,6 +46,21 @@ module WorldTypes =
     type PlaceOpeningHours =
         | AlwaysOpen
         | OpeningHours of days: DayOfWeek list * dayMoments: DayMoment list
+
+    // Defines all types of rooms that player can be in.
+    [<RequireQualifiedAccess>]
+    type RoomType =
+        | Backstage
+        | Bar
+        | Cafe
+        | Bedroom
+        | Kitchen
+        | LivingRoom
+        | Lobby
+        | MasteringRoom
+        | RecordingRoom
+        | RehearsalRoom
+        | Stage
 
     /// Defines all the different types of places that the game supports.
     type PlaceType =
@@ -57,6 +101,7 @@ module WorldTypes =
           Quality: Quality
           Type: PlaceType
           OpeningHours: PlaceOpeningHours
+          Rooms: Graph<RoomType>
           Zone: Zone }
 
     /// ID for a city in the game world, which declared every possible city
@@ -70,13 +115,15 @@ module WorldTypes =
     /// connect with each other via a direction that the user will use to
     /// navigate the map.
     type City =
-        { Id: CityId
-          PlaceByTypeIndex: Map<PlaceTypeIndex, PlaceId list>
-          PlaceIndex: Map<PlaceId, Place>
-          /// Modifier that will be used when calculating the price of places
-          /// inside of the city.
-          PlaceCostModifier: float
-          ZoneIndex: Map<ZoneId, PlaceId list> }
+        {
+            Id: CityId
+            PlaceByTypeIndex: Map<PlaceTypeIndex, PlaceId list>
+            PlaceIndex: Map<PlaceId, Place>
+            /// Modifier that will be used when calculating the price of places
+            /// inside of the city.
+            PlaceCostModifier: float
+            ZoneIndex: Map<ZoneId, PlaceId list>
+        }
 
     /// Defines a position in the world.
     type WorldCoordinates = CityId * PlaceId
@@ -86,7 +133,7 @@ module WorldTypes =
 
     /// Defines the game world which contains all cities.
     type World = { Cities: Map<CityId, City> }
-    
+
     // Defines all possible errors why the entrance to a place might be denied.
     [<RequireQualifiedAccess>]
     type PlaceEntranceError =

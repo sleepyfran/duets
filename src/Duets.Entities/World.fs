@@ -11,19 +11,59 @@ let create (cities: City list) =
     { Cities = cities |> List.map (fun c -> c.Id, c) |> Map.ofList }
 
 [<RequireQualifiedAccess>]
+module Graph =
+    /// Creates a graph with the given starting node as the starting point, that
+    /// node as the only node available and no connections.
+    let from id content =
+        { StartingNode = id
+          Nodes = [ (id, content) ] |> Map.ofList
+          Connections = Map.empty }
+
+    /// Adds a new node with no connections to the given graph.
+    let addNode<'a> id content =
+        Optic.map Lenses.World.Graph.nodes_ (Map.add id content)
+
+    /// Adds a connection from the first node ID to the second in the given
+    /// direction. Also adds a second connection from the second node ID to
+    /// the first as the opposite direction of the given one, so that if the
+    /// given direction is north then the second connection will be generated
+    /// in the south.
+    let addConnection fromNodeId toNodeId direction graph =
+        let oppositeDirection =
+            match direction with
+            | North -> South
+            | NorthEast -> SouthWest
+            | East -> West
+            | SouthEast -> NorthWest
+            | South -> North
+            | SouthWest -> NorthEast
+            | West -> East
+            | NorthWest -> SouthEast
+
+        graph
+        |> Optic.map
+            (Lenses.World.Graph.nodeConnections_ fromNodeId)
+            (Map.add direction toNodeId)
+        |> Optic.map
+            (Lenses.World.Graph.nodeConnections_ toNodeId)
+            (Map.add oppositeDirection fromNodeId)
+
+[<RequireQualifiedAccess>]
 module Place =
     /// Creates a place with the given initial room and no exits.
-    let create id name quality placeType zone =
+    let create id name quality placeType rooms zone =
         { Id = PlaceId id
           Name = name
           Quality = quality
           Type = placeType
           OpeningHours = PlaceOpeningHours.AlwaysOpen
+          Rooms = rooms
           Zone = zone }
 
     /// Changes the opening hours to a certain days and day moments.
     let changeOpeningHours openingHours place =
-        { place with OpeningHours = openingHours }
+        { place with
+            OpeningHours = openingHours }
 
 [<RequireQualifiedAccess>]
 module City =
