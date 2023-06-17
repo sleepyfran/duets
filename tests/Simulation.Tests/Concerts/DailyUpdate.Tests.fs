@@ -72,7 +72,7 @@ let ``sold tickets get lower when band fame is lower`` () =
             ))
 
     let concert = actAndGetConcert state
-    concert.TicketsSold |> should equal 18
+    concert.TicketsSold |> should equal 12
 
 [<Test>]
 let ``sold tickets get added to the previously sold tickets`` () =

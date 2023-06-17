@@ -85,6 +85,7 @@ module Bands =
 
         let fameScalingFactor =
             match band.Fans with
+            | fans when fans < 500 -> 8.0
             | fans when fans < 1000 -> 4.0
             | fans when fans < 10000 -> 2.5
             | fans when fans < 100000 -> 2.0
