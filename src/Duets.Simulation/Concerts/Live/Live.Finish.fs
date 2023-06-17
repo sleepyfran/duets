@@ -39,9 +39,20 @@ let private calculateEarnings ongoingConcert =
             percent / 100.0
         |> decimal
 
-    decimal ongoingConcert.Concert.TicketsSold
-    * ongoingConcert.Concert.TicketPrice
-    * earningPercentage
+    let concertSpaceCut =
+        ongoingConcert.Concert.VenueId
+        |> Queries.World.placeInCityById ongoingConcert.Concert.CityId
+        |> Queries.Concerts.concertSpaceTicketPercentage
+        |> decimal
+
+    let totalEarnings =
+        decimal ongoingConcert.Concert.TicketsSold
+        * ongoingConcert.Concert.TicketPrice
+        * earningPercentage
+
+    let venueCut = totalEarnings * concertSpaceCut
+
+    totalEarnings - venueCut
 
 /// Creates a ConcertFinished effect which adds the concert to the history of
 /// the band and stops them from being able to perform in the venue for the day.

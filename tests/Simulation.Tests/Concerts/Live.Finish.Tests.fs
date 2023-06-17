@@ -130,10 +130,11 @@ let ``finishing the concert should grant the band the earnings from the tickets 
                 | _ -> None)
             |> List.head
 
-        moneyEarned
-        |> should
-            equal
-            (decimal concert.Concert.TicketsSold * concert.Concert.TicketPrice))
+        let expectedTotal =
+            (decimal concert.Concert.TicketsSold * concert.Concert.TicketPrice)
+            * 0.6974m (* Minus 30.26% from the venue cut. *)
+
+        moneyEarned |> should equal expectedTotal)
 
 [<Test>]
 let ``finishing an opening act concert should grant the band the correct percentage of the tickets sold``
@@ -155,6 +156,7 @@ let ``finishing an opening act concert should grant the band the correct percent
             let expectedEarnings =
                 decimal concert.Concert.TicketsSold
                 * concert.Concert.TicketPrice
-                * 0.5m
+                * 0.6974m (* Minus 30.26% from the venue cut. *)
+                * 0.5m (* Opening act earnings. *)
 
             moneyEarned |> should equal expectedEarnings)

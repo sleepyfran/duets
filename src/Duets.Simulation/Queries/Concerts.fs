@@ -139,3 +139,23 @@ let fairTicketPrice state band =
     | fame when fame < 60 -> 25.0m
     | fame when fame < 80 -> 75.0m
     | _ -> 100.0m
+
+/// Calculates the percentage off the tickets that the concert space will take
+/// based on the quality of the place and the capacity.
+let concertSpaceTicketPercentage (place: Place) =
+    let capacity =
+        match place.Type with
+        | PlaceType.ConcertSpace concertSpace -> concertSpace.Capacity
+        | _ -> 0
+
+    let capacityFactor =
+        match capacity with
+        | capacity when capacity < 200 -> 0.35
+        | capacity when capacity < 500 -> 0.5
+        | capacity when capacity < 1000 -> 0.75
+        | capacity when capacity < 10000 -> 0.85
+        | _ -> 1.0
+
+    let qualityFactor = place.Quality / 1<quality> |> float
+
+    ((qualityFactor / 100.0) * capacityFactor * 40.0) / 100.0

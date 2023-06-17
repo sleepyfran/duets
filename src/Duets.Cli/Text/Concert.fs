@@ -2,6 +2,7 @@
 module Duets.Cli.Text.Concert
 
 open Duets.Agents
+open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Concerts.Live
@@ -201,12 +202,18 @@ let finishedGreat =
 let concertSummary concert income =
     let attendance = concert.TicketsSold
 
+    let concertSpaceCut =
+        Queries.World.placeInCityById concert.CityId concert.VenueId
+        |> Queries.Concerts.concertSpaceTicketPercentage
+        |> (*) 100.0
+        |> Math.ceilToNearest
+
     match concert.ParticipationType with
     | Headliner ->
-        $"""{attendance} {Generic.pluralOf "person" "people" attendance} came to the concert and you made {Styles.money income} in tickets"""
+        $"""{attendance} {Generic.pluralOf "person" "people" attendance} came to the concert and you made {Styles.money income} in tickets after removing the {concertSpaceCut}%% cut of the venue"""
     | OpeningAct(headlinerId, _) ->
         let band = Queries.Bands.byId (State.get ()) headlinerId
-        $"""{attendance} {Generic.pluralOf "person" "people" attendance} came to {band.Name}'s concert. Your band made {Styles.money income} in your share of the tickets"""
+        $"""{attendance} {Generic.pluralOf "person" "people" attendance} came to {band.Name}'s concert. Your band made {Styles.money income} in your share of the tickets after removing the {concertSpaceCut}%% cut of the venue"""
 
 let makeCrowdSingLowPerformance points =
     Styles.Level.bad

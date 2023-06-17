@@ -90,7 +90,12 @@ and private promptForVenue app date dayMoment city =
             (fun (place: Place) ->
                 match place.Type with
                 | ConcertSpace concertSpace ->
-                    $"{place.Name} (Capacity: {concertSpace.Capacity})"
+                    let venueCut =
+                        Queries.Concerts.concertSpaceTicketPercentage place
+                        |> (*) 100.0
+                        |> Math.ceilToNearest
+
+                    $"{place.Name |> Styles.place} (Capacity: {concertSpace.Capacity}, takes {venueCut |> Styles.highlight}%% of ticket sales)"
                 | _ -> place.Name)
             venues
 
