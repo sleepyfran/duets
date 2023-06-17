@@ -8,18 +8,19 @@ open Duets.Simulation.Queries
 let bandStatisticsSubScene statisticsApp =
     let state = State.get ()
     let band = Bands.currentBand state
+    let estimatedFame = Bands.estimatedFameLevel state band
 
     let tableColumns =
-        [ Phone.statisticsAppBandNameHeader
-          Phone.statisticsAppBandGenreHeader
-          Phone.statisticsAppBandStartDateHeader
-          Phone.statisticsAppBandFansHeader ]
+        [ Styles.header "Name"
+          Styles.header "Genre"
+          Styles.header "Start Date"
+          Styles.header "Fans" ]
 
     let tableRows =
-        [ Phone.statisticsAppBandName band.Name
+        [ Styles.title band.Name
           band.Genre
-          Phone.statisticsAppBandStartDate band.StartDate
-          Phone.statisticsAppBandFans band.Fans ]
+          Styles.highlight band.StartDate.Year
+          $"""{Styles.number band.Fans} ({estimatedFame |> Styles.Level.from}%% fame)""" ]
 
     showTable tableColumns [ tableRows ]
 

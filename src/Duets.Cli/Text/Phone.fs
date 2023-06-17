@@ -148,20 +148,6 @@ let statisticsAppTitle = "Statistics"
 let statisticsAppSectionPrompt =
     $"""{Styles.prompt "What data do you want to visualize?"}"""
 
-let statisticsAppBandNameHeader = Styles.header "Name"
-
-let statisticsAppBandGenreHeader = Styles.header "Genre"
-
-let statisticsAppBandStartDateHeader = Styles.header "Playing since"
-
-let statisticsAppBandFansHeader = Styles.header "Fans"
-
-let statisticsAppBandName name = Styles.title name
-
-let statisticsAppBandStartDate (date: Date) = Styles.highlight date.Year
-
-let statisticsAppBandFans = Styles.number
-
 let statisticsAppAlbumNoEntries = "No albums released yet"
 
 let statisticsAppAlbumNameHeader = Styles.header "Album name"
