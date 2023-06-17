@@ -15,7 +15,7 @@ let private createHappeningSoon state date =
         let eventDate =
             CalendarEvent.date event ||> Calendar.Transform.changeDayMoment'
 
-        if nextDayMomentDate = eventDate then
+        if nextDayMomentDate = eventDate || date = eventDate then
             Notification.CalendarEvent event |> Notification |> Some
         else
             None)
