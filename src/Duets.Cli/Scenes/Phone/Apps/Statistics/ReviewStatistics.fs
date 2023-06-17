@@ -28,6 +28,12 @@ and private showAlbumSelection statisticsApp albums =
 
     match selection with
     | Some album ->
-        showReviews album
+        if List.isEmpty album.Reviews then
+            "No one really cared about the album that much to write a review"
+            |> Styles.error
+            |> showMessage
+        else
+            showReviews album
+        
         reviewsStatisticsSubScene statisticsApp
     | None -> statisticsApp ()
