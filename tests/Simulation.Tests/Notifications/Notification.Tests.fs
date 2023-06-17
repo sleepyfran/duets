@@ -29,11 +29,15 @@ let ``createNotifications returns nothing when no events are scheduled`` () =
     Notifications.createNotifications state dummyToday |> should be Empty
 
 [<Test>]
-let ``createNotifications returns nothing if the next event is happening after the next day moment``
+let ``createNotifications returns nothing if the next event is happening after two day moments``
     ()
     =
+    let beginningDate = dummyToday |> Calendar.Query.next |> Calendar.Query.next
+
     let flightGen =
-        dummyToday |> Calendar.Ops.addMonths 6 |> createFlightGen dummyToday
+        beginningDate
+        |> Calendar.Ops.addMonths 6
+        |> createFlightGen beginningDate
 
     State.generateN
         { State.defaultOptions with

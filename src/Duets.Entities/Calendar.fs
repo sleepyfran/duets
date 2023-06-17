@@ -157,6 +157,14 @@ module Transform =
     let changeDayMoment' (date: Date) dayMoment = changeDayMoment dayMoment date
 
 [<RequireQualifiedAccess>]
+module Compare =
+    /// Determines whether the two given dates are the same day or not.
+    let areSameDay (date1: Date) (date2: Date) =
+        date1.Day = date2.Day
+        && date1.Month = date2.Month
+        && date1.Year = date2.Year
+
+[<RequireQualifiedAccess>]
 module Parse =
     /// Attempts to parse a given string in the format dd/mm/yyyy into a date.
     let date (strDate: string) =

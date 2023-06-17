@@ -55,9 +55,19 @@ let private calendarApp' firstDay =
     | None -> Scene.Phone
 
 let private showEventList dateGroupedEvents =
+    let today = Queries.Calendar.today (State.get ())
+    let tomorrow = today |> Calendar.Ops.addDays 1
+
     dateGroupedEvents
     |> List.iter (fun ((date, _), events) ->
-        Generic.dateWithDay date |> Some |> showSeparator
+        if Calendar.Compare.areSameDay date today then
+            "Today"
+        else if Calendar.Compare.areSameDay date tomorrow then
+            "Tomorrow"
+        else
+            Generic.dateWithDay date
+        |> Some
+        |> showSeparator
 
         events
         |> List.iter (fun event ->
