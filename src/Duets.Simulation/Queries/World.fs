@@ -83,3 +83,10 @@ module World =
     /// Like `placeCurrentlyOpen` but implicitly passing the current time.
     let placeCurrentlyOpen' state place =
         Queries.Calendar.today state |> placeCurrentlyOpen place
+        
+    /// Returns a list of directions that are available from the given node.
+    let availableDirections id (graph: Graph<'a>) =
+        Optic.get (Lenses.World.Graph.nodeConnections_ id) graph
+        |> Option.defaultValue Map.empty
+        |> List.ofSeq
+        |> List.map (fun keyValue -> (keyValue.Key, keyValue.Value))

@@ -93,6 +93,8 @@ module InteractionTypes =
         | Look of items: Item list
         /// Allows the player to travel around the current city.
         | Map
+        /// Allows movement into the specified direction.
+        | Move of direction: Direction * roomId: NodeId
         /// Allows the character to use the phone.
         | Phone
         /// Allows waiting.

@@ -62,5 +62,6 @@ module EffectTypes =
         | SongPracticed of Band * Finished<Song>
         | PlaceClosed of Place
         | TimeAdvanced of Date
+        | WorldEnter of RoomCoordinates
         | WorldMoveTo of RoomCoordinates
         | Wait of int<dayMoments>

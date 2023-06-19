@@ -52,6 +52,7 @@
         <Compile Include="Components\Commands\Look.Command.fs" />
         <Compile Include="Components\Commands\Map.Command.fs" />
         <Compile Include="Components\Commands\Me.Command.fs" />
+        <Compile Include="Components\Commands\Movement.Command.fs"/>
         <Compile Include="Components\Commands\Phone.Command.fs" />
         <Compile Include="Components\Commands\Inventory.Command.fs" />
         <Compile Include="Components\Commands\Wait.Command.fs" />
@@ -90,16 +91,16 @@
         <Compile Include="Components\Commands\Shop\SeeMenu.Command.fs" />
         <Compile Include="Components\Commands\Shop\Order.Command.fs"/>
         <Compile Include="Components\Commands\Items\Consume.Command.fs" />
-        <Compile Include="Components\Commands\Items\Interactive.Command.fs" />
+        <Compile Include="Components\Commands\Items\Interactive.Command.fs"/>
         <Compile Include="Components\Commands\Items\Cook.Command.fs"/>
-        <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs" />
-        <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs" />
-        <Compile Include="Components\Commands\Cheats\Index.fs" />
-        <Compile Include="Components\CommandPrompt.fs" />
-        <Compile Include="Scenes\NewGame\CharacterCreator.fs" />
-        <Compile Include="Scenes\NewGame\BandCreator.fs" />
-        <Compile Include="Scenes\NewGame\SkillEditor.fs" />
-        <Compile Include="Scenes\NewGame\WorldSelector.fs" />
+        <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>
+        <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
+        <Compile Include="Components\Commands\Cheats\Index.fs"/>
+        <Compile Include="Components\CommandPrompt.fs"/>
+        <Compile Include="Scenes\NewGame\CharacterCreator.fs"/>
+        <Compile Include="Scenes\NewGame\BandCreator.fs"/>
+        <Compile Include="Scenes\NewGame\SkillEditor.fs"/>
+        <Compile Include="Scenes\NewGame\WorldSelector.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\Transfer.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\UpcomingPayments.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\Bank.fs"/>
@@ -122,13 +123,13 @@
         <Compile Include="Scenes\Phone\Apps\Mastodon\Commands\Timeline.Mastodon.Command.fs"/>
         <Compile Include="Scenes\Phone\Apps\Mastodon\Commands\SignUp.Mastodon.Command.fs"/>
         <Compile Include="Scenes\Phone\Apps\Mastodon\Commands\SwitchAccount.Mastodon.Command.fs"/>
-        <Compile Include="Scenes\Phone\Apps\Mastodon\Commands\Post.Mastodon.Command.fs" />
-        <Compile Include="Scenes\Phone\Apps\Mastodon\Commands\Exit.Mastodon.Command.fs" />
-        <Compile Include="Scenes\Phone\Apps\Mastodon\Mastodon.fs" />
-        <Compile Include="Scenes\Phone\Phone.fs" />
-        <Compile Include="Scenes\MainMenu.fs" />
-        <Compile Include="Scenes\World.fs" />
-        <Compile Include="Program.fs" />
+        <Compile Include="Scenes\Phone\Apps\Mastodon\Commands\Post.Mastodon.Command.fs"/>
+        <Compile Include="Scenes\Phone\Apps\Mastodon\Commands\Exit.Mastodon.Command.fs"/>
+        <Compile Include="Scenes\Phone\Apps\Mastodon\Mastodon.fs"/>
+        <Compile Include="Scenes\Phone\Phone.fs"/>
+        <Compile Include="Scenes\MainMenu.fs"/>
+        <Compile Include="Scenes\World.fs"/>
+        <Compile Include="Program.fs"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AvsAn" Version="3.2.0" />

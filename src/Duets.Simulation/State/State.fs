@@ -127,8 +127,10 @@ let applyEffect state effect =
 
         Songs.removeUnfinished band song.Id state
     | TimeAdvanced time -> Calendar.setTime time state
-    | WorldMoveTo(cityId, nodeId, roomId) ->
-        World.move cityId nodeId roomId state
+    | WorldEnter(cityId, placeId, romId) ->
+        World.move cityId placeId romId state
+    | WorldMoveTo(cityId, placeId, roomId) ->
+        World.move cityId placeId roomId state
     | Wait _ -> state
 
 /// Applies multiple effects to the given initial state and returns the result.

@@ -97,6 +97,8 @@ let private commandsFromInteractions interactions =
                 [ InventoryCommand.create inventory ]
             | FreeRoamInteraction.Look items -> [ LookCommand.create items ]
             | FreeRoamInteraction.Map -> [ MapCommand.get ]
+            | FreeRoamInteraction.Move(direction, roomId) ->
+                [ MovementCommand.create direction roomId ]
             | FreeRoamInteraction.Phone -> [ PhoneCommand.get ]
             | FreeRoamInteraction.Wait -> [ WaitCommand.get ]
         | Interaction.Rehearsal rehearsalInteraction ->

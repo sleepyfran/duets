@@ -5,6 +5,12 @@ open Duets.Simulation
 open Duets.Simulation.Queries.Internal.Interactions
 
 module Interactions =
+    let private getMovementInteractions (_, _, roomId) place =
+        Queries.World.availableDirections roomId place.Rooms
+        |> List.map (fun (direction, destinationId) ->
+            FreeRoamInteraction.Move(direction, destinationId)
+            |> Interaction.FreeRoam)
+
     /// <summary>
     /// Returns all interactions that are available in the current context. This
     /// effectively returns all available actions in the current context that can
@@ -23,8 +29,12 @@ module Interactions =
 
         let careerInteractions = currentPlace |> Career.interactions state
 
+        let movementInteractions =
+            getMovementInteractions currentCoords currentPlace
+
         let defaultInteractions =
             itemInteractions
+            @ movementInteractions
             @ careerInteractions
             @ [ FreeRoamInteraction.Inventory inventory |> Interaction.FreeRoam
                 FreeRoamInteraction.Look itemsInPlace |> Interaction.FreeRoam

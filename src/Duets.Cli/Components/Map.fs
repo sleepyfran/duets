@@ -16,7 +16,7 @@ let private placeWithOpenInfo place =
 
 let private showOpeningHours place =
     match place.OpeningHours with
-    | PlaceOpeningHours.OpeningHours (daysOfWeek, dayMoments) ->
+    | PlaceOpeningHours.OpeningHours(daysOfWeek, dayMoments) ->
         let openingDays =
             match daysOfWeek with
             | days when days = Calendar.everyDay -> "Everyday"
@@ -58,7 +58,7 @@ let private showPlaceTypeChoice
         placesInCity |> Map.find placeType |> showPlaceChoice placesInCity)
 
 let private moveToPlace availablePlaces (place: Place) =
-    let navigationResult = Navigation.moveTo place.Id 0 (State.get ())
+    let navigationResult = Navigation.moveTo place.Id (State.get ())
 
     match navigationResult with
     | Ok effect -> [ effect ]
