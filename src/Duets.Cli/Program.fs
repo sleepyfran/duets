@@ -14,7 +14,8 @@ let private outOfGameplayScene scene =
     | Scene.CharacterCreator _
     | Scene.BandCreator _
     | Scene.SkillEditor _
-    | Scene.WorldSelector _ -> true
+    | Scene.WorldSelector _
+    | Scene.Exit _ -> true
     | _ -> false
 
 /// Saves the game to the savegame file only if the screen is not the main menu,
