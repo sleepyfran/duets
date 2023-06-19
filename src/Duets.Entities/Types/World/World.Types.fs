@@ -17,11 +17,14 @@ module WorldTypes =
         | West
         | NorthWest
 
-    /// Unique ID of a node, which represents a space inside of the world.
-    type NodeId = NodeId of Identity
+    /// Unique ID of a node.
+    type NodeId = int
 
     /// Defines all connections that a node has in each of its directions.
     type NodeConnections = Map<Direction, NodeId>
+
+    /// Defines the relationship between a node ID and its content.
+    type Node<'a> = { Id: NodeId; Content: 'a }
 
     /// Represents a graph that can be used to create connections between
     /// different nodes in each of the available directions. All connected
@@ -60,6 +63,8 @@ module WorldTypes =
         | MasteringRoom
         | RecordingRoom
         | RehearsalRoom
+        | Restaurant
+        | SecurityControl
         | Stage
 
     /// Defines all the different types of places that the game supports.
@@ -125,11 +130,15 @@ module WorldTypes =
             ZoneIndex: Map<ZoneId, PlaceId list>
         }
 
-    /// Defines a position in the world.
-    type WorldCoordinates = CityId * PlaceId
+    /// Defines a position in the world, including up to the room inside of
+    /// the place.
+    type RoomCoordinates = CityId * PlaceId * NodeId
+
+    /// Simplified coordinates that only contain the city and the place.
+    type PlaceCoordinates = CityId * PlaceId
 
     /// Contains all the items that a specific location has.
-    type WorldItems = Map<WorldCoordinates, Item list>
+    type WorldItems = Map<RoomCoordinates, Item list>
 
     /// Defines the game world which contains all cities.
     type World = { Cities: Map<CityId, City> }

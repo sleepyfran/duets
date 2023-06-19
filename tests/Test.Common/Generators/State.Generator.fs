@@ -102,7 +102,7 @@ let generator (opts: StateGenOptions) =
 
         return
             { initialState with
-                CurrentPosition = (city.Id, venueId)
+                CurrentPosition = (city.Id, venueId, 0)
                 Today = Calendar.gameBeginning
                 Bands =
                     { Current = band.Id

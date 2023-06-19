@@ -14,21 +14,31 @@ let create (cities: City list) =
 module Graph =
     /// Creates a graph with the given starting node as the starting point, that
     /// node as the only node available and no connections.
-    let from id content =
-        { StartingNode = id
-          Nodes = [ (id, content) ] |> Map.ofList
+    let from (node: Node<'a>) =
+        { StartingNode = node.Id
+          Nodes = [ (node.Id, node.Content) ] |> Map.ofList
+          Connections = Map.empty }
+
+    /// Creates a graph with the given nodes as the only nodes available and no
+    /// connections. Chooses the head of the node list as the starting node. If
+    /// an empty list is given, the function fails.
+    let fromMany (nodes: Node<'a> list) =
+        let startingNode = nodes |> List.head
+
+        { StartingNode = startingNode.Id
+          Nodes = nodes |> List.map (fun n -> n.Id, n.Content) |> Map.ofList
           Connections = Map.empty }
 
     /// Adds a new node with no connections to the given graph.
-    let addNode<'a> id content =
-        Optic.map Lenses.World.Graph.nodes_ (Map.add id content)
+    let addNode (node: Node<'a>) =
+        Optic.map Lenses.World.Graph.nodes_ (Map.add node.Id node.Content)
 
     /// Adds a connection from the first node ID to the second in the given
     /// direction. Also adds a second connection from the second node ID to
     /// the first as the opposite direction of the given one, so that if the
     /// given direction is north then the second connection will be generated
     /// in the south.
-    let addConnection fromNodeId toNodeId direction graph =
+    let connect fromNodeId toNodeId direction graph =
         let oppositeDirection =
             match direction with
             | North -> South
@@ -47,6 +57,19 @@ module Graph =
         |> Optic.map
             (Lenses.World.Graph.nodeConnections_ toNodeId)
             (Map.add oppositeDirection fromNodeId)
+
+    /// Adds many connections to the given graph.
+    let connectMany connections graph =
+        connections
+        |> List.fold
+            (fun g (fromNodeId, toNodeId, direction) ->
+                connect fromNodeId toNodeId direction g)
+            graph
+
+[<RequireQualifiedAccess>]
+module Node =
+    /// Creates a new node with an auto-generated ID and the given content.
+    let create id (content: 'a) = { Id = id; Content = content }
 
 [<RequireQualifiedAccess>]
 module Place =

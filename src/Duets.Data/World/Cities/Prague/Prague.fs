@@ -1,6 +1,7 @@
 module rec Duets.Data.World.Cities.Prague.Root
 
 open Duets.Entities
+open Duets.Data.World
 
 let generate () =
     let createPrague = World.City.create Prague 1.8
@@ -64,19 +65,39 @@ let generate () =
 
 (* -------- Home --------- *)
 let createHome zone =
+    let kitchen = World.Node.create Ids.Home.kitchen RoomType.Kitchen
+    let livingRoom = World.Node.create Ids.Home.livingRoom RoomType.LivingRoom
+    let bedroom = World.Node.create Ids.Home.bedroom RoomType.Bedroom
+
+    let roomGraph =
+        World.Graph.fromMany [ kitchen; livingRoom; bedroom ]
+        |> World.Graph.connectMany
+            [ kitchen.Id, livingRoom.Id, South
+              livingRoom.Id, bedroom.Id, South ]
+
     World.Place.create
         ("6ef3c1ab-dec4-44ea-ac95-f53eff3a1c58" |> Identity.from)
         "Home"
         100<quality>
         Home
+        roomGraph
         zone
 
 (* -------- Airport --------- *)
 let addAirport zone =
+    let lobby = World.Node.create Ids.Airport.lobby RoomType.Lobby
+    let securityControl =
+        World.Node.create Ids.Airport.securityControl RoomType.SecurityControl
+
+    let roomGraph =
+        World.Graph.fromMany [ lobby; securityControl ]
+        |> World.Graph.connect lobby.Id securityControl.Id West
+
     World.Place.create
         ("93e39c34-08a0-41b5-8112-78f0aa2de279" |> Identity.from)
         "Letiště Václava Havla Praha"
         85<quality>
         Airport
+        roomGraph
         zone
     |> World.City.addPlace

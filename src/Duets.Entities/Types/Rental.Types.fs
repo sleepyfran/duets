@@ -12,9 +12,9 @@ module RentalTypes =
     /// Defines a rental that the character holds over some place.
     type Rental =
         { Amount: Amount
-          Coords: WorldCoordinates
+          Coords: PlaceCoordinates
           RentalType: RentalType }
 
     /// Associates the rentals that the character currently holds, grouped by
     /// their location in the world.
-    type CharacterRentals = Map<WorldCoordinates, Rental>
+    type CharacterRentals = Map<PlaceCoordinates, Rental>

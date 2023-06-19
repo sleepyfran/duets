@@ -18,7 +18,7 @@ module EffectTypes =
             attribute: CharacterAttribute *
             diff: Diff<CharacterAttributeAmount>
         | CharacterHealthDepleted of CharacterId
-        | CharacterHospitalized of CharacterId * WorldCoordinates
+        | CharacterHospitalized of CharacterId * PlaceCoordinates
         | CareerAccept of CharacterId * Job
         | CareerLeave of CharacterId * Job
         | ConcertScheduled of Band * ScheduledConcert
@@ -31,7 +31,7 @@ module EffectTypes =
         | GenreMarketsUpdated of GenreMarketByGenre
         | ItemAddedToInventory of Item
         | ItemRemovedFromInventory of Item
-        | ItemRemovedFromWorld of WorldCoordinates * Item
+        | ItemRemovedFromWorld of RoomCoordinates * Item
         | MemberHired of Band * Character * CurrentMember * SkillWithLevel list
         | MemberFired of Band * CurrentMember * PastMember
         | MoneyEarned of BankAccountHolder * BankTransaction
@@ -62,5 +62,5 @@ module EffectTypes =
         | SongPracticed of Band * Finished<Song>
         | PlaceClosed of Place
         | TimeAdvanced of Date
-        | WorldMoveTo of WorldCoordinates
+        | WorldMoveTo of RoomCoordinates
         | Wait of int<dayMoments>

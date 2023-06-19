@@ -36,6 +36,6 @@ module CareerTypes =
     type Job =
         { Id: CareerId
           CurrentStage: CareerStage
-          Location: WorldCoordinates
+          Location: PlaceCoordinates
           Schedule: JobSchedule
           ShiftAttributeEffect: JobShiftAttributeEffect list }

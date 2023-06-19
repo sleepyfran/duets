@@ -2,6 +2,7 @@ module Duets.Simulation.Setup
 
 open Duets
 open Duets.Common
+open Duets.Data
 open Duets.Data.Items
 open Duets.Entities
 open Duets.Entities.SituationTypes
@@ -26,8 +27,9 @@ let private allInitialWorldItems =
         let livingRoomItems =
             [ fst Electronics.Tv.lgTv; fst Electronics.GameConsole.xbox ]
 
-        [ (city.Id, homeId),
-          (List.concat [ kitchenItems; bedroomItems; livingRoomItems ]) ])
+        [ (city.Id, homeId, World.Ids.Home.bedroom), bedroomItems
+          (city.Id, homeId, World.Ids.Home.kitchen), kitchenItems
+          (city.Id, homeId, World.Ids.Home.livingRoom), livingRoomItems ])
     |> List.concat
     |> Map.ofList
 
@@ -76,7 +78,8 @@ let startGame
       Characters = [ (character.Id, character) ] |> Map.ofList
       CharacterSkills = [ (character.Id, initialSkillMap) ] |> Map.ofList
       Concerts = [ (band.Id, Concert.Timeline.empty) ] |> Map.ofList
-      CurrentPosition = initialCity.Id, initialPlaceId
+      CurrentPosition =
+        initialCity.Id, initialPlaceId, World.Ids.Home.livingRoom
       Flights = []
       GenreMarkets = initialGenreMarket
       CharacterInventory = List.empty

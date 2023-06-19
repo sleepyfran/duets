@@ -58,7 +58,7 @@ let private showPlaceTypeChoice
         placesInCity |> Map.find placeType |> showPlaceChoice placesInCity)
 
 let private moveToPlace availablePlaces (place: Place) =
-    let navigationResult = Navigation.moveTo place.Id (State.get ())
+    let navigationResult = Navigation.moveTo place.Id 0 (State.get ())
 
     match navigationResult with
     | Ok effect -> [ effect ]

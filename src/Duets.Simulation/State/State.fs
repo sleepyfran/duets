@@ -35,7 +35,7 @@ let applyEffect state effect =
         Characters.setAttribute character attribute amount state
     | CharacterHealthDepleted _ -> state
     | CharacterHospitalized(_, (cityId, nodeId)) ->
-        World.move cityId nodeId state
+        World.move cityId nodeId 0 state
     | CareerAccept(_, job) -> Career.set (Some job) state
     | CareerLeave _ -> Career.set None state
     | ConcertScheduled(band, concert) ->
@@ -127,7 +127,8 @@ let applyEffect state effect =
 
         Songs.removeUnfinished band song.Id state
     | TimeAdvanced time -> Calendar.setTime time state
-    | WorldMoveTo(cityId, nodeId) -> World.move cityId nodeId state
+    | WorldMoveTo(cityId, nodeId, roomId) ->
+        World.move cityId nodeId roomId state
     | Wait _ -> state
 
 /// Applies multiple effects to the given initial state and returns the result.

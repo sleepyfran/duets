@@ -25,12 +25,12 @@ module World =
 
     /// Returns a place inside of the current city given its ID.
     let placeInCurrentCityById state placeId =
-        let cityId, _ = state.CurrentPosition
+        let cityId, _, _ = state.CurrentPosition
         placeInCityById cityId placeId
 
     /// Returns all the places in the current city, organized by their place type.
     let allPlacesInCurrentCity state =
-        let cityId, _ = state.CurrentPosition
+        let cityId, _, _ = state.CurrentPosition
         let city = cityById cityId
 
         city.PlaceByTypeIndex
@@ -41,11 +41,13 @@ module World =
     let currentCoordinates state = state.CurrentPosition
 
     /// Returns the city in which the character is in currently.
-    let currentCity state = fst state.CurrentPosition |> cityById
+    let currentCity state =
+         let cityId, _, _ = state.CurrentPosition
+         cityId |> cityById
 
     /// Returns the place in which the character is in currently.
     let currentPlace state =
-        let _, placeId = state.CurrentPosition
+        let _, placeId, _ = state.CurrentPosition
         placeInCurrentCityById state placeId
 
     /// Returns a list of IDs of the places with the given type inside of the

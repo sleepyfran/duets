@@ -11,13 +11,12 @@ module Interactions =
     /// be later transformed into the actual flow.
     /// </summary>
     let availableCurrently state =
-        let currentCity = Queries.World.currentCity state
+        let currentCoords = Queries.World.currentCoordinates state
         let currentPlace = Queries.World.currentPlace state
 
         let inventory = Inventory.get state
 
-        let itemsInPlace =
-            Queries.Items.allIn state (currentCity.Id, currentPlace.Id)
+        let itemsInPlace = Queries.Items.allIn state currentCoords
 
         let itemInteractions =
             inventory @ itemsInPlace |> Items.getItemInteractions
@@ -27,12 +26,11 @@ module Interactions =
         let defaultInteractions =
             itemInteractions
             @ careerInteractions
-              @ [ FreeRoamInteraction.Inventory inventory
-                  |> Interaction.FreeRoam
-                  FreeRoamInteraction.Look itemsInPlace |> Interaction.FreeRoam
-                  Interaction.FreeRoam FreeRoamInteraction.Map
-                  Interaction.FreeRoam FreeRoamInteraction.Phone
-                  Interaction.FreeRoam FreeRoamInteraction.Wait ]
+            @ [ FreeRoamInteraction.Inventory inventory |> Interaction.FreeRoam
+                FreeRoamInteraction.Look itemsInPlace |> Interaction.FreeRoam
+                Interaction.FreeRoam FreeRoamInteraction.Map
+                Interaction.FreeRoam FreeRoamInteraction.Phone
+                Interaction.FreeRoam FreeRoamInteraction.Wait ]
 
         match currentPlace.Type with
         | Airport -> Airport.interactions state defaultInteractions

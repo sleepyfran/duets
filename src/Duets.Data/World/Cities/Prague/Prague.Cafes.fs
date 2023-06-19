@@ -8,11 +8,16 @@ let addMamaCoffee zone =
         { AvailableItems = Everywhere.Common.coffeeShopItems
           PriceModifier = 2<multiplier> }
 
+    let cafe = World.Node.create 0 RoomType.Cafe
+
+    let roomGraph = World.Graph.from cafe
+
     World.Place.create
         ("1e9de63f-c248-4b35-b964-676f8139fa94" |> Identity.from)
         "Mama Coffee"
         85<quality>
         (Cafe shop)
+        roomGraph
         zone
     |> World.Place.changeOpeningHours Everywhere.Common.cafeOpeningHours
     |> World.City.addPlace
@@ -22,11 +27,16 @@ let addTheMiners zone =
         { AvailableItems = Everywhere.Common.coffeeShopItems
           PriceModifier = 2<multiplier> }
 
+    let cafe = World.Node.create 0 RoomType.Cafe
+
+    let roomGraph = World.Graph.from cafe
+
     World.Place.create
         ("ce9a608c-8e39-4456-9c10-fc48d8f25fc6" |> Identity.from)
         "The Miners"
         75<quality>
         (Cafe shop)
+        roomGraph
         zone
     |> World.Place.changeOpeningHours Everywhere.Common.cafeOpeningHours
     |> World.City.addPlace

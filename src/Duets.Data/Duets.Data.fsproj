@@ -26,6 +26,7 @@
         <Compile Include="Skills.fs"/>
         <Compile Include="VocalStyles.fs"/>
         <Compile Include="Words.fs"/>
+        <Compile Include="World\Ids.fs"/>
         <Compile Include="World\Cities\Everywhere.Common.fs"/>
         <Compile Include="World\Cities\Prague\Prague.CommonItems.fs"/>
         <Compile Include="World\Cities\Prague\Prague.Bars.fs"/>
@@ -40,6 +41,7 @@
         <Compile Include="World\Cities\Madrid\Madrid.Bars.fs"/>
         <Compile Include="World\Cities\Madrid\Madrid.Cafes.fs"/>
         <Compile Include="World\Cities\Madrid\Madrid.ConcertSpaces.fs"/>
+        <Compile Include="World\Cities\Madrid\Madrid.Hospitals.fs"/>
         <Compile Include="World\Cities\Madrid\Madrid.RehearsalSpaces.fs"/>
         <Compile Include="World\Cities\Madrid\Madrid.Restaurants.fs"/>
         <Compile Include="World\Cities\Madrid\Madrid.Studios.fs"/>

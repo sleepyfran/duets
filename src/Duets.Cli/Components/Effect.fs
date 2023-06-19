@@ -208,7 +208,7 @@ let private displayEffect effect =
         let currentDayMoment = Calendar.Query.dayMomentOf today
 
         Command.waitResult today currentDayMoment |> showMessage
-    | WorldMoveTo(cityId, placeId) ->
+    | WorldMoveTo(cityId, placeId, _) ->
         Queries.World.placeInCityById cityId placeId
         |> World.movedTo
         |> showMessage

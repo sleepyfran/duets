@@ -3,8 +3,8 @@ module Duets.Simulation.State.World
 open Aether
 open Duets.Entities
 
-let move cityId placeId =
-    Optic.set Lenses.State.currentPosition_ (cityId, placeId)
+let move cityId placeId roomId =
+    Optic.set Lenses.State.currentPosition_ (cityId, placeId, roomId)
 
 let remove coords item =
     let removeItem =

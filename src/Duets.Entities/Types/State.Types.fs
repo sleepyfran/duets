@@ -15,7 +15,7 @@ module StateTypes =
           Characters: Map<CharacterId, Character>
           CharacterSkills: CharacterSkills
           Concerts: ConcertsByBand
-          CurrentPosition: WorldCoordinates
+          CurrentPosition: RoomCoordinates
           Flights: Flight list
           GenreMarkets: GenreMarketByGenre
           CharacterInventory: Inventory
