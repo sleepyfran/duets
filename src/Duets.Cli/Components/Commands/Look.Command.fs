@@ -61,4 +61,4 @@ module LookCommand =
                     |> Items.lookItems
                     |> showMessage
 
-                Scene.WorldAfterMovement) }
+                Scene.World) }
