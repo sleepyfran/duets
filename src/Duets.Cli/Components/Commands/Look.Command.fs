@@ -10,7 +10,36 @@ open Duets.Simulation
 
 [<RequireQualifiedAccess>]
 module LookCommand =
-    let create (items: Item list) =
+    let private listRoomConnections
+        (interactions: InteractionWithMetadata list)
+        =
+        let state = State.get ()
+        let cityId, placeId, _ = state |> Queries.World.currentCoordinates
+
+        let connections =
+            interactions
+            |> List.choose (fun interaction ->
+                match interaction.Interaction with
+                | Interaction.FreeRoam(FreeRoamInteraction.Move(direction,
+                                                                roomId)) ->
+                    let roomType =
+                        Queries.World.roomById state cityId placeId roomId
+
+                    Some(direction, roomType)
+                | _ -> None)
+
+        match connections with
+        | [] -> "There are no more rooms connecting to this one."
+        | connections ->
+            let connectionsDescription =
+                Generic.listOf connections (fun (direction, roomType) ->
+                    let roomName = World.roomName roomType
+
+                    $"{Generic.indeterminateArticleFor roomName} {roomName |> Styles.room} to the {World.directionName direction}")
+
+            $"There is {connectionsDescription}."
+
+    let create (interactions: InteractionWithMetadata list) (items: Item list) =
         { Name = "look"
           Description = Command.lookDescription
           Handler =
@@ -19,8 +48,9 @@ module LookCommand =
                 let currentPlace = state |> Queries.World.currentPlace
                 let currentRoom = state |> Queries.World.currentRoom
 
-                World.placeDescription currentPlace currentRoom
-                |> showMessage
+                World.placeDescription currentPlace currentRoom |> showMessage
+
+                listRoomConnections interactions |> showMessage
 
                 match items with
                 | [] -> Command.lookNoObjectsAround |> showMessage

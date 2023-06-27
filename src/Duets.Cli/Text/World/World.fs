@@ -29,6 +29,33 @@ let placeTypeName (placeType: PlaceTypeIndex) =
     | PlaceTypeIndex.Restaurant -> "Restaurant"
     | PlaceTypeIndex.Studio -> "Studio"
 
+let roomName (room: RoomType) =
+    match room with
+    | RoomType.Backstage -> "backstage"
+    | RoomType.Bar -> "bar area"
+    | RoomType.Cafe -> "cafe area"
+    | RoomType.Bedroom -> "bedroom"
+    | RoomType.Kitchen -> "kitchen"
+    | RoomType.LivingRoom -> "living room"
+    | RoomType.Lobby -> "lobby"
+    | RoomType.MasteringRoom -> "mastering room"
+    | RoomType.RecordingRoom -> "recording room"
+    | RoomType.RehearsalRoom -> "rehearsal room"
+    | RoomType.Restaurant -> "restaurant"
+    | RoomType.SecurityControl -> "security control"
+    | RoomType.Stage -> "stage"
+
+let directionName direction =
+    match direction with
+    | North -> "north"
+    | NorthEast -> "north-east"
+    | East -> "east"
+    | SouthEast -> "south-east"
+    | South -> "south"
+    | SouthWest -> "south-west"
+    | West -> "west"
+    | NorthWest -> "north-west"
+
 let placeWithZone (place: Place) =
     $"{Styles.place place.Name} ({place.Zone.Name})"
 

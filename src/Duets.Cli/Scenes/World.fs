@@ -4,6 +4,7 @@ open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.Components.Commands
 open Duets.Cli.Text
+open Duets.Cli.Text.World
 open Duets.Common
 open Duets.Entities
 open Duets.Entities.SituationTypes
@@ -95,7 +96,8 @@ let private commandsFromInteractions interactions =
             match freeRoamInteraction with
             | FreeRoamInteraction.Inventory inventory ->
                 [ InventoryCommand.create inventory ]
-            | FreeRoamInteraction.Look items -> [ LookCommand.create items ]
+            | FreeRoamInteraction.Look items ->
+                [ LookCommand.create interactions items ]
             | FreeRoamInteraction.Map -> [ MapCommand.get ]
             | FreeRoamInteraction.Move(direction, roomId) ->
                 [ MovementCommand.create direction roomId ]
@@ -153,22 +155,6 @@ let private filterAttributesForInfoBar =
         | CharacterAttribute.Drunkenness when amount > 0 -> Some(attr, amount)
         | _ -> None)
 
-let roomName (room: RoomType) =
-    match room with
-    | RoomType.Backstage -> "backstage"
-    | RoomType.Bar -> "bar area"
-    | RoomType.Cafe -> "cafe area"
-    | RoomType.Bedroom -> "bedroom"
-    | RoomType.Kitchen -> "kitchen"
-    | RoomType.LivingRoom -> "living room"
-    | RoomType.Lobby -> "lobby"
-    | RoomType.MasteringRoom -> "mastering room"
-    | RoomType.RecordingRoom -> "recording room"
-    | RoomType.RehearsalRoom -> "rehearsal room"
-    | RoomType.Restaurant -> "restaurant"
-    | RoomType.SecurityControl -> "security control"
-    | RoomType.Stage -> "stage"
-
 type WorldMode =
     | IgnoreDescription
     | ShowDescription
@@ -194,7 +180,7 @@ let worldScene mode =
     | ShowDescription ->
         let currentRoom = State.get () |> Queries.World.currentRoom
 
-        $"You are in the {roomName currentRoom |> Styles.room} inside of {currentPlace.Name |> Styles.place}"
+        $"You are in the {World.roomName currentRoom |> Styles.room} inside of {currentPlace.Name |> Styles.place}"
         |> showMessage
     | IgnoreDescription -> ()
 
