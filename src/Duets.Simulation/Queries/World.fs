@@ -28,6 +28,11 @@ module World =
         let cityId, _, _ = state.CurrentPosition
         placeInCityById cityId placeId
 
+    /// Retrieves the room for the given city, place and room ID.
+    let roomById state cityId placeId roomId =
+        let place = placeInCityById cityId placeId
+        Map.find roomId place.Rooms.Nodes
+
     /// Returns all the places in the current city, organized by their place type.
     let allPlacesInCurrentCity state =
         let cityId, _, _ = state.CurrentPosition
@@ -42,13 +47,18 @@ module World =
 
     /// Returns the city in which the character is in currently.
     let currentCity state =
-         let cityId, _, _ = state.CurrentPosition
-         cityId |> cityById
+        let cityId, _, _ = state.CurrentPosition
+        cityId |> cityById
 
     /// Returns the place in which the character is in currently.
     let currentPlace state =
         let _, placeId, _ = state.CurrentPosition
         placeInCurrentCityById state placeId
+
+    /// Returns the current room in which the character is in currently.
+    let currentRoom state =
+        let cityId, placeId, roomId = state.CurrentPosition
+        roomById state cityId placeId roomId
 
     /// Returns a list of IDs of the places with the given type inside of the
     /// given city.
@@ -76,14 +86,14 @@ module World =
 
         match place.OpeningHours with
         | PlaceOpeningHours.AlwaysOpen -> true
-        | PlaceOpeningHours.OpeningHours (daysOfWeekOpen, dayMomentsOpen) ->
+        | PlaceOpeningHours.OpeningHours(daysOfWeekOpen, dayMomentsOpen) ->
             (daysOfWeekOpen |> List.contains currentTime.DayOfWeek
              && dayMomentsOpen |> List.contains currentDayMoment)
 
     /// Like `placeCurrentlyOpen` but implicitly passing the current time.
     let placeCurrentlyOpen' state place =
         Queries.Calendar.today state |> placeCurrentlyOpen place
-        
+
     /// Returns a list of directions that are available from the given node.
     let availableDirections id (graph: Graph<'a>) =
         Optic.get (Lenses.World.Graph.nodeConnections_ id) graph

@@ -153,6 +153,22 @@ let private filterAttributesForInfoBar =
         | CharacterAttribute.Drunkenness when amount > 0 -> Some(attr, amount)
         | _ -> None)
 
+let roomName (room: RoomType) =
+    match room with
+    | RoomType.Backstage -> "backstage"
+    | RoomType.Bar -> "bar area"
+    | RoomType.Cafe -> "cafe area"
+    | RoomType.Bedroom -> "bedroom"
+    | RoomType.Kitchen -> "kitchen"
+    | RoomType.LivingRoom -> "living room"
+    | RoomType.Lobby -> "lobby"
+    | RoomType.MasteringRoom -> "mastering room"
+    | RoomType.RecordingRoom -> "recording room"
+    | RoomType.RehearsalRoom -> "rehearsal room"
+    | RoomType.Restaurant -> "restaurant"
+    | RoomType.SecurityControl -> "security control"
+    | RoomType.Stage -> "stage"
+
 type WorldMode =
     | IgnoreDescription
     | ShowDescription
@@ -175,7 +191,11 @@ let worldScene mode =
     let situation = Queries.Situations.current (State.get ())
 
     match mode with
-    | ShowDescription -> World.placeDescription currentPlace |> showMessage
+    | ShowDescription ->
+        let currentRoom = State.get () |> Queries.World.currentRoom
+
+        $"You are in the {roomName currentRoom |> Styles.room} inside of {currentPlace.Name |> Styles.place}"
+        |> showMessage
     | IgnoreDescription -> ()
 
     let characterAttributes =

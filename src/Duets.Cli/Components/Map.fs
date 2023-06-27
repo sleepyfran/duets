@@ -3,6 +3,7 @@ module rec Duets.Cli.Components.Map
 
 open Duets.Agents
 open Duets.Cli.Text
+open Duets.Cli.Text.World
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Navigation

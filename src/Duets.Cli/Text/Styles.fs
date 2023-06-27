@@ -39,6 +39,9 @@ let percentage value = $"{value |> Level.from}%%"
 /// Pre-defined style for referencing places in text.
 let place name = $"[bold lightsalmon1]{name}[/]"
 
+/// Pre-defined style for referencing rooms in text.
+let room name = $"[bold salmon1]{name}[/]"
+
 /// Pre-defined style for referencing items in text.
 let item name = $"[bold lightsalmon1]{name}[/]"
 

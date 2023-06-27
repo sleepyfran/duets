@@ -4,6 +4,7 @@ open Duets.Agents
 open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.Text
+open Duets.Cli.Text.World
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation
@@ -73,7 +74,7 @@ and displayPlaceInformation cityId placeType place =
         let rentResult = rentPlace (State.get ()) cityId place
 
         match rentResult with
-        | Ok (rental, effects) ->
+        | Ok(rental, effects) ->
             effects |> Effect.applyMultiple
 
             match rental.RentalType with
@@ -83,7 +84,7 @@ and displayPlaceInformation cityId placeType place =
                 $"You've rented {place.Name} in {Generic.cityName cityId} and you can now access it until {Date.simple untilDate}"
             |> Styles.success
             |> showMessage
-        | Error (TransactionError (NotEnoughFunds amount)) ->
+        | Error(TransactionError(NotEnoughFunds amount)) ->
             $"You don't have {Styles.money amount} on your bank to pay for it"
             |> Styles.error
             |> showMessage

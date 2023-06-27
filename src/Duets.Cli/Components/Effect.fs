@@ -4,6 +4,7 @@ module rec Duets.Cli.Effect
 open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.Text
+open Duets.Cli.Text.World
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation
