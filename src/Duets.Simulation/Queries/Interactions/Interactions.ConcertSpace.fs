@@ -14,8 +14,7 @@ module ConcertSpace =
         |> Option.defaultValue []
 
     let private instrumentInteractions state ongoingConcert =
-        let characterBandMember =
-            Queries.Bands.currentPlayableMember state
+        let characterBandMember = Queries.Bands.currentPlayableMember state
 
         let stringInstrumentsCommonInteractions =
             [ Interaction.Concert(
@@ -45,12 +44,13 @@ module ConcertSpace =
               ) ]
 
     /// Returns all interactions available in the current concert room.
-    let internal interactions state defaultInteractions placeId =
-        let situation =
-            Queries.Situations.current state
+    let internal interactions state roomType defaultInteractions placeId =
+        let situation = Queries.Situations.current state
 
         match situation with
-        | Concert (InConcert ongoingConcert) ->
+        | FreeRoam when roomType = RoomType.Stage ->
+            defaultInteractions @ startConcertInteraction state placeId
+        | Concert(InConcert ongoingConcert) when roomType = RoomType.Stage ->
             let instrumentSpecificInteractions =
                 instrumentInteractions state ongoingConcert
 
@@ -63,9 +63,14 @@ module ConcertSpace =
               Interaction.Concert(ConcertInteraction.FaceBand ongoingConcert)
               Interaction.Concert(ConcertInteraction.FaceCrowd ongoingConcert) ]
             @ instrumentSpecificInteractions
-        | Concert (InBackstage (Some concert)) ->
-            [ Interaction.Concert(ConcertInteraction.DoEncore concert)
-              Interaction.Concert(ConcertInteraction.FinishConcert concert) ] (* TODO: Add interactions that are specific to only the backstage outside a concert. *)
-        | _ ->
-            defaultInteractions
-            @ startConcertInteraction state placeId
+        | Concert(InConcert ongoingConcert) when roomType = RoomType.Backstage ->
+            let backstageAllowedInteractions =
+                Queries.InteractionCommon.filterOutMovementAndTime
+                    defaultInteractions
+
+            [ yield! backstageAllowedInteractions
+              Interaction.Concert(ConcertInteraction.DoEncore ongoingConcert)
+              Interaction.Concert(
+                  ConcertInteraction.FinishConcert ongoingConcert
+              ) ] (* TODO: Add interactions that are specific to only the backstage outside a concert. *)
+        | _ -> defaultInteractions

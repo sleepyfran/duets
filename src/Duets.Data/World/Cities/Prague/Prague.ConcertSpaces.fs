@@ -6,10 +6,12 @@ open Duets.Data.World
 let addDivadloArcha zone =
     let concertSpace = { Capacity = 1200 }
 
-    let lobby = World.Node.create 0 RoomType.Lobby
-    let bar = World.Node.create 1 RoomType.Bar
-    let stage = World.Node.create 2 RoomType.Stage
-    let backstage = World.Node.create 3 RoomType.Backstage
+    let lobby = World.Node.create Ids.ConcertSpace.lobby RoomType.Lobby
+    let bar = World.Node.create Ids.ConcertSpace.bar RoomType.Bar
+    let stage = World.Node.create Ids.ConcertSpace.stage RoomType.Stage
+
+    let backstage =
+        World.Node.create Ids.ConcertSpace.backstage RoomType.Backstage
 
     let roomGraph =
         World.Graph.fromMany [ lobby; bar; stage; backstage ]
@@ -32,9 +34,11 @@ let addFuturum zone =
     let concertSpace = { Capacity = 350 }
 
     let lobby = World.Node.create 0 RoomType.Lobby
-    let bar = World.Node.create 1 RoomType.Bar
-    let stage = World.Node.create 2 RoomType.Stage
-    let backstage = World.Node.create 3 RoomType.Backstage
+    let bar = World.Node.create Ids.ConcertSpace.bar RoomType.Bar
+    let stage = World.Node.create Ids.ConcertSpace.stage RoomType.Stage
+
+    let backstage =
+        World.Node.create Ids.ConcertSpace.backstage RoomType.Backstage
 
     let roomGraph =
         World.Graph.fromMany [ lobby; bar; stage; backstage ]
@@ -57,9 +61,11 @@ let addKampusHybernska zone =
     let concertSpace = { Capacity = 180 }
 
     let lobby = World.Node.create 0 RoomType.Lobby
-    let bar = World.Node.create 1 RoomType.Bar
-    let stage = World.Node.create 2 RoomType.Stage
-    let backstage = World.Node.create 3 RoomType.Backstage
+    let bar = World.Node.create Ids.ConcertSpace.bar RoomType.Bar
+    let stage = World.Node.create Ids.ConcertSpace.stage RoomType.Stage
+
+    let backstage =
+        World.Node.create Ids.ConcertSpace.backstage RoomType.Backstage
 
     let roomGraph =
         World.Graph.fromMany [ bar; stage; backstage ]
@@ -80,9 +86,11 @@ let addLucerna zone =
     let concertSpace = { Capacity = 2500 }
 
     let lobby = World.Node.create 0 RoomType.Lobby
-    let bar = World.Node.create 1 RoomType.Bar
-    let stage = World.Node.create 2 RoomType.Stage
-    let backstage = World.Node.create 3 RoomType.Backstage
+    let bar = World.Node.create Ids.ConcertSpace.bar RoomType.Bar
+    let stage = World.Node.create Ids.ConcertSpace.stage RoomType.Stage
+
+    let backstage =
+        World.Node.create Ids.ConcertSpace.backstage RoomType.Backstage
 
     let roomGraph =
         World.Graph.fromMany [ lobby; bar; stage; backstage ]
@@ -105,9 +113,11 @@ let addPalacAkropolis zone =
     let concertSpace = { Capacity = 1000 }
 
     let lobby = World.Node.create 0 RoomType.Lobby
-    let bar = World.Node.create 1 RoomType.Bar
-    let stage = World.Node.create 2 RoomType.Stage
-    let backstage = World.Node.create 3 RoomType.Backstage
+    let bar = World.Node.create Ids.ConcertSpace.bar RoomType.Bar
+    let stage = World.Node.create Ids.ConcertSpace.stage RoomType.Stage
+
+    let backstage =
+        World.Node.create Ids.ConcertSpace.backstage RoomType.Backstage
 
     let roomGraph =
         World.Graph.fromMany [ lobby; bar; stage; backstage ]
@@ -130,9 +140,11 @@ let addRedutaJazzClub zone =
     let concertSpace = { Capacity = 250 }
 
     let lobby = World.Node.create 0 RoomType.Lobby
-    let bar = World.Node.create 1 RoomType.Bar
-    let stage = World.Node.create 2 RoomType.Stage
-    let backstage = World.Node.create 3 RoomType.Backstage
+    let bar = World.Node.create Ids.ConcertSpace.bar RoomType.Bar
+    let stage = World.Node.create Ids.ConcertSpace.stage RoomType.Stage
+
+    let backstage =
+        World.Node.create Ids.ConcertSpace.backstage RoomType.Backstage
 
     let roomGraph =
         World.Graph.fromMany [ lobby; bar; stage; backstage ]
@@ -155,9 +167,11 @@ let addUnderdogs zone =
     let concertSpace = { Capacity = 400 }
 
     let lobby = World.Node.create 0 RoomType.Lobby
-    let bar = World.Node.create 1 RoomType.Bar
-    let stage = World.Node.create 2 RoomType.Stage
-    let backstage = World.Node.create 3 RoomType.Backstage
+    let bar = World.Node.create Ids.ConcertSpace.bar RoomType.Bar
+    let stage = World.Node.create Ids.ConcertSpace.stage RoomType.Stage
+
+    let backstage =
+        World.Node.create Ids.ConcertSpace.backstage RoomType.Backstage
 
     let roomGraph =
         World.Graph.fromMany [ lobby; bar; stage; backstage ]

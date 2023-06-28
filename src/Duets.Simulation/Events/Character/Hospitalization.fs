@@ -16,8 +16,7 @@ let hospitalize characterId state =
     let concertCancellationEffects =
         match situation with
         (* When we are in the middle of a concert we first need to cancel it. *)
-        | Concert (InConcert ongoingConcert)
-        | Concert (InBackstage (Some ongoingConcert)) ->
+        | Concert(InConcert ongoingConcert) ->
             let failConcertEffect =
                 Concerts.Scheduler.failConcert
                     state
@@ -29,7 +28,9 @@ let hospitalize characterId state =
         | _ -> []
 
     let hospitalCoordinates =
-        Queries.World.placeIdsByTypeInCity currentCity.Id PlaceTypeIndex.Hospital
+        Queries.World.placeIdsByTypeInCity
+            currentCity.Id
+            PlaceTypeIndex.Hospital
         |> List.head (* We need at least one hospital in the city. *)
         |> Tuple.two currentCity.Id
 

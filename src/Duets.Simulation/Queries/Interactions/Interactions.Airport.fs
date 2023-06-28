@@ -16,16 +16,11 @@ module Airport =
         | _ -> []
 
     let private airplaneInteractions _ flight defaultInteractions =
-        let nonMovementInteractions =
-            defaultInteractions
-            |> List.filter (fun interaction ->
-                match interaction with
-                | Interaction.FreeRoam(FreeRoamInteraction.Move _) -> false
-                | Interaction.FreeRoam FreeRoamInteraction.Map -> false
-                | Interaction.FreeRoam FreeRoamInteraction.Wait -> false
-                | _ -> true)
+        let allowedInteractions =
+            Queries.InteractionCommon.filterOutMovementAndTime
+                defaultInteractions
 
-        [ yield! nonMovementInteractions
+        [ yield! allowedInteractions
           yield!
               Shop.interactions
                   { AvailableItems = AirplaneItems.drinks @ AirplaneItems.food

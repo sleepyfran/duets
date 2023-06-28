@@ -196,8 +196,7 @@ let worldScene mode =
                 currentDayMoment
                 characterAttributes
                 flight
-        | Concert(InConcert ongoingConcert)
-        | Concert(InBackstage(Some ongoingConcert)) ->
+        | Concert(InConcert ongoingConcert) ->
             Concert.actionPrompt
                 today
                 currentDayMoment

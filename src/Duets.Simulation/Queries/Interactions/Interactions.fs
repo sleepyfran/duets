@@ -49,7 +49,11 @@ module Interactions =
         | Cafe coffeeShop ->
             Cafe.interactions currentRoom coffeeShop @ defaultInteractions
         | ConcertSpace _ ->
-            ConcertSpace.interactions state defaultInteractions currentPlace.Id
+            ConcertSpace.interactions
+                state
+                currentRoom
+                defaultInteractions
+                currentPlace.Id
         | Home -> defaultInteractions
         | Hospital -> defaultInteractions
         | RehearsalSpace _ ->

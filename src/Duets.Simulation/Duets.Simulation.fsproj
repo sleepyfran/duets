@@ -28,6 +28,7 @@
         <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Health.fs" />
         <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Energy.fs" />
         <Compile Include="Queries\Interactions\InteractionTime.fs" />
+        <Compile Include="Queries\Interactions\InteractionCommon.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Items.fs" />
         <Compile Include="Queries\Interactions\Interactions.Career.fs" />
         <Compile Include="Queries\Interactions\Interactions.Shop.fs" />
