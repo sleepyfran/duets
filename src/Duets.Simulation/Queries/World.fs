@@ -29,7 +29,7 @@ module World =
         placeInCityById cityId placeId
 
     /// Retrieves the room for the given city, place and room ID.
-    let roomById state cityId placeId roomId =
+    let roomById cityId placeId roomId =
         let place = placeInCityById cityId placeId
         Map.find roomId place.Rooms.Nodes
 
@@ -58,7 +58,7 @@ module World =
     /// Returns the current room in which the character is in currently.
     let currentRoom state =
         let cityId, placeId, roomId = state.CurrentPosition
-        roomById state cityId placeId roomId
+        roomById cityId placeId roomId
 
     /// Returns a list of IDs of the places with the given type inside of the
     /// given city.

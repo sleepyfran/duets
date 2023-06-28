@@ -17,7 +17,10 @@ let getOffStage state ongoingConcert =
         if not canPerformEncore then
             Finish.finishConcert state ongoingConcert
         else
-            state |> Navigation.enter Ids.ConcertSpace.backstage |> List.ofItem
+            state
+            |> Navigation.enter Ids.ConcertSpace.backstage
+            |> Result.unwrap
+            |> List.ofItem
 
     Response.forEvent ongoingConcert GotOffStage 0
     |> Response.addEffects situationEffects

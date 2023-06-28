@@ -23,7 +23,7 @@ module LookCommand =
                 | Interaction.FreeRoam(FreeRoamInteraction.Move(direction,
                                                                 roomId)) ->
                     let roomType =
-                        Queries.World.roomById state cityId placeId roomId
+                        Queries.World.roomById cityId placeId roomId
 
                     Some(direction, roomType)
                 | _ -> None)

@@ -22,7 +22,9 @@ module Navigation =
     /// Moves the player to the specified room inside of the current place.
     let enter roomId state =
         let cityId, placeId, _ = Queries.World.currentCoordinates state
-        WorldEnter(cityId, placeId, roomId)
+
+        Navigation.Policies.Concert.canEnter state cityId placeId roomId
+        |> Result.transform (WorldEnter(cityId, placeId, roomId))
 
     /// Moves the player to the specific place ID inside the given city ID.
     let travelTo cityId placeId =

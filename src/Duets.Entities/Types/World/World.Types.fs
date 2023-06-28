@@ -148,3 +148,9 @@ module WorldTypes =
     type PlaceEntranceError =
         | CannotEnterOutsideOpeningHours
         | CannotEnterWithoutRental
+
+    /// Defines all possible errors why the entrance to a room might be denied.
+    [<RequireQualifiedAccess>]
+    type RoomEntranceError =
+        | CannotEnterStageOutsideConcert
+        | CannotEnterBackstageOutsideConcert
