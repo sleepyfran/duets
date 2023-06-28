@@ -8,13 +8,11 @@ open Duets.Simulation
 [<RequireQualifiedAccess>]
 module Airport =
     let private airportInteractions state =
-        let todayFlight =
-            Queries.Flights.availableForBoarding state
+        let todayFlight = Queries.Flights.availableForBoarding state
 
         match todayFlight with
         | Some flight ->
-            [ AirportInteraction.BoardAirplane flight
-              |> Interaction.Airport ]
+            [ AirportInteraction.BoardAirplane flight |> Interaction.Airport ]
         | _ -> []
 
     let private airplaneInteractions _ flight defaultInteractions =
@@ -22,6 +20,7 @@ module Airport =
             defaultInteractions
             |> List.filter (fun interaction ->
                 match interaction with
+                | Interaction.FreeRoam(FreeRoamInteraction.Move _) -> false
                 | Interaction.FreeRoam FreeRoamInteraction.Map -> false
                 | Interaction.FreeRoam FreeRoamInteraction.Wait -> false
                 | _ -> true)
@@ -31,14 +30,12 @@ module Airport =
               Shop.interactions
                   { AvailableItems = AirplaneItems.drinks @ AirplaneItems.food
                     PriceModifier = 10<multiplier> }
-          AirportInteraction.WaitUntilLanding flight
-          |> Interaction.Airport ]
+          AirportInteraction.WaitUntilLanding flight |> Interaction.Airport ]
 
     let interactions state defaultInteractions =
-        let situation =
-            Queries.Situations.current state
+        let situation = Queries.Situations.current state
 
         match situation with
-        | Airport (Flying flight) ->
+        | Airport(Flying flight) ->
             airplaneInteractions state flight defaultInteractions
         | _ -> airportInteractions state @ defaultInteractions
