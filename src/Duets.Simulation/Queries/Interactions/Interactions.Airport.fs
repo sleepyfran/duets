@@ -28,7 +28,7 @@ module Airport =
 
         [ yield! nonMovementInteractions
           yield!
-              Shop.shopInteractions
+              Shop.interactions
                   { AvailableItems = AirplaneItems.drinks @ AirplaneItems.food
                     PriceModifier = 10<multiplier> }
           AirportInteraction.WaitUntilLanding flight

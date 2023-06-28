@@ -7,7 +7,7 @@ open Duets.Simulation
 
 module RehearsalSpace =
     /// Returns all interactions available in the current rehearsal room.
-    let internal availableCurrently state =
+    let internal interactions state =
         let currentBand = Queries.Bands.currentBand state
 
         let unfinishedSongs =

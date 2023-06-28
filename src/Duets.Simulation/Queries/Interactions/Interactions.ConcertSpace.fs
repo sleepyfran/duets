@@ -45,7 +45,7 @@ module ConcertSpace =
               ) ]
 
     /// Returns all interactions available in the current concert room.
-    let internal availableCurrently state defaultInteractions placeId =
+    let internal interactions state defaultInteractions placeId =
         let situation =
             Queries.Situations.current state
 

@@ -6,7 +6,7 @@ open Duets.Simulation
 
 module Studio =
     /// Returns all interactions available in the current studio room.
-    let internal availableCurrently state studio =
+    let internal interactions state studio =
         let currentBand = Queries.Bands.currentBand state
 
         let finishedSongs =

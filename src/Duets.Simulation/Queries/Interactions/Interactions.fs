@@ -19,6 +19,7 @@ module Interactions =
     let availableCurrently state =
         let currentCoords = Queries.World.currentCoordinates state
         let currentPlace = Queries.World.currentPlace state
+        let currentRoom = Queries.World.currentRoom state
 
         let inventory = Inventory.get state
 
@@ -44,22 +45,19 @@ module Interactions =
 
         match currentPlace.Type with
         | Airport -> Airport.interactions state defaultInteractions
-        | Bar bar -> Shop.shopInteractions bar @ defaultInteractions
+        | Bar bar -> Bar.interactions currentRoom bar @ defaultInteractions
         | Cafe coffeeShop ->
-            Shop.shopInteractions coffeeShop @ defaultInteractions
+            Cafe.interactions currentRoom coffeeShop @ defaultInteractions
         | ConcertSpace _ ->
-            ConcertSpace.availableCurrently
-                state
-                defaultInteractions
-                currentPlace.Id
+            ConcertSpace.interactions state defaultInteractions currentPlace.Id
         | Home -> defaultInteractions
         | Hospital -> defaultInteractions
         | RehearsalSpace _ ->
-            RehearsalSpace.availableCurrently state @ defaultInteractions
+            RehearsalSpace.interactions state @ defaultInteractions
         | Restaurant restaurant ->
-            Shop.shopInteractions restaurant @ defaultInteractions
+            Restaurant.interactions currentRoom restaurant @ defaultInteractions
         | Studio studio ->
-            Studio.availableCurrently state studio @ defaultInteractions
+            Studio.interactions state studio @ defaultInteractions
         |> List.map (fun interaction ->
             { Interaction = interaction
               State = InteractionState.Enabled
