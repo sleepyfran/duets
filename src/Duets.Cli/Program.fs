@@ -73,7 +73,21 @@ let main args =
     // Set default culture to UK for sane defaults :)
     Thread.CurrentThread.CurrentCulture <- CultureInfo("en-UK")
 
-    Savegame.load () |> Scene.MainMenu |> showScene skipSaving
+    try
+        Savegame.load () |> Scene.MainMenu |> showScene skipSaving
+    with ex ->
+        """
+An irrecoverable error happened.
+If you haven't been tinkering with the save file and you believe this is a bug,
+please report it in the game's repository:
+https://github.com/sleepyfran/duets/issues
+        
+And attach the following exception trace:
+        """
+        |> Styles.danger
+        |> showMessage
+
+        ex.ToString() |> System.Console.WriteLine
 
     Stats.stopTrackingAndSave ()
 
