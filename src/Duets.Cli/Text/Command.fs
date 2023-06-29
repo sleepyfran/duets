@@ -82,7 +82,7 @@ let lookDescription = "Shows all the objects you have around you"
 let lookExit exit =
     $"""There's also an exit to {Styles.place exit} ({Styles.information "out"})"""
 
-let lookNoObjectsAround = "There are no objects around you"
+let lookNoObjectsAround = "There are no objects around you."
 
 let lookVisibleObjectsPrefix = "You can see:"
 
