@@ -58,8 +58,17 @@ let private showPlaceTypeChoice
     |> Option.bind (fun placeType ->
         placesInCity |> Map.find placeType |> showPlaceChoice placesInCity)
 
-let private moveToPlace availablePlaces (place: Place) =
-    let navigationResult = Navigation.moveTo place.Id (State.get ())
+let private moveToPlace availablePlaces (destination: Place) =
+    let currentPlace = State.get () |> Queries.World.currentPlace
+    let navigationResult = Navigation.moveTo destination.Id (State.get ())
+
+    if currentPlace.Zone.Id <> destination.Zone.Id then
+        $"You take the public transport to get to {destination.Name}..."
+    else
+        $"You walk to {destination.Name}..."
+    |> showMessage
+
+    wait 2000<millisecond>
 
     match navigationResult with
     | Ok effect -> [ effect ]
@@ -67,10 +76,10 @@ let private moveToPlace availablePlaces (place: Place) =
         showSeparator None
 
         Styles.error
-            $"{place.Name} is currently closed. Try again during their opening hours"
+            $"{destination.Name} is currently closed. Try again during their opening hours"
         |> showMessage
 
-        showOpeningHours place
+        showOpeningHours destination
 
         showSeparator None
 

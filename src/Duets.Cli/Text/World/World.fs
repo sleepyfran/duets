@@ -58,5 +58,3 @@ let directionName direction =
 
 let placeWithZone (place: Place) =
     $"{Styles.place place.Name} ({place.Zone.Name})"
-
-let movedTo (place: Place) = $"You make your way to {place.Name}..."
