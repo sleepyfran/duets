@@ -15,9 +15,11 @@ module Navigation =
     /// Moves the player to the specific place ID.
     let moveTo placeId state =
         let cityId, _, _ = Queries.World.currentCoordinates state
+        let place = Queries.World.placeInCityById cityId placeId
+        let startingRoom = place.Rooms.StartingNode
 
         applyPolicies state cityId placeId
-        |> Result.transform (WorldMoveTo(cityId, placeId, 0))
+        |> Result.transform (WorldMoveTo(cityId, placeId, startingRoom))
 
     /// Moves the player to the specified room inside of the current place.
     let enter roomId state =
