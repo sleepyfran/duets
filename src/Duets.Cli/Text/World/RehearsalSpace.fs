@@ -1,6 +1,5 @@
 module Duets.Cli.Text.World.RehearsalSpace
 
-open Duets.Cli.Text
 open Duets.Entities
 
 let rec description (place: Place) (roomType: RoomType) =
@@ -15,11 +14,8 @@ let rec description (place: Place) (roomType: RoomType) =
 and private rehearsalRoomDescription (place: Place) =
     match place.Quality with
     | q when q < 30<quality> ->
-        Styles.Level.bad
-            "The room looks terrible. There's empty cans of beer overflowing the trash can, the floor is covered in cigarette butts, and the walls are covered in graffiti. All the instruments seem to be overused, but they'll do the job"
+        "The air is thick with a musty smell, as if years of neglect have settled into every corner. The once pristine wooden floors are littered with broken props, tangled wires, and discarded scripts. The walls, once adorned with posters of past productions, are now peeling and faded, revealing patches of mold and dampness. Dim flickering lights barely illuminate the room, casting eerie shadows that dance along the cracked mirrors lining one wall. The sound system crackles with static, emitting a garbled mix of forgotten melodies and disjointed dialogues."
     | q when q < 60<quality> ->
-        Styles.Level.normal
-            "The room looks okay. It's not the best looking place, but it's still a good place to rehearse. The instruments seem to be in a good condition"
+        "The space is well-organized and neatly arranged, with a hint of creativity in its design. The wooden floors gleam under the soft glow of overhead lights, inviting you to explore the area. The walls are adorned with motivational quotes and posters from successful productions, inspiring a sense of creativity and ambition. A row of neatly arranged costumes hangs on a rack, each one carefully labeled and ready for use. The sound system hums softly, providing a clear and crisp audio experience."
     | _ ->
-        Styles.Level.good
-            "The room looks great, seems to have been recently renovated. The instruments look new and shiny"
+        "The room is bathed in warm, natural light streaming through floor-to-ceiling windows, casting a vibrant glow on the polished hardwood floors. The walls are adorned with beautifully framed artwork and photographs, showcasing the rich history of past performances and inspiring a sense of wonder. State-of-the-art soundproofing ensures an immersive experience, with crystal-clear acoustics that reverberate throughout the room. Rows of plush seating are arranged in a semicircle, providing a comfortable and intimate space for observers. The room is equipped with cutting-edge technology, including a sophisticated lighting system that can transform the ambiance with a mere touch."

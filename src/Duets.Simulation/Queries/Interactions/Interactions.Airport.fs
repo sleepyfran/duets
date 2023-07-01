@@ -27,7 +27,7 @@ module Airport =
                     PriceModifier = 10<multiplier> }
           AirportInteraction.WaitUntilLanding flight |> Interaction.Airport ]
 
-    let interactions state defaultInteractions =
+    let internal interactions state defaultInteractions =
         let situation = Queries.Situations.current state
 
         match situation with

@@ -6,8 +6,7 @@ open Duets.Entities
 open Duets.Simulation
 
 module RehearsalSpace =
-    /// Returns all interactions available in the current rehearsal room.
-    let internal interactions state =
+    let private rehearsalRoomInteractions state =
         let currentBand = Queries.Bands.currentBand state
 
         let unfinishedSongs =
@@ -84,3 +83,9 @@ module RehearsalSpace =
                           pastBandMembers
                       )
                   ) ]
+
+    /// Returns all interactions available in the current rehearsal room.
+    let internal interactions state roomType =
+        match roomType with
+        | RoomType.RehearsalRoom -> rehearsalRoomInteractions state
+        | _ -> []

@@ -57,7 +57,7 @@ module Interactions =
         | Home -> defaultInteractions
         | Hospital -> defaultInteractions
         | RehearsalSpace _ ->
-            RehearsalSpace.interactions state @ defaultInteractions
+            RehearsalSpace.interactions state currentRoom @ defaultInteractions
         | Restaurant restaurant ->
             Restaurant.interactions currentRoom restaurant @ defaultInteractions
         | Studio studio ->

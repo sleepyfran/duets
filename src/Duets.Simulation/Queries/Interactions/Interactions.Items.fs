@@ -18,7 +18,7 @@ module Items =
         |> ItemInteraction.Interactive
         |> Interaction.Item
 
-    let getItemInteractions (items: Item list) =
+    let internal getItemInteractions (items: Item list) =
         items
         |> Set.ofList
         |> Set.map (fun item ->

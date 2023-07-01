@@ -4,7 +4,7 @@ open Duets.Entities
 open Duets.Simulation
 
 module Career =
-    let interactions state (currentPlace: Place) =
+    let internal interactions state (currentPlace: Place) =
         let currentJob = Queries.Career.current state
 
         match currentJob with
