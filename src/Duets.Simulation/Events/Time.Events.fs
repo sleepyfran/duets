@@ -17,7 +17,7 @@ let private runDailyEffects time state =
     match Calendar.Query.dayMomentOf time with
     | Morning ->
         Albums.DailyUpdate.dailyUpdate state
-        @ Albums.ReviewGeneration.generateReviews state
+        @ Albums.ReviewGeneration.generateReviewsForLatestAlbums state
         @ Concerts.DailyUpdate.dailyUpdate state
     | Midday -> SocialNetworks.DailyUpdate.dailyUpdate state
     | _ -> []

@@ -7,7 +7,7 @@
         <RootNamespace>Cli</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="Scenes.fs" />
+        <Compile Include="Scenes.fs"/>
         <Compile Include="Text\Emoji.fs"/>
         <Compile Include="Text\Styles.fs"/>
         <Compile Include="Text\Date.fs"/>
@@ -59,27 +59,27 @@
         <Compile Include="Components\Commands\Exit.Command.fs"/>
         <Compile Include="Components\Commands\Help.Command.fs"/>
         <Compile Include="Components\Commands\Look.Command.fs"/>
-        <Compile Include="Components\Commands\Map.Command.fs" />
-        <Compile Include="Components\Commands\Me.Command.fs" />
+        <Compile Include="Components\Commands\Map.Command.fs"/>
+        <Compile Include="Components\Commands\Me.Command.fs"/>
         <Compile Include="Components\Commands\Movement.Command.fs"/>
-        <Compile Include="Components\Commands\Phone.Command.fs" />
-        <Compile Include="Components\Commands\Inventory.Command.fs" />
-        <Compile Include="Components\Commands\Wait.Command.fs" />
-        <Compile Include="Components\Commands\Aiport\BoardPlane.Command.fs" />
-        <Compile Include="Components\Commands\Aiport\WaitForLanding.Command.fs" />
-        <Compile Include="Components\Commands\Studio\Common.fs" />
-        <Compile Include="Components\Commands\Studio\CreateAlbum.Command.fs" />
+        <Compile Include="Components\Commands\Phone.Command.fs"/>
+        <Compile Include="Components\Commands\Inventory.Command.fs"/>
+        <Compile Include="Components\Commands\Wait.Command.fs"/>
+        <Compile Include="Components\Commands\Aiport\BoardPlane.Command.fs"/>
+        <Compile Include="Components\Commands\Aiport\WaitForLanding.Command.fs"/>
+        <Compile Include="Components\Commands\Studio\Common.fs"/>
+        <Compile Include="Components\Commands\Studio\CreateAlbum.Command.fs"/>
         <Compile Include="Components\Commands\Studio\EditAlbumName.Command.fs" />
-        <Compile Include="Components\Commands\Studio\ReleaseAlbum.Command.fs" />
-        <Compile Include="Components\Commands\Studio\RecordSong.Command.fs" />
-        <Compile Include="Components\Commands\Studio\ListUnreleasedAlbums.Command.fs" />
-        <Compile Include="Components\Commands\RehearsalRoom\PracticeSong.Command.fs" />
-        <Compile Include="Components\Commands\RehearsalRoom\FireMember.Command.fs" />
-        <Compile Include="Components\Commands\RehearsalRoom\HireMember.Command.fs" />
-        <Compile Include="Components\Commands\RehearsalRoom\ListMembers.Command.fs" />
-        <Compile Include="Components\Commands\RehearsalRoom\ImproveSong.Command.fs" />
-        <Compile Include="Components\Commands\RehearsalRoom\FinishSong.Command.fs" />
-        <Compile Include="Components\Commands\RehearsalRoom\DiscardSong.Command.fs" />
+        <Compile Include="Components\Commands\Studio\ReleaseAlbum.Command.fs"/>
+        <Compile Include="Components\Commands\Studio\RecordSong.Command.fs"/>
+        <Compile Include="Components\Commands\Studio\ListUnreleasedAlbums.Command.fs"/>
+        <Compile Include="Components\Commands\RehearsalRoom\PracticeSong.Command.fs"/>
+        <Compile Include="Components\Commands\RehearsalRoom\FireMember.Command.fs"/>
+        <Compile Include="Components\Commands\RehearsalRoom\HireMember.Command.fs"/>
+        <Compile Include="Components\Commands\RehearsalRoom\ListMembers.Command.fs"/>
+        <Compile Include="Components\Commands\RehearsalRoom\ImproveSong.Command.fs"/>
+        <Compile Include="Components\Commands\RehearsalRoom\FinishSong.Command.fs"/>
+        <Compile Include="Components\Commands\RehearsalRoom\DiscardSong.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\ComposeSong.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\ListSongs.Command.fs"/>
         <Compile Include="Components\Commands\Career\Work.Command.fs"/>
@@ -104,7 +104,8 @@
         <Compile Include="Components\Commands\Items\Cook.Command.fs"/>
         <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
-        <Compile Include="Components\Commands\Cheats\Index.fs"/>
+        <Compile Include="Components\Commands\Cheats\TriggerEffect.Cheats.Commands.fs"/>
+        <Compile Include="Components\Commands\Cheats\Cheats.Commands.fs"/>
         <Compile Include="Components\CommandPrompt.fs"/>
         <Compile Include="Scenes\NewGame\CharacterCreator.fs"/>
         <Compile Include="Scenes\NewGame\BandCreator.fs"/>

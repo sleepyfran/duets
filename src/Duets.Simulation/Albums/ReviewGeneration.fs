@@ -58,7 +58,7 @@ let private generateReviewsForAlbum (band: Band) releasedAlbum =
     |> Tuple.two band
     |> AlbumReviewsReceived
 
-let private generateReviewsForBand state bandId albums =
+let private generateReviewsForBandAlbums state bandId albums =
     let band = Queries.Bands.byId state bandId
     let fanBase = band.Fans
 
@@ -78,9 +78,15 @@ let private generateReviewsForBand state bandId albums =
 /// yet and generates them based on the score of the album and the source of the
 /// review, only if the band has the minimum amount of fame required to have
 /// reviews generated for them.
-let generateReviews (state: State) : Effect list =
+let generateReviewsForLatestAlbums (state: State) =
     Queries.Albums.releaseInLast state 3<days>
     |> Map.fold
         (fun acc bandId albums ->
-            acc @ generateReviewsForBand state bandId albums)
+            acc @ generateReviewsForBandAlbums state bandId albums)
         []
+
+/// Retrieves all albums released by bands that have the minimum amount of fame
+/// and generates the reviews for all their albums.
+let generateReviewsForBand state bandId =
+    Queries.Albums.releasedByBand state bandId
+    |> generateReviewsForBandAlbums state bandId

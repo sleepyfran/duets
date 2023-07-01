@@ -53,7 +53,7 @@ let ``generateReviews should return empty if band has not released any albums``
         { State.defaultOptions with
             BandFansMin = Config.MusicSimulation.minimumFanBaseForReviews
             BandFansMax = 10000 }
-    |> generateReviews
+    |> generateReviewsForLatestAlbums
     |> should haveLength 0
 
 [<Test>]
@@ -68,7 +68,7 @@ let ``generateReviews should return empty if band does not have the minimum requ
     |> List.iter (fun state ->
         state
         |> addReleasedAlbum dummyBand.Id album
-        |> generateReviews
+        |> generateReviewsForLatestAlbums
         |> should haveLength 0)
 
 [<Test>]
@@ -82,7 +82,7 @@ let ``generateReviews should return empty if band does not have any albums relea
                 BandFansMin = Config.MusicSimulation.minimumFanBaseForReviews
                 BandFansMax = 10000 }
         |> addAlbumReleasedDaysAgo days
-        |> generateReviews
+        |> generateReviewsForLatestAlbums
         |> should haveLength 0)
 
 [<Test>]
@@ -95,7 +95,7 @@ let ``generateReviews should return empty if the band's albums already have revi
             BandFansMax = 10000 }
         50
     |> List.iter (fun state ->
-        state |> addAlbumWithReviews |> generateReviews |> should haveLength 0)
+        state |> addAlbumWithReviews |> generateReviewsForLatestAlbums |> should haveLength 0)
 
 [<Test>]
 let ``generateReviews should return effects if the day was three days ago regardless of the time``
@@ -115,7 +115,7 @@ let ``generateReviews should return effects if the day was three days ago regard
         |> addReleasedAlbum
             dummyBand.Id
             { album with ReleaseDate = releaseDate }
-        |> generateReviews
+        |> generateReviewsForLatestAlbums
         |> should haveLength 1)
 
 [<Test>]
@@ -127,7 +127,7 @@ let ``generateReviews should return effects for each album released three days a
             BandFansMin = Config.MusicSimulation.minimumFanBaseForReviews
             BandFansMax = 10000 }
     |> addAlbumWithNoReviews
-    |> generateReviews
+    |> generateReviewsForLatestAlbums
     |> should haveLength 1
 
 let private testReviewScore reviewerId assertFn quality =
@@ -137,7 +137,7 @@ let private testReviewScore reviewerId assertFn quality =
                 BandFansMin = Config.MusicSimulation.minimumFanBaseForReviews
                 BandFansMax = 10000 }
         |> addAlbumWithQuality quality
-        |> generateReviews
+        |> generateReviewsForLatestAlbums
 
     let review =
         match List.head effects with
