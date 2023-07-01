@@ -6,8 +6,12 @@ open Duets.Data.World
 let addDivadloArcha zone =
     let concertSpace = { Capacity = 1200 }
 
+    let shop =
+        { AvailableItems = CityCommonItems.commonBar
+          PriceModifier = 2<multiplier> }
+
     let lobby = World.Node.create Ids.ConcertSpace.lobby RoomType.Lobby
-    let bar = World.Node.create Ids.ConcertSpace.bar RoomType.Bar
+    let bar = RoomType.Bar shop |> World.Node.create Ids.ConcertSpace.bar
     let stage = World.Node.create Ids.ConcertSpace.stage RoomType.Stage
 
     let backstage =
@@ -33,8 +37,12 @@ let addDivadloArcha zone =
 let addFuturum zone =
     let concertSpace = { Capacity = 350 }
 
+    let shop =
+        { AvailableItems = CityCommonItems.commonBar
+          PriceModifier = 2<multiplier> }
+
     let lobby = World.Node.create 0 RoomType.Lobby
-    let bar = World.Node.create Ids.ConcertSpace.bar RoomType.Bar
+    let bar = RoomType.Bar shop |> World.Node.create Ids.ConcertSpace.bar
     let stage = World.Node.create Ids.ConcertSpace.stage RoomType.Stage
 
     let backstage =
@@ -60,8 +68,12 @@ let addFuturum zone =
 let addKampusHybernska zone =
     let concertSpace = { Capacity = 180 }
 
+    let shop =
+        { AvailableItems = CityCommonItems.commonBar
+          PriceModifier = 2<multiplier> }
+
     let lobby = World.Node.create 0 RoomType.Lobby
-    let bar = World.Node.create Ids.ConcertSpace.bar RoomType.Bar
+    let bar = RoomType.Bar shop |> World.Node.create Ids.ConcertSpace.bar
     let stage = World.Node.create Ids.ConcertSpace.stage RoomType.Stage
 
     let backstage =
@@ -85,8 +97,12 @@ let addKampusHybernska zone =
 let addLucerna zone =
     let concertSpace = { Capacity = 2500 }
 
+    let shop =
+        { AvailableItems = CityCommonItems.commonBar
+          PriceModifier = 2<multiplier> }
+
     let lobby = World.Node.create 0 RoomType.Lobby
-    let bar = World.Node.create Ids.ConcertSpace.bar RoomType.Bar
+    let bar = RoomType.Bar shop |> World.Node.create Ids.ConcertSpace.bar
     let stage = World.Node.create Ids.ConcertSpace.stage RoomType.Stage
 
     let backstage =
@@ -112,8 +128,12 @@ let addLucerna zone =
 let addPalacAkropolis zone =
     let concertSpace = { Capacity = 1000 }
 
+    let shop =
+        { AvailableItems = CityCommonItems.commonBar
+          PriceModifier = 2<multiplier> }
+
     let lobby = World.Node.create 0 RoomType.Lobby
-    let bar = World.Node.create Ids.ConcertSpace.bar RoomType.Bar
+    let bar = RoomType.Bar shop |> World.Node.create Ids.ConcertSpace.bar
     let stage = World.Node.create Ids.ConcertSpace.stage RoomType.Stage
 
     let backstage =
@@ -139,8 +159,12 @@ let addPalacAkropolis zone =
 let addRedutaJazzClub zone =
     let concertSpace = { Capacity = 250 }
 
+    let shop =
+        { AvailableItems = CityCommonItems.commonBar
+          PriceModifier = 2<multiplier> }
+
     let lobby = World.Node.create 0 RoomType.Lobby
-    let bar = World.Node.create Ids.ConcertSpace.bar RoomType.Bar
+    let bar = RoomType.Bar shop |> World.Node.create Ids.ConcertSpace.bar
     let stage = World.Node.create Ids.ConcertSpace.stage RoomType.Stage
 
     let backstage =
@@ -166,8 +190,12 @@ let addRedutaJazzClub zone =
 let addUnderdogs zone =
     let concertSpace = { Capacity = 400 }
 
+    let shop =
+        { AvailableItems = CityCommonItems.commonBar
+          PriceModifier = 2<multiplier> }
+
     let lobby = World.Node.create 0 RoomType.Lobby
-    let bar = World.Node.create Ids.ConcertSpace.bar RoomType.Bar
+    let bar = RoomType.Bar shop |> World.Node.create Ids.ConcertSpace.bar
     let stage = World.Node.create Ids.ConcertSpace.stage RoomType.Stage
 
     let backstage =

@@ -73,4 +73,4 @@ module ConcertSpace =
               Interaction.Concert(
                   ConcertInteraction.FinishConcert ongoingConcert
               ) ] (* TODO: Add interactions that are specific to only the backstage outside a concert. *)
-        | _ -> defaultInteractions
+        | _ -> Bar.interactions roomType @ defaultInteractions

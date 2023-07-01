@@ -47,14 +47,23 @@ let private generateBaristaJob cityId placeId shop =
       Schedule = JobSchedule.Free 2<dayMoments>
       ShiftAttributeEffect = [ CharacterAttribute.Energy, -10 ] }
 
+let private generateJobsForPlace cityId place =
+    place.Rooms
+    |> World.Graph.nodes
+    |> List.choose (function
+        | RoomType.Bar shop -> generateBartenderJob cityId place.Id shop |> Some
+        | RoomType.Cafe shop -> generateBaristaJob cityId place.Id shop |> Some
+        | _ -> None)
+
 let private generateJobs cityId (places: Place list) =
     places
     |> List.choose (fun place ->
-        match place.Type with
-        | PlaceType.Bar shop ->
-            generateBartenderJob cityId place.Id shop |> Some
-        | PlaceType.Cafe shop -> generateBaristaJob cityId place.Id shop |> Some
-        | _ -> None)
+        let jobsInPlace = generateJobsForPlace cityId place
+
+        match jobsInPlace with
+        | [] -> None
+        | _ -> Some jobsInPlace)
+    |> List.flatten
 
 /// Generates a list of available jobs for the given type in the current city in
 /// which the player is located.

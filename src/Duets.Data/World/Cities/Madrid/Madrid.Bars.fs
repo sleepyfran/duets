@@ -8,7 +8,7 @@ let addWrongWay zone =
         { AvailableItems = CityCommonItems.beers @ CityCommonItems.pubFood
           PriceModifier = 3<multiplier> }
 
-    let bar = World.Node.create 0 RoomType.Bar
+    let bar = RoomType.Bar shop |> World.Node.create 0
 
     let roomGraph = World.Graph.from bar
 
@@ -16,7 +16,7 @@ let addWrongWay zone =
         ("1085e199-f5ad-4011-bc7e-4c55dbd4a25e" |> Identity.from)
         "Wrong Way"
         70<quality>
-        (Bar shop)
+        Bar
         roomGraph
         zone
     |> World.Place.changeOpeningHours Everywhere.Common.barOpeningHours

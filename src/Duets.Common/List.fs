@@ -21,14 +21,17 @@ let forall2' predicate source1 source2 =
     with _ ->
         false
 
+/// Flattens any list of lists into a single list.
+let flatten list = List.collect id list
+
 /// Returns a list created from a map that transforms the KeyValuePair given
 /// by `ofSeq` into an actual tuple.
 let ofMap (map: Map<_, _>) =
     List.ofSeq map |> List.map (fun kvp -> (kvp.Key, kvp.Value))
-    
+
 /// Returns a list created from the keys of a map ignoring its values.
 let ofMapKeys (map: Map<_, _>) =
-   List.ofSeq map |> List.map (fun kvp -> kvp.Key) 
+    List.ofSeq map |> List.map (fun kvp -> kvp.Key)
 
 /// Returns a list created from the values of a map ignoring its keys.
 let ofMapValues (map: Map<_, _>) =

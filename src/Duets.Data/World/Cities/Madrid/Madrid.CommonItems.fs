@@ -10,3 +10,6 @@ let beers =
 
 /// List of most common food sold in Madrid pubs.
 let pubFood = [ Food.FastFood.genericNachos; Food.FastFood.genericChips ]
+
+/// List of most common items sold in Madrid pubs.
+let commonBar = beers @ pubFood

@@ -45,9 +45,8 @@ module Interactions =
 
         match currentPlace.Type with
         | Airport -> Airport.interactions state defaultInteractions
-        | Bar bar -> Bar.interactions currentRoom bar @ defaultInteractions
-        | Cafe coffeeShop ->
-            Cafe.interactions currentRoom coffeeShop @ defaultInteractions
+        | Bar -> Bar.interactions currentRoom @ defaultInteractions
+        | Cafe -> Cafe.interactions currentRoom @ defaultInteractions
         | ConcertSpace _ ->
             ConcertSpace.interactions
                 state
@@ -58,8 +57,8 @@ module Interactions =
         | Hospital -> defaultInteractions
         | RehearsalSpace _ ->
             RehearsalSpace.interactions state currentRoom @ defaultInteractions
-        | Restaurant restaurant ->
-            Restaurant.interactions currentRoom restaurant @ defaultInteractions
+        | Restaurant ->
+            Restaurant.interactions currentRoom @ defaultInteractions
         | Studio studio ->
             Studio.interactions state studio @ defaultInteractions
         |> List.map (fun interaction ->

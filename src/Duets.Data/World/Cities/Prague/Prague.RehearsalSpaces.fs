@@ -26,15 +26,21 @@ let addCheapAndFast zone =
 let addZkusebnyTovarna zone =
     let rehearsalSpace = { Price = 55m<dd> }
 
+    let shop =
+        { AvailableItems = CityCommonItems.commonBar
+          PriceModifier = 1<multiplier> }
+
     let lobby = World.Node.create 0 RoomType.Lobby
-    let room1 = World.Node.create 1 RoomType.RehearsalRoom
-    let room2 = World.Node.create 2 RoomType.RehearsalRoom
-    let room3 = World.Node.create 3 RoomType.RehearsalRoom
+    let bar = RoomType.Bar shop |> World.Node.create 1
+    let room1 = World.Node.create 2 RoomType.RehearsalRoom
+    let room2 = World.Node.create 3 RoomType.RehearsalRoom
+    let room3 = World.Node.create 4 RoomType.RehearsalRoom
 
     let roomGraph =
-        World.Graph.fromMany [ lobby; room1; room2; room3 ]
+        World.Graph.fromMany [ lobby; bar; room1; room2; room3 ]
         |> World.Graph.connectMany
-            [ lobby.Id, room1.Id, North
+            [ lobby.Id, bar.Id, East
+              lobby.Id, room1.Id, North
               lobby.Id, room2.Id, NorthWest
               lobby.Id, room3.Id, West ]
 

@@ -88,4 +88,4 @@ module RehearsalSpace =
     let internal interactions state roomType =
         match roomType with
         | RoomType.RehearsalRoom -> rehearsalRoomInteractions state
-        | _ -> []
+        | _ -> Bar.interactions roomType

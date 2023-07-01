@@ -1,6 +1,7 @@
 module Duets.Entities.World
 
 open Aether
+open Duets.Common
 open Duets.Entities
 
 /// Creates an empty world.
@@ -65,6 +66,9 @@ module Graph =
             (fun g (fromNodeId, toNodeId, direction) ->
                 connect fromNodeId toNodeId direction g)
             graph
+
+    /// Returns all the nodes in the graph.
+    let nodes graph = graph.Nodes |> List.ofMapValues
 
 [<RequireQualifiedAccess>]
 module Node =

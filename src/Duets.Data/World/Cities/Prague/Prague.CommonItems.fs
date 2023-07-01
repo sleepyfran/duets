@@ -16,3 +16,6 @@ let pubFood =
     [ Food.FastFood.genericBurger
       Food.FastFood.genericFries
       Food.FastFood.genericNachos ]
+
+/// List of most common items sold in pubs in Prague.
+let commonBar = beers @ pubFood

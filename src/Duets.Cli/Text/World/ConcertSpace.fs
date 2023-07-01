@@ -43,7 +43,7 @@ and private roomDescription
     =
     match roomType with
     | RoomType.Backstage -> backstageDescription place attendancePercentage
-    | RoomType.Bar -> barDescription attendancePercentage
+    | RoomType.Bar _ -> barDescription attendancePercentage
     | RoomType.Lobby -> lobbyDescription attendancePercentage
     | RoomType.Stage -> stageDescription attendancePercentage
     | _ -> failwith "Room type not supported in concert space"

@@ -32,8 +32,8 @@ let placeTypeName (placeType: PlaceTypeIndex) =
 let roomName (room: RoomType) =
     match room with
     | RoomType.Backstage -> "backstage"
-    | RoomType.Bar -> "bar area"
-    | RoomType.Cafe -> "cafe area"
+    | RoomType.Bar _ -> "bar area"
+    | RoomType.Cafe _ -> "cafe area"
     | RoomType.Bedroom -> "bedroom"
     | RoomType.Kitchen -> "kitchen"
     | RoomType.LivingRoom -> "living room"
@@ -41,7 +41,7 @@ let roomName (room: RoomType) =
     | RoomType.MasteringRoom -> "mastering room"
     | RoomType.RecordingRoom -> "recording room"
     | RoomType.RehearsalRoom -> "rehearsal room"
-    | RoomType.Restaurant -> "restaurant"
+    | RoomType.Restaurant _ -> "restaurant"
     | RoomType.SecurityControl -> "security control"
     | RoomType.Stage -> "stage"
 

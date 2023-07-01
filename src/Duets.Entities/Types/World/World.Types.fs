@@ -54,8 +54,8 @@ module WorldTypes =
     [<RequireQualifiedAccess>]
     type RoomType =
         | Backstage
-        | Bar
-        | Cafe
+        | Bar of Shop
+        | Cafe of Shop
         | Bedroom
         | Kitchen
         | LivingRoom
@@ -63,20 +63,20 @@ module WorldTypes =
         | MasteringRoom
         | RecordingRoom
         | RehearsalRoom
-        | Restaurant
+        | Restaurant of Shop
         | SecurityControl
         | Stage
 
     /// Defines all the different types of places that the game supports.
     type PlaceType =
         | Airport
-        | Bar of Shop
-        | Cafe of Shop
+        | Bar
+        | Cafe
         | ConcertSpace of ConcertSpace
         | Home
         | Hospital
         | RehearsalSpace of RehearsalSpace
-        | Restaurant of Shop
+        | Restaurant
         | Studio of Studio
 
     /// Re-defines all types of places above but without its content, to be able

@@ -19,21 +19,21 @@ module Shop =
 
 module Bar =
     /// Gather all available interactions inside a bar.
-    let internal interactions roomType shop =
+    let internal interactions roomType =
         match roomType with
-        | RoomType.Bar -> Shop.interactions shop
+        | RoomType.Bar shop -> Shop.interactions shop
         | _ -> []
 
 module Cafe =
     /// Gather all available interactions inside a cafe.
-    let internal interactions roomType shop =
+    let internal interactions roomType =
         match roomType with
-        | RoomType.Cafe -> Shop.interactions shop
+        | RoomType.Cafe shop -> Shop.interactions shop
         | _ -> []
 
 module Restaurant =
     /// Gather all available interactions inside a restaurant.
-    let internal interactions roomType shop =
+    let internal interactions roomType =
         match roomType with
-        | RoomType.Restaurant -> Shop.interactions shop
+        | RoomType.Restaurant shop -> Shop.interactions shop
         | _ -> []

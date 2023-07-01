@@ -31,8 +31,12 @@ let addJackOnTheRocks zone =
 let addPandorasVox zone =
     let rehearsalSpace = { Price = 65m<dd> }
 
+    let shop =
+        { AvailableItems = CityCommonItems.commonBar
+          PriceModifier = 2<multiplier> }
+
     let lobby = World.Node.create 0 RoomType.Lobby
-    let bar = World.Node.create 1 RoomType.Bar
+    let bar = RoomType.Bar shop |> World.Node.create 1
     let room1 = World.Node.create 2 RoomType.RehearsalRoom
     let room2 = World.Node.create 3 RoomType.RehearsalRoom
     let room3 = World.Node.create 4 RoomType.RehearsalRoom

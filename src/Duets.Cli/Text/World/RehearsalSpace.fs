@@ -4,7 +4,7 @@ open Duets.Entities
 
 let rec description (place: Place) (roomType: RoomType) =
     match roomType with
-    | RoomType.Bar ->
+    | RoomType.Bar _ ->
         "The bar is managed by the same person that takes care of the rooms. It's a small place, but it has a decent selection of drinks and snacks"
     | RoomType.Lobby ->
         "The entrance of the building is decorated with posters of bands that have rehearsed here before, there's a board with the schedule of the rooms and some hand-written ads of bands looking for members"
