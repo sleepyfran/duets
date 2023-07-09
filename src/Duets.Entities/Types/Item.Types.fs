@@ -14,31 +14,14 @@ module ItemTypes =
     /// Defines all types of drinks available in the game.
     type DrinkItemType =
         | Beer of amount: int<milliliter> * alcoholContent: float
-        | Cola of amount: int<milliliter>
         | Coffee of amount: int<milliliter>
-        | Lemonade of amount: int<milliliter>
+        | Soda of amount: int<milliliter>
 
     /// Defines all types of food available in the game.
     type FoodItemType =
-        | Burger of amount: int<gram>
-        | BunBo of amount: int<gram>
-        | Chips of amount: int<gram>
-        | Chicken of amount: int<gram>
-        | Croissant of amount: int<gram>
-        | Falafel of amount: int<gram>
-        | Fries of amount: int<gram>
-        | Fruits of amount: int<gram>
-        | GranolaBowl of amount: int<gram>
-        | Gyozas of amount: int<gram>
-        | Nachos of amount: int<gram>
-        | NemCuon of amount: int<gram>
-        | PhoBo of amount: int<gram>
-        | Ramen of amount: int<gram>
-        | Salad of amount: int<gram>
-        | Sandwich of amount: int<gram>
-        | Steak of amount: int<gram>
-        | Sushi of amount: int<gram>
-        | Wakame of amount: int<gram>
+        | Unhealthy of amount: int<gram>
+        | Regular of amount: int<gram>
+        | Healthy of amount: int<gram>
 
     (* --------------- INTERACTIVE --------------- *)
 

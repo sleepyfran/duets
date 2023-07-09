@@ -14,11 +14,10 @@ let rec drink state item =
     let character = Queries.Characters.playableCharacter state
 
     match item with
-    | Beer (amount, alcoholContent) ->
+    | Beer(amount, alcoholContent) ->
         drinkAlcohol character amount alcoholContent
     | Coffee amount -> drinkCoffee character amount
-    | Cola _ -> Character.Attribute.add character CharacterAttribute.Energy 1
-    | Lemonade _ -> []
+    | Soda _ -> []
 
 and private drinkAlcohol character amount alcoholContent =
     let amountOfAlcohol = (float amount * alcoholContent) / 100.0

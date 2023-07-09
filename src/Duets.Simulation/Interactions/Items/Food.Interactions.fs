@@ -11,30 +11,14 @@ let eat state item =
     let character = Queries.Characters.playableCharacter state
 
     match item with
-    | Burger amount
-    | Croissant amount
-    | Chips amount
-    | Fries amount
-    | Nachos amount -> eatJunkFood character amount
-    | BunBo amount
-    | Chicken amount
-    | Falafel amount
-    | Fruits amount
-    | GranolaBowl amount
-    | Gyozas amount
-    | NemCuon amount
-    | PhoBo amount
-    | Ramen amount
-    | Salad amount
-    | Sandwich amount
-    | Steak amount
-    | Sushi amount
-    | Wakame amount -> eatNormalFood character amount
+    | Unhealthy amount -> eatUnhealthyFood character amount
+    | Regular amount
+    | Healthy amount -> eatRegularFood character amount
 
 let private calculateHungerIncrease amount =
     float amount * 0.15 |> Math.roundToNearest
 
-let private eatJunkFood character amount =
+let private eatUnhealthyFood character amount =
     let hungerIncrease = calculateHungerIncrease amount
     let healthDecrease = float amount / 100.0 |> Math.roundToNearest |> ((*) -1)
 
@@ -49,7 +33,7 @@ let private eatJunkFood character amount =
               CharacterAttribute.Health
               healthDecrease ]
 
-let private eatNormalFood character amount =
+let private eatRegularFood character amount =
     let hungerIncrease = calculateHungerIncrease amount
 
     Character.Attribute.add character CharacterAttribute.Hunger hungerIncrease

@@ -220,16 +220,8 @@ let itemName (item: Item) =
     | Consumable(Drink drink) ->
         match drink with
         | Beer _ -> $"{item.Brand} beer"
-        | Coffee _ -> item.Brand |> String.lowercase
-        | Cola _ -> "cola"
-        | Lemonade _ -> "lemonade"
-    | Consumable(Food food) ->
-        match food with
-        | Burger _ -> "burger"
-        | Chips _ -> "chips"
-        | Fries _ -> "fries"
-        | Nachos _ -> "nachos"
         | _ -> item.Brand |> String.lowercase
+    | Consumable(Food _) -> item.Brand |> String.lowercase
     | Interactive(Electronics electronic) ->
         match electronic with
         | GameConsole -> item.Brand
@@ -246,29 +238,12 @@ let itemNameWithDetail (item: Item) =
         match drink with
         | Beer(ml, alcohol) -> $"""{Styles.item "Beer"} ({ml}ml, {alcohol}%%)"""
         | Coffee ml -> $"""{Styles.item item.Brand} ({ml}ml of coffee)"""
-        | Cola ml -> $"""{Styles.item "Cola"} ({ml}ml)"""
-        | Lemonade ml -> $"""{Styles.item "Lemonade"} ({ml}ml)"""
+        | Soda ml -> $"""{Styles.item item.Brand} ({ml}ml)"""
     | Consumable(Food food) ->
         match food with
-        | Burger g
-        | Chips g
-        | Chicken g
-        | Croissant g
-        | Falafel g
-        | Fries g
-        | Fruits g
-        | GranolaBowl g
-        | Gyozas g
-        | Nachos g
-        | NemCuon g
-        | BunBo g
-        | PhoBo g
-        | Ramen g
-        | Salad g
-        | Sandwich g
-        | Steak g
-        | Sushi g
-        | Wakame g -> $"""{Styles.item item.Brand} ({g}g)"""
+        | Unhealthy g
+        | Regular g
+        | Healthy g -> $"""{Styles.item item.Brand} ({g}g)"""
     | Interactive _ -> itemName item
 
 let moreDates = Styles.faded "More dates"

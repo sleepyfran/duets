@@ -97,12 +97,12 @@ module Coffee =
 module SoftDrinks =
     let cocaColaBottle: PurchasableItem =
         { Brand = "Coca Cola"
-          Type = Cola 330<milliliter> |> Drink |> Consumable },
+          Type = Soda 330<milliliter> |> Drink |> Consumable },
         0.6m<dd>
 
     let homemadeLemonade: PurchasableItem =
         { Brand = "Homemade lemonade"
-          Type = Lemonade 500<milliliter> |> Drink |> Consumable },
+          Type = Soda 500<milliliter> |> Drink |> Consumable },
         0.9m<dd>
 
     let all = [ cocaColaBottle; homemadeLemonade ]
