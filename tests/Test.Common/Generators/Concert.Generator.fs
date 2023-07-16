@@ -1,35 +1,36 @@
 module Test.Common.Generators.Concert
 
 open FsCheck
-open Duets.Simulation
+open Test.Common
 
-open Duets.Common
 open Duets.Entities
+open Duets.Simulation
 
 type ConcertGenOptions =
     { From: Date
       To: Date
+      City: CityId
+      Venue: PlaceId
       DayMoment: DayMoment }
 
 let defaultOptions =
     { From = Calendar.gameBeginning
       To = Calendar.gameBeginning.AddYears(10)
+      City = Prague
+      Venue = dummyVenue.Id
       DayMoment = Evening }
 
 let generator opts =
     gen {
-        let city = Queries.World.allCities |> List.head
-
-        let venueId =
-            Queries.World.placeIdsByTypeInCity city.Id PlaceTypeIndex.ConcertSpace
-            |> List.head
+        let cityId = opts.City
+        let venueId = opts.Venue
 
         let! concert = Arb.generate<Concert>
         let! date = Date.dateGenerator opts.From opts.To
 
         return
             { concert with
-                CityId = city.Id
+                CityId = cityId
                 VenueId = venueId
                 Date = date
                 DayMoment = opts.DayMoment }

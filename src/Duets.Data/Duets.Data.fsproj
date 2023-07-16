@@ -38,6 +38,7 @@
         <Compile Include="World\Cities\Everywhere.Common.fs" />
         <Compile Include="World\Cities\Prague.fs" />
         <Compile Include="World\Cities\Madrid.fs" />
+        <Compile Include="World\Cities\NewYork.fs"/>
         <Compile Include="World\World.fs" />
         <None Include="Util\NpcGen.fsx" />
         <Content Include="ATTRIBUTIONS.md" />

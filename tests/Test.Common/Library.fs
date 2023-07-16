@@ -98,7 +98,8 @@ let dummyStudio =
 
 let dummyCity =
     let world = World.get ()
-    world.Cities |> Map.head
+    world.Cities
+    |> Map.find Prague
 
 let dummyPlace =
     Queries.World.placesByTypeInCity dummyCity.Id PlaceTypeIndex.Home

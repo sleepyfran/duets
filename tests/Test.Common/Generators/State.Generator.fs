@@ -57,13 +57,8 @@ let generator (opts: StateGenOptions) =
 
         let scheduledConcerts =
             opts.ScheduledConcertGen
-            |> Gen.map (fun (ScheduledConcert (concert, scheduledOn)) ->
-                ScheduledConcert(
-                    { concert with
-                        CityId = city.Id
-                        VenueId = venueId },
-                    scheduledOn
-                ))
+            |> Gen.map (fun (ScheduledConcert(concert, scheduledOn)) ->
+                ScheduledConcert(concert, scheduledOn))
             |> Gen.sample 0 opts.FutureConcertsToGenerate
 
         let pastConcerts =
@@ -79,7 +74,8 @@ let generator (opts: StateGenOptions) =
         let! playableCharacter = Arb.generate<Character>
 
         let playableCharacter =
-            { playableCharacter with Attributes = Character.defaultAttributes }
+            { playableCharacter with
+                Attributes = Character.defaultAttributes }
 
         let! bandMembers = Gen.listOfLength 4 Arb.generate<CurrentMember>
 

@@ -34,10 +34,13 @@ let private cityNumericalId cityId =
     match cityId with
     | Prague -> 0
     | Madrid -> 1
+    | NewYork -> 2
 
 let connectionBetween city1 city2 =
     cityNumericalId city1 + cityNumericalId city2
 
 let distances =
-    [ (connectionBetween Prague Madrid), 1780<km> ]
+    [ (connectionBetween Prague Madrid), 1780<km>
+      (connectionBetween Prague NewYork), 6900<km>
+      (connectionBetween Madrid NewYork), 5800<km> ]
     |> Map.ofList
