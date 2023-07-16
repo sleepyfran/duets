@@ -283,7 +283,7 @@ let private addStudios city =
        260m<dd>,
        statenIsland,
        (Character.from "Peter Brown" Male (June 20 1981)))
-      ("Harlem Harmony",
+      ("Harlem Studios",
        86<quality>,
        220m<dd>,
        harlem,

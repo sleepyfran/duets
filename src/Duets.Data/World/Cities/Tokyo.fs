@@ -264,7 +264,7 @@ let private addStudios city =
        92<quality>,
        340m<dd>,
        shibuya,
-       (Character.from "Tetsuya Komuro" Male (November 27 1958)))
+       (Character.from "Haruki Komuro" Male (November 27 1958)))
       ("Sony Music Studios",
        80<quality>,
        100m<dd>,
