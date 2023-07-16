@@ -18,10 +18,10 @@ let private allInitialWorldItems =
 
         let kitchenItems =
             [ fst Drink.SoftDrinks.cocaColaBottle
-              fst Drink.Coffee.doubleEspresso ]
+              fst Drink.Coffee.doubleEspresso
+              fst Furniture.Stove.lgStove ]
 
-        let bedroomItems =
-            [ fst Furniture.Bed.ikeaBed; fst Furniture.Stove.lgStove ]
+        let bedroomItems = [ fst Furniture.Bed.ikeaBed ]
 
         let livingRoomItems =
             [ fst Electronics.Tv.lgTv; fst Electronics.GameConsole.xbox ]
