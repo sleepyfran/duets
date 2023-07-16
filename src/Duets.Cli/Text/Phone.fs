@@ -29,9 +29,9 @@ let bankAppTransferAmount holder =
 
 let bankAppTransferSuccess holder transaction =
     match transaction with
-    | Incoming (amount, _) ->
+    | Incoming(amount, _) ->
         $"Transferred {Styles.money amount} to {Generic.accountHolderName holder}'s account"
-    | Outgoing (amount, _) ->
+    | Outgoing(amount, _) ->
         $"Transferred {Styles.money amount} from {Generic.accountHolderName holder}'s account"
 
 let bankAppTransferNotEnoughFunds =
@@ -89,7 +89,7 @@ let findJobTypePrompt = "What kind of job are you looking for?"
 let findJobSelectPrompt = "Which job are you interested in applying?"
 
 let findJobSelectItem (job: Job) (placeName: string) =
-    $"{Career.name job.Id} job at {placeName}. Salary: {Styles.money job.CurrentStage.BaseSalaryPerDayMoment}/day moment. {Career.scheduleDescription job.Schedule}"
+    $"{Career.name job.Id} job at {placeName}.{Styles.Spacing.choicePromptNewLine}Salary: {Styles.money job.CurrentStage.BaseSalaryPerDayMoment}/day moment.{Styles.Spacing.choicePromptNewLine}{Career.scheduleDescription job.Schedule}\n"
 
 let findJobAcceptConfirmation careerId placeName =
     Styles.prompt
@@ -163,8 +163,7 @@ let statisticsAppAlbumRevenueHeader = Styles.header "Revenue"
 let statisticsAppAlbumName name = Styles.information name
 let statisticsAppAlbumType albumT = Generic.albumType albumT
 
-let statisticsAppAlbumReleaseDate date =
-    Styles.highlight (Date.simple date)
+let statisticsAppAlbumReleaseDate date = Styles.highlight (Date.simple date)
 
 let statisticsAppAlbumStreams streams =
     Styles.highlight (Styles.number streams)

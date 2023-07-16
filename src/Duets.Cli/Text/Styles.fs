@@ -123,3 +123,8 @@ module Level =
 
 /// Pre-defined style for a title.
 let title text = $"[bold underline]{text}[/]"
+
+module Spacing =
+    /// Adds a new line with a few spaces to align the next line with the
+    /// previous one in choice prompts.
+    let choicePromptNewLine = "\n  "
