@@ -8,10 +8,11 @@ open Duets.Entities
 let private generate () =
     let london = Cities.London.generate ()
     let madrid = Cities.Madrid.generate ()
-    let prague = Cities.Prague.generate ()
     let newYork = Cities.NewYork.generate ()
+    let prague = Cities.Prague.generate ()
+    let tokyo = Cities.Tokyo.generate ()
 
-    World.create [ london; madrid; prague; newYork ]
+    World.create [ london; madrid; newYork; prague; tokyo ]
 
 /// Returns the game world. This function internally memos the calls to
 /// the world generation so that it will only generate the game world once
@@ -38,6 +39,7 @@ let private cityNumericalId cityId =
     | Madrid -> 1
     | NewYork -> 2
     | Prague -> 3
+    | Tokyo -> 4
 
 let connectionBetween city1 city2 =
     cityNumericalId city1 + cityNumericalId city2
@@ -46,7 +48,11 @@ let distances =
     [ (connectionBetween London Madrid, 1260<km>)
       (connectionBetween London NewYork, 5570<km>)
       (connectionBetween London Prague, 1035<km>)
+      (connectionBetween London Tokyo, 9600<km>)
       (connectionBetween Madrid NewYork, 5768<km>)
       (connectionBetween Madrid Prague, 1780<km>)
-      (connectionBetween NewYork Prague, 6570<km>) ]
+      (connectionBetween Madrid Tokyo, 10500<km>)
+      (connectionBetween NewYork Prague, 6570<km>)
+      (connectionBetween NewYork Tokyo, 10800<km>)
+      (connectionBetween Prague Tokyo, 90904<km>) ]
     |> Map.ofList

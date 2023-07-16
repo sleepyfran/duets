@@ -101,6 +101,7 @@ let cityName id =
     | Madrid -> "Madrid"
     | NewYork -> "New York"
     | Prague -> "Prague"
+    | Tokyo -> "Tokyo"
 
 /// Returns a formatted list as empty if it contains nothing, "a" if it contains
 /// only one element, "a and b" with two elements and "a, b and c" for all other
