@@ -6,10 +6,10 @@ open Duets.Entities
 /// a bunch of places interconnected, in the future this should procedurally
 /// generate the world and all the cities in it.
 let private generate () =
-    let london = Cities.London.Root.generate ()
-    let madrid = Cities.Madrid.Root.generate ()
-    let prague = Cities.Prague.Root.generate ()
-    let newYork = Cities.NewYork.Root.generate ()
+    let london = Cities.London.generate ()
+    let madrid = Cities.Madrid.generate ()
+    let prague = Cities.Prague.generate ()
+    let newYork = Cities.NewYork.generate ()
 
     World.create [ london; madrid; prague; newYork ]
 

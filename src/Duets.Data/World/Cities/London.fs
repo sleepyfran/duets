@@ -1,4 +1,4 @@
-module rec Duets.Data.World.Cities.London.Root
+module rec Duets.Data.World.Cities.London
 
 open Fugit.Months
 open Duets.Entities

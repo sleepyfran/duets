@@ -1,4 +1,4 @@
-module rec Duets.Data.World.Cities.Prague.Root
+module rec Duets.Data.World.Cities.Prague
 
 open Fugit.Months
 open Duets.Entities

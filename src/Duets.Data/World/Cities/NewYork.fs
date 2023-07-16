@@ -1,4 +1,4 @@
-module rec Duets.Data.World.Cities.NewYork.Root
+module rec Duets.Data.World.Cities.NewYork
 
 open Fugit.Months
 open Duets.Entities

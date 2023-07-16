@@ -1,4 +1,4 @@
-module rec Duets.Data.World.Cities.Madrid.Root
+module rec Duets.Data.World.Cities.Madrid
 
 open Fugit.Months
 open Duets.Entities
