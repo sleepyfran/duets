@@ -28,20 +28,21 @@
         <Compile Include="Items\Food\Vietnamese.Food.fs" />
         <Compile Include="Items\Food\All.Food.fs" />
         <Compile Include="Careers.fs" />
-        <Compile Include="Genres.fs" />
-        <Compile Include="Npcs.fs" />
-        <Compile Include="Roles.fs" />
-        <Compile Include="Skills.fs" />
-        <Compile Include="VocalStyles.fs" />
-        <Compile Include="Words.fs" />
-        <Compile Include="World\Ids.fs" />
-        <Compile Include="World\Cities\Everywhere.Common.fs" />
-        <Compile Include="World\Cities\Prague.fs" />
-        <Compile Include="World\Cities\Madrid.fs" />
+        <Compile Include="Genres.fs"/>
+        <Compile Include="Npcs.fs"/>
+        <Compile Include="Roles.fs"/>
+        <Compile Include="Skills.fs"/>
+        <Compile Include="VocalStyles.fs"/>
+        <Compile Include="Words.fs"/>
+        <Compile Include="World\Ids.fs"/>
+        <Compile Include="World\Cities\Everywhere.Common.fs"/>
+        <Compile Include="World\Cities\London.fs"/>
+        <Compile Include="World\Cities\Madrid.fs"/>
         <Compile Include="World\Cities\NewYork.fs"/>
-        <Compile Include="World\World.fs" />
-        <None Include="Util\NpcGen.fsx" />
-        <Content Include="ATTRIBUTIONS.md" />
+        <Compile Include="World\Cities\Prague.fs"/>
+        <Compile Include="World\World.fs"/>
+        <None Include="Util\NpcGen.fsx"/>
+        <Content Include="ATTRIBUTIONS.md"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj" />

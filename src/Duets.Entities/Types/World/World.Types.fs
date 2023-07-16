@@ -112,6 +112,7 @@ module WorldTypes =
     /// ID for a city in the game world, which declared every possible city
     /// available in the game.
     type CityId =
+        | London
         | Madrid
         | NewYork
         | Prague

@@ -11,16 +11,10 @@ open Duets.Entities.SituationTypes
 open Duets.Simulation
 open Duets.Simulation.Flights.Airport
 
-let origin =
-    Queries.World.allCities.Head.Id (* Prague*)
-
-let destination =
-    (Queries.World.allCities.Item 1).Id (* Madrid *)
-
 let testTicket =
     { Id = Identity.create ()
-      Origin = origin
-      Destination = destination
+      Origin = Prague
+      Destination = Madrid
       Price = 100m<dd>
       Date = dummyToday
       DayMoment = Morning
