@@ -11,13 +11,13 @@
         <Content Include="Resources\genres.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="Resources\nouns.json" />
+        <Content Include="Resources\nouns.json"/>
         <Content Include="Resources\npcs.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Compile Include="Items\Drink.Items.fs" />
-        <Compile Include="Items\Electronics.Items.fs" />
-        <Compile Include="Items\Furniture.Items.fs" />
+        <Compile Include="Items\Drink.Items.fs"/>
+        <Compile Include="Items\Electronics.Items.fs"/>
+        <Compile Include="Items\Furniture.Items.fs"/>
         <Compile Include="Items\Food\Breakfast.Food.fs"/>
         <Compile Include="Items\Food\Czech.Food.fs"/>
         <Compile Include="Items\Food\Japanese.Food.fs"/>
@@ -41,6 +41,7 @@
         <Compile Include="World\Cities\NewYork.fs"/>
         <Compile Include="World\Cities\Prague.fs"/>
         <Compile Include="World\Cities\Tokyo.fs"/>
+        <Compile Include="World\Cities\Sydney.fs"/>
         <Compile Include="World\World.fs"/>
         <None Include="Util\NpcGen.fsx"/>
         <Content Include="ATTRIBUTIONS.md"/>

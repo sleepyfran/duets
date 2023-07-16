@@ -116,6 +116,7 @@ module WorldTypes =
         | Madrid
         | NewYork
         | Prague
+        | Sydney
         | Tokyo
 
     /// Defines a city in the world as a connection of nodes with one of them
