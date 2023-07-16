@@ -183,7 +183,7 @@ let ``sold tickets are capped to venue capacity`` () =
             ))
         |> actAndGetConcert
 
-    concert.TicketsSold |> should equal 1200
+    concert.TicketsSold |> should equal 800
 
 [<Test>]
 let ``sold tickets should not decrease out of the normal cap when last visit to the city was more than 180 days ago``
@@ -239,7 +239,7 @@ let ``sold tickets decrease to 70% of the normal cap when last visit to the city
             (ScheduledConcert(dummyConcert, dummyToday))
         |> actAndGetConcert
 
-    concert.TicketsSold |> should equal 869
+    concert.TicketsSold |> should equal 800
 
 [<Test>]
 let ``sold tickets decrease to 20% of the normal cap when last visit to the city was less than 10 days ago``
@@ -286,7 +286,7 @@ let ``does not compute daily tickets sold as infinity when the days until the co
             ))
         |> actAndGetConcert
 
-    concert.TicketsSold |> should equal 1200
+    concert.TicketsSold |> should equal 800
 
 [<Test>]
 let ``computes daily tickets based on headliner if participation type is opening act``

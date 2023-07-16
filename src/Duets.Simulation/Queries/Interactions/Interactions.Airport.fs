@@ -1,12 +1,23 @@
 namespace Duets.Simulation.Queries.Internal.Interactions
 
-open Duets.Data.World
+open Duets.Data.Items
 open Duets.Entities
 open Duets.Entities.SituationTypes
 open Duets.Simulation
 
 [<RequireQualifiedAccess>]
 module Airport =
+    let private inFlightItems origin destination =
+        let originDrinks = Drink.Beer.byLocation |> Map.find origin
+
+        let destinationDrinks = Drink.Beer.byLocation |> Map.find destination
+
+        originDrinks
+        @ destinationDrinks
+        @ Drink.Coffee.all
+        @ Drink.SoftDrinks.all
+        |> List.map (fun (item, price) -> (item, price * 3m))
+
     let private airportInteractions state =
         let todayFlight = Queries.Flights.availableForBoarding state
 
@@ -22,9 +33,8 @@ module Airport =
 
         [ yield! allowedInteractions
           yield!
-              Shop.interactions
-                  { AvailableItems = AirplaneItems.drinks @ AirplaneItems.food
-                    PriceModifier = 10<multiplier> }
+              inFlightItems flight.Origin flight.Destination
+              |> Shop.interactions
           AirportInteraction.WaitUntilLanding flight |> Interaction.Airport ]
 
     let internal interactions state defaultInteractions =

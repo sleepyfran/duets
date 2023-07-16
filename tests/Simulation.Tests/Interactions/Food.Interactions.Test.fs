@@ -24,7 +24,7 @@ let ``Consuming junk food reduces health`` () =
     let effects =
         Items.consume
             state
-            (fst Data.Items.Food.FastFood.genericBurger)
+            (Data.Items.Food.USA.all |> List.head |> fst)
             ConsumableItemInteraction.Eat
         |> Result.unwrap
 
@@ -35,7 +35,7 @@ let ``Consuming junk food reduces health`` () =
         (CharacterAttributeChanged(
             character.Id,
             CharacterAttribute.Health,
-            Diff(50, 46)
+            Diff(50, 45)
         ))
 
 [<Test>]
@@ -43,7 +43,7 @@ let ``Consuming food increases hunger based on the amount`` () =
     let effects =
         Items.consume
             state
-            (fst Data.Items.Food.JapaneseFood.misoRamen)
+            (Data.Items.Food.Japanese.all |> List.head |> fst)
             ConsumableItemInteraction.Eat
         |> Result.unwrap
 
@@ -54,5 +54,5 @@ let ``Consuming food increases hunger based on the amount`` () =
         (CharacterAttributeChanged(
             character.Id,
             CharacterAttribute.Hunger,
-            Diff(50, 100)
+            Diff(50, 65)
         ))

@@ -85,7 +85,7 @@ module RehearsalSpace =
                   ) ]
 
     /// Returns all interactions available in the current rehearsal room.
-    let internal interactions state roomType =
+    let internal interactions state cityId roomType  =
         match roomType with
         | RoomType.RehearsalRoom -> rehearsalRoomInteractions state
-        | _ -> Bar.interactions roomType
+        | _ -> Bar.interactions cityId roomType

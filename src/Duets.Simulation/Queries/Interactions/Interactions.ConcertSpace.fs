@@ -44,7 +44,7 @@ module ConcertSpace =
               ) ]
 
     /// Returns all interactions available in the current concert room.
-    let internal interactions state roomType defaultInteractions placeId =
+    let internal interactions state roomType defaultInteractions cityId placeId =
         let situation = Queries.Situations.current state
 
         match situation with
@@ -73,4 +73,4 @@ module ConcertSpace =
               Interaction.Concert(
                   ConcertInteraction.FinishConcert ongoingConcert
               ) ] (* TODO: Add interactions that are specific to only the backstage outside a concert. *)
-        | _ -> Bar.interactions roomType @ defaultInteractions
+        | _ -> Bar.interactions cityId roomType @ defaultInteractions

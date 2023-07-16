@@ -14,7 +14,8 @@ module Items =
     let private furnitureInteractions furniture =
         match furniture with
         | FurnitureItemType.Bed -> InteractiveItemInteraction.Sleep
-        | FurnitureItemType.Stove -> Food.all |> InteractiveItemInteraction.Cook
+        | FurnitureItemType.Stove ->
+            Food.Index.all |> InteractiveItemInteraction.Cook
         |> ItemInteraction.Interactive
         |> Interaction.Item
 

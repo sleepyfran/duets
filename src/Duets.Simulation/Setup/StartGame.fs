@@ -17,8 +17,7 @@ let private allInitialWorldItems =
             |> List.head
 
         let kitchenItems =
-            [ fst Food.FastFood.genericBurger
-              fst Drink.SoftDrinks.cocaColaBottle
+            [ fst Drink.SoftDrinks.cocaColaBottle
               fst Drink.Coffee.doubleEspresso ]
 
         let bedroomItems =

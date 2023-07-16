@@ -10,11 +10,9 @@ open Duets
 open Duets.Simulation
 open Duets.Simulation.Interactions
 
-let state =
-    State.generateOne State.defaultOptions
+let state = State.generateOne State.defaultOptions
 
-let character =
-    Queries.Characters.playableCharacter state
+let character = Queries.Characters.playableCharacter state
 
 [<Test>]
 let ``Drinking a beer of 500ml and 4.4 in alcohol increases drunkenness by 6``
@@ -79,8 +77,7 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
             ConsumableItemInteraction.Drink
         |> Result.unwrap
 
-    let updatedCharacter =
-        Queries.Characters.playableCharacter updatedState
+    let updatedCharacter = Queries.Characters.playableCharacter updatedState
 
     updatedEffects
     |> List.item 0
@@ -96,24 +93,19 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
 let ``Drinking an item should remove it from the inventory if it was there``
     ()
     =
-    let item =
-        fst Data.Items.Drink.Beer.pilsnerUrquellPint
+    let item = fst Data.Items.Drink.Beer.pilsnerUrquellPint
 
-    let state =
-        state |> State.Inventory.add item
+    let state = state |> State.Inventory.add item
 
     let effects =
         Items.consume state item ConsumableItemInteraction.Drink
         |> Result.unwrap
 
-    effects
-    |> List.item 0
-    |> should equal (ItemRemovedFromInventory item)
+    effects |> List.item 0 |> should equal (ItemRemovedFromInventory item)
 
 [<Test>]
 let ``Drinking non-drink items should not be allowed`` () =
-    let item =
-        fst Data.Items.Food.FastFood.genericBurger
+    let item = Data.Items.Food.Czech.all |> List.head |> fst
 
     Items.consume state item ConsumableItemInteraction.Drink
     |> Result.unwrapError

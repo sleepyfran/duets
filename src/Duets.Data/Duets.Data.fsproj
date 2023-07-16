@@ -5,55 +5,46 @@
         <RootNamespace>Data</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="ResourceLoader.fs"/>
-        <Content Include="Resources\adjectives.json"/>
-        <Content Include="Resources\adverbs.json"/>
+        <Compile Include="ResourceLoader.fs" />
+        <Content Include="Resources\adjectives.json" />
+        <Content Include="Resources\adverbs.json" />
         <Content Include="Resources\genres.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="Resources\nouns.json"/>
+        <Content Include="Resources\nouns.json" />
         <Content Include="Resources\npcs.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Compile Include="Items\Drink.Items.fs"/>
-        <Compile Include="Items\Food.Items.fs"/>
-        <Compile Include="Items\Electronics.Items.fs"/>
-        <Compile Include="Items\Furniture.Items.fs"/>
-        <Compile Include="Careers.fs"/>
-        <Compile Include="Genres.fs"/>
-        <Compile Include="Npcs.fs"/>
-        <Compile Include="Roles.fs"/>
-        <Compile Include="Skills.fs"/>
-        <Compile Include="VocalStyles.fs"/>
-        <Compile Include="Words.fs"/>
-        <Compile Include="World\Ids.fs"/>
-        <Compile Include="World\Cities\Everywhere.Common.fs"/>
-        <Compile Include="World\Cities\Prague\Prague.CommonItems.fs"/>
-        <Compile Include="World\Cities\Prague\Prague.Bars.fs"/>
-        <Compile Include="World\Cities\Prague\Prague.Cafes.fs"/>
-        <Compile Include="World\Cities\Prague\Prague.ConcertSpaces.fs"/>
-        <Compile Include="World\Cities\Prague\Prague.Hospitals.fs"/>
-        <Compile Include="World\Cities\Prague\Prague.RehearsalSpaces.fs"/>
-        <Compile Include="World\Cities\Prague\Prague.Restaurants.fs"/>
-        <Compile Include="World\Cities\Prague\Prague.Studios.fs"/>
-        <Compile Include="World\Cities\Prague\Prague.fs"/>
-        <Compile Include="World\Cities\Madrid\Madrid.CommonItems.fs"/>
-        <Compile Include="World\Cities\Madrid\Madrid.Bars.fs"/>
-        <Compile Include="World\Cities\Madrid\Madrid.Cafes.fs"/>
-        <Compile Include="World\Cities\Madrid\Madrid.ConcertSpaces.fs"/>
-        <Compile Include="World\Cities\Madrid\Madrid.Hospitals.fs"/>
-        <Compile Include="World\Cities\Madrid\Madrid.RehearsalSpaces.fs"/>
-        <Compile Include="World\Cities\Madrid\Madrid.Restaurants.fs"/>
-        <Compile Include="World\Cities\Madrid\Madrid.Studios.fs"/>
-        <Compile Include="World\Cities\Madrid\Madrid.fs"/>
-        <Compile Include="World\AirplaneItems.fs"/>
-        <Compile Include="World\World.fs"/>
-        <None Include="Util\NpcGen.fsx"/>
-        <Content Include="ATTRIBUTIONS.md"/>
+        <Compile Include="Items\Drink.Items.fs" />
+        <Compile Include="Items\Electronics.Items.fs" />
+        <Compile Include="Items\Furniture.Items.fs" />
+        <Compile Include="Items\Food\Breakfast.Food.fs" />
+        <Compile Include="Items\Food\Czech.Food.fs" />
+        <Compile Include="Items\Food\Japanese.Food.fs" />
+        <Compile Include="Items\Food\Italian.Food.fs" />
+        <Compile Include="Items\Food\French.Food.fs" />
+        <Compile Include="Items\Food\Mexican.Food.fs" />
+        <Compile Include="Items\Food\USA.Food.fs" />
+        <Compile Include="Items\Food\Vietnamese.Food.fs" />
+        <Compile Include="Items\Food\All.Food.fs" />
+        <Compile Include="Careers.fs" />
+        <Compile Include="Genres.fs" />
+        <Compile Include="Npcs.fs" />
+        <Compile Include="Roles.fs" />
+        <Compile Include="Skills.fs" />
+        <Compile Include="VocalStyles.fs" />
+        <Compile Include="Words.fs" />
+        <Compile Include="World\Ids.fs" />
+        <Compile Include="World\Cities\Everywhere.Common.fs" />
+        <Compile Include="World\Cities\Prague.fs" />
+        <Compile Include="World\Cities\Madrid.fs" />
+        <Compile Include="World\World.fs" />
+        <None Include="Util\NpcGen.fsx" />
+        <Content Include="ATTRIBUTIONS.md" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj"/>
-        <ProjectReference Include="..\Duets.Entities\Duets.Entities.fsproj"/>
+        <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj" />
+        <ProjectReference Include="..\Duets.Entities\Duets.Entities.fsproj" />
     </ItemGroup>
     <ItemGroup>
         <None Update="Data/*.json">
@@ -62,6 +53,6 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="FSharp.SystemTextJson" Version="0.16.6"/>
+        <PackageReference Include="FSharp.SystemTextJson" Version="0.16.6" />
     </ItemGroup>
 </Project>

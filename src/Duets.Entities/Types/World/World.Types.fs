@@ -38,7 +38,7 @@ module WorldTypes =
           Connections: Map<NodeId, NodeConnections> }
 
     /// ID for a zone in a city.
-    type ZoneId = ZoneId of Identity
+    type ZoneId = string
 
     /// Defines a zone inside of a city where places are contained.
     type Zone = { Id: ZoneId; Name: string }
@@ -54,8 +54,8 @@ module WorldTypes =
     [<RequireQualifiedAccess>]
     type RoomType =
         | Backstage
-        | Bar of Shop
-        | Cafe of Shop
+        | Bar
+        | Cafe
         | Bedroom
         | Kitchen
         | LivingRoom
@@ -63,7 +63,7 @@ module WorldTypes =
         | MasteringRoom
         | RecordingRoom
         | RehearsalRoom
-        | Restaurant of Shop
+        | Restaurant of RestaurantCuisine
         | SecurityControl
         | Stage
 
@@ -94,7 +94,7 @@ module WorldTypes =
         | Studio
 
     /// ID for a place in the game world.
-    type PlaceId = PlaceId of Identity
+    type PlaceId = string
 
     /// Defines a place inside of the game world, which wraps a given space
     /// (could be any inside space like a rehearsal place or a concert hall), the

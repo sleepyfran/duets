@@ -10,8 +10,18 @@ let private placeTypeForJobType jobType =
     | Bartender -> PlaceTypeIndex.Bar
     | Barista -> PlaceTypeIndex.Cafe
 
-let private generateBartenderJob cityId placeId shop =
-    let shopModifier = shop.PriceModifier |> decimal
+let private qualitySalaryModifier cityId placeId =
+    let place = Queries.World.placeInCityById cityId placeId
+
+    match place.Quality with
+    | quality when quality < 20<quality> -> 0.5m
+    | quality when quality < 40<quality> -> 0.75m
+    | quality when quality < 60<quality> -> 1.0m
+    | quality when quality < 80<quality> -> 1.5m
+    | _ -> 2m
+
+let private generateBartenderJob cityId placeId =
+    let salaryModifier = qualitySalaryModifier cityId placeId
 
     let initialCareerStage =
         BartenderCareer.stages
@@ -19,7 +29,7 @@ let private generateBartenderJob cityId placeId shop =
         |> fun careerStage ->
             { careerStage with
                 BaseSalaryPerDayMoment =
-                    careerStage.BaseSalaryPerDayMoment * shopModifier }
+                    careerStage.BaseSalaryPerDayMoment * salaryModifier }
 
     { Id = Bartender
       CurrentStage = initialCareerStage
@@ -30,8 +40,8 @@ let private generateBartenderJob cityId placeId shop =
           CharacterAttribute.Mood, -10
           CharacterAttribute.Health, -2 ] }
 
-let private generateBaristaJob cityId placeId shop =
-    let shopModifier = shop.PriceModifier |> decimal
+let private generateBaristaJob cityId placeId =
+    let salaryModifier = qualitySalaryModifier cityId placeId
 
     let initialCareerStage =
         BaristaCareer.stages
@@ -39,7 +49,7 @@ let private generateBaristaJob cityId placeId shop =
         |> fun careerStage ->
             { careerStage with
                 BaseSalaryPerDayMoment =
-                    careerStage.BaseSalaryPerDayMoment * shopModifier }
+                    careerStage.BaseSalaryPerDayMoment * salaryModifier }
 
     { Id = Barista
       CurrentStage = initialCareerStage
@@ -51,8 +61,8 @@ let private generateJobsForPlace cityId place =
     place.Rooms
     |> World.Graph.nodes
     |> List.choose (function
-        | RoomType.Bar shop -> generateBartenderJob cityId place.Id shop |> Some
-        | RoomType.Cafe shop -> generateBaristaJob cityId place.Id shop |> Some
+        | RoomType.Bar -> generateBartenderJob cityId place.Id |> Some
+        | RoomType.Cafe -> generateBaristaJob cityId place.Id |> Some
         | _ -> None)
 
 let private generateJobs cityId (places: Place list) =

@@ -132,7 +132,7 @@ let ``finishing the concert should grant the band the earnings from the tickets 
 
         let expectedTotal =
             (decimal concert.Concert.TicketsSold * concert.Concert.TicketPrice)
-            * 0.6974m (* Minus 30.26% from the venue cut. *)
+            * 0.73m (* Minus 27% from the venue cut. *)
 
         moneyEarned |> should equal expectedTotal)
 
@@ -156,7 +156,7 @@ let ``finishing an opening act concert should grant the band the correct percent
             let expectedEarnings =
                 decimal concert.Concert.TicketsSold
                 * concert.Concert.TicketPrice
-                * 0.6974m (* Minus 30.26% from the venue cut. *)
+                * 0.73m (* Minus 27% from the venue cut. *)
                 * 0.5m (* Opening act earnings. *)
 
             moneyEarned |> should equal expectedEarnings)

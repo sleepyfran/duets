@@ -78,8 +78,10 @@ module Node =
 [<RequireQualifiedAccess>]
 module Place =
     /// Creates a place with the given initial room and no exits.
-    let create id name quality placeType rooms zone =
-        { Id = PlaceId id
+    let create name quality placeType rooms zone =
+        let inferredId = Identity.Reproducible.createFor name
+
+        { Id = inferredId.ToString()
           Name = name
           Quality = quality
           Type = placeType
@@ -91,6 +93,15 @@ module Place =
     let changeOpeningHours openingHours place =
         { place with
             OpeningHours = openingHours }
+
+[<RequireQualifiedAccess>]
+module Zone =
+    /// Creates a zone with the given name and an ID based on it.
+    let create name =
+        let inferredId = Identity.Reproducible.createFor name
+
+        { Id = inferredId.ToString()
+          Name = name }
 
 [<RequireQualifiedAccess>]
 module City =

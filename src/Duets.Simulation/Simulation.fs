@@ -54,7 +54,6 @@ and private tickAssociatedEffects tickState associatedEffects nextEffectFns =
 let rec tickMultiple currentState effects =
     let effectFns = fun _ -> effects
 
-    (* TODO: Re-add time events. *)
     let tickResult =
         tick'
             { AppliedEffects = []

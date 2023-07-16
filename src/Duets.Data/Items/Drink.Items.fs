@@ -58,6 +58,12 @@ module Beer =
           Type = Beer(500<milliliter>, 4.7) |> Drink |> Consumable },
         1.5m<dd>
 
+    let byLocation =
+        [ (Prague,
+           [ gambrinusPint; kozelPint; pilsnerUrquellPint; staropramenPint ])
+          (Madrid, [ estrellaGaliciaBottle; guinnessPint ]) ]
+        |> Map.ofList
+
     let all =
         [ cernaHoraPint
           estrellaGaliciaBottle
