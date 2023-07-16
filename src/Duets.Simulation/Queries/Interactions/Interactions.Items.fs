@@ -15,7 +15,11 @@ module Items =
         match furniture with
         | FurnitureItemType.Bed -> InteractiveItemInteraction.Sleep
         | FurnitureItemType.Stove ->
-            Food.Index.all |> InteractiveItemInteraction.Cook
+            // Reduce the price of all food items by 50% so that cooking is
+            // cheaper than buying food from a restaurant.
+            Food.Index.all
+            |> List.map (fun (item, price) -> item, price / 2m)
+            |> InteractiveItemInteraction.Cook
         |> ItemInteraction.Interactive
         |> Interaction.Item
 
