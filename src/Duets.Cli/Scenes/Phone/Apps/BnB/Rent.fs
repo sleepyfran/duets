@@ -29,11 +29,7 @@ let rec rent bnbApp =
                 [ PlaceTypeIndex.Home ]
 
         let! selectedCity =
-            Queries.World.allCities
-            |> showOptionalChoicePrompt
-                "Where do you want to rent the place?"
-                Generic.cancel
-                (fun city -> Generic.cityName city.Id)
+            showCityPrompt "Where do you want to rent the place?"
 
         return toPlaceSelection selectedCity.Id selectedPlaceType
     }

@@ -12,14 +12,7 @@ open Duets.Simulation.Concerts
 open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
 
 let scheduleShow app =
-    let cities = Queries.World.allCities
-
-    let selectedCity =
-        showOptionalChoicePrompt
-            "Where do you want to look for concerts?"
-            Generic.cancel
-            (fun (city: City) -> Generic.cityName city.Id)
-            cities
+    let selectedCity = showCityPrompt "Where do you want to look for concerts?"
 
     match selectedCity with
     | Some city ->

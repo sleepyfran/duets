@@ -44,6 +44,7 @@
         <Compile Include="Components\Message.fs"/>
         <Compile Include="Components\Figlet.fs"/>
         <Compile Include="Components\ChoicePrompt.fs"/>
+        <Compile Include="Components\CityPrompt.fs"/>
         <Compile Include="Components\GameInfo.fs"/>
         <Compile Include="Components\BarChart.fs"/>
         <Compile Include="Components\ProgressBar.fs"/>

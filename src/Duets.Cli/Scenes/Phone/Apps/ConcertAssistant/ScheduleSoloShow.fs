@@ -65,14 +65,7 @@ and private promptForDayMoment app date =
     | None -> app ()
 
 and private promptForCity app date dayMoment =
-    let cities = Queries.World.allCities
-
-    let selectedCity =
-        showOptionalChoicePrompt
-            Phone.concertAssistantAppShowCityPrompt
-            Generic.cancel
-            (fun (city: City) -> Generic.cityName city.Id)
-            cities
+    let selectedCity = showCityPrompt Phone.concertAssistantAppShowCityPrompt
 
     match selectedCity with
     | Some city -> promptForVenue app date dayMoment city
