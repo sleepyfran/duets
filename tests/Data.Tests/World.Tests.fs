@@ -1,4 +1,4 @@
-module Data.Tests
+module Duets.Data.Tests.World
 
 open Microsoft.FSharp.Reflection
 open FsUnit
