@@ -5,9 +5,9 @@
         <RootNamespace>Data</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="ResourceLoader.fs" />
-        <Content Include="Resources\adjectives.json" />
-        <Content Include="Resources\adverbs.json" />
+        <Compile Include="ResourceLoader.fs"/>
+        <Content Include="Resources\adjectives.json"/>
+        <Content Include="Resources\adverbs.json"/>
         <Content Include="Resources\genres.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
@@ -36,6 +36,7 @@
         <Compile Include="Words.fs"/>
         <Compile Include="World\Ids.fs"/>
         <Compile Include="World\Cities\Everywhere.Common.fs"/>
+        <Compile Include="World\Cities\Common.fs"/>
         <Compile Include="World\Cities\London.fs"/>
         <Compile Include="World\Cities\Madrid.fs"/>
         <Compile Include="World\Cities\NewYork.fs"/>

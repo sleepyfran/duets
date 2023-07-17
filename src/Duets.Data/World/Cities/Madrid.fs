@@ -57,13 +57,7 @@ let private addBars city =
       ("Corral de la Morería", 90<quality>, lavapiés)
       ("1862 Dry Bar", 88<quality>, malasaña)
       ("Bodegas Rosell", 89<quality>, chamberí) ]
-    |> List.map (fun (name, quality, zone) ->
-        World.Place.create
-            name
-            quality
-            Bar
-            Everywhere.Common.barRoomLayout
-            zone)
+    |> List.map Common.createBar
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Cafes --------- *)
@@ -73,13 +67,7 @@ let private addCafes city =
       ("Café de Oriente", 88<quality>, salamanca)
       ("La Bicicleta Café", 86<quality>, malasaña)
       ("Monkee Koffee", 89<quality>, chamberí) ]
-    |> List.map (fun (name, quality, zone) ->
-        World.Place.create
-            name
-            quality
-            Cafe
-            Everywhere.Common.cafeRoomLayout
-            zone)
+    |> List.map Common.createCafe
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Concert spaces --------- *)
@@ -184,13 +172,7 @@ let private addConcertSpaces city =
        sol,
        82<quality>,
        Everywhere.Common.concertSpaceLayout4) ]
-    |> List.map (fun (name, capacity, zone, quality, layout) ->
-        World.Place.create
-            name
-            quality
-            (ConcertSpace { Capacity = capacity })
-            layout
-            zone)
+    |> List.map Common.createConcertSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Home --------- *)
@@ -231,13 +213,7 @@ let private addRehearsalSpaces city =
       ("Ensayo Salamanca", 82<quality>, 54m<dd>, salamanca)
       ("Espacio de Práctica Retiro", 89<quality>, 68m<dd>, retiro)
       ("Tocar en Chamartín", 85<quality>, 60m<dd>, chamartín) ]
-    |> List.map (fun (name, quality, price, zone) ->
-        World.Place.create
-            name
-            quality
-            (RehearsalSpace { Price = price })
-            Everywhere.Common.rehearsalSpaceLayout
-            zone)
+    |> List.map Common.createRehearsalSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Restaurants --------- *)
@@ -252,13 +228,7 @@ let private addRestaurants city =
       ("Le Bistro Parisien", 91<quality>, French, sol)
       ("Burger City", 84<quality>, American, moncloa)
       ("Taco Loco", 88<quality>, Mexican, latina) ]
-    |> List.map (fun (name, quality, cuisine, zone) ->
-        World.Place.create
-            name
-            quality
-            Restaurant
-            (Everywhere.Common.restaurantRoomLayout cuisine)
-            zone)
+    |> List.map Common.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Studios --------- *)
@@ -313,15 +283,5 @@ let private addStudios city =
        300m<dd>,
        arganzuela,
        (Character.from "María Fernández" Female (May 3 1988))) ]
-    |> List.map (fun (name, quality, pricePerSong, zone, producer) ->
-        let studio =
-            { Producer = producer
-              PricePerSong = pricePerSong }
-
-        World.Place.create
-            name
-            quality
-            (Studio studio)
-            Everywhere.Common.studioLayout
-            zone)
+    |> List.map Common.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

@@ -55,7 +55,8 @@ let private addBars city =
             quality
             Bar
             Everywhere.Common.barRoomLayout
-            zone)
+            zone
+            |> World.Place.changeOpeningHours Everywhere.Common.barOpeningHours)
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Cafes --------- *)

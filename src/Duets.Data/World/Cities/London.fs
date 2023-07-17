@@ -56,13 +56,7 @@ let private addBars city =
       ("The Churchill Arms", 88<quality>, kensington)
       ("The Spaniards Inn", 86<quality>, camden)
       ("The Dove", 94<quality>, hammersmith) ]
-    |> List.map (fun (name, quality, zone) ->
-        World.Place.create
-            name
-            quality
-            Bar
-            Everywhere.Common.barRoomLayout
-            zone)
+    |> List.map Common.createBar
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Cafes --------- *)
@@ -72,13 +66,7 @@ let private addCafes city =
       ("Kaffeine", 88<quality>, westminster)
       ("The Coffee Jar", 91<quality>, camden)
       ("TAP Coffee", 89<quality>, cityOfLondon) ]
-    |> List.map (fun (name, quality, zone) ->
-        World.Place.create
-            name
-            quality
-            Cafe
-            Everywhere.Common.cafeRoomLayout
-            zone)
+    |> List.map Common.createCafe
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Concert spaces --------- *)
@@ -179,13 +167,7 @@ let private addConcertSpaces city =
        wandsworth,
        90<quality>,
        Everywhere.Common.concertSpaceLayout1) ]
-    |> List.map (fun (name, capacity, zone, quality, layout) ->
-        World.Place.create
-            name
-            quality
-            (ConcertSpace { Capacity = capacity })
-            layout
-            zone)
+    |> List.map Common.createConcertSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Home --------- *)
@@ -225,13 +207,7 @@ let private addRehearsalSpaces city =
       ("New Rose Studios", 85<quality>, 100m<dd>, islington)
       ("John Henry's", 89<quality>, 140m<dd>, islington)
       ("Resident Studios", 90<quality>, 150m<dd>, newham) ]
-    |> List.map (fun (name, quality, price, zone) ->
-        World.Place.create
-            name
-            quality
-            (RehearsalSpace { Price = price })
-            Everywhere.Common.rehearsalSpaceLayout
-            zone)
+    |> List.map Common.createRehearsalSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Restaurants --------- *)
@@ -246,13 +222,7 @@ let private addRestaurants city =
       ("Sketch", 91<quality>, French, westminster)
       ("Burger & Lobster", 84<quality>, American, camden)
       ("Hawksmoor", 88<quality>, American, cityOfLondon) ]
-    |> List.map (fun (name, quality, cuisine, zone) ->
-        World.Place.create
-            name
-            quality
-            Restaurant
-            (Everywhere.Common.restaurantRoomLayout cuisine)
-            zone)
+    |> List.map Common.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 
@@ -308,15 +278,5 @@ let private addStudios city =
        300m<dd>,
        westminster,
        (Character.from "Margaret Taylor" Female (May 3 1988))) ]
-    |> List.map (fun (name, quality, pricePerSong, zone, producer) ->
-        let studio =
-            { Producer = producer
-              PricePerSong = pricePerSong }
-
-        World.Place.create
-            name
-            quality
-            (Studio studio)
-            Everywhere.Common.studioLayout
-            zone)
+    |> List.map Common.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city
