@@ -128,9 +128,9 @@ module WorldTypes =
             Id: CityId
             PlaceByTypeIndex: Map<PlaceTypeIndex, PlaceId list>
             PlaceIndex: Map<PlaceId, Place>
-            /// Modifier that will be used when calculating the price of places
-            /// inside of the city.
-            PlaceCostModifier: float
+            /// Modifier that will be used to compute the final prices of things
+            /// like rent, wages and food.
+            CostOfLiving: float
             ZoneIndex: Map<ZoneId, PlaceId list>
         }
 

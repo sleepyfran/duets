@@ -24,7 +24,7 @@ let private deptford = World.Zone.create "Deptford"
 
 /// Generates the city of London.
 let generate () =
-    let createLondon = World.City.create London 8.9
+    let createLondon = World.City.create London 4.0
 
     createHome
     |> createLondon

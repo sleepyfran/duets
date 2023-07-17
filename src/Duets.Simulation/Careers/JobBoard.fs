@@ -1,6 +1,7 @@
 module Duets.Simulation.Careers.JobBoard
 
 open Duets.Common
+open Duets.Common.Operators
 open Duets.Data.Careers
 open Duets.Entities
 open Duets.Simulation
@@ -10,26 +11,32 @@ let private placeTypeForJobType jobType =
     | Bartender -> PlaceTypeIndex.Bar
     | Barista -> PlaceTypeIndex.Cafe
 
-let private qualitySalaryModifier cityId placeId =
+let private salaryModifiers cityId placeId =
+    let city = Queries.World.cityById cityId
+    let costOfLivingModifier = decimal city.CostOfLiving
     let place = Queries.World.placeInCityById cityId placeId
 
-    match place.Quality with
-    | quality when quality < 20<quality> -> 0.5m
-    | quality when quality < 40<quality> -> 0.75m
-    | quality when quality < 60<quality> -> 1.0m
-    | quality when quality < 80<quality> -> 1.5m
-    | _ -> 2m
+    let qualityModifier =
+        match place.Quality with
+        | quality when quality < 60<quality> -> 0.5m
+        | quality when quality < 80<quality> -> 0.7m
+        | quality when quality >< (80<quality>, 85<quality>) -> 0.8m
+        | quality when quality >< (85<quality>, 90<quality>) -> 0.9m
+        | quality when quality >< (90<quality>, 95<quality>) -> 1.0m
+        | _ -> 1.1m
+
+    costOfLivingModifier * qualityModifier
+
+let private createCareerStage cityId placeId careerStage =
+    let salaryModifier = salaryModifiers cityId placeId
+
+    { careerStage with
+        BaseSalaryPerDayMoment =
+            careerStage.BaseSalaryPerDayMoment * salaryModifier }
 
 let private generateBartenderJob cityId placeId =
-    let salaryModifier = qualitySalaryModifier cityId placeId
-
     let initialCareerStage =
-        BartenderCareer.stages
-        |> List.head
-        |> fun careerStage ->
-            { careerStage with
-                BaseSalaryPerDayMoment =
-                    careerStage.BaseSalaryPerDayMoment * salaryModifier }
+        BartenderCareer.stages |> List.head |> createCareerStage cityId placeId
 
     { Id = Bartender
       CurrentStage = initialCareerStage
@@ -41,15 +48,8 @@ let private generateBartenderJob cityId placeId =
           CharacterAttribute.Health, -2 ] }
 
 let private generateBaristaJob cityId placeId =
-    let salaryModifier = qualitySalaryModifier cityId placeId
-
     let initialCareerStage =
-        BaristaCareer.stages
-        |> List.head
-        |> fun careerStage ->
-            { careerStage with
-                BaseSalaryPerDayMoment =
-                    careerStage.BaseSalaryPerDayMoment * salaryModifier }
+        BaristaCareer.stages |> List.head |> createCareerStage cityId placeId
 
     { Id = Barista
       CurrentStage = initialCareerStage

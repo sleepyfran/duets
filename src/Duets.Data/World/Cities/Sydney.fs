@@ -14,7 +14,7 @@ let private pottsPoint = World.Zone.create "Potts Point"
 
 /// Generates the city of Sydney.
 let generate () =
-    let createSydney = World.City.create Sydney 5.3
+    let createSydney = World.City.create Sydney 3.4
 
     createHome
     |> createSydney

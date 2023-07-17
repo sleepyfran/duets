@@ -30,7 +30,7 @@ module Rentals =
 
         let fullPrice =
             match place.Type with
-            | PlaceType.Home -> decimal city.PlaceCostModifier * 500m<dd>
+            | PlaceType.Home -> decimal city.CostOfLiving * 500m<dd>
             | _ -> 0m<dd>
 
         let qualityModifier = decimal (place.Quality / 1<quality>) / 100m

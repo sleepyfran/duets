@@ -21,7 +21,7 @@ let private westVillage = World.Zone.create "West Village"
 
 /// Generates the city of New York.
 let generate () =
-    let createNewYork = World.City.create NewYork 8.4
+    let createNewYork = World.City.create NewYork 6.0
 
     createHome
     |> createNewYork

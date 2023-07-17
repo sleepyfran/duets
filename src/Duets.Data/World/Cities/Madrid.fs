@@ -25,7 +25,7 @@ let private malasaña = World.Zone.create "Malasaña"
 
 /// Generates the city of Madrid.
 let generate () =
-    let createMadrid = World.City.create Madrid 4.7
+    let createMadrid = World.City.create Madrid 1.8
 
     createHome
     |> createMadrid

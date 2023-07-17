@@ -20,7 +20,7 @@ let private žižkov = World.Zone.create "Žižkov"
 
 /// Generates the city of Prague.
 let generate () =
-    let createPrague = World.City.create Prague 1.8
+    let createPrague = World.City.create Prague 1.6
 
     createHome
     |> createPrague

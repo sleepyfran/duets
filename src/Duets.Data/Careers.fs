@@ -10,10 +10,10 @@ module Careers =
 module BaristaCareer =
     let stages =
         [ { Id = CareerStageId 0uy
-            BaseSalaryPerDayMoment = 9m<dd> } ]
+            BaseSalaryPerDayMoment = 7.5m<dd> } ]
 
 [<RequireQualifiedAccess>]
 module BartenderCareer =
     let stages =
         [ { Id = CareerStageId 0uy
-            BaseSalaryPerDayMoment = 5.5m<dd> } ]
+            BaseSalaryPerDayMoment = 7.9m<dd> } ]

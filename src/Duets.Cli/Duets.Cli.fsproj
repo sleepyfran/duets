@@ -69,7 +69,7 @@
         <Compile Include="Components\Commands\Aiport\WaitForLanding.Command.fs"/>
         <Compile Include="Components\Commands\Studio\Common.fs"/>
         <Compile Include="Components\Commands\Studio\CreateAlbum.Command.fs"/>
-        <Compile Include="Components\Commands\Studio\EditAlbumName.Command.fs" />
+        <Compile Include="Components\Commands\Studio\EditAlbumName.Command.fs"/>
         <Compile Include="Components\Commands\Studio\ReleaseAlbum.Command.fs"/>
         <Compile Include="Components\Commands\Studio\RecordSong.Command.fs"/>
         <Compile Include="Components\Commands\Studio\ListUnreleasedAlbums.Command.fs"/>
@@ -105,6 +105,7 @@
         <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\TriggerEffect.Cheats.Commands.fs"/>
+        <Compile Include="Components\Commands\Cheats\World.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Cheats.Commands.fs"/>
         <Compile Include="Components\CommandPrompt.fs"/>
         <Compile Include="Scenes\NewGame\CharacterCreator.fs"/>
