@@ -5,4 +5,5 @@ module Index =
         [ LifeCommands.happy
           MoneyCommands.motherlode
           MoneyCommands.rosebud
-          TriggerEffectCommands.triggerEffect ]
+          TriggerEffectCommands.triggerEffect
+          WorldCommands.teleport ]
