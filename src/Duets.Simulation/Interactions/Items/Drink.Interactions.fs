@@ -27,14 +27,29 @@ and private drinkAlcohol character amount alcoholContent =
         * 100.0
         |> Math.roundToNearest
 
-    Character.Attribute.add
-        character
-        CharacterAttribute.Drunkenness
-        quantityUntilMax
+    [ yield!
+          Character.Attribute.add
+              character
+              CharacterAttribute.Drunkenness
+              quantityUntilMax
+      yield!
+          Character.Attribute.add
+              character
+              CharacterAttribute.Mood
+              Config.LifeSimulation.Mood.alcoholIncrease ]
 
 and private drinkCoffee character amount =
     let energyGained =
         (float amount * float Config.LifeSimulation.energyPerCoffeeMl)
         |> Math.roundToNearest
 
-    Character.Attribute.add character CharacterAttribute.Energy energyGained
+    [ yield!
+          Character.Attribute.add
+              character
+              CharacterAttribute.Energy
+              energyGained
+      yield!
+          Character.Attribute.add
+              character
+              CharacterAttribute.Mood
+              Config.LifeSimulation.Mood.coffeeIncrease ]

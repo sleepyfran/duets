@@ -22,12 +22,12 @@ let consume state (item: Item) action =
     match action with
     | ConsumableItemInteraction.Drink ->
         match item.Type with
-        | Consumable (ConsumableItemType.Drink drink) ->
+        | Consumable(ConsumableItemType.Drink drink) ->
             Drink.drink state drink |> Ok
         | _ -> Error ActionNotPossible
     | ConsumableItemInteraction.Eat ->
         match item.Type with
-        | Consumable (ConsumableItemType.Food food) -> Food.eat state food |> Ok
+        | Consumable(ConsumableItemType.Food food) -> Food.eat state food |> Ok
         | _ -> Error ActionNotPossible
     |> Result.map ((@) (removeFromGameWorld state item))
 
@@ -56,7 +56,11 @@ let interact state (item: Item) action =
                      |> Interactive)
         ->
         [ yield! timeEffects
-          yield! Character.Attribute.add character CharacterAttribute.Mood 6 ]
+          yield!
+              Character.Attribute.add
+                  character
+                  CharacterAttribute.Mood
+                  Config.LifeSimulation.Mood.playingVideoGamesIncrease ]
         |> Ok
     | InteractiveItemInteraction.Watch when
         item.Type = (ElectronicsItemType.TV
@@ -64,7 +68,11 @@ let interact state (item: Item) action =
                      |> Interactive)
         ->
         [ yield! timeEffects
-          yield! Character.Attribute.add character CharacterAttribute.Mood 5 ]
+          yield!
+              Character.Attribute.add
+                  character
+                  CharacterAttribute.Mood
+                  Config.LifeSimulation.Mood.watchingTvIncrease ]
         |> Ok
     | _ -> Error ActionNotPossible
 
