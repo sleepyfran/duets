@@ -1,5 +1,6 @@
 namespace Duets.Cli.Components.Commands
 
+open FSharp.Data.UnitSystems.SI.UnitNames
 open Duets
 open Duets.Agents
 open Duets.Cli.Components
@@ -7,7 +8,7 @@ open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Common
 open Duets.Entities
-open FSharp.Data.UnitSystems.SI.UnitNames
+open Duets.Simulation
 open Duets.Simulation.Songs.Composition.ComposeSong
 
 [<RequireQualifiedAccess>]
@@ -37,7 +38,20 @@ module ComposeSongCommand =
             (showLengthError >> fun _ -> promptForLength name)
 
     and private promptForGenre name length =
-        showChoicePrompt Rehearsal.composeSongGenrePrompt id Data.Genres.all
+        let band = Queries.Bands.currentBand (State.get ())
+        let currentGenre = band.Genre
+
+        let allButCurrentGenre =
+            Data.Genres.all
+            |> List.filter (fun genre -> genre <> currentGenre)
+            |> List.sort
+
+        currentGenre :: allButCurrentGenre
+        |> showChoicePrompt Rehearsal.composeSongGenrePrompt (fun genre ->
+            if genre = currentGenre then
+                $"{genre} (Current)" |> Styles.highlight
+            else
+                genre)
         |> promptForVocalStyle name length
 
     and private promptForVocalStyle name length genre =
