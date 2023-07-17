@@ -20,6 +20,7 @@ module SeeMenuCommand =
 
                 let tableRows =
                     availableItems
+                    |> List.sortBy (fun (item, _) -> item.Brand)
                     |> List.map (fun (item, price) ->
                         [ item.Brand
                           Shop.itemType item
