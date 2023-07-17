@@ -66,7 +66,7 @@ let bookFlightDatePrompt destination =
 let chooseFlightPrompt = "Choose a flight:"
 
 let flightInformation (flight: Flight) =
-    $"{Generic.dateWithDay flight.Date} @ {Generic.dayMomentName flight.DayMoment}, price: {Styles.money flight.Price}"
+    $"{Generic.dateWithDay flight.Date} @ {Generic.dayMomentName flight.DayMoment}{Styles.Spacing.choicePromptNewLine}{Styles.money flight.Price}"
 
 let flightPurchaseConfirmation (flight: Flight) =
     $"Are you sure you want to spend {Styles.money flight.Price} in a flight from {Generic.cityName flight.Origin |> Styles.place} to {Generic.cityName flight.Destination |> Styles.place}?"

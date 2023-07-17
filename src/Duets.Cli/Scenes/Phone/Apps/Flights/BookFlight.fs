@@ -8,15 +8,35 @@ open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Bank.Operations
-open Duets.Simulation.Flights
 
 let bookFlight flightsApp =
-    let origin =
-        showChoicePrompt
-            Phone.bookFlightOriginPrompt
-            (fun (city: City) -> Generic.cityName city.Id)
-            Queries.World.allCities
+    let currentCity = Queries.World.currentCity (State.get ())
 
+    let origin =
+        showOptionalChoicePrompt
+            Phone.bookFlightOriginPrompt
+            Generic.cancel
+            (fun (city: City) ->
+                if city.Id = currentCity.Id then
+                    $"{Generic.cityName city.Id} (Current)" |> Styles.highlight
+                else
+                    Generic.cityName city.Id)
+            (originCities currentCity)
+
+    match origin with
+    | Some origin -> destinationPrompt flightsApp origin
+    | None -> flightsApp ()
+
+/// Lists all available cities with the current one at the top.
+let private originCities currentCity =
+    let allButCurrentCity =
+        Queries.World.allCities
+        |> List.filter (fun city -> city.Id <> currentCity.Id)
+        |> List.sortBy (fun city -> Generic.cityName city.Id)
+
+    currentCity :: allButCurrentCity
+
+let private destinationPrompt flightsApp origin =
     let allCitiesExceptOrigin =
         Queries.World.allCities
         |> List.filter (fun city -> city.Id <> origin.Id)
@@ -27,8 +47,7 @@ let bookFlight flightsApp =
             (fun (city: City) -> Generic.cityName city.Id)
             allCitiesExceptOrigin
 
-    let initialDate =
-        Queries.Calendar.tomorrow (State.get ())
+    let initialDate = Queries.Calendar.tomorrow (State.get ())
 
     let date =
         showInteractiveDatePrompt
@@ -67,12 +86,11 @@ let private confirmPurchase app ticket =
         ticketPrompt app ticket.Origin ticket.Destination ticket.Date
 
 let private purchaseTicket app ticket =
-    let bookingResult =
-        Booking.bookFlight (State.get ()) ticket
+    let bookingResult = Flights.Booking.bookFlight (State.get ()) ticket
 
     match bookingResult with
     | Ok effects -> Effect.applyMultiple effects
-    | Error (NotEnoughFunds amount) ->
+    | Error(NotEnoughFunds amount) ->
         Phone.flightsNotEnoughFunds amount |> showMessage
 
     app ()
