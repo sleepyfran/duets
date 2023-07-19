@@ -1,7 +1,6 @@
 module Duets.Data.World.Everywhere.Common
 
 open Duets.Entities
-open Duets.Data.Items.Drink
 open Duets.Data.World
 
 /// Usual bar opening hours around the world.
@@ -51,6 +50,16 @@ let homeLayout =
     World.Graph.fromMany [ kitchen; livingRoom; bedroom ]
     |> World.Graph.connectMany
         [ kitchen.Id, livingRoom.Id, South; livingRoom.Id, bedroom.Id, South ]
+
+/// Usual layout for a hotel.
+let hotelLayout =
+    let lobby = World.Node.create 0 RoomType.Lobby
+    let bar = World.Node.create 1 RoomType.Bar
+    let bedroom = World.Node.create 2 RoomType.Bedroom
+
+    World.Graph.fromMany [ lobby; bar; bedroom ]
+    |> World.Graph.connectMany
+        [ lobby.Id, bar.Id, East; lobby.Id, bedroom.Id, North ]
 
 /// First option of a layout for a concert space.
 let concertSpaceLayout1 =
@@ -143,8 +152,7 @@ let studioLayout =
     let recordingRoom = World.Node.create 1 RoomType.RecordingRoom
 
     World.Graph.fromMany [ masteringRoom; recordingRoom ]
-    |> World.Graph.connectMany
-        [ masteringRoom.Id, recordingRoom.Id, North ]
+    |> World.Graph.connectMany [ masteringRoom.Id, recordingRoom.Id, North ]
 
 /// Usual opening hours for service places like studios or rehearsal places.
 let servicesOpeningHours =

@@ -47,5 +47,13 @@ module MovementCommand =
                 | Error RoomEntranceError.CannotEnterBackstageOutsideConcert ->
                     $"""You tried to sneak into the {Styles.place "backstage"}, but the bouncers catch you as soon as you enter and kicked you out warning you {Styles.danger "not to enter in there if you're not part of the band playing"}"""
                     |> showMessage
+                | Error RoomEntranceError.CannotEnterHotelRoomWithoutBooking ->
+                    Styles.error
+                        "You cannot enter the hotel room without booking it first"
+                    |> showMessage
+
+                    Styles.information
+                        "Try to use your phone to book it or head to the lobby to pay for the room"
+                    |> showMessage
 
                 Scene.WorldAfterMovement }

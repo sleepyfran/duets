@@ -12,7 +12,7 @@ let rec private expireRentalIfNeeded rental currentDate untilDate =
 let private checkPlaceRental currentDate rental =
     match rental.RentalType with
     | Monthly untilDate
-    | OneTime untilDate -> expireRentalIfNeeded rental currentDate untilDate
+    | OneTime(_, untilDate) -> expireRentalIfNeeded rental currentDate untilDate
 
 /// Checks if the current place requires any sort of rental and if so, checks
 /// that the character still holds the rental required to be here.

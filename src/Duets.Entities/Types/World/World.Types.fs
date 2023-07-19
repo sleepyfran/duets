@@ -74,6 +74,7 @@ module WorldTypes =
         | Cafe
         | ConcertSpace of ConcertSpace
         | Home
+        | Hotel of Hotel
         | Hospital
         | RehearsalSpace of RehearsalSpace
         | Restaurant
@@ -88,6 +89,7 @@ module WorldTypes =
         | Cafe
         | ConcertSpace
         | Home
+        | Hotel
         | Hospital
         | RehearsalSpace
         | Restaurant
@@ -158,3 +160,4 @@ module WorldTypes =
     type RoomEntranceError =
         | CannotEnterStageOutsideConcert
         | CannotEnterBackstageOutsideConcert
+        | CannotEnterHotelRoomWithoutBooking

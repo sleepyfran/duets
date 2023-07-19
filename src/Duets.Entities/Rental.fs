@@ -4,4 +4,4 @@ module Duets.Entities.Rental
 let dueDate rental =
     match rental.RentalType with
     | Monthly nextPaymentDate
-    | OneTime nextPaymentDate -> nextPaymentDate
+    | OneTime(_, nextPaymentDate) -> nextPaymentDate

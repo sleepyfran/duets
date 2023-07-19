@@ -17,6 +17,7 @@
         <Compile Include="Types\Bank.Types.fs" />
         <Compile Include="Types\Item.Types.fs" />
         <Compile Include="Types\World\ConcertSpace.Types.fs" />
+        <Compile Include="Types\World\Hotel.Types.fs"/>
         <Compile Include="Types\World\RehearsalSpace.Types.fs" />
         <Compile Include="Types\World\Studio.Types.fs" />
         <Compile Include="Types\World\Shop.Types.fs" />

@@ -6,6 +6,7 @@ open Duets.Data.World
 
 let private břevnov = World.Zone.create "Břevnov"
 let private dejvice = World.Zone.create "Dejvice"
+let private hradčany = World.Zone.create "Hradčany"
 let private holešovice = World.Zone.create "Holešovice"
 let private karlín = World.Zone.create "Karlín"
 let private libeň = World.Zone.create "Libeň"
@@ -29,6 +30,7 @@ let generate () =
     |> addCafes
     |> addConcertSpaces
     |> addHospital
+    |> addHotels
     |> addRehearsalSpaces
     |> addRestaurants
     |> addStudios
@@ -194,6 +196,22 @@ let addHospital city =
             novéMěsto
 
     World.City.addPlace place city
+
+(* -------- Hotels --------- *)
+let private addHotels city =
+    [ ("Hotel Praha", 60<quality>, 50m<dd>, dejvice)
+      ("Hotel Slavia", 55<quality>, 40m<dd>, žižkov)
+      ("Hotel Opatov", 65<quality>, 60m<dd>, strašnice)
+      ("Hotel Don Giovanni", 75<quality>, 80m<dd>, vinohrady)
+      ("Hotel Majestic Plaza", 80<quality>, 90m<dd>, novéMěsto)
+      ("Hotel Duo", 70<quality>, 70m<dd>, holešovice)
+      ("Hotel Ambassador", 90<quality>, 120m<dd>, staréMěsto)
+      ("Hotel Savoy", 95<quality>, 150m<dd>, hradčany)
+      ("Hotel Kings Court", 92<quality>, 130m<dd>, novéMěsto)
+      ("Hotel Corinthia", 98<quality>, 180m<dd>, vinohrady) ]
+    |> List.map Common.createHotel
+    |> List.fold (fun city place -> World.City.addPlace place city) city
+
 
 (* -------- Rehearsal spaces --------- *)
 let private addRehearsalSpaces city =

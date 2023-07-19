@@ -4,23 +4,26 @@ open Fugit.Months
 open Duets.Entities
 open Duets.Data.World
 
-let private cityOfLondon = World.Zone.create "City of London"
-let private camden = World.Zone.create "Camden"
-let private hackney = World.Zone.create "Hackney"
-let private islington = World.Zone.create "Islington"
-let private kensington = World.Zone.create "Kensington"
-let private lambeth = World.Zone.create "Lambeth"
-let private southwark = World.Zone.create "Southwark"
-let private westminster = World.Zone.create "Westminster"
+let private soho = World.Zone.create "Soho"
+let private coventGarden = World.Zone.create "Covent Garden"
+let private mayfair = World.Zone.create "Mayfair"
+let private shoreditch = World.Zone.create "Shoreditch"
+let private camdenTown = World.Zone.create "Camden Town"
+let private nottingHill = World.Zone.create "Notting Hill"
+let private brixton = World.Zone.create "Brixton"
 let private greenwich = World.Zone.create "Greenwich"
-let private towerHamlets = World.Zone.create "Tower Hamlets"
-let private hammersmith = World.Zone.create "Hammersmith"
+let private islington = World.Zone.create "Islington"
+let private hackney = World.Zone.create "Hackney"
+let private kensington = World.Zone.create "Kensington"
+let private chelsea = World.Zone.create "Chelsea"
 let private fulham = World.Zone.create "Fulham"
+let private hammersmith = World.Zone.create "Hammersmith"
 let private wandsworth = World.Zone.create "Wandsworth"
-let private newham = World.Zone.create "Newham"
+let private stratford = World.Zone.create "Stratford"
 let private tottenham = World.Zone.create "Tottenham"
 let private morden = World.Zone.create "Morden"
 let private deptford = World.Zone.create "Deptford"
+let private lambeth = World.Zone.create "Lambeth"
 
 /// Generates the city of London.
 let generate () =
@@ -33,6 +36,7 @@ let generate () =
     |> addCafes
     |> addConcertSpaces
     |> addHospital
+    |> addHotels
     |> addRehearsalSpaces
     |> addRestaurants
     |> addStudios
@@ -51,21 +55,21 @@ let addAirport city =
 
 (* -------- Bars --------- *)
 let private addBars city =
-    [ ("The Mayflower", 90<quality>, southwark)
-      ("Ye Olde Cheshire Cheese", 92<quality>, cityOfLondon)
-      ("The Churchill Arms", 88<quality>, kensington)
-      ("The Spaniards Inn", 86<quality>, camden)
+    [ ("The Mayflower", 90<quality>, greenwich)
+      ("Ye Olde Cheshire Cheese", 92<quality>, camdenTown)
+      ("The Churchill Arms", 88<quality>, nottingHill)
+      ("The Spaniards Inn", 86<quality>, camdenTown)
       ("The Dove", 94<quality>, hammersmith) ]
     |> List.map Common.createBar
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Cafes --------- *)
 let private addCafes city =
-    [ ("Monmouth Coffee Company", 92<quality>, southwark)
-      ("The Attendant", 90<quality>, hackney)
-      ("Kaffeine", 88<quality>, westminster)
-      ("The Coffee Jar", 91<quality>, camden)
-      ("TAP Coffee", 89<quality>, cityOfLondon) ]
+    [ ("Monmouth Coffee Company", 92<quality>, coventGarden)
+      ("The Attendant", 90<quality>, shoreditch)
+      ("Kaffeine", 88<quality>, mayfair)
+      ("The Coffee Jar", 91<quality>, camdenTown)
+      ("TAP Coffee", 89<quality>, soho) ]
     |> List.map Common.createCafe
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
@@ -83,12 +87,12 @@ let private addConcertSpaces city =
        Everywhere.Common.concertSpaceLayout3)
       ("Brixton Academy",
        4921,
-       lambeth,
+       brixton,
        88<quality>,
        Everywhere.Common.concertSpaceLayout2)
       ("Roundhouse",
        1700,
-       camden,
+       camdenTown,
        89<quality>,
        Everywhere.Common.concertSpaceLayout4)
       ("Hammersmith Apollo",
@@ -98,7 +102,7 @@ let private addConcertSpaces city =
        Everywhere.Common.concertSpaceLayout2)
       ("Barbican Centre",
        1943,
-       cityOfLondon,
+       islington,
        80<quality>,
        Everywhere.Common.concertSpaceLayout1)
       ("Union Chapel",
@@ -106,7 +110,11 @@ let private addConcertSpaces city =
        islington,
        86<quality>,
        Everywhere.Common.concertSpaceLayout3)
-      ("Scala", 1145, camden, 84<quality>, Everywhere.Common.concertSpaceLayout1)
+      ("Scala",
+       1145,
+       camdenTown,
+       84<quality>,
+       Everywhere.Common.concertSpaceLayout1)
       ("Bush Hall",
        350,
        hammersmith,
@@ -114,22 +122,22 @@ let private addConcertSpaces city =
        Everywhere.Common.concertSpaceLayout2)
       ("The Forum",
        2300,
-       camden,
+       camdenTown,
        90<quality>,
        Everywhere.Common.concertSpaceLayout3)
       ("Electric Ballroom",
        1100,
-       camden,
+       camdenTown,
        80<quality>,
        Everywhere.Common.concertSpaceLayout4)
       ("The Underworld",
        500,
-       camden,
+       camdenTown,
        83<quality>,
        Everywhere.Common.concertSpaceLayout1)
       ("The Jazz Cafe",
        420,
-       camden,
+       camdenTown,
        87<quality>,
        Everywhere.Common.concertSpaceLayout4)
       ("The Garage",
@@ -139,12 +147,12 @@ let private addConcertSpaces city =
        Everywhere.Common.concertSpaceLayout2)
       ("The Borderline",
        300,
-       westminster,
+       soho,
        86<quality>,
        Everywhere.Common.concertSpaceLayout3)
       ("The 100 Club",
        350,
-       westminster,
+       soho,
        91<quality>,
        Everywhere.Common.concertSpaceLayout1)
       ("The Lexington",
@@ -154,12 +162,12 @@ let private addConcertSpaces city =
        Everywhere.Common.concertSpaceLayout3)
       ("The Dublin Castle",
        200,
-       camden,
+       camdenTown,
        88<quality>,
        Everywhere.Common.concertSpaceLayout4)
       ("The Windmill Brixton",
        150,
-       lambeth,
+       brixton,
        95<quality>,
        Everywhere.Common.concertSpaceLayout2)
       ("The Half Moon",
@@ -177,7 +185,7 @@ let createHome =
         100<quality>
         Home
         Everywhere.Common.homeLayout
-        cityOfLondon
+        soho
 
 (* -------- Hospital --------- *)
 let addHospital city =
@@ -195,88 +203,102 @@ let addHospital city =
 
     World.City.addPlace place city
 
+(* -------- Hotels --------- *)
+let private addHotels city =
+    [ ("The Savoy", 90<quality>, 200m<dd>, coventGarden)
+      ("The Dorchester", 95<quality>, 220m<dd>, mayfair)
+      ("The Ritz London", 98<quality>, 240m<dd>, mayfair)
+      ("Claridge's", 92<quality>, 210m<dd>, mayfair)
+      ("The Langham", 88<quality>, 190m<dd>, soho)
+      ("The Connaught", 85<quality>, 180m<dd>, mayfair)
+      ("The Goring", 80<quality>, 160m<dd>, camdenTown)
+      ("The Bloomsbury", 75<quality>, 140m<dd>, camdenTown)
+      ("The Zetter Townhouse", 70<quality>, 120m<dd>, shoreditch)
+      ("The Hoxton", 65<quality>, 100m<dd>, shoreditch) ]
+    |> List.map Common.createHotel
+    |> List.fold (fun city place -> World.City.addPlace place city) city
+
 (* -------- Rehearsal spaces --------- *)
 let private addRehearsalSpaces city =
     [ ("Premises Studios", 85<quality>, 100m<dd>, hackney)
       ("Pirate Studios", 90<quality>, 150m<dd>, greenwich)
-      ("The Joint", 92<quality>, 170m<dd>, lambeth)
+      ("The Joint", 92<quality>, 170m<dd>, camdenTown)
       ("Bally Studios", 80<quality>, 50m<dd>, tottenham)
       ("Crown Lane Studio", 88<quality>, 120m<dd>, morden)
       ("The Music Complex", 86<quality>, 110m<dd>, deptford)
-      ("Bush Studios", 87<quality>, 120m<dd>, southwark)
+      ("Bush Studios", 87<quality>, 120m<dd>, camdenTown)
       ("New Rose Studios", 85<quality>, 100m<dd>, islington)
       ("John Henry's", 89<quality>, 140m<dd>, islington)
-      ("Resident Studios", 90<quality>, 150m<dd>, newham) ]
+      ("Resident Studios", 90<quality>, 150m<dd>, shoreditch) ]
     |> List.map Common.createRehearsalSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Restaurants --------- *)
 let private addRestaurants city =
-    [ ("Dabbous", 90<quality>, French, westminster)
-      ("The Ledbury", 88<quality>, French, kensington)
-      ("La Burratta", 85<quality>, Italian, camden)
-      ("Barrafina", 89<quality>, Italian, westminster)
-      ("Yauatcha", 87<quality>, Japanese, cityOfLondon)
-      ("The Wolseley", 86<quality>, French, westminster)
-      ("Duck & Waffle", 92<quality>, American, cityOfLondon)
-      ("Sketch", 91<quality>, French, westminster)
-      ("Burger & Lobster", 84<quality>, American, camden)
-      ("Hawksmoor", 88<quality>, American, cityOfLondon) ]
+    [ ("Dabbous", 90<quality>, French, soho)
+      ("The Ledbury", 88<quality>, French, nottingHill)
+      ("La Burratta", 85<quality>, Italian, chelsea)
+      ("Barrafina", 89<quality>, Italian, soho)
+      ("Yauatcha", 87<quality>, Japanese, soho)
+      ("The Wolseley", 86<quality>, French, mayfair)
+      ("Duck & Waffle", 92<quality>, American, camdenTown)
+      ("Sketch", 91<quality>, French, mayfair)
+      ("Burger & Lobster", 84<quality>, American, soho)
+      ("Hawksmoor", 88<quality>, American, camdenTown) ]
     |> List.map Common.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
-
 
 (* -------- Studios --------- *)
 let private addStudios city =
     [ ("Abbey Road Studios",
        85<quality>,
        200m<dd>,
-       camden,
+       camdenTown,
        (Character.from "George Martin" Male (January 3 1926)))
       ("AIR Studios",
        90<quality>,
        300m<dd>,
-       camden,
+       camdenTown,
        (Character.from "Eva Johnson" Female (March 15 1980)))
       ("Metropolis Studios",
        92<quality>,
        340m<dd>,
-       hammersmith,
+       tottenham,
        (Character.from "Tom Davis" Male (July 10 1978)))
       ("Sarm West Studios",
        80<quality>,
        100m<dd>,
-       westminster,
+       nottingHill,
        (Character.from "Jane Wilson" Female (September 5 1982)))
       ("Strongroom",
        88<quality>,
        260m<dd>,
-       hackney,
+       shoreditch,
        (Character.from "Peter Brown" Male (June 20 1981)))
       ("The Church Studios",
        86<quality>,
        220m<dd>,
-       camden,
+       camdenTown,
        (Character.from "Elisa Miller" Female (April 1 1990)))
       ("Trident Studios",
        87<quality>,
        240m<dd>,
-       towerHamlets,
+       soho,
        (Character.from "Martin Thompson" Male (January 30 1976)))
       ("Olympic Studios",
        85<quality>,
        200m<dd>,
-       hammersmith,
+       hackney,
        (Character.from "Alice Davis" Female (August 15 1977)))
       ("The Pool",
        89<quality>,
        280m<dd>,
-       lambeth,
+       hammersmith,
        (Character.from "Andrew Johnson" Male (February 2 1960)))
       ("Rak Studios",
        90<quality>,
        300m<dd>,
-       westminster,
+       stratford,
        (Character.from "Margaret Taylor" Female (May 3 1988))) ]
     |> List.map Common.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

@@ -34,6 +34,7 @@
         <Compile Include="Text\World\ConcertSpace.fs"/>
         <Compile Include="Text\World\Home.fs"/>
         <Compile Include="Text\World\Hospital.fs"/>
+        <Compile Include="Text\World\Hotel.fs"/>
         <Compile Include="Text\World\RehearsalSpace.fs"/>
         <Compile Include="Text\World\Restaurant.fs"/>
         <Compile Include="Text\World\Studio.fs"/>

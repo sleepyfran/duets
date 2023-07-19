@@ -23,6 +23,15 @@ let createConcertSpace (name, capacity, zone, quality, layout) =
         zone
     |> World.Place.changeOpeningHours Everywhere.Common.concertSpaceOpeningHours
 
+/// Creates a hotel with the given name, quality, price per night and zone.
+let createHotel (name, quality, pricePerNight, zone) =
+    World.Place.create
+        name
+        quality
+        (Hotel { PricePerNight = pricePerNight })
+        Everywhere.Common.hotelLayout
+        zone
+
 /// Creates a rehearsal space with the given name, quality, price and zone.
 let createRehearsalSpace (name, quality, price, zone) =
     World.Place.create

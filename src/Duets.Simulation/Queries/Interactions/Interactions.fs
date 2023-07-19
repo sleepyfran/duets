@@ -57,6 +57,7 @@ module Interactions =
                 currentPlace.Id
         | Home -> defaultInteractions
         | Hospital -> defaultInteractions
+        | Hotel _ -> defaultInteractions
         | RehearsalSpace _ ->
             RehearsalSpace.interactions state cityId currentRoom
             @ defaultInteractions

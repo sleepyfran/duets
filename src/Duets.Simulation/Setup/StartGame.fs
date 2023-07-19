@@ -49,7 +49,7 @@ let startGame
         (initialCity.Id, initialPlaceId) ||> Queries.World.placeInCityById
 
     let initialRental =
-        Rentals.RentPlace.createRental
+        Rentals.RentPlace.createMonthlyRental
             Calendar.gameBeginning
             initialCity.Id
             initialPlace

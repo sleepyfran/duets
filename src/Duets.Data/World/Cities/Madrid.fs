@@ -34,6 +34,7 @@ let generate () =
     |> addCafes
     |> addConcertSpaces
     |> addHospital
+    |> addHotels
     |> addRehearsalSpaces
     |> addRestaurants
     |> addStudios
@@ -200,6 +201,20 @@ let private addHospital city =
 
     World.City.addPlace place city
 
+(* -------- Hotels --------- *)
+let private addHotels city =
+    [ ("Hotel Ritz", 90<quality>, 200m<dd>, retiro)
+      ("Hotel Villa Magna", 95<quality>, 220m<dd>, salamanca)
+      ("Hotel Wellington", 88<quality>, 180m<dd>, retiro)
+      ("Hotel Santo Mauro", 92<quality>, 210m<dd>, chamberí)
+      ("Hotel Orfila", 85<quality>, 170m<dd>, chamberí)
+      ("Hotel Urban", 80<quality>, 160m<dd>, sol)
+      ("Hotel Hospes Puerta de Alcalá", 75<quality>, 140m<dd>, retiro)
+      ("Hotel NH Collection Madrid Suecia", 70<quality>, 120m<dd>, sol)
+      ("Hotel Ibis Madrid Centro", 65<quality>, 100m<dd>, sol)
+      ("Hotel Room Mate Oscar", 60<quality>, 90m<dd>, sol) ]
+    |> List.map Common.createHotel
+    |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Rehearsal spaces -------- *)
 let private addRehearsalSpaces city =

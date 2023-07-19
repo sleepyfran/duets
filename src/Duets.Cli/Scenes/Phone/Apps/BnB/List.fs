@@ -1,8 +1,9 @@
-module Duets.Cli.Scenes.Phone.Apps.BnB.List
+module rec Duets.Cli.Scenes.Phone.Apps.BnB.List
 
 open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.Text
+open Duets.Cli.Text.World
 open Duets.Entities
 open Duets.Simulation
 
@@ -11,7 +12,8 @@ let listAll rentApp =
     let tableColumns =
         [ Styles.header "Place name"
           Styles.header "Location"
-          Styles.header "Contract expiration date" ]
+          Styles.header "Start date"
+          Styles.header "End date" ]
 
     let tableRows =
         Queries.Rentals.all (State.get ())
@@ -20,11 +22,21 @@ let listAll rentApp =
             let place = rental.Coords ||> Queries.World.placeInCityById
             let expirationDate = Rental.dueDate rental
 
-            [ place.Name
+            [ placeName place
               Styles.place
                   $"""{Generic.cityName cityId} {Styles.faded $"({place.Zone.Name})"}"""
+              startDate rental
               Generic.dateWithDay expirationDate ])
 
     showTable tableColumns tableRows
 
     rentApp ()
+
+let private placeName (place: Place) =
+    $"""{place.Name} {Styles.faded
+                          $"({place.Type |> World.Place.Type.toIndex |> World.placeTypeName})"}"""
+
+let private startDate rental =
+    match rental.RentalType with
+    | Monthly _ -> Styles.faded "-"
+    | OneTime(fromDate, _) -> Generic.dateWithDay fromDate

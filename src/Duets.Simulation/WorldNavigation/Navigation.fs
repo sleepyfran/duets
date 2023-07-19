@@ -6,11 +6,22 @@ open Duets.Entities
 open Duets.Simulation
 
 module Navigation =
-    let private applyPolicies state cityId placeId =
-        Navigation.Policies.OpeningHours.canEnter state cityId placeId
-        |> Result.andThen (
-            Navigation.Policies.Rental.canEnter state cityId placeId
-        )
+    let private applyPlacePolicies state cityId placeId =
+        [ Navigation.Policies.OpeningHours.canMove
+          Navigation.Policies.Rental.canMove ]
+        |> List.fold
+            (fun result policy ->
+                result |> Result.bind (fun _ -> policy state cityId placeId))
+            (Ok())
+
+    let private applyRoomPolicies state cityId placeId roomId =
+        [ Navigation.Policies.Concert.canEnter
+          Navigation.Policies.Rental.canEnter ]
+        |> List.fold
+            (fun result policy ->
+                result
+                |> Result.bind (fun _ -> policy state cityId placeId roomId))
+            (Ok())
 
     /// Moves the player to the specific place ID.
     let moveTo placeId state =
@@ -18,14 +29,14 @@ module Navigation =
         let place = Queries.World.placeInCityById cityId placeId
         let startingRoom = place.Rooms.StartingNode
 
-        applyPolicies state cityId placeId
+        applyPlacePolicies state cityId placeId
         |> Result.transform (WorldMoveTo(cityId, placeId, startingRoom))
 
     /// Moves the player to the specified room inside of the current place.
     let enter roomId state =
         let cityId, placeId, _ = Queries.World.currentCoordinates state
 
-        Navigation.Policies.Concert.canEnter state cityId placeId roomId
+        applyRoomPolicies state cityId placeId roomId
         |> Result.transform (WorldEnter(cityId, placeId, roomId))
 
     /// Moves the player to the specific place ID inside the given city ID.

@@ -94,6 +94,21 @@ module Place =
         { place with
             OpeningHours = openingHours }
 
+    module Type =
+        /// Transforms a PlaceType into its index counterpart.
+        let toIndex placeType =
+            match placeType with
+            | Airport -> PlaceTypeIndex.Airport
+            | Bar _ -> PlaceTypeIndex.Bar
+            | Cafe _ -> PlaceTypeIndex.Cafe
+            | ConcertSpace _ -> PlaceTypeIndex.ConcertSpace
+            | Home -> PlaceTypeIndex.Home
+            | Hotel _ -> PlaceTypeIndex.Hotel
+            | Hospital -> PlaceTypeIndex.Hospital
+            | RehearsalSpace _ -> PlaceTypeIndex.RehearsalSpace
+            | Restaurant _ -> PlaceTypeIndex.Restaurant
+            | Studio _ -> PlaceTypeIndex.Studio
+
 [<RequireQualifiedAccess>]
 module Zone =
     /// Creates a zone with the given name and an ID based on it.
@@ -106,17 +121,7 @@ module Zone =
 [<RequireQualifiedAccess>]
 module City =
     let private addToPlaceByTypeIndex place index =
-        let mapKey =
-            match place.Type with
-            | Airport -> PlaceTypeIndex.Airport
-            | Bar _ -> PlaceTypeIndex.Bar
-            | Cafe _ -> PlaceTypeIndex.Cafe
-            | ConcertSpace _ -> PlaceTypeIndex.ConcertSpace
-            | Home -> PlaceTypeIndex.Home
-            | Hospital -> PlaceTypeIndex.Hospital
-            | RehearsalSpace _ -> PlaceTypeIndex.RehearsalSpace
-            | Restaurant _ -> PlaceTypeIndex.Restaurant
-            | Studio _ -> PlaceTypeIndex.Studio
+        let mapKey = Place.Type.toIndex place.Type
 
         Map.change
             mapKey

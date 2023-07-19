@@ -25,7 +25,7 @@ module Rentals =
         Optic.get (Lenses.State.rentals_ >-> Map.value_ coords) state
 
     /// Calculates the price for renting a given place.
-    let calculateRentalPrice cityId (place: Place) =
+    let calculateMonthlyRentalPrice cityId (place: Place) =
         let city = World.cityById cityId
 
         let fullPrice =
@@ -36,6 +36,13 @@ module Rentals =
         let qualityModifier = decimal (place.Quality / 1<quality>) / 100m
 
         fullPrice * (decimal qualityModifier)
+
+    /// Calculates the price for renting a given place for a given number of
+    /// days.
+    let calculateOneTimeRentalPrice (place: Place) (numberOfDays: int<days>) =
+        match place.Type with
+        | PlaceType.Hotel hotel -> hotel.PricePerNight * decimal numberOfDays
+        | _ -> 0m<dd>
 
     /// Returns all places of the given type inside of the city that have still
     /// not been rented.

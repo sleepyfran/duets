@@ -162,7 +162,7 @@ let ``createNotifications returns nothing for rentals that are one time`` () =
     let nextWeekFromDummyToday = dummyToday |> Calendar.Ops.addDays 7
 
     let dummyRental =
-        { RentalType = OneTime nextWeekFromDummyToday
+        { RentalType = OneTime(dummyToday, nextWeekFromDummyToday)
           Amount = 900m<dd>
           Coords = dummyCity.Id, dummyPlace.Id }
 

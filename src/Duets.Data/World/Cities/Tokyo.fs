@@ -26,6 +26,7 @@ let generate () =
     |> addCafes
     |> addConcertSpaces
     |> addHospital
+    |> addHotels
     |> addRehearsalSpaces
     |> addRestaurants
     |> addStudios
@@ -56,7 +57,7 @@ let private addBars city =
             Bar
             Everywhere.Common.barRoomLayout
             zone
-            |> World.Place.changeOpeningHours Everywhere.Common.barOpeningHours)
+        |> World.Place.changeOpeningHours Everywhere.Common.barOpeningHours)
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Cafes --------- *)
@@ -206,6 +207,21 @@ let addHospital city =
             bunkyo
 
     World.City.addPlace place city
+
+(* -------- Hotels --------- *)
+let private addHotels city =
+    [ ("The Ritz-Carlton Tokyo", 98<quality>, 240m<dd>, minato)
+      ("Aman Tokyo", 95<quality>, 220m<dd>, chiyoda)
+      ("The Peninsula Tokyo", 92<quality>, 210m<dd>, chiyoda)
+      ("Park Hyatt Tokyo", 90<quality>, 200m<dd>, shinjuku)
+      ("Mandarin Oriental Tokyo", 88<quality>, 190m<dd>, chuo)
+      ("The Prince Park Tower Tokyo", 85<quality>, 180m<dd>, minato)
+      ("The Tokyo Station Hotel", 80<quality>, 160m<dd>, chiyoda)
+      ("Hotel New Otani Tokyo", 75<quality>, 140m<dd>, chiyoda)
+      ("Hotel Okura Tokyo", 70<quality>, 120m<dd>, minato)
+      ("Shinjuku Granbell Hotel", 65<quality>, 100m<dd>, shinjuku) ]
+    |> List.map Common.createHotel
+    |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Rehearsal spaces --------- *)
 let private addRehearsalSpaces city =

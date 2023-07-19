@@ -23,6 +23,7 @@ let generate () =
     |> addCafes
     |> addConcertSpaces
     |> addHospital
+    |> addHotels
     |> addRehearsalSpaces
     |> addRestaurants
     |> addStudios
@@ -183,6 +184,21 @@ let addHospital city =
         World.Place.create "Sydney Hospital" 65<quality> Hospital roomGraph cbd
 
     World.City.addPlace place city
+
+(* -------- Hotels --------- *)
+let private addHotels city =
+    [ ("Park Hyatt Sydney", 98<quality>, 240m<dd>, cbd)
+      ("The Langham Sydney", 95<quality>, 220m<dd>, cbd)
+      ("Shangri-La Hotel Sydney", 92<quality>, 210m<dd>, cbd)
+      ("InterContinental Sydney", 90<quality>, 200m<dd>, cbd)
+      ("Four Seasons Hotel Sydney", 88<quality>, 190m<dd>, cbd)
+      ("The Westin Sydney", 85<quality>, 180m<dd>, cbd)
+      ("Sofitel Sydney Darling Harbour", 80<quality>, 160m<dd>, newtown)
+      ("Hyatt Regency Sydney", 75<quality>, 140m<dd>, cbd)
+      ("Novotel Sydney on Darling Harbour", 70<quality>, 120m<dd>, surryHills)
+      ("Ibis Sydney Darling Harbour", 65<quality>, 100m<dd>, darlinghurst) ]
+    |> List.map Common.createHotel
+    |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Rehearsal spaces --------- *)
 let private addRehearsalSpaces city =
