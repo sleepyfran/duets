@@ -39,7 +39,8 @@ let ``tick of low character health should hospitalize character`` () =
 let ``tick of low character health during concert should cancel concert`` () =
     let state =
         State.generateOne
-            { State.defaultOptions with FutureConcertsToGenerate = 0 }
+            { State.defaultOptions with
+                FutureConcertsToGenerate = 0 }
 
     let stateOnConcert =
         Situations.inConcert
@@ -72,11 +73,11 @@ let private assertAttributeChanged attribute amount effect =
     |> fst
     |> List.choose (fun effect ->
         match effect with
-        | CharacterAttributeChanged (characterId, attr, diff) ->
+        | CharacterAttributeChanged(characterId, attr, diff) ->
             Some(characterId, attr, diff)
         | _ -> None)
     |> List.head
-    |> fun (characterId, attr, Diff (_, currentAmount)) ->
+    |> fun (characterId, attr, Diff(_, currentAmount)) ->
         characterId |> should equal character.Id
         attr |> should equal attribute
         currentAmount |> should equal amount
@@ -150,3 +151,64 @@ let ``tick of passing time should decrease character's health when passing 85 in
             CharacterAttribute.Health,
             Diff(100, expectedHealth)
         ))
+
+let private testConcertEffect effect moodIncrease =
+    let state =
+        State.generateOne
+            { State.defaultOptions with
+                CharacterMoodMin = 50
+                CharacterMoodMax = 50 }
+
+    let character = Queries.Characters.playableCharacter state
+
+    Simulation.tickOne state effect
+    |> fst
+    |> should
+        contain
+        (CharacterAttributeChanged(
+            character.Id,
+            CharacterAttribute.Mood,
+            Diff(50, 50 + moodIncrease)
+        ))
+
+let private testConcertFinishedEffect concertQuality =
+    ConcertFinished(
+        dummyBand,
+        PerformedConcert(dummyConcert, concertQuality),
+        0m<dd>
+    )
+    |> testConcertEffect
+
+[<Test>]
+let ``tick of ConcertCancelled should greatly decrease character's mood`` () =
+    let effect =
+        ConcertCancelled(
+            dummyBand,
+            FailedConcert(dummyConcert, BandDidNotMakeIt)
+        )
+
+    testConcertEffect effect Config.LifeSimulation.Mood.concertFailIncrease
+
+[<Test>]
+let ``tick of ConcertFinished with a bad concert should decrease character's mood``
+    ()
+    =
+    testConcertFinishedEffect
+        20<quality>
+        Config.LifeSimulation.Mood.concertPoorResultIncrease
+
+[<Test>]
+let ``tick of ConcertFinished with an okay concert should increase character's mood``
+    ()
+    =
+    testConcertFinishedEffect
+        50<quality>
+        Config.LifeSimulation.Mood.concertNormalResultIncrease
+
+[<Test>]
+let ``tick of ConcertFinished with a good concert should decrease character's mood``
+    ()
+    =
+    testConcertFinishedEffect
+        80<quality>
+        Config.LifeSimulation.Mood.concertGoodResultIncrease

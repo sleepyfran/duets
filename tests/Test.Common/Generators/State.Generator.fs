@@ -16,6 +16,8 @@ let dateGenerator =
 type StateGenOptions =
     { BandFansMin: int
       BandFansMax: int
+      CharacterMoodMin: int
+      CharacterMoodMax: int
       FutureConcertsToGenerate: int
       PastConcertsToGenerate: int
       FlightsToGenerate: int
@@ -29,6 +31,8 @@ type StateGenOptions =
 let defaultOptions =
     { BandFansMin = 0
       BandFansMax = 25
+      CharacterMoodMin = 100
+      CharacterMoodMax = 100
       FutureConcertsToGenerate = 0
       PastConcertsToGenerate = 0
       FlightsToGenerate = 0
@@ -73,9 +77,17 @@ let generator (opts: StateGenOptions) =
         let! initialState = Arb.generate<State>
         let! playableCharacter = Arb.generate<Character>
 
+        let! characterMood =
+            Gen.choose (opts.CharacterMoodMin, opts.CharacterMoodMax)
+
         let playableCharacter =
             { playableCharacter with
-                Attributes = Character.defaultAttributes }
+                Attributes =
+                    [ (CharacterAttribute.Energy, 100)
+                      (CharacterAttribute.Health, 100)
+                      (CharacterAttribute.Hunger, 100)
+                      (CharacterAttribute.Mood, characterMood) ]
+                    |> Map.ofList }
 
         let! bandMembers = Gen.listOfLength 4 Arb.generate<CurrentMember>
 

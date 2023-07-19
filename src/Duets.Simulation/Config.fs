@@ -11,17 +11,32 @@ module LifeSimulation =
         /// Minimum amount of energy needed to do any non-movement or item
         /// consumption related interaction.
         let minimumEnergyRequired = 10
-        
+
     module Mood =
         /// How much the character's mood is improved when drinking alcohol.
         let alcoholIncrease = 3
-    
+
         /// How much the character's mood is improved when drinking coffee.
         let coffeeIncrease = 1
         
+        /// How much the character's mood changes after failing a concert.
+        let concertFailIncrease = -20
+
+        /// How much the character's mood changes after playing a bad concert.
+        let concertPoorResultIncrease = -10
+
+        /// How much the character's mood is improved after playing an okay concert.
+        let concertNormalResultIncrease = 5
+
+        /// How much the character's mood is improved after playing a good concert.
+        let concertGoodResultIncrease = 10
+
         /// How much the character's mood is improve when playing video games.
         let playingVideoGamesIncrease = 10
-        
+
+        /// How much the character's mood is improved when playing music.
+        let playingMusicIncrease = 2
+
         /// How much the character's mood is improved when watching TV.
         let watchingTvIncrease = 5
 
