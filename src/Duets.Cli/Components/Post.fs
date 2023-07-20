@@ -9,7 +9,10 @@ open Spectre.Console
 let showPost (account: SocialNetworkAccount) (post: SocialNetworkPost) =
     Panel(
         Rows(
-            Markup($"@{account.Handle}" |> Styles.faded),
+            Markup(
+                $"@{account.Handle} | {Generic.dateWithDay post.Timestamp}"
+                |> Styles.faded
+            ),
             Text(post.Text),
             Markup($"{Emoji.boost} {post.Reposts}")
         ),
