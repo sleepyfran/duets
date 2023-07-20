@@ -58,6 +58,6 @@ let flightTime flight =
 /// given flight.
 let flightDayMoments flight =
     let flightTime = flightTime flight
-    let dayMomentPerHourInSeconds = 3600<second>
+    let dayMomentPerHourInSeconds = 10800<second> (* 3 hours *)
 
     flightTime / dayMomentPerHourInSeconds |> (*) 1<dayMoments>
