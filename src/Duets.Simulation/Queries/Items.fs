@@ -2,14 +2,30 @@ namespace Duets.Simulation.Queries
 
 open Aether
 open Duets.Common
+open Duets.Data
 open Duets.Entities
 
 module Items =
+    let private defaultItems (coords: RoomCoordinates) =
+        let cityId, placeId, roomId = coords
+        let place = (cityId, placeId) ||> World.placeInCityById
+        let room = (cityId, placeId, roomId) |||> World.roomById
+
+        match place.Type, room with
+        | PlaceType.Hotel _, RoomType.Bedroom ->
+            [ fst Items.Furniture.Bed.ikeaBed ]
+        | _ -> []
+
     /// Returns all the items currently available in the given coordinates.
     let allIn state coords =
-        Optic.get Lenses.State.worldItems_ state
-        |> Map.tryFind coords
-        |> Option.defaultValue []
+        let defaultLocationItems = defaultItems coords
+
+        let placedItems =
+            Optic.get Lenses.State.worldItems_ state
+            |> Map.tryFind coords
+            |> Option.defaultValue []
+
+        defaultLocationItems @ placedItems
 
     /// Determines whether the given item is located in the given world location,
     /// the character's inventory or none of them.
