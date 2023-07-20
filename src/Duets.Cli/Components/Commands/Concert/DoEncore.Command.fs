@@ -1,5 +1,6 @@
 namespace Duets.Cli.Components.Commands
 
+open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.Components.Commands
 open Duets.Cli.Text
@@ -13,6 +14,6 @@ module DoEncoreCommand =
         Concert.createCommand
             "do encore"
             Command.doEncoreDescription
-            (fun _ -> doEncore)
+            (fun _ -> doEncore (State.get ()))
             (fun _ _ -> Concert.encoreComingBackToStage |> showMessage)
             ongoingConcert

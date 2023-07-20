@@ -27,9 +27,11 @@ let getOffStage state ongoingConcert =
     |> Response.mapResult (fun _ -> canPerformEncore)
 
 /// Adds a new encore to the list of events of the ongoing concert.
-let doEncore ongoingConcert =
+let doEncore state ongoingConcert =
     let response = Response.forEvent ongoingConcert PerformedEncore 0
 
-    let effect = Situations.inConcert response.OngoingConcert
+    let effects =
+        [ state |> Navigation.enter Ids.ConcertSpace.stage |> Result.unwrap
+          Situations.inConcert response.OngoingConcert ]
 
-    Response.addEffect effect response
+    Response.addEffects effects response
