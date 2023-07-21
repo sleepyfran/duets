@@ -19,6 +19,7 @@ let private runDailyEffects time state =
         Albums.DailyUpdate.dailyUpdate state
         @ Albums.ReviewGeneration.generateReviewsForLatestAlbums state
         @ Concerts.DailyUpdate.dailyUpdate state
+        @ Place.RentalExpiration.expireRentals state time
     | Midday -> SocialNetworks.DailyUpdate.dailyUpdate state
     | _ -> []
 

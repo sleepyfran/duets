@@ -38,6 +38,7 @@ module EffectTypes =
         | MoneyTransferred of BankAccountHolder * BankTransaction
         | Notification of Notification
         | RentalAdded of Rental
+        | RentalKickedOut of Rental
         | RentalExpired of Rental
         | RentalUpdated of Rental
         | SituationChanged of Situation

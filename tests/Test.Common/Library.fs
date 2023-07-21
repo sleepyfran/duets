@@ -98,16 +98,23 @@ let dummyStudio =
 
 let dummyCity =
     let world = World.get ()
-    world.Cities
-    |> Map.find Prague
+    world.Cities |> Map.find Prague
 
 let dummyPlace =
     Queries.World.placesByTypeInCity dummyCity.Id PlaceTypeIndex.Home
     |> List.head
-    
+
+let dummyHotel1 =
+    Queries.World.placesByTypeInCity dummyCity.Id PlaceTypeIndex.Hotel
+    |> List.head
+
+let dummyHotel2 =
+    Queries.World.placesByTypeInCity dummyCity.Id PlaceTypeIndex.Hotel
+    |> List.item 1
+
 let dummyVenue =
-   Queries.World.placesByTypeInCity dummyCity.Id PlaceTypeIndex.ConcertSpace
-    |> List.head 
+    Queries.World.placesByTypeInCity dummyCity.Id PlaceTypeIndex.ConcertSpace
+    |> List.head
 
 let dummyConcert =
     { Id = Identity.create ()
@@ -118,7 +125,7 @@ let dummyConcert =
       TicketPrice = 20m<dd>
       TicketsSold = 0
       ParticipationType = Headliner }
-    
+
 let dummyPastConcert = PastConcert.PerformedConcert(dummyConcert, 100<quality>)
 
 let dummyState =

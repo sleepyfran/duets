@@ -160,23 +160,25 @@ let private displayEffect effect =
         "Choose where you want to go next" |> showMessage
 
         showMapUntilChoice () |> applyMultiple
+    | RentalKickedOut _ ->
+        "Since your rental has ran out, you need to go somewhere else"
+        |> Styles.error
+        |> showMessage
+
+        showMapUntilChoice () |> applyMultiple
     | RentalExpired rental ->
         lineBreak ()
 
-        let currentPlace = Queries.World.currentPlace (State.get ())
         let expiredPlace = rental.Coords ||> Queries.World.placeInCityById
+        let cityId, _ = rental.Coords
 
-        Styles.danger
-            $"You didn't pay this month's rent, so you can no longer access {expiredPlace.Name}"
-        |> showMessage
-
-        (* If the player is currently here, kick them out! *)
-        if currentPlace = expiredPlace then
-            "Since your rent has ran out, you need to go somewhere else"
-            |> Styles.error
-            |> showMessage
-
-            showMapUntilChoice () |> applyMultiple
+        match rental.RentalType with
+        | Monthly _ ->
+            $"You didn't pay this month's rent, so you can no longer access {expiredPlace.Name |> Styles.place} in {Generic.cityName cityId |> Styles.place}"
+        | OneTime _ ->
+            $"You rental of {expiredPlace.Name |> Styles.place} in {Generic.cityName cityId |> Styles.place} has expired, so you can no longer access it"
+        |> Styles.warning
+        |> showNotification "Rental expired"
     | SongImproved(_, Diff(before, after)) ->
         let (Unfinished(_, _, previousQuality)) = before
         let (Unfinished(_, _, currentQuality)) = after

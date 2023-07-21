@@ -81,6 +81,7 @@ let applyEffect state effect =
         Bank.setBalance account transaction state
     | PlaceClosed _ -> state
     | RentalAdded rental -> Rentals.add rental state
+    | RentalKickedOut _ -> state
     | RentalExpired rental -> Rentals.remove rental state
     | RentalUpdated rental -> Rentals.remove rental state |> Rentals.add rental
     | SituationChanged situation ->
