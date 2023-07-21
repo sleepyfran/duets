@@ -5,3 +5,10 @@ let ofBool res =
     match res with
     | true -> Some()
     | false -> None
+
+/// Returns a non-empty list option as some if the given list is not empty and
+/// None otherwise.
+let ofList xs =
+    match xs with
+    | [] -> None
+    | _ -> Some xs

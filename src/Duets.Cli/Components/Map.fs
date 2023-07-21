@@ -4,6 +4,7 @@ module rec Duets.Cli.Components.Map
 open Duets.Agents
 open Duets.Cli.Text
 open Duets.Cli.Text.World
+open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Navigation
@@ -111,7 +112,23 @@ let private askForPlace availablePlaces =
 /// to that location and return the effects associated with it, respecting the
 /// place opening hours and any other policies it might have.
 let showMap () =
-    Queries.World.allPlacesInCurrentCity (State.get ()) |> askForPlace
+    let state = State.get ()
+    let rentedPlaces = Queries.Rentals.allAsMap state
+    let currentCity = Queries.World.currentCity state
+
+    (* Filter out homes that are not rented to not pollute the map. *)
+    let allAvailablePlaces =
+        Queries.World.allPlacesInCurrentCity state
+        |> Map.change PlaceTypeIndex.Home (fun places ->
+            places
+            |> Option.bind (fun places ->
+                places
+                |> List.filter (fun place ->
+                    rentedPlaces
+                    |> Map.containsKey (currentCity.Id, place.Id))
+                |> Option.ofList))
+
+    allAvailablePlaces |> askForPlace
 
 /// Shows the map, forcing the user to make a choice.
 let showMapUntilChoice () =

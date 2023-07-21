@@ -6,9 +6,11 @@ open Duets.Common
 open Duets.Entities
 
 module Rentals =
+    /// Returns a map of all current rentals per city.
+    let allAsMap state = Optic.get Lenses.State.rentals_ state
+
     /// Returns a list of all current rentals for all cities.
-    let all state =
-        Optic.get Lenses.State.rentals_ state |> List.ofMapValues
+    let all state = allAsMap state |> List.ofMapValues
 
     /// Returns a list of all upcoming monthly rental payments within this week.
     let allUpcoming state =
