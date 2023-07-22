@@ -31,6 +31,7 @@
         <Compile Include="Albums\ReviewGeneration.Tests.fs" />
         <Compile Include="Bands\HireMember.Tests.fs" />
         <Compile Include="Bands\FireMember.Tests.fs" />
+        <Compile Include="Bands\BandGeneration.Tests.fs"/>
         <Compile Include="Bank\Transfer.Tests.fs" />
         <Compile Include="Bank\Queries.Tests.fs" />
         <Compile Include="Concerts\DailyUpdate.Tests.fs" />

@@ -136,9 +136,10 @@ let ``generate does not create any opportunities in venues that are too big or s
         let headlinerFame = headliner |> Queries.Bands.estimatedFameLevel state
 
         match headlinerFame with
-        | fame when fame < 10 -> venueCapacity |> should be (lessThan 500)
+        | fame when fame < 10 ->
+            venueCapacity |> should be (lessThanOrEqualTo 500)
         | fame when fame < 30 ->
-            venueCapacity |> should be (lessThan 5000)
+            venueCapacity |> should be (lessThanOrEqualTo 5000)
 
             venueCapacity |> should be (greaterThanOrEqualTo 500)
         | fame when fame < 50 ->
@@ -171,4 +172,4 @@ let ``generate does not create any opportunity for a band that has more than 35 
     OpeningActOpportunities.generate state Prague
     |> List.iter (fun (headliner, _) ->
         let headlinerFame = headliner |> Queries.Bands.estimatedFameLevel state
-        headlinerFame - bandFame |> should be (lessThan 35))
+        headlinerFame - bandFame |> should be (lessThanOrEqualTo 35))

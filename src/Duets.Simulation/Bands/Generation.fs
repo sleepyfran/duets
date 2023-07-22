@@ -9,7 +9,9 @@ open Duets.Simulation.Bands
 
 type FameLevel =
     | Low
+    | LowMedium
     | Medium
+    | MediumHigh
     | High
 
 module Name =
@@ -40,9 +42,11 @@ module Fans =
     let generate state fameLevel genre =
         let marketCap =
             match fameLevel with
-            | Low -> 0.01, 0.1
-            | Medium -> 0.1, 0.6
-            | High -> 0.6, 1.0
+            | Low -> 0.0001, 0.001
+            | LowMedium -> 0.0011, 0.01
+            | Medium -> 0.011, 0.1
+            | MediumHigh -> 0.11, 0.5
+            | High -> 0.51, 1.0
 
         let usefulMarket = Queries.GenreMarkets.usefulMarketOf state genre
 
@@ -62,9 +66,11 @@ module Members =
 
         let averageSkills =
             match fameLevel with
-            | Low -> RandomGen.genBetween 10 50
-            | Medium -> RandomGen.genBetween 51 70
-            | High -> RandomGen.genBetween 71 100
+            | Low -> RandomGen.genBetween 10 100
+            | LowMedium -> RandomGen.genBetween 30 100
+            | Medium -> RandomGen.genBetween 50 100
+            | MediumHigh -> RandomGen.genBetween 70 100
+            | High -> RandomGen.genBetween 80 100
 
         Roles.forGenre genre
         |> List.map (
@@ -109,18 +115,18 @@ let generate state fameLevel =
 
     members, band
 
-/// Generates a hundred bands from 30 years prior the start of the game to
-/// the current date. Out of that 100, 50 will be not famous (as in having less
-/// than 10% of their correspondent market size), 45 will be moderately famous
-/// (having between 10 to 60 percent of their market size) and the remaining 5
-/// will be really famous (more than 60 percent of their market size).
+/// Generates a 150 bands from 30 years prior the start of the game to
+/// the current date. Out of that 150, 100 will be not famous, 40 will be
+/// moderately famous and the remaining 10 will be really famous.
 ///
 /// All these bands are later added to the state, as well as all the characters
 /// belonging to these bands.
 let addInitialBandsToState state =
     addInitialBandsToState' 50 Low state
-    |> addInitialBandsToState' 45 Medium
-    |> addInitialBandsToState' 5 High
+    |> addInitialBandsToState' 50 LowMedium
+    |> addInitialBandsToState' 25 Medium
+    |> addInitialBandsToState' 15 MediumHigh
+    |> addInitialBandsToState' 10 High
 
 let private addInitialBandsToState' n fameLevel state =
     [ 1..n ]
