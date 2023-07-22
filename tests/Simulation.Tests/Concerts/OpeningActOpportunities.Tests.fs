@@ -108,7 +108,7 @@ let ``applyToConcertOpportunity returns ok if band fame is higher than headliner
 
 (* --------- Generation. --------- *)
 [<Test>]
-let ``generate does not schedule events in venues that are too big or small for the band's fame level``
+let ``generate does not create any opportunities in venues that are too big or small for the band's fame level``
     ()
     =
     let genreMarket = GenreMarket.create Genres.all
@@ -116,17 +116,15 @@ let ``generate does not schedule events in venues that are too big or small for 
     let initialState =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 20000
-                BandFansMax = 30000 }
+                BandFansMin = 3000000
+                BandFansMax = 3000000 }
 
     let state =
         { initialState with
             GenreMarkets = genreMarket }
         |> Bands.Generation.addInitialBandsToState
 
-    let opportunities = OpeningActOpportunities.generate state Prague
-
-    opportunities
+    OpeningActOpportunities.generate state Prague
     |> List.iter (fun (headliner, concert) ->
         let venue = Queries.World.placeInCityById Prague concert.VenueId
 
@@ -148,3 +146,29 @@ let ``generate does not schedule events in venues that are too big or small for 
 
             venueCapacity |> should be (greaterThanOrEqualTo 500)
         | _ -> venueCapacity |> should be (greaterThanOrEqualTo 500))
+
+[<Test>]
+let ``generate does not create any opportunity for a band that has more than 35 points of fame than the current band``
+    ()
+    =
+    let genreMarket = GenreMarket.create Genres.all
+
+    let initialState =
+        State.generateOne
+            { State.defaultOptions with
+                BandFansMin = 100
+                BandFansMax = 20000 }
+
+    let state =
+        { initialState with
+            GenreMarkets = genreMarket }
+        |> Bands.Generation.addInitialBandsToState
+
+    let bandFame =
+        Queries.Bands.currentBand state
+        |> Queries.Bands.estimatedFameLevel state
+
+    OpeningActOpportunities.generate state Prague
+    |> List.iter (fun (headliner, _) ->
+        let headlinerFame = headliner |> Queries.Bands.estimatedFameLevel state
+        headlinerFame - bandFame |> should be (lessThan 35))

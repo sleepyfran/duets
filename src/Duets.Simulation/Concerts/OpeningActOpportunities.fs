@@ -8,12 +8,23 @@ open Duets.Simulation
 /// Generates a list of opportunities for a band to be an opening act.
 let generate state cityId =
     let today = Queries.Calendar.today state
+    let currentBand = Queries.Bands.currentBand state
 
     // Start from a week after so that there's time to gather ticket sales.
     let firstAvailableDay = today |> Calendar.Ops.addDays 7
     let lastAvailableDay = today |> Calendar.Ops.addMonths 1
 
-    let simulatedBands = Queries.Bands.allSimulated state |> List.ofMapValues
+    let simulatedBands =
+        Queries.Bands.allSimulated state
+        |> List.ofMapValues
+        |> List.filter (fun headliner ->
+            let headlinerFame =
+                Queries.Bands.estimatedFameLevel state headliner
+
+            let currentBandFame =
+                Queries.Bands.estimatedFameLevel state currentBand
+
+            headlinerFame >=< (0, currentBandFame + 35))
 
     Calendar.Query.datesBetween firstAvailableDay lastAvailableDay
     |> List.collect (generateOpeningActShowsOnDate state simulatedBands cityId)
