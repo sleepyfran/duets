@@ -1,17 +1,20 @@
 module Duets.Simulation.Tests.Concerts.OpeningActOpportunities
 
 open Duets.Common
+open Duets.Data
 open Duets.Entities
 open Duets.Simulation
-
 open Duets.Simulation.Concerts
+open Duets.Simulation.Market
+
 open FsUnit
 open NUnit.Framework
 open Test.Common
 open Test.Common.Generators
 
+(* --------- Application. --------- *)
 [<Test>]
-let ``applyToConcertOpportunity returns NotEnoughFame if headliner fame is more than 25 of the band's fame``
+let ``applyToConcertOpportunity returns NotEnoughFame if headliner's fame is more than 25 of the band's fame``
     ()
     =
     let state =
@@ -102,3 +105,46 @@ let ``applyToConcertOpportunity returns ok if band fame is higher than headliner
         dummyConcert
     |> Result.unwrap
     |> should be (ofCase <@ ConcertScheduled @>)
+
+(* --------- Generation. --------- *)
+[<Test>]
+let ``generate does not schedule events in venues that are too big or small for the band's fame level``
+    ()
+    =
+    let genreMarket = GenreMarket.create Genres.all
+
+    let initialState =
+        State.generateOne
+            { State.defaultOptions with
+                BandFansMin = 20000
+                BandFansMax = 30000 }
+
+    let state =
+        { initialState with
+            GenreMarkets = genreMarket }
+        |> Bands.Generation.addInitialBandsToState
+
+    let opportunities = OpeningActOpportunities.generate state Prague
+
+    opportunities
+    |> List.iter (fun (headliner, concert) ->
+        let venue = Queries.World.placeInCityById Prague concert.VenueId
+
+        let venueCapacity =
+            match venue.Type with
+            | ConcertSpace space -> space.Capacity
+            | _ -> failwith "Concert scheduled in non-concert space"
+
+        let headlinerFame = headliner |> Queries.Bands.estimatedFameLevel state
+
+        match headlinerFame with
+        | fame when fame < 10 -> venueCapacity |> should be (lessThan 500)
+        | fame when fame < 30 ->
+            venueCapacity |> should be (lessThan 5000)
+
+            venueCapacity |> should be (greaterThanOrEqualTo 500)
+        | fame when fame < 50 ->
+            venueCapacity |> should be (lessThanOrEqualTo 20000)
+
+            venueCapacity |> should be (greaterThanOrEqualTo 500)
+        | _ -> venueCapacity |> should be (greaterThanOrEqualTo 500))

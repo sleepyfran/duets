@@ -27,10 +27,15 @@ let private generateOpeningActShowsOnDate state headlinerBands cityId date =
     [ 0..eventsToGenerate ]
     |> List.map (fun _ ->
         let dayMoment = [ Evening; Night ] |> List.sample
-        let venue = venuesInCity |> List.sample
         let headliner = headlinerBands |> List.sample
         let ticketPrice = Queries.Concerts.fairTicketPrice state headliner
-        let earningPercentage = calculateEarningPercentage state headliner
+
+        let headlinerFameLevel =
+            Queries.Bands.estimatedFameLevel state headliner
+
+        let earningPercentage = calculateEarningPercentage headlinerFameLevel
+
+        let venue = findSuitableVenue venuesInCity headlinerFameLevel
 
         let concert =
             Concert.create
@@ -43,10 +48,29 @@ let private generateOpeningActShowsOnDate state headlinerBands cityId date =
 
         (headliner, concert))
 
-let private calculateEarningPercentage state headliner =
-    let fameLevel = Queries.Bands.estimatedFameLevel state headliner
+let private findSuitableVenue venuesInCity headlinerFame : Place =
+    let range =
+        match headlinerFame with
+        | level when level < 10 -> (0, 500)
+        | level when level < 30 -> (500, 5000)
+        | level when level < 50 -> (500, 20000)
+        | _ -> (500, System.Int32.MaxValue)
 
-    match fameLevel with
+    (*
+    We rely on the fact that there will always be a suitable venue in the city.
+    *)
+    venuesInCity
+    |> List.filter (fun venue ->
+        let capacity =
+            match venue.Type with
+            | PlaceType.ConcertSpace concertSpace -> concertSpace.Capacity
+            | _ -> 0
+
+        capacity >=< range)
+    |> List.sample
+
+let private calculateEarningPercentage headlinerFame =
+    match headlinerFame with
     | level when level < 30 -> 20<percent>
     | level when level < 50 -> 15<percent>
     | level when level < 70 -> 10<percent>
