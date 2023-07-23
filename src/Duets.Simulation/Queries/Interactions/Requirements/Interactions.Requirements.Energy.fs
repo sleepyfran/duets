@@ -85,6 +85,7 @@ module EnergyRequirements =
             match interactionWithState.State with
             | InteractionState.Enabled ->
                 match interactionWithState.Interaction with
+                | Interaction.Concert _ -> interactionWithState
                 | Interaction.Rehearsal rehearsalInteraction ->
                     disableRehearsalInteraction
                         interactionWithState
@@ -95,14 +96,14 @@ module EnergyRequirements =
                         interactionWithState
                         characterEnergy
                         careerInteraction
-                | Interaction.FreeRoam (FreeRoamInteraction.Wait _) ->
+                | Interaction.FreeRoam(FreeRoamInteraction.Wait _) ->
                     disableIfLessEnergyThanMinimum
                         interactionWithState
                         characterEnergy
                 | Interaction.FreeRoam _ -> interactionWithState
-                | Interaction.Item (ItemInteraction.Consumable _) ->
+                | Interaction.Item(ItemInteraction.Consumable _) ->
                     interactionWithState
-                | Interaction.Item (ItemInteraction.Interactive InteractiveItemInteraction.Sleep) ->
+                | Interaction.Item(ItemInteraction.Interactive InteractiveItemInteraction.Sleep) ->
                     interactionWithState
                 | _ ->
                     disableIfLessEnergyThanMinimum
