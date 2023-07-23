@@ -116,6 +116,7 @@ module WorldTypes =
     type CityId =
         | London
         | Madrid
+        | MexicoCity
         | NewYork
         | Prague
         | Sydney

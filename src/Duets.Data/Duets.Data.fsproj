@@ -39,6 +39,7 @@
         <Compile Include="World\Cities\Common.fs"/>
         <Compile Include="World\Cities\London.fs"/>
         <Compile Include="World\Cities\Madrid.fs"/>
+        <Compile Include="World\Cities\MexicoCity.fs"/>
         <Compile Include="World\Cities\NewYork.fs"/>
         <Compile Include="World\Cities\Prague.fs"/>
         <Compile Include="World\Cities\Tokyo.fs"/>

@@ -16,8 +16,7 @@ let rec private checkCities (cities: City list) =
         rest
         |> List.forall (fun city2 ->
             try
-                let connection = World.connectionBetween city1.Id city2.Id
-                let distance = World.distances |> Map.find connection
+                let distance = World.distanceBetween city1.Id city2.Id
                 distance <> 0<km>
             with _ ->
                 printf $"No connection between {city1.Id} and {city2.Id}"

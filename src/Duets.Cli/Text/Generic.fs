@@ -99,6 +99,7 @@ let cityName id =
     match id with
     | London -> "London"
     | Madrid -> "Madrid"
+    | MexicoCity -> "Mexico City"
     | NewYork -> "New York"
     | Prague -> "Prague"
     | Sydney -> "Sydney"

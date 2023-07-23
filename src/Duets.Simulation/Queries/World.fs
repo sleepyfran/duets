@@ -75,10 +75,7 @@ module World =
         |> List.map (placeInCityById cityId)
 
     /// Returns the distance between the given cities.
-    let distanceBetween city1 city2 =
-        let connection = World.connectionBetween city1 city2
-
-        World.distances |> Map.find connection
+    let distanceBetween = World.distanceBetween
 
     /// Returns whether the given place is currently open or not.
     let placeCurrentlyOpen place currentTime =

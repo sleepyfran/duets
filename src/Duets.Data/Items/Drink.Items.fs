@@ -120,6 +120,32 @@ module Beer =
           Type = Beer(350<milliliter>, 5.0) |> Drink |> Consumable },
         3.3m<dd>
 
+    (* Mexican beer. *)
+    let coronaExtra: PurchasableItem =
+        { Brand = "Corona Extra"
+          Type = Beer(355<milliliter>, 4.5) |> Drink |> Consumable },
+        2.5m<dd>
+
+    let modeloEspecial: PurchasableItem =
+        { Brand = "Modelo Especial"
+          Type = Beer(355<milliliter>, 4.4) |> Drink |> Consumable },
+        2.6m<dd>
+
+    let pacifico: PurchasableItem =
+        { Brand = "Pacifico"
+          Type = Beer(355<milliliter>, 4.5) |> Drink |> Consumable },
+        2.7m<dd>
+
+    let tecate: PurchasableItem =
+        { Brand = "Tecate"
+          Type = Beer(355<milliliter>, 4.5) |> Drink |> Consumable },
+        2.4m<dd>
+
+    let dosEquis: PurchasableItem =
+        { Brand = "Dos Equis"
+          Type = Beer(355<milliliter>, 4.2) |> Drink |> Consumable },
+        2.6m<dd>
+
     (* US beer. *)
     let budLight: PurchasableItem =
         { Brand = "Bud Light"
@@ -172,7 +198,6 @@ module Beer =
           Type = Beer(568<milliliter>, 4.2) |> Drink |> Consumable },
         3.6m<dd>
 
-
     /// Defines the most common beers by location.
     let byLocation =
         [ (London,
@@ -182,6 +207,8 @@ module Beer =
              adnamsBroadside
              stAustellTribute ])
           (Madrid, [ cruzcampo; estrellaDamm; mahou; alhambra; sanMiguel ])
+          (MexicoCity,
+           [ coronaExtra; modeloEspecial; pacifico; tecate; dosEquis ])
           (NewYork, [ budLight; coorsLight; millerLite; yuengling; samuelAdams ])
           (Prague,
            [ gambrinusPint; kozelPint; pilsnerUrquellPint; staropramenPint ])
