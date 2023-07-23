@@ -57,23 +57,21 @@ let scheduledAroundDate state bandId =
     let today = Queries.Calendar.today state
     let timeline = bandSchedule state bandId
 
-    let nextScheduledConcert =
-        Seq.tryHead timeline.ScheduledEvents
-        |> Option.map Concert.fromScheduled
-        |> Option.bind (fun concert ->
-            let spanBetween = concert.Date - today
+    let aroundCurrentDate concert =
+        let spanBetween = concert.Date - today
+        if spanBetween.Days <= 1 then Some concert else None
 
-            if spanBetween.Days <= 1 then Some concert else None)
+    let concertsScheduledAroundCurrentDate =
+        timeline.ScheduledEvents
+        |> Seq.choose (fun event ->
+            Concert.fromScheduled event |> aroundCurrentDate)
 
-    let lastPerformedConcert =
-        Seq.tryLast timeline.PastEvents
-        |> Option.map Concert.fromPast
-        |> Option.bind (fun concert ->
-            let spanBetween = today - concert.Date
+    let lastPerformedAroundCurrentDate =
+        timeline.PastEvents
+        |> Seq.choose (fun event -> Concert.fromPast event |> aroundCurrentDate)
 
-            if spanBetween.Days <= 1 then Some concert else None)
-
-    [ nextScheduledConcert; lastPerformedConcert ] |> List.choose id
+    [ yield! concertsScheduledAroundCurrentDate
+      yield! lastPerformedAroundCurrentDate ]
 
 /// Returns all date from today to the end of the month that have a concert
 /// scheduled.

@@ -3,15 +3,15 @@ module Duets.Simulation.Tests.Concerts.Finish
 open FsCheck
 open FsUnit
 open NUnit.Framework
-open Duets.Simulation.Time
 open Test.Common
 open Test.Common.Generators
 
 open Aether
 open Duets.Common
 open Duets.Entities
-open Duets.Simulation.Concerts.Live.Finish
 open Duets.Simulation
+open Duets.Simulation.Concerts.Live.Finish
+open Duets.Simulation.Time
 
 let private attendance = 1000
 
