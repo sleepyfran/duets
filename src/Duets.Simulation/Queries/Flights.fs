@@ -13,8 +13,10 @@ let all state =
 
     Optic.get Lenses.State.flights_ state
     |> List.partition (fun flight ->
-        flight.Date < Calendar.Transform.resetDayMoment today
-        || flight.AlreadyUsed)
+        let normalizedFlightDate =
+            flight.Date |> Calendar.Transform.changeDayMoment flight.DayMoment
+
+        normalizedFlightDate <= today || flight.AlreadyUsed)
 
 /// Retrieves all the upcoming flights for the given day.
 let forDay state date =
