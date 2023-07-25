@@ -11,12 +11,15 @@ let skillName id =
         $"{Generic.instrumentName instrument} (Instrument)"
     | SkillId.MusicProduction -> "Music production"
     | SkillId.Speech -> "Speech"
+    | SkillId.Barista -> "Barista"
+    | SkillId.Bartending -> "Bartending"
 
 let categoryName category =
     match category with
     | SkillCategory.Character -> "Character"
     | SkillCategory.Music -> "Music"
     | SkillCategory.Production -> "Production"
+    | SkillCategory.Job -> "Job"
 
 let skillDescription id =
     match id with
@@ -30,6 +33,10 @@ let skillDescription id =
         "The music production skill determines how good you are at recording, producing and mastering songs. This skill is not that important if you don't produce your own songs and instead you use a studio with a producer"
     | SkillId.Speech ->
         "The speech skill determines how good you are at talking, which can be useful when giving speeches in concerts and during interviews"
+    | SkillId.Barista ->
+        "The barista skill determines how good you are at making coffee. This skill is not that important if you won't work as a barista"
+    | SkillId.Bartending ->
+        "The bartending skill determines how good you are at making drinks. This skill is not that important if you won't work as a bartender"
     |> Styles.faded
 
 let skillImproved

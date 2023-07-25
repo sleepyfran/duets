@@ -3,8 +3,31 @@ module Duets.Cli.Text.Career
 open Duets.Common
 open Duets.Entities
 
-let name t =
-    match t with
+module Barista =
+    let careerStageName (CareerStageId stage) =
+        match stage with
+        | 0uy -> "Dishwasher"
+        | 1uy -> "Junior Barista"
+        | 2uy -> "Barista"
+        | 3uy -> "Senior Barista"
+        | _ -> "Manager"
+
+module Bartender =
+    let careerStageName (CareerStageId stage) =
+        match stage with
+        | 0uy -> "Dishwasher"
+        | 1uy -> "Table cleaner"
+        | 2uy -> "Bartender"
+        | 3uy -> "Mixologist"
+        | _ -> "Manager"
+
+let name (job: Job) =
+    match job.Id with
+    | Barista -> Barista.careerStageName job.CurrentStage.Id
+    | Bartender -> Bartender.careerStageName job.CurrentStage.Id
+
+let typeName id =
+    match id with
     | Barista -> "Barista"
     | Bartender -> "Bartender"
 
@@ -19,11 +42,10 @@ let scheduleDescription schedule =
         $"""No schedule, {shiftDurationDescription schedule}"""
 
 let careerChange (job: Job) placeName =
-    Styles.success $"You now work as {name job.Id} at {Styles.place placeName}"
+    Styles.success $"You now work as {name job} at {Styles.place placeName}"
 
 let careerLeft (job: Job) placeName =
-    Styles.danger
-        $"You left your job as {name job.Id} at {Styles.place placeName}"
+    Styles.danger $"You left your job as {name job} at {Styles.place placeName}"
 
 let workShiftEvent (job: Job) =
     match job.Id with

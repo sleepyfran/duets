@@ -11,12 +11,18 @@ module CareerTypes =
     /// is currently in.
     type CareerStageId = CareerStageId of byte
 
+    /// Defines all the different requirements that can be added to a specific
+    /// career stage in order to unlock the next one.
+    [<RequireQualifiedAccess>]
+    type CareerStageRequirement = Skill of SkillId * int
+
     /// Defines one specific stage inside of a career, which defines an ID and
     /// a base salary that will later get multiplied by the type of place that
     /// employees this stage.
     type CareerStage =
         { Id: CareerStageId
-          BaseSalaryPerDayMoment: Amount }
+          BaseSalaryPerDayMoment: Amount
+          NextStageRequirements: CareerStageRequirement list }
 
     /// Number of day moments that it takes to perform a shift in a job.
     [<RequireQualifiedAccess>]

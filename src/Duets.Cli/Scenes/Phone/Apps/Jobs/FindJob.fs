@@ -14,7 +14,7 @@ let findJob jobsApp (currentCareer: Job option) =
         showOptionalChoicePrompt
             Phone.findJobTypePrompt
             Generic.cancel
-            Career.name
+            Career.typeName
             Careers.all
 
     match jobType with
@@ -53,11 +53,11 @@ let private askForJobConfirmation currentCareer job =
                 currentJob.Location ||> Queries.World.placeInCityById
 
             Phone.findJobAcceptLeaveConfirmation
-                job.Id
+                job
                 newCareerPlace.Name
-                currentJob.Id
+                currentJob
                 currentPlace.Name
-        | None -> Phone.findJobAcceptConfirmation job.Id newCareerPlace.Name
+        | None -> Phone.findJobAcceptConfirmation job newCareerPlace.Name
         |> showConfirmationPrompt
 
     if confirmed then

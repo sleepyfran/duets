@@ -5,16 +5,23 @@ module SkillTypes =
     /// Identifier of a skill which represents its internal type.
     [<RequireQualifiedAccess>]
     type SkillId =
+        (* Music. *)
         | Composition
         | Genre of Genre
         | Instrument of InstrumentType
+        (* Production. *)
         | MusicProduction
+        (* Character. *)
         | Speech
+        (* Job. *)
+        | Barista
+        | Bartending
 
     /// Defines all possible categories to which skills can be related to.
     [<RequireQualifiedAccess>]
     type SkillCategory =
         | Character
+        | Job
         | Music
         | Production
 
@@ -22,8 +29,7 @@ module SkillTypes =
     /// fields of the skill, more specific types are available depending on what
     /// information we need.
     type Skill =
-        { Id: SkillId
-          Category: SkillCategory }
+        { Id: SkillId; Category: SkillCategory }
 
     /// Defines the relation between a skill and its level.
     type SkillWithLevel = Skill * int
