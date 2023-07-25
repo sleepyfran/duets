@@ -7,22 +7,6 @@ open Duets.Entities
 
 [<RequireQualifiedAccess>]
 module InteractiveCommand =
-    let sleep =
-        Command.itemInteraction
-            (Command.VerbWithPrepositions("sleep", [ "in"; "on" ]))
-            Command.sleepDescription
-            (ItemInteraction.Interactive InteractiveItemInteraction.Sleep)
-            (function
-             | Ok effects ->
-                 Interaction.sleeping |> showMessage
-                 wait 8000<millisecond>
-                 Interaction.sleepResult |> showMessage
-                 effects |> Duets.Cli.Effect.applyMultiple
-                 Scene.World
-             | Error _ ->
-                 Items.itemCannotBeUsedForSleeping |> showMessage
-                 Scene.World)
-
     let play =
         Command.itemInteraction
             (Command.VerbOnly "play")

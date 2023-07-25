@@ -79,6 +79,7 @@
         <Compile Include="Interactions\Items\Drink.Interactions.fs" />
         <Compile Include="Interactions\Items\Food.Interactions.fs" />
         <Compile Include="Interactions\Items\Item.Interactions.fs" />
+        <Compile Include="Interactions\Sleep.fs"/>
         <Compile Include="Concerts\DailyUpdate.fs" />
         <Compile Include="Concerts\Scheduler.fs" />
         <Compile Include="Concerts\OpeningActOpportunities.fs"/>

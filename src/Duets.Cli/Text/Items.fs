@@ -33,10 +33,6 @@ let itemNotDrinkable =
 let itemNotEdible =
     Styles.error "You can't eat that!"
 
-let itemCannotBeUsedForSleeping =
-    Styles.error
-        "Hmm, I'm pretty sure you can't sleep on that. Ever heard of a bed or a sofa?"
-
 let itemCannotBePlayedWith =
     Styles.error
         "So... that's not a toy or a console, what are you trying to do?"

@@ -8,6 +8,7 @@ open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Interactions
+open FsToolkit.ErrorHandling
 
 /// Defines a command that can be executed by the user.
 type Command =
@@ -50,12 +51,12 @@ module Command =
     let private verb input =
         match input with
         | VerbOnly verb -> verb
-        | VerbWithPrepositions (verb, _) -> verb
+        | VerbWithPrepositions(verb, _) -> verb
 
     let private usageSample input =
         match input with
         | VerbOnly verb -> $"{verb} [[item]]"
-        | VerbWithPrepositions (verb, prepositions) ->
+        | VerbWithPrepositions(verb, prepositions) ->
             let formattedPrepositions =
                 prepositions
                 |> List.fold (fun acc preposition -> $"{preposition}|{acc}") ""
@@ -73,16 +74,36 @@ module Command =
                 (Generic.itemName item)
                 itemName)
 
-    let private runItemInteraction interactionType afterInteractionFn itemName =
-        let item = findItem itemName
+    /// <summary>
+    /// Generates a command that can be invoked via the given verb with optional
+    /// prepositions to perform a custom action on an item. Invokes <c>handler</c>
+    /// with the name of the item to perform the action on and handles all errors
+    /// to malformed input or not found items.
+    /// </summary>
+    let customItemInteraction input description handler =
+        { Name = verb input
+          Description = description
+          Handler =
+            fun args ->
+                let itemName =
+                    match input with
+                    | VerbOnly _ -> args |> String.concat " " |> Some
+                    | VerbWithPrepositions(_, prepositions) ->
+                        Parse.itemAfterVerbWithPreposition prepositions args
 
-        match item with
-        | Some item ->
-            Items.perform (State.get ()) item interactionType
-            |> afterInteractionFn
-        | None ->
-            Items.itemNotFound itemName |> showMessage
-            Scene.World
+                match itemName with
+                | Some itemName ->
+                    let item = findItem itemName
+
+                    match item with
+                    | Some item -> handler item
+                    | None ->
+                        Items.itemNotFound itemName |> showMessage
+                        Scene.World
+                | None ->
+                    usageSample input |> Command.wrongUsage |> showMessage
+
+                    Scene.World }
 
     /// <summary>
     /// Generates a command that can be invoked via the given verb with optional
@@ -91,26 +112,9 @@ module Command =
     /// to malformed input or not found items.
     /// </summary>
     let itemInteraction input description interactionType afterInteractionFn =
-        { Name = verb input
-          Description = description
-          Handler =
-            fun args ->
-                let itemName =
-                    match input with
-                    | VerbOnly _ -> args |> String.concat " " |> Some
-                    | VerbWithPrepositions (_, prepositions) ->
-                        Parse.itemAfterVerbWithPreposition prepositions args
-
-                match itemName with
-                | Some itemName ->
-                    runItemInteraction
-                        interactionType
-                        afterInteractionFn
-                        itemName
-                | None ->
-                    usageSample input |> Command.wrongUsage |> showMessage
-
-                    Scene.World }
+        customItemInteraction input description (fun item ->
+            Items.perform (State.get ()) item interactionType
+            |> afterInteractionFn)
 
     /// Disables the command for a given reason, which removes the actual handler
     /// of the command and mocks it with a message displaying the reason why the
@@ -120,8 +124,8 @@ module Command =
             Handler =
                 (fun _ ->
                     match disabledReason with
-                    | InteractionDisabledReason.NotEnoughAttribute (attribute,
-                                                                    amountNeeded) ->
+                    | InteractionDisabledReason.NotEnoughAttribute(attribute,
+                                                                   amountNeeded) ->
                         match attribute with
                         | CharacterAttribute.Energy ->
                             Command.disabledNotEnoughEnergy amountNeeded

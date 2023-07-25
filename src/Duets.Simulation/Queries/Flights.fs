@@ -16,6 +16,12 @@ let all state =
         flight.Date < Calendar.Transform.resetDayMoment today
         || flight.AlreadyUsed)
 
+/// Retrieves all the upcoming flights for the given day.
+let forDay state date =
+    let normalizedDate = date |> Calendar.Transform.resetDayMoment
+    let _, upcomingFlights = all state
+    upcomingFlights |> List.filter (fun flight -> flight.Date = normalizedDate)
+
 /// Retrieves all the flights booked in the month of the given date.
 let forMonth state date =
     let today =

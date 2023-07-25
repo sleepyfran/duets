@@ -86,8 +86,8 @@ let private commandsFromInteractions interactions =
                 [ ConsumeCommands.eat ]
             | ItemInteraction.Interactive(InteractiveItemInteraction.Cook items) ->
                 [ CookCommand.create items ]
-            | ItemInteraction.Interactive InteractiveItemInteraction.Sleep ->
-                [ InteractiveCommand.sleep ]
+            | ItemInteraction.Interactive(InteractiveItemInteraction.Sleep) ->
+                [ SleepCommand.get ]
             | ItemInteraction.Interactive InteractiveItemInteraction.Play ->
                 [ InteractiveCommand.play ]
             | ItemInteraction.Interactive InteractiveItemInteraction.Watch ->

@@ -14,9 +14,9 @@ module InteractionTime =
             2<dayMoments>
         | Interaction.Item(ItemInteraction.Interactive interactiveInteraction) ->
             match interactiveInteraction with
-            | InteractiveItemInteraction.Sleep -> 2<dayMoments>
             | InteractiveItemInteraction.Play
             | InteractiveItemInteraction.Watch -> 1<dayMoments>
+            | InteractiveItemInteraction.Sleep (* Sleeping asks how long to sleep. *)
             | InteractiveItemInteraction.Cook _ -> 0<dayMoments>
         | Interaction.FreeRoam FreeRoamInteraction.Wait -> 1<dayMoments>
         | Interaction.Rehearsal rehearsalInteraction ->

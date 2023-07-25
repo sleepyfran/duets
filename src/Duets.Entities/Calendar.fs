@@ -106,10 +106,23 @@ module Query =
             *)
             nextDayMoment |> Calendar.Transform.changeDayMoment' date
 
+    /// Returns the resulting date after advancing the day moment of the given
+    /// n times.
+    let nextN n (date: Date) =
+        [ 1..n ] |> List.fold (fun date _ -> next date) date
+
     /// Returns all the dates between the two given dates.
     let datesBetween (beginningDate: Date) (endDate: Date) =
         [ 0 .. endDate.Subtract(beginningDate).Days ]
         |> List.map (fun daysToAdd -> beginningDate.AddDays(float daysToAdd))
+
+    /// Returns the number of day moments between two dates.
+    let rec dayMomentsBetween (beginningDate: Date) (endDate: Date) =
+        if beginningDate >= endDate then
+            0<dayMoments>
+        else
+            let nextDayMoment = next beginningDate
+            1<dayMoments> + dayMomentsBetween nextDayMoment endDate
 
     /// Determines whether the given date is the first day of the year or not.
     let isFirstMomentOfYear (date: Date) =

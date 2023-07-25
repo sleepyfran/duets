@@ -9,3 +9,11 @@ module Calendar =
 
     /// Returns the tomorrow date in game.
     let tomorrow state = today state |> Calendar.Ops.addDays 1
+
+    /// Creates an infinite sequence of dates starting from the current
+    /// date in game and adding one day moment for each element.
+    let nextDates state =
+        let currentDate = today state
+
+        Seq.initInfinite (fun index ->
+            currentDate |> Calendar.Query.nextN (index + 1))

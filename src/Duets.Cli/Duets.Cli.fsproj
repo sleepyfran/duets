@@ -104,6 +104,7 @@
         <Compile Include="Components\Commands\Items\Consume.Command.fs"/>
         <Compile Include="Components\Commands\Items\Interactive.Command.fs"/>
         <Compile Include="Components\Commands\Items\Cook.Command.fs"/>
+        <Compile Include="Components\Commands\Items\Sleep.Command.fs"/>
         <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\TriggerEffect.Cheats.Commands.fs"/>

@@ -41,15 +41,6 @@ let interact state (item: Item) action =
         |> Time.AdvanceTime.advanceDayMoment' state
 
     match action with
-    | InteractiveItemInteraction.Sleep when
-        item.Type = (FurnitureItemType.Bed
-                     |> InteractiveItemType.Furniture
-                     |> Interactive)
-        ->
-        [ yield! timeEffects
-          yield! Character.Attribute.add character CharacterAttribute.Energy 80
-          yield! Character.Attribute.add character CharacterAttribute.Health 16 ]
-        |> Ok
     | InteractiveItemInteraction.Play when
         item.Type = (ElectronicsItemType.GameConsole
                      |> InteractiveItemType.Electronics
