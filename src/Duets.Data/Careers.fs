@@ -12,28 +12,25 @@ module BaristaCareer =
         [ // Dishwasher
           { Id = CareerStageId 0uy
             BaseSalaryPerDayMoment = 7m<dd>
-            NextStageRequirements =
-              [ CareerStageRequirement.Skill(SkillId.Barista, 10) ] }
+            Requirements = [] }
           // Junior Barista
           { Id = CareerStageId 1uy
             BaseSalaryPerDayMoment = 10m<dd>
-            NextStageRequirements =
-              [ CareerStageRequirement.Skill(SkillId.Barista, 40) ] }
+            Requirements = [ CareerStageRequirement.Skill(SkillId.Barista, 10) ] }
           // Barista
           { Id = CareerStageId 2uy
             BaseSalaryPerDayMoment = 12m<dd>
-            NextStageRequirements =
-              [ CareerStageRequirement.Skill(SkillId.Barista, 60) ] }
+            Requirements = [ CareerStageRequirement.Skill(SkillId.Barista, 40) ] }
           // Senior Barista
           { Id = CareerStageId 3uy
             BaseSalaryPerDayMoment = 15m<dd>
-            NextStageRequirements =
-              [ CareerStageRequirement.Skill(SkillId.Barista, 80)
-                CareerStageRequirement.Skill(SkillId.Speech, 50) ] }
+            Requirements = [ CareerStageRequirement.Skill(SkillId.Barista, 60) ] }
           // Manager
           { Id = CareerStageId 4uy
             BaseSalaryPerDayMoment = 20m<dd>
-            NextStageRequirements = [] } ]
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.Barista, 80)
+                CareerStageRequirement.Skill(SkillId.Speech, 50) ] } ]
 
 [<RequireQualifiedAccess>]
 module BartenderCareer =
@@ -41,25 +38,25 @@ module BartenderCareer =
         [ // Dishwasher
           { Id = CareerStageId 0uy
             BaseSalaryPerDayMoment = 7.5m<dd>
-            NextStageRequirements =
-              [ CareerStageRequirement.Skill(SkillId.Bartending, 10) ] }
+            Requirements = [] }
           // Table cleaner
           { Id = CareerStageId 1uy
             BaseSalaryPerDayMoment = 11m<dd>
-            NextStageRequirements =
-              [ CareerStageRequirement.Skill(SkillId.Bartending, 40) ] }
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.Bartending, 10) ] }
           // Bartender
           { Id = CareerStageId 2uy
             BaseSalaryPerDayMoment = 15m<dd>
-            NextStageRequirements =
-              [ CareerStageRequirement.Skill(SkillId.Bartending, 60) ] }
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.Bartending, 40) ] }
           // Mixologist
           { Id = CareerStageId 3uy
             BaseSalaryPerDayMoment = 18m<dd>
-            NextStageRequirements =
-              [ CareerStageRequirement.Skill(SkillId.Bartending, 80)
-                CareerStageRequirement.Skill(SkillId.Speech, 50) ] }
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.Bartending, 60) ] }
           // Manager
           { Id = CareerStageId 4uy
             BaseSalaryPerDayMoment = 25m<dd>
-            NextStageRequirements = [] } ]
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.Bartending, 80)
+                CareerStageRequirement.Skill(SkillId.Speech, 50) ] } ]

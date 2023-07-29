@@ -34,12 +34,38 @@ let private createCareerStage cityId placeId careerStage =
         BaseSalaryPerDayMoment =
             careerStage.BaseSalaryPerDayMoment * salaryModifier }
 
-let private generateBartenderJob cityId placeId =
-    let initialCareerStage =
-        BartenderCareer.stages |> List.head |> createCareerStage cityId placeId
+let private findSuitableCareerStage state (careerStages: CareerStage list) =
+    let character = Queries.Characters.playableCharacter state
+
+    careerStages
+    |> List.takeWhile (fun stage ->
+        stage.Requirements
+        |> List.forall (function
+            | CareerStageRequirement.Skill(skillId, minLevel) ->
+                let _, currentSkillLevel =
+                    Queries.Skills.characterSkillWithLevel
+                        state
+                        character.Id
+                        skillId
+
+                currentSkillLevel >= minLevel - 2))
+
+let private findSuitableCareerStageOrDefault state cityId placeId stages =
+    findSuitableCareerStage state stages
+    |> List.tryLast
+    |> Option.defaultValue stages.Head
+    |> createCareerStage cityId placeId
+
+let private generateBartenderJob state cityId placeId =
+    let careerStage =
+        findSuitableCareerStageOrDefault
+            state
+            cityId
+            placeId
+            BartenderCareer.stages
 
     { Id = Bartender
-      CurrentStage = initialCareerStage
+      CurrentStage = careerStage
       Location = cityId, placeId
       Schedule = JobSchedule.Free 2<dayMoments>
       ShiftAttributeEffect =
@@ -47,9 +73,13 @@ let private generateBartenderJob cityId placeId =
           CharacterAttribute.Mood, -10
           CharacterAttribute.Health, -2 ] }
 
-let private generateBaristaJob cityId placeId =
+let private generateBaristaJob state cityId placeId =
     let initialCareerStage =
-        BaristaCareer.stages |> List.head |> createCareerStage cityId placeId
+        findSuitableCareerStageOrDefault
+            state
+            cityId
+            placeId
+            BaristaCareer.stages
 
     { Id = Barista
       CurrentStage = initialCareerStage
@@ -57,18 +87,18 @@ let private generateBaristaJob cityId placeId =
       Schedule = JobSchedule.Free 2<dayMoments>
       ShiftAttributeEffect = [ CharacterAttribute.Energy, -10 ] }
 
-let private generateJobsForPlace cityId place =
+let private generateJobsForPlace state cityId place =
     place.Rooms
     |> World.Graph.nodes
     |> List.choose (function
-        | RoomType.Bar -> generateBartenderJob cityId place.Id |> Some
-        | RoomType.Cafe -> generateBaristaJob cityId place.Id |> Some
+        | RoomType.Bar -> generateBartenderJob state cityId place.Id |> Some
+        | RoomType.Cafe -> generateBaristaJob state cityId place.Id |> Some
         | _ -> None)
 
-let private generateJobs cityId (places: Place list) =
+let private generateJobs state cityId (places: Place list) =
     places
     |> List.choose (fun place ->
-        let jobsInPlace = generateJobsForPlace cityId place
+        let jobsInPlace = generateJobsForPlace state cityId place
 
         match jobsInPlace with
         | [] -> None
@@ -85,5 +115,5 @@ let availableJobsInCurrentCity state jobType =
     |> List.map (Queries.World.placeInCurrentCityById state)
     |> List.chunkBySize 5
     |> List.trySample
-    |> Option.map (generateJobs currentCity.Id)
+    |> Option.map (generateJobs state currentCity.Id)
     |> Option.defaultValue []

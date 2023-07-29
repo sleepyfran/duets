@@ -22,7 +22,7 @@ module CareerTypes =
     type CareerStage =
         { Id: CareerStageId
           BaseSalaryPerDayMoment: Amount
-          NextStageRequirements: CareerStageRequirement list }
+          Requirements: CareerStageRequirement list }
 
     /// Number of day moments that it takes to perform a shift in a job.
     [<RequireQualifiedAccess>]
