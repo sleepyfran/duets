@@ -1,7 +1,7 @@
 module Duets.Simulation.Events.Skill
 
 open Duets.Entities
-open Duets.Simulation.Skills.ImproveSkills
+open Duets.Simulation.Skills.Improve
 
 /// Runs all the events associated with certain effects that have happened that
 /// require the engine to improve the skills of the band or the character. For
@@ -9,10 +9,12 @@ open Duets.Simulation.Skills.ImproveSkills
 /// character and the rest of the band.
 let internal run effect =
     match effect with
-    | SongStarted (band, _) ->
+    | CareerShiftPerformed(job, _) ->
+        [ Career.improveCharacterSkillsAfterShift job ] |> ContinueChain |> Some
+    | SongStarted(band, _) ->
         [ Composition.improveBandSkillsChance band ] |> ContinueChain |> Some
-    | SongImproved (band, _) ->
+    | SongImproved(band, _) ->
         [ Composition.improveBandSkillsChance band ] |> ContinueChain |> Some
-    | SongPracticed (band, _) ->
+    | SongPracticed(band, _) ->
         [ Composition.improveBandSkillsChance band ] |> ContinueChain |> Some
     | _ -> None

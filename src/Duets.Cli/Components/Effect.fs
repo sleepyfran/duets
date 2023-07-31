@@ -46,6 +46,8 @@ let private displayEffect effect =
             "Reviews are always accessible via the phone"
             |> Styles.faded
             |> showMessage
+    | CareerShiftPerformed(_, payment) ->
+        Career.workShiftFinished payment |> showMessage
     | CharacterAttributeChanged(_, attr, Diff(previous, current)) ->
         match attr with
         | CharacterAttribute.Drunkenness ->

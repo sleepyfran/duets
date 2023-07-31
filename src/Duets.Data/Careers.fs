@@ -12,7 +12,7 @@ module BaristaCareer =
         [ // Dishwasher
           { Id = CareerStageId 0uy
             BaseSalaryPerDayMoment = 7m<dd>
-            Requirements = [] }
+            Requirements = [ CareerStageRequirement.Skill(SkillId.Barista, 1) ] }
           // Junior Barista
           { Id = CareerStageId 1uy
             BaseSalaryPerDayMoment = 10m<dd>
@@ -38,7 +38,8 @@ module BartenderCareer =
         [ // Dishwasher
           { Id = CareerStageId 0uy
             BaseSalaryPerDayMoment = 7.5m<dd>
-            Requirements = [] }
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.Bartending, 1) ] }
           // Table cleaner
           { Id = CareerStageId 1uy
             BaseSalaryPerDayMoment = 11m<dd>

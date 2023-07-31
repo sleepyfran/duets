@@ -6,43 +6,38 @@ open Test.Common
 
 open Duets.Entities
 open Duets
-open Duets.Simulation.Skills.ImproveSkills
+open Duets.Simulation.Skills.Improve
 
-let unwrapDiff (Diff (_, (_, level))) = level
+let unwrapDiff (Diff(_, (_, level))) = level
 
 let unwrapSkillImproved effect =
     match effect with
-    | SkillImproved (_, diff) -> unwrapDiff diff
+    | SkillImproved(_, diff) -> unwrapDiff diff
     | _ -> invalidOp "Unexpected effect"
 
 let matchesImprovementValue effects =
-    let compositionLevel =
-        Seq.item 0 effects |> unwrapSkillImproved
+    let compositionLevel = Seq.item 0 effects |> unwrapSkillImproved
 
-    let genreLevel =
-        Seq.item 1 effects |> unwrapSkillImproved
+    let genreLevel = Seq.item 1 effects |> unwrapSkillImproved
 
-    let instrumentLevel =
-        Seq.item 2 effects |> unwrapSkillImproved
+    let instrumentLevel = Seq.item 2 effects |> unwrapSkillImproved
 
     compositionLevel |> should equal 1
     genreLevel |> should equal 1
     instrumentLevel |> should equal 1
 
 [<Test>]
-let ``should increase skills by one if random is more than 50`` () =
-    [ 60; 55; 51; 100; 78; 80 ]
-    |> List.iter
-        (fun randomValue ->
-            staticRandom randomValue
-            |> Simulation.RandomGen.change
+let ``should increase skills by one if 50% chance succeeds`` () =
+    [ 1..50 ]
+    |> List.iter (fun randomValue ->
+        staticRandom randomValue |> Simulation.RandomGen.change
 
-            Composition.improveBandSkillsChance dummyBand dummyState
-            |> matchesImprovementValue)
+        Composition.improveBandSkillsChance dummyBand dummyState
+        |> matchesImprovementValue)
 
 [<Test>]
 let ``should not increase skills that is already at a 100`` () =
-    staticRandom 80 |> Simulation.RandomGen.change
+    staticRandom 10 |> Simulation.RandomGen.change
 
     let state =
         addSkillTo
@@ -50,8 +45,7 @@ let ``should not increase skills that is already at a 100`` () =
             (Skill.create SkillId.Composition, 100)
             dummyState
 
-    Composition.improveBandSkillsChance dummyBand state
-    |> should haveLength 2
+    Composition.improveBandSkillsChance dummyBand state |> should haveLength 2
 
     let state =
         addSkillTo
@@ -59,16 +53,13 @@ let ``should not increase skills that is already at a 100`` () =
             (dummyBand.Genre |> SkillId.Genre |> Skill.create, 100)
             state
 
-    Composition.improveBandSkillsChance dummyBand state
-    |> should haveLength 1
+    Composition.improveBandSkillsChance dummyBand state |> should haveLength 1
 
 [<Test>]
-let ``should not increase skills if random is less than 50`` () =
-    [ 1; 24; 12; 30; 45; 49; 50 ]
-    |> List.iter
-        (fun randomValue ->
-            staticRandom randomValue
-            |> Simulation.RandomGen.change
+let ``should not increase skills if random chance fails`` () =
+    [ 51..100 ]
+    |> List.iter (fun randomValue ->
+        staticRandom randomValue |> Simulation.RandomGen.change
 
-            Composition.improveBandSkillsChance dummyBand dummyState
-            |> should haveLength 0)
+        Composition.improveBandSkillsChance dummyBand dummyState
+        |> should haveLength 0)

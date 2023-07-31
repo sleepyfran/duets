@@ -31,13 +31,14 @@ let applyEffect state effect =
         Albums.removeReleased band album.Id state
         |> Albums.addReleased band releasedAlbum
     | BandFansChanged(band, Diff(_, fans)) -> Bands.changeFans band fans state
+    | CareerShiftPerformed _ -> state
+    | CareerAccept(_, job) -> Career.set (Some job) state
+    | CareerLeave _ -> Career.set None state
     | CharacterAttributeChanged(character, attribute, Diff(_, amount)) ->
         Characters.setAttribute character attribute amount state
     | CharacterHealthDepleted _ -> state
     | CharacterHospitalized(_, (cityId, nodeId)) ->
         World.move cityId nodeId 0 state
-    | CareerAccept(_, job) -> Career.set (Some job) state
-    | CareerLeave _ -> Career.set None state
     | ConcertScheduled(band, concert) ->
         Concerts.addScheduledConcert band concert state
     | ConcertUpdated(band, scheduledConcert) ->

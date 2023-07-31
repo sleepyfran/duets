@@ -1,6 +1,5 @@
-module Duets.Simulation.Skills.ImproveSkills.Composition
+module Duets.Simulation.Skills.Improve.Composition
 
-open Common
 open Duets.Entities
 open Duets.Simulation
 
@@ -9,11 +8,12 @@ open Duets.Simulation
 let improveBandSkillsChance band state =
     Queries.Bands.currentBandMembers state
     |> List.collect (fun currentMember ->
-        applySkillModificationChance
+        Common.applySkillModificationChance
             state
-            currentMember.CharacterId
-            [ SkillId.Composition
-              SkillId.Genre(band.Genre)
-              SkillId.Instrument(currentMember.Role) ]
-            50
-            1)
+            {| CharacterId = currentMember.CharacterId
+               Skills =
+                [ SkillId.Composition
+                  SkillId.Genre(band.Genre)
+                  SkillId.Instrument(currentMember.Role) ]
+               Chance = 50
+               ImprovementAmount = 1 |})

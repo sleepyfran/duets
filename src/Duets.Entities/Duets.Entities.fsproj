@@ -39,7 +39,6 @@
         <Compile Include="CalendarEvent.fs" />
         <Compile Include="Time.fs" />
         <Compile Include="Album.fs" />
-        <Compile Include="Career.fs"/>
         <Compile Include="BankAccount.fs" />
         <Compile Include="Character.fs" />
         <Compile Include="Band.fs" />
@@ -50,6 +49,7 @@
         <Compile Include="Rental.fs"/>
         <Compile Include="Concert.fs" />
         <Compile Include="SocialNetwork.fs"/>
+        <Compile Include="Career.fs"/>
         <Compile Include="Interaction.fs" />
         <Compile Include="World.fs" />
         <Compile Include="State.fs" />
