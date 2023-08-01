@@ -13,6 +13,9 @@ module EffectTypes =
         | AlbumReviewsReceived of Band * ReleasedAlbum
         | AlbumUpdated of Band * UnreleasedAlbum
         | BandFansChanged of Band * Diff<Fans>
+        | CareerAccept of CharacterId * Job
+        | CareerLeave of CharacterId * Job
+        | CareerPromoted of Job * salary: Amount
         | CareerShiftPerformed of Job * payment: Amount
         | CharacterAttributeChanged of
             character: CharacterId *
@@ -20,8 +23,6 @@ module EffectTypes =
             diff: Diff<CharacterAttributeAmount>
         | CharacterHealthDepleted of CharacterId
         | CharacterHospitalized of CharacterId * PlaceCoordinates
-        | CareerAccept of CharacterId * Job
-        | CareerLeave of CharacterId * Job
         | ConcertScheduled of Band * ScheduledConcert
         | ConcertFinished of band: Band * concert: PastConcert * income: Amount
         | ConcertUpdated of Band * ScheduledConcert

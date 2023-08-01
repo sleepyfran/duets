@@ -1,4 +1,4 @@
-module Duets.Simulation.Tests.Events.Skill
+module Duets.Simulation.Tests.Events.Career
 
 open FsUnit
 open NUnit.Framework
@@ -26,6 +26,8 @@ let baristaSkill = Skill.create SkillId.Barista
 let bartendingSkill = Skill.create SkillId.Bartending
 
 let shiftPerformedEffect job = CareerShiftPerformed(job, 100m<dd>)
+
+(* --------- Skill improvement. --------- *)
 
 [<Test>]
 let ``tick of CareerShiftPerformed should improve career skill if chance of 25% succeeds``
@@ -69,3 +71,53 @@ let ``tick of CareerShiftPerformed with successful chance improves job career by
                 dummyCharacter,
                 Diff((expectedSkill, 0), (expectedSkill, 1))
             )))
+
+(* --------- Promotions --------- *)
+
+let private promotionEffects =
+    function
+    | CareerPromoted _ -> true
+    | _ -> false
+
+[<Test>]
+let ``tick of CareerShiftPerformed does not grant promotion if 10% chance fails``
+    ()
+    =
+    [ 10..100 ]
+    |> List.iter (fun randomValue ->
+        staticRandom randomValue |> RandomGen.change
+
+        Simulation.tickOne dummyState (shiftPerformedEffect baristaJob)
+        |> fst
+        |> List.filter promotionEffects
+        |> should haveLength 0)
+
+[<Test>]
+let ``tick of CareerShiftPerformed does not grant promotion if character does not have enough skills for next stage even if 10% chance succeeds``
+    ()
+    =
+    [ 0..9 ]
+    |> List.iter (fun randomValue ->
+        staticRandom randomValue |> RandomGen.change
+
+        Simulation.tickOne dummyState (shiftPerformedEffect baristaJob)
+        |> fst
+        |> List.filter promotionEffects
+        |> should haveLength 0)
+
+[<Test>]
+let ``tick of CareerShiftPerformed grants promotion if character has enough skills for next stage and 10% chance succeeds``
+    ()
+    =
+    let stateWithSkill =
+        dummyState
+        |> State.Skills.add dummyCharacter.Id (Skill.create SkillId.Barista, 20)
+
+    [ 0..9 ]
+    |> List.iter (fun randomValue ->
+        staticRandom randomValue |> RandomGen.change
+
+        Simulation.tickOne stateWithSkill (shiftPerformedEffect baristaJob)
+        |> fst
+        |> List.filter promotionEffects
+        |> should haveLength 1)

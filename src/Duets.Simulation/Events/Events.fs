@@ -6,7 +6,11 @@ open Duets.Simulation.Events.Character
 
 /// Retrieves all associated effects with the given one.
 let associatedEffects effect =
-    [ Time.run effect; Skill.run effect; Character.run effect; Band.run effect ]
+    [ Band.run effect
+      Career.run effect
+      Character.run effect
+      Skill.run effect
+      Time.run effect ]
     |> List.choose id
 
 /// Retrieves all the effects that have to happen at the end of an effect chain.

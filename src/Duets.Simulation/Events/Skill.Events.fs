@@ -9,8 +9,6 @@ open Duets.Simulation.Skills.Improve
 /// character and the rest of the band.
 let internal run effect =
     match effect with
-    | CareerShiftPerformed(job, _) ->
-        [ Career.improveCharacterSkillsAfterShift job ] |> ContinueChain |> Some
     | SongStarted(band, _) ->
         [ Composition.improveBandSkillsChance band ] |> ContinueChain |> Some
     | SongImproved(band, _) ->

@@ -1,7 +1,6 @@
 module Duets.Simulation.Careers.JobBoard
 
 open Duets.Common
-open Duets.Common.Operators
 open Duets.Data.Careers
 open Duets.Entities
 open Duets.Simulation
@@ -10,29 +9,6 @@ let private placeTypeForJobType jobType =
     match jobType with
     | Bartender -> PlaceTypeIndex.Bar
     | Barista -> PlaceTypeIndex.Cafe
-
-let private salaryModifiers cityId placeId =
-    let city = Queries.World.cityById cityId
-    let costOfLivingModifier = decimal city.CostOfLiving
-    let place = Queries.World.placeInCityById cityId placeId
-
-    let qualityModifier =
-        match place.Quality with
-        | quality when quality < 60<quality> -> 0.5m
-        | quality when quality < 80<quality> -> 0.7m
-        | quality when quality >< (80<quality>, 85<quality>) -> 0.8m
-        | quality when quality >< (85<quality>, 90<quality>) -> 0.9m
-        | quality when quality >< (90<quality>, 95<quality>) -> 1.0m
-        | _ -> 1.1m
-
-    costOfLivingModifier * qualityModifier
-
-let private createCareerStage cityId placeId careerStage =
-    let salaryModifier = salaryModifiers cityId placeId
-
-    { careerStage with
-        BaseSalaryPerDayMoment =
-            careerStage.BaseSalaryPerDayMoment * salaryModifier }
 
 let private findSuitableCareerStage state (careerStages: CareerStage list) =
     let character = Queries.Characters.playableCharacter state
@@ -54,7 +30,7 @@ let private findSuitableCareerStageOrDefault state cityId placeId stages =
     findSuitableCareerStage state stages
     |> List.tryLast
     |> Option.defaultValue stages.Head
-    |> createCareerStage cityId placeId
+    |> Common.createCareerStage cityId placeId
 
 let private generateBartenderJob state cityId placeId =
     let careerStage =

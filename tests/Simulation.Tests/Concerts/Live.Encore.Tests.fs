@@ -1,4 +1,4 @@
-module Simulation.Tests.Concerts.Encore
+module Duets.Simulation.Tests.Concerts.Encore
 
 open FsCheck
 open FsUnit

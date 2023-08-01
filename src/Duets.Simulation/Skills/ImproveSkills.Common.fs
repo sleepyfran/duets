@@ -30,11 +30,9 @@ let applySkillModificationChance
            Chance: int
            ImprovementAmount: int |})
     =
-    let random = RandomGen.genBetween 0 100
-
     let character = Queries.Characters.find state input.CharacterId
 
-    if random <= input.Chance then
+    if RandomGen.chance input.Chance then
         modifyCharacterSkills
             state
             character

@@ -46,6 +46,18 @@ let private displayEffect effect =
             "Reviews are always accessible via the phone"
             |> Styles.faded
             |> showMessage
+    | CareerAccept(_, job) ->
+        let place = job.Location ||> Queries.World.placeInCityById
+
+        Career.careerChange job place.Name |> showMessage
+    | CareerLeave(_, job) ->
+        let place = job.Location ||> Queries.World.placeInCityById
+
+        Career.careerLeft job place.Name |> showMessage
+    | CareerPromoted(job, salary) ->
+        let place = job.Location ||> Queries.World.placeInCityById
+
+        Career.careerPromoted job place.Name salary |> showMessage
     | CareerShiftPerformed(_, payment) ->
         Career.workShiftFinished payment |> showMessage
     | CharacterAttributeChanged(_, attr, Diff(previous, current)) ->
@@ -78,14 +90,6 @@ let private displayEffect effect =
     | CharacterHospitalized _ ->
         showMessage Events.hospitalized
         lineBreak ()
-    | CareerAccept(_, job) ->
-        let place = job.Location ||> Queries.World.placeInCityById
-
-        Career.careerChange job place.Name |> showMessage
-    | CareerLeave(_, job) ->
-        let place = job.Location ||> Queries.World.placeInCityById
-
-        Career.careerLeft job place.Name |> showMessage
     | ConcertScheduled(_, ScheduledConcert(concert, _)) ->
         let place = Queries.World.placeInCityById concert.CityId concert.VenueId
 

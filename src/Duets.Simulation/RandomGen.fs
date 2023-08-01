@@ -28,7 +28,7 @@ type private RandomGenAgent() =
                     | Change r -> return! loop r
                     | Reset -> return! loop defaultRandom
                     | Gen channel -> random.Next() |> channel.Reply
-                    | GenBetween (min, max, channel) ->
+                    | GenBetween(min, max, channel) ->
                         random.Next(min, max) |> channel.Reply
 
                     return! loop random
@@ -38,7 +38,7 @@ type private RandomGenAgent() =
 
     member this.Change genFunc = genFunc |> agent.Post
     member this.Reset() = Reset |> agent.Post
-    member this.Gen () = agent.PostAndReply Gen
+    member this.Gen() = agent.PostAndReply Gen
 
     member this.GenBetween min max =
         agent.PostAndReply(fun channel -> GenBetween(min, max, channel))
@@ -52,6 +52,12 @@ let reset = randomGenAgent.Reset
 let gen = randomGenAgent.Gen
 
 let genBetween = randomGenAgent.GenBetween
+
+/// Generates a random number between 0 and 100 and returns true if it is
+/// less than or equal to the given amount.
+let chance amount =
+    let random = genBetween 0 100
+    random <= amount
 
 let sampleIndex list =
     let maxIndex = List.length list - 1

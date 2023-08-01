@@ -88,9 +88,11 @@
         <Compile Include="Concerts\Live\Live.Actions.fs" />
         <Compile Include="Concerts\Live\Live.Finish.fs" />
         <Compile Include="Concerts\Live\Live.Encore.fs" />
+        <Compile Include="Careers\Common.fs"/>
         <Compile Include="Careers\JobBoard.fs" />
         <Compile Include="Careers\Employment.fs" />
         <Compile Include="Careers\Work.fs" />
+        <Compile Include="Careers\Promotion.fs"/>
         <Compile Include="Flights\TicketGeneration.fs" />
         <Compile Include="Flights\Booking.fs" />
         <Compile Include="Flights\Airport.fs" />
@@ -116,6 +118,7 @@
         <Compile Include="Events\Band\Band.Events.fs"/>
         <Compile Include="Events\Place\ClosingTime.fs"/>
         <Compile Include="Events\Place\RentalExpiration.fs"/>
+        <Compile Include="Events\Career.Events.fs"/>
         <Compile Include="Events\Skill.Events.fs"/>
         <Compile Include="Events\Time.Events.fs"/>
         <Compile Include="Events\Events.fs"/>

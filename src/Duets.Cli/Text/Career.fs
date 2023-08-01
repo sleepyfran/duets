@@ -47,6 +47,10 @@ let careerChange (job: Job) placeName =
 let careerLeft (job: Job) placeName =
     Styles.danger $"You left your job as {name job} at {Styles.place placeName}"
 
+let careerPromoted (job: Job) placeName salary =
+    Styles.success
+        $"You got promoted to {name job} at {Styles.place placeName}. You will now earn {Styles.money salary} per day moment"
+
 let workShiftEvent (job: Job) =
     match job.Id with
     | Barista ->

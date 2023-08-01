@@ -31,9 +31,10 @@ let applyEffect state effect =
         Albums.removeReleased band album.Id state
         |> Albums.addReleased band releasedAlbum
     | BandFansChanged(band, Diff(_, fans)) -> Bands.changeFans band fans state
-    | CareerShiftPerformed _ -> state
     | CareerAccept(_, job) -> Career.set (Some job) state
     | CareerLeave _ -> Career.set None state
+    | CareerPromoted(job, _) -> Career.set (Some job) state
+    | CareerShiftPerformed _ -> state
     | CharacterAttributeChanged(character, attribute, Diff(_, amount)) ->
         Characters.setAttribute character attribute amount state
     | CharacterHealthDepleted _ -> state

@@ -1,4 +1,4 @@
-module Simulation.Tests.Careers.JobBoard
+module Duets.Simulation.Tests.Careers.JobBoard
 
 open FsCheck
 open FsUnit
