@@ -27,8 +27,8 @@ let matchesImprovementValue effects =
     instrumentLevel |> should equal 1
 
 [<Test>]
-let ``should increase skills by one if 50% chance succeeds`` () =
-    [ 1..50 ]
+let ``should increase skills by one if 30% chance succeeds`` () =
+    [ 1..30 ]
     |> List.iter (fun randomValue ->
         staticRandom randomValue |> Simulation.RandomGen.change
 
@@ -57,7 +57,7 @@ let ``should not increase skills that is already at a 100`` () =
 
 [<Test>]
 let ``should not increase skills if random chance fails`` () =
-    [ 51..100 ]
+    [ 31..100 ]
     |> List.iter (fun randomValue ->
         staticRandom randomValue |> Simulation.RandomGen.change
 

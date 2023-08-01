@@ -15,5 +15,5 @@ let improveBandSkillsChance band state =
                 [ SkillId.Composition
                   SkillId.Genre(band.Genre)
                   SkillId.Instrument(currentMember.Role) ]
-               Chance = 50
+               Chance = 30
                ImprovementAmount = 1 |})
