@@ -13,7 +13,8 @@ let listAll rentApp =
         [ Styles.header "Place name"
           Styles.header "Location"
           Styles.header "Start date"
-          Styles.header "End date" ]
+          Styles.header "End date"
+          Styles.header "Price" ]
 
     let tableRows =
         Queries.Rentals.all (State.get ())
@@ -22,11 +23,17 @@ let listAll rentApp =
             let place = rental.Coords ||> Queries.World.placeInCityById
             let expirationDate = Rental.dueDate rental
 
+            let price =
+                match rental.RentalType with
+                | Monthly _ -> $"{Styles.money rental.Amount} / month"
+                | OneTime _ -> Styles.money rental.Amount
+
             [ placeName place
               Styles.place
                   $"""{Generic.cityName cityId} {Styles.faded $"({place.Zone.Name})"}"""
               startDate rental
-              Generic.dateWithDay expirationDate ])
+              Generic.dateWithDay expirationDate
+              price ])
 
     showTable tableColumns tableRows
 
