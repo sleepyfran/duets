@@ -2,7 +2,7 @@ module Duets.Entities.Career
 
 /// Returns the shift duration of the given job.
 let jobDuration job =
-    match job.Schedule with
+    match job.CurrentStage.Schedule with
     | JobSchedule.Free duration -> duration
 
 /// Retrieves the list of skills required for the given job.

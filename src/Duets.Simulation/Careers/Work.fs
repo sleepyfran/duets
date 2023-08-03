@@ -9,7 +9,7 @@ open Duets.Simulation.Time
 let private workAttributeChange state (job: Job) =
     let character = Queries.Characters.playableCharacter state
 
-    job.ShiftAttributeEffect
+    job.CurrentStage.ShiftAttributeEffect
     |> List.collect (fun attributeChange ->
         attributeChange ||> Attribute.add character)
 

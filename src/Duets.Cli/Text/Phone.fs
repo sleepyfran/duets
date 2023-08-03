@@ -78,7 +78,7 @@ let flightsNotEnoughFunds amount =
 (* --- Jobs --- *)
 let currentJobDescription (job: Job) (placeName: string) =
     Styles.faded
-        $"""You currently work as {Career.name job |> String.lowercase} at {placeName} earning {Styles.money job.CurrentStage.BaseSalaryPerDayMoment} per day moment. {match job.Schedule with
+        $"""You currently work as {Career.name job |> String.lowercase} at {placeName} earning {Styles.money job.CurrentStage.BaseSalaryPerDayMoment} per day moment. {match job.CurrentStage.Schedule with
                                                                                                                                                                        | JobSchedule.Free _ -> "You don't have any schedule"}"""
 
 let unemployed = Styles.faded "You are currently unemployed"
@@ -90,7 +90,7 @@ let findJobTypePrompt = "What kind of job are you looking for?"
 let findJobSelectPrompt = "Which job are you interested in applying?"
 
 let findJobSelectItem (job: Job) (placeName: string) =
-    $"{Career.name job} job at {placeName}.{Styles.Spacing.choicePromptNewLine}Salary: {Styles.money job.CurrentStage.BaseSalaryPerDayMoment}/day moment.{Styles.Spacing.choicePromptNewLine}{Career.scheduleDescription job.Schedule}\n"
+    $"{Career.name job} job at {placeName}.{Styles.Spacing.choicePromptNewLine}Salary: {Styles.money job.CurrentStage.BaseSalaryPerDayMoment}/day moment.{Styles.Spacing.choicePromptNewLine}{Career.scheduleDescription job.CurrentStage.Schedule}\n"
 
 let findJobAcceptConfirmation careerId placeName =
     Styles.prompt

@@ -11,16 +11,12 @@ open Duets.Simulation
 let baristaJob =
     { Id = Barista
       CurrentStage = Careers.BaristaCareer.stages |> List.head
-      Location = dummyCity.Id, dummyPlace.Id
-      Schedule = JobSchedule.Free 2<dayMoments>
-      ShiftAttributeEffect = [] }
+      Location = dummyCity.Id, dummyPlace.Id }
 
 let bartenderJob =
     { Id = Bartender
       CurrentStage = Careers.BartenderCareer.stages |> List.head
-      Location = dummyCity.Id, dummyPlace.Id
-      Schedule = JobSchedule.Free 2<dayMoments>
-      ShiftAttributeEffect = [] }
+      Location = dummyCity.Id, dummyPlace.Id }
 
 let baristaSkill = Skill.create SkillId.Barista
 let bartendingSkill = Skill.create SkillId.Bartending

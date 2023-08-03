@@ -54,7 +54,7 @@ module EnergyRequirements =
         match careerInteraction with
         | CareerInteraction.Work job ->
             let requiredEnergy =
-                job.ShiftAttributeEffect
+                job.CurrentStage.ShiftAttributeEffect
                 |> List.tryFind (fun (attribute, _) ->
                     match attribute with
                     | CharacterAttribute.Energy -> true

@@ -16,14 +16,6 @@ module CareerTypes =
     [<RequireQualifiedAccess>]
     type CareerStageRequirement = Skill of SkillId * int
 
-    /// Defines one specific stage inside of a career, which defines an ID and
-    /// a base salary that will later get multiplied by the type of place that
-    /// employees this stage.
-    type CareerStage =
-        { Id: CareerStageId
-          BaseSalaryPerDayMoment: Amount
-          Requirements: CareerStageRequirement list }
-
     /// Number of day moments that it takes to perform a shift in a job.
     [<RequireQualifiedAccess>]
     type ShiftDuration = int<dayMoments>
@@ -38,10 +30,18 @@ module CareerTypes =
     /// attribute.
     type JobShiftAttributeEffect = CharacterAttribute * int
 
+    /// Defines one specific stage inside of a career, which defines an ID and
+    /// a base salary that will later get multiplied by the type of place that
+    /// employees this stage.
+    type CareerStage =
+        { Id: CareerStageId
+          BaseSalaryPerDayMoment: Amount
+          Schedule: JobSchedule
+          ShiftAttributeEffect: JobShiftAttributeEffect list
+          Requirements: CareerStageRequirement list }
+
     /// Defines a job that either the character holds or can apply to.
     type Job =
         { Id: CareerId
           CurrentStage: CareerStage
-          Location: PlaceCoordinates
-          Schedule: JobSchedule
-          ShiftAttributeEffect: JobShiftAttributeEffect list }
+          Location: PlaceCoordinates }
