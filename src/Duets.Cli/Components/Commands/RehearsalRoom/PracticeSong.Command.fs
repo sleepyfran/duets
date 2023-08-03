@@ -21,7 +21,7 @@ module PracticeSongCommand =
                 2<second>
 
             Duets.Cli.Effect.applyMultiple effects
-        | SongAlreadyImprovedToMax (Finished (song, _)) ->
+        | SongAlreadyImprovedToMax(Finished(song, _)) ->
             Rehearsal.practiceSongAlreadyImprovedToMax song.Name |> showMessage
 
     /// Command to practice a finished song.
@@ -34,15 +34,19 @@ module PracticeSongCommand =
 
                 let currentBand = Queries.Bands.currentBand state
 
+                let sortedSongs =
+                    finishedSongs
+                    |> Seq.sortBy (fun (Finished(song, _)) -> song.Practice)
+
                 let selectedSong =
                     showOptionalChoicePrompt
                         Rehearsal.practiceSong
                         Generic.cancel
-                        (fun (Finished (fs: Song, _)) ->
+                        (fun (Finished(fs: Song, _)) ->
                             Rehearsal.practiceSongItemDescription
                                 fs.Name
                                 fs.Practice)
-                        finishedSongs
+                        sortedSongs
 
                 match selectedSong with
                 | Some song ->
