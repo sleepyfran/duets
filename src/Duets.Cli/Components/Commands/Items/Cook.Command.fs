@@ -34,7 +34,7 @@ module CookCommand =
                 "What do you want to cook?"
                 Generic.nothing
                 (fun (item, price) ->
-                    $"{item.Brand} ({Styles.money price} for ingredients)")
+                    $"{Generic.itemNameWithDetail item} ({Styles.money price} for ingredients)")
                 orderedItems
 
         match selectedItem with
