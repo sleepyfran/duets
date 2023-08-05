@@ -8,20 +8,17 @@ open Duets.Simulation.Time
 
 let private workAttributeChange state (job: Job) =
     let character = Queries.Characters.playableCharacter state
+    let shiftDuration = Career.jobDuration job / 1<dayMoments>
 
     job.CurrentStage.ShiftAttributeEffect
-    |> List.collect (fun attributeChange ->
-        attributeChange ||> Attribute.add character)
+    |> List.collect (fun (attribute, amount) ->
+        (attribute, amount * shiftDuration) ||> Attribute.add character)
 
 /// Starts a work shift in the given job, passing the necessary amount of day
 /// moments until the shift ends, paying the character the earned amount and
 /// reducing the needed attributes from the character.
 let workShift state job =
-    let shiftDayMoments =
-        CareerInteraction.Work job
-        |> Interaction.Career
-        |> Queries.InteractionTime.timeRequired
-
+    let shiftDayMoments = Career.jobDuration job
     let timeEffects = AdvanceTime.advanceDayMoment' state shiftDayMoments
 
     let characterAccount = Queries.Bank.playableCharacterAccount state
