@@ -35,6 +35,17 @@ module ItemTypes =
         | Bed
         | Stove
 
+    /// Defines all kinds of gym equipment available in the game.
+    type GymEquipmentItemType =
+        | WeightMachine
+        | Treadmill
+
+    (* --------------- KEYS --------------- *)
+    /// Defines all kind of keys that can be used to unlock a specific place.
+    type KeyItemType = Chip of cityId: CityId * placeId: PlaceId
+
+    (* --------------- AGGREGATED ITEMS --------------- *)
+
     /// Defines all types of items that can be consumed in the game, categorized
     /// by its kind.
     type ConsumableItemType =
@@ -46,12 +57,14 @@ module ItemTypes =
     type InteractiveItemType =
         | Electronics of ElectronicsItemType
         | Furniture of FurnitureItemType
+        | GymEquipment of GymEquipmentItemType
 
     /// Defines all types of items available in the game, categorized by whether
     /// they can be consumed or only interacted with.
     type ItemType =
         | Consumable of ConsumableItemType
         | Interactive of InteractiveItemType
+        | Key of KeyItemType
 
     /// Defines an item of the game that can be consumed by the player.
     type Item = { Brand: string; Type: ItemType }
@@ -61,3 +74,6 @@ module ItemTypes =
 
     /// Defines the inventory of the character.
     type Inventory = Item list
+
+    /// Contains all the items that a specific location has.
+    type WorldItems = Map<RoomCoordinates, Item list>

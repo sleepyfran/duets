@@ -32,6 +32,7 @@
         <Compile Include="Text\World\Bar.fs"/>
         <Compile Include="Text\World\Cafe.fs"/>
         <Compile Include="Text\World\ConcertSpace.fs"/>
+        <Compile Include="Text\World\Gym.fs"/>
         <Compile Include="Text\World\Home.fs"/>
         <Compile Include="Text\World\Hospital.fs"/>
         <Compile Include="Text\World\Hotel.fs"/>
@@ -99,6 +100,7 @@
         <Compile Include="Components\Commands\Concert\MakeCrowdSing.Command.fs"/>
         <Compile Include="Components\Commands\Concert\TuneInstrument.Command.fs"/>
         <Compile Include="Components\Commands\Concert\SpinDrumsticks.Command.fs"/>
+        <Compile Include="Components\Commands\Gym\AskForEntrance.Command.fs"/>
         <Compile Include="Components\Commands\Shop\SeeMenu.Command.fs"/>
         <Compile Include="Components\Commands\Shop\Order.Command.fs"/>
         <Compile Include="Components\Commands\Items\Consume.Command.fs"/>

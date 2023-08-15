@@ -14,31 +14,49 @@ module Navigation =
                 result |> Result.bind (fun _ -> policy state cityId placeId))
             (Ok())
 
-    let private applyRoomPolicies state cityId placeId roomId =
-        [ Navigation.Policies.Concert.canEnter
+    let private applyRoomPolicies
+        state
+        cityId
+        placeId
+        currentRoomId
+        nextRoomId
+        =
+        [ (Navigation.Policies.Room.canEnter currentRoomId)
+          Navigation.Policies.Concert.canEnter
           Navigation.Policies.Rental.canEnter ]
         |> List.fold
             (fun result policy ->
                 result
-                |> Result.bind (fun _ -> policy state cityId placeId roomId))
+                |> Result.bind (fun _ ->
+                    policy state cityId placeId nextRoomId))
             (Ok())
 
     /// Moves the player to the specific place ID.
     let moveTo placeId state =
-        let cityId, _, _ = Queries.World.currentCoordinates state
+        let currentCoords = Queries.World.currentCoordinates state
+        let cityId, _, _ = currentCoords
         let place = Queries.World.placeInCityById cityId placeId
         let startingRoom = place.Rooms.StartingNode
 
         applyPlacePolicies state cityId placeId
-        |> Result.transform (WorldMoveTo(cityId, placeId, startingRoom))
+        |> Result.transform (
+            WorldMoveTo(Diff(currentCoords, (cityId, placeId, startingRoom)))
+        )
 
     /// Moves the player to the specified room inside of the current place.
     let enter roomId state =
-        let cityId, placeId, _ = Queries.World.currentCoordinates state
+        let currentCoords = Queries.World.currentCoordinates state
+        let cityId, placeId, currentRoomId = currentCoords
 
-        applyRoomPolicies state cityId placeId roomId
-        |> Result.transform (WorldEnter(cityId, placeId, roomId))
+        applyRoomPolicies state cityId placeId currentRoomId roomId
+        |> Result.transform (
+            WorldEnter(Diff(currentCoords, (cityId, placeId, roomId)))
+        )
 
     /// Moves the player to the specific place ID inside the given city ID.
-    let travelTo cityId placeId =
-        WorldMoveTo(cityId, placeId, World.Ids.Airport.lobby)
+    let travelTo cityId placeId state =
+        let currentCoords = Queries.World.currentCoordinates state
+
+        WorldMoveTo(
+            Diff(currentCoords, (cityId, placeId, World.Ids.Airport.lobby))
+        )

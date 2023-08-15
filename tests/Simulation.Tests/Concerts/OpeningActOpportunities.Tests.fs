@@ -129,7 +129,7 @@ let ``generate does not create any opportunities in venues that are too big or s
         let venue = Queries.World.placeInCityById Prague concert.VenueId
 
         let venueCapacity =
-            match venue.Type with
+            match venue.PlaceType with
             | ConcertSpace space -> space.Capacity
             | _ -> failwith "Concert scheduled in non-concert space"
 

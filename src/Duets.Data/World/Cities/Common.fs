@@ -23,6 +23,26 @@ let createConcertSpace (name, capacity, zone, quality, layout) =
         zone
     |> World.Place.changeOpeningHours Everywhere.Common.concertSpaceOpeningHours
 
+/// Creates a gym with the given name, quality and zone.
+let createGym (city: City) (name, quality, zone) =
+    let place =
+        World.Place.create name quality Gym Everywhere.Common.gymLayout zone
+
+    let entranceChip = Item.Chip.createFor city.Id place.Id
+
+    place
+    |> World.Place.changeRoom Ids.Gym.changingRoom (function
+        | Some room ->
+            let requiredItems =
+                { ComingFrom = Ids.Gym.lobby
+                  Items = [ entranceChip ] }
+
+            room
+            |> World.Room.changeRequiredItemForEntrance requiredItems
+            |> Some
+        | _ -> None)
+    |> World.Place.changeOpeningHours Everywhere.Common.gymOpeningHours
+
 /// Creates a hotel with the given name, quality, price per night and zone.
 let createHotel (name, quality, pricePerNight, zone) =
     World.Place.create

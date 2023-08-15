@@ -31,7 +31,7 @@ module Rentals =
         let city = World.cityById cityId
 
         let fullPrice =
-            match place.Type with
+            match place.PlaceType with
             | PlaceType.Home -> decimal city.CostOfLiving * 500m<dd>
             | _ -> 0m<dd>
 
@@ -42,7 +42,7 @@ module Rentals =
     /// Calculates the price for renting a given place for a given number of
     /// days.
     let calculateOneTimeRentalPrice (place: Place) (numberOfDays: int<days>) =
-        match place.Type with
+        match place.PlaceType with
         | PlaceType.Hotel hotel -> hotel.PricePerNight * decimal numberOfDays
         | _ -> 0m<dd>
 

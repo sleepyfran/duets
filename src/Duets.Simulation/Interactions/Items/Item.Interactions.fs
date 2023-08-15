@@ -40,31 +40,49 @@ let interact state (item: Item) action =
         |> Queries.InteractionTime.timeRequired
         |> Time.AdvanceTime.advanceDayMoment' state
 
-    match action with
-    | InteractiveItemInteraction.Play when
-        item.Type = (ElectronicsItemType.GameConsole
-                     |> InteractiveItemType.Electronics
-                     |> Interactive)
-        ->
-        [ yield! timeEffects
-          yield!
-              Character.Attribute.add
-                  character
-                  CharacterAttribute.Mood
-                  Config.LifeSimulation.Mood.playingVideoGamesIncrease ]
-        |> Ok
-    | InteractiveItemInteraction.Watch when
-        item.Type = (ElectronicsItemType.TV
-                     |> InteractiveItemType.Electronics
-                     |> Interactive)
-        ->
-        [ yield! timeEffects
-          yield!
-              Character.Attribute.add
-                  character
-                  CharacterAttribute.Mood
-                  Config.LifeSimulation.Mood.watchingTvIncrease ]
-        |> Ok
+    match item.Type with
+    | Interactive itemType ->
+        match action, itemType with
+        | InteractiveItemInteraction.Exercise,
+          InteractiveItemType.GymEquipment _ ->
+            [ yield! timeEffects
+              yield!
+                  Character.Attribute.add
+                      character
+                      CharacterAttribute.Energy
+                      Config.LifeSimulation.Energy.exerciseIncrease
+              yield!
+                  Character.Attribute.add
+                      character
+                      CharacterAttribute.Health
+                      Config.LifeSimulation.Health.exerciseIncrease
+              yield!
+                  Skills.Improve.Common.applySkillModificationChance
+                      state
+                      {| Chance = 30
+                         CharacterId = character.Id
+                         ImprovementAmount = 1
+                         Skills = [ SkillId.Fitness ] |} ]
+            |> Ok
+        | InteractiveItemInteraction.Play,
+          InteractiveItemType.Electronics(ElectronicsItemType.GameConsole) ->
+            [ yield! timeEffects
+              yield!
+                  Character.Attribute.add
+                      character
+                      CharacterAttribute.Mood
+                      Config.LifeSimulation.Mood.playingVideoGamesIncrease ]
+            |> Ok
+        | InteractiveItemInteraction.Watch,
+          InteractiveItemType.Electronics(ElectronicsItemType.TV) ->
+            [ yield! timeEffects
+              yield!
+                  Character.Attribute.add
+                      character
+                      CharacterAttribute.Mood
+                      Config.LifeSimulation.Mood.watchingTvIncrease ]
+            |> Ok
+        | _ -> Error ActionNotPossible
     | _ -> Error ActionNotPossible
 
 /// Attempts to perform the given action on the item, if not possible (for example,

@@ -11,7 +11,7 @@ let canMove state cityId placeId =
     let place = (cityId, placeId) ||> Queries.World.placeInCityById
     let placeRental = (cityId, placeId) |> Queries.Rentals.getForCoords state
 
-    match place.Type, placeRental with
+    match place.PlaceType, placeRental with
     | PlaceType.Home, None -> false
     | _ -> true
     |> Result.ofBool PlaceEntranceError.CannotEnterWithoutRental
@@ -23,7 +23,7 @@ let canEnter state cityId placeId roomId =
     let room = Queries.World.roomById cityId placeId roomId
     let placeRental = (cityId, placeId) |> Queries.Rentals.getForCoords state
 
-    match place.Type, placeRental with
-    | PlaceType.Hotel _, None when room = RoomType.Bedroom -> false
+    match place.PlaceType, placeRental with
+    | PlaceType.Hotel _, None when room.RoomType = RoomType.Bedroom -> false
     | _ -> true
     |> Result.ofBool RoomEntranceError.CannotEnterHotelRoomWithoutBooking

@@ -44,25 +44,30 @@ module Interactions =
                 Interaction.FreeRoam FreeRoamInteraction.Phone
                 Interaction.FreeRoam FreeRoamInteraction.Wait ]
 
-        match currentPlace.Type with
+        match currentPlace.PlaceType with
         | Airport -> Airport.interactions state defaultInteractions
-        | Bar -> Bar.interactions cityId currentRoom @ defaultInteractions
-        | Cafe -> Cafe.interactions currentRoom @ defaultInteractions
+        | Bar ->
+            Bar.interactions cityId currentRoom.RoomType @ defaultInteractions
+        | Cafe -> Cafe.interactions currentRoom.RoomType @ defaultInteractions
         | ConcertSpace _ ->
             ConcertSpace.interactions
                 state
-                currentRoom
+                currentRoom.RoomType
                 defaultInteractions
                 cityId
                 currentPlace.Id
+        | Gym ->
+            Gym.interactions cityId currentPlace currentRoom.RoomType
+            @ defaultInteractions
         | Home -> defaultInteractions
         | Hospital -> defaultInteractions
         | Hotel _ -> defaultInteractions
         | RehearsalSpace _ ->
-            RehearsalSpace.interactions state cityId currentRoom
+            RehearsalSpace.interactions state cityId currentRoom.RoomType
             @ defaultInteractions
         | Restaurant ->
-            Restaurant.interactions cityId currentRoom @ defaultInteractions
+            Restaurant.interactions cityId currentRoom.RoomType
+            @ defaultInteractions
         | Studio studio ->
             Studio.interactions state studio @ defaultInteractions
         |> List.map (fun interaction ->

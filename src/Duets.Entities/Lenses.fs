@@ -244,8 +244,8 @@ module World =
 
     module Place =
         let type_ =
-            (fun (p: Place) -> p.Type),
-            (fun v (p: Place) -> { p with Type = v })
+            (fun (p: Place) -> p.PlaceType),
+            (fun v (p: Place) -> { p with PlaceType = v })
 
     let cities_ =
         (fun (w: World) -> w.Cities),

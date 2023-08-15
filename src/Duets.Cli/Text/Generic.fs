@@ -5,6 +5,7 @@ open System
 open AvsAnLib
 open Duets.Common
 open Duets.Entities
+open Duets.Simulation
 
 type VariableVerb = Have
 
@@ -235,6 +236,15 @@ let itemName (item: Item) =
         match furniture with
         | Bed -> "bed"
         | Stove -> "stove"
+    | Interactive(GymEquipment equipment) ->
+        match equipment with
+        | Treadmill -> $"{item.Brand} treadmill"
+        | WeightMachine -> $"{item.Brand} weight machine"
+    | Key keyItem ->
+        match keyItem with
+        | Chip(cityId, placeId) ->
+            let place = Queries.World.placeInCityById cityId placeId
+            $"chip for {place.Name} in {cityName cityId}"
     |> Styles.item
 
 let itemNameWithDetail (item: Item) =
@@ -250,5 +260,6 @@ let itemNameWithDetail (item: Item) =
         | Regular g
         | Healthy g -> $"""{Styles.item item.Brand} ({g}g)"""
     | Interactive _ -> itemName item
+    | Key _ -> itemName item
 
 let moreDates = Styles.faded "More dates"

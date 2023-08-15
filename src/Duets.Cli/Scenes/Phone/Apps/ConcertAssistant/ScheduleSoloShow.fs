@@ -81,7 +81,7 @@ and private promptForVenue app date dayMoment city =
             Phone.concertAssistantAppShowVenuePrompt
             Generic.cancel
             (fun (place: Place) ->
-                match place.Type with
+                match place.PlaceType with
                 | ConcertSpace concertSpace ->
                     let venueCut =
                         Queries.Concerts.concertSpaceTicketPercentage place

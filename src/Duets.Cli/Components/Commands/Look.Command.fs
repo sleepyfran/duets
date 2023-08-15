@@ -22,8 +22,7 @@ module LookCommand =
                 match interaction.Interaction with
                 | Interaction.FreeRoam(FreeRoamInteraction.Move(direction,
                                                                 roomId)) ->
-                    let roomType =
-                        Queries.World.roomById cityId placeId roomId
+                    let roomType = Queries.World.roomById cityId placeId roomId
 
                     Some(direction, roomType)
                 | _ -> None)
@@ -32,8 +31,8 @@ module LookCommand =
         | [] -> "There are no more rooms connecting to this one."
         | connections ->
             let connectionsDescription =
-                Generic.listOf connections (fun (direction, roomType) ->
-                    let roomName = World.roomName roomType
+                Generic.listOf connections (fun (direction, room) ->
+                    let roomName = World.roomName room.RoomType
 
                     $"{Generic.indeterminateArticleFor roomName} {roomName |> Styles.room} to the {World.directionName direction}")
 
@@ -48,7 +47,8 @@ module LookCommand =
                 let currentPlace = state |> Queries.World.currentPlace
                 let currentRoom = state |> Queries.World.currentRoom
 
-                World.placeDescription currentPlace currentRoom |> showMessage
+                World.placeDescription currentPlace currentRoom.RoomType
+                |> showMessage
 
                 listRoomConnections interactions |> showMessage
 

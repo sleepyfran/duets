@@ -55,5 +55,15 @@ module MovementCommand =
                     Styles.information
                         "Try to use your phone to book it or head to the lobby to pay for the room"
                     |> showMessage
+                | Error(RoomEntranceError.CannotEnterWithoutRequiredItems items) ->
+                    let requiredItems =
+                        items
+                        |> List.map (fun item ->
+                            let itemName = Generic.itemName item
+                            $"{Generic.indeterminateArticleFor itemName} {itemName}")
+
+                    Styles.error
+                        $"You don't have the necessary items to enter. You need {Generic.listOf requiredItems id}"
+                    |> showMessage
 
                 Scene.WorldAfterMovement }

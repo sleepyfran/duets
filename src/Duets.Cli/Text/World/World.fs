@@ -6,11 +6,12 @@ open Duets.Entities
 
 let placeDescription (place: Place) (roomType: RoomType) =
     (place, roomType)
-    ||> match place.Type with
+    ||> match place.PlaceType with
         | PlaceType.Airport -> Airport.description
         | PlaceType.Bar _ -> Bar.description
         | PlaceType.Cafe _ -> Cafe.description
         | PlaceType.ConcertSpace _ -> ConcertSpace.description
+        | PlaceType.Gym -> Gym.description
         | PlaceType.Home -> Home.description
         | PlaceType.Hospital -> Hospital.description
         | PlaceType.Hotel _ -> Hotel.description
@@ -24,6 +25,7 @@ let placeTypeName (placeType: PlaceTypeIndex) =
     | PlaceTypeIndex.Bar -> "Bar"
     | PlaceTypeIndex.Cafe -> "Café"
     | PlaceTypeIndex.ConcertSpace -> "Concert space"
+    | PlaceTypeIndex.Gym -> "Gym"
     | PlaceTypeIndex.Home -> "Home"
     | PlaceTypeIndex.Hospital -> "Hospital"
     | PlaceTypeIndex.Hotel -> "Hotel"
@@ -35,8 +37,10 @@ let roomName (room: RoomType) =
     match room with
     | RoomType.Backstage -> "backstage"
     | RoomType.Bar _ -> "bar area"
-    | RoomType.Cafe _ -> "cafe area"
     | RoomType.Bedroom -> "bedroom"
+    | RoomType.Cafe _ -> "cafe area"
+    | RoomType.ChangingRoom -> "changing room"
+    | RoomType.Gym -> "gym"
     | RoomType.Kitchen -> "kitchen"
     | RoomType.LivingRoom -> "living room"
     | RoomType.Lobby -> "lobby"

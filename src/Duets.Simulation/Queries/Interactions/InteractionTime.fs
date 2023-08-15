@@ -14,6 +14,7 @@ module InteractionTime =
             2<dayMoments>
         | Interaction.Item(ItemInteraction.Interactive interactiveInteraction) ->
             match interactiveInteraction with
+            | InteractiveItemInteraction.Exercise
             | InteractiveItemInteraction.Play
             | InteractiveItemInteraction.Watch -> 1<dayMoments>
             | InteractiveItemInteraction.Sleep (* Sleeping asks how long to sleep. *)

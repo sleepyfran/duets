@@ -41,7 +41,7 @@ let listAll rentApp =
 
 let private placeName (place: Place) =
     $"""{place.Name} {Styles.faded
-                          $"({place.Type |> World.Place.Type.toIndex |> World.placeTypeName})"}"""
+                          $"({place.PlaceType |> World.Place.Type.toIndex |> World.placeTypeName})"}"""
 
 let private startDate rental =
     match rental.RentalType with

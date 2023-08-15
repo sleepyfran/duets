@@ -35,7 +35,7 @@ let createOneTimeRental fromDate numberOfDays cityId place =
 /// Attempts to rent the given place for the character. If the place is not available
 /// for rent or if the character does not have enough money, returns an error.
 let rentMonthlyPlace state cityId (place: Place) =
-    match place.Type with
+    match place.PlaceType with
     | Home ->
         let characterAccount = Queries.Bank.playableCharacterAccount state
         let currentDate = Queries.Calendar.today state
@@ -60,7 +60,7 @@ let rentOneTimePlace
     (fromDate: Date)
     (numberOfDays: int<days>)
     =
-    match place.Type with
+    match place.PlaceType with
     | Hotel _ ->
         let characterAccount = Queries.Bank.playableCharacterAccount state
         let rental = createOneTimeRental fromDate numberOfDays cityId place

@@ -17,9 +17,6 @@ module WorldTypes =
         | West
         | NorthWest
 
-    /// Unique ID of a node.
-    type NodeId = int
-
     /// Defines all connections that a node has in each of its directions.
     type NodeConnections = Map<Direction, NodeId>
 
@@ -55,8 +52,10 @@ module WorldTypes =
     type RoomType =
         | Backstage
         | Bar
-        | Cafe
         | Bedroom
+        | Cafe
+        | ChangingRoom
+        | Gym
         | Kitchen
         | LivingRoom
         | Lobby
@@ -67,12 +66,23 @@ module WorldTypes =
         | SecurityControl
         | Stage
 
+    /// Defines which items are required to enter a given room from a given
+    /// node.
+    type RequireItemsForEntrance =
+        { ComingFrom: NodeId; Items: Item list }
+
+    /// Defines a room which is contained inside of a place.
+    type Room =
+        { RoomType: RoomType
+          RequiredItemsForEntrance: RequireItemsForEntrance option }
+
     /// Defines all the different types of places that the game supports.
     type PlaceType =
         | Airport
         | Bar
         | Cafe
         | ConcertSpace of ConcertSpace
+        | Gym
         | Home
         | Hotel of Hotel
         | Hospital
@@ -88,15 +98,13 @@ module WorldTypes =
         | Bar
         | Cafe
         | ConcertSpace
+        | Gym
         | Home
         | Hotel
         | Hospital
         | RehearsalSpace
         | Restaurant
         | Studio
-
-    /// ID for a place in the game world.
-    type PlaceId = string
 
     /// Defines a place inside of the game world, which wraps a given space
     /// (could be any inside space like a rehearsal place or a concert hall), the
@@ -106,21 +114,10 @@ module WorldTypes =
         { Id: PlaceId
           Name: string
           Quality: Quality
-          Type: PlaceType
+          PlaceType: PlaceType
           OpeningHours: PlaceOpeningHours
-          Rooms: Graph<RoomType>
+          Rooms: Graph<Room>
           Zone: Zone }
-
-    /// ID for a city in the game world, which declared every possible city
-    /// available in the game.
-    type CityId =
-        | London
-        | Madrid
-        | MexicoCity
-        | NewYork
-        | Prague
-        | Sydney
-        | Tokyo
 
     /// Defines a city in the world as a connection of nodes with one of them
     /// being the entrypoint. Nodes can be rooms, places or streets that
@@ -137,16 +134,6 @@ module WorldTypes =
             ZoneIndex: Map<ZoneId, PlaceId list>
         }
 
-    /// Defines a position in the world, including up to the room inside of
-    /// the place.
-    type RoomCoordinates = CityId * PlaceId * NodeId
-
-    /// Simplified coordinates that only contain the city and the place.
-    type PlaceCoordinates = CityId * PlaceId
-
-    /// Contains all the items that a specific location has.
-    type WorldItems = Map<RoomCoordinates, Item list>
-
     /// Defines the game world which contains all cities.
     type World = { Cities: Map<CityId, City> }
 
@@ -162,3 +149,4 @@ module WorldTypes =
         | CannotEnterStageOutsideConcert
         | CannotEnterBackstageOutsideConcert
         | CannotEnterHotelRoomWithoutBooking
+        | CannotEnterWithoutRequiredItems of items: Item list

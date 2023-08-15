@@ -14,7 +14,7 @@ open FsToolkit.ErrorHandling
 
 let rec private placeInformationText cityId (place: Place) =
     let pricing =
-        match place.Type with
+        match place.PlaceType with
         | PlaceType.Hotel _ ->
             let price =
                 Queries.Rentals.calculateOneTimeRentalPrice place 1<days>
@@ -70,14 +70,14 @@ and private toPlaceSelection cityId placeType =
         |> ignore
 
 and private displayPlaceInformation cityId place =
-    match place.Type with
+    match place.PlaceType with
     | PlaceType.Home -> displayMonthlyRentalInformation cityId place
     | PlaceType.Hotel hotel -> toHotelDateSelection cityId place hotel
     | _ -> failwith "Not supported to rent"
 
 and private displayMonthlyRentalInformation cityId place =
     let rentPrice = Queries.Rentals.calculateMonthlyRentalPrice cityId place
-    let placeType = World.Place.Type.toIndex place.Type
+    let placeType = World.Place.Type.toIndex place.PlaceType
 
     $"This {placeType |> World.placeTypeName} is located in {place.Zone.Name}. It costs {Styles.money rentPrice} per month"
     |> showMessage

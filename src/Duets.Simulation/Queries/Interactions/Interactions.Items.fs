@@ -23,21 +23,34 @@ module Items =
         |> ItemInteraction.Interactive
         |> Interaction.Item
 
+    let private gymEquipmentInteractions gymEquipment =
+        match gymEquipment with
+        | GymEquipmentItemType.WeightMachine
+        | GymEquipmentItemType.Treadmill -> InteractiveItemInteraction.Exercise
+        |> ItemInteraction.Interactive
+        |> Interaction.Item
+
+    /// Retrieves a list of all interactions that can performed on the given
+    /// list of items.
     let internal getItemInteractions (items: Item list) =
         items
-        |> Set.ofList
-        |> Set.map (fun item ->
+        |> List.choose (fun item ->
             match item.Type with
             | Consumable(ConsumableItemType.Drink _) ->
                 ConsumableItemInteraction.Drink
                 |> ItemInteraction.Consumable
                 |> Interaction.Item
+                |> Some
             | Consumable(ConsumableItemType.Food _) ->
                 ConsumableItemInteraction.Eat
                 |> ItemInteraction.Consumable
                 |> Interaction.Item
+                |> Some
             | Interactive(InteractiveItemType.Electronics electronicsItemType) ->
-                electronicsInteractions electronicsItemType
+                electronicsInteractions electronicsItemType |> Some
             | Interactive(InteractiveItemType.Furniture furnitureItemType) ->
-                furnitureInteractions furnitureItemType)
-        |> List.ofSeq
+                furnitureInteractions furnitureItemType |> Some
+            | Interactive(InteractiveItemType.GymEquipment gymEquipmentItemType) ->
+                gymEquipmentInteractions gymEquipmentItemType |> Some
+            | Key _ -> None)
+        |> List.distinct

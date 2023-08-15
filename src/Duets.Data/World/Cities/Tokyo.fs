@@ -25,6 +25,7 @@ let generate () =
     |> addBars
     |> addCafes
     |> addConcertSpaces
+    |> addGyms
     |> addHospital
     |> addHotels
     |> addRehearsalSpaces
@@ -164,6 +165,22 @@ let private addConcertSpaces city =
     |> List.map Common.createConcertSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
+(* -------- Gyms --------- *)
+let private addGyms city =
+    [ ("Gold's Gym Shibuya", 90<quality>, shibuya)
+      ("Anytime Fitness Shinjuku", 88<quality>, shinjuku)
+      ("Tokyo Fitness Roppongi", 85<quality>, minato)
+      ("24/7 Fitness", 89<quality>, shibuya)
+      ("Muscle House Taito", 87<quality>, taito)
+      ("PowerFit Chiyoda", 86<quality>, chiyoda)
+      ("FlexGym", 92<quality>, nakano)
+      ("Urban Athlete Bunkyo", 85<quality>, bunkyo)
+      ("PumpUp Gym", 88<quality>, shinagawa)
+      ("J-Strong Adachi", 84<quality>, chiyoda) ]
+    |> List.map (Common.createGym city)
+    |> List.fold (fun city place -> World.City.addPlace place city) city
+
+
 (* -------- Home --------- *)
 let createHome =
     World.Place.create
@@ -175,7 +192,7 @@ let createHome =
 
 (* -------- Hospital --------- *)
 let addHospital city =
-    let lobby = World.Node.create 0 RoomType.Lobby
+    let lobby = RoomType.Lobby |> World.Room.create |> World.Node.create 0
 
     let roomGraph = World.Graph.from lobby
 

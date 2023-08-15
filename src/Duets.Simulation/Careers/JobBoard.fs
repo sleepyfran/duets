@@ -59,7 +59,8 @@ let private generateBaristaJob state cityId placeId =
 let private generateJobsForPlace state cityId place =
     place.Rooms
     |> World.Graph.nodes
-    |> List.choose (function
+    |> List.choose (fun room ->
+        match room.RoomType with
         | RoomType.Bar -> generateBartenderJob state cityId place.Id |> Some
         | RoomType.Cafe -> generateBaristaJob state cityId place.Id |> Some
         | _ -> None)

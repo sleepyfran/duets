@@ -10,6 +10,7 @@ let skillName id =
     | SkillId.Instrument instrument ->
         $"{Generic.instrumentName instrument} (Instrument)"
     | SkillId.MusicProduction -> "Music production"
+    | SkillId.Fitness -> "Fitness"
     | SkillId.Speech -> "Speech"
     | SkillId.Barista -> "Barista"
     | SkillId.Bartending -> "Bartending"
@@ -31,6 +32,8 @@ let skillDescription id =
         $"The instrument skills determine how good you are at playing {Generic.instrumentName instrument |> String.lowercase}. It directly impacts how good your songs will be when your main instrument is {Generic.instrumentName instrument |> String.lowercase}"
     | SkillId.MusicProduction ->
         "The music production skill determines how good you are at recording, producing and mastering songs. This skill is not that important if you don't produce your own songs and instead you use a studio with a producer"
+    | SkillId.Fitness ->
+        "The fitness skill determines how good you are at exercising"
     | SkillId.Speech ->
         "The speech skill determines how good you are at talking, which can be useful when giving speeches in concerts and during interviews"
     | SkillId.Barista ->

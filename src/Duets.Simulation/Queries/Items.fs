@@ -11,9 +11,10 @@ module Items =
         let place = (cityId, placeId) ||> World.placeInCityById
         let room = (cityId, placeId, roomId) |||> World.roomById
 
-        match place.Type, room with
+        match place.PlaceType, room.RoomType with
         | PlaceType.Hotel _, RoomType.Bedroom ->
             [ fst Items.Furniture.Bed.ikeaBed ]
+        | PlaceType.Gym, RoomType.Gym -> Items.Gym.all |> List.map fst
         | _ -> []
 
     /// Returns all the items currently available in the given coordinates.

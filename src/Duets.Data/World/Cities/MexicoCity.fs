@@ -32,6 +32,7 @@ let generate () =
     |> addBars
     |> addCafes
     |> addConcertSpaces
+    |> addGyms
     |> addHospital
     |> addHotels
     |> addRehearsalSpaces
@@ -185,9 +186,25 @@ let createHome =
         Everywhere.Common.homeLayout
         condesa
 
+(* -------- Gyms --------- *)
+let private addGyms city =
+    [ ("Sportium Miguel Ángel de Quevedo", 90<quality>, coyoacán)
+      ("Smart Fit Polanco", 88<quality>, polanco)
+      ("Gimnasio Altitude", 85<quality>, roma)
+      ("Gimnasio Atlas", 89<quality>, iztacalco)
+      ("Total Gym", 87<quality>, juarez)
+      ("F45 Roma", 86<quality>, roma)
+      ("Gimnasio Activo 20-30", 92<quality>, azcapotzalco)
+      ("Body Factory Tlalpan", 85<quality>, tlalpan)
+      ("Sports World", 88<quality>, guerrero)
+      ("Gym Power Club", 84<quality>, tabacalera) ]
+    |> List.map (Common.createGym city)
+    |> List.fold (fun city place -> World.City.addPlace place city) city
+
+
 (* -------- Hospital --------- *)
 let addHospital city =
-    let lobby = World.Node.create 0 RoomType.Lobby
+    let lobby = RoomType.Lobby |> World.Room.create |> World.Node.create 0
 
     let roomGraph = World.Graph.from lobby
 

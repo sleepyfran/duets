@@ -85,7 +85,7 @@ let private concertDailyUpdate state scheduledConcert =
     let venue =
         Queries.World.placeInCityById concert.CityId concert.VenueId
         |> fun place ->
-            match place.Type with
+            match place.PlaceType with
             | ConcertSpace concertSpace -> concertSpace
             | _ -> failwith "How did we get here?"
 

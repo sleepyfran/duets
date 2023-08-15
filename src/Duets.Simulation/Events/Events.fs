@@ -10,7 +10,8 @@ let associatedEffects effect =
       Career.run effect
       Character.run effect
       Skill.run effect
-      Time.run effect ]
+      Time.run effect
+      World.run effect ]
     |> List.choose id
 
 /// Retrieves all the effects that have to happen at the end of an effect chain.

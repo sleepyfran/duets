@@ -116,7 +116,7 @@ let attendancePercentage concert =
     let venue = Queries.World.placeInCityById concert.CityId concert.VenueId
 
     let capacity =
-        match venue.Type with
+        match venue.PlaceType with
         | PlaceType.ConcertSpace concertSpace -> concertSpace.Capacity
         | _ ->
             (* We don't really support concerts outside of a concert space, but
@@ -142,7 +142,7 @@ let fairTicketPrice state band =
 /// based on the quality of the place and the capacity.
 let concertSpaceTicketPercentage (place: Place) =
     let capacity =
-        match place.Type with
+        match place.PlaceType with
         | PlaceType.ConcertSpace concertSpace -> concertSpace.Capacity
         | _ -> 0
 

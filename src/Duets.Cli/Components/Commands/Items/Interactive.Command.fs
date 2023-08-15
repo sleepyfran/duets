@@ -1,5 +1,6 @@
 namespace Duets.Cli.Components.Commands
 
+open FSharp.Data.UnitSystems.SI.UnitNames
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
@@ -7,6 +8,21 @@ open Duets.Entities
 
 [<RequireQualifiedAccess>]
 module InteractiveCommand =
+    let exercise =
+        Command.itemInteraction
+            (Command.VerbWithPrepositions("exercise", [ "with" ]))
+            Command.exerciseDescription
+            (ItemInteraction.Interactive InteractiveItemInteraction.Exercise)
+            (function
+             | Ok effects ->
+                 (Interaction.exerciseSteps, 2<second>) ||> showProgressBarAsync
+                 Interaction.exerciseResult |> showMessage
+                 effects |> Duets.Cli.Effect.applyMultiple
+                 Scene.World
+             | Error _ ->
+                 Items.itemCannotBeExercisedWith |> showMessage
+                 Scene.World)
+
     let play =
         Command.itemInteraction
             (Command.VerbOnly "play")

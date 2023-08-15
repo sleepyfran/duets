@@ -70,6 +70,11 @@ module Graph =
     /// Returns all the nodes in the graph.
     let nodes graph = graph.Nodes |> List.ofMapValues
 
+    /// Changes the node with the given ID to the given node.
+    let changeNode nodeId node graph =
+        { graph with
+            Nodes = Map.change nodeId node graph.Nodes }
+
 [<RequireQualifiedAccess>]
 module Node =
     /// Creates a new node with an auto-generated ID and the given content.
@@ -81,10 +86,10 @@ module Place =
     let create name quality placeType rooms zone =
         let inferredId = Identity.Reproducible.createFor name
 
-        { Id = inferredId.ToString()
+        { Id = inferredId
           Name = name
           Quality = quality
-          Type = placeType
+          PlaceType = placeType
           OpeningHours = PlaceOpeningHours.AlwaysOpen
           Rooms = rooms
           Zone = zone }
@@ -94,6 +99,11 @@ module Place =
         { place with
             OpeningHours = openingHours }
 
+    /// Changes a specific room in the place.
+    let changeRoom roomId mapping place =
+        { place with
+            Rooms = Graph.changeNode roomId mapping place.Rooms }
+
     module Type =
         /// Transforms a PlaceType into its index counterpart.
         let toIndex placeType =
@@ -102,6 +112,7 @@ module Place =
             | Bar _ -> PlaceTypeIndex.Bar
             | Cafe _ -> PlaceTypeIndex.Cafe
             | ConcertSpace _ -> PlaceTypeIndex.ConcertSpace
+            | Gym -> PlaceTypeIndex.Gym
             | Home -> PlaceTypeIndex.Home
             | Hotel _ -> PlaceTypeIndex.Hotel
             | Hospital -> PlaceTypeIndex.Hospital
@@ -121,7 +132,7 @@ module Zone =
 [<RequireQualifiedAccess>]
 module City =
     let private addToPlaceByTypeIndex place index =
-        let mapKey = Place.Type.toIndex place.Type
+        let mapKey = Place.Type.toIndex place.PlaceType
 
         Map.change
             mapKey
@@ -151,3 +162,20 @@ module City =
             city
         |> Optic.map Lenses.World.City.placeIndex_ (Map.add place.Id place)
         |> Optic.map Lenses.World.City.zoneIndex_ (addToZoneIndex place)
+
+[<RequireQualifiedAccess>]
+module Room =
+    /// Creates a room with the given type and no required items for entrance.
+    let create roomType =
+        { RoomType = roomType
+          RequiredItemsForEntrance = None }
+
+    /// Adds a required item for entrance to the given room.
+    let changeRequiredItemForEntrance requiredItems room =
+        { room with
+            RequiredItemsForEntrance = Some requiredItems }
+
+    /// Removes the required item for entrance from the given room.
+    let removeRequiredItemForEntrance room =
+        { room with
+            RequiredItemsForEntrance = None }

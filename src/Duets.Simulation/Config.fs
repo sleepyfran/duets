@@ -12,13 +12,21 @@ module LifeSimulation =
         /// consumption related interaction.
         let minimumEnergyRequired = 10
 
+    module Energy =
+        /// How much energy is increased when the character exercises.
+        let exerciseIncrease = -25
+
+    module Health =
+        /// How much health is recovered when the character exercises.
+        let exerciseIncrease = 8
+
     module Mood =
         /// How much the character's mood is improved when drinking alcohol.
         let alcoholIncrease = 3
 
         /// How much the character's mood is improved when drinking coffee.
         let coffeeIncrease = 1
-        
+
         /// How much the character's mood changes after failing a concert.
         let concertFailIncrease = -20
 

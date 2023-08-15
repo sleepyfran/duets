@@ -12,6 +12,7 @@ module SkillTypes =
         (* Production. *)
         | MusicProduction
         (* Character. *)
+        | Fitness
         | Speech
         (* Job. *)
         | Barista

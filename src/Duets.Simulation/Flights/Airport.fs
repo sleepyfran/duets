@@ -12,7 +12,7 @@ let passSecurityCheck state =
     Queries.Inventory.get state
     |> List.filter (fun item ->
         match item.Type with
-        | Consumable (Drink _) -> true
+        | Consumable(Drink _) -> true
         | _ -> false)
     |> List.map ItemRemovedFromInventory
 
@@ -43,5 +43,5 @@ let leavePlane state flight =
         |> List.head (* All cities must have an airport. *)
 
     [ yield! AdvanceTime.advanceDayMoment' state dayMomentsNeeded
-      Navigation.travelTo flight.Destination destinationAirport
+      Navigation.travelTo flight.Destination destinationAirport state
       Situations.freeRoam ]

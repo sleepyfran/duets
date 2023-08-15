@@ -35,8 +35,9 @@ let canEnter state cityId placeId roomId =
     let place = Queries.World.placeInCityById cityId placeId
     let room = Queries.World.roomById cityId placeId roomId
 
-    match place.Type with
-    | ConcertSpace _ when room = RoomType.Stage -> canEnterStage state placeId
-    | ConcertSpace _ when room = RoomType.Backstage ->
+    match place.PlaceType with
+    | ConcertSpace _ when room.RoomType = RoomType.Stage ->
+        canEnterStage state placeId
+    | ConcertSpace _ when room.RoomType = RoomType.Backstage ->
         canEnterBackstage state placeId
     | _ -> Ok()

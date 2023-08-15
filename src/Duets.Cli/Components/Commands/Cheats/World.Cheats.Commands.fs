@@ -1,5 +1,6 @@
 namespace Duets.Cli.Components.Commands.Cheats
 
+open Duets.Agents
 open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.Components.Commands
@@ -32,7 +33,10 @@ module WorldCommands =
                             PlaceTypeIndex.Airport
                         |> List.head (* All cities must have an airport. *)
 
-                    Navigation.travelTo city.Id destinationAirport
+                    Navigation.travelTo
+                        city.Id
+                        destinationAirport
+                        (State.get ())
                     |> Effect.apply
 
                     Scene.WorldAfterMovement

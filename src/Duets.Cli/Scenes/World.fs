@@ -78,6 +78,10 @@ let private commandsFromInteractions interactions =
                       Concert.takeMicMessage ]
             | ConcertInteraction.TuneInstrument ongoingConcert ->
                 [ TuneInstrumentCommand.create ongoingConcert ]
+        | Interaction.Gym gymInteraction ->
+            match gymInteraction with
+            | GymInteraction.PayEntrance amount ->
+                [ AskForEntranceCommand.create amount ]
         | Interaction.Item itemInteraction ->
             match itemInteraction with
             | ItemInteraction.Consumable ConsumableItemInteraction.Drink ->
@@ -86,6 +90,8 @@ let private commandsFromInteractions interactions =
                 [ ConsumeCommands.eat ]
             | ItemInteraction.Interactive(InteractiveItemInteraction.Cook items) ->
                 [ CookCommand.create items ]
+            | ItemInteraction.Interactive(InteractiveItemInteraction.Exercise) ->
+                [ InteractiveCommand.exercise ]
             | ItemInteraction.Interactive(InteractiveItemInteraction.Sleep) ->
                 [ SleepCommand.get ]
             | ItemInteraction.Interactive InteractiveItemInteraction.Play ->
@@ -180,7 +186,7 @@ let worldScene mode =
     | ShowDescription ->
         let currentRoom = State.get () |> Queries.World.currentRoom
 
-        $"You are in the {World.roomName currentRoom |> Styles.room} inside of {currentPlace.Name |> Styles.place}"
+        $"You are in the {World.roomName currentRoom.RoomType |> Styles.room} inside of {currentPlace.Name |> Styles.place}"
         |> showMessage
     | IgnoreDescription -> ()
 

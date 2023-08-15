@@ -133,6 +133,9 @@ let waitResult date dayMoment =
 let sleepDescription =
     "Allows you to get some sleep and restore your energy and health"
 
+let exerciseDescription =
+    "Allows you to exercise, improve your fitness skills and restore your health"
+
 let playConsoleDescription =
     "Allows you to play some video games and restore your mood"
 

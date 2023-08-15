@@ -64,6 +64,10 @@ module InteractionTypes =
         /// Tunes the player's instrument, which gives a tiny point increase.
         | TuneInstrument of OngoingConcert
 
+    /// Interactions that can be done inside of a gym.
+    [<RequireQualifiedAccess>]
+    type GymInteraction = PayEntrance of price: Amount
+
     /// Interactions that can be done to consume an item in particular.
     [<RequireQualifiedAccess>]
     type ConsumableItemInteraction =
@@ -74,6 +78,7 @@ module InteractionTypes =
     [<RequireQualifiedAccess>]
     type InteractiveItemInteraction =
         | Cook of PurchasableItem list
+        | Exercise
         | Sleep
         | Play
         | Watch
@@ -162,6 +167,7 @@ module InteractionTypes =
         | Airport of AirportInteraction
         | Career of CareerInteraction
         | Concert of ConcertInteraction
+        | Gym of GymInteraction
         | FreeRoam of FreeRoamInteraction
         | Item of ItemInteraction
         | Rehearsal of RehearsalInteraction
