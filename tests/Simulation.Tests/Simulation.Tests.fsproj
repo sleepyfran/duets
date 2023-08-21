@@ -35,6 +35,7 @@
         <Compile Include="Bank\Transfer.Tests.fs" />
         <Compile Include="Bank\Queries.Tests.fs" />
         <Compile Include="Careers\JobBoard.Test.fs"/>
+        <Compile Include="Careers\Work.Test.fs"/>
         <Compile Include="Concerts\DailyUpdate.Tests.fs" />
         <Compile Include="Concerts\Live.PlaySong.Tests.fs" />
         <Compile Include="Concerts\Live.GreetAudience.Tests.fs" />
