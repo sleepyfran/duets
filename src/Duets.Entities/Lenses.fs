@@ -93,6 +93,9 @@ module Band =
     let fans_ =
         (fun (b: Band) -> b.Fans), (fun v (b: Band) -> { b with Fans = v })
 
+    let genre_ =
+        (fun (b: Band) -> b.Genre), (fun v (b: Band) -> { b with Genre = v })
+
     let members_ =
         (fun (b: Band) -> b.Members),
         (fun v (b: Band) -> { b with Members = v })

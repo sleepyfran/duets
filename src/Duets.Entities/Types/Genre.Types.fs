@@ -9,10 +9,10 @@ module GenreTypes =
 
     /// Defines the relation between a genre and its popularity in a moment
     /// in time.
-    type GenrePopularity = Genre * byte
+    type GenrePopularity = Genre * int
 
     /// Defines the percentage compatibility of two genres between 0 and 100.
-    type GenreCompatibility = Genre * Genre * byte
+    type GenreCompatibility = Genre * Genre * int
 
     /// Defines the potential market of a genre by:
     /// - Market point: modifier between 0.1 and 5 that, multiplied by the default

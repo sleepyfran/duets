@@ -78,6 +78,9 @@ let header text = $"[bold]{text}[/]"
 /// Pre-defined style for crossed out things.
 let crossed text = $"[strikethrough]{text}[/]"
 
+/// Pre-defined style for genres.
+let genre text = $"[grey]{text}[/]"
+
 /// Pre-defined styles for showing a progress step. Shows with a random color.
 let progress text =
     [ "deepskyblue3"

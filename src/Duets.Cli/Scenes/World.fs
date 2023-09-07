@@ -127,6 +127,8 @@ let private commandsFromInteractions interactions =
                 [ ListSongsCommand.create unfinishedSongs finishedSongs ]
             | RehearsalInteraction.PracticeSong finishedSongs ->
                 [ PracticeSongCommand.create finishedSongs ]
+            | RehearsalInteraction.SwitchGenre genres ->
+                [ SwitchGenreCommand.create genres ]
         | Interaction.Shop shopInteraction ->
             match shopInteraction with
             | ShopInteraction.Order shop -> [ OrderCommand.create shop ]

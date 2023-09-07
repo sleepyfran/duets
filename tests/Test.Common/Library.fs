@@ -54,7 +54,7 @@ let dummyHeadlinerBand =
         Name = "The Headliners"
         Fans = 12000 }
 
-let dummySong = { Song.empty with Genre = "Jazz" }
+let dummySong = Song.empty
 
 let dummyUnfinishedSong = Unfinished(dummySong, 50<quality>, 50<quality>)
 

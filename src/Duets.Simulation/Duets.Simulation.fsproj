@@ -18,7 +18,7 @@
         <Compile Include="Queries\Situations.fs" />
         <Compile Include="Queries\Flights.fs" />
         <Compile Include="Queries\Skills.fs" />
-        <Compile Include="Queries\GenreMarkets.fs" />
+        <Compile Include="Queries\Genres.fs" />
         <Compile Include="Queries\Bands.fs" />
         <Compile Include="Queries\Rentals.fs" />
         <Compile Include="Queries\Inventory.fs" />
@@ -77,6 +77,7 @@
         <Compile Include="Market\GenreMarket.fs" />
         <Compile Include="Bands\Members.fs" />
         <Compile Include="Bands\Generation.fs" />
+        <Compile Include="Bands\SwitchGenre.fs" />
         <Compile Include="Skills\ImproveSkills.Common.fs" />
         <Compile Include="Skills\ImproveSkills.Composition.fs" />
         <Compile Include="Skills\ImproveSkills.Career.fs"/>

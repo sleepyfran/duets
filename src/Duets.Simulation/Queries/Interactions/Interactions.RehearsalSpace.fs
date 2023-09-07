@@ -31,7 +31,13 @@ module RehearsalSpace =
         let hasMembersAsideOfPlayableCharacter =
             bandMembersWithoutPlayableCharacter |> (not << List.isEmpty)
 
+        let genresWithPopularity = Queries.Genres.allWithPopularity state
+
         [ yield Interaction.Rehearsal RehearsalInteraction.ComposeNewSong
+          yield
+              Interaction.Rehearsal(
+                  RehearsalInteraction.SwitchGenre genresWithPopularity
+              )
           if hasUnfinishedSongs then
               yield
                   Interaction.Rehearsal(
@@ -85,7 +91,7 @@ module RehearsalSpace =
                   ) ]
 
     /// Returns all interactions available in the current rehearsal room.
-    let internal interactions state cityId roomType  =
+    let internal interactions state cityId roomType =
         match roomType with
         | RoomType.RehearsalRoom -> rehearsalRoomInteractions state
         | _ -> Bar.interactions cityId roomType

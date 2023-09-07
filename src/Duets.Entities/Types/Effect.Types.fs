@@ -13,6 +13,7 @@ module EffectTypes =
         | AlbumReviewsReceived of Band * ReleasedAlbum
         | AlbumUpdated of Band * UnreleasedAlbum
         | BandFansChanged of Band * Diff<Fans>
+        | BandSwitchedGenre of Band * Diff<Genre>
         | CareerAccept of CharacterId * Job
         | CareerLeave of CharacterId * Job
         | CareerPromoted of Job * salary: Amount

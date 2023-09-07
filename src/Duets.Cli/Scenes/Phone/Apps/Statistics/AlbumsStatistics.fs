@@ -22,6 +22,7 @@ and private showAlbums releases =
     let tableColumns =
         [ Phone.statisticsAppAlbumNameHeader
           Phone.statisticsAppAlbumTypeHeader
+          Phone.statisticsAppAlbumGenreHeader
           Phone.statisticsAppAlbumReleaseDateHeader
           Phone.statisticsAppAlbumStreamsHeader
           Phone.statisticsAppAlbumRevenueHeader ]
@@ -34,6 +35,7 @@ and private showAlbums releases =
 
             [ Phone.statisticsAppAlbumName innerAlbum.Name
               Phone.statisticsAppAlbumType innerAlbum.Type
+              Phone.statisticsAppGenre innerAlbum.Genre
               Phone.statisticsAppAlbumReleaseDate releasedAlbum.ReleaseDate
               Phone.statisticsAppAlbumStreams releasedAlbum.Streams
               Phone.statisticsAppAlbumRevenue revenue ])

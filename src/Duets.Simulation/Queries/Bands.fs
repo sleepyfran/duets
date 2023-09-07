@@ -79,7 +79,7 @@ module Bands =
     /// total amount of people willing to listen to the band's genre.
     let estimatedFameLevel state (band: Band) =
         let normalizedMarketSize =
-            GenreMarkets.usefulMarketOf state band.Genre |> System.Math.Log10
+            Genres.usefulMarketOf state band.Genre |> System.Math.Log10
 
         let normalizedFans = System.Math.Log10(band.Fans)
 

@@ -48,7 +48,7 @@ module Fans =
             | MediumHigh -> 0.11, 0.5
             | High -> 0.51, 1.0
 
-        let usefulMarket = Queries.GenreMarkets.usefulMarketOf state genre
+        let usefulMarket = Queries.Genres.usefulMarketOf state genre
 
         let upperBound = usefulMarket * (fst marketCap)
         let lowerBound = usefulMarket * (snd marketCap)

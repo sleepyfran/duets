@@ -31,7 +31,6 @@ module SongTypes =
           Name: string
           Length: Length
           VocalStyle: VocalStyle
-          Genre: Genre
           Practice: Practice }
 
     /// Defines a song that has been started but not finished yet. It accepts

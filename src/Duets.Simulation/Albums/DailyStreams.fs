@@ -55,7 +55,7 @@ let private calculateMaxDailyStreams state releasedAlbum =
     let band = Queries.Bands.currentBand state
     let album = Album.fromReleased releasedAlbum
 
-    let usefulMarket = Queries.GenreMarkets.usefulMarketOf state band.Genre
+    let usefulMarket = Queries.Genres.usefulMarketOf state album.Genre
 
     let fanStreams =
         calculateFanStreams band

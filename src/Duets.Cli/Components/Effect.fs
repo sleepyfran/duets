@@ -46,6 +46,9 @@ let private displayEffect effect =
             "Reviews are always accessible via the phone"
             |> Styles.faded
             |> showMessage
+    | BandSwitchedGenre(band, Diff(prevGenre, currGenre)) ->
+        $"Your band {band.Name} is now playing {currGenre |> Styles.genre} instead of {prevGenre |> Styles.genre}"
+        |> showMessage
     | CareerAccept(_, job) ->
         let place = job.Location ||> Queries.World.placeInCityById
 

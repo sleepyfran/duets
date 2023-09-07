@@ -90,7 +90,7 @@ let private concertDailyUpdate state scheduledConcert =
             | _ -> failwith "How did we get here?"
 
     let bandFame = Queries.Bands.estimatedFameLevel state band
-    let market = Queries.GenreMarkets.usefulMarketOf state band.Genre
+    let market = Queries.Genres.usefulMarketOf state band.Genre
 
     let ticketPriceModifier = ticketPriceModifier state band concert
 

@@ -25,6 +25,7 @@ module AlbumTypes =
         { Id: AlbumId
           BandId: BandId
           Name: string
+          Genre: Genre
           TrackList: TrackListRef
           Type: AlbumType }
 

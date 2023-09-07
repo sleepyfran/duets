@@ -43,6 +43,7 @@ let from (band: Band) name initialSong =
     { Id = AlbumId <| Identity.create ()
       BandId = band.Id
       Name = name
+      Genre = band.Genre
       TrackList = [ initialSong ]
       Type = Single }
 

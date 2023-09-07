@@ -29,12 +29,11 @@ let validateLength length =
     | _ -> Ok length
 
 /// Creates a song given a name, length and vocal style, if possible.
-let from (name: string) length vocalStyle genre =
+let from (name: string) length vocalStyle =
     { Id = SongId <| Identity.create ()
       Name = name
       Length = length
       VocalStyle = vocalStyle
-      Genre = genre
       Practice = 20<practice> }
 
 /// Returns the song contained in an unfinished song.
@@ -49,7 +48,6 @@ let empty =
       Name = ""
       Length = Length.empty
       VocalStyle = VocalStyle.Instrumental
-      Genre = ""
       Practice = 0<practice> }
 
 module Finished =

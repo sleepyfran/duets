@@ -130,6 +130,8 @@ module InteractionTypes =
             finished: Finished<Song> list
         /// Allows to practice a finished song.
         | PracticeSong of songs: Finished<Song> list
+        /// Allows the band to switch to another genre.
+        | SwitchGenre of GenrePopularity list
 
     /// Interactions that can be performed in a bar.
     [<RequireQualifiedAccess>]

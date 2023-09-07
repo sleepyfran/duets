@@ -155,6 +155,8 @@ let statisticsAppAlbumNameHeader = Styles.header "Album name"
 
 let statisticsAppAlbumTypeHeader = Styles.header "Album type"
 
+let statisticsAppAlbumGenreHeader = Styles.header "Genre"
+
 let statisticsAppAlbumReleaseDateHeader = Styles.header "Release date"
 
 let statisticsAppAlbumStreamsHeader = Styles.header "Number of streams"
@@ -162,7 +164,10 @@ let statisticsAppAlbumStreamsHeader = Styles.header "Number of streams"
 let statisticsAppAlbumRevenueHeader = Styles.header "Revenue"
 
 let statisticsAppAlbumName name = Styles.information name
+
 let statisticsAppAlbumType albumT = Generic.albumType albumT
+
+let statisticsAppGenre = Styles.information
 
 let statisticsAppAlbumReleaseDate date = Styles.highlight (Date.simple date)
 

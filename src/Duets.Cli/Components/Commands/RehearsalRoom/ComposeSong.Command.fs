@@ -34,27 +34,10 @@ module ComposeSongCommand =
         showLengthPrompt (Rehearsal.composeSongLengthPrompt)
         |> Song.validateLength
         |> Result.switch
-            (promptForGenre name)
+            (promptForVocalStyle name)
             (showLengthError >> fun _ -> promptForLength name)
 
-    and private promptForGenre name length =
-        let band = Queries.Bands.currentBand (State.get ())
-        let currentGenre = band.Genre
-
-        let allButCurrentGenre =
-            Data.Genres.all
-            |> List.filter (fun genre -> genre <> currentGenre)
-            |> List.sort
-
-        currentGenre :: allButCurrentGenre
-        |> showChoicePrompt Rehearsal.composeSongGenrePrompt (fun genre ->
-            if genre = currentGenre then
-                $"{genre} (Current)" |> Styles.highlight
-            else
-                genre)
-        |> promptForVocalStyle name length
-
-    and private promptForVocalStyle name length genre =
+    and private promptForVocalStyle name length =
         let vocalStyle =
             showChoicePrompt
                 Rehearsal.composeSongVocalStylePrompt
@@ -62,7 +45,7 @@ module ComposeSongCommand =
                 Data.VocalStyles.allNames
             |> fst
 
-        Song.from name length vocalStyle genre |> composeWithProgressbar
+        Song.from name length vocalStyle |> composeWithProgressbar
 
     and private composeWithProgressbar song =
         let state = State.get ()

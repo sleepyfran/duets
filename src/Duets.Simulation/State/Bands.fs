@@ -53,3 +53,8 @@ let changeFans (band: Band) (fans: int) state =
     let fansLens = createBandLens band state >?> Lenses.Band.fans_
 
     Optic.set fansLens fans state
+
+let changeGenre (band: Band) (genre: Genre) state =
+    let genreLens = createBandLens band state >?> Lenses.Band.genre_
+
+    Optic.set genreLens genre state
