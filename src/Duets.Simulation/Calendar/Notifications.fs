@@ -6,7 +6,7 @@ open Duets.Simulation
 /// Checks if there's any pending notification to be sent about events that are
 /// set to happen soon.
 let private createHappeningSoon state date =
-    let nextDayMomentDate = Calendar.Query.next date
+    let dateInFiveDayMoments = date |> Calendar.Query.nextN 4
 
     Queries.CalendarEvents.allOfDateMonth state date
     |> List.map snd
@@ -15,7 +15,8 @@ let private createHappeningSoon state date =
         let eventDate =
             CalendarEvent.date event ||> Calendar.Transform.changeDayMoment'
 
-        if nextDayMomentDate = eventDate || date = eventDate then
+        (* Notify the player if the event is happening in 5 day moments or right now. *)
+        if dateInFiveDayMoments = eventDate || date = eventDate then
             Notification.CalendarEvent event |> Notification |> Some
         else
             None)

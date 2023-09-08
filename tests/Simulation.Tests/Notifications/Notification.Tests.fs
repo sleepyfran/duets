@@ -48,13 +48,12 @@ let ``createNotifications returns nothing if the next event is happening after t
         Notifications.createNotifications state dummyToday |> should be Empty)
 
 [<Test>]
-let ``createNotifications returns flight event if it's happening in the day moment after the current one``
+let ``createNotifications returns flight event if it's happening in 4 day moments``
     ()
     =
-    let nextDayMomentFromDummy = dummyToday |> Calendar.Query.next
+    let in4DayMoments = dummyToday |> Calendar.Query.nextN 4
 
-    let flightGen =
-        createFlightGen nextDayMomentFromDummy nextDayMomentFromDummy
+    let flightGen = createFlightGen in4DayMoments in4DayMoments
 
     let state =
         State.generateOne
@@ -71,17 +70,17 @@ let ``createNotifications returns flight event if it's happening in the day mome
     | _ -> failwith "Incorrect effect raised!"
 
 [<Test>]
-let ``createNotifications returns concert event if it's happening in the day moment after the current one``
+let ``createNotifications returns concert event if it's happening in 4 day moments``
     ()
     =
-    let nextDayMomentFromDummy = dummyToday |> Calendar.Query.next
+    let in4DayMoments = dummyToday |> Calendar.Query.nextN 4
 
     let concertGen =
         Concert.scheduledConcertGenerator
             { Concert.defaultOptions with
-                From = nextDayMomentFromDummy
-                To = nextDayMomentFromDummy
-                DayMoment = Calendar.Query.dayMomentOf nextDayMomentFromDummy }
+                From = in4DayMoments
+                To = in4DayMoments
+                DayMoment = Calendar.Query.dayMomentOf in4DayMoments }
 
     let state =
         State.generateOne
