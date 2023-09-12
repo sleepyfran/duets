@@ -10,6 +10,7 @@ let placeDescription (place: Place) (roomType: RoomType) =
         | PlaceType.Airport -> Airport.description
         | PlaceType.Bar _ -> Bar.description
         | PlaceType.Cafe _ -> Cafe.description
+        | PlaceType.Casino -> Casino.description
         | PlaceType.ConcertSpace _ -> ConcertSpace.description
         | PlaceType.Gym -> Gym.description
         | PlaceType.Home -> Home.description
@@ -24,6 +25,7 @@ let placeTypeName (placeType: PlaceTypeIndex) =
     | PlaceTypeIndex.Airport -> "Airport"
     | PlaceTypeIndex.Bar -> "Bar"
     | PlaceTypeIndex.Cafe -> "Café"
+    | PlaceTypeIndex.Casino -> "Casino"
     | PlaceTypeIndex.ConcertSpace -> "Concert space"
     | PlaceTypeIndex.Gym -> "Gym"
     | PlaceTypeIndex.Home -> "Home"
@@ -39,6 +41,7 @@ let roomName (room: RoomType) =
     | RoomType.Bar _ -> "bar area"
     | RoomType.Bedroom -> "bedroom"
     | RoomType.Cafe _ -> "cafe area"
+    | RoomType.CasinoFloor -> "casino floor"
     | RoomType.ChangingRoom -> "changing room"
     | RoomType.Gym -> "gym"
     | RoomType.Kitchen -> "kitchen"

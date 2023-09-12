@@ -54,6 +54,7 @@ module WorldTypes =
         | Bar
         | Bedroom
         | Cafe
+        | CasinoFloor
         | ChangingRoom
         | Gym
         | Kitchen
@@ -81,6 +82,7 @@ module WorldTypes =
         | Airport
         | Bar
         | Cafe
+        | Casino
         | ConcertSpace of ConcertSpace
         | Gym
         | Home
@@ -97,6 +99,7 @@ module WorldTypes =
         | Airport
         | Bar
         | Cafe
+        | Casino
         | ConcertSpace
         | Gym
         | Home

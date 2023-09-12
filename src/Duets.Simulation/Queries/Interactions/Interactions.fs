@@ -49,6 +49,7 @@ module Interactions =
         | Bar ->
             Bar.interactions cityId currentRoom.RoomType @ defaultInteractions
         | Cafe -> Cafe.interactions currentRoom.RoomType @ defaultInteractions
+        | Casino -> defaultInteractions
         | ConcertSpace _ ->
             ConcertSpace.interactions
                 state

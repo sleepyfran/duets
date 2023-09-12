@@ -13,6 +13,10 @@ let createCafe (name, quality, zone) =
     World.Place.create name quality Cafe Everywhere.Common.cafeRoomLayout zone
     |> World.Place.changeOpeningHours Everywhere.Common.cafeOpeningHours
 
+/// Creates a casino with the given name, quality and zone.
+let createCasino (name, quality, zone) =
+    World.Place.create name quality Casino Everywhere.Common.casinoLayout zone
+
 /// Creates a concert space with the given name, capacity, quality and zone.
 let createConcertSpace (name, capacity, zone, quality, layout) =
     World.Place.create

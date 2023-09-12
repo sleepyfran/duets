@@ -111,6 +111,7 @@ module Place =
             | Airport -> PlaceTypeIndex.Airport
             | Bar _ -> PlaceTypeIndex.Bar
             | Cafe _ -> PlaceTypeIndex.Cafe
+            | Casino -> PlaceTypeIndex.Casino
             | ConcertSpace _ -> PlaceTypeIndex.ConcertSpace
             | Gym -> PlaceTypeIndex.Gym
             | Home -> PlaceTypeIndex.Home

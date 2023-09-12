@@ -31,6 +31,7 @@ let generate () =
     |> addAirport
     |> addBars
     |> addCafes
+    |> addCasinos
     |> addConcertSpaces
     |> addGyms
     |> addHospital
@@ -69,6 +70,16 @@ let private addCafes city =
       ("Cafébrería El Péndulo", 91<quality>, polanco)
       ("Café Toscano", 89<quality>, roma) ]
     |> List.map Common.createCafe
+    |> List.fold (fun city place -> World.City.addPlace place city) city
+
+(* -------- Casinos -------- *)
+let private addCasinos city =
+    [ ("Condesa Casino Royale", 92<quality>, condesa)
+      ("Roma Riches Casino", 90<quality>, roma)
+      ("Polanco Prestige Casino", 88<quality>, polanco)
+      ("Coyoacán Charm Casino", 91<quality>, coyoacán)
+      ("Juárez Jackpot Casino", 89<quality>, juarez) ]
+    |> List.map Common.createCasino
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Concert spaces --------- *)

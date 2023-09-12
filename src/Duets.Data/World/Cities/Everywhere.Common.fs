@@ -56,6 +56,19 @@ let cafeRoomLayout =
     |> World.Node.create 0
     |> World.Graph.from
 
+/// Usual layout for a casino.
+let casinoLayout =
+    let lobby = RoomType.Lobby |> World.Room.create |> World.Node.create 0
+
+    let bar = RoomType.Bar |> World.Room.create |> World.Node.create 1
+
+    let casinoFloor =
+        RoomType.CasinoFloor |> World.Room.create |> World.Node.create 2
+
+    World.Graph.fromMany [ lobby; bar; casinoFloor ]
+    |> World.Graph.connectMany
+        [ lobby.Id, bar.Id, East; lobby.Id, casinoFloor.Id, North ]
+
 let gymLayout =
     let lobby =
         RoomType.Lobby |> World.Room.create |> World.Node.create Ids.Gym.lobby
