@@ -78,6 +78,7 @@
         <Compile Include="Bands\Members.fs" />
         <Compile Include="Bands\Generation.fs" />
         <Compile Include="Bands\SwitchGenre.fs" />
+        <Compile Include="Bands\FundDistribution.fs"/>
         <Compile Include="Skills\ImproveSkills.Common.fs" />
         <Compile Include="Skills\ImproveSkills.Composition.fs" />
         <Compile Include="Skills\ImproveSkills.Career.fs"/>

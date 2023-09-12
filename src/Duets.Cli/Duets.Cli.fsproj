@@ -119,6 +119,7 @@
         <Compile Include="Scenes\NewGame\SkillEditor.fs"/>
         <Compile Include="Scenes\NewGame\WorldSelector.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\Transfer.fs"/>
+        <Compile Include="Scenes\Phone\Apps\Bank\DistributeBandFunds.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\UpcomingPayments.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\Bank.fs"/>
         <Compile Include="Scenes\Phone\Apps\BnB\List.fs"/>

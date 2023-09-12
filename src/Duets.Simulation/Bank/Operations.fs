@@ -5,7 +5,9 @@ open Duets.Entities
 
 type TransactionError = NotEnoughFunds of amount: Amount
 
-let private withBalanceChecking state sender amount effects =
+/// Checks if the given sender has enough funds and if so, returns the given
+/// effects. Otherwise returns an error.
+let withBalanceChecking state sender amount effects =
     let accountBalance = Bank.balanceOf state sender
 
     if amount <= accountBalance then

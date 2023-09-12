@@ -10,13 +10,13 @@ open Duets.Simulation
 
 type private BankMenuOptions =
     | TransferToBand
-    | TransferFromBand
+    | DistributeBandFunds
     | PayRental
 
 let private textFromOption opt =
     match opt with
     | TransferToBand -> "Transfer money to band"
-    | TransferFromBand -> "Transfer money from band"
+    | DistributeBandFunds -> "Distribute your band's funds"
     | PayRental -> Styles.warning "Pay for next month's rent"
 
 /// Creates the bank scene which allows to transfer money between accounts.
@@ -45,15 +45,14 @@ let rec bankApp () =
             Generic.back
             textFromOption
             [ TransferToBand
-              TransferFromBand
+              DistributeBandFunds
               if List.isNotEmpty upcomingPayments then
                   PayRental ]
 
     match selection with
     | Some TransferToBand ->
         Transfer.transfer bankApp characterAccount bandAccount
-    | Some TransferFromBand ->
-        Transfer.transfer bankApp bandAccount characterAccount
+    | Some DistributeBandFunds -> DistributeBandFunds.distributeFunds bankApp
     | Some PayRental ->
         UpcomingPayments.upcomingPayments bankApp upcomingPayments
     | None -> Scene.Phone

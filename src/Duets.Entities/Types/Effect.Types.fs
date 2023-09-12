@@ -12,6 +12,7 @@ module EffectTypes =
         | AlbumReleasedUpdate of Band * ReleasedAlbum
         | AlbumReviewsReceived of Band * ReleasedAlbum
         | AlbumUpdated of Band * UnreleasedAlbum
+        | BalanceUpdated of BankAccountHolder * Diff<Amount>
         | BandFansChanged of Band * Diff<Fans>
         | BandSwitchedGenre of Band * Diff<Genre>
         | CareerAccept of CharacterId * Job
