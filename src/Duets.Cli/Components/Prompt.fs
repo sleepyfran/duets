@@ -54,6 +54,30 @@ let showRangedNumberPrompt min max title =
     |> AnsiConsole.Prompt
 
 /// <summary>
+/// Renders a decimal prompt that forces the user to give a valid decimal
+/// number between the given inclusive range.
+/// </summary>
+/// <param name="min">Minimum number allowed</param>
+/// <param name="max">Maximum number allowed</param>
+/// <param name="title">Title of the prompt to show when asking</param>
+let showRangedDecimalPrompt min max title =
+    let title = $"""{title} {Styles.faded $"(Between {min} and {max})"}"""
+
+    TextPrompt<decimal>(
+        title,
+        Validator =
+            (fun number ->
+                match number with
+                | n when n >= min && n <= max -> ValidationResult.Success()
+                | n ->
+                    ValidationResult.Error(
+                        $"{n} is not between {min} and {max}. Choose another number"
+                        |> Styles.error
+                    ))
+    )
+    |> AnsiConsole.Prompt
+
+/// <summary>
 /// Renders a basic decimal prompt, forcing the user to give a valid number.
 /// </summary>
 /// <param name="title">Title of the prompt to show when asking</param>

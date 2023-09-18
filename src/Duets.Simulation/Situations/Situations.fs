@@ -15,3 +15,7 @@ let inConcert ongoingConcert =
 /// Sets the current situation to inside of the plane, flying somewhere.
 let onboardedInPlane flight =
     flight |> Flying |> Airport |> SituationChanged
+
+/// Sets the current situation to playing a mini game.
+let playingMiniGame miniGameState =
+    miniGameState |> PlayingMiniGame |> SituationChanged

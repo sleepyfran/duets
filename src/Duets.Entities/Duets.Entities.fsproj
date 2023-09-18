@@ -28,6 +28,9 @@
         <Compile Include="Types\Flight.Types.fs" />
         <Compile Include="Types\Rental.Types.fs"/>
         <Compile Include="Types\CalendarEvent.Types.fs" />
+        <Compile Include="Types\MiniGames\MiniGame.Shared.Types.fs"/>
+        <Compile Include="Types\MiniGames\Blackjack.Types.fs"/>
+        <Compile Include="Types\MiniGames\MiniGame.Types.fs"/>
         <Compile Include="Types\Notification.Types.fs"/>
         <Compile Include="Types\Situations.Types.fs" />
         <Compile Include="Types\SocialNetwork.Types.fs"/>
@@ -36,6 +39,7 @@
         <Compile Include="Types\Effect.Types.fs" />
         <Compile Include="Lenses.fs" />
         <Compile Include="Identity.fs" />
+        <Compile Include="Amount.fs"/>
         <Compile Include="Calendar.fs" />
         <Compile Include="CalendarEvent.fs" />
         <Compile Include="Time.fs" />
@@ -55,6 +59,7 @@
         <Compile Include="Interaction.fs" />
         <Compile Include="World.fs" />
         <Compile Include="State.fs" />
+        <Compile Include="MiniGame.fs"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj" />

@@ -23,6 +23,21 @@ let mastodon = ":elephant:"
 /// Emoji for boosts in social network apps.
 let boost = ":star:"
 
+/// Emoji for card games.
+let cards = ":joker:"
+
+/// Emoji for clubs.
+let clubs = ":club_suit:"
+
+/// Emoji for diamonds.
+let diamonds = ":diamond_suit:"
+
+/// Emoji for hearts.
+let hearts = ":heart_suit:"
+
+/// Emoji for spades.
+let spades = ":spade_suit:"
+
 /// Returns the correct emoji for showing the current day moment.
 let dayMoment dayMoment =
     match dayMoment with

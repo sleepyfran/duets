@@ -45,6 +45,7 @@
         <Compile Include="Concerts\OpeningActOpportunities.Tests.fs"/>
         <Compile Include="Concerts\Live.Encore.Tests.fs"/>
         <Compile Include="Market\GenreMarket.Tests.fs" />
+        <Compile Include="MiniGames\Blackjack.Tests.fs"/>
         <Compile Include="Notifications\Notification.Tests.fs" />
         <Compile Include="Time\AdvanceTime.Tests.fs" />
         <Compile Include="SocialNetworks\DailyUpdate.Tests.fs" />

@@ -44,6 +44,10 @@ module Command =
 
                 Scene.World) }
 
+    /// Creates a placeholder command with the given name that when called
+    /// outputs the name of the command.
+    let placeholder name = message name name name
+
     type ItemInteractionInput =
         | VerbOnly of verb: string
         | VerbWithPrepositions of verb: string * prepositions: string list

@@ -20,6 +20,7 @@
         <Compile Include="Text\Interaction.fs"/>
         <Compile Include="Text\Items.fs"/>
         <Compile Include="Text\MainMenu.fs"/>
+        <Compile Include="Text\MiniGame.fs"/>
         <Compile Include="Text\Phone.fs"/>
         <Compile Include="Text\Rehearsal.fs"/>
         <Compile Include="Text\Shop.fs"/>
@@ -109,6 +110,11 @@
         <Compile Include="Components\Commands\Items\Interactive.Command.fs"/>
         <Compile Include="Components\Commands\Items\Cook.Command.fs"/>
         <Compile Include="Components\Commands\Items\Sleep.Command.fs"/>
+        <Compile Include="Components\Commands\MiniGame\StartMiniGame.Command.fs"/>
+        <Compile Include="Components\Commands\MiniGame\Bet.Command.fs"/>
+        <Compile Include="Components\Commands\MiniGame\Hit.Command.fs"/>
+        <Compile Include="Components\Commands\MiniGame\Stand.Command.fs"/>
+        <Compile Include="Components\Commands\MiniGame\Leave.Command.fs"/>
         <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\TriggerEffect.Cheats.Commands.fs"/>

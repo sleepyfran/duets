@@ -44,7 +44,7 @@ module Ongoing =
 
 /// Creates a concert from the given parameter.
 let create date dayMoment cityId venueId ticketPrice participationType =
-    let ticketAmount = ticketPrice * 1m<dd>
+    let ticketAmount = ticketPrice |> Amount.fromDecimal
 
     { Id = Identity.create ()
       CityId = cityId

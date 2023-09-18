@@ -105,6 +105,26 @@ module InteractionTypes =
         /// Allows waiting.
         | Wait
 
+    /// Interactions that can be done when playing blackjack.
+    [<RequireQualifiedAccess>]
+    type MiniGameInGameInteraction =
+        /// Allows the player to bet for some game.
+        | Bet of BlackJackGameState
+        /// Allows the player to hit on Blackjack.
+        | Hit of BlackJackGameState
+        /// Allows the player to stand on Blackjack.
+        | Stand of BlackJackGameState
+        /// Allows the player to leave the game.
+        | Leave of MiniGameId * BlackJackGameState
+
+    /// Interactions related to a mini-game.
+    [<RequireQualifiedAccess>]
+    type MiniGameInteraction =
+        /// Allows the player to perform an action in the mini-game.
+        | InGame of MiniGameInGameInteraction
+        /// Allows the player to start a mini-game.
+        | StartGame of MiniGameId
+
     /// Interactions that can be done when the character is on the rehearsal room.
     [<RequireQualifiedAccess>]
     type RehearsalInteraction =
@@ -172,6 +192,7 @@ module InteractionTypes =
         | Gym of GymInteraction
         | FreeRoam of FreeRoamInteraction
         | Item of ItemInteraction
+        | MiniGame of MiniGameInteraction
         | Rehearsal of RehearsalInteraction
         | Shop of ShopInteraction
         | Studio of StudioInteraction

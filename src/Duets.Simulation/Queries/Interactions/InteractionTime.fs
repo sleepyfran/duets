@@ -20,6 +20,9 @@ module InteractionTime =
             | InteractiveItemInteraction.Sleep (* Sleeping asks how long to sleep. *)
             | InteractiveItemInteraction.Cook _ -> 0<dayMoments>
         | Interaction.FreeRoam FreeRoamInteraction.Wait -> 1<dayMoments>
+        | Interaction.MiniGame(MiniGameInteraction.StartGame _)
+        | Interaction.MiniGame(MiniGameInteraction.InGame(MiniGameInGameInteraction.Leave _)) ->
+            1<dayMoments>
         | Interaction.Rehearsal rehearsalInteraction ->
             match rehearsalInteraction with
             | RehearsalInteraction.ComposeNewSong

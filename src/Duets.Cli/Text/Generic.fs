@@ -139,15 +139,15 @@ let duration (minutes: int<minute>) =
 
     $"""{hours} {simplePluralOf "hour" hours} and {minutes} {simplePluralOf "minute" minutes}"""
 
+let timeBar (date: Date) (dayMoment: DayMoment) =
+    $"""{Emoji.dayMoment dayMoment} {dayMomentName dayMoment |> Styles.time} of {Date.withDayName date |> Styles.time}"""
+
 /// Formats the character status into a bar that can be shown to the user.
 let infoBar
     (date: Date)
     (dayMoment: DayMoment)
     (attributes: (CharacterAttribute * CharacterAttributeAmount) list)
     =
-    let baseBar =
-        $"""{Emoji.dayMoment dayMoment} {dayMomentName dayMoment |> Styles.time} of {Date.withDayName date |> Styles.time}"""
-
     attributes
     |> List.fold
         (fun bar (attr, amount) ->
@@ -158,7 +158,7 @@ let infoBar
                 | _ -> Styles.Level.from amount
 
             $"""{bar} | {Emoji.attribute attr amount} {styledAmount}""")
-        baseBar
+        (timeBar date dayMoment)
 
 let gameName = "Duets"
 let youAreIn place = $"You're currently in {place}"
@@ -263,3 +263,7 @@ let itemNameWithDetail (item: Item) =
     | Key _ -> itemName item
 
 let moreDates = Styles.faded "More dates"
+
+let miniGameName id =
+    match id with
+    | MiniGameId.Blackjack -> "blackjack"

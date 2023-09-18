@@ -109,6 +109,19 @@ let private commandsFromInteractions interactions =
                 [ MovementCommand.create direction roomId ]
             | FreeRoamInteraction.Phone -> [ PhoneCommand.get ]
             | FreeRoamInteraction.Wait -> [ WaitCommand.get ]
+        | Interaction.MiniGame miniGameInteraction ->
+            match miniGameInteraction with
+            | MiniGameInteraction.InGame(MiniGameInGameInteraction.Bet miniGameState) ->
+                [ BetCommand.create miniGameState ]
+            | MiniGameInteraction.InGame(MiniGameInGameInteraction.Hit miniGameState) ->
+                [ HitCommand.create miniGameState ]
+            | MiniGameInteraction.InGame(MiniGameInGameInteraction.Stand miniGameState) ->
+                [ StandCommand.create miniGameState ]
+            | MiniGameInteraction.InGame(MiniGameInGameInteraction.Leave(miniGameId,
+                                                                         miniGameState)) ->
+                [ LeaveCommand.create miniGameId miniGameState ]
+            | MiniGameInteraction.StartGame miniGameId ->
+                [ StartMiniGameCommand.create miniGameId ]
         | Interaction.Rehearsal rehearsalInteraction ->
             match rehearsalInteraction with
             | RehearsalInteraction.ComposeNewSong -> [ ComposeSongCommand.get ]
@@ -210,6 +223,8 @@ let worldScene mode =
                 currentDayMoment
                 characterAttributes
                 ongoingConcert.Points
+        | PlayingMiniGame miniGameState ->
+            MiniGame.actionPrompt today currentDayMoment miniGameState
         | _ -> Command.commonPrompt today currentDayMoment characterAttributes
 
     let commandsWithMetadata =

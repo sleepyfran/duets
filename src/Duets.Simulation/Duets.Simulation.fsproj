@@ -31,6 +31,7 @@
         <Compile Include="Queries\Interactions\InteractionTime.fs" />
         <Compile Include="Queries\Interactions\InteractionCommon.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Items.fs" />
+        <Compile Include="Queries\Interactions\Interactions.Casino.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Career.fs" />
         <Compile Include="Queries\Interactions\Interactions.Shop.fs" />
         <Compile Include="Queries\Interactions\Interactions.Gym.fs"/>
@@ -103,6 +104,7 @@
         <Compile Include="Flights\Airport.fs" />
         <Compile Include="Gym\PayEntrance.fs"/>
         <Compile Include="Calendar\Notifications.fs" />
+        <Compile Include="MiniGames\Blackjack.fs"/>
         <Compile Include="Rentals\PayUpcoming.fs" />
         <Compile Include="Rentals\RentPlace.fs" />
         <Compile Include="Songs\Practice.fs" />

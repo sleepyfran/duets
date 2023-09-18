@@ -15,3 +15,5 @@ module SituationTypes =
         | Airport of AirportSituation
         /// Player is performing a concert.
         | Concert of ConcertSituation
+        /// Playing a mini-game.
+        | PlayingMiniGame of MiniGameState
