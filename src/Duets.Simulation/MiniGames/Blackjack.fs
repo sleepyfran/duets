@@ -138,7 +138,7 @@ let private withBustCheck state game =
         (* Bust, player loses their entire bet. *)
         let betExpense = lostExpenseEffects state game
 
-        Bust(game, Situations.freeRoam :: betExpense)
+        Bust(game, startGame :: betExpense)
     else
         Continue [ game |> Playing |> Blackjack |> Situations.playingMiniGame ]
 
