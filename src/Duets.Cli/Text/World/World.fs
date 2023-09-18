@@ -8,8 +8,8 @@ let placeDescription (place: Place) (roomType: RoomType) =
     (place, roomType)
     ||> match place.PlaceType with
         | PlaceType.Airport -> Airport.description
-        | PlaceType.Bar _ -> Bar.description
-        | PlaceType.Cafe _ -> Cafe.description
+        | PlaceType.Bar -> Bar.description
+        | PlaceType.Cafe -> Cafe.description
         | PlaceType.Casino -> Casino.description
         | PlaceType.ConcertSpace _ -> ConcertSpace.description
         | PlaceType.Gym -> Gym.description
@@ -17,7 +17,7 @@ let placeDescription (place: Place) (roomType: RoomType) =
         | PlaceType.Hospital -> Hospital.description
         | PlaceType.Hotel _ -> Hotel.description
         | PlaceType.RehearsalSpace _ -> RehearsalSpace.description
-        | PlaceType.Restaurant _ -> Restaurant.description
+        | PlaceType.Restaurant -> Restaurant.description
         | PlaceType.Studio studio -> Studio.description studio
 
 let placeTypeName (placeType: PlaceTypeIndex) =
@@ -38,9 +38,9 @@ let placeTypeName (placeType: PlaceTypeIndex) =
 let roomName (room: RoomType) =
     match room with
     | RoomType.Backstage -> "backstage"
-    | RoomType.Bar _ -> "bar area"
+    | RoomType.Bar -> "bar area"
     | RoomType.Bedroom -> "bedroom"
-    | RoomType.Cafe _ -> "cafe area"
+    | RoomType.Cafe -> "cafe area"
     | RoomType.CasinoFloor -> "casino floor"
     | RoomType.ChangingRoom -> "changing room"
     | RoomType.Gym -> "gym"

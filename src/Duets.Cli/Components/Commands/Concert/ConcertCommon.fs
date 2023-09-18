@@ -67,7 +67,7 @@ module Concert =
                 | AveragePerformance reasons ->
                     Concert.soloResultAveragePerformance reasons points
                 | GoodPerformance _
-                | GreatPerformance _ ->
+                | GreatPerformance ->
                     Concert.soloResultGreatPerformance points
                 | _ -> Concert.tooManySolos points
                 |> showMessage)

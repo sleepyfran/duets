@@ -109,8 +109,8 @@ module Place =
         let toIndex placeType =
             match placeType with
             | Airport -> PlaceTypeIndex.Airport
-            | Bar _ -> PlaceTypeIndex.Bar
-            | Cafe _ -> PlaceTypeIndex.Cafe
+            | Bar -> PlaceTypeIndex.Bar
+            | Cafe -> PlaceTypeIndex.Cafe
             | Casino -> PlaceTypeIndex.Casino
             | ConcertSpace _ -> PlaceTypeIndex.ConcertSpace
             | Gym -> PlaceTypeIndex.Gym
@@ -118,7 +118,7 @@ module Place =
             | Hotel _ -> PlaceTypeIndex.Hotel
             | Hospital -> PlaceTypeIndex.Hospital
             | RehearsalSpace _ -> PlaceTypeIndex.RehearsalSpace
-            | Restaurant _ -> PlaceTypeIndex.Restaurant
+            | Restaurant -> PlaceTypeIndex.Restaurant
             | Studio _ -> PlaceTypeIndex.Studio
 
 [<RequireQualifiedAccess>]

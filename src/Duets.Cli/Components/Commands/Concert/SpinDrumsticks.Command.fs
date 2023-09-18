@@ -18,7 +18,7 @@ module SpinDrumsticksCommand =
                 | LowPerformance _ -> Concert.drumstickSpinningBadResult points
                 | AveragePerformance _
                 | GoodPerformance _
-                | GreatPerformance _ ->
+                | GreatPerformance ->
                     Concert.drumstickSpinningGoodResult points
                 | _ -> Concert.tooManyDrumstickSpins
                 |> showMessage)

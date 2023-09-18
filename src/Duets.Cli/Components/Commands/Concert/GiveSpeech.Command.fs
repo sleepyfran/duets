@@ -20,7 +20,7 @@ module GiveSpeechCommand =
                 | LowPerformance _ -> Concert.speechGivenLowSkill points
                 | AveragePerformance _ -> Concert.speechGivenMediumSkill points
                 | GoodPerformance _
-                | GreatPerformance _ -> Concert.speechGivenHighSkill points
+                | GreatPerformance -> Concert.speechGivenHighSkill points
                 | _ -> Concert.tooManySpeeches
                 |> showMessage)
             ongoingConcert

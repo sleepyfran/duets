@@ -96,14 +96,14 @@ module EnergyRequirements =
                         interactionWithState
                         characterEnergy
                         careerInteraction
-                | Interaction.FreeRoam(FreeRoamInteraction.Wait _) ->
+                | Interaction.FreeRoam FreeRoamInteraction.Wait ->
                     disableIfLessEnergyThanMinimum
                         interactionWithState
                         characterEnergy
                 | Interaction.FreeRoam _ -> interactionWithState
                 | Interaction.Item(ItemInteraction.Consumable _) ->
                     interactionWithState
-                | Interaction.Item(ItemInteraction.Interactive(InteractiveItemInteraction.Sleep _)) ->
+                | Interaction.Item(ItemInteraction.Interactive InteractiveItemInteraction.Sleep) ->
                     interactionWithState
                 | _ ->
                     disableIfLessEnergyThanMinimum

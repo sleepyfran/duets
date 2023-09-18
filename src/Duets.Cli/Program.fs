@@ -11,7 +11,7 @@ open System.Threading
 let private outOfGameplayScene scene =
     match scene with
     | Scene.MainMenu _
-    | Scene.CharacterCreator _
+    | Scene.CharacterCreator
     | Scene.BandCreator _
     | Scene.SkillEditor _
     | Scene.WorldSelector _

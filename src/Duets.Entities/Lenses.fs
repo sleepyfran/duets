@@ -196,7 +196,7 @@ module Concerts =
 module SocialNetworks =
     let mastodon_ =
         (fun (s: SocialNetworks) -> s.Mastodon),
-        (fun v (s: SocialNetworks) -> { s with Mastodon = v })
+        (fun v (s: SocialNetworks) -> { Mastodon = v })
 
 module SocialNetwork =
     let accounts_ =
@@ -252,7 +252,7 @@ module World =
 
     let cities_ =
         (fun (w: World) -> w.Cities),
-        (fun v (w: World) -> { w with Cities = v })
+        (fun v (w: World) -> { Cities = v })
 
     /// Lenses to the current city in the world given its ID.
     let city_ cityId = cities_ >-> Map.key_ cityId
