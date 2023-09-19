@@ -13,7 +13,9 @@ let composeSong state song =
     let band = Bands.currentBand state
     let maximumQuality = qualityForBand state band
 
-    let initialQuality = calculateQualityIncreaseOf maximumQuality
+    let initialUnfinishedSong = Unfinished(song, maximumQuality, 0<quality>)
+
+    let initialQuality = calculateQualityIncreaseOf initialUnfinishedSong
 
     let songStartedEffect =
         Unfinished(song, maximumQuality, initialQuality)

@@ -35,10 +35,17 @@ let qualityForBand state band =
 
 /// Calculates at what rate the score of a song should increase based on its
 /// maximum quality.
-let calculateQualityIncreaseOf (maximum: MaxQuality) =
-    maximum
+let calculateQualityIncreaseOf (Unfinished(song, maxQuality, _)) =
+    let improvementStep =
+        match song.Length.Minutes with
+        | minutes when minutes < 5<minute> -> 0.20
+        | minutes when minutes < 10<minute> -> 0.15
+        | minutes when minutes < 20<minute> -> 0.10
+        | _ -> 0.08
+
+    maxQuality
     |> float
-    |> fun max -> max * 0.20
+    |> fun max -> max * improvementStep
     |> ceil
     |> int
     |> fun increase -> increase * 1<quality>

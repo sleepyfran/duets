@@ -8,7 +8,7 @@ open Duets.Simulation.Time
 
 let private improveSong' state band song maxQuality (quality: Quality) =
     let songBeforeUpgrade = Unfinished(song, maxQuality, quality)
-    let increase = calculateQualityIncreaseOf maxQuality
+    let increase = calculateQualityIncreaseOf songBeforeUpgrade
 
     let updatedQuality =
         quality + increase |> Math.clamp 0<quality> 100<quality>
