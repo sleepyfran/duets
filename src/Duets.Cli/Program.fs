@@ -32,7 +32,7 @@ let rec showScene skipSaving scene =
 
     match scene with
     | Scene.MainMenu savegameState ->
-        MainMenu.mainMenu savegameState |> showScene skipSaving
+        MainMenu.mainMenu savegameState skipSaving |> showScene skipSaving
     | Scene.CharacterCreator ->
         NewGame.CharacterCreator.characterCreator () |> showScene skipSaving
     | Scene.BandCreator character ->
@@ -60,12 +60,7 @@ let private parseNoSavingArg args =
 [<EntryPoint>]
 let main args =
     let skipSaving = parseNoSavingArg args
-
-    if skipSaving then
-        Styles.danger
-            "--no-saving arg detected, all changes during gameplay won't be persisted!"
-        |> showMessage
-
+   
     clearScreen ()
 
     Stats.startTrackingTime ()

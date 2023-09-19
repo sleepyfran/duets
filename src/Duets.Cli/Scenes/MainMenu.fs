@@ -19,11 +19,16 @@ let private textFromOption opt =
 
 /// Main menu of the game where the user can choose to either start a new game
 /// or load a previous one.
-let rec mainMenu savegameState =
+let rec mainMenu savegameState skipSaving =
     clearScreen ()
 
     Generic.gameName |> showFiglet
     showGameInfo gameVersion
+
+    if skipSaving then
+        Styles.danger
+            "--no-saving arg detected, all changes during gameplay won't be persisted!"
+        |> showMessage
 
     if savegameState = Savegame.Incompatible then
         MainMenu.incompatibleSavegame |> showMessage
@@ -41,11 +46,11 @@ let rec mainMenu savegameState =
                   LoadGame ]
 
     match selectedChoice with
-    | Some NewGame -> createNewGame savegameState hasSavegameAvailable
+    | Some NewGame -> createNewGame savegameState skipSaving hasSavegameAvailable
     | Some LoadGame -> Scene.WorldAfterMovement
     | None -> Scene.Exit ExitMode.SkipSave
 
-and private createNewGame savegameState hasSavegameAvailable =
+and private createNewGame savegameState skipSaving hasSavegameAvailable =
     if hasSavegameAvailable then
         let confirmed =
             showConfirmationPrompt MainMenu.newGameReplacePrompt
@@ -53,6 +58,6 @@ and private createNewGame savegameState hasSavegameAvailable =
         if confirmed then
             Scene.CharacterCreator
         else
-            mainMenu savegameState
+            mainMenu savegameState skipSaving
     else
         Scene.CharacterCreator
