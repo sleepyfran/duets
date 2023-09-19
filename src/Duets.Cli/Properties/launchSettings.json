@@ -1,6 +1,9 @@
 {
   "profiles": {
     "Duets.Cli": {
+      "commandName": "Project"
+    },
+    "Duets.Cli NO SAVE": {
       "commandName": "Project",
       "commandLineArgs": "--no-saving"
     }
