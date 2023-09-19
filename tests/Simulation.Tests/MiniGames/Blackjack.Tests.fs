@@ -85,12 +85,11 @@ let ``hitting and getting less than 22 returns a Continue and updated situation 
     let hitAllowedGame =
         { game with
             PlayerHand =
-                { game.PlayerHand with
-                    Cards =
-                        [ { Suit = Suit.Clubs; Rank = Rank.Two }
-                          { Suit = Suit.Diamonds
-                            Rank = Rank.Two } ]
-                    Score = ScoreType.Single 4 } }
+                { Cards =
+                    [ { Suit = Suit.Clubs; Rank = Rank.Two }
+                      { Suit = Suit.Diamonds
+                        Rank = Rank.Two } ]
+                  Score = ScoreType.Single 4 } }
 
     let result =
         Blackjack.hit dummyState (Playing hitAllowedGame) |> Result.unwrap
@@ -117,12 +116,11 @@ let ``hitting and getting over 21 results in busted and money is taken from the 
     let bustGame =
         { game with
             PlayerHand =
-                { game.PlayerHand with
-                    Cards =
-                        [ { Suit = Suit.Clubs; Rank = Rank.King }
-                          { Suit = Suit.Diamonds
-                            Rank = Rank.King } ]
-                    Score = ScoreType.Single 10 } }
+                { Cards =
+                    [ { Suit = Suit.Clubs; Rank = Rank.King }
+                      { Suit = Suit.Diamonds
+                        Rank = Rank.King } ]
+                  Score = ScoreType.Single 10 } }
 
     let result = Blackjack.hit dummyState (Playing bustGame) |> Result.unwrap
 
@@ -137,23 +135,49 @@ let ``hitting and getting over 21 results in busted and money is taken from the 
     | _ -> failwith "Unexpected result"
 
 [<Test>]
+let ``standing when both player and dealer have the same hand value results in push`` () =
+    let pushGame =
+        { game with
+            PlayerHand =
+                { Cards =
+                    [ { Suit = Suit.Clubs; Rank = Rank.King }
+                      { Suit = Suit.Diamonds
+                        Rank = Rank.King } ]
+                  Score = ScoreType.Single 20 }
+            DealerHand =
+                { Cards =
+                    [ { Suit = Suit.Clubs; Rank = Rank.King }
+                      { Suit = Suit.Diamonds
+                        Rank = Rank.King } ]
+                  Score = ScoreType.Single 20 } }
+
+    let result = Blackjack.stand dummyState (Playing pushGame) |> Result.unwrap
+
+    match result with
+    | Blackjack.Push(game, effects) ->
+        game.PlayerHand.Score |> Blackjack.scoreValue |> should be (equal 20)
+
+        game.DealerHand.Score |> Blackjack.scoreValue |> should be (equal 20)
+
+        effects |> List.head |> should be (ofCase (<@ SituationChanged @>))
+    | _ -> failwith "Unexpected result"
+
+[<Test>]
 let ``standing when both player and dealer have 21 results in push`` () =
     let pushGame =
         { game with
             PlayerHand =
-                { game.PlayerHand with
-                    Cards =
-                        [ { Suit = Suit.Clubs; Rank = Rank.King }
-                          { Suit = Suit.Diamonds
-                            Rank = Rank.Ace } ]
-                    Score = ScoreType.Multiple(11, 21) }
+                { Cards =
+                    [ { Suit = Suit.Clubs; Rank = Rank.King }
+                      { Suit = Suit.Diamonds
+                        Rank = Rank.Ace } ]
+                  Score = ScoreType.Multiple(11, 21) }
             DealerHand =
-                { game.DealerHand with
-                    Cards =
-                        [ { Suit = Suit.Clubs; Rank = Rank.King }
-                          { Suit = Suit.Diamonds
-                            Rank = Rank.Ace } ]
-                    Score = ScoreType.Multiple(11, 21) } }
+                { Cards =
+                    [ { Suit = Suit.Clubs; Rank = Rank.King }
+                      { Suit = Suit.Diamonds
+                        Rank = Rank.Ace } ]
+                  Score = ScoreType.Multiple(11, 21) } }
 
     let result = Blackjack.stand dummyState (Playing pushGame) |> Result.unwrap
 
@@ -171,22 +195,19 @@ let ``standing when player has 21 and dealer does not results in blackjack for p
     ()
     =
     let blackjackGame =
-        { game with
-            PlayerHand =
-                { game.PlayerHand with
-                    Cards =
-                        [ { Suit = Suit.Clubs; Rank = Rank.King }
-                          { Suit = Suit.Diamonds
-                            Rank = Rank.Ace } ]
-                    Score = ScoreType.Multiple(11, 21) }
-            DealerHand =
-                { game.DealerHand with
-                    Cards =
-                        [ { Suit = Suit.Clubs; Rank = Rank.King }
-                          { Suit = Suit.Diamonds
-                            Rank = Rank.Seven } ]
-                    Score = ScoreType.Single 17 }
-            Bet = 50m<dd> }
+        { PlayerHand =
+            { Cards =
+                [ { Suit = Suit.Clubs; Rank = Rank.King }
+                  { Suit = Suit.Diamonds
+                    Rank = Rank.Ace } ]
+              Score = ScoreType.Multiple(11, 21) }
+          DealerHand =
+            { Cards =
+                [ { Suit = Suit.Clubs; Rank = Rank.King }
+                  { Suit = Suit.Diamonds
+                    Rank = Rank.Seven } ]
+              Score = ScoreType.Single 17 }
+          Bet = 50m<dd> }
 
     let result =
         Blackjack.stand dummyState (Playing blackjackGame) |> Result.unwrap
@@ -207,24 +228,21 @@ let ``standing when player has less than 21 and dealer busts results in win for 
     ()
     =
     let dealerBustGame =
-        { game with
-            PlayerHand =
-                { game.PlayerHand with
-                    Cards =
-                        [ { Suit = Suit.Clubs; Rank = Rank.King }
-                          { Suit = Suit.Diamonds
-                            Rank = Rank.Seven } ]
-                    Score = ScoreType.Single 17 }
-            DealerHand =
-                { game.DealerHand with
-                    Cards =
-                        [ { Suit = Suit.Clubs; Rank = Rank.King }
-                          { Suit = Suit.Diamonds
-                            Rank = Rank.King }
-                          { Suit = Suit.Hearts
-                            Rank = Rank.Three } ]
-                    Score = ScoreType.Single 23 }
-            Bet = 50m<dd> }
+        { PlayerHand =
+            { Cards =
+                [ { Suit = Suit.Clubs; Rank = Rank.King }
+                  { Suit = Suit.Diamonds
+                    Rank = Rank.Seven } ]
+              Score = ScoreType.Single 17 }
+          DealerHand =
+            { Cards =
+                [ { Suit = Suit.Clubs; Rank = Rank.King }
+                  { Suit = Suit.Diamonds
+                    Rank = Rank.King }
+                  { Suit = Suit.Hearts
+                    Rank = Rank.Three } ]
+              Score = ScoreType.Single 23 }
+          Bet = 50m<dd> }
 
     let result =
         Blackjack.stand dummyState (Playing dealerBustGame) |> Result.unwrap
@@ -241,22 +259,19 @@ let ``standing when player has less than 21 and dealer busts results in win for 
 [<Test>]
 let ``standing when player has more than dealer results in win for player`` () =
     let winGame =
-        { game with
-            PlayerHand =
-                { game.PlayerHand with
-                    Cards =
-                        [ { Suit = Suit.Clubs; Rank = Rank.King }
-                          { Suit = Suit.Diamonds
-                            Rank = Rank.Nine } ]
-                    Score = ScoreType.Single 19 }
-            DealerHand =
-                { game.DealerHand with
-                    Cards =
-                        [ { Suit = Suit.Clubs; Rank = Rank.King }
-                          { Suit = Suit.Diamonds
-                            Rank = Rank.Seven } ]
-                    Score = ScoreType.Single 17 }
-            Bet = 50m<dd> }
+        { PlayerHand =
+            { Cards =
+                [ { Suit = Suit.Clubs; Rank = Rank.King }
+                  { Suit = Suit.Diamonds
+                    Rank = Rank.Nine } ]
+              Score = ScoreType.Single 19 }
+          DealerHand =
+            { Cards =
+                [ { Suit = Suit.Clubs; Rank = Rank.King }
+                  { Suit = Suit.Diamonds
+                    Rank = Rank.Seven } ]
+              Score = ScoreType.Single 17 }
+          Bet = 50m<dd> }
 
     let result = Blackjack.stand dummyState (Playing winGame) |> Result.unwrap
 
@@ -274,22 +289,19 @@ let ``standing when player has less than dealer results in loss for player``
     ()
     =
     let lossGame =
-        { game with
-            PlayerHand =
-                { game.PlayerHand with
-                    Cards =
-                        [ { Suit = Suit.Clubs; Rank = Rank.King }
-                          { Suit = Suit.Diamonds
-                            Rank = Rank.Seven } ]
-                    Score = ScoreType.Single 17 }
-            DealerHand =
-                { game.DealerHand with
-                    Cards =
-                        [ { Suit = Suit.Clubs; Rank = Rank.King }
-                          { Suit = Suit.Diamonds
-                            Rank = Rank.King } ]
-                    Score = ScoreType.Single 20 }
-            Bet = 50m<dd> }
+        { PlayerHand =
+            { Cards =
+                [ { Suit = Suit.Clubs; Rank = Rank.King }
+                  { Suit = Suit.Diamonds
+                    Rank = Rank.Seven } ]
+              Score = ScoreType.Single 17 }
+          DealerHand =
+            { Cards =
+                [ { Suit = Suit.Clubs; Rank = Rank.King }
+                  { Suit = Suit.Diamonds
+                    Rank = Rank.King } ]
+              Score = ScoreType.Single 20 }
+          Bet = 50m<dd> }
 
     let result = Blackjack.stand dummyState (Playing lossGame) |> Result.unwrap
 
@@ -309,22 +321,19 @@ let ``standing when the dealer has less than 17 triggers a turn for the dealer``
     staticRandom 2 (* Will deal a Three. *) |> RandomGen.change
 
     let nonFinishedGame =
-        { game with
-            PlayerHand =
-                { game.PlayerHand with
-                    Cards =
-                        [ { Suit = Suit.Clubs; Rank = Rank.King }
-                          { Suit = Suit.Diamonds
-                            Rank = Rank.Seven } ]
-                    Score = ScoreType.Single 17 }
-            DealerHand =
-                { game.DealerHand with
-                    Cards =
-                        [ { Suit = Suit.Clubs; Rank = Rank.King }
-                          { Suit = Suit.Diamonds
-                            Rank = Rank.Six } ]
-                    Score = ScoreType.Single 16 }
-            Bet = 50m<dd> }
+        { PlayerHand =
+            { Cards =
+                [ { Suit = Suit.Clubs; Rank = Rank.King }
+                  { Suit = Suit.Diamonds
+                    Rank = Rank.Seven } ]
+              Score = ScoreType.Single 17 }
+          DealerHand =
+            { Cards =
+                [ { Suit = Suit.Clubs; Rank = Rank.King }
+                  { Suit = Suit.Diamonds
+                    Rank = Rank.Six } ]
+              Score = ScoreType.Single 16 }
+          Bet = 50m<dd> }
 
     let result =
         Blackjack.stand dummyState (Playing nonFinishedGame) |> Result.unwrap
@@ -339,8 +348,7 @@ let ``standing when the dealer has less than 17 triggers a turn for the dealer``
 
 [<Test>]
 let ``leaving sets the situation back to free roam and increase time`` () =
-    let effects =
-        Blackjack.leave dummyState Betting |> Result.unwrap
+    let effects = Blackjack.leave dummyState Betting |> Result.unwrap
 
     effects |> List.head |> should be (ofCase (<@ SituationChanged @>))
     effects |> List.item 1 |> should be (ofCase (<@ TimeAdvanced @>))

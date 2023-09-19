@@ -163,7 +163,7 @@ let private doStand state game =
     let playerScore = game.PlayerHand.Score |> scoreValue
 
     match dealerScore, playerScore with
-    | dealerScore, playerScore when dealerScore = 21 && playerScore = 21 ->
+    | dealerScore, playerScore when dealerScore = playerScore ->
         (* Push, player gets back their money (so no transactions done). *)
         Push(game, [ startGame ])
     | _, playerScore when playerScore = 21 ->
