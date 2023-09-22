@@ -66,4 +66,9 @@ let directionName direction =
     | NorthWest -> "north-west"
 
 let placeWithZone (place: Place) =
-    $"{Styles.place place.Name} ({place.Zone.Name})"
+    let baseInfo = $"{Styles.place place.Name} ({place.Zone.Name})"
+
+    match place.PlaceType with
+    | PlaceType.Studio studio ->
+        $"{baseInfo} ({studio.PricePerSong |> Styles.money}/song)"
+    | _ -> baseInfo
