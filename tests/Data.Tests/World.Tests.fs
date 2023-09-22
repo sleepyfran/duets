@@ -7,6 +7,7 @@ open NUnit.Framework
 open Duets.Common
 open Duets.Entities
 open Duets.Data.World
+open Duets.Simulation
 
 let rec private checkCities (cities: City list) =
     // Go through all cities and check that they are connected to all the
@@ -37,3 +38,31 @@ let ``all city IDs are added to the world`` () =
 [<Test>]
 let ``all cities are connected to each other`` () =
     (World.get ()).Cities |> List.ofMapValues |> checkCities
+
+let private checkAtLeastOneWithCapacity concertSpaces minCapacity maxCapacity =
+    concertSpaces
+    |> List.filter (function
+        | capacity when capacity >= minCapacity && capacity <= maxCapacity -> true
+        | _ -> false)
+    |> List.length
+    |> should be (greaterThanOrEqualTo 1)
+
+let private checkConcertSpaces (city: City) =
+    let concertSpaces =
+        Queries.World.placesByTypeInCity city.Id PlaceTypeIndex.ConcertSpace
+        |> List.map (fun place ->
+            match place.PlaceType with
+            | PlaceType.ConcertSpace concertSpace -> concertSpace.Capacity
+            | _ -> 0)
+
+    checkAtLeastOneWithCapacity concertSpaces 0 300
+    checkAtLeastOneWithCapacity concertSpaces 300 500
+    checkAtLeastOneWithCapacity concertSpaces 500 5000
+    checkAtLeastOneWithCapacity concertSpaces 500 20000
+    checkAtLeastOneWithCapacity concertSpaces 500 500000
+
+[<Test>]
+let ``all cities must have concert spaces to accomodate all sort of bands by capacity``
+    ()
+    =
+    (World.get ()).Cities |> List.ofMapValues |> List.iter checkConcertSpaces

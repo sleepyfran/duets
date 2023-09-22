@@ -133,20 +133,20 @@ let ``generate does not create any opportunities in venues that are too big or s
             | ConcertSpace space -> space.Capacity
             | _ -> failwith "Concert scheduled in non-concert space"
 
-        let headlinerFame = headliner |> Queries.Bands.estimatedFameLevel state
-
-        match headlinerFame with
-        | fame when fame < 10 ->
+        match headliner.Fans with
+        | fame when fame <= 1000 ->
+            venueCapacity |> should be (lessThanOrEqualTo 300)
+        | fame when fame <= 5000 ->
             venueCapacity |> should be (lessThanOrEqualTo 500)
-        | fame when fame < 30 ->
-            venueCapacity |> should be (lessThanOrEqualTo 5000)
-
-            venueCapacity |> should be (greaterThanOrEqualTo 500)
-        | fame when fame < 50 ->
+        | fame when fame <= 20000 ->
             venueCapacity |> should be (lessThanOrEqualTo 20000)
-
             venueCapacity |> should be (greaterThanOrEqualTo 500)
-        | _ -> venueCapacity |> should be (greaterThanOrEqualTo 500))
+        | fame when fame <= 100000 ->
+            venueCapacity |> should be (lessThanOrEqualTo 20000)
+            venueCapacity |> should be (greaterThanOrEqualTo 500)
+        | _ ->
+            venueCapacity |> should be (lessThanOrEqualTo 500000)
+            venueCapacity |> should be (greaterThanOrEqualTo 500))
 
 [<Test>]
 let ``generate does not create any opportunity for a band that has more than 35 points of fame than the current band``

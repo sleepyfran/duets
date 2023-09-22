@@ -4,6 +4,6 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>Duets.Cli</ActiveDebugProfile>
+    <ActiveDebugProfile>Duets.Cli NO SAVE</ActiveDebugProfile>
   </PropertyGroup>
 </Project>
