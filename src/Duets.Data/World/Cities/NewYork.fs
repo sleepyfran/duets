@@ -275,17 +275,17 @@ let private addStudios city =
        200m<dd>,
        soho,
        (Character.from "John Smith" Male (December 24 1975)))
-      ("Brooklyn Beats",
+      ("Brooklyn Studio",
        90<quality>,
        300m<dd>,
        brooklynHeights,
        (Character.from "Eva Johnson" Female (March 15 1980)))
-      ("Astoria Audio",
+      ("Astoria Sound",
        92<quality>,
        340m<dd>,
        astoria,
        (Character.from "Tom Davis" Male (July 10 1978)))
-      ("Riverdale Rhythms",
+      ("Riverdale Studio",
        80<quality>,
        100m<dd>,
        riverdale,
@@ -300,17 +300,17 @@ let private addStudios city =
        220m<dd>,
        harlem,
        (Character.from "Elisa Miller" Female (April 1 1990)))
-      ("Tribeca Tunes",
+      ("Tribeca Studios",
        85<quality>,
        200m<dd>,
        tribeca,
        (Character.from "Alice Davis" Female (August 15 1977)))
-      ("Midtown Melodies",
+      ("Midtown Studios",
        89<quality>,
        280m<dd>,
        midtown,
        (Character.from "Martin Thompson" Male (January 30 1976)))
-      ("Upper East Side Echoes",
+      ("Upper East Side Sound",
        90<quality>,
        300m<dd>,
        upperEastSide,
