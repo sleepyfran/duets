@@ -6,6 +6,7 @@ module CareerTypes =
     type CareerId =
         | Barista
         | Bartender
+        | MusicProducer
 
     /// Wrapper around a byte that holds the stage number in which a career
     /// is currently in.

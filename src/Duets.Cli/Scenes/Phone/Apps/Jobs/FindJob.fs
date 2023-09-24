@@ -26,7 +26,7 @@ let private findJobForType jobsApp currentCareer jobType =
         JobBoard.availableJobsInCurrentCity (State.get ()) jobType
 
     if List.isEmpty availableJobs then
-        "There are no available jobs like this here at this time"
+        "There are no available jobs like this at this time or your skills are too low for any of them"
         |> Styles.error
         |> showMessage
     else

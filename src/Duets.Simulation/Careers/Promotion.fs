@@ -8,6 +8,7 @@ let private stagesForJob (job: Job) =
     match job.Id with
     | Barista -> Careers.BaristaCareer.stages
     | Bartender -> Careers.BartenderCareer.stages
+    | MusicProducer -> Careers.MusicProducerCareer.stages
 
 let private fulfillsRequirements state nextStage =
     let character = Queries.Characters.playableCharacter state

@@ -21,6 +21,7 @@
         <Compile Include="Pipe.fs" />
         <Compile Include="Option.fs" />
         <Compile Include="Operators.fs" />
+        <Compile Include="Union.fs"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Aether" Version="8.3.1" />

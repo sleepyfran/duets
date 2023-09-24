@@ -1,6 +1,5 @@
 module Duets.Data.Tests.World
 
-open Microsoft.FSharp.Reflection
 open FsUnit
 open NUnit.Framework
 
@@ -29,9 +28,7 @@ let rec private checkCities (cities: City list) =
 
 [<Test>]
 let ``all city IDs are added to the world`` () =
-    FSharpType.GetUnionCases typeof<CityId>
-    |> Array.map (fun uc -> FSharpValue.MakeUnion(uc, [||]) :?> CityId)
-    |> List.ofArray
+    Union.allCasesOf<CityId> ()
     |> List.forall (fun city -> (World.get ()).Cities |> Map.containsKey city)
     |> should equal true
 
@@ -42,7 +39,8 @@ let ``all cities are connected to each other`` () =
 let private checkAtLeastOneWithCapacity concertSpaces minCapacity maxCapacity =
     concertSpaces
     |> List.filter (function
-        | capacity when capacity >= minCapacity && capacity <= maxCapacity -> true
+        | capacity when capacity >= minCapacity && capacity <= maxCapacity ->
+            true
         | _ -> false)
     |> List.length
     |> should be (greaterThanOrEqualTo 1)

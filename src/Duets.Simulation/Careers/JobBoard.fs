@@ -9,6 +9,7 @@ let private placeTypeForJobType jobType =
     match jobType with
     | Bartender -> PlaceTypeIndex.Bar
     | Barista -> PlaceTypeIndex.Cafe
+    | MusicProducer -> PlaceTypeIndex.Studio
 
 let private findSuitableCareerStage state (careerStages: CareerStage list) =
     let character = Queries.Characters.playableCharacter state
@@ -26,43 +27,38 @@ let private findSuitableCareerStage state (careerStages: CareerStage list) =
 
                 currentSkillLevel >= minLevel - 2))
 
-let private findSuitableCareerStageOrDefault state cityId placeId stages =
+let private findSuitableJob state careerId cityId placeId stages =
     findSuitableCareerStage state stages
     |> List.tryLast
-    |> Option.defaultValue stages.Head
-    |> Common.createCareerStage cityId placeId
+    |> Option.map (Common.createCareerStage cityId placeId)
+    |> Option.map (fun stage ->
+        { Id = careerId
+          CurrentStage = stage
+          Location = cityId, placeId })
 
 let private generateBartenderJob state cityId placeId =
-    let careerStage =
-        findSuitableCareerStageOrDefault
-            state
-            cityId
-            placeId
-            BartenderCareer.stages
-
-    { Id = Bartender
-      CurrentStage = careerStage
-      Location = cityId, placeId }
+    findSuitableJob state Bartender cityId placeId BartenderCareer.stages
 
 let private generateBaristaJob state cityId placeId =
-    let initialCareerStage =
-        findSuitableCareerStageOrDefault
-            state
-            cityId
-            placeId
-            BaristaCareer.stages
+    findSuitableJob state Barista cityId placeId BaristaCareer.stages
 
-    { Id = Barista
-      CurrentStage = initialCareerStage
-      Location = cityId, placeId }
+let private generateMusicProducerJob state cityId placeId =
+    findSuitableJob
+        state
+        MusicProducer
+        cityId
+        placeId
+        MusicProducerCareer.stages
 
 let private generateJobsForPlace state cityId place =
     place.Rooms
     |> World.Graph.nodes
     |> List.choose (fun room ->
         match room.RoomType with
-        | RoomType.Bar -> generateBartenderJob state cityId place.Id |> Some
-        | RoomType.Cafe -> generateBaristaJob state cityId place.Id |> Some
+        | RoomType.Bar -> generateBartenderJob state cityId place.Id
+        | RoomType.Cafe -> generateBaristaJob state cityId place.Id
+        | RoomType.MasteringRoom ->
+            generateMusicProducerJob state cityId place.Id
         | _ -> None)
 
 let private generateJobs state cityId (places: Place list) =

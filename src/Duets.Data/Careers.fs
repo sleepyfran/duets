@@ -1,10 +1,11 @@
 module Duets.Data.Careers
 
+open Duets.Common
 open Duets.Entities
 
 [<RequireQualifiedAccess>]
 module Careers =
-    let all = [ Barista; Bartender ]
+    let all: CareerId list = Union.allCasesOf<CareerId> ()
 
 [<RequireQualifiedAccess>]
 module BaristaCareer =
@@ -92,3 +93,43 @@ module BartenderCareer =
             Requirements =
               [ CareerStageRequirement.Skill(SkillId.Bartending, 80)
                 CareerStageRequirement.Skill(SkillId.Speech, 50) ] } ]
+
+[<RequireQualifiedAccess>]
+module MusicProducerCareer =
+    let stages =
+        [ // Assistant Producer
+          { Id = CareerStageId 0uy
+            BaseSalaryPerDayMoment = 10.5m<dd>
+            Schedule = JobSchedule.Free 2<dayMoments>
+            ShiftAttributeEffect = [ CharacterAttribute.Energy, -10 ]
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.MusicProduction, 20) ] }
+          // Junior Producer
+          { Id = CareerStageId 1uy
+            BaseSalaryPerDayMoment = 15m<dd>
+            Schedule = JobSchedule.Free 2<dayMoments>
+            ShiftAttributeEffect = [ CharacterAttribute.Energy, -10 ]
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.MusicProduction, 40) ] }
+          // Producer
+          { Id = CareerStageId 2uy
+            BaseSalaryPerDayMoment = 30m<dd>
+            Schedule = JobSchedule.Free 3<dayMoments>
+            ShiftAttributeEffect = [ CharacterAttribute.Energy, -10 ]
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.MusicProduction, 60) ] }
+          // Senior Producer
+          { Id = CareerStageId 3uy
+            BaseSalaryPerDayMoment = 45m<dd>
+            Schedule = JobSchedule.Free 4<dayMoments>
+            ShiftAttributeEffect = [ CharacterAttribute.Energy, -9 ]
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.MusicProduction, 80) ] }
+          // Distinguished Producer
+          { Id = CareerStageId 4uy
+            BaseSalaryPerDayMoment = 60m<dd>
+            Schedule = JobSchedule.Free 4<dayMoments>
+            ShiftAttributeEffect = [ CharacterAttribute.Energy, -8 ]
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.Bartending, 100)
+                CareerStageRequirement.Skill(SkillId.Speech, 60) ] } ]

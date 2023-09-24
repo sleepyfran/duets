@@ -1,16 +1,10 @@
 module Duets.Entities.MiniGame
 
-open FSharp.Reflection
+open Duets.Common
 
-let allSuits =
-    FSharpType.GetUnionCases typeof<Suit>
-    |> Array.map (fun uc -> FSharpValue.MakeUnion(uc, [||]) :?> Suit)
-    |> List.ofArray
+let allSuits = Union.allCasesOf<Suit> ()
 
-let allRanks =
-    FSharpType.GetUnionCases typeof<Rank>
-    |> Array.map (fun uc -> FSharpValue.MakeUnion(uc, [||]) :?> Rank)
-    |> List.ofArray
+let allRanks = Union.allCasesOf<Rank> ()
 
 /// Contains all the possible cards in a deck.
 let allCards =
