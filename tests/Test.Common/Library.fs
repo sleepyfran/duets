@@ -97,7 +97,7 @@ let dummyStudio =
       PricePerSong = 200m<dd> }
 
 let dummyCity =
-    let world = World.get ()
+    let world = World.get
     world.Cities |> Map.find Prague
 
 let dummyPlace =

@@ -10,11 +10,11 @@ open Duets.Simulation
 module World =
     /// Returns all cities available in the game world.
     let allCities =
-        World.get () |> Optic.get Lenses.World.cities_ |> List.ofMapValues
+        World.get |> Optic.get Lenses.World.cities_ |> List.ofMapValues
 
     /// Returns a specific city given its ID.
     let cityById cityId =
-        World.get ()
+        World.get
         |> Optic.get (Lenses.World.city_ cityId)
         |> Option.get (* Not finding a city by its ID is a problem in city creation. *)
 

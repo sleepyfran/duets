@@ -16,22 +16,8 @@ let private generate () =
 
     World.create [ london; madrid; mexicoCity; newYork; prague; sydney; tokyo ]
 
-/// Returns the game world. This function internally memos the calls to
-/// the world generation so that it will only generate the game world once
-/// and just return the cached version all the time afterwards.
-let get =
-    let mutable cachedWorld: World option = None
-
-    let rec getOrGenerate () =
-        match cachedWorld with
-        | Some world -> world
-        | None ->
-            let world = generate ()
-
-            cachedWorld <- Some world
-            world
-
-    getOrGenerate
+/// Returns the game world. The world is initialized when the module is loaded.
+let get = generate ()
 
 /// Map of distances between cities in kilometers.
 let private distances =

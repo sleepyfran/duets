@@ -29,12 +29,12 @@ let rec private checkCities (cities: City list) =
 [<Test>]
 let ``all city IDs are added to the world`` () =
     Union.allCasesOf<CityId> ()
-    |> List.forall (fun city -> (World.get ()).Cities |> Map.containsKey city)
+    |> List.forall (fun city -> World.get.Cities |> Map.containsKey city)
     |> should equal true
 
 [<Test>]
 let ``all cities are connected to each other`` () =
-    (World.get ()).Cities |> List.ofMapValues |> checkCities
+    World.get.Cities |> List.ofMapValues |> checkCities
 
 let private checkAtLeastOneWithCapacity concertSpaces minCapacity maxCapacity =
     concertSpaces
@@ -63,4 +63,4 @@ let private checkConcertSpaces (city: City) =
 let ``all cities must have concert spaces to accomodate all sort of bands by capacity``
     ()
     =
-    (World.get ()).Cities |> List.ofMapValues |> List.iter checkConcertSpaces
+    World.get.Cities |> List.ofMapValues |> List.iter checkConcertSpaces
