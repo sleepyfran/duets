@@ -11,6 +11,28 @@ module Interactions =
             FreeRoamInteraction.Move(direction, destinationId)
             |> Interaction.FreeRoam)
 
+    let private getClockInteraction state =
+        let currentDate = Queries.Calendar.today state
+        let dayMoments = Queries.Calendar.nextDates state
+
+        dayMoments
+        |> Seq.takeWhile (fun date -> date.Day = currentDate.Day)
+        |> Seq.append (seq { currentDate })
+        |> Seq.collect (fun date ->
+            let dayMoment = Calendar.Query.dayMomentOf date
+
+            let dayMomentWithEvents =
+                Queries.CalendarEvents.forDayMoment state date dayMoment
+                |> Seq.map (fun ((_, dayMoment), events) -> dayMoment, events)
+                |> List.ofSeq
+
+            match dayMomentWithEvents with
+            | [] -> [ dayMoment, [] ]
+            | _ -> dayMomentWithEvents)
+        |> List.ofSeq
+        |> FreeRoamInteraction.Clock
+        |> Interaction.FreeRoam
+
     /// <summary>
     /// Returns all interactions that are available in the current context. This
     /// effectively returns all available actions in the current context that can
@@ -34,8 +56,10 @@ module Interactions =
         let movementInteractions =
             getMovementInteractions currentCoords currentPlace
 
+        let clockInteraction = getClockInteraction state
+
         let defaultInteractions =
-            itemInteractions
+            clockInteraction :: itemInteractions
             @ movementInteractions
             @ careerInteractions
             @ [ FreeRoamInteraction.Inventory inventory |> Interaction.FreeRoam

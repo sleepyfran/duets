@@ -100,6 +100,8 @@ let private commandsFromInteractions interactions =
                 [ InteractiveCommand.watch ]
         | Interaction.FreeRoam freeRoamInteraction ->
             match freeRoamInteraction with
+            | FreeRoamInteraction.Clock dayMomentsWithEvents ->
+                [ ClockCommand.create dayMomentsWithEvents ]
             | FreeRoamInteraction.Inventory inventory ->
                 [ InventoryCommand.create inventory ]
             | FreeRoamInteraction.Look items ->
