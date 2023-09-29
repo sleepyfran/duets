@@ -2,7 +2,6 @@ module rec Duets.Data.World.Cities.Madrid
 
 open Fugit.Months
 open Duets.Entities
-open Duets.Data.World
 
 let private sol = World.Zone.create "Sol"
 let private salamanca = World.Zone.create "Salamanca"
@@ -48,7 +47,7 @@ let addAirport city =
             "Aeropuerto Adolfo Suárez Madrid-Barajas"
             85<quality>
             Airport
-            Everywhere.Common.airportLayout
+            Layouts.airportLayout
             barajas
 
     World.City.addPlace place city
@@ -60,7 +59,7 @@ let private addBars city =
       ("Corral de la Morería", 90<quality>, lavapiés)
       ("1862 Dry Bar", 88<quality>, malasaña)
       ("Bodegas Rosell", 89<quality>, chamberí) ]
-    |> List.map Common.createBar
+    |> List.map PlaceCreators.createBar
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Cafes --------- *)
@@ -70,7 +69,7 @@ let private addCafes city =
       ("Café de Oriente", 88<quality>, salamanca)
       ("La Bicicleta Café", 86<quality>, malasaña)
       ("Monkee Koffee", 89<quality>, chamberí) ]
-    |> List.map Common.createCafe
+    |> List.map PlaceCreators.createCafe
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Casinos --------- *)
@@ -80,7 +79,7 @@ let private addCasinos city =
       ("Chamberí Charm Casino", 88<quality>, chamberí)
       ("Chamartín Chances Casino", 91<quality>, chamartín)
       ("Tetuán Treasures Casino", 89<quality>, tetuán) ]
-    |> List.map Common.createCasino
+    |> List.map PlaceCreators.createCasino
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Concert spaces --------- *)
@@ -89,103 +88,103 @@ let private addConcertSpaces city =
        15000,
        salamanca,
        95<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("La Riviera",
        2500,
        latina,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Teatro Real",
        1700,
        sol,
        98<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Palacio de Vistalegre",
        15000,
        carabanchel,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Teatro Barceló",
        900,
        sol,
        92<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Moby Dick Club",
        400,
        tetuán,
        85<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Joy Eslava",
        800,
        sol,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Sala El Sol",
        400,
        sol,
        86<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Sala But",
        900,
        arganzuela,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Café La Palma",
        300,
        sol,
        80<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Teatro Lara",
        400,
        sol,
        89<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Sala Caracol",
        500,
        arganzuela,
        85<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Galileo Galilei",
        600,
        chamberí,
        87<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Café Berlín",
        400,
        sol,
        83<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Sala Clamores",
        500,
        chamberí,
        84<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Teatro de la Zarzuela",
        1300,
        sol,
        96<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Sala Mon",
        900,
        tetuán,
        87<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Teatro Nuevo Apolo",
        1200,
        sol,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Wurlitzer Ballroom",
        120,
        sol,
        79<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Costello Club",
        300,
        sol,
        82<quality>,
-       Everywhere.Common.concertSpaceLayout4) ]
-    |> List.map Common.createConcertSpace
+       Layouts.concertSpaceLayout4) ]
+    |> List.map PlaceCreators.createConcertSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Home --------- *)
@@ -194,7 +193,7 @@ let createHome =
         "Home"
         100<quality>
         Home
-        Everywhere.Common.homeLayout
+        Layouts.homeLayout
         retiro
 
 (* -------- Gyms --------- *)
@@ -209,7 +208,7 @@ let private addGyms city =
       ("Fisico Plaza Castilla", 85<quality>, tetuán)
       ("Basic-Fit Ciudad Lineal", 88<quality>, ciudadLineal)
       ("Curves Salamanca", 84<quality>, salamanca) ]
-    |> List.map (Common.createGym city)
+    |> List.map (PlaceCreators.createGym city)
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Hospital --------- *)
@@ -240,7 +239,7 @@ let private addHotels city =
       ("Hotel NH Collection Madrid Suecia", 70<quality>, 120m<dd>, sol)
       ("Hotel Ibis Madrid Centro", 65<quality>, 100m<dd>, sol)
       ("Hotel Room Mate Oscar", 60<quality>, 90m<dd>, sol) ]
-    |> List.map Common.createHotel
+    |> List.map PlaceCreators.createHotel
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Rehearsal spaces -------- *)
@@ -255,7 +254,7 @@ let private addRehearsalSpaces city =
       ("Ensayo Salamanca", 82<quality>, 54m<dd>, salamanca)
       ("Espacio de Práctica Retiro", 89<quality>, 68m<dd>, retiro)
       ("Tocar en Chamartín", 85<quality>, 60m<dd>, chamartín) ]
-    |> List.map Common.createRehearsalSpace
+    |> List.map PlaceCreators.createRehearsalSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Restaurants --------- *)
@@ -270,7 +269,7 @@ let private addRestaurants city =
       ("Le Bistro Parisien", 91<quality>, French, sol)
       ("Burger City", 84<quality>, American, moncloa)
       ("Taco Loco", 88<quality>, Mexican, latina) ]
-    |> List.map Common.createRestaurant
+    |> List.map PlaceCreators.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Studios --------- *)
@@ -325,5 +324,5 @@ let private addStudios city =
        300m<dd>,
        arganzuela,
        (Character.from "María Fernández" Female (May 3 1988))) ]
-    |> List.map Common.createStudio
+    |> List.map PlaceCreators.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

@@ -1,42 +1,7 @@
-module Duets.Data.World.Everywhere.Common
+module Duets.Data.World.Cities.Layouts
 
 open Duets.Entities
 open Duets.Data.World
-
-/// Usual bar opening hours around the world.
-let barOpeningHours =
-    PlaceOpeningHours.OpeningHours(
-        Calendar.everyDay,
-        [ Midday; Afternoon; Evening; Night; Midnight ]
-    )
-
-/// Usual cafe opening hours around the world.
-let cafeOpeningHours =
-    PlaceOpeningHours.OpeningHours(
-        Calendar.everyDay,
-        [ EarlyMorning; Morning; Midday; Afternoon; Evening ]
-    )
-
-/// Usual concert space hours around the world.
-let concertSpaceOpeningHours =
-    PlaceOpeningHours.OpeningHours(
-        Calendar.everyDay,
-        [ Afternoon; Evening; Night ]
-    )
-
-/// Usual restaurant hours around the world.
-let restaurantOpeningHours =
-    PlaceOpeningHours.OpeningHours(
-        Calendar.everyDay,
-        [ Midday; Afternoon; Evening; Night ]
-    )
-
-/// Usual gym hours around the world.
-let gymOpeningHours =
-    PlaceOpeningHours.OpeningHours(
-        Calendar.everyDay,
-        [ EarlyMorning; Morning; Midday; Afternoon; Evening; Night ]
-    )
 
 /// Usual layout for a restaurant.
 let restaurantRoomLayout menu =
@@ -69,6 +34,7 @@ let casinoLayout =
     |> World.Graph.connectMany
         [ lobby.Id, bar.Id, East; lobby.Id, casinoFloor.Id, North ]
 
+/// Usual layout for a gym.
 let gymLayout =
     let lobby =
         RoomType.Lobby |> World.Room.create |> World.Node.create Ids.Gym.lobby
@@ -141,7 +107,8 @@ let concertSpaceLayout1 =
     |> World.Graph.connectMany
         [ lobby.Id, bar.Id, East
           lobby.Id, stage.Id, North
-          stage.Id, backstage.Id, West ]
+          lobby.Id, backstage.Id, West
+          backstage.Id, stage.Id, NorthEast ]
 
 /// Second option of a layout for a concert space.
 let concertSpaceLayout2 =
@@ -169,7 +136,8 @@ let concertSpaceLayout2 =
     |> World.Graph.connectMany
         [ lobby.Id, bar.Id, West
           bar.Id, stage.Id, North
-          stage.Id, backstage.Id, North ]
+          bar.Id, backstage.Id, NorthEast
+          backstage.Id, stage.Id, West ]
 
 /// Third option of a layout for a concert space.
 let concertSpaceLayout3 =
@@ -197,7 +165,8 @@ let concertSpaceLayout3 =
     |> World.Graph.connectMany
         [ lobby.Id, bar.Id, North
           bar.Id, stage.Id, West
-          stage.Id, backstage.Id, West ]
+          lobby.Id, backstage.Id, West
+          backstage.Id, stage.Id, North ]
 
 /// Fourth option of a layout for a concert space.
 let concertSpaceLayout4 =
@@ -225,7 +194,8 @@ let concertSpaceLayout4 =
     |> World.Graph.connectMany
         [ lobby.Id, bar.Id, North
           bar.Id, stage.Id, East
-          stage.Id, backstage.Id, East ]
+          lobby.Id, backstage.Id, East
+          backstage.Id, stage.Id, North ]
 
 /// Usual layout for an airport.
 let airportLayout =
@@ -273,10 +243,3 @@ let studioLayout =
 
     World.Graph.fromMany [ masteringRoom; recordingRoom ]
     |> World.Graph.connectMany [ masteringRoom.Id, recordingRoom.Id, North ]
-
-/// Usual opening hours for service places like studios or rehearsal places.
-let servicesOpeningHours =
-    PlaceOpeningHours.OpeningHours(
-        Calendar.everyDay,
-        [ Morning; Midday; Afternoon; Evening ]
-    )

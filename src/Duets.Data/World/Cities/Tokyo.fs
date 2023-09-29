@@ -2,7 +2,6 @@ module rec Duets.Data.World.Cities.Tokyo
 
 open Fugit.Months
 open Duets.Entities
-open Duets.Data.World
 
 let private chuo = World.Zone.create "Chuo"
 let private minato = World.Zone.create "Minato"
@@ -40,7 +39,7 @@ let addAirport city =
             "Haneda Airport"
             85<quality>
             Airport
-            Everywhere.Common.airportLayout
+            Layouts.airportLayout
             ota
 
     World.City.addPlace place city
@@ -52,7 +51,7 @@ let private addBars city =
       ("New York Stand", 88<quality>, shinjuku)
       ("Ben Fiddich", 86<quality>, shinjuku)
       ("Trench", 94<quality>, shibuya) ]
-    |> List.map Common.createBar
+    |> List.map PlaceCreators.createBar
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Cafes --------- *)
@@ -62,7 +61,7 @@ let private addCafes city =
       ("Blue Bottle", 88<quality>, shinjuku)
       ("Streamer", 91<quality>, shibuya)
       ("Kitsune", 89<quality>, minato) ]
-    |> List.map Common.createCafe
+    |> List.map PlaceCreators.createCafe
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Casinos --------- *)
@@ -72,7 +71,7 @@ let private addCasinos city =
       ("Shinjuku Spin Palace", 88<quality>, shinjuku)
       ("Shibuya Splendor Casino", 91<quality>, shibuya)
       ("Ota Oasis Casino", 89<quality>, ota) ]
-    |> List.map Common.createCasino
+    |> List.map PlaceCreators.createCasino
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Concert spaces --------- *)
@@ -81,99 +80,99 @@ let private addConcertSpaces city =
        55000,
        bunkyo,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Nippon Budokan",
        14471,
        chuo,
        92<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Zepp Tokyo",
        2712,
        minato,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Shinjuku Loft",
        500,
        shinjuku,
        89<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Blue Note Tokyo",
        300,
        minato,
        95<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Liquidroom",
        900,
        shibuya,
        80<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Club Quattro",
        700,
        shibuya,
        86<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Akasaka Blitz",
        1300,
        minato,
        84<quality>,
-       Everywhere.Common.concertSpaceLayout1)
-      ("Unit", 650, shibuya, 82<quality>, Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout1)
+      ("Unit", 650, shibuya, 82<quality>, Layouts.concertSpaceLayout2)
       ("Shibuya O-East",
        1300,
        shibuya,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Shibuya O-West",
        600,
        shibuya,
        80<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Shibuya O-Nest",
        300,
        shibuya,
        83<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Shibuya O-Crest",
        500,
        shibuya,
        87<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Shibuya WWW",
        600,
        shibuya,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Shibuya WWW X",
        300,
        shibuya,
        86<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Shibuya Club Asia",
        500,
        shibuya,
        91<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Shibuya Milkyway",
        200,
        shibuya,
        92<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Shibuya Star Lounge",
        200,
        shibuya,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Shibuya Glad",
        200,
        shibuya,
        95<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Shibuya Lush",
        200,
        shibuya,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout1) ]
-    |> List.map Common.createConcertSpace
+       Layouts.concertSpaceLayout1) ]
+    |> List.map PlaceCreators.createConcertSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Gyms --------- *)
@@ -188,7 +187,7 @@ let private addGyms city =
       ("Urban Athlete Bunkyo", 85<quality>, bunkyo)
       ("PumpUp Gym", 88<quality>, shinagawa)
       ("J-Strong Adachi", 84<quality>, chiyoda) ]
-    |> List.map (Common.createGym city)
+    |> List.map (PlaceCreators.createGym city)
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 
@@ -198,7 +197,7 @@ let createHome =
         "Home"
         100<quality>
         Home
-        Everywhere.Common.homeLayout
+        Layouts.homeLayout
         shinjuku
 
 (* -------- Hospital --------- *)
@@ -229,7 +228,7 @@ let private addHotels city =
       ("Hotel New Otani Tokyo", 75<quality>, 140m<dd>, chiyoda)
       ("Hotel Okura Tokyo", 70<quality>, 120m<dd>, minato)
       ("Shinjuku Granbell Hotel", 65<quality>, 100m<dd>, shinjuku) ]
-    |> List.map Common.createHotel
+    |> List.map PlaceCreators.createHotel
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Rehearsal spaces --------- *)
@@ -244,7 +243,7 @@ let private addRehearsalSpaces city =
       ("Z'd Space", 85<quality>, 100m<dd>, shinjuku)
       ("Sound Dali", 89<quality>, 140m<dd>, nakano)
       ("Watts Room", 90<quality>, 150m<dd>, shibuya) ]
-    |> List.map Common.createRehearsalSpace
+    |> List.map PlaceCreators.createRehearsalSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Restaurants --------- *)
@@ -259,7 +258,7 @@ let private addRestaurants city =
       ("Le Petit Bedon", 91<quality>, French, shinagawa)
       ("The Great Burger", 84<quality>, American, shibuya)
       ("El Quixico", 88<quality>, Mexican, minato) ]
-    |> List.map Common.createRestaurant
+    |> List.map PlaceCreators.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Studios --------- *)
@@ -314,5 +313,5 @@ let private addStudios city =
        300m<dd>,
        shibuya,
        (Character.from "Ryuichi Sakamoto" Male (January 17 1952))) ]
-    |> List.map Common.createStudio
+    |> List.map PlaceCreators.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

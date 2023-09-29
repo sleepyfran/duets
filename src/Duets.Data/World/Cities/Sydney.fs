@@ -2,7 +2,6 @@ module rec Duets.Data.World.Cities.Sydney
 
 open Fugit.Months
 open Duets.Entities
-open Duets.Data.World
 
 let private cbd = World.Zone.create "CBD"
 let private surryHills = World.Zone.create "Surry Hills"
@@ -37,7 +36,7 @@ let addAirport city =
             "Sydney Kingsford Smith Airport"
             85<quality>
             Airport
-            Everywhere.Common.airportLayout
+            Layouts.airportLayout
             cbd
 
     World.City.addPlace place city
@@ -49,7 +48,7 @@ let private addBars city =
       ("Shady Pines Saloon", 88<quality>, darlinghurst)
       ("The Wild Rover", 86<quality>, surryHills)
       ("Earl's Juke Joint", 94<quality>, newtown) ]
-    |> List.map Common.createBar
+    |> List.map PlaceCreators.createBar
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Cafes --------- *)
@@ -59,7 +58,7 @@ let private addCafes city =
       ("Single O", 88<quality>, surryHills)
       ("Paramount Coffee Project", 91<quality>, surryHills)
       ("Brewtown Newtown", 89<quality>, newtown) ]
-    |> List.map Common.createCafe
+    |> List.map PlaceCreators.createCafe
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Casinos --------- *)
@@ -69,7 +68,7 @@ let private addCasinos city =
       ("Newtown Nexus Casino", 88<quality>, newtown)
       ("Bondi Beach Bliss Casino", 91<quality>, bondi)
       ("Darlinghurst Delight Casino", 89<quality>, darlinghurst) ]
-    |> List.map Common.createCasino
+    |> List.map PlaceCreators.createCasino
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Concert spaces --------- *)
@@ -78,103 +77,103 @@ let private addConcertSpaces city =
        5700,
        cbd,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Enmore Theatre",
        2500,
        newtown,
        92<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("The Metro Theatre",
        1200,
        cbd,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("The Factory Theatre",
        800,
        newtown,
        89<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("The Basement",
        600,
        cbd,
        95<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("The State Theatre",
        2000,
        cbd,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("The Hordern Pavilion",
        5500,
        cbd,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("The Roundhouse",
        2200,
        cbd,
        87<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("The Bald Faced Stag",
        500,
        cbd,
        86<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("The Lansdowne",
        800,
        cbd,
        85<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("The Vanguard",
        150,
        newtown,
        84<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("The Bridge Hotel",
        1000,
        cbd,
        83<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("The Manning Bar",
        1200,
        cbd,
        82<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("The Oxford Art Factory",
        500,
        cbd,
        81<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("The Hi-Fi",
        1500,
        cbd,
        80<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("The Annandale Hotel",
        400,
        cbd,
        79<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("The Sandringham Hotel",
        300,
        newtown,
        78<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("The Gaelic Club",
        800,
        cbd,
        77<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("The Marquee",
        2000,
        cbd,
        76<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("The Qantas Credit Union Arena",
        18000,
        cbd,
        75<quality>,
-       Everywhere.Common.concertSpaceLayout3) ]
-    |> List.map Common.createConcertSpace
+       Layouts.concertSpaceLayout3) ]
+    |> List.map PlaceCreators.createConcertSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Gyms --------- *)
@@ -189,7 +188,7 @@ let private addGyms city =
       ("Urban Athlete", 85<quality>, cbd)
       ("PumpUp Gym Bondi", 88<quality>, bondi)
       ("J-Strong Liverpool", 84<quality>, pottsPoint) ]
-    |> List.map (Common.createGym city)
+    |> List.map (PlaceCreators.createGym city)
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Home --------- *)
@@ -198,7 +197,7 @@ let createHome =
         "Home"
         100<quality>
         Home
-        Everywhere.Common.homeLayout
+        Layouts.homeLayout
         surryHills
 
 (* -------- Hospital --------- *)
@@ -224,7 +223,7 @@ let private addHotels city =
       ("Hyatt Regency Sydney", 75<quality>, 140m<dd>, cbd)
       ("Novotel Sydney on Darling Harbour", 70<quality>, 120m<dd>, surryHills)
       ("Ibis Sydney Darling Harbour", 65<quality>, 100m<dd>, darlinghurst) ]
-    |> List.map Common.createHotel
+    |> List.map PlaceCreators.createHotel
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Rehearsal spaces --------- *)
@@ -234,7 +233,7 @@ let private addRehearsalSpaces city =
       ("Rock Central", 92<quality>, 170m<dd>, darlinghurst)
       ("Sound Hub", 80<quality>, 50m<dd>, cbd)
       ("The Music Space", 88<quality>, 120m<dd>, parramatta) ]
-    |> List.map Common.createRehearsalSpace
+    |> List.map PlaceCreators.createRehearsalSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Restaurants --------- *)
@@ -249,7 +248,7 @@ let private addRestaurants city =
       ("Bistro Rex", 91<quality>, French, pottsPoint)
       ("Burger Project", 84<quality>, American, cbd)
       ("El Camino Cantina", 88<quality>, Mexican, cbd) ]
-    |> List.map Common.createRestaurant
+    |> List.map PlaceCreators.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Studios --------- *)
@@ -279,5 +278,5 @@ let private addStudios city =
        260m<dd>,
        cbd,
        (Character.from "Kylie Minogue" Female (May 28 1968))) ]
-    |> List.map Common.createStudio
+    |> List.map PlaceCreators.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

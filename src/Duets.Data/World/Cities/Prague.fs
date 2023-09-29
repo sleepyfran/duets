@@ -2,7 +2,6 @@ module rec Duets.Data.World.Cities.Prague
 
 open Fugit.Months
 open Duets.Entities
-open Duets.Data.World
 
 let private břevnov = World.Zone.create "Břevnov"
 let private dejvice = World.Zone.create "Dejvice"
@@ -44,7 +43,7 @@ let addAirport city =
             "Letiště Václava Havla Praha"
             85<quality>
             Airport
-            Everywhere.Common.airportLayout
+            Layouts.airportLayout
             ruzyně
 
     World.City.addPlace place city
@@ -56,7 +55,7 @@ let private addBars city =
       ("Láhev Sud", 88<quality>, holešovice)
       ("Mug Mountain", 86<quality>, strašnice)
       ("Duchy Spodky", 94<quality>, žižkov) ]
-    |> List.map Common.createBar
+    |> List.map PlaceCreators.createBar
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Cafes --------- *)
@@ -66,7 +65,7 @@ let private addCafes city =
       ("Java Palace", 88<quality>, novéMěsto)
       ("Brew and Foam", 91<quality>, strašnice)
       ("Mug Harmony", 89<quality>, smíchov) ]
-    |> List.map Common.createCafe
+    |> List.map PlaceCreators.createCafe
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Casinos --------- *)
@@ -76,7 +75,7 @@ let private addCasinos city =
       ("High Stakes Haven", 88<quality>, novéMěsto)
       ("Fortuna's Palace", 91<quality>, strašnice)
       ("Royal Flush Resort", 89<quality>, smíchov) ]
-    |> List.map Common.createCasino
+    |> List.map PlaceCreators.createCasino
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Concert spaces --------- *)
@@ -85,103 +84,103 @@ let private addConcertSpaces city =
        800,
        novéMěsto,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Palác Akropolis",
        500,
        žižkov,
        92<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Rock Café",
        350,
        novéMěsto,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Futurum Music Bar",
        650,
        smíchov,
        89<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Jazz Dock",
        150,
        smíchov,
        95<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Café v lese",
        250,
        vršovice,
        80<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Cross Club",
        400,
        holešovice,
        86<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Storm Club",
        500,
        libeň,
        84<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Underdogs' Ballroom & Bar",
        200,
        smíchov,
        82<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Roxy",
        900,
        staréMěsto,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Retro Music Hall",
        1000,
        vinohrady,
        80<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Klub 007 Strahov",
        250,
        břevnov,
        83<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Royal Theatre",
        300,
        vinohrady,
        87<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("MeetFactory",
        500,
        smíchov,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("La Fabrica",
        800,
        staréMěsto,
        86<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Forum Karlín",
        3000,
        karlín,
        91<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("O2 Universum",
        4500,
        libeň,
        92<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Tipsport Arena",
        13000,
        holešovice,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("O2 Arena",
        18000,
        libeň,
        95<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Eden Aréna",
        21000,
        vršovice,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout1) ]
-    |> List.map Common.createConcertSpace
+       Layouts.concertSpaceLayout1) ]
+    |> List.map PlaceCreators.createConcertSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Gyms --------- *)
@@ -195,7 +194,7 @@ let addGyms city =
       ("MaxiGym Holešovice", 85<quality>, holešovice)
       ("Forma Fitness Dejvice", 88<quality>, dejvice)
       ("IronWorks Smíchov", 84<quality>, smíchov) ]
-    |> List.map (Common.createGym city)
+    |> List.map (PlaceCreators.createGym city)
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Home --------- *)
@@ -204,7 +203,7 @@ let createHome =
         "Home"
         100<quality>
         Home
-        Everywhere.Common.homeLayout
+        Layouts.homeLayout
         vinohrady
 
 (* -------- Hospital --------- *)
@@ -235,7 +234,7 @@ let private addHotels city =
       ("Hotel Savoy", 95<quality>, 150m<dd>, hradčany)
       ("Hotel Kings Court", 92<quality>, 130m<dd>, novéMěsto)
       ("Hotel Corinthia", 98<quality>, 180m<dd>, vinohrady) ]
-    |> List.map Common.createHotel
+    |> List.map PlaceCreators.createHotel
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 
@@ -251,7 +250,7 @@ let private addRehearsalSpaces city =
       ("Zvukový Štěstí", 85<quality>, 100m<dd>, vinohrady)
       ("Hudební Galerie", 89<quality>, 140m<dd>, karlín)
       ("Staroměstská Zkušebna", 90<quality>, 150m<dd>, staréMěsto) ]
-    |> List.map Common.createRehearsalSpace
+    |> List.map PlaceCreators.createRehearsalSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 
@@ -267,7 +266,7 @@ let private addRestaurants city =
       ("Le Petite Paris", 91<quality>, French, strašnice)
       ("Big Burger", 84<quality>, American, holešovice)
       ("Taco Fiesta", 88<quality>, Mexican, holešovice) ]
-    |> List.map Common.createRestaurant
+    |> List.map PlaceCreators.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Studios --------- *)
@@ -322,5 +321,5 @@ let private addStudios city =
        300m<dd>,
        libeň,
        (Character.from "Markéta Irglová" Female (May 3 1988))) ]
-    |> List.map Common.createStudio
+    |> List.map PlaceCreators.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

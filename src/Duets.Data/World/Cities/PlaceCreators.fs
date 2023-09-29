@@ -1,21 +1,21 @@
-module Duets.Data.World.Cities.Common
+module Duets.Data.World.Cities.PlaceCreators
 
 open Duets.Data.World
 open Duets.Entities
 
 /// Creates a bar with the given name, quality and zone.
 let createBar (name, quality, zone) =
-    World.Place.create name quality Bar Everywhere.Common.barRoomLayout zone
-    |> World.Place.changeOpeningHours Everywhere.Common.barOpeningHours
+    World.Place.create name quality Bar Layouts.barRoomLayout zone
+    |> World.Place.changeOpeningHours OpeningHours.barOpeningHours
 
 /// Creates a cafe with the given name, quality and zone.
 let createCafe (name, quality, zone) =
-    World.Place.create name quality Cafe Everywhere.Common.cafeRoomLayout zone
-    |> World.Place.changeOpeningHours Everywhere.Common.cafeOpeningHours
+    World.Place.create name quality Cafe Layouts.cafeRoomLayout zone
+    |> World.Place.changeOpeningHours OpeningHours.cafeOpeningHours
 
 /// Creates a casino with the given name, quality and zone.
 let createCasino (name, quality, zone) =
-    World.Place.create name quality Casino Everywhere.Common.casinoLayout zone
+    World.Place.create name quality Casino Layouts.casinoLayout zone
 
 /// Creates a concert space with the given name, capacity, quality and zone.
 let createConcertSpace (name, capacity, zone, quality, layout) =
@@ -25,12 +25,11 @@ let createConcertSpace (name, capacity, zone, quality, layout) =
         (ConcertSpace { Capacity = capacity })
         layout
         zone
-    |> World.Place.changeOpeningHours Everywhere.Common.concertSpaceOpeningHours
+    |> World.Place.changeOpeningHours OpeningHours.concertSpaceOpeningHours
 
 /// Creates a gym with the given name, quality and zone.
 let createGym (city: City) (name, quality, zone) =
-    let place =
-        World.Place.create name quality Gym Everywhere.Common.gymLayout zone
+    let place = World.Place.create name quality Gym Layouts.gymLayout zone
 
     let entranceChip = Item.Chip.createFor city.Id place.Id
 
@@ -45,7 +44,7 @@ let createGym (city: City) (name, quality, zone) =
             |> World.Room.changeRequiredItemForEntrance requiredItems
             |> Some
         | _ -> None)
-    |> World.Place.changeOpeningHours Everywhere.Common.gymOpeningHours
+    |> World.Place.changeOpeningHours OpeningHours.gymOpeningHours
 
 /// Creates a hotel with the given name, quality, price per night and zone.
 let createHotel (name, quality, pricePerNight, zone) =
@@ -53,7 +52,7 @@ let createHotel (name, quality, pricePerNight, zone) =
         name
         quality
         (Hotel { PricePerNight = pricePerNight })
-        Everywhere.Common.hotelLayout
+        Layouts.hotelLayout
         zone
 
 /// Creates a rehearsal space with the given name, quality, price and zone.
@@ -62,9 +61,9 @@ let createRehearsalSpace (name, quality, price, zone) =
         name
         quality
         (RehearsalSpace { Price = price })
-        Everywhere.Common.rehearsalSpaceLayout
+        Layouts.rehearsalSpaceLayout
         zone
-    |> World.Place.changeOpeningHours Everywhere.Common.servicesOpeningHours
+    |> World.Place.changeOpeningHours OpeningHours.servicesOpeningHours
 
 /// Creates a restaurant with the given name, quality, cuisine and zone.
 let createRestaurant (name, quality, cuisine, zone) =
@@ -72,9 +71,9 @@ let createRestaurant (name, quality, cuisine, zone) =
         name
         quality
         Restaurant
-        (Everywhere.Common.restaurantRoomLayout cuisine)
+        (Layouts.restaurantRoomLayout cuisine)
         zone
-    |> World.Place.changeOpeningHours Everywhere.Common.restaurantOpeningHours
+    |> World.Place.changeOpeningHours OpeningHours.restaurantOpeningHours
 
 /// Creates a studio with the given name, quality, price per song and zone.
 let createStudio (name, quality, pricePerSong, zone, producer) =
@@ -82,10 +81,5 @@ let createStudio (name, quality, pricePerSong, zone, producer) =
         { Producer = producer
           PricePerSong = pricePerSong }
 
-    World.Place.create
-        name
-        quality
-        (Studio studio)
-        Everywhere.Common.studioLayout
-        zone
-    |> World.Place.changeOpeningHours Everywhere.Common.servicesOpeningHours
+    World.Place.create name quality (Studio studio) Layouts.studioLayout zone
+    |> World.Place.changeOpeningHours OpeningHours.servicesOpeningHours

@@ -2,7 +2,6 @@ module rec Duets.Data.World.Cities.MexicoCity
 
 open Fugit.Months
 open Duets.Entities
-open Duets.Data.World
 
 let private condesa = World.Zone.create "Condesa"
 let private roma = World.Zone.create "Roma"
@@ -47,7 +46,7 @@ let addAirport city =
             "Benito Juárez International Airport"
             85<quality>
             Airport
-            Everywhere.Common.airportLayout
+            Layouts.airportLayout
             iztacalco
 
     World.City.addPlace place city
@@ -59,7 +58,7 @@ let private addBars city =
       ("Bar Montejo", 88<quality>, centro)
       ("Cantina El Tio Pepe", 86<quality>, centro)
       ("La Opera Bar", 94<quality>, centro) ]
-    |> List.map Common.createBar
+    |> List.map PlaceCreators.createBar
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Cafes --------- *)
@@ -69,7 +68,7 @@ let private addCafes city =
       ("Café El Jarocho", 88<quality>, coyoacán)
       ("Cafébrería El Péndulo", 91<quality>, polanco)
       ("Café Toscano", 89<quality>, roma) ]
-    |> List.map Common.createCafe
+    |> List.map PlaceCreators.createCafe
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Casinos -------- *)
@@ -79,7 +78,7 @@ let private addCasinos city =
       ("Polanco Prestige Casino", 88<quality>, polanco)
       ("Coyoacán Charm Casino", 91<quality>, coyoacán)
       ("Juárez Jackpot Casino", 89<quality>, juarez) ]
-    |> List.map Common.createCasino
+    |> List.map PlaceCreators.createCasino
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Concert spaces --------- *)
@@ -88,103 +87,103 @@ let private addConcertSpaces city =
        20000,
        iztacalco,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Foro Sol",
        65000,
        iztacalco,
        92<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Auditorio Nacional",
        10000,
        polanco,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Arena Ciudad de México",
        22500,
        azcapotzalco,
        89<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Teatro Metropolitan",
        3142,
        centro,
        95<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("El Plaza Condesa",
        1950,
        condesa,
        80<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Pepsi Center WTC",
        7000,
        nápoles,
        86<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Teatro de la Ciudad Esperanza Iris",
        1300,
        centro,
        84<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Foro Indie Rocks",
        500,
        roma,
        82<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Lunario del Auditorio Nacional",
        1000,
        polanco,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Circo Volador",
        1500,
        venustianoCarranza,
        80<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Foro Alicia",
        250,
        roma,
        83<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Bajo Circuito",
        400,
        condesa,
        87<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Salón Los Angeles",
        500,
        guerrero,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Frontón México",
        1800,
        tabacalera,
        86<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Teatro Ángela Peralta",
        1400,
        polanco,
        91<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Centro Cultural Roberto Cantoral",
        850,
        xoco,
        92<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Foro Blackberry",
        3200,
        condesa,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Teatro de la Danza",
        472,
        centro,
        95<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Teatro Julio Castillo",
        499,
        polanco,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout1) ]
-    |> List.map Common.createConcertSpace
+       Layouts.concertSpaceLayout1) ]
+    |> List.map PlaceCreators.createConcertSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 
@@ -194,7 +193,7 @@ let createHome =
         "Home"
         100<quality>
         Home
-        Everywhere.Common.homeLayout
+        Layouts.homeLayout
         condesa
 
 (* -------- Gyms --------- *)
@@ -209,7 +208,7 @@ let private addGyms city =
       ("Body Factory Tlalpan", 85<quality>, tlalpan)
       ("Sports World", 88<quality>, guerrero)
       ("Gym Power Club", 84<quality>, tabacalera) ]
-    |> List.map (Common.createGym city)
+    |> List.map (PlaceCreators.createGym city)
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 
@@ -241,7 +240,7 @@ let private addHotels city =
       ("Camino Real Polanco", 75<quality>, 140m<dd>, polanco)
       ("Hotel Zocalo Central", 70<quality>, 120m<dd>, centro)
       ("Hotel Geneve", 65<quality>, 100m<dd>, juarez) ]
-    |> List.map Common.createHotel
+    |> List.map PlaceCreators.createHotel
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Rehearsal spaces --------- *)
@@ -256,7 +255,7 @@ let private addRehearsalSpaces city =
       ("Sala de Ensayo Condesa", 85<quality>, 100m<dd>, condesa)
       ("Estudio 11", 89<quality>, 140m<dd>, polanco)
       ("Sala de Ensayo Roma", 90<quality>, 150m<dd>, roma) ]
-    |> List.map Common.createRehearsalSpace
+    |> List.map PlaceCreators.createRehearsalSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Restaurants --------- *)
@@ -271,7 +270,7 @@ let private addRestaurants city =
       ("Maximo Bistrot", 91<quality>, French, roma)
       ("La Docena Oyster Bar & Grill", 84<quality>, French, polanco)
       ("Los Panchos", 88<quality>, Mexican, coyoacán) ]
-    |> List.map Common.createRestaurant
+    |> List.map PlaceCreators.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Studios --------- *)
@@ -321,5 +320,5 @@ let private addStudios city =
        300m<dd>,
        iztacalco,
        (Character.from "Luisa Fernández" Female (May 3 1988))) ]
-    |> List.map Common.createStudio
+    |> List.map PlaceCreators.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

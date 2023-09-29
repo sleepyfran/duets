@@ -2,7 +2,6 @@ module rec Duets.Data.World.Cities.NewYork
 
 open Fugit.Months
 open Duets.Entities
-open Duets.Data.World
 
 let private soho = World.Zone.create "SoHo"
 let private tribeca = World.Zone.create "Tribeca"
@@ -43,7 +42,7 @@ let addAirport city =
             "John F. Kennedy International Airport"
             85<quality>
             Airport
-            Everywhere.Common.airportLayout
+            Layouts.airportLayout
             astoria
 
     World.City.addPlace place city
@@ -55,7 +54,7 @@ let private addBars city =
       ("Bohemian Hall and Beer Garden", 88<quality>, astoria)
       ("Bronx Alehouse", 86<quality>, riverdale)
       ("Flagship Brewery", 94<quality>, stGeorge) ]
-    |> List.map Common.createBar
+    |> List.map PlaceCreators.createBar
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Cafes --------- *)
@@ -65,7 +64,7 @@ let private addCafes city =
       ("Java Palace", 88<quality>, astoria)
       ("Brew and Foam", 91<quality>, riverdale)
       ("Mug Harmony", 89<quality>, stGeorge) ]
-    |> List.map Common.createCafe
+    |> List.map PlaceCreators.createCafe
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Casinos --------*)
@@ -75,7 +74,7 @@ let private addCasinos city =
       ("Statue of Luck Casino", 88<quality>, astoria)
       ("Broadway Gamblers' Haven", 91<quality>, upperEastSide)
       ("Harbor Lights Resort", 89<quality>, stGeorge) ]
-    |> List.map Common.createCasino
+    |> List.map PlaceCreators.createCasino
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Concert spaces --------- *)
@@ -84,103 +83,103 @@ let private addConcertSpaces city =
        20000,
        midtown,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Radio City Music Hall",
        6000,
        midtown,
        92<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Barclays Center",
        19000,
        brooklynHeights,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Carnegie Hall",
        2804,
        midtown,
        89<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Beacon Theatre",
        2894,
        upperWestSide,
        95<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Apollo Theater",
        1506,
        harlem,
        80<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("The Bowery Ballroom",
        575,
        lowerEastSide,
        86<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Irving Plaza",
        1025,
        eastVillage,
        84<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Terminal 5",
        3000,
        midtown,
        82<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("Webster Hall",
        1500,
        eastVillage,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("Rough Trade NYC",
        250,
        brooklynHeights,
        80<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("Forest Hills Stadium",
        14000,
        astoria,
        83<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("Kings Theatre",
        3000,
        brooklynHeights,
        87<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("The Town Hall",
        1500,
        midtown,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("The Hammerstein Ballroom",
        2200,
        midtown,
        86<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("The Metropolitan Opera House",
        3800,
        upperWestSide,
        91<quality>,
-       Everywhere.Common.concertSpaceLayout1)
+       Layouts.concertSpaceLayout1)
       ("The New York Philharmonic",
        2750,
        upperWestSide,
        92<quality>,
-       Everywhere.Common.concertSpaceLayout3)
+       Layouts.concertSpaceLayout3)
       ("The Brooklyn Academy of Music",
        2100,
        brooklynHeights,
        88<quality>,
-       Everywhere.Common.concertSpaceLayout4)
+       Layouts.concertSpaceLayout4)
       ("The Joyce Theater",
        472,
        midtown,
        95<quality>,
-       Everywhere.Common.concertSpaceLayout2)
+       Layouts.concertSpaceLayout2)
       ("The New Victory Theater",
        499,
        midtown,
        90<quality>,
-       Everywhere.Common.concertSpaceLayout1) ]
-    |> List.map Common.createConcertSpace
+       Layouts.concertSpaceLayout1) ]
+    |> List.map PlaceCreators.createConcertSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Home --------- *)
@@ -189,7 +188,7 @@ let createHome =
         "Home"
         100<quality>
         Home
-        Everywhere.Common.homeLayout
+        Layouts.homeLayout
         soho
 
 (* -------- Gyms --------- *)
@@ -204,7 +203,7 @@ let private addGyms city =
       ("NYSC Astoria", 85<quality>, astoria)
       ("The Edge Gym", 88<quality>, harlem)
       ("Gold's Gym Upper East Side", 84<quality>, upperEastSide) ]
-    |> List.map (Common.createGym city)
+    |> List.map (PlaceCreators.createGym city)
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Hospital --------- *)
@@ -235,7 +234,7 @@ let private addHotels city =
       ("The Mark New York", 75<quality>, 140m<dd>, upperEastSide)
       ("The Roosevelt Hotel", 70<quality>, 120m<dd>, midtown)
       ("The New Yorker", 65<quality>, 100m<dd>, midtown) ]
-    |> List.map Common.createHotel
+    |> List.map PlaceCreators.createHotel
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Rehearsal spaces --------- *)
@@ -250,7 +249,7 @@ let private addRehearsalSpaces city =
       ("Tribeca Tones", 85<quality>, 100m<dd>, tribeca)
       ("Midtown Melodies", 89<quality>, 140m<dd>, midtown)
       ("East Side Echoes", 90<quality>, 150m<dd>, upperEastSide) ]
-    |> List.map Common.createRehearsalSpace
+    |> List.map PlaceCreators.createRehearsalSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Restaurants --------- *)
@@ -265,7 +264,7 @@ let private addRestaurants city =
       ("Le Bernardin", 91<quality>, French, midtown)
       ("Shake Shack", 84<quality>, American, upperWestSide)
       ("Los Tacos No.1", 88<quality>, Mexican, eastVillage) ]
-    |> List.map Common.createRestaurant
+    |> List.map PlaceCreators.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Studios --------- *)
@@ -315,5 +314,5 @@ let private addStudios city =
        300m<dd>,
        upperEastSide,
        (Character.from "Margaret Taylor" Female (May 3 1988))) ]
-    |> List.map Common.createStudio
+    |> List.map PlaceCreators.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city
