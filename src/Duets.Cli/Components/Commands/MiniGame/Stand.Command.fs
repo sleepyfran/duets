@@ -53,7 +53,7 @@ module StandCommand =
                 | Ok(Blackjack.Push(game, effects)) ->
                     showGameSummary game
 
-                    "Both you and the dealer got a blackjack! You get your bet back"
+                    "Both you and the dealer got the same value! You get your bet back"
                     |> Styles.success
                     |> showMessage
 
