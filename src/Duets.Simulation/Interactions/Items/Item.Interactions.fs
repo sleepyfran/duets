@@ -31,6 +31,24 @@ let consume state (item: Item) action =
         | _ -> Error ActionNotPossible
     |> Result.map ((@) (removeFromGameWorld state item))
 
+let private (|ExercisingOnGym|_|) (action, itemType) =
+    match action, itemType with
+    | InteractiveItemInteraction.Exercise, InteractiveItemType.GymEquipment _ ->
+        Some()
+    | _ -> None
+
+let private (|PlayingVideoGames|_|) (action, itemType) =
+    match action, itemType with
+    | InteractiveItemInteraction.Play,
+      InteractiveItemType.Electronics(ElectronicsItemType.GameConsole) -> Some()
+    | _ -> None
+
+let private (|WatchingTV|_|) (action, itemType) =
+    match action, itemType with
+    | InteractiveItemInteraction.Watch,
+      InteractiveItemType.Electronics(ElectronicsItemType.TV) -> Some()
+    | _ -> None
+
 let interact state (item: Item) action =
     let character = Queries.Characters.playableCharacter state
 
@@ -43,10 +61,8 @@ let interact state (item: Item) action =
     match item.Type with
     | Interactive itemType ->
         match action, itemType with
-        | InteractiveItemInteraction.Exercise,
-          InteractiveItemType.GymEquipment _ ->
-            [ yield! timeEffects
-              yield!
+        | ExercisingOnGym ->
+            [ yield!
                   Character.Attribute.add
                       character
                       CharacterAttribute.Energy
@@ -64,26 +80,21 @@ let interact state (item: Item) action =
                          ImprovementAmount = 1
                          Skills = [ SkillId.Fitness ] |} ]
             |> Ok
-        | InteractiveItemInteraction.Play,
-          InteractiveItemType.Electronics(ElectronicsItemType.GameConsole) ->
-            [ yield! timeEffects
-              yield!
-                  Character.Attribute.add
-                      character
-                      CharacterAttribute.Mood
-                      Config.LifeSimulation.Mood.playingVideoGamesIncrease ]
+        | PlayingVideoGames ->
+            Character.Attribute.add
+                character
+                CharacterAttribute.Mood
+                Config.LifeSimulation.Mood.playingVideoGamesIncrease
             |> Ok
-        | InteractiveItemInteraction.Watch,
-          InteractiveItemType.Electronics(ElectronicsItemType.TV) ->
-            [ yield! timeEffects
-              yield!
-                  Character.Attribute.add
-                      character
-                      CharacterAttribute.Mood
-                      Config.LifeSimulation.Mood.watchingTvIncrease ]
+        | WatchingTV ->
+            Character.Attribute.add
+                character
+                CharacterAttribute.Mood
+                Config.LifeSimulation.Mood.watchingTvIncrease
             |> Ok
         | _ -> Error ActionNotPossible
     | _ -> Error ActionNotPossible
+    |> Result.map (fun effects -> timeEffects @ effects)
 
 /// Attempts to perform the given action on the item, if not possible (for example,
 /// drinking food) it returns ActionNotPossible, otherwise returns the effects
