@@ -13,8 +13,16 @@ module Items =
 
         match place.PlaceType, room.RoomType with
         | PlaceType.Hotel _, RoomType.Bedroom ->
+            (* Otherwise hotels wouldn't have anywhere to sleep on. *)
             [ fst Items.Furniture.Bed.ikeaBed ]
-        | PlaceType.Gym, RoomType.Gym -> Items.Gym.all |> List.map fst
+        | PlaceType.Gym, RoomType.Gym ->
+            (* Otherwise, there'd be nothing to do on the gym. *)
+            Items.Gym.all |> List.map fst
+        | PlaceType.ConcertSpace _, RoomType.Backstage ->
+            (* Basic stuff for the band to consume. *)
+            let localBeer = Items.Drink.Beer.byLocation |> Map.find cityId
+
+            localBeer @ Items.Food.Snack.all |> List.map fst
         | _ -> []
 
     /// Returns all the items currently available in the given coordinates.

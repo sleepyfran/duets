@@ -10,5 +10,6 @@ let all: PurchasableItem list =
     @ Italian.all
     @ French.all
     @ Mexican.all
+    @ Snack.all
     @ USA.all
     @ Vietnamese.all
