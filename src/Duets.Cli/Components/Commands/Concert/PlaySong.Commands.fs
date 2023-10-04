@@ -27,6 +27,10 @@ module PlaySongCommands =
         let finishedSongs =
             Queries.Songs.finishedByBand state currentBand.Id
             |> List.ofMapValues
+            |> List.map (fun finishedSong ->
+                let song = Song.fromFinished finishedSong
+                finishedSong, Concert.Ongoing.hasPlayedSong ongoingConcert song)
+            |> List.sortBy snd
 
         if List.isEmpty finishedSongs then
             Concert.noSongsToPlay |> showMessage
@@ -36,11 +40,13 @@ module PlaySongCommands =
             showOptionalChoicePrompt
                 Concert.selectSongToPlay
                 Generic.cancel
-                (fun (Finished(fs, _)) ->
-                    if Concert.Ongoing.hasPlayedSong ongoingConcert fs then
-                        Concert.alreadyPlayedSongWithPractice fs
+                (fun (finishedSong, alreadyPlayed) ->
+                    let song = Song.fromFinished finishedSong
+
+                    if alreadyPlayed then
+                        Concert.alreadyPlayedSongWithPractice song
                     else
-                        Concert.songNameWithPractice fs)
+                        Concert.songNameWithPractice song)
                 finishedSongs
 
     let private promptForEnergy () =
@@ -90,7 +96,7 @@ module PlaySongCommands =
                 let selectedSong = promptForSong ongoingConcert
 
                 match selectedSong with
-                | Some song ->
+                | Some(song, _) ->
                     let energy = promptForEnergy ()
 
                     let response =
@@ -112,7 +118,7 @@ module PlaySongCommands =
                 let selectedSong = promptForSong ongoingConcert
 
                 match selectedSong with
-                | Some song ->
+                | Some(song, _) ->
                     let energy = promptForEnergy ()
                     Concert.showSpeechProgress ()
 
