@@ -62,6 +62,7 @@
         <Compile Include="Interactions\Food.Interactions.Test.fs" />
         <Compile Include="Interactions\Exercise.Interactions.Test.fs"/>
         <Compile Include="Interactions\Sleep.Test.fs"/>
+        <Compile Include="Interactions\Play.Interactions.Test.fs"/>
         <Compile Include="Events\Character.Events.Tests.fs" />
         <Compile Include="Events\Band.Events.Tests.fs"/>
         <Compile Include="Events\Rental.Events.Tests.fs"/>

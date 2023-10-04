@@ -129,6 +129,8 @@ let dummyConcert =
 let dummyPastConcert = PastConcert.PerformedConcert(dummyConcert, 100<quality>)
 
 let dummyState =
+    RandomGen.reset ()
+
     startGame dummyCharacter dummyBand [] dummyCity
     |> fun (GameCreated state) ->
         { state with
