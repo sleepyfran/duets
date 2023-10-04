@@ -220,3 +220,19 @@ module InteractionTypes =
         { Interaction: Interaction
           State: InteractionState
           TimeAdvance: int<dayMoments> }
+
+    /// Defines a simple win/lose result for a non-interactive game.
+    [<RequireQualifiedAccess>]
+    type SimpleResult = Win | Lose
+
+    /// Defines which result the game that was chosen by the character had.
+    /// These are not to be confused with mini-games, which are fully interactive
+    /// and are defined separetely. These are just "rabbit hole" games that don't
+    /// require any interaction from the player and just give some rewards/penalties
+    /// based on skills or luck.
+    [<RequireQualifiedAccess>]
+    type PlayResult =
+        | Darts of SimpleResult
+        | Pool of SimpleResult
+        | VideoGame
+

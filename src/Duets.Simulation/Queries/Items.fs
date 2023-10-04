@@ -12,6 +12,10 @@ module Items =
         let room = (cityId, placeId, roomId) |||> World.roomById
 
         match place.PlaceType, room.RoomType with
+        | PlaceType.Bar, RoomType.Bar ->
+            Items.Electronics.Dartboard.dartboard
+            :: [ Items.Furniture.BilliardTable.sonomaTable ]
+            |> List.map fst
         | PlaceType.Hotel _, RoomType.Bedroom ->
             (* Otherwise hotels wouldn't have anywhere to sleep on. *)
             [ fst Items.Furniture.Bed.ikeaBed ]

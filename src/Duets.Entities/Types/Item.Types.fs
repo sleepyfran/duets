@@ -29,10 +29,12 @@ module ItemTypes =
     type ElectronicsItemType =
         | TV
         | GameConsole
+        | Dartboard
 
     /// Defines all kinds of furniture available in the game.
     type FurnitureItemType =
         | Bed
+        | BilliardTable
         | Stove
 
     /// Defines all kinds of gym equipment available in the game.
@@ -41,6 +43,7 @@ module ItemTypes =
         | Treadmill
 
     (* --------------- KEYS --------------- *)
+
     /// Defines all kind of keys that can be used to unlock a specific place.
     type KeyItemType = Chip of cityId: CityId * placeId: PlaceId
 

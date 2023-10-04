@@ -9,6 +9,7 @@ let associatedEffects effect =
     [ Band.run effect
       Career.run effect
       Character.run effect
+      NonInteractiveGame.run effect
       Skill.run effect
       Time.run effect
       World.run effect ]

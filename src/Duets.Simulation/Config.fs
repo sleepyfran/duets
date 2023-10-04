@@ -42,6 +42,12 @@ module LifeSimulation =
         /// How much the character's mood is improve when playing video games.
         let playingVideoGamesIncrease = 10
 
+        /// How much the character's mood is improved when winning a non-interactive game.
+        let winningNonInteractiveGameIncrease = 10
+
+        /// How much the character's mood is reduced when losing a non-interactive game.
+        let losingNonInteractiveGameIncrease = -10
+
         /// How much the character's mood is improved when playing music.
         let playingMusicIncrease = 2
 

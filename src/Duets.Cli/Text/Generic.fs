@@ -230,11 +230,13 @@ let itemName (item: Item) =
     | Consumable(Food _) -> item.Brand |> String.lowercase
     | Interactive(Electronics electronic) ->
         match electronic with
+        | Dartboard -> $"{item.Brand} dartboard"
         | GameConsole -> item.Brand
         | TV -> $"{item.Brand} TV"
     | Interactive(Furniture furniture) ->
         match furniture with
         | Bed -> "bed"
+        | BilliardTable -> "billiard table"
         | Stove -> "stove"
     | Interactive(GymEquipment equipment) ->
         match equipment with

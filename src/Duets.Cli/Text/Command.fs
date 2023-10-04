@@ -136,8 +136,8 @@ let sleepDescription =
 let exerciseDescription =
     "Allows you to exercise, improve your fitness skills and restore your health"
 
-let playConsoleDescription =
-    "Allows you to play some video games and restore your mood"
+let playGameDescription =
+    "Allows you to play a game like darts or videogames through a console"
 
 let watchTvDescription = "Allows you to watch TV and restore your mood"
 

@@ -67,16 +67,29 @@ module Command =
 
             $"{verb} {formattedPrepositions} [[item]]"
 
-    let private findItem itemName =
+    let private findItem input =
         let currentPosition = Queries.World.currentCoordinates (State.get ())
 
         Queries.Items.allIn (State.get ()) currentPosition
         @ Queries.Inventory.get (State.get ())
         |> List.tryFind (fun item ->
-            String.diacriticInsensitiveContains itemName item.Brand
-            || String.diacriticInsensitiveContains
-                (Generic.itemName item)
-                itemName)
+            let itemAlternativeNames = Items.itemAlternativeNames item
+
+            let brandMentioned =
+                String.diacriticInsensitiveContains item.Brand input
+
+            let nameMentioned =
+                String.diacriticInsensitiveContains
+                    (Generic.itemName item)
+                    input
+
+            let altNameMentioned =
+                List.exists
+                    (fun altName ->
+                        String.diacriticInsensitiveContains altName input)
+                    itemAlternativeNames
+
+            brandMentioned || nameMentioned || altNameMentioned)
 
     /// <summary>
     /// Generates a command that can be invoked via the given verb with optional
@@ -96,7 +109,7 @@ module Command =
                         Parse.itemAfterVerbWithPreposition prepositions args
 
                 match itemName with
-                | Some itemName ->
+                | Some itemName when not (String.isEmpty itemName) ->
                     let item = findItem itemName
 
                     match item with
@@ -104,6 +117,7 @@ module Command =
                     | None ->
                         Items.itemNotFound itemName |> showMessage
                         Scene.World
+                | Some _
                 | None ->
                     usageSample input |> Command.wrongUsage |> showMessage
 

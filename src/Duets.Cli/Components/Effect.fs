@@ -8,6 +8,7 @@ open Duets.Cli.Text.World
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation
+open FSharp.Data.UnitSystems.SI.UnitNames
 
 /// <summary>
 /// Applies an effect to the simulation and displays any message or action that
@@ -169,6 +170,37 @@ let private displayEffect effect =
         "Choose where you want to go next" |> showMessage
 
         showMapUntilChoice () |> applyMultiple
+    | PlayResult result ->
+        lineBreak ()
+
+        let gameResultMessage simpleResult =
+            match simpleResult with
+            | SimpleResult.Win ->
+                "You won against a random stranger at the bar" |> Styles.success
+            | SimpleResult.Lose ->
+                "A random stranger at the bar beat you..." |> Styles.error
+
+        match result with
+        | PlayResult.Darts result ->
+            ([ "Throwing darts..." |> Styles.progress
+               "Picking up darts..." |> Styles.progress
+               "Repeating all over again..." |> Styles.progress ],
+             1<second>)
+            ||> showProgressBarSync
+
+            gameResultMessage result |> showMessage
+        | PlayResult.Pool result ->
+            ([ "Racking the balls..." |> Styles.progress
+               "Breaking..." |> Styles.progress
+               "Taking a shot..." |> Styles.progress ],
+             1<second>)
+            ||> showProgressBarSync
+
+            gameResultMessage result |> showMessage
+        | PlayResult.VideoGame ->
+            "You played some video games and had a good time"
+            |> Styles.success
+            |> showMessage
     | RentalKickedOut _ ->
         "Since your rental has ran out, you need to go somewhere else"
         |> Styles.error

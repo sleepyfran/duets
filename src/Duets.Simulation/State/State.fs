@@ -86,6 +86,7 @@ let applyEffect state effect =
     | MoneyEarned(account, transaction) ->
         Bank.setBalance account transaction state
     | PlaceClosed _ -> state
+    | PlayResult _ -> state
     | RentalAdded rental -> Rentals.add rental state
     | RentalKickedOut _ -> state
     | RentalExpired rental -> Rentals.remove rental state

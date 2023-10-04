@@ -2,6 +2,12 @@ module Duets.Data.Items.Electronics
 
 open Duets.Entities
 
+module Dartboard =
+    let dartboard: PurchasableItem =
+        { Brand = "Bull's"
+          Type = Dartboard |> Electronics |> Interactive },
+        230m<dd>
+
 module GameConsole =
     let xbox: PurchasableItem =
         { Brand = "Xbox Series X"

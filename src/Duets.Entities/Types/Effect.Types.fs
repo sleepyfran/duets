@@ -66,6 +66,7 @@ module EffectTypes =
         | SongDiscarded of Band * Unfinished<Song>
         | SongPracticed of Band * Finished<Song>
         | PlaceClosed of Place
+        | PlayResult of PlayResult
         | TimeAdvanced of Date
         | WorldEnter of Diff<RoomCoordinates>
         | WorldMoveTo of Diff<RoomCoordinates>

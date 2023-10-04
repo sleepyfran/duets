@@ -26,12 +26,10 @@ module InteractiveCommand =
     let play =
         Command.itemInteraction
             (Command.VerbOnly "play")
-            Command.playConsoleDescription
+            Command.playGameDescription
             (ItemInteraction.Interactive InteractiveItemInteraction.Play)
             (function
              | Ok effects ->
-                 wait 1000<millisecond>
-                 Interaction.playConsoleResult |> showMessage
                  effects |> Duets.Cli.Effect.applyMultiple
                  Scene.World
              | Error _ ->

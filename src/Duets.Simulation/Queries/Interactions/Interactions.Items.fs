@@ -6,14 +6,16 @@ open Duets.Entities
 module Items =
     let private electronicsInteractions electronic =
         match electronic with
-        | ElectronicsItemType.TV -> InteractiveItemInteraction.Watch
+        | ElectronicsItemType.Dartboard
         | ElectronicsItemType.GameConsole -> InteractiveItemInteraction.Play
+        | ElectronicsItemType.TV -> InteractiveItemInteraction.Watch
         |> ItemInteraction.Interactive
         |> Interaction.Item
 
     let private furnitureInteractions furniture =
         match furniture with
         | FurnitureItemType.Bed -> InteractiveItemInteraction.Sleep
+        | FurnitureItemType.BilliardTable -> InteractiveItemInteraction.Play
         | FurnitureItemType.Stove ->
             // Reduce the price of all food items by 50% so that cooking is
             // cheaper than buying food from a restaurant.

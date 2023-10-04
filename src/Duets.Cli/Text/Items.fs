@@ -1,6 +1,5 @@
 module Duets.Cli.Text.Items
 
-
 open Duets.Entities
 
 let itemAddedToInventory itemName =
@@ -44,3 +43,15 @@ let itemCannotBeWatched =
 let drunkItem = Styles.success "*Gulp*"
 
 let ateItem = Styles.success "Hmmmm..."
+
+let itemAlternativeNames (item: Item) =
+    match item.Type with
+    | Interactive(Electronics electronic) ->
+        match electronic with
+        | Dartboard -> [ "darts" ]
+        | _ -> []
+    | Interactive(Furniture furniture) ->
+        match furniture with
+        | BilliardTable -> [ "pool"; "billiard" ]
+        | _ -> []
+    | _ -> []

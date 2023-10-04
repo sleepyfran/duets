@@ -37,6 +37,18 @@ let private (|ExercisingOnGym|_|) (action, itemType) =
         Some()
     | _ -> None
 
+let private (|PlayingDarts|_|) (action, itemType) =
+    match action, itemType with
+    | InteractiveItemInteraction.Play,
+      InteractiveItemType.Electronics(ElectronicsItemType.Dartboard) -> Some()
+    | _ -> None
+
+let private (|PlayingPool|_|) (action, itemType) =
+    match action, itemType with
+    | InteractiveItemInteraction.Play,
+      InteractiveItemType.Furniture(FurnitureItemType.BilliardTable) -> Some()
+    | _ -> None
+
 let private (|PlayingVideoGames|_|) (action, itemType) =
     match action, itemType with
     | InteractiveItemInteraction.Play,
@@ -48,6 +60,11 @@ let private (|WatchingTV|_|) (action, itemType) =
     | InteractiveItemInteraction.Watch,
       InteractiveItemType.Electronics(ElectronicsItemType.TV) -> Some()
     | _ -> None
+
+let private nonInteractiveGameResult () =
+    let characterWon = RandomGen.chance 50
+
+    if characterWon then SimpleResult.Win else SimpleResult.Lose
 
 let interact state (item: Item) action =
     let character = Queries.Characters.playableCharacter state
@@ -80,11 +97,19 @@ let interact state (item: Item) action =
                          ImprovementAmount = 1
                          Skills = [ SkillId.Fitness ] |} ]
             |> Ok
+        | PlayingDarts ->
+            [ nonInteractiveGameResult () |> PlayResult.Darts |> PlayResult ]
+            |> Ok
+        | PlayingPool ->
+            [ nonInteractiveGameResult () |> PlayResult.Pool |> PlayResult ]
+            |> Ok
         | PlayingVideoGames ->
-            Character.Attribute.add
-                character
-                CharacterAttribute.Mood
-                Config.LifeSimulation.Mood.playingVideoGamesIncrease
+            [ yield!
+                  Character.Attribute.add
+                      character
+                      CharacterAttribute.Mood
+                      Config.LifeSimulation.Mood.playingVideoGamesIncrease
+              PlayResult(PlayResult.VideoGame) ]
             |> Ok
         | WatchingTV ->
             Character.Attribute.add

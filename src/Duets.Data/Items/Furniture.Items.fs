@@ -8,6 +8,12 @@ module Bed =
           Type = Bed |> Furniture |> Interactive },
         450m<dd>
 
+module BilliardTable =
+    let sonomaTable: PurchasableItem =
+        { Brand = "Sonoma"
+          Type = BilliardTable |> Furniture |> Interactive },
+        3400m<dd>
+
 module Stove =
     let lgStove: PurchasableItem =
         { Brand = "LG"
