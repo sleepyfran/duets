@@ -10,6 +10,8 @@
         <Compile Include="Types\Genre.Types.fs" />
         <Compile Include="Types\Instrument.Types.fs" />
         <Compile Include="Types\Skill.Types.fs" />
+        <Compile Include="Types\Attribute.Types.fs"/>
+        <Compile Include="Types\Moodlet.Types.fs"/>
         <Compile Include="Types\Character.Types.fs" />
         <Compile Include="Types\Band.Types.fs" />
         <Compile Include="Types\Song.Types.fs" />

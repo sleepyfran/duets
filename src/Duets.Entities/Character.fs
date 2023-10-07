@@ -32,7 +32,8 @@ let empty =
       Name = ""
       Birthday = Calendar.gameBeginning |> Calendar.Ops.addYears -25
       Gender = Gender.Other
-      Attributes = defaultAttributes }
+      Attributes = defaultAttributes
+      Moodlets = [] }
 
 /// Creates a character from the given parameters, generating a random
 /// ID for it.
@@ -41,7 +42,8 @@ let from name gender birthday =
       Name = name
       Birthday = birthday
       Gender = gender
-      Attributes = defaultAttributes }
+      Attributes = defaultAttributes
+      Moodlets = [] }
 
 /// Validates whether the name of the character is valid or not.
 let validateName (name: string) =
