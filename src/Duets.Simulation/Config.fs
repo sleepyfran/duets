@@ -3,6 +3,8 @@
 /// while preserving the fun, but these can be updated to match your style.
 module Duets.Simulation.Config
 
+open Duets.Entities
+
 module LifeSimulation =
     module Interactions =
         /// Minimum amount of health needed to perform any interaction.
@@ -121,6 +123,10 @@ module MusicSimulation =
     /// Percentage out of the total number of fans that will stream an album or
     /// song daily.
     let fanStreamingPercentage = 0.10
+
+    /// Number of days that need to pass between composing songs for the character
+    /// not to get a NotInspired moodlet.
+    let daysBetweenSongsToSlowDown = 7<days>
 
 module Revenue =
     /// Indicates how many dd a band makes per stream.

@@ -168,6 +168,10 @@ module Character =
     let attribute_ attr =
         attributes_ >-> Map.keyWithDefault_ attr 0
 
+    let moodlets_ =
+        (fun (c: Character) -> c.Moodlets),
+        (fun v (c: Character) -> { c with Moodlets = v })
+
 module Concerts =
     module Ongoing =
         let events_ =
@@ -251,8 +255,7 @@ module World =
             (fun v (p: Place) -> { p with PlaceType = v })
 
     let cities_ =
-        (fun (w: World) -> w.Cities),
-        (fun v (w: World) -> { Cities = v })
+        (fun (w: World) -> w.Cities), (fun v (w: World) -> { Cities = v })
 
     /// Lenses to the current city in the world given its ID.
     let city_ cityId = cities_ >-> Map.key_ cityId

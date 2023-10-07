@@ -12,6 +12,7 @@ module Studio =
         let finishedSongs =
             Queries.Songs.finishedNonRecordedByBand state currentBand.Id
             |> List.ofMapValues
+            |> List.map Song.Finished.fromFinishedWithStatus
 
         let unreleasedAlbums =
             Queries.Albums.unreleasedByBand state currentBand.Id

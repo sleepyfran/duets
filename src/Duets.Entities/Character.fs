@@ -1,5 +1,6 @@
 module Duets.Entities.Character
 
+open Duets.Common
 open System
 
 type CharacterNameValidationError =
@@ -10,13 +11,7 @@ type CharacterAgeValidationError =
     | AgeTooYoung
     | AgeTooOld
 
-let allAttributes =
-    [ CharacterAttribute.Drunkenness
-      CharacterAttribute.Energy
-      CharacterAttribute.Health
-      CharacterAttribute.Hunger
-      CharacterAttribute.Mood
-      CharacterAttribute.Fame ]
+let allAttributes = Union.allCasesOf<CharacterAttribute> ()
 
 let defaultAttributes =
     [ (CharacterAttribute.Energy, 100)
@@ -33,7 +28,7 @@ let empty =
       Birthday = Calendar.gameBeginning |> Calendar.Ops.addYears -25
       Gender = Gender.Other
       Attributes = defaultAttributes
-      Moodlets = [] }
+      Moodlets = Set.empty }
 
 /// Creates a character from the given parameters, generating a random
 /// ID for it.
@@ -43,7 +38,7 @@ let from name gender birthday =
       Birthday = birthday
       Gender = gender
       Attributes = defaultAttributes
-      Moodlets = [] }
+      Moodlets = Set.empty }
 
 /// Validates whether the name of the character is valid or not.
 let validateName (name: string) =

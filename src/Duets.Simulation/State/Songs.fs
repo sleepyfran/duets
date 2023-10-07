@@ -19,11 +19,17 @@ let addUnfinished (band: Band) (unfinishedSong: Unfinished<Song>) =
     let addUnfinishedSong = Map.add song.Id unfinishedSong
     applyToUnfinished band.Id addUnfinishedSong
 
-let addFinished (band: Band) (finishedSong: Finished<Song>) =
+let addFinished
+    (band: Band)
+    (finishedSong: Finished<Song>)
+    (currentDate: Date)
+    =
     let song = Song.fromFinished finishedSong
 
     let addFinishedSong =
-        finishedSong |> Song.Finished.attachStatus false |> Map.add song.Id
+        finishedSong
+        |> Song.Finished.attachMetadata false currentDate
+        |> Map.add song.Id
 
     applyToFinished band.Id addFinishedSong
 
@@ -42,8 +48,8 @@ let updateFinished (band: Band) (updatedSong: Finished<Song>) =
 
     let updateFinishedSong =
         Map.change song.Id (function
-            | Some(FinishedWithRecordingStatus(_, status)) ->
-                FinishedWithRecordingStatus(updatedSong, status) |> Some
+            | Some(FinishedWithMetadata(_, recorded, finishDate)) ->
+                FinishedWithMetadata(updatedSong, recorded, finishDate) |> Some
             | None -> None)
 
     applyToFinished band.Id updateFinishedSong
@@ -51,8 +57,8 @@ let updateFinished (band: Band) (updatedSong: Finished<Song>) =
 let updateRecordedStatus (band: Band) songId recorded =
     let updateFinishedSong =
         Map.change songId (function
-            | Some(FinishedWithRecordingStatus(song, _)) ->
-                FinishedWithRecordingStatus(song, recorded) |> Some
+            | Some(FinishedWithMetadata(song, _, finishDate)) ->
+                FinishedWithMetadata(song, recorded, finishDate) |> Some
             | None -> None)
 
     applyToFinished band.Id updateFinishedSong

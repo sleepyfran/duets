@@ -15,3 +15,10 @@ let setAttribute (characterId: CharacterId) attribute amount =
         >?> Lenses.Character.attribute_ attribute
 
     Optic.set lens amount
+
+let setMoodlets (characterId: CharacterId) moodlets =
+    let lens =
+        Lenses.State.characters_ >-> Map.key_ characterId
+        >?> Lenses.Character.moodlets_
+
+    Optic.set lens moodlets

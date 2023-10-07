@@ -23,6 +23,9 @@ module EffectTypes =
             character: CharacterId *
             attribute: CharacterAttribute *
             diff: Diff<CharacterAttributeAmount>
+        | CharacterMoodletsChanged of
+            character: CharacterId *
+            moodlets: Diff<CharacterMoodlets>
         | CharacterHealthDepleted of CharacterId
         | CharacterHospitalized of CharacterId * PlaceCoordinates
         | ConcertScheduled of Band * ScheduledConcert
@@ -62,7 +65,7 @@ module EffectTypes =
             int
         | SongStarted of Band * Unfinished<Song>
         | SongImproved of Band * Diff<Unfinished<Song>>
-        | SongFinished of Band * Finished<Song>
+        | SongFinished of Band * Finished<Song> * finishDate: Date
         | SongDiscarded of Band * Unfinished<Song>
         | SongPracticed of Band * Finished<Song>
         | PlaceClosed of Place

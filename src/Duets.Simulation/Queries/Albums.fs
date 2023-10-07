@@ -53,7 +53,6 @@ module Albums =
                     Calendar.Query.daysBetween
                         currentDate
                         normalizedReleaseDate
-                    * 1<days>
 
                 daysSinceRelease = days))
 

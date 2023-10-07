@@ -15,8 +15,9 @@ module MoodletTypes =
 
     /// Defines a moodlet that can be applied to a character.
     type Moodlet =
-        { Type: MoodletType
+        { MoodletType: MoodletType
+          StartedOn: Date
           Expiration: MoodletExpirationTime }
 
     /// Defines a list of moodlets that have been applied to a character.
-    type CharacterMoodlets = Moodlet list
+    type CharacterMoodlets = Set<Moodlet>

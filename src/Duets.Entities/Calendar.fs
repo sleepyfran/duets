@@ -144,7 +144,8 @@ module Query =
         |> Seq.map (fun day -> DateTime(date.Year, date.Month, day))
 
     /// Returns the number of days between the two given dates.
-    let daysBetween (fromDate: Date) (toDate: Date) = (fromDate - toDate).Days
+    let daysBetween (fromDate: Date) (toDate: Date) =
+        (fromDate - toDate).Days |> (*) 1<days>
 
     /// Returns the number of years between to dates.
     let yearsBetween (fromDate: Date) (toDate: Date) =

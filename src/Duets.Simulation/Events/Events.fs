@@ -3,12 +3,14 @@ module Duets.Simulation.Events.Events
 open Duets.Entities
 open Duets.Simulation.Events.Band
 open Duets.Simulation.Events.Character
+open Duets.Simulation.Events.Moodlets
 
 /// Retrieves all associated effects with the given one.
 let associatedEffects effect =
     [ Band.run effect
       Career.run effect
       Character.run effect
+      Moodlets.run effect
       NonInteractiveGame.run effect
       Skill.run effect
       Time.run effect

@@ -46,10 +46,11 @@ let SongFinishedShouldRemoveUnfinishedAndAddFinishedSong () =
     let finishedSong = Finished(dummySong, 14<quality>)
 
     let state =
-        SongFinished(dummyBand, finishedSong) |> State.Root.applyEffect state
+        SongFinished(dummyBand, finishedSong, dummyToday)
+        |> State.Root.applyEffect state
 
     Songs.unfinishedByBand state dummyBand.Id |> should haveCount 0
 
     state
     |> lastFinishedSong dummyBand
-    |> should equal (FinishedWithRecordingStatus(finishedSong, false))
+    |> should equal (FinishedWithMetadata(finishedSong, false, dummyToday))

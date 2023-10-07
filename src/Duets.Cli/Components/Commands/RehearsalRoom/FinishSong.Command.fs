@@ -5,6 +5,7 @@ open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Entities
+open Duets.Entities.Lenses
 open Duets.Simulation
 open Duets.Simulation.Songs.Composition.FinishSong
 
@@ -32,7 +33,9 @@ module FinishSongCommand =
                         unfinishedSongs
 
                 match selectedSong with
-                | Some song -> finishSong currentBand song |> Duets.Cli.Effect.apply
+                | Some song ->
+                    finishSong (State.get ()) currentBand song
+                    |> Duets.Cli.Effect.apply
                 | None -> ()
 
                 Scene.World) }

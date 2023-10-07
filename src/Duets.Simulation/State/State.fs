@@ -44,6 +44,8 @@ let applyEffect state effect =
     | CharacterHealthDepleted _ -> state
     | CharacterHospitalized(_, (cityId, nodeId)) ->
         World.move cityId nodeId 0 state
+    | CharacterMoodletsChanged(character, Diff(_, moodlets)) ->
+        Characters.setMoodlets character moodlets state
     | ConcertScheduled(band, concert) ->
         Concerts.addScheduledConcert band concert state
     | ConcertUpdated(band, scheduledConcert) ->
@@ -123,11 +125,11 @@ let applyEffect state effect =
         Songs.addUnfinished band unfinishedSong state
     | SongImproved(band, (Diff(_, unfinishedSong))) ->
         Songs.addUnfinished band unfinishedSong state
-    | SongFinished(band, finishedSong) ->
+    | SongFinished(band, finishedSong, finishDate) ->
         let song = Song.fromFinished finishedSong
 
         Songs.removeUnfinished band song.Id state
-        |> Songs.addFinished band finishedSong
+        |> Songs.addFinished band finishedSong finishDate
     | SongPracticed(band, finishedSong) ->
         Songs.updateFinished band finishedSong state
     | SongDiscarded(band, unfinishedSong) ->

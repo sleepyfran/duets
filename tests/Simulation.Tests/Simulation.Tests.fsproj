@@ -64,6 +64,7 @@
         <Compile Include="Interactions\Sleep.Test.fs"/>
         <Compile Include="Interactions\Play.Interactions.Test.fs"/>
         <Compile Include="Events\Character.Events.Tests.fs" />
+        <Compile Include="Events\Moodlet.Events.Tests.fs"/>
         <Compile Include="Events\Band.Events.Tests.fs"/>
         <Compile Include="Events\Rental.Events.Tests.fs"/>
         <Compile Include="Events\Career.Events.Tests.fs"/>

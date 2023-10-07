@@ -52,11 +52,19 @@ let empty =
 
 module Finished =
     /// Returns the song contained in a finished song that has a status attached.
-    let fromFinishedWithStatus (FinishedWithRecordingStatus(song, _)) = song
+    let fromFinishedWithStatus (FinishedWithMetadata(song, _, _)) = song
 
-    /// Returns a finished song with whether it has been recorded or not.
-    let attachStatus recorded song =
-        FinishedWithRecordingStatus(song, recorded)
+    /// Returns a finished song with metadata about its recording status and
+    /// the date when the song was finished.
+    let attachMetadata recorded finishDate song =
+        FinishedWithMetadata(song, recorded, finishDate)
+
+    module Metadata =
+        /// Returns the recording status of a finished song.
+        let recorded (FinishedWithMetadata(_, recorded, _)) = recorded
+
+        /// Returns the date when a finished song was finished.
+        let finishDate (FinishedWithMetadata(_, _, finishDate)) = finishDate
 
 module VocalStyle =
     /// Returns a VocalStyle given its string representation. If no match is found,

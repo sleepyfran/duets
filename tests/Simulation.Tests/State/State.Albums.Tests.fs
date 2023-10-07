@@ -13,7 +13,7 @@ open Duets.Simulation.Queries
 [<Test>]
 let ``AlbumRecorded should add an unreleased album`` () =
     let state =
-        SongFinished(dummyBand, dummyFinishedSong)
+        SongFinished(dummyBand, dummyFinishedSong, dummyToday)
         |> State.Root.applyEffect dummyState
 
     Songs.finishedByBand state dummyBand.Id |> should haveCount 1
@@ -27,7 +27,7 @@ let ``AlbumRecorded should add an unreleased album`` () =
 [<Test>]
 let ``AlbumRecorded should set finished song as recorded`` () =
     let state =
-        SongFinished(dummyBand, dummyFinishedSong)
+        SongFinished(dummyBand, dummyFinishedSong, dummyToday)
         |> State.Root.applyEffect dummyState
 
     Songs.finishedByBand state dummyBand.Id |> should haveCount 1
@@ -40,13 +40,14 @@ let ``AlbumRecorded should set finished song as recorded`` () =
     |> Map.find dummyBand.Id
     |> List.ofMapValues
     |> List.head
-    |> fun (FinishedWithRecordingStatus(_, recorded)) ->
+    |> fun finishedWithMetadata ->
+        let recorded = Song.Finished.Metadata.recorded finishedWithMetadata
         recorded |> should equal true
 
 [<Test>]
 let ``AlbumUpdated should set finished songs as recorded`` () =
     let state =
-        SongFinished(dummyBand, dummyFinishedSong)
+        SongFinished(dummyBand, dummyFinishedSong, dummyToday)
         |> State.Root.applyEffect dummyState
 
     Songs.finishedByBand state dummyBand.Id |> should haveCount 1
@@ -59,7 +60,8 @@ let ``AlbumUpdated should set finished songs as recorded`` () =
     |> Map.find dummyBand.Id
     |> List.ofMapValues
     |> List.head
-    |> fun (FinishedWithRecordingStatus(_, recorded)) ->
+    |> fun finishedWithMetadata ->
+        let recorded = Song.Finished.Metadata.recorded finishedWithMetadata
         recorded |> should equal true
 
 [<Test>]

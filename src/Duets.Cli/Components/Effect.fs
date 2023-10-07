@@ -233,7 +233,7 @@ let private displayEffect effect =
         Rehearsal.practiceSongImproved song.Name song.Practice |> showMessage
     | SongDiscarded(_, Unfinished(song, _, _)) ->
         Rehearsal.discardSongDiscarded song.Name |> showMessage
-    | SongFinished(_, Finished(song, quality)) ->
+    | SongFinished(_, Finished(song, quality), _) ->
         Rehearsal.finishSongFinished (song.Name, quality) |> showMessage
     | SkillImproved(character, Diff(before, after)) ->
         let (skill, previousLevel) = before

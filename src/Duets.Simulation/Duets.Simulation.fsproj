@@ -64,6 +64,7 @@
         <Compile Include="Situations\Situations.fs" />
         <Compile Include="Character\Attributes.fs" />
         <Compile Include="Character\AttributeChange.fs" />
+        <Compile Include="Character\Moodlets.fs"/>
         <Compile Include="Bank\Operations.fs" />
         <Compile Include="Albums\DailyStreams.fs" />
         <Compile Include="Albums\Hype.fs" />
@@ -126,6 +127,9 @@
         <Compile Include="Events\Band\Band.Events.fs" />
         <Compile Include="Events\Place\ClosingTime.fs" />
         <Compile Include="Events\Place\RentalExpiration.fs" />
+        <Compile Include="Events\Moodlets\NotInspired.fs"/>
+        <Compile Include="Events\Moodlets\Cleanup.fs"/>
+        <Compile Include="Events\Moodlets\Moodlets.Events.fs"/>
         <Compile Include="Events\Career.Events.fs" />
         <Compile Include="Events\NonInteractiveGame.Events.fs" />
         <Compile Include="Events\Skill.Events.fs" />

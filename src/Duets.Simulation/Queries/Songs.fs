@@ -38,9 +38,11 @@ module Songs =
         |> Optic.get finishedSongLens
         |> Option.map (fun songs ->
             songs
-            |> Map.filter (fun _ (FinishedWithRecordingStatus(_, recorded)) ->
+            |> Map.filter (fun _ finishedWithMetadata ->
+                let recorded =
+                    Song.Finished.Metadata.recorded finishedWithMetadata
+
                 recorded = false))
-        |> Option.map toFinishedSongs
         |> Option.defaultValue Map.empty
 
     /// Returns a specific finished song given its ID and the band's ID.
