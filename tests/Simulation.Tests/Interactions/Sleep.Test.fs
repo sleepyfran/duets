@@ -30,19 +30,10 @@ let state =
 let playableCharacter = Queries.Characters.playableCharacter state
 
 [<Test>]
-let ``sleep errors if given item is not a bed`` () =
-    let state = State.generateOne State.defaultOptions
-
-    Sleep.sleep state dummyToday Night stove
-    |> Result.unwrapError
-    |> should be (ofCase <@ Items.ActionNotPossible @>)
-
-[<Test>]
 let ``sleep returns the correct time advancement`` () =
     let currentDate = Queries.Calendar.today state
 
-    Sleep.sleep state currentDate Night bed
-    |> Result.unwrap
+    Sleep.sleep state currentDate Night
     |> List.filter (function
         | TimeAdvanced _ -> true
         | _ -> false)
@@ -51,8 +42,7 @@ let ``sleep returns the correct time advancement`` () =
 [<TestFixture>]
 type ``when sleeping less than 3 day moments``() =
     let attributeChanges =
-        Sleep.sleep state dummyToday Midday bed
-        |> Result.unwrap
+        Sleep.sleep state dummyToday Midday
         |> List.filter (function
             | CharacterAttributeChanged _ -> true
             | _ -> false)
@@ -95,8 +85,7 @@ type ``when sleeping more than 3 day moments``() =
             100
 
     let attributeChanges =
-        Sleep.sleep state dummyToday Night bed
-        |> Result.unwrap
+        Sleep.sleep state dummyToday Night
         |> List.filter (function
             | CharacterAttributeChanged _ -> true
             | _ -> false)

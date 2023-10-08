@@ -16,24 +16,18 @@ module SleepCommand =
         | CalendarEventType.Concert _ -> "concert"
         | CalendarEventType.Flight _ -> "flight"
 
-    let private showSleepResult sleepResult =
-        match sleepResult with
-        | Ok effects ->
-            Interaction.sleeping |> showMessage
-            wait 8000<millisecond>
-            Interaction.sleepResult |> showMessage
-            effects |> Duets.Cli.Effect.applyMultiple
-        | Error _ ->
-            Styles.error
-                "Hmm, I'm pretty sure you can't sleep on that. Ever heard of a bed or a sofa?"
-            |> showMessage
+    let private showSleepResult effects =
+        Interaction.sleeping |> showMessage
+        wait 8000<millisecond>
+        Interaction.sleepResult |> showMessage
+        effects |> Duets.Cli.Effect.applyMultiple
 
     /// Command to sleep until a given day moment.
     let get =
-        Command.customItemInteraction
-            (Command.VerbOnly("sleep"))
-            Command.sleepDescription
-            (fun item ->
+        { Name = "sleep"
+          Description = Command.sleepDescription
+          Handler =
+            fun _ ->
                 let state = State.get ()
 
                 let eventsInNextDayMoments =
@@ -67,7 +61,7 @@ module SleepCommand =
 
                 match selectedOption with
                 | Some((date, dayMoment), _) ->
-                    Sleep.sleep state date dayMoment item |> showSleepResult
+                    Sleep.sleep state date dayMoment |> showSleepResult
                 | None -> ()
 
-                Scene.World)
+                Scene.World }
