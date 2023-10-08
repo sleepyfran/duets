@@ -69,6 +69,7 @@
         <Compile Include="Events\Rental.Events.Tests.fs"/>
         <Compile Include="Events\Career.Events.Tests.fs"/>
         <Compile Include="Events\World.Events.Tests.fs"/>
+        <Compile Include="EffectModifiers\Moodlet.EffectModifiers.Tests.fs"/>
         <Compile Include="Simulation.Tests.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>

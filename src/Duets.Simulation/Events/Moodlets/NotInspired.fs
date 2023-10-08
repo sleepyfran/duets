@@ -33,7 +33,7 @@ let applyIfNeeded bandId state =
 
         let shouldApplyMoodlet =
             daysSinceLastSong
-            <= Config.MusicSimulation.daysBetweenSongsToSlowDown
+            <= Config.Moodlets.NotInspired.daysBetweenSongsToSlowDown
 
         if shouldApplyMoodlet then
             let moodlet =

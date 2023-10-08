@@ -136,6 +136,8 @@
         <Compile Include="Events\Time.Events.fs" />
         <Compile Include="Events\World.Events.fs" />
         <Compile Include="Events\Events.fs" />
+        <Compile Include="EffectModifiers\Moodlets.EffectModifiers.fs"/>
+        <Compile Include="EffectModifiers\EffectModifiers.fs"/>
         <Compile Include="Setup\StartGame.fs" />
         <Compile Include="Simulation.fs" />
     </ItemGroup>

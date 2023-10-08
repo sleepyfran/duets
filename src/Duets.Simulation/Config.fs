@@ -82,6 +82,16 @@ module LifeSimulation =
     /// time passes when the hunger gets below 5.
     let hungerHealthReduceRate = -20
 
+module Moodlets =
+    module NotInspired =
+        /// Number of days that need to pass between composing songs for the character
+        /// not to get a NotInspired moodlet.
+        let daysBetweenSongsToSlowDown = 7<days>
+
+        /// Defines the amount by which any song composition scores will be
+        /// reduced when the character is not inspired.
+        let songCompositionReduction = 0.25
+
 module MusicSimulation =
     /// Minimum number of fans that a band has to have in order to produce
     /// reviews after releasing an album.
@@ -123,10 +133,6 @@ module MusicSimulation =
     /// Percentage out of the total number of fans that will stream an album or
     /// song daily.
     let fanStreamingPercentage = 0.10
-
-    /// Number of days that need to pass between composing songs for the character
-    /// not to get a NotInspired moodlet.
-    let daysBetweenSongsToSlowDown = 7<days>
 
 module Revenue =
     /// Indicates how many dd a band makes per stream.

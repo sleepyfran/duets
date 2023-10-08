@@ -17,6 +17,15 @@ and private tickEffect tickState nextEffectFns effects =
     match effects with
     | [] -> tick' tickState nextEffectFns
     | effect :: restOfEffects ->
+        (*
+        Before applying the effect and gathering its associated effects, check if
+        there's any current modifier that needs to be applied to the effect. For
+        example, if the character is not inspired, song related effects have
+        less effect.
+        *)
+        let effect =
+            EffectModifiers.EffectModifiers.modify tickState.State effect
+
         let updatedState = State.Root.applyEffect tickState.State effect
         let associatedEffectFns = Events.associatedEffects effect
 
