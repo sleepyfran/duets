@@ -28,3 +28,21 @@ module LifeCommands =
                     |> Effect.applyMultiple)
 
                 Scene.World) }
+
+    let notMoody =
+        { Name = "not moody"
+          Description = ""
+          Handler =
+            (fun _ ->
+                let character =
+                    Queries.Characters.playableCharacter (State.get ())
+
+                let moodlets = Queries.Characters.moodlets character
+
+                CharacterMoodletsChanged(
+                    character.Id,
+                    Diff(moodlets, Set.empty)
+                )
+                |> Effect.apply
+
+                Scene.World) }

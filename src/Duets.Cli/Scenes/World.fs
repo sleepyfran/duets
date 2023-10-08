@@ -199,12 +199,16 @@ let worldScene mode =
 
     let situation = Queries.Situations.current (State.get ())
 
+
     match mode with
     | ShowDescription ->
         let currentRoom = State.get () |> Queries.World.currentRoom
 
         $"You are in the {World.roomName currentRoom.RoomType |> Styles.room} inside of {currentPlace.Name |> Styles.place}"
         |> showMessage
+
+        World.placeArrivalMessage currentPlace currentRoom.RoomType
+        |> Option.iter showMessage
     | IgnoreDescription -> ()
 
     let characterAttributes =

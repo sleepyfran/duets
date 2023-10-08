@@ -72,3 +72,8 @@ let placeWithZone (place: Place) =
     | PlaceType.Studio studio ->
         $"{baseInfo} ({studio.PricePerSong |> Styles.money}/song)"
     | _ -> baseInfo
+
+let placeArrivalMessage place roomType =
+    match place.PlaceType with
+    | PlaceType.RehearsalSpace _ -> RehearsalSpace.arrivalMessage roomType
+    | _ -> None

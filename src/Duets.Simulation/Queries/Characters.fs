@@ -49,6 +49,11 @@ module Characters =
     /// Returns all the moodlets that are currently applied to the playable character.
     let playableCharacterMoodlets state = playableCharacter state |> moodlets
 
+    /// Returns true if the playable character has the given moodlet type.
+    let playableCharacterHasMoodlet state moodletType =
+        playableCharacterMoodlets state
+        |> Set.exists (fun m -> m.MoodletType = moodletType)
+
     /// Returns a character given its ID. Throws an exception if the key is not
     /// found.
     let find state id =

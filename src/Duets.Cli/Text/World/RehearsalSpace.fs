@@ -1,6 +1,9 @@
 module Duets.Cli.Text.World.RehearsalSpace
 
+open Duets.Agents
+open Duets.Cli.Text
 open Duets.Entities
+open Duets.Simulation
 
 let rec description (place: Place) (roomType: RoomType) =
     match roomType with
@@ -19,3 +22,15 @@ and private rehearsalRoomDescription (place: Place) =
         "The space is well-organized and neatly arranged, with a hint of creativity in its design. The wooden floors gleam under the soft glow of overhead lights, inviting you to explore the area. The walls are adorned with motivational quotes and posters from successful productions, inspiring a sense of creativity and ambition. A row of neatly arranged costumes hangs on a rack, each one carefully labeled and ready for use. The sound system hums softly, providing a clear and crisp audio experience."
     | _ ->
         "The room is bathed in warm, natural light streaming through floor-to-ceiling windows, casting a vibrant glow on the polished hardwood floors. The walls are adorned with beautifully framed artwork and photographs, showcasing the rich history of past performances and inspiring a sense of wonder. State-of-the-art soundproofing ensures an immersive experience, with crystal-clear acoustics that reverberate throughout the room. Rows of plush seating are arranged in a semicircle, providing a comfortable and intimate space for observers. The room is equipped with cutting-edge technology, including a sophisticated lighting system that can transform the ambiance with a mere touch."
+
+let rec arrivalMessage roomType =
+    let characterIsUninspired =
+        (State.get (), MoodletType.NotInspired)
+        ||> Queries.Characters.playableCharacterHasMoodlet
+
+    match roomType with
+    | RoomType.RehearsalRoom when characterIsUninspired ->
+        "You're currently feeling uninspired, composing or improving songs will not be easy"
+        |> Styles.warning
+        |> Some
+    | _ -> None

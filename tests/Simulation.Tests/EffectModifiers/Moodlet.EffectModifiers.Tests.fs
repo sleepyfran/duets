@@ -30,6 +30,20 @@ let private songImprovedEffect =
     )
 
 [<Test>]
+let ``tick of SongStarted does not change if character does not have moodlet``
+    ()
+    =
+    let songStartedEffects =
+        Simulation.tickOne dummyState songStartedEffect
+        |> fst
+        |> List.filter (function
+            | SongStarted _ -> true
+            | _ -> false)
+
+    songStartedEffects |> should haveLength 1
+    songStartedEffects |> List.head |> should equal songStartedEffect
+
+[<Test>]
 let ``tick of SongStarted reduces the score by 75% when not inspired`` () =
     let songStartedEffects =
         Simulation.tickOne state songStartedEffect
