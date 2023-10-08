@@ -1,5 +1,6 @@
 module Duets.Simulation.Tests.Airport.BoardPlane
 
+open Duets.Data.World
 open NUnit.Framework
 open FsUnit
 open Test.Common
@@ -22,7 +23,24 @@ let createTicket origin destination =
 
 let testTicket = createTicket Prague Madrid
 
-let state = State.generateOne State.defaultOptions
+let state =
+    State.generateOne State.defaultOptions
+    |> State.World.move Prague dummyAirport.Id Ids.Airport.securityControl
+
+[<Test>]
+let ``passSecurityCheck should move character to boarding gate`` () =
+    let effects = passSecurityCheck state
+
+    effects
+    |> List.head
+    |> should
+        equal
+        (WorldEnter(
+            Diff(
+                (Prague, dummyAirport.Id, Ids.Airport.securityControl),
+                (Prague, dummyAirport.Id, Ids.Airport.boardingGate)
+            )
+        ))
 
 [<Test>]
 let ``passSecurityCheck should drop all drinks from inventory`` () =
@@ -32,11 +50,13 @@ let ``passSecurityCheck should drop all drinks from inventory`` () =
 
     let effects = passSecurityCheck state
 
-    effects |> should haveLength 2
+    effects |> should haveLength 3
 
     effects
-    |> List.iter (fun effect ->
-        effect |> should be (ofCase <@ ItemRemovedFromInventory @>))
+    |> List.filter (function
+        | ItemRemovedFromInventory _ -> true
+        | _ -> false)
+    |> should haveLength 2
 
 [<Test>]
 let ``boardPlane should return an effect that sets the situation to flying``

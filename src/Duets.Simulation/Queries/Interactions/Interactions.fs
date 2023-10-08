@@ -69,7 +69,12 @@ module Interactions =
                 Interaction.FreeRoam FreeRoamInteraction.Wait ]
 
         match currentPlace.PlaceType with
-        | Airport -> Airport.interactions state defaultInteractions
+        | Airport ->
+            Airport.interactions
+                state
+                cityId
+                currentRoom.RoomType
+                defaultInteractions
         | Bar ->
             Bar.interactions cityId currentRoom.RoomType @ defaultInteractions
         | Cafe -> Cafe.interactions currentRoom.RoomType @ defaultInteractions

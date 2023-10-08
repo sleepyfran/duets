@@ -8,6 +8,8 @@ module InteractionTypes =
     type AirportInteraction =
         /// Allows the character to board a flight they've previously booked.
         | BoardAirplane of Flight
+        /// Allows the character to enter the boarding gate.
+        | PassSecurity
         /// Allows the character to wait until the flight ends.
         | WaitUntilLanding of Flight
 
@@ -223,7 +225,9 @@ module InteractionTypes =
 
     /// Defines a simple win/lose result for a non-interactive game.
     [<RequireQualifiedAccess>]
-    type SimpleResult = Win | Lose
+    type SimpleResult =
+        | Win
+        | Lose
 
     /// Defines which result the game that was chosen by the character had.
     /// These are not to be confused with mini-games, which are fully interactive
@@ -235,4 +239,3 @@ module InteractionTypes =
         | Darts of SimpleResult
         | Pool of SimpleResult
         | VideoGame
-

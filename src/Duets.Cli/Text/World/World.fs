@@ -40,6 +40,7 @@ let roomName (room: RoomType) =
     | RoomType.Backstage -> "backstage"
     | RoomType.Bar -> "bar area"
     | RoomType.Bedroom -> "bedroom"
+    | RoomType.BoardingGate -> "boarding gate"
     | RoomType.Cafe -> "cafe area"
     | RoomType.CasinoFloor -> "casino floor"
     | RoomType.ChangingRoom -> "changing room"

@@ -209,8 +209,25 @@ let airportLayout =
         |> World.Room.create
         |> World.Node.create Ids.Airport.securityControl
 
-    World.Graph.fromMany [ lobby; securityControl ]
-    |> World.Graph.connect lobby.Id securityControl.Id West
+    let boardingGate =
+        RoomType.BoardingGate
+        |> World.Room.create
+        |> World.Node.create Ids.Airport.boardingGate
+
+    let cafe =
+        RoomType.Cafe |> World.Room.create |> World.Node.create Ids.Airport.cafe
+
+    let restaurant =
+        RoomType.Restaurant RestaurantCuisine.American
+        |> World.Room.create
+        |> World.Node.create Ids.Airport.restaurant
+
+    World.Graph.fromMany
+        [ lobby; securityControl; boardingGate; cafe; restaurant ]
+    |> World.Graph.connectMany
+        [ lobby.Id, securityControl.Id, West
+          boardingGate.Id, cafe.Id, North
+          boardingGate.Id, restaurant.Id, South ]
 
 /// Usual layout for a rehearsal space.
 let rehearsalSpaceLayout =

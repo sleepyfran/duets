@@ -53,6 +53,7 @@ module WorldTypes =
         | Backstage
         | Bar
         | Bedroom
+        | BoardingGate
         | Cafe
         | CasinoFloor
         | ChangingRoom

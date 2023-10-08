@@ -1,20 +1,29 @@
 module Duets.Simulation.Flights.Airport
 
+open Duets.Common
 open Duets.Entities
-open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
+open Duets.Data
 open Duets.Simulation
 open Duets.Simulation.Time
 open Duets.Simulation.Navigation
+open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
 
 /// Makes the character go through the airport's security check, which will
 /// check for any non-permitted items and take them away from the character.
 let passSecurityCheck state =
-    Queries.Inventory.get state
-    |> List.filter (fun item ->
-        match item.Type with
-        | Consumable(Drink _) -> true
-        | _ -> false)
-    |> List.map ItemRemovedFromInventory
+    let itemRemovalEffects =
+        Queries.Inventory.get state
+        |> List.filter (fun item ->
+            match item.Type with
+            | Consumable(Drink _) -> true
+            | _ -> false)
+        |> List.map ItemRemovedFromInventory
+
+    let movementEffects =
+        Navigation.enter World.Ids.Airport.boardingGate state
+        |> Result.unwrap (* The airport is guaranteed to have an open boarding gate. *)
+
+    movementEffects :: itemRemovalEffects
 
 /// Boards the plane to the given flight, returning how many hours the trip will
 /// take and sets the situation to in-flight.

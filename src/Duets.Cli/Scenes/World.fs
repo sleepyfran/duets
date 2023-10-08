@@ -18,6 +18,7 @@ let private commandsFromInteractions interactions =
             match airportInteraction with
             | AirportInteraction.BoardAirplane flight ->
                 [ BoardPlaneCommand.create flight ]
+            | AirportInteraction.PassSecurity -> [ PassSecurityCommand.get ]
             | AirportInteraction.WaitUntilLanding flight ->
                 [ WaitForLandingCommand.create flight ]
         | Interaction.Career careerInteraction ->

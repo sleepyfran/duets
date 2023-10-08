@@ -18,13 +18,19 @@ module Airport =
         @ Drink.SoftDrinks.all
         |> List.map (fun (item, price) -> (item, price * 3m))
 
-    let private airportInteractions state =
+    let private airportInteractions state cityId roomType =
         let todayFlight = Queries.Flights.availableForBoarding state
 
-        match todayFlight with
-        | Some flight ->
+        let shopInteractions =
+            Restaurant.interactions cityId roomType @ Cafe.interactions roomType
+
+        match todayFlight, roomType with
+        | Some _, RoomType.SecurityControl ->
+            [ AirportInteraction.PassSecurity |> Interaction.Airport ]
+        | Some flight, RoomType.BoardingGate ->
             [ AirportInteraction.BoardAirplane flight |> Interaction.Airport ]
         | _ -> []
+        @ shopInteractions
 
     let private airplaneInteractions _ flight defaultInteractions =
         let allowedInteractions =
@@ -37,10 +43,10 @@ module Airport =
               |> Shop.interactions
           AirportInteraction.WaitUntilLanding flight |> Interaction.Airport ]
 
-    let internal interactions state defaultInteractions =
+    let internal interactions state cityId roomType defaultInteractions =
         let situation = Queries.Situations.current state
 
         match situation with
         | Airport(Flying flight) ->
             airplaneInteractions state flight defaultInteractions
-        | _ -> airportInteractions state @ defaultInteractions
+        | _ -> airportInteractions state cityId roomType @ defaultInteractions

@@ -100,6 +100,10 @@ let dummyCity =
     let world = World.get
     world.Cities |> Map.find Prague
 
+let dummyAirport =
+    Queries.World.placesByTypeInCity dummyCity.Id PlaceTypeIndex.Airport
+    |> List.head
+
 let dummyPlace =
     Queries.World.placesByTypeInCity dummyCity.Id PlaceTypeIndex.Home
     |> List.head

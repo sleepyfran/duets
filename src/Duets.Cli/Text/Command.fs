@@ -187,6 +187,9 @@ let mapTip =
 let boardPlaneDescription flight =
     $"Boards your plane to {Generic.cityName flight.Destination}"
 
+let passSecurityCheckDescription =
+    "Allows you to enter the boarding gate"
+
 let waitForLandingDescription =
     "Makes you wait until the plane lands and lets you enter the destination airport"
 

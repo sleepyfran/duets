@@ -3,6 +3,9 @@ module Duets.Data.World.Ids
 module Airport =
     let lobby = 0
     let securityControl = 1
+    let boardingGate = 2
+    let cafe = 3
+    let restaurant = 4
 
 module ConcertSpace =
     let lobby = 0
