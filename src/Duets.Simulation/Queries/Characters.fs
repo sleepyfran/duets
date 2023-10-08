@@ -43,8 +43,11 @@ module Characters =
          playableCharacterAttribute state attr3,
          playableCharacterAttribute state attr4)
 
-    /// Returns all the moodlets that are currently applied to the playable character.
+    /// Returns all the moodlets that are currently applied to the given character.
     let moodlets = Optic.get Lenses.Character.moodlets_
+
+    /// Returns all the moodlets that are currently applied to the playable character.
+    let playableCharacterMoodlets state = playableCharacter state |> moodlets
 
     /// Returns a character given its ID. Throws an exception if the key is not
     /// found.

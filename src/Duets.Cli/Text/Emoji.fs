@@ -65,3 +65,7 @@ let attribute attr amount =
         ":anatomical_heart: " (* Do NOT remove the space in the end *)
     | CharacterAttribute.Hunger -> ":pot_of_food:"
     | CharacterAttribute.Mood -> mood amount
+
+let moodlet m =
+    match m with
+    | MoodletType.NotInspired -> ":expressionless_face:"

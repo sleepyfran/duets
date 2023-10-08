@@ -23,11 +23,11 @@ module EffectTypes =
             character: CharacterId *
             attribute: CharacterAttribute *
             diff: Diff<CharacterAttributeAmount>
+        | CharacterHealthDepleted of CharacterId
+        | CharacterHospitalized of CharacterId * PlaceCoordinates
         | CharacterMoodletsChanged of
             character: CharacterId *
             moodlets: Diff<CharacterMoodlets>
-        | CharacterHealthDepleted of CharacterId
-        | CharacterHospitalized of CharacterId * PlaceCoordinates
         | ConcertScheduled of Band * ScheduledConcert
         | ConcertFinished of band: Band * concert: PastConcert * income: Amount
         | ConcertUpdated of Band * ScheduledConcert

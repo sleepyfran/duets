@@ -23,6 +23,37 @@ module MeCommand =
             (amount, Character.attributeName attr))
         |> showBarChart
 
+    let private showCharacterMoodlets character =
+        let moodlets = Queries.Characters.moodlets character
+
+        if Set.isEmpty moodlets then
+            Styles.faded "No moodlets affecting you right now" |> showMessage
+        else
+            moodlets
+            |> Set.iter (fun moodlet ->
+                let moodletName =
+                    match moodlet.MoodletType with
+                    | MoodletType.NotInspired ->
+                        "Not inspired" |> Styles.warning
+
+                let moodletExplanation =
+                    match moodlet.MoodletType with
+                    | MoodletType.NotInspired ->
+                        "You've been composing too much lately, better take a break! Composing and improving songs while not inspired won't be as effective"
+
+                let moodletExpirationText =
+                    match moodlet.Expiration with
+                    | MoodletExpirationTime.Never -> "Does not expire"
+                    | MoodletExpirationTime.AfterDays days ->
+                        $"Expires after {days} days"
+                    | MoodletExpirationTime.AfterDayMoments dayMoments ->
+                        $"Expires after {dayMoments} day moments"
+                    |> Styles.faded
+
+                $"""{Emoji.moodlet moodlet.MoodletType} {moodletName} - {moodletExplanation}
+   {moodletExpirationText}"""
+                |> showMessage)
+
     let private showCharacterSkills (character: Character) =
         let skills =
             Queries.Skills.characterSkillsWithLevel (State.get ()) character.Id
@@ -32,7 +63,8 @@ module MeCommand =
             Styles.faded "No skills learned yet" |> showMessage
         else
             skills
-            |> List.map (fun (skill, level) -> (level, Skill.skillName skill.Id))
+            |> List.map (fun (skill, level) ->
+                (level, Skill.skillName skill.Id))
             |> showBarChart
 
     /// Command which displays the information of the playable character.
@@ -51,6 +83,10 @@ module MeCommand =
                 Some "Attributes" |> showSeparator
 
                 showCharacterAttributes playableCharacter
+
+                Some "Moodlets" |> showSeparator
+
+                showCharacterMoodlets playableCharacter
 
                 Some "Skills" |> showSeparator
 

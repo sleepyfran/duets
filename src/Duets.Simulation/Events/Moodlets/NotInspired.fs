@@ -15,7 +15,7 @@ let applyIfNeeded bandId state =
     let lastTwoFinishedSongs =
         Queries.Songs.finishedNonRecordedByBand state bandId
         |> List.ofMapValues
-        |> List.sortBy Song.Finished.Metadata.finishDate
+        |> List.sortByDescending Song.Finished.Metadata.finishDate
         |> List.truncate 2
 
     match lastTwoFinishedSongs with
@@ -29,7 +29,7 @@ let applyIfNeeded bandId state =
         let latestSongFinishDate = Song.Finished.Metadata.finishDate latestSong
 
         let daysSinceLastSong =
-            Calendar.Query.daysBetween latestSongFinishDate lastSongFinishDate
+            Calendar.Query.daysBetween lastSongFinishDate latestSongFinishDate
 
         let shouldApplyMoodlet =
             daysSinceLastSong

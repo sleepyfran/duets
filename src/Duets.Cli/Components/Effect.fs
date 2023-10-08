@@ -94,6 +94,16 @@ let private displayEffect effect =
     | CharacterHospitalized _ ->
         showMessage Events.hospitalized
         lineBreak ()
+    | CharacterMoodletsChanged(_, Diff(prevMoodlets, currMoodlets)) ->
+        (currMoodlets, prevMoodlets)
+        ||> Set.difference
+        |> Set.toList
+        |> List.iter (fun moodlet ->
+            match moodlet.MoodletType with
+            | MoodletType.NotInspired ->
+                "You've been composing too much and you're not feeling inspired anymore. Try waiting a few days..."
+            |> Styles.warning
+            |> showMessage)
     | ConcertScheduled(_, ScheduledConcert(concert, _)) ->
         let place = Queries.World.placeInCityById concert.CityId concert.VenueId
 
