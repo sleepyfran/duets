@@ -33,11 +33,14 @@ module MeCommand =
             |> Set.iter (fun moodlet ->
                 let moodletName =
                     match moodlet.MoodletType with
+                    | MoodletType.JetLagged -> "Jet lagged" |> Styles.warning
                     | MoodletType.NotInspired ->
                         "Not inspired" |> Styles.warning
 
                 let moodletExplanation =
                     match moodlet.MoodletType with
+                    | MoodletType.JetLagged ->
+                        "You've traveled to a city with a very different timezone, you'll need some time to adjust. You might feel more tired than usual"
                     | MoodletType.NotInspired ->
                         "You've been composing too much lately, better take a break! Composing and improving songs while not inspired won't be as effective"
 

@@ -16,9 +16,20 @@ let private moodletsWithNotInspired =
           MoodletExpirationTime.Never ]
     |> Set.ofList
 
-let private state =
+let private moodletsWithJetLagged =
+    [ Moodlet.create
+          MoodletType.JetLagged
+          dummyToday
+          MoodletExpirationTime.Never ]
+    |> Set.ofList
+
+let private notInspiredState =
     dummyState
     |> State.Characters.setMoodlets dummyCharacter.Id moodletsWithNotInspired
+
+let private jetLaggedState =
+    dummyState
+    |> State.Characters.setMoodlets dummyCharacter.Id moodletsWithJetLagged
 
 let private unfinishedSong = Unfinished(dummySong, 100<quality>, 20<quality>)
 let private songStartedEffect = SongStarted(dummyBand, unfinishedSong)
@@ -28,6 +39,110 @@ let private songImprovedEffect =
         dummyBand,
         Diff(unfinishedSong, Unfinished(dummySong, 100<quality>, 40<quality>))
     )
+
+// =============================================================================
+// JetLagged
+// =============================================================================
+
+[<Test>]
+let ``tick of CharacterAttributeChanged does not change if character does not have moodlet``
+    ()
+    =
+    let effect =
+        CharacterAttributeChanged(
+            dummyCharacter.Id,
+            CharacterAttribute.Energy,
+            Diff(50, 100)
+        )
+
+    let characterAttributeChangedEffects =
+        Simulation.tickOne dummyState effect
+        |> fst
+        |> List.filter (function
+            | CharacterAttributeChanged _ -> true
+            | _ -> false)
+
+    characterAttributeChangedEffects |> should haveLength 1
+
+    characterAttributeChangedEffects |> List.head |> should equal effect
+
+[<Test>]
+let ``tick of CharacterAttributeChanged does not change if character has JetLagged moodlet but the attribute is not energy``
+    ()
+    =
+    let effect =
+        CharacterAttributeChanged(
+            dummyCharacter.Id,
+            CharacterAttribute.Fame,
+            Diff(50, 100)
+        )
+
+    let characterAttributeChangedEffects =
+        Simulation.tickOne jetLaggedState effect
+        |> fst
+        |> List.filter (function
+            | CharacterAttributeChanged _ -> true
+            | _ -> false)
+
+    characterAttributeChangedEffects |> should haveLength 1
+
+    characterAttributeChangedEffects |> List.head |> should equal effect
+
+[<Test>]
+let ``tick of CharacterAttributeChanged does not change if character has JetLagged moodlet but energy is decreasing``
+    ()
+    =
+    let effect =
+        CharacterAttributeChanged(
+            dummyCharacter.Id,
+            CharacterAttribute.Energy,
+            Diff(100, 50)
+        )
+
+    let characterAttributeChangedEffects =
+        Simulation.tickOne jetLaggedState effect
+        |> fst
+        |> List.filter (function
+            | CharacterAttributeChanged _ -> true
+            | _ -> false)
+
+    characterAttributeChangedEffects |> should haveLength 1
+
+    characterAttributeChangedEffects |> List.head |> should equal effect
+
+[<Test>]
+let ``tick of CharacterAttributeChanged reduces the change by 50% when character has JetLagged moodlet and energy is increasing``
+    ()
+    =
+    let effect =
+        CharacterAttributeChanged(
+            dummyCharacter.Id,
+            CharacterAttribute.Energy,
+            Diff(50, 100)
+        )
+
+    let characterAttributeChangedEffects =
+        Simulation.tickOne jetLaggedState effect
+        |> fst
+        |> List.filter (function
+            | CharacterAttributeChanged _ -> true
+            | _ -> false)
+
+    characterAttributeChangedEffects |> should haveLength 1
+
+    let effect = characterAttributeChangedEffects |> List.head
+
+    match effect with
+    | CharacterAttributeChanged(id, attribute, Diff(before, after)) ->
+        id |> should equal dummyCharacter.Id
+        attribute |> should equal CharacterAttribute.Energy
+        before |> should equal 50
+        after |> should equal 75
+    | _ -> failwith "Unexpected effect"
+
+// =============================================================================
+// NotInspired
+// =============================================================================
 
 [<Test>]
 let ``tick of SongStarted does not change if character does not have moodlet``
@@ -46,7 +161,7 @@ let ``tick of SongStarted does not change if character does not have moodlet``
 [<Test>]
 let ``tick of SongStarted reduces the score by 75% when not inspired`` () =
     let songStartedEffects =
-        Simulation.tickOne state songStartedEffect
+        Simulation.tickOne notInspiredState songStartedEffect
         |> fst
         |> List.filter (function
             | SongStarted _ -> true
@@ -68,7 +183,7 @@ let ``tick of SongImproved reduces the improved score by 75% when not inspired``
     ()
     =
     let songImprovedEffects =
-        Simulation.tickOne state songImprovedEffect
+        Simulation.tickOne notInspiredState songImprovedEffect
         |> fst
         |> List.filter (function
             | SongImproved _ -> true

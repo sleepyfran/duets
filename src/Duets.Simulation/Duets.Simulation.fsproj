@@ -129,6 +129,7 @@
         <Compile Include="Events\Place\RentalExpiration.fs" />
         <Compile Include="Events\Moodlets\NotInspired.fs"/>
         <Compile Include="Events\Moodlets\Cleanup.fs"/>
+        <Compile Include="Events\Moodlets\JetLagged.fs"/>
         <Compile Include="Events\Moodlets\Moodlets.Events.fs"/>
         <Compile Include="Events\Career.Events.fs" />
         <Compile Include="Events\NonInteractiveGame.Events.fs" />

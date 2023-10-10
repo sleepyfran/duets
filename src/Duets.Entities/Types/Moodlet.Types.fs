@@ -11,7 +11,9 @@ module MoodletTypes =
 
     /// Defines all types of moodlet that can be applied to a character.
     [<RequireQualifiedAccess>]
-    type MoodletType = NotInspired
+    type MoodletType =
+        | JetLagged
+        | NotInspired
 
     /// Defines a moodlet that can be applied to a character.
     type Moodlet =

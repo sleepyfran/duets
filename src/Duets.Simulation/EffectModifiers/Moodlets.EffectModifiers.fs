@@ -12,6 +12,7 @@ let modify state effect =
     |> Set.fold
         (fun effect moodlet ->
             match moodlet.MoodletType with
+            | MoodletType.JetLagged -> modifyForJetLagged effect
             | MoodletType.NotInspired -> modifyForNotInspired effect)
         effect
 
@@ -36,5 +37,22 @@ let private modifyForNotInspired effect =
         SongImproved(
             band,
             Diff(before, Unfinished(song, maxQuality, currentQuality))
+        )
+    | _ -> effect
+
+/// Modifies the amount of energy increases that the character gets while
+/// jet lagged.
+let private modifyForJetLagged effect =
+    match effect with
+    | CharacterAttributeChanged(characterId, attribute, Diff(prev, curr)) when
+        attribute = CharacterAttribute.Energy && prev < curr
+        ->
+        let attributeGain = (float curr - float prev) * 0.5
+        let reducedAttribute = float prev + attributeGain |> Math.ceilToNearest
+
+        CharacterAttributeChanged(
+            characterId,
+            attribute,
+            Diff(prev, reducedAttribute)
         )
     | _ -> effect

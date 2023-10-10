@@ -20,6 +20,61 @@ let private finishedSong = Finished(song, 100<quality>)
 let private songFinishedEffect =
     SongFinished(dummyBand, finishedSong, dummyToday)
 
+let private worldMoveEffect prevCity currCity =
+    let queryPlace cityId =
+        Queries.World.placesByTypeInCity cityId PlaceTypeIndex.Airport
+        |> List.head
+
+    let prevCityPlace = queryPlace prevCity
+    let currCityPlace = queryPlace currCity
+
+
+    WorldMoveTo(
+        Diff((prevCity, prevCityPlace.Id, 0), (currCity, currCityPlace.Id, 0))
+    )
+
+// =============================================================================
+// JetLagged
+// =============================================================================
+
+[<Test>]
+let ``tick of WorldMoveTo does not apply any extra effects if the difference in timezones is less than 4 hours``
+    ()
+    =
+    [ London, Prague; Madrid, Prague; NewYork, MexicoCity; Sydney, Tokyo ]
+    |> List.iter (fun (prevCity, currCity) ->
+        Simulation.tickOne dummyState (worldMoveEffect prevCity currCity)
+        |> fst
+        |> should haveLength 1 (* This includes the effect we ticked. *) )
+
+[<Test>]
+let ``tick of song finished should apply JetLagged moodlet if the cities are more than 4 timezones apart``
+    ()
+    =
+    [ London, NewYork; London, Sydney; NewYork, London; Sydney, London ]
+    |> List.iter (fun (prevCity, currCity) ->
+        let moodletEffect =
+            Simulation.tickOne dummyState (worldMoveEffect prevCity currCity)
+            |> fst
+            |> List.item 1 (* Position 0 is the effect we've ticked. *)
+
+        match moodletEffect with
+        | CharacterMoodletsChanged(_, Diff(prevMoodlet, currMoodlet)) ->
+            prevMoodlet |> should haveCount 0
+            currMoodlet |> should haveCount 1
+
+            let moodlet = currMoodlet |> Set.toList |> List.head
+
+            moodlet.MoodletType
+            |> should be (ofCase <@ MoodletType.JetLagged @>)
+
+            moodlet.StartedOn |> should equal dummyToday
+        | _ -> failwith "Unexpected effect")
+
+// =============================================================================
+// NotInspired
+// =============================================================================
+
 [<Test>]
 let ``tick of song finished should not apply any extra effects if there were no other composed songs``
     ()

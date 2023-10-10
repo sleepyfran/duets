@@ -100,6 +100,8 @@ let private displayEffect effect =
         |> Set.toList
         |> List.iter (fun moodlet ->
             match moodlet.MoodletType with
+            | MoodletType.JetLagged ->
+                "You feel a bit confused because of the time difference, you might feel more tired than usual"
             | MoodletType.NotInspired ->
                 "You've been composing too much and you're not feeling inspired anymore. Try waiting a few days..."
             |> Styles.warning

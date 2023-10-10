@@ -11,4 +11,6 @@ let internal run effect =
     | SongFinished(band, _, _) ->
         ContinueChain [ NotInspired.applyIfNeeded band.Id ] |> Some
     | TimeAdvanced _ -> ContinueChain [ Cleanup.cleanup ] |> Some
+    | WorldMoveTo(Diff((prevCityId, _, _), (currCityId, _, _))) ->
+        ContinueChain [ JetLagged.applyIfNeeded prevCityId currCityId ] |> Some
     | _ -> None
