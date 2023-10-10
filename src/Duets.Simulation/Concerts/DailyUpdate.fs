@@ -122,6 +122,6 @@ let dailyUpdate state =
     let currentBand = Queries.Bands.currentBand state
 
     Queries.Concerts.allScheduled state currentBand.Id
-    |> Set.fold
+    |> List.fold
         (fun acc concert -> acc @ [ concertDailyUpdate state concert ])
         []

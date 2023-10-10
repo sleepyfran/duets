@@ -1,4 +1,4 @@
-module Duets.Entities.Concert
+module rec Duets.Entities.Concert
 
 open Aether
 open Duets.Entities
@@ -9,8 +9,39 @@ type TicketPriceError =
 
 module Timeline =
     let empty =
-        { ScheduledEvents = Set.empty
-          PastEvents = Set.empty }
+        { ScheduledEvents = List.empty
+          PastEvents = List.empty }
+
+    /// Adds the given scheduled concert to the timeline, placing it sorted
+    /// by its date so that the timeline is always ordered by upcoming events.
+    let addScheduled
+        (event: ScheduledConcert)
+        (scheduledEvents: ScheduledConcert list)
+        =
+        match scheduledEvents with
+        | [] -> [ event ]
+        | head :: tail ->
+            let headConcert = Concert.fromScheduled head
+            let eventConcert = Concert.fromScheduled event
+
+            if headConcert.Date < eventConcert.Date then
+                head :: (addScheduled event tail)
+            else
+                event :: scheduledEvents
+
+    /// Adds the given past concert to the timeline, placing it sorted by its
+    /// date so that the timeline is always ordered by the closest event.
+    let addPast (event: PastConcert) (pastEvents: PastConcert list) =
+        match pastEvents with
+        | [] -> [ event ]
+        | head :: tail ->
+            let headConcert = Concert.fromPast head
+            let eventConcert = Concert.fromPast event
+
+            if headConcert.Date <= eventConcert.Date then
+                event :: head :: tail
+            else
+                head :: (addPast event tail)
 
 module Ongoing =
     /// Returns the number of times that an event was performed.
@@ -62,10 +93,10 @@ let validatePrice ticketPrice =
     else Ok ticketPrice
 
 /// Returns the inner concert inside a past concert.
-let fromPast (concert: PastConcert) =
+let fromPast (concert: PastConcert) : Concert =
     match concert with
     | PerformedConcert(concert, _) -> concert
     | FailedConcert(concert, _) -> concert
 
 /// Returns the inner concert inside a scheduled concert.
-let fromScheduled (ScheduledConcert(concert, _)) = concert
+let fromScheduled (ScheduledConcert(concert, _)) : Concert = concert

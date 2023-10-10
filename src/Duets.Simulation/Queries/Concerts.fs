@@ -85,7 +85,7 @@ let allScheduled state bandId =
         Lenses.FromState.Concerts.allByBand_ bandId
         >?> Lenses.Concerts.Timeline.scheduled_
 
-    Optic.get lenses state |> Option.defaultValue Set.empty
+    Optic.get lenses state |> Option.defaultValue List.empty
 
 /// Returns all past concerts.
 let allPast state bandId =
@@ -93,7 +93,7 @@ let allPast state bandId =
         Lenses.FromState.Concerts.allByBand_ bandId
         >?> Lenses.Concerts.Timeline.pastEvents_
 
-    Optic.get lenses state |> Option.defaultValue Set.empty
+    Optic.get lenses state |> Option.defaultValue List.empty
 
 /// Returns the last concert that happened in the city, if any.
 let lastConcertInCity state bandId cityId =
@@ -102,13 +102,10 @@ let lastConcertInCity state bandId cityId =
         >?> Lenses.Concerts.Timeline.pastEvents_
 
     Optic.get lenses state
-    |> Option.defaultValue Set.empty
-    |> Set.toSeq
-    |> Seq.filter (fun concert ->
+    |> Option.defaultValue List.empty
+    |> List.filter (fun concert ->
         Concert.fromPast concert |> fun c -> c.CityId = cityId)
-    |> Seq.sortByDescending (fun concert ->
-        Concert.fromPast concert |> fun c -> c.Date)
-    |> Seq.tryHead
+    |> List.tryHead
 
 /// Calculates the percentage of people that came to the concert out of the
 /// entire capacity of the venue.

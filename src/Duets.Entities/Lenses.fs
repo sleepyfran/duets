@@ -286,8 +286,8 @@ module FromState =
             State.concerts_
             >-> Map.keyWithDefault_
                 bandId
-                { ScheduledEvents = Set.empty
-                  PastEvents = Set.empty }
+                { ScheduledEvents = List.empty
+                  PastEvents = List.empty }
 
     module GenreMarkets =
         /// Lens into a specific genre market given its genre ID.

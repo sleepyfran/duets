@@ -34,7 +34,7 @@ let ``generates as many effects as concerts are scheduled`` () =
             |> Option.get
 
         List.length effects
-        |> should equal (Set.count concerts.ScheduledEvents))
+        |> should equal (List.length concerts.ScheduledEvents))
 
 [<Test>]
 let ``generates sold tickets based on band's fame, venue capacity, last time visit, ticket price and days until the concert``
@@ -303,7 +303,7 @@ let ``computes daily tickets based on headliner if participation type is opening
             (ScheduledConcert(
                 { dummyConcert with
                     Date = dummyToday
-                    TicketPrice = 6m<dd> 
+                    TicketPrice = 6m<dd>
                     ParticipationType =
                         OpeningAct(dummyHeadlinerBand.Id, 50<percent>) },
                 dummyToday

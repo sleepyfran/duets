@@ -69,8 +69,8 @@ let generator (opts: StateGenOptions) =
             opts.PastConcertGen |> Gen.sample 0 opts.PastConcertsToGenerate
 
         let timeline =
-            { PastEvents = Set.ofList pastConcerts
-              ScheduledEvents = Set.ofList scheduledConcerts }
+            { PastEvents = pastConcerts
+              ScheduledEvents = scheduledConcerts }
 
         let! flights = Gen.listOfLength opts.FlightsToGenerate opts.FlightGen
 

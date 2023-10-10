@@ -6,7 +6,7 @@ open Duets.Entities
 module ConcertTypes =
     /// Unique identifier of a concert.
     type ConcertId = Identity
-    
+
     /// Defines the type of participation of a band in a concert.
     type ParticipationType =
         | Headliner
@@ -15,16 +15,15 @@ module ConcertTypes =
     /// Represents a single concert in a venue.
     [<CustomEquality; CustomComparison>]
     type Concert =
-        {
-            Id: ConcertId
-            CityId: CityId
-            VenueId: PlaceId
-            Date: Date
-            DayMoment: DayMoment
-            TicketPrice: Amount
-            TicketsSold: int
-            ParticipationType: ParticipationType
-        }
+        { Id: ConcertId
+          CityId: CityId
+          VenueId: PlaceId
+          Date: Date
+          DayMoment: DayMoment
+          TicketPrice: Amount
+          TicketsSold: int
+          ParticipationType: ParticipationType }
+
         override x.Equals(obj) =
             match obj with
             | :? Concert as c -> (x.Id = c.Id)
@@ -66,11 +65,10 @@ module ConcertTypes =
     /// Represents a concert that is currently ongoing, where we keep all the
     /// events that the player have done during the concert and the total amount
     /// of points gathered.
-    type OngoingConcert = {
-        Events: ConcertEvent list
-        Points: Quality
-        Concert: Concert
-    }
+    type OngoingConcert =
+        { Events: ConcertEvent list
+          Points: Quality
+          Concert: Concert }
 
     /// Represents a concert that hasn't happened yet.
     type ScheduledConcert = ScheduledConcert of Concert * scheduledOn: Date
@@ -90,11 +88,17 @@ module ConcertTypes =
     /// Defines a timeline of concerts as two lists: one for the events that
     /// have already happened and another for the ones that will happen in the
     /// future.
-    type ConcertTimeline = {
-        // TODO: Consider moving into simple lists since we're not really using any nicety from the Set module.
-        ScheduledEvents: Set<ScheduledConcert>
-        PastEvents: Set<PastConcert>
-    }
+    type ConcertTimeline =
+        {
+            /// List of upcoming concerts. Guaranteed to be sorted by the concert's
+            /// date, in ascending order from the closest concert to the furthest.
+            ScheduledEvents: ScheduledConcert list
+
+            /// List of concerts that have already happened. Guaranteed to be sorted
+            /// by the concert's date, in descending order from the most recent
+            /// concert to the oldest.
+            PastEvents: PastConcert list
+        }
 
     /// Holds all concerts scheduled by all bands in the game.
     type ConcertsByBand = Map<BandId, ConcertTimeline>
