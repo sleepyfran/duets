@@ -26,15 +26,13 @@ let forDay state date =
 
 /// Retrieves all the flights booked in the month of the given date.
 let forMonth state date =
-    let today =
-        Queries.Calendar.today state |> Calendar.Transform.resetDayMoment
-
-    let dateMonth = date |> Calendar.Query.firstDayOfNextMonth
+    let firstDayOfMonth = date |> Calendar.Query.firstDayOfMonth
+    let lastDayOfMonth = date |> Calendar.Query.lastDayOfMonth
 
     Optic.get Lenses.State.flights_ state
     |> List.filter (fun flight ->
-        flight.Date >= today
-        && flight.Date < dateMonth
+        flight.Date >= firstDayOfMonth
+        && flight.Date <= lastDayOfMonth
         && not flight.AlreadyUsed)
 
 /// Retrieves any flight that is currently possible for the character to board.

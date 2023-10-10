@@ -128,10 +128,19 @@ module Query =
     let isFirstMomentOfYear (date: Date) =
         date.Day = 1 && date.Month = 1 && dayMomentOf date = EarlyMorning
 
+    /// Returns the first date of the month from the given date.
+    let firstDayOfMonth (date: Date) = DateTime(date.Year, date.Month, 1)
+
+    /// Returns the last date of the month from the given date.
+    let lastDayOfMonth (date: Date) =
+        DateTime(
+            date.Year,
+            date.Month,
+            DateTime.DaysInMonth(date.Year, date.Month)
+        )
+
     /// Returns the first date of the next month from the given date.
-    let firstDayOfNextMonth (date: Date) =
-        let dateWithAddedMonth = date.AddMonths(1)
-        DateTime(dateWithAddedMonth.Year, dateWithAddedMonth.Month, 1)
+    let firstDayOfNextMonth (date: Date) = date.AddMonths(1) |> firstDayOfMonth
 
     /// Returns the first date of the previous month from the given date.
     let firstDayOfPreviousMonth (date: Date) =
