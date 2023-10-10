@@ -19,7 +19,8 @@ let private stGeorge = World.Zone.create "St. George"
 
 /// Generates the city of New York.
 let generate () =
-    let createNewYork = World.City.create NewYork 6.0
+    let createNewYork =
+        World.City.create NewYork 6.0<costOfLiving> -5<utcOffset>
 
     createHome
     |> createNewYork
@@ -94,21 +95,13 @@ let private addConcertSpaces city =
        brooklynHeights,
        88<quality>,
        Layouts.concertSpaceLayout2)
-      ("Carnegie Hall",
-       2804,
-       midtown,
-       89<quality>,
-       Layouts.concertSpaceLayout4)
+      ("Carnegie Hall", 2804, midtown, 89<quality>, Layouts.concertSpaceLayout4)
       ("Beacon Theatre",
        2894,
        upperWestSide,
        95<quality>,
        Layouts.concertSpaceLayout2)
-      ("Apollo Theater",
-       1506,
-       harlem,
-       80<quality>,
-       Layouts.concertSpaceLayout1)
+      ("Apollo Theater", 1506, harlem, 80<quality>, Layouts.concertSpaceLayout1)
       ("The Bowery Ballroom",
        575,
        lowerEastSide,
@@ -119,11 +112,7 @@ let private addConcertSpaces city =
        eastVillage,
        84<quality>,
        Layouts.concertSpaceLayout1)
-      ("Terminal 5",
-       3000,
-       midtown,
-       82<quality>,
-       Layouts.concertSpaceLayout2)
+      ("Terminal 5", 3000, midtown, 82<quality>, Layouts.concertSpaceLayout2)
       ("Webster Hall",
        1500,
        eastVillage,
@@ -144,11 +133,7 @@ let private addConcertSpaces city =
        brooklynHeights,
        87<quality>,
        Layouts.concertSpaceLayout4)
-      ("The Town Hall",
-       1500,
-       midtown,
-       88<quality>,
-       Layouts.concertSpaceLayout2)
+      ("The Town Hall", 1500, midtown, 88<quality>, Layouts.concertSpaceLayout2)
       ("The Hammerstein Ballroom",
        2200,
        midtown,
@@ -184,12 +169,7 @@ let private addConcertSpaces city =
 
 (* -------- Home --------- *)
 let createHome =
-    World.Place.create
-        "Home"
-        100<quality>
-        Home
-        Layouts.homeLayout
-        soho
+    World.Place.create "Home" 100<quality> Home Layouts.homeLayout soho
 
 (* -------- Gyms --------- *)
 let private addGyms city =

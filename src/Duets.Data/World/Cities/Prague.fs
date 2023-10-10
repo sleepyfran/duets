@@ -20,7 +20,7 @@ let private žižkov = World.Zone.create "Žižkov"
 
 /// Generates the city of Prague.
 let generate () =
-    let createPrague = World.City.create Prague 1.6
+    let createPrague = World.City.create Prague 1.6<costOfLiving> 1<utcOffset>
 
     createHome
     |> createPrague
@@ -85,51 +85,23 @@ let private addConcertSpaces city =
        novéMěsto,
        90<quality>,
        Layouts.concertSpaceLayout1)
-      ("Palác Akropolis",
-       500,
-       žižkov,
-       92<quality>,
-       Layouts.concertSpaceLayout3)
-      ("Rock Café",
-       350,
-       novéMěsto,
-       88<quality>,
-       Layouts.concertSpaceLayout2)
+      ("Palác Akropolis", 500, žižkov, 92<quality>, Layouts.concertSpaceLayout3)
+      ("Rock Café", 350, novéMěsto, 88<quality>, Layouts.concertSpaceLayout2)
       ("Futurum Music Bar",
        650,
        smíchov,
        89<quality>,
        Layouts.concertSpaceLayout4)
-      ("Jazz Dock",
-       150,
-       smíchov,
-       95<quality>,
-       Layouts.concertSpaceLayout2)
-      ("Café v lese",
-       250,
-       vršovice,
-       80<quality>,
-       Layouts.concertSpaceLayout1)
-      ("Cross Club",
-       400,
-       holešovice,
-       86<quality>,
-       Layouts.concertSpaceLayout3)
-      ("Storm Club",
-       500,
-       libeň,
-       84<quality>,
-       Layouts.concertSpaceLayout1)
+      ("Jazz Dock", 150, smíchov, 95<quality>, Layouts.concertSpaceLayout2)
+      ("Café v lese", 250, vršovice, 80<quality>, Layouts.concertSpaceLayout1)
+      ("Cross Club", 400, holešovice, 86<quality>, Layouts.concertSpaceLayout3)
+      ("Storm Club", 500, libeň, 84<quality>, Layouts.concertSpaceLayout1)
       ("Underdogs' Ballroom & Bar",
        200,
        smíchov,
        82<quality>,
        Layouts.concertSpaceLayout2)
-      ("Roxy",
-       900,
-       staréMěsto,
-       90<quality>,
-       Layouts.concertSpaceLayout3)
+      ("Roxy", 900, staréMěsto, 90<quality>, Layouts.concertSpaceLayout3)
       ("Retro Music Hall",
        1000,
        vinohrady,
@@ -140,46 +112,18 @@ let private addConcertSpaces city =
        břevnov,
        83<quality>,
        Layouts.concertSpaceLayout1)
-      ("Royal Theatre",
-       300,
-       vinohrady,
-       87<quality>,
-       Layouts.concertSpaceLayout4)
-      ("MeetFactory",
-       500,
-       smíchov,
-       88<quality>,
-       Layouts.concertSpaceLayout2)
-      ("La Fabrica",
-       800,
-       staréMěsto,
-       86<quality>,
-       Layouts.concertSpaceLayout3)
-      ("Forum Karlín",
-       3000,
-       karlín,
-       91<quality>,
-       Layouts.concertSpaceLayout1)
-      ("O2 Universum",
-       4500,
-       libeň,
-       92<quality>,
-       Layouts.concertSpaceLayout3)
+      ("Royal Theatre", 300, vinohrady, 87<quality>, Layouts.concertSpaceLayout4)
+      ("MeetFactory", 500, smíchov, 88<quality>, Layouts.concertSpaceLayout2)
+      ("La Fabrica", 800, staréMěsto, 86<quality>, Layouts.concertSpaceLayout3)
+      ("Forum Karlín", 3000, karlín, 91<quality>, Layouts.concertSpaceLayout1)
+      ("O2 Universum", 4500, libeň, 92<quality>, Layouts.concertSpaceLayout3)
       ("Tipsport Arena",
        13000,
        holešovice,
        88<quality>,
        Layouts.concertSpaceLayout4)
-      ("O2 Arena",
-       18000,
-       libeň,
-       95<quality>,
-       Layouts.concertSpaceLayout2)
-      ("Eden Aréna",
-       21000,
-       vršovice,
-       90<quality>,
-       Layouts.concertSpaceLayout1) ]
+      ("O2 Arena", 18000, libeň, 95<quality>, Layouts.concertSpaceLayout2)
+      ("Eden Aréna", 21000, vršovice, 90<quality>, Layouts.concertSpaceLayout1) ]
     |> List.map PlaceCreators.createConcertSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
@@ -199,12 +143,7 @@ let addGyms city =
 
 (* -------- Home --------- *)
 let createHome =
-    World.Place.create
-        "Home"
-        100<quality>
-        Home
-        Layouts.homeLayout
-        vinohrady
+    World.Place.create "Home" 100<quality> Home Layouts.homeLayout vinohrady
 
 (* -------- Hospital --------- *)
 let addHospital city =

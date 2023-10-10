@@ -24,7 +24,7 @@ let private malasaña = World.Zone.create "Malasaña"
 
 /// Generates the city of Madrid.
 let generate () =
-    let createMadrid = World.City.create Madrid 1.8
+    let createMadrid = World.City.create Madrid 1.8<costOfLiving> 1<utcOffset>
 
     createHome
     |> createMadrid
@@ -89,112 +89,43 @@ let private addConcertSpaces city =
        salamanca,
        95<quality>,
        Layouts.concertSpaceLayout1)
-      ("La Riviera",
-       2500,
-       latina,
-       90<quality>,
-       Layouts.concertSpaceLayout2)
-      ("Teatro Real",
-       1700,
-       sol,
-       98<quality>,
-       Layouts.concertSpaceLayout3)
+      ("La Riviera", 2500, latina, 90<quality>, Layouts.concertSpaceLayout2)
+      ("Teatro Real", 1700, sol, 98<quality>, Layouts.concertSpaceLayout3)
       ("Palacio de Vistalegre",
        15000,
        carabanchel,
        90<quality>,
        Layouts.concertSpaceLayout4)
-      ("Teatro Barceló",
-       900,
-       sol,
-       92<quality>,
-       Layouts.concertSpaceLayout1)
-      ("Moby Dick Club",
-       400,
-       tetuán,
-       85<quality>,
-       Layouts.concertSpaceLayout2)
-      ("Joy Eslava",
-       800,
-       sol,
-       90<quality>,
-       Layouts.concertSpaceLayout3)
-      ("Sala El Sol",
-       400,
-       sol,
-       86<quality>,
-       Layouts.concertSpaceLayout4)
-      ("Sala But",
-       900,
-       arganzuela,
-       88<quality>,
-       Layouts.concertSpaceLayout1)
-      ("Café La Palma",
-       300,
-       sol,
-       80<quality>,
-       Layouts.concertSpaceLayout2)
-      ("Teatro Lara",
-       400,
-       sol,
-       89<quality>,
-       Layouts.concertSpaceLayout3)
-      ("Sala Caracol",
-       500,
-       arganzuela,
-       85<quality>,
-       Layouts.concertSpaceLayout4)
+      ("Teatro Barceló", 900, sol, 92<quality>, Layouts.concertSpaceLayout1)
+      ("Moby Dick Club", 400, tetuán, 85<quality>, Layouts.concertSpaceLayout2)
+      ("Joy Eslava", 800, sol, 90<quality>, Layouts.concertSpaceLayout3)
+      ("Sala El Sol", 400, sol, 86<quality>, Layouts.concertSpaceLayout4)
+      ("Sala But", 900, arganzuela, 88<quality>, Layouts.concertSpaceLayout1)
+      ("Café La Palma", 300, sol, 80<quality>, Layouts.concertSpaceLayout2)
+      ("Teatro Lara", 400, sol, 89<quality>, Layouts.concertSpaceLayout3)
+      ("Sala Caracol", 500, arganzuela, 85<quality>, Layouts.concertSpaceLayout4)
       ("Galileo Galilei",
        600,
        chamberí,
        87<quality>,
        Layouts.concertSpaceLayout1)
-      ("Café Berlín",
-       400,
-       sol,
-       83<quality>,
-       Layouts.concertSpaceLayout2)
-      ("Sala Clamores",
-       500,
-       chamberí,
-       84<quality>,
-       Layouts.concertSpaceLayout3)
+      ("Café Berlín", 400, sol, 83<quality>, Layouts.concertSpaceLayout2)
+      ("Sala Clamores", 500, chamberí, 84<quality>, Layouts.concertSpaceLayout3)
       ("Teatro de la Zarzuela",
        1300,
        sol,
        96<quality>,
        Layouts.concertSpaceLayout4)
-      ("Sala Mon",
-       900,
-       tetuán,
-       87<quality>,
-       Layouts.concertSpaceLayout1)
-      ("Teatro Nuevo Apolo",
-       1200,
-       sol,
-       88<quality>,
-       Layouts.concertSpaceLayout2)
-      ("Wurlitzer Ballroom",
-       120,
-       sol,
-       79<quality>,
-       Layouts.concertSpaceLayout3)
-      ("Costello Club",
-       300,
-       sol,
-       82<quality>,
-       Layouts.concertSpaceLayout4) ]
+      ("Sala Mon", 900, tetuán, 87<quality>, Layouts.concertSpaceLayout1)
+      ("Teatro Nuevo Apolo", 1200, sol, 88<quality>, Layouts.concertSpaceLayout2)
+      ("Wurlitzer Ballroom", 120, sol, 79<quality>, Layouts.concertSpaceLayout3)
+      ("Costello Club", 300, sol, 82<quality>, Layouts.concertSpaceLayout4) ]
     |> List.map PlaceCreators.createConcertSpace
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Home --------- *)
 let createHome =
-    World.Place.create
-        "Home"
-        100<quality>
-        Home
-        Layouts.homeLayout
-        retiro
+    World.Place.create "Home" 100<quality> Home Layouts.homeLayout retiro
 
 (* -------- Gyms --------- *)
 let private addGyms city =

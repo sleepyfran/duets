@@ -26,7 +26,7 @@ let private lambeth = World.Zone.create "Lambeth"
 
 /// Generates the city of London.
 let generate () =
-    let createLondon = World.City.create London 4.0
+    let createLondon = World.City.create London 4.0<costOfLiving> 0<utcOffset>
 
     createHome
     |> createLondon
@@ -101,11 +101,7 @@ let private addConcertSpaces city =
        brixton,
        88<quality>,
        Layouts.concertSpaceLayout2)
-      ("Roundhouse",
-       1700,
-       camdenTown,
-       89<quality>,
-       Layouts.concertSpaceLayout4)
+      ("Roundhouse", 1700, camdenTown, 89<quality>, Layouts.concertSpaceLayout4)
       ("Hammersmith Apollo",
        5000,
        hammersmith,
@@ -116,26 +112,10 @@ let private addConcertSpaces city =
        islington,
        80<quality>,
        Layouts.concertSpaceLayout1)
-      ("Union Chapel",
-       900,
-       islington,
-       86<quality>,
-       Layouts.concertSpaceLayout3)
-      ("Scala",
-       1145,
-       camdenTown,
-       84<quality>,
-       Layouts.concertSpaceLayout1)
-      ("Bush Hall",
-       350,
-       hammersmith,
-       82<quality>,
-       Layouts.concertSpaceLayout2)
-      ("The Forum",
-       2300,
-       camdenTown,
-       90<quality>,
-       Layouts.concertSpaceLayout3)
+      ("Union Chapel", 900, islington, 86<quality>, Layouts.concertSpaceLayout3)
+      ("Scala", 1145, camdenTown, 84<quality>, Layouts.concertSpaceLayout1)
+      ("Bush Hall", 350, hammersmith, 82<quality>, Layouts.concertSpaceLayout2)
+      ("The Forum", 2300, camdenTown, 90<quality>, Layouts.concertSpaceLayout3)
       ("Electric Ballroom",
        1100,
        camdenTown,
@@ -151,26 +131,10 @@ let private addConcertSpaces city =
        camdenTown,
        87<quality>,
        Layouts.concertSpaceLayout4)
-      ("The Garage",
-       600,
-       islington,
-       88<quality>,
-       Layouts.concertSpaceLayout2)
-      ("The Borderline",
-       300,
-       soho,
-       86<quality>,
-       Layouts.concertSpaceLayout3)
-      ("The 100 Club",
-       350,
-       soho,
-       91<quality>,
-       Layouts.concertSpaceLayout1)
-      ("The Lexington",
-       200,
-       islington,
-       92<quality>,
-       Layouts.concertSpaceLayout3)
+      ("The Garage", 600, islington, 88<quality>, Layouts.concertSpaceLayout2)
+      ("The Borderline", 300, soho, 86<quality>, Layouts.concertSpaceLayout3)
+      ("The 100 Club", 350, soho, 91<quality>, Layouts.concertSpaceLayout1)
+      ("The Lexington", 200, islington, 92<quality>, Layouts.concertSpaceLayout3)
       ("The Dublin Castle",
        200,
        camdenTown,
@@ -191,12 +155,7 @@ let private addConcertSpaces city =
 
 (* -------- Home --------- *)
 let createHome =
-    World.Place.create
-        "Home"
-        100<quality>
-        Home
-        Layouts.homeLayout
-        soho
+    World.Place.create "Home" 100<quality> Home Layouts.homeLayout soho
 
 (* -------- Gyms --------- *)
 let private addGyms city =

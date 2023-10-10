@@ -16,7 +16,7 @@ let private shinagawa = World.Zone.create "Shinagawa"
 
 /// Generates the city of Tokyo.
 let generate () =
-    let createTokyo = World.City.create Tokyo 2.4
+    let createTokyo = World.City.create Tokyo 3.4<costOfLiving> 9<utcOffset>
 
     createHome
     |> createTokyo

@@ -148,12 +148,16 @@ module City =
             | None -> [ place.Id ] |> Some)
 
     /// Creates a city with only one initial starting node.
-    let create id costOfLiving place =
+    let create id costOfLiving utcOffset place =
         { Id = id
           PlaceByTypeIndex = addToPlaceByTypeIndex place Map.empty
           PlaceIndex = [ (place.Id, place) ] |> Map.ofList
           CostOfLiving = costOfLiving
-          ZoneIndex = addToZoneIndex place Map.empty }
+          ZoneIndex = addToZoneIndex place Map.empty
+          Timezone = Utc(utcOffset) }
+
+    /// Changes the timezone of the city.
+    let changeTimezone timezone city = { city with Timezone = timezone }
 
     /// Adds a new place to the city.
     let addPlace place city =

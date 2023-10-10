@@ -13,7 +13,7 @@ let private pottsPoint = World.Zone.create "Potts Point"
 
 /// Generates the city of Sydney.
 let generate () =
-    let createSydney = World.City.create Sydney 3.4
+    let createSydney = World.City.create Sydney 3.4<costOfLiving> 9<utcOffset>
 
     createHome
     |> createSydney
@@ -73,101 +73,41 @@ let private addCasinos city =
 
 (* -------- Concert spaces --------- *)
 let private addConcertSpaces city =
-    [ ("Sydney Opera House",
-       5700,
-       cbd,
-       90<quality>,
-       Layouts.concertSpaceLayout1)
-      ("Enmore Theatre",
-       2500,
-       newtown,
-       92<quality>,
-       Layouts.concertSpaceLayout3)
-      ("The Metro Theatre",
-       1200,
-       cbd,
-       88<quality>,
-       Layouts.concertSpaceLayout2)
+    [ ("Sydney Opera House", 5700, cbd, 90<quality>, Layouts.concertSpaceLayout1)
+      ("Enmore Theatre", 2500, newtown, 92<quality>, Layouts.concertSpaceLayout3)
+      ("The Metro Theatre", 1200, cbd, 88<quality>, Layouts.concertSpaceLayout2)
       ("The Factory Theatre",
        800,
        newtown,
        89<quality>,
        Layouts.concertSpaceLayout4)
-      ("The Basement",
-       600,
-       cbd,
-       95<quality>,
-       Layouts.concertSpaceLayout2)
-      ("The State Theatre",
-       2000,
-       cbd,
-       90<quality>,
-       Layouts.concertSpaceLayout1)
+      ("The Basement", 600, cbd, 95<quality>, Layouts.concertSpaceLayout2)
+      ("The State Theatre", 2000, cbd, 90<quality>, Layouts.concertSpaceLayout1)
       ("The Hordern Pavilion",
        5500,
        cbd,
        88<quality>,
        Layouts.concertSpaceLayout3)
-      ("The Roundhouse",
-       2200,
-       cbd,
-       87<quality>,
-       Layouts.concertSpaceLayout2)
-      ("The Bald Faced Stag",
-       500,
-       cbd,
-       86<quality>,
-       Layouts.concertSpaceLayout4)
-      ("The Lansdowne",
-       800,
-       cbd,
-       85<quality>,
-       Layouts.concertSpaceLayout1)
-      ("The Vanguard",
-       150,
-       newtown,
-       84<quality>,
-       Layouts.concertSpaceLayout2)
-      ("The Bridge Hotel",
-       1000,
-       cbd,
-       83<quality>,
-       Layouts.concertSpaceLayout3)
-      ("The Manning Bar",
-       1200,
-       cbd,
-       82<quality>,
-       Layouts.concertSpaceLayout4)
+      ("The Roundhouse", 2200, cbd, 87<quality>, Layouts.concertSpaceLayout2)
+      ("The Bald Faced Stag", 500, cbd, 86<quality>, Layouts.concertSpaceLayout4)
+      ("The Lansdowne", 800, cbd, 85<quality>, Layouts.concertSpaceLayout1)
+      ("The Vanguard", 150, newtown, 84<quality>, Layouts.concertSpaceLayout2)
+      ("The Bridge Hotel", 1000, cbd, 83<quality>, Layouts.concertSpaceLayout3)
+      ("The Manning Bar", 1200, cbd, 82<quality>, Layouts.concertSpaceLayout4)
       ("The Oxford Art Factory",
        500,
        cbd,
        81<quality>,
        Layouts.concertSpaceLayout1)
-      ("The Hi-Fi",
-       1500,
-       cbd,
-       80<quality>,
-       Layouts.concertSpaceLayout2)
-      ("The Annandale Hotel",
-       400,
-       cbd,
-       79<quality>,
-       Layouts.concertSpaceLayout3)
+      ("The Hi-Fi", 1500, cbd, 80<quality>, Layouts.concertSpaceLayout2)
+      ("The Annandale Hotel", 400, cbd, 79<quality>, Layouts.concertSpaceLayout3)
       ("The Sandringham Hotel",
        300,
        newtown,
        78<quality>,
        Layouts.concertSpaceLayout4)
-      ("The Gaelic Club",
-       800,
-       cbd,
-       77<quality>,
-       Layouts.concertSpaceLayout1)
-      ("The Marquee",
-       2000,
-       cbd,
-       76<quality>,
-       Layouts.concertSpaceLayout2)
+      ("The Gaelic Club", 800, cbd, 77<quality>, Layouts.concertSpaceLayout1)
+      ("The Marquee", 2000, cbd, 76<quality>, Layouts.concertSpaceLayout2)
       ("The Qantas Credit Union Arena",
        18000,
        cbd,
@@ -193,12 +133,7 @@ let private addGyms city =
 
 (* -------- Home --------- *)
 let createHome =
-    World.Place.create
-        "Home"
-        100<quality>
-        Home
-        Layouts.homeLayout
-        surryHills
+    World.Place.create "Home" 100<quality> Home Layouts.homeLayout surryHills
 
 (* -------- Hospital --------- *)
 let addHospital city =

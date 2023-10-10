@@ -23,7 +23,8 @@ let private xoco = World.Zone.create "Xoco"
 
 /// Generates the city of Mexico City.
 let generate () =
-    let createMexicoCity = World.City.create MexicoCity 1.5
+    let createMexicoCity =
+        World.City.create MexicoCity 1.5<costOfLiving> -6<utcOffset>
 
     createHome
     |> createMexicoCity
@@ -88,11 +89,7 @@ let private addConcertSpaces city =
        iztacalco,
        90<quality>,
        Layouts.concertSpaceLayout1)
-      ("Foro Sol",
-       65000,
-       iztacalco,
-       92<quality>,
-       Layouts.concertSpaceLayout3)
+      ("Foro Sol", 65000, iztacalco, 92<quality>, Layouts.concertSpaceLayout3)
       ("Auditorio Nacional",
        10000,
        polanco,
@@ -123,11 +120,7 @@ let private addConcertSpaces city =
        centro,
        84<quality>,
        Layouts.concertSpaceLayout1)
-      ("Foro Indie Rocks",
-       500,
-       roma,
-       82<quality>,
-       Layouts.concertSpaceLayout2)
+      ("Foro Indie Rocks", 500, roma, 82<quality>, Layouts.concertSpaceLayout2)
       ("Lunario del Auditorio Nacional",
        1000,
        polanco,
@@ -138,16 +131,8 @@ let private addConcertSpaces city =
        venustianoCarranza,
        80<quality>,
        Layouts.concertSpaceLayout4)
-      ("Foro Alicia",
-       250,
-       roma,
-       83<quality>,
-       Layouts.concertSpaceLayout1)
-      ("Bajo Circuito",
-       400,
-       condesa,
-       87<quality>,
-       Layouts.concertSpaceLayout4)
+      ("Foro Alicia", 250, roma, 83<quality>, Layouts.concertSpaceLayout1)
+      ("Bajo Circuito", 400, condesa, 87<quality>, Layouts.concertSpaceLayout4)
       ("Salón Los Angeles",
        500,
        guerrero,
@@ -189,12 +174,7 @@ let private addConcertSpaces city =
 
 (* -------- Home --------- *)
 let createHome =
-    World.Place.create
-        "Home"
-        100<quality>
-        Home
-        Layouts.homeLayout
-        condesa
+    World.Place.create "Home" 100<quality> Home Layouts.homeLayout condesa
 
 (* -------- Gyms --------- *)
 let private addGyms city =

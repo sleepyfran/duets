@@ -123,6 +123,15 @@ module WorldTypes =
           Rooms: Graph<Room>
           Zone: Zone }
 
+    [<Measure>]
+    type utcOffset
+
+    /// Defines a timezone in the world as an offset from UTC.
+    type Timezone = Utc of int<utcOffset>
+
+    [<Measure>]
+    type costOfLiving
+
     /// Defines a city in the world as a connection of nodes with one of them
     /// being the entrypoint. Nodes can be rooms, places or streets that
     /// connect with each other via a direction that the user will use to
@@ -134,9 +143,22 @@ module WorldTypes =
             PlaceIndex: Map<PlaceId, Place>
             /// Modifier that will be used to compute the final prices of things
             /// like rent, wages and food.
-            CostOfLiving: float
+            CostOfLiving: float<costOfLiving>
             ZoneIndex: Map<ZoneId, PlaceId list>
+            Timezone: Timezone
         }
+
+    /// Defines a distance between two cities in km.
+    type CityConnectionDistance = int<km>
+
+    /// Defines which connection is available between two cities.
+    type CityConnectionType =
+        | Air
+        | Sea
+        | Road
+
+    /// Defines which connections are available between two cities.
+    type CityConnections = CityConnectionType list
 
     /// Defines the game world which contains all cities.
     type World = { Cities: Map<CityId, City> }
