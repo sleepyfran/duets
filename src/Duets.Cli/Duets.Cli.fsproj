@@ -155,6 +155,7 @@
         <Compile Include="Scenes\Phone\Apps\Mastodon\Mastodon.fs"/>
         <Compile Include="Scenes\Phone\Phone.fs"/>
         <Compile Include="Scenes\MainMenu.fs"/>
+        <Compile Include="Scenes\Settings.fs"/>
         <Compile Include="Scenes\World.fs"/>
         <Compile Include="Program.fs"/>
     </ItemGroup>

@@ -12,9 +12,16 @@ let duetsFolder () =
         Directory.CreateDirectory duetsPath |> ignore
         duetsPath
 
+/// Returns the path to the settings file.
+let settingsPath () =
+    duetsFolder () |> fun duetsPath -> Path.Combine(duetsPath, "settings.json")
+
 /// Returns the path to the savegame file.
 let savegamePath () =
     duetsFolder () |> fun duetsPath -> Path.Combine(duetsPath, "savegame.json")
+
+/// Returns the path to the savegame file given a root path.
+let savegameFile path = $"{path}/savegame.json"
 
 /// Returns the path to the log file.
 let logPath () =
@@ -66,3 +73,6 @@ let write path content = File.WriteAllText(path, content)
 /// parent folders are not, so if the path is `/a/b/c.txt` and the b folder
 /// is not present, the file will not be written.
 let append path content = File.AppendAllText(path, content)
+
+/// Deletes the file at the specified path.
+let delete path = File.Delete path

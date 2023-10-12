@@ -3,7 +3,6 @@ open Duets.Cli.SceneIndex
 open Duets.Cli.Components
 open Duets.Cli.Text
 open Duets.Cli.Scenes
-open Spectre.Console
 open System.Globalization
 open System.Threading
 
@@ -12,6 +11,7 @@ open System.Threading
 let private outOfGameplayScene scene =
     match scene with
     | Scene.MainMenu _
+    | Scene.Settings _
     | Scene.CharacterCreator
     | Scene.BandCreator _
     | Scene.SkillEditor _
@@ -32,8 +32,8 @@ let rec showScene skipSaving scene =
     saveIfNeeded skipSaving scene
 
     match scene with
-    | Scene.MainMenu savegameState ->
-        MainMenu.mainMenu savegameState skipSaving |> showScene skipSaving
+    | Scene.MainMenu -> MainMenu.mainMenu skipSaving |> showScene skipSaving
+    | Scene.Settings -> Settings.settings () |> showScene skipSaving
     | Scene.CharacterCreator ->
         NewGame.CharacterCreator.characterCreator () |> showScene skipSaving
     | Scene.BandCreator character ->
@@ -70,7 +70,7 @@ let main args =
     Thread.CurrentThread.CurrentCulture <- CultureInfo("en-UK")
 
     try
-        Savegame.load () |> Scene.MainMenu |> showScene skipSaving
+        Scene.MainMenu |> showScene skipSaving
     with ex ->
         """
 An irrecoverable error happened.
@@ -83,7 +83,7 @@ And attach the following exception trace:
         |> Styles.danger
         |> showMessage
 
-        AnsiConsole.WriteException(ex)
+        ex |> showException
 
     Stats.stopTrackingAndSave ()
 

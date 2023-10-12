@@ -1,6 +1,5 @@
 module Duets.Cli.SceneIndex
 
-open Duets.Agents
 open Duets.Entities
 
 /// Defines whether we should save before exiting the game or not.
@@ -12,7 +11,8 @@ type ExitMode =
 /// Defines the index of all scenes available in the game that can be instantiated.
 [<RequireQualifiedAccess>]
 type Scene =
-    | MainMenu of Savegame.SavegameState
+    | MainMenu
+    | Settings
     | CharacterCreator
     // Band creator needs the playable character that was created in the
     // previous step.

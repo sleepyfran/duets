@@ -11,19 +11,23 @@ let gameVersion =
 type private MainMenuOption =
     | NewGame
     | LoadGame
+    | Settings
 
 let private textFromOption opt =
     match opt with
     | NewGame -> MainMenu.newGame
     | LoadGame -> MainMenu.loadGame
+    | Settings -> MainMenu.settings
 
 /// Main menu of the game where the user can choose to either start a new game
 /// or load a previous one.
-let rec mainMenu savegameState skipSaving =
+let rec mainMenu skipSaving =
     clearScreen ()
 
     Generic.gameName |> showFiglet
     showGameInfo gameVersion
+
+    let savegameState = Savegame.load ()
 
     if skipSaving then
         Styles.danger
@@ -33,8 +37,7 @@ let rec mainMenu savegameState skipSaving =
     if savegameState = Savegame.Incompatible then
         MainMenu.incompatibleSavegame |> showMessage
 
-    let hasSavegameAvailable =
-        savegameState = Savegame.Available
+    let hasSavegameAvailable = savegameState = Savegame.Available
 
     let selectedChoice =
         showOptionalChoicePrompt
@@ -43,21 +46,22 @@ let rec mainMenu savegameState skipSaving =
             textFromOption
             [ NewGame
               if hasSavegameAvailable then
-                  LoadGame ]
+                  LoadGame
+              Settings ]
 
     match selectedChoice with
-    | Some NewGame -> createNewGame savegameState skipSaving hasSavegameAvailable
+    | Some NewGame -> createNewGame skipSaving hasSavegameAvailable
     | Some LoadGame -> Scene.WorldAfterMovement
+    | Some Settings -> Scene.Settings
     | None -> Scene.Exit ExitMode.SkipSave
 
-and private createNewGame savegameState skipSaving hasSavegameAvailable =
+and private createNewGame skipSaving hasSavegameAvailable =
     if hasSavegameAvailable then
-        let confirmed =
-            showConfirmationPrompt MainMenu.newGameReplacePrompt
+        let confirmed = showConfirmationPrompt MainMenu.newGameReplacePrompt
 
         if confirmed then
             Scene.CharacterCreator
         else
-            mainMenu savegameState skipSaving
+            mainMenu skipSaving
     else
         Scene.CharacterCreator

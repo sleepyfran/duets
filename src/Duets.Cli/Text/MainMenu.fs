@@ -7,6 +7,7 @@ let incompatibleSavegame =
 let prompt = "Select an option to begin"
 let newGame = "New game"
 let loadGame = "Load game"
+let settings = "Settings"
 let exit = Styles.faded "Exit"
 
 let savegameNotAvailable =

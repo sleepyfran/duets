@@ -23,6 +23,20 @@ let showConfirmationPrompt title = AnsiConsole.Confirm(title)
 let showTextPrompt title = AnsiConsole.Ask<string>(title)
 
 /// <summary>
+/// Renders a basic text prompt, allowing the user to write nothing.
+/// </summary>
+/// <param name="title">Title of the prompt to show when asking</param>
+/// <returns>The text given by the user or None if empty.</returns>
+let showOptionalTextPrompt title =
+    let mutable txtPrompt = TextPrompt<string> title
+    txtPrompt.AllowEmpty <- true
+    let result = AnsiConsole.Prompt txtPrompt
+
+    match result with
+    | "" -> None
+    | _ -> Some result
+
+/// <summary>
 /// Renders a basic integer prompt, forcing the user to give a valid number.
 /// </summary>
 /// <param name="title">Title of the prompt to show when asking</param>
