@@ -3,6 +3,7 @@ open Duets.Cli.SceneIndex
 open Duets.Cli.Components
 open Duets.Cli.Text
 open Duets.Cli.Scenes
+open Spectre.Console
 open System.Globalization
 open System.Threading
 
@@ -60,7 +61,7 @@ let private parseNoSavingArg args =
 [<EntryPoint>]
 let main args =
     let skipSaving = parseNoSavingArg args
-   
+
     clearScreen ()
 
     Stats.startTrackingTime ()
@@ -82,7 +83,7 @@ And attach the following exception trace:
         |> Styles.danger
         |> showMessage
 
-        ex.ToString() |> System.Console.WriteLine
+        AnsiConsole.WriteException(ex)
 
     Stats.stopTrackingAndSave ()
 
