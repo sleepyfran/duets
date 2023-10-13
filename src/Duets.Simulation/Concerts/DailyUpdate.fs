@@ -5,10 +5,10 @@ open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 
-let private ticketPriceModifier state band concert =
+let private ticketPriceModifier state bandId concert =
     let ticketPrice = concert.TicketPrice / 1m<dd> |> float
 
-    let ticketPriceCap = Queries.Concerts.fairTicketPrice state band |> float
+    let ticketPriceCap = Queries.Concerts.fairTicketPrice state bandId |> float
 
     if (ticketPriceCap + 3.0) < ticketPrice then
         // If the price is only slightly outside of the price cap it means
@@ -89,10 +89,10 @@ let private concertDailyUpdate state scheduledConcert =
             | ConcertSpace concertSpace -> concertSpace
             | _ -> failwith "How did we get here?"
 
-    let bandFame = Queries.Bands.estimatedFameLevel state band
+    let bandFame = Queries.Bands.estimatedFameLevel state band.Id
     let market = Queries.Genres.usefulMarketOf state band.Genre
 
-    let ticketPriceModifier = ticketPriceModifier state band concert
+    let ticketPriceModifier = ticketPriceModifier state band.Id concert
 
     let lastVisitModifier = lastVisitModifier state band concert
 

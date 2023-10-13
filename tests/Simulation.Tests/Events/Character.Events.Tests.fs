@@ -39,8 +39,7 @@ let ``tick of low character health should hospitalize character`` () =
 let ``tick of low character health during concert should cancel concert`` () =
     let state =
         State.generateOne
-            { State.defaultOptions with
-                FutureConcertsToGenerate = 0 }
+            { State.defaultOptions with FutureConcertsToGenerate = 0 }
 
     let stateOnConcert =
         Situations.inConcert
@@ -212,3 +211,26 @@ let ``tick of ConcertFinished with a good concert should decrease character's mo
     testConcertFinishedEffect
         80<quality>
         Config.LifeSimulation.Mood.concertGoodResultIncrease
+
+[<Test>]
+let ``tick of BandFansChanged updates the character's fame to half of the estimated fame of the band``
+    ()
+    =
+    let state =
+        dummyState
+        |> State.Characters.setAttribute
+            dummyCharacter.Id
+            CharacterAttribute.Fame
+            8
+
+    let effect = BandFansChanged(dummyBand, Diff(5000, 10000))
+
+    Simulation.tickOne state effect
+    |> fst
+    |> should
+        contain
+        (CharacterAttributeChanged(
+            dummyCharacter.Id,
+            CharacterAttribute.Fame,
+            Diff(8, 16)
+        ))

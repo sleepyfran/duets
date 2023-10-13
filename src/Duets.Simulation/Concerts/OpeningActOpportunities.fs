@@ -19,10 +19,10 @@ let generate state cityId =
         |> List.ofMapValues
         |> List.filter (fun headliner ->
             let headlinerFame =
-                Queries.Bands.estimatedFameLevel state headliner
+                Queries.Bands.estimatedFameLevel state headliner.Id
 
             let currentBandFame =
-                Queries.Bands.estimatedFameLevel state currentBand
+                Queries.Bands.estimatedFameLevel state currentBand.Id
 
             headlinerFame >=< (0, currentBandFame + 35))
 
@@ -39,10 +39,10 @@ let private generateOpeningActShowsOnDate state headlinerBands cityId date =
     |> List.map (fun _ ->
         let dayMoment = [ Evening; Night ] |> List.sample
         let headliner = headlinerBands |> List.sample
-        let ticketPrice = Queries.Concerts.fairTicketPrice state headliner
+        let ticketPrice = Queries.Concerts.fairTicketPrice state headliner.Id
 
         let headlinerFameLevel =
-            Queries.Bands.estimatedFameLevel state headliner
+            Queries.Bands.estimatedFameLevel state headliner.Id
 
         let earningPercentage = calculateEarningPercentage headlinerFameLevel
 
@@ -94,9 +94,9 @@ type OpeningActApplicationError =
     | AnotherConcertAlreadyScheduled
     | GenreMismatch
 
-let private (|LacksFame|_|) state headliner band =
-    let bandFame = Queries.Bands.estimatedFameLevel state band
-    let headlinerFame = Queries.Bands.estimatedFameLevel state headliner
+let private (|LacksFame|_|) state (headliner: Band) (band: Band) =
+    let bandFame = Queries.Bands.estimatedFameLevel state band.Id
+    let headlinerFame = Queries.Bands.estimatedFameLevel state headliner.Id
 
     if bandFame >=< (headlinerFame - 25, 100) then
         None
@@ -117,7 +117,7 @@ let private (|MismatchesGenre|_|) _ _ _ : unit option = None
 /// Applies to an opening act opportunity. Checks if the band is a good fit for
 /// the headliner and if so, schedules the concert. Otherwise, returns an error
 /// specifying why the band was not a good fit.
-let applyToConcertOpportunity state headliner concert =
+let applyToConcertOpportunity state (headliner: Band) concert =
     let currentBand = Queries.Bands.currentBand state
 
     match currentBand with

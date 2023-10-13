@@ -8,7 +8,7 @@ open Duets.Simulation.Queries
 let bandStatisticsSubScene statisticsApp =
     let state = State.get ()
     let band = Bands.currentBand state
-    let estimatedFame = Bands.estimatedFameLevel state band
+    let estimatedFame = Bands.estimatedFameLevel state band.Id
 
     let tableColumns =
         [ Styles.header "Name"

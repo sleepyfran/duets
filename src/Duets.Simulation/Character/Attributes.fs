@@ -15,6 +15,12 @@ let private attrValue character attribute =
     Optic.get (Lenses.Character.attribute_ attribute) character
     |> Option.defaultValue 0
 
+/// Sets the given character attribute to the given value.
+let set character attribute value =
+    let currentAmount = attrValue character attribute
+
+    createEffect character.Id attribute currentAmount value
+
 /// Applies the given mapping function to the current value of the character's
 /// attribute, clamping the value between 0 and 100.
 let map character attribute mapping =
@@ -32,6 +38,11 @@ let add character attribute amount = map character attribute ((+) amount)
 let addToPlayable attribute amount state =
     let character = Queries.Characters.playableCharacter state
     add character attribute amount
+
+/// Same as set but automatically applying it to the current playable character.
+let setToPlayable attribute amount state =
+    let character = Queries.Characters.playableCharacter state
+    set character attribute amount
 
 /// Conditionally calls map only if the condition function returns true with
 /// the current character's attribute value.

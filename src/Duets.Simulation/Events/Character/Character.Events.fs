@@ -10,6 +10,8 @@ open Duets.Simulation.Events
 /// character.
 let internal run effect =
     match effect with
+    | BandFansChanged(band, _) ->
+        ContinueChain [ Fame.followBandsFame band.Id ] |> Some
     | CharacterAttributeChanged(character, attribute, Diff(_, amount)) when
         attribute = CharacterAttribute.Health && amount < 10
         ->

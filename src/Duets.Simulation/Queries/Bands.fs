@@ -77,7 +77,9 @@ module Bands =
 
     /// Gives an estimate of the band's fame between 0 and 100 based on the
     /// total amount of people willing to listen to the band's genre.
-    let estimatedFameLevel state (band: Band) =
+    let estimatedFameLevel state (bandId: BandId) =
+        let band = byId state bandId
+
         let normalizedMarketSize =
             Genres.usefulMarketOf state band.Genre |> System.Math.Log10
 

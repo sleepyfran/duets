@@ -22,6 +22,7 @@ let ``applyToConcertOpportunity returns NotEnoughFame if headliner's fame is mor
             { State.defaultOptions with
                 BandFansMin = 1
                 BandFansMax = 1 }
+        |> State.Bands.addCharacterBand dummyHeadlinerBand
 
     OpeningActOpportunities.applyToConcertOpportunity
         state
@@ -39,6 +40,7 @@ let ``applyToConcertOpportunity returns NotEnoughReleases if band does not have 
             { State.defaultOptions with
                 BandFansMin = 20000
                 BandFansMax = 30000 }
+        |> State.Bands.addCharacterBand dummyHeadlinerBand
 
     OpeningActOpportunities.applyToConcertOpportunity
         state
@@ -60,6 +62,7 @@ let ``applyToConcertOpportunity returns AnotherConcertAlreadyScheduled if band a
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(dummyConcert, dummyToday))
+        |> State.Bands.addCharacterBand dummyHeadlinerBand
 
     OpeningActOpportunities.applyToConcertOpportunity
         state
@@ -80,6 +83,7 @@ let ``applyToConcertOpportunity returns ok with effects if all checks succeed``
                 BandFansMin = 20000
                 BandFansMax = 30000 }
         |> State.Albums.addReleased dummyBand dummyReleasedAlbum
+        |> State.Bands.addCharacterBand dummyHeadlinerBand
 
     OpeningActOpportunities.applyToConcertOpportunity
         state
@@ -98,6 +102,7 @@ let ``applyToConcertOpportunity returns ok if band fame is higher than headliner
                 BandFansMin = 2000000
                 BandFansMax = 3000000 }
         |> State.Albums.addReleased dummyBand dummyReleasedAlbum
+        |> State.Bands.addCharacterBand dummyHeadlinerBand
 
     OpeningActOpportunities.applyToConcertOpportunity
         state
@@ -118,6 +123,7 @@ let ``generate does not create any opportunities in venues that are too big or s
             { State.defaultOptions with
                 BandFansMin = 3000000
                 BandFansMax = 3000000 }
+        |> State.Bands.addCharacterBand dummyHeadlinerBand
 
     let state =
         { initialState with
@@ -159,17 +165,20 @@ let ``generate does not create any opportunity for a band that has more than 35 
             { State.defaultOptions with
                 BandFansMin = 100
                 BandFansMax = 20000 }
+        |> State.Bands.addCharacterBand dummyHeadlinerBand
 
     let state =
         { initialState with
             GenreMarkets = genreMarket }
         |> Bands.Generation.addInitialBandsToState
 
-    let bandFame =
-        Queries.Bands.currentBand state
-        |> Queries.Bands.estimatedFameLevel state
+    let band = Queries.Bands.currentBand state
+
+    let bandFame = band.Id |> Queries.Bands.estimatedFameLevel state
 
     OpeningActOpportunities.generate state Prague
     |> List.iter (fun (headliner, _) ->
-        let headlinerFame = headliner |> Queries.Bands.estimatedFameLevel state
+        let headlinerFame =
+            headliner.Id |> Queries.Bands.estimatedFameLevel state
+
         headlinerFame - bandFame |> should be (lessThanOrEqualTo 35))

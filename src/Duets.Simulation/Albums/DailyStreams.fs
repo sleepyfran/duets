@@ -9,10 +9,10 @@ let private calculateFanStreams band =
      * Config.MusicSimulation.fanStreamingPercentage)
     |> Math.ceil
 
-let private calculateNonFanStreams state band album genreMarket =
+let private calculateNonFanStreams state (band: Band) album genreMarket =
     let albumQuality = Queries.Albums.quality album |> float
 
-    let fameLevel = Queries.Bands.estimatedFameLevel state band
+    let fameLevel = Queries.Bands.estimatedFameLevel state band.Id
 
     let capModifier =
         match fameLevel with

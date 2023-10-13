@@ -126,8 +126,8 @@ let attendancePercentage concert =
 
 /// Calculates a fair ticket price for the concert, based on the fame of the
 /// given band.
-let fairTicketPrice state band =
-    let bandFame = Bands.estimatedFameLevel state band
+let fairTicketPrice state bandId =
+    let bandFame = Bands.estimatedFameLevel state bandId
 
     match bandFame with
     | fame when fame < 25 -> 10.0m
