@@ -30,6 +30,13 @@ let restaurantOpeningHours =
         [ Midday; Afternoon; Evening; Night ]
     )
 
+/// Usual kebab opening hours around the world.
+let kebabOpeningHours =
+    PlaceOpeningHours.OpeningHours(
+        Calendar.everyDay,
+        [ EarlyMorning; Midday; Afternoon; Evening; Night; Midnight ]
+    )
+
 /// Usual gym hours around the world.
 let gymOpeningHours =
     PlaceOpeningHours.OpeningHours(

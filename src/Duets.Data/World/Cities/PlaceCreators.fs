@@ -67,13 +67,20 @@ let createRehearsalSpace (name, quality, price, zone) =
 
 /// Creates a restaurant with the given name, quality, cuisine and zone.
 let createRestaurant (name, quality, cuisine, zone) =
-    World.Place.create
-        name
-        quality
-        Restaurant
-        (Layouts.restaurantRoomLayout cuisine)
-        zone
-    |> World.Place.changeOpeningHours OpeningHours.restaurantOpeningHours
+    let place =
+        World.Place.create
+            name
+            quality
+            Restaurant
+            (Layouts.restaurantRoomLayout cuisine)
+            zone
+
+    let openingHours =
+        match cuisine with
+        | Turkish -> PlaceOpeningHours.AlwaysOpen
+        | _ -> OpeningHours.restaurantOpeningHours
+
+    (openingHours, place) ||> World.Place.changeOpeningHours
 
 /// Creates a studio with the given name, quality, price per song and zone.
 let createStudio (name, quality, pricePerSong, zone, producer) =

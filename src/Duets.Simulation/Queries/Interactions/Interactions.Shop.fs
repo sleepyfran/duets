@@ -44,6 +44,7 @@ module Restaurant =
             | Italian -> Food.Italian.all
             | Japanese -> Food.Japanese.all
             | Mexican -> Food.Mexican.all
+            | Turkish -> Food.Turkish.all
             | Vietnamese -> Food.Vietnamese.all
             @ Bar.cityDrinks cityId
             |> Shop.interactions

@@ -249,7 +249,9 @@ let private addRestaurants city =
       ("Rosetta", 92<quality>, Italian, roma)
       ("Maximo Bistrot", 91<quality>, French, roma)
       ("La Docena Oyster Bar & Grill", 84<quality>, French, polanco)
-      ("Los Panchos", 88<quality>, Mexican, coyoacán) ]
+      ("Los Panchos", 88<quality>, Mexican, coyoacán)
+      ("Krux Doner Kebab", 83<quality>, Turkish, tabacalera)
+      ("Kebab Antalia", 73<quality>, Turkish, roma)]
     |> List.map PlaceCreators.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
 

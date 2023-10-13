@@ -204,7 +204,9 @@ let private addRestaurants city =
       ("Trattoria Da Antonio", 92<quality>, Italian, holešovice)
       ("Le Petite Paris", 91<quality>, French, strašnice)
       ("Big Burger", 84<quality>, American, holešovice)
-      ("Taco Fiesta", 88<quality>, Mexican, holešovice) ]
+      ("Taco Fiesta", 88<quality>, Mexican, holešovice)
+      ("Royal Kebab Grill", 67<quality>, Turkish, žižkov)
+      ("Istanbul Kebab", 86<quality>, Turkish, staréMěsto) ]
     |> List.map PlaceCreators.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
 

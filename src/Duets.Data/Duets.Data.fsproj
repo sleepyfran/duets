@@ -26,6 +26,7 @@
         <Compile Include="Items\Food\French.Food.fs" />
         <Compile Include="Items\Food\Mexican.Food.fs" />
         <Compile Include="Items\Food\Snack.Food.fs" />
+        <Compile Include="Items\Food\Turkish.Food.fs" />
         <Compile Include="Items\Food\USA.Food.fs" />
         <Compile Include="Items\Food\Vietnamese.Food.fs" />
         <Compile Include="Items\Food\All.Food.fs" />

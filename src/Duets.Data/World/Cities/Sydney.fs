@@ -182,7 +182,9 @@ let private addRestaurants city =
       ("Pilu at Freshwater", 92<quality>, Italian, bondi)
       ("Bistro Rex", 91<quality>, French, pottsPoint)
       ("Burger Project", 84<quality>, American, cbd)
-      ("El Camino Cantina", 88<quality>, Mexican, cbd) ]
+      ("El Camino Cantina", 88<quality>, Mexican, cbd)
+      ("Istanbul Kebab House", 67<quality>, Turkish, surryHills)
+      ("Turkish Delight", 86<quality>, Turkish, cbd) ]
     |> List.map PlaceCreators.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
 

@@ -229,7 +229,9 @@ let private addRestaurants city =
       ("Duck & Waffle", 92<quality>, American, camdenTown)
       ("Sketch", 91<quality>, French, mayfair)
       ("Burger & Lobster", 84<quality>, American, soho)
-      ("Hawksmoor", 88<quality>, American, camdenTown) ]
+      ("Hawksmoor", 88<quality>, American, camdenTown)
+      ("Istanbul Kebab House", 67<quality>, Turkish, islington)
+      ("Turkish Delight", 86<quality>, Turkish, camdenTown)]
     |> List.map PlaceCreators.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
 

@@ -257,7 +257,9 @@ let private addRestaurants city =
       ("Elio Locanda Italiana", 92<quality>, Italian, chiyoda)
       ("Le Petit Bedon", 91<quality>, French, shinagawa)
       ("The Great Burger", 84<quality>, American, shibuya)
-      ("El Quixico", 88<quality>, Mexican, minato) ]
+      ("El Quixico", 88<quality>, Mexican, minato)
+      ("Kebab Ye", 87<quality>, Turkish, taito)
+      ("Kadikoy Doner & Kebab", 86<quality>, Turkish, shibuya)]
     |> List.map PlaceCreators.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
