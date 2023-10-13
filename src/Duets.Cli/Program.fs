@@ -10,8 +10,8 @@ open System.Threading
 /// etc.) or not.
 let private outOfGameplayScene scene =
     match scene with
-    | Scene.MainMenu _
-    | Scene.Settings _
+    | Scene.MainMenu
+    | Scene.Settings
     | Scene.CharacterCreator
     | Scene.BandCreator _
     | Scene.SkillEditor _
