@@ -1,7 +1,11 @@
 # Duets 🎸
 
-Duets will be a music simulation focused on allowing the player to be the leader of their own band, composing songs and
-making gigs to become a star.
+Duets is a music/life simulation game focused on allowing the player to be the leader of their own band, composing songs and making gigs to become a star.
+
+<img src="https://github.com/sleepyfran/duets/assets/6024783/d734ae25-aad4-4059-b1f9-66d4614f0777" height="230px" width="500px" />
+<img src="https://github.com/sleepyfran/duets/assets/6024783/04696499-af6c-4f3c-9248-42ee4df04b21" height="230px" width="500px" />
+<img src="https://github.com/sleepyfran/duets/assets/6024783/0ff57806-bc50-4e90-9362-3a129ee7e8f7" height="230px" width="500px" />
+<img src="https://github.com/sleepyfran/duets/assets/6024783/f048df05-1c1e-4f32-af4a-174b17f92a40" height="230px" width="500px" />
 
 # 🛠 Run it locally
 
@@ -35,10 +39,11 @@ docker build -t duets .
 docker run -it duets
 ```
 
-### ⚠️ Important
+> [!WARNING]
 > The game is nowhere near done or bug-free. I'm constantly doing changes to the savegame format and thus constantly breaking
-savegames. So if you want to try out the game please do so and make sure you open issues with any bug you find, but keep in
-mind that your savegames might not make it that long 😀
+> savegames. In the future when the game will be more complete I'll introduce some mechanism to automatically migrate savegames
+> but for the time being you either need to tinker with the savegame file to adapt it when new versions come up or be okay
+> with losing your savegames.
 
 # 🧪 Testing
 
