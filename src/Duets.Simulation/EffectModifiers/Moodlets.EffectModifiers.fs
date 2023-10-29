@@ -13,7 +13,8 @@ let modify state effect =
         (fun effect moodlet ->
             match moodlet.MoodletType with
             | MoodletType.JetLagged -> modifyForJetLagged effect
-            | MoodletType.NotInspired -> modifyForNotInspired effect)
+            | MoodletType.NotInspired -> modifyForNotInspired effect
+            | MoodletType.TiredOfTouring -> effect (* Nothing to apply. *) )
         effect
 
 /// Modifies the SongStarted and SongImproved effects to reduce the quality

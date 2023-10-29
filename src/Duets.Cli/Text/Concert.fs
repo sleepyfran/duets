@@ -112,7 +112,8 @@ let playSongLowPerformanceReaction energy reasons points =
                 | CharacterDrunk -> "you were quite drunk"
                 | LowPractice -> "you didn't practice the song enough"
                 | LowSkill -> "you didn't practice at home enough"
-                | LowQuality -> "the song was not that good")
+                | LowQuality -> "the song was not that good"
+                | TooTired -> "you are all too tired of giving concerts")
 
         Styles.Level.bad
             $"""Unfortunately it seems like {reasonsText}. You got {points} {Generic.simplePluralOf "point" points}. {energyText}"""
@@ -124,7 +125,8 @@ let playSongMediumPerformanceReaction reasons points =
             | CharacterDrunk -> "being drunk"
             | LowPractice -> "not having practiced the song enough"
             | LowSkill -> "not having good skills"
-            | LowQuality -> "the song not being so good")
+            | LowQuality -> "the song not being so good"
+            | TooTired -> "being too tired of giving concerts")
 
     Styles.Level.normal
         $"""You didn't nail the performance, probably {reasonsText} didn't help. But anyway, you got {points} {Generic.simplePluralOf "point" points}"""

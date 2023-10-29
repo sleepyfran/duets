@@ -104,6 +104,8 @@ let private displayEffect effect =
                 "You feel a bit confused because of the time difference, you might feel more tired than usual"
             | MoodletType.NotInspired ->
                 "You've been composing too much and you're not feeling inspired anymore. Try waiting a few days..."
+            | MoodletType.TiredOfTouring ->
+                "You've had a lot of concerts lately and you're feeling tired. Try waiting a few days..."
             |> Styles.warning
             |> showMessage)
     | ConcertScheduled(_, ScheduledConcert(concert, _)) ->

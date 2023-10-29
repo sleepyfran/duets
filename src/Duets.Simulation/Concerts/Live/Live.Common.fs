@@ -143,6 +143,7 @@ type ConcertEventResultReason =
     | LowPractice
     | LowSkill
     | LowQuality
+    | TooTired
 
 /// Defines the result of an event in the concert.
 type ConcertEventResult =
@@ -241,6 +242,17 @@ let private baseScoreWithReasons state action =
         let avgQualities = qualities |> List.average
         reasons, avgQualities
 
+let private applyMoodlets state (reasons, score) =
+    let characterTiredOfTouring =
+        Queries.Characters.playableCharacterHasMoodlet
+            state
+            MoodletType.TiredOfTouring
+
+    if characterTiredOfTouring then
+        reasons @ [ TooTired ], score * 0.4
+    else
+        reasons, score
+
 /// Computes the average modifier to apply based on the score rules that are
 /// modifiers (value between 0.0 and 1.0) rather than a quality (value between
 /// 0 and 100).
@@ -317,7 +329,8 @@ and private performAction' state ongoingConcert action =
     |> Response.addEffects action.Effects
 
 and private ratePerformance state ongoingConcert action =
-    let qualityReasons, baseScore = baseScoreWithReasons state action
+    let qualityReasons, baseScore =
+        baseScoreWithReasons state action |> applyMoodlets state
 
     let multipliers =
         if List.isEmpty action.Multipliers then

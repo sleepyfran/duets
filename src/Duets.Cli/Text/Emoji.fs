@@ -70,3 +70,4 @@ let moodlet m =
     match m with
     | MoodletType.JetLagged -> ":sleepy_face:"
     | MoodletType.NotInspired -> ":expressionless_face:"
+    | MoodletType.TiredOfTouring -> ":minibus:"

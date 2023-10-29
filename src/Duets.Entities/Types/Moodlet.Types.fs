@@ -14,6 +14,7 @@ module MoodletTypes =
     type MoodletType =
         | JetLagged
         | NotInspired
+        | TiredOfTouring
 
     /// Defines a moodlet that can be applied to a character.
     type Moodlet =

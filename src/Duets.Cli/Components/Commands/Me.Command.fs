@@ -36,6 +36,8 @@ module MeCommand =
                     | MoodletType.JetLagged -> "Jet lagged" |> Styles.warning
                     | MoodletType.NotInspired ->
                         "Not inspired" |> Styles.warning
+                    | MoodletType.TiredOfTouring ->
+                        "Tired of touring" |> Styles.warning
 
                 let moodletExplanation =
                     match moodlet.MoodletType with
@@ -43,6 +45,8 @@ module MeCommand =
                         "You've traveled to a city with a very different timezone, you'll need some time to adjust. You might feel more tired than usual"
                     | MoodletType.NotInspired ->
                         "You've been composing too much lately, better take a break! Composing and improving songs while not inspired won't be as effective"
+                    | MoodletType.TiredOfTouring ->
+                        "You've been having too many concerts in the past few days, you need some rest! You won't be able to perform as well as usual"
 
                 let moodletExpirationText =
                     match moodlet.Expiration with

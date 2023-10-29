@@ -228,7 +228,9 @@ let ``playSong lowers result depending on character's drunkenness`` () =
             let response =
                 playSong drunkState dummyOngoingConcert song Energetic
 
-            response |> resultFromResponse |> should be (ofCase expectedResult)))
+            response
+            |> resultFromResponse
+            |> should be (ofCase expectedResult)))
 
 [<Test>]
 let ``playSong does not decrease points below 0`` () =
@@ -249,10 +251,13 @@ let ``playSong does not decrease points below 0`` () =
 
 [<Test>]
 let ``playSong should add points to the previous count to ongoing concert`` () =
-    let ongoingConcert = { dummyOngoingConcert with Points = 50<quality> }
+    let ongoingConcert =
+        { dummyOngoingConcert with
+            Points = 50<quality> }
 
     Generators.Song.finishedGenerator
-        { Generators.Song.defaultOptions with PracticeMin = 1 }
+        { Generators.Song.defaultOptions with
+            PracticeMin = 1 }
     |> Gen.sample 0 1000
     |> List.iter (fun song ->
         playSong dummyState ongoingConcert song Energetic
@@ -262,7 +267,9 @@ let ``playSong should add points to the previous count to ongoing concert`` () =
 
 [<Test>]
 let ``playSong does not increase above 100`` () =
-    let ongoingConcert = { dummyOngoingConcert with Points = 98<quality> }
+    let ongoingConcert =
+        { dummyOngoingConcert with
+            Points = 98<quality> }
 
     Generators.Song.finishedGenerator Generators.Song.defaultOptions
     |> Gen.sample 0 1000
@@ -318,7 +325,7 @@ let ``playSong should decrease health by 2 points and energy by 5 when performin
         |> List.item 0
         |> fun effect ->
             match effect with
-            | CharacterAttributeChanged (_, attr, amount) ->
+            | CharacterAttributeChanged(_, attr, amount) ->
                 attr |> should equal CharacterAttribute.Health
                 amount |> should equal (Diff(100, 98))
             | _ -> failwith "Effect was not of correct type"
@@ -327,7 +334,7 @@ let ``playSong should decrease health by 2 points and energy by 5 when performin
         |> List.item 1
         |> fun effect ->
             match effect with
-            | CharacterAttributeChanged (_, attr, amount) ->
+            | CharacterAttributeChanged(_, attr, amount) ->
                 attr |> should equal CharacterAttribute.Energy
                 amount |> should equal (Diff(100, 95))
             | _ -> failwith "Effect was not of correct type"
@@ -350,7 +357,7 @@ let ``playSong should energy by 3 points when performing normally`` () =
         |> List.item 0
         |> fun effect ->
             match effect with
-            | CharacterAttributeChanged (_, attr, amount) ->
+            | CharacterAttributeChanged(_, attr, amount) ->
                 attr |> should equal CharacterAttribute.Energy
                 amount |> should equal (Diff(100, 97))
             | _ -> failwith "Effect was not of correct type"
@@ -369,7 +376,49 @@ let ``playSong should energy by 1 point when performing in limited`` () =
         |> List.item 0
         |> fun effect ->
             match effect with
-            | CharacterAttributeChanged (_, attr, amount) ->
+            | CharacterAttributeChanged(_, attr, amount) ->
                 attr |> should equal CharacterAttribute.Energy
                 amount |> should equal (Diff(100, 99))
             | _ -> failwith "Effect was not of correct type"
+
+let private tiredOfTouringMoodlets =
+    [ Moodlet.create
+          MoodletType.TiredOfTouring
+          dummyToday
+          MoodletExpirationTime.Never ]
+    |> Set.ofList
+
+[<Test>]
+let ``playSong reduces score by 60% if character is too tired of touring`` () =
+    let state =
+        dummyState
+        |> State.Characters.setMoodlets dummyCharacter.Id tiredOfTouringMoodlets
+
+    Generators.Song.finishedGenerator
+        { Generators.Song.defaultOptions with
+            LengthRange = 10<minute>, 20<minute> }
+    |> Gen.sample 0 1000
+    |> List.iter (fun song ->
+        let response = playSong state dummyOngoingConcert song Energetic
+
+        let reasons =
+            match response.Result with
+            | LowPerformance reasons -> reasons
+            | AveragePerformance reasons -> reasons
+            | GoodPerformance reasons -> reasons
+            | _ -> failwith "Unexpected result"
+
+        reasons
+        |> List.filter (function
+            | TooTired -> true
+            | _ -> false)
+        |> should haveLength 1
+
+        response
+        |> ongoingConcertFromResponse
+        |> Optic.get Lenses.Concerts.Ongoing.points_
+        |> should be (inRange 0<quality> 10<quality>)
+
+        response
+        |> pointsFromResponse
+        |> should be (inRange 0<quality> 10<quality>))

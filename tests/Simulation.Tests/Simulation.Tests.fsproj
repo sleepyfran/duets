@@ -64,11 +64,12 @@
         <Compile Include="Interactions\Sleep.Test.fs"/>
         <Compile Include="Interactions\Play.Interactions.Test.fs"/>
         <Compile Include="Events\Character.Events.Tests.fs" />
-        <Compile Include="Events\Moodlet.Events.Tests.fs"/>
         <Compile Include="Events\Band.Events.Tests.fs"/>
         <Compile Include="Events\Rental.Events.Tests.fs"/>
         <Compile Include="Events\Career.Events.Tests.fs"/>
         <Compile Include="Events\World.Events.Tests.fs"/>
+        <Compile Include="Events\Moodlets\JetLagged.Moodlet.Events.Tests.fs" />
+        <Compile Include="Events\Moodlets\NotInspired.Moodlet.Events.Tests.fs" />
         <Compile Include="EffectModifiers\Moodlet.EffectModifiers.Tests.fs"/>
         <Compile Include="Simulation.Tests.fs" />
         <Compile Include="Program.fs" />

@@ -8,6 +8,8 @@ open Duets.Simulation.Events
 /// to the character for another week to slow them down a bit.
 let internal run effect =
     match effect with
+    | ConcertFinished(band, _, _) ->
+        ContinueChain [ TiredOfTouring.applyIfNeeded band.Id ] |> Some
     | SongFinished(band, _, _) ->
         ContinueChain [ NotInspired.applyIfNeeded band.Id ] |> Some
     | TimeAdvanced _ -> ContinueChain [ Cleanup.cleanup ] |> Some
