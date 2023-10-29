@@ -99,6 +99,7 @@ let albumType t =
 let cityName id =
     match id with
     | London -> "London"
+    | LosAngeles -> "Los Angeles"
     | Madrid -> "Madrid"
     | MexicoCity -> "Mexico City"
     | NewYork -> "New York"

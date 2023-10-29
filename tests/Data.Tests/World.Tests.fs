@@ -36,14 +36,23 @@ let ``all city IDs are added to the world`` () =
 let ``all cities are connected to each other`` () =
     World.get.Cities |> List.ofMapValues |> checkCities
 
-let private checkAtLeastOneWithCapacity concertSpaces minCapacity maxCapacity =
+let private checkAtLeastOneWithCapacity
+    cityId
     concertSpaces
-    |> List.filter (function
-        | capacity when capacity >= minCapacity && capacity <= maxCapacity ->
-            true
-        | _ -> false)
-    |> List.length
-    |> should be (greaterThanOrEqualTo 1)
+    minCapacity
+    maxCapacity
+    =
+    let numberOfSpaces =
+        concertSpaces
+        |> List.filter (function
+            | capacity when capacity >= minCapacity && capacity <= maxCapacity ->
+                true
+            | _ -> false)
+        |> List.length
+
+    if numberOfSpaces < 1 then
+        failwith
+            $"{cityId} does not contain any space with capacity between {minCapacity} and {maxCapacity}"
 
 let private checkConcertSpaces (city: City) =
     let concertSpaces =
@@ -53,11 +62,11 @@ let private checkConcertSpaces (city: City) =
             | PlaceType.ConcertSpace concertSpace -> concertSpace.Capacity
             | _ -> 0)
 
-    checkAtLeastOneWithCapacity concertSpaces 0 300
-    checkAtLeastOneWithCapacity concertSpaces 300 500
-    checkAtLeastOneWithCapacity concertSpaces 500 5000
-    checkAtLeastOneWithCapacity concertSpaces 500 20000
-    checkAtLeastOneWithCapacity concertSpaces 500 500000
+    checkAtLeastOneWithCapacity city.Id concertSpaces 0 300
+    checkAtLeastOneWithCapacity city.Id concertSpaces 300 500
+    checkAtLeastOneWithCapacity city.Id concertSpaces 500 5000
+    checkAtLeastOneWithCapacity city.Id concertSpaces 500 20000
+    checkAtLeastOneWithCapacity city.Id concertSpaces 500 500000
 
 [<Test>]
 let ``all cities must have concert spaces to accomodate all sort of bands by capacity``

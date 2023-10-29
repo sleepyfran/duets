@@ -6,6 +6,7 @@ module WorldCoordinatesTypes =
     /// available in the game.
     type CityId =
         | London
+        | LosAngeles
         | Madrid
         | MexicoCity
         | NewYork

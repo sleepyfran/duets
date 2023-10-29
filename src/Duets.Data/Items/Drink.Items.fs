@@ -198,6 +198,9 @@ module Beer =
           Type = Beer(568<milliliter>, 4.2) |> Drink |> Consumable },
         3.6m<dd>
 
+    let private americanBeers =
+        [ budLight; coorsLight; millerLite; yuengling; samuelAdams ]
+
     /// Defines the most common beers by location.
     let byLocation =
         [ (London,
@@ -206,10 +209,11 @@ module Beer =
              shepherdNeameSpitfire
              adnamsBroadside
              stAustellTribute ])
+          (LosAngeles, americanBeers)
           (Madrid, [ cruzcampo; estrellaDamm; mahou; alhambra; sanMiguel ])
           (MexicoCity,
            [ coronaExtra; modeloEspecial; pacifico; tecate; dosEquis ])
-          (NewYork, [ budLight; coorsLight; millerLite; yuengling; samuelAdams ])
+          (NewYork, americanBeers)
           (Prague,
            [ gambrinusPint; kozelPint; pilsnerUrquellPint; staropramenPint ])
           (Sydney,
