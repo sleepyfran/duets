@@ -9,12 +9,20 @@ open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Navigation
 
-let private placeWithOpenInfo place =
+let private placeWithOpenInfo (city: City) (place: Place) =
+    let rentedPlaces = Queries.Rentals.allAsMap (State.get ())
+    let hasPlaceRented = rentedPlaces |> Map.containsKey (city.Id, place.Id)
     let currentlyOpen = Queries.World.placeCurrentlyOpen' (State.get ()) place
 
+    let placeDetails =
+        match hasPlaceRented with
+        | true ->
+            $"""{World.placeWithZone place} ({"Rented" |> Styles.highlight})"""
+        | false -> World.placeWithZone place
+
     match currentlyOpen with
-    | true -> World.placeWithZone place
-    | false -> Styles.faded $"{place.Name} ({place.Zone.Name}) - Closed"
+    | true -> placeDetails
+    | false -> Styles.faded $"{placeDetails}) - Closed"
 
 let private showOpeningHours place =
     match place.OpeningHours with
@@ -33,19 +41,20 @@ let private showOpeningHours place =
         (* Obviously if it's always open this shouldn't happen :) *)
         ()
 
-let private showPlaceChoice placesInCity places =
+let private showPlaceChoice city placesInCity places =
     let selectedPlace =
         showOptionalChoicePrompt
             Command.mapChoosePlace
             Generic.back
-            placeWithOpenInfo
+            (placeWithOpenInfo city)
             places
 
     match selectedPlace with
     | Some place -> Some place
-    | None -> showPlaceTypeChoice placesInCity
+    | None -> showPlaceTypeChoice city placesInCity
 
 let private showPlaceTypeChoice
+    city
     (placesInCity: Map<PlaceTypeIndex, Place list>)
     =
     let availablePlaceTypes =
@@ -57,9 +66,9 @@ let private showPlaceTypeChoice
         World.placeTypeName
         availablePlaceTypes
     |> Option.bind (fun placeType ->
-        placesInCity |> Map.find placeType |> showPlaceChoice placesInCity)
+        placesInCity |> Map.find placeType |> showPlaceChoice city placesInCity)
 
-let private moveToPlace availablePlaces (destination: Place) =
+let private moveToPlace city availablePlaces (destination: Place) =
     let currentPlace = State.get () |> Queries.World.currentPlace
     let navigationResult = Navigation.moveTo destination.Id (State.get ())
 
@@ -84,7 +93,7 @@ let private moveToPlace availablePlaces (destination: Place) =
 
         showSeparator None
 
-        askForPlace availablePlaces
+        askForPlace city availablePlaces
     | Error PlaceEntranceError.CannotEnterWithoutRental ->
         showSeparator None
 
@@ -97,14 +106,29 @@ let private moveToPlace availablePlaces (destination: Place) =
 
         showSeparator None
 
-        askForPlace availablePlaces
+        askForPlace city availablePlaces
 
-let private askForPlace availablePlaces =
-    let selectedPlace = availablePlaces |> showPlaceTypeChoice
+let private askForPlace city availablePlaces =
+    let selectedPlace = availablePlaces |> showPlaceTypeChoice city
 
     match selectedPlace with
-    | Some place -> moveToPlace availablePlaces place
+    | Some place -> moveToPlace city availablePlaces place
     | None -> []
+
+let private changePlace idxType fn (places: Map<PlaceTypeIndex, Place list>) =
+    Map.change idxType (Option.bind (fn >> Option.ofList)) places
+
+let private filterRentedHomePlaces (currentCity: City) rentedPlaces =
+    changePlace
+        PlaceTypeIndex.Home
+        (List.filter (fun (place: Place) ->
+            rentedPlaces |> Map.containsKey (currentCity.Id, place.Id)))
+
+let private sortHotels (currentCity: City) rentedPlaces =
+    changePlace
+        PlaceTypeIndex.Hotel
+        (List.sortByDescending (fun (place: Place) ->
+            rentedPlaces |> Map.containsKey (currentCity.Id, place.Id)))
 
 /// Shows a list of all the place types in the current city and, upon selecting
 /// one type, shows all the places of that specific type in the current city.
@@ -119,16 +143,10 @@ let showMap () =
     (* Filter out homes that are not rented to not pollute the map. *)
     let allAvailablePlaces =
         Queries.World.allPlacesInCurrentCity state
-        |> Map.change PlaceTypeIndex.Home (fun places ->
-            places
-            |> Option.bind (fun places ->
-                places
-                |> List.filter (fun place ->
-                    rentedPlaces
-                    |> Map.containsKey (currentCity.Id, place.Id))
-                |> Option.ofList))
+        |> filterRentedHomePlaces currentCity rentedPlaces
+        |> sortHotels currentCity rentedPlaces
 
-    allAvailablePlaces |> askForPlace
+    allAvailablePlaces |> askForPlace currentCity
 
 /// Shows the map, forcing the user to make a choice.
 let showMapUntilChoice () =
