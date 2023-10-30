@@ -16,16 +16,12 @@ let cleanup state =
             match moodlet.Expiration with
             | MoodletExpirationTime.Never -> true
             | MoodletExpirationTime.AfterDays daysToExpire ->
-                let daysSinceStart =
-                    Calendar.Query.daysBetween moodlet.StartedOn currentDate
-                    * -1
+                let daysSinceStart = Moodlet.daysSinceStart moodlet currentDate
 
                 daysSinceStart <= daysToExpire
             | MoodletExpirationTime.AfterDayMoments dayMomentsToExpire ->
                 let dayMomentsSinceStart =
-                    Calendar.Query.dayMomentsBetween
-                        moodlet.StartedOn
-                        currentDate
+                    Moodlet.dayMomentsSinceStart moodlet currentDate
 
                 dayMomentsSinceStart <= dayMomentsToExpire)
 

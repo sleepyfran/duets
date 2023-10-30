@@ -25,6 +25,7 @@ module MeCommand =
 
     let private showCharacterMoodlets character =
         let moodlets = Queries.Characters.moodlets character
+        let currentDate = Queries.Calendar.today (State.get ())
 
         if Set.isEmpty moodlets then
             Styles.faded "No moodlets affecting you right now" |> showMessage
@@ -52,9 +53,19 @@ module MeCommand =
                     match moodlet.Expiration with
                     | MoodletExpirationTime.Never -> "Does not expire"
                     | MoodletExpirationTime.AfterDays days ->
-                        $"Expires after {days} days"
+                        let daysSinceStart =
+                            Moodlet.daysSinceStart moodlet currentDate
+
+                        let days = days - daysSinceStart
+
+                        $"""Expires in {days} {Generic.simplePluralOf "day" days}"""
                     | MoodletExpirationTime.AfterDayMoments dayMoments ->
-                        $"Expires after {dayMoments} day moments"
+                        let dayMomentsSinceStart =
+                            Moodlet.dayMomentsSinceStart moodlet currentDate
+
+                        let dayMoments = dayMoments - dayMomentsSinceStart
+
+                        $"""Expires after {dayMoments} {Generic.simplePluralOf "day moment" dayMoments}"""
                     |> Styles.faded
 
                 $"""{Emoji.moodlet moodlet.MoodletType} {moodletName} - {moodletExplanation}
