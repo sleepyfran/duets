@@ -59,7 +59,7 @@ let scheduledAroundDate state bandId =
 
     let aroundCurrentDate concert =
         let spanBetween = concert.Date - today
-        if spanBetween.Days <= 1 then Some concert else None
+        if abs(spanBetween.Days) <= 1 then Some concert else None
 
     let concertsScheduledAroundCurrentDate =
         timeline.ScheduledEvents

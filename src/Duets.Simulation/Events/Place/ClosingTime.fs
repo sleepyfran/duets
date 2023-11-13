@@ -1,4 +1,4 @@
-module Duets.Simulation.Events.Place.ClosingTime (* Open all the doors and let you out into the wooooorld... *)
+module rec Duets.Simulation.Events.Place.ClosingTime (* Open all the doors and let you out into the wooooorld... *)
 
 open Duets.Entities
 open Duets.Simulation
@@ -12,7 +12,30 @@ let checkCurrentPlace state =
     let currentlyClosed =
         Queries.World.placeCurrentlyOpen currentPlace currentTime |> not
 
-    if currentlyClosed then
+    let skipKickingOut = shouldPreserveCharacterInPlace state
+
+    if currentlyClosed && not skipKickingOut then
         [ Effect.PlaceClosed currentPlace ]
     else
         []
+
+// Returns true if the character should not be kicked out of the place.
+let private shouldPreserveCharacterInPlace state =
+    let currentCoordinates =
+        Queries.World.currentCoordinates state
+        |> World.Coordinates.toPlaceCoordinates
+
+    let isWorkplace () =
+        match Queries.Career.current state with
+        | Some job -> job.Location = currentCoordinates
+        | None -> false
+
+    let hasConcertInPlace () =
+        let bandId = Queries.Bands.currentBandId state
+        let cityId, placeId = currentCoordinates
+
+        Queries.Concerts.scheduledAroundDate state bandId
+        |> List.exists (fun concert ->
+            concert.CityId = cityId && concert.VenueId = placeId)
+
+    [ isWorkplace; hasConcertInPlace ] |> List.exists (fun fn -> fn ())

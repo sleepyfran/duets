@@ -184,3 +184,10 @@ module Room =
     let removeRequiredItemForEntrance room =
         { room with
             RequiredItemsForEntrance = None }
+
+[<RequireQualifiedAccess>]
+module Coordinates =
+    /// Returns the PlaceCoordinates of the given room coordinates.
+    let toPlaceCoordinates (coords: RoomCoordinates) : PlaceCoordinates =
+        let cityId, placeId, _ = coords
+        cityId, placeId
