@@ -2,10 +2,13 @@
 
 Duets is a music/life simulation game focused on allowing the player to be the leader of their own band, composing songs and making gigs to become a star.
 
-<img src="https://github.com/sleepyfran/duets/assets/6024783/d734ae25-aad4-4059-b1f9-66d4614f0777" height="230px" width="500px" />
-<img src="https://github.com/sleepyfran/duets/assets/6024783/04696499-af6c-4f3c-9248-42ee4df04b21" height="230px" width="500px" />
-<img src="https://github.com/sleepyfran/duets/assets/6024783/0ff57806-bc50-4e90-9362-3a129ee7e8f7" height="230px" width="500px" />
-<img src="https://github.com/sleepyfran/duets/assets/6024783/f048df05-1c1e-4f32-af4a-174b17f92a40" height="230px" width="500px" />
+<details>
+  <summary><h3>📷 Screenshots<h3/></summary>
+  <img src="https://github.com/sleepyfran/duets/assets/6024783/d734ae25-aad4-4059-b1f9-66d4614f0777" height="230px" width="500px" />
+  <img src="https://github.com/sleepyfran/duets/assets/6024783/04696499-af6c-4f3c-9248-42ee4df04b21" height="230px" width="500px" />
+  <img src="https://github.com/sleepyfran/duets/assets/6024783/0ff57806-bc50-4e90-9362-3a129ee7e8f7" height="230px" width="500px" />
+  <img src="https://github.com/sleepyfran/duets/assets/6024783/f048df05-1c1e-4f32-af4a-174b17f92a40" height="230px" width="500px" />
+</details>
 
 # 🛠 Run it locally
 
