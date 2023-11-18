@@ -6,37 +6,34 @@ open NUnit.Framework
 open Duets.Entities
 open Duets.Simulation.Market
 
-let unwrap (GenreMarketsUpdated market) = market
+let unwrap =
+    function
+    | GenreMarketsUpdated market -> market
+    | _ -> failwith "Unexpected effect"
 
 let checkMarketPointBoundaries market =
-    market.MarketPoint
-    |> should be (greaterThanOrEqualTo 0.1)
+    market.MarketPoint |> should be (greaterThanOrEqualTo 0.1)
 
-    market.MarketPoint
-    |> should be (lessThanOrEqualTo 5.0)
+    market.MarketPoint |> should be (lessThanOrEqualTo 5.0)
 
 [<Test>]
 let ``create should generate a random genre market for each of the given genres within the correct range``
     ()
     =
     let markets =
-        GenreMarket.create [
-            for x in 1 .. 500 do
-                yield $"Test {x}"
-        ]
+        GenreMarket.create
+            [ for x in 1..500 do
+                  yield $"Test {x}" ]
 
     markets |> should haveCount 500
 
     markets
-    |> Map.iter
-        (fun _ market ->
-            checkMarketPointBoundaries market
+    |> Map.iter (fun _ market ->
+        checkMarketPointBoundaries market
 
-            market.Fluctuation
-            |> should be (greaterThanOrEqualTo 0.1)
+        market.Fluctuation |> should be (greaterThanOrEqualTo 0.1)
 
-            market.Fluctuation
-            |> should be (lessThanOrEqualTo 1.1))
+        market.Fluctuation |> should be (lessThanOrEqualTo 1.1))
 
 [<Test>]
 let ``update should modify each market within the fluctuation keeping it within the correct range``
@@ -49,7 +46,7 @@ let ``update should modify each market within the fluctuation keeping it within 
         |> Map.ofList
 
     // Since the update relies on a random boolean, spin it a bunch of times.
-    for _ in 1 .. 100 do
+    for _ in 1..100 do
         GenreMarket.update genreMarkets
         |> unwrap
         |> Map.iter (fun _ -> checkMarketPointBoundaries)
