@@ -21,6 +21,7 @@ module StateTypes =
           GenreMarkets: GenreMarketByGenre
           CharacterInventory: Inventory
           PlayableCharacterId: CharacterId
+          Relationships: Relationships
           Rentals: CharacterRentals
           Situation: Situation
           SocialNetworks: SocialNetworks

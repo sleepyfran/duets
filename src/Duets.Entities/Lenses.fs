@@ -63,6 +63,10 @@ module State =
         (fun (s: State) -> s.CharacterInventory),
         (fun v (s: State) -> { s with CharacterInventory = v })
 
+    let relationships_ =
+        (fun (s: State) -> s.Relationships),
+        (fun v (s: State) -> { s with Relationships = v })
+
     let rentals_ =
         (fun (s: State) -> s.Rentals),
         (fun v (s: State) -> { s with Rentals = v })

@@ -86,6 +86,7 @@ let startGame
       PlayableCharacterId = character.Id
       Rentals =
         [ (initialCity.Id, initialPlaceId), initialRental ] |> Map.ofList
+      Relationships = Map.empty
       Situation = FreeRoam
       SocialNetworks = SocialNetwork.empty
       Today = Calendar.gameBeginning

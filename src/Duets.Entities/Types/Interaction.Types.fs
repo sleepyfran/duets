@@ -100,7 +100,10 @@ module InteractionTypes =
         /// Allows the player to see what they are currently carrying.
         | Inventory of inventory: Item list
         /// Allows the user to look around and see which objects are available.
-        | Look of items: Item list
+        | Look of
+            items: Item list *
+            knownCharacters: Character list *
+            unknownCharacters: Character list
         /// Allows the player to travel around the current city.
         | Map
         /// Allows movement into the specified direction.

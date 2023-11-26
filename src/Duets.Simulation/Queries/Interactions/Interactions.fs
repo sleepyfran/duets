@@ -5,12 +5,6 @@ open Duets.Simulation
 open Duets.Simulation.Queries.Internal.Interactions
 
 module Interactions =
-    let private getMovementInteractions (_, _, roomId) place =
-        Queries.World.availableDirections roomId place.Rooms
-        |> List.map (fun (direction, destinationId) ->
-            FreeRoamInteraction.Move(direction, destinationId)
-            |> Interaction.FreeRoam)
-
     let private getClockInteraction state =
         let currentDate = Queries.Calendar.today state
         let dayMoments = Queries.Calendar.nextDates state
@@ -48,25 +42,25 @@ module Interactions =
 
         let itemsInPlace = Queries.Items.allIn state currentCoords
 
+        let freeRoamInteractions =
+            FreeRoam.interactions
+                state
+                currentCoords
+                currentPlace
+                inventory
+                itemsInPlace
+
         let itemInteractions =
             inventory @ itemsInPlace |> Items.getItemInteractions
 
         let careerInteractions = currentPlace |> Career.interactions state
 
-        let movementInteractions =
-            getMovementInteractions currentCoords currentPlace
-
         let clockInteraction = getClockInteraction state
 
         let defaultInteractions =
             clockInteraction :: itemInteractions
-            @ movementInteractions
+            @ freeRoamInteractions
             @ careerInteractions
-            @ [ FreeRoamInteraction.Inventory inventory |> Interaction.FreeRoam
-                FreeRoamInteraction.Look itemsInPlace |> Interaction.FreeRoam
-                Interaction.FreeRoam FreeRoamInteraction.Map
-                Interaction.FreeRoam FreeRoamInteraction.Phone
-                Interaction.FreeRoam FreeRoamInteraction.Wait ]
 
         match currentPlace.PlaceType with
         | Airport ->

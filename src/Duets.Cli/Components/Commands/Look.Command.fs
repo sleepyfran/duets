@@ -37,15 +37,39 @@ module LookCommand =
                     $"{Generic.indeterminateArticleFor roomName} {roomName |> Styles.room} to the {World.directionName direction}")
 
             $"There is {connectionsDescription}."
+        |> showMessage
 
-    let private listPeople (people: Character list) =
-        let peopleDescription =
+    let private listPeople
+        (knownPeople: Character list)
+        (unknownPeople: Character list)
+        =
+        let peopleDescription people =
             Generic.listOf people (fun person ->
                 $"{person.Name |> Styles.person}")
 
-        $"""{peopleDescription} {Generic.pluralOf "is" "are" people.Length} also in the room."""
+        if knownPeople.IsEmpty |> not then
+            $"""{peopleDescription knownPeople} {Generic.pluralOf "is" "are" knownPeople.Length} in the room."""
+            |> showMessage
 
-    let create (interactions: InteractionWithMetadata list) (items: Item list) =
+        if unknownPeople.IsEmpty |> not then
+            $"""There {Generic.pluralOf "is" "are" unknownPeople.Length} {unknownPeople.Length |> Styles.person} {Generic.pluralOf "person" "people" unknownPeople.Length |> Styles.person} you don't know in the room."""
+            |> showMessage
+
+    let private listItems items =
+        match items with
+        | [] -> Command.lookNoObjectsAround |> showMessage
+        | items ->
+            items
+            |> List.map (fun item -> Generic.itemName item |> Items.lookItem)
+            |> Items.lookItems
+            |> showMessage
+
+    let create
+        (interactions: InteractionWithMetadata list)
+        (items: Item list)
+        (knownPeople: Character list)
+        (unknownPeople: Character list)
+        =
         { Name = "look"
           Description = Command.lookDescription
           Handler =
@@ -54,24 +78,12 @@ module LookCommand =
 
                 let currentPlace = state |> Queries.World.currentPlace
                 let currentRoom = state |> Queries.World.currentRoom
-                let peopleInRoom = state |> Queries.World.peopleInCurrentPlace
 
                 World.placeDescription currentPlace currentRoom.RoomType
                 |> showMessage
 
-                listRoomConnections interactions |> showMessage
-
-                match peopleInRoom with
-                | [] -> ()
-                | people -> listPeople people |> showMessage
-
-                match items with
-                | [] -> Command.lookNoObjectsAround |> showMessage
-                | items ->
-                    items
-                    |> List.map (fun item ->
-                        Generic.itemName item |> Items.lookItem)
-                    |> Items.lookItems
-                    |> showMessage
+                listRoomConnections interactions
+                listPeople knownPeople unknownPeople
+                listItems items
 
                 Scene.World) }

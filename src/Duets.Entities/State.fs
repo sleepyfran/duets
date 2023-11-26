@@ -22,6 +22,7 @@ let empty =
       CharacterInventory = List.empty
       PlayableCharacterId = Identity.create () |> CharacterId
       Rentals = Map.empty
+      Relationships = Map.empty
       Situation = FreeRoam
       SocialNetworks =
         { Mastodon =

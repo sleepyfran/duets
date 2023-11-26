@@ -105,8 +105,12 @@ let private commandsFromInteractions interactions =
                 [ ClockCommand.create dayMomentsWithEvents ]
             | FreeRoamInteraction.Inventory inventory ->
                 [ InventoryCommand.create inventory ]
-            | FreeRoamInteraction.Look items ->
-                [ LookCommand.create interactions items ]
+            | FreeRoamInteraction.Look(items, knownPeople, unknownPeople) ->
+                [ LookCommand.create
+                      interactions
+                      items
+                      knownPeople
+                      unknownPeople ]
             | FreeRoamInteraction.Map -> [ MapCommand.get ]
             | FreeRoamInteraction.Move(direction, roomId) ->
                 [ MovementCommand.create direction roomId ]
