@@ -13,3 +13,6 @@ let remove coords item =
             | None -> None)
 
     Optic.map Lenses.State.worldItems_ removeItem
+
+let setPeople people =
+    Optic.set Lenses.State.peopleInCurrentPosition_ people

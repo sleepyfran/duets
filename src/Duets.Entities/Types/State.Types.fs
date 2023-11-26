@@ -16,6 +16,7 @@ module StateTypes =
           CharacterSkills: CharacterSkills
           Concerts: ConcertsByBand
           CurrentPosition: RoomCoordinates
+          PeopleInCurrentPosition: Character list
           Flights: Flight list
           GenreMarkets: GenreMarketByGenre
           CharacterInventory: Inventory

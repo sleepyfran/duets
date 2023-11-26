@@ -3,7 +3,6 @@ module Duets.Simulation.Tests.Events.Moodlets.JetLagged
 open FsUnit
 open NUnit.Framework
 open Test.Common
-open Test.Common.Generators
 
 open Duets.Common
 open Duets.Entities
@@ -30,7 +29,10 @@ let ``tick of WorldMoveTo does not apply any extra effects if the difference in 
     |> List.iter (fun (prevCity, currCity) ->
         Simulation.tickOne dummyState (worldMoveEffect prevCity currCity)
         |> fst
-        |> should haveLength 1 (* This includes the effect we ticked. *) )
+        |> List.filter (function
+            | CharacterMoodletsChanged _ -> true
+            | _ -> false)
+        |> should haveLength 0)
 
 [<Test>]
 let ``tick of song finished should apply JetLagged moodlet if the cities are more than 4 timezones apart``
@@ -41,7 +43,10 @@ let ``tick of song finished should apply JetLagged moodlet if the cities are mor
         let moodletEffect =
             Simulation.tickOne dummyState (worldMoveEffect prevCity currCity)
             |> fst
-            |> List.item 1 (* Position 0 is the effect we've ticked. *)
+            |> List.filter (function
+                | CharacterMoodletsChanged _ -> true
+                | _ -> false)
+            |> List.head
 
         match moodletEffect with
         | CharacterMoodletsChanged(_, Diff(prevMoodlet, currMoodlet)) ->

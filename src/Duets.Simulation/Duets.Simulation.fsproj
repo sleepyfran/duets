@@ -65,6 +65,7 @@
         <Compile Include="Character\Attributes.fs" />
         <Compile Include="Character\AttributeChange.fs" />
         <Compile Include="Character\Moodlets.fs" />
+        <Compile Include="Character\Npc.fs"/>
         <Compile Include="Bank\Operations.fs" />
         <Compile Include="Albums\DailyStreams.fs" />
         <Compile Include="Albums\Hype.fs" />
@@ -118,6 +119,7 @@
         <Compile Include="SocialNetworks\Reposts.fs" />
         <Compile Include="SocialNetworks\SocialNetworks.fs" />
         <Compile Include="Shop\Shop.fs" />
+        <Compile Include="World\Population.fs"/>
         <Compile Include="Events\Types.fs" />
         <Compile Include="Events\Character\Hospitalization.fs" />
         <Compile Include="Events\Character\Drunkenness.fs" />

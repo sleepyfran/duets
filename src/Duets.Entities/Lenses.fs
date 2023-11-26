@@ -47,6 +47,10 @@ module State =
         (fun (s: State) -> s.CurrentPosition),
         (fun v (s: State) -> { s with CurrentPosition = v })
 
+    let peopleInCurrentPosition_ =
+        (fun (s: State) -> s.PeopleInCurrentPosition),
+        (fun v (s: State) -> { s with PeopleInCurrentPosition = v })
+
     let flights_ =
         (fun (s: State) -> s.Flights),
         (fun v (s: State) -> { s with Flights = v })
@@ -285,9 +289,9 @@ module FromState =
         let allByBand_ bandId =
             State.concerts_
             >-> Map.keyWithDefault_
-                bandId
-                { ScheduledEvents = List.empty
-                  PastEvents = List.empty }
+                    bandId
+                    { ScheduledEvents = List.empty
+                      PastEvents = List.empty }
 
     module GenreMarkets =
         /// Lens into a specific genre market given its genre ID.

@@ -38,19 +38,32 @@ module LookCommand =
 
             $"There is {connectionsDescription}."
 
+    let private listPeople (people: Character list) =
+        let peopleDescription =
+            Generic.listOf people (fun person ->
+                $"{person.Name |> Styles.person}")
+
+        $"""{peopleDescription} {Generic.pluralOf "is" "are" people.Length} also in the room."""
+
     let create (interactions: InteractionWithMetadata list) (items: Item list) =
         { Name = "look"
           Description = Command.lookDescription
           Handler =
             (fun _ ->
                 let state = State.get ()
+
                 let currentPlace = state |> Queries.World.currentPlace
                 let currentRoom = state |> Queries.World.currentRoom
+                let peopleInRoom = state |> Queries.World.peopleInCurrentPlace
 
                 World.placeDescription currentPlace currentRoom.RoomType
                 |> showMessage
 
                 listRoomConnections interactions |> showMessage
+
+                match peopleInRoom with
+                | [] -> ()
+                | people -> listPeople people |> showMessage
 
                 match items with
                 | [] -> Command.lookNoObjectsAround |> showMessage

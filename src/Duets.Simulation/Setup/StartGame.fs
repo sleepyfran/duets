@@ -79,6 +79,7 @@ let startGame
       Concerts = [ (band.Id, Concert.Timeline.empty) ] |> Map.ofList
       CurrentPosition =
         initialCity.Id, initialPlaceId, World.Ids.Home.livingRoom
+      PeopleInCurrentPosition = [] (* We always start inside a home, which is guaranteed to be empty. *)
       Flights = []
       GenreMarkets = initialGenreMarket
       CharacterInventory = List.empty

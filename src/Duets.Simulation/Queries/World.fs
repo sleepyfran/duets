@@ -97,3 +97,7 @@ module World =
         |> Option.defaultValue Map.empty
         |> List.ofSeq
         |> List.map (fun keyValue -> (keyValue.Key, keyValue.Value))
+
+    /// Returns all the NPCs that are currently in the same coordinates as the
+    /// character.
+    let peopleInCurrentPlace state = state.PeopleInCurrentPosition

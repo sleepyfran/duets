@@ -71,6 +71,10 @@ module EffectTypes =
         | PlaceClosed of Place
         | PlayResult of PlayResult
         | TimeAdvanced of Date
+        /// Moves the player to a new room inside the current place.
         | WorldEnter of Diff<RoomCoordinates>
+        /// Moves the player to a different place in the current city or a
+        /// different one.
         | WorldMoveTo of Diff<RoomCoordinates>
+        | WorldPeopleInCurrentRoomChanged of Character list
         | Wait of int<dayMoments>

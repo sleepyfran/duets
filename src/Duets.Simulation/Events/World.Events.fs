@@ -19,17 +19,13 @@ let private removeItemsIfNeeded previousCoords currentCoords _ =
         requiredItems.Items |> List.map ItemRemovedFromInventory
     | _ -> []
 
-let private removeItemsRequiredByPlaceIfNeeded previousCoords currentCoords _ =
-    let previousCityId, previousPlaceId, previousRoomId = previousCoords
-    let currentCityId, currentPlaceId, currentRoomId = currentCoords
+let private ifCoordsDiffer previousCoords currentCoords f =
+    if previousCoords = currentCoords then [] else f ()
 
-    (*
-     Technically we shouldn't we raising a move for entering in different rooms,
-     but nothing to do in this case.
-     *)
-    if previousCityId = currentCityId && previousPlaceId = currentPlaceId then
-        []
-    else
+let private removeItemsRequiredByPlaceIfNeeded previousCoords currentCoords _ =
+    ifCoordsDiffer previousCoords currentCoords (fun () ->
+        let previousCityId, previousPlaceId, _ = previousCoords
+
         let previousPlace =
             Queries.World.placeInCityById previousCityId previousPlaceId
 
@@ -39,7 +35,14 @@ let private removeItemsRequiredByPlaceIfNeeded previousCoords currentCoords _ =
             match room.RequiredItemsForEntrance with
             | Some requiredItems -> requiredItems.Items
             | _ -> [])
-        |> List.map ItemRemovedFromInventory
+        |> List.map ItemRemovedFromInventory)
+
+let private generateNpcs previousCoords currentCoords state =
+    ifCoordsDiffer previousCoords currentCoords (fun () ->
+        let cityId, placeId, _ = currentCoords
+        let place = Queries.World.placeInCityById cityId placeId
+
+        World.Population.generateForPlace place state |> List.singleton)
 
 /// Runs all the events associated with effects of world movement. For example,
 /// required items from rooms have to be removed from the character's inventory
@@ -49,7 +52,8 @@ let internal run effect =
     | WorldEnter(Diff(before, after)) ->
         [ removeItemsIfNeeded before after ] |> ContinueChain |> Some
     | WorldMoveTo(Diff(before, after)) ->
-        [ removeItemsRequiredByPlaceIfNeeded before after ]
+        [ removeItemsRequiredByPlaceIfNeeded before after
+          generateNpcs before after ]
         |> ContinueChain
         |> Some
     | _ -> None

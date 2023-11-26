@@ -141,6 +141,7 @@ let applyEffect state effect =
         World.move cityId placeId romId state
     | WorldMoveTo(Diff(_, (cityId, placeId, roomId))) ->
         World.move cityId placeId roomId state
+    | WorldPeopleInCurrentRoomChanged people -> World.setPeople people state
     | Wait _ -> state
 
 /// Applies multiple effects to the given initial state and returns the result.

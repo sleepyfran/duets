@@ -16,6 +16,7 @@ let empty =
       CharacterSkills = Map.empty
       Concerts = Map.empty
       CurrentPosition = (Prague, "", 0)
+      PeopleInCurrentPosition = []
       Flights = []
       GenreMarkets = Map.empty
       CharacterInventory = List.empty
