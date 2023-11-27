@@ -14,7 +14,7 @@ let private placePopulationRange (place: Place) =
     | Casino -> 1, 10
     | ConcertSpace concertSpace ->
         1,
-        (max 20 concertSpace.Capacity) (* TODO: Base this on whether there's any concert or not and the assistance to the concert. *)
+        (min 20 concertSpace.Capacity) (* TODO: Base this on whether there's any concert or not and the assistance to the concert. *)
     | Gym -> 1, 5
     | Home -> 0, 0 (* Homes are private *)
     | Hotel _ -> 1, 5
