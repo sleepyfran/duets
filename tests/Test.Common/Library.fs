@@ -135,16 +135,23 @@ let dummyPastConcert = PastConcert.PerformedConcert(dummyConcert, 100<quality>)
 let dummyState =
     RandomGen.reset ()
 
-    startGame dummyCharacter dummyBand [] dummyCity
-    |> fun (GameCreated state) ->
+    let effect = startGame dummyCharacter dummyBand [] dummyCity
+
+    match effect with
+    | GameCreated state ->
         { state with
             GenreMarkets =
                 [ "Jazz", { MarketPoint = 2.5; Fluctuation = 1.0 } ]
                 |> Map.ofList }
+    | _ -> failwith "Unexpected effect while creating game."
 
 let dummyStateWithMultipleMembers =
-    startGame dummyCharacter dummyBandWithMultipleMembers [] dummyCity
-    |> fun (GameCreated state) -> state
+    let effect =
+        startGame dummyCharacter dummyBandWithMultipleMembers [] dummyCity
+
+    match effect with
+    | GameCreated state -> state
+    | _ -> failwith "Unexpected effect while creating game."
 
 let dummyOngoingConcert =
     { Events = []
