@@ -11,13 +11,8 @@ module FreeRoam =
             |> Interaction.FreeRoam)
 
     let private getLookInteraction state itemsInPlace =
-        let peopleInPlace = Queries.World.peopleInCurrentPlace state
-
         let knownPeople, unknownPeople =
-            peopleInPlace
-            |> List.partition (fun person ->
-                Queries.Relationship.withCharacter person.Id state
-                |> Option.isSome)
+            Queries.World.peopleInCurrentPlace state
 
         FreeRoamInteraction.Look(itemsInPlace, knownPeople, unknownPeople)
 

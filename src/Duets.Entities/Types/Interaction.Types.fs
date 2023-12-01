@@ -170,6 +170,18 @@ module InteractionTypes =
         /// Allows the character to peek at the available items on the bar.
         | SeeMenu of PurchasableItem list
 
+    /// Interactions that can be performed with an NPC.
+    [<RequireQualifiedAccess>]
+    type SocialInteraction =
+        /// Allows the player to start a conversation with an NPC.
+        | StartConversation of npcs: Character list
+        /// Allows the player to greet an NPC, which starts their friendship.
+        | Greet
+        /// Allows the player to have a chat with an NPC.
+        | Chat
+        /// Allows the player to tell a story to an NPC.
+        | TellStory
+
     /// Interactions that can only be performed inside of a studio.
     [<RequireQualifiedAccess>]
     type StudioInteraction =
@@ -203,6 +215,7 @@ module InteractionTypes =
         | MiniGame of MiniGameInteraction
         | Rehearsal of RehearsalInteraction
         | Shop of ShopInteraction
+        | Social of SocialInteraction
         | Studio of StudioInteraction
 
     /// Defines all possible reasons why an interaction can be disabled.

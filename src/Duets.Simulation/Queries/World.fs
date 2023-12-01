@@ -100,4 +100,7 @@ module World =
 
     /// Returns all the NPCs that are currently in the same coordinates as the
     /// character.
-    let peopleInCurrentPlace state = state.PeopleInCurrentPosition
+    let peopleInCurrentPlace state =
+        state.PeopleInCurrentPosition
+        |> List.partition (fun person ->
+            Relationship.withCharacter person.Id state |> Option.isSome)

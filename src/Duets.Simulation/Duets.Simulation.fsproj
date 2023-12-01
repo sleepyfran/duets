@@ -8,6 +8,7 @@
         <Compile Include="Config.fs" />
         <Compile Include="RandomGen.fs" />
         <Compile Include="Queries\Calendar.fs" />
+        <Compile Include="Queries\Relationships.fs" />
         <Compile Include="Queries\World.fs" />
         <Compile Include="Queries\Songs.fs" />
         <Compile Include="Queries\Albums.fs" />
@@ -26,7 +27,6 @@
         <Compile Include="Queries\SocialNetworks.fs" />
         <Compile Include="Queries\Concerts.fs" />
         <Compile Include="Queries\CalendarEvents.fs" />
-        <Compile Include="Queries\Relationships.fs"/>
         <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Health.fs" />
         <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Energy.fs" />
         <Compile Include="Queries\Interactions\InteractionTime.fs" />
@@ -40,6 +40,7 @@
         <Compile Include="Queries\Interactions\Interactions.Airport.fs" />
         <Compile Include="Queries\Interactions\Interactions.ConcertSpace.fs" />
         <Compile Include="Queries\Interactions\Interactions.RehearsalSpace.fs" />
+        <Compile Include="Queries\Interactions\Interactions.Social.fs" />
         <Compile Include="Queries\Interactions\Interactions.Studio.fs" />
         <Compile Include="Queries\Interactions\Interactions.fs" />
         <Compile Include="State\Bank.fs" />

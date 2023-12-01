@@ -153,6 +153,7 @@ let private commandsFromInteractions interactions =
             match shopInteraction with
             | ShopInteraction.Order shop -> [ OrderCommand.create shop ]
             | ShopInteraction.SeeMenu shop -> [ SeeMenuCommand.create shop ]
+        | Interaction.Social socialInteraction -> [] (* TODO: Implement. *)
         | Interaction.Studio studioInteraction ->
             match studioInteraction with
             | StudioInteraction.CreateAlbum(studio, finishedSongs) ->

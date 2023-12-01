@@ -17,3 +17,5 @@ module SituationTypes =
         | Concert of ConcertSituation
         /// Playing a mini-game.
         | PlayingMiniGame of MiniGameState
+        /// Player is in a conversation with an NPC.
+        | Socializing
