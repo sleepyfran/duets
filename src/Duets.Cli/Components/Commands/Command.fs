@@ -32,6 +32,41 @@ module Parse =
         | _ -> None
 
 [<RequireQualifiedAccess>]
+module Selection =
+    type SelectionResult<'a> =
+        | Selected of 'a
+        | Cancelled
+        | NoMatchingItem of input: string
+
+    let private interactiveSelection prompt items toString =
+        showOptionalChoicePrompt prompt Generic.nothing toString items
+        |> Option.map Selected
+        |> Option.defaultValue Cancelled
+
+    let private findFromArgs input items toString =
+        let foundItem =
+            items
+            |> List.tryFind (fun item ->
+                let itemName = toString item
+                String.diacriticInsensitiveContains itemName input)
+
+        match foundItem with
+        | Some item -> Selected item
+        | None -> NoMatchingItem input
+
+    /// Attempts to parse an item from the given input or displays an interactive
+    /// selector if no input is given. Returns an item if something matched
+    /// or was selected, otherwise returns None or an error if the input did not
+    /// match any item.
+    let fromArgsOrInteractive args prompt items toDisplayName toReferenceName =
+        let input = args |> String.concat " "
+
+        if String.isEmpty input then
+            interactiveSelection prompt items toDisplayName
+        else
+            findFromArgs input items toReferenceName
+
+[<RequireQualifiedAccess>]
 module Command =
     /// Creates a command with the given name and description that when called
     /// outputs the given message.

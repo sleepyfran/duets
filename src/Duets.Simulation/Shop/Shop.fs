@@ -21,18 +21,3 @@ let order state (item, price) =
         paymentEffects @ [ ItemAddedToInventory item ]
         |> Ok
     | Error error -> Error error
-
-/// Attempts to order an item with the given name from the list of available
-/// items. Checks for whether the name exists and if the character has enough
-/// money to buy the item.
-let orderByName state name availableItems =
-    let foundItem =
-        availableItems
-        |> List.tryFind (fun (item, _) ->
-            String.diacriticInsensitiveContains name item.Brand)
-
-    match foundItem with
-    | Some item ->
-        order state item
-        |> Result.mapError (fun _ -> NotEnoughFunds)
-    | None -> Error ItemNotFound

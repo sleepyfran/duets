@@ -25,47 +25,36 @@ module CookCommand =
         "You cooked a delicious meal!" |> Styles.success |> showMessage
         Duets.Cli.Effect.applyMultiple effects
 
-    let private cookInteractive availableItems =
-        let orderedItems =
-            availableItems |> Seq.sortBy (fun (item, _) -> item.Brand)
-
-        let selectedItem =
-            showOptionalChoicePrompt
-                "What do you want to cook?"
-                Generic.nothing
-                (fun (item, price) ->
-                    $"{Generic.itemNameWithDetail item} ({Styles.money price} for ingredients)")
-                orderedItems
-
-        match selectedItem with
-        | Some item ->
-            let orderResult = Shop.order (State.get ()) item
-
-            match orderResult with
-            | Ok effects -> showCookingResult effects
-            | Error _ -> notEnoughFundsError |> showMessage
-        | None -> ()
-
-    let private cookFromArgs input availableItems =
-        let orderResult = Shop.orderByName (State.get ()) input availableItems
-
-        match orderResult with
-        | Ok effects -> showCookingResult effects
-        | Error Shop.ItemNotFound ->
-            $"There's no such recipe as {input}" |> Styles.error |> showMessage
-        | Error Shop.NotEnoughFunds -> notEnoughFundsError |> showMessage
-
     /// Command to cook food.
     let create availableItems =
         { Name = "cook"
           Description = "Allows you to cook a recipe"
           Handler =
             (fun args ->
-                let input = args |> String.concat " "
+                let toString (item, price) =
+                    $"{Generic.itemNameWithDetail item} ({Styles.money price} for ingredients)"
 
-                if String.isEmpty input then
-                    cookInteractive availableItems
-                else
-                    cookFromArgs input availableItems
+                let toReferenceName (item, _) = item.Brand
+                
+                let recipe =
+                    Selection.fromArgsOrInteractive
+                        args
+                        "What do you want to cook?"
+                        availableItems
+                        toString
+                        toReferenceName
+
+                match recipe with
+                | Selection.Selected item ->
+                    let orderResult = Shop.order (State.get ()) item
+
+                    match orderResult with
+                    | Ok effects -> showCookingResult effects
+                    | Error _ -> notEnoughFundsError |> showMessage
+                | Selection.NoMatchingItem input ->
+                    $"There's no such recipe as {input}"
+                    |> Styles.error
+                    |> showMessage
+                | Selection.Cancelled -> ()
 
                 Scene.World) }
