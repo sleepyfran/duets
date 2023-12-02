@@ -19,3 +19,7 @@ let onboardedInPlane flight =
 /// Sets the current situation to playing a mini game.
 let playingMiniGame miniGameState =
     miniGameState |> PlayingMiniGame |> SituationChanged
+
+/// Sets the current situation to socializing with the given NPC.
+let socializing npc =
+    { Npc = npc } |> Socializing |> SituationChanged

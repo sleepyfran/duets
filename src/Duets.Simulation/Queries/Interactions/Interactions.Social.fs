@@ -10,12 +10,13 @@ module Social =
         let knownPeople, unknownPeople =
             Queries.World.peopleInCurrentPlace state
 
-        let people = knownPeople @ unknownPeople
+        let noPeopleInRoom =
+            List.isEmpty knownPeople && List.isEmpty unknownPeople
 
-        match people with
-        | [] -> []
-        | people ->
-            SocialInteraction.StartConversation people
+        if noPeopleInRoom then
+            []
+        else
+            SocialInteraction.StartConversation(knownPeople, unknownPeople)
             |> Interaction.Social
             |> List.singleton
 
@@ -24,7 +25,7 @@ module Social =
         let situation = Queries.Situations.current state
 
         match situation with
-        | Socializing -> [] (* TODO: Return socializing interactions. *)
+        | Socializing _ -> [] (* TODO: Return socializing interactions. *)
         (* Might be able to start a new social situation if there are NPCs around. *)
         | Airport _
         | FreeRoam -> startConversationInteractions state

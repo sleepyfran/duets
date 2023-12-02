@@ -153,7 +153,13 @@ let private commandsFromInteractions interactions =
             match shopInteraction with
             | ShopInteraction.Order shop -> [ OrderCommand.create shop ]
             | ShopInteraction.SeeMenu shop -> [ SeeMenuCommand.create shop ]
-        | Interaction.Social socialInteraction -> [] (* TODO: Implement. *)
+        | Interaction.Social socialInteraction ->
+            match socialInteraction with
+            | SocialInteraction.StartConversation(knownNpcs, unknownNpcs) ->
+                [ StartConversationCommand.create knownNpcs unknownNpcs ]
+            | SocialInteraction.Greet -> []
+            | SocialInteraction.Chat -> []
+            | SocialInteraction.TellStory -> []
         | Interaction.Studio studioInteraction ->
             match studioInteraction with
             | StudioInteraction.CreateAlbum(studio, finishedSongs) ->
@@ -237,6 +243,12 @@ let worldScene mode =
                 ongoingConcert.Points
         | PlayingMiniGame miniGameState ->
             MiniGame.actionPrompt today currentDayMoment miniGameState
+        | Socializing socializingState ->
+            Social.actionPrompt
+                today
+                currentDayMoment
+                characterAttributes
+                socializingState.Npc
         | _ -> Command.commonPrompt today currentDayMoment characterAttributes
 
     let commandsWithMetadata =

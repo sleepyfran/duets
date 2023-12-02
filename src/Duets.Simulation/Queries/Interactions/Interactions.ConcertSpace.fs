@@ -44,12 +44,12 @@ module ConcertSpace =
               ) ]
 
     /// Returns all interactions available in the current concert room.
-    let internal interactions state roomType defaultInteractions cityId placeId =
+    let internal interactions state roomType cityId placeId =
         let situation = Queries.Situations.current state
 
         match situation with
         | FreeRoam when roomType = RoomType.Stage ->
-            defaultInteractions @ startConcertInteraction state placeId
+            startConcertInteraction state placeId
         | Concert(InConcert ongoingConcert) when roomType = RoomType.Stage ->
             let instrumentSpecificInteractions =
                 instrumentInteractions state ongoingConcert
@@ -64,13 +64,8 @@ module ConcertSpace =
               Interaction.Concert(ConcertInteraction.FaceCrowd ongoingConcert) ]
             @ instrumentSpecificInteractions
         | Concert(InConcert ongoingConcert) when roomType = RoomType.Backstage ->
-            let backstageAllowedInteractions =
-                Queries.InteractionCommon.filterOutMovementAndTime
-                    defaultInteractions
-
-            [ yield! backstageAllowedInteractions
-              Interaction.Concert(ConcertInteraction.DoEncore ongoingConcert)
+            [ Interaction.Concert(ConcertInteraction.DoEncore ongoingConcert)
               Interaction.Concert(
                   ConcertInteraction.FinishConcert ongoingConcert
               ) ] (* TODO: Add interactions that are specific to only the backstage outside a concert. *)
-        | _ -> Bar.interactions cityId roomType @ defaultInteractions
+        | _ -> Bar.interactions cityId roomType

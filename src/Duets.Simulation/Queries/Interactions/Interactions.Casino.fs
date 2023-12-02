@@ -24,11 +24,11 @@ module Casino =
         [ MiniGameId.Blackjack ]
         |> List.map (MiniGameInteraction.StartGame >> Interaction.MiniGame)
 
-    let internal interactions state roomType defaultInteractions =
+    let internal interactions state roomType =
         let situation = Queries.Situations.current state
 
         match roomType, situation with
         | RoomType.CasinoFloor, PlayingMiniGame(Blackjack miniGameState) ->
             blackjackInteractions miniGameState
-        | RoomType.CasinoFloor, _ -> startGameInteractions @ defaultInteractions
-        | _ -> defaultInteractions
+        | RoomType.CasinoFloor, _ -> startGameInteractions
+        | _ -> []

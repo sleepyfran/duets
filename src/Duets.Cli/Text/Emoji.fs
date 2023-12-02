@@ -11,6 +11,9 @@ let flying = ":airplane_departure:"
 /// the space in the end since the emoji does not seem to render well without it.
 let concert = ":admission_tickets: "
 
+/// Emoji for representing actions related to socializing.
+let socializing = ":mouth:"
+
 /// Emoji for representing a notification.
 let notification = ":bell:"
 

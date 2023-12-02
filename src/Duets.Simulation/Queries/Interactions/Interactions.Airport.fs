@@ -32,21 +32,15 @@ module Airport =
         | _ -> []
         @ shopInteractions
 
-    let private airplaneInteractions _ flight defaultInteractions =
-        let allowedInteractions =
-            Queries.InteractionCommon.filterOutMovementAndTime
-                defaultInteractions
-
-        [ yield! allowedInteractions
-          yield!
+    let private airplaneInteractions _ flight =
+        [ yield!
               inFlightItems flight.Origin flight.Destination
               |> Shop.interactions
           AirportInteraction.WaitUntilLanding flight |> Interaction.Airport ]
 
-    let internal interactions state cityId roomType defaultInteractions =
+    let internal interactions state cityId roomType =
         let situation = Queries.Situations.current state
 
         match situation with
-        | Airport(Flying flight) ->
-            airplaneInteractions state flight defaultInteractions
-        | _ -> airportInteractions state cityId roomType @ defaultInteractions
+        | Airport(Flying flight) -> airplaneInteractions state flight
+        | _ -> airportInteractions state cityId roomType

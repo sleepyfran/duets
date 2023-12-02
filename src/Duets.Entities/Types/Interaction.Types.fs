@@ -174,7 +174,9 @@ module InteractionTypes =
     [<RequireQualifiedAccess>]
     type SocialInteraction =
         /// Allows the player to start a conversation with an NPC.
-        | StartConversation of npcs: Character list
+        | StartConversation of
+            knownNpcs: Character list *
+            unknownNpcs: Character list
         /// Allows the player to greet an NPC, which starts their friendship.
         | Greet
         /// Allows the player to have a chat with an NPC.

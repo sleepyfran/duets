@@ -55,46 +55,40 @@ module Interactions =
 
         let careerInteractions = currentPlace |> Career.interactions state
 
+        let socialInteractions = Social.interactions state
+
         let clockInteraction = getClockInteraction state
 
         let defaultInteractions =
             clockInteraction :: itemInteractions
             @ freeRoamInteractions
             @ careerInteractions
+            @ socialInteractions
 
-        match currentPlace.PlaceType with
-        | Airport ->
-            Airport.interactions
-                state
-                cityId
-                currentRoom.RoomType
-                defaultInteractions
-        | Bar ->
-            Bar.interactions cityId currentRoom.RoomType @ defaultInteractions
-        | Cafe -> Cafe.interactions currentRoom.RoomType @ defaultInteractions
-        | Casino ->
-            Casino.interactions state currentRoom.RoomType defaultInteractions
-        | ConcertSpace _ ->
-            ConcertSpace.interactions
-                state
-                currentRoom.RoomType
-                defaultInteractions
-                cityId
-                currentPlace.Id
-        | Gym ->
-            Gym.interactions cityId currentPlace currentRoom.RoomType
-            @ defaultInteractions
-        | Home -> defaultInteractions
-        | Hospital -> defaultInteractions
-        | Hotel _ -> defaultInteractions
-        | RehearsalSpace _ ->
-            RehearsalSpace.interactions state cityId currentRoom.RoomType
-            @ defaultInteractions
-        | Restaurant ->
-            Restaurant.interactions cityId currentRoom.RoomType
-            @ defaultInteractions
-        | Studio studio ->
-            Studio.interactions state studio @ defaultInteractions
+        let placeSpecificInteractions =
+            match currentPlace.PlaceType with
+            | Airport -> Airport.interactions state cityId currentRoom.RoomType
+            | Bar -> Bar.interactions cityId currentRoom.RoomType
+            | Cafe -> Cafe.interactions currentRoom.RoomType
+            | Casino -> Casino.interactions state currentRoom.RoomType
+            | ConcertSpace _ ->
+                ConcertSpace.interactions
+                    state
+                    currentRoom.RoomType
+                    cityId
+                    currentPlace.Id
+            | Gym -> Gym.interactions cityId currentPlace currentRoom.RoomType
+            | Home -> []
+            | Hospital -> []
+            | Hotel _ -> []
+            | RehearsalSpace _ ->
+                RehearsalSpace.interactions state cityId currentRoom.RoomType
+            | Restaurant -> Restaurant.interactions cityId currentRoom.RoomType
+            | Studio studio -> Studio.interactions state studio
+
+        placeSpecificInteractions
+        |> (@) defaultInteractions
+        |> InteractionCommon.filterOutSituationalInteractions state
         |> List.map (fun interaction ->
             { Interaction = interaction
               State = InteractionState.Enabled

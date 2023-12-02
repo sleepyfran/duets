@@ -29,6 +29,7 @@
         <Compile Include="Text\Skill.fs"/>
         <Compile Include="Text\Character.fs"/>
         <Compile Include="Text\Songs.fs"/>
+        <Compile Include="Text\Social.fs" />
         <Compile Include="Text\World\Cafe.fs"/>
         <Compile Include="Text\World\Restaurant.fs"/>
         <Compile Include="Text\World\Airport.fs"/>
