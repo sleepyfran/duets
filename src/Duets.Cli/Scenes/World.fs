@@ -157,6 +157,8 @@ let private commandsFromInteractions interactions =
             match socialInteraction with
             | SocialInteraction.StartConversation(knownNpcs, unknownNpcs) ->
                 [ StartConversationCommand.create knownNpcs unknownNpcs ]
+            | SocialInteraction.StopConversation ->
+                [ StopConversationCommand.get ]
             | SocialInteraction.Greet -> []
             | SocialInteraction.Chat -> []
             | SocialInteraction.TellStory -> []

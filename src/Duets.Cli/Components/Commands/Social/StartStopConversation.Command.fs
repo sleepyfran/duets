@@ -32,3 +32,15 @@ module StartConversationCommand =
                 | None -> ()
 
                 Scene.World }
+
+[<RequireQualifiedAccess>]
+module StopConversationCommand =
+    /// Command which stops the current conversation and puts the character
+    /// back into FreeRoam mode.
+    let get =
+        { Name = "stop conversation"
+          Description = "Stops the current conversation"
+          Handler =
+            fun _ ->
+                Situations.freeRoam |> Effect.apply
+                Scene.World }

@@ -177,6 +177,8 @@ module InteractionTypes =
         | StartConversation of
             knownNpcs: Character list *
             unknownNpcs: Character list
+        /// Allows the player to stop a conversation with an NPC.
+        | StopConversation
         /// Allows the player to greet an NPC, which starts their friendship.
         | Greet
         /// Allows the player to have a chat with an NPC.

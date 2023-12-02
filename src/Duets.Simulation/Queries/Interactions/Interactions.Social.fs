@@ -25,7 +25,8 @@ module Social =
         let situation = Queries.Situations.current state
 
         match situation with
-        | Socializing _ -> [] (* TODO: Return socializing interactions. *)
+        | Socializing _ ->
+            [ SocialInteraction.StopConversation |> Interaction.Social ]
         (* Might be able to start a new social situation if there are NPCs around. *)
         | Airport _
         | FreeRoam -> startConversationInteractions state
