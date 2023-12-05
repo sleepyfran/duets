@@ -20,6 +20,6 @@ let onboardedInPlane flight =
 let playingMiniGame miniGameState =
     miniGameState |> PlayingMiniGame |> SituationChanged
 
-/// Sets the current situation to socializing with the given NPC.
-let socializing npc =
-    { Npc = npc } |> Socializing |> SituationChanged
+/// Sets the current situation to socializing.
+let socializing socializingState =
+    socializingState |> Socializing |> SituationChanged

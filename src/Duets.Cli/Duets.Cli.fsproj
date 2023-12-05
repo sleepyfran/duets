@@ -117,7 +117,9 @@
         <Compile Include="Components\Commands\MiniGame\Hit.Command.fs"/>
         <Compile Include="Components\Commands\MiniGame\Stand.Command.fs"/>
         <Compile Include="Components\Commands\MiniGame\Leave.Command.fs"/>
+        <Compile Include="Components\Commands\Social\Social.Command.fs" />
         <Compile Include="Components\Commands\Social\StartStopConversation.Command.fs" />
+        <Compile Include="Components\Commands\Social\Greet.Commands.fs" />
         <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\TriggerEffect.Cheats.Commands.fs"/>

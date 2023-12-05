@@ -20,13 +20,17 @@ module Social =
             |> Interaction.Social
             |> List.singleton
 
+    let private getSocializingInteractions socializingState =
+        [ SocialInteraction.Greet socializingState |> Interaction.Social ]
+
     /// Returns all social interactions available in the current context.
     let internal interactions state =
         let situation = Queries.Situations.current state
 
         match situation with
-        | Socializing _ ->
-            [ SocialInteraction.StopConversation |> Interaction.Social ]
+        | Socializing socializingState ->
+            [ yield! getSocializingInteractions socializingState
+              SocialInteraction.StopConversation |> Interaction.Social ]
         (* Might be able to start a new social situation if there are NPCs around. *)
         | Airport _
         | FreeRoam -> startConversationInteractions state

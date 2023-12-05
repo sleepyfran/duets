@@ -26,6 +26,9 @@ let mastodon = ":elephant:"
 /// Emoji for boosts in social network apps.
 let boost = ":star:"
 
+/// Emoji for showing the relationship level.
+let relationshipLevel = ":bust_in_silhouette:"
+
 /// Emoji for card games.
 let cards = ":joker:"
 

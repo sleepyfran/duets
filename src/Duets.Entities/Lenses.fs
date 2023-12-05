@@ -205,6 +205,11 @@ module Concerts =
             (fun (t: ConcertTimeline) -> t.PastEvents),
             (fun v (t: ConcertTimeline) -> { t with PastEvents = v })
 
+module SocializingState =
+    let actions_ =
+        (fun (s: SocializingState) -> s.Actions),
+        (fun v (s: SocializingState) -> { s with Actions = v })
+
 module SocialNetworks =
     let mastodon_ =
         (fun (s: SocialNetworks) -> s.Mastodon),

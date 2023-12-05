@@ -159,9 +159,10 @@ let private commandsFromInteractions interactions =
                 [ StartConversationCommand.create knownNpcs unknownNpcs ]
             | SocialInteraction.StopConversation ->
                 [ StopConversationCommand.get ]
-            | SocialInteraction.Greet -> []
-            | SocialInteraction.Chat -> []
-            | SocialInteraction.TellStory -> []
+            | SocialInteraction.Greet socializingState ->
+                [ GreetCommand.create socializingState ]
+            | SocialInteraction.Chat _ -> []
+            | SocialInteraction.TellStory _ -> []
         | Interaction.Studio studioInteraction ->
             match studioInteraction with
             | StudioInteraction.CreateAlbum(studio, finishedSongs) ->
@@ -246,11 +247,17 @@ let worldScene mode =
         | PlayingMiniGame miniGameState ->
             MiniGame.actionPrompt today currentDayMoment miniGameState
         | Socializing socializingState ->
+            let relationshipLevel =
+                socializingState.Relationship
+                |> Option.map (fun r -> r.Level)
+                |> Option.defaultValue 0<relationshipLevel>
+
             Social.actionPrompt
                 today
                 currentDayMoment
                 characterAttributes
                 socializingState.Npc
+                relationshipLevel
         | _ -> Command.commonPrompt today currentDayMoment characterAttributes
 
     let commandsWithMetadata =

@@ -118,6 +118,8 @@
         <Compile Include="Songs\Composition\ImproveSong.fs" />
         <Compile Include="Songs\Composition\FinishSong.fs" />
         <Compile Include="Songs\Composition\DiscardSong.fs" />
+        <Compile Include="Social\Social.Common.fs" />
+        <Compile Include="Social\Social.Actions.fs" />
         <Compile Include="SocialNetworks\DailyUpdate.fs" />
         <Compile Include="SocialNetworks\Reposts.fs" />
         <Compile Include="SocialNetworks\SocialNetworks.fs" />

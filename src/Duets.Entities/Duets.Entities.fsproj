@@ -35,8 +35,9 @@
         <Compile Include="Types\MiniGames\Blackjack.Types.fs"/>
         <Compile Include="Types\MiniGames\MiniGame.Types.fs"/>
         <Compile Include="Types\Notification.Types.fs"/>
-        <Compile Include="Types\Situations.Types.fs" />
+        <Compile Include="Types\Social.Types.fs" />
         <Compile Include="Types\SocialNetwork.Types.fs"/>
+        <Compile Include="Types\Situations.Types.fs" />
         <Compile Include="Types\Interaction.Types.fs" />
         <Compile Include="Types\State.Types.fs" />
         <Compile Include="Types\Effect.Types.fs" />
@@ -64,6 +65,7 @@
         <Compile Include="World.fs" />
         <Compile Include="State.fs" />
         <Compile Include="MiniGame.fs"/>
+        <Compile Include="Social.fs" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj" />

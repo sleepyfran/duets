@@ -7,9 +7,6 @@ module SituationTypes =
     /// Situations that happen while on a concert.
     type ConcertSituation = InConcert of OngoingConcert
 
-    /// State to keep while socializing with an NPC.
-    type SocializingState = { Npc: Character }
-
     /// Defines all situations in which the character can be in.
     type Situation =
         /// Player is exploring the world in no specific situation.

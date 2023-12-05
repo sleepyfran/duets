@@ -1,5 +1,6 @@
 namespace Duets.Cli.Components.Commands
 
+open Duets.Agents
 open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
@@ -14,7 +15,7 @@ module StartConversationCommand =
         { Name = "start conversation"
           Description = "Starts a conversation with another character"
           Handler =
-            fun args ->
+            fun _ ->
                 let npc =
                     showOptionalChoicePrompt
                         "Who do you want to talk to?"
@@ -28,7 +29,9 @@ module StartConversationCommand =
                         (knownNpcs @ unknownNpcs)
 
                 match npc with
-                | Some npc -> Situations.socializing npc |> Effect.apply
+                | Some npc ->
+                    Social.Actions.startConversation (State.get ()) npc
+                    |> Effect.apply
                 | None -> ()
 
                 Scene.World }
@@ -42,5 +45,6 @@ module StopConversationCommand =
           Description = "Stops the current conversation"
           Handler =
             fun _ ->
+                // TODO: Persist changes of the interaction.
                 Situations.freeRoam |> Effect.apply
                 Scene.World }
