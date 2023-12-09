@@ -25,11 +25,11 @@ let rec bankApp () =
 
     let characterAccount =
         Queries.Characters.playableCharacter state
-        |> fun character -> character.Id
+        |> _.Id
         |> Character
 
     let bandAccount =
-        Queries.Bands.currentBand state |> (fun band -> band.Id) |> Band
+        Queries.Bands.currentBand state |> (_.Id) |> Band
 
     let characterBalance = Queries.Bank.balanceOf state characterAccount
 

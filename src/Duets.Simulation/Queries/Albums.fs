@@ -28,8 +28,8 @@ module Albums =
         |> Optic.get releasedAlbumLens
         |> Option.defaultValue Map.empty
         |> List.ofSeq
-        |> List.map (fun kvp -> kvp.Value)
-        |> List.sortBy (fun album -> album.ReleaseDate)
+        |> List.map (_.Value)
+        |> List.sortBy (_.ReleaseDate)
 
     /// Returns all released albums by all bands, organized by each band.
     let allReleased state =

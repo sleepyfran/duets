@@ -63,7 +63,7 @@ module Bands =
     /// Returns the average skill level of the members of the band.
     let averageSkillLevel state (band: Band) =
         band.Members
-        |> List.map (fun mem -> mem.CharacterId)
+        |> List.map (_.CharacterId)
         |> List.map (Skills.averageSkillLevel state)
         |> List.average
 

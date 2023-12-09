@@ -248,7 +248,7 @@ let worldScene mode =
         | Socializing socializingState ->
             let relationshipLevel =
                 socializingState.Relationship
-                |> Option.map (fun r -> r.Level)
+                |> Option.map (_.Level)
                 |> Option.defaultValue 0<relationshipLevel>
 
             Social.actionPrompt

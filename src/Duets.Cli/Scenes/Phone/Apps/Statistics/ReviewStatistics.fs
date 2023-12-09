@@ -23,7 +23,7 @@ and private showAlbumSelection statisticsApp albums =
         showOptionalChoicePrompt
             "Which album do you want to see reviews for?"
             Generic.backToPhone
-            (fun album -> album.Album.Name)
+            (_.Album.Name)
             albums
 
     match selection with

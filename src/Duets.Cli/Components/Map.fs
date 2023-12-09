@@ -58,7 +58,7 @@ let private showPlaceTypeChoice
     (placesInCity: Map<PlaceTypeIndex, Place list>)
     =
     let availablePlaceTypes =
-        placesInCity |> List.ofSeq |> List.map (fun kvp -> kvp.Key)
+        placesInCity |> List.ofSeq |> List.map (_.Key)
 
     showOptionalChoicePrompt
         Command.mapChoosePlaceTypePrompt

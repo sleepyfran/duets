@@ -19,7 +19,7 @@ let private requiredItems =
     |> fun room ->
         room.RequiredItemsForEntrance
         |> Option.get
-        |> fun requiredItems -> requiredItems.Items
+        |> _.Items
 
 let private stateWithItems =
     let state = State.generateOne State.defaultOptions

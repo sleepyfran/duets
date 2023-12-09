@@ -16,7 +16,7 @@ let skillEditor
 
     let skills =
         Data.Skills.allFor band.Genre bandMember.Role
-        |> List.groupBy (fun skill -> skill.Category)
+        |> List.groupBy (_.Category)
         |> Map.ofList
 
     $"""You will now be able to select the initial level of your character's skills

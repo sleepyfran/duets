@@ -16,7 +16,7 @@ Second Name
 let gender = "Other"
 
 input.Split("\n")
-|> Array.map (fun name -> name.Trim())
+|> Array.map (_.Trim())
 |> Array.fold
     (fun output name ->
         if System.String.IsNullOrEmpty name then

@@ -19,7 +19,7 @@ let keyWithDefault_ (k: 'k) (defaultValue: 'v) : Prism<Map<'k, 'v>, 'v> =
 let tryHead (map: Map<'k, 'v>) =
     map
     |> Seq.tryHead
-    |> Option.map (fun kvp -> kvp.Value)
+    |> Option.map (_.Value)
 
 /// Returns the head of the map.
 let head (map: Map<'k, 'v>) = tryHead map |> Option.get

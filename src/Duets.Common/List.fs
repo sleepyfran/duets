@@ -31,11 +31,11 @@ let ofMap (map: Map<_, _>) =
 
 /// Returns a list created from the keys of a map ignoring its values.
 let ofMapKeys (map: Map<_, _>) =
-    List.ofSeq map |> List.map (fun kvp -> kvp.Key)
+    List.ofSeq map |> List.map (_.Key)
 
 /// Returns a list created from the values of a map ignoring its keys.
 let ofMapValues (map: Map<_, _>) =
-    List.ofSeq map |> List.map (fun kvp -> kvp.Value)
+    List.ofSeq map |> List.map (_.Value)
 
 /// Applies the averageBy operation from the List module but returning the
 /// given defaultValue if the list is empty.
