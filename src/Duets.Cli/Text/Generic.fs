@@ -7,11 +7,14 @@ open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 
-type VariableVerb = Have
+type VariableVerb =
+    | Have
+    | Be
 
 /// Dictionary of conjugations of verb based on the gender.
 let private verbConjugationByGender =
-    [ (Have, [ (Male, "Has"); (Female, "Has"); (Other, "Have") ] |> Map.ofList) ]
+    [ (Have, [ (Male, "Has"); (Female, "Has"); (Other, "Have") ] |> Map.ofList)
+      (Be, [ (Male, "Is"); (Female, "Is"); (Other, "Are") ] |> Map.ofList) ]
     |> Map.ofList
 
 /// Returns the formatted instrument name given its type.

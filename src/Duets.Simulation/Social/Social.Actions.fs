@@ -20,3 +20,10 @@ let greet state socializingState =
       Limit = Penalized(1<times>, Negative(5))
       RelationshipChange = NoChange }
     |> performAction state socializingState
+
+/// Has a chat with the NPC of the current conversation.
+let chat state socializingState =
+    { Kind = SocialActionKind.Chat
+      Limit = NoAction(5<times>)
+      RelationshipChange = Positive(1) }
+    |> performAction state socializingState

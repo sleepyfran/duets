@@ -161,7 +161,8 @@ let private commandsFromInteractions interactions =
                 [ StopConversationCommand.get ]
             | SocialInteraction.Greet socializingState ->
                 [ GreetCommand.create socializingState ]
-            | SocialInteraction.Chat _ -> []
+            | SocialInteraction.Chat socializingState ->
+                [ ChatCommand.create socializingState ]
             | SocialInteraction.TellStory _ -> []
         | Interaction.Studio studioInteraction ->
             match studioInteraction with
