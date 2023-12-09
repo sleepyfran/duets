@@ -125,9 +125,8 @@ and private clampedSum currentLevel points =
 
 and private addAction actionKind response =
     { response with
-        SocializingState =
-            { response.SocializingState with
-                Actions = actionKind :: response.SocializingState.Actions } }
+        SocialActionResponse.SocializingState.Actions =
+            actionKind :: response.SocializingState.Actions }
 
 and private addSituationEffect response =
     Situation.Socializing response.SocializingState
