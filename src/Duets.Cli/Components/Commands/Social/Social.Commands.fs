@@ -69,13 +69,13 @@ module ChatCommand =
                     | Done ->
                         let randomTopic = topics |> List.sample
 
-                        $"You and {socializingState.Npc.Name} have a nice talk about {randomTopic}"
+                        $"You and {socializingState.Npc.Name} have a nice talk about {randomTopic}."
                         |> Styles.success
                         |> showMessage
                     | TooManyRepetitionsNoAction ->
                         let gender = socializingState.Npc.Gender
 
-                        $"You've run out of topics with this person, {Generic.subjectPronounForGender gender |> String.lowercase} {Generic.verbConjugationForGender Generic.Be gender |> String.lowercase} not so interested in chatting anymore"
+                        $"You've run out of topics with this person, {Generic.subjectPronounForGender gender |> String.lowercase} {Generic.verbConjugationForGender Generic.Be gender |> String.lowercase} not so interested in chatting anymore."
                         |> Styles.warning
                         |> showMessage
                     | _ -> () |}
@@ -116,7 +116,7 @@ module AskAboutDayCommand =
                     | Done ->
                         let thingDone = thingsDoneInDay |> List.sample
 
-                        $"{socializingState.Npc.Name} tells you that {Generic.subjectPronounForGender gender |> String.lowercase} {thingDone} today"
+                        $"{socializingState.Npc.Name} tells you that {Generic.subjectPronounForGender gender |> String.lowercase} {thingDone} today."
                         |> Styles.success
                         |> showMessage
                     | TooManyRepetitionsPenalized ->
