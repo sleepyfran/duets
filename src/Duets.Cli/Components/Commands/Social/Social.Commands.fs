@@ -79,3 +79,57 @@ module ChatCommand =
                         |> Styles.warning
                         |> showMessage
                     | _ -> () |}
+
+[<RequireQualifiedAccess>]
+module AskAboutDayCommand =
+    let private thingsDoneInDay =
+        [ "went to work"
+          "went to school"
+          "went to the gym"
+          "went to the park"
+          "went to the beach"
+          "went to the movies"
+          "went to the mall"
+          "went to the library"
+          "went to the museum"
+          "went to a party"
+          "had a date"
+          "had a meeting"
+          "had a job interview"
+          "had a doctor's appointment"
+          "had a dentist's appointment"
+          "had a haircut" ]
+
+    /// Command which asks the NPC about their day.
+    let create socializingState =
+        SocialCommand.create
+            {| Name = "ask about day"
+               Description = "Asks the other person about their day"
+               Action =
+                fun _ ->
+                    Social.Actions.askAboutDay (State.get ()) socializingState
+               Handler =
+                fun result ->
+                    let gender = socializingState.Npc.Gender
+
+                    match result with
+                    | Done ->
+                        let thingDone = thingsDoneInDay |> List.sample
+
+                        $"{socializingState.Npc.Name} tells you that {Generic.subjectPronounForGender gender |> String.lowercase} {thingDone} today"
+                        |> Styles.success
+                        |> showMessage
+                    | TooManyRepetitionsPenalized ->
+                        $"You've already asked about {Generic.possessiveAdjectiveForGender gender}... why... why are you doing it again?"
+                        |> Styles.error
+                        |> showMessage
+                    | TooManyRepetitionsNoAction -> () |}
+
+module SocialActionCommand =
+    /// Creates a command for the given social action.
+    let forAction socializingState (action: SocialActionKind) =
+        match action with
+        | SocialActionKind.Greet -> GreetCommand.create socializingState
+        | SocialActionKind.Chat -> ChatCommand.create socializingState
+        | SocialActionKind.AskAboutDay ->
+            AskAboutDayCommand.create socializingState

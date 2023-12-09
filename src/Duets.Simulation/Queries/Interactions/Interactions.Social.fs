@@ -21,8 +21,10 @@ module Social =
             |> List.singleton
 
     let private getSocializingInteractions socializingState =
-        [ SocialInteraction.Greet socializingState |> Interaction.Social
-          SocialInteraction.Chat socializingState |> Interaction.Social ]
+        Union.allCasesOf<SocialActionKind> ()
+        |> List.map (fun action ->
+            SocialInteraction.Action(socializingState, action)
+            |> Interaction.Social)
 
     /// Returns all social interactions available in the current context.
     let internal interactions state =

@@ -159,11 +159,9 @@ let private commandsFromInteractions interactions =
                 [ StartConversationCommand.create knownNpcs unknownNpcs ]
             | SocialInteraction.StopConversation ->
                 [ StopConversationCommand.get ]
-            | SocialInteraction.Greet socializingState ->
-                [ GreetCommand.create socializingState ]
-            | SocialInteraction.Chat socializingState ->
-                [ ChatCommand.create socializingState ]
-            | SocialInteraction.TellStory _ -> []
+            | SocialInteraction.Action(socializingState, action) ->
+                SocialActionCommand.forAction socializingState action
+                |> List.singleton
         | Interaction.Studio studioInteraction ->
             match studioInteraction with
             | StudioInteraction.CreateAlbum(studio, finishedSongs) ->

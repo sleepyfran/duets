@@ -27,3 +27,10 @@ let chat state socializingState =
       Limit = NoAction(5<times>)
       RelationshipChange = Positive(1) }
     |> performAction state socializingState
+
+/// Asks the NPC of the current conversation about their day.
+let askAboutDay state socializingState =
+    { Kind = SocialActionKind.AskAboutDay
+      Limit = Penalized(1<times>, Negative(5))
+      RelationshipChange = Positive(2) }
+    |> performAction state socializingState

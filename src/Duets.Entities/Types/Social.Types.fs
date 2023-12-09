@@ -8,6 +8,7 @@ module SocialTypes =
     type SocialActionKind =
         | Greet
         | Chat
+        | AskAboutDay
 
     /// Defines a state for a current social interaction.
     type SocializingState =

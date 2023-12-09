@@ -179,12 +179,8 @@ module InteractionTypes =
             unknownNpcs: Character list
         /// Allows the player to stop a conversation with an NPC.
         | StopConversation
-        /// Allows the player to greet an NPC, which starts their friendship.
-        | Greet of SocializingState
-        /// Allows the player to have a chat with an NPC.
-        | Chat of SocializingState
-        /// Allows the player to tell a story to an NPC.
-        | TellStory of SocializingState
+        /// Allows the player to perform a social action on the NPC.
+        | Action of state: SocializingState * action: SocialActionKind
 
     /// Interactions that can only be performed inside of a studio.
     [<RequireQualifiedAccess>]
