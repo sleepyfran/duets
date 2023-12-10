@@ -22,13 +22,16 @@ let applyIfNeeded state =
             |> Math.clamp 0<relationshipLevel> 100<relationshipLevel>
 
         let updatedRelationship =
-            { relationship with
-                Level = updatedLevel
-                (*
-                Artificially change the last interaction time so that we don't apply
-                this again until two weeks later.
-                *)
-                LastIterationDate = currentDate }
+            match relationship.Level, updatedLevel with
+            | 0<relationshipLevel>, 0<relationshipLevel> -> None
+            | _ ->
+                Some
+                    { relationship with
+                        Level = updatedLevel
+                        (*
+                        Artificially change the last interaction time so that we don't apply
+                        this again until two weeks later.
+                        *)
+                        LastIterationDate = currentDate }
 
-        (relationship.Character, Some updatedRelationship)
-        |> RelationshipChanged)
+        (relationship.Character, updatedRelationship) |> RelationshipChanged)

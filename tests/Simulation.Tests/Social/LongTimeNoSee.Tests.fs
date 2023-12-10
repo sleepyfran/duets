@@ -15,13 +15,11 @@ let private createRelationshipWithLevel lastInteractionTime level =
       RelationshipType = Acquaintance
       Level = level }
 
-let createStateWithRelationship lastInteractionTime =
+let createStateWithRelationship level lastInteractionTime =
     { dummyState with
         Relationships =
             [ (dummyCharacter2.Id,
-               createRelationshipWithLevel
-                   lastInteractionTime
-                   10<relationshipLevel>) ]
+               createRelationshipWithLevel lastInteractionTime level) ]
             |> Map.ofList }
 
 [<Test>]
@@ -34,7 +32,7 @@ let ``does nothing if the last interaction was less than 14 days ago`` () =
     |> List.iter (fun daysSince ->
         dummyToday
         |> Calendar.Ops.addDays -daysSince
-        |> createStateWithRelationship
+        |> createStateWithRelationship 10<relationshipLevel>
         |> Social.LongTimeNoSee.applyIfNeeded
         |> should haveLength 0)
 
@@ -45,7 +43,7 @@ let ``reduces relationship level by 5 and sets last interaction time to today if
     let effects =
         dummyToday
         |> Calendar.Ops.addDays -15
-        |> createStateWithRelationship
+        |> createStateWithRelationship 10<relationshipLevel>
         |> Social.LongTimeNoSee.applyIfNeeded
 
     let expectedRelationship =
@@ -60,9 +58,27 @@ let ``reduces relationship level by 5 and sets last interaction time to today if
         (RelationshipChanged(dummyCharacter2.Id, Some expectedRelationship))
 
 [<Test>]
+let ``removes relationship if interaction was more than 14 days ago and it was already 0``
+    ()
+    =
+    let effects =
+        dummyToday
+        |> Calendar.Ops.addDays -15
+        |> createStateWithRelationship 0<relationshipLevel>
+        |> Social.LongTimeNoSee.applyIfNeeded
+
+    effects |> should haveLength 1
+
+    effects
+    |> List.head
+    |> should equal (RelationshipChanged(dummyCharacter2.Id, None))
+
+[<Test>]
 let ``gets applied every day in the morning`` () =
     let state =
-        dummyToday |> Calendar.Ops.addDays -15 |> createStateWithRelationship
+        dummyToday
+        |> Calendar.Ops.addDays -15
+        |> createStateWithRelationship 10<relationshipLevel>
 
     dummyToday
     |> Calendar.Transform.changeDayMoment Morning
