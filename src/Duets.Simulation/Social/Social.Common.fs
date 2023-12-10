@@ -101,16 +101,19 @@ and private performAction' state socializingState action =
 
 and private responseFromPoints state socializingState points =
     let cityId, placeId, _ = Queries.World.currentCoordinates state
+    let currentDate = Queries.Calendar.today state
     let points = points * 1<relationshipLevel>
 
     let updatedRelationship =
         socializingState.Relationship
         |> Option.map (fun relationship ->
             { relationship with
+                LastIterationDate = currentDate
                 Level = clampedSum relationship.Level points })
         |> Option.defaultValue
             { Character = socializingState.Npc.Id
               MeetingPlace = cityId, placeId
+              LastIterationDate = currentDate
               Level = clampedSum 0<relationshipLevel> points
               RelationshipType = Acquaintance }
 

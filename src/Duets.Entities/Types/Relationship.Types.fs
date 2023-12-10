@@ -15,6 +15,7 @@ module RelationshipTypes =
     type Relationship =
         { Character: CharacterId
           MeetingPlace: PlaceCoordinates
+          LastIterationDate: Date
           RelationshipType: RelationshipType
           Level: int<relationshipLevel> }
 
