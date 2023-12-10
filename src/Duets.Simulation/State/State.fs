@@ -89,6 +89,8 @@ let applyEffect state effect =
         Bank.setBalance account transaction state
     | PlaceClosed _ -> state
     | PlayResult _ -> state
+    | RelationshipChanged(npcId, relationship) ->
+        Relationships.change npcId relationship state
     | RentalAdded rental -> Rentals.add rental state
     | RentalKickedOut _ -> state
     | RentalExpired rental -> Rentals.remove rental state

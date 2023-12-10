@@ -54,6 +54,7 @@
         <Compile Include="State\Albums.fs" />
         <Compile Include="State\Inventory.fs" />
         <Compile Include="State\Bands.fs" />
+        <Compile Include="State\Relationships.fs" />
         <Compile Include="State\Rentals.fs" />
         <Compile Include="State\Skills.fs" />
         <Compile Include="State\SocialNetworks.fs" />

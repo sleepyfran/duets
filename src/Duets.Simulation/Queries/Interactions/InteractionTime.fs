@@ -34,4 +34,9 @@ module InteractionTime =
             | StudioInteraction.CreateAlbum _
             | StudioInteraction.AddSongToAlbum _ -> 2<dayMoments>
             | _ -> 0<dayMoments>
+        | Interaction.Social socialInteraction ->
+            match socialInteraction with
+            | SocialInteraction.StartConversation _
+            | SocialInteraction.StopConversation -> 1<dayMoments>
+            | _ -> 0<dayMoments>
         | _ -> 0<dayMoments>

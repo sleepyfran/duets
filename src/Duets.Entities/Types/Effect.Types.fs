@@ -44,6 +44,9 @@ module EffectTypes =
         | MoneyEarned of BankAccountHolder * BankTransaction
         | MoneyTransferred of BankAccountHolder * BankTransaction
         | Notification of Notification
+        | RelationshipChanged of
+            npcId: CharacterId *
+            relationship: Relationship option
         | RentalAdded of Rental
         | RentalKickedOut of Rental
         | RentalExpired of Rental

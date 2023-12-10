@@ -1,8 +1,10 @@
 module Duets.Simulation.Social.Actions
 
 open Duets.Entities
+open Duets.Entities.SituationTypes
 open Duets.Simulation
 open Duets.Simulation.Social.Common
+open Duets.Simulation.Time
 
 /// Starts a conversation with the given NPC by setting the current situation to
 /// socializing.
@@ -13,6 +15,31 @@ let startConversation state (npc: Character) =
       Relationship = currentRelationship
       Actions = [] }
     |> Situations.socializing
+
+/// Stops the current conversation if the player is currently socializing,
+/// otherwise, does nothing.
+let stopConversation state =
+    let currentSituation = Queries.Situations.current state
+
+    match currentSituation with
+    | Socializing socializingState ->
+        let timeAdvanceEffects =
+            Queries.InteractionTime.timeRequired (
+                SocialInteraction.StopConversation |> Interaction.Social
+            )
+            |> AdvanceTime.advanceDayMoment' state
+
+        let relationshipUpdateEffects =
+            match socializingState.Relationship with
+            | Some relationship ->
+                [ (relationship.Character, Some relationship)
+                  |> RelationshipChanged ]
+            | None -> []
+
+        [ yield! relationshipUpdateEffects
+          yield! timeAdvanceEffects
+          Situations.freeRoam ]
+    | _ -> [] (* Not socializing, nothing to do. *)
 
 /// Greets the NPC of the current conversation.
 let greet state socializingState =

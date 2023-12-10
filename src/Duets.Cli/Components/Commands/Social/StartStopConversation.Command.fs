@@ -45,6 +45,7 @@ module StopConversationCommand =
           Description = "Stops the current conversation"
           Handler =
             fun _ ->
-                // TODO: Persist changes of the interaction.
-                Situations.freeRoam |> Effect.apply
+                Social.Actions.stopConversation (State.get ())
+                |> Effect.applyMultiple
+
                 Scene.World }
