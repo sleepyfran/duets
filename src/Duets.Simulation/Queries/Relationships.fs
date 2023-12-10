@@ -5,6 +5,9 @@ open Aether.Operators
 open Duets.Entities
 
 module Relationship =
+    /// Returns all the relationships of the current character.
+    let all state = state.Relationships
+
     /// Returns the relationship between the current character and the given
     /// character ID. If no relationship exists, returns `None`.
     let withCharacter characterId =

@@ -121,6 +121,7 @@
         <Compile Include="Songs\Composition\DiscardSong.fs" />
         <Compile Include="Social\Social.Common.fs" />
         <Compile Include="Social\Social.Actions.fs" />
+        <Compile Include="Social\LongTimeNoSee.fs" />
         <Compile Include="SocialNetworks\DailyUpdate.fs" />
         <Compile Include="SocialNetworks\Reposts.fs" />
         <Compile Include="SocialNetworks\SocialNetworks.fs" />

@@ -58,6 +58,7 @@
         <Compile Include="Skills\ImproveSkills.Tests.fs" />
         <Compile Include="Studio\RecordAlbum.Tests.fs" />
         <Compile Include="Studio\RenameAlbum.Tests.fs" />
+        <Compile Include="Social\LongTimeNoSee.Tests.fs" />
         <Compile Include="Interactions\Drink.Interactions.Test.fs" />
         <Compile Include="Interactions\Food.Interactions.Test.fs" />
         <Compile Include="Interactions\Exercise.Interactions.Test.fs" />
