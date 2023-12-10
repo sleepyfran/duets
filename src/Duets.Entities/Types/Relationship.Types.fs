@@ -14,6 +14,7 @@ module RelationshipTypes =
     /// Defines a relationship between the main character and an NPC.
     type Relationship =
         { Character: CharacterId
+          MeetingPlace: PlaceCoordinates
           RelationshipType: RelationshipType
           Level: int<relationshipLevel> }
 

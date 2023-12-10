@@ -3,6 +3,7 @@ module Duets.Simulation.Social.Common
 open Duets.Common
 open Duets.Entities
 open Duets.Entities.SituationTypes
+open Duets.Simulation
 
 /// Defines the result of performing a social action.
 type SocialActionResult =
@@ -71,36 +72,35 @@ let rec internal performAction state socializingState action =
         Social.State.timesDoneAction socializingState action.Kind
 
     match action.Limit with
-    | NoLimit -> performAction' socializingState action
+    | NoLimit -> performAction' state socializingState action
     | Penalized(limit, penalization) ->
         if timesPerformedAction < limit then
-            performAction' socializingState action
+            performAction' state socializingState action
         else
-            applyPenalization socializingState penalization action
+            applyPenalization state socializingState penalization action
     | NoAction limit ->
         if timesPerformedAction < limit then
-            performAction' socializingState action
+            performAction' state socializingState action
         else
             Response.withoutEffects TooManyRepetitionsNoAction socializingState
 
-and private applyPenalization socializingState penalization action =
-    match penalization with
-    | Positive points -> responseFromPoints socializingState points
-    | Negative points -> responseFromPoints socializingState -points
-    | NoChange -> failwith "todo"
+and private applyPenalization state socializingState penalization action =
+    { action with
+        RelationshipChange = penalization }
+    |> performAction' state socializingState
     |> Response.changeResult TooManyRepetitionsPenalized
-    |> addAction action.Kind
-    |> addSituationEffect
 
-and private performAction' socializingState action =
+and private performAction' state socializingState action =
     match action.RelationshipChange with
-    | Positive points -> responseFromPoints socializingState points
-    | Negative points -> responseFromPoints socializingState -points
-    | NoChange -> Response.withoutEffects Done socializingState
+    | Positive points -> points
+    | Negative points -> -points
+    | NoChange -> 0
+    |> responseFromPoints state socializingState
     |> addAction action.Kind
     |> addSituationEffect
 
-and private responseFromPoints socializingState points =
+and private responseFromPoints state socializingState points =
+    let cityId, placeId, _ = Queries.World.currentCoordinates state
     let points = points * 1<relationshipLevel>
 
     let updatedRelationship =
@@ -110,6 +110,7 @@ and private responseFromPoints socializingState points =
                 Level = clampedSum relationship.Level points })
         |> Option.defaultValue
             { Character = socializingState.Npc.Id
+              MeetingPlace = cityId, placeId
               Level = clampedSum 0<relationshipLevel> points
               RelationshipType = Acquaintance }
 

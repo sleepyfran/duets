@@ -13,7 +13,6 @@
         <Compile Include="Types\Attribute.Types.fs"/>
         <Compile Include="Types\Moodlet.Types.fs"/>
         <Compile Include="Types\Character.Types.fs" />
-        <Compile Include="Types\Relationship.Types.fs"/>
         <Compile Include="Types\Band.Types.fs" />
         <Compile Include="Types\Song.Types.fs" />
         <Compile Include="Types\Album.Types.fs" />
@@ -26,6 +25,7 @@
         <Compile Include="Types\World.Coordinates.Types.fs"/>
         <Compile Include="Types\Item.Types.fs" />
         <Compile Include="Types\World.Types.fs"/>
+        <Compile Include="Types\Relationship.Types.fs" />
         <Compile Include="Types\Career.Types.fs" />
         <Compile Include="Types\Concert.Types.fs" />
         <Compile Include="Types\Flight.Types.fs" />
