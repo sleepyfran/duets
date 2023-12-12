@@ -36,6 +36,13 @@ let checkTimeIncrease timeIncrease effects =
          |> List.head)
 
 [<Test>]
+let ``tick does not try to apply moodlets (breaks) for game created effect`` () =
+    let gameStartedEffect = GameCreated state
+    
+    (fun () -> Simulation.tickOne State.empty gameStartedEffect |> ignore)
+    |> should not' (throw typeof<Exception>)
+
+[<Test>]
 let ``tick should apply the given effect`` () =
     Simulation.tickOne state songStartedEffect
     |> fst
