@@ -4,7 +4,6 @@ namespace Duets.Entities
 module RelationshipTypes =
     /// Defines the type of relationship between the character and an NPC.
     type RelationshipType =
-        | Acquaintance
         | Friend
         | Bandmate
 

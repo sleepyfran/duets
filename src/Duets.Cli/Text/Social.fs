@@ -10,6 +10,5 @@ What do you want to do?"""
 
 let relationshipType =
     function
-    | Acquaintance -> "Acquaintance"
     | Friend -> "Friend"
     | Bandmate -> "Bandmate"

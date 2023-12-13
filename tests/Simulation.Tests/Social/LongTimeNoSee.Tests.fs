@@ -12,7 +12,7 @@ let private createRelationshipWithLevel lastInteractionTime level =
     { Character = dummyCharacter2.Id
       MeetingCity = Prague
       LastIterationDate = lastInteractionTime
-      RelationshipType = Acquaintance
+      RelationshipType = Friend
       Level = level }
 
 let createStateWithRelationship level lastInteractionTime =

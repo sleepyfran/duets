@@ -115,7 +115,7 @@ and private responseFromPoints state socializingState points =
               MeetingCity = cityId
               LastIterationDate = currentDate
               Level = clampedSum 0<relationshipLevel> points
-              RelationshipType = Acquaintance }
+              RelationshipType = Friend }
 
     let state =
         { socializingState with

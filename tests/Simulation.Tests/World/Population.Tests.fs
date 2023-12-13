@@ -69,7 +69,7 @@ let ``generateForPlace should add known people if character has relationships an
                 { Character = knownCharacter.Id
                   Level = 10<relationshipLevel>
                   MeetingCity = Prague
-                  RelationshipType = Acquaintance
+                  RelationshipType = Friend
                   LastIterationDate = dummyToday }
             )
         )

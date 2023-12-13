@@ -19,7 +19,7 @@ let relationship: Relationship =
     { Character = npc.Id
       Level = 10<relationshipLevel>
       MeetingCity = Prague
-      RelationshipType = Acquaintance
+      RelationshipType = Friend
       LastIterationDate = dummyToday }
 
 [<Test>]
