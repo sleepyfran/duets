@@ -7,3 +7,9 @@ let actionPrompt date dayMoment attributes npc relationshipLevel =
 {Emoji.socializing} Talking with {npc.Name |> Styles.person} | {Emoji.relationshipLevel} {relationshipLevel}
 What do you want to do?"""
     |> Styles.prompt
+
+let relationshipType =
+    function
+    | Acquaintance -> "Acquaintance"
+    | Friend -> "Friend"
+    | Bandmate -> "Bandmate"

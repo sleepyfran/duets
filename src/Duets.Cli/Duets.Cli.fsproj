@@ -148,6 +148,7 @@
         <Compile Include="Scenes\Phone\Apps\Statistics\AlbumsStatistics.fs"/>
         <Compile Include="Scenes\Phone\Apps\Statistics\BandStatistics.fs"/>
         <Compile Include="Scenes\Phone\Apps\Statistics\ReviewStatistics.fs"/>
+        <Compile Include="Scenes\Phone\Apps\Statistics\RelationshipsStatistics.fs" />
         <Compile Include="Scenes\Phone\Apps\Statistics\Statistics.fs"/>
         <Compile Include="Scenes\Phone\Apps\Calendar\Calendar.fs"/>
         <Compile Include="Scenes\Phone\Apps\Mastodon\SignUp.fs"/>
