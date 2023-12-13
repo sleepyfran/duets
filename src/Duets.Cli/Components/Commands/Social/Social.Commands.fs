@@ -124,6 +124,56 @@ module AskAboutDayCommand =
                         |> showMessage
                     | TooManyRepetitionsNoAction -> () |}
 
+[<RequireQualifiedAccess>]
+module TellStoryCommand =
+    let private storyTopic =
+        [ "a funny thing that happened to you"
+          "a funny thing that happened to a friend"
+          "a strange thing that happened to you"
+          "an adventure you had"
+          "a memorable trip"
+          "a childhood memory"
+          "a dream you had yesterday"
+          "a book you read recently"
+          "a movie you watched the other day"
+          "a concert you attended the other day"
+          "a hobby of yours"
+          "a skill you learned"
+          "your favorite food"
+          "your favorite place"
+          "your favorite animal"
+          "your favorite sport"
+          "your favorite game"
+          "your favorite song"
+          "your favorite artist"
+          "your favorite actor"
+          "your favorite author"
+          "your favorite holiday"
+          "your favorite season" ]
+
+    /// Command which asks the NPC about their day.
+    let create socializingState =
+        SocialCommand.create
+            {| Name = "tell story"
+               Description = "Tells a story to the other person"
+               Action =
+                fun _ ->
+                    Social.Actions.tellStory (State.get ()) socializingState
+               Handler =
+                fun result ->
+                    match result with
+                    | Done ->
+                        let topic = storyTopic |> List.sample
+
+                        $"You tell {socializingState.Npc.Name} a story about {topic}."
+                        |> Styles.success
+                        |> showMessage
+                    | TooManyRepetitionsPenalized ->
+                        $"You've told too many stories and {socializingState.Npc.Name} is too bored to listen to you anymore."
+                        |> Styles.error
+                        |> showMessage
+                    | TooManyRepetitionsNoAction -> () |}
+
 module SocialActionCommand =
     /// Creates a command for the given social action.
     let forAction socializingState (action: SocialActionKind) =
@@ -132,3 +182,4 @@ module SocialActionCommand =
         | SocialActionKind.Chat -> ChatCommand.create socializingState
         | SocialActionKind.AskAboutDay ->
             AskAboutDayCommand.create socializingState
+        | SocialActionKind.TellStory -> TellStoryCommand.create socializingState

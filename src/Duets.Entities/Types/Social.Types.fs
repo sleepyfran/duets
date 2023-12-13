@@ -9,6 +9,7 @@ module SocialTypes =
         | Greet
         | Chat
         | AskAboutDay
+        | TellStory
 
     /// Defines a state for a current social interaction.
     type SocializingState =

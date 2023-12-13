@@ -63,3 +63,10 @@ let askAboutDay state socializingState =
       Limit = Penalized(1<times>, Negative(5))
       RelationshipChange = Positive(2) }
     |> performAction state socializingState
+
+/// Tells a story to the NPC of the current conversation.
+let tellStory state socializingState =
+    { Kind = SocialActionKind.TellStory
+      Limit = Penalized(3<times>, Negative(2))
+      RelationshipChange = Positive(2) }
+    |> performAction state socializingState
