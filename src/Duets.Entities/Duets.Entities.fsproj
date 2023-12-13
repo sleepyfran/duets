@@ -57,6 +57,7 @@
         <Compile Include="Instrument.fs" />
         <Compile Include="Item.fs"/>
         <Compile Include="Skill.fs" />
+        <Compile Include="Relationships.fs" />
         <Compile Include="Rental.fs"/>
         <Compile Include="Concert.fs" />
         <Compile Include="SocialNetwork.fs"/>

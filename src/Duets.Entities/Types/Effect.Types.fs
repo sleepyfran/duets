@@ -46,6 +46,7 @@ module EffectTypes =
         | Notification of Notification
         | RelationshipChanged of
             npcId: CharacterId *
+            cityId: CityId *
             relationship: Relationship option
         | RentalAdded of Rental
         | RentalKickedOut of Rental

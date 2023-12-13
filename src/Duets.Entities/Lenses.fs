@@ -205,6 +205,15 @@ module Concerts =
             (fun (t: ConcertTimeline) -> t.PastEvents),
             (fun v (t: ConcertTimeline) -> { t with PastEvents = v })
 
+module Relationships =
+    let byCharacterId_ =
+        (fun (s: Relationships) -> s.ByCharacterId),
+        (fun v (s: Relationships) -> { s with ByCharacterId = v })
+
+    let byMeetingCityId_ =
+        (fun (s: Relationships) -> s.ByMeetingCity),
+        (fun v (s: Relationships) -> { s with ByMeetingCity = v })
+
 module SocializingState =
     let actions_ =
         (fun (s: SocializingState) -> s.Actions),

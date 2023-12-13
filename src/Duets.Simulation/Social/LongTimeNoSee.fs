@@ -34,4 +34,5 @@ let applyIfNeeded state =
                         *)
                         LastIterationDate = currentDate }
 
-        (relationship.Character, updatedRelationship) |> RelationshipChanged)
+        (relationship.Character, relationship.MeetingCity, updatedRelationship)
+        |> RelationshipChanged)

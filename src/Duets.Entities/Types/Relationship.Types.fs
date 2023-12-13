@@ -14,11 +14,16 @@ module RelationshipTypes =
     /// Defines a relationship between the main character and an NPC.
     type Relationship =
         { Character: CharacterId
-          MeetingPlace: PlaceCoordinates
+          MeetingCity: CityId
           LastIterationDate: Date
           RelationshipType: RelationshipType
           Level: int<relationshipLevel> }
 
+    type RelationshipsByCharacterId = Map<CharacterId, Relationship>
+    type RelationshipsByMeetingCity = Map<CityId, Set<CharacterId>>
+
     /// Defines all relationships for a character. A non-existent key means
     /// that the character has no relationship with that character ID.
-    type Relationships = Map<CharacterId, Relationship>
+    type Relationships =
+        { ByCharacterId: RelationshipsByCharacterId
+          ByMeetingCity: RelationshipsByMeetingCity }

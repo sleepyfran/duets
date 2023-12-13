@@ -1,7 +1,6 @@
 module Duets.Simulation.Setup
 
 open Duets
-open Duets.Common
 open Duets.Data
 open Duets.Data.Items
 open Duets.Entities
@@ -86,7 +85,7 @@ let startGame
       PlayableCharacterId = character.Id
       Rentals =
         [ (initialCity.Id, initialPlaceId), initialRental ] |> Map.ofList
-      Relationships = Map.empty
+      Relationships = Relationships.empty
       Situation = FreeRoam
       SocialNetworks = SocialNetwork.empty
       Today = Calendar.gameBeginning

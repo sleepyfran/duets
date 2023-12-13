@@ -100,7 +100,7 @@ and private performAction' state socializingState action =
     |> addSituationEffect
 
 and private responseFromPoints state socializingState points =
-    let cityId, placeId, _ = Queries.World.currentCoordinates state
+    let cityId, _, _ = Queries.World.currentCoordinates state
     let currentDate = Queries.Calendar.today state
     let points = points * 1<relationshipLevel>
 
@@ -112,7 +112,7 @@ and private responseFromPoints state socializingState points =
                 Level = clampedSum relationship.Level points })
         |> Option.defaultValue
             { Character = socializingState.Npc.Id
-              MeetingPlace = cityId, placeId
+              MeetingCity = cityId
               LastIterationDate = currentDate
               Level = clampedSum 0<relationshipLevel> points
               RelationshipType = Acquaintance }
