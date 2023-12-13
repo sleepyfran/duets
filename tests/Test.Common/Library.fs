@@ -1,6 +1,7 @@
 ﻿[<AutoOpen>]
 module Test.Common.Root
 
+open System
 open Aether
 open Aether.Operators
 open Duets.Common
@@ -11,10 +12,39 @@ open Duets.Simulation
 open Duets.Simulation.Concerts.Live
 open Duets.Simulation.Setup
 
-let staticRandom value =
-    { new System.Random() with
-        override this.Next() = value
-        override this.Next(_, _) = value }
+type RandomGenDisposable() =
+    interface IDisposable with
+        member this.Dispose() = RandomGen.reset ()
+
+let private randomImpl impl =
+    { new Random() with
+        override this.Next() = impl ()
+        override this.Next(_, _) = impl () }
+    |> RandomGen.change
+
+    new RandomGenDisposable()
+
+/// Changes the implementation of the `RandomGen` to always return the given value.
+/// Automatically resets back to the default implementation when the returned
+/// disposable is disposed.
+let changeToStaticRandom value = randomImpl (fun _ -> value)
+
+/// Changes the implementation of the `RandomGen` to return the given values in order.
+/// Automatically resets back to the default implementation when the returned
+/// disposable is disposed.
+let changeToOrderedRandom (values: int list) =
+    let possibleValues = ResizeArray(values |> List.ofSeq)
+
+    let shift () =
+        if possibleValues.Count = 0 then
+            failwith
+                $"Ran out of values after {values.Length} calls. Add more values to the initial list."
+        else
+            let value = possibleValues[0]
+            possibleValues.RemoveAt(0)
+            value
+
+    randomImpl shift
 
 let dummyCharacter =
     Character.from

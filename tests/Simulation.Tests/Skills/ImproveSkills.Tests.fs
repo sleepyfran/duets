@@ -30,14 +30,14 @@ let matchesImprovementValue effects =
 let ``should increase skills by one if 30% chance succeeds`` () =
     [ 1..30 ]
     |> List.iter (fun randomValue ->
-        staticRandom randomValue |> Simulation.RandomGen.change
+        use _ = changeToStaticRandom randomValue
 
         Composition.improveBandSkillsChance dummyBand dummyState
         |> matchesImprovementValue)
 
 [<Test>]
 let ``should not increase skills that is already at a 100`` () =
-    staticRandom 10 |> Simulation.RandomGen.change
+    use _ = changeToStaticRandom 10
 
     let state =
         addSkillTo
@@ -59,7 +59,7 @@ let ``should not increase skills that is already at a 100`` () =
 let ``should not increase skills if random chance fails`` () =
     [ 31..100 ]
     |> List.iter (fun randomValue ->
-        staticRandom randomValue |> Simulation.RandomGen.change
+        use _ = changeToStaticRandom randomValue
 
         Composition.improveBandSkillsChance dummyBand dummyState
         |> should haveLength 0)

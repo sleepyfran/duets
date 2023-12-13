@@ -134,6 +134,11 @@ module MusicSimulation =
     /// song daily.
     let fanStreamingPercentage = 0.10
 
+module Population =
+    /// The chance that the generated population for a given place will be known
+    /// by the character instead of randomly generated.
+    let chanceOfKnownPeopleAtPlace = 5 (* 5% *)
+
 module Revenue =
     /// Indicates how many dd a band makes per stream.
     let revenuePerStream = 0.0055

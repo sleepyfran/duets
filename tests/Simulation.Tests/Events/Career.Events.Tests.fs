@@ -31,7 +31,7 @@ let ``tick of CareerShiftPerformed should improve career skill if chance of 25% 
     =
     [ 1..25 ]
     |> List.iter (fun randomValue ->
-        staticRandom randomValue |> RandomGen.change
+        use _ = changeToStaticRandom randomValue
 
         Simulation.tickOne dummyState (shiftPerformedEffect baristaJob)
         |> fst
@@ -44,7 +44,7 @@ let ``tick of CareerShiftPerformed does not improve career skill if chance of 25
     =
     [ 26..100 ]
     |> List.iter (fun randomValue ->
-        staticRandom randomValue |> RandomGen.change
+        use _ = changeToStaticRandom randomValue
 
         Simulation.tickOne dummyState (shiftPerformedEffect baristaJob)
         |> fst
@@ -54,7 +54,7 @@ let ``tick of CareerShiftPerformed does not improve career skill if chance of 25
 let ``tick of CareerShiftPerformed with successful chance improves job career by 1``
     ()
     =
-    staticRandom 5 |> RandomGen.change
+    use _ = changeToStaticRandom 5
 
     [ baristaJob, baristaSkill; bartenderJob, bartendingSkill ]
     |> List.iter (fun (job, expectedSkill) ->
@@ -81,7 +81,7 @@ let ``tick of CareerShiftPerformed does not grant promotion if 10% chance fails`
     =
     [ 10..100 ]
     |> List.iter (fun randomValue ->
-        staticRandom randomValue |> RandomGen.change
+        use _ = changeToStaticRandom randomValue
 
         Simulation.tickOne dummyState (shiftPerformedEffect baristaJob)
         |> fst
@@ -94,7 +94,7 @@ let ``tick of CareerShiftPerformed does not grant promotion if character does no
     =
     [ 0..9 ]
     |> List.iter (fun randomValue ->
-        staticRandom randomValue |> RandomGen.change
+        use _ = changeToStaticRandom randomValue
 
         Simulation.tickOne dummyState (shiftPerformedEffect baristaJob)
         |> fst
@@ -111,7 +111,7 @@ let ``tick of CareerShiftPerformed grants promotion if character has enough skil
 
     [ 0..9 ]
     |> List.iter (fun randomValue ->
-        staticRandom randomValue |> RandomGen.change
+        use _ = changeToStaticRandom randomValue
 
         Simulation.tickOne stateWithSkill (shiftPerformedEffect baristaJob)
         |> fst

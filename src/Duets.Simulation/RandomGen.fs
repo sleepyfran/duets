@@ -27,11 +27,12 @@ type private RandomGenAgent() =
                     match msg with
                     | Change r -> return! loop r
                     | Reset -> return! loop defaultRandom
-                    | Gen channel -> random.Next() |> channel.Reply
+                    | Gen channel ->
+                        random.Next() |> channel.Reply
+                        return! loop random
                     | GenBetween(min, max, channel) ->
                         random.Next(min, max) |> channel.Reply
-
-                    return! loop random
+                        return! loop random
                 }
 
             loop defaultRandom

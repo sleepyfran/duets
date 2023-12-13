@@ -42,7 +42,7 @@ let private generateNpcs previousCoords currentCoords state =
         let cityId, placeId, _ = currentCoords
         let place = Queries.World.placeInCityById cityId placeId
 
-        World.Population.generateForPlace place state |> List.singleton)
+        World.Population.generateForPlace cityId place state |> List.singleton)
 
 /// Runs all the events associated with effects of world movement. For example,
 /// required items from rooms have to be removed from the character's inventory

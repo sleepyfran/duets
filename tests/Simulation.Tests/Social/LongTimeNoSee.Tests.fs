@@ -16,15 +16,12 @@ let private createRelationshipWithLevel lastInteractionTime level =
       Level = level }
 
 let createStateWithRelationship level lastInteractionTime =
-    { dummyState with
-        Relationships =
-            { ByCharacterId =
-                [ (dummyCharacter2.Id,
-                   createRelationshipWithLevel lastInteractionTime level) ]
-                |> Map.ofList
-
-              ByMeetingCity =
-                [ Prague, [ dummyCharacter2.Id ] |> Set.ofList ] |> Map.ofList } }
+    RelationshipChanged(
+        dummyCharacter2,
+        Prague,
+        Some(createRelationshipWithLevel lastInteractionTime level)
+    )
+    |> State.Root.applyEffect dummyState
 
 [<Test>]
 let ``does nothing if character has no relationships`` () =
@@ -59,11 +56,7 @@ let ``reduces relationship level by 5 and sets last interaction time to today if
     |> List.head
     |> should
         equal
-        (RelationshipChanged(
-            dummyCharacter2.Id,
-            Prague,
-            Some expectedRelationship
-        ))
+        (RelationshipChanged(dummyCharacter2, Prague, Some expectedRelationship))
 
 [<Test>]
 let ``removes relationship if interaction was more than 14 days ago and it was already 0``
@@ -79,7 +72,7 @@ let ``removes relationship if interaction was more than 14 days ago and it was a
 
     effects
     |> List.head
-    |> should equal (RelationshipChanged(dummyCharacter2.Id, Prague, None))
+    |> should equal (RelationshipChanged(dummyCharacter2, Prague, None))
 
 [<Test>]
 let ``gets applied every day in the morning`` () =

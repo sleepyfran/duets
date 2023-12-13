@@ -32,7 +32,7 @@ let stopConversation state =
         let relationshipUpdateEffects =
             match socializingState.Relationship with
             | Some relationship ->
-                [ (relationship.Character,
+                [ (socializingState.Npc,
                    relationship.MeetingCity,
                    Some relationship)
                   |> RelationshipChanged ]

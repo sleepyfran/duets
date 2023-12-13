@@ -45,7 +45,7 @@ module EffectTypes =
         | MoneyTransferred of BankAccountHolder * BankTransaction
         | Notification of Notification
         | RelationshipChanged of
-            npcId: CharacterId *
+            npcId: Character *
             cityId: CityId *
             relationship: Relationship option
         | RentalAdded of Rental

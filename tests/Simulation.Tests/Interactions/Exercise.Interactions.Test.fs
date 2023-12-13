@@ -70,7 +70,7 @@ let ``exercising in gym equipment increases health`` () =
 
 [<Test>]
 let ``exercising in gym equipment increases skill if chance succeeds`` () =
-    staticRandom 10 |> RandomGen.change
+    use _ = changeToStaticRandom 10
 
     Items.interact
         state
@@ -88,7 +88,7 @@ let ``exercising in gym equipment increases skill if chance succeeds`` () =
 let ``exercising in gym equipment does not increase skill if chance does not succeed``
     ()
     =
-    staticRandom 100 |> RandomGen.change
+    use _ = changeToStaticRandom 100
 
     Items.interact
         state

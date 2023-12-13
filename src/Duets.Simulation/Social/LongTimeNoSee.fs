@@ -17,6 +17,8 @@ let applyIfNeeded state =
 
         daysSinceLastInteraction > 14)
     |> List.map (fun relationship ->
+        let npc = Queries.Characters.find state relationship.Character
+
         let updatedLevel =
             relationship.Level - 5<relationshipLevel>
             |> Math.clamp 0<relationshipLevel> 100<relationshipLevel>
@@ -34,5 +36,5 @@ let applyIfNeeded state =
                         *)
                         LastIterationDate = currentDate }
 
-        (relationship.Character, relationship.MeetingCity, updatedRelationship)
+        (npc, relationship.MeetingCity, updatedRelationship)
         |> RelationshipChanged)

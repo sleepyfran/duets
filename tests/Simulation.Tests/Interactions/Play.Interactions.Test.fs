@@ -38,7 +38,7 @@ let ``playing with a video-game console returns a video-game result`` () =
 let ``playing in a dartboard has a 50% chance of returning a winning dart result``
     ()
     =
-    staticRandom 40 |> RandomGen.change
+    use _ = changeToStaticRandom 40
 
     Items.interact
         dummyState
@@ -54,7 +54,7 @@ let ``playing in a dartboard has a 50% chance of returning a winning dart result
 let ``playing in a dartboard has a 50% chance of returning a losing dart result``
     ()
     =
-    staticRandom 100 |> RandomGen.change
+    use _ = changeToStaticRandom 100
 
     Items.interact
         dummyState
@@ -70,7 +70,7 @@ let ``playing in a dartboard has a 50% chance of returning a losing dart result`
 let ``playing in a billiard has a 50% chance of returning a winning pool result``
     ()
     =
-    staticRandom 40 |> RandomGen.change
+    use _ = changeToStaticRandom 40
 
     Items.interact
         dummyState
@@ -86,7 +86,7 @@ let ``playing in a billiard has a 50% chance of returning a winning pool result`
 let ``playing in a billiard has a 50% chance of returning a losing pool result``
     ()
     =
-    staticRandom 100 |> RandomGen.change
+    use _ = changeToStaticRandom 100
 
     Items.interact
         dummyState

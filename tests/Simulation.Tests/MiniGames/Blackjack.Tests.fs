@@ -111,7 +111,7 @@ let ``hitting and getting over 21 results in busted and money is taken from the 
     ()
     =
     (* Will deal a 10 card. *)
-    staticRandom 9 |> RandomGen.change
+    use _ = changeToStaticRandom 9
 
     let bustGame =
         { game with
@@ -135,7 +135,9 @@ let ``hitting and getting over 21 results in busted and money is taken from the 
     | _ -> failwith "Unexpected result"
 
 [<Test>]
-let ``standing when both player and dealer have the same hand value results in push`` () =
+let ``standing when both player and dealer have the same hand value results in push``
+    ()
+    =
     let pushGame =
         { game with
             PlayerHand =
@@ -318,7 +320,7 @@ let ``standing when player has less than dealer results in loss for player``
 let ``standing when the dealer has less than 17 triggers a turn for the dealer``
     ()
     =
-    staticRandom 2 (* Will deal a Three. *) |> RandomGen.change
+    use _ = changeToStaticRandom 2 (* Will deal a Three. *)
 
     let nonFinishedGame =
         { PlayerHand =

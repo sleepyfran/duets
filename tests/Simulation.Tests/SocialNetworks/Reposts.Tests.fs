@@ -18,12 +18,12 @@ let testPost = SocialNetwork.Post.create testAccount.Id dummyToday "Heyaaaa"
 
 let checkRepostValueIs value effect =
     match effect with
-    | SocialNetworkPostReposted (_, _, reposts) -> reposts |> should equal value
+    | SocialNetworkPostReposted(_, _, reposts) -> reposts |> should equal value
     | _ -> failwith "Unknown effect raised"
 
 let checkFollowerValueIs value effect =
     match effect with
-    | SocialNetworkAccountFollowersChanged (_, _, Diff (_, curr)) ->
+    | SocialNetworkAccountFollowersChanged(_, _, Diff(_, curr)) ->
         curr |> should equal value
     | _ -> failwith "Unknown effect raised"
 
@@ -42,7 +42,7 @@ let ``should not raise effects if there's no posts`` () =
 
 [<Test>]
 let ``should not raise effects if there's no reposts`` () =
-    staticRandom 0 |> RandomGen.change
+    use _ = changeToStaticRandom 0
 
     State.generateOne State.defaultOptions
     |> State.SocialNetworks.addAccount SocialNetworkKey.Mastodon testAccount
@@ -57,10 +57,13 @@ let ``should not raise effects if there the posts are older than 3 days`` () =
     [ -4; -5; -10 ]
     |> List.iter (fun days ->
         State.generateOne State.defaultOptions
-        |> State.SocialNetworks.addAccount SocialNetworkKey.Mastodon testAccount
+        |> State.SocialNetworks.addAccount
+            SocialNetworkKey.Mastodon
+            testAccount
         |> State.SocialNetworks.addPost
             SocialNetworkKey.Mastodon
-            { testPost with Timestamp = dummyToday |> Calendar.Ops.addDays days }
+            { testPost with
+                Timestamp = dummyToday |> Calendar.Ops.addDays days }
         |> SocialNetworks.Reposts.applyToLatestAfterTimeChange
         |> should haveLength 0)
 
@@ -68,10 +71,12 @@ let ``should not raise effects if there the posts are older than 3 days`` () =
 let ``should generate effect with new repost count`` () =
     [ 1, 2; 2, 3; 3, 5 ]
     |> List.iter (fun (random, expected) ->
-        staticRandom random |> RandomGen.change
+        use _ = changeToStaticRandom random
 
         State.generateOne State.defaultOptions
-        |> State.SocialNetworks.addAccount SocialNetworkKey.Mastodon testAccount
+        |> State.SocialNetworks.addAccount
+            SocialNetworkKey.Mastodon
+            testAccount
         |> State.SocialNetworks.addPost SocialNetworkKey.Mastodon testPost
         |> SocialNetworks.Reposts.applyToLatestAfterTimeChange
         |> List.head
@@ -81,7 +86,7 @@ let ``should generate effect with new repost count`` () =
 let ``should generate effect with new follower count`` () =
     [ 1, 145015; 2, 145029; 3, 145044 ]
     |> List.iter (fun (random, expected) ->
-        staticRandom random |> RandomGen.change
+        use _ = changeToStaticRandom random
 
         State.generateOne State.defaultOptions
         |> State.SocialNetworks.addAccount

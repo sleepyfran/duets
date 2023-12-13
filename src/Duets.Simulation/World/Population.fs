@@ -1,5 +1,6 @@
 module Duets.Simulation.World.Population
 
+open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 
@@ -25,12 +26,41 @@ let private placePopulationRange (place: Place) =
         (* Studios will only be populated by the producer and the band. *)
         0, 0
 
+/// Returns a random known NPC in the given city, if any.
+let private allKnownNpcs cityId state =
+    Queries.Relationship.fromCity cityId state
+    |> List.map (fun relationship ->
+        Queries.Characters.find state relationship.Character)
+
 /// Generates an effect that puts a random number of people in the given place,
 /// keeping in mind the place's population range, which depends on the place type
 /// and whether it is private or not (like a home or a studio).
-let generateForPlace place state =
+let generateForPlace cityId place state =
     let numberOfPeople = placePopulationRange place ||> RandomGen.genBetween
+    let knownNpcs = allKnownNpcs cityId state
 
     [ 1..numberOfPeople ]
-    |> List.map (fun _ -> Character.Npc.generateRandom state)
+    |> List.fold
+        (fun (npcsInRoom, knownNpcs) _ ->
+            let shouldPullFromKnownNpcs =
+                knownNpcs |> List.isNotEmpty
+                && RandomGen.chance
+                    Config.Population.chanceOfKnownPeopleAtPlace
+
+            if shouldPullFromKnownNpcs then
+                (*
+                Pull a new character from the known NPCs and remove them from
+                the list of known NPCs so that they don't appear again.
+                *)
+                let randomIndex = RandomGen.sampleIndex knownNpcs
+                let randomNpc = knownNpcs |> List.item randomIndex
+                let knownNpcs = knownNpcs |> List.removeAt randomIndex
+
+                (randomNpc :: npcsInRoom, knownNpcs)
+            else
+                (* Create a new NPC and keep the known list as is. *)
+                let randomNpc = Character.Npc.generateRandom state
+                (randomNpc :: npcsInRoom, knownNpcs))
+        ([], knownNpcs)
+    |> fst
     |> WorldPeopleInCurrentRoomChanged
