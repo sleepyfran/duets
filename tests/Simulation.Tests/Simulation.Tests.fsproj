@@ -75,6 +75,7 @@
         <Compile Include="Events\Moodlets\JetLagged.Moodlet.Events.Tests.fs" />
         <Compile Include="Events\Moodlets\NotInspired.Moodlet.Events.Tests.fs" />
         <Compile Include="EffectModifiers\Moodlet.EffectModifiers.Tests.fs" />
+        <Compile Include="Migrations\BandMemberRelationships.Migration.Tests.fs" />
         <Compile Include="Simulation.Tests.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>

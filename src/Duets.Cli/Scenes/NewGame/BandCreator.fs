@@ -17,26 +17,35 @@ let private instrumentNameText instrumentType =
     Generic.instrument instrumentType
 
 /// Shows a wizard to create a band for the given character.
-let rec bandCreator (character: Character) =
+let rec bandCreator (character: Character) originCity =
     showSeparator None
-    promptForName character
+    promptForName character originCity
 
-and private promptForName character =
+and private promptForName character originCity =
     showTextPrompt Creator.bandInitialPrompt
     |> Band.validateName
     |> Result.switch
-        (promptForGenre character)
-        (showNameError >> (fun _ -> promptForName character))
+        (promptForGenre character originCity)
+        (showNameError >> (fun _ -> promptForName character originCity))
 
-and private promptForGenre character name =
+and private promptForGenre character originCity name =
     showChoicePrompt Creator.bandGenrePrompt id Data.Genres.all
-    |> promptForInstrument character name
+    |> promptForInstrument character originCity name
 
-and private promptForInstrument character name genre =
-    showChoicePrompt Creator.bandInstrumentPrompt instrumentNameText Data.Roles.all
-    |> promptForConfirmation character name genre
+and private promptForInstrument character originCity name genre =
+    showChoicePrompt
+        Creator.bandInstrumentPrompt
+        instrumentNameText
+        Data.Roles.all
+    |> promptForConfirmation character originCity name genre
 
-and private promptForConfirmation character name genre instrument =
+and private promptForConfirmation
+    character
+    (originCity: City)
+    name
+    genre
+    instrument
+    =
     let confirmed =
         showConfirmationPrompt (
             Creator.bandConfirmationPrompt character.Name name genre instrument
@@ -44,10 +53,16 @@ and private promptForConfirmation character name genre instrument =
 
     if confirmed then
         let characterMember =
-            Band.Member.from character.Id instrument (Calendar.gameBeginning)
+            Band.Member.from character.Id instrument Calendar.gameBeginning
 
-        let band = Band.from name genre characterMember Calendar.gameBeginning
+        let band =
+            Band.from
+                name
+                genre
+                characterMember
+                Calendar.gameBeginning
+                originCity.Id
 
-        Scene.SkillEditor(character, characterMember, band)
+        Scene.SkillEditor(character, characterMember, band, originCity)
     else
         Scene.CharacterCreator

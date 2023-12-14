@@ -128,9 +128,9 @@
         <Compile Include="Components\Commands\Clock.Command.fs"/>
         <Compile Include="Components\CommandPrompt.fs"/>
         <Compile Include="Scenes\NewGame\CharacterCreator.fs"/>
+        <Compile Include="Scenes\NewGame\WorldSelector.fs" />
         <Compile Include="Scenes\NewGame\BandCreator.fs"/>
         <Compile Include="Scenes\NewGame\SkillEditor.fs"/>
-        <Compile Include="Scenes\NewGame\WorldSelector.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\Transfer.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\DistributeBandFunds.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\UpcomingPayments.fs"/>

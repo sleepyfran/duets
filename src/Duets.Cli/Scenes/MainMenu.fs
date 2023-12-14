@@ -4,6 +4,7 @@ open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
+open Duets.Simulation.Migrations
 
 let gameVersion =
     System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString()
@@ -51,7 +52,11 @@ let rec mainMenu skipSaving =
 
     match selectedChoice with
     | Some NewGame -> createNewGame skipSaving hasSavegameAvailable
-    | Some LoadGame -> Scene.WorldAfterMovement
+    | Some LoadGame ->
+        // TODO: Find a better place for this?
+        Migrations.apply (State.get ()) |> State.set
+
+        Scene.WorldAfterMovement
     | Some Settings -> Scene.Settings
     | None -> Scene.Exit ExitMode.SkipSave
 

@@ -1,5 +1,6 @@
 module Duets.Simulation.Tests.Events.Band
 
+open Duets.Data.World.Cities
 open FsCheck
 open FsUnit
 open NUnit.Framework
@@ -20,6 +21,10 @@ let filterReviewsReceived =
     List.filter (function
         | AlbumReviewsReceived _ -> true
         | _ -> false)
+
+// ---------------------------------------------------------------------------
+// BandFansChanged
+// ---------------------------------------------------------------------------
 
 [<Test>]
 let ``tick of band fans changed should not generate reviews if count hasn't gotten past the minimum``
@@ -100,3 +105,56 @@ let ``tick of band fans changed should generate reviews for all previously relea
     |> fst
     |> filterReviewsReceived
     |> should haveLength 3
+
+// ---------------------------------------------------------------------------
+// MemberHired
+// ---------------------------------------------------------------------------
+
+let dummyRelationship =
+    { Character = dummyCharacter2.Id
+      Level = 0<relationshipLevel>
+      MeetingCity = NewYork
+      RelationshipType = Bandmate
+      LastIterationDate = dummyToday }
+
+[<Test>]
+let ``tick of member hired adds a relationship with the new member`` () =
+    let dummyMember =
+        Band.Member.from dummyCharacter2.Id InstrumentType.Guitar dummyToday
+
+    let skill = Skill.create SkillId.Composition
+
+    Simulation.tickOne
+        dummyState
+        (MemberHired(dummyBand, dummyCharacter2, dummyMember, [ skill, 100 ]))
+    |> fst
+    |> List.filter (function
+        | RelationshipChanged _ -> true
+        | _ -> false)
+    |> List.head
+    |> should
+        equal
+        (RelationshipChanged(dummyCharacter2, NewYork, Some dummyRelationship))
+
+// ---------------------------------------------------------------------------
+// MemberFired
+// ---------------------------------------------------------------------------
+
+[<Test>]
+let ``tick of member fired removes the relationship with the member`` () =
+    let state =
+        RelationshipChanged(dummyCharacter2, NewYork, Some dummyRelationship)
+        |> State.Root.applyEffect dummyState
+
+    let dummyMember =
+        Band.Member.from dummyCharacter2.Id InstrumentType.Guitar dummyToday
+
+    let pastMember = Band.PastMember.fromMember dummyMember dummyToday
+
+    Simulation.tickOne state (MemberFired(dummyBand, dummyMember, pastMember))
+    |> fst
+    |> List.filter (function
+        | RelationshipChanged _ -> true
+        | _ -> false)
+    |> List.head
+    |> should equal (RelationshipChanged(dummyCharacter2, NewYork, None))

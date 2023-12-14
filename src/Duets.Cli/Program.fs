@@ -36,13 +36,17 @@ let rec showScene skipSaving scene =
     | Scene.Settings -> Settings.settings () |> showScene skipSaving
     | Scene.CharacterCreator ->
         NewGame.CharacterCreator.characterCreator () |> showScene skipSaving
-    | Scene.BandCreator character ->
-        NewGame.BandCreator.bandCreator character |> showScene skipSaving
-    | Scene.SkillEditor(character, characterMember, band) ->
-        NewGame.SkillEditor.skillEditor character characterMember band
+    | Scene.WorldSelector character ->
+        NewGame.WorldSelector.worldSelector character |> showScene skipSaving
+    | Scene.BandCreator(character, originCity) ->
+        NewGame.BandCreator.bandCreator character originCity
         |> showScene skipSaving
-    | Scene.WorldSelector(character, band, skills) ->
-        NewGame.WorldSelector.worldSelector character band skills
+    | Scene.SkillEditor(character, characterMember, band, originCity) ->
+        NewGame.SkillEditor.skillEditor
+            character
+            characterMember
+            band
+            originCity
         |> showScene skipSaving
     | Scene.Phone -> Phone.Root.phoneScene () |> showScene skipSaving
     | Scene.World ->

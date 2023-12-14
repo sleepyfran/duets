@@ -102,12 +102,13 @@ let generate state fameLevel =
     let genre = Genres.all |> RandomGen.choice
     let bandFans = Fans.generate state fameLevel genre
     let members = Members.generate state bandStartDate genre fameLevel
+    let originCity = Queries.World.allCities |> List.sample |> _.Id
 
     let initialMember =
         members |> List.head |> Band.Member.fromMemberForHire bandStartDate
 
     let band =
-        Band.from bandName genre initialMember bandStartDate
+        Band.from bandName genre initialMember bandStartDate originCity
         |> Optic.set Lenses.Band.fans_ bandFans
         |> Optic.set
             Lenses.Band.members_

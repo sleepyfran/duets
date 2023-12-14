@@ -122,6 +122,7 @@
         <Compile Include="Social\Social.Common.fs" />
         <Compile Include="Social\Social.Actions.fs" />
         <Compile Include="Social\LongTimeNoSee.fs" />
+        <Compile Include="Social\Relationship.fs" />
         <Compile Include="SocialNetworks\DailyUpdate.fs" />
         <Compile Include="SocialNetworks\Reposts.fs" />
         <Compile Include="SocialNetworks\SocialNetworks.fs" />
@@ -133,6 +134,7 @@
         <Compile Include="Events\Character\Fame.fs" />
         <Compile Include="Events\Character\Hunger.fs" />
         <Compile Include="Events\Character\Character.Events.fs" />
+        <Compile Include="Events\Band\Relationships.fs" />
         <Compile Include="Events\Band\Reviews.fs" />
         <Compile Include="Events\Band\Band.Events.fs" />
         <Compile Include="Events\Place\ClosingTime.fs" />
@@ -150,6 +152,8 @@
         <Compile Include="Events\Events.fs" />
         <Compile Include="EffectModifiers\Moodlets.EffectModifiers.fs" />
         <Compile Include="EffectModifiers\EffectModifiers.fs" />
+        <Compile Include="Setup\Migrations\BandMemberRelationships.Migration.fs" />
+        <Compile Include="Setup\Migrations\Migrations.fs" />
         <Compile Include="Setup\StartGame.fs" />
         <Compile Include="Simulation.fs" />
     </ItemGroup>

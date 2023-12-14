@@ -6,6 +6,7 @@
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="Types\Common.Types.fs" />
+        <Compile Include="Types\City.Types.fs" />
         <Compile Include="Types\Calendar.Types.fs" />
         <Compile Include="Types\Genre.Types.fs" />
         <Compile Include="Types\Instrument.Types.fs" />

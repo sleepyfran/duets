@@ -46,7 +46,7 @@ and private promptForBirthday name gender =
     |> showTextDatePrompt
     |> Character.validateBirthday
     |> Result.switch
-        (Character.from name gender >> Scene.BandCreator)
+        (Character.from name gender >> Scene.WorldSelector)
         (fun error ->
             showAgeError error
             promptForBirthday name gender)

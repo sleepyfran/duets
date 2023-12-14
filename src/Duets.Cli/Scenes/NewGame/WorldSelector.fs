@@ -9,7 +9,7 @@ open Duets.Simulation
 open Duets.Simulation.Setup
 
 /// Shows a wizard that allows the player to customize the game world.
-let worldSelector character band initialSkills =
+let worldSelector character =
     showSeparator None
     let cities = Queries.World.allCities
 
@@ -21,8 +21,4 @@ let worldSelector character band initialSkills =
             (fun (city: City) -> Generic.cityName city.Id)
             cities
 
-    startGame character band initialSkills selectedCity |> Effect.apply
-
-    clearScreen ()
-
-    Scene.WorldAfterMovement
+    Scene.BandCreator(character, selectedCity)

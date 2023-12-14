@@ -1,16 +1,19 @@
 module rec Duets.Cli.Scenes.NewGame.SkillEditor
 
 open Duets
+open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Common
 open Duets.Entities
+open Duets.Simulation
 
 let skillEditor
     (character: Character)
     (bandMember: CurrentMember)
     (band: Band)
+    (originCity: City)
     =
     showSeparator None
 
@@ -25,9 +28,15 @@ There's no total limit of points you can assign, so feel free to tailor the leve
     |> Styles.faded
     |> showMessage
 
-    showSkillCategoryPrompt character band Map.empty skills
+    showSkillCategoryPrompt character band originCity Map.empty skills
 
-let private showSkillCategoryPrompt character band modifiedSkills allSkills =
+let private showSkillCategoryPrompt
+    character
+    band
+    originCity
+    modifiedSkills
+    allSkills
+    =
     let doneOptionText =
         if Map.isEmpty modifiedSkills then
             Generic.skipOption
@@ -43,13 +52,25 @@ let private showSkillCategoryPrompt character band modifiedSkills allSkills =
 
     match selectedCategory with
     | Some category ->
-        showSkillPrompt character band modifiedSkills allSkills category
+        showSkillPrompt
+            character
+            band
+            originCity
+            modifiedSkills
+            allSkills
+            category
     | None ->
-        Scene.WorldSelector(character, band, modifiedSkills |> List.ofMapValues)
+        let skills = modifiedSkills |> List.ofMapValues
+        Setup.startGame character band skills originCity |> Effect.apply
+
+        clearScreen ()
+
+        Scene.WorldAfterMovement
 
 let private showSkillPrompt
     character
     band
+    originCity
     modifiedSkills
     allSkills
     selectedCategory
@@ -63,7 +84,7 @@ let private showSkillPrompt
                     modifiedSkills |> Map.tryFind skill.Id
 
                 match alreadySelectedSkill with
-                | Some (_, level) ->
+                | Some(_, level) ->
                     $"""{Skill.skillName skill.Id} {Styles.faded $"(Currently {Styles.Level.from level})"}"""
                 | None -> Skill.skillName skill.Id)
             (selectedCategory |> snd)
@@ -73,15 +94,23 @@ let private showSkillPrompt
         showSkillLevelPrompt
             character
             band
+            originCity
             modifiedSkills
             allSkills
             selectedCategory
             skill
-    | None -> showSkillCategoryPrompt character band modifiedSkills allSkills
+    | None ->
+        showSkillCategoryPrompt
+            character
+            band
+            originCity
+            modifiedSkills
+            allSkills
 
 let private showSkillLevelPrompt
     character
     band
+    originCity
     modifiedSkills
     allSkills
     selectedCategory
@@ -102,6 +131,7 @@ let private showSkillLevelPrompt
     showSkillPrompt
         character
         band
+        originCity
         modifiedSkillsWithNewLevel
         allSkills
         selectedCategory

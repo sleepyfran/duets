@@ -11,6 +11,7 @@ type BandNameValidationError =
 let empty =
     { Id = BandId <| Identity.create ()
       StartDate = Calendar.gameBeginning
+      OriginCity = NewYork
       Name = ""
       Genre = ""
       Fans = 0
@@ -18,9 +19,10 @@ let empty =
       PastMembers = [] }
 
 /// Creates a band given its name, genre and initial member.
-let from name genre initialMember startDate =
+let from name genre initialMember startDate originCity =
     { Id = BandId <| Identity.create ()
       StartDate = startDate
+      OriginCity = originCity
       Name = name
       Genre = genre
       Fans = 0

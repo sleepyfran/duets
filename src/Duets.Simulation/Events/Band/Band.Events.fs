@@ -15,4 +15,10 @@ let internal run effect =
         [ Reviews.generateReviewsAfterFanIncrease band.Id ]
         |> ContinueChain
         |> Some
+    | MemberHired(_, character, _, _) ->
+        [ Relationships.addWithMember character ] |> ContinueChain |> Some
+    | MemberFired(_, bandMember, _) ->
+        [ Relationships.removeWithMember bandMember.CharacterId ]
+        |> ContinueChain
+        |> Some
     | _ -> None
