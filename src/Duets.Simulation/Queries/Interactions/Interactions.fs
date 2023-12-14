@@ -69,6 +69,7 @@ module Interactions =
             match currentPlace.PlaceType with
             | Airport -> Airport.interactions state cityId currentRoom.RoomType
             | Bar -> Bar.interactions cityId currentRoom.RoomType
+            | Bookstore -> [] (* TODO: Add buying books interaction. *)
             | Cafe -> Cafe.interactions currentRoom.RoomType
             | Casino -> Casino.interactions state currentRoom.RoomType
             | ConcertSpace _ ->

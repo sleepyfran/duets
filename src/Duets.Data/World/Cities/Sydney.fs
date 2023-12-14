@@ -19,6 +19,7 @@ let generate () =
     |> createSydney
     |> addAirport
     |> addBars
+    |> addBookstores
     |> addCafes
     |> addCasinos
     |> addConcertSpaces
@@ -49,6 +50,16 @@ let private addBars city =
       ("The Wild Rover", 86<quality>, surryHills)
       ("Earl's Juke Joint", 94<quality>, newtown) ]
     |> List.map PlaceCreators.createBar
+    |> List.fold (fun city place -> World.City.addPlace place city) city
+
+(* -------- Bookstores --------- *)
+let private addBookstores city =
+    [ ("Kinokuniya Sydney", 91<quality>, cbd)
+      ("Better Read Than Dead", 89<quality>, newtown)
+      ("Gleebooks", 87<quality>, surryHills)
+      ("Abbeys Bookshop", 88<quality>, cbd)
+      ("Berkelouw Books", 90<quality>, darlinghurst) ]
+    |> List.map PlaceCreators.createBookstore
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Cafes --------- *)

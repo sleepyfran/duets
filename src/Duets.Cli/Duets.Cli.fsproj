@@ -30,10 +30,11 @@
         <Compile Include="Text\Character.fs"/>
         <Compile Include="Text\Songs.fs"/>
         <Compile Include="Text\Social.fs" />
+        <Compile Include="Text\World\Bar.fs" />
+        <Compile Include="Text\World\Bookstore.fs" />
         <Compile Include="Text\World\Cafe.fs"/>
         <Compile Include="Text\World\Restaurant.fs"/>
-        <Compile Include="Text\World\Airport.fs"/>
-        <Compile Include="Text\World\Bar.fs"/>
+        <Compile Include="Text\World\Airport.fs" />
         <Compile Include="Text\World\Casino.fs" />
         <Compile Include="Text\World\ConcertSpace.fs"/>
         <Compile Include="Text\World\Gym.fs"/>

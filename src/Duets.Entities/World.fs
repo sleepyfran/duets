@@ -110,6 +110,7 @@ module Place =
             match placeType with
             | Airport -> PlaceTypeIndex.Airport
             | Bar -> PlaceTypeIndex.Bar
+            | Bookstore -> PlaceTypeIndex.Bookstore
             | Cafe -> PlaceTypeIndex.Cafe
             | Casino -> PlaceTypeIndex.Casino
             | ConcertSpace _ -> PlaceTypeIndex.ConcertSpace

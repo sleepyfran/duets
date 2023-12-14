@@ -9,6 +9,7 @@ let placeDescription (place: Place) (roomType: RoomType) =
     ||> match place.PlaceType with
         | PlaceType.Airport -> Airport.description
         | PlaceType.Bar -> Bar.description
+        | PlaceType.Bookstore -> Bookstore.description
         | PlaceType.Cafe -> Cafe.description
         | PlaceType.Casino -> Casino.description
         | PlaceType.ConcertSpace _ -> ConcertSpace.description
@@ -24,6 +25,7 @@ let placeTypeName (placeType: PlaceTypeIndex) =
     match placeType with
     | PlaceTypeIndex.Airport -> "Airport"
     | PlaceTypeIndex.Bar -> "Bar"
+    | PlaceTypeIndex.Bookstore -> "Bookstore"
     | PlaceTypeIndex.Cafe -> "Café"
     | PlaceTypeIndex.Casino -> "Casino"
     | PlaceTypeIndex.ConcertSpace -> "Concert space"
@@ -50,6 +52,7 @@ let roomName (room: RoomType) =
     | RoomType.Lobby -> "lobby"
     | RoomType.MasteringRoom -> "mastering room"
     | RoomType.RecordingRoom -> "recording room"
+    | RoomType.ReadingRoom -> "reading room"
     | RoomType.RehearsalRoom -> "rehearsal room"
     | RoomType.Restaurant _ -> "restaurant"
     | RoomType.SecurityControl -> "security control"

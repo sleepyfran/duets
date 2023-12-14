@@ -8,6 +8,11 @@ let createBar (name, quality, zone) =
     World.Place.create name quality Bar Layouts.barRoomLayout zone
     |> World.Place.changeOpeningHours OpeningHours.barOpeningHours
 
+/// Creates a bookstore with the given name, quality and zone.
+let createBookstore (name, quality, zone) =
+    World.Place.create name quality Bookstore Layouts.bookstoreLayout zone
+    |> World.Place.changeOpeningHours OpeningHours.servicesOpeningHours
+
 /// Creates a cafe with the given name, quality and zone.
 let createCafe (name, quality, zone) =
     World.Place.create name quality Cafe Layouts.cafeRoomLayout zone

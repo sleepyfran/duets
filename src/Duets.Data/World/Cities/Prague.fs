@@ -9,6 +9,7 @@ let private hradčany = World.Zone.create "Hradčany"
 let private holešovice = World.Zone.create "Holešovice"
 let private karlín = World.Zone.create "Karlín"
 let private libeň = World.Zone.create "Libeň"
+let private maláStrana = World.Zone.create "Malá Strana"
 let private novéMěsto = World.Zone.create "Nové Město"
 let private ruzyně = World.Zone.create "Ruzyně"
 let private strašnice = World.Zone.create "Strašnice"
@@ -26,6 +27,7 @@ let generate () =
     |> createPrague
     |> addAirport
     |> addBars
+    |> addBookstores
     |> addCafes
     |> addCasinos
     |> addConcertSpaces
@@ -56,6 +58,16 @@ let private addBars city =
       ("Mug Mountain", 86<quality>, strašnice)
       ("Duchy Spodky", 94<quality>, žižkov) ]
     |> List.map PlaceCreators.createBar
+    |> List.fold (fun city place -> World.City.addPlace place city) city
+
+(* -------- Bookstores --------- *)
+let private addBookstores city =
+    [ ("Knihkupectví Academia", 92<quality>, staréMěsto)
+      ("Shakespeare a synové", 95<quality>, maláStrana)
+      ("Palác Knih Luxor", 90<quality>, novéMěsto)
+      ("Big Ben Bookshop", 88<quality>, vinohrady)
+      ("Neoluxor", 91<quality>, smíchov) ]
+    |> List.map PlaceCreators.createBookstore
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Cafes --------- *)

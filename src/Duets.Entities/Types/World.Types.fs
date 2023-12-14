@@ -62,6 +62,7 @@ module WorldTypes =
         | LivingRoom
         | Lobby
         | MasteringRoom
+        | ReadingRoom
         | RecordingRoom
         | RehearsalRoom
         | Restaurant of RestaurantCuisine
@@ -82,6 +83,7 @@ module WorldTypes =
     type PlaceType =
         | Airport
         | Bar
+        | Bookstore
         | Cafe
         | Casino
         | ConcertSpace of ConcertSpace
@@ -99,6 +101,7 @@ module WorldTypes =
     type PlaceTypeIndex =
         | Airport
         | Bar
+        | Bookstore
         | Cafe
         | Casino
         | ConcertSpace

@@ -14,6 +14,13 @@ let restaurantRoomLayout menu =
 let barRoomLayout =
     RoomType.Bar |> World.Room.create |> World.Node.create 0 |> World.Graph.from
 
+/// Usual layout for a bookstore.
+let bookstoreLayout =
+    RoomType.ReadingRoom
+    |> World.Room.create
+    |> World.Node.create 0
+    |> World.Graph.from
+
 /// Usual layout for a cafe.
 let cafeRoomLayout =
     RoomType.Cafe

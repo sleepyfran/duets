@@ -30,6 +30,7 @@ let generate () =
     |> createMexicoCity
     |> addAirport
     |> addBars
+    |> addBookstores
     |> addCafes
     |> addCasinos
     |> addConcertSpaces
@@ -60,6 +61,16 @@ let private addBars city =
       ("Cantina El Tio Pepe", 86<quality>, centro)
       ("La Opera Bar", 94<quality>, centro) ]
     |> List.map PlaceCreators.createBar
+    |> List.fold (fun city place -> World.City.addPlace place city) city
+
+(* -------- Bookstores --------- *)
+let private addBookstores city =
+    [ ("Porrúa", 85<quality>, centro)
+      ("El Péndulo Condesa", 90<quality>, condesa)
+      ("Librería Rosario Castellanos", 95<quality>, condesa)
+      ("Gandhi Mauricio Achar", 88<quality>, polanco)
+      ("La Increíble Librería", 92<quality>, roma) ]
+    |> List.map PlaceCreators.createBookstore
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Cafes --------- *)
@@ -251,7 +262,7 @@ let private addRestaurants city =
       ("La Docena Oyster Bar & Grill", 84<quality>, French, polanco)
       ("Los Panchos", 88<quality>, Mexican, coyoacán)
       ("Krux Doner Kebab", 83<quality>, Turkish, tabacalera)
-      ("Kebab Antalia", 73<quality>, Turkish, roma)]
+      ("Kebab Antalia", 73<quality>, Turkish, roma) ]
     |> List.map PlaceCreators.createRestaurant
     |> List.fold (fun city place -> World.City.addPlace place city) city
 

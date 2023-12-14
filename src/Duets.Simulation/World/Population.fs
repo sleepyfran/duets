@@ -11,6 +11,7 @@ let private placePopulationRange (place: Place) =
     match place.PlaceType with
     | Airport -> 0, 10
     | Bar -> 1, 10
+    | Bookstore -> 1, 5
     | Cafe -> 1, 5
     | Casino -> 1, 10
     | ConcertSpace concertSpace ->
