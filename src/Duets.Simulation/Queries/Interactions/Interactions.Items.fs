@@ -48,6 +48,9 @@ module Items =
                 |> ItemInteraction.Consumable
                 |> Interaction.Item
                 |> Some
+            | Interactive(InteractiveItemType.Book _) ->
+                (* TODO: Implement. *)
+                None
             | Interactive(InteractiveItemType.Electronics electronicsItemType) ->
                 electronicsInteractions electronicsItemType |> Some
             | Interactive(InteractiveItemType.Furniture furnitureItemType) ->

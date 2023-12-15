@@ -1,5 +1,6 @@
 namespace Duets.Simulation.Queries.Internal.Interactions
 
+open Duets.Data
 open Duets.Data.Items
 open Duets.Entities
 
@@ -22,6 +23,14 @@ module Bar =
     let internal interactions cityId roomType =
         match roomType with
         | RoomType.Bar -> cityDrinks cityId |> Shop.interactions
+        | _ -> []
+
+module Bookstore =
+    /// Gather all available interactions inside a bookstore.
+    let internal interactions roomType =
+        match roomType with
+        | RoomType.ReadingRoom ->
+            [ ShopInteraction.Buy Books.all |> Interaction.Shop ]
         | _ -> []
 
 module Cafe =

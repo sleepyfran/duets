@@ -58,6 +58,7 @@ module ItemTypes =
     /// Defines all types of items that can be only interacted with and not
     /// consumed, categorized by its kind.
     type InteractiveItemType =
+        | Book of Book
         | Electronics of ElectronicsItemType
         | Furniture of FurnitureItemType
         | GymEquipment of GymEquipmentItemType

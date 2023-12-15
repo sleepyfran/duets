@@ -232,6 +232,7 @@ let itemName (item: Item) =
         | Beer _ -> $"{item.Brand} beer"
         | _ -> item.Brand |> String.lowercase
     | Consumable(Food _) -> item.Brand |> String.lowercase
+    | Interactive(Book book) -> book.Title
     | Interactive(Electronics electronic) ->
         match electronic with
         | Dartboard -> $"{item.Brand} dartboard"

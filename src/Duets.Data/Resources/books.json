@@ -1,0 +1,1010 @@
+[
+  {
+    "Title": "The Lord of the Rings",
+    "Author": "J. R. R. Tolkien"
+  },
+  {
+    "Title": "The Little Prince",
+    "Author": "Antoine de Saint-Exupéry"
+  },
+  {
+    "Title": "Harry Potter and the Philosopher's Stone",
+    "Author": "J. K. Rowling"
+  },
+  {
+    "Title": "The Hobbit",
+    "Author": "J. R. R. Tolkien"
+  },
+  {
+    "Title": "And Then There Were None",
+    "Author": "Agatha Christie"
+  },
+  {
+    "Title": "Dream of the Red Chamber",
+    "Author": "Cao Xueqin"
+  },
+  {
+    "Title": "The Lion, the Witch and the Wardrobe",
+    "Author": "C. S. Lewis"
+  },
+  {
+    "Title": "She: A History of Adventure",
+    "Author": "H. Rider Haggard"
+  },
+  {
+    "Title": "The Adventures of Pinocchio",
+    "Author": "Carlo Collodi"
+  },
+  {
+    "Title": "Vardi Wala Gunda",
+    "Author": "Ved Prakash Sharma"
+  },
+  {
+    "Title": "The Da Vinci Code",
+    "Author": "Dan Brown"
+  },
+  {
+    "Title": "Harry Potter and the Chamber of Secrets",
+    "Author": "J. K. Rowling"
+  },
+  {
+    "Title": "Harry Potter and the Prisoner of Azkaban",
+    "Author": "J. K. Rowling"
+  },
+  {
+    "Title": "Harry Potter and the Goblet of Fire",
+    "Author": "J. K. Rowling"
+  },
+  {
+    "Title": "Harry Potter and the Order of the Phoenix",
+    "Author": "J. K. Rowling"
+  },
+  {
+    "Title": "Harry Potter and the Half-Blood Prince",
+    "Author": "J. K. Rowling"
+  },
+  {
+    "Title": "Harry Potter and the Deathly Hallows",
+    "Author": "J. K. Rowling"
+  },
+  {
+    "Title": "The Alchemist",
+    "Author": "Paulo Coelho"
+  },
+  {
+    "Title": "The Catcher in the Rye",
+    "Author": "J. D. Salinger"
+  },
+  {
+    "Title": "Think and Grow Rich",
+    "Author": "Napoleon Hill"
+  },
+  {
+    "Title": "The Bridges of Madison County",
+    "Author": "Robert James Waller"
+  },
+  {
+    "Title": "You Can Heal Your Life",
+    "Author": "Louise Hay"
+  },
+  {
+    "Title": "One Hundred Years of Solitude",
+    "Author": "Gabriel García Márquez"
+  },
+  {
+    "Title": "Lolita",
+    "Author": "Vladimir Nabokov"
+  },
+  {
+    "Title": "Heidi's Years of Learning and Travel",
+    "Author": "Johanna Spyri"
+  },
+  {
+    "Title": "The Common Sense Book of Baby and Child Care",
+    "Author": "Dr. Benjamin Spock"
+  },
+  {
+    "Title": "Anne of Green Gables",
+    "Author": "Lucy Maud Montgomery"
+  },
+  {
+    "Title": "Black Beauty",
+    "Author": "Anna Sewell"
+  },
+  {
+    "Title": "The Name of the Rose",
+    "Author": "Umberto Eco"
+  },
+  {
+    "Title": "The Eagle Has Landed",
+    "Author": "Jack Higgins"
+  },
+  {
+    "Title": "Watership Down",
+    "Author": "Richard Adams"
+  },
+  {
+    "Title": "The Hite Report",
+    "Author": "Shere Hite"
+  },
+  {
+    "Title": "Charlotte's Web",
+    "Author": "E.B. White; illustrated by Garth Williams"
+  },
+  {
+    "Title": "The Ginger Man",
+    "Author": "J. P. Donleavy"
+  },
+  {
+    "Title": "The Tale of Peter Rabbit",
+    "Author": "Beatrix Potter"
+  },
+  {
+    "Title": "Jonathan Livingston Seagull",
+    "Author": "Richard Bach"
+  },
+  {
+    "Title": "The Very Hungry Caterpillar",
+    "Author": "Eric Carle"
+  },
+  {
+    "Title": "A Message to Garcia",
+    "Author": "Elbert Hubbard"
+  },
+  {
+    "Title": "Sophie's World",
+    "Author": "Jostein Gaarder"
+  },
+  {
+    "Title": "Flowers in the Attic",
+    "Author": "V. C. Andrews"
+  },
+  {
+    "Title": "To Kill a Mockingbird",
+    "Author": "Harper Lee"
+  },
+  {
+    "Title": "Angels & Demons",
+    "Author": "Dan Brown"
+  },
+  {
+    "Title": "Kane and Abel",
+    "Author": "Jeffrey Archer"
+  },
+  {
+    "Title": "How the Steel Was Tempered",
+    "Author": "Nikolai Ostrovsky"
+  },
+  {
+    "Title": "War and Peace",
+    "Author": "Leo Tolstoy"
+  },
+  {
+    "Title": "The Diary of Anne Frank",
+    "Author": "Anne Frank"
+  },
+  {
+    "Title": "Your Erroneous Zones",
+    "Author": "Wayne Dyer"
+  },
+  {
+    "Title": "The Purpose Driven Life",
+    "Author": "Rick Warren"
+  },
+  {
+    "Title": "The Thorn Birds",
+    "Author": "Colleen McCullough"
+  },
+  {
+    "Title": "The Kite Runner",
+    "Author": "Khaled Hosseini"
+  },
+  {
+    "Title": "Valley of the Dolls",
+    "Author": "Jacqueline Susann"
+  },
+  {
+    "Title": "The Lost Symbol",
+    "Author": "Dan Brown"
+  },
+  {
+    "Title": "Gone with the Wind",
+    "Author": "Margaret Mitchell"
+  },
+  {
+    "Title": "Nineteen Eighty-Four",
+    "Author": "George Orwell"
+  },
+  {
+    "Title": "The Revolt of Mamie Stover",
+    "Author": "William Bradford Huie"
+  },
+  {
+    "Title": "The Girl with the Dragon Tattoo",
+    "Author": "Stieg Larsson"
+  },
+  {
+    "Title": "The Hunger Games",
+    "Author": "Suzanne Collins"
+  },
+  {
+    "Title": "The Young Guard",
+    "Author": "Alexander Alexandrovich Fadeyev"
+  },
+  {
+    "Title": "Who Moved My Cheese?",
+    "Author": "Spencer Johnson"
+  },
+  {
+    "Title": "The Great Gatsby",
+    "Author": "F. Scott Fitzgerald"
+  },
+  {
+    "Title": "The Wind in the Willows",
+    "Author": "Kenneth Grahame"
+  },
+  {
+    "Title": "The 7 Habits of Highly Effective People",
+    "Author": "Stephen R. Covey"
+  },
+  {
+    "Title": "Virgin Soil Upturned",
+    "Author": "Mikhail Sholokhov"
+  },
+  {
+    "Title": "The Celestine Prophecy",
+    "Author": "James Redfield"
+  },
+  {
+    "Title": "The Fault in Our Stars",
+    "Author": "John Green"
+  },
+  {
+    "Title": "The Shack",
+    "Author": "William P. Young"
+  },
+  {
+    "Title": "Uncle Styopa",
+    "Author": "Sergey Mikhalkov"
+  },
+  {
+    "Title": "The Godfather",
+    "Author": "Mario Puzo"
+  },
+  {
+    "Title": "Love Story",
+    "Author": "Erich Segal"
+  },
+  {
+    "Title": "Catching Fire",
+    "Author": "Suzanne Collins"
+  },
+  {
+    "Title": "Mockingjay",
+    "Author": "Suzanne Collins"
+  },
+  {
+    "Title": "Gone Girl",
+    "Author": "Gillian Flynn"
+  },
+  {
+    "Title": "The Girl on the Train",
+    "Author": "Paula Hawkins"
+  },
+  {
+    "Title": "All Quiet on the Western Front",
+    "Author": "Erich Maria Remarque"
+  },
+  {
+    "Title": "The Bermuda Triangle",
+    "Author": "Charles Berlitz"
+  },
+  {
+    "Title": "Things Fall Apart",
+    "Author": "Chinua Achebe"
+  },
+  {
+    "Title": "Animal Farm",
+    "Author": "George Orwell"
+  },
+  {
+    "Title": "Wolf Totem",
+    "Author": "Jiang Rong"
+  },
+  {
+    "Title": "The Happy Hooker: My Own Story",
+    "Author": "Xaviera Hollander"
+  },
+  {
+    "Title": "Jaws",
+    "Author": "Peter Benchley"
+  },
+  {
+    "Title": "Love You Forever",
+    "Author": "Robert Munsch"
+  },
+  {
+    "Title": "The Women's Room",
+    "Author": "Marilyn French"
+  },
+  {
+    "Title": "What to Expect When You're Expecting",
+    "Author": "Arlene Eisenberg"
+  },
+  {
+    "Title": "Adventures of Huckleberry Finn",
+    "Author": "Mark Twain"
+  },
+  {
+    "Title": "The Secret Diary of Adrian Mole, Aged 13¾",
+    "Author": "Sue Townsend"
+  },
+  {
+    "Title": "Pride and Prejudice",
+    "Author": "Jane Austen"
+  },
+  {
+    "Title": "Kon-Tiki: Across the Pacific in a Raft",
+    "Author": "Thor Heyerdahl"
+  },
+  {
+    "Title": "The Good Soldier Švejk",
+    "Author": "Jaroslav Hašek"
+  },
+  {
+    "Title": "Where the Wild Things Are",
+    "Author": "Maurice Sendak"
+  },
+  {
+    "Title": "The Power of Positive Thinking",
+    "Author": "Norman Vincent Peale"
+  },
+  {
+    "Title": "The Secret",
+    "Author": "Rhonda Byrne"
+  },
+  {
+    "Title": "Fear of Flying",
+    "Author": "Erica Jong"
+  },
+  {
+    "Title": "Dune",
+    "Author": "Frank Herbert"
+  },
+  {
+    "Title": "Charlie and the Chocolate Factory",
+    "Author": "Roald Dahl"
+  },
+  {
+    "Title": "The Naked Ape",
+    "Author": "Desmond Morris"
+  },
+  {
+    "Title": "Totto-chan, the Little Girl at the Window",
+    "Author": "Tetsuko Kuroyanagi"
+  },
+  {
+    "Title": "The Horse Whisperer",
+    "Author": "Nicholas Evans"
+  },
+  {
+    "Title": "Goodnight Moon",
+    "Author": "Margaret Wise Brown"
+  },
+  {
+    "Title": "The Neverending Story",
+    "Author": "Michael Ende"
+  },
+  {
+    "Title": "The Outsiders",
+    "Author": "S. E. Hinton"
+  },
+  {
+    "Title": "Guess How Much I Love You",
+    "Author": "Sam McBratney"
+  },
+  {
+    "Title": "Shōgun",
+    "Author": "James Clavell"
+  },
+  {
+    "Title": "The Poky Little Puppy",
+    "Author": "Janette Sebring Lowrey"
+  },
+  {
+    "Title": "The Pillars of the Earth",
+    "Author": "Ken Follett"
+  },
+  {
+    "Title": "How to Win Friends and Influence People",
+    "Author": "Dale Carnegie"
+  },
+  {
+    "Title": "Perfume",
+    "Author": "Patrick Süskind"
+  },
+  {
+    "Title": "The Grapes of Wrath",
+    "Author": "John Steinbeck"
+  },
+  {
+    "Title": "The Shadow of the Wind",
+    "Author": "Carlos Ruiz Zafón"
+  },
+  {
+    "Title": "Interpreter of Maladies",
+    "Author": "Jhumpa Lahiri"
+  },
+  {
+    "Title": "The Hitchhiker's Guide to the Galaxy",
+    "Author": "Douglas Adams"
+  },
+  {
+    "Title": "Tuesdays with Morrie",
+    "Author": "Mitch Albom"
+  },
+  {
+    "Title": "God's Little Acre",
+    "Author": "Erskine Caldwell"
+  },
+  {
+    "Title": "Follow Your Heart",
+    "Author": "Susanna Tamaro"
+  },
+  {
+    "Title": "A Wrinkle in Time",
+    "Author": "Madeleine L'Engle"
+  },
+  {
+    "Title": "Long Walk to Freedom",
+    "Author": "Nelson Mandela"
+  },
+  {
+    "Title": "The Old Man and the Sea",
+    "Author": "Ernest Hemingway"
+  },
+  {
+    "Title": "Life After Life",
+    "Author": "Raymond Moody"
+  },
+  {
+    "Title": "Me Before You",
+    "Author": "Jojo Moyes"
+  },
+  {
+    "Title": "Norwegian Wood",
+    "Author": "Haruki Murakami"
+  },
+  {
+    "Title": "Peyton Place",
+    "Author": "Grace Metalious"
+  },
+  {
+    "Title": "The Plague",
+    "Author": "Albert Camus"
+  },
+  {
+    "Title": "No Longer Human",
+    "Author": "Osamu Dazai"
+  },
+  {
+    "Title": "Man's Search for Meaning",
+    "Author": "Viktor Frankl"
+  },
+  {
+    "Title": "Divine Comedy",
+    "Author": "Dante Alighieri"
+  },
+  {
+    "Title": "The Prophet",
+    "Author": "Kahlil Gibran"
+  },
+  {
+    "Title": "The Exorcist",
+    "Author": "William Peter Blatty"
+  },
+  {
+    "Title": "The Gruffalo",
+    "Author": "Julia Donaldson"
+  },
+  {
+    "Title": "The Cat in the Hat",
+    "Author": "Dr. Seuss"
+  },
+  {
+    "Title": "Diana: Her True Story",
+    "Author": "Andrew Morton"
+  },
+  {
+    "Title": "The Help",
+    "Author": "Kathryn Stockett"
+  },
+  {
+    "Title": "Catch-22",
+    "Author": "Joseph Heller"
+  },
+  {
+    "Title": "L'Étranger (The Stranger (Camus novel))",
+    "Author": "Albert Camus"
+  },
+  {
+    "Title": "Eye of the Needle",
+    "Author": "Ken Follett"
+  },
+  {
+    "Title": "A Brief History of Time",
+    "Author": "Stephen Hawking"
+  },
+  {
+    "Title": "The Lovely Bones",
+    "Author": "Alice Sebold"
+  },
+  {
+    "Title": "Wild Swans",
+    "Author": "Jung Chang"
+  },
+  {
+    "Title": "Santa Evita",
+    "Author": "Tomás Eloy Martínez"
+  },
+  {
+    "Title": "Night",
+    "Author": "Elie Wiesel"
+  },
+  {
+    "Title": "Confucius from the Heart",
+    "Author": "Yu Dan"
+  },
+  {
+    "Title": "The Total Woman",
+    "Author": "Marabel Morgan"
+  },
+  {
+    "Title": "Knowledge-value Revolution",
+    "Author": "Taichi Sakaiya"
+  },
+  {
+    "Title": "Problems in China's Socialist Economy",
+    "Author": "Xue Muqiao"
+  },
+  {
+    "Title": "What Color is Your Parachute?",
+    "Author": "Richard Nelson Bolles"
+  },
+  {
+    "Title": "The Dukan Diet",
+    "Author": "Pierre Dukan"
+  },
+  {
+    "Title": "The Joy of Sex",
+    "Author": "Alex Comfort"
+  },
+  {
+    "Title": "The Gospel According to Peanuts",
+    "Author": "Robert L. Short"
+  },
+  {
+    "Title": "Life of Pi",
+    "Author": "Yann Martel"
+  },
+  {
+    "Title": "The Giver",
+    "Author": "Lois Lowry"
+  },
+  {
+    "Title": "The Front Runner",
+    "Author": "Patricia Nell Warren"
+  },
+  {
+    "Title": "The Goal",
+    "Author": "Eliyahu M. Goldratt"
+  },
+  {
+    "Title": "Harry Potter",
+    "Author": "J. K. Rowling"
+  },
+  {
+    "Title": "Goosebumps",
+    "Author": "R. L. Stine"
+  },
+  {
+    "Title": "Perry Mason",
+    "Author": "Erle Stanley Gardner"
+  },
+  {
+    "Title": "Berenstain Bears",
+    "Author": "Stan and Jan Berenstain"
+  },
+  {
+    "Title": "Sweet Valley High",
+    "Author": "Francine Pascal"
+  },
+  {
+    "Title": "Noddy",
+    "Author": "Enid Blyton"
+  },
+  {
+    "Title": "Nancy Drew",
+    "Author": "Carolyn Keene"
+  },
+  {
+    "Title": "Thomas the Tank Engine",
+    "Author": "Rev. W. Awdry"
+  },
+  {
+    "Title": "San-Antonio",
+    "Author": "Frédéric Dard"
+  },
+  {
+    "Title": "Robert Langdon",
+    "Author": "Dan Brown"
+  },
+  {
+    "Title": "Diary of a Wimpy Kid",
+    "Author": "Jeff Kinney"
+  },
+  {
+    "Title": "The Baby-sitters Club",
+    "Author": "Ann Martin"
+  },
+  {
+    "Title": "Little Critter",
+    "Author": "Mercer Mayer"
+  },
+  {
+    "Title": "Peter Rabbit",
+    "Author": "Beatrix Potter"
+  },
+  {
+    "Title": "Fifty Shades",
+    "Author": "E. L. James"
+  },
+  {
+    "Title": "Geronimo Stilton",
+    "Author": "Elisabetta Dami"
+  },
+  {
+    "Title": "Chicken Soup for the Soul",
+    "Author": "Jack Canfield"
+  },
+  {
+    "Title": "Clifford the Big Red Dog",
+    "Author": "Norman Bridwell"
+  },
+  {
+    "Title": "Frank Merriwell",
+    "Author": "Gilbert Patten"
+  },
+  {
+    "Title": "Dirk Pitt",
+    "Author": "Clive Cussler"
+  },
+  {
+    "Title": "Musashi",
+    "Author": "Eiji Yoshikawa"
+  },
+  {
+    "Title": "The Chronicles of Narnia",
+    "Author": "C. S. Lewis"
+  },
+  {
+    "Title": "Mr. Men",
+    "Author": "Roger Hargreaves"
+  },
+  {
+    "Title": "Twilight",
+    "Author": "Stephenie Meyer"
+  },
+  {
+    "Title": "The Hunger Games",
+    "Author": "Suzanne Collins"
+  },
+  {
+    "Title": "James Bond",
+    "Author": "Ian Fleming"
+  },
+  {
+    "Title": "Martine",
+    "Author": "Gilbert Delahaye"
+  },
+  {
+    "Title": "Discworld",
+    "Author": "Terry Pratchett"
+  },
+  {
+    "Title": "Miffy",
+    "Author": "Dick Bruna"
+  },
+  {
+    "Title": "Millennium",
+    "Author": "Stieg Larsson"
+  },
+  {
+    "Title": "Alex Cross",
+    "Author": "James Patterson"
+  },
+  {
+    "Title": "Captain Underpants",
+    "Author": "Dav Pilkey"
+  },
+  {
+    "Title": "Fear Street",
+    "Author": "R. L. Stine"
+  },
+  {
+    "Title": "Pippi Longstocking",
+    "Author": "Astrid Lindgren"
+  },
+  {
+    "Title": "The Vampire Chronicles",
+    "Author": "Anne Rice"
+  },
+  {
+    "Title": "The Wheel of Time",
+    "Author": "Robert Jordan"
+  },
+  {
+    "Title": "OSS 117",
+    "Author": "Jean Bruce"
+  },
+  {
+    "Title": "A Song of Ice and Fire",
+    "Author": "George R. R. Martin"
+  },
+  {
+    "Title": "Winnie-the-Pooh",
+    "Author": "A. A. Milne"
+  },
+  {
+    "Title": "Magic Tree House",
+    "Author": "Mary Pope Osborne"
+  },
+  {
+    "Title": "Left Behind",
+    "Author": "Tim LaHaye"
+  },
+  {
+    "Title": "A Series of Unfortunate Events",
+    "Author": "Lemony Snicket"
+  },
+  {
+    "Title": "Little House on the Prairie",
+    "Author": "Laura Ingalls Wilder"
+  },
+  {
+    "Title": "Jack Reacher",
+    "Author": "Lee Child"
+  },
+  {
+    "Title": "The Magic School Bus",
+    "Author": "Joanna Cole"
+  },
+  {
+    "Title": "Where's Wally?",
+    "Author": "Martin Handford"
+  },
+  {
+    "Title": "Men Are from Mars, Women Are from Venus",
+    "Author": "John Gray"
+  },
+  {
+    "Title": "The Hardy Boys",
+    "Author": "Franklin W. Dixon"
+  },
+  {
+    "Title": "The Bobbsey Twins",
+    "Author": "Laura Lee Hope"
+  },
+  {
+    "Title": "Tarzan",
+    "Author": "Edgar Rice Burroughs"
+  },
+  {
+    "Title": "Earth's Children",
+    "Author": "Jean M. Auel"
+  },
+  {
+    "Title": "Junie B. Jones",
+    "Author": "Barbara Park"
+  },
+  {
+    "Title": "Harry Bosch",
+    "Author": "Michael Connelly"
+  },
+  {
+    "Title": "Harry Hole",
+    "Author": "Jo Nesbø"
+  },
+  {
+    "Title": "Picture-and-story book Railway Guerilla",
+    "Author": "original author: Liu Zhixia"
+  },
+  {
+    "Title": "The Shadowhunter Chronicles",
+    "Author": "Cassandra Clare"
+  },
+  {
+    "Title": "Kaiketsu Zorori",
+    "Author": "Yutaka Hara"
+  },
+  {
+    "Title": "Paddington Bear",
+    "Author": "Michael Bond"
+  },
+  {
+    "Title": "Divergent",
+    "Author": "Veronica Roth"
+  },
+  {
+    "Title": "The Inheritance Cycle",
+    "Author": "Christopher Paolini"
+  },
+  {
+    "Title": "Guin Saga",
+    "Author": "Kaoru Kurimoto"
+  },
+  {
+    "Title": "Tokugawa Ieyasu",
+    "Author": "Sohachi Yamaoka"
+  },
+  {
+    "Title": "Ramona",
+    "Author": "Beverly Cleary"
+  },
+  {
+    "Title": "The Dark Tower",
+    "Author": "Stephen King"
+  },
+  {
+    "Title": "The Destroyer",
+    "Author": "Warren Murphy"
+  },
+  {
+    "Title": "Nontan",
+    "Author": "Sachiko Kiyono"
+  },
+  {
+    "Title": "Curious George",
+    "Author": "Hans Augusto Rey"
+  },
+  {
+    "Title": "Calico Cat Holmes",
+    "Author": "Jirō Akagawa"
+  },
+  {
+    "Title": "Rich Dad, Poor Dad",
+    "Author": "Robert Kiyosaki"
+  },
+  {
+    "Title": "Kurt Wallander",
+    "Author": "Henning Mankell"
+  },
+  {
+    "Title": "The Legend of the Ice People",
+    "Author": "Margit Sandemo"
+  },
+  {
+    "Title": "The Sword of Truth",
+    "Author": "Terry Goodkind"
+  },
+  {
+    "Title": "Outlander",
+    "Author": "Diana Gabaldon"
+  },
+  {
+    "Title": "Dork Diaries",
+    "Author": "Rachel Renée Russell"
+  },
+  {
+    "Title": "Onihei Hankachō",
+    "Author": "Shōtarō Ikenami"
+  },
+  {
+    "Title": "South Beach Diet",
+    "Author": "Arthur Agatston"
+  },
+  {
+    "Title": "Ryoma ga Yuku",
+    "Author": "Ryōtarō Shiba"
+  },
+  {
+    "Title": "Artemis Fowl",
+    "Author": "Eoin Colfer"
+  },
+  {
+    "Title": "Zukkoke Sanningumi",
+    "Author": "Masamoto Nasu"
+  },
+  {
+    "Title": "Shannara",
+    "Author": "Terry Brooks"
+  },
+  {
+    "Title": "Sword Art Online",
+    "Author": "Reki Kawahara"
+  },
+  {
+    "Title": "Redwall",
+    "Author": "Brian Jacques"
+  },
+  {
+    "Title": "Maisy",
+    "Author": "Lucy Cousins"
+  },
+  {
+    "Title": "Genma Taisen",
+    "Author": "Kazumasa Hirai"
+  },
+  {
+    "Title": "The Gate of Youth",
+    "Author": "Hiroyuki Itsuki"
+  },
+  {
+    "Title": "The Foundation Trilogy",
+    "Author": "Isaac Asimov"
+  },
+  {
+    "Title": "Percy Jackson & the Olympians",
+    "Author": "Rick Riordan"
+  },
+  {
+    "Title": "Horrible Histories",
+    "Author": "Terry Deary"
+  },
+  {
+    "Title": "Rainbow Magic",
+    "Author": "Daisy Meadows"
+  },
+  {
+    "Title": "Morgan Kane",
+    "Author": "Louis Masterson"
+  },
+  {
+    "Title": "The Southern Vampire Mysteries",
+    "Author": "Charlaine Harris"
+  },
+  {
+    "Title": "Doc Savage",
+    "Author": "Lester Dent"
+  },
+  {
+    "Title": "Erast Fandorin",
+    "Author": "Boris Akunin"
+  },
+  {
+    "Title": "Dragonriders of Pern",
+    "Author": "Anne McCaffrey"
+  },
+  {
+    "Title": "Vampire Hunter D",
+    "Author": "Hideyuki Kikuchi"
+  },
+  {
+    "Title": "The Hitchhiker's Guide to the Galaxy",
+    "Author": "Douglas Adams"
+  },
+  {
+    "Title": "Bridget Jones",
+    "Author": "Helen Fielding"
+  },
+  {
+    "Title": "The Riftwar Cycle",
+    "Author": "Raymond E. Feist"
+  },
+  {
+    "Title": "The No. 1 Ladies Detective Agency",
+    "Author": "Alexander McCall Smith"
+  },
+  {
+    "Title": "His Dark Materials",
+    "Author": "Philip Pullman"
+  },
+  {
+    "Title": "Legend of the Galactic Heroes",
+    "Author": "Yoshiki Tanaka"
+  },
+  {
+    "Title": "Rainbow Fish",
+    "Author": "Marcus Pfister"
+  }
+]

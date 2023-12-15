@@ -35,6 +35,7 @@ let statsPath () =
 type DataKey =
     | Adjectives
     | Adverbs
+    | Books
     | Genres
     | Nouns
     | Npcs
@@ -49,6 +50,7 @@ let dataFile key =
     match key with
     | Adjectives -> Path.Combine(dataDirectory, "adjectives.json")
     | Adverbs -> Path.Combine(dataDirectory, "adverbs.json")
+    | Books -> Path.Combine(dataDirectory, "books.json")
     | Genres -> Path.Combine(dataDirectory, "genres.json")
     | Nouns -> Path.Combine(dataDirectory, "nouns.json")
     | Npcs -> Path.Combine(dataDirectory, "npcs.json")

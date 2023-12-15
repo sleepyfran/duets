@@ -144,6 +144,9 @@ let watchTvDescription = "Allows you to watch TV and restore your mood"
 let orderDescription =
     $"""Allows you to order an item from the establishment's menu. Use either as {Styles.information "order {item name}"} or use without arguments to select interactively"""
 
+let buyDescription =
+    $"""Allows you to buy an item from the shop. Use either as {Styles.information "buy {item name}"} or use without arguments to select interactively"""
+
 let seeMenuDescription =
     "Displays the available items that can be bought in this establishment"
 
@@ -187,8 +190,7 @@ let mapTip =
 let boardPlaneDescription flight =
     $"Boards your plane to {Generic.cityName flight.Destination}"
 
-let passSecurityCheckDescription =
-    "Allows you to enter the boarding gate"
+let passSecurityCheckDescription = "Allows you to enter the boarding gate"
 
 let waitForLandingDescription =
     "Makes you wait until the plane lands and lets you enter the destination airport"

@@ -164,10 +164,13 @@ module InteractionTypes =
     /// Interactions that can be performed in a bar.
     [<RequireQualifiedAccess>]
     type ShopInteraction =
+        /// Allows the character to buy a certain item from a selection of
+        /// available items in a shop.
+        | Buy of PurchasableItem list
         /// Allows the character to order a certain item from a selection of
-        /// available items in a bar.
+        /// available items in a shop.
         | Order of PurchasableItem list
-        /// Allows the character to peek at the available items on the bar.
+        /// Allows the character to peek at the available items on the shop.
         | SeeMenu of PurchasableItem list
 
     /// Interactions that can be performed with an NPC.
