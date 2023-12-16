@@ -8,7 +8,7 @@ let itemTypeHeader = Styles.header "Type"
 
 let itemPriceHeader = Styles.header "Price"
 
-let itemType t = Generic.itemNameWithDetail t
+let itemType t = Generic.itemDetailedName t
 
 let itemPrice price = Styles.money price
 

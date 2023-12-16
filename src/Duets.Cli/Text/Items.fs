@@ -14,7 +14,7 @@ let itemsCurrentlyCarrying =
     "These are the things you're currently carrying around:"
 
 let itemRow item =
-    $"""- {Styles.object item.Brand}, {Generic.itemNameWithDetail item}"""
+    $"""- {Generic.itemDetailedName item}"""
 
 let lookItem item =
     $"{Generic.indeterminateArticleFor item} {item}"

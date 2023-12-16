@@ -254,11 +254,12 @@ let itemName (item: Item) =
             $"chip for {place.Name} in {cityName cityId}"
     |> Styles.item
 
-let itemNameWithDetail (item: Item) =
+let itemDetailedName (item: Item) =
     match item.Type with
     | Consumable(Drink drink) ->
         match drink with
-        | Beer(ml, alcohol) -> $"""{Styles.item "Beer"} ({ml}ml, {alcohol}%%)"""
+        | Beer(ml, alcohol) ->
+            $"""{Styles.item $"{item.Brand} beer"} ({ml}ml, {alcohol}%%)"""
         | Coffee ml -> $"""{Styles.item item.Brand} ({ml}ml of coffee)"""
         | Soda ml -> $"""{Styles.item item.Brand} ({ml}ml)"""
     | Consumable(Food food) ->
@@ -266,6 +267,9 @@ let itemNameWithDetail (item: Item) =
         | Unhealthy g
         | Regular g
         | Healthy g -> $"""{Styles.item item.Brand} ({g}g)"""
+    | Interactive(Book book) when book.ReadProgress > 0<percent> ->
+        $"{Styles.item book.Title} by {Styles.person book.Author} ({Styles.Level.from book.ReadProgress}%% read)"
+    | Interactive(Book book) -> $"{Styles.item book.Title} by {Styles.person book.Author}"
     | Interactive _ -> itemName item
     | Key _ -> itemName item
 

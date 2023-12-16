@@ -32,7 +32,7 @@ module CookCommand =
           Handler =
             (fun args ->
                 let toString (item, price) =
-                    $"{Generic.itemNameWithDetail item} ({Styles.money price} for ingredients)"
+                    $"{Generic.itemDetailedName item} ({Styles.money price} for ingredients)"
 
                 let toReferenceName (item, _) = item.Brand
                 
