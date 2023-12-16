@@ -151,9 +151,9 @@ let private commandsFromInteractions interactions =
                 [ SwitchGenreCommand.create genres ]
         | Interaction.Shop shopInteraction ->
             match shopInteraction with
-            | ShopInteraction.Buy shop -> [ ShoppingCommand.createBuy shop ]
+            | ShopInteraction.Buy shop -> [ BuyCommand.create shop ]
             | ShopInteraction.Order shop ->
-                [ ShoppingCommand.createOrder shop ]
+                [ OrderCommand.create shop ]
             | ShopInteraction.SeeMenu shop -> [ SeeMenuCommand.create shop ]
         | Interaction.Social socialInteraction ->
             match socialInteraction with

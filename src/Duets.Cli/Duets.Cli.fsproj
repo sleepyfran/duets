@@ -108,7 +108,8 @@
         <Compile Include="Components\Commands\Concert\SpinDrumsticks.Command.fs"/>
         <Compile Include="Components\Commands\Gym\AskForEntrance.Command.fs"/>
         <Compile Include="Components\Commands\Shop\SeeMenu.Command.fs"/>
-        <Compile Include="Components\Commands\Shop\Order.Command.fs"/>
+        <Compile Include="Components\Commands\Shop\Buy.Command.fs" />
+        <Compile Include="Components\Commands\Shop\Order.Command.fs" />
         <Compile Include="Components\Commands\Items\Consume.Command.fs"/>
         <Compile Include="Components\Commands\Items\Interactive.Command.fs"/>
         <Compile Include="Components\Commands\Items\Cook.Command.fs"/>
@@ -170,9 +171,9 @@
         <PackageReference Include="FSharpx.Extras" Version="3.0.0" />
         <PackageReference Include="FsToolkit.ErrorHandling" Version="4.3.0" />
         <PackageReference Include="RadLine" Version="0.6.0" />
-        <PackageReference Include="Spectre.Console" Version="0.47.0"/>
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\deps\spectre.console\src\Spectre.Console\Spectre.Console.csproj" />
         <ProjectReference Include="..\Duets.Agents\Duets.Agents.fsproj" />
         <ProjectReference Include="..\Duets.Simulation\Duets.Simulation.fsproj" />
     </ItemGroup>

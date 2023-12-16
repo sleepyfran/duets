@@ -8,41 +8,33 @@ open Duets.Entities
 open Duets.Simulation
 
 [<RequireQualifiedAccess>]
-module ShoppingCommand =
-    let private handler availableItems args =
-        let toReferenceName (item, _) = item.Brand
-
-        let item =
-            Selection.fromArgsOrInteractive
-                args
-                Shop.itemPrompt
-                availableItems
-                Shop.itemInteractiveRow
-                toReferenceName
-
-        match item with
-        | Selection.Selected item ->
-            let orderResult = Shop.order (State.get ()) item
-
-            match orderResult with
-            | Ok effects -> Duets.Cli.Effect.applyMultiple effects
-            | Error _ -> Shop.notEnoughFunds |> showMessage
-        | Selection.NoMatchingItem input ->
-            Shop.itemNotFound input |> showMessage
-        | Selection.Cancelled -> ()
-
-        Scene.World
-
+module OrderCommand =
     /// Command to order something from a shop by specifying the name of the item
     /// via the command arguments or selecting it interactively.
-    let createOrder availableItems =
+    let create availableItems =
         { Name = "order"
           Description = Command.orderDescription
-          Handler = handler availableItems }
+          Handler =
+            fun args ->
+                let toReferenceName (item, _) = item.Brand
 
-    /// Command to buy something from a shop by specifying the name of the item
-    /// via the command arguments or selecting it interactively.
-    let createBuy availableItems =
-        { Name = "buy"
-          Description = Command.buyDescription
-          Handler = handler availableItems }
+                let item =
+                    Selection.fromArgsOrInteractive
+                        args
+                        Shop.itemPrompt
+                        availableItems
+                        Shop.itemInteractiveRow
+                        toReferenceName
+
+                match item with
+                | Selection.Selected item ->
+                    let orderResult = Shop.order (State.get ()) item
+
+                    match orderResult with
+                    | Ok effects -> Duets.Cli.Effect.applyMultiple effects
+                    | Error _ -> Shop.notEnoughFunds |> showMessage
+                | Selection.NoMatchingItem input ->
+                    Shop.itemNotFound input |> showMessage
+                | Selection.Cancelled -> ()
+
+                Scene.World }
