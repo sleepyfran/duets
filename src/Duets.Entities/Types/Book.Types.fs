@@ -11,5 +11,4 @@ module BookTypes =
     type Book =
         { Title: string
           Author: string
-          BookEffects: BookEffect list
-          Price: Amount }
+          BookEffects: BookEffect list }

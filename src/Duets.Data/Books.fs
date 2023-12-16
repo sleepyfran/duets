@@ -10,24 +10,24 @@ let private specialBooks =
       (* Music Theory volumes. *)
       { Title = "Music Theory Vol. I"
         Author = "Duets Academy"
-        BookEffects = [ SkillGain(SkillId.Composition, 5) ]
-        Price = 30m<dd> }
+        BookEffects = [ SkillGain(SkillId.Composition, 5) ] },
+      30m<dd>
 
       { Title = "Music Theory Vol. II"
         Author = "Duets Academy"
-        BookEffects = [ SkillGain(SkillId.Composition, 10) ]
-        Price = 60m<dd> }
+        BookEffects = [ SkillGain(SkillId.Composition, 10) ] },
+      60m<dd>
 
       (* Music production volumes. *)
       { Title = "Music Production Vol. I"
         Author = "Duets Academy"
-        BookEffects = [ SkillGain(SkillId.MusicProduction, 3) ]
-        Price = 30m<dd> }
+        BookEffects = [ SkillGain(SkillId.MusicProduction, 3) ] },
+      30m<dd>
 
       { Title = "Music Production Vol. II"
         Author = "Duets Academy"
-        BookEffects = [ SkillGain(SkillId.MusicProduction, 8) ]
-        Price = 60m<dd> } ]
+        BookEffects = [ SkillGain(SkillId.MusicProduction, 8) ] },
+      30m<dd> ]
 
 /// Returns all literary books and special books in the game.
 let all: PurchasableItem list =
@@ -37,10 +37,10 @@ let all: PurchasableItem list =
     |> List.map (fun dataBook ->
         { Title = dataBook.Title
           Author = dataBook.Author
-          BookEffects = []
-          Price = 15m<dd> })
+          BookEffects = [] },
+        15m<dd>)
     |> (@) specialBooks
-    |> List.map (fun book ->
-        { Brand = $"{book.Title}, {book.Author}"
+    |> List.map (fun (book, price) ->
+        { Brand = $"{book.Title}"
           Type = InteractiveItemType.Book book |> ItemType.Interactive },
-        book.Price)
+        price)
