@@ -93,6 +93,8 @@ let private commandsFromInteractions interactions =
                 [ CookCommand.create items ]
             | ItemInteraction.Interactive(InteractiveItemInteraction.Exercise) ->
                 [ InteractiveCommand.exercise ]
+            | ItemInteraction.Interactive(InteractiveItemInteraction.Read) ->
+                [ InteractiveCommand.read ]
             | ItemInteraction.Interactive(InteractiveItemInteraction.Sleep) ->
                 [ SleepCommand.get ]
             | ItemInteraction.Interactive InteractiveItemInteraction.Play ->
@@ -152,8 +154,7 @@ let private commandsFromInteractions interactions =
         | Interaction.Shop shopInteraction ->
             match shopInteraction with
             | ShopInteraction.Buy shop -> [ BuyCommand.create shop ]
-            | ShopInteraction.Order shop ->
-                [ OrderCommand.create shop ]
+            | ShopInteraction.Order shop -> [ OrderCommand.create shop ]
             | ShopInteraction.SeeMenu shop -> [ SeeMenuCommand.create shop ]
         | Interaction.Social socialInteraction ->
             match socialInteraction with

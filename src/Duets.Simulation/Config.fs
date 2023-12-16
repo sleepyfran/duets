@@ -13,6 +13,10 @@ module LifeSimulation =
         /// Minimum amount of energy needed to do any non-movement or item
         /// consumption related interaction.
         let minimumEnergyRequired = 10
+        
+        /// Step by which the percentage of a book read is increased when the
+        /// character reads a book.
+        let readPercentageIncrease = 20<percent>
 
     module Energy =
         /// How much energy is increased when the character exercises.
@@ -43,6 +47,9 @@ module LifeSimulation =
 
         /// How much the character's mood is improve when playing video games.
         let playingVideoGamesIncrease = 10
+        
+        /// How much the character's mood is improved when reading a book.
+        let readingBookIncrease = 5
 
         /// How much the character's mood is improved when winning a non-interactive game.
         let winningNonInteractiveGameIncrease = 10

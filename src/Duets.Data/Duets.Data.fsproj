@@ -16,6 +16,7 @@
         <Content Include="Resources\npcs.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Compile Include="Items\Book.Items.fs" />
         <Compile Include="Items\Drink.Items.fs" />
         <Compile Include="Items\Electronics.Items.fs" />
         <Compile Include="Items\Furniture.Items.fs" />
@@ -31,7 +32,6 @@
         <Compile Include="Items\Food\USA.Food.fs" />
         <Compile Include="Items\Food\Vietnamese.Food.fs" />
         <Compile Include="Items\Food\All.Food.fs" />
-        <Compile Include="Books.fs" />
         <Compile Include="Careers.fs" />
         <Compile Include="Genres.fs" />
         <Compile Include="Npcs.fs" />

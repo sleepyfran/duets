@@ -29,6 +29,8 @@ let itemNotDrinkable = Styles.error "You can't drink that!"
 
 let itemNotEdible = Styles.error "You can't eat that!"
 
+let itemNotReadable = Styles.error "How are you planning to read that?"
+
 let itemCannotBeExercisedWith =
     Styles.error "You can't exercise with that! Try a treadmill"
 
@@ -43,6 +45,8 @@ let itemCannotBeWatched =
 let drunkItem = Styles.success "*Gulp*"
 
 let ateItem = Styles.success "Hmmmm..."
+
+let readBook = Styles.success "You spent some time reading"
 
 let itemAlternativeNames (item: Item) =
     match item.Type with

@@ -16,6 +16,7 @@ module InteractionTime =
             match interactiveInteraction with
             | InteractiveItemInteraction.Exercise
             | InteractiveItemInteraction.Play
+            | InteractiveItemInteraction.Read
             | InteractiveItemInteraction.Watch -> 1<dayMoments>
             | InteractiveItemInteraction.Sleep (* Sleeping asks how long to sleep. *)
             | InteractiveItemInteraction.Cook _ -> 0<dayMoments>

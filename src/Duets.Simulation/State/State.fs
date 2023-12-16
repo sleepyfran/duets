@@ -68,6 +68,7 @@ let applyEffect state effect =
     | GameCreated state -> state
     | GenreMarketsUpdated genreMarkets -> Market.set genreMarkets state
     | ItemAddedToInventory item -> Inventory.add item state
+    | ItemChangedInInventory _ -> state (* TODO: Implement. *)
     | ItemRemovedFromInventory item -> Inventory.remove item state
     | ItemRemovedFromWorld(coords, item) -> World.remove coords item state
     | MemberHired(band, character, currentMember, skills) ->

@@ -37,6 +37,7 @@ module EffectTypes =
         | GameCreated of State
         | GenreMarketsUpdated of GenreMarketByGenre
         | ItemAddedToInventory of Item
+        | ItemChangedInInventory of Diff<Item>
         | ItemRemovedFromInventory of Item
         | ItemRemovedFromWorld of RoomCoordinates * Item
         | MemberHired of Band * Character * CurrentMember * SkillWithLevel list

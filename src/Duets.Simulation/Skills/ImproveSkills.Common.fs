@@ -12,7 +12,7 @@ let private improveSkillBy ((skill, level): SkillWithLevel) amount =
 
 /// Sums the given amount to the current skill level of the given character for
 /// all the skills specified, keeping the level of all them between 0 and 100.
-let private modifyCharacterSkills state (character: Character) skills amount =
+let improveCharacterSkills state (character: Character) skills amount =
     skills
     |> List.map (Queries.Skills.characterSkillWithLevel state character.Id)
     |> List.filter (fun (_, level) -> level < 100)
@@ -33,7 +33,7 @@ let applySkillModificationChance
     let character = Queries.Characters.find state input.CharacterId
 
     if RandomGen.chance input.Chance then
-        modifyCharacterSkills
+        improveCharacterSkills
             state
             character
             input.Skills

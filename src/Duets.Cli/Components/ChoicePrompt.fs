@@ -149,7 +149,9 @@ let showSearchableOptionalChoicePrompt
         $"Press Esc to {cancelOptionText}" |> Styles.faded
 
     match AnsiConsole.TryPrompt(selectionPrompt) with
-    | true, item -> Some item |> Pipe.tap showSelection
+    | true, item ->
+        item |> optionTextFn |> showSelection
+        Some item
     | false, _ ->
         showSelection cancelOptionText
         None

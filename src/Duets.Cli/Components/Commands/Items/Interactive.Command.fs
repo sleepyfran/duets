@@ -36,6 +36,24 @@ module InteractiveCommand =
                  Items.itemCannotBePlayedWith |> showMessage
                  Scene.World)
 
+    let read =
+        Command.itemInteraction
+            (Command.VerbOnly "read")
+            Command.readDescription
+            (ItemInteraction.Interactive InteractiveItemInteraction.Read)
+            (function
+             | Ok effects ->
+                 "You open the book and start reading a few pages..."
+                 |> showMessage
+
+                 wait 1000<millisecond>
+                 Items.readBook |> showMessage
+                 effects |> Duets.Cli.Effect.applyMultiple
+                 Scene.World
+             | Error _ ->
+                 Items.itemNotReadable |> showMessage
+                 Scene.World)
+
     let watch =
         Command.itemInteraction
             (Command.VerbOnly "watch")

@@ -55,6 +55,12 @@ let private (|PlayingVideoGames|_|) (action, itemType) =
       InteractiveItemType.Electronics(ElectronicsItemType.GameConsole) -> Some()
     | _ -> None
 
+let private (|ReadingBooks|_|) (action, itemType) =
+    match action, itemType with
+    | InteractiveItemInteraction.Read, InteractiveItemType.Book book ->
+        Some(book)
+    | _ -> None
+
 let private (|WatchingTV|_|) (action, itemType) =
     match action, itemType with
     | InteractiveItemInteraction.Watch,
@@ -110,6 +116,14 @@ let interact state (item: Item) action =
                       CharacterAttribute.Mood
                       Config.LifeSimulation.Mood.playingVideoGamesIncrease
               PlayResult(PlayResult.VideoGame) ]
+            |> Ok
+        | ReadingBooks book ->
+            [ yield! Actions.Read.read item book state
+              yield!
+                  Character.Attribute.add
+                      character
+                      CharacterAttribute.Mood
+                      Config.LifeSimulation.Mood.readingBookIncrease ]
             |> Ok
         | WatchingTV ->
             Character.Attribute.add

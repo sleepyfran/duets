@@ -158,6 +158,9 @@ let drinkDescription =
 let eatDescription =
     $"""Allows you to eat a given item. Use as {Styles.information "eat {item name}"}"""
 
+let readDescription =
+    $"""Allows you to read a book. Use as {Styles.information "read {book name}"}"""
+
 let meDescription = "Shows information about your character"
 
 let private meItem header value =

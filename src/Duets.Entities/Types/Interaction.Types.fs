@@ -81,6 +81,7 @@ module InteractionTypes =
     type InteractiveItemInteraction =
         | Cook of PurchasableItem list
         | Exercise
+        | Read
         | Sleep
         | Play
         | Watch
