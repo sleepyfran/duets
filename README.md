@@ -15,9 +15,12 @@ Duets is a music/life simulation game focused on allowing the player to be the l
 Duets is built with F# as an interactive CLI game. Start by cloning the repository and entering in it:
 
 ```bash
-git clone https://github.com/sleepyfran/duets.git
+git clone --recurse-submodules https://github.com/sleepyfran/duets.git
 cd duets
 ```
+
+> [!WARNING]
+> Duets currently uses a fork of Spectre.Console, so it's important to clone the submodules as well to bring that dependency.
 
 Once you have it, you can either chose to run it with a local installation of the .NET SDK or, if you prefer, through
 Docker to avoid installing the SDK on your computer and instead running the game inside a container.
