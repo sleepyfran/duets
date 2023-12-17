@@ -26,26 +26,26 @@ let ``exercising in non-gym equipment is not allowed`` () =
       Items.Furniture.Bed.ikeaBed
       Items.Furniture.Stove.lgStove ]
     |> List.iter (fun item ->
-        Items.interact state (fst item) InteractiveItemInteraction.Exercise
+        Items.perform state (fst item) ItemInteraction.Exercise
         |> Result.unwrapError
         |> should equal Items.ActionNotPossible)
 
 [<Test>]
 let ``exercising in gym equipment advances time by one day moment`` () =
-    Items.interact
+    Items.perform
         state
         (fst Items.Gym.Treadmills.elliptical)
-        InteractiveItemInteraction.Exercise
+        ItemInteraction.Exercise
     |> Result.unwrap
     |> List.item 0
     |> should be (ofCase <@ TimeAdvanced @>)
 
 [<Test>]
 let ``exercising in gym equipment decreases energy`` () =
-    Items.interact
+    Items.perform
         state
         (fst Items.Gym.Treadmills.elliptical)
-        InteractiveItemInteraction.Exercise
+        ItemInteraction.Exercise
     |> Result.unwrap
     |> List.item 1
     |> function
@@ -56,10 +56,10 @@ let ``exercising in gym equipment decreases energy`` () =
 
 [<Test>]
 let ``exercising in gym equipment increases health`` () =
-    Items.interact
+    Items.perform
         state
         (fst Items.Gym.Treadmills.elliptical)
-        InteractiveItemInteraction.Exercise
+        ItemInteraction.Exercise
     |> Result.unwrap
     |> List.item 2
     |> function
@@ -72,10 +72,10 @@ let ``exercising in gym equipment increases health`` () =
 let ``exercising in gym equipment increases skill if chance succeeds`` () =
     use _ = changeToStaticRandom 10
 
-    Items.interact
+    Items.perform
         state
         (fst Items.Gym.Treadmills.elliptical)
-        InteractiveItemInteraction.Exercise
+        ItemInteraction.Exercise
     |> Result.unwrap
     |> List.item 3
     |> function
@@ -90,10 +90,10 @@ let ``exercising in gym equipment does not increase skill if chance does not suc
     =
     use _ = changeToStaticRandom 100
 
-    Items.interact
+    Items.perform
         state
         (fst Items.Gym.Treadmills.elliptical)
-        InteractiveItemInteraction.Exercise
+        ItemInteraction.Exercise
     |> Result.unwrap
     |> List.filter (function
         | SkillImproved _ -> true

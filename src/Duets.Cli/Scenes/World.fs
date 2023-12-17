@@ -85,22 +85,14 @@ let private commandsFromInteractions interactions =
                 [ AskForEntranceCommand.create amount ]
         | Interaction.Item itemInteraction ->
             match itemInteraction with
-            | ItemInteraction.Consumable ConsumableItemInteraction.Drink ->
-                [ ConsumeCommands.drink ]
-            | ItemInteraction.Consumable ConsumableItemInteraction.Eat ->
-                [ ConsumeCommands.eat ]
-            | ItemInteraction.Interactive(InteractiveItemInteraction.Cook items) ->
-                [ CookCommand.create items ]
-            | ItemInteraction.Interactive(InteractiveItemInteraction.Exercise) ->
-                [ InteractiveCommand.exercise ]
-            | ItemInteraction.Interactive(InteractiveItemInteraction.Read) ->
-                [ InteractiveCommand.read ]
-            | ItemInteraction.Interactive(InteractiveItemInteraction.Sleep) ->
-                [ SleepCommand.get ]
-            | ItemInteraction.Interactive InteractiveItemInteraction.Play ->
-                [ InteractiveCommand.play ]
-            | ItemInteraction.Interactive InteractiveItemInteraction.Watch ->
-                [ InteractiveCommand.watch ]
+            | ItemInteraction.Drink -> [ ConsumeCommands.drink ]
+            | ItemInteraction.Eat -> [ ConsumeCommands.eat ]
+            | ItemInteraction.Cook items -> [ CookCommand.create items ]
+            | ItemInteraction.Exercise -> [ InteractiveCommand.exercise ]
+            | ItemInteraction.Read -> [ InteractiveCommand.read ]
+            | ItemInteraction.Sleep -> [ SleepCommand.get ]
+            | ItemInteraction.Play -> [ InteractiveCommand.play ]
+            | ItemInteraction.Watch -> [ InteractiveCommand.watch ]
         | Interaction.FreeRoam freeRoamInteraction ->
             match freeRoamInteraction with
             | FreeRoamInteraction.Clock dayMomentsWithEvents ->

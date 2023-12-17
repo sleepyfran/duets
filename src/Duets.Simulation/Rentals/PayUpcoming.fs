@@ -8,14 +8,17 @@ open FsToolkit.ErrorHandling
 /// Attempts to pay for an upcoming monthly rental, expensing the money from the
 /// character's account and then updating the rental's next payment date to
 /// next month.
-let payRental state rental =
+let payRental state (rental: Rental) =
     let characterAccount = Queries.Bank.playableCharacterAccount state
 
     result {
         let! expenseEffects = rental.Amount |> expense state characterAccount
 
         let nextPaymentDate = Rental.dueDate rental |> Calendar.Ops.addMonths 1
-        let updatedRental = { rental with RentalType = Monthly nextPaymentDate }
+
+        let updatedRental =
+            { rental with
+                RentalType = Monthly nextPaymentDate }
 
         return updatedRental, expenseEffects @ [ RentalUpdated updatedRental ]
     }

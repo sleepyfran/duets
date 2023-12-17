@@ -3,18 +3,10 @@ module Duets.Data.Items.Food.Vietnamese
 open Duets.Entities
 
 let all: PurchasableItem list =
-    [ { Brand = "Bún Bò Nam Bộ"
-        Type = Healthy 350<gram> |> Food |> Consumable },
-      5.30m<dd>
+    [ Item.Food.create "Bún Bò Nam Bộ" 350<gram> Healthy, 5.30m<dd>
 
-      { Brand = "Nem cuốn bò"
-        Type = Healthy 100<gram> |> Food |> Consumable },
-      3.50m<dd>
+      Item.Food.create "Nem cuốn bò" 100<gram> Healthy, 3.50m<dd>
 
-      { Brand = "Nem cuốn tôm"
-        Type = Healthy 100<gram> |> Food |> Consumable },
-      3.35m<dd>
+      Item.Food.create "Nem cuốn tôm" 100<gram> Healthy, 3.35m<dd>
 
-      { Brand = "Phở Bò"
-        Type = Healthy 350<gram> |> Food |> Consumable },
-      5.45m<dd> ]
+      Item.Food.create "Phở Bò" 350<gram> Healthy, 5.45m<dd> ]

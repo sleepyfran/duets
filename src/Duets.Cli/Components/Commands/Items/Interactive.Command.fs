@@ -12,7 +12,7 @@ module InteractiveCommand =
         Command.itemInteraction
             (Command.VerbWithPrepositions("exercise", [ "with" ]))
             Command.exerciseDescription
-            (ItemInteraction.Interactive InteractiveItemInteraction.Exercise)
+            ItemInteraction.Exercise
             (function
              | Ok effects ->
                  (Interaction.exerciseSteps, 2<second>) ||> showProgressBarAsync
@@ -27,7 +27,7 @@ module InteractiveCommand =
         Command.itemInteraction
             (Command.VerbOnly "play")
             Command.playGameDescription
-            (ItemInteraction.Interactive InteractiveItemInteraction.Play)
+            ItemInteraction.Play
             (function
              | Ok effects ->
                  effects |> Duets.Cli.Effect.applyMultiple
@@ -40,7 +40,7 @@ module InteractiveCommand =
         Command.itemInteraction
             (Command.VerbOnly "read")
             Command.readDescription
-            (ItemInteraction.Interactive InteractiveItemInteraction.Read)
+            ItemInteraction.Read
             (function
              | Ok effects ->
                  "You open the book and start reading a few pages..."
@@ -58,7 +58,7 @@ module InteractiveCommand =
         Command.itemInteraction
             (Command.VerbOnly "watch")
             Command.watchTvDescription
-            (ItemInteraction.Interactive InteractiveItemInteraction.Watch)
+            ItemInteraction.Watch
             (function
              | Ok effects ->
                  wait 1000<millisecond>

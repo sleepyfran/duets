@@ -48,5 +48,5 @@ let all: PurchasableItem list =
     |> (@) specialBooks
     |> List.map (fun (book, price) ->
         { Brand = $"{book.Title}"
-          Type = InteractiveItemType.Book book |> ItemType.Interactive },
+          Properties = [ Book(book) |> Readable ] },
         price)

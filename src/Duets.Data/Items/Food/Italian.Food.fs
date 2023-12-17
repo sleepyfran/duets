@@ -3,70 +3,36 @@ module Duets.Data.Items.Food.Italian
 open Duets.Entities
 
 let all: PurchasableItem list =
-    [ { Brand = "Pizza Margherita"
-        Type = Regular 600<gram> |> Food |> Consumable },
-      8.5m<dd>
+    [ Item.Food.create "Pizza Margherita" 600<gram> Regular, 8.5m<dd>
 
-      { Brand = "Spaghetti Carbonara"
-        Type = Regular 450<gram> |> Food |> Consumable },
-      9.3m<dd>
+      Item.Food.create "Spaghetti Carbonara" 450<gram> Regular, 9.3m<dd>
 
-      { Brand = "Ravioli al Tartufo"
-        Type = Regular 450<gram> |> Food |> Consumable },
-      11.3m<dd>
+      Item.Food.create "Ravioli al Tartufo" 450<gram> Regular, 11.3m<dd>
 
-      { Brand = "Fettuccine Alfredo"
-        Type = Regular 450<gram> |> Food |> Consumable },
-      9.3m<dd>
+      Item.Food.create "Fettuccine Alfredo" 450<gram> Regular, 9.3m<dd>
 
-      { Brand = "Penne alla Vodka"
-        Type = Regular 450<gram> |> Food |> Consumable },
-      9.5m<dd>
+      Item.Food.create "Penne alla Vodka" 450<gram> Regular, 9.5m<dd>
 
-      { Brand = "Penne all'Arrabbiata"
-        Type = Regular 450<gram> |> Food |> Consumable },
-      9.0m<dd>
+      Item.Food.create "Penne all'Arrabbiata" 450<gram> Regular, 9.0m<dd>
 
-      { Brand = "Spaghetti Bolognese"
-        Type = Regular 450<gram> |> Food |> Consumable },
-      9.2m<dd>
+      Item.Food.create "Spaghetti Bolognese" 450<gram> Regular, 9.2m<dd>
 
-      { Brand = "Penne alla Puttanesca"
-        Type = Regular 450<gram> |> Food |> Consumable },
-      9.1m<dd>
+      Item.Food.create "Penne alla Puttanesca" 450<gram> Regular, 9.1m<dd>
 
-      { Brand = "Gnocchi Quattro Formaggi"
-        Type = Regular 450<gram> |> Food |> Consumable },
-      9.0m<dd>
+      Item.Food.create "Gnocchi Quattro Formaggi" 450<gram> Regular, 9.0m<dd>
 
-      { Brand = "Bruschetta"
-        Type = Regular 150<gram> |> Food |> Consumable },
-      5.0m<dd>
+      Item.Food.create "Bruschetta" 150<gram> Regular, 5.0m<dd>
 
-      { Brand = "Lasagna Bolognese"
-        Type = Unhealthy 350<gram> |> Food |> Consumable },
-      7.8m<dd>
+      Item.Food.create "Lasagna Bolognese" 350<gram> Unhealthy, 7.8m<dd>
 
-      { Brand = "Lasagna Vegetariana"
-        Type = Unhealthy 350<gram> |> Food |> Consumable },
-      7.2m<dd>
+      Item.Food.create "Lasagna Vegetariana" 350<gram> Unhealthy, 7.2m<dd>
 
-      { Brand = "Pesto Pasta"
-        Type = Regular 300<gram> |> Food |> Consumable },
-      8.7m<dd>
+      Item.Food.create "Pesto Pasta" 300<gram> Regular, 8.7m<dd>
 
-      { Brand = "Caprese Salad"
-        Type = Healthy 200<gram> |> Food |> Consumable },
-      7.2m<dd>
+      Item.Food.create "Caprese Salad" 200<gram> Healthy, 7.2m<dd>
 
-      { Brand = "Risotto alla Milanese"
-        Type = Regular 350<gram> |> Food |> Consumable },
-      4.6m<dd>
+      Item.Food.create "Risotto alla Milanese" 350<gram> Regular, 4.6m<dd>
 
-      { Brand = "Gelato"
-        Type = Unhealthy 200<gram> |> Food |> Consumable },
-      1.5m<dd>
+      Item.Food.create "Gelato" 200<gram> Unhealthy, 1.5m<dd>
 
-      { Brand = "Tiramisu"
-        Type = Unhealthy 150<gram> |> Food |> Consumable },
-      3.5m<dd> ]
+      Item.Food.create "Tiramisu" 150<gram> Unhealthy, 3.5m<dd> ]

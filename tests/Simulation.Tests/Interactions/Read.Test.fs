@@ -10,23 +10,26 @@ open Duets.Data
 open Duets.Simulation.Interactions
 
 let private read item =
-    Items.interact dummyState item InteractiveItemInteraction.Read
+    Items.perform dummyState item ItemInteraction.Read
 
 let private createBookItem readProgress =
     { Brand = "Book"
-      Type =
+      Properties =
         { Title = "Random Book"
           Author = "Random Author"
           BookEffects =
             [ SkillGain(SkillId.Barista, 10)
               MoodletGain(MoodletType.JetLagged, MoodletExpirationTime.Never) ]
           ReadProgress = readProgress }
-        |> InteractiveItemType.Book
-        |> ItemType.Interactive }
+        |> Book
+        |> Readable
+        |> List.singleton }
 
 let private unwrapBook (item: Item) =
-    match item.Type with
-    | Interactive(InteractiveItemType.Book book) -> book
+    let mainProperty = item.Properties |> List.head
+
+    match mainProperty with
+    | Readable(Book book) -> book
     | _ -> failwith "Unexpected item type"
 
 [<Test>]

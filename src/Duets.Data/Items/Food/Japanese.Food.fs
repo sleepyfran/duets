@@ -3,42 +3,22 @@ module Duets.Data.Items.Food.Japanese
 open Duets.Entities
 
 let all: PurchasableItem list =
-    [ { Brand = "Gyoza"
-        Type = Regular 100<gram> |> Food |> Consumable },
-      3.3m<dd>
+    [ Item.Food.create "Gyoza" 100<gram> Regular, 3.3m<dd>
 
-      { Brand = "Miso Ramen"
-        Type = Healthy 450<gram> |> Food |> Consumable },
-      6.4m<dd>
+      Item.Food.create "Miso Ramen" 450<gram> Healthy, 6.4m<dd>
 
-      { Brand = "Tonkotsu Ramen"
-        Type = Healthy 450<gram> |> Food |> Consumable },
-      6.3m<dd>
+      Item.Food.create "Tonkotsu Ramen" 450<gram> Healthy, 6.3m<dd>
 
-      { Brand = "Salmon Nigiri"
-        Type = Healthy 100<gram> |> Food |> Consumable },
-      7m<dd>
+      Item.Food.create "Salmon Nigiri" 100<gram> Healthy, 7m<dd>
 
-      { Brand = "Tuna Nigiri"
-        Type = Healthy 100<gram> |> Food |> Consumable },
-      7m<dd>
+      Item.Food.create "Tuna Nigiri" 100<gram> Healthy, 7m<dd>
 
-      { Brand = "Avocado Nigiri"
-        Type = Healthy 100<gram> |> Food |> Consumable },
-      7m<dd>
+      Item.Food.create "Avocado Nigiri" 100<gram> Healthy, 7m<dd>
 
-      { Brand = "Salmon Maki"
-        Type = Healthy 100<gram> |> Food |> Consumable },
-      7.2m<dd>
+      Item.Food.create "Salmon Maki" 100<gram> Healthy, 7.2m<dd>
 
-      { Brand = "Avocado Maki"
-        Type = Healthy 100<gram> |> Food |> Consumable },
-      7.2m<dd>
+      Item.Food.create "Avocado Maki" 100<gram> Healthy, 7.2m<dd>
 
-      { Brand = "California Roll"
-        Type = Healthy 150<gram> |> Food |> Consumable },
-      7.8m<dd>
+      Item.Food.create "California Roll" 150<gram> Healthy, 7.8m<dd>
 
-      { Brand = "Wakame"
-        Type = Healthy 100<gram> |> Food |> Consumable },
-      2.5m<dd> ]
+      Item.Food.create "Wakame" 100<gram> Healthy, 2.5m<dd> ]

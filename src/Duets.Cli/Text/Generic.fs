@@ -225,53 +225,28 @@ let songWithDetails name (quality: Quality) songLength =
 let instrument instrumentType = instrumentName instrumentType
 let role instrumentType = roleName instrumentType
 
-let itemName (item: Item) =
-    match item.Type with
-    | Consumable(Drink drink) ->
-        match drink with
-        | Beer _ -> $"{item.Brand} beer"
-        | _ -> item.Brand |> String.lowercase
-    | Consumable(Food _) -> item.Brand |> String.lowercase
-    | Interactive(Book book) -> book.Title
-    | Interactive(Electronics electronic) ->
-        match electronic with
-        | Dartboard -> $"{item.Brand} dartboard"
-        | GameConsole -> item.Brand
-        | TV -> $"{item.Brand} TV"
-    | Interactive(Furniture furniture) ->
-        match furniture with
-        | Bed -> "bed"
-        | BilliardTable -> "billiard table"
-        | Stove -> "stove"
-    | Interactive(GymEquipment equipment) ->
-        match equipment with
-        | Treadmill -> $"{item.Brand} treadmill"
-        | WeightMachine -> $"{item.Brand} weight machine"
-    | Key keyItem ->
-        match keyItem with
-        | Chip(cityId, placeId) ->
-            let place = Queries.World.placeInCityById cityId placeId
-            $"chip for {place.Name} in {cityName cityId}"
-    |> Styles.item
+let itemName (item: Item) = item.Brand |> Styles.item
 
 let itemDetailedName (item: Item) =
-    match item.Type with
-    | Consumable(Drink drink) ->
-        match drink with
-        | Beer(ml, alcohol) ->
-            $"""{Styles.item $"{item.Brand} beer"} ({ml}ml, {alcohol}%%)"""
-        | Coffee ml -> $"""{Styles.item item.Brand} ({ml}ml of coffee)"""
-        | Soda ml -> $"""{Styles.item item.Brand} ({ml}ml)"""
-    | Consumable(Food food) ->
-        match food with
-        | Unhealthy g
-        | Regular g
-        | Healthy g -> $"""{Styles.item item.Brand} ({g}g)"""
-    | Interactive(Book book) when book.ReadProgress > 0<percent> ->
+    let mainProperty = item.Properties |> List.head
+
+    match mainProperty with
+    | Drinkable drink ->
+        match drink.DrinkType with
+        | Beer alcohol ->
+            $"""{Styles.item $"{item.Brand} beer"} ({drink.Amount}ml, {alcohol}%%)"""
+        | Coffee coffeeMl ->
+            $"""{Styles.item item.Brand} ({coffeeMl}ml of coffee)"""
+        | Soda -> $"""{Styles.item item.Brand} ({drink.Amount}ml)"""
+    | Edible food -> $"""{Styles.item item.Brand} ({food.Amount}g)"""
+    | Readable(Book book) when book.ReadProgress > 0<percent> ->
         $"{Styles.item book.Title} by {Styles.person book.Author} ({Styles.Level.from book.ReadProgress}%% read)"
-    | Interactive(Book book) -> $"{Styles.item book.Title} by {Styles.person book.Author}"
-    | Interactive _ -> itemName item
-    | Key _ -> itemName item
+    | Readable(Book book) ->
+        $"{Styles.item book.Title} by {Styles.person book.Author}"
+    | Key(Chip(cityId, placeId)) ->
+        let place = Queries.World.placeInCityById cityId placeId
+        $"Chip for {place.Name} in {cityName cityId}"
+    | _ -> itemName item
 
 let moreDates = Styles.faded "More dates"
 

@@ -101,9 +101,9 @@ module EnergyRequirements =
                         interactionWithState
                         characterEnergy
                 | Interaction.FreeRoam _ -> interactionWithState
-                | Interaction.Item(ItemInteraction.Consumable _) ->
+                | Interaction.Item(ItemInteraction.Drink | ItemInteraction.Eat) ->
                     interactionWithState
-                | Interaction.Item(ItemInteraction.Interactive InteractiveItemInteraction.Sleep) ->
+                | Interaction.Item(ItemInteraction.Sleep) ->
                     interactionWithState
                 | _ ->
                     disableIfLessEnergyThanMinimum

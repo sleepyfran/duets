@@ -7,13 +7,14 @@ open Duets.Simulation
 /// Eats the given item. Returns different effects depending on the type of food:
 /// - For junk food, it slightly decreases health depending on the amount consumed
 ///   and slightly increases happiness.
-let eat state item =
+let eat state item (amount: int<gram>) foodType =
     let character = Queries.Characters.playableCharacter state
 
-    match item with
-    | Unhealthy amount -> eatUnhealthyFood character amount
-    | Regular amount
-    | Healthy amount -> eatRegularFood character amount
+    match foodType with
+    | Unhealthy -> eatUnhealthyFood character amount
+    | Regular
+    | Healthy -> eatRegularFood character amount
+    @ (Items.remove state item)
 
 let private calculateHungerIncrease amount =
     float amount * 0.15 |> Math.roundToNearest

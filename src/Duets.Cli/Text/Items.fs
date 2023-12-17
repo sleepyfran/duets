@@ -49,13 +49,9 @@ let ateItem = Styles.success "Hmmmm..."
 let readBook = Styles.success "You spent some time reading"
 
 let itemAlternativeNames (item: Item) =
-    match item.Type with
-    | Interactive(Electronics electronic) ->
-        match electronic with
-        | Dartboard -> [ "darts" ]
-        | _ -> []
-    | Interactive(Furniture furniture) ->
-        match furniture with
-        | BilliardTable -> [ "pool"; "billiard" ]
-        | _ -> []
+    let mainProperty = item.Properties |> List.head
+
+    match mainProperty with
+    | Playable(Darts) -> [ "darts" ]
+    | Playable(Billiard) -> [ "pool"; "billiard" ]
     | _ -> []

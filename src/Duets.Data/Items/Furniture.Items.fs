@@ -4,18 +4,18 @@ open Duets.Entities
 
 module Bed =
     let ikeaBed: PurchasableItem =
-        { Brand = "IKEA"
-          Type = Bed |> Furniture |> Interactive },
+        { Brand = "IKEA bed"
+          Properties = [ Sleepable ] },
         450m<dd>
 
 module BilliardTable =
     let sonomaTable: PurchasableItem =
-        { Brand = "Sonoma"
-          Type = BilliardTable |> Furniture |> Interactive },
+        { Brand = "Sonoma billiard table"
+          Properties = [ Playable(Billiard) ] },
         3400m<dd>
 
 module Stove =
     let lgStove: PurchasableItem =
-        { Brand = "LG"
-          Type = Stove |> Furniture |> Interactive },
+        { Brand = "LG stove"
+          Properties = [ Cookware ] },
         650m<dd>

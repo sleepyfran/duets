@@ -14,9 +14,10 @@ let passSecurityCheck state =
     let itemRemovalEffects =
         Queries.Inventory.get state
         |> List.filter (fun item ->
-            match item.Type with
-            | Consumable(Drink _) -> true
-            | _ -> false)
+            item
+            |> Item.Property.has (function
+                | Drinkable _ -> true
+                | _ -> false))
         |> List.map ItemRemovedFromInventory
 
     let movementEffects =

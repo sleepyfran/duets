@@ -9,69 +9,73 @@ module ItemTypes =
         | World
         | Nowhere
 
-    (* --------------- CONSUMABLES --------------- *)
+    /// Defines all types of food available in the game.
+    type FoodType =
+        | Unhealthy
+        | Regular
+        | Healthy
+
+    /// Defines an item that can be eaten by the player.
+    type EdibleItem =
+        { Amount: int<gram>
+          FoodType: FoodType }
 
     /// Defines all types of drinks available in the game.
-    type DrinkItemType =
-        | Beer of amount: int<milliliter> * alcoholContent: float
-        | Coffee of amount: int<milliliter>
-        | Soda of amount: int<milliliter>
+    type DrinkType =
+        | Beer of alcoholContent: float
+        | Coffee of caffeineAmount: int<milliliter>
+        | Soda
 
-    /// Defines all types of food available in the game.
-    type FoodItemType =
-        | Unhealthy of amount: int<gram>
-        | Regular of amount: int<gram>
-        | Healthy of amount: int<gram>
+    /// Defines an item that can be drank by the player.
+    type DrinkableItem =
+        { Amount: int<milliliter>
+          DrinkType: DrinkType }
 
-    (* --------------- INTERACTIVE --------------- *)
-
-    /// Defines all kind of electronics available in the game.
-    type ElectronicsItemType =
-        | TV
-        | GameConsole
-        | Dartboard
-
-    /// Defines all kinds of furniture available in the game.
-    type FurnitureItemType =
-        | Bed
-        | BilliardTable
-        | Stove
-
-    /// Defines all kinds of gym equipment available in the game.
-    type GymEquipmentItemType =
-        | WeightMachine
-        | Treadmill
-
-    (* --------------- KEYS --------------- *)
+    /// Defines all types of games available inside the game.
+    type GameType =
+        | Darts
+        | Billiard
+        | VideoGame
 
     /// Defines all kind of keys that can be used to unlock a specific place.
-    type KeyItemType = Chip of cityId: CityId * placeId: PlaceId
+    type KeyItem = Chip of cityId: CityId * placeId: PlaceId
 
-    (* --------------- AGGREGATED ITEMS --------------- *)
+    /// Defines all types of readable items available in the game.
+    type ReadableItem = Book of Book
 
-    /// Defines all types of items that can be consumed in the game, categorized
-    /// by its kind.
-    type ConsumableItemType =
-        | Drink of DrinkItemType
-        | Food of FoodItemType
-
-    /// Defines all types of items that can be only interacted with and not
-    /// consumed, categorized by its kind.
-    type InteractiveItemType =
-        | Book of Book
-        | Electronics of ElectronicsItemType
-        | Furniture of FurnitureItemType
-        | GymEquipment of GymEquipmentItemType
-
-    /// Defines all types of items available in the game, categorized by whether
-    /// they can be consumed or only interacted with.
-    type ItemType =
-        | Consumable of ConsumableItemType
-        | Interactive of InteractiveItemType
-        | Key of KeyItemType
+    /// Defines all types of properties that an item can have. These properties
+    /// define how an item can be used by the character and can be combined
+    /// together.
+    type ItemProperty =
+        /// Example: a stove.
+        | Cookware
+        /// Example: a beer.
+        | Drinkable of DrinkableItem
+        /// Example: a burger.
+        | Edible of EdibleItem
+        /// Example: a weight machine.
+        | FitnessEquipment
+        /// Example: a chip to enter a place.
+        | Key of KeyItem
+        /// Example: a game console.
+        | Playable of GameType
+        /// Example: a book.
+        | Readable of ReadableItem
+        /// Example: a bed.
+        | Sleepable
+        /// Example: a TV.
+        | Watchable
 
     /// Defines an item of the game that can be consumed by the player.
-    type Item = { Brand: string; Type: ItemType }
+    type Item =
+        {
+            Brand: string
+            /// Defines which properties the item has. They're ordered by importance,
+            /// meaning the first one is the "main" property which will determine
+            /// which kind of item this is and the rest are secondary properties
+            /// that can enhance what the item can do.
+            Properties: ItemProperty list
+        }
 
     /// Defines an item that can be purchased, with the item itself and its price.
     type PurchasableItem = Item * Amount

@@ -70,27 +70,17 @@ module InteractionTypes =
     [<RequireQualifiedAccess>]
     type GymInteraction = PayEntrance of price: Amount
 
-    /// Interactions that can be done to consume an item in particular.
+    /// Interactions related to items in the world or the character's inventory.
     [<RequireQualifiedAccess>]
-    type ConsumableItemInteraction =
+    type ItemInteraction =
+        | Cook of PurchasableItem list
         | Drink
         | Eat
-
-    /// Interactions that can be done referencing an item in particular.
-    [<RequireQualifiedAccess>]
-    type InteractiveItemInteraction =
-        | Cook of PurchasableItem list
         | Exercise
         | Read
         | Sleep
         | Play
         | Watch
-
-    /// Interactions related to items in the world or the character's inventory.
-    [<RequireQualifiedAccess>]
-    type ItemInteraction =
-        | Consumable of ConsumableItemInteraction
-        | Interactive of InteractiveItemInteraction
 
     /// Interactions related to moving around the world.
     [<RequireQualifiedAccess>]

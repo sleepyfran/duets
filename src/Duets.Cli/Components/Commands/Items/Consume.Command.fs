@@ -13,7 +13,7 @@ module ConsumeCommands =
         Command.itemInteraction
             (Command.VerbOnly "drink")
             Command.drinkDescription
-            (ItemInteraction.Consumable ConsumableItemInteraction.Drink)
+            ItemInteraction.Drink
             (function
              | Ok effects ->
                  Items.drunkItem |> showMessage
@@ -29,7 +29,7 @@ module ConsumeCommands =
         Command.itemInteraction
             (Command.VerbOnly "eat")
             Command.eatDescription
-            (ItemInteraction.Consumable ConsumableItemInteraction.Eat)
+            ItemInteraction.Eat
             (function
              | Ok effects ->
                  Items.ateItem |> showMessage

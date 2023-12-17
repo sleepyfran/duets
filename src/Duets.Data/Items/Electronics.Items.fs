@@ -4,18 +4,18 @@ open Duets.Entities
 
 module Dartboard =
     let dartboard: PurchasableItem =
-        { Brand = "Bull's"
-          Type = Dartboard |> Electronics |> Interactive },
+        { Brand = "Bull's Dartboard"
+          Properties = [ Playable(Darts) ] },
         230m<dd>
 
 module GameConsole =
     let xbox: PurchasableItem =
         { Brand = "Xbox Series X"
-          Type = GameConsole |> Electronics |> Interactive },
+          Properties = [ Playable(VideoGame) ] },
         550m<dd>
 
 module Tv =
     let lgTv: PurchasableItem =
-        { Brand = "LG"
-          Type = TV |> Electronics |> Interactive },
+        { Brand = "LG OLED TV"
+          Properties = [ Watchable ] },
         850m<dd>

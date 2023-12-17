@@ -12,14 +12,17 @@ module InteractionTime =
             Career.jobDuration job
         | Interaction.Concert(ConcertInteraction.FinishConcert _) ->
             2<dayMoments>
-        | Interaction.Item(ItemInteraction.Interactive interactiveInteraction) ->
-            match interactiveInteraction with
-            | InteractiveItemInteraction.Exercise
-            | InteractiveItemInteraction.Play
-            | InteractiveItemInteraction.Read
-            | InteractiveItemInteraction.Watch -> 1<dayMoments>
-            | InteractiveItemInteraction.Sleep (* Sleeping asks how long to sleep. *)
-            | InteractiveItemInteraction.Cook _ -> 0<dayMoments>
+        | Interaction.Item(itemInteraction) ->
+            match itemInteraction with
+            | ItemInteraction.Exercise
+            | ItemInteraction.Play
+            | ItemInteraction.Read
+            | ItemInteraction.Watch -> 1<dayMoments>
+            | ItemInteraction.Cook _
+            | ItemInteraction.Drink
+            | ItemInteraction.Eat
+            | ItemInteraction.Sleep (* Sleeping asks how long to sleep. *) ->
+                0<dayMoments>
         | Interaction.FreeRoam FreeRoamInteraction.Wait -> 1<dayMoments>
         | Interaction.MiniGame(MiniGameInteraction.StartGame _)
         | Interaction.MiniGame(MiniGameInteraction.InGame(MiniGameInGameInteraction.Leave _)) ->

@@ -22,10 +22,10 @@ let state =
 [<Test>]
 let ``Consuming junk food reduces health`` () =
     let effects =
-        Items.consume
+        Items.perform
             state
             (Data.Items.Food.USA.all |> List.head |> fst)
-            ConsumableItemInteraction.Eat
+            ItemInteraction.Eat
         |> Result.unwrap
 
     effects
@@ -41,10 +41,10 @@ let ``Consuming junk food reduces health`` () =
 [<Test>]
 let ``Consuming food increases hunger based on the amount`` () =
     let effects =
-        Items.consume
+        Items.perform
             state
             (Data.Items.Food.Japanese.all |> List.head |> fst)
-            ConsumableItemInteraction.Eat
+            ItemInteraction.Eat
         |> Result.unwrap
 
     effects
@@ -56,3 +56,18 @@ let ``Consuming food increases hunger based on the amount`` () =
             CharacterAttribute.Hunger,
             Diff(50, 65)
         ))
+
+[<Test>]
+let ``Eating an item should remove it from the inventory if it was there`` () =
+    let item = Data.Items.Food.Japanese.all |> List.head |> fst
+
+    let state = state |> State.Inventory.add item
+
+    let effects = Items.perform state item ItemInteraction.Eat |> Result.unwrap
+
+    effects
+    |> List.filter (function
+        | ItemRemovedFromInventory _ -> true
+        | _ -> false)
+    |> List.head
+    |> should equal (ItemRemovedFromInventory item)

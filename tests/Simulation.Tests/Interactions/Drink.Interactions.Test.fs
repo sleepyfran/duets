@@ -19,10 +19,10 @@ let ``Drinking a beer of 500ml and 4.4 in alcohol increases drunkenness by 6``
     ()
     =
     let effects =
-        Items.consume
+        Items.perform
             state
             (fst Data.Items.Drink.Beer.pilsnerUrquellPint)
-            ConsumableItemInteraction.Drink
+            ItemInteraction.Drink
         |> Result.unwrap
 
     effects
@@ -40,10 +40,10 @@ let ``Drinking a beer of 500ml and 5.4 in alcohol increases drunkenness by 8``
     ()
     =
     let effects =
-        Items.consume
+        Items.perform
             state
             (fst Data.Items.Drink.Beer.matushkaPint)
-            ConsumableItemInteraction.Drink
+            ItemInteraction.Drink
         |> Result.unwrap
 
     effects
@@ -61,20 +61,20 @@ let ``Drinking two beers of 500ml and 5.4 in alcohol increases drunkenness by 16
     ()
     =
     let effects =
-        Items.consume
+        Items.perform
             state
             (fst Data.Items.Drink.Beer.matushkaPint)
-            ConsumableItemInteraction.Drink
+            ItemInteraction.Drink
         |> Result.unwrap
 
     let updatedState =
         Simulation.State.Root.applyEffect state (effects |> List.item 0)
 
     let updatedEffects =
-        Items.consume
+        Items.perform
             updatedState
             (fst Data.Items.Drink.Beer.matushkaPint)
-            ConsumableItemInteraction.Drink
+            ItemInteraction.Drink
         |> Result.unwrap
 
     let updatedCharacter = Queries.Characters.playableCharacter updatedState
@@ -98,15 +98,19 @@ let ``Drinking an item should remove it from the inventory if it was there``
     let state = state |> State.Inventory.add item
 
     let effects =
-        Items.consume state item ConsumableItemInteraction.Drink
-        |> Result.unwrap
+        Items.perform state item ItemInteraction.Drink |> Result.unwrap
 
-    effects |> List.item 0 |> should equal (ItemRemovedFromInventory item)
+    effects
+    |> List.filter (function
+        | ItemRemovedFromInventory _ -> true
+        | _ -> false)
+    |> List.head
+    |> should equal (ItemRemovedFromInventory item)
 
 [<Test>]
 let ``Drinking non-drink items should not be allowed`` () =
     let item = Data.Items.Food.Czech.all |> List.head |> fst
 
-    Items.consume state item ConsumableItemInteraction.Drink
+    Items.perform state item ItemInteraction.Drink
     |> Result.unwrapError
     |> should be (ofCase <@@ Items.ActionNotPossible @@>)
