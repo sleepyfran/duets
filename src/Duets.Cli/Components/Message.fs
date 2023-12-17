@@ -16,6 +16,7 @@ let showPath path =
     path.LeafStyle <- Style(foreground = Color.Yellow)
 
     AnsiConsole.Write path
+    AnsiConsole.WriteLine()
 
 /// Renders an exception into the screen.
 let showException = AnsiConsole.WriteException
