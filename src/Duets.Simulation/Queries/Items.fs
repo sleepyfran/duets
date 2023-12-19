@@ -16,11 +16,15 @@ module Items =
             Items.Electronics.Dartboard.dartboard
             :: [ Items.Furniture.BilliardTable.sonomaTable ]
             |> List.map fst
+        | PlaceType.Home, RoomType.LivingRoom ->
+            (* Basics of a living room. *)
+            [ fst Items.Furniture.Storage.ikeaShelf ]
+        | PlaceType.Home, RoomType.Bedroom
         | PlaceType.Hotel _, RoomType.Bedroom ->
-            (* Otherwise hotels wouldn't have anywhere to sleep on. *)
+            (* Otherwise, nowhere to sleep on. *)
             [ fst Items.Furniture.Bed.ikeaBed ]
         | PlaceType.Gym, RoomType.Gym ->
-            (* Otherwise, there'd be nothing to do on the gym. *)
+            (* Otherwise, there's nothing to do on the gym. *)
             Items.Gym.all |> List.map fst
         | PlaceType.ConcertSpace _, RoomType.Backstage ->
             (* Basic stuff for the band to consume. *)

@@ -161,6 +161,11 @@ let eatDescription =
 let readDescription =
     $"""Allows you to read a book. Use as {Styles.information "read {book name}"}"""
 
+let putUsage = $"""{Styles.information "put {item name} in {storage name}"}"""
+
+let putDescription =
+    $"Allows you to place an item in a shelf or some form of storage. Use as: {putUsage}"
+
 let meDescription = "Shows information about your character"
 
 let private meItem header value =

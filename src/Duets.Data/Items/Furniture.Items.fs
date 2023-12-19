@@ -14,6 +14,12 @@ module BilliardTable =
           Properties = [ Playable(Billiard) ] },
         3400m<dd>
 
+module Storage =
+    let ikeaShelf: PurchasableItem =
+        { Brand = "IKEA shelf"
+          Properties = [ Storage(Shelf, []) ] },
+        150m<dd>
+
 module Stove =
     let lgStove: PurchasableItem =
         { Brand = "LG stove"

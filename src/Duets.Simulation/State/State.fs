@@ -70,6 +70,8 @@ let applyEffect state effect =
     | ItemAddedToInventory item -> Inventory.add item state
     | ItemChangedInInventory(Diff(prevItem, currItem)) ->
         Inventory.remove prevItem state |> Inventory.add currItem
+    | ItemChangedInWorld(coords, Diff(_, item)) ->
+        World.remove coords item state |> World.add coords item
     | ItemRemovedFromInventory item -> Inventory.remove item state
     | ItemRemovedFromWorld(coords, item) -> World.remove coords item state
     | MemberHired(band, character, currentMember, skills) ->

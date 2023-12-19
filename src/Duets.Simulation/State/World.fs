@@ -6,6 +6,14 @@ open Duets.Entities
 let move cityId placeId roomId =
     Optic.set Lenses.State.currentPosition_ (cityId, placeId, roomId)
 
+let add coords item =
+    let addItem =
+        Map.change coords (function
+            | Some list -> item :: list |> Some
+            | None -> Some [ item ])
+
+    Optic.map Lenses.State.worldItems_ addItem
+
 let remove coords item =
     let removeItem =
         Map.change coords (function

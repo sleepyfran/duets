@@ -18,10 +18,13 @@ module rec Items =
                 | FitnessEquipment ->
                     ItemInteraction.Exercise |> Interaction.Item |> Some
                 | Key _ -> None
+                | PlaceableInStorage _ ->
+                    ItemInteraction.Put |> Interaction.Item |> Some
                 | Playable _ ->
                     ItemInteraction.Play |> Interaction.Item |> Some
                 | Readable _ ->
                     ItemInteraction.Read |> Interaction.Item |> Some
+                | Storage _ -> ItemInteraction.Open |> Interaction.Item |> Some
                 | Sleepable ->
                     ItemInteraction.Sleep |> Interaction.Item |> Some
                 | Watchable ->

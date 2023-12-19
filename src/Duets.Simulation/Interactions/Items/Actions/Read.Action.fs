@@ -26,8 +26,8 @@ let private read' (item: Item) book state =
         let updatedProperties =
             item.Properties
             |> List.filter (function
-                | Readable _ -> true
-                | _ -> false)
+                | Readable _ -> false
+                | _ -> true)
             |> (@) [ Readable(Book updatedBook) ]
 
         let updatedItem =

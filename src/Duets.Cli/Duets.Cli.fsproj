@@ -114,6 +114,7 @@
         <Compile Include="Components\Commands\Items\Interactive.Command.fs"/>
         <Compile Include="Components\Commands\Items\Cook.Command.fs"/>
         <Compile Include="Components\Commands\Items\Sleep.Command.fs"/>
+        <Compile Include="Components\Commands\Items\Put.Command.fs" />
         <Compile Include="Components\Commands\MiniGame\StartMiniGame.Command.fs"/>
         <Compile Include="Components\Commands\MiniGame\Bet.Command.fs"/>
         <Compile Include="Components\Commands\MiniGame\Hit.Command.fs"/>

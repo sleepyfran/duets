@@ -31,6 +31,11 @@ module Parse =
             item |> String.concat " " |> Some
         | _ -> None
 
+    /// Attempts to parse a phrase that contains any number of item names
+    /// separated by the given separator.
+    let rec itemsSeparatedBy (separator: string) (args: string list) =
+        args |> String.concat " " |> String.splitS separator |> List.ofArray
+
 [<RequireQualifiedAccess>]
 module Selection =
     type SelectionResult<'a> =
@@ -102,7 +107,10 @@ module Command =
 
             $"{verb} {formattedPrepositions} [[item]]"
 
-    let private findItem input =
+    /// Finds an item in either the world or the inventory by its name or
+    /// alternative names.
+    let findItem input =
+        let input = String.trim input
         let currentPosition = Queries.World.currentCoordinates (State.get ())
 
         Queries.Items.allIn (State.get ()) currentPosition

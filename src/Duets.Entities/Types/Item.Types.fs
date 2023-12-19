@@ -1,7 +1,7 @@
 ﻿namespace Duets.Entities
 
 [<AutoOpen>]
-module ItemTypes =
+module rec ItemTypes =
     /// Defines where an item is placed in the game.
     [<RequireQualifiedAccess>]
     type ItemLocation =
@@ -43,6 +43,12 @@ module ItemTypes =
     /// Defines all types of readable items available in the game.
     type ReadableItem = Book of Book
 
+    /// Defines what kind of storage the current item is.
+    type StorageType = Shelf
+
+    /// Defines all the items placed inside a storage.
+    type StoredItems = Item list
+
     /// Defines all types of properties that an item can have. These properties
     /// define how an item can be used by the character and can be combined
     /// together.
@@ -57,10 +63,14 @@ module ItemTypes =
         | FitnessEquipment
         /// Example: a chip to enter a place.
         | Key of KeyItem
+        /// Example: a book.
+        | PlaceableInStorage of storageType: StorageType
         /// Example: a game console.
         | Playable of GameType
         /// Example: a book.
         | Readable of ReadableItem
+        //// Example: a shelf.
+        | Storage of StorageType * items: StoredItems
         /// Example: a bed.
         | Sleepable
         /// Example: a TV.

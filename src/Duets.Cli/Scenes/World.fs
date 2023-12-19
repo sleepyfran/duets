@@ -89,9 +89,11 @@ let private commandsFromInteractions interactions =
             | ItemInteraction.Eat -> [ ConsumeCommands.eat ]
             | ItemInteraction.Cook items -> [ CookCommand.create items ]
             | ItemInteraction.Exercise -> [ InteractiveCommand.exercise ]
+            | ItemInteraction.Open -> []
+            | ItemInteraction.Put -> [ PutCommand.get ]
+            | ItemInteraction.Play -> [ InteractiveCommand.play ]
             | ItemInteraction.Read -> [ InteractiveCommand.read ]
             | ItemInteraction.Sleep -> [ SleepCommand.get ]
-            | ItemInteraction.Play -> [ InteractiveCommand.play ]
             | ItemInteraction.Watch -> [ InteractiveCommand.watch ]
         | Interaction.FreeRoam freeRoamInteraction ->
             match freeRoamInteraction with

@@ -38,6 +38,7 @@ module EffectTypes =
         | GenreMarketsUpdated of GenreMarketByGenre
         | ItemAddedToInventory of Item
         | ItemChangedInInventory of Diff<Item>
+        | ItemChangedInWorld of RoomCoordinates * Diff<Item>
         | ItemRemovedFromInventory of Item
         | ItemRemovedFromWorld of RoomCoordinates * Item
         | MemberHired of Band * Character * CurrentMember * SkillWithLevel list

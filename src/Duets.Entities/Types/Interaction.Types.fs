@@ -77,9 +77,11 @@ module InteractionTypes =
         | Drink
         | Eat
         | Exercise
+        | Open
+        | Put
+        | Play
         | Read
         | Sleep
-        | Play
         | Watch
 
     /// Interactions related to moving around the world.
