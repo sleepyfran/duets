@@ -18,11 +18,17 @@ module Items =
             |> List.map fst
         | PlaceType.Home, RoomType.LivingRoom ->
             (* Basics of a living room. *)
-            [ fst Items.Furniture.Storage.ikeaShelf ]
+            [ fst Items.Furniture.Storage.ikeaShelf
+              fst Items.Electronics.Tv.lgTv
+              fst Items.Electronics.GameConsole.xbox ]
         | PlaceType.Home, RoomType.Bedroom
         | PlaceType.Hotel _, RoomType.Bedroom ->
             (* Otherwise, nowhere to sleep on. *)
             [ fst Items.Furniture.Bed.ikeaBed ]
+        | PlaceType.Home, RoomType.Kitchen ->
+            (* Otherwise, nowhere to cook. *)
+            [ fst Items.Furniture.Stove.lgStove
+              fst Items.Furniture.Storage.samsungFridge ]
         | PlaceType.Gym, RoomType.Gym ->
             (* Otherwise, there's nothing to do on the gym. *)
             Items.Gym.all |> List.map fst

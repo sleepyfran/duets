@@ -8,29 +8,6 @@ open Duets.Entities.SituationTypes
 open Duets.Simulation
 open Duets.Simulation.Market
 
-let private allInitialWorldItems =
-    Queries.World.allCities
-    |> List.map (fun city ->
-        let homeId =
-            Queries.World.placeIdsByTypeInCity city.Id PlaceTypeIndex.Home
-            |> List.head
-
-        let kitchenItems =
-            [ fst Drink.SoftDrinks.cocaColaBottle
-              fst Drink.Coffee.doubleEspresso
-              fst Furniture.Stove.lgStove ]
-
-        let bedroomItems = [ fst Furniture.Bed.ikeaBed ]
-
-        let livingRoomItems =
-            [ fst Electronics.Tv.lgTv; fst Electronics.GameConsole.xbox ]
-
-        [ (city.Id, homeId, World.Ids.Home.bedroom), bedroomItems
-          (city.Id, homeId, World.Ids.Home.kitchen), kitchenItems
-          (city.Id, homeId, World.Ids.Home.livingRoom), livingRoomItems ])
-    |> List.concat
-    |> Map.ofList
-
 /// Sets up the initial game state based on the data provided by the user in
 /// the setup wizard and starts the generation process for the game simulation
 /// which includes markets for the different genres available and the game world.
@@ -89,6 +66,6 @@ let startGame
       Situation = FreeRoam
       SocialNetworks = SocialNetwork.empty
       Today = Calendar.gameBeginning
-      WorldItems = allInitialWorldItems }
+      WorldItems = Map.empty }
     |> Bands.Generation.addInitialBandsToState
     |> GameCreated

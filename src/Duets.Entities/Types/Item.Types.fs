@@ -44,7 +44,9 @@ module rec ItemTypes =
     type ReadableItem = Book of Book
 
     /// Defines what kind of storage the current item is.
-    type StorageType = Shelf
+    type StorageType =
+        | Fridge
+        | Shelf
 
     /// Defines all the items placed inside a storage.
     type StoredItems = Item list

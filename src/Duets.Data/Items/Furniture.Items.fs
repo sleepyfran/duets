@@ -15,6 +15,11 @@ module BilliardTable =
         3400m<dd>
 
 module Storage =
+    let samsungFridge: PurchasableItem =
+        { Brand = "Samsung fridge"
+          Properties = [ Storage(Fridge, []) ] },
+        750m<dd>
+
     let ikeaShelf: PurchasableItem =
         { Brand = "IKEA shelf"
           Properties = [ Storage(Shelf, []) ] },
