@@ -11,6 +11,11 @@ module Items =
         let place = (cityId, placeId) ||> World.placeInCityById
         let room = (cityId, placeId, roomId) |||> World.roomById
 
+        (*
+        NOTE: Do not add here any items that contain stateful properties like
+        a shelf since they will be overriden by these default items and the
+        state will be lost.
+        *)
         match place.PlaceType, room.RoomType with
         | PlaceType.Bar, RoomType.Bar ->
             Items.Electronics.Dartboard.dartboard
@@ -18,8 +23,7 @@ module Items =
             |> List.map fst
         | PlaceType.Home, RoomType.LivingRoom ->
             (* Basics of a living room. *)
-            [ fst Items.Furniture.Storage.ikeaShelf
-              fst Items.Electronics.Tv.lgTv
+            [ fst Items.Electronics.Tv.lgTv
               fst Items.Electronics.GameConsole.xbox ]
         | PlaceType.Home, RoomType.Bedroom
         | PlaceType.Hotel _, RoomType.Bedroom ->
@@ -27,8 +31,7 @@ module Items =
             [ fst Items.Furniture.Bed.ikeaBed ]
         | PlaceType.Home, RoomType.Kitchen ->
             (* Otherwise, nowhere to cook. *)
-            [ fst Items.Furniture.Stove.lgStove
-              fst Items.Furniture.Storage.samsungFridge ]
+            [ fst Items.Furniture.Stove.lgStove ]
         | PlaceType.Gym, RoomType.Gym ->
             (* Otherwise, there's nothing to do on the gym. *)
             Items.Gym.all |> List.map fst

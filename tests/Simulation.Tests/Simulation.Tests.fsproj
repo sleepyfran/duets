@@ -67,7 +67,8 @@
         <Compile Include="Interactions\Play.Interactions.Test.fs" />
         <Compile Include="Interactions\Read.Test.fs" />
         <Compile Include="Items\Items.Remove.Tests.fs" />
-        <Compile Include="Items\Items.Place.Tests.fs" />
+        <Compile Include="Items\Items.Put.Tests.fs" />
+        <Compile Include="Items\Items.Take.Tests.fs" />
         <Compile Include="World\Population.Tests.fs" />
         <Compile Include="Events\Character.Events.Tests.fs" />
         <Compile Include="Events\ClosingTime.Events.Tests.fs" />

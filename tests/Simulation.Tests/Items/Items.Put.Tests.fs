@@ -1,4 +1,4 @@
-module Duets.Simulation.Tests.Items.Place
+module Duets.Simulation.Tests.Items.Put
 
 open FsUnit
 open NUnit.Framework
@@ -16,19 +16,19 @@ let placeableItem = Book.all |> List.head |> fst
 let shelf = Furniture.Storage.ikeaShelf |> fst
 
 [<Test>]
-let ``place item fails if item is not placeable`` () =
+let ``put item fails if item is not placeable`` () =
     Items.place dummyState nonPlaceableItem shelf
     |> Result.unwrapError
     |> should be (ofCase <@ Items.ItemIsNotPlaceable @>)
 
 [<Test>]
-let ``place item fails if storage item is not capable of storing`` () =
+let ``put item fails if storage item is not capable of storing`` () =
     Items.place dummyState nonPlaceableItem nonPlaceableItem
     |> Result.unwrapError
     |> should be (ofCase <@ Items.StorageItemIsNotStorage @>)
 
 [<Test>]
-let ``place item creates a item changed in world effect`` () =
+let ``put item creates a item changed in world effect`` () =
     let effect =
         Items.place dummyState placeableItem shelf |> Result.unwrap |> List.head
 
@@ -42,7 +42,7 @@ let ``place item creates a item changed in world effect`` () =
     | _ -> failwith "Unexpected effect"
 
 [<Test>]
-let ``place item creates a item removed from inventory effect`` () =
+let ``put item creates a item removed from inventory effect`` () =
     let effect =
         Items.place dummyState placeableItem shelf
         |> Result.unwrap

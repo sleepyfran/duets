@@ -9,6 +9,13 @@ let andThen chainedResult = Result.bind (fun _ -> chainedResult)
 /// Returns the given value if the result is Ok, otherwise returns the error.
 let transform value = Result.bind (fun _ -> Ok value)
 
+/// Returns a result of the inner type of the option if it's some, otherwise
+/// returns the given error.
+let ofOption opt err =
+    match opt with
+    | Some x -> Ok x
+    | None -> Error err
+
 /// Returns an empty ok if the given bool is true, otherwise returns the error.
 let ofBool error bool = if bool then Ok() else Error error
 

@@ -166,6 +166,9 @@ let putUsage = $"""{Styles.information "put {item name} in {storage name}"}"""
 let putDescription =
     $"Allows you to place an item in a shelf or some form of storage. Use as: {putUsage}"
 
+let openDescription =
+    "Allows you to peek at the contents of a shelf or some other form of storage and get an item out of it"
+
 let meDescription = "Shows information about your character"
 
 let private meItem header value =

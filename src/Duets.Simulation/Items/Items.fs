@@ -1,9 +1,10 @@
 module rec Duets.Simulation.Items
 
+open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 
-type PlaceItemError =
+type ItemError =
     | ItemIsNotPlaceable
     | StorageItemIsNotStorage
 
@@ -44,6 +45,45 @@ let place state item shelf =
         |> Ok
     | Some _ -> Error ItemIsNotPlaceable
     | None -> Error StorageItemIsNotStorage
+
+/// Returns the contents of a storage item. Otherwise returns an error.
+let from shelf =
+    let items =
+        Item.Property.tryPick
+            (function
+            | Storage(_, items) -> Some items
+            | _ -> None)
+            shelf
+
+    Result.ofOption items StorageItemIsNotStorage
+
+/// Attempts to take the given object from the storage item. Otherwise returns
+/// an error if the given shelf does not have a storage property.
+let take state item storage =
+    let itemIsStorage =
+        Item.Property.has
+            (function
+            | Storage _ -> true
+            | _ -> false)
+            storage
+
+    if itemIsStorage then
+        let coords = Queries.World.currentCoordinates state
+
+        let updatedShelf =
+            { storage with
+                Properties =
+                    storage.Properties
+                    |> List.map (function
+                        | Storage(storageType, items) ->
+                            Storage(storageType, List.filter ((<>) item) items)
+                        | p -> p) }
+
+        [ (coords, Diff(storage, updatedShelf)) |> ItemChangedInWorld
+          ItemAddedToInventory item ]
+        |> Ok
+    else
+        Error StorageItemIsNotStorage
 
 /// Removes an item from either the world or the player's inventory.
 let remove state item =

@@ -6,7 +6,7 @@ let itemAddedToInventory itemName =
     Styles.success $"{itemName} has been added to your inventory"
 
 let itemRemovedFromInventory itemName =
-    Styles.danger $"{itemName} has been removed from your inventory"
+    Styles.warning $"{itemName} has been removed from your inventory"
 
 let noItemsInventory = "You are not carrying anything"
 

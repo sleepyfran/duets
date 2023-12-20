@@ -89,7 +89,7 @@ let private commandsFromInteractions interactions =
             | ItemInteraction.Eat -> [ ConsumeCommands.eat ]
             | ItemInteraction.Cook items -> [ CookCommand.create items ]
             | ItemInteraction.Exercise -> [ InteractiveCommand.exercise ]
-            | ItemInteraction.Open -> []
+            | ItemInteraction.Open -> [ OpenCommand.get ]
             | ItemInteraction.Put -> [ PutCommand.get ]
             | ItemInteraction.Play -> [ InteractiveCommand.play ]
             | ItemInteraction.Read -> [ InteractiveCommand.read ]
