@@ -44,7 +44,7 @@ module Selection =
         | NoMatchingItem of input: string
 
     let private interactiveSelection prompt items toString =
-        showOptionalChoicePrompt prompt Generic.nothing toString items
+        showSearchableOptionalChoicePrompt prompt Generic.nothing toString items
         |> Option.map Selected
         |> Option.defaultValue Cancelled
 
