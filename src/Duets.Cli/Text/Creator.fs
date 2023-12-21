@@ -27,7 +27,7 @@ let bandGenrePrompt =
     $"""What {Styles.highlight "genre"} are they going to be playing? You can always change this later"""
 
 let bandInstrumentPrompt =
-    $"""And lastly, what will you be {Styles.highlight "playing"}?"""
+    $"""And lastly, which {Styles.highlight "role"} will you have in the band?"""
 
 let bandConfirmationPrompt characterName bandName bandGenre instrument =
     $"""You'll be playing as {Styles.highlight characterName} in the band {Styles.highlight bandName} playing {Styles.highlight bandGenre} as a {Generic.roleName instrument |> String.lowercase |> Styles.highlight}"""

@@ -13,9 +13,6 @@ let private showNameError error =
     | Band.NameTooLong -> Creator.errorBandNameTooLong
     |> showMessage
 
-let private instrumentNameText instrumentType =
-    Generic.instrument instrumentType
-
 /// Shows a wizard to create a band for the given character.
 let rec bandCreator (character: Character) originCity =
     showSeparator None
@@ -33,10 +30,7 @@ and private promptForGenre character originCity name =
     |> promptForInstrument character originCity name
 
 and private promptForInstrument character originCity name genre =
-    showChoicePrompt
-        Creator.bandInstrumentPrompt
-        instrumentNameText
-        Data.Roles.all
+    showChoicePrompt Creator.bandInstrumentPrompt Generic.role Data.Roles.all
     |> promptForConfirmation character originCity name genre
 
 and private promptForConfirmation
