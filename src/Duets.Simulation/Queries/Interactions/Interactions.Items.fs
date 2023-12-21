@@ -34,5 +34,6 @@ module rec Items =
     let private cookingInteractions =
         Food.Index.all
         |> List.map (fun (item, price) -> item, price / 2m)
+        |> List.sortBy (fun (item, _) -> item.Brand)
         |> ItemInteraction.Cook
         |> Interaction.Item
