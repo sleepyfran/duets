@@ -30,7 +30,10 @@ module Bookstore =
     let internal interactions roomType =
         match roomType with
         | RoomType.ReadingRoom ->
-            [ ShopInteraction.Buy Items.Book.all |> Interaction.Shop ]
+            let items =
+                Items.Book.all |> List.sortBy (fun (item, _) -> item.Brand)
+
+            [ ShopInteraction.Buy items |> Interaction.Shop ]
         | _ -> []
 
 module Cafe =
