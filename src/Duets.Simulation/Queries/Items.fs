@@ -21,10 +21,6 @@ module Items =
             Items.Electronics.Dartboard.dartboard
             :: [ Items.Furniture.BilliardTable.sonomaTable ]
             |> List.map fst
-        | PlaceType.Home, RoomType.LivingRoom ->
-            (* Basics of a living room. *)
-            [ fst Items.Electronics.Tv.lgTv
-              fst Items.Electronics.GameConsole.xbox ]
         | PlaceType.Home, RoomType.Bedroom
         | PlaceType.Hotel _, RoomType.Bedroom ->
             (* Otherwise, nowhere to sleep on. *)
