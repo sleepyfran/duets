@@ -24,7 +24,7 @@ let private placeWithOpenInfo (city: City) (place: Place) =
 
 let private showPlaceChoice city placesInCity places =
     let selectedPlace =
-        showOptionalChoicePrompt
+        showCancellableChoicePrompt
             Command.mapChoosePlace
             Generic.back
             (placeWithOpenInfo city)
@@ -40,7 +40,7 @@ let private showPlaceTypeChoice
     =
     let availablePlaceTypes = placesInCity |> List.ofSeq |> List.map (_.Key)
 
-    showOptionalChoicePrompt
+    showCancellableChoicePrompt
         Command.mapChoosePlaceTypePrompt
         Generic.cancel
         World.placeTypeName
