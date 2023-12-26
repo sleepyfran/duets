@@ -14,7 +14,7 @@ module rec OpenCommand =
     /// of a storage item and take an item from there.
     let get =
         { Name = "open"
-          Description = Command.putDescription
+          Description = Command.openDescription
           Handler =
             fun args ->
                 let input = args |> String.concat " "
