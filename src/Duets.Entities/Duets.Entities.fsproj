@@ -62,6 +62,7 @@
         <Compile Include="Relationships.fs" />
         <Compile Include="Rental.fs"/>
         <Compile Include="Concert.fs" />
+        <Compile Include="Inventory.fs" />
         <Compile Include="SocialNetwork.fs"/>
         <Compile Include="Career.fs"/>
         <Compile Include="Interaction.fs" />

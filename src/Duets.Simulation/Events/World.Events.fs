@@ -16,7 +16,9 @@ let private removeItemsIfNeeded previousCoords currentCoords _ =
         that required the items towards the room before the items were required.
         For example: when moving from the changing room of a gym to the lobby.
         *)
-        requiredItems.Items |> List.map ItemRemovedFromInventory
+        requiredItems.Items
+        |> List.map (fun item ->
+            ItemRemovedFromInventory(InventoryKey.Character, item))
     | _ -> []
 
 let private ifCoordsDiffer previousCoords currentCoords f =
@@ -35,7 +37,8 @@ let private removeItemsRequiredByPlaceIfNeeded previousCoords currentCoords _ =
             match room.RequiredItemsForEntrance with
             | Some requiredItems -> requiredItems.Items
             | _ -> [])
-        |> List.map ItemRemovedFromInventory)
+        |> List.map (fun item ->
+            ItemRemovedFromInventory(InventoryKey.Character, item)))
 
 let private generateNpcs previousCoords currentCoords state =
     ifCoordsDiffer previousCoords currentCoords (fun () ->

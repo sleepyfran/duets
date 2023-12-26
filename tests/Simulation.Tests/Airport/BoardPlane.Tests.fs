@@ -46,7 +46,10 @@ let ``passSecurityCheck should move character to boarding gate`` () =
 let ``passSecurityCheck should drop all drinks from inventory`` () =
     let item = fst Data.Items.Drink.Beer.pilsnerUrquellPint
 
-    let state = state |> State.Inventory.add item |> State.Inventory.add item
+    let state =
+        state
+        |> State.Inventory.addTo InventoryKey.Character item
+        |> State.Inventory.addTo InventoryKey.Character item
 
     let effects = passSecurityCheck state
 

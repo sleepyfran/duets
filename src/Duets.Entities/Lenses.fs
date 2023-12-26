@@ -59,9 +59,9 @@ module State =
         (fun (s: State) -> s.GenreMarkets),
         (fun v (s: State) -> { s with GenreMarkets = v })
 
-    let characterInventory_ =
-        (fun (s: State) -> s.CharacterInventory),
-        (fun v (s: State) -> { s with CharacterInventory = v })
+    let inventories_ =
+        (fun (s: State) -> s.Inventories),
+        (fun v (s: State) -> { s with Inventories = v })
 
     let relationships_ =
         (fun (s: State) -> s.Relationships),
@@ -204,6 +204,15 @@ module Concerts =
         let pastEvents_ =
             (fun (t: ConcertTimeline) -> t.PastEvents),
             (fun v (t: ConcertTimeline) -> { t with PastEvents = v })
+
+module Inventories =
+    let character_ =
+        (fun (s: Inventories) -> s.Character),
+        (fun v (s: Inventories) -> { s with Character = v })
+
+    let band_ =
+        (fun (s: Inventories) -> s.Band),
+        (fun v (s: Inventories) -> { s with Band = v })
 
 module Relationships =
     let byCharacterId_ =

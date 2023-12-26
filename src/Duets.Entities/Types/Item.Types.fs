@@ -95,5 +95,18 @@ module rec ItemTypes =
     /// Defines the inventory of the character.
     type Inventory = Item list
 
+    /// Defines which inventory we're referring to.
+    [<RequireQualifiedAccess>]
+    type InventoryKey =
+        | Character
+        | Band
+
+    /// Defines the character's and band's inventory, where only the character
+    /// one is interactive and the band's only holds items that are needed
+    /// for a certain situation, i.e. merch, etc.
+    type Inventories =
+        { Character: Inventory
+          Band: Inventory }
+
     /// Contains all the items that a specific location has.
     type WorldItems = Map<RoomCoordinates, Item list>

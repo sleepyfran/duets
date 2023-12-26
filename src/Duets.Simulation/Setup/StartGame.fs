@@ -82,7 +82,7 @@ let startGame
       PeopleInCurrentPosition = [] (* We always start inside a home, which is guaranteed to be empty. *)
       Flights = []
       GenreMarkets = initialGenreMarket
-      CharacterInventory = List.empty
+      Inventories = Inventory.empty
       PlayableCharacterId = character.Id
       Rentals =
         [ (initialCity.Id, initialPlaceId), initialRental ] |> Map.ofList

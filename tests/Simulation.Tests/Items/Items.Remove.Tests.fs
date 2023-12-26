@@ -34,7 +34,7 @@ let ``remove removes from world if it in the current location`` () =
 let ``remove removes form inventory if the character has it there`` () =
     let state =
         { dummyState with
-            CharacterInventory = [ dummyItem ] }
+            Inventories = { Character = [ dummyItem ]; Band = [] } }
 
     Items.remove state dummyItem
     |> List.head

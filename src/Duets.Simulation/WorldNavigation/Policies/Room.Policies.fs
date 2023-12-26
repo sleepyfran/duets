@@ -8,7 +8,7 @@ open Duets.Simulation
 /// any item and disallowing the entry if the character does not have it.
 let canEnter currentRoomId state cityId placeId nextRoomId =
     let room = Queries.World.roomById cityId placeId nextRoomId
-    let inventory = Queries.Inventory.get state
+    let inventory = Queries.Inventory.character state
 
     match room.RequiredItemsForEntrance with
     | Some requiredItems when requiredItems.ComingFrom = currentRoomId ->

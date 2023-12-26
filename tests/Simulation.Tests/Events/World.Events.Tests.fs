@@ -25,7 +25,7 @@ let private stateWithItems =
     let state = State.generateOne State.defaultOptions
 
     requiredItems
-    |> List.fold (fun state item -> State.Inventory.add item state) state
+    |> List.fold (fun state item -> State.Inventory.addTo InventoryKey.Character item state) state
 
 [<Test>]
 let ``tick of world enter should remove required items from inventory if movement is towards the room in ComingFrom field``

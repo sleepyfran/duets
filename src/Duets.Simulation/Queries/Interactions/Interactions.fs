@@ -38,7 +38,7 @@ module Interactions =
         let currentPlace = Queries.World.currentPlace state
         let currentRoom = Queries.World.currentRoom state
 
-        let inventory = Inventory.get state
+        let inventory = Inventory.character state
 
         let itemsInPlace = Queries.Items.allIn state currentCoords
 

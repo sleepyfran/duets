@@ -19,7 +19,7 @@ module StateTypes =
           PeopleInCurrentPosition: Character list
           Flights: Flight list
           GenreMarkets: GenreMarketByGenre
-          CharacterInventory: Inventory
+          Inventories: Inventories
           PlayableCharacterId: CharacterId
           Relationships: Relationships
           Rentals: CharacterRentals

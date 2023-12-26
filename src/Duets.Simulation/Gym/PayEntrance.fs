@@ -14,4 +14,6 @@ let pay state amount =
     expense state characterAccount amount
     |> Result.map (fun effects ->
         let entranceChip = Item.Chip.createFor cityId placeId
-        effects @ [ ItemAddedToInventory entranceChip ])
+
+        effects
+        @ [ ItemAddedToInventory(InventoryKey.Character, entranceChip) ])

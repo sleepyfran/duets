@@ -67,12 +67,12 @@ let applyEffect state effect =
     | FlightUpdated flight -> Flights.change flight state
     | GameCreated state -> state
     | GenreMarketsUpdated genreMarkets -> Market.set genreMarkets state
-    | ItemAddedToInventory item -> Inventory.add item state
-    | ItemChangedInInventory(Diff(prevItem, currItem)) ->
-        Inventory.remove prevItem state |> Inventory.add currItem
+    | ItemAddedToInventory(key, item) -> Inventory.addTo key item state
+    | ItemChangedInInventory(key, Diff(prevItem, currItem)) ->
+        Inventory.removeFrom key prevItem state |> Inventory.addTo key currItem
+    | ItemRemovedFromInventory(key, item) -> Inventory.removeFrom key item state
     | ItemChangedInWorld(coords, Diff(prevItem, currItem)) ->
         World.remove coords prevItem state |> World.add coords currItem
-    | ItemRemovedFromInventory item -> Inventory.remove item state
     | ItemRemovedFromWorld(coords, item) -> World.remove coords item state
     | MemberHired(band, character, currentMember, skills) ->
         let stateWithMember =

@@ -53,7 +53,7 @@ module Items =
     /// the character's inventory or none of them.
     let itemLocation state location item =
         let locationItems = allIn state location
-        let inventory = Inventory.get state
+        let inventory = Inventory.character state
 
         if locationItems |> List.contains item then
             ItemLocation.World

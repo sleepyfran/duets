@@ -58,7 +58,7 @@ let ``reading adds 20% progress when read`` () =
         |> List.item 1 (* Head is TimeAdvanced *)
 
     match updateEffect with
-    | ItemChangedInInventory(Diff(prev, curr)) ->
+    | ItemChangedInInventory(_, Diff(prev, curr)) ->
         let prevBook = unwrapBook prev
         let currBook = unwrapBook curr
 

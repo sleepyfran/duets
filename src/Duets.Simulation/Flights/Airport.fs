@@ -12,13 +12,14 @@ open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
 /// check for any non-permitted items and take them away from the character.
 let passSecurityCheck state =
     let itemRemovalEffects =
-        Queries.Inventory.get state
+        Queries.Inventory.character state
         |> List.filter (fun item ->
             item
             |> Item.Property.has (function
                 | Drinkable _ -> true
                 | _ -> false))
-        |> List.map ItemRemovedFromInventory
+        |> List.map (fun item ->
+            ItemRemovedFromInventory(InventoryKey.Character, item))
 
     let movementEffects =
         Navigation.enter World.Ids.Airport.boardingGate state

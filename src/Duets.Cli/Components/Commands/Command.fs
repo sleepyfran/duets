@@ -114,7 +114,7 @@ module Command =
         let currentPosition = Queries.World.currentCoordinates (State.get ())
 
         Queries.Items.allIn (State.get ()) currentPosition
-        @ Queries.Inventory.get (State.get ())
+        @ Queries.Inventory.character (State.get ())
         |> List.tryFind (fun item ->
             let itemAlternativeNames = Items.itemAlternativeNames item
 

@@ -10,14 +10,12 @@ type ItemOrderError =
 
 /// Attempts to order an item checking if the character has enough money.
 let order state (item, price) =
-    let characterAccount =
-        Queries.Bank.playableCharacterAccount state
+    let characterAccount = Queries.Bank.playableCharacterAccount state
 
-    let paymentStatus =
-        expense state characterAccount price
+    let paymentStatus = expense state characterAccount price
 
     match paymentStatus with
     | Ok paymentEffects ->
-        paymentEffects @ [ ItemAddedToInventory item ]
+        paymentEffects @ [ ItemAddedToInventory(InventoryKey.Character, item) ]
         |> Ok
     | Error error -> Error error

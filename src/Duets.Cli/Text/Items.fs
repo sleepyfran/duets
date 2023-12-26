@@ -2,11 +2,19 @@ module Duets.Cli.Text.Items
 
 open Duets.Entities
 
-let itemAddedToInventory itemName =
-    Styles.success $"{itemName} has been added to your inventory"
+let private inventoryOwner key =
+    match key with
+    | InventoryKey.Band -> "your band's"
+    | InventoryKey.Character -> "your"
 
-let itemRemovedFromInventory itemName =
-    Styles.warning $"{itemName} has been removed from your inventory"
+let itemAddedToInventory key itemName =
+
+    Styles.success
+        $"{itemName} has been added to {inventoryOwner key} inventory"
+
+let itemRemovedFromInventory key itemName =
+    Styles.warning
+        $"{itemName} has been removed from {inventoryOwner key} inventory"
 
 let noItemsInventory = "You are not carrying anything"
 

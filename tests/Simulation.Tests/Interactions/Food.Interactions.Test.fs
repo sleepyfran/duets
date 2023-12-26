@@ -61,7 +61,7 @@ let ``Consuming food increases hunger based on the amount`` () =
 let ``Eating an item should remove it from the inventory if it was there`` () =
     let item = Data.Items.Food.Japanese.all |> List.head |> fst
 
-    let state = state |> State.Inventory.add item
+    let state = state |> State.Inventory.addTo InventoryKey.Character item
 
     let effects = Items.perform state item ItemInteraction.Eat |> Result.unwrap
 
@@ -70,4 +70,4 @@ let ``Eating an item should remove it from the inventory if it was there`` () =
         | ItemRemovedFromInventory _ -> true
         | _ -> false)
     |> List.head
-    |> should equal (ItemRemovedFromInventory item)
+    |> should equal (ItemRemovedFromInventory(InventoryKey.Character, item))
