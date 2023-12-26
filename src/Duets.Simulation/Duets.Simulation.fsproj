@@ -22,6 +22,7 @@
         <Compile Include="Queries\Genres.fs" />
         <Compile Include="Queries\Bands.fs" />
         <Compile Include="Queries\Rentals.fs" />
+        <Compile Include="Queries\Shop.fs" />
         <Compile Include="Queries\Inventory.fs" />
         <Compile Include="Queries\Items.fs" />
         <Compile Include="Queries\SocialNetworks.fs" />

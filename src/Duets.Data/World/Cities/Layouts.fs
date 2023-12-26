@@ -7,7 +7,7 @@ open Duets.Data.World
 let restaurantRoomLayout menu =
     RoomType.Restaurant menu
     |> World.Room.create
-    |> World.Node.create 0
+    |> World.Node.create Ids.Common.restaurant
     |> World.Graph.from
 
 /// Usual layout for a bar.
@@ -227,7 +227,7 @@ let airportLayout =
     let restaurant =
         RoomType.Restaurant RestaurantCuisine.American
         |> World.Room.create
-        |> World.Node.create Ids.Airport.restaurant
+        |> World.Node.create Ids.Common.restaurant
 
     World.Graph.fromMany
         [ lobby; securityControl; boardingGate; cafe; restaurant ]

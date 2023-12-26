@@ -20,26 +20,7 @@ let private placeWithOpenInfo (city: City) (place: Place) =
             $"""{World.placeWithZone place} ({"Rented" |> Styles.highlight})"""
         | false -> World.placeWithZone place
 
-    match currentlyOpen with
-    | true -> placeDetails
-    | false -> Styles.faded $"{placeDetails}) - Closed"
-
-let private showOpeningHours place =
-    match place.OpeningHours with
-    | PlaceOpeningHours.OpeningHours(daysOfWeek, dayMoments) ->
-        let openingDays =
-            match daysOfWeek with
-            | days when days = Calendar.everyDay -> "Everyday"
-            | days when days = Calendar.weekday -> "Monday to Friday"
-            | _ -> Generic.listOf daysOfWeek Generic.dayName
-
-        let openingHours = Generic.listOf dayMoments Generic.dayMomentName
-
-        $"{Styles.place place.Name} opens {Styles.time openingDays} @ {openingHours}"
-        |> showMessage
-    | _ ->
-        (* Obviously if it's always open this shouldn't happen :) *)
-        ()
+    World.placeNameWithOpeningInfo placeDetails currentlyOpen
 
 let private showPlaceChoice city placesInCity places =
     let selectedPlace =
@@ -57,8 +38,7 @@ let private showPlaceTypeChoice
     city
     (placesInCity: Map<PlaceTypeIndex, Place list>)
     =
-    let availablePlaceTypes =
-        placesInCity |> List.ofSeq |> List.map (_.Key)
+    let availablePlaceTypes = placesInCity |> List.ofSeq |> List.map (_.Key)
 
     showOptionalChoicePrompt
         Command.mapChoosePlaceTypePrompt
@@ -85,11 +65,8 @@ let private moveToPlace city availablePlaces (destination: Place) =
     | Error PlaceEntranceError.CannotEnterOutsideOpeningHours ->
         showSeparator None
 
-        Styles.error
-            $"{destination.Name} is currently closed. Try again during their opening hours"
-        |> showMessage
-
-        showOpeningHours destination
+        World.placeClosedError destination |> showMessage
+        World.placeOpeningHours destination |> showMessage
 
         showSeparator None
 

@@ -13,6 +13,7 @@ type private PhoneMenuOption =
     | Calendar
     | ConcertAssistant
     | Flights
+    | FoodDelivery
     | Jobs
     | Mastodon
     | Statistics
@@ -24,6 +25,7 @@ let private textFromOption opt =
     | Calendar -> "Calendar"
     | ConcertAssistant -> "Concert Assistant"
     | Flights -> "Flights"
+    | FoodDelivery -> "Duelivery"
     | Jobs -> "Jobs"
     | Mastodon -> "Mastodon"
     | Statistics -> "Statistics"
@@ -34,6 +36,7 @@ let private availableApps =
       Calendar
       ConcertAssistant
       Flights
+      FoodDelivery
       Jobs
       Mastodon
       Statistics ]
@@ -56,6 +59,7 @@ let rec phoneScene () =
     | Some Calendar -> Apps.Calendar.Root.calendarApp ()
     | Some ConcertAssistant -> Apps.ConcertAssistant.Root.concertAssistantApp ()
     | Some Flights -> Apps.Flights.Root.flightsApp ()
+    | Some FoodDelivery -> Apps.FoodDelivery.foodDeliveryApp ()
     | Some Jobs -> Apps.Jobs.Root.jobsApp ()
     | Some Mastodon -> Apps.Mastodon.Root.mastodonApp ()
     | Some Statistics -> Apps.Statistics.Root.statisticsApp ()

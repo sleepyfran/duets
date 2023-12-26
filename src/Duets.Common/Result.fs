@@ -16,6 +16,10 @@ let ofOption opt err =
     | Some x -> Ok x
     | None -> Error err
 
+/// Returns a result of the inner type of the option if it's some, otherwise
+/// returns the given error.
+let ofOption' err opt = ofOption opt err
+
 /// Returns an empty ok if the given bool is true, otherwise returns the error.
 let ofBool error bool = if bool then Ok() else Error error
 

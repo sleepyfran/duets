@@ -3,6 +3,7 @@ namespace Duets.Simulation.Queries.Internal.Interactions
 open Duets.Data
 open Duets.Data.Items
 open Duets.Entities
+open Duets.Simulation
 
 module Shop =
     /// Gather all available interactions inside a shop.
@@ -11,18 +12,10 @@ module Shop =
           ShopInteraction.SeeMenu items |> Interaction.Shop ]
 
 module Bar =
-    let internal cityDrinks cityId =
-        let beer =
-            Drink.Beer.byLocation
-            |> Map.tryFind cityId
-            |> Option.defaultValue []
-
-        beer @ Drink.SoftDrinks.all
-
     /// Gather all available interactions inside a bar.
     let internal interactions cityId roomType =
         match roomType with
-        | RoomType.Bar -> cityDrinks cityId |> Shop.interactions
+        | RoomType.Bar -> Queries.Shop.cityDrinks cityId |> Shop.interactions
         | _ -> []
 
 module Bookstore =
@@ -46,18 +39,9 @@ module Cafe =
 
 module Restaurant =
     /// Gather all available interactions inside a restaurant.
-    let internal interactions cityId roomType =
-        match roomType with
-        | RoomType.Restaurant cuisineType ->
-            match cuisineType with
-            | American -> Food.USA.all
-            | Czech -> Food.Czech.all
-            | French -> Food.French.all
-            | Italian -> Food.Italian.all
-            | Japanese -> Food.Japanese.all
-            | Mexican -> Food.Mexican.all
-            | Turkish -> Food.Turkish.all
-            | Vietnamese -> Food.Vietnamese.all
-            @ Bar.cityDrinks cityId
-            |> Shop.interactions
-        | _ -> []
+    let internal interactions cityId room =
+        let items = Queries.Shop.menuOfRoom cityId room
+
+        match items with
+        | [] -> []
+        | _ -> items |> Shop.interactions

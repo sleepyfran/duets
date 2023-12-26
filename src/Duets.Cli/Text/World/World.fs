@@ -4,6 +4,14 @@ module Duets.Cli.Text.World.World
 open Duets.Cli.Text
 open Duets.Entities
 
+let placeNameWithOpeningInfo placeDetails currentlyOpen =
+    match currentlyOpen with
+    | true -> placeDetails
+    | false -> Styles.faded $"{placeDetails} - Closed"
+
+let placeNameWithOpeningInfo' (place: Place) currentlyOpen =
+    placeNameWithOpeningInfo place.Name currentlyOpen
+
 let placeDescription (place: Place) (roomType: RoomType) =
     (place, roomType)
     ||> match place.PlaceType with
@@ -81,3 +89,23 @@ let placeArrivalMessage place roomType =
     match place.PlaceType with
     | PlaceType.RehearsalSpace _ -> RehearsalSpace.arrivalMessage roomType
     | _ -> None
+
+let placeClosedError (place: Place) =
+    $"{place.Name} is currently closed. Try again during their opening hours"
+    |> Styles.error
+
+let placeOpeningHours place =
+    match place.OpeningHours with
+    | PlaceOpeningHours.OpeningHours(daysOfWeek, dayMoments) ->
+        let openingDays =
+            match daysOfWeek with
+            | days when days = Calendar.everyDay -> "Everyday"
+            | days when days = Calendar.weekday -> "Monday to Friday"
+            | _ -> Generic.listOf daysOfWeek Generic.dayName
+
+        let openingHours = Generic.listOf dayMoments Generic.dayMomentName
+
+        $"{Styles.place place.Name} opens {Styles.time openingDays} @ {openingHours}"
+    | _ ->
+        (* Obviously if it's always open this shouldn't happen :) *)
+        ""
