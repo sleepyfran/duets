@@ -130,7 +130,9 @@ let private editor availableCommands =
 let rec showCommandPrompt title availableCommands =
     let prompt = editor availableCommands
 
-    let commandsWithCheats = availableCommands @ Commands.Cheats.Index.all
+    /// Adds a way to enter a "secret" cheat/debug prompt from any command
+    /// prompt.
+    let commandsWithCheatEntry = Cheats.Index.enterCommand :: availableCommands
 
     let rec promptForCommand () =
         lineBreak ()
@@ -144,7 +146,7 @@ let rec showCommandPrompt title availableCommands =
 
             let inputTokens = String.split ' ' input |> List.ofArray
 
-            commandsWithCheats
+            commandsWithCheatEntry
             |> List.tryFind (fun command ->
                 let commandTokens =
                     String.split ' ' command.Name |> List.ofArray

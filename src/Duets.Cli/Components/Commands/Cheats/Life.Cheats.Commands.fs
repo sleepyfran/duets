@@ -13,7 +13,7 @@ module LifeCommands =
     /// Command which gives 100 to all needs of the character.
     let happy =
         { Name = "happy"
-          Description = ""
+          Description = "Sets energy, health, hunger and mood to 100%"
           Handler =
             (fun _ ->
                 let character =
@@ -27,11 +27,12 @@ module LifeCommands =
                     Character.Attribute.add character attr 100
                     |> Effect.applyMultiple)
 
-                Scene.World) }
+                Scene.Cheats) }
 
+    /// Command which removes all moodlets of the character.
     let notMoody =
         { Name = "not moody"
-          Description = ""
+          Description = "Removes all your current moodlets"
           Handler =
             (fun _ ->
                 let character =
@@ -45,4 +46,4 @@ module LifeCommands =
                 )
                 |> Effect.apply
 
-                Scene.World) }
+                Scene.Cheats) }

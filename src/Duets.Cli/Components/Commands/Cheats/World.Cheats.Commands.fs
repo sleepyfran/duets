@@ -15,7 +15,7 @@ module WorldCommands =
     /// Command which teleports the character to a given city.
     let teleport =
         { Name = "teleport"
-          Description = ""
+          Description = "Teleports you to another city instantly"
           Handler =
             (fun _ ->
                 let destination =
@@ -40,4 +40,4 @@ module WorldCommands =
                     |> Effect.apply
 
                     Scene.WorldAfterMovement
-                | None -> Scene.World) }
+                | None -> Scene.Cheats) }

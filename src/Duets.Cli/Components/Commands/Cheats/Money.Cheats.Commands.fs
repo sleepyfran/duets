@@ -19,17 +19,17 @@ module MoneyCommands =
     /// Command which gives the player 1.000d$.
     let rosebud =
         { Name = "rosebud"
-          Description = ""
+          Description = "Gives you 1.000d$"
           Handler =
             (fun _ ->
                 giveMoneyToCharacter 1000m<dd>
-                Scene.World) }
+                Scene.Cheats) }
 
     /// Command which gives the player 50.000d$.
     let motherlode =
         { Name = "motherlode"
-          Description = ""
+          Description = "Gives you 50.000d$"
           Handler =
             (fun _ ->
                 giveMoneyToCharacter 50000m<dd>
-                Scene.World) }
+                Scene.Cheats) }

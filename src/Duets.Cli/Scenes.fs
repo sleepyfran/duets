@@ -13,6 +13,7 @@ type ExitMode =
 type Scene =
     | MainMenu
     | Settings
+    | Cheats
     | CharacterCreator
     /// World creator needs the playable character from the previous step.
     | WorldSelector of Character

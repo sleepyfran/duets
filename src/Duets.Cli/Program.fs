@@ -34,6 +34,7 @@ let rec showScene skipSaving scene =
     match scene with
     | Scene.MainMenu -> MainMenu.mainMenu skipSaving |> showScene skipSaving
     | Scene.Settings -> Settings.settings () |> showScene skipSaving
+    | Scene.Cheats -> Cheats.cheatsScene () |> showScene skipSaving
     | Scene.CharacterCreator ->
         NewGame.CharacterCreator.characterCreator () |> showScene skipSaving
     | Scene.WorldSelector character ->
