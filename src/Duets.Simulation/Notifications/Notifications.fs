@@ -1,4 +1,4 @@
-module Duets.Simulation.Calendar.Notifications
+module Duets.Simulation.Notifications
 
 open Duets.Entities
 open Duets.Simulation
@@ -17,7 +17,7 @@ let private createHappeningSoon state date =
 
         (* Notify the player if the event is happening in 5 day moments or right now. *)
         if dateInFiveDayMoments = eventDate || date = eventDate then
-            Notification.CalendarEvent event |> Notification |> Some
+            Notification.CalendarEvent event |> Some
         else
             None)
 
@@ -35,17 +35,28 @@ let private createRentalDueNotifications state date =
             | date when date = tomorrowDate ->
                 RentalNotificationType.RentalDueTomorrow rental
                 |> Notification.RentalNotification
-                |> Notification
                 |> Some
             | date when date = nextWeekDate ->
                 RentalNotificationType.RentalDueInOneWeek rental
                 |> Notification.RentalNotification
-                |> Notification
                 |> Some
             | _ -> None
         (* One time rentals should not have reminders. *)
         | _ -> None)
 
+/// Creates a notification to be shown on the given date and day moment. Takes
+/// care of normalizing the date so that the time does not matter.
+let create date dayMoment notification =
+    let date = date |> Calendar.Transform.resetDayMoment
+    NotificationScheduled(date, dayMoment, notification)
+
 /// Creates all effects needed to be raised about notifications.
-let createNotifications state date =
-    createHappeningSoon state date @ createRentalDueNotifications state date
+let showPendingNotifications state date =
+    // TODO: Move to new notification system.
+    let deprecated_notifications =
+        createHappeningSoon state date @ createRentalDueNotifications state date
+
+    let pendingNotifications = Queries.Notifications.forDate state date
+
+    pendingNotifications @ deprecated_notifications
+    |> List.map NotificationShown

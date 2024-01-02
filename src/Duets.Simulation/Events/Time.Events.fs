@@ -2,7 +2,6 @@ module Duets.Simulation.Events.Time
 
 open Duets.Entities
 open Duets.Simulation
-open Duets.Simulation.Calendar
 open Duets.Simulation.Character
 open Duets.Simulation.Market
 open Duets.Simulation.Time
@@ -26,7 +25,7 @@ let private runDailyEffects time state =
 
 let rec private runCurrentTimeChecks time state =
     Concerts.Scheduler.moveFailedConcerts state time
-    @ Notifications.createNotifications state time
+    @ Notifications.showPendingNotifications state time
     @ AttributeChange.applyAfterTimeChange state
     @ SocialNetworks.Reposts.applyToLatestAfterTimeChange state
 

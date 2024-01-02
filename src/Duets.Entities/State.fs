@@ -20,6 +20,7 @@ let empty =
       Flights = []
       GenreMarkets = Map.empty
       Inventories = Inventory.empty
+      Notifications = Map.empty
       PlayableCharacterId = Identity.create () |> CharacterId
       Rentals = Map.empty
       Relationships = Relationships.empty

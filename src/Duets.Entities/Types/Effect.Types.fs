@@ -45,7 +45,8 @@ module EffectTypes =
         | MemberFired of Band * CurrentMember * PastMember
         | MoneyEarned of BankAccountHolder * BankTransaction
         | MoneyTransferred of BankAccountHolder * BankTransaction
-        | Notification of Notification
+        | NotificationScheduled of Date * DayMoment * Notification
+        | NotificationShown of Notification
         | RelationshipChanged of
             npcId: Character *
             cityId: CityId *

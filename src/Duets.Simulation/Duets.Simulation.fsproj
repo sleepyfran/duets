@@ -20,6 +20,7 @@
         <Compile Include="Queries\Flights.fs" />
         <Compile Include="Queries\Skills.fs" />
         <Compile Include="Queries\Genres.fs" />
+        <Compile Include="Queries\Notifications.fs" />
         <Compile Include="Queries\Bands.fs" />
         <Compile Include="Queries\Rentals.fs" />
         <Compile Include="Queries\Shop.fs" />
@@ -55,6 +56,7 @@
         <Compile Include="State\Songs.fs" />
         <Compile Include="State\Albums.fs" />
         <Compile Include="State\Inventory.fs" />
+        <Compile Include="State\Notifications.fs" />
         <Compile Include="State\Bands.fs" />
         <Compile Include="State\Relationships.fs" />
         <Compile Include="State\Rentals.fs" />
@@ -113,7 +115,7 @@
         <Compile Include="Flights\Booking.fs" />
         <Compile Include="Flights\Airport.fs" />
         <Compile Include="Gym\PayEntrance.fs" />
-        <Compile Include="Calendar\Notifications.fs" />
+        <Compile Include="Notifications\Notifications.fs" />
         <Compile Include="MiniGames\Blackjack.fs" />
         <Compile Include="Rentals\PayUpcoming.fs" />
         <Compile Include="Rentals\RentPlace.fs" />

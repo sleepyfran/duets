@@ -63,6 +63,10 @@ module State =
         (fun (s: State) -> s.Inventories),
         (fun v (s: State) -> { s with Inventories = v })
 
+    let notifications_ =
+        (fun (s: State) -> s.Notifications),
+        (fun v (s: State) -> { s with Notifications = v })
+
     let relationships_ =
         (fun (s: State) -> s.Relationships),
         (fun v (s: State) -> { s with Relationships = v })
@@ -323,6 +327,12 @@ module FromState =
     module GenreMarkets =
         /// Lens into a specific genre market given its genre ID.
         let genreMarket_ id = State.genreMarkets_ >-> Map.key_ id
+
+    module Notifications =
+        /// Lens into a specific date and day moment of the notifications.
+        let forDateDayMoment_ date dayMoment =
+            State.notifications_ >-> Map.keyWithDefault_ date Map.empty
+            >?> Map.keyWithDefault_ dayMoment List.empty
 
     module Songs =
         /// Lenses to the unfinished field of a specific band in its repertoire.

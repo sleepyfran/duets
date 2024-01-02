@@ -83,6 +83,7 @@ let startGame
       Flights = []
       GenreMarkets = initialGenreMarket
       Inventories = Inventory.empty
+      Notifications = Map.empty
       PlayableCharacterId = character.Id
       Rentals =
         [ (initialCity.Id, initialPlaceId), initialRental ] |> Map.ofList

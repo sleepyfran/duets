@@ -13,3 +13,8 @@ module NotificationTypes =
     type Notification =
         | CalendarEvent of CalendarEventType
         | RentalNotification of RentalNotificationType
+
+    /// Defines all notifications that have to be raised at a certain date and
+    /// day moment. Dates should have their time erased so that they're easily
+    /// comparable.
+    type Notifications = Map<Date, Map<DayMoment, Notification list>>

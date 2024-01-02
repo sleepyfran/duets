@@ -140,7 +140,7 @@ let private displayEffect effect =
         Items.itemRemovedFromCharacterInventory item.Brand |> showMessage
     | MoneyTransferred(holder, transaction) ->
         Phone.bankAppTransferSuccess holder transaction |> showMessage
-    | Notification notification ->
+    | NotificationShown notification ->
         let createCalendarNotification typeText date dayMoment =
             $"{typeText} scheduled for {Date.simple date |> Styles.time} @ {Generic.dayMomentName dayMoment |> Styles.time}"
             |> Styles.highlight
