@@ -41,7 +41,7 @@ let place state item shelf =
                         | p -> p) }
 
         [ (coords, Diff(shelf, updatedShelf)) |> ItemChangedInWorld
-          ItemRemovedFromInventory(InventoryKey.Character, item) ]
+          ItemRemovedFromCharacterInventory item ]
         |> Ok
     | Some _ -> Error ItemIsNotPlaceable
     | None -> Error StorageItemIsNotStorage
@@ -80,7 +80,7 @@ let take state item storage =
                         | p -> p) }
 
         [ (coords, Diff(storage, updatedShelf)) |> ItemChangedInWorld
-          ItemAddedToInventory(InventoryKey.Character, item) ]
+          ItemAddedToCharacterInventory item ]
         |> Ok
     else
         Error StorageItemIsNotStorage
@@ -92,5 +92,6 @@ let remove state item =
 
     match location with
     | ItemLocation.World -> [ ItemRemovedFromWorld(coords, item) ]
-    | ItemLocation.Inventory -> [ ItemRemovedFromInventory(InventoryKey.Character, item) ]
+    | ItemLocation.Inventory ->
+        [ ItemRemovedFromCharacterInventory item ]
     | ItemLocation.Nowhere -> []

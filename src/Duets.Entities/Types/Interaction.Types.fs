@@ -106,6 +106,16 @@ module InteractionTypes =
         /// Allows waiting.
         | Wait
 
+    /// Interactions that can be done in a merchandise workshop.
+    [<RequireQualifiedAccess>]
+    type MerchandiseWorkshopInteraction =
+        /// Allows the player to order new merchandise.
+        | OrderMerchandise of available: MerchandiseItem list
+        /// Allows the player to list the merchandise that they've ordered.
+        | ListOrderedMerchandise of items: Item list
+        /// Allows the player to pick up the merchandise that they've ordered.
+        | PickUpMerchandise of items: Item list
+
     /// Interactions that can be done when playing blackjack.
     [<RequireQualifiedAccess>]
     type MiniGameInGameInteraction =
@@ -209,6 +219,7 @@ module InteractionTypes =
         | FreeRoam of FreeRoamInteraction
         | Item of ItemInteraction
         | MiniGame of MiniGameInteraction
+        | MerchandiseWorkshop of MerchandiseWorkshopInteraction
         | Rehearsal of RehearsalInteraction
         | Shop of ShopInteraction
         | Social of SocialInteraction

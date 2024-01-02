@@ -10,16 +10,13 @@ let private charactersLenses =
 
 let private bandsLenses = Lenses.State.inventories_ >-> Lenses.Inventories.band_
 
-let private add item lens = Optic.map lens (List.append [ item ])
+let addToCharacter item =
+    Optic.map charactersLenses (List.append [ item ])
 
-let private remove item lens =
-    Optic.map lens (List.removeFirstOccurrenceOf item)
+let removeFromCharacter item =
+    Optic.map charactersLenses (List.removeFirstOccurrenceOf item)
 
-let private lensFromKey key =
-    match key with
-    | InventoryKey.Character -> charactersLenses
-    | InventoryKey.Band -> bandsLenses
+let addToBand item quantity =
+    Optic.map bandsLenses (Map.add item quantity)
 
-let addTo key item = lensFromKey key |> add item
-
-let removeFrom key item = lensFromKey key |> remove item
+let removeFromBand item = Optic.map bandsLenses (Map.remove item)

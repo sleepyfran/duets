@@ -134,10 +134,10 @@ let private displayEffect effect =
         | BandDidNotMakeIt -> Concert.failedBandMissing band place concert
         | CharacterPassedOut -> Concert.failedCharacterPassedOut
         |> showMessage
-    | ItemAddedToInventory(key, item) ->
-        Items.itemAddedToInventory key item.Brand |> showMessage
-    | ItemRemovedFromInventory(key, item) ->
-        Items.itemRemovedFromInventory key item.Brand |> showMessage
+    | ItemAddedToCharacterInventory item ->
+        Items.itemAddedCharacterToInventory item.Brand |> showMessage
+    | ItemRemovedFromCharacterInventory item ->
+        Items.itemRemovedFromCharacterInventory item.Brand |> showMessage
     | MoneyTransferred(holder, transaction) ->
         Phone.bankAppTransferSuccess holder transaction |> showMessage
     | Notification notification ->

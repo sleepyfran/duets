@@ -88,6 +88,12 @@ let hotelLayout =
     |> World.Graph.connectMany
         [ lobby.Id, bar.Id, East; lobby.Id, bedroom.Id, North ]
 
+/// Usual layout for a merchandise workshop.
+let merchandiseWorkshopLayout =
+    let workshop = RoomType.Workshop |> World.Room.create |> World.Node.create 0
+
+    World.Graph.from workshop
+
 /// First option of a layout for a concert space.
 let concertSpaceLayout1 =
     let lobby =

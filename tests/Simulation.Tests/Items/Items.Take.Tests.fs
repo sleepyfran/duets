@@ -63,5 +63,5 @@ let ``take adds request item to inventory`` () =
         |> List.item 1
 
     match effect with
-    | ItemAddedToInventory(_, item) -> item |> should equal placeableItem
+    | ItemAddedToCharacterInventory item -> item |> should equal placeableItem
     | _ -> failwith "Unexpected effect"

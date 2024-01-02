@@ -95,17 +95,17 @@ let ``Drinking an item should remove it from the inventory if it was there``
     =
     let item = fst Data.Items.Drink.Beer.pilsnerUrquellPint
 
-    let state = state |> State.Inventory.addTo InventoryKey.Character item
+    let state = state |> State.Inventory.addToCharacter item
 
     let effects =
         Items.perform state item ItemInteraction.Drink |> Result.unwrap
 
     effects
     |> List.filter (function
-        | ItemRemovedFromInventory _ -> true
+        | ItemRemovedFromCharacterInventory _ -> true
         | _ -> false)
     |> List.head
-    |> should equal (ItemRemovedFromInventory(InventoryKey.Character, item))
+    |> should equal (ItemRemovedFromCharacterInventory item)
 
 [<Test>]
 let ``Drinking non-drink items should not be allowed`` () =

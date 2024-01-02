@@ -34,7 +34,7 @@ let private read' (item: Item) book state =
             { item with
                 Properties = updatedProperties }
 
-        (InventoryKey.Character, Diff(item, updatedItem)) |> ItemChangedInInventory
+        Diff(item, updatedItem) |> ItemChangedInCharacterInventory
 
     if updatedReadPercentage = 100<percent> then
         bookUpdateEffect :: applyBookEffects book state

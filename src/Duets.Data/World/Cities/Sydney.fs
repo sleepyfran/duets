@@ -26,6 +26,7 @@ let generate () =
     |> addGyms
     |> addHospital
     |> addHotels
+    |> addMerchandiseWorkshops
     |> addRehearsalSpaces
     |> addRestaurants
     |> addStudios
@@ -171,6 +172,12 @@ let private addHotels city =
       ("Ibis Sydney Darling Harbour", 65<quality>, 100m<dd>, darlinghurst) ]
     |> List.map PlaceCreators.createHotel
     |> List.fold (fun city place -> World.City.addPlace place city) city
+
+(* -------- Merchandise workshops -------- *)
+let addMerchandiseWorkshops city =
+    ("Sydney Merch", cbd)
+    |> PlaceCreators.createMerchandiseWorkshop
+    |> World.City.addPlace' city
 
 (* -------- Rehearsal spaces --------- *)
 let private addRehearsalSpaces city =

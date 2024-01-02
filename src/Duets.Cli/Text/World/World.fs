@@ -25,6 +25,7 @@ let placeDescription (place: Place) (roomType: RoomType) =
         | PlaceType.Home -> Home.description
         | PlaceType.Hospital -> Hospital.description
         | PlaceType.Hotel _ -> Hotel.description
+        | PlaceType.MerchandiseWorkshop -> MerchandiseWorkshop.description
         | PlaceType.RehearsalSpace _ -> RehearsalSpace.description
         | PlaceType.Restaurant -> Restaurant.description
         | PlaceType.Studio studio -> Studio.description studio
@@ -41,6 +42,7 @@ let placeTypeName (placeType: PlaceTypeIndex) =
     | PlaceTypeIndex.Home -> "Home"
     | PlaceTypeIndex.Hospital -> "Hospital"
     | PlaceTypeIndex.Hotel -> "Hotel"
+    | PlaceTypeIndex.MerchandiseWorkshop -> "Merchandise workshop"
     | PlaceTypeIndex.RehearsalSpace -> "Rehearsal space"
     | PlaceTypeIndex.Restaurant -> "Restaurant"
     | PlaceTypeIndex.Studio -> "Studio"
@@ -65,6 +67,7 @@ let roomName (room: RoomType) =
     | RoomType.Restaurant _ -> "restaurant"
     | RoomType.SecurityControl -> "security control"
     | RoomType.Stage -> "stage"
+    | RoomType.Workshop -> "workshop"
 
 let directionName direction =
     match direction with

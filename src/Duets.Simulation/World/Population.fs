@@ -21,6 +21,7 @@ let private placePopulationRange (place: Place) =
     | Home -> 0, 0 (* Homes are private *)
     | Hotel _ -> 1, 5
     | Hospital -> 1, 2
+    | MerchandiseWorkshop -> 0, 0
     | RehearsalSpace _ ->
         (* Rehearsal spaces will only be populated by the band. *)
         0, 0
@@ -41,10 +42,8 @@ let private generateForPlaceWithSpecificNpcs place state =
         |> List.map (_.CharacterId >> Queries.Characters.find state)
 
     match place.PlaceType with
-    | RehearsalSpace _ ->
-        bandMembers
-    | Studio studio ->
-        studio.Producer :: bandMembers
+    | RehearsalSpace _ -> bandMembers
+    | Studio studio -> studio.Producer :: bandMembers
     | _ -> []
 
 /// Generates an effect that puts a random number of people in the given place,
@@ -82,5 +81,4 @@ let generateForPlace cityId place state =
 
     let placeSpecificNpcs = generateForPlaceWithSpecificNpcs place state
 
-    randomNpcs @ placeSpecificNpcs
-    |> WorldPeopleInCurrentRoomChanged
+    randomNpcs @ placeSpecificNpcs |> WorldPeopleInCurrentRoomChanged

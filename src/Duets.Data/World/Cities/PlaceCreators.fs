@@ -60,6 +60,15 @@ let createHotel (name, quality, pricePerNight, zone) =
         Layouts.hotelLayout
         zone
 
+/// Creates a merchandise workshop with the given name and zone.
+let createMerchandiseWorkshop (name, zone) =
+    World.Place.create
+        name
+        100<quality>
+        MerchandiseWorkshop
+        Layouts.merchandiseWorkshopLayout
+        zone
+
 /// Creates a rehearsal space with the given name, quality, price and zone.
 let createRehearsalSpace (name, quality, price, zone) =
     World.Place.create

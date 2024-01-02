@@ -112,6 +112,12 @@ let private commandsFromInteractions interactions =
                 [ MovementCommand.create direction roomId ]
             | FreeRoamInteraction.Phone -> [ PhoneCommand.get ]
             | FreeRoamInteraction.Wait -> [ WaitCommand.get ]
+        | Interaction.MerchandiseWorkshop merchandiseWorkshopInteraction ->
+            match merchandiseWorkshopInteraction with
+            | MerchandiseWorkshopInteraction.OrderMerchandise available ->
+                [ OrderMerchandiseCommand.create available ]
+            | MerchandiseWorkshopInteraction.ListOrderedMerchandise items -> []
+            | MerchandiseWorkshopInteraction.PickUpMerchandise items -> []
         | Interaction.MiniGame miniGameInteraction ->
             match miniGameInteraction with
             | MiniGameInteraction.InGame(MiniGameInGameInteraction.Bet miniGameState) ->

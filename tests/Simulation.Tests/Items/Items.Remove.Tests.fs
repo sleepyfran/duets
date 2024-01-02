@@ -34,8 +34,10 @@ let ``remove removes from world if it in the current location`` () =
 let ``remove removes form inventory if the character has it there`` () =
     let state =
         { dummyState with
-            Inventories = { Character = [ dummyItem ]; Band = [] } }
+            Inventories =
+                { Character = [ dummyItem ]
+                  Band = Map.empty } }
 
     Items.remove state dummyItem
     |> List.head
-    |> should be (ofCase <@ ItemRemovedFromInventory @>)
+    |> should be (ofCase <@ ItemRemovedFromCharacterInventory @>)

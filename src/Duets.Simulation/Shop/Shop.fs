@@ -16,6 +16,6 @@ let order state (item, price) =
 
     match paymentStatus with
     | Ok paymentEffects ->
-        paymentEffects @ [ ItemAddedToInventory(InventoryKey.Character, item) ]
+        paymentEffects @ [ ItemAddedToCharacterInventory item ]
         |> Ok
     | Error error -> Error error

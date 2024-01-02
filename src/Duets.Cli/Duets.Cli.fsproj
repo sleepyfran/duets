@@ -41,6 +41,7 @@
         <Compile Include="Text\World\Home.fs"/>
         <Compile Include="Text\World\Hospital.fs"/>
         <Compile Include="Text\World\Hotel.fs"/>
+        <Compile Include="Text\World\MerchandiseWorkshop.fs" />
         <Compile Include="Text\World\RehearsalSpace.fs"/>
         <Compile Include="Text\World\Studio.fs"/>
         <Compile Include="Text\World\World.fs"/>
@@ -116,6 +117,7 @@
         <Compile Include="Components\Commands\Items\Sleep.Command.fs"/>
         <Compile Include="Components\Commands\Items\Put.Command.fs" />
         <Compile Include="Components\Commands\Items\Open.Command.fs" />
+        <Compile Include="Components\Commands\MerchandiseWorkshop\OrderMerchandise.Command.fs" />
         <Compile Include="Components\Commands\MiniGame\StartMiniGame.Command.fs"/>
         <Compile Include="Components\Commands\MiniGame\Bet.Command.fs"/>
         <Compile Include="Components\Commands\MiniGame\Hit.Command.fs"/>

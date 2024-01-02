@@ -67,10 +67,12 @@ let applyEffect state effect =
     | FlightUpdated flight -> Flights.change flight state
     | GameCreated state -> state
     | GenreMarketsUpdated genreMarkets -> Market.set genreMarkets state
-    | ItemAddedToInventory(key, item) -> Inventory.addTo key item state
-    | ItemChangedInInventory(key, Diff(prevItem, currItem)) ->
-        Inventory.removeFrom key prevItem state |> Inventory.addTo key currItem
-    | ItemRemovedFromInventory(key, item) -> Inventory.removeFrom key item state
+    | ItemAddedToCharacterInventory item -> Inventory.addToCharacter item state
+    | ItemChangedInCharacterInventory(Diff(prevItem, currItem)) ->
+        Inventory.removeFromCharacter prevItem state
+        |> Inventory.addToCharacter currItem
+    | ItemRemovedFromCharacterInventory item ->
+        Inventory.removeFromCharacter item state
     | ItemChangedInWorld(coords, Diff(prevItem, currItem)) ->
         World.remove coords prevItem state |> World.add coords currItem
     | ItemRemovedFromWorld(coords, item) -> World.remove coords item state
@@ -131,7 +133,7 @@ let applyEffect state effect =
             state
     | SongStarted(band, unfinishedSong) ->
         Songs.addUnfinished band unfinishedSong state
-    | SongImproved(band, (Diff(_, unfinishedSong))) ->
+    | SongImproved(band, Diff(_, unfinishedSong)) ->
         Songs.addUnfinished band unfinishedSong state
     | SongFinished(band, finishedSong, finishDate) ->
         let song = Song.fromFinished finishedSong

@@ -24,6 +24,10 @@ module CommonTypes =
     [<Measure>]
     type quality
 
+    /// Measure for how many things of something.
+    [<Measure>]
+    type quantity
+
     type Quality = int<quality>
     type MaxQuality = int<quality>
 
@@ -38,7 +42,7 @@ module CommonTypes =
     /// Measure for counting kilometers.
     [<Measure>]
     type km
-    
+
     /// Measure for percentages.
     [<Measure>]
     type percent

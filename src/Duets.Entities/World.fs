@@ -118,6 +118,7 @@ module Place =
             | Home -> PlaceTypeIndex.Home
             | Hotel _ -> PlaceTypeIndex.Hotel
             | Hospital -> PlaceTypeIndex.Hospital
+            | MerchandiseWorkshop -> PlaceTypeIndex.MerchandiseWorkshop
             | RehearsalSpace _ -> PlaceTypeIndex.RehearsalSpace
             | Restaurant -> PlaceTypeIndex.Restaurant
             | Studio _ -> PlaceTypeIndex.Studio
@@ -168,6 +169,9 @@ module City =
             city
         |> Optic.map Lenses.World.City.placeIndex_ (Map.add place.Id place)
         |> Optic.map Lenses.World.City.zoneIndex_ (addToZoneIndex place)
+        
+    // Adds a new place to the city.
+    let addPlace' city place = addPlace place city
 
 [<RequireQualifiedAccess>]
 module Room =

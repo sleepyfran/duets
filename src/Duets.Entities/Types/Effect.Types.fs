@@ -36,9 +36,9 @@ module EffectTypes =
         | FlightUpdated of Flight
         | GameCreated of State
         | GenreMarketsUpdated of GenreMarketByGenre
-        | ItemAddedToInventory of InventoryKey * Item
-        | ItemChangedInInventory of InventoryKey * Diff<Item>
-        | ItemRemovedFromInventory of InventoryKey * Item
+        | ItemAddedToCharacterInventory of Item
+        | ItemChangedInCharacterInventory of Diff<Item>
+        | ItemRemovedFromCharacterInventory of Item
         | ItemChangedInWorld of RoomCoordinates * Diff<Item>
         | ItemRemovedFromWorld of RoomCoordinates * Item
         | MemberHired of Band * Character * CurrentMember * SkillWithLevel list

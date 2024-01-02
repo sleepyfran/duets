@@ -18,7 +18,7 @@ let private removeItemsIfNeeded previousCoords currentCoords _ =
         *)
         requiredItems.Items
         |> List.map (fun item ->
-            ItemRemovedFromInventory(InventoryKey.Character, item))
+            ItemRemovedFromCharacterInventory item)
     | _ -> []
 
 let private ifCoordsDiffer previousCoords currentCoords f =
@@ -38,7 +38,7 @@ let private removeItemsRequiredByPlaceIfNeeded previousCoords currentCoords _ =
             | Some requiredItems -> requiredItems.Items
             | _ -> [])
         |> List.map (fun item ->
-            ItemRemovedFromInventory(InventoryKey.Character, item)))
+            ItemRemovedFromCharacterInventory item))
 
 let private generateNpcs previousCoords currentCoords state =
     ifCoordsDiffer previousCoords currentCoords (fun () ->

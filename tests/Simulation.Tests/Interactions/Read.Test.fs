@@ -46,7 +46,7 @@ let ``reading updates the inventory item`` () =
     |> read
     |> Result.unwrap
     |> List.filter (function
-        | ItemChangedInInventory _ -> true
+        | ItemChangedInCharacterInventory _ -> true
         | _ -> false)
     |> should haveLength 1
 
@@ -59,7 +59,7 @@ let ``reading adds 20% progress when read`` () =
         |> List.item 1 (* Head is TimeAdvanced *)
 
     match updateEffect with
-    | ItemChangedInInventory(_, Diff(prev, curr)) ->
+    | ItemChangedInCharacterInventory(Diff(prev, curr)) ->
         let prevBook = unwrapBook prev
         let currBook = unwrapBook curr
 

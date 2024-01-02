@@ -25,9 +25,6 @@ module Items =
         | PlaceType.Hotel _, RoomType.Bedroom ->
             (* Otherwise, nowhere to sleep on. *)
             [ fst Items.Furniture.Bed.ikeaBed ]
-        | PlaceType.Home, RoomType.Kitchen ->
-            (* Otherwise, nowhere to cook. *)
-            [ fst Items.Furniture.Stove.lgStove ]
         | PlaceType.Gym, RoomType.Gym ->
             (* Otherwise, there's nothing to do on the gym. *)
             Items.Gym.all |> List.map fst

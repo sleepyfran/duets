@@ -49,5 +49,5 @@ let ``put item creates a item removed from inventory effect`` () =
         |> List.item 1
 
     match effect with
-    | ItemRemovedFromInventory(_, item) -> item |> should equal placeableItem
+    | ItemRemovedFromCharacterInventory item -> item |> should equal placeableItem
     | _ -> failwith "Unexpected effect"

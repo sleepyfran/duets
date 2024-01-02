@@ -25,7 +25,7 @@ module PassSecurityCommand =
                 let takenItemsEffect =
                     effects
                     |> List.filter (function
-                        | ItemRemovedFromInventory _ -> true
+                        | ItemRemovedFromCharacterInventory _ -> true
                         | _ -> false)
 
                 match takenItemsEffect with

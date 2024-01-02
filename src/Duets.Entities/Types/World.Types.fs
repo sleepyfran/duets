@@ -68,6 +68,7 @@ module WorldTypes =
         | Restaurant of RestaurantCuisine
         | SecurityControl
         | Stage
+        | Workshop
 
     /// Defines which items are required to enter a given room from a given
     /// node.
@@ -91,6 +92,7 @@ module WorldTypes =
         | Home
         | Hotel of Hotel
         | Hospital
+        | MerchandiseWorkshop
         | RehearsalSpace of RehearsalSpace
         | Restaurant
         | Studio of Studio
@@ -109,6 +111,7 @@ module WorldTypes =
         | Home
         | Hotel
         | Hospital
+        | MerchandiseWorkshop
         | RehearsalSpace
         | Restaurant
         | Studio

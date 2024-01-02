@@ -13,7 +13,7 @@ module LifeSimulation =
         /// Minimum amount of energy needed to do any non-movement or item
         /// consumption related interaction.
         let minimumEnergyRequired = 10
-        
+
         /// Step by which the percentage of a book read is increased when the
         /// character reads a book.
         let readPercentageIncrease = 20<percent>
@@ -47,7 +47,7 @@ module LifeSimulation =
 
         /// How much the character's mood is improve when playing video games.
         let playingVideoGamesIncrease = 10
-        
+
         /// How much the character's mood is improved when reading a book.
         let readingBookIncrease = 5
 
@@ -140,6 +140,38 @@ module MusicSimulation =
     /// Percentage out of the total number of fans that will stream an album or
     /// song daily.
     let fanStreamingPercentage = 0.10
+
+    module Merch =
+        /// Price of ordering one CD.
+        let cdPrice = 10m<dd>
+
+        /// Price of ordering one vinyl.
+        let vinylPrice = 20m<dd>
+
+        /// Price of ordering a t-shirt.
+        let tShirtPrice = 10m<dd>
+
+        /// Price of ordering a hoodie.
+        let hoodiePrice = 20m<dd>
+
+        /// Price of ordering a tote bag.
+        let toteBagPrice = 5m<dd>
+
+        /// Minimum amount of physical media orders that a band needs to order
+        /// via a merchandise workshop.
+        let minimumPhysicalMediaOrders = 50<quantity>
+
+        /// Maximum amount of physical media orders that a band can order via
+        /// a merchandise workshop.
+        let maximumPhysicalMediaOrders = 1000<quantity>
+
+        /// Minimum amount of wearable orders that a band needs to order via a
+        /// merchandise workshop.
+        let minimumWearableOrders = 100<quantity>
+
+        /// Maximum amount of wearable orders that a band can order via a
+        /// merchandise workshop.
+        let maximumWearableOrders = 2000<quantity>
 
 module Population =
     /// The chance that the generated population for a given place will be known

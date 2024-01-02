@@ -48,8 +48,8 @@ let ``passSecurityCheck should drop all drinks from inventory`` () =
 
     let state =
         state
-        |> State.Inventory.addTo InventoryKey.Character item
-        |> State.Inventory.addTo InventoryKey.Character item
+        |> State.Inventory.addToCharacter item
+        |> State.Inventory.addToCharacter item
 
     let effects = passSecurityCheck state
 
@@ -57,7 +57,7 @@ let ``passSecurityCheck should drop all drinks from inventory`` () =
 
     effects
     |> List.filter (function
-        | ItemRemovedFromInventory _ -> true
+        | ItemRemovedFromCharacterInventory _ -> true
         | _ -> false)
     |> should haveLength 2
 

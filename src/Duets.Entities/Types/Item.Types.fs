@@ -40,6 +40,11 @@ module rec ItemTypes =
     /// Defines all kind of keys that can be used to unlock a specific place.
     type KeyItem = Chip of cityId: CityId * placeId: PlaceId
 
+    /// Defines all types of physical media that can be listened to.
+    type ListenableItem =
+        | CD
+        | Vinyl
+
     /// Defines all types of readable items available in the game.
     type ReadableItem = Book of Book
 
@@ -51,20 +56,33 @@ module rec ItemTypes =
     /// Defines all the items placed inside a storage.
     type StoredItems = Item list
 
+    /// Defines all types of wearable items available in the game.
+    type WearableItem =
+        | Hoodie
+        | Pants
+        | Shirt
+        | Shoes
+        | ToteBag
+        | TShirt
+
     /// Defines all types of properties that an item can have. These properties
     /// define how an item can be used by the character and can be combined
     /// together.
     type ItemProperty =
         /// Example: a stove.
         | Cookware
-        /// Example: a beer.
-        | Drinkable of DrinkableItem
         /// Example: a burger.
         | Edible of EdibleItem
+        /// Example: something that needs to be delivered.
+        | Deliverable of deliveryDate: Date * items: Item list
+        /// Example: a beer.
+        | Drinkable of DrinkableItem
         /// Example: a weight machine.
         | FitnessEquipment
         /// Example: a chip to enter a place.
         | Key of KeyItem
+        /// Example: a vinyl.
+        | Listenable of mediaType: ListenableItem * album: AlbumId
         /// Example: a book.
         | PlaceableInStorage of storageType: StorageType
         /// Example: a game console.
@@ -77,6 +95,13 @@ module rec ItemTypes =
         | Sleepable
         /// Example: a TV.
         | Watchable
+        /// Example: a t-shirt.
+        | Wearable of WearableItem
+
+    /// Defines an item that can be ordered by the band as merchandise to be sold
+    /// later. Defined as the item itself, the minimum quantity that needs to be
+    /// ordered, the maximum quantity that can be ordered and the price of one item.
+    type MerchandiseItem = Item * int<quantity> * int<quantity> * Amount
 
     /// Defines an item of the game that can be consumed by the player.
     type Item =
@@ -94,20 +119,20 @@ module rec ItemTypes =
     type PurchasableItem = Item * Amount
 
     /// Defines the inventory of the character.
-    type Inventory = Item list
+    type CharacterInventory = Item list
 
-    /// Defines which inventory we're referring to.
-    [<RequireQualifiedAccess>]
-    type InventoryKey =
-        | Character
-        | Band
+    /// Defines the inventory of the band as a map of items with the quantity
+    /// of that item. This is done mostly to avoid saving thousands of items
+    /// in the savegame, since things like merchandise are not really used
+    /// individually but only sold as a whole.
+    type BandInventory = Map<Item, int<quantity>>
 
     /// Defines the character's and band's inventory, where only the character
     /// one is interactive and the band's only holds items that are needed
     /// for a certain situation, i.e. merch, etc.
     type Inventories =
-        { Character: Inventory
-          Band: Inventory }
+        { Character: CharacterInventory
+          Band: BandInventory }
 
     /// Contains all the items that a specific location has.
     type WorldItems = Map<RoomCoordinates, Item list>

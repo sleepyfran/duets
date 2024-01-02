@@ -14,10 +14,14 @@ module rec Items =
                 | Cookware -> cookingInteractions |> Some
                 | Drinkable _ ->
                     ItemInteraction.Drink |> Interaction.Item |> Some
+                | Deliverable _ ->
+                    None (* These interactions are defined at the place level. *)
                 | Edible _ -> ItemInteraction.Eat |> Interaction.Item |> Some
                 | FitnessEquipment ->
                     ItemInteraction.Exercise |> Interaction.Item |> Some
                 | Key _ -> None
+                | Listenable _ ->
+                    None (* TODO: Add "listen" interactions once we support buying albums. *)
                 | PlaceableInStorage _ ->
                     ItemInteraction.Put |> Interaction.Item |> Some
                 | Playable _ ->
@@ -28,7 +32,8 @@ module rec Items =
                 | Sleepable ->
                     ItemInteraction.Sleep |> Interaction.Item |> Some
                 | Watchable ->
-                    ItemInteraction.Watch |> Interaction.Item |> Some))
+                    ItemInteraction.Watch |> Interaction.Item |> Some
+                | Wearable _ -> None (* TODO: Add "wear" interactions once we support buying clothes *) ))
         |> List.distinct
 
     let private cookingInteractions =
