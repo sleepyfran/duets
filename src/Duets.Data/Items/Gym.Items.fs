@@ -4,28 +4,33 @@ open Duets.Entities
 
 module WeightMachines =
     let benchPress: PurchasableItem =
-        { Brand = "Bench Press"
+        { Brand = "GymTech"
+          Name = "Bench Press"
           Properties = [ FitnessEquipment ] },
         650m<dd>
 
     let squatRack: PurchasableItem =
-        { Brand = "Power Rack"
+        { Brand = "GymTech"
+          Name = "Power Rack"
           Properties = [ FitnessEquipment ] },
         550m<dd>
 
     let legPress: PurchasableItem =
-        { Brand = "Leg Press"
+        { Brand = "GymTech"
+          Name = "Leg Press"
           Properties = [ FitnessEquipment ] },
         450m<dd>
 
 module Treadmills =
     let treadmill: PurchasableItem =
-        { Brand = "Treadmill"
+        { Brand = "GymTech"
+          Name = "Treadmill"
           Properties = [ FitnessEquipment ] },
         550m<dd>
 
     let elliptical: PurchasableItem =
-        { Brand = "Elliptical"
+        { Brand = "GymTech"
+          Name = "Elliptical"
           Properties = [ FitnessEquipment ] },
         450m<dd>
 

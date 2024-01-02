@@ -225,7 +225,8 @@ let songWithDetails name (quality: Quality) songLength =
 let instrument instrumentType = instrumentName instrumentType
 let role instrumentType = roleName instrumentType
 
-let itemName (item: Item) = item.Brand |> Styles.item
+let itemName (item: Item) =
+    item.Name |> String.lowercase |> Styles.item
 
 let itemDetailedName (item: Item) =
     let mainProperty = item.Properties |> List.head
@@ -236,9 +237,9 @@ let itemDetailedName (item: Item) =
         | Beer alcohol ->
             $"""{Styles.item $"{item.Brand} beer"} ({drink.Amount}ml, {alcohol}%%)"""
         | Coffee coffeeMl ->
-            $"""{Styles.item item.Brand} ({coffeeMl}ml of coffee)"""
+            $"""{Styles.item item.Name} ({coffeeMl}ml of coffee)"""
         | Soda -> $"""{Styles.item item.Brand} ({drink.Amount}ml)"""
-    | Edible food -> $"""{Styles.item item.Brand} ({food.Amount}g)"""
+    | Edible food -> $"""{Styles.item item.Name} ({food.Amount}g)"""
     | Readable(Book book) when book.ReadProgress > 0<percent> ->
         $"{Styles.item book.Title} by {Styles.person book.Author} ({Styles.Level.from book.ReadProgress}%% read)"
     | Readable(Book book) ->

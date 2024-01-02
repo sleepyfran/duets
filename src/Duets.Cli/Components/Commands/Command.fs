@@ -122,9 +122,7 @@ module Command =
                 String.diacriticInsensitiveContains item.Brand input
 
             let nameMentioned =
-                String.diacriticInsensitiveContains
-                    (Generic.itemName item)
-                    input
+                String.diacriticInsensitiveContains item.Name input
 
             let altNameMentioned =
                 List.exists

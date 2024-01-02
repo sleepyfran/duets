@@ -82,6 +82,7 @@ module rec ItemTypes =
     type Item =
         {
             Brand: string
+            Name: string
             /// Defines which properties the item has. They're ordered by importance,
             /// meaning the first one is the "main" property which will determine
             /// which kind of item this is and the rest are secondary properties

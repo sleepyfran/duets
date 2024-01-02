@@ -13,7 +13,8 @@ let private read item =
     Items.perform dummyState item ItemInteraction.Read
 
 let private createBookItem readProgress =
-    { Brand = "Book"
+    { Brand = "Boo"
+      Name = "Book"
       Properties =
         { Title = "Random Book"
           Author = "Random Author"

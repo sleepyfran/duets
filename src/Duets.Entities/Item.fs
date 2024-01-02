@@ -11,6 +11,7 @@ module Beer =
     /// Creates a beer item.
     let create brand amount alcoholContent =
         { Brand = brand
+          Name = "beer"
           Properties =
             [ Drinkable(
                   { Amount = amount
@@ -20,13 +21,15 @@ module Beer =
 module Chip =
     /// Creates a chip to access a place in a city.
     let createFor cityId placeId =
-        { Brand = "Chip"
+        { Brand = "DuetsCorp"
+          Name = "Chip"
           Properties = [ Chip(cityId, placeId) |> Key ] }
 
 module Coffee =
     /// Creates a coffee item.
-    let create brand amount caffeineAmount =
-        { Brand = brand
+    let create name amount caffeineAmount =
+        { Brand = "DuetsBeans"
+          Name = name
           Properties =
             [ Drinkable(
                   { Amount = amount
@@ -36,7 +39,8 @@ module Coffee =
 module Food =
     /// Creates a food item.
     let create name amount foodType =
-        { Brand = name
+        { Brand = "DuetsFoods"
+          Name = name
           Properties =
             [ Edible({ Amount = amount; FoodType = foodType })
               PlaceableInStorage(Fridge) ] }
@@ -45,4 +49,5 @@ module Soda =
     /// Creates a soda item.
     let create brand amount =
         { Brand = brand
+          Name = brand
           Properties = [ Drinkable({ Amount = amount; DrinkType = Soda }) ] }
