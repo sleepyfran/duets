@@ -147,9 +147,9 @@ let applyEffect state effect =
 
         Songs.removeUnfinished band song.Id state
     | TimeAdvanced time -> Calendar.setTime time state
-    | WorldEnter(Diff(_, (cityId, placeId, romId))) ->
+    | WorldEnterRoom(Diff(_, (cityId, placeId, romId))) ->
         World.move cityId placeId romId state
-    | WorldMoveTo(Diff(_, (cityId, placeId, roomId))) ->
+    | WorldMoveToPlace(Diff(_, (cityId, placeId, roomId))) ->
         World.move cityId placeId roomId state
     | WorldPeopleInCurrentRoomChanged people -> World.setPeople people state
     | Wait _ -> state

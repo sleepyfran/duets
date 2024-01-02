@@ -35,7 +35,7 @@ let ``passSecurityCheck should move character to boarding gate`` () =
     |> List.head
     |> should
         equal
-        (WorldEnter(
+        (WorldEnterRoom(
             Diff(
                 (Prague, dummyAirport.Id, Ids.Airport.securityControl),
                 (Prague, dummyAirport.Id, Ids.Airport.boardingGate)

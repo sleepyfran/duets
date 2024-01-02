@@ -17,7 +17,7 @@ let private worldMoveEffect prevCity currCity =
     let currCityPlace = queryPlace currCity
 
 
-    WorldMoveTo(
+    WorldMoveToPlace(
         Diff((prevCity, prevCityPlace.Id, 0), (currCity, currCityPlace.Id, 0))
     )
 

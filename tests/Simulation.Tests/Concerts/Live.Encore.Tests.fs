@@ -99,4 +99,4 @@ let ``having multiple concerts scheduled does not break getting of the stage``
             (ScheduledConcert(concert3, today))
 
     let response = getOffStage state concert
-    response.Effects |> List.head |> should be (ofCase <@ WorldEnter @>)
+    response.Effects |> List.head |> should be (ofCase <@ WorldEnterRoom @>)

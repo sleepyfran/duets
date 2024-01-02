@@ -52,9 +52,9 @@ let private generateNpcs previousCoords currentCoords state =
 /// when they move away from the room.
 let internal run effect =
     match effect with
-    | WorldEnter(Diff(before, after)) ->
+    | WorldEnterRoom(Diff(before, after)) ->
         [ removeItemsIfNeeded before after ] |> ContinueChain |> Some
-    | WorldMoveTo(Diff(before, after)) ->
+    | WorldMoveToPlace(Diff(before, after)) ->
         [ removeItemsRequiredByPlaceIfNeeded before after
           generateNpcs before after ]
         |> ContinueChain

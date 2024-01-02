@@ -40,7 +40,7 @@ module Navigation =
 
         applyPlacePolicies state cityId placeId
         |> Result.transform (
-            WorldMoveTo(Diff(currentCoords, (cityId, placeId, startingRoom)))
+            WorldMoveToPlace(Diff(currentCoords, (cityId, placeId, startingRoom)))
         )
 
     /// Moves the player to the specified room inside of the current place.
@@ -50,13 +50,13 @@ module Navigation =
 
         applyRoomPolicies state cityId placeId currentRoomId roomId
         |> Result.transform (
-            WorldEnter(Diff(currentCoords, (cityId, placeId, roomId)))
+            WorldEnterRoom(Diff(currentCoords, (cityId, placeId, roomId)))
         )
 
     /// Moves the player to the specific place ID inside the given city ID.
     let travelTo cityId placeId state =
         let currentCoords = Queries.World.currentCoordinates state
 
-        WorldMoveTo(
+        WorldMoveToPlace(
             Diff(currentCoords, (cityId, placeId, World.Ids.Airport.lobby))
         )

@@ -31,7 +31,7 @@ let ``tick of world enter should remove required items from inventory if movemen
     ()
     =
     let effect =
-        WorldEnter(
+        WorldEnterRoom(
             Diff(
                 (Prague, gym.Id, World.Ids.Gym.changingRoom),
                 (Prague, gym.Id, World.Ids.Gym.lobby)
@@ -46,7 +46,7 @@ let ``tick of world enter should remove required items from inventory if movemen
 [<Test>]
 let ``tick of world move should remove required items from inventory if moving from a place that has any room with required items`` =
     let effect =
-        WorldMoveTo(
+        WorldMoveToPlace(
             Diff(
                 (Prague, gym.Id, World.Ids.Gym.changingRoom),
                 (Prague, dummyPlace.Id, 0)
@@ -63,7 +63,7 @@ let ``tick of world enter should not remove any items from inventory if movement
     ()
     =
     let effect =
-        WorldEnter(
+        WorldEnterRoom(
             Diff(
                 (Prague, gym.Id, World.Ids.Gym.changingRoom),
                 (Prague, gym.Id, World.Ids.Gym.gym)
