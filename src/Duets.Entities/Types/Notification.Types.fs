@@ -16,7 +16,7 @@ module NotificationTypes =
     [<RequireQualifiedAccess>]
     type Notification =
         | CalendarEvent of CalendarEventType
-        | DeliveryArrived of CityId * Place * DeliveryType
+        | DeliveryArrived of CityId * PlaceId * DeliveryType
         | RentalNotification of RentalNotificationType
 
     /// Defines all notifications that have to be raised at a certain date and

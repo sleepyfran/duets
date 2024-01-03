@@ -100,6 +100,6 @@ let ``ordering schedules a notification for the delivery time`` () =
                             Notification.DeliveryArrived(_,
                                                          _,
                                                          DeliveryType.Merchandise)) ->
-        date |> should equal nextWeek
+        (date, nextWeek |> Calendar.Transform.resetDayMoment) ||> should equal
         dayMoment |> should equal EarlyMorning
     | _ -> failwith "Unexpected effect"

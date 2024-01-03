@@ -167,8 +167,10 @@ let private displayEffect effect =
                 concert.Date
                 concert.DayMoment
 
-        | Notification.DeliveryArrived(cityId, place, DeliveryType.Merchandise) ->
-            $"Your delivery of merchandise is ready at {place.Name} in {Generic.cityName cityId}"
+        | Notification.DeliveryArrived(cityId, placeId, DeliveryType.Merchandise) ->
+            let place = Queries.World.placeInCityById cityId placeId
+
+            $"Your delivery of merchandise is ready at {place.Name |> Styles.place} in {Generic.cityName cityId}"
             |> createDeliveryNotification
         | Notification.RentalNotification(RentalNotificationType.RentalDueTomorrow rental) ->
             let cityId, _ = rental.Coords

@@ -37,14 +37,10 @@ let private createOrderEffects state merchItem quantity =
               |> Deliverable ] }
 
     let deliveryNotification =
-        Notification.DeliveryArrived(cityId, place, DeliveryType.Merchandise)
+        Notification.DeliveryArrived(cityId, place.Id, DeliveryType.Merchandise)
 
     [ ItemAddedToWorld(coordinates, deliverable)
-      NotificationScheduled(
-          deliveryDate,
-          currentDayMoment,
-          deliveryNotification
-      ) ]
+      Notifications.create deliveryDate currentDayMoment deliveryNotification ]
 
 let private orderMerch' state merchItem quantity =
     let billingResult = generatePayment state merchItem quantity
