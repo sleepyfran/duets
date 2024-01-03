@@ -16,12 +16,16 @@ module MerchandiseWorkshop =
                 [ CD, Config.MusicSimulation.Merch.cdPrice
                   Vinyl, Config.MusicSimulation.Merch.vinylPrice ]
                 |> List.map (fun (physicalMediaType, price) ->
-                    { Brand = band.Name
-                      Name = album.Name
-                      Properties = [ Listenable(physicalMediaType, album.Id) ] },
-                    Config.MusicSimulation.Merch.minimumPhysicalMediaOrders,
-                    Config.MusicSimulation.Merch.maximumPhysicalMediaOrders,
-                    price))
+                    { Item =
+                        { Brand = band.Name
+                          Name = album.Name
+                          Properties =
+                            [ Listenable(physicalMediaType, album.Id) ] }
+                      MinPieces =
+                        Config.MusicSimulation.Merch.minimumPhysicalMediaOrders
+                      MaxPieces =
+                        Config.MusicSimulation.Merch.maximumPhysicalMediaOrders
+                      PricePerPiece = price }))
 
         let wearableMerchandise =
             [ Hoodie, Config.MusicSimulation.Merch.hoodiePrice
@@ -30,12 +34,15 @@ module MerchandiseWorkshop =
             |> List.map (fun (wearableItem, price) ->
                 let itemName = Union.caseName wearableItem
 
-                { Brand = band.Name
-                  Name = itemName
-                  Properties = [ Wearable wearableItem ] },
-                Config.MusicSimulation.Merch.minimumPhysicalMediaOrders,
-                Config.MusicSimulation.Merch.maximumPhysicalMediaOrders,
-                price)
+                { Item =
+                    { Brand = band.Name
+                      Name = itemName
+                      Properties = [ Wearable wearableItem ] }
+                  MinPieces =
+                    Config.MusicSimulation.Merch.minimumPhysicalMediaOrders
+                  MaxPieces =
+                    Config.MusicSimulation.Merch.maximumPhysicalMediaOrders
+                  PricePerPiece = price })
 
         albumMerchandise @ wearableMerchandise
 

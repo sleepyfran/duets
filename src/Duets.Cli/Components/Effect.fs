@@ -149,6 +149,9 @@ let private displayEffect effect =
         let createRentalNotification text =
             text |> Styles.highlight |> showNotification "Upcoming payment"
 
+        let createDeliveryNotification text =
+            text |> Styles.highlight |> showNotification "Delivery"
+
         match notification with
         | Notification.CalendarEvent(CalendarEventType.Flight flight) ->
             createCalendarNotification
@@ -163,6 +166,10 @@ let private displayEffect effect =
                 $"Concert at {venue.Name |> Styles.place} in {Generic.cityName concert.CityId |> Styles.place}"
                 concert.Date
                 concert.DayMoment
+
+        | Notification.DeliveryArrived(cityId, place, DeliveryType.Merchandise) ->
+            $"Your delivery of merchandise is ready at {place.Name} in {Generic.cityName cityId}"
+            |> createDeliveryNotification
         | Notification.RentalNotification(RentalNotificationType.RentalDueTomorrow rental) ->
             let cityId, _ = rental.Coords
             let place = rental.Coords ||> Queries.World.placeInCityById

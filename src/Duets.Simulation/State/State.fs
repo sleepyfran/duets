@@ -73,6 +73,7 @@ let applyEffect state effect =
         |> Inventory.addToCharacter currItem
     | ItemRemovedFromCharacterInventory item ->
         Inventory.removeFromCharacter item state
+    | ItemAddedToWorld(coords, item) -> World.add coords item state
     | ItemChangedInWorld(coords, Diff(prevItem, currItem)) ->
         World.remove coords prevItem state |> World.add coords currItem
     | ItemRemovedFromWorld(coords, item) -> World.remove coords item state

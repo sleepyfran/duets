@@ -39,6 +39,7 @@ module EffectTypes =
         | ItemAddedToCharacterInventory of Item
         | ItemChangedInCharacterInventory of Diff<Item>
         | ItemRemovedFromCharacterInventory of Item
+        | ItemAddedToWorld of RoomCoordinates * Item
         | ItemChangedInWorld of RoomCoordinates * Diff<Item>
         | ItemRemovedFromWorld of RoomCoordinates * Item
         | MemberHired of Band * Character * CurrentMember * SkillWithLevel list

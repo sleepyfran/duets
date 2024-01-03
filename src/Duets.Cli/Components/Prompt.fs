@@ -50,10 +50,10 @@ let showNumberPrompt title = AnsiConsole.Ask<int>(title)
 /// <param name="min">Minimum number allowed</param>
 /// <param name="max">Maximum number allowed</param>
 /// <param name="title">Title of the prompt to show when asking</param>
-let showRangedNumberPrompt min max title =
+let showRangedNumberPrompt (min: int<'a>) (max: int<'a>) title =
     let title = $"""{title} {Styles.faded $"(Between {min} and {max})"}"""
 
-    TextPrompt<int>(
+    TextPrompt<int<'a>>(
         title,
         Validator =
             (fun number ->

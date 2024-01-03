@@ -20,6 +20,15 @@ module rec ItemTypes =
         { Amount: int<gram>
           FoodType: FoodType }
 
+    /// Defines what kind of deliverables the game supports.
+    [<RequireQualifiedAccess>]
+    type DeliverableItem =
+        /// A simplified delivery that only describes how many times a certain
+        /// item will be delivered. This way, when ordering for example 1000
+        /// pieces of a certain merchandise item we don't actually have to store
+        /// 1000 copies of the same thing
+        | Description of item: Item * quantity: int<quantity>
+
     /// Defines all types of drinks available in the game.
     type DrinkType =
         | Beer of alcoholContent: float
@@ -74,7 +83,7 @@ module rec ItemTypes =
         /// Example: a burger.
         | Edible of EdibleItem
         /// Example: something that needs to be delivered.
-        | Deliverable of deliveryDate: Date * items: Item list
+        | Deliverable of deliveryDate: Date * item: DeliverableItem
         /// Example: a beer.
         | Drinkable of DrinkableItem
         /// Example: a weight machine.
@@ -101,7 +110,11 @@ module rec ItemTypes =
     /// Defines an item that can be ordered by the band as merchandise to be sold
     /// later. Defined as the item itself, the minimum quantity that needs to be
     /// ordered, the maximum quantity that can be ordered and the price of one item.
-    type MerchandiseItem = Item * int<quantity> * int<quantity> * Amount
+    type MerchandiseItem =
+        { Item: Item
+          MinPieces: int<quantity>
+          MaxPieces: int<quantity>
+          PricePerPiece: Amount }
 
     /// Defines an item of the game that can be consumed by the player.
     type Item =

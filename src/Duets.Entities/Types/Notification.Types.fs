@@ -8,10 +8,15 @@ module NotificationTypes =
         | RentalDueInOneWeek of Rental
         | RentalDueTomorrow of Rental
 
+    /// Represents the type of delivery that is being notified.
+    [<RequireQualifiedAccess>]
+    type DeliveryType = Merchandise
+
     /// Represents a notification that needs to be raised to the player.
     [<RequireQualifiedAccess>]
     type Notification =
         | CalendarEvent of CalendarEventType
+        | DeliveryArrived of CityId * Place * DeliveryType
         | RentalNotification of RentalNotificationType
 
     /// Defines all notifications that have to be raised at a certain date and

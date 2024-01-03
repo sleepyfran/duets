@@ -44,7 +44,17 @@ module Items =
             |> Map.tryFind coords
             |> Option.defaultValue []
 
+        (* 
+        Filter deliverable items since those should not be visible to the
+        character.
+        *)
         defaultLocationItems @ placedItems
+        |> List.filter (fun item ->
+            item.Properties
+            |> List.exists (function
+                | Deliverable _ -> true
+                | _ -> false)
+            |> not)
 
     /// Determines whether the given item is located in the given world location,
     /// the character's inventory or none of them.
