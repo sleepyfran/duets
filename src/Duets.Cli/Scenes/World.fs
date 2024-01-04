@@ -135,6 +135,8 @@ let private commandsFromInteractions interactions =
                 [ StartMiniGameCommand.create miniGameId ]
         | Interaction.Rehearsal rehearsalInteraction ->
             match rehearsalInteraction with
+            | RehearsalInteraction.BandInventory bandInventory ->
+                [ BandInventoryCommand.create bandInventory ]
             | RehearsalInteraction.ComposeNewSong -> [ ComposeSongCommand.get ]
             | RehearsalInteraction.DiscardSong unfinishedSongs ->
                 [ DiscardSongCommand.create unfinishedSongs ]

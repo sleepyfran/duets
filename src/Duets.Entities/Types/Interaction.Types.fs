@@ -139,6 +139,8 @@ module InteractionTypes =
     /// Interactions that can be done when the character is on the rehearsal room.
     [<RequireQualifiedAccess>]
     type RehearsalInteraction =
+        /// Allows to list all the merchandise that the band has.
+        | BandInventory of inventory: (Item * int<quantity>) list
         /// Allows to compose new songs.
         | ComposeNewSong
         /// Allows to discard an unfinished song.

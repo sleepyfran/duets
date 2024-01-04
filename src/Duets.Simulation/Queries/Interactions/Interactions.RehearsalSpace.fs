@@ -33,11 +33,21 @@ module RehearsalSpace =
 
         let genresWithPopularity = Queries.Genres.allWithPopularity state
 
+        let bandInventory = Queries.Inventory.band state |> List.ofMap
+        let hasItemsInInventory = bandInventory |> (not << List.isEmpty)
+
         [ yield Interaction.Rehearsal RehearsalInteraction.ComposeNewSong
           yield
               Interaction.Rehearsal(
                   RehearsalInteraction.SwitchGenre genresWithPopularity
               )
+
+          if hasItemsInInventory then
+              yield
+                  Interaction.Rehearsal(
+                      RehearsalInteraction.BandInventory bandInventory
+                  )
+
           if hasUnfinishedSongs then
               yield
                   Interaction.Rehearsal(

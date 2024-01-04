@@ -82,6 +82,7 @@
         <Compile Include="Components\Commands\Studio\ReleaseAlbum.Command.fs"/>
         <Compile Include="Components\Commands\Studio\RecordSong.Command.fs"/>
         <Compile Include="Components\Commands\Studio\ListUnreleasedAlbums.Command.fs"/>
+        <Compile Include="Components\Commands\RehearsalRoom\BandInventory.Command.fs" />
         <Compile Include="Components\Commands\RehearsalRoom\PracticeSong.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\FireMember.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\HireMember.Command.fs"/>
