@@ -116,8 +116,10 @@ let private commandsFromInteractions interactions =
             match merchandiseWorkshopInteraction with
             | MerchandiseWorkshopInteraction.OrderMerchandise available ->
                 [ OrderMerchandiseCommand.create available ]
-            | MerchandiseWorkshopInteraction.ListOrderedMerchandise items -> []
-            | MerchandiseWorkshopInteraction.PickUpMerchandise items -> []
+            | MerchandiseWorkshopInteraction.ListOrderedMerchandise(itemsWithDelivery) ->
+                [ ListMerchandiseOrdersCommand.create itemsWithDelivery ]
+            | MerchandiseWorkshopInteraction.PickUpMerchandise items ->
+                [ PickUpMerchandiseOrdersCommand.create items ]
         | Interaction.MiniGame miniGameInteraction ->
             match miniGameInteraction with
             | MiniGameInteraction.InGame(MiniGameInGameInteraction.Bet miniGameState) ->

@@ -1,9 +1,14 @@
 module Duets.Cli.Text.Items
 
+open Duets.Common
 open Duets.Entities
 
 let itemAddedCharacterToInventory itemName =
     Styles.success $"{itemName} has been added to your inventory"
+
+let itemAddedToBandInventory itemName quantity =
+    $"{quantity} {Generic.simplePluralOf (itemName |> String.lowercase) quantity} added to your band's inventory"
+    |> Styles.success
 
 let itemRemovedFromCharacterInventory itemName =
     Styles.warning $"{itemName} has been removed from your inventory"

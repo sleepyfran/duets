@@ -83,7 +83,10 @@ module Interactions =
             | Hospital -> []
             | Hotel _ -> []
             | MerchandiseWorkshop ->
-                MerchandiseWorkshop.interactions state currentRoom.RoomType
+                MerchandiseWorkshop.interactions
+                    state
+                    currentCoords
+                    currentRoom.RoomType
             | RehearsalSpace _ ->
                 RehearsalSpace.interactions state cityId currentRoom.RoomType
             | Restaurant -> Restaurant.interactions cityId currentRoom.RoomType

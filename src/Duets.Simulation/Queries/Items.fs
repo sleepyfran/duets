@@ -35,20 +35,23 @@ module Items =
             localBeer @ Items.Food.Snack.all |> List.map fst
         | _ -> []
 
-    /// Returns all the items currently available in the given coordinates.
-    let allIn state coords =
+    /// Returns all the items currently available in the given coordinates,
+    /// including those that should not be visible to the character.
+    let allWithHiddenIn state coords =
         let defaultLocationItems = defaultItems coords
 
-        let placedItems =
-            Optic.get Lenses.State.worldItems_ state
-            |> Map.tryFind coords
-            |> Option.defaultValue []
+        Optic.get Lenses.State.worldItems_ state
+        |> Map.tryFind coords
+        |> Option.defaultValue []
+        |> (@) defaultLocationItems
 
+    /// Returns all the items currently available in the given coordinates.
+    let allIn state coords =
         (* 
         Filter deliverable items since those should not be visible to the
         character.
         *)
-        defaultLocationItems @ placedItems
+        allWithHiddenIn state coords
         |> List.filter (fun item ->
             item.Properties
             |> List.exists (function

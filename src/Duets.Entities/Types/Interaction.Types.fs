@@ -112,9 +112,9 @@ module InteractionTypes =
         /// Allows the player to order new merchandise.
         | OrderMerchandise of available: MerchandiseItem list
         /// Allows the player to list the merchandise that they've ordered.
-        | ListOrderedMerchandise of items: Item list
+        | ListOrderedMerchandise of (Date * DeliverableItem) list
         /// Allows the player to pick up the merchandise that they've ordered.
-        | PickUpMerchandise of items: Item list
+        | PickUpMerchandise of Item list
 
     /// Interactions that can be done when playing blackjack.
     [<RequireQualifiedAccess>]

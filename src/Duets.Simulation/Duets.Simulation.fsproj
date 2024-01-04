@@ -118,6 +118,7 @@
         <Compile Include="Notifications\Notifications.fs" />
         <Compile Include="MiniGames\Blackjack.fs" />
         <Compile Include="Merchandise\Order.Merchandise.fs" />
+        <Compile Include="Merchandise\PickUp.Merchandise.fs" />
         <Compile Include="Rentals\PayUpcoming.fs" />
         <Compile Include="Rentals\RentPlace.fs" />
         <Compile Include="Songs\Practice.fs" />
