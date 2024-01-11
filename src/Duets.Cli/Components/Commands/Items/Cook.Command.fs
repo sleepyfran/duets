@@ -34,7 +34,7 @@ module CookCommand =
                 let toString (item, price) =
                     $"{Generic.itemDetailedName item} ({Styles.money price} for ingredients)"
 
-                let toReferenceName (item, _) = item.Brand
+                let toReferenceName (item: Item, _) = item.Name
                 
                 let recipe =
                     Selection.fromArgsOrInteractive

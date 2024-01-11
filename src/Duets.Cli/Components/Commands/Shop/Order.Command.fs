@@ -16,7 +16,7 @@ module OrderCommand =
           Description = Command.orderDescription
           Handler =
             fun args ->
-                let toReferenceName (item, _) = item.Brand
+                let toReferenceName (item: Item, _) = item.Name
 
                 let item =
                     Selection.fromArgsOrInteractive
