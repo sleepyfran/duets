@@ -39,12 +39,16 @@ let ``tick of low character health should hospitalize character`` () =
 let ``tick of low character health during concert should cancel concert`` () =
     let state =
         State.generateOne
-            { State.defaultOptions with FutureConcertsToGenerate = 0 }
+            { State.defaultOptions with
+                FutureConcertsToGenerate = 0 }
 
     let stateOnConcert =
         Situations.inConcert
             { Concert = dummyConcert
               Events = []
+              Checklist =
+                { MerchStandSetup = false
+                  SoundcheckDone = false }
               Points = 0<quality> }
         |> State.Root.applyEffect state
 

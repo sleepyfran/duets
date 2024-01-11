@@ -28,6 +28,9 @@ let ``getting off the stage with barely any points finishes the concert`` () =
     let concert =
         { Events = []
           Points = 10<quality>
+          Checklist =
+            { MerchStandSetup = false
+              SoundcheckDone = false }
           Concert = dummyConcert }
 
     let response = getOffStage stateWithConcert concert
@@ -40,6 +43,9 @@ let ``getting off the stage after having performed an encore finishes the concer
     let concert =
         { Events = [ PerformedEncore ]
           Points = 60<quality>
+          Checklist =
+            { MerchStandSetup = false
+              SoundcheckDone = false }
           Concert = dummyConcert }
 
     let response = getOffStage stateWithConcert concert
@@ -83,6 +89,9 @@ let ``having multiple concerts scheduled does not break getting of the stage``
     let concert =
         { Events = []
           Points = 80<quality>
+          Checklist =
+            { MerchStandSetup = false
+              SoundcheckDone = false }
           Concert = concert1 }
 
     let state =

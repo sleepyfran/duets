@@ -62,12 +62,21 @@ module ConcertTypes =
         | DrumSolo
         | MakeCrowdSing
 
+    /// Represents the check-list with all the steps that can be done before a
+    /// concert starts and that affect the outcome of the concert. For example,
+    /// setting up the merch stand gives additional income, while doing a
+    /// soundcheck gives a bonus to the quality of the concert.
+    type ConcertPreparationChecklist =
+        { MerchStandSetup: bool
+          SoundcheckDone: bool }
+
     /// Represents a concert that is currently ongoing, where we keep all the
     /// events that the player have done during the concert and the total amount
     /// of points gathered.
     type OngoingConcert =
         { Events: ConcertEvent list
           Points: Quality
+          Checklist: ConcertPreparationChecklist
           Concert: Concert }
 
     /// Represents a concert that hasn't happened yet.

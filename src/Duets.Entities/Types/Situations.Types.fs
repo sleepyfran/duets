@@ -5,7 +5,9 @@ module SituationTypes =
     type AirportSituation = Flying of Flight
 
     /// Situations that happen while on a concert.
-    type ConcertSituation = InConcert of OngoingConcert
+    type ConcertSituation =
+        | Preparing of ConcertPreparationChecklist
+        | InConcert of OngoingConcert
 
     /// Defines all situations in which the character can be in.
     type Situation =

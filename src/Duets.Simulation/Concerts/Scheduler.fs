@@ -69,7 +69,7 @@ let startScheduledConcerts state placeId =
     match situation with
     | Concert(InConcert _) ->
         [] (* Concert already started, no need to do anything. *)
-    | _ ->
+    | Concert(Preparing checklist) ->
         let band = Queries.Bands.currentBand state
 
         (* Check whether we have a concert scheduled and, if so, initialize a new OngoingConcert. *)
@@ -80,5 +80,7 @@ let startScheduledConcerts state placeId =
             [ Situations.inConcert
                   { Events = []
                     Points = 0<quality>
+                    Checklist = checklist
                     Concert = concert } ])
         |> Option.defaultValue []
+    | _ -> [] (* Band hasn't started preparing, can't start concert. *)

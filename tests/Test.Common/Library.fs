@@ -186,6 +186,9 @@ let dummyStateWithMultipleMembers =
 let dummyOngoingConcert =
     { Events = []
       Points = 0<quality>
+      Checklist =
+        { MerchStandSetup = false
+          SoundcheckDone = false }
       Concert = dummyConcert }
 
 /// Adds a given skill to the given character.
