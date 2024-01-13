@@ -48,7 +48,7 @@ module ConcertSpace =
         let situation = Queries.Situations.current state
 
         match situation with
-        | FreeRoam when roomType = RoomType.Stage ->
+        | Concert(Preparing _) when roomType = RoomType.Stage ->
             startConcertInteraction state placeId
         | Concert(InConcert ongoingConcert) when roomType = RoomType.Stage ->
             let instrumentSpecificInteractions =

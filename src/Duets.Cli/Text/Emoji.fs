@@ -17,6 +17,9 @@ let socializing = ":mouth:"
 /// Emoji for representing a notification.
 let notification = ":bell:"
 
+/// Emoji for representing a tip given to the player.
+let tip = ":loudspeaker:"
+
 /// Emoji for a clock in a random time.
 let clock = ":eight_o_clock:"
 
@@ -43,6 +46,12 @@ let hearts = ":heart_suit:"
 
 /// Emoji for spades.
 let spades = ":spade_suit:"
+
+/// Emoji for a green checkmark.
+let checkmark = ":check_mark_button:"
+
+/// Emoji for a red cross-mark.
+let crossMark = ":cross_mark:"
 
 /// Returns the correct emoji for showing the current day moment.
 let dayMoment dayMoment =

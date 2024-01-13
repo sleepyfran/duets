@@ -17,15 +17,14 @@ let private removeItemsIfNeeded previousCoords currentCoords _ =
         For example: when moving from the changing room of a gym to the lobby.
         *)
         requiredItems.Items
-        |> List.map (fun item ->
-            ItemRemovedFromCharacterInventory item)
+        |> List.map (fun item -> ItemRemovedFromCharacterInventory item)
     | _ -> []
 
 let private ifCoordsDiffer previousCoords currentCoords f =
     if previousCoords = currentCoords then [] else f ()
 
 let private removeItemsRequiredByPlaceIfNeeded previousCoords currentCoords _ =
-    ifCoordsDiffer previousCoords currentCoords (fun () ->
+    let removeItems () =
         let previousCityId, previousPlaceId, _ = previousCoords
 
         let previousPlace =
@@ -37,15 +36,25 @@ let private removeItemsRequiredByPlaceIfNeeded previousCoords currentCoords _ =
             match room.RequiredItemsForEntrance with
             | Some requiredItems -> requiredItems.Items
             | _ -> [])
-        |> List.map (fun item ->
-            ItemRemovedFromCharacterInventory item))
+        |> List.map ItemRemovedFromCharacterInventory
+
+    ifCoordsDiffer previousCoords currentCoords removeItems
 
 let private generateNpcs previousCoords currentCoords state =
-    ifCoordsDiffer previousCoords currentCoords (fun () ->
+    let generateNpcs () =
         let cityId, placeId, _ = currentCoords
         let place = Queries.World.placeInCityById cityId placeId
 
-        World.Population.generateForPlace cityId place state |> List.singleton)
+        World.Population.generateForPlace cityId place state |> List.singleton
+
+    ifCoordsDiffer previousCoords currentCoords generateNpcs
+
+let private changeSituationIfNeeded previousCoords currentCoords state =
+    let changeSituation () =
+        [ Concerts.Preparation.Start.startIfNeeded currentCoords ]
+        |> List.collect (fun f -> f state)
+
+    ifCoordsDiffer previousCoords currentCoords changeSituation
 
 /// Runs all the events associated with effects of world movement. For example,
 /// required items from rooms have to be removed from the character's inventory
@@ -56,7 +65,8 @@ let internal run effect =
         [ removeItemsIfNeeded before after ] |> ContinueChain |> Some
     | WorldMoveToPlace(Diff(before, after)) ->
         [ removeItemsRequiredByPlaceIfNeeded before after
-          generateNpcs before after ]
+          generateNpcs before after
+          changeSituationIfNeeded before after ]
         |> ContinueChain
         |> Some
     | _ -> None

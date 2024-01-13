@@ -4,9 +4,9 @@ module rec Duets.Cli.Effect
 open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.Text
-open Duets.Cli.Text.World
 open Duets.Common
 open Duets.Entities
+open Duets.Entities.SituationTypes
 open Duets.Simulation
 open FSharp.Data.UnitSystems.SI.UnitNames
 
@@ -135,11 +135,11 @@ let private displayEffect effect =
         | CharacterPassedOut -> Concert.failedCharacterPassedOut
         |> showMessage
     | ItemAddedToCharacterInventory item ->
-        Items.itemAddedCharacterToInventory item.Brand |> showMessage
+        Items.itemAddedCharacterToInventory item.Name |> showMessage
     | ItemAddedToBandInventory(item, quantity) ->
         Items.itemAddedToBandInventory item.Name quantity |> showMessage
     | ItemRemovedFromCharacterInventory item ->
-        Items.itemRemovedFromCharacterInventory item.Brand |> showMessage
+        Items.itemRemovedFromCharacterInventory item.Name |> showMessage
     | MoneyTransferred(holder, transaction) ->
         Phone.bankAppTransferSuccess holder transaction |> showMessage
     | NotificationShown notification ->
@@ -245,6 +245,12 @@ let private displayEffect effect =
             $"You rental of {expiredPlace.Name |> Styles.place} in {Generic.cityName cityId |> Styles.place} has expired, so you can no longer access it"
         |> Styles.warning
         |> showNotification "Rental expired"
+    | SituationChanged(Concert(Preparing _)) ->
+        showTip
+            "Concert starting"
+            $"""It's time to prepare for the concert! If you have any merchandise, you can set up a stand to sell it by the {"bar" |> Styles.place}. Otherwise, head to the {"stage" |> Styles.place} to do a soundcheck"""
+        |> Styles.information
+        |> showMessage
     | SongImproved(_, Diff(before, after)) ->
         let (Unfinished(_, _, previousQuality)) = before
         let (Unfinished(_, _, currentQuality)) = after

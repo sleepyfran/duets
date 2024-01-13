@@ -6,6 +6,14 @@ open Duets.Entities.SituationTypes
 /// Sets the current situation to free roam.
 let freeRoam = SituationChanged FreeRoam
 
+/// Sets the current situation to preparing for a concert.
+let preparingConcert =
+    Preparing
+        { SoundcheckDone = false
+          MerchStandSetup = false }
+    |> Concert
+    |> SituationChanged
+
 /// Sets the current situation that the character is in to in concert with the
 /// given ongoing concert. This should also be used to update the ongoing
 /// concert situation.

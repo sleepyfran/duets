@@ -120,6 +120,17 @@ let rec listOf (stuff: 'a list) toStr =
     | [ head; tail ] -> $"{toStr head} and {toStr tail}"
     | head :: tail -> $"{toStr head}, {listOf tail toStr}"
 
+/// Returns a formatted list as empty if it contains nothing, "a" if it contains
+/// only one element and a list of all the elements separated by the given
+/// separator for all other lengths.
+let rec listSeparatedBy (separator: string) (stuff: 'a list) toStr =
+    match stuff with
+    | [] -> ""
+    | [ head ] -> toStr head
+    | [ head; tail ] -> $"{toStr head} {separator} {toStr tail}"
+    | head :: tail ->
+        $"{toStr head} {separator} {listSeparatedBy separator tail toStr}"
+
 /// Returns the given singular form if the quantity is 1, or the plural form
 /// in all other cases.
 let pluralOf singular plural quantity =

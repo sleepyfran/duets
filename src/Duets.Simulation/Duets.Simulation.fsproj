@@ -106,6 +106,7 @@
         <Compile Include="Concerts\Live\Live.Actions.fs" />
         <Compile Include="Concerts\Live\Live.Finish.fs" />
         <Compile Include="Concerts\Live\Live.Encore.fs" />
+        <Compile Include="Concerts\Preparation\StartConcertPreparation.fs" />
         <Compile Include="Careers\Common.fs" />
         <Compile Include="Careers\JobBoard.fs" />
         <Compile Include="Careers\Employment.fs" />

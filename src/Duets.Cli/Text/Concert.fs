@@ -46,6 +46,23 @@ let energyEnergetic = "Energetic"
 let energyNormal = "Normal"
 let energyLow = "Low"
 
+let preparingPrompt date dayMoment attributes checklist =
+    let checklistStep name performed =
+        if performed then
+            $"{name |> Styles.success} {Emoji.checkmark}"
+        else
+            $"{name |> Styles.warning} {Emoji.crossMark}"
+
+    let checklistBar =
+        let steps =
+            [ "Merch stand", checklist.MerchStandSetup
+              "Soundcheck", checklist.SoundcheckDone ]
+
+        Generic.listSeparatedBy " | " steps (fun (name, performed) ->
+            checklistStep name performed)
+
+    $"""{Generic.infoBar date dayMoment attributes} | {checklistBar}"""
+
 let actionPrompt date dayMoment attributes points =
     $"""{Generic.infoBar date dayMoment attributes} | {Emoji.concert} {Styles.Level.from points} points
 {Styles.action "It's your time to shine!"} What do you want to do?"""
