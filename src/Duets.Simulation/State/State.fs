@@ -79,6 +79,8 @@ let applyEffect state effect =
     | ItemChangedInWorld(coords, Diff(prevItem, currItem)) ->
         World.remove coords prevItem state |> World.add coords currItem
     | ItemRemovedFromWorld(coords, item) -> World.remove coords item state
+    | MerchPriceSet(band, merch, price) ->
+        Merch.setPrice band.Id merch price state
     | MemberHired(band, character, currentMember, skills) ->
         let stateWithMember =
             Characters.add character state |> Bands.addMember band currentMember

@@ -142,6 +142,9 @@ module MusicSimulation =
     let fanStreamingPercentage = 0.10
 
     module Merch =
+        /// Time it takes to set-up a merch stand.
+        let standSetupTime = 1<dayMoments>
+
         /// Price of ordering one CD.
         let cdPrice = 10m<dd>
 

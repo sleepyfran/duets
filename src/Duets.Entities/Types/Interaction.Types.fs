@@ -21,6 +21,11 @@ module InteractionTypes =
     /// Interactions that can be done while on a concert.
     [<RequireQualifiedAccess>]
     type ConcertInteraction =
+        /// Sets up a merch stand on the venue so that the band can sell
+        /// merchandise to the crowd.
+        | SetupMerchStand of
+            checklist: ConcertPreparationChecklist *
+            itemsWithoutPrice: Item list
         /// Starts a scheduled concert.
         | StartConcert of ScheduledConcert
         /// Makes the character adjust the drum setting. Does nothing.

@@ -1,5 +1,6 @@
 namespace Duets.Simulation.Queries.Internal.Interactions
 
+open Duets.Common
 open Duets.Entities
 open Duets.Entities.SituationTypes
 open Duets.Simulation
@@ -12,6 +13,35 @@ module ConcertSpace =
         |> Option.map (fun concert ->
             [ Interaction.Concert(ConcertInteraction.StartConcert concert) ])
         |> Option.defaultValue []
+
+    let private setupMerchStandInteraction state checklist =
+        let band = Queries.Bands.currentBand state
+        let merch = Queries.Inventory.band state
+
+        let itemsWithoutPrice =
+            merch
+            |> List.ofMapKeys
+            |> List.choose (fun item ->
+                let mainItemProperty =
+                    Item.Property.tryMain item
+                    |> Option.value (* Let's hope that we only pass items generated during the merch creation process. *)
+
+                let assignedPrice =
+                    Queries.Merch.itemPrice band.Id mainItemProperty state
+
+                match assignedPrice with
+                | Some _ -> None
+                | None -> Some item)
+
+        if merch |> Map.isEmpty then
+            (* Nothing to do, band has not ordered any merch. *)
+            []
+        else if checklist.MerchStandSetup then
+            (* Nothing to do, band has already setup the stand. *)
+            []
+        else
+            [ ConcertInteraction.SetupMerchStand(checklist, itemsWithoutPrice)
+              |> Interaction.Concert ]
 
     let private instrumentInteractions state ongoingConcert =
         let characterBandMember = Queries.Bands.currentPlayableMember state
@@ -48,6 +78,8 @@ module ConcertSpace =
         let situation = Queries.Situations.current state
 
         match situation with
+        | Concert(Preparing checklist) when roomType = RoomType.Bar ->
+            setupMerchStandInteraction state checklist
         | Concert(Preparing _) when roomType = RoomType.Stage ->
             startConcertInteraction state placeId
         | Concert(InConcert ongoingConcert) when roomType = RoomType.Stage ->

@@ -138,7 +138,8 @@ module rec ItemTypes =
     /// of that item. This is done mostly to avoid saving thousands of items
     /// in the savegame, since things like merchandise are not really used
     /// individually but only sold as a whole.
-    type BandInventory = Map<Item, int<quantity>>
+    type BandInventory =
+        Map<Item, int<quantity>> (* TODO: Make it compatible with multiple bands. *)
 
     /// Defines the character's and band's inventory, where only the character
     /// one is interactive and the band's only holds items that are needed

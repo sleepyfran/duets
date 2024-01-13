@@ -9,6 +9,7 @@ open Duets.Common
 open Duets.Entities
 open Duets.Entities.SituationTypes
 open Duets.Simulation
+open FSharp.Data.UnitSystems.SI.UnitNames
 
 let private commandsFromInteractions interactions =
     interactions
@@ -26,6 +27,8 @@ let private commandsFromInteractions interactions =
             | CareerInteraction.Work job -> [ WorkCommand.create job ]
         | Interaction.Concert concertInteraction ->
             match concertInteraction with
+            | ConcertInteraction.SetupMerchStand(checklist, itemsWithoutPrice) ->
+                [ SetupMerchStandCommand.create checklist itemsWithoutPrice ]
             | ConcertInteraction.StartConcert placeId ->
                 [ StartConcertCommand.create placeId ]
             | ConcertInteraction.AdjustDrums _ ->
@@ -244,6 +247,12 @@ let worldScene mode =
                 currentDayMoment
                 characterAttributes
                 flight
+        | Concert(Preparing checklist) ->
+            Concert.preparingPrompt
+                today
+                currentDayMoment
+                characterAttributes
+                checklist
         | Concert(InConcert ongoingConcert) ->
             Concert.actionPrompt
                 today

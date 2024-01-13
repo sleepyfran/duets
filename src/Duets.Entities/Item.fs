@@ -1,6 +1,9 @@
 module Duets.Entities.Item
 
 module Property =
+    /// Attempts to retrieve the main property of the given item, if any.
+    let tryMain item = item.Properties |> List.tryHead
+
     /// Attempts to pick a property from the given item.
     let tryPick fn item = item.Properties |> List.tryPick fn
 

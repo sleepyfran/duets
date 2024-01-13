@@ -83,6 +83,7 @@ let startGame
       Flights = []
       GenreMarkets = initialGenreMarket
       Inventories = Inventory.empty
+      MerchPrices = Map.empty
       Notifications = Map.empty
       PlayableCharacterId = character.Id
       Rentals =

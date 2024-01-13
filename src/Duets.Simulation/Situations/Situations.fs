@@ -14,6 +14,11 @@ let preparingConcert =
     |> Concert
     |> SituationChanged
 
+/// Sets the current situation to preparing for a concert, but with the given
+/// checklist.
+let preparingConcert' checklist =
+    checklist |> Preparing |> Concert |> SituationChanged
+
 /// Sets the current situation that the character is in to in concert with the
 /// given ongoing concert. This should also be used to update the ongoing
 /// concert situation.

@@ -13,9 +13,13 @@ module MerchandiseWorkshop =
             |> List.collect (fun releasedAlbum ->
                 let album = Album.fromReleased releasedAlbum
 
-                [ CD, Config.MusicSimulation.Merch.cdPrice
-                  Vinyl, Config.MusicSimulation.Merch.vinylPrice ]
-                |> List.map (fun (physicalMediaType, price) ->
+                [ CD; Vinyl ]
+                |> List.map (fun physicalMediaType ->
+                    let itemPrice =
+                        Queries.Merch.itemProductionCost (
+                            Listenable(physicalMediaType, album.Id)
+                        )
+
                     { Item =
                         { Brand = band.Name
                           Name = album.Name
@@ -25,13 +29,14 @@ module MerchandiseWorkshop =
                         Config.MusicSimulation.Merch.minimumPhysicalMediaOrders
                       MaxPieces =
                         Config.MusicSimulation.Merch.maximumPhysicalMediaOrders
-                      PricePerPiece = price }))
+                      PricePerPiece = itemPrice }))
 
         let wearableMerchandise =
-            [ Hoodie, Config.MusicSimulation.Merch.hoodiePrice
-              TShirt, Config.MusicSimulation.Merch.tShirtPrice
-              ToteBag, Config.MusicSimulation.Merch.toteBagPrice ]
-            |> List.map (fun (wearableItem, price) ->
+            [ Hoodie; TShirt; ToteBag ]
+            |> List.map (fun wearableItem ->
+                let itemPrice =
+                    Queries.Merch.itemProductionCost (Wearable wearableItem)
+
                 let itemName = Union.caseName wearableItem
 
                 { Item =
@@ -42,7 +47,7 @@ module MerchandiseWorkshop =
                     Config.MusicSimulation.Merch.minimumPhysicalMediaOrders
                   MaxPieces =
                     Config.MusicSimulation.Merch.maximumPhysicalMediaOrders
-                  PricePerPiece = price })
+                  PricePerPiece = itemPrice })
 
         albumMerchandise @ wearableMerchandise
 

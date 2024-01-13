@@ -1,5 +1,12 @@
 module Duets.Common.Option
 
+/// Returns the value of the given option if it is some and throws an exception
+/// otherwise.
+let value opt =
+    match opt with
+    | Some x -> x
+    | None -> failwith "Option is None"
+
 /// Returns a unit option as some if the given boolean is true and None otherwise.
 let ofBool res =
     match res with

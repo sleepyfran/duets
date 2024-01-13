@@ -3,6 +3,23 @@ module Duets.Simulation.Concerts.Live.Actions
 
 open Duets.Entities
 open Duets.Simulation
+open Duets.Simulation.Time.AdvanceTime
+
+/// Sets up the merch stand, which improves the ticket sales of the concert.
+let setupMerchStand state checklist =
+    if checklist.MerchStandSetup then
+        (* Technically the interaction should be disabled, but let's do nothing. *)
+        []
+    else
+        let updatedChecklist =
+            { checklist with
+                MerchStandSetup = true }
+
+        let timeEffects =
+            Config.MusicSimulation.Merch.standSetupTime
+            |> advanceDayMoment' state
+
+        [ Situations.preparingConcert' updatedChecklist; yield! timeEffects ]
 
 /// Plays the given song in the concert with the specified energy. The result
 /// depends on whether the song was already played or not and the energy.

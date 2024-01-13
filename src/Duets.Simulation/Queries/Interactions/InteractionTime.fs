@@ -10,6 +10,8 @@ module InteractionTime =
             Flights.flightDayMoments flight
         | Interaction.Career(CareerInteraction.Work job) ->
             Career.jobDuration job
+        | Interaction.Concert(ConcertInteraction.SetupMerchStand _) ->
+            1<dayMoments>
         | Interaction.Concert(ConcertInteraction.FinishConcert _) ->
             2<dayMoments>
         | Interaction.Item(itemInteraction) ->

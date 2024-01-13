@@ -20,6 +20,7 @@ module StateTypes =
           Flights: Flight list
           GenreMarkets: GenreMarketByGenre
           Inventories: Inventories
+          MerchPrices: BandMerchPrices
           Notifications: Notifications
           PlayableCharacterId: CharacterId
           Relationships: Relationships

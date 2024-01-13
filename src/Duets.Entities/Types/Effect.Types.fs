@@ -43,6 +43,7 @@ module EffectTypes =
         | ItemAddedToWorld of RoomCoordinates * Item
         | ItemChangedInWorld of RoomCoordinates * Diff<Item>
         | ItemRemovedFromWorld of RoomCoordinates * Item
+        | MerchPriceSet of band: Band * merchItem: Item * price: Amount
         | MemberHired of Band * Character * CurrentMember * SkillWithLevel list
         | MemberFired of Band * CurrentMember * PastMember
         | MoneyEarned of BankAccountHolder * BankTransaction

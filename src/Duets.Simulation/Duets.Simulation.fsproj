@@ -25,6 +25,7 @@
         <Compile Include="Queries\Rentals.fs" />
         <Compile Include="Queries\Shop.fs" />
         <Compile Include="Queries\Inventory.fs" />
+        <Compile Include="Queries\Merch.fs" />
         <Compile Include="Queries\Items.fs" />
         <Compile Include="Queries\SocialNetworks.fs" />
         <Compile Include="Queries\Concerts.fs" />
@@ -56,6 +57,7 @@
         <Compile Include="State\Songs.fs" />
         <Compile Include="State\Albums.fs" />
         <Compile Include="State\Inventory.fs" />
+        <Compile Include="State\Merch.fs" />
         <Compile Include="State\Notifications.fs" />
         <Compile Include="State\Bands.fs" />
         <Compile Include="State\Relationships.fs" />
@@ -120,6 +122,7 @@
         <Compile Include="MiniGames\Blackjack.fs" />
         <Compile Include="Merchandise\Order.Merchandise.fs" />
         <Compile Include="Merchandise\PickUp.Merchandise.fs" />
+        <Compile Include="Merchandise\SetPrice.Merchandise.fs" />
         <Compile Include="Rentals\PayUpcoming.fs" />
         <Compile Include="Rentals\RentPlace.fs" />
         <Compile Include="Songs\Practice.fs" />
