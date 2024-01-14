@@ -22,12 +22,7 @@ module ConcertSpace =
             merch
             |> List.ofMapKeys
             |> List.choose (fun item ->
-                let mainItemProperty =
-                    Item.Property.tryMain item
-                    |> Option.value (* Let's hope that we only pass items generated during the merch creation process. *)
-
-                let assignedPrice =
-                    Queries.Merch.itemPrice band.Id mainItemProperty state
+                let assignedPrice = Queries.Merch.itemPrice' state band.Id item
 
                 match assignedPrice with
                 | Some _ -> None

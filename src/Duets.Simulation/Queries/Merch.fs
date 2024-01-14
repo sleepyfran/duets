@@ -8,12 +8,20 @@ open Duets.Simulation
 
 module Merch =
     /// Retrieves the price of a merch item for the given band.
-    let itemPrice bandId itemProperty =
+    let itemPrice state bandId itemProperty =
         let lens =
             Lenses.State.merchPrices_ >-> Map.keyWithDefault_ bandId Map.empty
             >?> Map.key_ itemProperty
 
-        Optic.get lens
+        Optic.get lens state
+
+    /// Retrieves the price of a merch item for the given band.
+    let itemPrice' state bandId item =
+        let mainProperty = Item.Property.tryMain item
+
+        match mainProperty with
+        | Some property -> itemPrice state bandId property
+        | None -> None
 
     /// Returns the cost of producing the given item.
     let itemProductionCost itemProperty =
@@ -38,3 +46,12 @@ module Merch =
             | _ -> 4m
 
         itemProductionCost itemProperty * bandFameModifier
+
+    /// Returns the recommended price of a merch item so that it will sell for
+    /// the given band.
+    let recommendedItemPrice' state bandId item =
+        let mainProperty = Item.Property.tryMain item
+
+        match mainProperty with
+        | Some property -> recommendedItemPrice state bandId property
+        | None -> 0m<dd>

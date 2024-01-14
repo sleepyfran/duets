@@ -18,10 +18,9 @@ module SetupMerchStandCommand =
     let private promptForItemPrice item =
         let state = State.get ()
         let band = Queries.Bands.currentBand state
-        let mainItemProperty = Item.Property.tryMain item |> Option.value
 
         let recommendedPrice =
-            Queries.Merch.recommendedItemPrice state band.Id mainItemProperty
+            Queries.Merch.recommendedItemPrice' state band.Id item
 
         let rec promptUntilValid () =
             let price =
