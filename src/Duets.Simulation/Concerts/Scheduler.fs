@@ -60,27 +60,3 @@ let moveFailedConcerts state date =
         else
             None)
     |> List.ofSeq
-
-/// Starts any scheduled concert that should be happening right now when getting
-/// into a place.
-let startScheduledConcerts state placeId =
-    let situation = Queries.Situations.current state
-
-    match situation with
-    | Concert(InConcert _) ->
-        [] (* Concert already started, no need to do anything. *)
-    | Concert(Preparing checklist) ->
-        let band = Queries.Bands.currentBand state
-
-        (* Check whether we have a concert scheduled and, if so, initialize a new OngoingConcert. *)
-        Queries.Concerts.scheduleForTodayInPlace state band.Id placeId
-        |> Option.map (fun scheduledConcert ->
-            let concert = Concert.fromScheduled scheduledConcert
-
-            [ Situations.inConcert
-                  { Events = []
-                    Points = 0<quality>
-                    Checklist = checklist
-                    Concert = concert } ])
-        |> Option.defaultValue []
-    | _ -> [] (* Band hasn't started preparing, can't start concert. *)

@@ -2,6 +2,7 @@
 module Duets.Simulation.Concerts.Live.Actions
 
 open Duets.Entities
+open Duets.Entities.SituationTypes
 open Duets.Simulation
 open Duets.Simulation.Time.AdvanceTime
 
@@ -14,7 +15,8 @@ let soundcheck state checklist =
         let updatedChecklist = { checklist with SoundcheckDone = true }
 
         let timeEffects =
-            Config.MusicSimulation.Merch.soundcheckTime |> advanceDayMoment' state
+            Config.MusicSimulation.Merch.soundcheckTime
+            |> advanceDayMoment' state
 
         [ Situations.preparingConcert' updatedChecklist; yield! timeEffects ]
 
@@ -34,6 +36,24 @@ let setupMerchStand state checklist =
             |> advanceDayMoment' state
 
         [ Situations.preparingConcert' updatedChecklist; yield! timeEffects ]
+
+/// Starts the given concert if the band is ready to play.
+let startConcert state concert =
+    let situation = Queries.Situations.current state
+
+    match situation with
+    | Concert(InConcert _) ->
+        [] (* Concert already started, no need to do anything. *)
+    | Concert(Preparing checklist) ->
+        let initialPoints =
+            if checklist.SoundcheckDone then 5<quality> else 0<quality>
+
+        [ Situations.inConcert
+              { Events = []
+                Points = initialPoints
+                Checklist = checklist
+                Concert = concert } ]
+    | _ -> [] (* Band hasn't started preparing, can't start concert. *)
 
 /// Plays the given song in the concert with the specified energy. The result
 /// depends on whether the song was already played or not and the energy.

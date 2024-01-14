@@ -23,7 +23,7 @@ module StartConcertCommand =
                 let attendancePercentage =
                     Queries.Concerts.attendancePercentage concert
 
-                Scheduler.startScheduledConcerts (State.get ()) concert.VenueId
+                Live.Actions.startConcert (State.get ()) concert
                 |> Effect.applyMultiple
 
                 match attendancePercentage with
