@@ -142,6 +142,9 @@ module MusicSimulation =
     let fanStreamingPercentage = 0.10
 
     module Merch =
+        /// Time it takes to do a soundcheck.
+        let soundcheckTime = 1<dayMoments>
+        
         /// Time it takes to set-up a merch stand.
         let standSetupTime = 1<dayMoments>
 

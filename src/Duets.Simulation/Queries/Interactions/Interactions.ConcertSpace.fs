@@ -43,6 +43,14 @@ module ConcertSpace =
             [ ConcertInteraction.SetupMerchStand(checklist, itemsWithoutPrice)
               |> Interaction.Concert ]
 
+    let private soundcheckInteraction checklist =
+        if checklist.SoundcheckDone then
+            (* Nothing to do, band has already done the soundcheck. *)
+            []
+        else
+            [ ConcertInteraction.PerformSoundCheck(checklist)
+              |> Interaction.Concert ]
+
     let private instrumentInteractions state ongoingConcert =
         let characterBandMember = Queries.Bands.currentPlayableMember state
 
@@ -78,6 +86,8 @@ module ConcertSpace =
         let situation = Queries.Situations.current state
 
         match situation with
+        | Concert(Preparing checklist) when roomType = RoomType.Stage ->
+            soundcheckInteraction checklist
         | Concert(Preparing checklist) when roomType = RoomType.Bar ->
             setupMerchStandInteraction state checklist
         | Concert(Preparing _) when roomType = RoomType.Stage ->

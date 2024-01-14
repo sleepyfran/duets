@@ -29,6 +29,8 @@ let private commandsFromInteractions interactions =
             match concertInteraction with
             | ConcertInteraction.SetupMerchStand(checklist, itemsWithoutPrice) ->
                 [ SetupMerchStandCommand.create checklist itemsWithoutPrice ]
+            | ConcertInteraction.PerformSoundCheck checklist ->
+                [ PerformSoundcheckCommand.create checklist ]
             | ConcertInteraction.StartConcert placeId ->
                 [ StartConcertCommand.create placeId ]
             | ConcertInteraction.AdjustDrums _ ->

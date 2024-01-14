@@ -5,6 +5,20 @@ open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Time.AdvanceTime
 
+/// Sets the soundcheck to performed in the checklist.
+let soundcheck state checklist =
+    if checklist.SoundcheckDone then
+        (* Technically the interaction should be disabled, but let's do nothing. *)
+        []
+    else
+        let updatedChecklist = { checklist with SoundcheckDone = true }
+
+        let timeEffects =
+            Config.MusicSimulation.Merch.soundcheckTime |> advanceDayMoment' state
+
+        [ Situations.preparingConcert' updatedChecklist; yield! timeEffects ]
+
+
 /// Sets up the merch stand, which improves the ticket sales of the concert.
 let setupMerchStand state checklist =
     if checklist.MerchStandSetup then

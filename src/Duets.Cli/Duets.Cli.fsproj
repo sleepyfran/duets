@@ -110,6 +110,7 @@
         <Compile Include="Components\Commands\Concert\TuneInstrument.Command.fs"/>
         <Compile Include="Components\Commands\Concert\SpinDrumsticks.Command.fs"/>
         <Compile Include="Components\Commands\Concert\SetupMerchStand.Command.fs" />
+        <Compile Include="Components\Commands\Concert\PerformSoundcheck.Command.fs" />
         <Compile Include="Components\Commands\Gym\AskForEntrance.Command.fs"/>
         <Compile Include="Components\Commands\Shop\SeeMenu.Command.fs"/>
         <Compile Include="Components\Commands\Shop\Buy.Command.fs" />

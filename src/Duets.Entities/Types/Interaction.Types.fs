@@ -26,6 +26,9 @@ module InteractionTypes =
         | SetupMerchStand of
             checklist: ConcertPreparationChecklist *
             itemsWithoutPrice: Item list
+        /// Performs a sound check, which gives additional points to the overall
+        /// concert score.
+        | PerformSoundCheck of checklist: ConcertPreparationChecklist
         /// Starts a scheduled concert.
         | StartConcert of ScheduledConcert
         /// Makes the character adjust the drum setting. Does nothing.
