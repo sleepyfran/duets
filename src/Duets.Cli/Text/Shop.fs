@@ -12,10 +12,10 @@ let itemType t = Generic.itemDetailedName t
 
 let itemPrice price = Styles.money price
 
-let itemInteractiveRow (item: Item, price) = $"{item.Name} ({Styles.money price})"
+let itemInteractiveRow (item: Item, price) =
+    $"{Generic.itemDetailedName item} ({Styles.money price})"
 
-let itemPrompt =
-    "Which item do you want to order?"
+let itemPrompt = "Which item do you want to order?"
 
 let itemNotFound input =
     Styles.error $"There's no \"{input}\" in the menu"

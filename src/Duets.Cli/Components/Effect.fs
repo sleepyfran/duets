@@ -135,11 +135,11 @@ let private displayEffect effect =
         | CharacterPassedOut -> Concert.failedCharacterPassedOut
         |> showMessage
     | ItemAddedToCharacterInventory item ->
-        Items.itemAddedCharacterToInventory item.Name |> showMessage
+        Items.itemAddedCharacterToInventory item |> showMessage
     | ItemAddedToBandInventory(item, quantity) ->
-        Items.itemAddedToBandInventory item.Name quantity |> showMessage
+        Items.itemAddedToBandInventory item quantity |> showMessage
     | ItemRemovedFromCharacterInventory item ->
-        Items.itemRemovedFromCharacterInventory item.Name |> showMessage
+        Items.itemRemovedFromCharacterInventory item |> showMessage
     | MerchSold(_, items, income) ->
         let itemsSold = items |> Seq.sumBy snd
 

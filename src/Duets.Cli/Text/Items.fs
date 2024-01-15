@@ -3,15 +3,17 @@ module Duets.Cli.Text.Items
 open Duets.Common
 open Duets.Entities
 
-let itemAddedCharacterToInventory itemName =
-    Styles.success $"{itemName} has been added to your inventory"
+let itemAddedCharacterToInventory item =
+    Styles.success
+        $"{Generic.itemDetailedName item} has been added to your inventory"
 
-let itemAddedToBandInventory itemName quantity =
-    $"{quantity} {Generic.simplePluralOf (itemName |> String.lowercase) quantity} added to your band's inventory"
+let itemAddedToBandInventory item quantity =
+    $"{quantity} {Generic.simplePluralOf (Generic.itemDetailedName item) quantity} added to your band's inventory"
     |> Styles.success
 
-let itemRemovedFromCharacterInventory itemName =
-    Styles.warning $"{itemName} has been removed from your inventory"
+let itemRemovedFromCharacterInventory item =
+    Styles.warning
+        $"{Generic.itemDetailedName item} has been removed from your inventory"
 
 let noItemsInventory = "You are not carrying anything"
 

@@ -246,7 +246,7 @@ let itemDetailedName (item: Item) =
     | Drinkable drink ->
         match drink.DrinkType with
         | Beer alcohol ->
-            $"""{Styles.item $"{item.Brand} beer"} ({drink.Amount}ml, {alcohol}%%)"""
+            $"""{Styles.item $"{item.Brand}"} ({drink.Amount}ml, {alcohol}%%)"""
         | Coffee coffeeMl ->
             $"""{Styles.item item.Name} ({coffeeMl}ml of coffee)"""
         | Soda -> $"""{Styles.item item.Brand} ({drink.Amount}ml)"""
