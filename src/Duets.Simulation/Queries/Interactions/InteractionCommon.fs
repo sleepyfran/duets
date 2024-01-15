@@ -17,7 +17,11 @@ module InteractionCommon =
         List.filter (fun interaction ->
             match situation with
             | FreeRoam -> true
-            | Airport(Flying _) -> filterOutMovement interaction
+            | Airport(Flying _) ->
+                filterOutMovement interaction
+                && match interaction with
+                   | Interaction.FreeRoam FreeRoamInteraction.Wait -> false
+                   | _ -> true
             | Concert(Preparing _) ->
                 (*
                 Since we keep the status of the concert in the situation, disallow
@@ -29,6 +33,7 @@ module InteractionCommon =
                 | _ -> true
             | Concert(InConcert _) ->
                 match interaction with
+                | Interaction.FreeRoam(FreeRoamInteraction.Look _) -> true
                 | Interaction.Concert _ -> true
                 | Interaction.Item _ -> true
                 | _ -> false
