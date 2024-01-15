@@ -26,6 +26,7 @@
         <Compile Include="State\State.Setup.Tests.fs" />
         <Compile Include="State\State.Skills.Tests.fs" />
         <Compile Include="State\State.Concerts.Tests.fs" />
+        <Compile Include="State\State.Merch.Tests.fs" />
         <Compile Include="State\State.Relationships.Tests.fs" />
         <Compile Include="State\State.Inventory.Tests.fs" />
         <Compile Include="Airport\BoardPlane.Tests.fs" />
@@ -49,6 +50,7 @@
         <Compile Include="Market\GenreMarket.Tests.fs" />
         <Compile Include="Merchandise\Order.Merchandise.Tests.fs" />
         <Compile Include="Merchandise\PickUp.Merchandise.Tests.fs" />
+        <Compile Include="Merchandise\Sell.Merchandise.Tests.fs" />
         <Compile Include="MiniGames\Blackjack.Tests.fs" />
         <Compile Include="Notifications\Notification.Tests.fs" />
         <Compile Include="Time\AdvanceTime.Tests.fs" />

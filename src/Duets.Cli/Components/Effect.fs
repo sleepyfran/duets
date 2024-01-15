@@ -140,6 +140,12 @@ let private displayEffect effect =
         Items.itemAddedToBandInventory item.Name quantity |> showMessage
     | ItemRemovedFromCharacterInventory item ->
         Items.itemRemovedFromCharacterInventory item.Name |> showMessage
+    | MerchSold(_, items, income) ->
+        let itemsSold = items |> Seq.sumBy snd
+
+        $"You sold {itemsSold} items and made a total of {Styles.money income} on top of the concert ticket sales"
+        |> Styles.success
+        |> showMessage
     | MoneyTransferred(holder, transaction) ->
         Phone.bankAppTransferSuccess holder transaction |> showMessage
     | NotificationShown notification ->

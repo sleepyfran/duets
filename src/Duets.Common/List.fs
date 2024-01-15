@@ -30,12 +30,10 @@ let ofMap (map: Map<_, _>) =
     List.ofSeq map |> List.map (fun kvp -> (kvp.Key, kvp.Value))
 
 /// Returns a list created from the keys of a map ignoring its values.
-let ofMapKeys (map: Map<_, _>) =
-    List.ofSeq map |> List.map (_.Key)
+let ofMapKeys (map: Map<_, _>) = List.ofSeq map |> List.map (_.Key)
 
 /// Returns a list created from the values of a map ignoring its keys.
-let ofMapValues (map: Map<_, _>) =
-    List.ofSeq map |> List.map (_.Value)
+let ofMapValues (map: Map<_, _>) = List.ofSeq map |> List.map (_.Value)
 
 /// Applies the averageBy operation from the List module but returning the
 /// given defaultValue if the list is empty.
@@ -61,3 +59,9 @@ let trySample list = List.tryItem (sampleIndex list) list
 
 /// Returns whether the given list has any element or not.
 let isNotEmpty list = List.isEmpty list |> not
+
+/// Returns a shuffled version of the given list. Do not use this for shuffling
+/// that requires uniform distribution, as this does not use a proper shuffling
+/// algorithm and instead relies on random sorting.
+let shuffle list =
+    List.sortBy (fun _ -> Random.random ()) list

@@ -24,4 +24,11 @@ let addToBand item quantity =
             | Some q -> Some(q + quantity)
             | None -> Some quantity))
 
+let reduceForBand item quantity =
+    Optic.map
+        bandsLenses
+        (Map.change item (function
+            | Some q -> Some(q - quantity)
+            | None -> None))
+
 let removeFromBand item = Optic.map bandsLenses (Map.remove item)

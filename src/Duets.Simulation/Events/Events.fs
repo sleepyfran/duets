@@ -10,6 +10,7 @@ let associatedEffects effect =
     [ Band.run effect
       Career.run effect
       Character.run effect
+      Concert.run effect
       Moodlets.run effect
       NonInteractiveGame.run effect
       Skill.run effect

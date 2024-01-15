@@ -123,6 +123,7 @@
         <Compile Include="Merchandise\Order.Merchandise.fs" />
         <Compile Include="Merchandise\PickUp.Merchandise.fs" />
         <Compile Include="Merchandise\SetPrice.Merchandise.fs" />
+        <Compile Include="Merchandise\Sell.Merchandise.fs" />
         <Compile Include="Rentals\PayUpcoming.fs" />
         <Compile Include="Rentals\RentPlace.fs" />
         <Compile Include="Songs\Practice.fs" />
@@ -157,6 +158,7 @@
         <Compile Include="Events\Moodlets\TiredOfTouring.fs" />
         <Compile Include="Events\Moodlets\Moodlets.Events.fs" />
         <Compile Include="Events\Career.Events.fs" />
+        <Compile Include="Events\Concert.Events.fs" />
         <Compile Include="Events\NonInteractiveGame.Events.fs" />
         <Compile Include="Events\Skill.Events.fs" />
         <Compile Include="Events\Time.Events.fs" />

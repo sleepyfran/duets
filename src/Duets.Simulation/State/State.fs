@@ -81,6 +81,12 @@ let applyEffect state effect =
     | ItemRemovedFromWorld(coords, item) -> World.remove coords item state
     | MerchPriceSet(band, merch, price) ->
         Merch.setPrice band.Id merch price state
+    | MerchSold(_, items, _) ->
+        items
+        |> List.fold
+            (fun state (item, quantity) ->
+                Inventory.reduceForBand item quantity state)
+            state
     | MemberHired(band, character, currentMember, skills) ->
         let stateWithMember =
             Characters.add character state |> Bands.addMember band currentMember
