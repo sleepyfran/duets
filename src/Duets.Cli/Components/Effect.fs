@@ -109,9 +109,7 @@ let private displayEffect effect =
             |> Styles.warning
             |> showMessage)
     | ConcertScheduled(_, ScheduledConcert(concert, _)) ->
-        let place = Queries.World.placeInCityById concert.CityId concert.VenueId
-
-        Phone.concertAssistantAppTicketDone place concert |> showMessage
+        showConcertDetails concert
     | ConcertFinished(_, pastConcert, income) ->
         let concert = Concert.fromPast pastConcert
 

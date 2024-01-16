@@ -59,7 +59,7 @@ let scheduledAroundDate state bandId =
 
     let aroundCurrentDate concert =
         let spanBetween = concert.Date - today
-        if abs(spanBetween.Days) <= 1 then Some concert else None
+        if abs (spanBetween.Days) <= 1 then Some concert else None
 
     let concertsScheduledAroundCurrentDate =
         timeline.ScheduledEvents
@@ -134,6 +134,18 @@ let fairTicketPrice state bandId =
     | fame when fame < 60 -> 25.0m
     | fame when fame < 80 -> 75.0m
     | _ -> 100.0m
+
+/// Returns the range of capacity that the venue needs to have to be suitable
+/// for the given band.
+let suitableVenueCapacity state bandId =
+    let band = Bands.byId state bandId
+
+    match band.Fans with
+    | fans when fans <= 1000 -> (0, 300)
+    | fans when fans <= 5000 -> (0, 500)
+    | fans when fans <= 20000 -> (500, 5000)
+    | fans when fans <= 100000 -> (500, 20000)
+    | _ -> (500, 500000)
 
 /// Calculates the percentage off the tickets that the concert space will take
 /// based on the quality of the place and the capacity.

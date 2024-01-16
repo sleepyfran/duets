@@ -122,12 +122,11 @@ let concertAssistantAppShowTimePrompt = "At what time?"
 
 let concertAssistantAppShowCityPrompt = "In which city?"
 
-let concertAssistantAppShowVenuePrompt = "In which venue?"
+let concertAssistantAppShowVenuePrompt maxCapacity =
+    $"In which venue? (Recommended capacity: up to {maxCapacity})"
 
 let concertAssistantAppTicketPricePrompt recommendedPrice =
-    $"""What will the price of each ticket be? (Recommended: {recommendedPrice |> Styles.money})
-{Styles.danger
-     "Keep in mind that putting high prices might affect how many people will go"}"""
+    $"""What will the price of each ticket be? (Recommended: up to {recommendedPrice |> Styles.money})"""
 
 let concertAssistantAppDateAlreadyBooked date =
     Styles.error $"You already have a concert on {Date.simple date}!"
@@ -139,9 +138,6 @@ let concertAssistantAppTicketPriceBelowZero price =
 let concertAssistantAppTicketPriceTooHigh price =
     Styles.error
         $"{Styles.decimal price} is a bit too high for a concert. Maybe a bit less?"
-
-let concertAssistantAppTicketDone (place: Place) concert =
-    $"""Done! You scheduled a concert in {Styles.place place.Name} on {Styles.highlight (Date.simple concert.Date)}. Be sure to be in the place at the moment of the concert, {Styles.danger "otherwise it'd fail miserably!"}"""
 
 (* --- Statistics --- *)
 

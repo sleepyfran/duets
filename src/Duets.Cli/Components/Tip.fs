@@ -15,3 +15,8 @@ let showTip title text =
         Expand = false
     )
     |> AnsiConsole.Write
+
+/// Shows a list of tips (hints) to the player as a list with a header.
+let showTips tips =
+    "Tips" |> Styles.title |> showMessage
+    tips |> List.iter (fun tip -> $"- {tip}" |> Styles.hint |> showMessage)

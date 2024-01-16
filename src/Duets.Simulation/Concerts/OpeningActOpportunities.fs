@@ -46,7 +46,7 @@ let private generateOpeningActShowsOnDate state headlinerBands cityId date =
 
         let earningPercentage = calculateEarningPercentage headlinerFameLevel
 
-        let venue = findSuitableVenue venuesInCity headliner.Fans
+        let venue = findSuitableVenue state venuesInCity headliner
 
         let concert =
             Concert.create
@@ -59,14 +59,8 @@ let private generateOpeningActShowsOnDate state headlinerBands cityId date =
 
         (headliner, concert))
 
-let private findSuitableVenue venuesInCity fans : Place =
-    let range =
-        match fans with
-        | fans when fans <= 1000 -> (0, 300)
-        | fans when fans <= 5000 -> (0, 500)
-        | fans when fans <= 20000 -> (500, 5000)
-        | fans when fans <= 100000 -> (500, 20000)
-        | _ -> (500, 500000)
+let private findSuitableVenue state venuesInCity band : Place =
+    let range = Queries.Concerts.suitableVenueCapacity state band.Id
 
     (*
     We rely on the fact that there will always be a suitable venue in the city.

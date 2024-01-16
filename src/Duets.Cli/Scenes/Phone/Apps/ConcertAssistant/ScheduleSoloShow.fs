@@ -72,13 +72,18 @@ and private promptForCity app date dayMoment =
     | None -> app ()
 
 and private promptForVenue app date dayMoment city =
+    let band = Queries.Bands.currentBand (State.get ())
+
+    let _, maxCapacityRecommended =
+        Queries.Concerts.suitableVenueCapacity (State.get ()) band.Id
+
     let venues =
         Queries.World.placeIdsByTypeInCity city.Id PlaceTypeIndex.ConcertSpace
         |> List.map (Queries.World.placeInCityById city.Id)
 
     let selectedVenue =
         showOptionalChoicePrompt
-            Phone.concertAssistantAppShowVenuePrompt
+            (Phone.concertAssistantAppShowVenuePrompt maxCapacityRecommended)
             Generic.cancel
             (fun (place: Place) ->
                 match place.PlaceType with
@@ -97,8 +102,15 @@ and private promptForVenue app date dayMoment city =
     | None -> app ()
 
 and private promptForTicketPrice app date dayMoment city venueId =
+    let state = State.get ()
+    let band = Queries.Bands.currentBand state
+
+    let recommendedPrice =
+        Queries.Concerts.fairTicketPrice state band.Id |> Amount.fromDecimal
+
     let ticketPrice =
-        showDecimalPrompt Phone.concertAssistantAppTicketPricePrompt
+        Phone.concertAssistantAppTicketPricePrompt recommendedPrice
+        |> showDecimalPrompt
 
     Concert.validatePrice ticketPrice
     |> Result.switch

@@ -69,6 +69,9 @@ let information text = $"[underline]{text}[/]"
 /// Pre-defined style for showing text that does not draw attention immediately.
 let faded text = $"[grey]{text}[/]"
 
+/// Pre-defined style for showing text that is a hint to the user.
+let hint = faded
+
 /// Pre-defined style for showing text that draws attention.
 let highlight text = $"[bold deepskyblue3]{text}[/]"
 
