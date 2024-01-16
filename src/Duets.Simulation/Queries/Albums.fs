@@ -76,5 +76,4 @@ module Albums =
     /// Calculates the generated revenue of the album.
     let revenue album =
         float album.Streams * Config.Revenue.revenuePerStream
-        |> decimal
-        |> (*) 1m<dd>
+        |> Amount.fromFloat

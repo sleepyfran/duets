@@ -26,7 +26,7 @@ module SetupMerchStandCommand =
             let price =
                 $"How much do you want to charge for {Generic.itemDetailedName item |> Styles.item}? (Recommended: {Styles.money recommendedPrice})"
                 |> showDecimalPrompt
-                |> (*) 1m<dd>
+                |> Amount.fromDecimal
 
             let result = setPrice band item price
 

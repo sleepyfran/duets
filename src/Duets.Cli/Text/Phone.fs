@@ -124,9 +124,10 @@ let concertAssistantAppShowCityPrompt = "In which city?"
 
 let concertAssistantAppShowVenuePrompt = "In which venue?"
 
-let concertAssistantAppTicketPricePrompt =
-    $"""What will the price of each ticket be? {Styles.danger
-                                                    "Keep in mind that putting high prices might affect how many people will go"}"""
+let concertAssistantAppTicketPricePrompt recommendedPrice =
+    $"""What will the price of each ticket be? (Recommended: {recommendedPrice |> Styles.money})
+{Styles.danger
+     "Keep in mind that putting high prices might affect how many people will go"}"""
 
 let concertAssistantAppDateAlreadyBooked date =
     Styles.error $"You already have a concert on {Date.simple date}!"

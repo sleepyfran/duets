@@ -18,7 +18,7 @@ let distributeFunds bankApp =
 
     let result =
         showDecimalPrompt "How much would you like to distribute?"
-        |> (*) 1m<dd>
+        |> Amount.fromDecimal
         |> FundDistribution.distribute state
 
     match result with

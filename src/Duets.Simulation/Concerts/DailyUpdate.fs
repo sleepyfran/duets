@@ -6,7 +6,7 @@ open Duets.Entities
 open Duets.Simulation
 
 let private ticketPriceModifier state bandId concert =
-    let ticketPrice = concert.TicketPrice / 1m<dd> |> float
+    let ticketPrice = concert.TicketPrice |> Amount.toDecimal |> float
 
     let ticketPriceCap = Queries.Concerts.fairTicketPrice state bandId |> float
 

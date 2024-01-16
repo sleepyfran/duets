@@ -9,4 +9,4 @@ let albumRevenue (previousDayStreams: int) =
     float previousDayStreams
     * Config.Revenue.revenuePerStream
     |> decimal
-    |> (*) 1m<dd>
+    |> Amount.fromDecimal
