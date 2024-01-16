@@ -42,7 +42,7 @@ let private removeItemsRequiredByPlaceIfNeeded previousCoords currentCoords _ =
 
 let private generateNpcs previousCoords currentCoords state =
     let generateNpcs () =
-        let cityId, placeId, _ = currentCoords
+        let cityId, placeId, roomId = currentCoords
         let place = Queries.World.placeInCityById cityId placeId
 
         World.Population.generateForPlace cityId place state |> List.singleton

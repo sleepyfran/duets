@@ -101,6 +101,12 @@ module World =
     /// Returns all the NPCs that are currently in the same coordinates as the
     /// character.
     let peopleInCurrentPlace state =
-        state.PeopleInCurrentPosition
-        |> List.partition (fun person ->
-            Relationship.withCharacter person.Id state |> Option.isSome)
+        let room = currentRoom state
+
+        (* Prevent private rooms from being populated. *)
+        match room.RoomType with
+        | RoomType.Bedroom -> [], []
+        | _ ->
+            state.PeopleInCurrentPosition
+            |> List.partition (fun person ->
+                Relationship.withCharacter person.Id state |> Option.isSome)
