@@ -26,7 +26,7 @@ module RecordSongCommand =
         let (Finished(fs, _)) = song
 
         showOptionalChoicePrompt
-            $"Which album do you want to {fs.Name} to?"
+            $"Which album do you want to add {fs.Name} to?"
             Generic.cancel
             (fun (UnreleasedAlbum album) -> album.Name)
             unreleasedAlbums
