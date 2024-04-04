@@ -17,7 +17,7 @@ module RecordSongCommand =
         showOptionalChoicePrompt
             $"""Select which {Styles.highlight "song"} will be added to the album"""
             Generic.cancel
-            (fun (Finished((fs: Song), currentQuality)) ->
+            (fun (Finished(fs: Song, currentQuality)) ->
                 Generic.songWithDetails fs.Name currentQuality fs.Length)
             finishedSongs
         |> Option.iter (promptForAlbum studio unreleasedAlbums finishedSongs)
@@ -28,7 +28,8 @@ module RecordSongCommand =
         showOptionalChoicePrompt
             $"Which album do you want to add {fs.Name} to?"
             Generic.cancel
-            (fun (UnreleasedAlbum album) -> album.Name)
+            (fun (unreleasedAlbum: UnreleasedAlbum) ->
+                unreleasedAlbum.Album.Name)
             unreleasedAlbums
         |> Option.iter (
             promptForConfirmation studio unreleasedAlbums finishedSongs song

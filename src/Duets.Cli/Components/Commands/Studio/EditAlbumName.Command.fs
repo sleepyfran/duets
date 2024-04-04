@@ -19,7 +19,8 @@ module EditAlbumNameCommand =
         showOptionalChoicePrompt
             "Which album do you want to edit?"
             Generic.cancel
-            (fun (UnreleasedAlbum album) -> album.Name)
+            (fun (unreleasedAlbum: UnreleasedAlbum) ->
+                unreleasedAlbum.Album.Name)
             unreleasedAlbums
         |> Option.iter (promptForAlbumName currentBand)
 

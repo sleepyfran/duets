@@ -14,7 +14,7 @@ let private applyToReleased bandId op =
     Optic.map releasedAlbumsLens op
 
 let addUnreleased (band: Band) unreleasedAlbum =
-    let (UnreleasedAlbum album) = unreleasedAlbum
+    let album = unreleasedAlbum |> Album.fromUnreleased
     let addUnreleasedAlbum = Map.add album.Id unreleasedAlbum
     applyToUnreleased band.Id addUnreleasedAlbum
 

@@ -22,7 +22,8 @@ module ReleaseAlbumCommand =
                 showOptionalChoicePrompt
                     "Which album do you want to release?"
                     Generic.cancel
-                    (fun (UnreleasedAlbum album) -> album.Name)
+                    (fun (unreleasedAlbum: UnreleasedAlbum) ->
+                        unreleasedAlbum.Album.Name)
                     unreleasedAlbums
                 |> Option.iter (Studio.promptToReleaseAlbum currentBand)
 

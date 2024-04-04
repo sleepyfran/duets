@@ -17,6 +17,15 @@ let createRecordName =
 let createTrackListPrompt =
     $"""Select which {Styles.highlight "song"} will be on the {Styles.highlight "track-list"} first"""
 
+let producerPrompt =
+    $"""Who will be in charge of {Styles.highlight "producing, mixing and mastering"} the record?"""
+    
+let producerPlayableCharacterSelection skillLevel =
+    $"""You (Music production skill: {Styles.Level.from skillLevel}, {Styles.success "free"})"""
+
+let producerStudioProducerSelection pricePerSong studioQuality =
+    $"""Studio's producer (Skill level: {Styles.Level.from studioQuality}, {Styles.money pricePerSong} extra per song)"""
+
 let confirmRecordingPrompt name =
     $"""Are you sure you want to record {Styles.song name}? It will be the first song in the album, and it can't be changed"""
 

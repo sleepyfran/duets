@@ -6,28 +6,61 @@ open Duets.Simulation
 open Duets.Simulation.Bank.Operations
 open Duets.Simulation.Time
 
-let private productionQualityImprovement state studio =
+let private productionQualityImprovement state studio selectedProducer =
+    let selectedProducerId =
+        match selectedProducer with
+        | SelectedProducer.PlayableCharacter ->
+            let character = Queries.Characters.playableCharacter state
+            character.Id
+        | SelectedProducer.StudioProducer -> studio.Producer.Id
+
     Queries.Skills.characterSkillWithLevel
         state
-        studio.Producer.Id
+        selectedProducerId
         SkillId.MusicProduction
     |> fun (_, productionLevel) -> (float productionLevel) * 0.2
 
-let private recordSong state studio (finishedSong: Finished<Song>) =
+let private recordSong
+    state
+    studio
+    selectedProducer
+    (finishedSong: Finished<Song>)
+    =
     let (Finished(song, quality)) = finishedSong
 
     (float quality)
-    |> (+) (productionQualityImprovement state studio)
+    |> (+) (productionQualityImprovement state studio selectedProducer)
     |> int
     |> Math.clamp 0 100
     |> fun improvedQuality -> Recorded(song, improvedQuality * 1<quality>)
 
-let private generatePaymentForOneSong state studio (band: Band) =
+let private generatePaymentForOneSong
+    state
+    studio
+    selectedProducer
+    (band: Band)
+    =
     let bandAccount = Band band.Id
-    expense state bandAccount studio.PricePerSong
 
-let private generateEffectsAfterBilling state studio band effects =
-    let billingResult = generatePaymentForOneSong state studio band
+    let totalPrice =
+        match selectedProducer with
+        | SelectedProducer.PlayableCharacter ->
+            studio.PricePerSong (* Includes only the recording fee. *)
+        | SelectedProducer.StudioProducer ->
+            studio.PricePerSong
+            * 2m (* Includes the recording fee and the production fee. *)
+
+    expense state bandAccount totalPrice
+
+let private generateEffectsAfterBilling
+    state
+    studio
+    selectedProducer
+    band
+    effects
+    =
+    let billingResult =
+        generatePaymentForOneSong state studio selectedProducer band
 
     let timeEffects =
         StudioInteraction.CreateAlbum(studio, [])
@@ -43,12 +76,18 @@ let private generateEffectsAfterBilling state studio band effects =
 /// and attempts to generate an album from the name and track list, applying the
 /// validations of an album. Also checks the band's bank account and generates
 /// the payment to the studio.
-let startAlbum state studio band albumName initialSong =
-    let (Recorded(song, quality)) = recordSong state studio initialSong
+let startAlbum state studio selectedProducer band albumName initialSong =
+    let (Recorded(song, quality)) =
+        recordSong state studio selectedProducer initialSong
+
     let album = Recorded(song.Id, quality) |> Album.from band albumName
 
-    [ AlbumStarted(band, UnreleasedAlbum album) ]
-    |> generateEffectsAfterBilling state studio band
+    let unreleasedAlbum =
+        { Album = album
+          SelectedProducer = selectedProducer }
+
+    [ AlbumStarted(band, unreleasedAlbum) ]
+    |> generateEffectsAfterBilling state studio selectedProducer band
 
 /// Applies the improvement in quality given by the producer of the studio and
 /// attempts to add a song to the given unreleased album. Generates a payment
@@ -58,15 +97,26 @@ let recordSongForAlbum
     state
     studio
     (band: Band)
-    (UnreleasedAlbum album)
+    (unreleasedAlbum: UnreleasedAlbum)
     (song: Finished<Song>)
     =
-    let recordedSong = recordSong state studio song
-    let trackList = Queries.Albums.trackList state album
+    let recordedSong =
+        recordSong state studio unreleasedAlbum.SelectedProducer song
+
+    let trackList = Queries.Albums.trackList state unreleasedAlbum.Album
 
     let updatedAlbum =
-        trackList @ [ recordedSong ] |> Album.updateTrackList album
+        trackList @ [ recordedSong ]
+        |> Album.updateTrackList unreleasedAlbum.Album
 
-    [ AlbumUpdated(band, UnreleasedAlbum updatedAlbum) ]
-    |> generateEffectsAfterBilling state studio band
+    [ AlbumUpdated(
+          band,
+          { unreleasedAlbum with
+              Album = updatedAlbum }
+      ) ]
+    |> generateEffectsAfterBilling
+        state
+        studio
+        unreleasedAlbum.SelectedProducer
+        band
     |> Result.map (fun effects -> updatedAlbum, effects)

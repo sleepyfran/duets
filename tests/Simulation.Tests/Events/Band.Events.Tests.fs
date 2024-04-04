@@ -81,13 +81,21 @@ let ``tick of band fans changed should generate reviews for all previously relea
     ()
     =
     let secondUnreleasedAlbum =
-        Album.Unreleased.from dummyBand "Test Album 2" dummyRecordedSongRef
+        Album.Unreleased.from
+            dummyBand
+            "Test Album 2"
+            dummyRecordedSongRef
+            SelectedProducer.StudioProducer
 
     let secondAlbum =
         Album.Released.fromUnreleased secondUnreleasedAlbum dummyToday 1.0
 
     let thirdUnreleasedAlbum =
-        Album.Unreleased.from dummyBand "Test Album 3" dummyRecordedSongRef
+        Album.Unreleased.from
+            dummyBand
+            "Test Album 3"
+            dummyRecordedSongRef
+            SelectedProducer.StudioProducer
 
     let thirdAlbum =
         Album.Released.fromUnreleased thirdUnreleasedAlbum dummyToday 1.0

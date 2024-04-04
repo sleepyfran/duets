@@ -24,7 +24,9 @@ module ListUnreleasedAlbumsCommand =
 
                 let rows =
                     unreleasedAlbums
-                    |> List.map (fun (UnreleasedAlbum album) ->
+                    |> List.map (fun (unreleasedAlbum: UnreleasedAlbum) ->
+                        let album = unreleasedAlbum |> Album.fromUnreleased
+
                         let albumTrackList =
                             Queries.Albums.trackList (State.get ()) album
 

@@ -70,16 +70,22 @@ let ``AlbumRenamed should replace album with same with different name`` () =
         AlbumStarted(dummyBand, dummyUnreleasedAlbum)
         |> State.Root.applyEffect dummyState
 
+    let unreleasedAlbum =
+        { Album = dummyAlbum
+          SelectedProducer = SelectedProducer.StudioProducer }
+
     let state =
         AlbumUpdated(
             dummyBand,
-            UnreleasedAlbum { dummyAlbum with Name = "Test." }
+            { unreleasedAlbum with
+                UnreleasedAlbum.Album.Name = "Test." }
         )
         |> State.Root.applyEffect state
 
     Albums.unreleasedByBand state dummyBand.Id
     |> Map.head
-    |> fun (UnreleasedAlbum album) -> album.Name |> should equal "Test."
+    |> fun (unreleasedAlbum: UnreleasedAlbum) ->
+        unreleasedAlbum.Album.Name |> should equal "Test."
 
 [<Test>]
 let ``AlbumReleased should remove unreleased album and add it as released`` () =

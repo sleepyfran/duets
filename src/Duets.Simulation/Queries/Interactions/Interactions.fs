@@ -90,7 +90,8 @@ module Interactions =
             | RehearsalSpace _ ->
                 RehearsalSpace.interactions state cityId currentRoom.RoomType
             | Restaurant -> Restaurant.interactions cityId currentRoom.RoomType
-            | Studio studio -> Studio.interactions state studio
+            | Studio studio ->
+                Studio.interactions state studio currentPlace.Quality
 
         placeSpecificInteractions
         |> (@) defaultInteractions

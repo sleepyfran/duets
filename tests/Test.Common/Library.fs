@@ -113,7 +113,9 @@ let dummyTargetBankAccount =
 
 let dummyAlbum = Album.from dummyBand "Test Album" dummyRecordedSongRef
 
-let dummyUnreleasedAlbum = UnreleasedAlbum dummyAlbum
+let dummyUnreleasedAlbum =
+    { Album = dummyAlbum
+      SelectedProducer = SelectedProducer.StudioProducer }
 
 let dummyReleasedAlbum =
     { Album = dummyAlbum

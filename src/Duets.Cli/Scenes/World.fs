@@ -225,7 +225,6 @@ let worldScene mode =
 
     let situation = Queries.Situations.current (State.get ())
 
-
     match mode with
     | ShowDescription ->
         let currentRoom = State.get () |> Queries.World.currentRoom

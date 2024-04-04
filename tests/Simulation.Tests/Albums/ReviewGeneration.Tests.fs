@@ -36,9 +36,10 @@ let addAlbumWithReviews state =
 
 let addAlbumWithQuality quality =
     let unreleasedAlbum =
-        Recorded(dummySong.Id, quality * 1<quality>)
-        |> Album.from dummyBand "Testing"
-        |> UnreleasedAlbum
+        { Album =
+            Recorded(dummySong.Id, quality * 1<quality>)
+            |> Album.from dummyBand "Testing"
+          SelectedProducer = SelectedProducer.StudioProducer }
 
     let releasedAlbum =
         Album.Released.fromUnreleased unreleasedAlbum dummyToday 1.0
@@ -95,7 +96,10 @@ let ``generateReviews should return empty if the band's albums already have revi
             BandFansMax = 10000 }
         50
     |> List.iter (fun state ->
-        state |> addAlbumWithReviews |> generateReviewsForLatestAlbums |> should haveLength 0)
+        state
+        |> addAlbumWithReviews
+        |> generateReviewsForLatestAlbums
+        |> should haveLength 0)
 
 [<Test>]
 let ``generateReviews should return effects if the day was three days ago regardless of the time``

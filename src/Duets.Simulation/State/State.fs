@@ -10,7 +10,7 @@ let applyEffect state effect =
         Albums.addUnreleased band unreleasedAlbum state
         |> Albums.markTrackListAsRecorded band unreleasedAlbum
     | AlbumUpdated(band, unreleasedAlbum) ->
-        let (UnreleasedAlbum album) = unreleasedAlbum
+        let album = unreleasedAlbum |> Album.fromUnreleased
 
         Albums.removeUnreleased band album.Id state
         |> Albums.addUnreleased band unreleasedAlbum

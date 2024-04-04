@@ -29,8 +29,17 @@ module AlbumTypes =
           TrackList: TrackListRef
           Type: AlbumType }
 
+    /// Represents which producer was chosen to take care of the album production,
+    /// mixing and mastering.
+    [<RequireQualifiedAccess>]
+    type SelectedProducer =
+        | StudioProducer
+        | PlayableCharacter
+
     /// Defines an album that was recorded but hasn't been released.
-    type UnreleasedAlbum = UnreleasedAlbum of Album
+    type UnreleasedAlbum =
+        { Album: Album
+          SelectedProducer: SelectedProducer }
 
     /// Identifies a review source for albums.
     type ReviewerId =

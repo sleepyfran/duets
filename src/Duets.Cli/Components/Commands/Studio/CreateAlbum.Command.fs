@@ -17,11 +17,11 @@ module CreateAlbumCommand =
         showTextPrompt Studio.createRecordName
         |> Album.validateName
         |> Result.switch
-            (promptForTrackList studio finishedSongs)
+            (promptForFirstTrack studio finishedSongs)
             (Studio.showAlbumNameError
              >> fun _ -> promptForName studio finishedSongs)
 
-    and private promptForTrackList
+    and private promptForFirstTrack
         studio
         (finishedSongs: Finished<Song> seq)
         name
@@ -32,24 +32,61 @@ module CreateAlbumCommand =
             Generic.cancel
             (fun (Finished(fs, currentQuality)) ->
                 Generic.songWithDetails fs.Name currentQuality fs.Length)
-        |> Option.iter (promptForConfirmation studio finishedSongs name)
+        |> Option.iter (promptForProducer studio finishedSongs name)
 
-    and private promptForConfirmation studio finishedSongs name selectedSong =
+    and private promptForProducer studio finishedSongs name firstTrack =
+        [ SelectedProducer.StudioProducer; SelectedProducer.PlayableCharacter ]
+        |> showChoicePrompt Studio.producerPrompt (fun producer ->
+            let state = State.get ()
+
+            match producer with
+            | SelectedProducer.PlayableCharacter ->
+                let character = Queries.Characters.playableCharacter state
+
+                let _, skillLevel =
+                    Queries.Skills.characterSkillWithLevel
+                        state
+                        character.Id
+                        SkillId.MusicProduction
+
+                Studio.producerPlayableCharacterSelection skillLevel
+            | SelectedProducer.StudioProducer ->
+                let studioPlace = Queries.World.currentPlace state
+
+                Studio.producerStudioProducerSelection
+                    studio.PricePerSong
+                    studioPlace.Quality)
+        |> promptForConfirmation studio finishedSongs name firstTrack
+
+    and private promptForConfirmation
+        studio
+        finishedSongs
+        name
+        selectedSong
+        producer
+        =
         let (Finished(fs, _)) = selectedSong
 
         let confirmed =
             Studio.confirmRecordingPrompt fs.Name |> showConfirmationPrompt
 
         if confirmed then
-            checkBankAndRecordAlbum studio name selectedSong
+            checkBankAndRecordAlbum studio producer name selectedSong
         else
-            promptForTrackList studio finishedSongs name
+            promptForFirstTrack studio finishedSongs name
 
-    and private checkBankAndRecordAlbum studio albumName selectedSong =
+    and private checkBankAndRecordAlbum
+        studio
+        selectedProducer
+        albumName
+        selectedSong
+        =
         let state = State.get ()
 
         let band = Queries.Bands.currentBand state
-        let result = startAlbum state studio band albumName selectedSong
+
+        let result =
+            startAlbum state studio selectedProducer band albumName selectedSong
 
         match result with
         | Ok effects -> recordWithProgressBar albumName effects

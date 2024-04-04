@@ -59,19 +59,21 @@ let updateTrackList album (trackList: TrackList) =
         Type = recordType trackList |> Result.unwrap }
 
 /// Returns the inner album of an unreleased album.
-let fromUnreleased (UnreleasedAlbum album) = album
+let fromUnreleased (unreleasedAlbum: UnreleasedAlbum) = unreleasedAlbum.Album
 
 /// Returns the inner album of a released album.
 let fromReleased releasedAlbum = releasedAlbum.Album
 
 module Unreleased =
     /// Creates an unreleased album given a name and a track list.
-    let from band name trackList =
-        from band name trackList |> UnreleasedAlbum
+    let from band name trackList producer =
+        { Album = from band name trackList
+          SelectedProducer = producer }
 
     /// Modifies the name of the given album validating that it's correct.
-    let modifyName (UnreleasedAlbum album) name =
-        UnreleasedAlbum { album with Name = name }
+    let modifyName (unreleasedAlbum: UnreleasedAlbum) name =
+        { unreleasedAlbum with
+            UnreleasedAlbum.Album.Name = name }
 
 module Released =
     /// Updates an already released album with the new amount of streams and
@@ -82,8 +84,8 @@ module Released =
             Hype = hype }
 
     /// Transforms a given unreleased album into its released status.
-    let fromUnreleased (UnreleasedAlbum album) releaseDate hype =
-        { Album = album
+    let fromUnreleased (unreleasedAlbum: UnreleasedAlbum) releaseDate hype =
+        { Album = unreleasedAlbum.Album
           ReleaseDate = releaseDate
           Streams = 0
           Hype = hype
