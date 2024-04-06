@@ -38,11 +38,25 @@ module ComposeSongCommand =
             (showLengthError >> fun _ -> promptForLength name)
 
     and private promptForVocalStyle name length =
+        let hasVocalist =
+            Queries.Bands.currentBandHasAnyMemberWithRole (State.get ()) Vocals
+
+        if not hasVocalist then
+            "To compose songs with vocals, you need to have a vocalist in your band. You can hire a new member from the rehearsal room."
+            |> Styles.hint
+            |> showMessage
+
+        let vocalStyles =
+            if hasVocalist then
+                Data.VocalStyles.allNames
+            else
+                [ (Instrumental, Instrumental.ToString()) ]
+
         let vocalStyle =
             showChoicePrompt
                 Rehearsal.composeSongVocalStylePrompt
                 snd
-                Data.VocalStyles.allNames
+                vocalStyles
             |> fst
 
         Song.from name length vocalStyle |> composeWithProgressbar

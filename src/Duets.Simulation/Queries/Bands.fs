@@ -104,3 +104,12 @@ module Bands =
             Lenses.State.bands_ >-> Lenses.Bands.simulatedBands_
 
         Optic.get simulatedLens_ state
+
+    /// Returns whether the given band has any member with the given role.
+    let hasAnyMemberWithRole (band: Band) (role: InstrumentType) =
+        band.Members |> List.exists (fun bandMember -> bandMember.Role = role)
+
+    /// Returns whether the current band has any member with the given role.
+    let currentBandHasAnyMemberWithRole state role =
+        let band = currentBand state
+        hasAnyMemberWithRole band role
