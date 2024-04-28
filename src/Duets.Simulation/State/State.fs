@@ -107,7 +107,7 @@ let applyEffect state effect =
     | MoneyEarned(account, transaction) ->
         Bank.setBalance account transaction state
     | PlaceClosed _ -> state
-    | PlayResult _ -> state
+    | PlayedGame _ -> state
     | RelationshipChanged(npc, cityId, relationship) ->
         Relationships.changeForCharacterId npc.Id relationship state
         |> Relationships.changeForCityId npc.Id cityId relationship

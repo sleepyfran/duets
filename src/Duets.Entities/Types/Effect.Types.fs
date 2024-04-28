@@ -80,7 +80,7 @@ module EffectTypes =
         | SongDiscarded of Band * Unfinished<Song>
         | SongPracticed of Band * Finished<Song>
         | PlaceClosed of Place
-        | PlayResult of PlayResult
+        | PlayedGame of PlayResult
         | TimeAdvanced of Date
         /// Moves the player to a new room inside the current place.
         | WorldEnterRoom of Diff<RoomCoordinates>

@@ -122,16 +122,16 @@ let perform state (item: Item) action =
                      Skills = [ SkillId.Fitness ] |} ]
         |> Ok
     | PlayingDarts ->
-        [ nonInteractiveGameResult () |> PlayResult.Darts |> PlayResult ] |> Ok
+        [ nonInteractiveGameResult () |> PlayResult.Darts |> PlayedGame ] |> Ok
     | PlayingBilliard ->
-        [ nonInteractiveGameResult () |> PlayResult.Pool |> PlayResult ] |> Ok
+        [ nonInteractiveGameResult () |> PlayResult.Pool |> PlayedGame ] |> Ok
     | PlayingVideoGames ->
         [ yield!
               Character.Attribute.add
                   character
                   CharacterAttribute.Mood
                   Config.LifeSimulation.Mood.playingVideoGamesIncrease
-          PlayResult(PlayResult.VideoGame) ]
+          PlayedGame(PlayResult.VideoGame) ]
         |> Ok
     | ReadingBooks book ->
         [ yield! Actions.Read.read item book state
