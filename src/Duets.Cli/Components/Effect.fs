@@ -26,9 +26,16 @@ let apply effect =
 let applyMultiple effects =
     effects |> Simulation.tickMultiple (State.get ()) ||> digest
 
+/// <summary>
+/// Applies the action to the simulation and displays all messages related
+/// to the effects that the action produced or the error if the action failed.
+/// </summary>
+let applyAction action =
+    Simulation.runAction (State.get ()) action
+    |> Result.switch (fun res -> res ||> digest) displayError
+
 let private digest effects state =
     State.set state
-
     effects |> Seq.tap Log.appendEffect |> Seq.iter displayEffect
 
 let private displayEffect effect =
@@ -138,6 +145,7 @@ let private displayEffect effect =
         Items.itemAddedToBandInventory item quantity |> showMessage
     | ItemRemovedFromCharacterInventory item ->
         Items.itemRemovedFromCharacterInventory item |> showMessage
+    | ItemRemovedBySecurity item -> Airport.itemsTakenBySecurity |> showMessage
     | MerchSold(_, items, income) ->
         let itemsSold = items |> Seq.sumBy snd
 
@@ -199,6 +207,8 @@ let private displayEffect effect =
         "Choose where you want to go next" |> showMessage
 
         showMapUntilChoice () |> applyMultiple
+    | PlaneBoarded(flight, flightTime) ->
+        Airport.planeBoarded flight flightTime |> showMessage
     | PlayedGame result ->
         lineBreak ()
 
@@ -288,3 +298,7 @@ let private displayEffect effect =
 
         Command.waitResult today currentDayMoment |> showMessage
     | _ -> ()
+
+let private displayError error =
+    match error with
+    | NotEnoughFunds _ -> ()

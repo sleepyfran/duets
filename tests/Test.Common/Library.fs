@@ -248,3 +248,13 @@ let effectsFromResponse response = response.Effects
 let resultFromResponse response = response.Result
 
 let pointsFromResponse response = response.Points
+
+/// Runs the given action on the given state, unwrapping the success of the result.
+let runSucceedingAction state action =
+    Simulation.runAction state action
+    |> Result.unwrap
+    
+/// Runs the given action on the given state, unwrapping the error of the result.
+let runFailingAction state action =
+    Simulation.runAction state action
+    |> Result.unwrapError

@@ -1,4 +1,4 @@
-module Duets.Simulation.Tests.Airport.BoardPlane
+module Duets.Simulation.Tests.Airport.Airport
 
 open Duets.Data.World
 open NUnit.Framework
@@ -10,7 +10,6 @@ open Duets
 open Duets.Entities
 open Duets.Entities.SituationTypes
 open Duets.Simulation
-open Duets.Simulation.Flights.Airport
 
 let createTicket origin destination =
     { Id = Identity.create ()
@@ -29,7 +28,7 @@ let state =
 
 [<Test>]
 let ``passSecurityCheck should move character to boarding gate`` () =
-    let effects = passSecurityCheck state
+    let effects, _ = AirportPassSecurity |> runSucceedingAction state
 
     effects
     |> List.head
@@ -51,37 +50,32 @@ let ``passSecurityCheck should drop all drinks from inventory`` () =
         |> State.Inventory.addToCharacter item
         |> State.Inventory.addToCharacter item
 
-    let effects = passSecurityCheck state
+    let effects, _ = AirportPassSecurity |> runSucceedingAction state
 
     effects |> should haveLength 3
 
     effects
     |> List.filter (function
-        | ItemRemovedFromCharacterInventory _ -> true
+        | ItemRemovedBySecurity _ -> true
         | _ -> false)
     |> should haveLength 2
 
 [<Test>]
-let ``boardPlane should return an effect that sets the situation to flying``
-    ()
-    =
-    let effect, _ = boardPlane testTicket
+let ``boarding a plane should set the situation to flying`` () =
+    let effects, _ = AirportBoardPlane testTicket |> runSucceedingAction state
 
-    match effect.Head with
-    | SituationChanged(Airport(Flying flight)) ->
-        flight |> should equal testTicket
-    | _ -> failwith "Incorrect situation"
+    effects |> should contain (SituationChanged(Airport(Flying testTicket)))
 
 [<Test>]
-let ``boardPlane should return an effect that marks the ticket as used`` () =
-    let effect, _ = boardPlane testTicket
+let ``boardPlane should mark the ticket as used`` () =
+    let effect, _ = AirportBoardPlane testTicket |> runSucceedingAction state
 
-    match effect.Item 1 with
+    match effect.Item 2 with
     | FlightUpdated flight -> flight.AlreadyUsed |> should equal true
-    | _ -> failwith "Incorrect situation"
+    | _ -> failwith "Incorrect effect"
 
 [<Test>]
-let ``boardPlane should return the correct length of the flight in minutes``
+let ``boardPlane should raise a PlaneBoarded effect with the expected time to destination``
     ()
     =
     [ Prague, Madrid, 237<minute>
@@ -90,6 +84,6 @@ let ``boardPlane should return the correct length of the flight in minutes``
     |> List.iter (fun (origin, destination, expected) ->
         let ticket = createTicket origin destination
 
-        let _, flightTime = boardPlane ticket
+        let effects, _ = AirportBoardPlane ticket |> runSucceedingAction state
 
-        flightTime |> should equal expected)
+        effects |> should contain (PlaneBoarded(ticket, expected)))

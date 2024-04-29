@@ -43,7 +43,8 @@
         <Compile Include="Types\Situations.Types.fs" />
         <Compile Include="Types\Interaction.Types.fs" />
         <Compile Include="Types\State.Types.fs" />
-        <Compile Include="Types\Effect.Types.fs" />
+        <Compile Include="Types\Action.Types.fs" />
+        <Compile Include="Types\ActionResult.Types.fs" />
         <Compile Include="Lenses.fs" />
         <Compile Include="Identity.fs" />
         <Compile Include="Amount.fs"/>

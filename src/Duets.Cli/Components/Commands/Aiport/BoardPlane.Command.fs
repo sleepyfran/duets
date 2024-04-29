@@ -4,8 +4,8 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
+open Duets.Entities
 open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
-open Duets.Simulation.Flights.Airport
 
 [<RequireQualifiedAccess>]
 module BoardPlaneCommand =
@@ -16,11 +16,5 @@ module BoardPlaneCommand =
           Handler =
             fun _ ->
                 showProgressBarAsync [ Airport.waitingToBoard ] 5<second>
-
-                let effects, flightTime = boardPlane flight
-
-                Airport.planeBoarded flight flightTime |> showMessage
-
-                effects |> Effect.applyMultiple
-
+                AirportBoardPlane flight |> Effect.applyAction
                 Scene.World }

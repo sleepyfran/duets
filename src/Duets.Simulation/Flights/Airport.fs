@@ -18,8 +18,7 @@ let passSecurityCheck state =
             |> Item.Property.has (function
                 | Drinkable _ -> true
                 | _ -> false))
-        |> List.map (fun item ->
-            ItemRemovedFromCharacterInventory item)
+        |> List.map ItemRemovedBySecurity
 
     let movementEffects =
         Navigation.enter World.Ids.Airport.boardingGate state
@@ -36,8 +35,9 @@ let boardPlane flight =
 
     let situationEffect = Situations.onboardedInPlane flight
 
-    [ situationEffect; FlightUpdated { flight with AlreadyUsed = true } ],
-    flightTimeInMinutes
+    [ situationEffect
+      PlaneBoarded(flight, flightTimeInMinutes)
+      FlightUpdated { flight with AlreadyUsed = true } ]
 
 /// Passes as many day moments needed for the flight to complete and leaves
 /// the character in the destination's airport.

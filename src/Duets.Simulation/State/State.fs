@@ -73,6 +73,7 @@ let applyEffect state effect =
         |> Inventory.addToCharacter currItem
     | ItemRemovedFromCharacterInventory item ->
         Inventory.removeFromCharacter item state
+    | ItemRemovedBySecurity item -> Inventory.removeFromCharacter item state
     | ItemAddedToBandInventory(item, quantity) ->
         Inventory.addToBand item quantity state
     | ItemAddedToWorld(coords, item) -> World.add coords item state
@@ -107,6 +108,7 @@ let applyEffect state effect =
     | MoneyEarned(account, transaction) ->
         Bank.setBalance account transaction state
     | PlaceClosed _ -> state
+    | PlaneBoarded _ -> state
     | PlayedGame _ -> state
     | RelationshipChanged(npc, cityId, relationship) ->
         Relationships.changeForCharacterId npc.Id relationship state

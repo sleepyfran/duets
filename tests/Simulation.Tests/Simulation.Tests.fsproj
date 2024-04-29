@@ -29,7 +29,7 @@
         <Compile Include="State\State.Merch.Tests.fs" />
         <Compile Include="State\State.Relationships.Tests.fs" />
         <Compile Include="State\State.Inventory.Tests.fs" />
-        <Compile Include="Airport\BoardPlane.Tests.fs" />
+        <Compile Include="Airport\Airport.Tests.fs" />
         <Compile Include="Albums\DailyUpdate.Tests.fs" />
         <Compile Include="Albums\ReviewGeneration.Tests.fs" />
         <Compile Include="Bands\HireMember.Tests.fs" />

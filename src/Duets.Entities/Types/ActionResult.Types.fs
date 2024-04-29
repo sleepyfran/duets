@@ -39,6 +39,8 @@ module EffectTypes =
         | ItemAddedToCharacterInventory of Item
         | ItemChangedInCharacterInventory of Diff<Item>
         | ItemRemovedFromCharacterInventory of Item
+        | ItemRemovedBySecurity of
+            Item (* TODO: Consider adding a context to the effect above instead. *)
         | ItemAddedToBandInventory of Item * int<quantity>
         | ItemAddedToWorld of RoomCoordinates * Item
         | ItemChangedInWorld of RoomCoordinates * Diff<Item>
@@ -51,6 +53,9 @@ module EffectTypes =
         | MoneyTransferred of BankAccountHolder * BankTransaction
         | NotificationScheduled of Date * DayMoment * Notification
         | NotificationShown of Notification
+        | PlaceClosed of Place
+        | PlaneBoarded of flight: Flight * flightTime: int<minute>
+        | PlayedGame of PlayResult
         | RelationshipChanged of
             npcId: Character *
             cityId: CityId *
@@ -79,8 +84,6 @@ module EffectTypes =
         | SongFinished of Band * Finished<Song> * finishDate: Date
         | SongDiscarded of Band * Unfinished<Song>
         | SongPracticed of Band * Finished<Song>
-        | PlaceClosed of Place
-        | PlayedGame of PlayResult
         | TimeAdvanced of Date
         /// Moves the player to a new room inside the current place.
         | WorldEnterRoom of Diff<RoomCoordinates>
@@ -89,3 +92,14 @@ module EffectTypes =
         | WorldMoveToPlace of Diff<RoomCoordinates>
         | WorldPeopleInCurrentRoomChanged of Character list
         | Wait of int<dayMoments>
+
+[<AutoOpen>]
+module ErrorTypes =
+    /// Defines all the possible errors that can happen while executing an action.
+    type ActionError = NotEnoughFunds of Amount
+
+[<AutoOpen>]
+module ActionResultTypes =
+    /// Defines the result of an action, which can either be a list of effects
+    /// that happened during the action and the updated state, or an error.
+    type ActionResult = Result<Effect list * State, ActionError>

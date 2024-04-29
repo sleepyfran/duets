@@ -18,19 +18,5 @@ module PassSecurityCommand =
           Handler =
             fun _ ->
                 showProgressBarSync [ Airport.passingSecurityCheck ] 5<second>
-
-                let effects = passSecurityCheck (State.get ())
-                Effect.applyMultiple effects
-
-                let takenItemsEffect =
-                    effects
-                    |> List.filter (function
-                        | ItemRemovedFromCharacterInventory _ -> true
-                        | _ -> false)
-
-                match takenItemsEffect with
-                | eff when eff.Length > 0 ->
-                    Airport.itemsTakenBySecurity |> showMessage
-                | _ -> ()
-
+                AirportPassSecurity |> Effect.applyAction
                 Scene.WorldAfterMovement }

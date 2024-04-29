@@ -3,6 +3,7 @@ module Duets.Simulation.Simulation
 
 open Duets.Entities
 open Duets.Simulation.Events
+open Duets.Simulation.Flights
 
 type private TickState =
     { AppliedEffects: Effect list
@@ -73,3 +74,15 @@ let rec tickMultiple currentState effects =
 
 /// Same as `tickMultiple` but with one effect.
 let tickOne currentState effect = tickMultiple currentState [ effect ]
+
+/// Attempts to run the given action against the state and returns whether
+/// the action is possible or not. If possible, determines the effects associated
+/// with the action, ticks them through the simulation and returns the updated
+/// state along with the effects that were applied.
+let runAction currentState action : ActionResult =
+    match action with
+    | AirportBoardPlane flight -> Airport.boardPlane flight |> Ok
+    | AirportPassSecurity -> Airport.passSecurityCheck currentState |> Ok
+    | AirportWaitForLanding flight ->
+        Airport.leavePlane currentState flight |> Ok
+    |> Result.map (tickMultiple currentState)
