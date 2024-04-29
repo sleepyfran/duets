@@ -41,3 +41,10 @@ let removeReleased (band: Band) albumId =
     let removeReleasedAlbum = Map.remove albumId
 
     applyToReleased band.Id removeReleasedAlbum
+
+let updateUnreleased (band: Band) unreleasedAlbum state =
+    let album = unreleasedAlbum |> Album.fromUnreleased
+
+    removeUnreleased band album.Id state
+    |> addUnreleased band unreleasedAlbum
+    |> markTrackListAsRecorded band unreleasedAlbum

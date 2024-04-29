@@ -10,3 +10,19 @@ module ActionTypes =
         | AirportBoardPlane of Flight
         | AirportPassSecurity
         | AirportWaitForLanding of Flight
+        | StudioStartAlbum of
+            {| Studio: Studio
+               SelectedProducer: SelectedProducer
+               Band: Band
+               AlbumName: string
+               FirstSong: Finished<Song> |}
+        | StudioRecordSongForAlbum of
+            {| Studio: Studio
+               Band: Band
+               Album: UnreleasedAlbum
+               Song: Finished<Song> |}
+        | StudioReleaseAlbum of {| Band: Band; Album: UnreleasedAlbum |}
+        | StudioRenameAlbum of
+            {| Album: UnreleasedAlbum
+               Band: Band
+               Name: string |}

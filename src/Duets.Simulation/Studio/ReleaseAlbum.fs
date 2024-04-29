@@ -10,3 +10,4 @@ let releaseAlbum state band album =
     Album.Released.fromUnreleased album (Queries.Calendar.today state) 1.0
     |> Tuple.two band
     |> AlbumReleased
+    |> List.singleton

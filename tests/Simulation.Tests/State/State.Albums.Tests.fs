@@ -53,7 +53,7 @@ let ``AlbumUpdated should set finished songs as recorded`` () =
     Songs.finishedByBand state dummyBand.Id |> should haveCount 1
 
     let state =
-        AlbumUpdated(dummyBand, dummyUnreleasedAlbum)
+        AlbumRenamed(dummyBand, dummyUnreleasedAlbum)
         |> State.Root.applyEffect state
 
     state.BandSongRepertoire.FinishedSongs
@@ -75,7 +75,7 @@ let ``AlbumRenamed should replace album with same with different name`` () =
           SelectedProducer = SelectedProducer.StudioProducer }
 
     let state =
-        AlbumUpdated(
+        AlbumRenamed(
             dummyBand,
             { unreleasedAlbum with
                 UnreleasedAlbum.Album.Name = "Test." }

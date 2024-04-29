@@ -1,6 +1,7 @@
 namespace Duets.Cli.Components.Commands
 
 open Duets.Agents
+open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
@@ -58,25 +59,13 @@ module RecordSongCommand =
         let state = State.get ()
 
         let band = Queries.Bands.currentBand state
-        let result = recordSongForAlbum state studio band album song
 
-        match result with
-        | Ok(album, effects) -> recordWithProgressBar album song effects
-        | Error(NotEnoughFunds studioBill) ->
-            Studio.createErrorNotEnoughMoney studioBill |> showMessage
-
-    and private recordWithProgressBar album (Finished(song, _)) effects =
-        showProgressBarAsync
-            [ Studio.createProgressEatingSnacks
-              Studio.createProgressRecordingWeirdSounds
-              Studio.createProgressMovingKnobs ]
-            3<second>
-
-        $"Added {song.Name} to {album.Name}. It is now a {Generic.albumType album.Type}"
-        |> Styles.success
-        |> showMessage
-
-        List.iter Duets.Cli.Effect.apply effects
+        StudioRecordSongForAlbum
+            {| Studio = studio
+               Band = band
+               Album = album
+               Song = song |}
+        |> Effect.applyAction
 
     /// Command to record a new song for a previously started album.
     let create studio unreleasedAlbums finishedSongs =

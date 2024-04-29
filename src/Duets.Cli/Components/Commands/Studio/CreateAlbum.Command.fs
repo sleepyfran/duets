@@ -1,15 +1,13 @@
 namespace Duets.Cli.Components.Commands
 
 open Duets.Agents
+open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Common
 open Duets.Entities
-open FSharp.Data.UnitSystems.SI.UnitNames
 open Duets.Simulation
-open Duets.Simulation.Bank.Operations
-open Duets.Simulation.Studio.RecordAlbum
 
 [<RequireQualifiedAccess>]
 module CreateAlbumCommand =
@@ -85,24 +83,13 @@ module CreateAlbumCommand =
 
         let band = Queries.Bands.currentBand state
 
-        let result =
-            startAlbum state studio selectedProducer band albumName selectedSong
-
-        match result with
-        | Ok effects -> recordWithProgressBar albumName effects
-        | Error(NotEnoughFunds studioBill) ->
-            Studio.createErrorNotEnoughMoney studioBill |> showMessage
-
-    and private recordWithProgressBar albumName effects =
-        showProgressBarAsync
-            [ Studio.createProgressEatingSnacks
-              Studio.createProgressRecordingWeirdSounds
-              Studio.createProgressMovingKnobs ]
-            3<second>
-
-        Studio.createAlbumRecorded albumName |> showMessage
-
-        List.iter Duets.Cli.Effect.apply effects
+        StudioStartAlbum
+            {| Studio = studio
+               SelectedProducer = selectedProducer
+               Band = band
+               AlbumName = albumName
+               FirstSong = selectedSong |}
+        |> Effect.applyAction
 
     /// Command to create a new album and potentially release.
     let create studio finishedSongs =

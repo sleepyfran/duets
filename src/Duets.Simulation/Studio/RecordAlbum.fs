@@ -70,7 +70,8 @@ let private generateEffectsAfterBilling
 
     match billingResult with
     | Ok billingEffects -> Ok(effects @ billingEffects @ timeEffects)
-    | Error error -> Error error
+    | Error(NotEnoughFunds amount) ->
+        NotEnoughFundsToRecordAlbum(amount) |> Error
 
 /// Applies the improvement in quality given by the producer of the given studio
 /// and attempts to generate an album from the name and track list, applying the
@@ -109,14 +110,14 @@ let recordSongForAlbum
         trackList @ [ recordedSong ]
         |> Album.updateTrackList unreleasedAlbum.Album
 
-    [ AlbumUpdated(
+    [ AlbumSongAdded(
           band,
           { unreleasedAlbum with
-              Album = updatedAlbum }
+              Album = updatedAlbum },
+          song
       ) ]
     |> generateEffectsAfterBilling
         state
         studio
         unreleasedAlbum.SelectedProducer
         band
-    |> Result.map (fun effects -> updatedAlbum, effects)

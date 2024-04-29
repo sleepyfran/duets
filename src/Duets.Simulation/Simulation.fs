@@ -4,6 +4,7 @@ module Duets.Simulation.Simulation
 open Duets.Entities
 open Duets.Simulation.Events
 open Duets.Simulation.Flights
+open Duets.Simulation.Studio
 
 type private TickState =
     { AppliedEffects: Effect list
@@ -85,4 +86,23 @@ let runAction currentState action : ActionResult =
     | AirportPassSecurity -> Airport.passSecurityCheck currentState |> Ok
     | AirportWaitForLanding flight ->
         Airport.leavePlane currentState flight |> Ok
+    | StudioStartAlbum opts ->
+        RecordAlbum.startAlbum
+            currentState
+            opts.Studio
+            opts.SelectedProducer
+            opts.Band
+            opts.AlbumName
+            opts.FirstSong
+    | StudioRecordSongForAlbum opts ->
+        RecordAlbum.recordSongForAlbum
+            currentState
+            opts.Studio
+            opts.Band
+            opts.Album
+            opts.Song
+    | StudioReleaseAlbum opts ->
+        ReleaseAlbum.releaseAlbum currentState opts.Band opts.Album |> Ok
+    | StudioRenameAlbum opts ->
+        RenameAlbum.renameAlbum opts.Band opts.Album opts.Name |> Ok
     |> Result.map (tickMultiple currentState)

@@ -40,8 +40,34 @@ let private digest effects state =
 
 let private displayEffect effect =
     match effect with
+    | AlbumSongAdded(_, unreleasedAlbum, finishedSong) ->
+        let song = Song.fromFinished finishedSong
+        let album = Album.fromUnreleased unreleasedAlbum
+
+        showProgressBarAsync
+            [ Studio.createProgressEatingSnacks
+              Studio.createProgressRecordingWeirdSounds
+              Studio.createProgressMovingKnobs ]
+            3<second>
+
+        $"Added {song.Name} to {album.Name}. It is now a {Generic.albumType album.Type}"
+        |> Styles.success
+        |> showMessage
+    | AlbumStarted(_, unreleasedAlbum) ->
+        let album = Album.fromUnreleased unreleasedAlbum
+
+        showProgressBarAsync
+            [ Studio.createProgressEatingSnacks
+              Studio.createProgressRecordingWeirdSounds
+              Studio.createProgressMovingKnobs ]
+            3<second>
+
+        Studio.createAlbumRecorded album.Name |> showMessage
     | AlbumReleased(_, releasedAlbum) ->
         Studio.commonAlbumReleased releasedAlbum.Album.Name |> showMessage
+    | AlbumRenamed(_, unreleasedAlbum) ->
+        let album = Album.fromUnreleased unreleasedAlbum
+        $"Album renamed to {album.Name}" |> Styles.success |> showMessage
     | AlbumReviewsReceived(_, releasedAlbum) ->
         $"The reviews for your album {releasedAlbum.Album.Name} just came in!"
         |> showMessage
@@ -301,4 +327,5 @@ let private displayEffect effect =
 
 let private displayError error =
     match error with
-    | NotEnoughFunds _ -> ()
+    | NotEnoughFundsToRecordAlbum studioBill ->
+        Studio.createErrorNotEnoughMoney studioBill |> showMessage

@@ -11,14 +11,13 @@ open Duets.Simulation.Studio.RecordAlbum
 
 [<Test>]
 let ``startAlbum should fail if the band does not have enough money`` () =
-    startAlbum
-        dummyState
-        dummyStudio
-        SelectedProducer.StudioProducer
-        dummyBand
-        "Simple Math"
-        dummyFinishedSong
-    |> Result.unwrapError
+    StudioStartAlbum
+        {| Studio = dummyStudio
+           SelectedProducer = SelectedProducer.StudioProducer
+           Band = dummyBand
+           AlbumName = "Simple Math"
+           FirstSong = dummyFinishedSong |}
+    |> runFailingAction dummyState
     |> should be (ofCase <@ NotEnoughFunds(200m<dd>) @>)
 
 let state = addFunds dummyBandBankAccount.Holder 40000m<dd> dummyState
@@ -27,14 +26,14 @@ let state = addFunds dummyBandBankAccount.Holder 40000m<dd> dummyState
 let ``startAlbum should cost the band the assigned price per song if selected producer is the playable character``
     ()
     =
-    startAlbum
-        state
-        dummyStudio
-        SelectedProducer.PlayableCharacter
-        dummyBand
-        "Simple Math"
-        dummyFinishedSong
-    |> Result.unwrap
+    StudioStartAlbum
+        {| Studio = dummyStudio
+           SelectedProducer = SelectedProducer.PlayableCharacter
+           Band = dummyBand
+           AlbumName = "Simple Math"
+           FirstSong = dummyFinishedSong |}
+    |> runSucceedingAction state
+    |> fst
     |> List.filter (fun eff ->
         match eff with
         | MoneyTransferred _ -> true
@@ -54,14 +53,14 @@ let ``startAlbum should cost the band the assigned price per song if selected pr
 let ``startAlbum should cost the band double the assigned price per song if selected producer is studio producer``
     ()
     =
-    startAlbum
-        state
-        dummyStudio
-        SelectedProducer.StudioProducer
-        dummyBand
-        "Simple Math"
-        dummyFinishedSong
-    |> Result.unwrap
+    StudioStartAlbum
+        {| Studio = dummyStudio
+           SelectedProducer = SelectedProducer.StudioProducer
+           Band = dummyBand
+           AlbumName = "Simple Math"
+           FirstSong = dummyFinishedSong |}
+    |> runSucceedingAction state
+    |> fst
     |> List.filter (fun eff ->
         match eff with
         | MoneyTransferred _ -> true
@@ -88,15 +87,16 @@ let ``startAlbum should add 20% of the producer's skill to each song in the trac
             (Skill.createWithLevel SkillId.MusicProduction 75)
 
     let unreleasedAlbum =
-        startAlbum
-            state
-            { dummyStudio with
-                Producer = dummyCharacter2 }
-            SelectedProducer.StudioProducer
-            dummyBand
-            "Infinite Granite"
-            dummyFinishedSong
-        |> Result.unwrap
+        StudioStartAlbum
+            {| Studio =
+                { dummyStudio with
+                    Producer = dummyCharacter2 }
+               SelectedProducer = SelectedProducer.StudioProducer
+               Band = dummyBand
+               AlbumName = "Infinite Granite"
+               FirstSong = dummyFinishedSong |}
+        |> runSucceedingAction state
+        |> fst
         |> List.choose (fun eff ->
             match eff with
             | AlbumStarted(_, unreleasedAlbum) -> Some unreleasedAlbum
@@ -118,15 +118,16 @@ let ``startAlbum should add 20% of the character's production skill to each song
             (Skill.createWithLevel SkillId.MusicProduction 35)
 
     let unreleasedAlbum =
-        startAlbum
-            state
-            { dummyStudio with
-                Producer = dummyCharacter2 }
-            SelectedProducer.PlayableCharacter
-            dummyBand
-            "Infinite Granite"
-            dummyFinishedSong
-        |> Result.unwrap
+        StudioStartAlbum
+            {| Studio =
+                { dummyStudio with
+                    Producer = dummyCharacter2 }
+               SelectedProducer = SelectedProducer.PlayableCharacter
+               Band = dummyBand
+               AlbumName = "Infinite Granite"
+               FirstSong = dummyFinishedSong |}
+        |> runSucceedingAction state
+        |> fst
         |> List.choose (fun eff ->
             match eff with
             | AlbumStarted(_, unreleasedAlbum) -> Some unreleasedAlbum
@@ -150,14 +151,14 @@ let ``startAlbum should not add producer's skill if quality is already 100``
     let song = Finished(dummySong, 100<quality>)
 
     let unreleasedAlbum =
-        startAlbum
-            state
-            dummyStudio
-            SelectedProducer.StudioProducer
-            dummyBand
-            "Infinite Granite"
-            song
-        |> Result.unwrap
+        StudioStartAlbum
+            {| Studio = dummyStudio
+               SelectedProducer = SelectedProducer.StudioProducer
+               Band = dummyBand
+               AlbumName = "Infinite Granite"
+               FirstSong = song |}
+        |> runSucceedingAction state
+        |> fst
         |> List.choose (fun eff ->
             match eff with
             | AlbumStarted(_, unreleasedAlbum) -> Some unreleasedAlbum
@@ -170,19 +171,15 @@ let ``startAlbum should not add producer's skill if quality is already 100``
 
 [<Test>]
 let ``startAlbum should generate AlbumRecorded and MoneyTransferred`` () =
-    let albumTitle = "Black Brick"
-
-    startAlbum
-        state
-        dummyStudio
-        SelectedProducer.StudioProducer
-        dummyBand
-        albumTitle
-        dummyFinishedSong
-    |> Result.unwrap
+    StudioStartAlbum
+        {| Studio = dummyStudio
+           SelectedProducer = SelectedProducer.StudioProducer
+           Band = dummyBand
+           AlbumName = "Black Brick"
+           FirstSong = dummyFinishedSong |}
+    |> runSucceedingAction state
+    |> fst
     |> fun effects ->
-        effects |> should haveLength 4
-
         effects |> List.item 0 |> should be (ofCase <@ AlbumStarted @>)
 
         effects

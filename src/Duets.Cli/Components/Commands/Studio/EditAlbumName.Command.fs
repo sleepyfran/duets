@@ -1,6 +1,7 @@
 namespace Duets.Cli.Components.Commands
 
 open Duets.Agents
+open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
@@ -30,8 +31,11 @@ module EditAlbumNameCommand =
         Album.validateName name
         |> Result.switch
             (fun name ->
-                renameAlbum band album name |> Duets.Cli.Effect.apply
-                $"Album renamed to {name}" |> Styles.success |> showMessage)
+                StudioRenameAlbum
+                    {| Album = album
+                       Band = band
+                       Name = name |}
+                |> Effect.applyAction)
             (Studio.showAlbumNameError >> fun _ -> promptForAlbumName band album)
 
     /// Command to edit the name of an unreleased album.

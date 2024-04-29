@@ -1,6 +1,7 @@
 namespace Duets.Cli.Components.Commands
 
 open Duets.Agents
+open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.Text
 open Duets.Entities
@@ -28,4 +29,7 @@ module Studio =
             )
 
         if confirmed then
-            releaseAlbum state band unreleasedAlbum |> Duets.Cli.Effect.apply
+            StudioReleaseAlbum
+                {| Band = band
+                   Album = unreleasedAlbum |}
+            |> Effect.applyAction

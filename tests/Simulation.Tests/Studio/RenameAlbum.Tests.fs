@@ -1,5 +1,6 @@
 module Duets.Simulation.Tests.Studio.RenameAlbum
 
+open Duets.Simulation
 open FsUnit
 open NUnit.Framework
 open Test.Common
@@ -23,10 +24,17 @@ let ``validateName should fail if name is too long`` () =
 
 [<Test>]
 let ``renameAlbum should generate AlbumRenamed effect`` () =
-    renameAlbum dummyBand dummyUnreleasedAlbum "Great Mass Of Color"
-    |> fun effect ->
-        match effect with
-        | AlbumUpdated(_, unreleasedAlbum) ->
-            let album = unreleasedAlbum |> Album.fromUnreleased
-            album.Name |> should equal "Great Mass Of Color"
-        | _ -> raise <| invalidOp "Not possible"
+    let effect =
+        StudioRenameAlbum
+            {| Band = dummyBand
+               Album = dummyUnreleasedAlbum
+               Name = "Great Mass Of Color" |}
+        |> runSucceedingAction dummyState
+        |> fst
+        |> List.head
+
+    match effect with
+    | AlbumRenamed(_, unreleasedAlbum) ->
+        let album = unreleasedAlbum |> Album.fromUnreleased
+        album.Name |> should equal "Great Mass Of Color"
+    | _ -> raise <| invalidOp "Not possible"

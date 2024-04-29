@@ -7,11 +7,12 @@ module EffectTypes =
     /// Defines an effect that happened after an action in the game. For example
     /// calling composeSong will create a `SongComposed` effect.
     type Effect =
+        | AlbumSongAdded of Band * UnreleasedAlbum * Finished<Song>
         | AlbumStarted of Band * UnreleasedAlbum
         | AlbumReleased of Band * ReleasedAlbum
         | AlbumReleasedUpdate of Band * ReleasedAlbum
         | AlbumReviewsReceived of Band * ReleasedAlbum
-        | AlbumUpdated of Band * UnreleasedAlbum
+        | AlbumRenamed of Band * UnreleasedAlbum
         | BalanceUpdated of BankAccountHolder * Diff<Amount>
         | BandFansChanged of Band * Diff<Fans>
         | BandSwitchedGenre of Band * Diff<Genre>
@@ -96,7 +97,7 @@ module EffectTypes =
 [<AutoOpen>]
 module ErrorTypes =
     /// Defines all the possible errors that can happen while executing an action.
-    type ActionError = NotEnoughFunds of Amount
+    type ActionError = NotEnoughFundsToRecordAlbum of Amount
 
 [<AutoOpen>]
 module ActionResultTypes =
