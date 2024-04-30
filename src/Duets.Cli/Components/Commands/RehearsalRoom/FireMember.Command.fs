@@ -1,6 +1,7 @@
 namespace Duets.Cli.Components.Commands
 
 open Duets.Agents
+open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
@@ -43,9 +44,10 @@ module FireMemberCommand =
 
             let currentBand = Queries.Bands.currentBand state
 
-            fireMember state currentBand bandMember
-            |> Result.unwrap
-            |> Duets.Cli.Effect.apply
+            RehearsalRoomFireMember
+                {| Band = currentBand
+                   CurrentMember = bandMember |}
+            |> Effect.applyAction
         else
             ()
 

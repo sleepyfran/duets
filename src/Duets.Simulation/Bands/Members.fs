@@ -68,17 +68,15 @@ let hireMember state (band: Band) (memberForHire: MemberForHire) =
             memberForHire.Skills
         )
 
-type FireError = AttemptToFirePlayableCharacter
-
 /// Removes a current member from the band and adds it to the past members with
 /// today as the date it was fired.
 let fireMember state (band: Band) (bandMember: CurrentMember) =
     let character = Queries.Characters.playableCharacter state
 
     if bandMember.CharacterId = character.Id then
-        Error AttemptToFirePlayableCharacter
+        Error CannotFirePlayableCharacter
     else
         let pastMember =
             Band.PastMember.fromMember bandMember (Queries.Calendar.today state)
 
-        (band, bandMember, pastMember) |> MemberFired |> Ok
+        (band, bandMember, pastMember) |> MemberFired |> List.singleton |> Ok
