@@ -97,7 +97,9 @@ module EffectTypes =
 [<AutoOpen>]
 module ErrorTypes =
     /// Defines all the possible errors that can happen while executing an action.
-    type ActionError = NotEnoughFundsToRecordAlbum of Amount
+    type ActionError =
+        | NotEnoughFundsToRecordAlbum of Amount
+        | SongAlreadyImprovedToMax of Finished<Song>
 
 [<AutoOpen>]
 module ActionResultTypes =

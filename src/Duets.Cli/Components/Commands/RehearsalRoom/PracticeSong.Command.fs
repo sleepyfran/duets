@@ -1,6 +1,7 @@
 namespace Duets.Cli.Components.Commands
 
 open Duets.Agents
+open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
@@ -11,19 +12,6 @@ open Duets.Simulation.Songs.Practice
 
 [<RequireQualifiedAccess>]
 module PracticeSongCommand =
-    let private showPracticeSong practiceSongResult =
-        match practiceSongResult with
-        | SongImproved effects ->
-            showProgressBarAsync
-                [ Rehearsal.practiceSongProgressLosingTime
-                  Rehearsal.practiceSongProgressTryingSoloOnceMore
-                  Rehearsal.practiceSongProgressGivingUp ]
-                2<second>
-
-            Duets.Cli.Effect.applyMultiple effects
-        | SongAlreadyImprovedToMax(Finished(song, _)) ->
-            Rehearsal.practiceSongAlreadyImprovedToMax song.Name |> showMessage
-
     /// Command to practice a finished song.
     let create finishedSongs =
         { Name = "practice song"
@@ -31,7 +19,6 @@ module PracticeSongCommand =
           Handler =
             (fun _ ->
                 let state = State.get ()
-
                 let currentBand = Queries.Bands.currentBand state
 
                 let sortedSongs =
@@ -50,8 +37,9 @@ module PracticeSongCommand =
 
                 match selectedSong with
                 | Some song ->
-                    practiceSong (State.get ()) currentBand song
-                    |> showPracticeSong
+                    RehearsalRoomPracticeSong
+                        {| Band = currentBand; Song = song |}
+                    |> Effect.applyAction
                 | None -> ()
 
                 Scene.World) }

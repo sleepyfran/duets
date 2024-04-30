@@ -295,6 +295,12 @@ let private displayEffect effect =
         let (Unfinished(_, _, previousQuality)) = before
         let (Unfinished(_, _, currentQuality)) = after
 
+        showProgressBarAsync
+            [ Rehearsal.practiceSongProgressLosingTime
+              Rehearsal.practiceSongProgressTryingSoloOnceMore
+              Rehearsal.practiceSongProgressGivingUp ]
+            2<second>
+
         Rehearsal.improveSongCanBeFurtherImproved (
             previousQuality,
             currentQuality
@@ -329,3 +335,6 @@ let private displayError error =
     match error with
     | NotEnoughFundsToRecordAlbum studioBill ->
         Studio.createErrorNotEnoughMoney studioBill |> showMessage
+    | SongAlreadyImprovedToMax finishedSong ->
+        let song = Song.fromFinished finishedSong
+        Rehearsal.practiceSongAlreadyImprovedToMax song.Name |> showMessage

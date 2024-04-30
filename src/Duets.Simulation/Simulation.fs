@@ -4,6 +4,7 @@ module Duets.Simulation.Simulation
 open Duets.Entities
 open Duets.Simulation.Events
 open Duets.Simulation.Flights
+open Duets.Simulation.Songs
 open Duets.Simulation.Studio
 
 type private TickState =
@@ -86,6 +87,8 @@ let runAction currentState action : ActionResult =
     | AirportPassSecurity -> Airport.passSecurityCheck currentState |> Ok
     | AirportWaitForLanding flight ->
         Airport.leavePlane currentState flight |> Ok
+    | RehearsalRoomPracticeSong opts ->
+        Practice.practiceSong currentState opts.Band opts.Song
     | StudioStartAlbum opts ->
         RecordAlbum.startAlbum
             currentState

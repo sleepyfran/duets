@@ -10,6 +10,7 @@ module ActionTypes =
         | AirportBoardPlane of Flight
         | AirportPassSecurity
         | AirportWaitForLanding of Flight
+        | RehearsalRoomPracticeSong of {| Band: Band; Song: Finished<Song> |}
         | StudioStartAlbum of
             {| Studio: Studio
                SelectedProducer: SelectedProducer
