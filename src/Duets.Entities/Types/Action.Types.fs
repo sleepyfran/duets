@@ -38,3 +38,4 @@ module ActionTypes =
             {| Album: UnreleasedAlbum
                Band: Band
                Name: string |}
+        | WorkShift of Job

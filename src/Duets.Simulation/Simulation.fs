@@ -2,6 +2,7 @@
 module Duets.Simulation.Simulation
 
 open Duets.Entities
+open Duets.Simulation.Careers
 open Duets.Simulation.Events
 open Duets.Simulation.Flights
 open Duets.Simulation.Songs
@@ -123,4 +124,5 @@ let runAction currentState action : ActionResult =
         ReleaseAlbum.releaseAlbum currentState opts.Band opts.Album |> Ok
     | StudioRenameAlbum opts ->
         RenameAlbum.renameAlbum opts.Band opts.Album opts.Name |> Ok
+    | WorkShift job -> Work.workShift currentState job |> Ok
     |> Result.map (tickMultiple currentState)

@@ -4,6 +4,8 @@ open FsCheck
 open FsUnit
 open Fugit.Months
 open NUnit.Framework
+open NUnit.Framework.Internal.Execution
+open Test.Common
 open Test.Common.Generators
 
 open Duets.Data
@@ -29,7 +31,9 @@ type ``When place is not near closing time``() =
     [<Test>]
     member _.``work pays the full payment for all the day moments worked``() =
         let effect =
-            Work.workShift state job
+            WorkShift job
+            |> runSucceedingAction state
+            |> fst
             |> List.filter (function
                 | MoneyEarned _ -> true
                 | _ -> false)
@@ -43,7 +47,9 @@ type ``When place is not near closing time``() =
     member _.``work passes the number of shift day moments specified in the career stage when place is not near closing time``
         ()
         =
-        Work.workShift state job
+        WorkShift job
+        |> runSucceedingAction state
+        |> fst
         |> List.filter (function
             | TimeAdvanced _ -> true
             | _ -> false)
@@ -60,7 +66,9 @@ type ``When place is near closing time``() =
         ()
         =
         let effect =
-            Work.workShift stateInEvening job
+            WorkShift job
+            |> runSucceedingAction stateInEvening
+            |> fst
             |> List.filter (function
                 | MoneyEarned _ -> true
                 | _ -> false)
@@ -74,7 +82,9 @@ type ``When place is near closing time``() =
     member _.``work passes only the number of day moments until the place will close``
         ()
         =
-        Work.workShift stateInEvening job
+        WorkShift job
+        |> runSucceedingAction stateInEvening
+        |> fst
         |> List.filter (function
             | TimeAdvanced _ -> true
             | _ -> false)

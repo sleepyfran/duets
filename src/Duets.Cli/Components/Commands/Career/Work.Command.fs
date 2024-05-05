@@ -1,11 +1,10 @@
 namespace Duets.Cli.Components.Commands
 
-open Duets.Agents
 open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Simulation.Careers.Work
+open Duets.Entities
 
 [<RequireQualifiedAccess>]
 module WorkCommand =
@@ -17,6 +16,7 @@ module WorkCommand =
             fun _ ->
                 Career.workShiftEvent job |> showMessage
                 wait 5000<millisecond>
-                workShift (State.get ()) job |> Effect.applyMultiple
+
+                WorkShift job |> Effect.applyAction
 
                 Scene.WorldAfterMovement }
