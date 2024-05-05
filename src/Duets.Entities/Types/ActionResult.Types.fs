@@ -82,6 +82,7 @@ module EffectTypes =
             int
         | SongStarted of Band * Unfinished<Song>
         | SongImproved of Band * Diff<Unfinished<Song>>
+        | SongImprovedToMax of Band * Diff<Unfinished<Song>>
         | SongFinished of Band * Finished<Song> * finishDate: Date
         | SongDiscarded of Band * Unfinished<Song>
         | SongPracticed of Band * Finished<Song>
@@ -100,7 +101,8 @@ module ErrorTypes =
     type ActionError =
         | CannotFirePlayableCharacter
         | NotEnoughFundsToRecordAlbum of Amount
-        | SongAlreadyImprovedToMax of Finished<Song>
+        | SongAlreadyImprovedToMax of Unfinished<Song>
+        | SongAlreadyPracticedToMax of Finished<Song>
 
 [<AutoOpen>]
 module ActionResultTypes =

@@ -50,7 +50,7 @@ let improveSong = "Improve an unfinished song"
 
 let improveSongSelection = "Which song do you want to improve?"
 
-let improveSongCanBeFurtherImproved (previousQuality, currentQuality) =
+let improveSongResult (previousQuality, currentQuality) =
     Styles.success
         $"You've improved the song. It improved from {previousQuality} to {currentQuality}"
 
@@ -66,6 +66,15 @@ let improveSongProgressPlayingFoosball = Styles.progress "Playing foosball..."
 let improveSongProgressModifyingChordsFromAnotherSong =
     Styles.progress
         $"""{Styles.crossed "Copying"} Modifying chords from another song"""
+
+let improveSongProgressAddingFinalTouches =
+    Styles.progress "Adding final touches..."
+
+let improveSongProgressWorkingOnHook = Styles.progress "Redoing that hook once more..."
+
+let improveSongProgressPlayingPingPong =
+    Styles.progress
+        "Playing ping pong to get some inspiration..."
 
 let finishSong = "Finish an unfinished song"
 

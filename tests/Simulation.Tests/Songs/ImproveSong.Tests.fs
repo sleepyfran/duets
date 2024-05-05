@@ -27,17 +27,27 @@ let createSongImprovedEffect song max prev current =
         )
     )
 
+let createSongImprovedToMaxEffect song max prev current =
+    SongImprovedToMax(
+        dummyBand,
+        Diff(
+            Unfinished(song, max * 1<quality>, prev * 1<quality>),
+            Unfinished(song, max * 1<quality>, current * 1<quality>)
+        )
+    )
+
 [<Test>]
 let ``Should improve song if it's possible, return CanBeImproved and advance one day moment``
     ()
     =
     let song = lastUnfinishedSong dummyBand state
 
-    let result = improveSong dummyState dummyBand song
+    let effects, _ =
+        RehearsalRoomImproveSong {| Band = dummyBand; Song = song |}
+        |> runSucceedingAction dummyState
 
-    fst result |> should be (ofCase <@ CanBeImproved @>)
-    snd result |> should contain (createSongImprovedEffect dummySong 35 7 14)
-    snd result |> should contain (TimeAdvanced(dummyTodayOneDayMomentAfter))
+    effects |> should contain (createSongImprovedEffect dummySong 35 7 14)
+    effects |> should contain (TimeAdvanced(dummyTodayOneDayMomentAfter))
 
 [<Test>]
 let ``Should make improvement process slower the longer the song is`` () =
@@ -59,18 +69,19 @@ let ``Should make improvement process slower the longer the song is`` () =
         let unfinishedSong = lastUnfinishedSong dummyBand state
         let song = Song.fromUnfinished unfinishedSong
 
-        let result = improveSong dummyState dummyBand unfinishedSong
+        let effects, _ =
+            RehearsalRoomImproveSong
+                {| Band = dummyBand
+                   Song = unfinishedSong |}
+            |> runSucceedingAction dummyState
 
-        fst result |> should be (ofCase <@ CanBeImproved @>)
-
-        snd result
+        effects
         |> should contain (createSongImprovedEffect song 50 0 expectedQuality)
 
-        snd result
-        |> should contain (TimeAdvanced(dummyTodayOneDayMomentAfter)))
+        effects |> should contain (TimeAdvanced(dummyTodayOneDayMomentAfter)))
 
 [<Test>]
-let ``Should improve for one last time if possible, return ReachedMaxQualityInLastImprovement and advance one day moment``
+let ``Should improve for one last time if possible, return SongImprovedToMax and advance one day moment``
     ()
     =
     let updatedState =
@@ -81,11 +92,12 @@ let ``Should improve for one last time if possible, return ReachedMaxQualityInLa
 
     let song = lastUnfinishedSong dummyBand updatedState
 
-    let result = improveSong updatedState dummyBand song
+    let effects, _ =
+        RehearsalRoomImproveSong {| Band = dummyBand; Song = song |}
+        |> runSucceedingAction updatedState
 
-    fst result |> should be (ofCase <@ ReachedMaxQualityInLastImprovement @>)
-    snd result |> should contain (createSongImprovedEffect dummySong 35 28 35)
-    snd result |> should contain (TimeAdvanced(dummyTodayOneDayMomentAfter))
+    effects |> should contain (createSongImprovedToMaxEffect dummySong 35 28 35)
+    effects |> should contain (TimeAdvanced(dummyTodayOneDayMomentAfter))
 
 [<Test>]
 let ``Should not allow improvement if it already reached max quality and return ReachedMaxQualityAlready``
@@ -99,7 +111,6 @@ let ``Should not allow improvement if it already reached max quality and return 
 
     let song = lastUnfinishedSong dummyBand updatedState
 
-    let result = improveSong dummyState dummyBand song
-
-    fst result |> should be (ofCase (<@ ReachedMaxQualityAlready @>))
-    snd result |> should haveLength 0
+    RehearsalRoomImproveSong {| Band = dummyBand; Song = song |}
+    |> runFailingAction dummyState
+    |> should be (ofCase <@ SongAlreadyImprovedToMax @>)

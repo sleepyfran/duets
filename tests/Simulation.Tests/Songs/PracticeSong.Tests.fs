@@ -45,4 +45,4 @@ let ``practiceSong should return SongAlreadyImprovedToMax if level is already 10
     |> runFailingAction dummyState
     |> should
         equal
-        (SongAlreadyImprovedToMax(dummyFinishedWithPracticeLevel 100<practice>))
+        (SongAlreadyPracticedToMax(dummyFinishedWithPracticeLevel 100<practice>))

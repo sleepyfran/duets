@@ -148,6 +148,8 @@ let applyEffect state effect =
         Songs.addUnfinished band unfinishedSong state
     | SongImproved(band, Diff(_, unfinishedSong)) ->
         Songs.addUnfinished band unfinishedSong state
+    | SongImprovedToMax(band, Diff(_, unfinishedSong)) ->
+        Songs.addUnfinished band unfinishedSong state
     | SongFinished(band, finishedSong, finishDate) ->
         let song = Song.fromFinished finishedSong
 

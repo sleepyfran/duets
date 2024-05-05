@@ -64,7 +64,12 @@ let MembersForHireShouldExposeMembersWithAgeAroundBandsAverage () =
 
 [<Test>]
 let HireMemberShouldGeneratedHiredMemberEffect () =
-    hireMember state dummyBand memberForHire
+    RehearsalRoomHireMember
+        {| Band = dummyBand
+           MemberToHire = memberForHire |}
+    |> runSucceedingAction state
+    |> fst
+    |> List.head
     |> should
         be
         (ofCase

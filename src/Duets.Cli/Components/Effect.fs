@@ -303,16 +303,27 @@ let private displayEffect effect =
         let (Unfinished(_, _, currentQuality)) = after
 
         showProgressBarAsync
-            [ Rehearsal.practiceSongProgressLosingTime
-              Rehearsal.practiceSongProgressTryingSoloOnceMore
-              Rehearsal.practiceSongProgressGivingUp ]
+            [ Rehearsal.improveSongProgressAddingSomeMelodies
+              Rehearsal.improveSongProgressPlayingFoosball
+              Rehearsal.improveSongProgressModifyingChordsFromAnotherSong ]
             2<second>
 
-        Rehearsal.improveSongCanBeFurtherImproved (
-            previousQuality,
-            currentQuality
-        )
+        Rehearsal.improveSongResult (previousQuality, currentQuality)
         |> showMessage
+    | SongImprovedToMax(_, Diff(before, after)) ->
+        let (Unfinished(_, _, previousQuality)) = before
+        let (Unfinished(_, _, currentQuality)) = after
+
+        showProgressBarAsync
+            [ Rehearsal.improveSongProgressAddingFinalTouches
+              Rehearsal.improveSongProgressWorkingOnHook
+              Rehearsal.improveSongProgressPlayingPingPong ]
+            2<second>
+
+        Rehearsal.improveSongResult (previousQuality, currentQuality)
+        |> showMessage
+
+        Rehearsal.improveSongReachedMaxQuality |> showMessage
     | SongPracticed(_, Finished(song, _)) ->
         Rehearsal.practiceSongImproved song.Name song.Practice |> showMessage
     | SongDiscarded(_, Unfinished(song, _, _)) ->
@@ -344,6 +355,8 @@ let private displayError error =
         Rehearsal.cannotFirePlayableCharacterError |> showMessage
     | NotEnoughFundsToRecordAlbum studioBill ->
         Studio.createErrorNotEnoughMoney studioBill |> showMessage
-    | SongAlreadyImprovedToMax finishedSong ->
+    | SongAlreadyImprovedToMax _ ->
+        Rehearsal.improveSongReachedMaxQuality |> showMessage
+    | SongAlreadyPracticedToMax finishedSong ->
         let song = Song.fromFinished finishedSong
         Rehearsal.practiceSongAlreadyImprovedToMax song.Name |> showMessage

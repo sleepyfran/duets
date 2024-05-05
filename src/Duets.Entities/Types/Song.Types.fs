@@ -53,14 +53,6 @@ module SongTypes =
     /// Defines a song that has been recorded and can be played live.
     type Recorded<'s> = Recorded of song: 's * totalQuality: Quality
 
-    /// Indicates whether the song can be further improved or if it has reached its
-    /// maximum quality and thus cannot be improved. All variants wrap an int that
-    /// hold the current value.
-    type SongStatus =
-        | CanBeImproved
-        | ReachedMaxQualityInLastImprovement
-        | ReachedMaxQualityAlready
-
     /// Collection of songs (either finished or unfinished) by a band.
     type SongsByBand<'song> = Map<BandId, Map<SongId, 'song>>
 

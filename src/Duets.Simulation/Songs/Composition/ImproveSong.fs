@@ -18,24 +18,34 @@ let private improveSong' state band song maxQuality (quality: Quality) =
 
     let songWithUpdatedQualities = Unfinished(song, maxQuality, updatedQuality)
 
-    let effects =
-        [ SongImproved(band, Diff(songBeforeUpgrade, songWithUpdatedQualities))
-          yield!
-              RehearsalInteraction.ImproveSong []
-              |> Interaction.Rehearsal
-              |> Queries.InteractionTime.timeRequired
-              |> AdvanceTime.advanceDayMoment' state ]
+    // TODO: Move these to the common time handler once we move completely to actions.
+    let timeEffects =
+        RehearsalInteraction.ImproveSong []
+        |> Interaction.Rehearsal
+        |> Queries.InteractionTime.timeRequired
+        |> AdvanceTime.advanceDayMoment' state
 
-    if canBeFurtherImproved then
-        (CanBeImproved, effects)
-    else
-        (ReachedMaxQualityInLastImprovement, effects)
+    let improveEffect =
+        if canBeFurtherImproved then
+            SongImproved(
+                band,
+                Diff(songBeforeUpgrade, songWithUpdatedQualities)
+            )
+        else
+            SongImprovedToMax(
+                band,
+                Diff(songBeforeUpgrade, songWithUpdatedQualities)
+            )
+
+    improveEffect :: timeEffects |> Ok
 
 /// Orchestrates the improvement of a song, which calculates the increase that
 /// should happen in this action and returns whether the song can be further
 /// increased or not.
-let improveSong state band (Unfinished(song, maxQuality, currentQuality)) =
+let improveSong state band unfinishedSong =
+    let (Unfinished(song, maxQuality, currentQuality)) = unfinishedSong
+
     if currentQuality >= maxQuality then
-        (ReachedMaxQualityAlready, [])
+        SongAlreadyImprovedToMax unfinishedSong |> Error
     else
         improveSong' state band song maxQuality currentQuality
