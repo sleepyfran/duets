@@ -2,6 +2,7 @@ namespace Duets.Cli.Components.Commands
 
 open Duets
 open Duets.Agents
+open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
@@ -19,8 +20,7 @@ module HireMemberCommand =
         let instrument = Instrument.createInstrument role
 
         let availableMember =
-            membersForHire state band instrument.Type
-            |> Seq.head
+            membersForHire state band instrument.Type |> Seq.head
 
         showMemberForHire role band availableMember
 
@@ -41,20 +41,17 @@ module HireMemberCommand =
             )
 
         if hired then
-            hireMember (State.get ()) band availableMember
-            |> Duets.Cli.Effect.apply
-
-            Rehearsal.hireMemberHired |> showMessage
+            RehearsalRoomHireMember
+                {| Band = band
+                   MemberToHire = availableMember |}
+            |> Effect.applyAction
         else
             let continueHiring =
                 showConfirmationPrompt (
                     Rehearsal.hireMemberContinueConfirmation
                 )
 
-            if continueHiring then
-                promptForMemberSelection role
-            else
-                ()
+            if continueHiring then promptForMemberSelection role else ()
 
     let private roleText instrumentType = Generic.role instrumentType
 

@@ -178,6 +178,13 @@ let private displayEffect effect =
         $"You sold {itemsSold} items and made a total of {Styles.money income} on top of the concert ticket sales"
         |> Styles.success
         |> showMessage
+    | MemberHired(_, character, _, _) ->
+        Rehearsal.hireMemberHired character.Name |> showMessage
+    | MemberFired(_, _, pastMember) ->
+        let character =
+            Queries.Characters.byId (State.get ()) pastMember.CharacterId
+
+        Rehearsal.fireMemberFired character.Name |> showMessage
     | MoneyTransferred(holder, transaction) ->
         Phone.bankAppTransferSuccess holder transaction |> showMessage
     | NotificationShown notification ->
@@ -333,6 +340,8 @@ let private displayEffect effect =
 
 let private displayError error =
     match error with
+    | CannotFirePlayableCharacter ->
+        Rehearsal.cannotFirePlayableCharacterError |> showMessage
     | NotEnoughFundsToRecordAlbum studioBill ->
         Studio.createErrorNotEnoughMoney studioBill |> showMessage
     | SongAlreadyImprovedToMax finishedSong ->

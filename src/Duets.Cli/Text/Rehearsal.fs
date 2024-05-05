@@ -106,13 +106,13 @@ let practiceSongProgressGivingUp = Styles.progress "Giving up..."
 let hireMemberRolePrompt = "What role are you looking to hire?"
 
 let hireMemberCharacterDescription name gender =
-    $"{Styles.highlight name} is interested in joining your band. {Generic.subjectPronounForGender gender} {Generic.verbConjugationForGender Generic.Have gender
-                                                                                                            |> String.lowercase} the following skills:"
+    $"{Styles.highlight name} is interested in joining your band. {Generic.subjectPronounForGender gender} {Generic.verbConjugationForGender Generic.Have gender |> String.lowercase} the following skills:"
 
 let hireMemberConfirmation gender =
     $"Do you want to hire {Generic.objectPronounForGender gender}?"
 
-let hireMemberHired = Styles.success "You just hired a new member!"
+let hireMemberHired name =
+    Styles.success $"{name} is now part of your band!"
 
 let hireMemberContinueConfirmation =
     "Do you want to continue looking for members?"
@@ -128,7 +128,8 @@ let fireMemberPrompt = $"""Who do you want to {Styles.danger "fire"}?"""
 let fireMemberConfirmation name =
     Styles.danger $"Are you sure you want to fire {name}?"
 
-let fireMemberConfirmed name = Styles.danger $"You fired {name}"
+let fireMemberFired name =
+    Styles.danger $"{name} is no longer in your band."
 
 let memberListCurrentTitle = Styles.title "Current members"
 
@@ -158,3 +159,7 @@ let managementHireMember = "Hire a new member"
 
 let managementFireMember = "Fire a member"
 let managementMemberList = "List members"
+
+let cannotFirePlayableCharacterError =
+    "You can't fire yourself from the band... Actually, we shouldn't be letting you reach this point at all. Care to file a bug report?"
+    |> Styles.error

@@ -67,6 +67,7 @@ let hireMember state (band: Band) (memberForHire: MemberForHire) =
             currentMember,
             memberForHire.Skills
         )
+    |> List.singleton
 
 /// Removes a current member from the band and adds it to the past members with
 /// today as the date it was fired.
