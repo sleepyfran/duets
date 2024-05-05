@@ -13,6 +13,7 @@ module ActionTypes =
         | RehearsalRoomFireMember of
             {| Band: Band
                CurrentMember: CurrentMember |}
+        | RehearsalRoomFinishSong of {| Band: Band; Song: Unfinished<Song> |}
         | RehearsalRoomHireMember of
             {| Band: Band
                MemberToHire: MemberForHire |}

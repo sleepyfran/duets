@@ -8,9 +8,10 @@ open FsUnit
 open Duets.Simulation.Songs.Composition.FinishSong
 
 [<Test>]
-let FinishSongShouldGenerateSongFinishedEffect () =
+let ``finishSong should generate a FinishSong effect`` () =
     finishSong
         dummyState
         dummyBand
         (Unfinished(dummySong, 35<quality>, 7<quality>))
+    |> List.head
     |> should be (ofCase <@ SongFinished @>)

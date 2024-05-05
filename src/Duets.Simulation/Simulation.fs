@@ -90,6 +90,8 @@ let runAction currentState action : ActionResult =
         Airport.leavePlane currentState flight |> Ok
     | RehearsalRoomFireMember opts ->
         Bands.Members.fireMember currentState opts.Band opts.CurrentMember
+    | RehearsalRoomFinishSong opts ->
+        FinishSong.finishSong currentState opts.Band opts.Song |> Ok
     | RehearsalRoomHireMember opts ->
         Bands.Members.hireMember currentState opts.Band opts.MemberToHire |> Ok
     | RehearsalRoomImproveSong opts ->

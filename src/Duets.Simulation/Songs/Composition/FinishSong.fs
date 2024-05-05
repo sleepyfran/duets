@@ -8,4 +8,6 @@ open Duets.Simulation
 let finishSong state band (Unfinished(song, _, currentQuality)) =
     let currentDate = Queries.Calendar.today state
 
-    (band, Finished(song, currentQuality), currentDate) |> SongFinished
+    (band, Finished(song, currentQuality), currentDate)
+    |> SongFinished
+    |> List.singleton

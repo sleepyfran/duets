@@ -1,6 +1,7 @@
 namespace Duets.Cli.Components.Commands
 
 open Duets.Agents
+open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
@@ -34,8 +35,9 @@ module FinishSongCommand =
 
                 match selectedSong with
                 | Some song ->
-                    finishSong (State.get ()) currentBand song
-                    |> Duets.Cli.Effect.apply
+                    RehearsalRoomFinishSong
+                        {| Band = currentBand; Song = song |}
+                    |> Effect.applyAction
                 | None -> ()
 
                 Scene.World) }
