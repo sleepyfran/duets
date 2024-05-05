@@ -10,6 +10,7 @@ module ActionTypes =
         | AirportBoardPlane of Flight
         | AirportPassSecurity
         | AirportWaitForLanding of Flight
+        | RehearsalRoomComposeSong of {| Band: Band; Song: Song |}
         | RehearsalRoomDiscardSong of {| Band: Band; Song: Unfinished<Song> |}
         | RehearsalRoomFireMember of
             {| Band: Band
@@ -20,6 +21,7 @@ module ActionTypes =
                MemberToHire: MemberForHire |}
         | RehearsalRoomImproveSong of {| Band: Band; Song: Unfinished<Song> |}
         | RehearsalRoomPracticeSong of {| Band: Band; Song: Finished<Song> |}
+        | RehearsalRoomSwitchToGenre of {| Band: Band; Genre: Genre |}
         | StudioStartAlbum of
             {| Studio: Studio
                SelectedProducer: SelectedProducer

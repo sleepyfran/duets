@@ -99,6 +99,7 @@ module EffectTypes =
 module ErrorTypes =
     /// Defines all the possible errors that can happen while executing an action.
     type ActionError =
+        | BandAlreadyHasGenre of Genre
         | CannotFirePlayableCharacter
         | NotEnoughFundsToRecordAlbum of Amount
         | SongAlreadyImprovedToMax of Unfinished<Song>

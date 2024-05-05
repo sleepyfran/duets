@@ -9,7 +9,7 @@ open Duets.Simulation.Songs.Composition.ComposeSong
 
 [<Test>]
 let ``composeSong should generate a SongStarted effect`` () =
-    composeSong dummyState dummySong
+    composeSong dummyState dummyBand dummySong
     |> List.head
     |> should
         be
@@ -23,7 +23,7 @@ let ``composeSong should generate a SongStarted effect`` () =
 
 [<Test>]
 let ``composeSong should advance time 1 day moment`` () =
-    composeSong dummyState dummySong
+    composeSong dummyState dummyBand dummySong
     |> List.item 1
     |> should be (ofCase <@ TimeAdvanced(dummyTodayOneDayMomentAfter) @>)
 
@@ -38,7 +38,7 @@ let ``Qualities are calculated based on member skills`` () =
             dummyCharacter
             (Skill.createWithLevel (SkillId.Genre dummyBand.Genre) 50)
 
-    composeSong state dummySong
+    composeSong state dummyBand dummySong
     |> List.head
     |> should
         equal
@@ -65,7 +65,7 @@ let ``Qualities should be calculated based on members skills but never go above 
         |> addSkillsTo dummyCharacter2 skills
         |> addSkillsTo dummyCharacter3 skills
 
-    composeSong state dummySong
+    composeSong state dummyBandWithMultipleMembers dummySong
     |> List.head
     |> should
         equal

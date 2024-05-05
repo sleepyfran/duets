@@ -81,6 +81,8 @@ let private displayEffect effect =
             |> Styles.faded
             |> showMessage
     | BandSwitchedGenre(band, Diff(prevGenre, currGenre)) ->
+        showProgressBarSync [ $"Studying {currGenre}..." ] 2<second>
+
         $"Your band {band.Name} is now playing {currGenre |> Styles.genre} instead of {prevGenre |> Styles.genre}"
         |> showMessage
     | CareerAccept(_, job) ->
@@ -351,6 +353,9 @@ let private displayEffect effect =
 
 let private displayError error =
     match error with
+    | BandAlreadyHasGenre genre ->
+        $"You tried to switch to {genre}, but yet everything still sounds the same..."
+        |> showMessage
     | CannotFirePlayableCharacter ->
         Rehearsal.cannotFirePlayableCharacterError |> showMessage
     | NotEnoughFundsToRecordAlbum studioBill ->

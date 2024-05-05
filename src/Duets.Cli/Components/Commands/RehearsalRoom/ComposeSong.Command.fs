@@ -1,5 +1,6 @@
 namespace Duets.Cli.Components.Commands
 
+open Duets.Cli
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Duets
 open Duets.Agents
@@ -63,6 +64,7 @@ module ComposeSongCommand =
 
     and private composeWithProgressbar song =
         let state = State.get ()
+        let currentBand = Queries.Bands.currentBand state
 
         showProgressBarAsync
             [ Rehearsal.composeSongProgressBrainstorming
@@ -72,7 +74,8 @@ module ComposeSongCommand =
 
         Rehearsal.composeSongConfirmation song.Name |> showMessage
 
-        composeSong state song |> Duets.Cli.Effect.applyMultiple
+        RehearsalRoomComposeSong {| Band = currentBand; Song = song |}
+        |> Effect.applyAction
 
     /// Command to compose a new song.
     let get =

@@ -4,12 +4,11 @@ open Duets.Entities
 open Duets.Simulation
 
 /// Switches the currently selected band genre if the updated genre is different
-/// from the current one, otherwise returns None.
-let switchGenre state updatedGenre =
-    let currentBand = Queries.Bands.currentBand state
-
-    if currentBand.Genre <> updatedGenre then
-        BandSwitchedGenre(currentBand, Diff(currentBand.Genre, updatedGenre))
-        |> Some
+/// from the current one, otherwise returns a band already has genre error.
+let switchGenre state band updatedGenre =
+    if band.Genre <> updatedGenre then
+        BandSwitchedGenre(band, Diff(band.Genre, updatedGenre))
+        |> List.singleton
+        |> Ok
     else
-        None
+        BandAlreadyHasGenre updatedGenre |> Error

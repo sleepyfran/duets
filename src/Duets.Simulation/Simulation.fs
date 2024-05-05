@@ -88,6 +88,8 @@ let runAction currentState action : ActionResult =
     | AirportPassSecurity -> Airport.passSecurityCheck currentState |> Ok
     | AirportWaitForLanding flight ->
         Airport.leavePlane currentState flight |> Ok
+    | RehearsalRoomComposeSong opts ->
+        ComposeSong.composeSong currentState opts.Band opts.Song |> Ok
     | RehearsalRoomDiscardSong opts ->
         DiscardSong.discardSong opts.Band opts.Song |> Ok
     | RehearsalRoomFireMember opts ->
@@ -100,6 +102,8 @@ let runAction currentState action : ActionResult =
         ImproveSong.improveSong currentState opts.Band opts.Song
     | RehearsalRoomPracticeSong opts ->
         Practice.practiceSong currentState opts.Band opts.Song
+    | RehearsalRoomSwitchToGenre opts ->
+        Bands.SwitchGenre.switchGenre currentState opts.Band opts.Genre
     | StudioStartAlbum opts ->
         RecordAlbum.startAlbum
             currentState
