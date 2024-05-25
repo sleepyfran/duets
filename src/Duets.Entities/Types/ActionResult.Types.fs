@@ -29,10 +29,14 @@ module EffectTypes =
         | CharacterMoodletsChanged of
             character: CharacterId *
             moodlets: Diff<CharacterMoodlets>
-        | ConcertScheduled of Band * ScheduledConcert
-        | ConcertFinished of band: Band * concert: PastConcert * income: Amount
-        | ConcertUpdated of Band * ScheduledConcert
         | ConcertCancelled of Band * PastConcert
+        | ConcertFinished of band: Band * concert: PastConcert * income: Amount
+        | ConcertScheduled of Band * ScheduledConcert
+        | ConcertStarted of
+            band: Band *
+            concert: Concert *
+            attendance: int<percent>
+        | ConcertUpdated of Band * ScheduledConcert
         | FlightBooked of Flight
         | FlightUpdated of Flight
         | GameCreated of State

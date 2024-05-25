@@ -123,6 +123,7 @@ let attendancePercentage concert =
     (float concert.TicketsSold / float capacity)
     |> (*) 100.0
     |> Math.roundToNearest
+    |> (*) 1<percent>
 
 /// Calculates a fair ticket price for the concert, based on the fame of the
 /// given band.

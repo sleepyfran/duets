@@ -46,6 +46,7 @@ let applyEffect state effect =
         Characters.setMoodlets character moodlets state
     | ConcertScheduled(band, concert) ->
         Concerts.addScheduledConcert band concert state
+    | ConcertStarted _ -> state
     | ConcertUpdated(band, scheduledConcert) ->
         let concert = Concert.fromScheduled scheduledConcert
 

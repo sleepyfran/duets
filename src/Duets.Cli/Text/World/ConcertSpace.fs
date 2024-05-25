@@ -15,9 +15,9 @@ let private attendanceAwareDescription
     onFull
     =
     match attendancePercentage with
-    | att when att <= 5 -> List.sample onNoOne
-    | att when att <= 45 -> List.sample onFew
-    | att when att <= 75 -> List.sample onMany
+    | att when att <= 5<percent> -> List.sample onNoOne
+    | att when att <= 45<percent> -> List.sample onFew
+    | att when att <= 75<percent> -> List.sample onMany
     | _ -> List.sample onFull
 
 let rec description (place: Place) (roomType: RoomType) =
@@ -34,7 +34,7 @@ let rec description (place: Place) (roomType: RoomType) =
         let concert = Concert.fromScheduled scheduledConcert
         let attendancePercentage = Queries.Concerts.attendancePercentage concert
         roomDescription place roomType attendancePercentage
-    | None -> roomDescription place roomType 0
+    | None -> roomDescription place roomType 0<percent>
 
 and private roomDescription
     (place: Place)

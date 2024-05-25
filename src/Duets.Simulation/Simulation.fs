@@ -89,6 +89,9 @@ let runAction currentState action : ActionResult =
     | AirportPassSecurity -> Airport.passSecurityCheck currentState |> Ok
     | AirportWaitForLanding flight ->
         Airport.leavePlane currentState flight |> Ok
+    | ConcertStart opts ->
+        Concerts.Live.Actions.startConcert currentState opts.Band opts.Concert
+        |> Ok
     | GymPayEntranceFee entranceFee ->
         Gym.Entrance.pay currentState entranceFee
     | RehearsalRoomComposeSong opts ->

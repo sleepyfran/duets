@@ -38,7 +38,8 @@ let setupMerchStand state checklist =
         [ Situations.preparingConcert' updatedChecklist; yield! timeEffects ]
 
 /// Starts the given concert if the band is ready to play.
-let startConcert state concert =
+let startConcert state band scheduledConcert =
+    let concert = Concert.fromScheduled scheduledConcert
     let situation = Queries.Situations.current state
 
     match situation with
@@ -48,11 +49,14 @@ let startConcert state concert =
         let initialPoints =
             if checklist.SoundcheckDone then 5<quality> else 0<quality>
 
+        let attendancePercentage = Queries.Concerts.attendancePercentage concert
+
         [ Situations.inConcert
               { Events = []
                 Points = initialPoints
                 Checklist = checklist
-                Concert = concert } ]
+                Concert = concert }
+          ConcertStarted(band, concert, attendancePercentage) ]
     | _ -> [] (* Band hasn't started preparing, can't start concert. *)
 
 /// Plays the given song in the concert with the specified energy. The result
