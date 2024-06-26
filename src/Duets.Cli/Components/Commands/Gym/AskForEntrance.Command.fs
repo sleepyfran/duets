@@ -5,6 +5,7 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
+open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Bank.Operations
 open Duets.Simulation.Gym
@@ -22,11 +23,6 @@ module AskForEntranceCommand =
                     |> showConfirmationPrompt
 
                 if confirmed then
-                    let result = Entrance.pay (State.get ()) entranceFee
-
-                    match result with
-                    | Ok effects -> effects |> Effect.applyMultiple
-                    | Error(NotEnoughFunds _) ->
-                        Shop.notEnoughFunds |> showMessage
+                    GymPayEntranceFee entranceFee |> Effect.applyAction
 
                 Scene.World) }

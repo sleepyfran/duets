@@ -101,6 +101,7 @@ module ErrorTypes =
     type ActionError =
         | BandAlreadyHasGenre of Genre
         | CannotFirePlayableCharacter
+        | NotEnoughFundsToPerformAction of Amount
         | NotEnoughFundsToRecordAlbum of Amount
         | SongAlreadyImprovedToMax of Unfinished<Song>
         | SongAlreadyPracticedToMax of Finished<Song>

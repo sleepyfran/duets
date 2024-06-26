@@ -12,6 +12,8 @@ let pay state amount =
     let characterAccount = Queries.Bank.playableCharacterAccount state
 
     expense state characterAccount amount
+    |> Result.mapError (function
+        | NotEnoughFunds amount -> NotEnoughFundsToPerformAction(amount))
     |> Result.map (fun effects ->
         let entranceChip = Item.Chip.createFor cityId placeId
 

@@ -358,6 +358,7 @@ let private displayError error =
         |> showMessage
     | CannotFirePlayableCharacter ->
         Rehearsal.cannotFirePlayableCharacterError |> showMessage
+    | NotEnoughFundsToPerformAction _ -> Shop.notEnoughFunds |> showMessage
     | NotEnoughFundsToRecordAlbum studioBill ->
         Studio.createErrorNotEnoughMoney studioBill |> showMessage
     | SongAlreadyImprovedToMax _ ->
