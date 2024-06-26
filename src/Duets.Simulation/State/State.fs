@@ -2,6 +2,7 @@ module Duets.Simulation.State.Root
 
 open Aether
 open Duets.Entities
+open Duets.Entities.SituationTypes
 
 /// Applies an effect to the state.
 let applyEffect state effect =
@@ -44,6 +45,22 @@ let applyEffect state effect =
         World.move cityId nodeId 0 state
     | CharacterMoodletsChanged(character, Diff(_, moodlets)) ->
         Characters.setMoodlets character moodlets state
+    | ConcertActionPerformed(_, ongoingConcert, _, _) ->
+        Optic.set
+            Lenses.State.situation_
+            (Situation.Concert(InConcert ongoingConcert))
+            state
+    | ConcertCancelled(band, pastConcert) ->
+        let concert = Concert.fromPast pastConcert
+
+        Concerts.removeScheduledConcert band concert state
+        |> Concerts.addPastConcert band pastConcert
+    | ConcertFinished(band, pastConcert, _) ->
+        let concert = Concert.fromPast pastConcert
+
+        Concerts.removeScheduledConcert band concert state
+        |> Concerts.addPastConcert band pastConcert
+    | ConcertGotOffStage _ -> state
     | ConcertScheduled(band, concert) ->
         Concerts.addScheduledConcert band concert state
     | ConcertStarted _ -> state
@@ -52,16 +69,6 @@ let applyEffect state effect =
 
         Concerts.removeScheduledConcert band concert state
         |> Concerts.addScheduledConcert band scheduledConcert
-    | ConcertFinished(band, pastConcert, _) ->
-        let concert = Concert.fromPast pastConcert
-
-        Concerts.removeScheduledConcert band concert state
-        |> Concerts.addPastConcert band pastConcert
-    | ConcertCancelled(band, pastConcert) ->
-        let concert = Concert.fromPast pastConcert
-
-        Concerts.removeScheduledConcert band concert state
-        |> Concerts.addPastConcert band pastConcert
     | FlightBooked flight -> Flights.addBooking flight state
     | FlightUpdated flight -> Flights.change flight state
     | GameCreated state -> state

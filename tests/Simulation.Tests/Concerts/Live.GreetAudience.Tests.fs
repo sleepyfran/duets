@@ -14,18 +14,18 @@ let ``greetAudience gives 5 points when greeting for the first time`` () =
         greetAudience dummyState dummyOngoingConcert
 
     response
-    |> ongoingConcertFromResponse
+    |> ongoingConcertFromEffectList
     |> Optic.get Lenses.Concerts.Ongoing.points_
     |> should equal 5<quality>
 
     response
-    |> pointsFromResponse
+    |> pointsFromEffectList
     |> should equal 5<quality>
 
 [<Test>]
 let ``greetAudience results in Done when greeting for the first time`` () =
     greetAudience dummyState dummyOngoingConcert
-    |> resultFromResponse
+    |> resultFromEffectList
     |> should be (ofCase <@ Done @>)
 
 [<Test>]
@@ -38,12 +38,12 @@ let ``greetAudience takes 10 points when greeting after the first time`` () =
     let response = greetAudience dummyState ongoingConcert
 
     response
-    |> ongoingConcertFromResponse
+    |> ongoingConcertFromEffectList
     |> Optic.get Lenses.Concerts.Ongoing.points_
     |> should equal 0<quality>
 
     response
-    |> pointsFromResponse
+    |> pointsFromEffectList
     |> should equal -10<quality>
 
 [<Test>]
@@ -51,7 +51,7 @@ let ``greetAudience results in GreetedMoreThanOnce when greeting after the first
     ()
     =
     greetAudience dummyState dummyOngoingConcert
-    |> ongoingConcertFromResponse
+    |> ongoingConcertFromEffectList
     |> greetAudience dummyState
-    |> resultFromResponse
+    |> resultFromEffectList
     |> should be (ofCase <@ TooManyRepetitionsPenalized @>)

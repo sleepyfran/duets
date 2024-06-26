@@ -143,6 +143,15 @@ let private displayEffect effect =
                 "You've had a lot of concerts lately and you're feeling tired. Try waiting a few days..."
             |> Styles.warning
             |> showMessage)
+    | ConcertGotOffStage canPerformEncore ->
+        lineBreak ()
+
+        if canPerformEncore then
+            Concert.getOffStageEncorePossible |> showMessage
+            lineBreak ()
+        else
+            Concert.getOffStageNoEncorePossible |> showMessage
+            lineBreak ()
     | ConcertScheduled(_, ScheduledConcert(concert, _)) ->
         showConcertDetails concert
     | ConcertStarted(_, _, attendancePercentage) ->
@@ -185,6 +194,30 @@ let private displayEffect effect =
         | BandDidNotMakeIt -> Concert.failedBandMissing band place concert
         | CharacterPassedOut -> Concert.failedCharacterPassedOut
         |> showMessage
+    | ConcertActionPerformed(action, concert, result, points) ->
+        match action with
+        | BassSolo
+        | DrumSolo
+        | GuitarSolo -> Concert.soloResult result points |> showMessage
+        | MakeCrowdSing ->
+            Concert.makeCrowdSingResult result points |> showMessage
+        | GiveSpeech ->
+            showSpeechProgress ()
+            Concert.giveSpeechResult result points |> showMessage
+        | GreetAudience ->
+            Concert.greetAudienceResult result points |> showMessage
+        | PlaySong(song, energy) -> showPlaySong song result points energy
+        | DedicateSong(song, energy) ->
+            showSpeechProgress ()
+
+            match result with
+            | TooManyRepetitionsPenalized
+            | TooManyRepetitionsNotDone ->
+                Concert.tooManyDedications |> showMessage
+            | _ -> showPlaySong song result points energy
+        | SpinDrumsticks ->
+            Concert.spinDrumsticksResult result points |> showMessage
+        | _ -> () (* TODO: Add the rest of the actions. *)
     | ItemAddedToCharacterInventory item ->
         Items.itemAddedCharacterToInventory item |> showMessage
     | ItemAddedToBandInventory(item, quantity) ->

@@ -289,3 +289,66 @@ let tooManySolos points =
 
 let tooMuchTuning =
     Styles.danger "You tuned the instrument again. No points this time"
+
+let soloResult result points =
+    match result with
+    | LowPerformance reasons -> soloResultLowPerformance reasons points
+    | AveragePerformance reasons -> soloResultAveragePerformance reasons points
+    | GoodPerformance _
+    | GreatPerformance -> soloResultGreatPerformance points
+    | _ -> tooManySolos points
+
+let makeCrowdSingResult result points =
+    match result with
+    | LowPerformance _ -> makeCrowdSingLowPerformance points
+    | AveragePerformance _ -> makeCrowdSingLowPerformance points
+    | GoodPerformance _
+    | GreatPerformance -> makeCrowdSingGreatPerformance points
+    | _ -> tooMuchSingAlong
+
+let giveSpeechResult result points =
+    match result with
+    | LowPerformance _ -> speechGivenLowSkill points
+    | AveragePerformance _ -> speechGivenMediumSkill points
+    | GoodPerformance _
+    | GreatPerformance -> speechGivenHighSkill points
+    | _ -> tooManySpeeches
+
+let greetAudienceResult result points =
+    match result with
+    | TooManyRepetitionsPenalized
+    | TooManyRepetitionsNotDone -> greetAudienceGreetedMoreThanOnceTip points
+    | _ -> greetAudienceDone points
+
+let playSongBeforeResult song result points energy =
+    match result with
+    | TooManyRepetitionsPenalized
+    | TooManyRepetitionsNotDone -> playSongRepeatedSongReaction song
+    | _ ->
+        match energy with
+        | Energetic -> playSongEnergeticEnergyDescription
+        | PerformEnergy.Normal -> playSongNormalEnergyDescription
+        | Limited -> playSongLimitedEnergyDescription
+
+let playSongAfterResult result points energy =
+    match result with
+    | LowPerformance reasons
+    | AveragePerformance reasons ->
+        playSongLowPerformanceReaction energy reasons points
+    | GoodPerformance reasons ->
+        playSongMediumPerformanceReaction reasons points
+    | GreatPerformance -> playSongHighPerformanceReaction energy points
+    | _ -> playSongRepeatedTipReaction points
+
+let tuneInstrumentResult result points =
+    match result with
+    | Done -> tuneInstrumentDone points
+    | _ -> tooMuchTuning
+
+let spinDrumsticksResult result points =
+    match result with
+    | LowPerformance _ -> drumstickSpinningBadResult points
+    | AveragePerformance _
+    | GoodPerformance _
+    | GreatPerformance -> drumstickSpinningGoodResult points
+    | _ -> tooManyDrumstickSpins

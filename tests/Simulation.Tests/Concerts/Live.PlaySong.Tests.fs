@@ -22,12 +22,12 @@ let ``playSong with energetic energy gives up to 25 points when song is long``
         let response = playSong dummyState dummyOngoingConcert song Energetic
 
         response
-        |> ongoingConcertFromResponse
+        |> ongoingConcertFromEffectList
         |> Optic.get Lenses.Concerts.Ongoing.points_
         |> should be (inRange 0<quality> 25<quality>)
 
         response
-        |> pointsFromResponse
+        |> pointsFromEffectList
         |> should be (inRange 0<quality> 25<quality>))
 
 [<Test>]
@@ -38,12 +38,12 @@ let ``playSong with energetic energy gives up to 15 points`` () =
         let response = playSong dummyState dummyOngoingConcert song Energetic
 
         response
-        |> ongoingConcertFromResponse
+        |> ongoingConcertFromEffectList
         |> Optic.get Lenses.Concerts.Ongoing.points_
         |> should be (inRange 0<quality> 15<quality>)
 
         response
-        |> pointsFromResponse
+        |> pointsFromEffectList
         |> should be (inRange 0<quality> 15<quality>))
 
 [<Test>]
@@ -57,12 +57,12 @@ let ``playSong with normal energy gives up to 15 points when song is long`` () =
             playSong dummyState dummyOngoingConcert song PerformEnergy.Normal
 
         response
-        |> ongoingConcertFromResponse
+        |> ongoingConcertFromEffectList
         |> Optic.get Lenses.Concerts.Ongoing.points_
         |> should be (inRange 0<quality> 15<quality>)
 
         response
-        |> pointsFromResponse
+        |> pointsFromEffectList
         |> should be (inRange 0<quality> 15<quality>))
 
 [<Test>]
@@ -74,12 +74,12 @@ let ``playSong with normal energy gives up to 8 points`` () =
             playSong dummyState dummyOngoingConcert song PerformEnergy.Normal
 
         response
-        |> ongoingConcertFromResponse
+        |> ongoingConcertFromEffectList
         |> Optic.get Lenses.Concerts.Ongoing.points_
         |> should be (inRange 0<quality> 8<quality>)
 
         response
-        |> pointsFromResponse
+        |> pointsFromEffectList
         |> should be (inRange 0<quality> 8<quality>))
 
 [<Test>]
@@ -92,12 +92,12 @@ let ``playSong with limited energy gives up to 8 points when song is long`` () =
         let response = playSong dummyState dummyOngoingConcert song Limited
 
         response
-        |> ongoingConcertFromResponse
+        |> ongoingConcertFromEffectList
         |> Optic.get Lenses.Concerts.Ongoing.points_
         |> should be (inRange 0<quality> 8<quality>)
 
         response
-        |> pointsFromResponse
+        |> pointsFromEffectList
         |> should be (inRange 0<quality> 8<quality>))
 
 [<Test>]
@@ -108,12 +108,12 @@ let ``playSong with limited energy gives up to 2 points`` () =
         let response = playSong dummyState dummyOngoingConcert song Limited
 
         response
-        |> ongoingConcertFromResponse
+        |> ongoingConcertFromEffectList
         |> Optic.get Lenses.Concerts.Ongoing.points_
         |> should be (inRange 0<quality> 2<quality>)
 
         response
-        |> pointsFromResponse
+        |> pointsFromEffectList
         |> should be (inRange 0<quality> 2<quality>))
 
 [<Test>]
@@ -123,15 +123,13 @@ let ``playSong decreases points by 50 if song has been played already`` () =
         |> Gen.sample 0 1
         |> List.head
 
-    let (Finished(song, _)) = finishedSong
-
     let ongoingConcert =
         { dummyOngoingConcert with
-            Events = [ PlaySong(song, Energetic) ]
+            Events = [ PlaySong(finishedSong, Energetic) ]
             Points = 50<quality> }
 
     playSong dummyState ongoingConcert finishedSong Energetic
-    |> ongoingConcertFromResponse
+    |> ongoingConcertFromEffectList
     |> Optic.get Lenses.Concerts.Ongoing.points_
     |> should equal 0
 
@@ -150,7 +148,7 @@ let ``playSong returns low performance result if practice and quality ares below
         let response = playSong dummyState dummyOngoingConcert song Energetic
 
         response
-        |> resultFromResponse
+        |> resultFromEffectList
         |> should be (ofCase <@ LowPerformance @>))
 
 [<Test>]
@@ -168,7 +166,7 @@ let ``playSong returns average performance result if practice and quality ares b
         let response = playSong dummyState dummyOngoingConcert song Energetic
 
         response
-        |> resultFromResponse
+        |> resultFromEffectList
         |> should be (ofCase <@ AveragePerformance @>))
 
 [<Test>]
@@ -186,7 +184,7 @@ let ``playSong returns good performance result if practice and quality are below
         let response = playSong dummyState dummyOngoingConcert song Energetic
 
         response
-        |> resultFromResponse
+        |> resultFromEffectList
         |> should be (ofCase <@ GoodPerformance @>))
 
 [<Test>]
@@ -202,7 +200,7 @@ let ``playSong returns great performance result if practice and quality are abov
         let response = playSong dummyState dummyOngoingConcert song Energetic
 
         response
-        |> resultFromResponse
+        |> resultFromEffectList
         |> should be (ofCase <@ GreatPerformance @>))
 
 [<Test>]
@@ -229,7 +227,7 @@ let ``playSong lowers result depending on character's drunkenness`` () =
                 playSong drunkState dummyOngoingConcert song Energetic
 
             response
-            |> resultFromResponse
+            |> resultFromEffectList
             |> should be (ofCase expectedResult)))
 
 [<Test>]
@@ -241,11 +239,11 @@ let ``playSong does not decrease points below 0`` () =
 
     let ongoingConcert =
         { dummyOngoingConcert with
-            Events = [ PlaySong(Song.fromFinished finishedSong, Energetic) ]
+            Events = [ PlaySong(finishedSong, Energetic) ]
             Points = 20<quality> }
 
     playSong dummyState ongoingConcert finishedSong Energetic
-    |> ongoingConcertFromResponse
+    |> ongoingConcertFromEffectList
     |> Optic.get Lenses.Concerts.Ongoing.points_
     |> should equal 0
 
@@ -261,7 +259,7 @@ let ``playSong should add points to the previous count to ongoing concert`` () =
     |> Gen.sample 0 1000
     |> List.iter (fun song ->
         playSong dummyState ongoingConcert song Energetic
-        |> ongoingConcertFromResponse
+        |> ongoingConcertFromEffectList
         |> Optic.get Lenses.Concerts.Ongoing.points_
         |> should be (greaterThan 50<quality>))
 
@@ -275,7 +273,7 @@ let ``playSong does not increase above 100`` () =
     |> Gen.sample 0 1000
     |> List.iter (fun song ->
         playSong dummyState ongoingConcert song Energetic
-        |> ongoingConcertFromResponse
+        |> ongoingConcertFromEffectList
         |> Optic.get Lenses.Concerts.Ongoing.points_
         |> should be (lessThanOrEqualTo 100<quality>))
 
@@ -286,9 +284,9 @@ let ``playSong should add event when the song hasn't been played before`` () =
     |> List.head
     |> fun song ->
         playSong dummyState dummyOngoingConcert song Energetic
-        |> ongoingConcertFromResponse
+        |> ongoingConcertFromEffectList
         |> Optic.get Lenses.Concerts.Ongoing.events_
-        |> should contain (PlaySong(Song.fromFinished song, Energetic))
+        |> should contain (PlaySong(song, Energetic))
 
 [<Test>]
 let ``playSong should add event when the song was played before`` () =
@@ -296,17 +294,16 @@ let ``playSong should add event when the song was played before`` () =
     |> Gen.sample 0 1
     |> List.head
     |> fun finishedSong ->
-        let song = Song.fromFinished finishedSong
-
         let ongoingConcert =
             { dummyOngoingConcert with
-                Events = [ PlaySong(song, Energetic) ]
+                Events = [ PlaySong(finishedSong, Energetic) ]
                 Points = 40<quality> }
 
         playSong dummyState ongoingConcert finishedSong Energetic
-        |> ongoingConcertFromResponse
+        |> ongoingConcertFromEffectList
         |> Optic.get Lenses.Concerts.Ongoing.events_
-        |> List.filter (fun event -> event = (PlaySong(song, Energetic)))
+        |> List.filter (fun event ->
+            event = (PlaySong(finishedSong, Energetic)))
         |> should haveLength 2
 
 [<Test>]
@@ -319,7 +316,7 @@ let ``playSong should decrease health by 2 points and energy by 5 when performin
     |> fun finishedSong ->
         let effects =
             playSong dummyState dummyOngoingConcert finishedSong Energetic
-            |> effectsFromResponse
+            |> List.tail
 
         effects
         |> List.item 0
@@ -351,7 +348,7 @@ let ``playSong should energy by 3 points when performing normally`` () =
                 dummyOngoingConcert
                 finishedSong
                 PerformEnergy.Normal
-            |> effectsFromResponse
+            |> List.tail
 
         effects
         |> List.item 0
@@ -370,7 +367,7 @@ let ``playSong should energy by 1 point when performing in limited`` () =
     |> fun finishedSong ->
         let effects =
             playSong dummyState dummyOngoingConcert finishedSong Limited
-            |> effectsFromResponse
+            |> List.tail
 
         effects
         |> List.item 0
@@ -401,8 +398,10 @@ let ``playSong reduces score by 60% if character is too tired of touring`` () =
     |> List.iter (fun song ->
         let response = playSong state dummyOngoingConcert song Energetic
 
+        let result = resultFromEffectList response
+
         let reasons =
-            match response.Result with
+            match result with
             | LowPerformance reasons -> reasons
             | AveragePerformance reasons -> reasons
             | GoodPerformance reasons -> reasons
@@ -415,10 +414,10 @@ let ``playSong reduces score by 60% if character is too tired of touring`` () =
         |> should haveLength 1
 
         response
-        |> ongoingConcertFromResponse
+        |> ongoingConcertFromEffectList
         |> Optic.get Lenses.Concerts.Ongoing.points_
         |> should be (inRange 0<quality> 10<quality>)
 
         response
-        |> pointsFromResponse
+        |> pointsFromEffectList
         |> should be (inRange 0<quality> 10<quality>))

@@ -22,16 +22,17 @@ let getOffStage state ongoingConcert =
             |> Result.unwrap
             |> List.ofItem
 
-    Response.forEvent ongoingConcert GotOffStage 0
-    |> Response.addEffects situationEffects
-    |> Response.mapResult (fun _ -> canPerformEncore)
+    let updatedConcert = ongoingConcert |> addEvent GetOffStage
+
+    [ ConcertActionPerformed(GetOffStage, updatedConcert, Done, 0<points>)
+      ConcertGotOffStage canPerformEncore ]
+    @ situationEffects
 
 /// Adds a new encore to the list of events of the ongoing concert.
 let doEncore state ongoingConcert =
-    let response = Response.forEvent ongoingConcert PerformedEncore 0
-
     let effects =
-        [ state |> Navigation.enter Ids.ConcertSpace.stage |> Result.unwrap
-          Situations.inConcert response.OngoingConcert ]
+        [ state |> Navigation.enter Ids.ConcertSpace.stage |> Result.unwrap ]
 
-    Response.addEffects effects response
+    let updatedConcert = ongoingConcert |> addEvent PerformedEncore
+
+    ConcertActionPerformed(PerformedEncore, updatedConcert, Done, 0<points>) :: effects

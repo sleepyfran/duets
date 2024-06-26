@@ -29,6 +29,11 @@ module EffectTypes =
         | CharacterMoodletsChanged of
             character: CharacterId *
             moodlets: Diff<CharacterMoodlets>
+        | ConcertActionPerformed of
+            action: ConcertEvent *
+            concert: OngoingConcert *
+            result: ConcertEventResult *
+            points: int<points>
         | ConcertCancelled of Band * PastConcert
         | ConcertFinished of band: Band * concert: PastConcert * income: Amount
         | ConcertScheduled of Band * ScheduledConcert
@@ -36,6 +41,7 @@ module EffectTypes =
             band: Band *
             concert: Concert *
             attendance: int<percent>
+        | ConcertGotOffStage of canPerformEncore: bool
         | ConcertUpdated of Band * ScheduledConcert
         | FlightBooked of Flight
         | FlightUpdated of Flight

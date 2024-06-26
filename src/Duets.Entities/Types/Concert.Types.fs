@@ -45,12 +45,12 @@ module ConcertTypes =
 
     /// Defines all events that can happen in a concert.
     type ConcertEvent =
-        | PlaySong of song: Song * energy: PerformEnergy
-        | DedicateSong
+        | PlaySong of song: Finished<Song> * energy: PerformEnergy
+        | DedicateSong of song: Finished<Song> * energy: PerformEnergy
         | GreetAudience
         | GiveSpeech
         | FaceBand
-        | GotOffStage
+        | GetOffStage
         | PerformedEncore
         | TuneInstrument
         | GuitarSolo
@@ -111,3 +111,32 @@ module ConcertTypes =
 
     /// Holds all concerts scheduled by all bands in the game.
     type ConcertsByBand = Map<BandId, ConcertTimeline>
+
+    /// Adds extra details as of why a certain result was obtained.
+    type ConcertEventResultReason =
+        | CharacterDrunk
+        | LowPractice
+        | LowSkill
+        | LowQuality
+        | TooTired
+
+    /// Defines the result of an event in the concert.
+    type ConcertEventResult =
+        /// Indicates an action with done with no rating required.
+        | Done
+        /// A performance that got less than 25% of the maximum points.
+        | LowPerformance of ConcertEventResultReason list
+        /// A performance that got between 25% and 50% of the maximum points.
+        | AveragePerformance of ConcertEventResultReason list
+        /// A performance that got between 50% and 75% of the maximum points.
+        | GoodPerformance of ConcertEventResultReason list
+        /// A performance that got between 75% and 100% of the maximum points.
+        | GreatPerformance
+        /// Performance was not done because it was repeated too many times.
+        | TooManyRepetitionsNotDone
+        /// Performance was done but penalized because it was repeated too many times.
+        | TooManyRepetitionsPenalized
+
+    /// Represents the number of points that an action got during a concert.
+    [<Measure>]
+    type points

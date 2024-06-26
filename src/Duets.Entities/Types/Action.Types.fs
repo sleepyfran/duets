@@ -10,7 +10,13 @@ module ActionTypes =
         | AirportBoardPlane of Flight
         | AirportPassSecurity
         | AirportWaitForLanding of Flight
-        | ConcertStart of {| Band: Band; Concert: ScheduledConcert |}
+        | ConcertStart of
+            {| Band: Band
+               Concert: ScheduledConcert |}
+        | ConcertPerformAction of
+            {| Action: ConcertEvent
+               Concert: OngoingConcert |}
+        | ConcertEncore of OngoingConcert
         | GymPayEntranceFee of EntranceFee: Amount
         | RehearsalRoomComposeSong of {| Band: Band; Song: Song |}
         | RehearsalRoomDiscardSong of {| Band: Band; Song: Unfinished<Song> |}

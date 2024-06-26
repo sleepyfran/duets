@@ -63,6 +63,7 @@
         <Compile Include="Components\Prompt.fs"/>
         <Compile Include="Components\Review.fs"/>
         <Compile Include="Components\Tip.fs" />
+        <Compile Include="Components\Concert.fs" />
         <Compile Include="Components\ConcertDetails.fs" />
         <Compile Include="Components\Effect.fs"/>
         <Compile Include="Components\Commands\Command.fs"/>
@@ -96,7 +97,7 @@
         <Compile Include="Components\Commands\RehearsalRoom\ListSongs.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\SwitchGenre.Command.fs" />
         <Compile Include="Components\Commands\Career\Work.Command.fs"/>
-        <Compile Include="Components\Commands\Concert\ConcertCommon.fs"/>
+        <Compile Include="Components\Commands\Concert\Concert.Common.fs" />
         <Compile Include="Components\Commands\Concert\StartConcert.Command.fs"/>
         <Compile Include="Components\Commands\Concert\DoEncore.Command.fs"/>
         <Compile Include="Components\Commands\Concert\FinishConcert.Command.fs"/>

@@ -1,6 +1,7 @@
 namespace Duets.Cli.Components.Commands
 
 open Duets.Agents
+open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
@@ -83,6 +84,20 @@ module Command =
                 showMessage message
 
                 Scene.World) }
+
+    /// Creates a command with the given name and description that when called
+    /// calls the given handler.
+    let create name description handler =
+        { Name = name
+          Description = description
+          Handler = handler }
+
+    /// Creates a command with the given name and description that when called
+    /// executes the given action.
+    let action name description action =
+        create name description (fun _ ->
+            action |> Effect.applyAction
+            Scene.World)
 
     /// Creates a placeholder command with the given name that when called
     /// outputs the name of the command.

@@ -6,97 +6,18 @@ open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 
-type OngoingConcertEventResponse<'r> =
-    { Effects: Effect list
-      OngoingConcert: OngoingConcert
-      Points: int
-      Result: 'r }
+let internal addPoints points =
+    Optic.map Lenses.Concerts.Ongoing.points_ (fun currentPoints ->
+        currentPoints + (points * 1<quality / points>)
+        |> Math.clamp 0<quality> 100<quality>)
 
-let private addPoints ongoingConcert points =
-    Optic.map
-        Lenses.Concerts.Ongoing.points_
-        (fun currentPoints ->
-            currentPoints + (points * 1<quality>)
-            |> Math.clamp 0<quality> 100<quality>)
-        ongoingConcert
-
-let private addEvent event =
+let internal addEvent event =
     Optic.map Lenses.Concerts.Ongoing.events_ (List.append [ event ])
-
-module internal Response =
-    /// Returns an empty response that contains only the given ongoing concert
-    /// with no modifications.
-    let empty ongoingConcert =
-        { Effects = []
-          OngoingConcert = ongoingConcert
-          Points = 0
-          Result = () }
-
-    /// Returns an empty response that contains only the given ongoing concert
-    /// with no modifications and a result.
-    let empty' ongoingConcert result =
-        { Effects = []
-          OngoingConcert = ongoingConcert
-          Points = 0
-          Result = result }
-
-    /// Adds the given points to the given ongoing concert making sure that the
-    /// value does not go above 100 or below 0, adds the given event as well and
-    /// then creates a response with all the given parameters and the updated state.
-    let forEvent ongoingConcert event points =
-        addPoints ongoingConcert points
-        |> addEvent event
-        |> fun updatedOngoingConcert ->
-            { Effects = []
-              OngoingConcert = updatedOngoingConcert
-              Points = points
-              Result = () }
-
-    /// Adds the given points to the given ongoing concert making sure that the
-    /// value does not go above 100 or below 0, adds the given event as well and
-    /// then creates a response with all the given parameters and the updated state.
-    let forEvent' ongoingConcert event points result =
-        addPoints ongoingConcert points
-        |> addEvent event
-        |> fun updatedOngoingConcert ->
-            { Effects = []
-              OngoingConcert = updatedOngoingConcert
-              Points = points
-              Result = result }
-
-    /// Adds the given set of effects to the response.
-    let addEffects effects response =
-        { response with
-            Effects = response.Effects @ effects }
-
-    /// Adds one effect to the response.
-    let addEffect effect = addEffects [ effect ]
-
-    /// Adds an event to the response.
-    let addEvent event response =
-        { response with
-            OngoingConcert = addEvent event response.OngoingConcert }
-
-    /// Adds the given points to the point counter of the result and to the
-    /// ongoing concert.
-    let addPoints points response =
-        { Effects = response.Effects
-          OngoingConcert = addPoints response.OngoingConcert points
-          Points = response.Points + points
-          Result = response.Result }
-
-    /// Maps the result of the response applying the current value to the given
-    /// function and setting the result to the return value of the function.
-    let mapResult mapFn response =
-        { Effects = response.Effects
-          OngoingConcert = response.OngoingConcert
-          Points = response.Points
-          Result = mapFn response.Result }
 
 /// Defines a penalization for an action which affects different things in an
 /// ongoing concert. The number should be *negative*, since the points are
 /// summed to the current count as is.
-type internal Penalization = PointPenalization of points: int
+type internal Penalization = PointPenalization of points: int<points>
 
 /// Defines a limit in the amount of times that an action can be performed during
 /// a concert. If NoLimit then the action can be performed unlimited times, when
@@ -137,39 +58,9 @@ type internal ConcertAction =
       ScoreRules: ScoreRule list
       Multipliers: Multiplier list }
 
-/// Adds extra details as of why a certain result was obtained.
-type ConcertEventResultReason =
-    | CharacterDrunk
-    | LowPractice
-    | LowSkill
-    | LowQuality
-    | TooTired
-
-/// Defines the result of an event in the concert.
-type ConcertEventResult =
-    /// Indicates an action with done with no rating required.
-    | Done
-    /// A performance that got less than 25% of the maximum points.
-    | LowPerformance of ConcertEventResultReason list
-    /// A performance that got between 25% and 50% of the maximum points.
-    | AveragePerformance of ConcertEventResultReason list
-    /// A performance that got between 50% and 75% of the maximum points.
-    | GoodPerformance of ConcertEventResultReason list
-    /// A performance that got between 75% and 100% of the maximum points.
-    | GreatPerformance
-    /// Performance was not done because it was repeated too many times.
-    | TooManyRepetitionsNotDone
-    /// Performance was done but penalized because it was repeated too many times.
-    | TooManyRepetitionsPenalized
-
 let private applyPenalization ongoingConcert action penalization =
     match penalization with
-    | PointPenalization points ->
-        Response.forEvent'
-            ongoingConcert
-            action.Event
-            points
-            TooManyRepetitionsPenalized
+    | PointPenalization points -> TooManyRepetitionsPenalized, points
 
 let private characterSkillLevel state characterId skillId =
     Queries.Skills.characterSkillWithLevel state characterId skillId
@@ -290,7 +181,11 @@ let private modifiersWithReasons state action =
 let private multipliersOf action =
     List.sumBy (fun multiplier -> float multiplier / 100.0) action.Multipliers
 
-let rec internal performAction state ongoingConcert action =
+let rec internal performAction
+    state
+    ongoingConcert
+    action
+    : ConcertEventResult * int<points> =
     let timesPerformedEvent =
         Concert.Ongoing.timesDoneEvent ongoingConcert action.Event
 
@@ -301,32 +196,28 @@ let rec internal performAction state ongoingConcert action =
             performAction' state ongoingConcert action
         else
             applyPenalization ongoingConcert action penalization
-            |> Response.addEffects action.Effects
     | NoAction limit ->
         if timesPerformedEvent < limit then
             performAction' state ongoingConcert action
         else
-            Response.empty' ongoingConcert TooManyRepetitionsNotDone
-    |> fun response ->
-        (*
-        Update the current concert in the situation, which is where we store
-        the transient states, such as in concert, while we are still performing
-        them.
-        *)
-        Response.addEffects
-            [ Situations.inConcert response.OngoingConcert ]
-            response
+            TooManyRepetitionsNotDone, 0<points>
+
+and internal toEffects state ongoingConcert action =
+    let result, points = performAction state ongoingConcert action
+
+    let updatedConcert =
+        ongoingConcert |> addPoints points |> addEvent action.Event
+
+    ConcertActionPerformed(action.Event, updatedConcert, result, points) :: action.Effects
 
 and private performAction' state ongoingConcert action =
     if List.isEmpty action.ScoreRules then
         // An action with no affecting qualities does not really require any
         // calculations. Just use the multiplier section to sum the points.
-        let points = List.sum action.Multipliers
-
-        Response.forEvent' ongoingConcert action.Event points Done
+        let points = List.sum action.Multipliers * 1<points>
+        Done, points
     else
         ratePerformance state ongoingConcert action
-    |> Response.addEffects action.Effects
 
 and private ratePerformance state ongoingConcert action =
     let qualityReasons, baseScore =
@@ -357,8 +248,5 @@ and private ratePerformance state ongoingConcert action =
             GoodPerformance resultReasons
         | _ -> GreatPerformance
 
-    Response.forEvent'
-        ongoingConcert
-        action.Event
-        (Math.ceilToNearest pointIncrease)
-        result
+    let points = (Math.ceilToNearest pointIncrease) * 1<points>
+    result, points

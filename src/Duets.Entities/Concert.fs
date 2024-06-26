@@ -49,7 +49,8 @@ module Ongoing =
         Optic.get Lenses.Concerts.Ongoing.events_ ongoingConcert
         |> List.filter (fun performedEvent ->
             match performedEvent with
-            | PlaySong(playedSong, _) ->
+            | PlaySong(playedSong, _)
+            | DedicateSong(playedSong, _) ->
                 match event with
                 | PlaySong(song, _) -> playedSong = song
                 | _ -> false

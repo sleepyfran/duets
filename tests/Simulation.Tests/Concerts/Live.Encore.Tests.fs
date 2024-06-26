@@ -34,7 +34,7 @@ let ``getting off the stage with barely any points finishes the concert`` () =
           Concert = dummyConcert }
 
     let response = getOffStage stateWithConcert concert
-    response.Effects |> filterFinishConcert |> should haveLength 1
+    response |> filterFinishConcert |> should haveLength 1
 
 [<Test>]
 let ``getting off the stage after having performed an encore finishes the concert``
@@ -49,7 +49,7 @@ let ``getting off the stage after having performed an encore finishes the concer
           Concert = dummyConcert }
 
     let response = getOffStage stateWithConcert concert
-    response.Effects |> filterFinishConcert |> should haveLength 1
+    response |> filterFinishConcert |> should haveLength 1
 
 [<Test>]
 let ``having multiple concerts scheduled does not break getting of the stage``
@@ -108,4 +108,9 @@ let ``having multiple concerts scheduled does not break getting of the stage``
             (ScheduledConcert(concert3, today))
 
     let response = getOffStage state concert
-    response.Effects |> List.head |> should be (ofCase <@ WorldEnterRoom @>)
+
+    response
+    |> List.filter (function
+        | WorldEnterRoom _ -> true
+        | _ -> false)
+    |> should haveLength 1

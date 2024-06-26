@@ -92,8 +92,43 @@ let runAction currentState action : ActionResult =
     | ConcertStart opts ->
         Concerts.Live.Actions.startConcert currentState opts.Band opts.Concert
         |> Ok
-    | GymPayEntranceFee entranceFee ->
-        Gym.Entrance.pay currentState entranceFee
+    | ConcertPerformAction opts ->
+        match opts.Action with
+        | PlaySong(song, energy) ->
+            Concerts.Live.Actions.playSong currentState opts.Concert song energy
+        | DedicateSong(song, energy) ->
+            Concerts.Live.Actions.dedicateSong
+                currentState
+                opts.Concert
+                song
+                energy
+        | GreetAudience ->
+            Concerts.Live.Actions.greetAudience currentState opts.Concert
+        | GiveSpeech ->
+            Concerts.Live.Actions.giveSpeech currentState opts.Concert
+        | FaceBand -> Concerts.Live.Actions.faceBand currentState opts.Concert
+        | GetOffStage ->
+            Concerts.Live.Encore.getOffStage currentState opts.Concert
+        | PerformedEncore -> failwith "todo"
+        | TuneInstrument ->
+            Concerts.Live.Actions.tuneInstrument currentState opts.Concert
+        | GuitarSolo ->
+            Concerts.Live.Actions.guitarSolo currentState opts.Concert
+        | BassSolo -> Concerts.Live.Actions.bassSolo currentState opts.Concert
+        | TakeMic -> Concerts.Live.Actions.takeMic currentState opts.Concert
+        | PutMicOnStand ->
+            Concerts.Live.Actions.putMicOnStand currentState opts.Concert
+        | AdjustDrums ->
+            Concerts.Live.Actions.adjustDrums currentState opts.Concert
+        | SpinDrumsticks ->
+            Concerts.Live.Actions.spinDrumsticks currentState opts.Concert
+        | DrumSolo -> Concerts.Live.Actions.drumSolo currentState opts.Concert
+        | MakeCrowdSing ->
+            Concerts.Live.Actions.makeCrowdSing currentState opts.Concert
+        |> Ok
+    | ConcertEncore concert ->
+        Concerts.Live.Encore.doEncore currentState concert |> Ok
+    | GymPayEntranceFee entranceFee -> Gym.Entrance.pay currentState entranceFee
     | RehearsalRoomComposeSong opts ->
         ComposeSong.composeSong currentState opts.Band opts.Song |> Ok
     | RehearsalRoomDiscardSong opts ->

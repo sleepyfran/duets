@@ -1,17 +1,16 @@
 namespace Duets.Cli.Components.Commands
 
 open Duets.Cli.Text
-open Duets.Simulation.Concerts.Live
+open Duets.Entities
 
 [<RequireQualifiedAccess>]
 module DrumSoloCommand =
     /// Command to perform a drum solo.
-    let create ongoingConcert =
-        Concert.createSoloCommand
+    let create =
+        Concert.soloCommand
             "drum solo"
             Command.drumSoloDescription
             [ Concert.drumSoloDoingDrumstickTricks
               Concert.drumSoloPlayingWeirdRhythms
               Concert.drumSoloPlayingReallyFast ]
-            drumSolo
-            ongoingConcert
+            Drums

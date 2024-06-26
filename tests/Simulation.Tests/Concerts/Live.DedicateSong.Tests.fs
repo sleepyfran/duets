@@ -18,48 +18,48 @@ let ``dedicateSong adds 10 points on top of the result of play song`` () =
             dedicateSong dummyState dummyOngoingConcert song Energetic
 
         response
-        |> ongoingConcertFromResponse
+        |> ongoingConcertFromEffectList
         |> Optic.get Lenses.Concerts.Ongoing.points_
         |> should be (inRange 10<quality> 25<quality>)
 
         response
-        |> pointsFromResponse
+        |> pointsFromEffectList
         |> should be (inRange 10<quality> 25<quality>))
 
 [<Test>]
 let ``dedicateSong adds a dedicated song event to the event list`` () =
-    let response =
+    let ongoingConcert =
         dedicateSong dummyState dummyOngoingConcert dummyFinishedSong Energetic
+        |> ongoingConcertFromEffectList
 
-    response.OngoingConcert.Events
-    |> should contain DedicateSong
+    ongoingConcert.Events
+    |> List.filter (function
+        | DedicateSong _ -> true
+        | _ -> false)
+    |> should haveLength 1
 
 [<Test>]
 let ``dedicateSong returns result from play song`` () =
-    let response =
+    let result =
         dedicateSong dummyState dummyOngoingConcert dummyFinishedSong Energetic
+        |> resultFromEffectList
 
-    response.Result
-    |> should be (ofCase <@ AveragePerformance @>)
+    result |> should be (ofCase <@ AveragePerformance @>)
 
 [<Test>]
 let ``dedicateSong returns TooManyDedications if more than two songs were dedicated``
     ()
     =
-    let response =
+    let result =
         dedicateSong dummyState dummyOngoingConcert dummyFinishedSong Energetic
         |> fun res ->
-            dedicateSong
-                dummyState
-                res.OngoingConcert
-                dummyFinishedSong
-                Energetic
-        |> fun res ->
-            dedicateSong
-                dummyState
-                res.OngoingConcert
-                dummyFinishedSong
-                Energetic
+            let ongoingConcert = ongoingConcertFromEffectList res
 
-    response.Result
-    |> should be (ofCase <@ TooManyRepetitionsNotDone @>)
+            dedicateSong dummyState ongoingConcert dummyFinishedSong Energetic
+        |> fun res ->
+            let ongoingConcert = ongoingConcertFromEffectList res
+
+            dedicateSong dummyState ongoingConcert dummyFinishedSong Energetic
+        |> resultFromEffectList
+
+    result |> should be (ofCase <@ TooManyRepetitionsPenalized @>)

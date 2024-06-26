@@ -241,20 +241,28 @@ let addReleasedAlbum (bandId: BandId) album =
 
     Optic.map releasedLenses (Map.add album.Album.Id album)
 
-let ongoingConcertFromResponse response = response.OngoingConcert
-
-let effectsFromResponse response = response.Effects
-
-let resultFromResponse response = response.Result
-
-let pointsFromResponse response = response.Points
-
 /// Runs the given action on the given state, unwrapping the success of the result.
 let runSucceedingAction state action =
-    Simulation.runAction state action
-    |> Result.unwrap
-    
+    Simulation.runAction state action |> Result.unwrap
+
 /// Runs the given action on the given state, unwrapping the error of the result.
 let runFailingAction state action =
-    Simulation.runAction state action
-    |> Result.unwrapError
+    Simulation.runAction state action |> Result.unwrapError
+
+/// Returns the ongoing concert from a concert action inside a list of effects.
+let ongoingConcertFromEffectList =
+    List.pick (function
+        | ConcertActionPerformed(_, ongoingConcert, _, _) -> Some ongoingConcert
+        | _ -> None)
+
+/// Returns the result of a concert action from the list of effects.
+let resultFromEffectList =
+    List.pick (function
+        | ConcertActionPerformed(_, _, result, _) -> Some result
+        | _ -> None)
+
+/// Returns the points of a concert action from the list of effects.
+let pointsFromEffectList =
+    List.pick (function
+        | ConcertActionPerformed(_, _, _, points) -> Some points
+        | _ -> None)
