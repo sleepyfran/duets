@@ -199,6 +199,8 @@ let private displayEffect effect =
         | BassSolo
         | DrumSolo
         | GuitarSolo -> Concert.soloResult result points |> showMessage
+        | AdjustDrums -> Concert.adjustDrumsMessage |> showMessage
+        | FaceBand -> Concert.faceBandMessage |> showMessage
         | MakeCrowdSing ->
             Concert.makeCrowdSingResult result points |> showMessage
         | GiveSpeech ->
@@ -207,6 +209,11 @@ let private displayEffect effect =
         | GreetAudience ->
             Concert.greetAudienceResult result points |> showMessage
         | PlaySong(song, energy) -> showPlaySong song result points energy
+        | PutMicOnStand -> Concert.putMicOnStandMessage |> showMessage
+        | TakeMic -> Concert.takeMicMessage |> showMessage
+        | TuneInstrument ->
+            Concert.tuneInstrumentResult result points |> showMessage
+        | PerformedEncore -> Concert.encoreComingBackToStage |> showMessage
         | DedicateSong(song, energy) ->
             showSpeechProgress ()
 
@@ -217,7 +224,7 @@ let private displayEffect effect =
             | _ -> showPlaySong song result points energy
         | SpinDrumsticks ->
             Concert.spinDrumsticksResult result points |> showMessage
-        | _ -> () (* TODO: Add the rest of the actions. *)
+        | GetOffStage -> () (* Handled in a separate effect. *)
     | ItemAddedToCharacterInventory item ->
         Items.itemAddedCharacterToInventory item |> showMessage
     | ItemAddedToBandInventory(item, quantity) ->
