@@ -10,6 +10,7 @@ open Duets.Cli.Text
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Time.AdvanceTime
+open FSharpx
 
 [<RequireQualifiedAccess>]
 module LifeCommands =
@@ -71,6 +72,11 @@ module LifeCommands =
 
                         advanceDayMoment' (State.get ()) 1<dayMoments>
                         |> Effect.applyMultiple)
+
+                    let currentTime = Queries.Calendar.today (State.get ())
+
+                    $"You have travelled in time and it's now {Styles.time currentTime}"
+                    |> showMessage
 
                     Scene.Cheats
                 | false, _ -> Scene.Cheats) }
