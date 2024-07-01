@@ -5,8 +5,7 @@ open Duets.Simulation
 open Duets.Simulation.Bank.Operations
 
 let private generatePayment state bill =
-    let characterAccount =
-        Queries.Bank.playableCharacterAccount state
+    let characterAccount = Queries.Bank.playableCharacterAccount state
 
     expense state characterAccount bill
 

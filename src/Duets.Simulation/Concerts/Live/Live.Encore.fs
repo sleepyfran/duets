@@ -3,7 +3,6 @@ module Duets.Simulation.Concerts.Live.Encore
 open Duets.Common
 open Duets.Data.World
 open Duets.Entities
-open Duets.Simulation
 open Duets.Simulation.Navigation
 
 /// Moves the character to the backstage, checking whether an encore can or not
@@ -35,4 +34,5 @@ let doEncore state ongoingConcert =
 
     let updatedConcert = ongoingConcert |> addEvent PerformedEncore
 
-    ConcertActionPerformed(PerformedEncore, updatedConcert, Done, 0<points>) :: effects
+    ConcertActionPerformed(PerformedEncore, updatedConcert, Done, 0<points>)
+    :: effects

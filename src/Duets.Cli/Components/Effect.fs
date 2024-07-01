@@ -391,8 +391,8 @@ let private displayEffect effect =
     | SongFinished(_, Finished(song, quality), _) ->
         Rehearsal.finishSongFinished (song.Name, quality) |> showMessage
     | SkillImproved(character, Diff(before, after)) ->
-        let (skill, previousLevel) = before
-        let (_, currentLevel) = after
+        let skill, previousLevel = before
+        let _, currentLevel = after
 
         Skill.skillImproved
             character.Name

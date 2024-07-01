@@ -1,6 +1,5 @@
 module Duets.Simulation.Shop
 
-open Duets.Common
 open Duets.Entities
 open Duets.Simulation.Bank.Operations
 
@@ -16,6 +15,5 @@ let order state (item, price) =
 
     match paymentStatus with
     | Ok paymentEffects ->
-        paymentEffects @ [ ItemAddedToCharacterInventory item ]
-        |> Ok
+        paymentEffects @ [ ItemAddedToCharacterInventory item ] |> Ok
     | Error error -> Error error

@@ -14,7 +14,7 @@ module PostCommand =
     let create account mastodonApp =
         { Name = "post"
           Description =
-            $"""Allows you to post something new on your current account"""
+            "Allows you to post something new on your current account"
           Handler =
             fun _ ->
                 let tootText =

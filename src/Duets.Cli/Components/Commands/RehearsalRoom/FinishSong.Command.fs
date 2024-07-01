@@ -6,9 +6,7 @@ open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Entities
-open Duets.Entities.Lenses
 open Duets.Simulation
-open Duets.Simulation.Songs.Composition.FinishSong
 
 [<RequireQualifiedAccess>]
 module FinishSongCommand =

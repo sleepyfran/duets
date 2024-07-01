@@ -70,11 +70,11 @@ let improveSongProgressModifyingChordsFromAnotherSong =
 let improveSongProgressAddingFinalTouches =
     Styles.progress "Adding final touches..."
 
-let improveSongProgressWorkingOnHook = Styles.progress "Redoing that hook once more..."
+let improveSongProgressWorkingOnHook =
+    Styles.progress "Redoing that hook once more..."
 
 let improveSongProgressPlayingPingPong =
-    Styles.progress
-        "Playing ping pong to get some inspiration..."
+    Styles.progress "Playing ping pong to get some inspiration..."
 
 let finishSong = "Finish an unfinished song"
 

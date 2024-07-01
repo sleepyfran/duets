@@ -6,7 +6,7 @@ open Duets.Common
 open Duets.Entities
 
 let add (characterId: CharacterId) (skillWithLevel: SkillWithLevel) =
-    let (skill, _) = skillWithLevel
+    let skill, _ = skillWithLevel
 
     let skillLens =
         Lenses.State.characterSkills_

@@ -66,7 +66,7 @@ module State =
     let merchPrices_ =
         (fun (s: State) -> s.MerchPrices),
         (fun v (s: State) -> { s with MerchPrices = v })
-    
+
     let notifications_ =
         (fun (s: State) -> s.Notifications),
         (fun v (s: State) -> { s with Notifications = v })
@@ -239,7 +239,7 @@ module SocializingState =
 module SocialNetworks =
     let mastodon_ =
         (fun (s: SocialNetworks) -> s.Mastodon),
-        (fun v (s: SocialNetworks) -> { Mastodon = v })
+        (fun v (s: SocialNetworks) -> { s with Mastodon = v })
 
 module SocialNetwork =
     let accounts_ =
@@ -294,7 +294,8 @@ module World =
             (fun v (p: Place) -> { p with PlaceType = v })
 
     let cities_ =
-        (fun (w: World) -> w.Cities), (fun v (w: World) -> { Cities = v })
+        (fun (w: World) -> w.Cities),
+        (fun v (w: World) -> { w with Cities = v })
 
     /// Lenses to the current city in the world given its ID.
     let city_ cityId = cities_ >-> Map.key_ cityId

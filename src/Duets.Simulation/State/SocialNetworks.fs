@@ -57,4 +57,5 @@ let switchAccount id account =
     let lens = socialNetworkLens_ id
 
     Optic.map lens (fun socialNetwork ->
-        { socialNetwork with CurrentAccount = account })
+        { socialNetwork with
+            CurrentAccount = account })

@@ -35,7 +35,7 @@ module OrderMerchandiseCommand =
             |> Styles.error
             |> showMessage
         | Error NotEnoughFunds ->
-            $"You don't have enough money on your band's bank account to afford that."
+            "You don't have enough money on your band's bank account to afford that."
             |> Styles.error
             |> showMessage
 

@@ -6,8 +6,7 @@ module Bank =
 
     /// Returns the playable character's bank account.
     let playableCharacterAccount state =
-        let character =
-            Characters.playableCharacter state
+        let character = Characters.playableCharacter state
 
         Character character.Id
 

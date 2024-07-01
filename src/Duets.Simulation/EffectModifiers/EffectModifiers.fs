@@ -9,7 +9,8 @@ open Duets.Entities
 /// right before the effect is applied.
 let modify state effect =
     match effect with
-    | GameCreated _ -> effect (* We cannot apply anything if we've just created the game. *)
+    | GameCreated _ ->
+        effect (* We cannot apply anything if we've just created the game. *)
     | _ -> modify' state effect
 
 let private modify' state effect =

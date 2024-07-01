@@ -5,12 +5,8 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Common
 open Duets.Entities
-open FSharp.Data.UnitSystems.SI.UnitNames
 open Duets.Simulation
-open Duets.Simulation.Bank.Operations
-open Duets.Simulation.Studio.RecordAlbum
 
 [<RequireQualifiedAccess>]
 module RecordSongCommand =

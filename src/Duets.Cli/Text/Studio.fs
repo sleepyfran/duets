@@ -19,7 +19,7 @@ let createTrackListPrompt =
 
 let producerPrompt =
     $"""Who will be in charge of {Styles.highlight "producing, mixing and mastering"} the record?"""
-    
+
 let producerPlayableCharacterSelection skillLevel =
     $"""You (Music production skill: {Styles.Level.from skillLevel}, {Styles.success "free"})"""
 

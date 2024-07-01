@@ -8,7 +8,6 @@ open Duets.Cli.Text
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation
-open Duets.Simulation.Studio.RenameAlbum
 
 [<RequireQualifiedAccess>]
 module EditAlbumNameCommand =

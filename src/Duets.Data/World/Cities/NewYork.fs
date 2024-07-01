@@ -234,7 +234,7 @@ let addMerchandiseWorkshops city =
     ("NY Merch", midtown)
     |> PlaceCreators.createMerchandiseWorkshop
     |> World.City.addPlace' city
-    
+
 (* -------- Rehearsal spaces --------- *)
 let private addRehearsalSpaces city =
     [ ("Music Cellar", 85<quality>, 100m<dd>, soho)

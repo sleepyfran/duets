@@ -16,7 +16,7 @@ module Interactions =
             let dayMoment = Calendar.Query.dayMomentOf date
 
             let dayMomentWithEvents =
-                Queries.CalendarEvents.forDayMoment state date dayMoment
+                CalendarEvents.forDayMoment state date dayMoment
                 |> Seq.map (fun ((_, dayMoment), events) -> dayMoment, events)
                 |> List.ofSeq
 
@@ -90,8 +90,7 @@ module Interactions =
             | RehearsalSpace _ ->
                 RehearsalSpace.interactions state cityId currentRoom.RoomType
             | Restaurant -> Restaurant.interactions cityId currentRoom.RoomType
-            | Studio studio ->
-                Studio.interactions state studio currentPlace.Quality
+            | Studio studio -> Studio.interactions state studio
 
         placeSpecificInteractions
         |> (@) defaultInteractions

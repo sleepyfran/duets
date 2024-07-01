@@ -8,5 +8,4 @@ open Duets.Entities
 /// into account the band's fame as well as other events such as ads, new
 /// releases, etc.
 let reduceDailyHype releasedAlbum =
-    releasedAlbum.Hype - 0.1
-    |> Math.clampFloat 0.1 1.0
+    releasedAlbum.Hype - 0.1 |> Math.clampFloat 0.1 1.0

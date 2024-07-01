@@ -10,7 +10,6 @@ open Duets.Cli.Text
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation
-open Duets.Simulation.Songs.Composition.ComposeSong
 
 [<RequireQualifiedAccess>]
 module ComposeSongCommand =
@@ -32,7 +31,7 @@ module ComposeSongCommand =
             (showNameError >> fun _ -> promptForName ())
 
     and private promptForLength name =
-        showLengthPrompt (Rehearsal.composeSongLengthPrompt)
+        showLengthPrompt Rehearsal.composeSongLengthPrompt
         |> Song.validateLength
         |> Result.switch
             (promptForVocalStyle name)

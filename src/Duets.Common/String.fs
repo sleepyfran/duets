@@ -31,7 +31,7 @@ let diacriticInsensitiveContains (subStr: string) (str: string) =
     ) > -1
 
 /// Calls `IsNullOrWhiteSpace` on the given string.
-let isEmpty (str: string) = System.String.IsNullOrWhiteSpace(str)
+let isEmpty (str: string) = String.IsNullOrWhiteSpace(str)
 
 /// Removes any space in the beginning of the string.
 let trimStart (str: string) = str.TrimStart()

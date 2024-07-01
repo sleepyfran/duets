@@ -1,6 +1,5 @@
 module Duets.Simulation.Events.Moodlets.TiredOfTouring
 
-open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 

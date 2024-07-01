@@ -2,7 +2,6 @@ module Duets.Simulation.Concerts.Scheduler
 
 open Duets.Common
 open Duets.Entities
-open Duets.Entities.SituationTypes
 open Duets.Simulation
 
 type ScheduleError = | DateAlreadyScheduled

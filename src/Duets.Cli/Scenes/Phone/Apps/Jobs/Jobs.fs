@@ -14,19 +14,17 @@ let private textFromOption opt =
 
 let rec jobsApp () =
     let currentCareer = Queries.Career.current (State.get ())
-    
+
     match currentCareer with
     | Some job ->
-        let currentJobPlace =
-            job.Location ||> Queries.World.placeInCityById
-        
+        let currentJobPlace = job.Location ||> Queries.World.placeInCityById
+
         Phone.currentJobDescription job currentJobPlace.Name
-    | None ->
-        Phone.unemployed
+    | None -> Phone.unemployed
     |> showMessage
-    
+
     lineBreak ()
-    
+
     let option =
         showOptionalChoicePrompt
             Phone.optionPrompt

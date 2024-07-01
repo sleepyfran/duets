@@ -39,11 +39,11 @@ let private hotelRoomDescription dayMoment quality =
         "Adequate sunlight enters the hotel room, creating a decent atmosphere. The blinds are fully retracted, allowing a good amount of light. The room's décor is satisfactory, providing a comfortable environment."
     | (Midday | Afternoon), High ->
         "Bright sunlight pours into the luxurious hotel room, engulfing it with vivacity and enthusiasm. The blinds are fully retracted, inviting the radiant sunlight in. The room's décor gleams, producing a spirited environment."
-    | (Evening), Low ->
+    | Evening, Low ->
         "The cheap hotel room is barely lit, making the atmosphere less than welcoming. The blinds are closed, but do little to provide privacy. The room's colors are dull and uninviting."
-    | (Evening), Average ->
+    | Evening, Average ->
         "The average hotel room is adequately lit, creating a comfortable atmosphere. The blinds are closed, providing a fair level of privacy. The room's colors are neutral, adding to the overall sense of tranquility."
-    | (Evening), High ->
+    | Evening, High ->
         "The luxury hotel room is immersed in a mellow, warm light, fostering a calm and relaxing atmosphere. The blinds are closed, offering a sense of seclusion and tranquillity. The room’s colors are subdued, evoking a sense of quiet relaxation."
     | (Night | Midnight), Low ->
         "The shoddy hotel room is poorly lit, with the barely visible moonlight creeping through the broken blinds. The room is eerily quiet and seems neglected."

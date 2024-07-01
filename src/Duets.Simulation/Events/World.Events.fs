@@ -16,8 +16,7 @@ let private removeItemsIfNeeded previousCoords currentCoords _ =
         that required the items towards the room before the items were required.
         For example: when moving from the changing room of a gym to the lobby.
         *)
-        requiredItems.Items
-        |> List.map (fun item -> ItemRemovedFromCharacterInventory item)
+        requiredItems.Items |> List.map ItemRemovedFromCharacterInventory
     | _ -> []
 
 let private ifCoordsDiffer previousCoords currentCoords f =

@@ -5,7 +5,6 @@ open Duets.Agents
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation
-open Duets.Simulation.Concerts.Live
 
 let adjustDrumsMessage =
     Styles.success
@@ -320,7 +319,7 @@ let greetAudienceResult result points =
     | TooManyRepetitionsNotDone -> greetAudienceGreetedMoreThanOnceTip points
     | _ -> greetAudienceDone points
 
-let playSongBeforeResult song result points energy =
+let playSongBeforeResult song result energy =
     match result with
     | TooManyRepetitionsPenalized
     | TooManyRepetitionsNotDone -> playSongRepeatedSongReaction song

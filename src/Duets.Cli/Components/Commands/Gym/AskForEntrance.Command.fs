@@ -1,14 +1,10 @@
 namespace Duets.Cli.Components.Commands
 
-open Duets.Agents
 open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Entities
-open Duets.Simulation
-open Duets.Simulation.Bank.Operations
-open Duets.Simulation.Gym
 
 [<RequireQualifiedAccess>]
 module AskForEntranceCommand =

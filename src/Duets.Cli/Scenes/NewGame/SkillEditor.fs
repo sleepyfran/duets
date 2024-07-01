@@ -22,7 +22,7 @@ let skillEditor
         |> List.groupBy (_.Category)
         |> Map.ofList
 
-    $"""You will now be able to select the initial level of your character's skills
+    """You will now be able to select the initial level of your character's skills
 There's no total limit of points you can assign, so feel free to tailor the levels to the experience you want to have
     """
     |> Styles.faded

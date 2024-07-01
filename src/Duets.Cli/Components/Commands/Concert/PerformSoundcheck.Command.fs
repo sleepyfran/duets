@@ -6,11 +6,7 @@ open Duets.Cli.Components
 open Duets.Cli.Components.Commands
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Common
-open Duets.Entities
-open Duets.Simulation
 open Duets.Simulation.Concerts
-open Duets.Simulation.Merchandise.SetPrice
 open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
 
 [<RequireQualifiedAccess>]

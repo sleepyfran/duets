@@ -7,7 +7,7 @@ open Duets.Entities.SituationTypes
 /// Applies an effect to the state.
 let applyEffect state effect =
     match effect with
-    | AlbumSongAdded(band, unreleasedAlbum, song) ->
+    | AlbumSongAdded(band, unreleasedAlbum, _song) ->
         Albums.updateUnreleased band unreleasedAlbum state
     | AlbumStarted(band, unreleasedAlbum) ->
         Albums.addUnreleased band unreleasedAlbum state

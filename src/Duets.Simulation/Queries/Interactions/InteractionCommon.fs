@@ -2,7 +2,6 @@ namespace Duets.Simulation.Queries
 
 open Duets.Entities
 open Duets.Entities.SituationTypes
-open Duets.Simulation
 
 module InteractionCommon =
     let private filterOutMovement =

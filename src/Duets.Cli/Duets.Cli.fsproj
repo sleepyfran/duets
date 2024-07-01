@@ -29,19 +29,19 @@
         <Compile Include="Text\Skill.fs"/>
         <Compile Include="Text\Character.fs"/>
         <Compile Include="Text\Songs.fs"/>
-        <Compile Include="Text\Social.fs" />
-        <Compile Include="Text\World\Bar.fs" />
-        <Compile Include="Text\World\Bookstore.fs" />
+        <Compile Include="Text\Social.fs"/>
+        <Compile Include="Text\World\Bar.fs"/>
+        <Compile Include="Text\World\Bookstore.fs"/>
         <Compile Include="Text\World\Cafe.fs"/>
         <Compile Include="Text\World\Restaurant.fs"/>
-        <Compile Include="Text\World\Airport.fs" />
-        <Compile Include="Text\World\Casino.fs" />
+        <Compile Include="Text\World\Airport.fs"/>
+        <Compile Include="Text\World\Casino.fs"/>
         <Compile Include="Text\World\ConcertSpace.fs"/>
         <Compile Include="Text\World\Gym.fs"/>
         <Compile Include="Text\World\Home.fs"/>
         <Compile Include="Text\World\Hospital.fs"/>
         <Compile Include="Text\World\Hotel.fs"/>
-        <Compile Include="Text\World\MerchandiseWorkshop.fs" />
+        <Compile Include="Text\World\MerchandiseWorkshop.fs"/>
         <Compile Include="Text\World\RehearsalSpace.fs"/>
         <Compile Include="Text\World\Studio.fs"/>
         <Compile Include="Text\World\World.fs"/>
@@ -62,9 +62,9 @@
         <Compile Include="Components\Table.fs"/>
         <Compile Include="Components\Prompt.fs"/>
         <Compile Include="Components\Review.fs"/>
-        <Compile Include="Components\Tip.fs" />
-        <Compile Include="Components\Concert.fs" />
-        <Compile Include="Components\ConcertDetails.fs" />
+        <Compile Include="Components\Tip.fs"/>
+        <Compile Include="Components\Concert.fs"/>
+        <Compile Include="Components\ConcertDetails.fs"/>
         <Compile Include="Components\Effect.fs"/>
         <Compile Include="Components\Commands\Command.fs"/>
         <Compile Include="Components\Commands\Exit.Command.fs"/>
@@ -85,7 +85,7 @@
         <Compile Include="Components\Commands\Studio\ReleaseAlbum.Command.fs"/>
         <Compile Include="Components\Commands\Studio\RecordSong.Command.fs"/>
         <Compile Include="Components\Commands\Studio\ListUnreleasedAlbums.Command.fs"/>
-        <Compile Include="Components\Commands\RehearsalRoom\BandInventory.Command.fs" />
+        <Compile Include="Components\Commands\RehearsalRoom\BandInventory.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\PracticeSong.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\FireMember.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\HireMember.Command.fs"/>
@@ -95,9 +95,9 @@
         <Compile Include="Components\Commands\RehearsalRoom\DiscardSong.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\ComposeSong.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\ListSongs.Command.fs"/>
-        <Compile Include="Components\Commands\RehearsalRoom\SwitchGenre.Command.fs" />
+        <Compile Include="Components\Commands\RehearsalRoom\SwitchGenre.Command.fs"/>
         <Compile Include="Components\Commands\Career\Work.Command.fs"/>
-        <Compile Include="Components\Commands\Concert\Concert.Common.fs" />
+        <Compile Include="Components\Commands\Concert\Concert.Common.fs"/>
         <Compile Include="Components\Commands\Concert\StartConcert.Command.fs"/>
         <Compile Include="Components\Commands\Concert\DoEncore.Command.fs"/>
         <Compile Include="Components\Commands\Concert\FinishConcert.Command.fs"/>
@@ -111,38 +111,38 @@
         <Compile Include="Components\Commands\Concert\MakeCrowdSing.Command.fs"/>
         <Compile Include="Components\Commands\Concert\TuneInstrument.Command.fs"/>
         <Compile Include="Components\Commands\Concert\SpinDrumsticks.Command.fs"/>
-        <Compile Include="Components\Commands\Concert\SetupMerchStand.Command.fs" />
-        <Compile Include="Components\Commands\Concert\PerformSoundcheck.Command.fs" />
+        <Compile Include="Components\Commands\Concert\SetupMerchStand.Command.fs"/>
+        <Compile Include="Components\Commands\Concert\PerformSoundcheck.Command.fs"/>
         <Compile Include="Components\Commands\Gym\AskForEntrance.Command.fs"/>
         <Compile Include="Components\Commands\Shop\SeeMenu.Command.fs"/>
-        <Compile Include="Components\Commands\Shop\Buy.Command.fs" />
-        <Compile Include="Components\Commands\Shop\Order.Command.fs" />
+        <Compile Include="Components\Commands\Shop\Buy.Command.fs"/>
+        <Compile Include="Components\Commands\Shop\Order.Command.fs"/>
         <Compile Include="Components\Commands\Items\Consume.Command.fs"/>
         <Compile Include="Components\Commands\Items\Interactive.Command.fs"/>
         <Compile Include="Components\Commands\Items\Cook.Command.fs"/>
         <Compile Include="Components\Commands\Items\Sleep.Command.fs"/>
-        <Compile Include="Components\Commands\Items\Put.Command.fs" />
-        <Compile Include="Components\Commands\Items\Open.Command.fs" />
-        <Compile Include="Components\Commands\MerchandiseWorkshop\OrderMerchandise.Command.fs" />
-        <Compile Include="Components\Commands\MerchandiseWorkshop\ListOrders.Command.fs" />
-        <Compile Include="Components\Commands\MerchandiseWorkshop\PickUpOrder.Command.fs" />
+        <Compile Include="Components\Commands\Items\Put.Command.fs"/>
+        <Compile Include="Components\Commands\Items\Open.Command.fs"/>
+        <Compile Include="Components\Commands\MerchandiseWorkshop\OrderMerchandise.Command.fs"/>
+        <Compile Include="Components\Commands\MerchandiseWorkshop\ListOrders.Command.fs"/>
+        <Compile Include="Components\Commands\MerchandiseWorkshop\PickUpOrder.Command.fs"/>
         <Compile Include="Components\Commands\MiniGame\StartMiniGame.Command.fs"/>
         <Compile Include="Components\Commands\MiniGame\Bet.Command.fs"/>
         <Compile Include="Components\Commands\MiniGame\Hit.Command.fs"/>
         <Compile Include="Components\Commands\MiniGame\Stand.Command.fs"/>
         <Compile Include="Components\Commands\MiniGame\Leave.Command.fs"/>
-        <Compile Include="Components\Commands\Social\Social.Command.fs" />
-        <Compile Include="Components\Commands\Social\StartStopConversation.Command.fs" />
-        <Compile Include="Components\Commands\Social\Social.Commands.fs" />
-        <Compile Include="Components\Commands\Cheats\Band.Cheats.Commands.fs" />
+        <Compile Include="Components\Commands\Social\Social.Command.fs"/>
+        <Compile Include="Components\Commands\Social\StartStopConversation.Command.fs"/>
+        <Compile Include="Components\Commands\Social\Social.Commands.fs"/>
+        <Compile Include="Components\Commands\Cheats\Band.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
-        <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs" />
+        <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\World.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Clock.Command.fs"/>
         <Compile Include="Components\CommandPrompt.fs"/>
         <Compile Include="Scenes\NewGame\CharacterCreator.fs"/>
-        <Compile Include="Scenes\NewGame\WorldSelector.fs" />
+        <Compile Include="Scenes\NewGame\WorldSelector.fs"/>
         <Compile Include="Scenes\NewGame\BandCreator.fs"/>
         <Compile Include="Scenes\NewGame\SkillEditor.fs"/>
         <Compile Include="Scenes\Phone\Apps\Bank\Transfer.fs"/>
@@ -154,7 +154,7 @@
         <Compile Include="Scenes\Phone\Apps\BnB\BnB.fs"/>
         <Compile Include="Scenes\Phone\Apps\Flights\BookFlight.fs"/>
         <Compile Include="Scenes\Phone\Apps\Flights\Flights.fs"/>
-        <Compile Include="Scenes\Phone\Apps\FoodDelivery\FoodDelivery.fs" />
+        <Compile Include="Scenes\Phone\Apps\FoodDelivery\FoodDelivery.fs"/>
         <Compile Include="Scenes\Phone\Apps\Jobs\FindJob.fs"/>
         <Compile Include="Scenes\Phone\Apps\Jobs\Jobs.fs"/>
         <Compile Include="Scenes\Phone\Apps\ConcertAssistant\ScheduleSoloShow.fs"/>
@@ -163,7 +163,7 @@
         <Compile Include="Scenes\Phone\Apps\Statistics\AlbumsStatistics.fs"/>
         <Compile Include="Scenes\Phone\Apps\Statistics\BandStatistics.fs"/>
         <Compile Include="Scenes\Phone\Apps\Statistics\ReviewStatistics.fs"/>
-        <Compile Include="Scenes\Phone\Apps\Statistics\RelationshipsStatistics.fs" />
+        <Compile Include="Scenes\Phone\Apps\Statistics\RelationshipsStatistics.fs"/>
         <Compile Include="Scenes\Phone\Apps\Statistics\Statistics.fs"/>
         <Compile Include="Scenes\Phone\Apps\Calendar\Calendar.fs"/>
         <Compile Include="Scenes\Phone\Apps\Mastodon\SignUp.fs"/>
@@ -175,20 +175,20 @@
         <Compile Include="Scenes\Phone\Apps\Mastodon\Mastodon.fs"/>
         <Compile Include="Scenes\Phone\Phone.fs"/>
         <Compile Include="Scenes\MainMenu.fs"/>
-        <Compile Include="Scenes\Cheats.fs" />
+        <Compile Include="Scenes\Cheats.fs"/>
         <Compile Include="Scenes\Settings.fs"/>
         <Compile Include="Scenes\World.fs"/>
         <Compile Include="Program.fs"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="AvsAn" Version="3.2.0" />
-        <PackageReference Include="FSharpx.Extras" Version="3.0.0" />
-        <PackageReference Include="FsToolkit.ErrorHandling" Version="4.3.0" />
-        <PackageReference Include="RadLine" Version="0.6.0" />
+        <PackageReference Include="AvsAn" Version="3.2.0"/>
+        <PackageReference Include="FSharpx.Extras" Version="3.0.0"/>
+        <PackageReference Include="FsToolkit.ErrorHandling" Version="4.3.0"/>
+        <PackageReference Include="RadLine" Version="0.6.0"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\deps\spectre.console\src\Spectre.Console\Spectre.Console.csproj" />
-        <ProjectReference Include="..\Duets.Agents\Duets.Agents.fsproj" />
-        <ProjectReference Include="..\Duets.Simulation\Duets.Simulation.fsproj" />
+        <ProjectReference Include="..\..\deps\spectre.console\src\Spectre.Console\Spectre.Console.csproj"/>
+        <ProjectReference Include="..\Duets.Agents\Duets.Agents.fsproj"/>
+        <ProjectReference Include="..\Duets.Simulation\Duets.Simulation.fsproj"/>
     </ItemGroup>
 </Project>

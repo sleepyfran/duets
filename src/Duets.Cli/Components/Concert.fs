@@ -18,7 +18,7 @@ let private showPlaySongProgress song =
 /// Shows the sequence of messages for playing a song.
 let showPlaySong finishedSong result points energy =
     let song = Song.fromFinished finishedSong
-    Concert.playSongBeforeResult song result points energy |> showMessage
+    Concert.playSongBeforeResult song result energy |> showMessage
 
     showPlaySongProgress song
 

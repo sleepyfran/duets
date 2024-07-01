@@ -14,28 +14,29 @@ type StateAgent() =
     let state =
         MailboxProcessor.Start
         <| fun inbox ->
-            let rec loop (state, listeners) = async {
-                let! msg = inbox.Receive()
+            let rec loop (state, listeners) =
+                async {
+                    let! msg = inbox.Receive()
 
-                let notifyAll value =
-                    listeners |> Map.iter (fun _ handler -> handler value)
+                    let notifyAll value =
+                        listeners |> Map.iter (fun _ handler -> handler value)
 
-                match msg with
-                | Get channel ->
-                    channel.Reply state
-                    return! loop (state, listeners)
-                | Set value ->
-                    notifyAll value
-                    return! loop (value, listeners)
-                | Subscribe (id, handler) ->
-                    let updated = listeners |> Map.add id handler
+                    match msg with
+                    | Get channel ->
+                        channel.Reply state
+                        return! loop (state, listeners)
+                    | Set value ->
+                        notifyAll value
+                        return! loop (value, listeners)
+                    | Subscribe(id, handler) ->
+                        let updated = listeners |> Map.add id handler
 
-                    handler state
-                    return! loop (state, updated)
-                | Unsubscribe id ->
-                    let updated = listeners |> Map.remove id
-                    return! loop (state, updated)
-            }
+                        handler state
+                        return! loop (state, updated)
+                    | Unsubscribe id ->
+                        let updated = listeners |> Map.remove id
+                        return! loop (state, updated)
+                }
 
             loop (State.empty, Map.empty)
 

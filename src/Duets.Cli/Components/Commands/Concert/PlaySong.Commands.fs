@@ -8,9 +8,7 @@ open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Common
 open Duets.Entities
-open FSharp.Data.UnitSystems.SI.UnitNames
 open Duets.Simulation
-open Duets.Simulation.Concerts.Live
 
 [<RequireQualifiedAccess>]
 module PlaySongCommands =

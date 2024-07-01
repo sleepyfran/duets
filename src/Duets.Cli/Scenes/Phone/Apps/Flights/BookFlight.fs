@@ -4,7 +4,6 @@ open Duets.Agents
 open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.Text
-open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Bank.Operations

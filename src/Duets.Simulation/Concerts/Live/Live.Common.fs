@@ -208,7 +208,8 @@ and internal toEffects state ongoingConcert action =
     let updatedConcert =
         ongoingConcert |> addPoints points |> addEvent action.Event
 
-    ConcertActionPerformed(action.Event, updatedConcert, result, points) :: action.Effects
+    ConcertActionPerformed(action.Event, updatedConcert, result, points)
+    :: action.Effects
 
 and private performAction' state ongoingConcert action =
     if List.isEmpty action.ScoreRules then

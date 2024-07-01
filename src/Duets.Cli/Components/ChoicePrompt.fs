@@ -17,7 +17,7 @@ let private createChoicePrompt title optionTextFn (choices: 'a seq) =
 
     selectionPrompt.Title <- title
     selectionPrompt <- selectionPrompt.AddChoices(choices)
-    selectionPrompt <- selectionPrompt.UseConverter(fun c -> optionTextFn c)
+    selectionPrompt <- selectionPrompt.UseConverter(optionTextFn)
     selectionPrompt
 
 /// <summary>
@@ -30,7 +30,7 @@ let private createChoicePrompt title optionTextFn (choices: 'a seq) =
 /// </param>
 /// <param name="choices">Sequence of options to show to the user</param>
 /// <returns>The selected item</returns>
-let showChoicePrompt<'a> title optionTextFn (choices: 'a seq) =
+let showChoicePrompt<'a> title (optionTextFn: 'a -> string) (choices: 'a seq) =
     createChoicePrompt title optionTextFn choices
     |> AnsiConsole.Prompt
     |> Pipe.tap (optionTextFn >> showSelection)
@@ -45,7 +45,11 @@ let showChoicePrompt<'a> title optionTextFn (choices: 'a seq) =
 /// </param>
 /// <param name="choices">Sequence of options to show to the user</param>
 /// <returns>The selected item</returns>
-let showSearchableChoicePrompt<'a> title optionTextFn (choices: 'a seq) =
+let showSearchableChoicePrompt<'a>
+    title
+    (optionTextFn: 'a -> string)
+    (choices: 'a seq)
+    =
     let mutable selectionPrompt = createChoicePrompt title optionTextFn choices
     selectionPrompt.SearchEnabled <- true
 
@@ -105,7 +109,7 @@ let showOptionalChoicePrompt title backText optionTextFn choices =
 let showCancellableChoicePrompt
     title
     cancelOptionText
-    optionTextFn
+    (optionTextFn: 'a -> string)
     (choices: 'a seq)
     =
     let mutable selectionPrompt = createChoicePrompt title optionTextFn choices
@@ -140,7 +144,7 @@ let showCancellableChoicePrompt
 let showSearchableOptionalChoicePrompt
     title
     cancelOptionText
-    optionTextFn
+    (optionTextFn: 'a -> string)
     (choices: 'a seq)
     =
     let mutable selectionPrompt = createChoicePrompt title optionTextFn choices
@@ -181,7 +185,6 @@ let showMultiChoicePrompt<'a> title optionTextFn (choices: 'a seq) =
     multiSelectionPrompt.PageSize <- 10
     multiSelectionPrompt <- multiSelectionPrompt.AddChoices(choices)
 
-    multiSelectionPrompt <-
-        multiSelectionPrompt.UseConverter(fun c -> optionTextFn c)
+    multiSelectionPrompt <- multiSelectionPrompt.UseConverter(optionTextFn)
 
     AnsiConsole.Prompt(multiSelectionPrompt) |> List.ofSeq

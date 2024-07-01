@@ -6,7 +6,8 @@ open Duets.Entities
 let rec description (studio: Studio) (place: Place) (roomType: RoomType) =
     match roomType with
     | RoomType.MasteringRoom
-    | RoomType.RecordingRoom -> $"{studioSpaceDescription place}\n{studioPrice studio}"
+    | RoomType.RecordingRoom ->
+        $"{studioSpaceDescription place}\n{studioPrice studio}"
     | _ -> failwith "Room type not supported in studio"
 
 and private studioSpaceDescription place =

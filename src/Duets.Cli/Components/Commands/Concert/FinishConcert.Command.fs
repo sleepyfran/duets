@@ -16,7 +16,9 @@ module FinishConcertCommand =
           Description = Command.finishConcertDescription
           Handler =
             (fun _ ->
-                Concerts.Live.Finish.finishConcert (State.get ()) ongoingConcert
+                Concerts.Live.Finish.finishConcert
+                    (State.get ())
+                    ongoingConcert
                 |> Duets.Cli.Effect.applyMultiple
 
                 Scene.World) }

@@ -1,13 +1,11 @@
 namespace Duets.Cli.Components.Commands
 
-open Duets.Agents
 open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Entities
 open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
-open Duets.Simulation.Flights.Airport
 
 [<RequireQualifiedAccess>]
 module PassSecurityCommand =

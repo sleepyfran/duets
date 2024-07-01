@@ -5,7 +5,6 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 

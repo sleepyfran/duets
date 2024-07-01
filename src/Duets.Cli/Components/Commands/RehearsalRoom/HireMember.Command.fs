@@ -47,9 +47,7 @@ module HireMemberCommand =
             |> Effect.applyAction
         else
             let continueHiring =
-                showConfirmationPrompt (
-                    Rehearsal.hireMemberContinueConfirmation
-                )
+                showConfirmationPrompt Rehearsal.hireMemberContinueConfirmation
 
             if continueHiring then promptForMemberSelection role else ()
 

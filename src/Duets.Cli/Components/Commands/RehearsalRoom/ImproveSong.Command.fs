@@ -5,10 +5,8 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open FSharp.Data.UnitSystems.SI.UnitNames
 open Duets.Entities
 open Duets.Simulation
-open Duets.Simulation.Songs.Composition.ImproveSong
 
 [<RequireQualifiedAccess>]
 module ImproveSongCommand =

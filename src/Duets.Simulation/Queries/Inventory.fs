@@ -2,7 +2,6 @@ namespace Duets.Simulation.Queries
 
 open Aether
 open Aether.Operators
-open Duets.Common
 open Duets.Entities
 
 module Inventory =

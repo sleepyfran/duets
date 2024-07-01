@@ -1,6 +1,5 @@
 module Duets.Cli.Text.Items
 
-open Duets.Common
 open Duets.Entities
 
 let itemAddedCharacterToInventory item =

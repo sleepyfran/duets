@@ -1,6 +1,5 @@
 module Duets.Simulation.Events.Events
 
-open Duets.Entities
 open Duets.Simulation.Events.Band
 open Duets.Simulation.Events.Character
 open Duets.Simulation.Events.Moodlets

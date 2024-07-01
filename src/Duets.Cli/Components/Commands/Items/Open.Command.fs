@@ -6,7 +6,6 @@ open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Simulation
-open Duets.Simulation.Interactions
 
 [<RequireQualifiedAccess>]
 module rec OpenCommand =

@@ -22,8 +22,7 @@ let private addElapsedToStats (elapsed: TimeSpan) =
     let stats = loadStats ()
     let elapsedSeconds = elapsed.Seconds |> (*) 1<second>
 
-    { SecondsPlayed = stats.SecondsPlayed + elapsedSeconds }
-    |> writeStats
+    { SecondsPlayed = stats.SecondsPlayed + elapsedSeconds } |> writeStats
 
 let private startTracking (sw: Stopwatch) =
     if sw.IsRunning then

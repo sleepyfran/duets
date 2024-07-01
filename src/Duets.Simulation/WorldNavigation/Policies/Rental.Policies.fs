@@ -1,6 +1,5 @@
 module Duets.Simulation.Navigation.Policies.Rental
 
-open Aether
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation

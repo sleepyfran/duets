@@ -7,8 +7,6 @@ open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Entities
 open Duets.Simulation
-open Duets.Simulation.Bands
-open FSharp.Data.UnitSystems.SI.UnitNames
 
 [<RequireQualifiedAccess>]
 module SwitchGenreCommand =

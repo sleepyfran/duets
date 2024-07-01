@@ -17,7 +17,7 @@ let transfer bankApp sender receiver =
         |> fun result ->
             match result with
             | Ok effects -> effects |> List.iter Effect.apply
-            | Error (NotEnoughFunds _) ->
+            | Error(NotEnoughFunds _) ->
                 Phone.bankAppTransferNotEnoughFunds |> showMessage
     else
         Phone.bankAppTransferNothingTransferred |> showMessage

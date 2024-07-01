@@ -5,8 +5,6 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.Text
 open Duets.Entities
-open Duets.Simulation
-open Duets.Simulation.Studio.ReleaseAlbum
 
 module Studio =
     /// Shows an error indicating what made the album name validation fail.

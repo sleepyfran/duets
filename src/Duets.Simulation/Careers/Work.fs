@@ -44,7 +44,7 @@ let workShift state job =
     let characterAccount = Queries.Bank.playableCharacterAccount state
 
     let shiftDayMoments = timeAdvancement state job
-    
+
     // TODO: Migrate to common time advancement once we migrate to actions.
     let timeEffects = AdvanceTime.advanceDayMoment' state shiftDayMoments
 
