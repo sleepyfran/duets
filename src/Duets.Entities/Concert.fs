@@ -68,7 +68,7 @@ module Ongoing =
     /// the moment you leave the stage.
     let canPerformEncore ongoingConcert =
         let timesPerformedEncores =
-            timesDoneEvent ongoingConcert PerformedEncore
+            timesDoneEvent ongoingConcert Encore
 
         let points = Optic.get Lenses.Concerts.Ongoing.points_ ongoingConcert
 

@@ -21,27 +21,18 @@ module SetupMerchStandCommand =
         let recommendedPrice =
             Queries.Merch.recommendedItemPrice' state band.Id item
 
-        let rec promptUntilValid () =
-            let price =
-                $"How much do you want to charge for {Generic.itemDetailedName item |> Styles.item}? (Recommended: {Styles.money recommendedPrice})"
-                |> showDecimalPrompt
-                |> Amount.fromDecimal
+        let price =
+            $"How much do you want to charge for {Generic.itemDetailedName item |> Styles.item}? (Recommended: {Styles.money recommendedPrice})"
+            |> showRangedDecimalPrompt 1m 1000m
+            |> Amount.fromDecimal
 
-            let result = setPrice band item price
-
-            match result with
-            | Ok effects -> effects
-            | Error InvalidPrice ->
-                "You can't charge that for your merch. Try again"
-                |> Styles.error
-                |> showMessage
-
-                promptUntilValid ()
-
-        promptUntilValid ()
+        ConcertMerchSetPrice
+            {| Band = band
+               Item = item
+               Price = price |}
 
     let rec private promptForMissingPrices items =
-        items |> List.iter (fun item -> promptForItemPrice item |> Effect.apply)
+        items |> List.iter (promptForItemPrice >> Effect.applyAction)
 
     /// Returns a command that marks the merch stand as done in the current concert's
     /// checklist.

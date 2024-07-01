@@ -32,7 +32,6 @@ let doEncore state ongoingConcert =
     let effects =
         [ state |> Navigation.enter Ids.ConcertSpace.stage |> Result.unwrap ]
 
-    let updatedConcert = ongoingConcert |> addEvent PerformedEncore
+    let updatedConcert = ongoingConcert |> addEvent Encore
 
-    ConcertActionPerformed(PerformedEncore, updatedConcert, Done, 0<points>)
-    :: effects
+    ConcertActionPerformed(Encore, updatedConcert, Done, 0<points>) :: effects

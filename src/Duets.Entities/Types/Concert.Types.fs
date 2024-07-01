@@ -47,11 +47,11 @@ module ConcertTypes =
     type ConcertEvent =
         | PlaySong of song: Finished<Song> * energy: PerformEnergy
         | DedicateSong of song: Finished<Song> * energy: PerformEnergy
+        | Encore
         | GreetAudience
         | GiveSpeech
         | FaceBand
         | GetOffStage
-        | PerformedEncore
         | TuneInstrument
         | GuitarSolo
         | BassSolo

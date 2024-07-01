@@ -213,7 +213,7 @@ let private displayEffect effect =
         | TakeMic -> Concert.takeMicMessage |> showMessage
         | TuneInstrument ->
             Concert.tuneInstrumentResult result points |> showMessage
-        | PerformedEncore -> Concert.encoreComingBackToStage |> showMessage
+        | Encore -> Concert.encoreComingBackToStage |> showMessage
         | DedicateSong(song, energy) ->
             showSpeechProgress ()
 

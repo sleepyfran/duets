@@ -41,7 +41,7 @@ let ``getting off the stage after having performed an encore finishes the concer
     ()
     =
     let concert =
-        { Events = [ PerformedEncore ]
+        { Events = [ Encore ]
           Points = 60<quality>
           Checklist =
             { MerchStandSetup = false

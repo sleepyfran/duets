@@ -89,9 +89,8 @@ let runAction currentState action : ActionResult =
     | AirportPassSecurity -> Airport.passSecurityCheck currentState |> Ok
     | AirportWaitForLanding flight ->
         Airport.leavePlane currentState flight |> Ok
-    | ConcertStart opts ->
-        Concerts.Live.Actions.startConcert currentState opts.Band opts.Concert
-        |> Ok
+    | ConcertMerchSetPrice opts ->
+        Merchandise.SetPrice.setPrice opts.Band opts.Item opts.Price |> Ok
     | ConcertPerformAction opts ->
         match opts.Action with
         | PlaySong(song, energy) ->
@@ -109,7 +108,7 @@ let runAction currentState action : ActionResult =
         | FaceBand -> Concerts.Live.Actions.faceBand currentState opts.Concert
         | GetOffStage ->
             Concerts.Live.Encore.getOffStage currentState opts.Concert
-        | PerformedEncore -> failwith "todo"
+        | Encore -> Concerts.Live.Encore.doEncore currentState opts.Concert
         | TuneInstrument ->
             Concerts.Live.Actions.tuneInstrument currentState opts.Concert
         | GuitarSolo ->
@@ -126,8 +125,9 @@ let runAction currentState action : ActionResult =
         | MakeCrowdSing ->
             Concerts.Live.Actions.makeCrowdSing currentState opts.Concert
         |> Ok
-    | ConcertEncore concert ->
-        Concerts.Live.Encore.doEncore currentState concert |> Ok
+    | ConcertStart opts ->
+        Concerts.Live.Actions.startConcert currentState opts.Band opts.Concert
+        |> Ok
     | GymPayEntranceFee entranceFee -> Gym.Entrance.pay currentState entranceFee
     | RehearsalRoomComposeSong opts ->
         ComposeSong.composeSong currentState opts.Band opts.Song |> Ok
