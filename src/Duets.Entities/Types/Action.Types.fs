@@ -17,6 +17,8 @@ module ActionTypes =
         | ConcertPerformAction of
             {| Action: ConcertEvent
                Concert: OngoingConcert |}
+        | ConcertSoundcheck of ConcertPreparationChecklist
+        | ConcertSetupMerchStand of ConcertPreparationChecklist
         | ConcertStart of
             {| Band: Band
                Concert: ScheduledConcert |}

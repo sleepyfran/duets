@@ -1,12 +1,11 @@
 namespace Duets.Cli.Components.Commands
 
-open Duets.Agents
 open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.Components.Commands
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Simulation.Concerts
+open Duets.Entities
 open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
 
 [<RequireQualifiedAccess>]
@@ -25,7 +24,6 @@ module PerformSoundcheckCommand =
                       |> Styles.progress ]
                     1<second>
 
-                Live.Actions.soundcheck (State.get ()) checklist
-                |> Effect.applyMultiple
+                ConcertSoundcheck checklist |> Effect.applyAction
 
                 Scene.World }

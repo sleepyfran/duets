@@ -127,6 +127,10 @@ let runAction currentState action : ActionResult =
         | MakeCrowdSing ->
             Concerts.Live.Actions.makeCrowdSing currentState opts.Concert
         |> Ok
+    | ConcertSoundcheck checklist ->
+        Concerts.Live.Actions.soundcheck currentState checklist |> Ok
+    | ConcertSetupMerchStand checklist ->
+        Concerts.Live.Actions.setupMerchStand currentState checklist |> Ok
     | ConcertStart opts ->
         Concerts.Live.Actions.startConcert currentState opts.Band opts.Concert
         |> Ok

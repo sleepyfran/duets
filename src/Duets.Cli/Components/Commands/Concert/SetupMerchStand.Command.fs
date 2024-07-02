@@ -8,8 +8,6 @@ open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Entities
 open Duets.Simulation
-open Duets.Simulation.Concerts
-open Duets.Simulation.Merchandise.SetPrice
 open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
 
 [<RequireQualifiedAccess>]
@@ -57,7 +55,6 @@ module SetupMerchStandCommand =
                       "Writing prices..." |> Styles.progress ]
                     1<second>
 
-                Live.Actions.setupMerchStand (State.get ()) checklist
-                |> Effect.applyMultiple
+                ConcertSetupMerchStand checklist |> Effect.applyAction
 
                 Scene.World }
