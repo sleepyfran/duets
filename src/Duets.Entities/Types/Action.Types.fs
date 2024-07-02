@@ -20,6 +20,7 @@ module ActionTypes =
         | ConcertStart of
             {| Band: Band
                Concert: ScheduledConcert |}
+        | ConcertFinish of OngoingConcert
         | GymPayEntranceFee of EntranceFee: Amount
         | RehearsalRoomComposeSong of {| Band: Band; Song: Song |}
         | RehearsalRoomDiscardSong of {| Band: Band; Song: Unfinished<Song> |}
