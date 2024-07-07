@@ -20,16 +20,13 @@ let private bandDailyUpdate state bandId albumsByBand =
         let previousDayStreams =
             previousDayFanStreams + previousDayNonFanStreams
 
-        let streams =
-            previousDayStreams + album.Streams
+        let streams = previousDayStreams + album.Streams
 
-        let dailyRevenue =
-            albumRevenue previousDayStreams
+        let dailyRevenue = albumRevenue previousDayStreams
 
         let recalculatedHype = reduceDailyHype album
 
-        let fanIncrease =
-            calculateFanIncrease previousDayNonFanStreams
+        let fanIncrease = calculateFanIncrease previousDayNonFanStreams
 
         [ yield
               AlbumReleasedUpdate(

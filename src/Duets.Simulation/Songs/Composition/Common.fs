@@ -1,6 +1,5 @@
 module Duets.Simulation.Songs.Composition.Common
 
-open Aether
 open Duets.Simulation.Queries
 open Duets.Entities
 open Duets.Entities.Skill

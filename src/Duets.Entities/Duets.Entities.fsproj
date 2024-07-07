@@ -5,78 +5,78 @@
         <RootNamespace>Entities</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="Types\Common.Types.fs" />
-        <Compile Include="Types\City.Types.fs" />
-        <Compile Include="Types\Calendar.Types.fs" />
-        <Compile Include="Types\Genre.Types.fs" />
-        <Compile Include="Types\Instrument.Types.fs" />
-        <Compile Include="Types\Skill.Types.fs" />
+        <Compile Include="Types\Common.Types.fs"/>
+        <Compile Include="Types\City.Types.fs"/>
+        <Compile Include="Types\Calendar.Types.fs"/>
+        <Compile Include="Types\Genre.Types.fs"/>
+        <Compile Include="Types\Instrument.Types.fs"/>
+        <Compile Include="Types\Skill.Types.fs"/>
         <Compile Include="Types\Attribute.Types.fs"/>
         <Compile Include="Types\Moodlet.Types.fs"/>
-        <Compile Include="Types\Book.Types.fs" />
-        <Compile Include="Types\Character.Types.fs" />
-        <Compile Include="Types\Band.Types.fs" />
-        <Compile Include="Types\Song.Types.fs" />
-        <Compile Include="Types\Album.Types.fs" />
-        <Compile Include="Types\Bank.Types.fs" />
+        <Compile Include="Types\Book.Types.fs"/>
+        <Compile Include="Types\Character.Types.fs"/>
+        <Compile Include="Types\Band.Types.fs"/>
+        <Compile Include="Types\Song.Types.fs"/>
+        <Compile Include="Types\Album.Types.fs"/>
+        <Compile Include="Types\Bank.Types.fs"/>
         <Compile Include="Types\Places\ConcertSpace.Types.fs"/>
         <Compile Include="Types\Places\Hotel.Types.fs"/>
         <Compile Include="Types\Places\RehearsalSpace.Types.fs"/>
         <Compile Include="Types\Places\Studio.Types.fs"/>
         <Compile Include="Types\Places\Shop.Types.fs"/>
         <Compile Include="Types\World.Coordinates.Types.fs"/>
-        <Compile Include="Types\Item.Types.fs" />
-        <Compile Include="Types\Merch.Types.fs" />
+        <Compile Include="Types\Item.Types.fs"/>
+        <Compile Include="Types\Merch.Types.fs"/>
         <Compile Include="Types\World.Types.fs"/>
-        <Compile Include="Types\Relationship.Types.fs" />
-        <Compile Include="Types\Career.Types.fs" />
-        <Compile Include="Types\Concert.Types.fs" />
-        <Compile Include="Types\Flight.Types.fs" />
+        <Compile Include="Types\Relationship.Types.fs"/>
+        <Compile Include="Types\Career.Types.fs"/>
+        <Compile Include="Types\Concert.Types.fs"/>
+        <Compile Include="Types\Flight.Types.fs"/>
         <Compile Include="Types\Rental.Types.fs"/>
-        <Compile Include="Types\CalendarEvent.Types.fs" />
+        <Compile Include="Types\CalendarEvent.Types.fs"/>
         <Compile Include="Types\MiniGames\MiniGame.Shared.Types.fs"/>
         <Compile Include="Types\MiniGames\Blackjack.Types.fs"/>
         <Compile Include="Types\MiniGames\MiniGame.Types.fs"/>
         <Compile Include="Types\Notification.Types.fs"/>
-        <Compile Include="Types\Social.Types.fs" />
+        <Compile Include="Types\Social.Types.fs"/>
         <Compile Include="Types\SocialNetwork.Types.fs"/>
-        <Compile Include="Types\Situations.Types.fs" />
-        <Compile Include="Types\Interaction.Types.fs" />
-        <Compile Include="Types\State.Types.fs" />
-        <Compile Include="Types\Effect.Types.fs" />
-        <Compile Include="Lenses.fs" />
-        <Compile Include="Identity.fs" />
+        <Compile Include="Types\Situations.Types.fs"/>
+        <Compile Include="Types\Interaction.Types.fs"/>
+        <Compile Include="Types\State.Types.fs"/>
+        <Compile Include="Types\Effect.Types.fs"/>
+        <Compile Include="Lenses.fs"/>
+        <Compile Include="Identity.fs"/>
         <Compile Include="Amount.fs"/>
-        <Compile Include="Calendar.fs" />
-        <Compile Include="CalendarEvent.fs" />
-        <Compile Include="Time.fs" />
-        <Compile Include="Album.fs" />
-        <Compile Include="BankAccount.fs" />
-        <Compile Include="Character.fs" />
+        <Compile Include="Calendar.fs"/>
+        <Compile Include="CalendarEvent.fs"/>
+        <Compile Include="Time.fs"/>
+        <Compile Include="Album.fs"/>
+        <Compile Include="BankAccount.fs"/>
+        <Compile Include="Character.fs"/>
         <Compile Include="Moodlet.fs"/>
-        <Compile Include="Band.fs" />
-        <Compile Include="Song.fs" />
-        <Compile Include="Flight.fs" />
-        <Compile Include="Instrument.fs" />
+        <Compile Include="Band.fs"/>
+        <Compile Include="Song.fs"/>
+        <Compile Include="Flight.fs"/>
+        <Compile Include="Instrument.fs"/>
         <Compile Include="Item.fs"/>
-        <Compile Include="Skill.fs" />
-        <Compile Include="Relationships.fs" />
+        <Compile Include="Skill.fs"/>
+        <Compile Include="Relationships.fs"/>
         <Compile Include="Rental.fs"/>
-        <Compile Include="Concert.fs" />
-        <Compile Include="Inventory.fs" />
+        <Compile Include="Concert.fs"/>
+        <Compile Include="Inventory.fs"/>
         <Compile Include="SocialNetwork.fs"/>
         <Compile Include="Career.fs"/>
-        <Compile Include="Interaction.fs" />
-        <Compile Include="World.fs" />
-        <Compile Include="State.fs" />
+        <Compile Include="Interaction.fs"/>
+        <Compile Include="World.fs"/>
+        <Compile Include="State.fs"/>
         <Compile Include="MiniGame.fs"/>
-        <Compile Include="Social.fs" />
+        <Compile Include="Social.fs"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj" />
+        <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Aether" Version="8.3.1" />
-        <PackageReference Include="Fugit" Version="0.4.1" />
+        <PackageReference Include="Aether" Version="8.3.1"/>
+        <PackageReference Include="Fugit" Version="0.4.1"/>
     </ItemGroup>
 </Project>

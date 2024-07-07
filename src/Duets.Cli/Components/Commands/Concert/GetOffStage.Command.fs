@@ -3,7 +3,6 @@ namespace Duets.Cli.Components.Commands
 open Duets.Cli.Components
 open Duets.Cli.Components.Commands
 open Duets.Cli.Text
-open Duets.Entities
 open Duets.Simulation.Concerts.Live.Encore
 
 [<RequireQualifiedAccess>]

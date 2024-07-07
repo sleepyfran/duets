@@ -4,7 +4,6 @@ open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 open FSharp.Data.UnitSystems.SI.UnitNames
@@ -35,7 +34,7 @@ module CookCommand =
                     $"{Generic.itemDetailedName item} ({Styles.money price} for ingredients)"
 
                 let toReferenceName (item: Item, _) = item.Name
-                
+
                 let recipe =
                     Selection.fromArgsOrInteractive
                         args

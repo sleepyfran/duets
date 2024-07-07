@@ -169,7 +169,7 @@ module City =
             city
         |> Optic.map Lenses.World.City.placeIndex_ (Map.add place.Id place)
         |> Optic.map Lenses.World.City.zoneIndex_ (addToZoneIndex place)
-        
+
     // Adds a new place to the city.
     let addPlace' city place = addPlace place city
 

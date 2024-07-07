@@ -1,6 +1,5 @@
 module Duets.Simulation.Bands.Members
 
-open Aether
 open Duets
 open Duets.Common
 open Duets.Entities

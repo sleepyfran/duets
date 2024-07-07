@@ -1,7 +1,6 @@
 [<RequireQualifiedAccess>]
 module Duets.Simulation.Interactions.Items
 
-open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 

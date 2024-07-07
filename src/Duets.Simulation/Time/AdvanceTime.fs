@@ -1,6 +1,5 @@
 module Duets.Simulation.Time.AdvanceTime
 
-open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 

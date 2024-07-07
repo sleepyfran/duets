@@ -92,6 +92,5 @@ let remove state item =
 
     match location with
     | ItemLocation.World -> [ ItemRemovedFromWorld(coords, item) ]
-    | ItemLocation.Inventory ->
-        [ ItemRemovedFromCharacterInventory item ]
+    | ItemLocation.Inventory -> [ ItemRemovedFromCharacterInventory item ]
     | ItemLocation.Nowhere -> []

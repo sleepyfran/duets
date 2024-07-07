@@ -35,7 +35,7 @@ let private confirmPayment selectedRental =
         let result = payRental (State.get ()) selectedRental
 
         match result with
-        | Ok (rental, effects) ->
+        | Ok(rental, effects) ->
             let nextPaymentDate = Rental.dueDate rental
 
             Styles.success
@@ -43,7 +43,7 @@ let private confirmPayment selectedRental =
             |> showMessage
 
             effects |> Effect.applyMultiple
-        | Error (NotEnoughFunds _) ->
+        | Error(NotEnoughFunds _) ->
             Styles.error
                 "You don't have enough money in your account to pay for this"
             |> showMessage

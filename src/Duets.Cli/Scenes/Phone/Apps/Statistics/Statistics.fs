@@ -29,5 +29,6 @@ let rec statisticsApp () =
     | Some Band -> Band.bandStatisticsSubScene statisticsApp
     | Some Albums -> Albums.albumsStatisticsSubScene statisticsApp
     | Some Reviews -> AlbumReviews.reviewsStatisticsSubScene statisticsApp
-    | Some Relationships -> Relationships.relationshipsStatisticsSubScene statisticsApp
+    | Some Relationships ->
+        Relationships.relationshipsStatisticsSubScene statisticsApp
     | None -> Scene.Phone

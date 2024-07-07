@@ -21,10 +21,7 @@ module ListSongsCommand =
 
         showTableWithTitle "Unfinished songs" columns rows
 
-    let private showFinishedTable
-        columns
-        (finishedSongs: Finished<Song> list)
-        =
+    let private showFinishedTable columns (finishedSongs: Finished<Song> list) =
         let rows =
             finishedSongs
             |> List.map (fun (Finished(song, quality)) ->

@@ -32,7 +32,8 @@ module DiscardSongCommand =
                         unfinishedSongs
 
                 match selectedSong with
-                | Some song -> discardSong currentBand song |> Duets.Cli.Effect.apply
+                | Some song ->
+                    discardSong currentBand song |> Duets.Cli.Effect.apply
                 | None -> ()
 
                 Scene.World) }

@@ -23,11 +23,11 @@ module CalendarTypes =
     /// Measure for a minute of time.
     [<Measure>]
     type minute
-    
+
     /// Measure for days.
     [<Measure>]
     type days
-    
+
     /// Measure for a number of day moments.
     [<Measure>]
     type dayMoments

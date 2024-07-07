@@ -6,7 +6,6 @@ open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Entities
-open Duets.Simulation
 open Duets.Simulation.MiniGames
 
 [<RequireQualifiedAccess>]

@@ -22,7 +22,6 @@ module WaitForLandingCommand =
                       Airport.passingPassportControl ]
                     5<second>
 
-                leavePlane (State.get ()) flight
-                |> Effect.applyMultiple
+                leavePlane (State.get ()) flight |> Effect.applyMultiple
 
                 Scene.WorldAfterMovement }

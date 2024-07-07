@@ -66,7 +66,7 @@ module State =
     let merchPrices_ =
         (fun (s: State) -> s.MerchPrices),
         (fun v (s: State) -> { s with MerchPrices = v })
-    
+
     let notifications_ =
         (fun (s: State) -> s.Notifications),
         (fun v (s: State) -> { s with Notifications = v })

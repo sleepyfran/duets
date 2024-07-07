@@ -29,8 +29,7 @@ let rec private displayUpcomingFlights flights =
     showTable tableColumns tableRows
 
 let rec flightsApp () =
-    let _, upcomingFlights =
-        Queries.Flights.all (State.get ())
+    let _, upcomingFlights = Queries.Flights.all (State.get ())
 
     if List.isEmpty upcomingFlights then
         Phone.flightsNoUpcomingWelcome |> showMessage

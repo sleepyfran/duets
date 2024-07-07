@@ -7,7 +7,6 @@ open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Cli.Text.World
 open Duets.Entities
-open Duets.Simulation
 open Duets.Simulation.Navigation
 
 [<RequireQualifiedAccess>]

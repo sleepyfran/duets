@@ -14,11 +14,9 @@ let private createTable
     | Some title -> table.Title <- TableTitle(title)
     | None -> ()
 
-    columns
-    |> List.iter (fun column -> table <- table.AddColumn(column))
+    columns |> List.iter (fun column -> table <- table.AddColumn(column))
 
-    rows
-    |> List.iter (fun row -> table <- row |> Array.ofList |> table.AddRow)
+    rows |> List.iter (fun row -> table <- row |> Array.ofList |> table.AddRow)
 
     table
 
@@ -47,5 +45,4 @@ let showTable columns rows =
 /// Row text to be shown. Each field in the list correspond with each column
 /// </param>
 let showTableWithTitle title columns rows =
-    createTable (Some title) columns rows
-    |> AnsiConsole.Write
+    createTable (Some title) columns rows |> AnsiConsole.Write

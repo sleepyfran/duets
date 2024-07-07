@@ -6,7 +6,6 @@ open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Entities
 open FSharp.Data.UnitSystems.SI.UnitNames
-open Duets.Simulation
 open Duets.Simulation.Concerts.Live
 
 [<RequireQualifiedAccess>]
@@ -67,8 +66,7 @@ module Concert =
                 | AveragePerformance reasons ->
                     Concert.soloResultAveragePerformance reasons points
                 | GoodPerformance _
-                | GreatPerformance ->
-                    Concert.soloResultGreatPerformance points
+                | GreatPerformance -> Concert.soloResultGreatPerformance points
                 | _ -> Concert.tooManySolos points
                 |> showMessage)
             ongoingConcert

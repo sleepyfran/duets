@@ -106,8 +106,7 @@ let practiceSongProgressGivingUp = Styles.progress "Giving up..."
 let hireMemberRolePrompt = "What role are you looking to hire?"
 
 let hireMemberCharacterDescription name gender =
-    $"{Styles.highlight name} is interested in joining your band. {Generic.subjectPronounForGender gender} {Generic.verbConjugationForGender Generic.Have gender
-                                                                                                            |> String.lowercase} the following skills:"
+    $"{Styles.highlight name} is interested in joining your band. {Generic.subjectPronounForGender gender} {Generic.verbConjugationForGender Generic.Have gender |> String.lowercase} the following skills:"
 
 let hireMemberConfirmation gender =
     $"Do you want to hire {Generic.objectPronounForGender gender}?"

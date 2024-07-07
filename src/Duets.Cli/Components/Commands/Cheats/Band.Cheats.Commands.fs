@@ -1,6 +1,5 @@
 namespace Duets.Cli.Components.Commands.Cheats
 
-open System
 open Duets.Agents
 open Duets.Cli
 open Duets.Cli.Components

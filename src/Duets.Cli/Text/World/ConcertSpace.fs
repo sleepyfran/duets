@@ -2,7 +2,6 @@
 module Duets.Cli.Text.World.ConcertSpace
 
 open Duets.Agents
-open Duets.Cli.Text
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation

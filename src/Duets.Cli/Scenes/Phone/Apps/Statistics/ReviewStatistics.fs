@@ -34,6 +34,6 @@ and private showAlbumSelection statisticsApp albums =
             |> showMessage
         else
             showReviews album
-        
+
         reviewsStatisticsSubScene statisticsApp
     | None -> statisticsApp ()

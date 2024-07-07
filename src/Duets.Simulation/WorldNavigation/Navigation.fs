@@ -40,7 +40,9 @@ module Navigation =
 
         applyPlacePolicies state cityId placeId
         |> Result.transform (
-            WorldMoveToPlace(Diff(currentCoords, (cityId, placeId, startingRoom)))
+            WorldMoveToPlace(
+                Diff(currentCoords, (cityId, placeId, startingRoom))
+            )
         )
 
     /// Moves the player to the specified room inside of the current place.

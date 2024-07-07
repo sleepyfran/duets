@@ -1,7 +1,6 @@
 namespace Duets.Simulation.Queries
 
 open Aether
-open Duets.Common
 open Duets.Data
 open Duets.Entities
 

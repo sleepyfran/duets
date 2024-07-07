@@ -4,7 +4,6 @@ open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.Text
 open Duets.Entities
-open Duets.Simulation
 open Duets.Simulation.Studio.ReleaseAlbum
 
 module Studio =

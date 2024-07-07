@@ -4,7 +4,6 @@ open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Common
 open Duets.Entities
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Duets.Simulation

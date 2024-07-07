@@ -18,8 +18,6 @@ module InventoryCommand =
                 else
                     Items.itemsCurrentlyCarrying |> showMessage
 
-                    inventory
-                    |> List.map Items.itemRow
-                    |> List.iter showMessage
+                    inventory |> List.map Items.itemRow |> List.iter showMessage
 
                 Scene.World }

@@ -9,7 +9,6 @@ open Duets.Common
 open Duets.Entities
 open Duets.Entities.SituationTypes
 open Duets.Simulation
-open FSharp.Data.UnitSystems.SI.UnitNames
 
 let private commandsFromInteractions interactions =
     interactions

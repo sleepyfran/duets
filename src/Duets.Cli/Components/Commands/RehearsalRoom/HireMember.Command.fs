@@ -19,8 +19,7 @@ module HireMemberCommand =
         let instrument = Instrument.createInstrument role
 
         let availableMember =
-            membersForHire state band instrument.Type
-            |> Seq.head
+            membersForHire state band instrument.Type |> Seq.head
 
         showMemberForHire role band availableMember
 
@@ -51,10 +50,7 @@ module HireMemberCommand =
                     Rehearsal.hireMemberContinueConfirmation
                 )
 
-            if continueHiring then
-                promptForMemberSelection role
-            else
-                ()
+            if continueHiring then promptForMemberSelection role else ()
 
     let private roleText instrumentType = Generic.role instrumentType
 

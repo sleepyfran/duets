@@ -18,8 +18,7 @@ let passSecurityCheck state =
             |> Item.Property.has (function
                 | Drinkable _ -> true
                 | _ -> false))
-        |> List.map (fun item ->
-            ItemRemovedFromCharacterInventory item)
+        |> List.map (fun item -> ItemRemovedFromCharacterInventory item)
 
     let movementEffects =
         Navigation.enter World.Ids.Airport.boardingGate state

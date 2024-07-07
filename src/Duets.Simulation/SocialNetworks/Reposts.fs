@@ -30,7 +30,9 @@ module Reposts =
                         3
                     |> List.collect (fun post ->
                         let updatedReposts = post.Reposts + newReposts
-                        let newFollowers = calculateNewFollowers updatedReposts
+
+                        let newFollowers =
+                            calculateNewFollowers updatedReposts
 
                         let updatedFollowerCount =
                             account.Followers + newFollowers

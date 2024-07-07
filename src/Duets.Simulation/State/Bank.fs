@@ -8,7 +8,7 @@ let setBalance account transaction =
 
     let updatedBalance =
         match transaction with
-        | Incoming (_, balance) -> balance
-        | Outgoing (_, balance) -> balance
+        | Incoming(_, balance) -> balance
+        | Outgoing(_, balance) -> balance
 
     Optic.set balanceLens updatedBalance

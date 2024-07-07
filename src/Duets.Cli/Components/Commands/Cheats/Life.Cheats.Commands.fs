@@ -10,7 +10,6 @@ open Duets.Cli.Text
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Time.AdvanceTime
-open FSharpx
 
 [<RequireQualifiedAccess>]
 module LifeCommands =
