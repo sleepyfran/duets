@@ -16,7 +16,7 @@ module ConcertSpace =
 
     let private setupMerchStandInteraction state checklist =
         let band = Queries.Bands.currentBand state
-        let merch = Queries.Inventory.band state
+        let merch = Queries.Inventory.band band.Id state
 
         let itemsWithoutPrice =
             merch

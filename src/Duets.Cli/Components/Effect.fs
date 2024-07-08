@@ -134,7 +134,7 @@ let private displayEffect effect =
         |> showMessage
     | ItemAddedToCharacterInventory item ->
         Items.itemAddedCharacterToInventory item |> showMessage
-    | ItemAddedToBandInventory(item, quantity) ->
+    | ItemAddedToBandInventory(_, item, quantity) ->
         Items.itemAddedToBandInventory item quantity |> showMessage
     | ItemRemovedFromCharacterInventory item ->
         Items.itemRemovedFromCharacterInventory item |> showMessage

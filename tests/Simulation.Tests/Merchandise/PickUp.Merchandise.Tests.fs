@@ -33,7 +33,7 @@ let ``pick-up ignores non-deliverable items`` () =
 let ``pick-up adds the merch to the band inventory`` () =
     pickUpOrder dummyState [ deliverable ]
     |> List.filter (function
-        | ItemAddedToBandInventory(item, quantity) ->
+        | ItemAddedToBandInventory(_, item, quantity) ->
             item = dummyMerch && quantity = 100<quantity>
         | _ -> false)
     |> should haveLength 1

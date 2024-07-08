@@ -15,13 +15,13 @@ let private dummyMerch =
 [<Test>]
 let ``MerchSold updates the band inventory removing the sold items`` () =
     let state =
-        ItemAddedToBandInventory(dummyMerch, 200<quantity>)
+        ItemAddedToBandInventory(dummyBand, dummyMerch, 200<quantity>)
         |> State.Root.applyEffect dummyState
 
     let state =
         MerchSold(dummyBand, [ dummyMerch, 91<quantity> ], 200m<dd>)
         |> State.Root.applyEffect state
 
-    Queries.Inventory.band state
+    Queries.Inventory.band dummyBand.Id state
     |> Map.find dummyMerch
     |> should equal 109<quantity>

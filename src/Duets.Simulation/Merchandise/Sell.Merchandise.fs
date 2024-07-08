@@ -12,7 +12,7 @@ open Duets.Simulation.Bank.Operations
 /// sale of the merch, or an empty list if no merch was sold or available.
 let afterConcert (band: Band) performedConcert state =
     let concert = Concert.fromPast performedConcert
-    let merch = Queries.Inventory.band state
+    let merch = Queries.Inventory.band band.Id state
     let totalPossibleMerchSales = attendantsBuyingMerch performedConcert
 
     if Map.isEmpty merch then

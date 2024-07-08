@@ -138,15 +138,14 @@ module rec ItemTypes =
     /// of that item. This is done mostly to avoid saving thousands of items
     /// in the savegame, since things like merchandise are not really used
     /// individually but only sold as a whole.
-    type BandInventory =
-        Map<Item, int<quantity>> (* TODO: Make it compatible with multiple bands. *)
+    type BandInventory = Map<Item, int<quantity>>
 
     /// Defines the character's and band's inventory, where only the character
     /// one is interactive and the band's only holds items that are needed
     /// for a certain situation, i.e. merch, etc.
     type Inventories =
         { Character: CharacterInventory
-          Band: BandInventory }
+          Band: Map<BandId, BandInventory> }
 
     /// Contains all the items that a specific location has.
     type WorldItems = Map<RoomCoordinates, Item list>

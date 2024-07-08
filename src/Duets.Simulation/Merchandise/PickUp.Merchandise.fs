@@ -8,6 +8,7 @@ open Duets.Simulation
 /// and kept in the world.
 let pickUpOrder state items =
     let coords = Queries.World.currentCoordinates state
+    let currentBand = Queries.Bands.currentBand state
 
     items
     |> List.collect (fun deliveryItem ->
@@ -19,6 +20,6 @@ let pickUpOrder state items =
 
         match order with
         | Some(DeliverableItem.Description(merchItem, quantity)) ->
-            [ ItemAddedToBandInventory(merchItem, quantity)
+            [ ItemAddedToBandInventory(currentBand, merchItem, quantity)
               ItemRemovedFromWorld(coords, deliveryItem) ]
         | _ -> [])

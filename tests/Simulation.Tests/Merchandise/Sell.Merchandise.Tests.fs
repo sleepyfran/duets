@@ -28,8 +28,8 @@ let stateWithMerch =
     dummyState
     |> State.Merch.setPrice dummyBand.Id dummyVinylMerch 15m<dd>
     |> State.Merch.setPrice dummyBand.Id dummyTShirtMerch 15m<dd>
-    |> State.Inventory.addToBand dummyTShirtMerch 200<quantity>
-    |> State.Inventory.addToBand dummyVinylMerch 150<quantity>
+    |> State.Inventory.addToBand dummyBand.Id dummyTShirtMerch 200<quantity>
+    |> State.Inventory.addToBand dummyBand.Id dummyVinylMerch 150<quantity>
 
 [<Test>]
 let ``Sell.afterConcert does nothing if band has no merch`` () =
@@ -102,7 +102,7 @@ let ``Sell.afterConcert limits the sales to the stock of merch the band has``
     let state =
         dummyState
         |> State.Merch.setPrice dummyBand.Id dummyVinylMerch 15m<dd>
-        |> State.Inventory.addToBand dummyVinylMerch 100<quantity>
+        |> State.Inventory.addToBand dummyBand.Id dummyVinylMerch 100<quantity>
 
     checkExpectedSales state headlinerConcert 99<quality> 100
 
@@ -117,7 +117,7 @@ let ``Sell.afterConcert reduces the sales to 50% if price is more than recommend
     let stateWithOverpricedMerch =
         dummyState
         |> State.Merch.setPrice dummyBand.Id dummyTShirtMerch 16m<dd>
-        |> State.Inventory.addToBand dummyTShirtMerch 200<quantity>
+        |> State.Inventory.addToBand dummyBand.Id dummyTShirtMerch 200<quantity>
 
     checkExpectedSales stateWithOverpricedMerch headlinerConcert 99<quality> 100
 
@@ -128,7 +128,7 @@ let ``Sell.afterConcert reduces the sales to 10% if price is more than 10% of th
     let stateWithOverpricedMerch =
         dummyState
         |> State.Merch.setPrice dummyBand.Id dummyTShirtMerch 21m<dd>
-        |> State.Inventory.addToBand dummyTShirtMerch 200<quantity>
+        |> State.Inventory.addToBand dummyBand.Id dummyTShirtMerch 200<quantity>
 
     checkExpectedSales stateWithOverpricedMerch headlinerConcert 99<quality> 20
 
@@ -139,7 +139,7 @@ let ``Sell.afterConcert sells nothing if price is more than than 50% of the reco
     let stateWithOverpricedMerch =
         dummyState
         |> State.Merch.setPrice dummyBand.Id dummyTShirtMerch 25m<dd>
-        |> State.Inventory.addToBand dummyTShirtMerch 200<quantity>
+        |> State.Inventory.addToBand dummyBand.Id dummyTShirtMerch 200<quantity>
 
     checkExpectedSales stateWithOverpricedMerch headlinerConcert 99<quality> 0
 

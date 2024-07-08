@@ -15,10 +15,10 @@ let private dummyMerch =
 [<Test>]
 let ``ItemAddedToBandInventory adds the item to the inventory`` () =
     let state =
-        ItemAddedToBandInventory(dummyMerch, 200<quantity>)
+        ItemAddedToBandInventory(dummyBand, dummyMerch, 200<quantity>)
         |> State.Root.applyEffect dummyState
 
-    Queries.Inventory.band state
+    Queries.Inventory.band dummyBand.Id state
     |> Map.find dummyMerch
     |> should equal 200<quantity>
 
@@ -27,13 +27,13 @@ let ``ItemAddedToInventory sums the new quantity to the previous if the item was
     ()
     =
     let state =
-        ItemAddedToBandInventory(dummyMerch, 200<quantity>)
+        ItemAddedToBandInventory(dummyBand, dummyMerch, 200<quantity>)
         |> State.Root.applyEffect dummyState
 
     let state =
-        ItemAddedToBandInventory(dummyMerch, 100<quantity>)
+        ItemAddedToBandInventory(dummyBand, dummyMerch, 100<quantity>)
         |> State.Root.applyEffect state
 
-    Queries.Inventory.band state
+    Queries.Inventory.band dummyBand.Id state
     |> Map.find dummyMerch
     |> should equal 300<quantity>
