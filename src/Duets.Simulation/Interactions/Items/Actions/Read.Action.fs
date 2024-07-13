@@ -23,16 +23,7 @@ let private read' (item: Item) book state =
             { book with
                 ReadProgress = updatedReadPercentage }
 
-        let updatedProperties =
-            item.Properties
-            |> List.filter (function
-                | Readable _ -> false
-                | _ -> true)
-            |> (@) [ Readable(Book updatedBook) ]
-
-        let updatedItem =
-            { item with
-                Properties = updatedProperties }
+        let updatedItem = Item.updateProperty (Readable(Book updatedBook)) item
 
         Diff(item, updatedItem) |> ItemChangedInCharacterInventory
 
