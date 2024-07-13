@@ -25,6 +25,7 @@
         <Compile Include="Types\Places\Studio.Types.fs"/>
         <Compile Include="Types\Places\Shop.Types.fs"/>
         <Compile Include="Types\World.Coordinates.Types.fs"/>
+        <Compile Include="Types\Computer.Types.fs" />
         <Compile Include="Types\Item.Types.fs"/>
         <Compile Include="Types\Merch.Types.fs"/>
         <Compile Include="Types\World.Types.fs"/>
@@ -58,6 +59,7 @@
         <Compile Include="Song.fs"/>
         <Compile Include="Flight.fs"/>
         <Compile Include="Instrument.fs"/>
+        <Compile Include="Computer.fs" />
         <Compile Include="Item.fs"/>
         <Compile Include="Skill.fs"/>
         <Compile Include="Relationships.fs"/>

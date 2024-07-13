@@ -39,4 +39,5 @@ module Social =
         | FreeRoam -> startConversationInteractions state
         (* Not available. *)
         | Concert _
+        | Focused _
         | PlayingMiniGame _ -> []

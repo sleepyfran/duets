@@ -161,6 +161,9 @@ let eatDescription =
 let readDescription =
     $"""Allows you to read a book. Use as {Styles.information "read {book name}"}"""
 
+let useDescription =
+    $"""Allows you to use an item. Use as {Styles.information "use {item name}"}"""
+
 let putUsage = $"""{Styles.information "put {item name} in {storage name}"}"""
 
 let putDescription =

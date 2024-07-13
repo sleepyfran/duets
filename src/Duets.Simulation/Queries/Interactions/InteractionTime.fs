@@ -25,6 +25,7 @@ module InteractionTime =
             | ItemInteraction.Eat
             | ItemInteraction.Open
             | ItemInteraction.Put
+            | ItemInteraction.Use
             | ItemInteraction.Sleep (* Sleeping asks how long to sleep. *) ->
                 0<dayMoments>
         | Interaction.FreeRoam FreeRoamInteraction.Wait -> 1<dayMoments>

@@ -37,6 +37,8 @@ let itemNotEdible = Styles.error "You can't eat that!"
 
 let itemNotReadable = Styles.error "How are you planning to read that?"
 
+let itemNotUsable = Styles.error "You can't use that!"
+
 let itemCannotBeExercisedWith =
     Styles.error "You can't exercise with that! Try a treadmill"
 

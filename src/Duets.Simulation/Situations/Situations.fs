@@ -24,6 +24,11 @@ let preparingConcert' checklist =
 /// concert situation.
 let inConcert ongoingConcert =
     InConcert ongoingConcert |> Concert |> SituationChanged
+    
+/// Sets the current situation to focused, which makes the character focus
+/// on a specific task and prevents them from doing other things.
+let focused focusedState =
+    focusedState |> Focused |> SituationChanged
 
 /// Sets the current situation to inside of the plane, flying somewhere.
 let onboardedInPlane flight =

@@ -45,6 +45,7 @@
         <Compile Include="Text\World\RehearsalSpace.fs"/>
         <Compile Include="Text\World\Studio.fs"/>
         <Compile Include="Text\World\World.fs"/>
+        <Compile Include="Text\Focused.fs" />
         <Compile Include="Components\VisualEffects.fs"/>
         <Compile Include="Components\Separator.fs"/>
         <Compile Include="Components\Layout.fs"/>
@@ -96,6 +97,7 @@
         <Compile Include="Components\Commands\RehearsalRoom\ListSongs.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\SwitchGenre.Command.fs"/>
         <Compile Include="Components\Commands\Career\Work.Command.fs"/>
+        <Compile Include="Components\Commands\Computer\OpenApp.Command.fs" />
         <Compile Include="Components\Commands\Concert\ConcertCommon.fs"/>
         <Compile Include="Components\Commands\Concert\StartConcert.Command.fs"/>
         <Compile Include="Components\Commands\Concert\DoEncore.Command.fs"/>

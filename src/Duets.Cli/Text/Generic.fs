@@ -258,6 +258,7 @@ let itemDetailedName (item: Item) =
     | Key(Chip(cityId, placeId)) ->
         let place = Queries.World.placeInCityById cityId placeId
         $"Chip for {place.Name} in {cityName cityId}"
+    | Usable(Computer _) -> $"{item.Brand} {item.Name}" |> Styles.item
     | _ -> itemName item
 
 let moreDates = Styles.faded "More dates"

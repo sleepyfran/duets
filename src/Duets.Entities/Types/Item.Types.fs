@@ -65,6 +65,9 @@ module rec ItemTypes =
     /// Defines all the items placed inside a storage.
     type StoredItems = Item list
 
+    /// Defines all items that can be used via custom commands.
+    type UsableItem = Computer of Computer
+
     /// Defines all types of wearable items available in the game.
     type WearableItem =
         | Hoodie
@@ -75,8 +78,7 @@ module rec ItemTypes =
         | TShirt
 
     /// Defines all types of properties that an item can have. These properties
-    /// define how an item can be used by the character and can be combined
-    /// together.
+    /// define how an item can be used by the character and can be combined.
     type ItemProperty =
         /// Example: a stove.
         | Cookware
@@ -102,6 +104,8 @@ module rec ItemTypes =
         | Storage of StorageType * items: StoredItems
         /// Example: a bed.
         | Sleepable
+        /// Example: a computer.
+        | Usable of UsableItem
         /// Example: a TV.
         | Watchable
         /// Example: a t-shirt.

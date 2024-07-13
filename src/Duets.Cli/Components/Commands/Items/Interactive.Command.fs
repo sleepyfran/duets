@@ -54,6 +54,19 @@ module InteractiveCommand =
                  Items.itemNotReadable |> showMessage
                  Scene.World)
 
+    let ``use`` =
+        Command.itemInteraction
+            (Command.VerbOnly "use")
+            Command.useDescription
+            ItemInteraction.Use
+            (function
+             | Ok effects ->
+                 effects |> Duets.Cli.Effect.applyMultiple
+                 Scene.World
+             | Error _ ->
+                 Items.itemNotUsable |> showMessage
+                 Scene.World)
+
     let watch =
         Command.itemInteraction
             (Command.VerbOnly "watch")

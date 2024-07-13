@@ -11,12 +11,14 @@ let private specialBooks =
       (* Music Theory volumes. *)
       { Title = "Music Theory Vol. I"
         Author = "Duets Academy"
+        Genre = Technical
         BookEffects = [ SkillGain(SkillId.Composition, 5) ]
         ReadProgress = 0<percent> },
       30m<dd>
 
       { Title = "Music Theory Vol. II"
         Author = "Duets Academy"
+        Genre = Technical
         BookEffects = [ SkillGain(SkillId.Composition, 10) ]
         ReadProgress = 0<percent> },
       60m<dd>
@@ -24,12 +26,14 @@ let private specialBooks =
       (* Music production volumes. *)
       { Title = "Music Production Vol. I"
         Author = "Duets Academy"
+        Genre = Technical
         BookEffects = [ SkillGain(SkillId.MusicProduction, 3) ]
         ReadProgress = 0<percent> },
       30m<dd>
 
       { Title = "Music Production Vol. II"
         Author = "Duets Academy"
+        Genre = Technical
         BookEffects = [ SkillGain(SkillId.MusicProduction, 8) ]
         ReadProgress = 0<percent> },
       30m<dd> ]
@@ -42,6 +46,7 @@ let all: PurchasableItem list =
     |> List.map (fun dataBook ->
         { Title = dataBook.Title
           Author = dataBook.Author
+          Genre = Fiction (* TODO: Extract from the data-set. *)
           BookEffects = []
           ReadProgress = 0<percent> },
         15m<dd>)

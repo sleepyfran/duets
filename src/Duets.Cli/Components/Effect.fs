@@ -255,6 +255,27 @@ let private displayEffect effect =
             $"""It's time to prepare for the concert! If you have any merchandise, you can set up a stand to sell it by the {"bar" |> Styles.place}. Otherwise, head to the {"stage" |> Styles.place} to do a soundcheck"""
         |> Styles.information
         |> showMessage
+    | SituationChanged(Focused(UsingComputer(_, computer))) when
+        computer.ComputerState = Booting
+        ->
+        clearScreen ()
+
+        "DuOS" |> showFiglet
+        "Booting up version 1.21..." |> Styles.faded |> showMessage
+        wait 1000<millisecond>
+
+        let createBootMessage message =
+            $"""[[ {"OK" |> Styles.success} ]] {message}"""
+
+        [ createBootMessage "Started network manager"
+          createBootMessage "Started display manager"
+          createBootMessage "Started system services"
+          createBootMessage "Started shell" ]
+        |> List.iter (fun message ->
+            message |> showMessage
+            wait 550<millisecond>)
+
+        "Finished booting, took 4.2 seconds" |> Styles.success |> showMessage
     | SongImproved(_, Diff(before, after)) ->
         let (Unfinished(_, _, previousQuality)) = before
         let (Unfinished(_, _, currentQuality)) = after

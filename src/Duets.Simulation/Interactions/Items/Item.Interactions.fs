@@ -70,6 +70,15 @@ let private (|ReadingBooks|_|) (action, item) =
             | _ -> None)
     | _ -> None
 
+let private (|UsingComputer|_|) (action, item) =
+    match action with
+    | ItemInteraction.Use ->
+        item
+        |> Item.Property.tryPick (function
+            | Usable(Computer computer) -> Some computer
+            | _ -> None)
+    | _ -> None
+
 let private (|WatchingTV|_|) (action, item) =
     match action with
     | ItemInteraction.Watch ->
@@ -139,6 +148,19 @@ let perform state (item: Item) action =
                   character
                   CharacterAttribute.Mood
                   Config.LifeSimulation.Mood.readingBookIncrease ]
+        |> Ok
+    | UsingComputer computer ->
+        [
+          (* Set an initial booting to show the booting sequence first. *)
+          SituationTypes.UsingComputer(item, computer) |> Situations.focused
+
+          (* Then switch to the app switcher. *)
+          SituationTypes.UsingComputer(
+              item,
+              { computer with
+                  ComputerState = AppSwitcher }
+          )
+          |> Situations.focused ]
         |> Ok
     | WatchingTV ->
         Character.Attribute.add

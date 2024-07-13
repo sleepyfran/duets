@@ -98,6 +98,7 @@ let private commandsFromInteractions interactions =
             | ItemInteraction.Play -> [ InteractiveCommand.play ]
             | ItemInteraction.Read -> [ InteractiveCommand.read ]
             | ItemInteraction.Sleep -> [ SleepCommand.get ]
+            | ItemInteraction.Use -> [ InteractiveCommand.``use`` ]
             | ItemInteraction.Watch -> [ InteractiveCommand.watch ]
         | Interaction.FreeRoam freeRoamInteraction ->
             match freeRoamInteraction with
@@ -164,6 +165,10 @@ let private commandsFromInteractions interactions =
             | ShopInteraction.Buy shop -> [ BuyCommand.create shop ]
             | ShopInteraction.Order shop -> [ OrderCommand.create shop ]
             | ShopInteraction.SeeMenu shop -> [ SeeMenuCommand.create shop ]
+        | Interaction.Situational computerInteraction ->
+            match computerInteraction with
+            | ComputerInteraction.OpenApp(item, computer, apps) ->
+                [ OpenAppCommand.create item computer apps ]
         | Interaction.Social socialInteraction ->
             match socialInteraction with
             | SocialInteraction.StartConversation(knownNpcs, unknownNpcs) ->
@@ -259,6 +264,12 @@ let worldScene mode =
                 currentDayMoment
                 characterAttributes
                 ongoingConcert.Points
+        | Focused focus ->
+            Focused.actionPrompt
+                today
+                currentDayMoment
+                characterAttributes
+                focus
         | PlayingMiniGame miniGameState ->
             MiniGame.actionPrompt today currentDayMoment miniGameState
         | Socializing socializingState ->

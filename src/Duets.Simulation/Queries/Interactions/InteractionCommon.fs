@@ -36,6 +36,10 @@ module InteractionCommon =
                 | Interaction.Concert _ -> true
                 | Interaction.Item _ -> true
                 | _ -> false
+            | Focused _ ->
+                match interaction with
+                | Interaction.Situational _ -> true
+                | _ -> false
             | PlayingMiniGame _ ->
                 match interaction with
                 | Interaction.MiniGame _ -> true

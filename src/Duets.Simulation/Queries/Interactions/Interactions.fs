@@ -59,11 +59,14 @@ module Interactions =
 
         let clockInteraction = getClockInteraction state
 
+        let situationInteraction = Situational.interaction state
+
         let defaultInteractions =
             clockInteraction :: itemInteractions
             @ freeRoamInteractions
             @ careerInteractions
             @ socialInteractions
+            @ situationInteraction
 
         let placeSpecificInteractions =
             match currentPlace.PlaceType with

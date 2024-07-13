@@ -38,6 +38,8 @@
         <Compile Include="Queries\Interactions\Interactions.Items.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Casino.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Career.fs"/>
+        <Compile Include="Queries\Interactions\Interactions.Computer.fs" />
+        <Compile Include="Queries\Interactions\Interactions.Situational.fs" />
         <Compile Include="Queries\Interactions\Interactions.Shop.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Gym.fs"/>
         <Compile Include="Queries\Interactions\Interactions.MerchandiseWorkshop.fs"/>
@@ -101,6 +103,7 @@
         <Compile Include="Interactions\Items\Food.Interactions.fs"/>
         <Compile Include="Interactions\Items\Item.Interactions.fs"/>
         <Compile Include="Interactions\Sleep.fs"/>
+        <Compile Include="Computer\Computer.fs" />
         <Compile Include="Concerts\DailyUpdate.fs"/>
         <Compile Include="Concerts\Scheduler.fs"/>
         <Compile Include="Concerts\OpeningActOpportunities.fs"/>

@@ -2,6 +2,14 @@ module Duets.Data.Items.Electronics
 
 open Duets.Entities
 
+module Computer =
+    let surface: PurchasableItem =
+        { Brand = "Microsoft"
+          Name = "Surface Pro"
+          Properties =
+            [ Computer.forPerformance 100m<percent> |> Computer |> Usable ] },
+        1100m<dd>
+
 module Dartboard =
     let dartboard: PurchasableItem =
         { Brand = "Bull's"

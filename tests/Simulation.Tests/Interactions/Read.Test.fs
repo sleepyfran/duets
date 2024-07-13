@@ -18,6 +18,7 @@ let private createBookItem readProgress =
       Properties =
         { Title = "Random Book"
           Author = "Random Author"
+          Genre = Drama
           BookEffects =
             [ SkillGain(SkillId.Barista, 10)
               MoodletGain(MoodletType.JetLagged, MoodletExpirationTime.Never) ]

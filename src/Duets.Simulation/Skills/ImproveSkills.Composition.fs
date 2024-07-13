@@ -5,7 +5,7 @@ open Duets.Simulation
 
 /// Grants a 50% chance of improving the composition, genre and instrument of
 /// all members of the band between 0 and 5, generated random for each member.
-let improveBandSkillsChance band state =
+let improveBandSkillsChance (band: Band) state =
     Queries.Bands.currentBandMembers state
     |> List.collect (fun currentMember ->
         Common.applySkillModificationChance

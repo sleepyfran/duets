@@ -31,6 +31,7 @@ module rec Items =
                 | Storage _ -> ItemInteraction.Open |> Interaction.Item |> Some
                 | Sleepable ->
                     ItemInteraction.Sleep |> Interaction.Item |> Some
+                | Usable _ -> ItemInteraction.Use |> Interaction.Item |> Some
                 | Watchable ->
                     ItemInteraction.Watch |> Interaction.Item |> Some
                 | Wearable _ -> None (* TODO: Add "wear" interactions once we support buying clothes *) ))

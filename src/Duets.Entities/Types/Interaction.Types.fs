@@ -18,6 +18,11 @@ module InteractionTypes =
         /// Starts a work shift in the given job.
         | Work of job: Job
 
+    [<RequireQualifiedAccess>]
+    type ComputerInteraction =
+        /// Allows the character to open an application on the computer.
+        | OpenApp of Item * Computer * App list
+
     /// Interactions that can be done while on a concert.
     [<RequireQualifiedAccess>]
     type ConcertInteraction =
@@ -90,6 +95,7 @@ module InteractionTypes =
         | Play
         | Read
         | Sleep
+        | Use
         | Watch
 
     /// Interactions related to moving around the world.
@@ -231,6 +237,7 @@ module InteractionTypes =
         | MiniGame of MiniGameInteraction
         | MerchandiseWorkshop of MerchandiseWorkshopInteraction
         | Rehearsal of RehearsalInteraction
+        | Situational of ComputerInteraction
         | Shop of ShopInteraction
         | Social of SocialInteraction
         | Studio of StudioInteraction
