@@ -24,6 +24,8 @@ module InteractionTypes =
         | OpenApp of Item * Computer * App list
         /// Allows the character to close the current application on the computer.
         | CloseApp of Item * Computer
+        /// Allows the character to turn off the computer.
+        | TurnOff of Item * Computer
 
     /// Interactions that can be done while on a concert.
     [<RequireQualifiedAccess>]

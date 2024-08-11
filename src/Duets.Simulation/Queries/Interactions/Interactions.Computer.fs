@@ -15,3 +15,5 @@ module Computer =
         | AppSwitcher ->
             [ ComputerInteraction.OpenApp(item, computer, apps)
               |> Interaction.Situational ]
+        @ [ ComputerInteraction.TurnOff(item, computer)
+            |> Interaction.Situational ]

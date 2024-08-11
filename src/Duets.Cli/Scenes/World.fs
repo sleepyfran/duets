@@ -171,6 +171,8 @@ let private commandsFromInteractions interactions =
                 [ OpenAppCommand.create item computer apps ]
             | ComputerInteraction.CloseApp(item, computer) ->
                 [ CloseAppCommand.create item computer ]
+            | ComputerInteraction.TurnOff(item, computer) ->
+                [ TurnOffCommand.create item computer ]
         | Interaction.Social socialInteraction ->
             match socialInteraction with
             | SocialInteraction.StartConversation(knownNpcs, unknownNpcs) ->

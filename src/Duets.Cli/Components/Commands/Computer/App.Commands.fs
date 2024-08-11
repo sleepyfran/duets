@@ -48,3 +48,15 @@ module CloseAppCommand =
                 Computer.closeApp item computer |> Effect.applyMultiple
 
                 Scene.World }
+
+[<RequireQualifiedAccess>]
+module TurnOffCommand =
+    /// Command to turn off the currently used computer.
+    let create item computer =
+        { Name = "turn off"
+          Description = "Turns off the computer"
+          Handler =
+            fun _ ->
+                Computer.turnOff item computer |> Effect.applyMultiple
+
+                Scene.World }
