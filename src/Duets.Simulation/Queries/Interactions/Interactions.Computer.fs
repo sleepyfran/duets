@@ -7,5 +7,11 @@ module Computer =
     let internal interaction item computer =
         let apps = Union.allCasesOf<App> ()
 
-        [ ComputerInteraction.OpenApp(item, computer, apps)
-          |> Interaction.Situational ]
+        match computer.ComputerState with
+        | Booting -> []
+        | AppRunning _ ->
+            [ ComputerInteraction.CloseApp(item, computer)
+              |> Interaction.Situational ]
+        | AppSwitcher ->
+            [ ComputerInteraction.OpenApp(item, computer, apps)
+              |> Interaction.Situational ]

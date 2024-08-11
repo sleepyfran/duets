@@ -97,7 +97,7 @@
         <Compile Include="Components\Commands\RehearsalRoom\ListSongs.Command.fs"/>
         <Compile Include="Components\Commands\RehearsalRoom\SwitchGenre.Command.fs"/>
         <Compile Include="Components\Commands\Career\Work.Command.fs"/>
-        <Compile Include="Components\Commands\Computer\OpenApp.Command.fs" />
+        <Compile Include="Components\Commands\Computer\App.Commands.fs" />
         <Compile Include="Components\Commands\Concert\ConcertCommon.fs"/>
         <Compile Include="Components\Commands\Concert\StartConcert.Command.fs"/>
         <Compile Include="Components\Commands\Concert\DoEncore.Command.fs"/>

@@ -22,6 +22,8 @@ module InteractionTypes =
     type ComputerInteraction =
         /// Allows the character to open an application on the computer.
         | OpenApp of Item * Computer * App list
+        /// Allows the character to close the current application on the computer.
+        | CloseApp of Item * Computer
 
     /// Interactions that can be done while on a concert.
     [<RequireQualifiedAccess>]

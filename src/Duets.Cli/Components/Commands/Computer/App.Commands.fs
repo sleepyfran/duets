@@ -32,7 +32,19 @@ module OpenAppCommand =
 
                     wait 500<millisecond>
 
-                    Computer.openApp item computer app |> Effect.applyMultiple
+                    Computer.openApp app item computer |> Effect.applyMultiple
                 | None -> ()
+
+                Scene.World }
+
+[<RequireQualifiedAccess>]
+module CloseAppCommand =
+    /// Command to close an app on the currently used computer.
+    let create item computer =
+        { Name = "close app"
+          Description = "Closes the currently running app"
+          Handler =
+            fun _ ->
+                Computer.closeApp item computer |> Effect.applyMultiple
 
                 Scene.World }
