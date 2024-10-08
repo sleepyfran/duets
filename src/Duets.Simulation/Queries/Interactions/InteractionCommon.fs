@@ -34,7 +34,6 @@ module InteractionCommon =
                 match interaction with
                 | Interaction.FreeRoam(FreeRoamInteraction.Look _) -> true
                 | Interaction.Concert _ -> true
-                | Interaction.Item _ -> true
                 | _ -> false
             | PlayingMiniGame _ ->
                 match interaction with
