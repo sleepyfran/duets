@@ -39,6 +39,14 @@ module OrderMerchandiseCommand =
             |> Styles.error
             |> showMessage
 
+    let private itemName item =
+        let mainProperty = Item.Property.tryMain item
+
+        match mainProperty with
+        | Some(Listenable(CD, _)) -> $"{item.Name} (CD)"
+        | Some(Listenable(Vinyl, _)) -> $"{item.Name} (Vinyl)"
+        | _ -> item.Name
+
     /// Command to order merchandise from a merch workshop.
     let create (availableItems: MerchandiseItem list) =
         { Name = "order"
@@ -60,7 +68,7 @@ module OrderMerchandiseCommand =
                         $"""What kind of {"merchandise" |> Styles.prompt} would you like to order?"""
                         Generic.cancel
                         (fun merchItem ->
-                            $"""{merchItem.Item.Name |> Styles.item}, {merchItem.PricePerPiece |> Styles.money} / item.{Styles.Spacing.choicePromptNewLine}At least {merchItem.MinPieces}, at most {merchItem.MaxPieces}.""")
+                            $"""{itemName merchItem.Item |> Styles.item}, {merchItem.PricePerPiece |> Styles.money} / item.{Styles.Spacing.choicePromptNewLine}At least {merchItem.MinPieces}, at most {merchItem.MaxPieces}.""")
                         availableItems
 
                 match merchItem with
