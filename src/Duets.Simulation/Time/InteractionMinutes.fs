@@ -8,6 +8,7 @@ let effectMinutes =
     function
     | CareerShiftPerformed(_, shiftDuration, _) ->
         (shiftDuration / 1<dayMoments>) * Config.Time.minutesPerDayMoment
+    | Drank _ -> 5<minute>
     | SongImproved _
     | SongStarted _ -> 30<minute>
     | _ -> 0<minute>

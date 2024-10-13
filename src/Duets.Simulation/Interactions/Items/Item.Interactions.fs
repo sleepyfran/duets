@@ -98,8 +98,7 @@ let perform state (item: Item) action =
         |> Time.AdvanceTime.advanceDayMoment' state
 
     match action, item with
-    | Drinking drink ->
-        Drink.drink state item drink.Amount drink.DrinkType |> Ok
+    | Drinking drink -> Drink.drink state item drink |> Ok
     | Eating food -> Food.eat state item food.Amount food.FoodType |> Ok
     | ExercisingOnGym ->
         [ yield!
