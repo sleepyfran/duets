@@ -97,6 +97,7 @@
     <Compile Include="Skills\ImproveSkills.Composition.fs" />
     <Compile Include="Skills\ImproveSkills.Career.fs" />
     <Compile Include="Items\Items.fs" />
+    <Compile Include="Interactions\Items\Actions\Exercise.Action.fs" />
     <Compile Include="Interactions\Items\Actions\Read.Action.fs" />
     <Compile Include="Interactions\Items\Drink.Interactions.fs" />
     <Compile Include="Interactions\Items\Food.Interactions.fs" />

@@ -100,25 +100,7 @@ let perform state (item: Item) action =
     match action, item with
     | Drinking drink -> Drink.drink state item drink |> Ok
     | Eating food -> Food.eat state item food |> Ok
-    | ExercisingOnGym ->
-        [ yield!
-              Character.Attribute.add
-                  character
-                  CharacterAttribute.Energy
-                  Config.LifeSimulation.Energy.exerciseIncrease
-          yield!
-              Character.Attribute.add
-                  character
-                  CharacterAttribute.Health
-                  Config.LifeSimulation.Health.exerciseIncrease
-          yield!
-              Skills.Improve.Common.applySkillModificationChance
-                  state
-                  {| Chance = 30
-                     CharacterId = character.Id
-                     ImprovementAmount = 1
-                     Skills = [ SkillId.Fitness ] |} ]
-        |> Ok
+    | ExercisingOnGym -> Actions.Exercise.exercise item character state |> Ok
     | PlayingDarts ->
         [ nonInteractiveGameResult () |> PlayResult.Darts |> PlayResult ] |> Ok
     | PlayingBilliard ->

@@ -37,6 +37,7 @@ module EffectTypes =
         | ConcertUpdated of Band * ScheduledConcert
         | ConcertCancelled of Band * PastConcert
         | Drank of item: Item * drink: DrinkableItem
+        | Exercised of Item
         | FlightBooked of Flight
         | FlightUpdated of Flight
         | GameCreated of State
