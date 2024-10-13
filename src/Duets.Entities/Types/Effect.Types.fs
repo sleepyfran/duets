@@ -16,6 +16,7 @@ module EffectTypes =
         | BalanceUpdated of BankAccountHolder * Diff<Amount>
         | BandFansChanged of Band * Diff<Fans>
         | BandSwitchedGenre of Band * Diff<Genre>
+        | BookRead of Item * Book
         | CareerAccept of CharacterId * Job
         | CareerLeave of CharacterId * Job
         | CareerPromoted of Job * salary: Amount

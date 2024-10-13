@@ -7,6 +7,7 @@ open Duets.Simulation
 let effectMinutes =
     function
     | Ate _ -> 10<minute>
+    | BookRead _ -> 45<minute>
     | CareerShiftPerformed(_, shiftDuration, _) ->
         (shiftDuration / 1<dayMoments>) * Config.Time.minutesPerDayMoment
     | Drank _ -> 5<minute>

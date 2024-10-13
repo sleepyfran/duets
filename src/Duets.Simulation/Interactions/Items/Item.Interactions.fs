@@ -114,7 +114,8 @@ let perform state (item: Item) action =
           GamePlayed(PlayResult.VideoGame) ]
         |> Ok
     | ReadingBooks book ->
-        [ yield! Actions.Read.read item book state
+        [ yield BookRead(item, book)
+          yield! Actions.Read.read item book state
           yield!
               Character.Attribute.add
                   character

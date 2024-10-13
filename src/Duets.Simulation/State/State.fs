@@ -36,6 +36,7 @@ let applyEffect state effect =
     | BandFansChanged(band, Diff(_, fans)) -> Bands.changeFans band fans state
     | BandSwitchedGenre(band, Diff(_, genre)) ->
         Bands.changeGenre band genre state
+    | BookRead _ -> state
     | CareerAccept(_, job) -> Career.set (Some job) state
     | CareerLeave _ -> Career.set None state
     | CareerPromoted(job, _) -> Career.set (Some job) state
