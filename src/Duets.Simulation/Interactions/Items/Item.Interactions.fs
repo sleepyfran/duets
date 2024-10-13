@@ -123,10 +123,12 @@ let perform state (item: Item) action =
                   Config.LifeSimulation.Mood.readingBookIncrease ]
         |> Ok
     | WatchingTV ->
-        Character.Attribute.add
-            character
-            CharacterAttribute.Mood
-            Config.LifeSimulation.Mood.watchingTvIncrease
+        [ yield WatchedTv item
+          yield!
+              Character.Attribute.add
+                  character
+                  CharacterAttribute.Mood
+                  Config.LifeSimulation.Mood.watchingTvIncrease ]
         |> Ok
     | _ -> Error ActionNotPossible
     |> Result.map (fun effects -> timeEffects @ effects)

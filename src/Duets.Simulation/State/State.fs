@@ -165,6 +165,7 @@ let applyEffect state effect =
         Songs.removeUnfinished band song.Id state
     | TimeAdvanced time -> Calendar.setTime time state
     | TurnTimeUpdated minutes -> Calendar.setTurnMinutes minutes state
+    | WatchedTv _ -> state
     | WorldEnterRoom(Diff(_, (cityId, placeId, romId))) ->
         World.move cityId placeId romId state
     | WorldMoveToPlace(Diff(_, (cityId, placeId, roomId))) ->

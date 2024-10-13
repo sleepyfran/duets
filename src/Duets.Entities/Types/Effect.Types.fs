@@ -90,6 +90,7 @@ module EffectTypes =
         | PlaceClosed of Place
         | TimeAdvanced of Date
         | TurnTimeUpdated of int<minute>
+        | WatchedTv of Item
         /// Moves the player to a new room inside the current place.
         | WorldEnterRoom of Diff<RoomCoordinates>
         /// Moves the player to a different place in the current city or a

@@ -14,4 +14,5 @@ let effectMinutes =
     | GamePlayed _ -> 25<minute>
     | SongImproved _
     | SongStarted _ -> 30<minute>
+    | WatchedTv _ -> 15<minute>
     | _ -> 0<minute>
