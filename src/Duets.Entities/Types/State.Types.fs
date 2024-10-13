@@ -27,5 +27,7 @@ module StateTypes =
           Rentals: CharacterRentals
           Situation: Situation
           SocialNetworks: SocialNetworks
+          // TODO: Merge today and turn minutes into one property.
           Today: Date
+          TurnMinutes: int<minute>
           WorldItems: WorldItems }

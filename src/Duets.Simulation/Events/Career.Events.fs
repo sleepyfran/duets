@@ -10,7 +10,7 @@ open Duets.Simulation.Skills.Improve
 /// for the next level.
 let internal run effect =
     match effect with
-    | CareerShiftPerformed(job, _) ->
+    | CareerShiftPerformed(job, _, _) ->
         [ Career.improveCharacterSkillsAfterShift job
           Careers.Promotion.promoteIfNeeded job ]
         |> ContinueChain

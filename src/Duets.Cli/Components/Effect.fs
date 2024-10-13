@@ -62,7 +62,7 @@ let private displayEffect effect =
         let place = job.Location ||> Queries.World.placeInCityById
 
         Career.careerPromoted job place.Name salary |> showMessage
-    | CareerShiftPerformed(_, payment) ->
+    | CareerShiftPerformed(_, _, payment) ->
         Career.workShiftFinished payment |> showMessage
     | CharacterAttributeChanged(_, attr, Diff(previous, current)) ->
         match attr with

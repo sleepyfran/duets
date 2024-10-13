@@ -15,6 +15,9 @@ let advanceDayMoment (currentTime: Date) (times: int<dayMoments>) =
             |> fun advancedTime -> (TimeAdvanced advancedTime, advancedTime))
         currentTime
     |> fst
+    // Important! Reset the turn time after advancing time to make sure
+    // the next turn time is not shorter than expected.
+    |> (@) [ TurnTimeUpdated 0<minute> ]
 
 /// Same as advanceDayMoment but queries the current time automatically.
 let advanceDayMoment' state times =

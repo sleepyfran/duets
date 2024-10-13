@@ -32,4 +32,5 @@ let empty =
                 SocialNetworkCurrentAccountStatus.NoAccountCreated
               Accounts = Map.empty } }
       Today = Calendar.gameBeginning
+      TurnMinutes = 0<minute>
       WorldItems = Map.empty }

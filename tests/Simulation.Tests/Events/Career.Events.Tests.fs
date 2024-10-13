@@ -1,5 +1,7 @@
 module Duets.Simulation.Tests.Events.Career
 
+#nowarn "25"
+
 open FsUnit
 open NUnit.Framework
 open Test.Common
@@ -21,7 +23,8 @@ let bartenderJob =
 let baristaSkill = Skill.create SkillId.Barista
 let bartendingSkill = Skill.create SkillId.Bartending
 
-let shiftPerformedEffect job = CareerShiftPerformed(job, 100m<dd>)
+let shiftPerformedEffect job =
+    CareerShiftPerformed(job, 2<dayMoments>, 100m<dd>)
 
 (* --------- Skill improvement. --------- *)
 
@@ -35,8 +38,10 @@ let ``tick of CareerShiftPerformed should improve career skill if chance of 25% 
 
         Simulation.tickOne dummyState (shiftPerformedEffect baristaJob)
         |> fst
-        |> List.item 1
-        |> should be (ofCase <@ SkillImproved @>))
+        |> List.filter (function
+            | SkillImproved _ -> true
+            | _ -> false)
+        |> should haveLength 1)
 
 [<Test>]
 let ``tick of CareerShiftPerformed does not improve career skill if chance of 25% fails``
@@ -48,7 +53,10 @@ let ``tick of CareerShiftPerformed does not improve career skill if chance of 25
 
         Simulation.tickOne dummyState (shiftPerformedEffect baristaJob)
         |> fst
-        |> should haveLength 1)
+        |> List.filter (function
+            | SkillImproved _ -> true
+            | _ -> false)
+        |> should haveLength 0)
 
 [<Test>]
 let ``tick of CareerShiftPerformed with successful chance improves job career by 1``
@@ -60,13 +68,12 @@ let ``tick of CareerShiftPerformed with successful chance improves job career by
     |> List.iter (fun (job, expectedSkill) ->
         Simulation.tickOne dummyState (shiftPerformedEffect job)
         |> fst
-        |> List.item 1
-        |> should
-            equal
-            (SkillImproved(
-                dummyCharacter,
-                Diff((expectedSkill, 0), (expectedSkill, 1))
-            )))
+        |> List.filter (function
+            | SkillImproved _ -> true
+            | _ -> false)
+        |> List.head
+        |> fun (SkillImproved(_, diff)) ->
+            diff |> should equal (Diff((expectedSkill, 0), (expectedSkill, 1))))
 
 (* --------- Promotions --------- *)
 

@@ -18,7 +18,10 @@ module EffectTypes =
         | CareerAccept of CharacterId * Job
         | CareerLeave of CharacterId * Job
         | CareerPromoted of Job * salary: Amount
-        | CareerShiftPerformed of Job * payment: Amount
+        | CareerShiftPerformed of
+            Job *
+            shiftDuration: int<dayMoments> *
+            payment: Amount
         | CharacterAttributeChanged of
             character: CharacterId *
             attribute: CharacterAttribute *
@@ -82,6 +85,7 @@ module EffectTypes =
         | PlaceClosed of Place
         | PlayResult of PlayResult
         | TimeAdvanced of Date
+        | TurnTimeUpdated of int<minute>
         /// Moves the player to a new room inside the current place.
         | WorldEnterRoom of Diff<RoomCoordinates>
         /// Moves the player to a different place in the current city or a
