@@ -69,6 +69,7 @@ let applyEffect state effect =
     | Exercised _ -> state
     | FlightBooked flight -> Flights.addBooking flight state
     | FlightUpdated flight -> Flights.change flight state
+    | FlightLanded _ -> state
     | GameCreated state -> state
     | GenreMarketsUpdated genreMarkets -> Market.set genreMarkets state
     | ItemAddedToCharacterInventory item -> Inventory.addToCharacter item state

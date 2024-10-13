@@ -9,8 +9,10 @@ let effectMinutes =
     | Ate _ -> 10<minute>
     | BookRead _ -> 45<minute>
     | CareerShiftPerformed(_, shiftDuration, _) ->
-        (shiftDuration / 1<dayMoments>) * Config.Time.minutesPerDayMoment
+        shiftDuration |> Calendar.DayMoments.toMinutes
     | Drank _ -> 5<minute>
+    | FlightLanded flight ->
+        Queries.Flights.flightTime flight |> Calendar.Seconds.toMinutes
     | GamePlayed _ -> 25<minute>
     | SongImproved _
     | SongStarted _ -> 30<minute>

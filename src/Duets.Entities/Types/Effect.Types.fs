@@ -41,6 +41,7 @@ module EffectTypes =
         | Exercised of Item
         | FlightBooked of Flight
         | FlightUpdated of Flight
+        | FlightLanded of Flight
         | GameCreated of State
         | GamePlayed of PlayResult
         | GenreMarketsUpdated of GenreMarketByGenre
