@@ -10,7 +10,7 @@ open Duets.Simulation
 /// - If the drink is a beer or some other alcoholic beverage, the fun begins!
 ///   This calculates how the drink impacts the player depending on its quantity
 ///   and alcoholic content, increasing the character's drunkenness.
-let rec drink state item (drink: DrinkableItem) =
+let rec drink state item drink =
     let character = Queries.Characters.playableCharacter state
 
     match drink.DrinkType with

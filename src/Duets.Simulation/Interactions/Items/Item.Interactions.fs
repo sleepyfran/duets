@@ -99,7 +99,7 @@ let perform state (item: Item) action =
 
     match action, item with
     | Drinking drink -> Drink.drink state item drink |> Ok
-    | Eating food -> Food.eat state item food.Amount food.FoodType |> Ok
+    | Eating food -> Food.eat state item food |> Ok
     | ExercisingOnGym ->
         [ yield!
               Character.Attribute.add
