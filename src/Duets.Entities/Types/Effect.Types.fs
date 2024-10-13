@@ -41,6 +41,7 @@ module EffectTypes =
         | FlightBooked of Flight
         | FlightUpdated of Flight
         | GameCreated of State
+        | GamePlayed of PlayResult
         | GenreMarketsUpdated of GenreMarketByGenre
         | ItemAddedToCharacterInventory of Item
         | ItemChangedInCharacterInventory of Diff<Item>
@@ -86,7 +87,6 @@ module EffectTypes =
         | SongDiscarded of Band * Unfinished<Song>
         | SongPracticed of Band * Finished<Song>
         | PlaceClosed of Place
-        | PlayResult of PlayResult
         | TimeAdvanced of Date
         | TurnTimeUpdated of int<minute>
         /// Moves the player to a new room inside the current place.

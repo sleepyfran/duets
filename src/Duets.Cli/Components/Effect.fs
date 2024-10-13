@@ -199,7 +199,7 @@ let private displayEffect effect =
         "Choose where you want to go next" |> showMessage
 
         showMapUntilChoice () |> applyMultiple
-    | PlayResult result ->
+    | GamePlayed result ->
         lineBreak ()
 
         let gameResultMessage simpleResult =
