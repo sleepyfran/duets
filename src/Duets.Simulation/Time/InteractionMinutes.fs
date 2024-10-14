@@ -19,7 +19,8 @@ let effectMinutes =
     | MerchStandSetup -> 25<minute>
     | MiniGamePlayed _ -> 30<minute>
     | SongImproved _
-    | SongStarted _ -> 30<minute>
+    | SongPracticed _
+    | SongStarted _ -> 90<minute>
     | WatchedTv _ -> 15<minute>
     | Wait dayMoments -> dayMoments |> Calendar.DayMoments.toMinutes
     | _ -> 0<minute>

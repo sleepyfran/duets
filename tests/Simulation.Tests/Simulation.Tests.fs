@@ -13,7 +13,6 @@ open Test.Common.Generators
 open Duets.Entities
 open Duets.Simulation
 open Duets.Data.Careers
-open Duets.Simulation.Careers
 
 let state =
     { dummyState with
@@ -225,14 +224,7 @@ let ``tick should update turn time with the total minutes spent in the tick``
 [<Test>]
 let ``tick should advance day moment if the effects triggered enough time`` () =
     let effects, stateAfterTick =
-        Simulation.tickMultiple
-            state
-            [ songStartedEffect
-              songStartedEffect
-              songStartedEffect
-              songStartedEffect
-              songStartedEffect
-              songStartedEffect ]
+        Simulation.tickMultiple state [ songStartedEffect; songStartedEffect ]
 
     effects
     |> List.find (function
@@ -251,14 +243,7 @@ let ``tick should keep leftover time after advancing day moment if effects trigg
     let effects, stateAfterTick =
         Simulation.tickMultiple
             state
-            [ songStartedEffect
-              songStartedEffect
-              songStartedEffect
-              songStartedEffect
-              songStartedEffect
-              songStartedEffect
-              songStartedEffect
-              songStartedEffect ]
+            [ songStartedEffect; songStartedEffect; songStartedEffect ]
 
     effects
     |> List.find (function
