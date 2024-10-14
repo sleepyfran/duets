@@ -109,11 +109,12 @@ let recordSongForAlbum
         trackList @ [ recordedSong ]
         |> Album.updateTrackList unreleasedAlbum.Album
 
-    [ AlbumUpdated(
-          band,
-          { unreleasedAlbum with
-              Album = updatedAlbum }
-      ) ]
+    let updatedUnreleasedAlbum =
+        { unreleasedAlbum with
+            Album = updatedAlbum }
+
+    [ AlbumSongAdded(band, updatedUnreleasedAlbum, recordedSong)
+      AlbumUpdated(band, updatedUnreleasedAlbum) ]
     |> generateEffectsAfterBilling
         state
         studio

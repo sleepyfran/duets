@@ -30,6 +30,7 @@ let applyEffect state effect =
 
         Albums.removeReleased band album.Id state
         |> Albums.addReleased band releasedAlbum
+    | AlbumSongAdded _ -> state
     | Ate _ -> state
     | BalanceUpdated(account, Diff(_, balance)) ->
         Bank.setBalance account (Incoming(0m<dd>, balance)) state

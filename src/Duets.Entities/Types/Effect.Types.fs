@@ -11,6 +11,7 @@ module EffectTypes =
         | AlbumReleased of Band * ReleasedAlbum
         | AlbumReleasedUpdate of Band * ReleasedAlbum
         | AlbumReviewsReceived of Band * ReleasedAlbum
+        | AlbumSongAdded of Band * UnreleasedAlbum * Recorded<Song>
         | AlbumUpdated of Band * UnreleasedAlbum
         | Ate of item: Item * food: EdibleItem
         | BalanceUpdated of BankAccountHolder * Diff<Amount>

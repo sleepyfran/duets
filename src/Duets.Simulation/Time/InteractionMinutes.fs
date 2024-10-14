@@ -6,6 +6,8 @@ open Duets.Simulation
 /// Returns the number of minutes that a given effect takes to perform.
 let effectMinutes =
     function
+    | AlbumStarted _
+    | AlbumSongAdded _ -> 2 * Config.Time.minutesPerDayMoment
     | Ate _ -> 10<minute>
     | BookRead _ -> 45<minute>
     | CareerShiftPerformed(_, shiftDuration, _) ->
