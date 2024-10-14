@@ -10,10 +10,12 @@ let effectMinutes =
     | BookRead _ -> 45<minute>
     | CareerShiftPerformed(_, shiftDuration, _) ->
         shiftDuration |> Calendar.DayMoments.toMinutes
+    | ConcertSoundcheckPerformed -> 30<minute>
     | Drank _ -> 5<minute>
     | FlightLanded flight ->
         Queries.Flights.flightTime flight |> Calendar.Seconds.toMinutes
     | GamePlayed _ -> 25<minute>
+    | MerchStandSetup -> 25<minute>
     | SongImproved _
     | SongStarted _ -> 30<minute>
     | WatchedTv _ -> 15<minute>

@@ -65,6 +65,7 @@ let applyEffect state effect =
 
         Concerts.removeScheduledConcert band concert state
         |> Concerts.addPastConcert band pastConcert
+    | ConcertSoundcheckPerformed -> state
     | Drank _ -> state
     | Exercised _ -> state
     | FlightBooked flight -> Flights.addBooking flight state
@@ -92,6 +93,7 @@ let applyEffect state effect =
             (fun state (item, quantity) ->
                 Inventory.reduceForBand band.Id item quantity state)
             state
+    | MerchStandSetup -> state
     | MemberHired(band, character, currentMember, skills) ->
         let stateWithMember =
             Characters.add character state |> Bands.addMember band currentMember

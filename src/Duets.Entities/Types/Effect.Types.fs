@@ -37,6 +37,7 @@ module EffectTypes =
         | ConcertFinished of band: Band * concert: PastConcert * income: Amount
         | ConcertUpdated of Band * ScheduledConcert
         | ConcertCancelled of Band * PastConcert
+        | ConcertSoundcheckPerformed
         | Drank of item: Item * drink: DrinkableItem
         | Exercised of Item
         | FlightBooked of Flight
@@ -54,6 +55,7 @@ module EffectTypes =
         | ItemRemovedFromWorld of RoomCoordinates * Item
         | MerchPriceSet of band: Band * merchItem: Item * price: Amount
         | MerchSold of band: Band * (Item * int<quantity>) list * income: Amount
+        | MerchStandSetup
         | MemberHired of Band * Character * CurrentMember * SkillWithLevel list
         | MemberFired of Band * CurrentMember * PastMember
         | MoneyEarned of BankAccountHolder * BankTransaction
