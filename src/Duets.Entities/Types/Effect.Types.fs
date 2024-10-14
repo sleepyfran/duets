@@ -58,6 +58,7 @@ module EffectTypes =
         | MerchStandSetup
         | MemberHired of Band * Character * CurrentMember * SkillWithLevel list
         | MemberFired of Band * CurrentMember * PastMember
+        | MiniGamePlayed of MiniGameId
         | MoneyEarned of BankAccountHolder * BankTransaction
         | MoneyTransferred of BankAccountHolder * BankTransaction
         | NotificationScheduled of Date * DayMoment * Notification

@@ -106,6 +106,7 @@ let applyEffect state effect =
     | MemberFired(band, currentMember, pastMember) ->
         Bands.removeMember band currentMember state
         |> Bands.addPastMember band pastMember
+    | MiniGamePlayed _ -> state
     | NotificationScheduled(date, dayMoment, notification) ->
         Notifications.schedule date dayMoment notification state
     | NotificationShown _ -> state

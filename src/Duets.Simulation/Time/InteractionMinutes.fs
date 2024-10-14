@@ -17,6 +17,7 @@ let effectMinutes =
         Queries.Flights.flightTime flight |> Calendar.Seconds.toMinutes
     | GamePlayed _ -> 25<minute>
     | MerchStandSetup -> 25<minute>
+    | MiniGamePlayed _ -> 30<minute>
     | SongImproved _
     | SongStarted _ -> 30<minute>
     | WatchedTv _ -> 15<minute>
