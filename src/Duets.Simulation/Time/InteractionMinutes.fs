@@ -20,4 +20,5 @@ let effectMinutes =
     | SongImproved _
     | SongStarted _ -> 30<minute>
     | WatchedTv _ -> 15<minute>
+    | Wait dayMoments -> dayMoments |> Calendar.DayMoments.toMinutes
     | _ -> 0<minute>
