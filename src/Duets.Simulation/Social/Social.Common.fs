@@ -98,6 +98,7 @@ and private performAction' state socializingState action =
     |> responseFromPoints state socializingState
     |> addAction action.Kind
     |> addSituationEffect
+    |> addActionPerformedEffect socializingState action
 
 and private responseFromPoints state socializingState points =
     let cityId, _, _ = Queries.World.currentCoordinates state
@@ -135,4 +136,8 @@ and private addAction actionKind response =
 and private addSituationEffect response =
     Situation.Socializing response.SocializingState
     |> SituationChanged
+    |> Response.addEffect response
+
+and private addActionPerformedEffect socializingState action response =
+    SocialActionPerformed(socializingState, action.Kind)
     |> Response.addEffect response

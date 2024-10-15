@@ -98,7 +98,6 @@ module Interactions =
         |> InteractionCommon.filterOutSituationalInteractions state
         |> List.map (fun interaction ->
             { Interaction = interaction
-              State = InteractionState.Enabled
-              TimeAdvance = InteractionTime.timeRequired interaction })
+              State = InteractionState.Enabled })
         |> HealthRequirements.check state
         |> EnergyRequirements.check state

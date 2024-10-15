@@ -129,6 +129,7 @@ let applyEffect state effect =
         Optic.set Lenses.State.situation_ situation state
     | SkillImproved(character, Diff(_, skill)) ->
         Skills.add character.Id skill state
+    | SocialActionPerformed _ -> state
     | SocialNetworkAccountCreated(socialNetworkKey, socialNetworkAccount) ->
         SocialNetworks.addAccount socialNetworkKey socialNetworkAccount state
     | SocialNetworkAccountFollowersChanged(socialNetworkKey,

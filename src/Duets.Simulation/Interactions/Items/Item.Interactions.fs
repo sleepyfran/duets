@@ -91,12 +91,6 @@ let private nonInteractiveGameResult () =
 let perform state (item: Item) action =
     let character = Queries.Characters.playableCharacter state
 
-    let timeEffects =
-        action
-        |> Interaction.Item
-        |> Queries.InteractionTime.timeRequired
-        |> Time.AdvanceTime.advanceDayMoment' state
-
     match action, item with
     | Drinking drink -> Drink.drink state item drink |> Ok
     | Eating food -> Food.eat state item food |> Ok
@@ -131,4 +125,3 @@ let perform state (item: Item) action =
                   Config.LifeSimulation.Mood.watchingTvIncrease ]
         |> Ok
     | _ -> Error ActionNotPossible
-    |> Result.map (fun effects -> timeEffects @ effects)

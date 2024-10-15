@@ -23,12 +23,6 @@ let stopConversation state =
 
     match currentSituation with
     | Socializing socializingState ->
-        let timeAdvanceEffects =
-            Queries.InteractionTime.timeRequired (
-                SocialInteraction.StopConversation |> Interaction.Social
-            )
-            |> AdvanceTime.advanceDayMoment' state
-
         let relationshipUpdateEffects =
             match socializingState.Relationship with
             | Some relationship ->
@@ -38,9 +32,7 @@ let stopConversation state =
                   |> RelationshipChanged ]
             | None -> []
 
-        [ yield! relationshipUpdateEffects
-          yield! timeAdvanceEffects
-          Situations.freeRoam ]
+        [ yield! relationshipUpdateEffects; Situations.freeRoam ]
     | _ -> [] (* Not socializing, nothing to do. *)
 
 /// Greets the NPC of the current conversation.

@@ -32,7 +32,6 @@
     <Compile Include="Queries\CalendarEvents.fs" />
     <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Health.fs" />
     <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Energy.fs" />
-    <Compile Include="Queries\Interactions\InteractionTime.fs" />
     <Compile Include="Queries\Interactions\InteractionCommon.fs" />
     <Compile Include="Queries\Interactions\Interactions.FreeRoam.fs" />
     <Compile Include="Queries\Interactions\Interactions.Items.fs" />

@@ -41,17 +41,11 @@ let boardPlane flight =
 /// Passes as many day moments needed for the flight to complete and leaves
 /// the character in the destination's airport.
 let leavePlane state flight =
-    let dayMomentsNeeded =
-        AirportInteraction.WaitUntilLanding flight
-        |> Interaction.Airport
-        |> Queries.InteractionTime.timeRequired
-
     let destinationAirport =
         Queries.World.placeIdsByTypeInCity
             flight.Destination
             PlaceTypeIndex.Airport
         |> List.head (* All cities must have an airport. *)
 
-    [ yield! AdvanceTime.advanceDayMoment' state dayMomentsNeeded
-      Navigation.travelTo flight.Destination destinationAirport state
+    [ Navigation.travelTo flight.Destination destinationAirport state
       Situations.freeRoam ]

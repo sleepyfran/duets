@@ -20,6 +20,12 @@ let effectMinutes =
     | GamePlayed _ -> 25<minute>
     | MerchStandSetup -> 25<minute>
     | MiniGamePlayed _ -> 30<minute>
+    | SocialActionPerformed(_, actionKind) ->
+        match actionKind with
+        | SocialActionKind.Greet -> 5<minute>
+        | SocialActionKind.Chat -> 15<minute>
+        | SocialActionKind.AskAboutDay -> 10<minute>
+        | SocialActionKind.TellStory -> 30<minute>
     | SongImproved _
     | SongPracticed _
     | SongStarted _ -> 90<minute>

@@ -19,12 +19,7 @@ let private improveSong' state band song maxQuality (quality: Quality) =
     let songWithUpdatedQualities = Unfinished(song, maxQuality, updatedQuality)
 
     let effects =
-        [ SongImproved(band, Diff(songBeforeUpgrade, songWithUpdatedQualities))
-          yield!
-              RehearsalInteraction.ImproveSong []
-              |> Interaction.Rehearsal
-              |> Queries.InteractionTime.timeRequired
-              |> AdvanceTime.advanceDayMoment' state ]
+        [ SongImproved(band, Diff(songBeforeUpgrade, songWithUpdatedQualities)) ]
 
     if canBeFurtherImproved then
         (CanBeImproved, effects)

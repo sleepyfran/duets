@@ -17,14 +17,6 @@ let composeSong state song =
 
     let initialQuality = calculateQualityIncreaseOf initialUnfinishedSong
 
-    let songStartedEffect =
-        Unfinished(song, maximumQuality, initialQuality)
-        |> Tuple.two band
-        |> SongStarted
-
-    [ songStartedEffect
-      yield!
-          RehearsalInteraction.ComposeNewSong
-          |> Interaction.Rehearsal
-          |> Queries.InteractionTime.timeRequired
-          |> AdvanceTime.advanceDayMoment' state ]
+    [ Unfinished(song, maximumQuality, initialQuality)
+      |> Tuple.two band
+      |> SongStarted ]
