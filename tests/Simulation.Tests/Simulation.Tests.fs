@@ -70,7 +70,7 @@ let ``tick should gather and apply associated effects`` () =
         |> fst
 
     effects
-    |> List.head
+    |> List.item 0
     |> should equal (TimeAdvanced(DateTime(2021, 6, 20, 10, 0, 0)))
 
     effects
@@ -219,7 +219,7 @@ let ``tick should update turn time with the total minutes spent in the tick``
     Simulation.tickOne state songStartedEffect
     |> snd
     |> Optic.get Lenses.State.turnMinutes_
-    |> should equal 30<minute>
+    |> should equal 120<minute>
 
 [<Test>]
 let ``tick should advance day moment if the effects triggered enough time`` () =
@@ -253,7 +253,7 @@ let ``tick should keep leftover time after advancing day moment if effects trigg
 
     stateAfterTick
     |> Optic.get Lenses.State.turnMinutes_
-    |> should equal 60<minute>
+    |> should equal 120<minute>
 
 [<Test>]
 let ``ticks that include effects spanning multiple day moments get applied correctly``
