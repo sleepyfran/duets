@@ -55,8 +55,10 @@ let ``tick of world move should remove required items from inventory if moving f
 
     Simulation.tickOne stateWithItems effect
     |> fst
-    |> List.item 1
-    |> should be (ofCase <@ ItemRemovedFromCharacterInventory @>)
+    |> List.filter (function
+        | ItemRemovedFromCharacterInventory _ -> true
+        | _ -> false)
+    |> should haveLength 1
 
 [<Test>]
 let ``tick of world enter should not remove any items from inventory if movement is towards any other room``

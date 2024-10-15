@@ -32,4 +32,11 @@ let effectMinutes =
     | SongStarted _ -> 120<minute>
     | WatchedTv _ -> 30<minute>
     | Wait dayMoments -> dayMoments |> Calendar.DayMoments.toMinutes
+    | WorldMoveToPlace(Diff((prevCityId, prevPlaceId, _),
+                            (currCityId, currPlaceId, _))) when
+        prevCityId = currCityId
+        && // Traveling between cities is handled by the flight effect.
+        prevPlaceId <> currPlaceId  // Traveling within the same place is instant.
+        ->
+        30<minute>
     | _ -> 0<minute>
