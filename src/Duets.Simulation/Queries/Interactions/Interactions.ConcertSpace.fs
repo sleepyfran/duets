@@ -95,6 +95,9 @@ module ConcertSpace =
                   ConcertInteraction.GreetAudience ongoingConcert
               )
               Interaction.Concert(ConcertInteraction.PlaySong ongoingConcert)
+              Interaction.Concert(
+                  ConcertInteraction.DedicateSong ongoingConcert
+              )
               Interaction.Concert(ConcertInteraction.GetOffStage ongoingConcert)
               Interaction.Concert(ConcertInteraction.FaceBand ongoingConcert)
               Interaction.Concert(ConcertInteraction.FaceCrowd ongoingConcert) ]
