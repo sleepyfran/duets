@@ -8,13 +8,18 @@ open Duets.Simulation
 /// Also handles the cases in which it's already midnight, in which case it'll
 /// return the dawn of next day.
 let advanceDayMoment (currentTime: Date) (times: int<dayMoments>) =
-    [ 1 .. (times / 1<dayMoments>) ]
-    |> List.mapFold
-        (fun time _ ->
-            Calendar.Query.next time
-            |> fun advancedTime -> (TimeAdvanced advancedTime, advancedTime))
-        currentTime
-    |> fst
+    let timeEffects =
+        [ 1 .. (times / 1<dayMoments>) ]
+        |> List.mapFold
+            (fun time _ ->
+                Calendar.Query.next time
+                |> fun advancedTime ->
+                    (TimeAdvanced advancedTime, advancedTime))
+            currentTime
+        |> fst
+    // Important! Reset the turn time after advancing time to make sure
+    // the next turn time is not shorter than expected.
+    [ yield! timeEffects; TurnTimeUpdated 0<minute> ]
 
 /// Same as advanceDayMoment but queries the current time automatically.
 let advanceDayMoment' state times =

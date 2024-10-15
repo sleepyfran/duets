@@ -1,8 +1,12 @@
 [<RequireQualifiedAccess>]
 module Duets.Simulation.Simulation
 
+open Aether
+open Duets.Common
 open Duets.Entities
 open Duets.Simulation.Events
+open Duets.Simulation.Time.AdvanceTime
+open Duets.Simulation.Time.InteractionMinutes
 
 type private TickState =
     { AppliedEffects: Effect list
@@ -27,7 +31,10 @@ and private tickEffect tickState nextEffectFns effects =
             EffectModifiers.EffectModifiers.modify tickState.State effect
 
         let updatedState = State.Root.applyEffect tickState.State effect
-        let associatedEffectFns = Events.associatedEffects effect
+
+        let associatedEffectFns =
+            [ yield! Events.associatedEffects effect
+              yield! applyTime effect updatedState ]
 
         (* Tick all the associated effects first, and pass the rest of the
            effects that come after the current one that was applied plus all
@@ -56,11 +63,41 @@ and private tickAssociatedEffects tickState associatedEffects nextEffectFns =
         |> tickAssociatedEffects tickState restOfAssociatedEffects
     | [] -> tick' tickState nextEffectFns
 
+and private applyTime effect state =
+    let totalTurnTime = effectMinutes effect
+
+    if totalTurnTime > 0<minute> then
+        applyTime' state totalTurnTime
+    else
+        // The effect didn't consume any time, so no need to do anything.
+        []
+
+and private applyTime' state totalTurnTime =
+    let currentTurnMinutes = Optic.get Lenses.State.turnMinutes_ state
+
+    let total = currentTurnMinutes + totalTurnTime
+
+    if total >= Config.Time.minutesPerDayMoment then
+        // Enough time has passed to trigger a new day moment, advance the
+        // time by the number of day moments that have passed and apply those
+        // to the current chain.
+        let totalDayMoments =
+            total / Config.Time.minutesPerDayMoment |> (*) 1<dayMoments>
+
+        [ [ fun state -> advanceDayMoment' state totalDayMoments ]
+          |> ContinueChain ]
+    else if total > 0<minute> then
+        // Not enough time has passed to trigger a new day moment, so just
+        // update the turn time.
+        [ [ (Func.toConst [ TurnTimeUpdated total ]) ] |> ContinueChain ]
+    else
+        []
+
 //// Ticks the simulation by applying multiple effects, gathering its associated
 /// effects and applying them as well.
 /// Returns a tuple with the list of all the effects that were applied in the
 /// order in which they were applied and the updated state.
-let rec tickMultiple currentState effects =
+let tickMultiple currentState effects =
     let effectFns = fun _ -> effects
 
     let tickResult =

@@ -92,6 +92,7 @@ let startGame
       Situation = FreeRoam
       SocialNetworks = SocialNetwork.empty
       Today = Calendar.gameBeginning
+      TurnMinutes = 0<minute>
       WorldItems = allInitialWorldItems }
     |> Bands.Generation.addInitialBandsToState
     |> GameCreated

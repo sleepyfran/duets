@@ -253,8 +253,7 @@ module InteractionTypes =
     /// of time that it'll take to perform it.
     type InteractionWithMetadata =
         { Interaction: Interaction
-          State: InteractionState
-          TimeAdvance: int<dayMoments> }
+          State: InteractionState }
 
     /// Defines a simple win/lose result for a non-interactive game.
     [<RequireQualifiedAccess>]

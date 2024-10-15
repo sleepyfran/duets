@@ -190,8 +190,7 @@ let private commandsFromInteractions interactions =
         match interactionWithMetadata.State with
         | InteractionState.Enabled -> command
         | InteractionState.Disabled disabledReason ->
-            Command.disable disabledReason command
-        |> Tuple.two interactionWithMetadata.TimeAdvance)
+            Command.disable disabledReason command)
 
 let private filterAttributesForInfoBar =
     List.choose (fun (attr, amount) ->
@@ -275,11 +274,10 @@ let worldScene mode =
                 relationshipLevel
         | _ -> Command.commonPrompt today currentDayMoment characterAttributes
 
-    let commandsWithMetadata =
+    let commands =
         commandsFromInteractions interactionsWithState
-        @ [ (0<dayMoments>, ExitCommand.get); (0<dayMoments>, MeCommand.get) ]
+        @ [ ExitCommand.get; MeCommand.get ]
 
-    commandsWithMetadata
-    |> List.map snd
-    |> (@) [ HelpCommand.create commandsWithMetadata ]
+    commands
+    |> (@) [ HelpCommand.create commands ]
     |> showCommandPrompt promptText

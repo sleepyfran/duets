@@ -25,10 +25,4 @@ let practiceSong state band (finishedSong: Finished<Song>) =
 
         let songWithPractice = Finished(updatedSong, quality)
 
-        [ SongPracticed(band, songWithPractice)
-          yield!
-              RehearsalInteraction.PracticeSong []
-              |> Interaction.Rehearsal
-              |> Queries.InteractionTime.timeRequired
-              |> AdvanceTime.advanceDayMoment' state ]
-        |> SongImproved
+        [ SongPracticed(band, songWithPractice) ] |> SongImproved

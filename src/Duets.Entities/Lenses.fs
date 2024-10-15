@@ -90,6 +90,10 @@ module State =
     let today_ =
         (fun (s: State) -> s.Today), (fun v (s: State) -> { s with Today = v })
 
+    let turnMinutes_ =
+        (fun (s: State) -> s.TurnMinutes),
+        (fun v (s: State) -> { s with TurnMinutes = v })
+
     let worldItems_ =
         (fun (s: State) -> s.WorldItems),
         (fun v (s: State) -> { s with WorldItems = v })

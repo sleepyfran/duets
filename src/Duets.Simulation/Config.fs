@@ -188,6 +188,11 @@ module Revenue =
     /// Indicates how many dd a band makes per stream.
     let revenuePerStream = 0.0055
 
+module Time =
+    /// Number of minutes that a day moment has, which is effectively the
+    /// number of minutes we allow the player to perform per turn.
+    let minutesPerDayMoment = 180<minute>
+
 module Travel =
     /// Price per kilometers for buying plane tickets.
     let pricePerKm = 0.067m

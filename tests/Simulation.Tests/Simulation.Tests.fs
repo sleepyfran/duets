@@ -1,6 +1,7 @@
 module Duets.Simulation.Tests.Simulation
 
 open System
+open Aether
 open FsUnit
 open Fugit.Months
 open NUnit.Framework
@@ -11,8 +12,11 @@ open Test.Common.Generators
 
 open Duets.Entities
 open Duets.Simulation
+open Duets.Data.Careers
 
-let state = { dummyState with Today = dummyTodayMiddleOfYear }
+let state =
+    { dummyState with
+        Today = dummyTodayMiddleOfYear }
 
 let stateInMorning =
     { state with
@@ -20,9 +24,7 @@ let stateInMorning =
 
 let stateInMidnightBeforeNewYear =
     { state with
-        Today =
-            January 1 2023
-            |> Calendar.Transform.changeDayMoment Midnight }
+        Today = January 1 2023 |> Calendar.Transform.changeDayMoment Midnight }
 
 let unfinishedSong = Unfinished(dummySong, 10<quality>, 10<quality>)
 
@@ -36,9 +38,11 @@ let checkTimeIncrease timeIncrease effects =
          |> List.head)
 
 [<Test>]
-let ``tick does not try to apply moodlets (breaks) for game created effect`` () =
+let ``tick does not try to apply moodlets (breaks) for game created effect``
+    ()
+    =
     let gameStartedEffect = GameCreated state
-    
+
     (fun () -> Simulation.tickOne State.empty gameStartedEffect |> ignore)
     |> should not' (throw typeof<Exception>)
 
@@ -66,7 +70,7 @@ let ``tick should gather and apply associated effects`` () =
         |> fst
 
     effects
-    |> List.head
+    |> List.item 0
     |> should equal (TimeAdvanced(DateTime(2021, 6, 20, 10, 0, 0)))
 
     effects
@@ -144,7 +148,8 @@ let ``tick should update album streams every day`` () =
 let ``tick should update all scheduled concerts every day`` () =
     let state =
         State.generateOne
-            { State.defaultOptions with FutureConcertsToGenerate = 10 }
+            { State.defaultOptions with
+                FutureConcertsToGenerate = 10 }
 
     AdvanceTime.advanceDayMoment' state 1<dayMoments>
     |> Simulation.tickMultiple state
@@ -184,7 +189,8 @@ let ``tick should update markets every year in the early morning`` () =
 let ``tick should check for failed concerts in every time update`` () =
     let state =
         State.generateOne
-            { State.defaultOptions with FutureConcertsToGenerate = 0 }
+            { State.defaultOptions with
+                FutureConcertsToGenerate = 0 }
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(dummyConcert, dummyToday))
@@ -205,3 +211,72 @@ let ``tick should check for failed concerts in every time update`` () =
         | ConcertCancelled _ -> true
         | _ -> false)
     |> should haveLength 1
+
+[<Test>]
+let ``tick should update turn time with the total minutes spent in the tick``
+    ()
+    =
+    Simulation.tickOne state songStartedEffect
+    |> snd
+    |> Optic.get Lenses.State.turnMinutes_
+    |> should equal 120<minute>
+
+[<Test>]
+let ``tick should advance day moment if the effects triggered enough time`` () =
+    let effects, stateAfterTick =
+        Simulation.tickMultiple state [ songStartedEffect; songStartedEffect ]
+
+    effects
+    |> List.find (function
+        | TimeAdvanced _ -> true
+        | _ -> false)
+    |> should equal (TimeAdvanced(DateTime(2021, 6, 20, 10, 0, 0)))
+
+    stateAfterTick
+    |> Optic.get Lenses.State.turnMinutes_
+    |> should equal 0<minute>
+
+[<Test>]
+let ``tick should keep leftover time after advancing day moment if effects triggered enough time``
+    ()
+    =
+    let effects, stateAfterTick =
+        Simulation.tickMultiple
+            state
+            [ songStartedEffect; songStartedEffect; songStartedEffect ]
+
+    effects
+    |> List.find (function
+        | TimeAdvanced _ -> true
+        | _ -> false)
+    |> should equal (TimeAdvanced(DateTime(2021, 6, 20, 10, 0, 0)))
+
+    stateAfterTick
+    |> Optic.get Lenses.State.turnMinutes_
+    |> should equal 120<minute>
+
+[<Test>]
+let ``ticks that include effects spanning multiple day moments get applied correctly``
+    ()
+    =
+    let baristaManagerCareer = BaristaCareer.stages |> List.last
+
+    let effects, stateAfterTick =
+        CareerShiftPerformed(
+            { Id = Barista
+              CurrentStage = baristaManagerCareer
+              Location = (Prague, "") },
+            4<dayMoments>,
+            0.0m<dd>
+        )
+        |> Simulation.tickOne state
+
+    effects
+    |> List.find (function
+        | TimeAdvanced _ -> true
+        | _ -> false)
+    |> should equal (TimeAdvanced(DateTime(2021, 6, 20, 10, 0, 0)))
+
+    stateAfterTick
+    |> Optic.get Lenses.State.turnMinutes_
+    |> should equal 0<minute>

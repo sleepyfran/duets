@@ -9,8 +9,8 @@ open Duets.Simulation
 /// character and the rest of the band.
 let internal run effect =
     match effect with
-    | PlayResult(PlayResult.Darts result)
-    | PlayResult(PlayResult.Pool result) ->
+    | GamePlayed(PlayResult.Darts result)
+    | GamePlayed(PlayResult.Pool result) ->
         match result with
         | SimpleResult.Win ->
             [ Character.Attribute.addToPlayable

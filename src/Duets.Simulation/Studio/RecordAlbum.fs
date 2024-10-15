@@ -62,14 +62,8 @@ let private generateEffectsAfterBilling
     let billingResult =
         generatePaymentForOneSong state studio selectedProducer band
 
-    let timeEffects =
-        StudioInteraction.CreateAlbum(studio, [])
-        |> Interaction.Studio
-        |> Queries.InteractionTime.timeRequired
-        |> AdvanceTime.advanceDayMoment' state
-
     match billingResult with
-    | Ok billingEffects -> Ok(effects @ billingEffects @ timeEffects)
+    | Ok billingEffects -> Ok(effects @ billingEffects)
     | Error error -> Error error
 
 /// Applies the improvement in quality given by the producer of the given studio
@@ -109,11 +103,12 @@ let recordSongForAlbum
         trackList @ [ recordedSong ]
         |> Album.updateTrackList unreleasedAlbum.Album
 
-    [ AlbumUpdated(
-          band,
-          { unreleasedAlbum with
-              Album = updatedAlbum }
-      ) ]
+    let updatedUnreleasedAlbum =
+        { unreleasedAlbum with
+            Album = updatedAlbum }
+
+    [ AlbumSongAdded(band, updatedUnreleasedAlbum, recordedSong)
+      AlbumUpdated(band, updatedUnreleasedAlbum) ]
     |> generateEffectsAfterBilling
         state
         studio

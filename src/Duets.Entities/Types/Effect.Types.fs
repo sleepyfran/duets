@@ -11,14 +11,20 @@ module EffectTypes =
         | AlbumReleased of Band * ReleasedAlbum
         | AlbumReleasedUpdate of Band * ReleasedAlbum
         | AlbumReviewsReceived of Band * ReleasedAlbum
+        | AlbumSongAdded of Band * UnreleasedAlbum * Recorded<Song>
         | AlbumUpdated of Band * UnreleasedAlbum
+        | Ate of item: Item * food: EdibleItem
         | BalanceUpdated of BankAccountHolder * Diff<Amount>
         | BandFansChanged of Band * Diff<Fans>
         | BandSwitchedGenre of Band * Diff<Genre>
+        | BookRead of Item * Book
         | CareerAccept of CharacterId * Job
         | CareerLeave of CharacterId * Job
         | CareerPromoted of Job * salary: Amount
-        | CareerShiftPerformed of Job * payment: Amount
+        | CareerShiftPerformed of
+            Job *
+            shiftDuration: int<dayMoments> *
+            payment: Amount
         | CharacterAttributeChanged of
             character: CharacterId *
             attribute: CharacterAttribute *
@@ -32,9 +38,14 @@ module EffectTypes =
         | ConcertFinished of band: Band * concert: PastConcert * income: Amount
         | ConcertUpdated of Band * ScheduledConcert
         | ConcertCancelled of Band * PastConcert
+        | ConcertSoundcheckPerformed
+        | Drank of item: Item * drink: DrinkableItem
+        | Exercised of Item
         | FlightBooked of Flight
         | FlightUpdated of Flight
+        | FlightLanded of Flight
         | GameCreated of State
+        | GamePlayed of PlayResult
         | GenreMarketsUpdated of GenreMarketByGenre
         | ItemAddedToCharacterInventory of Item
         | ItemChangedInCharacterInventory of Diff<Item>
@@ -45,8 +56,10 @@ module EffectTypes =
         | ItemRemovedFromWorld of RoomCoordinates * Item
         | MerchPriceSet of band: Band * merchItem: Item * price: Amount
         | MerchSold of band: Band * (Item * int<quantity>) list * income: Amount
+        | MerchStandSetup
         | MemberHired of Band * Character * CurrentMember * SkillWithLevel list
         | MemberFired of Band * CurrentMember * PastMember
+        | MiniGamePlayed of MiniGameId
         | MoneyEarned of BankAccountHolder * BankTransaction
         | MoneyTransferred of BankAccountHolder * BankTransaction
         | NotificationScheduled of Date * DayMoment * Notification
@@ -61,6 +74,7 @@ module EffectTypes =
         | RentalUpdated of Rental
         | SituationChanged of Situation
         | SkillImproved of Character * Diff<SkillWithLevel>
+        | SocialActionPerformed of SocializingState * SocialActionKind
         | SocialNetworkAccountCreated of SocialNetworkKey * SocialNetworkAccount
         | SocialNetworkAccountFollowersChanged of
             SocialNetworkKey *
@@ -80,8 +94,9 @@ module EffectTypes =
         | SongDiscarded of Band * Unfinished<Song>
         | SongPracticed of Band * Finished<Song>
         | PlaceClosed of Place
-        | PlayResult of PlayResult
         | TimeAdvanced of Date
+        | TurnTimeUpdated of int<minute>
+        | WatchedTv of Item
         /// Moves the player to a new room inside the current place.
         | WorldEnterRoom of Diff<RoomCoordinates>
         /// Moves the player to a different place in the current city or a

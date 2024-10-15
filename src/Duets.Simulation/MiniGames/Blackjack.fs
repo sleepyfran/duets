@@ -196,14 +196,8 @@ let stand state game =
 
 /// Allows the player to leave the current mini-game as long as they're still
 /// in the betting phase.
-let leave state game =
-    let timeEffects =
-        MiniGameInGameInteraction.Leave(MiniGameId.Blackjack, game)
-        |> MiniGameInteraction.InGame
-        |> Interaction.MiniGame
-        |> Queries.InteractionTime.timeRequired
-        |> AdvanceTime.advanceDayMoment' state
-
+let leave game =
     match game with
-    | Betting -> Situations.freeRoam :: timeEffects |> Ok
+    | Betting ->
+        Situations.freeRoam :: [ MiniGamePlayed MiniGameId.Blackjack ] |> Ok
     | _ -> Error NotAllowed

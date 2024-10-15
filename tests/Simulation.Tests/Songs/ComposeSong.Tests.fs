@@ -22,12 +22,6 @@ let ``composeSong should generate a SongStarted effect`` () =
             @>)
 
 [<Test>]
-let ``composeSong should advance time 1 day moment`` () =
-    composeSong dummyState dummySong
-    |> List.item 1
-    |> should be (ofCase <@ TimeAdvanced(dummyTodayOneDayMomentAfter) @>)
-
-[<Test>]
 let ``Qualities are calculated based on member skills`` () =
     let state =
         dummyState
@@ -42,10 +36,7 @@ let ``Qualities are calculated based on member skills`` () =
     |> List.head
     |> should
         equal
-        (SongStarted(
-            dummyBand,
-            Unfinished(dummySong, 33<quality>, 7<quality>)
-        ))
+        (SongStarted(dummyBand, Unfinished(dummySong, 33<quality>, 7<quality>)))
 
 [<Test>]
 let ``Qualities should be calculated based on members skills but never go above 100``

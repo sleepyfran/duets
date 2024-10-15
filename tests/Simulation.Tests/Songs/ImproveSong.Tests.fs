@@ -37,7 +37,6 @@ let ``Should improve song if it's possible, return CanBeImproved and advance one
 
     fst result |> should be (ofCase <@ CanBeImproved @>)
     snd result |> should contain (createSongImprovedEffect dummySong 35 7 14)
-    snd result |> should contain (TimeAdvanced(dummyTodayOneDayMomentAfter))
 
 [<Test>]
 let ``Should make improvement process slower the longer the song is`` () =
@@ -64,10 +63,7 @@ let ``Should make improvement process slower the longer the song is`` () =
         fst result |> should be (ofCase <@ CanBeImproved @>)
 
         snd result
-        |> should contain (createSongImprovedEffect song 50 0 expectedQuality)
-
-        snd result
-        |> should contain (TimeAdvanced(dummyTodayOneDayMomentAfter)))
+        |> should contain (createSongImprovedEffect song 50 0 expectedQuality))
 
 [<Test>]
 let ``Should improve for one last time if possible, return ReachedMaxQualityInLastImprovement and advance one day moment``
@@ -85,7 +81,6 @@ let ``Should improve for one last time if possible, return ReachedMaxQualityInLa
 
     fst result |> should be (ofCase <@ ReachedMaxQualityInLastImprovement @>)
     snd result |> should contain (createSongImprovedEffect dummySong 35 28 35)
-    snd result |> should contain (TimeAdvanced(dummyTodayOneDayMomentAfter))
 
 [<Test>]
 let ``Should not allow improvement if it already reached max quality and return ReachedMaxQualityAlready``

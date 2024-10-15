@@ -1,5 +1,7 @@
 module Duets.Simulation.Tests.Careers.Work
 
+#nowarn "25"
+
 open FsCheck
 open FsUnit
 open Fugit.Months
@@ -45,9 +47,12 @@ type ``When place is not near closing time``() =
         =
         Work.workShift state job
         |> List.filter (function
-            | TimeAdvanced _ -> true
+            | CareerShiftPerformed _ -> true
             | _ -> false)
-        |> should haveLength 2
+        |> List.head
+        |> fun (CareerShiftPerformed(_, shiftDuration, _)) ->
+            shiftDuration |> should equal 2<dayMoments>
+
 
 [<TestFixture>]
 type ``When place is near closing time``() =
@@ -61,6 +66,8 @@ type ``When place is near closing time``() =
         =
         let effect =
             Work.workShift stateInEvening job
+            |> Simulation.tickMultiple stateInEvening
+            |> fst
             |> List.filter (function
                 | MoneyEarned _ -> true
                 | _ -> false)
@@ -75,6 +82,8 @@ type ``When place is near closing time``() =
         ()
         =
         Work.workShift stateInEvening job
+        |> Simulation.tickMultiple stateInEvening
+        |> fst
         |> List.filter (function
             | TimeAdvanced _ -> true
             | _ -> false)

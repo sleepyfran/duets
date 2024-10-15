@@ -181,8 +181,6 @@ let ``startAlbum should generate AlbumRecorded and MoneyTransferred`` () =
         dummyFinishedSong
     |> Result.unwrap
     |> fun effects ->
-        effects |> should haveLength 4
-
         effects |> List.item 0 |> should be (ofCase <@ AlbumStarted @>)
 
         effects

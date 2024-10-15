@@ -31,16 +31,6 @@ let ``exercising in non-gym equipment is not allowed`` () =
         |> should equal Items.ActionNotPossible)
 
 [<Test>]
-let ``exercising in gym equipment advances time by one day moment`` () =
-    Items.perform
-        state
-        (fst Items.Gym.Treadmills.elliptical)
-        ItemInteraction.Exercise
-    |> Result.unwrap
-    |> List.item 0
-    |> should be (ofCase <@ TimeAdvanced @>)
-
-[<Test>]
 let ``exercising in gym equipment decreases energy`` () =
     Items.perform
         state

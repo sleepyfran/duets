@@ -1,9 +1,12 @@
 namespace Duets.Cli.Components.Commands
 
+open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
+open Duets.Common
 open Duets.Entities
+open Duets.Simulation
 
 [<RequireQualifiedAccess>]
 module ClockCommand =
@@ -19,6 +22,9 @@ module ClockCommand =
             "Shows the current day moment and the number of day moments until the end of the day"
           Handler =
             (fun _ ->
+                let turnInfo =
+                    Queries.Calendar.currentTurnInformation (State.get ())
+
                 dayMomentsWithEvents
                 |> List.indexed
                 |> List.fold
@@ -57,5 +63,12 @@ module ClockCommand =
                     "* An event is scheduled at this time, check calendar for more details"
                     |> Styles.highlight
                     |> showMessage
+
+                let formatDayMoment =
+                    Generic.dayMomentName >> String.lowercase >> Styles.time
+
+                $"Spent {turnInfo.TimeSpent} minutes on {turnInfo.CurrentDayMoment |> formatDayMoment}. {turnInfo.TimeLeft} minutes until {turnInfo.NextDayMoment |> formatDayMoment}"
+                |> Styles.faded
+                |> showMessage
 
                 Scene.World) }

@@ -30,7 +30,7 @@ let ``playing with a video-game console returns a video-game result`` () =
         ItemInteraction.Play
     |> Result.unwrap
     |> List.filter (function
-        | PlayResult(PlayResult.VideoGame) -> true
+        | GamePlayed(PlayResult.VideoGame) -> true
         | _ -> false)
     |> should haveLength 1
 
@@ -46,7 +46,7 @@ let ``playing in a dartboard has a 50% chance of returning a winning dart result
         ItemInteraction.Play
     |> Result.unwrap
     |> List.filter (function
-        | PlayResult(PlayResult.Darts(SimpleResult.Win)) -> true
+        | GamePlayed(PlayResult.Darts(SimpleResult.Win)) -> true
         | _ -> false)
     |> should haveLength 1
 
@@ -62,7 +62,7 @@ let ``playing in a dartboard has a 50% chance of returning a losing dart result`
         ItemInteraction.Play
     |> Result.unwrap
     |> List.filter (function
-        | PlayResult(PlayResult.Darts(SimpleResult.Lose)) -> true
+        | GamePlayed(PlayResult.Darts(SimpleResult.Lose)) -> true
         | _ -> false)
     |> should haveLength 1
 
@@ -78,7 +78,7 @@ let ``playing in a billiard has a 50% chance of returning a winning pool result`
         ItemInteraction.Play
     |> Result.unwrap
     |> List.filter (function
-        | PlayResult(PlayResult.Pool(SimpleResult.Win)) -> true
+        | GamePlayed(PlayResult.Pool(SimpleResult.Win)) -> true
         | _ -> false)
     |> should haveLength 1
 
@@ -94,6 +94,6 @@ let ``playing in a billiard has a 50% chance of returning a losing pool result``
         ItemInteraction.Play
     |> Result.unwrap
     |> List.filter (function
-        | PlayResult(PlayResult.Pool(SimpleResult.Lose)) -> true
+        | GamePlayed(PlayResult.Pool(SimpleResult.Lose)) -> true
         | _ -> false)
     |> should haveLength 1

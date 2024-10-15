@@ -1,7 +1,8 @@
 module rec Duets.Entities.Calendar
 
-open Duets.Common
+open FSharp.Data.UnitSystems.SI.UnitNames
 open Fugit.Shorthand
+open Duets.Common
 open System
 open System.Globalization
 
@@ -27,7 +28,12 @@ let everyDay =
       DayOfWeek.Sunday ]
 
 module DayMoments =
+    /// Contains all the possible day moments in a week.
     let oneWeek = Calendar.allDayMoments |> List.length |> (*) 7<dayMoments>
+
+    /// Transforms the given number of day moments into minutes.
+    let toMinutes dayMoments =
+        dayMoments / 1<dayMoments> * 180<minute>
 
 [<RequireQualifiedAccess>]
 module Ops =
@@ -213,6 +219,12 @@ module Parse =
         | "Night" -> Night
         | "Midnight" -> Midnight
         | _ -> EarlyMorning
+
+
+[<RequireQualifiedAccess>]
+module Seconds =
+    /// Transforms the given number of seconds into minutes.
+    let toMinutes seconds = (seconds / 60<second>) * 1<minute>
 
 /// Returns the date in which the game starts.
 let gameBeginning = Date.Now |> Transform.changeDayMoment EarlyMorning

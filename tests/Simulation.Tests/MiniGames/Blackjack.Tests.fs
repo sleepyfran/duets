@@ -350,7 +350,7 @@ let ``standing when the dealer has less than 17 triggers a turn for the dealer``
 
 [<Test>]
 let ``leaving sets the situation back to free roam and increase time`` () =
-    let effects = Blackjack.leave dummyState Betting |> Result.unwrap
+    let effects = Blackjack.leave Betting |> Result.unwrap
 
     effects |> List.head |> should be (ofCase (<@ SituationChanged @>))
-    effects |> List.item 1 |> should be (ofCase (<@ TimeAdvanced @>))
+    effects |> List.item 1 |> should be (ofCase (<@ MiniGamePlayed @>))

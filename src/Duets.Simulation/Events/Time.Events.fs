@@ -41,8 +41,5 @@ let internal run effect =
         |> ContinueChain
         |> Some
     | Wait times ->
-        [ fun state -> AdvanceTime.advanceDayMoment' state times
-          AttributeChange.applyAfterWait times ]
-        |> ContinueChain
-        |> Some
+        [ AttributeChange.applyAfterWait times ] |> ContinueChain |> Some
     | _ -> None

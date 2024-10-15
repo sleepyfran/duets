@@ -91,49 +91,25 @@ let private nonInteractiveGameResult () =
 let perform state (item: Item) action =
     let character = Queries.Characters.playableCharacter state
 
-    let timeEffects =
-        action
-        |> Interaction.Item
-        |> Queries.InteractionTime.timeRequired
-        |> Time.AdvanceTime.advanceDayMoment' state
-
     match action, item with
-    | Drinking drink ->
-        Drink.drink state item drink.Amount drink.DrinkType |> Ok
-    | Eating food -> Food.eat state item food.Amount food.FoodType |> Ok
-    | ExercisingOnGym ->
-        [ yield!
-              Character.Attribute.add
-                  character
-                  CharacterAttribute.Energy
-                  Config.LifeSimulation.Energy.exerciseIncrease
-          yield!
-              Character.Attribute.add
-                  character
-                  CharacterAttribute.Health
-                  Config.LifeSimulation.Health.exerciseIncrease
-          yield!
-              Skills.Improve.Common.applySkillModificationChance
-                  state
-                  {| Chance = 30
-                     CharacterId = character.Id
-                     ImprovementAmount = 1
-                     Skills = [ SkillId.Fitness ] |} ]
-        |> Ok
+    | Drinking drink -> Drink.drink state item drink |> Ok
+    | Eating food -> Food.eat state item food |> Ok
+    | ExercisingOnGym -> Actions.Exercise.exercise item character state |> Ok
     | PlayingDarts ->
-        [ nonInteractiveGameResult () |> PlayResult.Darts |> PlayResult ] |> Ok
+        [ nonInteractiveGameResult () |> PlayResult.Darts |> GamePlayed ] |> Ok
     | PlayingBilliard ->
-        [ nonInteractiveGameResult () |> PlayResult.Pool |> PlayResult ] |> Ok
+        [ nonInteractiveGameResult () |> PlayResult.Pool |> GamePlayed ] |> Ok
     | PlayingVideoGames ->
         [ yield!
               Character.Attribute.add
                   character
                   CharacterAttribute.Mood
                   Config.LifeSimulation.Mood.playingVideoGamesIncrease
-          PlayResult(PlayResult.VideoGame) ]
+          GamePlayed(PlayResult.VideoGame) ]
         |> Ok
     | ReadingBooks book ->
-        [ yield! Actions.Read.read item book state
+        [ yield BookRead(item, book)
+          yield! Actions.Read.read item book state
           yield!
               Character.Attribute.add
                   character
@@ -141,10 +117,11 @@ let perform state (item: Item) action =
                   Config.LifeSimulation.Mood.readingBookIncrease ]
         |> Ok
     | WatchingTV ->
-        Character.Attribute.add
-            character
-            CharacterAttribute.Mood
-            Config.LifeSimulation.Mood.watchingTvIncrease
+        [ yield WatchedTv item
+          yield!
+              Character.Attribute.add
+                  character
+                  CharacterAttribute.Mood
+                  Config.LifeSimulation.Mood.watchingTvIncrease ]
         |> Ok
     | _ -> Error ActionNotPossible
-    |> Result.map (fun effects -> timeEffects @ effects)

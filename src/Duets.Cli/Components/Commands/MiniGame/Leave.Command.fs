@@ -16,7 +16,7 @@ module LeaveCommand =
             $"Allows you to leave the {Generic.miniGameName miniGameId} game"
           Handler =
             (fun _ ->
-                let result = Blackjack.leave (State.get ()) miniGameState
+                let result = Blackjack.leave miniGameState
 
                 match result with
                 | Ok effect -> effect |> Effect.applyMultiple

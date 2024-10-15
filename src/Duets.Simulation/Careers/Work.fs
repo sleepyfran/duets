@@ -4,7 +4,6 @@ open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Bank.Operations
 open Duets.Simulation.Character
-open Duets.Simulation.Time
 
 let private workAttributeChange state (job: Job) =
     let character = Queries.Characters.playableCharacter state
@@ -44,7 +43,6 @@ let workShift state job =
     let characterAccount = Queries.Bank.playableCharacterAccount state
 
     let shiftDayMoments = timeAdvancement state job
-    let timeEffects = AdvanceTime.advanceDayMoment' state shiftDayMoments
 
     let shiftSalary =
         job.CurrentStage.BaseSalaryPerDayMoment * decimal shiftDayMoments
@@ -53,7 +51,6 @@ let workShift state job =
 
     let attributeEffects = workAttributeChange state job
 
-    [ yield CareerShiftPerformed(job, shiftSalary)
-      yield! timeEffects
+    [ yield CareerShiftPerformed(job, shiftDayMoments, shiftSalary)
       yield shiftPay
       yield! attributeEffects ]

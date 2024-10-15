@@ -30,11 +30,14 @@ let applyEffect state effect =
 
         Albums.removeReleased band album.Id state
         |> Albums.addReleased band releasedAlbum
+    | AlbumSongAdded _ -> state
+    | Ate _ -> state
     | BalanceUpdated(account, Diff(_, balance)) ->
         Bank.setBalance account (Incoming(0m<dd>, balance)) state
     | BandFansChanged(band, Diff(_, fans)) -> Bands.changeFans band fans state
     | BandSwitchedGenre(band, Diff(_, genre)) ->
         Bands.changeGenre band genre state
+    | BookRead _ -> state
     | CareerAccept(_, job) -> Career.set (Some job) state
     | CareerLeave _ -> Career.set None state
     | CareerPromoted(job, _) -> Career.set (Some job) state
@@ -63,8 +66,12 @@ let applyEffect state effect =
 
         Concerts.removeScheduledConcert band concert state
         |> Concerts.addPastConcert band pastConcert
+    | ConcertSoundcheckPerformed -> state
+    | Drank _ -> state
+    | Exercised _ -> state
     | FlightBooked flight -> Flights.addBooking flight state
     | FlightUpdated flight -> Flights.change flight state
+    | FlightLanded _ -> state
     | GameCreated state -> state
     | GenreMarketsUpdated genreMarkets -> Market.set genreMarkets state
     | ItemAddedToCharacterInventory item -> Inventory.addToCharacter item state
@@ -87,6 +94,7 @@ let applyEffect state effect =
             (fun state (item, quantity) ->
                 Inventory.reduceForBand band.Id item quantity state)
             state
+    | MerchStandSetup -> state
     | MemberHired(band, character, currentMember, skills) ->
         let stateWithMember =
             Characters.add character state |> Bands.addMember band currentMember
@@ -99,6 +107,7 @@ let applyEffect state effect =
     | MemberFired(band, currentMember, pastMember) ->
         Bands.removeMember band currentMember state
         |> Bands.addPastMember band pastMember
+    | MiniGamePlayed _ -> state
     | NotificationScheduled(date, dayMoment, notification) ->
         Notifications.schedule date dayMoment notification state
     | NotificationShown _ -> state
@@ -107,7 +116,7 @@ let applyEffect state effect =
     | MoneyEarned(account, transaction) ->
         Bank.setBalance account transaction state
     | PlaceClosed _ -> state
-    | PlayResult _ -> state
+    | GamePlayed _ -> state
     | RelationshipChanged(npc, cityId, relationship) ->
         Relationships.changeForCharacterId npc.Id relationship state
         |> Relationships.changeForCityId npc.Id cityId relationship
@@ -120,6 +129,7 @@ let applyEffect state effect =
         Optic.set Lenses.State.situation_ situation state
     | SkillImproved(character, Diff(_, skill)) ->
         Skills.add character.Id skill state
+    | SocialActionPerformed _ -> state
     | SocialNetworkAccountCreated(socialNetworkKey, socialNetworkAccount) ->
         SocialNetworks.addAccount socialNetworkKey socialNetworkAccount state
     | SocialNetworkAccountFollowersChanged(socialNetworkKey,
@@ -160,6 +170,8 @@ let applyEffect state effect =
 
         Songs.removeUnfinished band song.Id state
     | TimeAdvanced time -> Calendar.setTime time state
+    | TurnTimeUpdated minutes -> Calendar.setTurnMinutes minutes state
+    | WatchedTv _ -> state
     | WorldEnterRoom(Diff(_, (cityId, placeId, romId))) ->
         World.move cityId placeId romId state
     | WorldMoveToPlace(Diff(_, (cityId, placeId, roomId))) ->
