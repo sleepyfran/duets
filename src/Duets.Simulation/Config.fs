@@ -20,7 +20,7 @@ module LifeSimulation =
 
     module Energy =
         /// How much energy is increased when the character exercises.
-        let exerciseIncrease = -25
+        let exerciseIncrease = -10
 
     module Health =
         /// How much health is recovered when the character exercises.
