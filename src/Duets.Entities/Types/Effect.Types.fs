@@ -42,6 +42,7 @@ module EffectTypes =
         | ConcertSoundcheckPerformed
         | Drank of item: Item * drink: DrinkableItem
         | Exercised of Item
+        | FlightBoarded of Flight
         | FlightBooked of Flight
         | FlightUpdated of Flight
         | FlightLanded of Flight

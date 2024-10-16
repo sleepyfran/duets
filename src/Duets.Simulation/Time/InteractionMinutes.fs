@@ -17,6 +17,7 @@ let effectMinutes =
     | ConcertSoundcheckPerformed -> 45<minute>
     | Drank _ -> 15<minute>
     | Exercised _ -> 15<minute>
+    | FlightBoarded _ -> 25<minute>
     | FlightLanded flight ->
         Queries.Flights.flightTime flight |> Calendar.Seconds.toMinutes
     | GamePlayed _ -> 30<minute>

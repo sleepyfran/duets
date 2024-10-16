@@ -53,7 +53,7 @@ let ``passSecurityCheck should drop all drinks from inventory`` () =
 
     let effects = passSecurityCheck state
 
-    effects |> should haveLength 3
+    effects |> should haveLength 4
 
     effects
     |> List.filter (function

@@ -35,7 +35,9 @@ let boardPlane flight =
 
     let situationEffect = Situations.onboardedInPlane flight
 
-    [ situationEffect; FlightUpdated { flight with AlreadyUsed = true } ],
+    [ situationEffect
+      FlightUpdated { flight with AlreadyUsed = true }
+      FlightBoarded flight ],
     flightTimeInMinutes
 
 /// Passes as many day moments needed for the flight to complete and leaves

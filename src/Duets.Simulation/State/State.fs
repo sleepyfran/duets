@@ -70,6 +70,7 @@ let applyEffect state effect =
     | ConcertSoundcheckPerformed -> state
     | Drank _ -> state
     | Exercised _ -> state
+    | FlightBoarded _ -> state
     | FlightBooked flight -> Flights.addBooking flight state
     | FlightUpdated flight -> Flights.change flight state
     | FlightLanded _ -> state
