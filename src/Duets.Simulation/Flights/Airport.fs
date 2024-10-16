@@ -48,4 +48,5 @@ let leavePlane state flight =
         |> List.head (* All cities must have an airport. *)
 
     [ Navigation.travelTo flight.Destination destinationAirport state
+      FlightLanded flight
       Situations.freeRoam ]
