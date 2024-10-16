@@ -41,7 +41,7 @@ let ``exercising in gym equipment decreases energy`` () =
     |> function
         | CharacterAttributeChanged(_, attr, amount) ->
             attr |> should equal CharacterAttribute.Energy
-            amount |> should equal (Diff(100, 75))
+            amount |> should equal (Diff(100, 90))
         | _ -> failwith "Effect was not of correct type"
 
 [<Test>]
