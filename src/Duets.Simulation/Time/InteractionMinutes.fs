@@ -6,6 +6,7 @@ open Duets.Simulation
 /// Returns the number of minutes that a given effect takes to perform.
 let effectMinutes =
     function
+    | AirportSecurityPassed -> 30<minute>
     | AlbumStarted _
     | AlbumSongAdded _ -> 2 * Config.Time.minutesPerDayMoment
     | Ate _ -> 25<minute>

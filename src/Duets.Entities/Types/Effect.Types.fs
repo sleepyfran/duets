@@ -7,6 +7,7 @@ module EffectTypes =
     /// Defines an effect that happened after an action in the game. For example
     /// calling composeSong will create a `SongComposed` effect.
     type Effect =
+        | AirportSecurityPassed
         | AlbumStarted of Band * UnreleasedAlbum
         | AlbumReleased of Band * ReleasedAlbum
         | AlbumReleasedUpdate of Band * ReleasedAlbum

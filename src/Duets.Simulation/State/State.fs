@@ -6,6 +6,7 @@ open Duets.Entities
 /// Applies an effect to the state.
 let applyEffect state effect =
     match effect with
+    | AirportSecurityPassed -> state
     | AlbumStarted(band, unreleasedAlbum) ->
         Albums.addUnreleased band unreleasedAlbum state
         |> Albums.markTrackListAsRecorded band unreleasedAlbum

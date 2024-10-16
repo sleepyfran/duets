@@ -20,11 +20,11 @@ let passSecurityCheck state =
                 | _ -> false))
         |> List.map (fun item -> ItemRemovedFromCharacterInventory item)
 
-    let movementEffects =
+    let movementEffect =
         Navigation.enter World.Ids.Airport.boardingGate state
         |> Result.unwrap (* The airport is guaranteed to have an open boarding gate. *)
 
-    movementEffects :: itemRemovalEffects
+    [ yield! itemRemovalEffects; movementEffect; AirportSecurityPassed ]
 
 /// Boards the plane to the given flight, returning how many hours the trip will
 /// take and sets the situation to in-flight.
