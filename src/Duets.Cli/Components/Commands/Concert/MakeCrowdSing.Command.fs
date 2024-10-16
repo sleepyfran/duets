@@ -18,7 +18,7 @@ module MakeCrowdSingCommand =
                 | LowPerformance _ ->
                     Concert.makeCrowdSingLowPerformance points
                 | AveragePerformance _ ->
-                    Concert.makeCrowdSingLowPerformance points
+                    Concert.makeCrowdSingAveragePerformance points
                 | GoodPerformance _
                 | GreatPerformance ->
                     Concert.makeCrowdSingGreatPerformance points
