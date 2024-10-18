@@ -40,5 +40,11 @@ let effectMinutes =
         && // Traveling between cities is handled by the flight effect.
         prevPlaceId <> currPlaceId  // Traveling within the same place is instant.
         ->
-        30<minute>
+        let previousPlace = Queries.World.placeInCityById prevCityId prevPlaceId
+        let currentPlace = Queries.World.placeInCityById currCityId currPlaceId
+
+        if currentPlace.Zone.Id <> previousPlace.Zone.Id then
+            30<minute>
+        else
+            15<minute>
     | _ -> 0<minute>
