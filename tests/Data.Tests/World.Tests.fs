@@ -36,6 +36,16 @@ let ``all city IDs are added to the world`` () =
 let ``all cities are connected to each other`` () =
     World.get.Cities |> List.ofMapValues |> checkCities
 
+[<Test>]
+let ``all cities have a country`` () =
+    World.get.Cities
+    |> List.ofMapValues
+    |> List.iter (fun city ->
+        (fun () -> World.countryOf city.Id |> ignore)
+        |> should
+            not'
+            (throw typeof<System.Collections.Generic.KeyNotFoundException>))
+
 let private checkAtLeastOneWithCapacity
     cityId
     concertSpaces
