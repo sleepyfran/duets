@@ -7,6 +7,7 @@
     <ItemGroup>
         <Compile Include="Types\Common.Types.fs"/>
         <Compile Include="Types\City.Types.fs"/>
+        <Compile Include="Types\World.Coordinates.Types.fs"/>
         <Compile Include="Types\Calendar.Types.fs"/>
         <Compile Include="Types\Genre.Types.fs"/>
         <Compile Include="Types\Instrument.Types.fs"/>
@@ -24,7 +25,6 @@
         <Compile Include="Types\Places\RehearsalSpace.Types.fs"/>
         <Compile Include="Types\Places\Studio.Types.fs"/>
         <Compile Include="Types\Places\Shop.Types.fs"/>
-        <Compile Include="Types\World.Coordinates.Types.fs"/>
         <Compile Include="Types\Item.Types.fs"/>
         <Compile Include="Types\Merch.Types.fs"/>
         <Compile Include="Types\World.Types.fs"/>
