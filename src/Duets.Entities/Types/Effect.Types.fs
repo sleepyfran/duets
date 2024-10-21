@@ -35,6 +35,7 @@ module EffectTypes =
         | CharacterMoodletsChanged of
             character: CharacterId *
             moodlets: Diff<CharacterMoodlets>
+        | CharacterSlept of CharacterId * int<dayMoments>
         | ConcertScheduled of Band * ScheduledConcert
         | ConcertFinished of band: Band * concert: PastConcert * income: Amount
         | ConcertUpdated of Band * ScheduledConcert
