@@ -112,6 +112,33 @@ let ``daily sold tickets are calculated based on how many days are left until th
 
     concert.TicketsSold |> should equal 24
 
+let newYorkVenue =
+    Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.ConcertSpace
+    |> List.head
+
+[<Test>]
+let ``daily sold tickets are calculated based on the fans in the concert's city``
+    ()
+    =
+    let state =
+        State.generateOne
+            { State.defaultOptions with
+                // These fans will be added only to the city of Prague by default.
+                BandFansMin = 25000<fans>
+                BandFansMax = 25000<fans> }
+        |> State.Concerts.addScheduledConcert
+            dummyBand
+            (ScheduledConcert(
+                { dummyConcert with
+                    TicketsSold = 0
+                    CityId = NewYork
+                    VenueId = newYorkVenue.Id },
+                dummyToday
+            ))
+
+    let concert = actAndGetConcert state
+    concert.TicketsSold |> should equal 2
+
 let actAndGetConcertWithPrice price =
     State.generateOne
         { State.defaultOptions with

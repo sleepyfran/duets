@@ -96,10 +96,10 @@ let private concertDailyUpdate state scheduledConcert =
 
     let lastVisitModifier = lastVisitModifier state band concert
 
-    let totalFans = Queries.Bands.totalFans' band |> float
+    let fansInCity = Queries.Bands.fansInCity' band concert.CityId |> float
 
     let fanAttendanceCap =
-        totalFans * 0.15 * ticketPriceModifier * lastVisitModifier
+        fansInCity * 0.15 * ticketPriceModifier * lastVisitModifier
 
     let nonFansAttendanceCap =
         calculateNonFansAttendanceCap
