@@ -12,8 +12,8 @@ open Duets.Simulation.SocialNetworks.DailyUpdate
 let states min max =
     State.generateN
         { State.defaultOptions with
-            BandFansMax = max
-            BandFansMin = min }
+            BandFansMax = max * 1<fans>
+            BandFansMin = min * 1<fans> }
         100
 
 let statesWithAccounts min max characterFollowers bandFollowers =
@@ -41,7 +41,7 @@ let statesWithAccounts min max characterFollowers bandFollowers =
 
 let checkDiffIsGreaterThanOrEqualTo n effect =
     match effect with
-    | SocialNetworkAccountFollowersChanged (_, _, Diff (prev, curr)) ->
+    | SocialNetworkAccountFollowersChanged(_, _, Diff(prev, curr)) ->
         curr - prev |> should be (greaterThanOrEqualTo n)
     | _ -> failwith "Unrecognized effect"
 

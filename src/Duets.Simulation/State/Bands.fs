@@ -56,7 +56,7 @@ let removeMember (band: Band) (currentMember: CurrentMember) state =
 
     Optic.map membersLens removeMember state
 
-let changeFans (band: Band) (fans: int) state =
+let changeFans (band: Band) fans state =
     let fansLens = createBandLens band state >?> Lenses.Band.fans_
 
     Optic.set fansLens fans state

@@ -5,8 +5,9 @@ open Duets.Entities
 open Duets.Simulation
 
 let private calculateFanStreams band =
-    (float band.Fans * Config.MusicSimulation.fanStreamingPercentage)
-    |> Math.ceil
+    let totalFans = Queries.Bands.totalFans' band |> float
+
+    (totalFans * Config.MusicSimulation.fanStreamingPercentage) |> Math.ceil
 
 let private calculateNonFanStreams state (band: Band) album genreMarket =
     let albumQuality = Queries.Albums.quality album |> float

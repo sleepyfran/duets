@@ -11,7 +11,12 @@ open Duets.Entities
 open Duets.Simulation
 
 let bandFansChanged fansBefore fansAfter =
-    BandFansChanged(dummyBand, Diff(fansBefore, fansAfter))
+    let createFanBase fans =
+        [ Prague, fans * 1<fans> ] |> Map.ofList
+
+    let previousFanBase = createFanBase fansBefore
+    let updatedFanBase = createFanBase fansAfter
+    BandFansChanged(dummyBand, Diff(previousFanBase, updatedFanBase))
 
 let stateWithAlbum =
     State.generateOne State.defaultOptions

@@ -7,10 +7,11 @@ open Duets.Simulation
 module DailyUpdate =
     let private estimatedFollowersNeeded state (account: SocialNetworkAccount) =
         let band = Queries.Bands.currentBand state
+        let totalFans = Queries.Bands.totalFans' band |> float
 
         match account.Id with
-        | SocialNetworkAccountId.Character _ -> float band.Fans * 0.4
-        | SocialNetworkAccountId.Band _ -> float band.Fans * 0.7
+        | SocialNetworkAccountId.Character _ -> totalFans * 0.4
+        | SocialNetworkAccountId.Band _ -> totalFans * 0.7
         |> Math.ceilToNearest
 
     let private increaseFollowers accountId current needed =

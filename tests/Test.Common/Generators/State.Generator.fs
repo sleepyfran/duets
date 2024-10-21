@@ -14,8 +14,8 @@ let dateGenerator =
         && date < Calendar.gameBeginning.AddYears(2))
 
 type StateGenOptions =
-    { BandFansMin: int
-      BandFansMax: int
+    { BandFansMin: int<fans>
+      BandFansMax: int<fans>
       CharacterMoodMin: int
       CharacterMoodMax: int
       FutureConcertsToGenerate: int
@@ -29,8 +29,8 @@ type StateGenOptions =
       PostGen: Gen<SocialNetworkPost> }
 
 let defaultOptions =
-    { BandFansMin = 0
-      BandFansMax = 25
+    { BandFansMin = 0<fans>
+      BandFansMax = 25<fans>
       CharacterMoodMin = 100
       CharacterMoodMax = 100
       FutureConcertsToGenerate = 0
@@ -101,11 +101,14 @@ let generator (opts: StateGenOptions) =
 
                 (cm.CharacterId, character))
 
-        let! bandFame = Gen.choose (opts.BandFansMin, opts.BandFansMax)
+        let! generatedFans =
+            Gen.choose (opts.BandFansMin / 1<fans>, opts.BandFansMax / 1<fans>)
+
+        let bandFans = [ Prague, generatedFans * 1<fans> ] |> Map.ofList
 
         let band =
             { dummyBand with
-                Fans = bandFame
+                Fans = bandFans
                 Members = bandMembers }
 
         return

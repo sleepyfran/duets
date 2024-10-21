@@ -28,6 +28,21 @@ let private generate () =
 /// Returns the game world. The world is initialized when the module is loaded.
 let get = generate ()
 
+/// Defines the metadata about the country a certain city belongs to.
+let private countryMetadata: Map<CityId, CountryId> =
+    [ (London, England)
+      (LosAngeles, UnitedStates)
+      (Madrid, Spain)
+      (MexicoCity, Mexico)
+      (NewYork, UnitedStates)
+      (Prague, CzechRepublic)
+      (Sydney, Australia)
+      (Tokyo, Japan) ]
+    |> Map.ofList
+
+/// Returns the country of the given city.
+let countryOf city = countryMetadata |> Map.find city
+
 /// Defines different metadata about the connections between cities: the
 /// distance between them and which connections are available (road, sea or air)
 let private connectionMetadata

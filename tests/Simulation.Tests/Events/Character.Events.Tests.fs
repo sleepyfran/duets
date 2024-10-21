@@ -227,7 +227,11 @@ let ``tick of BandFansChanged updates the character's fame to half of the estima
             CharacterAttribute.Fame
             8
 
-    let effect = BandFansChanged(dummyBand, Diff(5000, 10000))
+    let previousFans = [ Prague, 5000<fans> ] |> Map.ofList
+
+    let updatedFans = [ Prague, 10000<fans> ] |> Map.ofList
+
+    let effect = BandFansChanged(dummyBand, Diff(previousFans, updatedFans))
 
     Simulation.tickOne state effect
     |> fst

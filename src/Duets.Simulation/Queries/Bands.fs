@@ -75,6 +75,20 @@ module Bands =
         |> List.averageBy (fun character ->
             Characters.ageOf state character |> float)
 
+    /// Returns the sum of all fans in the given fan base.
+    let totalFans fanBase = fanBase |> List.ofMapValues |> List.sum
+
+    /// Returns the total amount of fans of the band across all cities.
+    let totalFans' band = band.Fans |> totalFans
+
+    /// Returns the total amount of fans of the band in the given city.
+    let fansInCity (fanBase: FanBaseByCity) cityId =
+        let lens = Map.key_ cityId
+        Optic.get lens fanBase |> Option.defaultValue 0<fans>
+
+    /// Returns the total amount of fans of the band in the given city.
+    let fansInCity' band cityId = fansInCity band.Fans cityId
+
     /// Gives an estimate of the band's fame between 0 and 100 based on the
     /// total amount of people willing to listen to the band's genre.
     let estimatedFameLevel state (bandId: BandId) =
@@ -83,15 +97,16 @@ module Bands =
         let normalizedMarketSize =
             Genres.usefulMarketOf state band.Genre |> System.Math.Log10
 
-        let normalizedFans = System.Math.Log10(band.Fans)
+        let totalFans = totalFans' band
+        let normalizedFans = System.Math.Log10(totalFans |> double)
 
         let fameScalingFactor =
-            match band.Fans with
-            | fans when fans < 500 -> 8.0
-            | fans when fans < 1000 -> 4.0
-            | fans when fans < 10000 -> 2.5
-            | fans when fans < 100000 -> 2.0
-            | fans when fans < 800000 -> 1.5
+            match totalFans with
+            | fans when fans < 500<fans> -> 8.0
+            | fans when fans < 1000<fans> -> 4.0
+            | fans when fans < 10000<fans> -> 2.5
+            | fans when fans < 100000<fans> -> 2.0
+            | fans when fans < 800000<fans> -> 1.5
             | _ -> 1
 
         (normalizedFans / (fameScalingFactor * normalizedMarketSize)) * 100.0

@@ -75,7 +75,7 @@ and private promptForVenue app date dayMoment city =
     let band = Queries.Bands.currentBand (State.get ())
 
     let _, maxCapacityRecommended =
-        Queries.Concerts.suitableVenueCapacity (State.get ()) band.Id
+        Queries.Concerts.suitableVenueCapacity (State.get ()) band.Id city.Id
 
     let venues =
         Queries.World.placeIdsByTypeInCity city.Id PlaceTypeIndex.ConcertSpace

@@ -34,29 +34,39 @@ type ``addInitialBandsToState``() =
     [<Test>]
     member _.``should have 50 bands of low fame level``() =
         simulatedBands
-        |> Map.filter (fun _ band -> band.Fans >=< (400, 4000))
+        |> Map.filter (fun _ band ->
+            let totalFans = Queries.Bands.totalFans' band
+            totalFans >=< (400<fans>, 4000<fans>))
         |> should haveCount 50
 
     [<Test>]
     member _.``should generate 50 bands of low-medium fame level``() =
         simulatedBands
-        |> Map.filter (fun _ band -> band.Fans >=< (4400, 40000))
+        |> Map.filter (fun _ band ->
+            let totalFans = Queries.Bands.totalFans' band
+            totalFans >=< (4400<fans>, 40000<fans>))
         |> should haveCount 50
 
     [<Test>]
     member _.``should generate 25 bands of medium fame level``() =
         simulatedBands
-        |> Map.filter (fun _ band -> band.Fans >=< (40001, 400000))
+        |> Map.filter (fun _ band ->
+            let totalFans = Queries.Bands.totalFans' band
+            totalFans >=< (40001<fans>, 400000<fans>))
         |> should haveCount 25
 
     [<Test>]
     member _.``should generate 15 bands of medium-high fame level``() =
         simulatedBands
-        |> Map.filter (fun _ band -> band.Fans >=< (400000, 2000000))
+        |> Map.filter (fun _ band ->
+            let totalFans = Queries.Bands.totalFans' band
+            totalFans >=< (400000<fans>, 2000000<fans>))
         |> should haveCount 15
 
     [<Test>]
     member _.``should generate 10 bands of high fame level``() =
         simulatedBands
-        |> Map.filter (fun _ band -> band.Fans >=< (2000000, 4000000))
+        |> Map.filter (fun _ band ->
+            let totalFans = Queries.Bands.totalFans' band
+            totalFans >=< (2000000<fans>, 4000000<fans>))
         |> should haveCount 10

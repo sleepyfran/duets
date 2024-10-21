@@ -82,7 +82,7 @@ let dummyHeadlinerBand =
     { dummyBand with
         Id = Identity.create () |> BandId
         Name = "The Headliners"
-        Fans = 12000 }
+        Fans = [ Prague, 12000<fans> ] |> Map.ofList }
 
 let dummySong = Song.empty
 

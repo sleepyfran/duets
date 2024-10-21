@@ -46,7 +46,7 @@ let private generateOpeningActShowsOnDate state headlinerBands cityId date =
 
         let earningPercentage = calculateEarningPercentage headlinerFameLevel
 
-        let venue = findSuitableVenue state venuesInCity headliner
+        let venue = findSuitableVenue state cityId venuesInCity headliner
 
         let concert =
             Concert.create
@@ -59,8 +59,8 @@ let private generateOpeningActShowsOnDate state headlinerBands cityId date =
 
         (headliner, concert))
 
-let private findSuitableVenue state venuesInCity band : Place =
-    let range = Queries.Concerts.suitableVenueCapacity state band.Id
+let private findSuitableVenue state cityId venuesInCity band : Place =
+    let range = Queries.Concerts.suitableVenueCapacity state band.Id cityId
 
     (*
     We rely on the fact that there will always be a suitable venue in the city.

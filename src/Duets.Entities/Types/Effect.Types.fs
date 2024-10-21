@@ -16,7 +16,7 @@ module EffectTypes =
         | AlbumUpdated of Band * UnreleasedAlbum
         | Ate of item: Item * food: EdibleItem
         | BalanceUpdated of BankAccountHolder * Diff<Amount>
-        | BandFansChanged of Band * Diff<Fans>
+        | BandFansChanged of Band * Diff<FanBaseByCity>
         | BandSwitchedGenre of Band * Diff<Genre>
         | BookRead of Item * Book
         | CareerAccept of CharacterId * Job
