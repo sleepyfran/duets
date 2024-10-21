@@ -61,6 +61,27 @@ let ``dailyUpdate should return list without money transfer if quantity is 0``
     let updateEffects = dailyUpdate state
     updateEffects |> should haveLength 1
 
+let private testDailyUpdate state assertFn =
+    let updateEffects =
+        state |> addReleasedAlbum state.Bands.Current album |> dailyUpdate
+
+    let effect =
+        updateEffects
+        |> List.tryItem 2
+        |> Option.orElse (List.tryItem 1 updateEffects)
+        |> Option.get
+
+    let (Diff(_, updatedFanCount)) =
+        match effect with
+        | BandFansChanged(_, diff) -> diff
+        | _ -> failwith "That's not the type we were expecting"
+
+    let band = Queries.Bands.currentBand state
+    let totalUpdatedFanCount = Queries.Bands.totalFans updatedFanCount
+    let previousTotalFanCount = Queries.Bands.totalFans' band
+
+    assertFn totalUpdatedFanCount previousTotalFanCount
+
 let private testDailyUpdateWith minFans maxFans maxFanDifference =
     State.generateN
         { State.defaultOptions with
@@ -68,26 +89,9 @@ let private testDailyUpdateWith minFans maxFans maxFanDifference =
             BandFansMax = maxFans }
         100
     |> List.iter (fun state ->
-        let updateEffects =
-            state |> addReleasedAlbum state.Bands.Current album |> dailyUpdate
-
-        let effect =
-            updateEffects
-            |> List.tryItem 2
-            |> Option.orElse (List.tryItem 1 updateEffects)
-            |> Option.get
-
-        let (Diff(_, updatedFanCount)) =
-            match effect with
-            | BandFansChanged(_, diff) -> diff
-            | _ -> failwith "That's not the type we were expecting"
-
-        let band = Queries.Bands.currentBand state
-        let totalUpdatedFanCount = Queries.Bands.totalFans updatedFanCount
-        let previousTotalFanCount = Queries.Bands.totalFans' band
-
-        totalUpdatedFanCount - previousTotalFanCount
-        |> should be (lessThanOrEqualTo maxFanDifference))
+        testDailyUpdate state (fun updatedFanCount previousFanCount ->
+            updatedFanCount - previousFanCount
+            |> should be (lessThanOrEqualTo maxFanDifference)))
 
 [<Test>]
 let ``dailyUpdate should increase fans based on streams`` () =
@@ -101,3 +105,20 @@ let ``dailyUpdate should increase fans based on streams`` () =
             (minFans * 1<fans>)
             (maxFans * 1<fans>)
             maxExpectedDifference)
+
+[<Test>]
+let ``dailyUpdate increases fans based on streams even if the band has no previous fans (i.e. fan-base contains no cities)``
+    ()
+    =
+    State.generateN State.defaultOptions 100
+    |> List.iter (fun state ->
+        let characterBand = Queries.Bands.currentBand state
+
+        let stateWithEmptyFanBase =
+            state |> State.Bands.changeFans characterBand Map.empty
+
+        testDailyUpdate
+            stateWithEmptyFanBase
+            (fun updatedFanCount previousFanCount ->
+                updatedFanCount - previousFanCount
+                |> should be (greaterThan 0)))

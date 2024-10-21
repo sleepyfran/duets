@@ -12,5 +12,13 @@ let calculateFanIncrease nonFanStreams =
     |> (*) 1<fans>
 
 /// Applies the given fan increase to all cities in the fan base.
-let applyFanIncrease fanIncrease (currentFans: FanBaseByCity) =
-    currentFans |> Map.map (fun _ fans -> fans + fanIncrease)
+let applyFanIncrease band fanIncrease =
+    // Ensure that we always have at least one city in the fan base, otherwise
+    // it will be impossible to ever increase the number of fans.
+    let fanBase =
+        if band.Fans |> Map.isEmpty then
+            [ band.OriginCity, 0<fans> ] |> Map.ofList
+        else
+            band.Fans
+
+    fanBase |> Map.map (fun _ fans -> fans + fanIncrease)
