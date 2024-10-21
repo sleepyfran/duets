@@ -14,13 +14,8 @@ let soundcheck state checklist =
     else
         let updatedChecklist = { checklist with SoundcheckDone = true }
 
-        let timeEffects =
-            Config.MusicSimulation.Merch.soundcheckTime
-            |> advanceDayMoment' state
-
         [ ConcertSoundcheckPerformed
-          Situations.preparingConcert' updatedChecklist
-          yield! timeEffects ]
+          Situations.preparingConcert' updatedChecklist ]
 
 
 /// Sets up the merch stand, which improves the ticket sales of the concert.
@@ -33,13 +28,7 @@ let setupMerchStand state checklist =
             { checklist with
                 MerchStandSetup = true }
 
-        let timeEffects =
-            Config.MusicSimulation.Merch.standSetupTime
-            |> advanceDayMoment' state
-
-        [ MerchStandSetup
-          Situations.preparingConcert' updatedChecklist
-          yield! timeEffects ]
+        [ MerchStandSetup; Situations.preparingConcert' updatedChecklist ]
 
 /// Starts the given concert if the band is ready to play.
 let startConcert state concert =

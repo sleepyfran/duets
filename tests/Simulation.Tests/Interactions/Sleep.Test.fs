@@ -30,10 +30,12 @@ let state =
 let playableCharacter = Queries.Characters.playableCharacter state
 
 [<Test>]
-let ``sleep returns the correct time advancement`` () =
+let ``tick of sleep returns the correct time advancement`` () =
     let currentDate = Queries.Calendar.today state
 
     Sleep.sleep state currentDate Night
+    |> Simulation.tickMultiple state
+    |> fst
     |> List.filter (function
         | TimeAdvanced _ -> true
         | _ -> false)

@@ -71,14 +71,6 @@ let private simulateAndCheck minConcertPoints maxConcertPoints assertFn =
     simulateAndCheck' minConcertPoints maxConcertPoints Headliner assertFn
 
 [<Test>]
-let ``finishing the concert advances one day moment`` () =
-    simulateAndCheck 0 40 (fun state _ concert ->
-        let advancedTime =
-            AdvanceTime.advanceDayMoment' state 1<dayMoments> |> List.head
-
-        finishConcert state concert |> should contain advancedTime)
-
-[<Test>]
 let ``finishing the concert with less than 40 points should decrease the band fans by 30% of the attendance``
     ()
     =

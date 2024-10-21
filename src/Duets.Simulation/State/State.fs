@@ -50,6 +50,7 @@ let applyEffect state effect =
         World.move cityId nodeId 0 state
     | CharacterMoodletsChanged(character, Diff(_, moodlets)) ->
         Characters.setMoodlets character moodlets state
+    | CharacterSlept _ -> state
     | ConcertScheduled(band, concert) ->
         Concerts.addScheduledConcert band concert state
     | ConcertUpdated(band, scheduledConcert) ->

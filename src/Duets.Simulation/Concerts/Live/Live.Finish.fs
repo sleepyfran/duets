@@ -76,5 +76,4 @@ let finishConcert state ongoingConcert =
       )
       BandFansChanged(band, Diff(band.Fans, updatedFans))
       Operations.income state bandAccount concertEarnings
-      yield! AdvanceTime.advanceDayMoment' state 1<dayMoments>
       SituationChanged FreeRoam ]

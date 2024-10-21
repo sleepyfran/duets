@@ -11,8 +11,12 @@ let effectMinutes =
     | AlbumSongAdded _ -> 2 * Config.Time.minutesPerDayMoment
     | Ate _ -> 25<minute>
     | BookRead _ -> 60<minute>
+    | CharacterHospitalized _ ->
+        Calendar.DayMoments.oneWeek |> Calendar.DayMoments.toMinutes
     | CareerShiftPerformed(_, shiftDuration, _) ->
         shiftDuration |> Calendar.DayMoments.toMinutes
+    | CharacterSlept(_, sleepDuration) ->
+        sleepDuration |> Calendar.DayMoments.toMinutes
     | ConcertFinished _ -> Config.Time.minutesPerDayMoment
     | ConcertSoundcheckPerformed -> 45<minute>
     | Drank _ -> 15<minute>
