@@ -20,8 +20,8 @@ let ``applyToConcertOpportunity returns NotEnoughFame if headliner's fame is mor
     let state =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 1
-                BandFansMax = 1 }
+                BandFansMin = 1<fans>
+                BandFansMax = 1<fans> }
         |> State.Bands.addCharacterBand dummyHeadlinerBand
 
     OpeningActOpportunities.applyToConcertOpportunity
@@ -38,8 +38,8 @@ let ``applyToConcertOpportunity returns NotEnoughReleases if band does not have 
     let state =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 20000
-                BandFansMax = 30000 }
+                BandFansMin = 20000<fans>
+                BandFansMax = 30000<fans> }
         |> State.Bands.addCharacterBand dummyHeadlinerBand
 
     OpeningActOpportunities.applyToConcertOpportunity
@@ -56,8 +56,8 @@ let ``applyToConcertOpportunity returns AnotherConcertAlreadyScheduled if band a
     let state =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 20000
-                BandFansMax = 30000 }
+                BandFansMin = 20000<fans>
+                BandFansMax = 30000<fans> }
         |> State.Albums.addReleased dummyBand dummyReleasedAlbum
         |> State.Concerts.addScheduledConcert
             dummyBand
@@ -80,8 +80,8 @@ let ``applyToConcertOpportunity returns ok with effects if all checks succeed``
     let state =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 20000
-                BandFansMax = 30000 }
+                BandFansMin = 20000<fans>
+                BandFansMax = 30000<fans> }
         |> State.Albums.addReleased dummyBand dummyReleasedAlbum
         |> State.Bands.addCharacterBand dummyHeadlinerBand
 
@@ -99,8 +99,8 @@ let ``applyToConcertOpportunity returns ok if band fame is higher than headliner
     let state =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 2000000
-                BandFansMax = 3000000 }
+                BandFansMin = 2000000<fans>
+                BandFansMax = 3000000<fans> }
         |> State.Albums.addReleased dummyBand dummyReleasedAlbum
         |> State.Bands.addCharacterBand dummyHeadlinerBand
 
@@ -121,8 +121,8 @@ let ``generate does not create any opportunities in venues that are too big or s
     let initialState =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 3000000
-                BandFansMax = 3000000 }
+                BandFansMin = 3000000<fans>
+                BandFansMax = 3000000<fans> }
         |> State.Bands.addCharacterBand dummyHeadlinerBand
 
     let state =
@@ -139,15 +139,17 @@ let ``generate does not create any opportunities in venues that are too big or s
             | ConcertSpace space -> space.Capacity
             | _ -> failwith "Concert scheduled in non-concert space"
 
-        match headliner.Fans with
-        | fame when fame <= 1000 ->
+        let totalFans = Queries.Bands.totalFans' headliner
+
+        match totalFans with
+        | fans when fans <= 1000<fans> ->
             venueCapacity |> should be (lessThanOrEqualTo 300)
-        | fame when fame <= 5000 ->
+        | fans when fans <= 5000<fans> ->
             venueCapacity |> should be (lessThanOrEqualTo 500)
-        | fame when fame <= 20000 ->
+        | fans when fans <= 20000<fans> ->
             venueCapacity |> should be (lessThanOrEqualTo 20000)
             venueCapacity |> should be (greaterThanOrEqualTo 500)
-        | fame when fame <= 100000 ->
+        | fans when fans <= 100000<fans> ->
             venueCapacity |> should be (lessThanOrEqualTo 20000)
             venueCapacity |> should be (greaterThanOrEqualTo 500)
         | _ ->
@@ -163,8 +165,8 @@ let ``generate does not create any opportunity for a band that has more than 35 
     let initialState =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 100
-                BandFansMax = 20000 }
+                BandFansMin = 100<fans>
+                BandFansMax = 20000<fans> }
         |> State.Bands.addCharacterBand dummyHeadlinerBand
 
     let state =

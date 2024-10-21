@@ -1,5 +1,6 @@
 module Duets.Simulation.Concerts.Live.Finish
 
+open Aether
 open Duets.Common
 open Duets.Entities
 open Duets.Entities.SituationTypes
@@ -16,19 +17,18 @@ let private calculateFanGain ongoingConcert =
     let qualityFactor =
         match ongoingConcert.Points with
         | p when p <= 40<quality> ->
-            float ongoingConcert.Concert.TicketsSold
-            * Config.MusicSimulation.concertLowPointFanDecreaseRate
+            Config.MusicSimulation.concertLowPointFanDecreaseRate
         | p when p <= 65<quality> ->
-            float ongoingConcert.Concert.TicketsSold
-            * Config.MusicSimulation.concertMediumPointFanIncreaseRate
+            Config.MusicSimulation.concertMediumPointFanIncreaseRate
         | p when p <= 85<quality> ->
-            float ongoingConcert.Concert.TicketsSold
-            * Config.MusicSimulation.concertGoodPointFanIncreaseRate
-        | _ ->
-            float ongoingConcert.Concert.TicketsSold
-            * Config.MusicSimulation.concertHighPointFanIncreaseRate
+            Config.MusicSimulation.concertGoodPointFanIncreaseRate
+        | _ -> Config.MusicSimulation.concertHighPointFanIncreaseRate
 
-    qualityFactor * participationFactor |> Math.ceilToNearest
+    float ongoingConcert.Concert.TicketsSold
+    * qualityFactor
+    * participationFactor
+    |> Math.ceilToNearest
+    |> (*) 1<fans>
 
 let private calculateEarnings ongoingConcert =
     let earningPercentage =
@@ -58,9 +58,13 @@ let private calculateEarnings ongoingConcert =
 /// the band and stops them from being able to perform in the venue for the day.
 let finishConcert state ongoingConcert =
     let band = Queries.Bands.currentBand state
+    let concertCity = ongoingConcert.Concert.CityId
+    let fansInCity = Queries.Bands.fansInCity' band concertCity
 
-    let updatedFans =
-        calculateFanGain ongoingConcert |> (+) band.Fans |> Math.lowerClamp 0
+    let updatedFansInCity =
+        calculateFanGain ongoingConcert + fansInCity |> Math.lowerClamp 0<fans>
+
+    let updatedFans = Map.add concertCity updatedFansInCity band.Fans
 
     let bandAccount = Band band.Id
     let concertEarnings = calculateEarnings ongoingConcert

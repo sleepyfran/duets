@@ -14,7 +14,7 @@ let empty =
       OriginCity = NewYork
       Name = ""
       Genre = ""
-      Fans = 0
+      Fans = Map.empty
       Members = []
       PastMembers = [] }
 
@@ -25,7 +25,7 @@ let from name genre initialMember startDate originCity =
       OriginCity = originCity
       Name = name
       Genre = genre
-      Fans = 0
+      Fans = Map.empty
       Members = [ initialMember ]
       PastMembers = [] }
 

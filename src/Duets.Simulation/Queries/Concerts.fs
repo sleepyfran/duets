@@ -139,12 +139,13 @@ let fairTicketPrice state bandId =
 /// for the given band.
 let suitableVenueCapacity state bandId =
     let band = Bands.byId state bandId
+    let totalFans = Bands.totalFans' band
 
-    match band.Fans with
-    | fans when fans <= 1000 -> (0, 300)
-    | fans when fans <= 5000 -> (0, 500)
-    | fans when fans <= 20000 -> (500, 5000)
-    | fans when fans <= 100000 -> (500, 20000)
+    match totalFans with
+    | fans when fans <= 1000<fans> -> (0, 300)
+    | fans when fans <= 5000<fans> -> (0, 500)
+    | fans when fans <= 20000<fans> -> (500, 5000)
+    | fans when fans <= 100000<fans> -> (500, 20000)
     | _ -> (500, 500000)
 
 /// Calculates the percentage off the tickets that the concert space will take

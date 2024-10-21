@@ -16,8 +16,8 @@ let album = Album.Released.fromUnreleased dummyUnreleasedAlbum dummyToday 1.0
 let state =
     State.generateOne
         { State.defaultOptions with
-            BandFansMin = 100
-            BandFansMax = 1000 }
+            BandFansMin = 100<fans>
+            BandFansMax = 1000<fans> }
     |> addReleasedAlbum dummyBand.Id album
 
 [<Test>]
@@ -77,14 +77,16 @@ let private testDailyUpdateWith minFans maxFans maxFanDifference =
             |> Option.orElse (List.tryItem 1 updateEffects)
             |> Option.get
 
-        let (Diff (_, updatedFanCount)) =
+        let (Diff(_, updatedFanCount)) =
             match effect with
-            | BandFansChanged (_, diff) -> diff
+            | BandFansChanged(_, diff) -> diff
             | _ -> failwith "That's not the type we were expecting"
 
         let band = Queries.Bands.currentBand state
+        let totalUpdatedFanCount = Queries.Bands.totalFans updatedFanCount
+        let previousTotalFanCount = Queries.Bands.totalFans' band
 
-        updatedFanCount - band.Fans
+        totalUpdatedFanCount - previousTotalFanCount
         |> should be (lessThanOrEqualTo maxFanDifference))
 
 [<Test>]
@@ -95,4 +97,7 @@ let ``dailyUpdate should increase fans based on streams`` () =
       (250001, 1500000, 1450)
       (1500001, 10000000, 1500) ]
     |> List.iter (fun (minFans, maxFans, maxExpectedDifference) ->
-        testDailyUpdateWith minFans maxFans maxExpectedDifference)
+        testDailyUpdateWith
+            (minFans * 1<fans>)
+            (maxFans * 1<fans>)
+            maxExpectedDifference)

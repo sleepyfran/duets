@@ -20,11 +20,25 @@ module BandCommands =
             (fun _ ->
                 let band = Queries.Bands.currentBand (State.get ())
 
+                let allCities = Queries.World.allCities
+
+                let chosenCity =
+                    showChoicePrompt
+                        "Where do you want to change your fans?"
+                        (fun (city: City) -> Generic.cityName city.Id)
+                        allCities
+
+                let fansInCity = Queries.Bands.fansInCity' band chosenCity.Id
+
                 let fans =
-                    $"You currently have {band.Fans}, how many fans do you want?"
+                    $"You currently have {fansInCity}, how many fans do you want there?"
                     |> Styles.prompt
                     |> showNumberPrompt
+                    |> (*) 1<fans>
 
-                BandFansChanged(band, Diff(band.Fans, fans)) |> Effect.apply
+                let updatedFans = band.Fans |> Map.add chosenCity.Id fans
+
+                BandFansChanged(band, Diff(band.Fans, updatedFans))
+                |> Effect.apply
 
                 Scene.Cheats) }

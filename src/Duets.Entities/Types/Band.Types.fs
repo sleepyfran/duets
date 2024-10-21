@@ -25,7 +25,11 @@ module BandTypes =
           Period: Period }
 
     /// Number of fans that a band has.
-    type Fans = int
+    [<Measure>]
+    type fans
+
+    /// Represents the fanbase of a band by city.
+    type FanBaseByCity = Map<CityId, int<fans>>
 
     /// Represents any band inside the game, be it one that is controlled by the
     /// player or the ones that are created automatically to fill the game world.
@@ -35,7 +39,7 @@ module BandTypes =
           OriginCity: CityId
           Name: string
           Genre: Genre
-          Fans: Fans
+          Fans: FanBaseByCity
           Members: CurrentMember list
           PastMembers: PastMember list }
 

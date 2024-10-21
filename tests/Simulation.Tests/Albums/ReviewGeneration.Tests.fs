@@ -52,8 +52,9 @@ let ``generateReviews should return empty if band has not released any albums``
     =
     State.generateOne
         { State.defaultOptions with
-            BandFansMin = Config.MusicSimulation.minimumFanBaseForReviews
-            BandFansMax = 10000 }
+            BandFansMin =
+                Config.MusicSimulation.minimumFanBaseForReviews * 1<fans>
+            BandFansMax = 10000<fans> }
     |> generateReviewsForLatestAlbums
     |> should haveLength 0
 
@@ -63,8 +64,9 @@ let ``generateReviews should return empty if band does not have the minimum requ
     =
     State.generateN
         { State.defaultOptions with
-            BandFansMin = 0
-            BandFansMax = Config.MusicSimulation.minimumFanBaseForReviews }
+            BandFansMin = 0<fans>
+            BandFansMax =
+                Config.MusicSimulation.minimumFanBaseForReviews * 1<fans> }
         50
     |> List.iter (fun state ->
         state
@@ -80,8 +82,9 @@ let ``generateReviews should return empty if band does not have any albums relea
     |> List.iter (fun days ->
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = Config.MusicSimulation.minimumFanBaseForReviews
-                BandFansMax = 10000 }
+                BandFansMin =
+                    Config.MusicSimulation.minimumFanBaseForReviews * 1<fans>
+                BandFansMax = 10000<fans> }
         |> addAlbumReleasedDaysAgo days
         |> generateReviewsForLatestAlbums
         |> should haveLength 0)
@@ -92,8 +95,9 @@ let ``generateReviews should return empty if the band's albums already have revi
     =
     State.generateN
         { State.defaultOptions with
-            BandFansMin = Config.MusicSimulation.minimumFanBaseForReviews
-            BandFansMax = 10000 }
+            BandFansMin =
+                Config.MusicSimulation.minimumFanBaseForReviews * 1<fans>
+            BandFansMax = 10000<fans> }
         50
     |> List.iter (fun state ->
         state
@@ -114,8 +118,9 @@ let ``generateReviews should return effects if the day was three days ago regard
 
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = Config.MusicSimulation.minimumFanBaseForReviews
-                BandFansMax = 10000 }
+                BandFansMin =
+                    Config.MusicSimulation.minimumFanBaseForReviews * 1<fans>
+                BandFansMax = 10000<fans> }
         |> addReleasedAlbum
             dummyBand.Id
             { album with ReleaseDate = releaseDate }
@@ -128,8 +133,9 @@ let ``generateReviews should return effects for each album released three days a
     =
     State.generateOne
         { State.defaultOptions with
-            BandFansMin = Config.MusicSimulation.minimumFanBaseForReviews
-            BandFansMax = 10000 }
+            BandFansMin =
+                Config.MusicSimulation.minimumFanBaseForReviews * 1<fans>
+            BandFansMax = 10000<fans> }
     |> addAlbumWithNoReviews
     |> generateReviewsForLatestAlbums
     |> should haveLength 1
@@ -138,8 +144,9 @@ let private testReviewScore reviewerId assertFn quality =
     let effects =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = Config.MusicSimulation.minimumFanBaseForReviews
-                BandFansMax = 10000 }
+                BandFansMin =
+                    Config.MusicSimulation.minimumFanBaseForReviews * 1<fans>
+                BandFansMax = 10000<fans> }
         |> addAlbumWithQuality quality
         |> generateReviewsForLatestAlbums
 

@@ -60,9 +60,12 @@ let private generateReviewsForAlbum (band: Band) releasedAlbum =
 
 let private generateReviewsForBandAlbums state bandId albums =
     let band = Queries.Bands.byId state bandId
-    let fanBase = band.Fans
+    let fanBase = Queries.Bands.totalFans' band
 
-    if fanBase >= Config.MusicSimulation.minimumFanBaseForReviews then
+    let minimumFanBaseForReviews =
+        Config.MusicSimulation.minimumFanBaseForReviews * 1<fans>
+
+    if fanBase >= minimumFanBaseForReviews then
         albums
         |> List.fold
             (fun acc album ->

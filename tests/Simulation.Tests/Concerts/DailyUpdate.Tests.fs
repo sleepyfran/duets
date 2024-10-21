@@ -42,8 +42,8 @@ let ``generates sold tickets based on band's fame, venue capacity, last time vis
     =
     State.generateN
         { State.defaultOptions with
-            BandFansMin = 2000
-            BandFansMax = 9000 }
+            BandFansMin = 2000<fans>
+            BandFansMax = 9000<fans> }
         50
     |> List.iter (fun state ->
         let state =
@@ -60,8 +60,8 @@ let ``sold tickets get lower when band fame is lower`` () =
     let state =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 50
-                BandFansMax = 50 }
+                BandFansMin = 50<fans>
+                BandFansMax = 50<fans> }
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(
@@ -79,8 +79,8 @@ let ``sold tickets get added to the previously sold tickets`` () =
     let state =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 25000
-                BandFansMax = 25000 }
+                BandFansMin = 25000<fans>
+                BandFansMax = 25000<fans> }
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(
@@ -98,8 +98,8 @@ let ``daily sold tickets are calculated based on how many days are left until th
     let concert =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 2500
-                BandFansMax = 2500 }
+                BandFansMin = 2500<fans>
+                BandFansMax = 2500<fans> }
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(
@@ -115,8 +115,8 @@ let ``daily sold tickets are calculated based on how many days are left until th
 let actAndGetConcertWithPrice price =
     State.generateOne
         { State.defaultOptions with
-            BandFansMin = 25000
-            BandFansMax = 25000 }
+            BandFansMin = 25000<fans>
+            BandFansMax = 25000<fans> }
     |> State.Concerts.addScheduledConcert
         dummyBand
         (ScheduledConcert(
@@ -174,7 +174,7 @@ let ``sold tickets are capped to venue capacity`` () =
     let concert =
         State.generateOne
             { State.defaultOptions with
-                BandFansMax = 25 }
+                BandFansMax = 25<fans> }
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(
@@ -202,8 +202,8 @@ let ``sold tickets should not decrease out of the normal cap when last visit to 
     let concert =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 25000
-                BandFansMax = 25000
+                BandFansMin = 25000<fans>
+                BandFansMax = 25000<fans>
                 PastConcertsToGenerate = 1
                 PastConcertGen = concertInCityGenerator }
         |> State.Concerts.addScheduledConcert
@@ -230,8 +230,8 @@ let ``sold tickets decrease to 70% of the normal cap when last visit to the city
     let concert =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 250000
-                BandFansMax = 250000
+                BandFansMin = 250000<fans>
+                BandFansMax = 250000<fans>
                 PastConcertsToGenerate = 1
                 PastConcertGen = concertInCityGenerator }
         |> State.Concerts.addScheduledConcert
@@ -258,8 +258,8 @@ let ``sold tickets decrease to 20% of the normal cap when last visit to the city
     let concert =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 250000
-                BandFansMax = 250000
+                BandFansMin = 250000<fans>
+                BandFansMax = 250000<fans>
                 PastConcertsToGenerate = 5
                 PastConcertGen = concertInCityGenerator }
         |> State.Concerts.addScheduledConcert
@@ -276,8 +276,8 @@ let ``does not compute daily tickets sold as infinity when the days until the co
     let concert =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 2500000
-                BandFansMax = 2500000 }
+                BandFansMin = 2500000<fans>
+                BandFansMax = 2500000<fans> }
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(
@@ -295,9 +295,11 @@ let ``computes daily tickets based on headliner if participation type is opening
     let concert =
         State.generateOne
             { State.defaultOptions with
-                BandFansMin = 250
-                BandFansMax = 250 }
-        |> State.Bands.addSimulated { dummyHeadlinerBand with Fans = 1200 }
+                BandFansMin = 250<fans>
+                BandFansMax = 250<fans> }
+        |> State.Bands.addSimulated
+            { dummyHeadlinerBand with
+                Fans = [ dummyConcert.CityId, 1200<fans> ] |> Map.ofList }
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(

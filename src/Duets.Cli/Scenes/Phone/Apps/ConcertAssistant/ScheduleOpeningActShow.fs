@@ -53,7 +53,9 @@ let private promptForConcert app allPotentialConcerts date concertsOnDate =
                     | PlaceType.ConcertSpace space -> space.Capacity
                     | _ -> 0
 
-                $"Headliner {Styles.highlight band.Name} ({band.Genre}/{band.Fans |> Styles.number} fans) @ {Styles.place place.Name} ({capacity} capacity)")
+                let fansInCity = Queries.Bands.fansInCity' band concert.CityId
+
+                $"Headliner {Styles.highlight band.Name} ({band.Genre}/{fansInCity |> Styles.number} fans) @ {Styles.place place.Name} ({capacity} capacity)")
             concertsOnDate
 
     match selectedConcert with

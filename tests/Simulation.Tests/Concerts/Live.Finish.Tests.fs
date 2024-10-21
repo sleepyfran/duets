@@ -16,9 +16,12 @@ open Duets.Simulation.Time
 let private attendance = 1000
 
 let private calculateExpectedFanGain fans (modifier: float) =
-    let fanChange = float attendance * modifier |> Math.ceilToNearest
+    let totalFans = Queries.Bands.totalFans fans
 
-    fans + fanChange |> Math.lowerClamp 0
+    let fanChange =
+        float attendance * modifier |> Math.ceilToNearest |> (*) 1<fans>
+
+    totalFans + fanChange |> Math.lowerClamp 0<fans>
 
 let private assertFanGain modifier state band concert =
     let (Diff(_, updatedFans)) =
@@ -29,7 +32,9 @@ let private assertFanGain modifier state band concert =
             | _ -> None)
         |> List.head
 
-    updatedFans |> should equal (calculateExpectedFanGain band.Fans modifier)
+    let totalFans = Queries.Bands.totalFans updatedFans
+
+    totalFans |> should equal (calculateExpectedFanGain band.Fans modifier)
 
 let private simulateAndCheck'
     minConcertPoints
@@ -39,8 +44,8 @@ let private simulateAndCheck'
     =
     State.generateN
         { State.defaultOptions with
-            BandFansMin = 100
-            BandFansMax = 1000 }
+            BandFansMin = 100<fans>
+            BandFansMax = 1000<fans> }
         100
     |> List.iter (fun state ->
         let band = Queries.Bands.currentBand state

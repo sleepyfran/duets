@@ -27,6 +27,7 @@ let private bandDailyUpdate state bandId albumsByBand =
         let recalculatedHype = reduceDailyHype album
 
         let fanIncrease = calculateFanIncrease previousDayNonFanStreams
+        let updatedFanBase = applyFanIncrease fanIncrease band.Fans
 
         [ yield
               AlbumReleasedUpdate(
@@ -37,12 +38,8 @@ let private bandDailyUpdate state bandId albumsByBand =
           if dailyRevenue > 0m<dd> then
               yield (income state bandAccount dailyRevenue)
 
-          if fanIncrease > 0 then
-              yield
-                  BandFansChanged(
-                      band,
-                      Diff(band.Fans, band.Fans + fanIncrease)
-                  ) ])
+          if fanIncrease > 0<fans> then
+              yield BandFansChanged(band, Diff(band.Fans, updatedFanBase)) ])
     |> List.concat
 
 /// Performs the daily update of albums from all bands. This generates the
