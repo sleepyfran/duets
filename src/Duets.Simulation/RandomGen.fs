@@ -1,5 +1,7 @@
 module Duets.Simulation.RandomGen
 
+open Duets.Common
+
 type GenFunc = unit -> int
 type GenBetweenFunc = int -> int -> int
 
@@ -7,6 +9,7 @@ type RandomGenAgentMessage =
     | Change of System.Random
     | Reset
     | Gen of AsyncReplyChannel<int>
+    | GenDouble of AsyncReplyChannel<double>
     | GenBetween of min: int * max: int * channel: AsyncReplyChannel<int>
 
 /// Agent that encapsulates a random number generator to not have to pass a
@@ -30,6 +33,9 @@ type private RandomGenAgent() =
                     | Gen channel ->
                         random.Next() |> channel.Reply
                         return! loop random
+                    | GenDouble channel ->
+                        random.NextDouble() |> channel.Reply
+                        return! loop random
                     | GenBetween(min, max, channel) ->
                         random.Next(min, max) |> channel.Reply
                         return! loop random
@@ -40,6 +46,8 @@ type private RandomGenAgent() =
     member this.Change genFunc = genFunc |> agent.Post
     member this.Reset() = Reset |> agent.Post
     member this.Gen() = agent.PostAndReply Gen
+
+    member this.GenDouble() = agent.PostAndReply GenDouble
 
     member this.GenBetween min max =
         agent.PostAndReply(fun channel -> GenBetween(min, max, channel))
@@ -53,6 +61,8 @@ let reset = randomGenAgent.Reset
 let gen = randomGenAgent.Gen
 
 let genBetween = randomGenAgent.GenBetween
+
+let genDouble = randomGenAgent.GenDouble
 
 /// Generates a random number between 0 and 100 and returns true if it is
 /// less than or equal to the given amount.
@@ -69,3 +79,19 @@ let choice choices = List.item (sampleIndex choices) choices
 
 let tryChoice choices =
     List.tryItem (sampleIndex choices) choices
+
+/// Distributes a total amount of items into a list of items so that
+/// the sum of the items is equal to the total. The items are distributed
+/// randomly.
+let distribute (total: int<_>) (items: 'a list) : Map<'a, int> =
+    // Generate random weights and normalize them.
+    let weights = items |> List.map (fun _ -> genDouble ())
+    let totalWeight = List.sum weights
+    let normalizedWeights = weights |> List.map (fun w -> w / totalWeight)
+
+    // Distribute the items based on the normalized weights.
+    let distributedItems =
+        normalizedWeights
+        |> List.map (fun w -> float total * w |> Math.ceilToNearest)
+
+    List.zip items distributedItems |> Map.ofList

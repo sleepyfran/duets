@@ -39,7 +39,7 @@ module Fans =
     /// - For low fame level, between 0.01 and 0.1 of the genre's market
     /// - For medium fame level, between 0.1 and 0.6 of the genre's market
     /// - For high fame level, between 0.6 and 1.0 of the genre's market
-    let generateForCity state fameLevel genre cityId =
+    let generateTotal state fameLevel genre =
         let marketCap =
             match fameLevel with
             | Low -> 0.0001, 0.001
@@ -53,18 +53,18 @@ module Fans =
         let upperBound = usefulMarket * (fst marketCap)
         let lowerBound = usefulMarket * (snd marketCap)
 
-        let fame =
-            RandomGen.choice [ upperBound; lowerBound ]
-            |> Math.ceilToNearest
-            |> (*) 1<fans>
-
-        cityId, fame
+        RandomGen.choice [ upperBound; lowerBound ] |> Math.ceilToNearest
 
     /// Generates a random number of fans given the fan level for all cities
     /// in the game world.
     let generate state fameLevel genre : FanBaseByCity =
-        // TODO: Distribute fans among cities.
-        [ generateForCity state fameLevel genre Prague ] |> Map.ofList
+        let totalFans = generateTotal state fameLevel genre
+
+        let allCities =
+            Queries.World.allCities |> List.map (fun city -> city.Id)
+
+        RandomGen.distribute totalFans allCities
+        |> Map.map (fun _ value -> value * 1<fans>)
 
 module Members =
     /// Generate a list of members of a band based on the usual roles that a
