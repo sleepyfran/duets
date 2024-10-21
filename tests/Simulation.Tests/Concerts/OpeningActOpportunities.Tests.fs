@@ -139,9 +139,9 @@ let ``generate does not create any opportunities in venues that are too big or s
             | ConcertSpace space -> space.Capacity
             | _ -> failwith "Concert scheduled in non-concert space"
 
-        let totalFans = Queries.Bands.totalFans' headliner
+        let fansInCity = Queries.Bands.fansInCity' headliner concert.CityId
 
-        match totalFans with
+        match fansInCity with
         | fans when fans <= 1000<fans> ->
             venueCapacity |> should be (lessThanOrEqualTo 300)
         | fans when fans <= 5000<fans> ->

@@ -137,11 +137,11 @@ let fairTicketPrice state bandId =
 
 /// Returns the range of capacity that the venue needs to have to be suitable
 /// for the given band.
-let suitableVenueCapacity state bandId =
+let suitableVenueCapacity state bandId cityId =
     let band = Bands.byId state bandId
-    let totalFans = Bands.totalFans' band
+    let fansInCity = Bands.fansInCity' band cityId
 
-    match totalFans with
+    match fansInCity with
     | fans when fans <= 1000<fans> -> (0, 300)
     | fans when fans <= 5000<fans> -> (0, 500)
     | fans when fans <= 20000<fans> -> (500, 5000)
