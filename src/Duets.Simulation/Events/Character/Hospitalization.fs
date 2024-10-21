@@ -4,7 +4,6 @@ open Duets.Common
 open Duets.Entities
 open Duets.Entities.SituationTypes
 open Duets.Simulation
-open Duets.Simulation.Time
 
 /// Hospitalizes the given character, cancelling any activity that they are doing
 /// in the current moment.
@@ -37,7 +36,6 @@ let hospitalize characterId state =
     concertCancellationEffects
     @ [ CharacterHealthDepleted characterId
         CharacterHospitalized(characterId, hospitalCoordinates)
-        yield! AdvanceTime.advanceDayMoment' state Calendar.DayMoments.oneWeek
         CharacterAttributeChanged(
             characterId,
             CharacterAttribute.Health,
