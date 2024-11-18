@@ -1,0 +1,5 @@
+<Project>
+    <PropertyGroup>
+        <DotnetVersion>net9.0</DotnetVersion>
+    </PropertyGroup>
+</Project>

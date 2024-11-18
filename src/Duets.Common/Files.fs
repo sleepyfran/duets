@@ -68,13 +68,13 @@ let readAll path =
 /// created already. Notice that while the file is automatically created the
 /// parent folders are not, so if the path is `/a/b/c.txt` and the b folder
 /// is not present, the file will not be written.
-let write path content = File.WriteAllText(path, content)
+let write (path: string) (content: string) = File.WriteAllText(path, content)
 
 /// Appends the content to the specified path. Creates the file if it's not
 /// created already. Notice that while the file is automatically created the
 /// parent folders are not, so if the path is `/a/b/c.txt` and the b folder
 /// is not present, the file will not be written.
-let append path content = File.AppendAllText(path, content)
+let append (path: string) (content: string) = File.AppendAllText(path, content)
 
 /// Deletes the file at the specified path.
 let delete path = File.Delete path
