@@ -92,6 +92,7 @@ module WorldTypes =
         | MetroStation
         | RehearsalSpace of RehearsalSpace
         | Restaurant
+        | Street
         | Studio of Studio
 
     /// Re-defines all types of places above but without its content, to be able
@@ -112,6 +113,7 @@ module WorldTypes =
         | MetroStation
         | RehearsalSpace
         | Restaurant
+        | Street
         | Studio
 
     /// Defines a place inside of the game world, which wraps a given space

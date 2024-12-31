@@ -127,6 +127,7 @@ module Place =
             | MerchandiseWorkshop -> PlaceTypeIndex.MerchandiseWorkshop
             | RehearsalSpace _ -> PlaceTypeIndex.RehearsalSpace
             | Restaurant -> PlaceTypeIndex.Restaurant
+            | Street -> PlaceTypeIndex.Street
             | Studio _ -> PlaceTypeIndex.Studio
 
 [<RequireQualifiedAccess>]
@@ -176,6 +177,11 @@ module Zone =
         { zone with
             Streets = Graph.addNode street zone.Streets }
 
+    /// Connects two streets in the given zone.
+    let connectStreets fromStreet toStreet direction zone =
+        { zone with
+            Streets = Graph.connect fromStreet toStreet direction zone.Streets }
+
     /// Adds a metro station to the given zone.
     let addMetroStation station zone =
         { zone with
@@ -211,6 +217,17 @@ module City =
             index
 
     let private indexZonePlaces zone index =
+        // Index a synthetic "Street" place type for each street so that we have
+        // a way to put the player somewhere when they enter a street. This is
+        // important for storing the current location in the save file.
+        let index =
+            zone.Streets.Nodes
+            |> Map.fold
+                (fun outerIndex _ street ->
+                    outerIndex
+                    |> Map.add street.Id (zone.Id, street.Id, street.Id))
+                index
+
         allPlacesInZone zone
         |> List.fold
             (fun outerIndex (zone, street, place) ->

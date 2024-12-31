@@ -43,9 +43,8 @@
         <Compile Include="World\Cities\OpeningHours.fs"/>
         <Compile Include="World\Cities\Layouts.fs"/>
         <Compile Include="World\Cities\PlaceCreators.fs"/>
-        <Compile Include="World\Cities\LosAngeles\StudioRow.LosAngeles.fs"/>
-        <Compile Include="World\Cities\LosAngeles\BoulevardOfStars.LosAngeles.fs"/>
-        <Compile Include="World\Cities\LosAngeles\Alleyway.LosAngeles.fs"/>
+        <Compile Include="World\Cities\LosAngeles\Hollywood.LosAngeles.fs"/>
+        <Compile Include="World\Cities\LosAngeles\DowntownLA.LosAngeles.fs"/>
         <Compile Include="World\Cities\LosAngeles\LosAngeles.fs"/>
         <Compile Include="World\World.fs"/>
         <None Include="Util\NpcGen.fsx"/>

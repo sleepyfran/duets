@@ -3,25 +3,19 @@ module rec Duets.Data.World.Cities.LosAngeles.Root
 open Duets.Entities
 
 let generate () =
+    let hollywood = Hollywood.zone
+
     let city =
         World.City.create LosAngeles 5.7<costOfLiving> -8<utcOffset> hollywood
 
+    let downtownLA = DowntownLA.createZone city
+
+    let blueMetroLine =
+        { Id = Blue
+          Stations =
+            [ (hollywood.Id, OnlyPrevious downtownLA.Id) ] |> Map.ofList
+          UsualWaitingTime = 10<minute> }
+
     city
-
-let hollywood =
-    let studioRow = StudioRow.studioRow
-    let boulevardOfStars = BoulevardOfStars.boulevardOfStars
-    let alleyway = Alleyway.alleyway
-
-    let metroStation =
-        { Line = Blue
-          LeavesToStreet = studioRow.Id }
-
-    World.Zone.create "Hollywood" (World.Node.create studioRow.Id studioRow)
-    |> World.Zone.addStreet (
-        World.Node.create boulevardOfStars.Id boulevardOfStars
-    )
-    |> World.Zone.addStreet (World.Node.create alleyway.Id alleyway)
-    |> World.Zone.addDescriptor Glitz
-    |> World.Zone.addDescriptor EntertainmentHeart
-    |> World.Zone.addMetroStation metroStation
+    |> World.City.addZone downtownLA
+    |> World.City.addMetroLine blueMetroLine
