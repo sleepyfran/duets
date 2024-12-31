@@ -113,7 +113,7 @@ let private alleyway =
         [ ("The Jam Space", 60<quality>, 120m<dd>) ]
         |> List.map PlaceCreators.createRehearsalSpace
 
-    World.Street.create "Alleyway" StreetType.Single
+    World.Street.create "Alleyway" StreetType.OneWay
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces cafes
     |> World.Street.addPlaces studios

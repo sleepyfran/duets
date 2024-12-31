@@ -51,7 +51,7 @@ let pierWay =
           ("Harvelle's", 200, 75<quality>, Layouts.concertSpaceLayout1) ]
         |> List.map PlaceCreators.createConcertSpace
 
-    World.Street.create "Pier Way" (StreetType.Split(East, 3))
+    World.Street.create "Pier Way" StreetType.OneWay
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces concertSpaces
@@ -81,7 +81,7 @@ let promenadePath =
            (Character.from "Jack Joseph Puig" Male (May 2 1967))) ]
         |> List.map PlaceCreators.createStudio
 
-    World.Street.create "Promenade Path" (StreetType.Split(West, 3))
+    World.Street.create "Promenade Path" (StreetType.Split(West, 2))
     |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces hotels
     |> World.Street.addPlaces restaurants

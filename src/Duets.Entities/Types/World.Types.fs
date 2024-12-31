@@ -141,7 +141,7 @@ module WorldTypes =
     /// or split, where the places will be distributed based on the specified
     /// number of splits.
     type StreetType =
-        | Single
+        | OneWay
         | Split of throughDirection: Direction * splits: int
 
     /// Defines a street inside of a zone where places are contained.
