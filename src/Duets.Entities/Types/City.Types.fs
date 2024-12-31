@@ -9,13 +9,14 @@ module CityTypes =
     /// ID for a city in the game world, which declares every possible city
     /// available in the game.
     type CityId = LosAngeles
-    
+
     /// A descriptor that can be used to create descriptions for a specific
     /// zone.
     type ZoneDescriptor =
         | Bohemian
         | BusinessDistrict
         | Creative
+        | Coastal
         | EntertainmentHeart
         | Glitz
         | Luxurious
