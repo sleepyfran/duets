@@ -12,30 +12,39 @@ let restaurantRoomLayout menu =
 
 /// Usual layout for a bar.
 let barRoomLayout =
-    RoomType.Bar |> World.Room.create |> World.Node.create 0 |> World.Graph.from
+    RoomType.Bar
+    |> World.Room.create
+    |> World.Node.create Ids.Common.bar
+    |> World.Graph.from
 
 /// Usual layout for a bookstore.
 let bookstoreLayout =
     RoomType.ReadingRoom
     |> World.Room.create
-    |> World.Node.create 0
+    |> World.Node.create Ids.Bookstore.readingRoom
     |> World.Graph.from
 
 /// Usual layout for a cafe.
 let cafeRoomLayout =
     RoomType.Cafe
     |> World.Room.create
-    |> World.Node.create 0
+    |> World.Node.create Ids.Common.cafe
     |> World.Graph.from
 
 /// Usual layout for a casino.
 let casinoLayout =
-    let lobby = RoomType.Lobby |> World.Room.create |> World.Node.create 0
+    let lobby =
+        RoomType.Lobby
+        |> World.Room.create
+        |> World.Node.create Ids.Common.lobby
 
-    let bar = RoomType.Bar |> World.Room.create |> World.Node.create 1
+    let bar =
+        RoomType.Bar |> World.Room.create |> World.Node.create Ids.Common.bar
 
     let casinoFloor =
-        RoomType.CasinoFloor |> World.Room.create |> World.Node.create 2
+        RoomType.CasinoFloor
+        |> World.Room.create
+        |> World.Node.create Ids.Casino.casinoFloor
 
     World.Graph.fromMany [ lobby; bar; casinoFloor ]
     |> World.Graph.connectMany
@@ -44,7 +53,9 @@ let casinoLayout =
 /// Usual layout for a gym.
 let gymLayout =
     let lobby =
-        RoomType.Lobby |> World.Room.create |> World.Node.create Ids.Gym.lobby
+        RoomType.Lobby
+        |> World.Room.create
+        |> World.Node.create Ids.Common.lobby
 
     let changingRoom =
         RoomType.ChangingRoom
@@ -80,9 +91,18 @@ let homeLayout =
 
 /// Usual layout for a hotel.
 let hotelLayout =
-    let lobby = RoomType.Lobby |> World.Room.create |> World.Node.create 0
-    let bar = RoomType.Bar |> World.Room.create |> World.Node.create 1
-    let bedroom = RoomType.Bedroom |> World.Room.create |> World.Node.create 2
+    let lobby =
+        RoomType.Lobby
+        |> World.Room.create
+        |> World.Node.create Ids.Common.lobby
+
+    let bar =
+        RoomType.Bar |> World.Room.create |> World.Node.create Ids.Common.bar
+
+    let bedroom =
+        RoomType.Bedroom
+        |> World.Room.create
+        |> World.Node.create Ids.Home.bedroom
 
     World.Graph.fromMany [ lobby; bar; bedroom ]
     |> World.Graph.connectMany
@@ -90,7 +110,10 @@ let hotelLayout =
 
 /// Usual layout for a merchandise workshop.
 let merchandiseWorkshopLayout =
-    let workshop = RoomType.Workshop |> World.Room.create |> World.Node.create 0
+    let workshop =
+        RoomType.Workshop
+        |> World.Room.create
+        |> World.Node.create Ids.Workshop.workshop
 
     World.Graph.from workshop
 
@@ -99,12 +122,10 @@ let concertSpaceLayout1 =
     let lobby =
         RoomType.Lobby
         |> World.Room.create
-        |> World.Node.create Ids.ConcertSpace.lobby
+        |> World.Node.create Ids.Common.lobby
 
     let bar =
-        RoomType.Bar
-        |> World.Room.create
-        |> World.Node.create Ids.ConcertSpace.bar
+        RoomType.Bar |> World.Room.create |> World.Node.create Ids.Common.bar
 
     let stage =
         RoomType.Stage
@@ -128,12 +149,10 @@ let concertSpaceLayout2 =
     let lobby =
         RoomType.Lobby
         |> World.Room.create
-        |> World.Node.create Ids.ConcertSpace.lobby
+        |> World.Node.create Ids.Common.lobby
 
     let bar =
-        RoomType.Bar
-        |> World.Room.create
-        |> World.Node.create Ids.ConcertSpace.bar
+        RoomType.Bar |> World.Room.create |> World.Node.create Ids.Common.bar
 
     let stage =
         RoomType.Stage
@@ -157,12 +176,10 @@ let concertSpaceLayout3 =
     let lobby =
         RoomType.Lobby
         |> World.Room.create
-        |> World.Node.create Ids.ConcertSpace.lobby
+        |> World.Node.create Ids.Common.lobby
 
     let bar =
-        RoomType.Bar
-        |> World.Room.create
-        |> World.Node.create Ids.ConcertSpace.bar
+        RoomType.Bar |> World.Room.create |> World.Node.create Ids.Common.bar
 
     let stage =
         RoomType.Stage
@@ -186,12 +203,10 @@ let concertSpaceLayout4 =
     let lobby =
         RoomType.Lobby
         |> World.Room.create
-        |> World.Node.create Ids.ConcertSpace.lobby
+        |> World.Node.create Ids.Common.lobby
 
     let bar =
-        RoomType.Bar
-        |> World.Room.create
-        |> World.Node.create Ids.ConcertSpace.bar
+        RoomType.Bar |> World.Room.create |> World.Node.create Ids.Common.bar
 
     let stage =
         RoomType.Stage
@@ -215,7 +230,7 @@ let airportLayout =
     let lobby =
         RoomType.Lobby
         |> World.Room.create
-        |> World.Node.create Ids.Airport.lobby
+        |> World.Node.create Ids.Common.lobby
 
     let securityControl =
         RoomType.SecurityControl
@@ -228,7 +243,7 @@ let airportLayout =
         |> World.Node.create Ids.Airport.boardingGate
 
     let cafe =
-        RoomType.Cafe |> World.Room.create |> World.Node.create Ids.Airport.cafe
+        RoomType.Cafe |> World.Room.create |> World.Node.create Ids.Common.cafe
 
     let restaurant =
         RoomType.Restaurant RestaurantCuisine.American
@@ -242,19 +257,45 @@ let airportLayout =
           boardingGate.Id, cafe.Id, North
           boardingGate.Id, restaurant.Id, South ]
 
+/// Usual layout for a metro station.
+let metroLayout =
+    let lobby =
+        RoomType.Lobby
+        |> World.Room.create
+        |> World.Node.create Ids.Common.lobby
+
+    let platform =
+        RoomType.Platform
+        |> World.Room.create
+        |> World.Node.create Ids.Metro.platform
+
+    World.Graph.fromMany [ lobby; platform ]
+    |> World.Graph.connectMany [ lobby.Id, platform.Id, North ]
+
 /// Usual layout for a rehearsal space.
 let rehearsalSpaceLayout =
-    let lobby = RoomType.Lobby |> World.Room.create |> World.Node.create 0
-    let bar = RoomType.Bar |> World.Room.create |> World.Node.create 1
+    let lobby =
+        RoomType.Lobby
+        |> World.Room.create
+        |> World.Node.create Ids.Common.lobby
+
+    let bar =
+        RoomType.Bar |> World.Room.create |> World.Node.create Ids.Common.bar
 
     let room1 =
-        RoomType.RehearsalRoom |> World.Room.create |> World.Node.create 2
+        RoomType.RehearsalRoom
+        |> World.Room.create
+        |> World.Node.create (Ids.RehearsalRoom.room 1)
 
     let room2 =
-        RoomType.RehearsalRoom |> World.Room.create |> World.Node.create 3
+        RoomType.RehearsalRoom
+        |> World.Room.create
+        |> World.Node.create (Ids.RehearsalRoom.room 2)
 
     let room3 =
-        RoomType.RehearsalRoom |> World.Room.create |> World.Node.create 4
+        RoomType.RehearsalRoom
+        |> World.Room.create
+        |> World.Node.create (Ids.RehearsalRoom.room 3)
 
     World.Graph.fromMany [ lobby; bar; room1; room2; room3 ]
     |> World.Graph.connectMany
@@ -266,10 +307,14 @@ let rehearsalSpaceLayout =
 /// Usual layout for a studio.
 let studioLayout =
     let masteringRoom =
-        RoomType.MasteringRoom |> World.Room.create |> World.Node.create 0
+        RoomType.MasteringRoom
+        |> World.Room.create
+        |> World.Node.create Ids.Studio.masteringRoom
 
     let recordingRoom =
-        RoomType.RecordingRoom |> World.Room.create |> World.Node.create 1
+        RoomType.RecordingRoom
+        |> World.Room.create
+        |> World.Node.create Ids.Studio.recordingRoom
 
     World.Graph.fromMany [ masteringRoom; recordingRoom ]
     |> World.Graph.connectMany [ masteringRoom.Id, recordingRoom.Id, North ]

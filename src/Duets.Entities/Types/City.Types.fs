@@ -2,25 +2,21 @@ namespace Duets.Entities
 
 [<AutoOpen>]
 module CityTypes =
-    /// ID for a country in the game world, which declared every possible country
+    /// ID for a country in the game world, which declares every possible country
     /// available in the game.
-    type CountryId =
-        | Australia
-        | CzechRepublic
-        | England
-        | Japan
-        | Mexico
-        | Spain
-        | UnitedStates
+    type CountryId = UnitedStates
 
-    /// ID for a city in the game world, which declared every possible city
+    /// ID for a city in the game world, which declares every possible city
     /// available in the game.
-    type CityId =
-        | London
-        | LosAngeles
-        | Madrid
-        | MexicoCity
-        | NewYork
-        | Prague
-        | Sydney
-        | Tokyo
+    type CityId = LosAngeles
+    
+    /// A descriptor that can be used to create descriptions for a specific
+    /// zone.
+    type ZoneDescriptor =
+        | Bohemian
+        | BusinessDistrict
+        | Creative
+        | EntertainmentHeart
+        | Glitz
+        | Luxurious
+        | Nature

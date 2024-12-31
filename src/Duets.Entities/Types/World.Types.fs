@@ -1,6 +1,7 @@
 namespace Duets.Entities
 
 open System
+open System.Collections.Generic
 open Duets.Entities
 
 [<AutoOpen>]
@@ -34,12 +35,6 @@ module WorldTypes =
           Nodes: Map<NodeId, 'a>
           Connections: Map<NodeId, NodeConnections> }
 
-    /// ID for a zone in a city.
-    type ZoneId = string
-
-    /// Defines a zone inside of a city where places are contained.
-    type Zone = { Id: ZoneId; Name: string }
-
     /// Defines the opening hours of one place, which can be always open (24/7)
     /// or a selection of day moments for some given days.
     [<RequireQualifiedAccess>]
@@ -62,6 +57,7 @@ module WorldTypes =
         | LivingRoom
         | Lobby
         | MasteringRoom
+        | Platform
         | ReadingRoom
         | RecordingRoom
         | RehearsalRoom
@@ -93,6 +89,7 @@ module WorldTypes =
         | Hotel of Hotel
         | Hospital
         | MerchandiseWorkshop
+        | MetroStation
         | RehearsalSpace of RehearsalSpace
         | Restaurant
         | Studio of Studio
@@ -112,6 +109,7 @@ module WorldTypes =
         | Hotel
         | Hospital
         | MerchandiseWorkshop
+        | MetroStation
         | RehearsalSpace
         | Restaurant
         | Studio
@@ -121,13 +119,53 @@ module WorldTypes =
     /// rooms that the place itself contains and the exits that connect that
     /// place with the outside.
     type Place =
-        { Id: PlaceId
+        {
+            Id: PlaceId
+            Name: string
+            /// Map of nodes that are considered exist in the room graph with the
+            /// node they take to if the player decides to exit the place.
+            Exits: Map<NodeId, NodeId>
+            Quality: Quality
+            PlaceType: PlaceType
+            OpeningHours: PlaceOpeningHours
+            Rooms: Graph<Room>
+        }
+
+        interface IComparer<Place> with
+            member this.Compare(x: Place, y: Place) = String.Compare(x.Id, y.Id)
+
+    /// The type of the streets defines whether the street will be displayed
+    /// as a single street (all places will be available at one upon arrival)
+    /// or split, where the places will be distributed based on the specified
+    /// number of splits.
+    type StreetType =
+        | Single
+        | Split of throughDirection: Direction * splits: int
+
+    /// Defines a street inside of a zone where places are contained.
+    type Street =
+        { Id: StreetId
           Name: string
-          Quality: Quality
-          PlaceType: PlaceType
-          OpeningHours: PlaceOpeningHours
-          Rooms: Graph<Room>
-          Zone: Zone }
+          Type: StreetType
+          Places: Place list }
+
+    /// Defines a zone inside of a city where places are contained.
+    type Zone =
+        {
+            Id: ZoneId
+            Name: string
+            /// Descriptors that can describe the zone, like "Bohemian" or "Luxurious".
+            /// The generator will do its best to generate a description based on the
+            /// descriptors provided, but at most this should include 3 descriptors
+            /// to avoid having conflicting descriptors.
+            Descriptors: ZoneDescriptor list
+            Streets: Graph<Street>
+            /// Stations that these zones have. Usually zones will have just one
+            /// station but these stations can have more than one line passing
+            /// through them, so stations can appear multiple time under different
+            /// lines.
+            MetroStations: MetroStation list
+        }
 
     [<Measure>]
     type utcOffset
@@ -146,12 +184,13 @@ module WorldTypes =
         {
             Id: CityId
             PlaceByTypeIndex: Map<PlaceTypeIndex, PlaceId list>
-            PlaceIndex: Map<PlaceId, Place>
+            PlaceIndex: Map<PlaceId, ZonedPlaceCoordinates>
+            MetroLines: Map<MetroLineId, MetroLine>
             /// Modifier that will be used to compute the final prices of things
             /// like rent, wages and food.
             CostOfLiving: float<costOfLiving>
-            ZoneIndex: Map<ZoneId, PlaceId list>
             Timezone: Timezone
+            Zones: Map<ZoneId, Zone>
         }
 
     /// Defines a distance between two cities in km.

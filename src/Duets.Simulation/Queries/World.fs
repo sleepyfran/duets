@@ -21,7 +21,13 @@ module World =
     /// Returns a place inside a given city by its ID.
     let placeInCityById cityId placeId =
         let city = cityById cityId
-        Map.find placeId city.PlaceIndex
+        let zoneId, streetId, placeId = Map.find placeId city.PlaceIndex
+        let city = cityById cityId
+        let zone = city.Zones |> Map.find zoneId
+
+        let street = zone.Streets.Nodes |> Map.find streetId
+
+        street.Places |> List.find (fun p -> p.Id = placeId)
 
     /// Returns a place inside of the current city given its ID.
     let placeInCurrentCityById state placeId =

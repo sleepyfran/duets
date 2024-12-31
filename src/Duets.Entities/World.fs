@@ -83,16 +83,21 @@ module Node =
 [<RequireQualifiedAccess>]
 module Place =
     /// Creates a place with the given initial room and no exits.
-    let create name quality placeType rooms zone =
-        let inferredId = Identity.Reproducible.createFor name
+    let create name quality placeType rooms =
+        let inferredId = Identity.Reproducible.create name
 
         { Id = inferredId
           Name = name
+          Exits = Map.empty
           Quality = quality
           PlaceType = placeType
           OpeningHours = PlaceOpeningHours.AlwaysOpen
-          Rooms = rooms
-          Zone = zone }
+          Rooms = rooms }
+
+    /// Adds an exit to the given place.
+    let addExit originRoomId targetPlaceId place =
+        { place with
+            Exits = Map.add originRoomId targetPlaceId place.Exits }
 
     /// Changes the opening hours to a certain days and day moments.
     let changeOpeningHours openingHours place =
@@ -118,60 +123,123 @@ module Place =
             | Home -> PlaceTypeIndex.Home
             | Hotel _ -> PlaceTypeIndex.Hotel
             | Hospital -> PlaceTypeIndex.Hospital
+            | MetroStation -> PlaceTypeIndex.MetroStation
             | MerchandiseWorkshop -> PlaceTypeIndex.MerchandiseWorkshop
             | RehearsalSpace _ -> PlaceTypeIndex.RehearsalSpace
             | Restaurant -> PlaceTypeIndex.Restaurant
             | Studio _ -> PlaceTypeIndex.Studio
 
 [<RequireQualifiedAccess>]
+module Street =
+    /// Creates a street with the given name, type and places.
+    let create name streetType =
+        let inferredId = Identity.Reproducible.create name
+
+        { Id = inferredId
+          Name = name
+          Type = streetType
+          Places = [] }
+
+    /// Adds a place to the given street.
+    let addPlace place street =
+        { street with
+            Places = place :: street.Places }
+
+    /// Adds many places to the given street.
+    let addPlaces places street =
+        { street with
+            Places = places @ street.Places }
+
+    /// Attempts to find a place of the given type in the street.
+    let tryFindPlaceOfType placeType street =
+        street.Places |> List.tryFind (fun place -> place.PlaceType = placeType)
+
+[<RequireQualifiedAccess>]
 module Zone =
     /// Creates a zone with the given name and an ID based on it.
-    let create name =
-        let inferredId = Identity.Reproducible.createFor name
+    let create name street =
+        let inferredId = Identity.Reproducible.create name
 
         { Id = inferredId.ToString()
-          Name = name }
+          Name = name
+          Descriptors = []
+          MetroStations = []
+          Streets = Graph.from street }
+
+    /// Adds a descriptor to the given zone.
+    let addDescriptor descriptor zone =
+        { zone with
+            Descriptors = descriptor :: zone.Descriptors }
+
+    /// Adds a street to the given zone.
+    let addStreet street zone =
+        { zone with
+            Streets = Graph.addNode street zone.Streets }
+
+    /// Adds a metro station to the given zone.
+    let addMetroStation station zone =
+        { zone with
+            MetroStations = station :: zone.MetroStations }
 
 [<RequireQualifiedAccess>]
 module City =
-    let private addToPlaceByTypeIndex place index =
-        let mapKey = Place.Type.toIndex place.PlaceType
+    let private allPlacesInZone zone =
+        zone.Streets.Nodes
+        |> Map.fold
+            (fun places _ street ->
+                let street = zone.Streets.Nodes |> Map.find street.Id
 
-        Map.change
-            mapKey
-            (function
-            | Some list -> list @ [ place.Id ] |> Some
-            | None -> [ place.Id ] |> Some)
+                street.Places
+                |> List.fold
+                    (fun (outerPlaces: List<_>) place ->
+                        (zone, street, place) :: outerPlaces)
+                    places)
+            List.empty
+
+    let private indexZoneByPlacesTypes zone index =
+        allPlacesInZone zone
+        |> List.fold
+            (fun outerIndex (_, _, place) ->
+                let mapKey = Place.Type.toIndex place.PlaceType
+
+                Map.change
+                    mapKey
+                    (function
+                    | Some list -> list @ [ place.Id ] |> Some
+                    | None -> [ place.Id ] |> Some)
+                    outerIndex)
             index
 
-    let private addToZoneIndex place =
-        Map.change place.Zone.Id (function
-            | Some list -> list @ [ place.Id ] |> Some
-            | None -> [ place.Id ] |> Some)
+    let private indexZonePlaces zone index =
+        allPlacesInZone zone
+        |> List.fold
+            (fun outerIndex (zone, street, place) ->
+                outerIndex |> Map.add place.Id (zone.Id, street.Id, place.Id))
+            index
 
     /// Creates a city with only one initial starting node.
-    let create id costOfLiving utcOffset place =
+    let create id costOfLiving utcOffset zone =
         { Id = id
-          PlaceByTypeIndex = addToPlaceByTypeIndex place Map.empty
-          PlaceIndex = [ (place.Id, place) ] |> Map.ofList
+          PlaceByTypeIndex = indexZoneByPlacesTypes zone Map.empty
+          PlaceIndex = indexZonePlaces zone Map.empty
+          MetroLines = Map.empty
           CostOfLiving = costOfLiving
-          ZoneIndex = addToZoneIndex place Map.empty
+          Zones = [ zone.Id, zone ] |> Map.ofList
           Timezone = Utc(utcOffset) }
 
-    /// Changes the timezone of the city.
-    let changeTimezone timezone city = { city with Timezone = timezone }
-
-    /// Adds a new place to the city.
-    let addPlace place city =
+    /// Adds a zone to the given city.
+    let addZone zone city =
         Optic.map
             Lenses.World.City.placeByTypeIndex_
-            (addToPlaceByTypeIndex place)
+            (indexZoneByPlacesTypes zone)
             city
-        |> Optic.map Lenses.World.City.placeIndex_ (Map.add place.Id place)
-        |> Optic.map Lenses.World.City.zoneIndex_ (addToZoneIndex place)
+        |> Optic.map Lenses.World.City.placeIndex_ (indexZonePlaces zone)
+        |> Optic.map Lenses.World.City.zones_ (Map.add zone.Id zone)
 
-    // Adds a new place to the city.
-    let addPlace' city place = addPlace place city
+    /// Adds a metro line to the given city.
+    let addMetroLine (metroLine: MetroLine) city =
+        { city with
+            MetroLines = Map.add metroLine.Id metroLine city.MetroLines }
 
 [<RequireQualifiedAccess>]
 module Room =
