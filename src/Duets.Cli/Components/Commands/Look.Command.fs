@@ -41,6 +41,7 @@ module LookCommand =
         =
         let state = State.get ()
         let cityId, placeId, _ = state |> Queries.World.currentCoordinates
+        let place = Queries.World.placeInCityById cityId placeId
 
         let connections =
             interactions
@@ -54,15 +55,8 @@ module LookCommand =
                 | _ -> None)
 
         match connections with
-        | [] -> "There are no more rooms connecting to this one."
-        | connections ->
-            let connectionsDescription =
-                Generic.listOf connections (fun (direction, room) ->
-                    let roomName = World.roomName room.RoomType
-
-                    $"{Generic.indeterminateArticleFor roomName} {roomName |> Styles.room} to the {World.directionName direction}")
-
-            $"There is {connectionsDescription}."
+        | [] -> World.noConnectionsToRoom place
+        | connections -> World.connectingNodes place connections
         |> showMessage
 
     let private listPeople

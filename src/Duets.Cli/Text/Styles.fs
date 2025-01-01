@@ -42,6 +42,9 @@ let place name = $"[bold lightsalmon1]{name}[/]"
 /// Pre-defined style for referencing rooms in text.
 let room name = $"[bold salmon1]{name}[/]"
 
+/// Pre-defined style for referencing directions in text.
+let direction name = $"[salmon1]{name}[/]"
+
 /// Pre-defined style for referencing items in text.
 let item name = $"[bold lightsalmon1]{name}[/]"
 

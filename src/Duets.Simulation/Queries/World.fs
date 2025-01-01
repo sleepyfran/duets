@@ -42,6 +42,11 @@ module World =
         let city = cityById cityId
         city.Zones |> Map.find zoneId
 
+    /// Returns a zone inside the current city by its ID.
+    let zoneInCurrentCityById state zoneId =
+        let cityId, _, _ = state.CurrentPosition
+        zoneInCityById cityId zoneId
+
     /// Returns a place inside of the current city given its ID.
     let placeInCurrentCityById state placeId =
         let cityId, _, _ = state.CurrentPosition

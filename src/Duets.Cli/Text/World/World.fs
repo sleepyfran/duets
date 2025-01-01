@@ -1,8 +1,10 @@
 [<RequireQualifiedAccess>]
 module Duets.Cli.Text.World.World
 
+open Duets.Agents
 open Duets.Cli.Text
 open Duets.Entities
+open Duets.Simulation
 
 let placeNameWithOpeningInfo placeDetails currentlyOpen =
     match currentlyOpen with
@@ -85,6 +87,37 @@ let directionName direction =
     | SouthWest -> "south-west"
     | West -> "west"
     | NorthWest -> "north-west"
+
+let youAreInMessage (place: Place) roomType =
+    let zone = Queries.World.zoneInCurrentCityById (State.get ()) place.ZoneId
+
+    match roomType with
+    | RoomType.Street ->
+        $"You stand outside on {place.Name |> Styles.room}, {zone.Name |> Styles.place}"
+    | _ ->
+        $"You are in the {roomName roomType |> Styles.room} inside of {place.Name |> Styles.place}"
+
+let noConnectionsToRoom place =
+    match place.PlaceType with
+    | PlaceType.Street -> "There are no more streets connecting to this one."
+    | _ -> "There are no more rooms connecting to this one."
+
+let connectingNodes place (connections: (Direction * Room) list) =
+    match place.PlaceType with
+    | PlaceType.Street ->
+        let connections =
+            Generic.listOf connections (fun (direction, _) ->
+                directionName direction |> Styles.direction)
+
+        $"The street continues to the {connections}."
+    | _ ->
+        let connectionsDescription =
+            Generic.listOf connections (fun (direction, room) ->
+                let roomName = roomName room.RoomType
+
+                $"{Generic.indeterminateArticleFor roomName} {roomName |> Styles.room} to the {directionName direction |> Styles.direction}")
+
+        $"There is {connectionsDescription}."
 
 let placeArrivalMessage place roomType =
     match place.PlaceType with

@@ -229,8 +229,7 @@ let worldScene mode =
     | ShowDescription ->
         let currentRoom = State.get () |> Queries.World.currentRoom
 
-        $"You are in the {World.roomName currentRoom.RoomType |> Styles.room} inside of {currentPlace.Name |> Styles.place}"
-        |> showMessage
+        World.youAreInMessage currentPlace currentRoom.RoomType |> showMessage
 
         World.placeArrivalMessage currentPlace currentRoom.RoomType
         |> Option.iter showMessage
