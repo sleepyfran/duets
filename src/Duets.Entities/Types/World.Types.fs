@@ -64,6 +64,7 @@ module WorldTypes =
         | Restaurant of RestaurantCuisine
         | SecurityControl
         | Stage
+        | Street
         | Workshop
 
     /// Defines which items are required to enter a given room from a given

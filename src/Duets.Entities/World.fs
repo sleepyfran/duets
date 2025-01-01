@@ -22,6 +22,9 @@ module Graph =
           Nodes = Map.empty
           Connections = Map.empty }
 
+    /// Sets the starting node of the given graph to the given node ID.
+    let setStartingNode nodeId graph = { graph with StartingNode = nodeId }
+
     /// Creates a graph with the given starting node as the starting point, that
     /// node as the only node available and no connections.
     let from (node: Node<'a>) =
@@ -185,19 +188,54 @@ module Zone =
     /// Adds a street to the given zone.
     let addStreet (street: Node<Street>) (zone: Zone) =
         (*
+        In order for streets to work at all we need to have synthetic rooms added
+        to it so that we can reference them through regular coordinates. However,
+        since we also allow streets to be navigated through its splits (in case
+        the street is a split street), we need to add multiple rooms to cover
+        these cases.
+        *)
+        let streetRoomGraph =
+            match street.Content.Type with
+            | OneWay ->
+                Node.create
+                    "0"
+                    { RoomType = RoomType.Street
+                      RequiredItemsForEntrance = None }
+                |> Graph.from
+            | Split(throughDirection, splits) ->
+                let graph = Graph.empty |> Graph.setStartingNode "0"
+
+                let connections =
+                    [ for i in 0 .. splits - 1 -> (i, i + 1) ]
+                    |> List.map (fun (fromNode, toNode) ->
+                        (fromNode.ToString(),
+                         toNode.ToString(),
+                         throughDirection))
+
+                [ 0..splits ]
+                |> List.fold
+                    (fun outerGraph index ->
+                        Graph.addNode
+                            (Node.create
+                                (index.ToString())
+                                { RoomType = RoomType.Street
+                                  RequiredItemsForEntrance = None })
+                            outerGraph)
+                    graph
+                |> Graph.connectMany connections
+
+        (*
         When looking up places we need to perform the lookup inside a street.
         That means that if the player goes out to the street, it won't be found
         since streets won't contain themselves. To go around this, we add a
-        synthetic, empty street place to the street. The rest of the queries
-        and logic will do the "magic" of showing the correct street content,
-        so we create an empty graph with it.
+        synthetic, empty street place to the street.
         *)
         let syntheticStreetPlace =
             Place.create
                 street.Content.Name
                 100<quality>
                 PlaceType.Street
-                Graph.empty
+                streetRoomGraph
                 zone.Id
 
         let street =
@@ -261,8 +299,7 @@ module City =
             zone.Streets.Nodes
             |> Map.fold
                 (fun outerIndex _ street ->
-                    outerIndex
-                    |> Map.add street.Id (zone.Id, street.Id, street.Id))
+                    outerIndex |> Map.add street.Id (zone.Id, street.Id, "0"))
                 index
 
         allPlacesInZone zone

@@ -72,6 +72,7 @@ let roomName (room: RoomType) =
     | RoomType.Restaurant _ -> "restaurant"
     | RoomType.SecurityControl -> "security control"
     | RoomType.Stage -> "stage"
+    | RoomType.Street -> "street"
     | RoomType.Workshop -> "workshop"
 
 let directionName direction =

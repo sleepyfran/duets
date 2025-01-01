@@ -52,7 +52,7 @@ module Navigation =
 
         // Streets are not "real" places, but we index them like them via
         // their street ID.
-        WorldMoveToPlace(Diff(currentCoords, (cityId, streetId, streetId)))
+        WorldMoveToPlace(Diff(currentCoords, (cityId, streetId, "0")))
 
     /// Moves the player to the specified room inside of the current place.
     let enter roomId state =
