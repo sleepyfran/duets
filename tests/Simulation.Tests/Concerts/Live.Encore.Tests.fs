@@ -6,8 +6,6 @@ open NUnit.Framework
 open Test.Common
 open Test.Common.Generators
 
-open Aether
-open Duets.Common
 open Duets.Entities
 open Duets.Simulation.Concerts.Live.Encore
 open Duets.Simulation
@@ -96,7 +94,7 @@ let ``having multiple concerts scheduled does not break getting of the stage``
 
     let state =
         State.generateOne State.defaultOptions
-        |> State.World.move concert1.CityId concert1.VenueId 0
+        |> State.World.move concert1.CityId concert1.VenueId "0"
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(concert1, today))

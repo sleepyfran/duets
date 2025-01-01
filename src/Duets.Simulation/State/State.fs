@@ -1,6 +1,7 @@
 module Duets.Simulation.State.Root
 
 open Aether
+open Duets.Data.World
 open Duets.Entities
 
 /// Applies an effect to the state.
@@ -47,7 +48,7 @@ let applyEffect state effect =
         Characters.setAttribute character attribute amount state
     | CharacterHealthDepleted _ -> state
     | CharacterHospitalized(_, (cityId, nodeId)) ->
-        World.move cityId nodeId 0 state
+        World.move cityId nodeId Ids.Common.lobby state
     | CharacterMoodletsChanged(character, Diff(_, moodlets)) ->
         Characters.setMoodlets character moodlets state
     | CharacterSlept _ -> state

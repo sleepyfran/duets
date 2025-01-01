@@ -6,7 +6,6 @@ open NUnit.Framework
 open Test.Common
 open Test.Common.Generators
 
-open Duets.Common
 open Duets.Data
 open Duets.Entities
 open Duets.Simulation
@@ -29,7 +28,7 @@ let timeAdvancedEffect = TimeAdvanced(closingTime)
 
 let private initialState =
     dummyState
-    |> State.World.move Prague cafe.Id 0
+    |> State.World.move Prague cafe.Id "0"
     |> State.Calendar.setTime nearClosingTime
 
 [<Test>]

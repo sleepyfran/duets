@@ -60,5 +60,5 @@ module Navigation =
         let currentCoords = Queries.World.currentCoordinates state
 
         WorldMoveToPlace(
-            Diff(currentCoords, (cityId, placeId, World.Ids.Airport.lobby))
+            Diff(currentCoords, (cityId, placeId, World.Ids.Common.lobby))
         )

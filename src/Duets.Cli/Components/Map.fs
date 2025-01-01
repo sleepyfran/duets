@@ -16,9 +16,8 @@ let private placeWithOpenInfo (city: City) (place: Place) =
 
     let placeDetails =
         match hasPlaceRented with
-        | true ->
-            $"""{World.placeWithZone place} ({"Rented" |> Styles.highlight})"""
-        | false -> World.placeWithZone place
+        | true -> $"""{place.Name} ({"Rented" |> Styles.highlight})"""
+        | false -> place.Name
 
     World.placeNameWithOpeningInfo placeDetails currentlyOpen
 
@@ -49,14 +48,9 @@ let private showPlaceTypeChoice
         placesInCity |> Map.find placeType |> showPlaceChoice city placesInCity)
 
 let private moveToPlace city availablePlaces (destination: Place) =
-    let currentPlace = State.get () |> Queries.World.currentPlace
     let navigationResult = Navigation.moveTo destination.Id (State.get ())
 
-    if currentPlace.Zone.Id <> destination.Zone.Id then
-        $"You take the public transport to get to {destination.Name}..."
-    else
-        $"You walk to {destination.Name}..."
-    |> showMessage
+    $"You walk to {destination.Name}..." |> showMessage
 
     wait 2000<millisecond>
 

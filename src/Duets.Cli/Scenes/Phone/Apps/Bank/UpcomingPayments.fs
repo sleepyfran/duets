@@ -18,9 +18,10 @@ let upcomingPayments bankApp (upcoming: Rental list) =
         (fun rental ->
             let cityId, _ = rental.Coords
             let place = rental.Coords ||> Queries.World.placeInCityById
+            let zone = rental.Coords ||> Queries.World.zoneInCityById
             let dueDate = rental |> Rental.dueDate
 
-            $"{place.Name} in {place.Zone.Name}, {Generic.cityName cityId}. Amount: {Styles.money rental.Amount}, due on {Generic.dateWithDay dueDate}")
+            $"{place.Name} in {zone.Name}, {Generic.cityName cityId}. Amount: {Styles.money rental.Amount}, due on {Generic.dateWithDay dueDate}")
         upcoming
     |> Option.iter confirmPayment
 

@@ -1,8 +1,8 @@
 module Test.Common.Generators.State
 
+open Duets.Data.World
 open FsCheck
 
-open Duets.Common
 open Duets.Entities
 open Test.Common
 open Duets.Simulation
@@ -113,7 +113,7 @@ let generator (opts: StateGenOptions) =
 
         return
             { initialState with
-                CurrentPosition = (city.Id, venueId, 0)
+                CurrentPosition = (city.Id, venueId, Ids.Common.lobby)
                 Today = Calendar.gameBeginning
                 Bands =
                     { Current = band.Id

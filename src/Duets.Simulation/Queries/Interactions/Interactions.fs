@@ -82,6 +82,7 @@ module Interactions =
             | Home -> []
             | Hospital -> []
             | Hotel _ -> []
+            | MetroStation -> []
             | MerchandiseWorkshop ->
                 MerchandiseWorkshop.interactions
                     state
@@ -90,6 +91,7 @@ module Interactions =
             | RehearsalSpace _ ->
                 RehearsalSpace.interactions state cityId currentRoom.RoomType
             | Restaurant -> Restaurant.interactions cityId currentRoom.RoomType
+            | Street -> []
             | Studio studio ->
                 Studio.interactions state studio currentPlace.Quality
 

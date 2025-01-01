@@ -21,6 +21,7 @@ let listAll rentApp =
         |> List.map (fun rental ->
             let cityId, _ = rental.Coords
             let place = rental.Coords ||> Queries.World.placeInCityById
+            let zone = rental.Coords ||> Queries.World.zoneInCityById
             let expirationDate = Rental.dueDate rental
 
             let price =
@@ -30,7 +31,7 @@ let listAll rentApp =
 
             [ placeName place
               Styles.place
-                  $"""{Generic.cityName cityId} {Styles.faded $"({place.Zone.Name})"}"""
+                  $"""{Generic.cityName cityId} {Styles.faded $"({zone.Name})"}"""
               startDate rental
               Generic.dateWithDay expirationDate
               price ])

@@ -29,6 +29,11 @@ module World =
 
         street.Places |> List.find (fun p -> p.Id = placeId)
 
+    /// Returns a zone inside a given city by its ID.
+    let zoneInCityById cityId zoneId =
+        let city = cityById cityId
+        city.Zones |> Map.find zoneId
+
     /// Returns a place inside of the current city given its ID.
     let placeInCurrentCityById state placeId =
         let cityId, _, _ = state.CurrentPosition

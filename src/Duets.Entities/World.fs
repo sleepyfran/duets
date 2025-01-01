@@ -13,6 +13,15 @@ let create (cities: City list) =
 
 [<RequireQualifiedAccess>]
 module Graph =
+    /// Creates an empty, invalid graph. Since starting node is a mandatory
+    /// field, this will create a graph with a starting node pointing to nowhere.
+    /// Only use for cases where you **really** don't have the first node without
+    /// having access to the graph first.
+    let empty =
+        { StartingNode = "INVALID"
+          Nodes = Map.empty
+          Connections = Map.empty }
+
     /// Creates a graph with the given starting node as the starting point, that
     /// node as the only node available and no connections.
     let from (node: Node<'a>) =
@@ -83,7 +92,7 @@ module Node =
 [<RequireQualifiedAccess>]
 module Place =
     /// Creates a place with the given initial room and no exits.
-    let create name quality placeType rooms =
+    let create name quality placeType rooms zoneId =
         let inferredId = Identity.Reproducible.create name
 
         { Id = inferredId
@@ -92,7 +101,8 @@ module Place =
           Quality = quality
           PlaceType = placeType
           OpeningHours = PlaceOpeningHours.AlwaysOpen
-          Rooms = rooms }
+          Rooms = rooms
+          ZoneId = zoneId }
 
     /// Adds an exit to the given place.
     let addExit originRoomId targetPlaceId place =
@@ -158,14 +168,14 @@ module Street =
 [<RequireQualifiedAccess>]
 module Zone =
     /// Creates a zone with the given name and an ID based on it.
-    let create name street =
+    let create name =
         let inferredId = Identity.Reproducible.create name
 
         { Id = inferredId.ToString()
           Name = name
           Descriptors = []
           MetroStations = []
-          Streets = Graph.from street }
+          Streets = Graph.empty }
 
     /// Adds a descriptor to the given zone.
     let addDescriptor descriptor zone =

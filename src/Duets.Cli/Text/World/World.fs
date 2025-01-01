@@ -25,10 +25,12 @@ let placeDescription (place: Place) (roomType: RoomType) =
         | PlaceType.Home -> Home.description
         | PlaceType.Hospital -> Hospital.description
         | PlaceType.Hotel _ -> Hotel.description
+        | PlaceType.MetroStation -> failwith "TODO!"
         | PlaceType.MerchandiseWorkshop -> MerchandiseWorkshop.description
         | PlaceType.RehearsalSpace _ -> RehearsalSpace.description
         | PlaceType.Restaurant -> Restaurant.description
         | PlaceType.Studio studio -> Studio.description studio
+        | PlaceType.Street -> failwith "TODO!"
 
 let placeTypeName (placeType: PlaceTypeIndex) =
     match placeType with
@@ -42,10 +44,12 @@ let placeTypeName (placeType: PlaceTypeIndex) =
     | PlaceTypeIndex.Home -> "Home"
     | PlaceTypeIndex.Hospital -> "Hospital"
     | PlaceTypeIndex.Hotel -> "Hotel"
+    | PlaceTypeIndex.MetroStation -> "Metro station"
     | PlaceTypeIndex.MerchandiseWorkshop -> "Merchandise workshop"
     | PlaceTypeIndex.RehearsalSpace -> "Rehearsal space"
     | PlaceTypeIndex.Restaurant -> "Restaurant"
     | PlaceTypeIndex.Studio -> "Studio"
+    | PlaceTypeIndex.Street -> "Street"
 
 let roomName (room: RoomType) =
     match room with
@@ -61,6 +65,7 @@ let roomName (room: RoomType) =
     | RoomType.LivingRoom -> "living room"
     | RoomType.Lobby -> "lobby"
     | RoomType.MasteringRoom -> "mastering room"
+    | RoomType.Platform -> "platform"
     | RoomType.RecordingRoom -> "recording room"
     | RoomType.ReadingRoom -> "reading room"
     | RoomType.RehearsalRoom -> "rehearsal room"
@@ -79,14 +84,6 @@ let directionName direction =
     | SouthWest -> "south-west"
     | West -> "west"
     | NorthWest -> "north-west"
-
-let placeWithZone (place: Place) =
-    let baseInfo = $"{Styles.place place.Name} ({place.Zone.Name})"
-
-    match place.PlaceType with
-    | PlaceType.Studio studio ->
-        $"{baseInfo} ({studio.PricePerSong |> Styles.money}/song)"
-    | _ -> baseInfo
 
 let placeArrivalMessage place roomType =
     match place.PlaceType with

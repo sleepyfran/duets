@@ -5,7 +5,6 @@ open NUnit.Framework
 open Test.Common
 open Test.Common.Generators
 
-open Duets.Common
 open Duets.Data
 open Duets.Entities
 open Duets.Simulation
@@ -34,7 +33,7 @@ let ``tick of world enter should remove required items from inventory if movemen
         WorldEnterRoom(
             Diff(
                 (Prague, gym.Id, World.Ids.Gym.changingRoom),
-                (Prague, gym.Id, World.Ids.Gym.lobby)
+                (Prague, gym.Id, World.Ids.Common.lobby)
             )
         )
 
@@ -49,7 +48,7 @@ let ``tick of world move should remove required items from inventory if moving f
         WorldMoveToPlace(
             Diff(
                 (Prague, gym.Id, World.Ids.Gym.changingRoom),
-                (Prague, dummyPlace.Id, 0)
+                (Prague, dummyPlace.Id, "0")
             )
         )
 

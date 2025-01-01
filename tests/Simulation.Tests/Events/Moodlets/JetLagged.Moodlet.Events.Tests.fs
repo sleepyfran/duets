@@ -4,7 +4,6 @@ open FsUnit
 open NUnit.Framework
 open Test.Common
 
-open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 
@@ -18,7 +17,10 @@ let private worldMoveEffect prevCity currCity =
 
 
     WorldMoveToPlace(
-        Diff((prevCity, prevCityPlace.Id, 0), (currCity, currCityPlace.Id, 0))
+        Diff(
+            (prevCity, prevCityPlace.Id, "0"),
+            (currCity, currCityPlace.Id, "0")
+        )
     )
 
 [<Test>]

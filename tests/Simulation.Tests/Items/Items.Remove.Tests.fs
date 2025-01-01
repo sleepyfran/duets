@@ -19,7 +19,7 @@ let ``remove does nothing if the item is not in world or inventory`` () =
 
 [<Test>]
 let ``remove removes from world if it in the current location`` () =
-    let currentLocation = Prague, dummyPlace.Id, 0
+    let currentLocation = Prague, dummyPlace.Id, "0"
 
     let state =
         { dummyState with

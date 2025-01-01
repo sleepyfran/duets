@@ -19,11 +19,11 @@ let private hotelInNewYork =
 
 let private bookstoreInSohoNewYork =
     Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.Bookstore
-    |> List.find (fun place -> place.Zone.Name = "SoHo")
+    |> List.find (fun place -> place.ZoneId = "SoHo")
 
 let private cafeInSohoNewYork =
     Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.Cafe
-    |> List.find (fun place -> place.Zone.Name = "SoHo")
+    |> List.find (fun place -> place.ZoneId = "SoHo")
 
 [<Test>]
 let ``traveling to another place inside the same city but in another region consumes 30 minutes``
@@ -32,8 +32,8 @@ let ``traveling to another place inside the same city but in another region cons
     let effects =
         WorldMoveToPlace(
             Diff(
-                (Prague, hotelInPrague.Id, 1),
-                (Prague, hospitalInPrague.Id, 1)
+                (Prague, hotelInPrague.Id, "1"),
+                (Prague, hospitalInPrague.Id, "1")
             )
         )
         |> Simulation.tickOne dummyState
@@ -47,8 +47,8 @@ let ``traveling to another place inside the same city but in the same region con
     let effects =
         WorldMoveToPlace(
             Diff(
-                (NewYork, bookstoreInSohoNewYork.Id, 1),
-                (NewYork, cafeInSohoNewYork.Id, 1)
+                (NewYork, bookstoreInSohoNewYork.Id, "1"),
+                (NewYork, cafeInSohoNewYork.Id, "1")
             )
         )
         |> Simulation.tickOne dummyState
@@ -61,7 +61,10 @@ let ``traveling to another city does not add 30 minutes on top of flight time``
     =
     let effects =
         WorldMoveToPlace(
-            Diff((Prague, hotelInPrague.Id, 1), (NewYork, hotelInNewYork.Id, 1))
+            Diff(
+                (Prague, hotelInPrague.Id, "1"),
+                (NewYork, hotelInNewYork.Id, "1")
+            )
         )
         |> Simulation.tickOne dummyState
 
