@@ -18,6 +18,14 @@ module World =
         |> Optic.get (Lenses.World.city_ cityId)
         |> Option.get (* Not finding a city by its ID is a problem in city creation. *)
 
+    /// Returns the current world coordinates the character is in currently.
+    let currentCoordinates state = state.CurrentPosition
+
+    /// Returns the city in which the character is in currently.
+    let currentCity state =
+        let cityId, _, _ = state.CurrentPosition
+        cityId |> cityById
+
     /// Returns a place inside a given city by its ID.
     let placeInCityById cityId placeId =
         let city = cityById cityId
@@ -44,6 +52,16 @@ module World =
         let place = placeInCityById cityId placeId
         Map.find roomId place.Rooms.Nodes
 
+    /// Retrieves a street from the given city.
+    let streetById cityId streetId =
+        let city = cityById cityId
+        Map.find streetId city.StreetIndex
+
+    /// Retrieves a street from the current city.
+    let streetInCurrentCity streetId state =
+        let city = currentCity state
+        streetById city.Id streetId
+
     /// Returns all the places in the current city, organized by their place type.
     let allPlacesInCurrentCity state =
         let cityId, _, _ = state.CurrentPosition
@@ -52,14 +70,6 @@ module World =
         city.PlaceByTypeIndex
         |> Map.map (fun _ placeIds ->
             placeIds |> List.map (placeInCityById cityId))
-
-    /// Returns the current world coordinates the character is in currently.
-    let currentCoordinates state = state.CurrentPosition
-
-    /// Returns the city in which the character is in currently.
-    let currentCity state =
-        let cityId, _, _ = state.CurrentPosition
-        cityId |> cityById
 
     /// Returns the place in which the character is in currently.
     let currentPlace state =

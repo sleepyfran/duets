@@ -66,3 +66,20 @@ module MovementCommand =
                     |> showMessage
 
                 Scene.WorldAfterMovement }
+
+[<RequireQualifiedAccess>]
+module GoOutCommand =
+    /// Creates a command that allows the player to go out of a place towards
+    /// the street that the place connects to.
+    let create streetId =
+        { Name = "go out"
+          Description = "Allows you to go out to the street"
+          Handler =
+            fun _ ->
+                "You open the door to outside..." |> showMessage
+
+                wait 1000<millisecond>
+
+                State.get () |> Navigation.exitTo streetId |> Effect.apply
+
+                Scene.WorldAfterMovement }

@@ -103,6 +103,8 @@ let private commandsFromInteractions interactions =
             match freeRoamInteraction with
             | FreeRoamInteraction.Clock dayMomentsWithEvents ->
                 [ ClockCommand.create dayMomentsWithEvents ]
+            | FreeRoamInteraction.GoOut streetId ->
+                [ GoOutCommand.create streetId ]
             | FreeRoamInteraction.Inventory inventory ->
                 [ InventoryCommand.create inventory ]
             | FreeRoamInteraction.Look(items, knownPeople, unknownPeople) ->

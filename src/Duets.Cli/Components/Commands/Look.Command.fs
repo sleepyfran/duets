@@ -10,6 +10,32 @@ open Duets.Simulation
 
 [<RequireQualifiedAccess>]
 module LookCommand =
+    let private listExits (interactions: InteractionWithMetadata list) =
+        let state = State.get ()
+
+        let exits =
+            interactions
+            |> List.choose (fun interaction ->
+                match interaction.Interaction with
+                | Interaction.FreeRoam(FreeRoamInteraction.GoOut(streetId)) ->
+                    Some(streetId)
+                | _ -> None)
+
+        match exits with
+        | [] -> None
+        | exits ->
+            let exitsDescription =
+                Generic.listOf exits (fun streetId ->
+                    let street =
+                        Queries.World.streetInCurrentCity streetId state
+
+                    $"{street.Name |> Styles.place}")
+
+            Some(
+                $"""There {Generic.pluralOf "is an exit" "are exits" exitsDescription.Length} towards {exitsDescription} leading out of this place."""
+            )
+        |> Option.iter showMessage
+
     let private listRoomConnections
         (interactions: InteractionWithMetadata list)
         =
@@ -83,6 +109,7 @@ module LookCommand =
                 |> showMessage
 
                 listRoomConnections interactions
+                listExits interactions
                 listPeople knownPeople unknownPeople
                 listItems items
 

@@ -226,6 +226,13 @@ module City =
                     outerIndex)
             index
 
+    let private indexStreets zone index =
+        zone.Streets.Nodes
+        |> Map.fold
+            (fun outerIndex streetId street ->
+                outerIndex |> Map.add streetId street)
+            index
+
     let private indexZonePlaces zone index =
         // Index a synthetic "Street" place type for each street so that we have
         // a way to put the player somewhere when they enter a street. This is
@@ -249,6 +256,7 @@ module City =
         { Id = id
           PlaceByTypeIndex = indexZoneByPlacesTypes zone Map.empty
           PlaceIndex = indexZonePlaces zone Map.empty
+          StreetIndex = indexStreets zone Map.empty
           MetroLines = Map.empty
           CostOfLiving = costOfLiving
           Zones = [ zone.Id, zone ] |> Map.ofList
@@ -261,6 +269,7 @@ module City =
             (indexZoneByPlacesTypes zone)
             city
         |> Optic.map Lenses.World.City.placeIndex_ (indexZonePlaces zone)
+        |> Optic.map Lenses.World.City.streetIndex_ (indexStreets zone)
         |> Optic.map Lenses.World.City.zones_ (Map.add zone.Id zone)
 
     /// Adds a metro line to the given city.

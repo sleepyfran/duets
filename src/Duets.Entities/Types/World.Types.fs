@@ -125,8 +125,8 @@ module WorldTypes =
             Id: PlaceId
             Name: string
             /// Map of nodes that are considered exist in the room graph with the
-            /// node they take to if the player decides to exit the place.
-            Exits: Map<NodeId, NodeId>
+            /// ID of the street that it exits to if the player follows it.
+            Exits: Map<NodeId, StreetId>
             Quality: Quality
             PlaceType: PlaceType
             OpeningHours: PlaceOpeningHours
@@ -188,6 +188,7 @@ module WorldTypes =
             Id: CityId
             PlaceByTypeIndex: Map<PlaceTypeIndex, PlaceId list>
             PlaceIndex: Map<PlaceId, ZonedPlaceCoordinates>
+            StreetIndex: Map<StreetId, Street>
             MetroLines: Map<MetroLineId, MetroLine>
             /// Modifier that will be used to compute the final prices of things
             /// like rent, wages and food.

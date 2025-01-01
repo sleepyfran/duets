@@ -1,5 +1,6 @@
 module rec Duets.Data.World.Cities.LosAngeles.SantaMonica
 
+open Duets.Data.World
 open Duets.Data.World.Cities
 open Duets.Entities
 open Fugit.Months
@@ -65,11 +66,18 @@ let pierWay (zone: Zone) =
     |> World.Street.addPlaces concertSpaces
 
 let promenadePath (zone: Zone) =
+    let street =
+        World.Street.create "Promenade Path" (StreetType.Split(West, 2))
+
     let bookstores =
         [ ("Barnes & Noble", 75<quality>, zone.Id) ]
         |> List.map PlaceCreators.createBookstore
 
-    let homes = [ zone.Id ] |> List.map PlaceCreators.createHome
+    let homes =
+        [ zone.Id ]
+        |> List.map (fun args ->
+            PlaceCreators.createHome args
+            |> World.Place.addExit Ids.Home.livingRoom street.Id)
 
     let hotels =
         [ ("Fairmont Miramar Hotel & Bungalows", 92<quality>, 380m<dd>, zone.Id) ]
@@ -93,7 +101,7 @@ let promenadePath (zone: Zone) =
            zone.Id) ]
         |> List.map PlaceCreators.createStudio
 
-    World.Street.create "Promenade Path" (StreetType.Split(West, 2))
+    street
     |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces homes
     |> World.Street.addPlaces hotels

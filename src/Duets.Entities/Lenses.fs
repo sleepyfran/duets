@@ -288,6 +288,10 @@ module World =
             (fun (c: City) -> c.PlaceIndex),
             (fun v (c: City) -> { c with PlaceIndex = v })
 
+        let streetIndex_ =
+            (fun (c: City) -> c.StreetIndex),
+            (fun v (c: City) -> { c with StreetIndex = v })
+
         let zones_ =
             (fun (c: City) -> c.Zones),
             (fun v (c: City) -> { c with Zones = v })

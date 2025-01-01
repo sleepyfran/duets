@@ -45,6 +45,15 @@ module Navigation =
             )
         )
 
+    /// Moves the player to the specified street inside of the current city.
+    let exitTo streetId state =
+        let currentCoords = Queries.World.currentCoordinates state
+        let cityId, _, _ = currentCoords
+
+        // Streets are not "real" places, but we index them like them via
+        // their street ID.
+        WorldMoveToPlace(Diff(currentCoords, (cityId, streetId, streetId)))
+
     /// Moves the player to the specified room inside of the current place.
     let enter roomId state =
         let currentCoords = Queries.World.currentCoordinates state
