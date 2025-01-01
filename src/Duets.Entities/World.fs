@@ -183,7 +183,27 @@ module Zone =
             Descriptors = descriptor :: zone.Descriptors }
 
     /// Adds a street to the given zone.
-    let addStreet street zone =
+    let addStreet (street: Node<Street>) (zone: Zone) =
+        (*
+        When looking up places we need to perform the lookup inside a street.
+        That means that if the player goes out to the street, it won't be found
+        since streets won't contain themselves. To go around this, we add a
+        synthetic, empty street place to the street. The rest of the queries
+        and logic will do the "magic" of showing the correct street content,
+        so we create an empty graph with it.
+        *)
+        let syntheticStreetPlace =
+            Place.create
+                street.Content.Name
+                100<quality>
+                PlaceType.Street
+                Graph.empty
+                zone.Id
+
+        let street =
+            { street with
+                Content.Places = syntheticStreetPlace :: street.Content.Places }
+
         { zone with
             Streets = Graph.addNode street zone.Streets }
 

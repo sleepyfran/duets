@@ -1,38 +1,40 @@
 module rec Duets.Data.World.Cities.LosAngeles.SantaMonica
 
-open Duets.Data.World
 open Duets.Data.World.Cities
 open Duets.Entities
 open Fugit.Months
 
 let oceanAvenue city (zone: Zone) =
+    let street = World.Street.create "Ocean Avenue" (StreetType.Split(North, 3))
+
     let hotels =
         [ ("Shutters on the Beach", 86<quality>, 350m<dd>, zone.Id)
           ("Hotel Casa Del Mar", 84<quality>, 320m<dd>, zone.Id) ]
-        |> List.map PlaceCreators.createHotel
+        |> List.map (PlaceCreators.createHotel street.Id)
 
     let restaurants =
         [ ("The Lobster", 87<quality>, Italian, zone.Id)
           ("Ivy at the Shore", 88<quality>, Vietnamese, zone.Id) ]
-        |> List.map PlaceCreators.createRestaurant
+        |> List.map (PlaceCreators.createRestaurant street.Id)
 
     let gyms =
         [ ("Equinox Santa Monica", 85<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createGym city)
+        |> List.map (PlaceCreators.createGym city street.Id)
 
     let cafes =
         [ ("Urth Caffe", 78<quality>, zone.Id)
           ("Goodboybob Coffee", 72<quality>, zone.Id) ]
-        |> List.map PlaceCreators.createCafe
+        |> List.map (PlaceCreators.createCafe street.Id)
 
     let concertSpaces =
         [ ("The Mint", 300, 80<quality>, Layouts.concertSpaceLayout1, zone.Id) ]
-        |> List.map PlaceCreators.createConcertSpace
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let metroStation =
-        ("Santa Monica Station", zone.Id) |> PlaceCreators.createMetro
+        ("Santa Monica Station", zone.Id)
+        |> (PlaceCreators.createMetro street.Id)
 
-    World.Street.create "Ocean Avenue" (StreetType.Split(North, 3))
+    street
     |> World.Street.addPlaces hotels
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces gyms
@@ -41,15 +43,17 @@ let oceanAvenue city (zone: Zone) =
     |> World.Street.addPlace metroStation
 
 let pierWay (zone: Zone) =
+    let street = World.Street.create "Pier Way" StreetType.OneWay
+
     let restaurants =
         [ ("The Albright", 82<quality>, American, zone.Id)
           ("Pier Burger", 70<quality>, American, zone.Id)
           ("The Lobster Trap", 77<quality>, Italian, zone.Id) ]
-        |> List.map PlaceCreators.createRestaurant
+        |> List.map (PlaceCreators.createRestaurant street.Id)
 
     let bars =
         [ ("The Brig", 74<quality>, zone.Id) ]
-        |> List.map PlaceCreators.createBar
+        |> List.map (PlaceCreators.createBar street.Id)
 
     let concertSpaces =
         [ ("McCabe's Guitar Shop",
@@ -58,9 +62,9 @@ let pierWay (zone: Zone) =
            Layouts.concertSpaceLayout1,
            zone.Id)
           ("Harvelle's", 200, 75<quality>, Layouts.concertSpaceLayout1, zone.Id) ]
-        |> List.map PlaceCreators.createConcertSpace
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
 
-    World.Street.create "Pier Way" StreetType.OneWay
+    street
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces concertSpaces
@@ -71,22 +75,18 @@ let promenadePath (zone: Zone) =
 
     let bookstores =
         [ ("Barnes & Noble", 75<quality>, zone.Id) ]
-        |> List.map PlaceCreators.createBookstore
+        |> List.map (PlaceCreators.createBookstore street.Id)
 
-    let homes =
-        [ zone.Id ]
-        |> List.map (fun args ->
-            PlaceCreators.createHome args
-            |> World.Place.addExit Ids.Home.livingRoom street.Id)
+    let homes = [ zone.Id ] |> List.map (PlaceCreators.createHome street.Id)
 
     let hotels =
         [ ("Fairmont Miramar Hotel & Bungalows", 92<quality>, 380m<dd>, zone.Id) ]
-        |> List.map PlaceCreators.createHotel
+        |> List.map (PlaceCreators.createHotel street.Id)
 
     let restaurants =
         [ ("FIG Restaurant", 80<quality>, Vietnamese, zone.Id)
           ("The Water Grill", 85<quality>, American, zone.Id) ]
-        |> List.map PlaceCreators.createRestaurant
+        |> List.map (PlaceCreators.createRestaurant street.Id)
 
     let recordingStudios =
         [ ("Sound City Studios",
@@ -99,7 +99,7 @@ let promenadePath (zone: Zone) =
            320m<dd>,
            (Character.from "Jack Joseph Puig" Male (May 2 1967)),
            zone.Id) ]
-        |> List.map PlaceCreators.createStudio
+        |> List.map (PlaceCreators.createStudio street.Id)
 
     street
     |> World.Street.addPlaces bookstores

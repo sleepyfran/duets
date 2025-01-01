@@ -5,6 +5,8 @@ open Duets.Entities
 open Fugit.Months
 
 let private studioRow (zone: Zone) =
+    let street = World.Street.create "Studio Row" (StreetType.Split(North, 3))
+
     let studios =
         [ ("Starlight Studios",
            88<quality>,
@@ -26,12 +28,12 @@ let private studioRow (zone: Zone) =
            240m<dd>,
            (Character.from "Mia Chen" Female (September 5 1990)),
            zone.Id) ]
-        |> List.map PlaceCreators.createStudio
+        |> List.map (PlaceCreators.createStudio street.Id)
 
     let rehearsalSpaces =
         [ ("The Rehearsal Room", 70<quality>, 160m<dd>, zone.Id)
           ("The Sound Box", 65<quality>, 140m<dd>, zone.Id) ]
-        |> List.map PlaceCreators.createRehearsalSpace
+        |> List.map (PlaceCreators.createRehearsalSpace street.Id)
 
     let concertSpaces =
         [ ("The Roxy", 500, 85<quality>, Layouts.concertSpaceLayout1, zone.Id)
@@ -45,20 +47,21 @@ let private studioRow (zone: Zone) =
            78<quality>,
            Layouts.concertSpaceLayout1,
            zone.Id) ]
-        |> List.map PlaceCreators.createConcertSpace
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let merchStores =
         [ ("Hollywood Memorabilia", zone.Id) ]
-        |> List.map PlaceCreators.createMerchandiseWorkshop
+        |> List.map (PlaceCreators.createMerchandiseWorkshop street.Id)
 
     let cafes =
         [ ("Daily Grind", 72<quality>, zone.Id) ]
-        |> List.map PlaceCreators.createCafe
+        |> List.map (PlaceCreators.createCafe street.Id)
 
     let metroStation =
-        ("Hollywood/Vine Station", zone.Id) |> PlaceCreators.createMetro
+        ("Hollywood/Vine Station", zone.Id)
+        |> (PlaceCreators.createMetro street.Id)
 
-    World.Street.create "Studio Row" (StreetType.Split(North, 3))
+    street
     |> World.Street.addPlaces studios
     |> World.Street.addPlaces rehearsalSpaces
     |> World.Street.addPlaces concertSpaces
@@ -67,25 +70,28 @@ let private studioRow (zone: Zone) =
     |> World.Street.addPlace metroStation
 
 let private boulevardOfStars (zone: Zone) =
+    let street =
+        World.Street.create "Boulevard of Stars" (StreetType.Split(North, 2))
+
     let bars =
         [ ("The Froolic Room", 75<quality>, zone.Id)
           ("Boardner's", 73<quality>, zone.Id) ]
-        |> List.map PlaceCreators.createBar
+        |> List.map (PlaceCreators.createBar street.Id)
 
     let bookstores =
         [ ("Larry Edmund's Bookshop", 80<quality>, zone.Id)
           ("Booksoup", 78<quality>, zone.Id) ]
-        |> List.map PlaceCreators.createBookstore
+        |> List.map (PlaceCreators.createBookstore street.Id)
 
     let hotels =
         [ ("The Hollywood Roosevelt", 90<quality>, 550m<dd>, zone.Id)
           ("The Dream Hollywood", 85<quality>, 500m<dd>, zone.Id) ]
-        |> List.map PlaceCreators.createHotel
+        |> List.map (PlaceCreators.createHotel street.Id)
 
     let rehearsalSpaces =
         [ ("The Rehearsal Room", 70<quality>, 160m<dd>, zone.Id)
           ("The Sound Box", 65<quality>, 140m<dd>, zone.Id) ]
-        |> List.map PlaceCreators.createRehearsalSpace
+        |> List.map (PlaceCreators.createRehearsalSpace street.Id)
 
     let concertSpaces =
         [ ("The Hollywood Bowl",
@@ -98,15 +104,15 @@ let private boulevardOfStars (zone: Zone) =
            92<quality>,
            Layouts.concertSpaceLayout2,
            zone.Id) ]
-        |> List.map PlaceCreators.createConcertSpace
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let restaurants =
         [ ("Spago", 92<quality>, Italian, zone.Id)
           ("Musso & Frank Grill", 88<quality>, American, zone.Id)
           ("Mel's Drive-In", 72<quality>, American, zone.Id) ]
-        |> List.map PlaceCreators.createRestaurant
+        |> List.map (PlaceCreators.createRestaurant street.Id)
 
-    World.Street.create "Boulevard of Stars" (StreetType.Split(North, 2))
+    street
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces hotels
@@ -115,14 +121,16 @@ let private boulevardOfStars (zone: Zone) =
     |> World.Street.addPlaces restaurants
 
 let private alleyway (zone: Zone) =
+    let street = World.Street.create "Alleyway" StreetType.OneWay
+
     let bars =
         [ ("The Viper Room", 80<quality>, zone.Id) ]
-        |> List.map PlaceCreators.createBar
+        |> List.map (PlaceCreators.createBar street.Id)
 
     let cafes =
         [ ("The Coffee Bean", 68<quality>, zone.Id)
           ("Cafe Tropical", 70<quality>, zone.Id) ]
-        |> List.map PlaceCreators.createCafe
+        |> List.map (PlaceCreators.createCafe street.Id)
 
     let studios =
         [ ("Backstage Recording",
@@ -135,13 +143,13 @@ let private alleyway (zone: Zone) =
            160m<dd>,
            (Character.from "Carlos Ramirez" Female (February 12 1980)),
            zone.Id) ]
-        |> List.map PlaceCreators.createStudio
+        |> List.map (PlaceCreators.createStudio street.Id)
 
     let rehearsalSpaces =
         [ ("The Jam Space", 60<quality>, 120m<dd>, zone.Id) ]
-        |> List.map PlaceCreators.createRehearsalSpace
+        |> List.map (PlaceCreators.createRehearsalSpace street.Id)
 
-    World.Street.create "Alleyway" StreetType.OneWay
+    street
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces cafes
     |> World.Street.addPlaces studios

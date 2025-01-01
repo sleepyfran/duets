@@ -5,19 +5,22 @@ open Duets.Entities
 open Fugit.Months
 
 let financialCorridor city (zone: Zone) =
+    let street =
+        World.Street.create "Financial Corridor" (StreetType.Split(North, 3))
+
     let hotels =
         [ ("The Biltmore Hotel", 88<quality>, 400m<dd>, zone.Id) ]
-        |> List.map PlaceCreators.createHotel
+        |> List.map (PlaceCreators.createHotel street.Id)
 
     let restaurants =
         [ ("Grand Central Market", 85<quality>, American, zone.Id)
           ("Perch", 90<quality>, Japanese, zone.Id)
           ("Patina", 92<quality>, Italian, zone.Id) ]
-        |> List.map PlaceCreators.createRestaurant
+        |> List.map (PlaceCreators.createRestaurant street.Id)
 
     let gyms =
         [ ("Crunch Fitness", 80<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createGym city)
+        |> List.map (PlaceCreators.createGym city street.Id)
 
     let recordingStudios =
         [ ("United Recording",
@@ -30,16 +33,17 @@ let financialCorridor city (zone: Zone) =
            300m<dd>,
            (Character.from "Al Schmitt" Male (April 17 1930)),
            zone.Id) ]
-        |> List.map PlaceCreators.createStudio
+        |> List.map (PlaceCreators.createStudio street.Id)
 
     let cafes =
         [ ("Starbucks", 75<quality>, zone.Id) ]
-        |> List.map PlaceCreators.createCafe
+        |> List.map (PlaceCreators.createCafe street.Id)
 
     let metroStation =
-        ("Downtown LA Station", zone.Id) |> PlaceCreators.createMetro
+        ("Downtown LA Station", zone.Id)
+        |> (PlaceCreators.createMetro street.Id)
 
-    World.Street.create "Financial Corridor" (StreetType.Split(North, 3))
+    street
     |> World.Street.addPlaces hotels
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces gyms
@@ -48,19 +52,21 @@ let financialCorridor city (zone: Zone) =
     |> World.Street.addPlace metroStation
 
 let grandStreet (zone: Zone) =
+    let street = World.Street.create "Grand Street" (StreetType.Split(East, 2))
+
     let concertSpaces =
         [ ("The Novo", 2300, 88<quality>, Layouts.concertSpaceLayout3, zone.Id) ]
-        |> List.map PlaceCreators.createConcertSpace
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let restaurants =
         [ ("Broken Spanish", 89<quality>, Mexican, zone.Id)
           ("Bestia", 91<quality>, Mexican, zone.Id) ]
-        |> List.map PlaceCreators.createRestaurant
+        |> List.map (PlaceCreators.createRestaurant street.Id)
 
     let casinos =
         [ ("The Bicycle Casino", 80<quality>, zone.Id)
           ("Hollywood Park Casino", 78<quality>, zone.Id) ]
-        |> List.map PlaceCreators.createCasino
+        |> List.map (PlaceCreators.createCasino street.Id)
 
     let recordingStudios =
         [ ("EastWest Studios",
@@ -73,15 +79,17 @@ let grandStreet (zone: Zone) =
            380m<dd>,
            (Character.from "Rick Rubin" Male (March 10 1963)),
            zone.Id) ]
-        |> List.map PlaceCreators.createStudio
+        |> List.map (PlaceCreators.createStudio street.Id)
 
-    World.Street.create "Grand Street" (StreetType.Split(East, 2))
+    street
     |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces casinos
     |> World.Street.addPlaces recordingStudios
 
 let backstreets (zone: Zone) =
+    let street = World.Street.create "Backstreets" (StreetType.Split(West, 2))
+
     let recordingStudios =
         [ ("Conway Recording Studios",
            83<quality>,
@@ -93,26 +101,26 @@ let backstreets (zone: Zone) =
            250m<dd>,
            (Character.from "Rodney Jenkins" Male (October 24 1969)),
            zone.Id) ]
-        |> List.map PlaceCreators.createStudio
+        |> List.map (PlaceCreators.createStudio street.Id)
 
     let bars =
         [ ("The Redwood Bar", 72<quality>, zone.Id)
           ("Seven Grand", 76<quality>, zone.Id) ]
-        |> List.map PlaceCreators.createBar
+        |> List.map (PlaceCreators.createBar street.Id)
 
     let rehearsalSpaces =
         [ ("The Beat Lab", 62<quality>, 140m<dd>, zone.Id) ]
-        |> List.map PlaceCreators.createRehearsalSpace
+        |> List.map (PlaceCreators.createRehearsalSpace street.Id)
 
     let bookstores =
         [ ("The Last Bookstore", 88<quality>, zone.Id) ]
-        |> List.map PlaceCreators.createBookstore
+        |> List.map (PlaceCreators.createBookstore street.Id)
 
     let cafes =
         [ ("Groundwork Coffee", 74<quality>, zone.Id) ]
-        |> List.map PlaceCreators.createCafe
+        |> List.map (PlaceCreators.createCafe street.Id)
 
-    World.Street.create "Backstreets" (StreetType.Split(West, 2))
+    street
     |> World.Street.addPlaces recordingStudios
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces rehearsalSpaces
