@@ -22,4 +22,5 @@ let generate () =
 
     city
     |> World.City.addZone downtownLA
+    |> World.City.addZone santaMonica
     |> World.City.addMetroLine blueMetroLine

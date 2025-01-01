@@ -51,6 +51,11 @@ let createGym (city: City) (name, quality, zoneId) =
         | _ -> None)
     |> World.Place.changeOpeningHours OpeningHours.gymOpeningHours
 
+/// Creates a home with the given zone.
+/// TODO: Allow different types of homes depending on the zone, how much the rent is, etc.
+let createHome zoneId =
+    World.Place.create "Home" 100<quality> Home Layouts.homeLayout zoneId
+
 /// Creates a hotel with the given name, quality, price per night and zone.
 let createHotel (name, quality, pricePerNight, zoneId) =
     World.Place.create
