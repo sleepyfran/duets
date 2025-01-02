@@ -10,6 +10,17 @@ module FreeRoam =
             FreeRoamInteraction.Move(direction, destinationId)
             |> Interaction.FreeRoam)
 
+    let private getEnterInteractions state place =
+        match place.PlaceType with
+        | PlaceType.Street ->
+            (* When the place is a street the ID of the place matches the street. *)
+            let street = Queries.World.streetInCurrentCity place.Id state
+
+            street.Places
+            |> List.map (fun place ->
+                FreeRoamInteraction.Enter(place) |> Interaction.FreeRoam)
+        | _ -> []
+
     let private getOutInteractions roomId place =
         place.Exits
         |> Map.tryFind roomId
@@ -22,13 +33,15 @@ module FreeRoam =
 
         FreeRoamInteraction.Look(itemsInPlace, knownPeople, unknownPeople)
 
-    let private getNavigationInteractions (_, _, roomId) place =
+    let private getNavigationInteractions state (_, _, roomId) place =
+        let enterInteractions = getEnterInteractions state place
+
         let withinPlaceMovementInteractions =
             getMovementInteractions roomId place
 
         let exitInteraction = getOutInteractions roomId place
 
-        withinPlaceMovementInteractions @ exitInteraction
+        withinPlaceMovementInteractions @ exitInteraction @ enterInteractions
 
     let internal interactions
         state
@@ -37,7 +50,7 @@ module FreeRoam =
         inventory
         itemsInPlace
         =
-        getNavigationInteractions currentCoords currentPlace
+        getNavigationInteractions state currentCoords currentPlace
         @ [ FreeRoamInteraction.Inventory inventory |> Interaction.FreeRoam
             getLookInteraction state itemsInPlace |> Interaction.FreeRoam
             FreeRoamInteraction.Map |> Interaction.FreeRoam

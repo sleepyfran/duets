@@ -98,6 +98,8 @@ module InteractionTypes =
         /// Allows the player to see the current time and how many day moments
         /// are left in the day.
         | Clock of (DayMoment * CalendarEventType list) list
+        /// Allows the player to enter a place.
+        | Enter of place: Place
         /// Allows the player to exit a place towards a specific destination.
         | GoOut of destinationStreetId: StreetId
         /// Allows the player to see what they are currently carrying.

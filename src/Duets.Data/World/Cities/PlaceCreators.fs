@@ -61,7 +61,7 @@ let createGym (city: City) streetId (name, quality, zoneId) =
 /// TODO: Allow different types of homes depending on the zone, how much the rent is, etc.
 let createHome streetId zoneId =
     World.Place.create "Home" 100<quality> Home Layouts.homeLayout zoneId
-    |> World.Place.addExit Ids.Home.livingRoom streetId
+    |> World.Place.addExit Ids.Home.kitchen streetId
 
 /// Creates a hotel with the given name, quality, price per night and zone.
 let createHotel streetId (name, quality, pricePerNight, zoneId) =

@@ -7,6 +7,7 @@ open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Cli.Text.World
 open Duets.Entities
+open Duets.Simulation
 open Duets.Simulation.Navigation
 
 [<RequireQualifiedAccess>]
@@ -83,3 +84,56 @@ module GoOutCommand =
                 State.get () |> Navigation.exitTo streetId |> Effect.apply
 
                 Scene.WorldAfterMovement }
+
+[<RequireQualifiedAccess>]
+module EnterCommand =
+    /// Creates a command that allows the player to go enter a place.
+    let get =
+        { Name = "enter"
+          Description =
+            $"""Allows you to enter inside a place. Use as {Styles.information "enter {place name}"}"""
+          Handler =
+            fun args ->
+                let input = args |> String.concat " "
+
+                let matchingPlace =
+                    Queries.World.matchingPlacesInCurrentStreet
+                        input
+                        (State.get ())
+                    |> List.tryHead
+
+                match matchingPlace with
+                | Some(place) ->
+                    let navigationResult =
+                        State.get () |> Navigation.moveTo place.Id
+
+                    match navigationResult with
+                    | Ok effect ->
+                        "You open the door enter..." |> showMessage
+
+                        wait 1000<millisecond>
+
+                        effect |> Effect.apply
+                    | Error PlaceEntranceError.CannotEnterOutsideOpeningHours ->
+                        showSeparator None
+
+                        World.placeClosedError place |> showMessage
+                        World.placeOpeningHours place |> showMessage
+                    | Error PlaceEntranceError.CannotEnterWithoutRental ->
+                        showSeparator None
+
+                        Styles.error
+                            "You cannot enter this place without renting it first"
+                        |> showMessage
+
+                        Styles.information
+                            "Try to use your phone to rent it out and come back again afterwards"
+                        |> showMessage
+
+                    Scene.WorldAfterMovement
+                | None ->
+                    $"There are no places called {input} around here"
+                    |> Styles.error
+                    |> showMessage
+
+                    Scene.World }

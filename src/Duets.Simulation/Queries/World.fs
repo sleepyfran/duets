@@ -136,3 +136,17 @@ module World =
             state.PeopleInCurrentPosition
             |> List.partition (fun person ->
                 Relationship.withCharacter person.Id state |> Option.isSome)
+
+    /// Returns all connected places to the current street that match the given
+    /// query. If the place is not a street, nothing is returned.
+    let matchingPlacesInCurrentStreet (query: string) state =
+        let place = currentPlace state
+
+        match place.PlaceType with
+        | Street ->
+            let street = streetInCurrentCity place.Id state
+
+            street.Places
+            |> List.filter (fun connectedPlace ->
+                String.diacriticInsensitiveContains connectedPlace.Name query)
+        | _ -> []
