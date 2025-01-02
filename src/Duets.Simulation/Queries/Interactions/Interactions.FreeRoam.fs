@@ -10,15 +10,41 @@ module FreeRoam =
             FreeRoamInteraction.Move(direction, destinationId)
             |> Interaction.FreeRoam)
 
-    let private getEnterInteractions state place =
+    let private getEnterInteractions state roomId place =
         match place.PlaceType with
         | PlaceType.Street ->
             (* When the place is a street the ID of the place matches the street. *)
             let street = Queries.World.streetInCurrentCity place.Id state
 
-            street.Places
-            |> List.map (fun place ->
-                FreeRoamInteraction.Enter(place) |> Interaction.FreeRoam)
+            let filteredPlaces =
+                street.Places
+                |> List.filter (fun place ->
+                    match place.PlaceType with
+                    | Street -> false
+                    | _ -> true)
+
+            let places =
+                match street.Type with
+                | StreetType.OneWay -> filteredPlaces
+                | StreetType.Split(_, splits) ->
+                    (*
+                    This can be confusing, but the current split is the ID of
+                    the room, encoded as an integer in a string.
+                    *)
+                    let currentSplit = int roomId
+
+                    filteredPlaces
+                    |> List.splitInto (splits + 1) (* Splits are 0-indexed. *)
+                    |> List.item currentSplit
+
+            places
+            |> List.choose (fun place ->
+                match place.PlaceType with
+                | Street -> None (* Streets are navigable via exits. *)
+                | _ ->
+                    FreeRoamInteraction.Enter(place)
+                    |> Interaction.FreeRoam
+                    |> Some)
         | _ -> []
 
     let private getOutInteractions roomId place =
@@ -34,7 +60,7 @@ module FreeRoam =
         FreeRoamInteraction.Look(itemsInPlace, knownPeople, unknownPeople)
 
     let private getNavigationInteractions state (_, _, roomId) place =
-        let enterInteractions = getEnterInteractions state place
+        let enterInteractions = getEnterInteractions state roomId place
 
         let withinPlaceMovementInteractions =
             getMovementInteractions roomId place

@@ -109,7 +109,7 @@ module EnterCommand =
 
                     match navigationResult with
                     | Ok effect ->
-                        "You open the door enter..." |> showMessage
+                        "You open the door to enter..." |> showMessage
 
                         wait 1000<millisecond>
 
