@@ -32,7 +32,7 @@ let placeDescription (place: Place) (roomType: RoomType) =
         | PlaceType.RehearsalSpace _ -> RehearsalSpace.description
         | PlaceType.Restaurant -> Restaurant.description
         | PlaceType.Studio studio -> Studio.description studio
-        | PlaceType.Street -> fun _ -> fun _ -> "To Do!"
+        | PlaceType.Street -> Streets.description
 
 let placeTypeName (placeType: PlaceTypeIndex) =
     match placeType with
