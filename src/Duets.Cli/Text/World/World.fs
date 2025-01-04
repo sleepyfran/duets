@@ -27,12 +27,13 @@ let placeDescription (place: Place) (roomType: RoomType) =
         | PlaceType.Home -> Home.description
         | PlaceType.Hospital -> Hospital.description
         | PlaceType.Hotel _ -> Hotel.description
-        | PlaceType.MetroStation -> fun _ -> fun _ -> "To Do!"
+        | PlaceType.MetroStation ->
+            CityDependentDescriptions.cityDependentDescription
         | PlaceType.MerchandiseWorkshop -> MerchandiseWorkshop.description
         | PlaceType.RehearsalSpace _ -> RehearsalSpace.description
         | PlaceType.Restaurant -> Restaurant.description
         | PlaceType.Studio studio -> Studio.description studio
-        | PlaceType.Street -> Streets.description
+        | PlaceType.Street -> CityDependentDescriptions.cityDependentDescription
 
 let placeTypeName (placeType: PlaceTypeIndex) =
     match placeType with

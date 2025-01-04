@@ -44,8 +44,9 @@
         <Compile Include="Text\World\Hotel.fs"/>
         <Compile Include="Text\World\MerchandiseWorkshop.fs"/>
         <Compile Include="Text\World\RehearsalSpace.fs"/>
-        <Compile Include="Text\World\Streets\LosAngeles.Streets.fs"/>
-        <Compile Include="Text\World\Streets\Streets.fs"/>
+        <Compile Include="Text\World\CityDependent\LosAngeles\LosAngeles.Streets.fs"/>
+        <Compile Include="Text\World\CityDependent\LosAngeles\LosAngeles.MetroStations.fs"/>
+        <Compile Include="Text\World\CityDependent\CityDependentDescriptions.fs"/>
         <Compile Include="Text\World\Studio.fs"/>
         <Compile Include="Text\World\World.fs"/>
         <Compile Include="Components\VisualEffects.fs"/>
