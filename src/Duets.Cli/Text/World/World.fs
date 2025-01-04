@@ -98,19 +98,33 @@ let youAreInMessage (place: Place) roomType =
     | _ ->
         $"You are in the {roomName roomType |> Styles.room} inside of {place.Name |> Styles.place}"
 
-let noConnectionsToRoom place =
+let noConnectionsToRoom place connectedStreetsMessageOpt =
     match place.PlaceType with
-    | PlaceType.Street -> "There are no more streets connecting to this one."
+    | PlaceType.Street ->
+        connectedStreetsMessageOpt
+        |> Option.map (fun connectedStreets ->
+            $"This street connects to {connectedStreets}.")
+        |> Option.defaultValue ""
     | _ -> "There are no more rooms connecting to this one."
 
-let connectingNodes place (connections: (Direction * Room) list) =
+let connectingNodes
+    place
+    (connections: (Direction * Room) list)
+    connectedStreetsMessageOpt
+    =
     match place.PlaceType with
     | PlaceType.Street ->
         let connections =
             Generic.listOf connections (fun (direction, _) ->
                 directionName direction |> Styles.direction)
 
-        $"The street continues to the {connections}."
+        let connectedStreetsMessage =
+            connectedStreetsMessageOpt
+            |> Option.map (fun connectedStreets ->
+                $"It also connects to {connectedStreets}")
+            |> Option.defaultValue ""
+
+        $"The street continues to the {connections}. {connectedStreetsMessage}."
     | _ ->
         let connectionsDescription =
             Generic.listOf connections (fun (direction, room) ->

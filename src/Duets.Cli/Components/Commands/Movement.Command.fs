@@ -6,6 +6,7 @@ open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Cli.Text.World
+open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Navigation
@@ -84,6 +85,39 @@ module GoOutCommand =
                 State.get () |> Navigation.exitTo streetId |> Effect.apply
 
                 Scene.WorldAfterMovement }
+
+[<RequireQualifiedAccess>]
+module GoToCommand =
+    /// Creates a command that allows the player to go to a different street
+    /// that is connecting to the current one.
+    let create (connectingStreets: Street list) =
+        { Name = "go to"
+          Description =
+            $"""Allows you to go to a connecting street. Use as {Styles.information "go to {street name}"}"""
+          Handler =
+            fun args ->
+                let input = args |> String.concat " "
+
+                let matchingStreet =
+                    connectingStreets
+                    |> List.tryFind (fun street ->
+                        String.diacriticInsensitiveContains street.Name input)
+
+                match matchingStreet with
+                | Some street ->
+                    $"You make your way to {street.Name}..." |> showMessage
+
+                    wait 1000<millisecond>
+
+                    State.get () |> Navigation.exitTo street.Id |> Effect.apply
+
+                    Scene.WorldAfterMovement
+                | None ->
+                    $"""There are no streets named "{input}" here! Use {Styles.information "look"} to see the available streets"""
+                    |> Styles.error
+                    |> showMessage
+
+                    Scene.World }
 
 [<RequireQualifiedAccess>]
 module EnterCommand =

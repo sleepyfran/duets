@@ -106,6 +106,8 @@ let private commandsFromInteractions interactions =
             | FreeRoamInteraction.Enter _ -> [ EnterCommand.get ]
             | FreeRoamInteraction.GoOut streetId ->
                 [ GoOutCommand.create streetId ]
+            | FreeRoamInteraction.GoToStreet street ->
+                [ GoToCommand.create street ]
             | FreeRoamInteraction.Inventory inventory ->
                 [ InventoryCommand.create inventory ]
             | FreeRoamInteraction.Look(items, knownPeople, unknownPeople) ->

@@ -38,13 +38,27 @@ module FreeRoam =
                     |> List.item currentSplit
 
             places
-            |> List.choose (fun place ->
-                match place.PlaceType with
-                | Street -> None (* Streets are navigable via exits. *)
-                | _ ->
-                    FreeRoamInteraction.Enter(place)
-                    |> Interaction.FreeRoam
-                    |> Some)
+            |> List.map (FreeRoamInteraction.Enter >> Interaction.FreeRoam)
+        | _ -> []
+
+    let getGoToInteractions state place =
+        (*
+        The player can only navigate to connecting streets from another street.
+        *)
+        match place.PlaceType with
+        | PlaceType.Street ->
+            let zone = Queries.World.zoneInCurrentCityById state place.ZoneId
+
+            let connectingStreets =
+                zone.Streets.Connections
+                |> Map.tryFind place.Id
+                |> Option.defaultValue Map.empty
+                |> Map.toList
+                |> List.choose (fun (_, connectingStreetId) ->
+                    zone.Streets.Nodes |> Map.tryFind connectingStreetId)
+
+            [ FreeRoamInteraction.GoToStreet connectingStreets
+              |> Interaction.FreeRoam ]
         | _ -> []
 
     let private getOutInteractions roomId place =
@@ -62,12 +76,17 @@ module FreeRoam =
     let private getNavigationInteractions state (_, _, roomId) place =
         let enterInteractions = getEnterInteractions state roomId place
 
+        let goToInteractions = getGoToInteractions state place
+
         let withinPlaceMovementInteractions =
             getMovementInteractions roomId place
 
         let exitInteraction = getOutInteractions roomId place
 
-        withinPlaceMovementInteractions @ exitInteraction @ enterInteractions
+        withinPlaceMovementInteractions
+        @ exitInteraction
+        @ enterInteractions
+        @ goToInteractions
 
     let internal interactions
         state

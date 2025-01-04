@@ -102,6 +102,8 @@ module InteractionTypes =
         | Enter of place: Place
         /// Allows the player to exit a place towards a specific destination.
         | GoOut of destinationStreetId: StreetId
+        /// Allows the player to move onto a connecting street.
+        | GoToStreet of connectingStreets: Street list
         /// Allows the player to see what they are currently carrying.
         | Inventory of inventory: Item list
         /// Allows the user to look around and see which objects are available.

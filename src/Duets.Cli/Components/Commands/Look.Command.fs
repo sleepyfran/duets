@@ -57,6 +57,25 @@ module LookCommand =
             )
         |> Option.iter showMessage
 
+    let private getConnectedStreets
+        (interactions: InteractionWithMetadata list)
+        =
+        let connectedStreets =
+            interactions
+            |> List.choose (fun interaction ->
+                match interaction.Interaction with
+                | Interaction.FreeRoam(FreeRoamInteraction.GoToStreet(streets)) ->
+                    Some(streets)
+                | _ -> None)
+            |> List.concat
+
+        match connectedStreets with
+        | [] -> None
+        | exits ->
+            Generic.listOf exits (fun street ->
+                $"{street.Name |> Styles.place}")
+            |> Some
+
     let private listRoomConnections
         (interactions: InteractionWithMetadata list)
         =
@@ -75,9 +94,12 @@ module LookCommand =
                     Some(direction, roomType)
                 | _ -> None)
 
+        let connectedStreetListOpt = getConnectedStreets interactions
+
         match connections with
-        | [] -> World.noConnectionsToRoom place
-        | connections -> World.connectingNodes place connections
+        | [] -> World.noConnectionsToRoom place connectedStreetListOpt
+        | connections ->
+            World.connectingNodes place connections connectedStreetListOpt
         |> showMessage
 
     let private listPeople
