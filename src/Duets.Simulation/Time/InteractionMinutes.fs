@@ -47,8 +47,9 @@ let effectMinutes =
         let previousPlace = Queries.World.placeInCityById prevCityId prevPlaceId
         let currentPlace = Queries.World.placeInCityById currCityId currPlaceId
 
-        if currentPlace.ZoneId <> previousPlace.ZoneId then
-            30<minute>
+        if currentPlace.ZoneId = previousPlace.ZoneId then
+            10<minute>
         else
-            15<minute>
+            (* TODO: Make variable when metro and other vehicles are supported. For now, assume walking. *)
+            25<minute>
     | _ -> 0<minute>
