@@ -259,18 +259,12 @@ let airportLayout =
 
 /// Usual layout for a metro station.
 let metroLayout =
-    let lobby =
-        RoomType.Lobby
-        |> World.Room.create
-        |> World.Node.create Ids.Common.lobby
-
     let platform =
         RoomType.Platform
         |> World.Room.create
         |> World.Node.create Ids.Metro.platform
 
-    World.Graph.fromMany [ lobby; platform ]
-    |> World.Graph.connectMany [ lobby.Id, platform.Id, North ]
+    World.Graph.from platform
 
 /// Usual layout for a rehearsal space.
 let rehearsalSpaceLayout =

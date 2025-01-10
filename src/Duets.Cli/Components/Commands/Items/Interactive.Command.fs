@@ -54,6 +54,23 @@ module InteractiveCommand =
                  Items.itemNotReadable |> showMessage
                  Scene.World)
 
+    let ride =
+        Command.itemInteraction
+            (Command.VerbOnly "ride")
+            Command.rideDescription
+            ItemInteraction.Ride
+            (function
+             | Ok effects ->
+                 // TODO: Change once we support other types of vehicles.
+                 "You enter the metro..." |> showMessage
+
+                 wait 1000<millisecond>
+                 effects |> Duets.Cli.Effect.applyMultiple
+                 Scene.World
+             | Error _ ->
+                 Items.itemNotRideable |> showMessage
+                 Scene.World)
+
     let watch =
         Command.itemInteraction
             (Command.VerbOnly "watch")

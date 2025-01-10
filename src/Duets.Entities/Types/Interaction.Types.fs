@@ -89,6 +89,7 @@ module InteractionTypes =
         | Put
         | Play
         | Read
+        | Ride
         | Sleep
         | Watch
 

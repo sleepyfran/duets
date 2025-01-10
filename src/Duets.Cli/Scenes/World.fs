@@ -97,6 +97,7 @@ let private commandsFromInteractions interactions =
             | ItemInteraction.Put -> [ PutCommand.get ]
             | ItemInteraction.Play -> [ InteractiveCommand.play ]
             | ItemInteraction.Read -> [ InteractiveCommand.read ]
+            | ItemInteraction.Ride -> [ InteractiveCommand.ride ]
             | ItemInteraction.Sleep -> [ SleepCommand.get ]
             | ItemInteraction.Watch -> [ InteractiveCommand.watch ]
         | Interaction.FreeRoam freeRoamInteraction ->
