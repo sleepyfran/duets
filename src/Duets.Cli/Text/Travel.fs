@@ -1,4 +1,4 @@
-module Duets.Cli.Text.Airport
+module Duets.Cli.Text.Travel
 
 open Duets.Entities
 
@@ -23,3 +23,15 @@ let waitForLanding = Styles.progress "Waiting for the plane to land..."
 let gettingOffPlane = Styles.progress "Getting off plane..."
 
 let passingPassportControl = Styles.progress "Passing passport control..."
+
+let blindlyStaringAtPhone = Styles.progress "Blindly staring at your phone..."
+
+let gettingAnnoyed = Styles.progress "Getting annoyed..."
+
+let waitingSomeMore = Styles.progress "Waiting some more..."
+
+let actionPrompt date dayMoment attributes vehicle =
+    $"""{Generic.infoBar date dayMoment attributes}
+{Emoji.vehicle vehicle} Travelling
+What do you want to do?"""
+    |> Styles.prompt

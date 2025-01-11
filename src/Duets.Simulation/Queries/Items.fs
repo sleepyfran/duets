@@ -34,15 +34,41 @@ module Items =
             localBeer @ Items.Food.Snack.all |> List.map fst
         | _ -> []
 
+    let private spawnableItems state (coords: RoomCoordinates) =
+        let cityId, placeId, _ = coords
+        let place = (cityId, placeId) ||> World.placeInCityById
+
+        match place.PlaceType with
+        | MetroStation ->
+            (*
+            Auto-magically spawn a metro train in the station if the current
+            turn is a multiple of the usual waiting time. Otherwise, the
+            station is empty and the player has to wait for the next train.
+            *)
+            let stationLine =
+                Metro.tryCurrentStationLine state
+                |> Option.get (* We know we are in a metro line, so safe to unwrap. *)
+
+            let timeOverlaps =
+                Metro.timeOverlapsWithWaitingTime state stationLine
+
+            if timeOverlaps then
+                [ Items.Vehicles.Metro.metroTrain ]
+            else
+                []
+        | _ -> []
+
     /// Returns all the items currently available in the given coordinates,
     /// including those that should not be visible to the character.
     let allWithHiddenIn state coords =
         let defaultLocationItems = defaultItems coords
+        let spawnableItems = spawnableItems state coords
 
         Optic.get Lenses.State.worldItems_ state
         |> Map.tryFind coords
         |> Option.defaultValue []
         |> (@) defaultLocationItems
+        |> (@) spawnableItems
 
     /// Returns all the items currently available in the given coordinates.
     let allIn state coords =

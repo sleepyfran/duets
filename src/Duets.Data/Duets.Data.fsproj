@@ -21,6 +21,7 @@
         <Compile Include="Items\Electronics.Items.fs"/>
         <Compile Include="Items\Furniture.Items.fs"/>
         <Compile Include="Items\Gym.Items.fs"/>
+        <Compile Include="Items\Vehicle.Items.fs"/>
         <Compile Include="Items\Food\Breakfast.Food.fs"/>
         <Compile Include="Items\Food\Czech.Food.fs"/>
         <Compile Include="Items\Food\Japanese.Food.fs"/>

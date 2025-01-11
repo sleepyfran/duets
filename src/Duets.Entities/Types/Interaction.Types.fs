@@ -89,7 +89,7 @@ module InteractionTypes =
         | Put
         | Play
         | Read
-        | Ride
+        | Ride of RideableItem
         | Sleep
         | Watch
 
@@ -222,6 +222,10 @@ module InteractionTypes =
         /// Allows to release a previously recorded album.
         | ReleaseAlbum of albums: UnreleasedAlbum list
 
+    /// Interactions that can only be performed when travelling in a vehicle.
+    [<RequireQualifiedAccess>]
+    type TravelInteraction = WaitForMetro
+
     /// Defines all interactions that can be performed in the game. These
     /// interactions are passed back into the CLI layer to actually execute the
     /// flow. Interactions should have all the necessary information for the
@@ -241,6 +245,7 @@ module InteractionTypes =
         | Shop of ShopInteraction
         | Social of SocialInteraction
         | Studio of StudioInteraction
+        | Travel of TravelInteraction
 
     /// Defines all possible reasons why an interaction can be disabled.
     [<RequireQualifiedAccess>]

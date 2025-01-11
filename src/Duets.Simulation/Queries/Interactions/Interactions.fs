@@ -82,7 +82,7 @@ module Interactions =
             | Home -> []
             | Hospital -> []
             | Hotel _ -> []
-            | MetroStation -> []
+            | MetroStation -> MetroStation.interactions state
             | MerchandiseWorkshop ->
                 MerchandiseWorkshop.interactions
                     state
@@ -98,6 +98,7 @@ module Interactions =
         placeSpecificInteractions
         |> (@) defaultInteractions
         |> InteractionCommon.filterOutSituationalInteractions state
+        |> InteractionCommon.filterOutPlaceSpecificInteractions currentPlace
         |> List.map (fun interaction ->
             { Interaction = interaction
               State = InteractionState.Enabled })

@@ -17,9 +17,9 @@ module WaitForLandingCommand =
           Handler =
             fun _ ->
                 showProgressBarSync
-                    [ Airport.waitForLanding
-                      Airport.gettingOffPlane
-                      Airport.passingPassportControl ]
+                    [ Travel.waitForLanding
+                      Travel.gettingOffPlane
+                      Travel.passingPassportControl ]
                     5<second>
 
                 leavePlane (State.get ()) flight |> Effect.applyMultiple

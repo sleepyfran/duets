@@ -21,3 +21,5 @@ module SituationTypes =
         | PlayingMiniGame of MiniGameState
         /// Player is in a conversation with an NPC.
         | Socializing of SocializingState
+        /// Player is travelling in a vehicle.
+        | Travelling of vehicle: RideableItem

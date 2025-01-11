@@ -36,3 +36,7 @@ let playingMiniGame miniGameState =
 /// Sets the current situation to socializing.
 let socializing socializingState =
     socializingState |> Socializing |> SituationChanged
+    
+/// Sets the current situation to travelling.
+let travelling vehicle =
+    vehicle |> Travelling |> SituationChanged

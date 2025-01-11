@@ -18,7 +18,7 @@ let generate () =
               (downtownLA.Id, NextAndPrevious(hollywood.Id, santaMonica.Id))
               (santaMonica.Id, OnlyPrevious(downtownLA.Id)) ]
             |> Map.ofList
-          UsualWaitingTime = 10<minute> }
+          UsualWaitingTime = 9<minute> }
 
     city
     |> World.City.addZone downtownLA

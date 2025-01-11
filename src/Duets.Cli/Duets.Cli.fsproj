@@ -26,7 +26,7 @@
         <Compile Include="Text\Rehearsal.fs"/>
         <Compile Include="Text\Shop.fs"/>
         <Compile Include="Text\Studio.fs"/>
-        <Compile Include="Text\Airport.fs"/>
+        <Compile Include="Text\Travel.fs"/>
         <Compile Include="Text\Skill.fs"/>
         <Compile Include="Text\Character.fs"/>
         <Compile Include="Text\Songs.fs"/>
@@ -137,6 +137,7 @@
         <Compile Include="Components\Commands\Social\Social.Command.fs"/>
         <Compile Include="Components\Commands\Social\StartStopConversation.Command.fs"/>
         <Compile Include="Components\Commands\Social\Social.Commands.fs"/>
+        <Compile Include="Components\Commands\Travel\WaitForMetro.Command.fs"/>
         <Compile Include="Components\Commands\Cheats\Band.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>

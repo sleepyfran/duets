@@ -71,6 +71,7 @@ let private mood m =
     | m when m < 75 -> ":slightly_smiling_face:"
     | _ -> ":beaming_face_with_smiling_eyes:"
 
+/// Returns the correct emoji for showing an attribute.
 let attribute attr amount =
     match attr with
     | CharacterAttribute.Drunkenness -> ":woozy_face:"
@@ -81,8 +82,14 @@ let attribute attr amount =
     | CharacterAttribute.Hunger -> ":pot_of_food:"
     | CharacterAttribute.Mood -> mood amount
 
+/// Returns the correct emoji for showing a moodlet.
 let moodlet m =
     match m with
     | MoodletType.JetLagged -> ":sleepy_face:"
     | MoodletType.NotInspired -> ":expressionless_face:"
     | MoodletType.TiredOfTouring -> ":minibus:"
+    
+/// Returns the correct emoji for showing a vehicle.
+let vehicle v =
+    match v with
+    | Metro -> ":metro:"
