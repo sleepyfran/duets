@@ -15,7 +15,7 @@ let generate () =
         { Id = Blue
           Stations =
             [ (hollywood.Id, OnlyNext(downtownLA.Id))
-              (downtownLA.Id, NextAndPrevious(hollywood.Id, santaMonica.Id))
+              (downtownLA.Id, PreviousAndNext(hollywood.Id, santaMonica.Id))
               (santaMonica.Id, OnlyPrevious(downtownLA.Id)) ]
             |> Map.ofList
           UsualWaitingTime = 9<minute> }

@@ -13,7 +13,7 @@ module MetroTypes =
     type MetroStationConnection =
         | OnlyNext of ZoneId
         | OnlyPrevious of ZoneId
-        | NextAndPrevious of ZoneId * ZoneId
+        | PreviousAndNext of ZoneId * ZoneId
 
     /// Defines a metro line in a city, which consists of a color and a list of
     /// station coordinates where the metro line stops.
