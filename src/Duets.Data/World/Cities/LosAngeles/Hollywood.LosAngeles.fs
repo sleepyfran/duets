@@ -61,13 +61,17 @@ let private studioRow (zone: Zone) =
         ("Hollywood/Vine Station", zone.Id)
         |> (PlaceCreators.createMetro street.Id)
 
-    street
-    |> World.Street.addPlaces studios
-    |> World.Street.addPlaces rehearsalSpaces
-    |> World.Street.addPlaces concertSpaces
-    |> World.Street.addPlaces merchStores
-    |> World.Street.addPlaces cafes
-    |> World.Street.addPlace metroStation
+    let street =
+        street
+        |> World.Street.addPlaces studios
+        |> World.Street.addPlaces rehearsalSpaces
+        |> World.Street.addPlaces concertSpaces
+        |> World.Street.addPlaces merchStores
+        |> World.Street.addPlaces cafes
+        |> World.Street.addPlace metroStation
+
+
+    street, metroStation
 
 let private boulevardOfStars (zone: Zone) =
     let street =
@@ -158,13 +162,14 @@ let private alleyway (zone: Zone) =
 let zone =
     let hollywoodZone = World.Zone.create "Hollywood"
 
-    let studioRow = studioRow hollywoodZone
+    let studioRow, metroStation = studioRow hollywoodZone
     let boulevardOfStars = boulevardOfStars hollywoodZone
     let alleyway = alleyway hollywoodZone
 
     let metroStation =
         { Line = Blue
-          LeavesToStreet = studioRow.Id }
+          LeavesToStreet = studioRow.Id
+          PlaceId = metroStation.Id }
 
     hollywoodZone
     |> World.Zone.addStreet (World.Node.create studioRow.Id studioRow)

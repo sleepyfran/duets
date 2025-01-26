@@ -43,13 +43,16 @@ let financialCorridor city (zone: Zone) =
         ("Downtown LA Station", zone.Id)
         |> (PlaceCreators.createMetro street.Id)
 
-    street
-    |> World.Street.addPlaces hotels
-    |> World.Street.addPlaces restaurants
-    |> World.Street.addPlaces gyms
-    |> World.Street.addPlaces recordingStudios
-    |> World.Street.addPlaces cafes
-    |> World.Street.addPlace metroStation
+    let street =
+        street
+        |> World.Street.addPlaces hotels
+        |> World.Street.addPlaces restaurants
+        |> World.Street.addPlaces gyms
+        |> World.Street.addPlaces recordingStudios
+        |> World.Street.addPlaces cafes
+        |> World.Street.addPlace metroStation
+
+    street, metroStation
 
 let grandStreet (zone: Zone) =
     let street = World.Street.create "Grand Street" (StreetType.Split(East, 2))
@@ -130,13 +133,14 @@ let backstreets (zone: Zone) =
 let createZone city =
     let downtownLAZone = World.Zone.create "Downtown LA"
 
-    let financialCorridor = financialCorridor city downtownLAZone
+    let financialCorridor, metroStation = financialCorridor city downtownLAZone
     let grandStreet = grandStreet downtownLAZone
     let backstreets = backstreets downtownLAZone
 
     let metroStation =
         { Line = Blue
-          LeavesToStreet = financialCorridor.Id }
+          LeavesToStreet = financialCorridor.Id
+          PlaceId = metroStation.Id }
 
     downtownLAZone
     |> World.Zone.addStreet (

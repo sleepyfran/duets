@@ -164,11 +164,8 @@ module WorldTypes =
             /// to avoid having conflicting descriptors.
             Descriptors: ZoneDescriptor list
             Streets: Graph<Street>
-            /// Stations that these zones have. Usually zones will have just one
-            /// station but these stations can have more than one line passing
-            /// through them, so stations can appear multiple time under different
-            /// lines.
-            MetroStations: MetroStation list
+            /// Stations that these zone have per line.
+            MetroStations: Map<MetroLineId, MetroStation>
         }
 
     [<Measure>]

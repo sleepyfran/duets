@@ -177,7 +177,7 @@ module Zone =
         { Id = inferredId.ToString()
           Name = name
           Descriptors = []
-          MetroStations = []
+          MetroStations = Map.empty
           Streets = Graph.empty }
 
     /// Adds a descriptor to the given zone.
@@ -253,7 +253,7 @@ module Zone =
     /// Adds a metro station to the given zone.
     let addMetroStation station zone =
         { zone with
-            MetroStations = station :: zone.MetroStations }
+            MetroStations = Map.add station.Line station zone.MetroStations }
 
 [<RequireQualifiedAccess>]
 module City =

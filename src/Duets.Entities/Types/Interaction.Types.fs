@@ -3,7 +3,7 @@ namespace Duets.Entities
 open Duets.Entities
 
 [<AutoOpen>]
-module InteractionTypes =
+module rec InteractionTypes =
     [<RequireQualifiedAccess>]
     type AirportInteraction =
         /// Allows the character to board a flight they've previously booked.
@@ -224,7 +224,13 @@ module InteractionTypes =
 
     /// Interactions that can only be performed when travelling in a vehicle.
     [<RequireQualifiedAccess>]
-    type TravelInteraction = WaitForMetro
+    type TravelInteraction =
+        /// Allows the character to travel to a specific destination by metro.
+        | TravelByMetroTo of
+            availableDestinations: MetroStationConnections *
+            via: MetroLine
+        /// Allows the character to wait for the metro to arrive.
+        | WaitForMetro
 
     /// Defines all interactions that can be performed in the game. These
     /// interactions are passed back into the CLI layer to actually execute the
@@ -283,3 +289,15 @@ module InteractionTypes =
         | Darts of SimpleResult
         | Pool of SimpleResult
         | VideoGame
+
+    /// Represents the information about a destination in a metro station.
+    type MetroStationDestination = Place * Zone * ZonedPlaceCoordinates
+
+    /// Defines the coordinates of the next and previous stations that connect
+    /// to the current station, if any.
+    type MetroStationConnections =
+        | OnlyPreviousCoords of MetroStationDestination
+        | PreviousAndNextCoords of
+            previous: MetroStationDestination *
+            next: MetroStationDestination
+        | OnlyNextCoords of MetroStationDestination

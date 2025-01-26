@@ -35,3 +35,17 @@ let actionPrompt date dayMoment attributes vehicle =
 {Emoji.vehicle vehicle} Travelling
 What do you want to do?"""
     |> Styles.prompt
+
+let arrivedAtStation dayMoment =
+    match dayMoment with
+    | EarlyMorning
+    | Morning ->
+        "The train slows abruptly, a slight jostle as it comes to a stop. The doors slide open, revealing a platform surging with early morning commuters. A cacophony of sounds – hurried footsteps, snippets of phone calls, and the automated announcements – washes over you as you step into the throng. You've arrived, right in the thick of the morning rush."
+    | Midday
+    | Afternoon
+    | Evening ->
+        "The train decelerates smoothly, arriving at your destination. The doors chime open, offering a view of a platform with a more relaxed pace. A mix of voices and the gentle hum of the station fills the air as you step onto the platform. You've reached your stop, the afternoon atmosphere much more leisurely."
+    | Night
+    | Midnight ->
+        "The train glides to a quiet stop, the air brakes sighing softly. The doors slide open to reveal a dimly lit platform, where only a handful of other travelers are waiting. The silence, broken only by occasional announcements and the low hum of the station, is striking. You disembark, arriving at your stop in the quiet of the night."
+    |> Styles.event

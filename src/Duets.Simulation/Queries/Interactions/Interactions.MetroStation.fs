@@ -18,7 +18,13 @@ module MetroStation =
 
         match situation, timeOverlaps with
         | Travelling Metro, _ ->
-            [] (* TODO: Implement travelling interactions. *)
+            Queries.Metro.tryCurrentStation state
+            |> Option.bind (Queries.Metro.stationConnections state)
+            |> Option.map (fun connections ->
+                TravelInteraction.TravelByMetroTo(connections, currentLine)
+                |> Interaction.Travel
+                |> List.singleton)
+            |> Option.defaultValue []
         | _, false ->
             (* If the time does not overlap, let the player wait for the next train. *)
             [ TravelInteraction.WaitForMetro |> Interaction.Travel ]

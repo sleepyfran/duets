@@ -194,6 +194,8 @@ let private commandsFromInteractions interactions =
                 [ ReleaseAlbumCommand.create unreleasedAlbums ]
         | Interaction.Travel travelInteraction ->
             match travelInteraction with
+            | TravelInteraction.TravelByMetroTo(connection, viaLine) ->
+                [ TravelByMetroCommand.create connection viaLine ]
             | TravelInteraction.WaitForMetro -> [ WaitForMetroCommand.get ]
         |> List.map (Tuple.two interactionWithMetadata))
     |> List.map (fun (interactionWithMetadata, command) ->

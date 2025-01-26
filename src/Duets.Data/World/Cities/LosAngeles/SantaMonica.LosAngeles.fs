@@ -34,13 +34,16 @@ let oceanAvenue city (zone: Zone) =
         ("Santa Monica Station", zone.Id)
         |> (PlaceCreators.createMetro street.Id)
 
-    street
-    |> World.Street.addPlaces hotels
-    |> World.Street.addPlaces restaurants
-    |> World.Street.addPlaces gyms
-    |> World.Street.addPlaces cafes
-    |> World.Street.addPlaces concertSpaces
-    |> World.Street.addPlace metroStation
+    let street =
+        street
+        |> World.Street.addPlaces hotels
+        |> World.Street.addPlaces restaurants
+        |> World.Street.addPlaces gyms
+        |> World.Street.addPlaces cafes
+        |> World.Street.addPlaces concertSpaces
+        |> World.Street.addPlace metroStation
+
+    street, metroStation
 
 let pierWay (zone: Zone) =
     let street = World.Street.create "Pier Way" StreetType.OneWay
@@ -111,13 +114,14 @@ let promenadePath (zone: Zone) =
 let createZone city =
     let santaMonicaZone = World.Zone.create "Santa Monica"
 
-    let oceanAvenue = oceanAvenue city santaMonicaZone
+    let oceanAvenue, metroStation = oceanAvenue city santaMonicaZone
     let pierWay = pierWay santaMonicaZone
     let promenadePath = promenadePath santaMonicaZone
 
     let metroStation =
         { Line = Blue
-          LeavesToStreet = oceanAvenue.Id }
+          LeavesToStreet = oceanAvenue.Id
+          PlaceId = metroStation.Id }
 
     santaMonicaZone
     |> World.Zone.addStreet (World.Node.create oceanAvenue.Id oceanAvenue)

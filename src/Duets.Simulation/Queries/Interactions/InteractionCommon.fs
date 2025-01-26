@@ -45,6 +45,11 @@ module InteractionCommon =
                 | _ -> false
             | Travelling _ ->
                 match interaction with
+                | Interaction.FreeRoam(FreeRoamInteraction.Clock _)
+                | Interaction.FreeRoam(FreeRoamInteraction.Inventory _)
+                | Interaction.FreeRoam FreeRoamInteraction.Phone -> true
+                | Interaction.FreeRoam _ -> false
+                | Interaction.Travel _ -> true
                 | _ -> false)
 
     let internal filterOutPlaceSpecificInteractions place =

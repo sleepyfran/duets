@@ -72,6 +72,9 @@ let information text = $"[underline]{text}[/]"
 /// Pre-defined style for showing text that does not draw attention immediately.
 let faded text = $"[grey]{text}[/]"
 
+/// Pre-defined style for events that happen after a turn.
+let event = faded
+
 /// Pre-defined style for showing text that is a hint to the user.
 let hint = faded
 
