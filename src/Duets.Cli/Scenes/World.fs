@@ -194,6 +194,7 @@ let private commandsFromInteractions interactions =
                 [ ReleaseAlbumCommand.create unreleasedAlbums ]
         | Interaction.Travel travelInteraction ->
             match travelInteraction with
+            | TravelInteraction.LeaveMetro -> [ LeaveMetroCommand.get ]
             | TravelInteraction.TravelByMetroTo(connection, viaLine) ->
                 [ TravelByMetroCommand.create connection viaLine ]
             | TravelInteraction.WaitForMetro -> [ WaitForMetroCommand.get ]

@@ -137,8 +137,9 @@
         <Compile Include="Components\Commands\Social\Social.Command.fs"/>
         <Compile Include="Components\Commands\Social\StartStopConversation.Command.fs"/>
         <Compile Include="Components\Commands\Social\Social.Commands.fs"/>
-        <Compile Include="Components\Commands\Travel\WaitForMetro.Command.fs"/>
+        <Compile Include="Components\Commands\Travel\LeaveMetro.Command.fs"/>
         <Compile Include="Components\Commands\Travel\TravelByMetro.Command.fs"/>
+        <Compile Include="Components\Commands\Travel\WaitForMetro.Command.fs"/>
         <Compile Include="Components\Commands\Cheats\Band.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>

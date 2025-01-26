@@ -25,6 +25,7 @@ module MetroStation =
                 |> Interaction.Travel
                 |> List.singleton)
             |> Option.defaultValue []
+            |> (@) [ TravelInteraction.LeaveMetro |> Interaction.Travel ]
         | _, false ->
             (* If the time does not overlap, let the player wait for the next train. *)
             [ TravelInteraction.WaitForMetro |> Interaction.Travel ]

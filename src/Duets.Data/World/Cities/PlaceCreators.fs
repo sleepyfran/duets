@@ -87,7 +87,7 @@ let createMerchandiseWorkshop streetId (name, zoneId) =
 /// Creates a metro station with the given name and lines.
 let createMetro streetId (name, zoneId) =
     World.Place.create name 100<quality> MetroStation Layouts.metroLayout zoneId
-    |> World.Place.addExit Ids.Common.lobby streetId
+    |> World.Place.addExit Ids.Metro.platform streetId
 
 /// Creates a rehearsal space with the given name, quality, price and zone.
 let createRehearsalSpace streetId (name, quality, price, zoneId) =

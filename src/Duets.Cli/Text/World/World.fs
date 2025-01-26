@@ -4,6 +4,7 @@ module Duets.Cli.Text.World.World
 open Duets.Agents
 open Duets.Cli.Text
 open Duets.Entities
+open Duets.Entities.SituationTypes
 open Duets.Simulation
 
 let placeNameWithOpeningInfo placeDetails currentlyOpen =
@@ -90,10 +91,14 @@ let directionName direction =
     | NorthWest -> "north-west"
 
 let youAreInMessage (place: Place) roomType =
-    let zone = Queries.World.zoneInCurrentCityById (State.get ()) place.ZoneId
+    let state = State.get ()
+    let situation = Queries.Situations.current state
+    let zone = Queries.World.zoneInCurrentCityById state place.ZoneId
 
-    match roomType with
-    | RoomType.Street ->
+    match roomType, situation with
+    | RoomType.Platform, Travelling Metro ->
+        "You are currently travelling on the metro."
+    | RoomType.Street, _ ->
         $"You stand outside on {place.Name |> Styles.room}, {zone.Name |> Styles.place}"
     | _ ->
         $"You are in the {roomName roomType |> Styles.room} inside of {place.Name |> Styles.place}"

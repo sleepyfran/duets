@@ -225,6 +225,8 @@ module rec InteractionTypes =
     /// Interactions that can only be performed when travelling in a vehicle.
     [<RequireQualifiedAccess>]
     type TravelInteraction =
+        /// Allows the character to leave the metro onto the station.
+        | LeaveMetro
         /// Allows the character to travel to a specific destination by metro.
         | TravelByMetroTo of
             availableDestinations: MetroStationConnections *
