@@ -34,7 +34,7 @@ module FreeRoam =
                     let currentSplit = int roomId
 
                     filteredPlaces
-                    |> List.splitInto (splits + 1) (* Splits are 0-indexed. *)
+                    |> List.splitInto splits
                     |> List.item currentSplit
 
             places

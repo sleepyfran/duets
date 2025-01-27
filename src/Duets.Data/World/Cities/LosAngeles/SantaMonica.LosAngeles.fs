@@ -119,7 +119,7 @@ let createZone city =
     let promenadePath = promenadePath santaMonicaZone
 
     let metroStation =
-        { Line = Blue
+        { Lines = [ Blue ]
           LeavesToStreet = oceanAvenue.Id
           PlaceId = metroStation.Id }
 

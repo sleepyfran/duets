@@ -206,14 +206,15 @@ module Zone =
                 let graph = Graph.empty |> Graph.setStartingNode "0"
 
                 let connections =
-                    [ for i in 0 .. splits - 1 -> (i, i + 1) ]
-                    |> List.map (fun (fromNode, toNode) ->
+                    Seq.init (splits - 1) (fun i -> i, i + 1)
+                    |> Seq.map (fun (fromNode, toNode) ->
                         (fromNode.ToString(),
                          toNode.ToString(),
                          throughDirection))
+                    |> List.ofSeq
 
-                [ 0..splits ]
-                |> List.fold
+                Seq.init splits id
+                |> Seq.fold
                     (fun outerGraph index ->
                         Graph.addNode
                             (Node.create
@@ -253,7 +254,11 @@ module Zone =
     /// Adds a metro station to the given zone.
     let addMetroStation station zone =
         { zone with
-            MetroStations = Map.add station.Line station zone.MetroStations }
+            MetroStations =
+                station.Lines
+                |> List.fold
+                    (fun acc line -> Map.add line station acc)
+                    zone.MetroStations }
 
 [<RequireQualifiedAccess>]
 module City =

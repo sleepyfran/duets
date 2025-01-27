@@ -48,11 +48,31 @@ module Navigation =
     /// Moves the player to the specified street inside of the current city.
     let exitTo streetId state =
         let currentCoords = Queries.World.currentCoordinates state
+        let currentPlace = Queries.World.currentPlace state
+
         let cityId, _, _ = currentCoords
+        let street = Queries.World.streetInCurrentCity streetId state
+
+        // Streets can be partitioned into multiple parts (to have "Street
+        // continues to..."), so when exiting from a building attempt to leave
+        // the player in the part of the street that connects to the building,
+        // otherwise it's a bit confusing.
+        let streetPart =
+            match street.Type with
+            | StreetType.OneWay -> "0"
+            | StreetType.Split(_, splits) ->
+                // TODO: Please write tests for all street related stuff, it's really fragile!
+                let currentPlaceIndex =
+                    street.Places
+                    |> List.findIndex (fun place -> place.Id = currentPlace.Id)
+
+                let itemsPerGroup = street.Places.Length / splits
+                let idx = float currentPlaceIndex / float itemsPerGroup
+                idx - 1.0 |> Math.ceilToNearest |> string
 
         // Streets are not "real" places, but we index them like them via
         // their street ID.
-        WorldMoveToPlace(Diff(currentCoords, (cityId, streetId, "0")))
+        WorldMoveToPlace(Diff(currentCoords, (cityId, streetId, streetPart)))
 
     /// Moves the player to the specified room inside of the current place.
     let enter roomId state =

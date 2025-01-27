@@ -195,8 +195,8 @@ let private commandsFromInteractions interactions =
         | Interaction.Travel travelInteraction ->
             match travelInteraction with
             | TravelInteraction.LeaveMetro -> [ LeaveMetroCommand.get ]
-            | TravelInteraction.TravelByMetroTo(connection, viaLine) ->
-                [ TravelByMetroCommand.create connection viaLine ]
+            | TravelInteraction.TravelByMetroTo(connections) ->
+                [ TravelByMetroCommand.create connections ]
             | TravelInteraction.WaitForMetro -> [ WaitForMetroCommand.get ]
         |> List.map (Tuple.two interactionWithMetadata))
     |> List.map (fun (interactionWithMetadata, command) ->

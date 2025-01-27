@@ -167,7 +167,7 @@ let zone =
     let alleyway = alleyway hollywoodZone
 
     let metroStation =
-        { Line = Blue
+        { Lines = [ Blue ]
           LeavesToStreet = studioRow.Id
           PlaceId = metroStation.Id }
 

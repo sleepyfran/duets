@@ -45,12 +45,12 @@ module Items =
             turn is a multiple of the usual waiting time. Otherwise, the
             station is empty and the player has to wait for the next train.
             *)
-            let stationLine =
-                Metro.tryCurrentStationLine state
-                |> Option.get (* We know we are in a metro line, so safe to unwrap. *)
+            let stationLines = Metro.currentStationLines state
 
             let timeOverlaps =
-                Metro.timeOverlapsWithWaitingTime state stationLine
+                stationLines
+                |> List.map (Metro.timeOverlapsWithWaitingTime state)
+                |> List.exists id
 
             if timeOverlaps then
                 [ Items.Vehicles.Metro.metroTrain ]

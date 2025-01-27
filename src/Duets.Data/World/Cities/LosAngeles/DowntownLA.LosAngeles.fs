@@ -137,8 +137,8 @@ let createZone city =
     let grandStreet = grandStreet downtownLAZone
     let backstreets = backstreets downtownLAZone
 
-    let metroStation =
-        { Line = Blue
+    let station =
+        { Lines = [ Blue; Red ]
           LeavesToStreet = financialCorridor.Id
           PlaceId = metroStation.Id }
 
@@ -151,4 +151,4 @@ let createZone city =
     |> World.Zone.connectStreets financialCorridor.Id grandStreet.Id East
     |> World.Zone.connectStreets grandStreet.Id backstreets.Id North
     |> World.Zone.addDescriptor BusinessDistrict
-    |> World.Zone.addMetroStation metroStation
+    |> World.Zone.addMetroStation station

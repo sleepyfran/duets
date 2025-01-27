@@ -14,8 +14,7 @@ open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
 module TravelByMetroCommand =
     /// Command that allows the user to travel by metro to a specific destination.
     let create
-        (availableConnections: MetroStationConnections)
-        (line: MetroLine)
+        (availableConnections: (MetroStationConnections * MetroLine) list)
         =
         { Name = "travel"
           Description =
@@ -26,23 +25,30 @@ module TravelByMetroCommand =
 
                 // TODO: Destinations should include ALL available stations.
                 let destinations =
-                    match availableConnections with
-                    | OnlyPreviousCoords previous -> [ previous ]
-                    | PreviousAndNextCoords(previous, next) ->
-                        [ previous; next ]
-                    | OnlyNextCoords next -> [ next ]
+                    availableConnections
+                    |> List.fold
+                        (fun acc (connections, line) ->
+                            match connections with
+                            | OnlyPreviousCoords previous ->
+                                (previous, line) :: acc
+                            | PreviousAndNextCoords(previous, next) ->
+                                (previous, line) :: (next, line) :: acc
+                            | OnlyNextCoords next -> (next, line) :: acc)
+                        []
 
                 let selectedDestination =
                     showOptionalChoicePrompt
                         (Styles.prompt
-                            $"You are travelling in the line {line.Id}. You can travel to these stations, where would you like to go?")
+                            "You can travel to these stations, where would you like to go?")
                         Generic.cancel
-                        (fun (place: Place, zone: Zone, _) ->
-                            $"{place.Name |> Styles.place} in {zone.Name |> Styles.faded}")
+                        (fun ((place: Place, zone: Zone, _), line: MetroLine) ->
+                            $"{place.Name |> Styles.place} in {zone.Name |> Styles.faded} through {line.Id |> Styles.line} line")
                         destinations
 
                 match selectedDestination with
-                | Some(_, _, (_, _, targetPlaceId)) ->
+                | Some(option) ->
+                    let (targetPlace, _, _), _ = option
+
                     let currentDayMoment =
                         Queries.Calendar.today state
                         |> Calendar.Query.dayMomentOf
@@ -53,7 +59,7 @@ module TravelByMetroCommand =
 
                     // Moving to metro stations should not yield any entrance errors,
                     // so ignore the error for now.
-                    Navigation.moveTo targetPlaceId state
+                    Navigation.moveTo targetPlace.Id state
                     |> Result.iter Effect.apply
 
                     Travel.arrivedAtStation currentDayMoment |> showMessage

@@ -34,6 +34,6 @@ module MetroTypes =
     /// Defines a metro station in a city, which holds the line that the station
     /// belongs to and which street coordinates the station leaves to.
     type MetroStation =
-        { Line: MetroLineId
+        { Lines: MetroLineId list
           LeavesToStreet: StreetId
           PlaceId: PlaceId }

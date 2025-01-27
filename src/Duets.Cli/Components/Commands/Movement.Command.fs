@@ -109,7 +109,9 @@ module GoToCommand =
 
                     wait 1000<millisecond>
 
-                    State.get () |> Navigation.exitTo street.Id |> Effect.apply
+                    State.get ()
+                    |> Navigation.moveTo street.Id
+                    |> Result.iter Effect.apply
 
                     Scene.WorldAfterMovement
                 | None ->

@@ -9,21 +9,22 @@ module MetroStation =
     let internal interactions state =
         let situation = Queries.Situations.current state
 
-        let currentLine =
-            Queries.Metro.tryCurrentStationLine state
-            |> Option.get (* We know we are in a metro station, so safe to unwrap. *)
+        let currentLines = Queries.Metro.currentStationLines state
 
-        let timeOverlaps =
-            Queries.Metro.timeOverlapsWithWaitingTime state currentLine
+        let atLeastOneLineOverlaps =
+            currentLines
+            |> List.map (Queries.Metro.timeOverlapsWithWaitingTime state)
+            |> List.exists id
 
-        match situation, timeOverlaps with
+        match situation, atLeastOneLineOverlaps with
         | Travelling Metro, _ ->
             Queries.Metro.tryCurrentStation state
-            |> Option.bind (Queries.Metro.stationConnections state)
-            |> Option.map (fun connections ->
-                TravelInteraction.TravelByMetroTo(connections, currentLine)
-                |> Interaction.Travel
-                |> List.singleton)
+            |> Option.map (Queries.Metro.stationLineConnections state)
+            |> Option.map (
+                TravelInteraction.TravelByMetroTo
+                >> Interaction.Travel
+                >> List.singleton
+            )
             |> Option.defaultValue []
             |> (@) [ TravelInteraction.LeaveMetro |> Interaction.Travel ]
         | _, false ->

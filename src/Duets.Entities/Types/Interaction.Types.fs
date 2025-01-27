@@ -228,9 +228,7 @@ module rec InteractionTypes =
         /// Allows the character to leave the metro onto the station.
         | LeaveMetro
         /// Allows the character to travel to a specific destination by metro.
-        | TravelByMetroTo of
-            availableDestinations: MetroStationConnections *
-            via: MetroLine
+        | TravelByMetroTo of (MetroStationConnections * MetroLine) list
         /// Allows the character to wait for the metro to arrive.
         | WaitForMetro
 

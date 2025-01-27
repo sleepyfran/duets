@@ -93,6 +93,12 @@ let genre text = $"[grey]{text}[/]"
 /// Pre-defined style for dialog text.
 let dialog text = $"[lightseagreen italic]{text}[/]"
 
+/// Pre-defined style for a metro line that follows the line's color.
+let line lineId =
+    match lineId with
+    | Blue -> $"[bold deepskyblue2]{lineId}[/]"
+    | Red -> $"[bold red3]{lineId}[/]"
+
 /// Pre-defined styles for showing a progress step. Shows with a random color.
 let progress text =
     [ "deepskyblue3"

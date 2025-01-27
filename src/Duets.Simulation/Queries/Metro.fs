@@ -18,51 +18,62 @@ module Metro =
         |> List.ofMapValues
         |> List.tryFind (fun station -> station.LeavesToStreet = street.Id)
 
-    /// Attempts to find the station line of the given station. If the station
-    /// does not belong to the metro line of the current city, it returns None.
-    let tryStationLine state station =
+    /// Returns the lines that belong to the given station.
+    let stationLines state station =
         let currentCity = World.currentCity state
 
-        currentCity.MetroLines |> Map.tryFind station.Line
+        station.Lines
+        |> List.map (fun lineId -> currentCity.MetroLines.[lineId])
 
     /// Returns the current station line. If the character is not in a metro
     /// station, it returns None.
-    let tryCurrentStationLine state =
-        tryCurrentStation state |> Option.bind (tryStationLine state)
+    let currentStationLines state =
+        tryCurrentStation state
+        |> Option.map (stationLines state)
+        |> Option.defaultValue []
 
-    /// Returns the connections of a given station in the current metro line.
-    let stationConnections state currentStation =
+    /// Returns the connections of a given station and line.
+    let currentZoneConnections state lineId =
+        let city = World.currentCity state
         let zone, _ = World.currentZoneCoordinates state
-        let metroLine = tryCurrentStationLine state
+        let metroLine = city.MetroLines |> Map.find lineId
 
-        let resolveConnectionToZone targedZoneId =
-            let station =
-                tryStationFromZone state targedZoneId currentStation.Line
-                |> Option.get
+        let resolveConnectionToZone targetZoneId =
+            let targetStation =
+                tryStationFromZone state targetZoneId lineId |> Option.get
 
-            let resolvedZone = World.zoneInCurrentCityById state targedZoneId
+            let resolvedZone = World.zoneInCurrentCityById state targetZoneId
 
             let resolvedPlace =
-                World.placeInCurrentCityById state station.PlaceId
+                World.placeInCurrentCityById state targetStation.PlaceId
 
             let targetCoords =
-                targedZoneId, station.LeavesToStreet, station.PlaceId
+                targetZoneId,
+                targetStation.LeavesToStreet,
+                targetStation.PlaceId
 
             resolvedPlace, resolvedZone, targetCoords
 
-        metroLine
-        |> Option.bind (fun line -> Map.tryFind zone.Id line.Stations)
-        |> Option.map (fun connections ->
-            match connections with
-            | OnlyNext nextZoneId ->
-                resolveConnectionToZone nextZoneId |> OnlyNextCoords
-            | OnlyPrevious previousZoneId ->
-                resolveConnectionToZone previousZoneId |> OnlyPreviousCoords
-            | PreviousAndNext(previousZoneId, nextZoneId) ->
-                let previous = resolveConnectionToZone previousZoneId
-                let next = resolveConnectionToZone nextZoneId
+        let connection =
+            Map.tryFind zone.Id metroLine.Stations
+            |> Option.map (fun connections ->
+                match connections with
+                | OnlyNext nextZoneId ->
+                    (resolveConnectionToZone nextZoneId) |> OnlyNextCoords
+                | OnlyPrevious previousZoneId ->
+                    (resolveConnectionToZone previousZoneId)
+                    |> OnlyPreviousCoords
+                | PreviousAndNext(previousZoneId, nextZoneId) ->
+                    let previous = resolveConnectionToZone previousZoneId
+                    let next = resolveConnectionToZone nextZoneId
 
-                PreviousAndNextCoords(previous, next))
+                    PreviousAndNextCoords(previous, next))
+
+        connection |> Option.map (fun connection -> connection, metroLine)
+
+    /// Returns the connections of a given station in the current metro line.
+    let stationLineConnections state currentStation =
+        currentStation.Lines |> List.choose (currentZoneConnections state)
 
     /// Returns the time that needs to pass for another train to overlap with
     /// the current turn.
