@@ -13,7 +13,7 @@ let private placeDescriptionByCity =
       |> Map.ofList ]
     |> Map.ofList
 
-let cityDependentDescription (place: Place) (_: RoomType) =
+let cityDependentDescription (place: Place) (_: RoomType) : string =
     let state = State.get ()
     let city = Queries.World.currentCity state
     let zone = Queries.World.zoneInCurrentCityById state place.ZoneId
@@ -21,12 +21,10 @@ let cityDependentDescription (place: Place) (_: RoomType) =
     let currentDayMoment =
         Queries.Calendar.today state |> Calendar.Query.dayMomentOf
 
-    let descriptionGenerator =
+    let generateDescriptions =
         placeDescriptionByCity
         |> Map.find city.Id
         |> Map.find (place.PlaceType |> World.Place.Type.toIndex)
 
-    zone.Descriptors
-    |> List.map (descriptionGenerator currentDayMoment)
-    |> List.sample
-    |> String.concat " "
+    let randomDescriptor = zone.Descriptors |> List.sample
+    generateDescriptions currentDayMoment randomDescriptor |> List.sample
