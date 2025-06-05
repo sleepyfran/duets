@@ -15,8 +15,21 @@ module WorkCommand =
           Description = Command.workDescription job
           Handler =
             fun _ ->
-                Career.workShiftEvent job |> showMessage
-                wait 5000<millisecond>
-                workShift (State.get ()) job |> Effect.applyMultiple
 
-                Scene.WorldAfterMovement }
+                let result = workShift (State.get ()) job
+
+                match result with
+                | Ok effects ->
+                    Career.workShiftEvent job |> showMessage
+                    wait 5000<millisecond>
+                    Effect.applyMultiple effects
+
+                    Scene.WorldAfterMovement
+                | Error _ ->
+                    "The place is currently close, you can't work now!"
+                    |> Styles.error
+                    |> showMessage
+
+                    Scene.World
+
+        }

@@ -36,10 +36,24 @@ let private timeAdvancement state job =
     | Some dayMoments -> min shiftDayMoments dayMoments
     | None -> shiftDayMoments
 
+type WorkshiftError = | AttemptedToWorkDuringClosingTime
+
 /// Starts a work shift in the given job, passing the necessary amount of day
 /// moments until the shift ends, paying the character the earned amount and
 /// reducing the needed attributes from the character.
-let workShift state job =
+let rec workShift state job =
+    let currentPlace = Queries.World.currentPlace state
+    let currentTime = Queries.Calendar.today state
+
+    let currentlyClosed =
+        Queries.World.placeCurrentlyOpen currentPlace currentTime |> not
+
+    if currentlyClosed then
+        Error AttemptedToWorkDuringClosingTime
+    else
+        workShift' state job |> Ok
+
+and private workShift' state job =
     let characterAccount = Queries.Bank.playableCharacterAccount state
 
     let shiftDayMoments = timeAdvancement state job

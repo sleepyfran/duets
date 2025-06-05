@@ -2,11 +2,13 @@ module Duets.Simulation.Tests.Careers.Work
 
 #nowarn "25"
 
+open Duets.Simulation.Careers.Work
 open FsCheck
 open FsUnit
 open NUnit.Framework
 open Test.Common.Generators
 
+open Duets.Common
 open Duets.Data
 open Duets.Entities
 open Duets.Entities.Calendar.Shorthands
@@ -25,7 +27,9 @@ let morningTime =
     Summer 21<days> 2023<years> |> Calendar.Transform.changeDayMoment Morning
 
 let private state =
-    State.generateOne State.defaultOptions |> State.Calendar.setTime morningTime
+    State.generateOne State.defaultOptions
+    |> State.Calendar.setTime morningTime
+    |> State.World.move Prague place.Id 0
 
 [<TestFixture>]
 type ``When place is not near closing time``() =
@@ -33,6 +37,7 @@ type ``When place is not near closing time``() =
     member _.``work pays the full payment for all the day moments worked``() =
         let effect =
             Work.workShift state job
+            |> Result.unwrap
             |> List.filter (function
                 | MoneyEarned _ -> true
                 | _ -> false)
@@ -47,6 +52,7 @@ type ``When place is not near closing time``() =
         ()
         =
         Work.workShift state job
+        |> Result.unwrap
         |> List.filter (function
             | CareerShiftPerformed _ -> true
             | _ -> false)
@@ -67,6 +73,7 @@ type ``When place is near closing time``() =
         =
         let effect =
             Work.workShift stateInEvening job
+            |> Result.unwrap
             |> Simulation.tickMultiple stateInEvening
             |> fst
             |> List.filter (function
@@ -83,9 +90,22 @@ type ``When place is near closing time``() =
         ()
         =
         Work.workShift stateInEvening job
+        |> Result.unwrap
         |> Simulation.tickMultiple stateInEvening
         |> fst
         |> List.filter (function
             | TimeAdvanced _ -> true
             | _ -> false)
         |> should haveLength 1
+
+[<TestFixture>]
+type ``When place is closed``() =
+    let nightTime = morningTime |> Calendar.Transform.changeDayMoment Night
+
+    let stateAtNight = state |> State.Calendar.setTime nightTime
+
+    [<Test>]
+    member _.``work returns an error``() =
+        workShift stateAtNight job
+        |> Result.unwrapError
+        |> should equal WorkshiftError.AttemptedToWorkDuringClosingTime
