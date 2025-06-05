@@ -94,6 +94,17 @@ let merchandiseWorkshopLayout =
 
     World.Graph.from workshop
 
+/// Usual layout for a radio studio.
+let radioStudioLayout =
+    let lobby = RoomType.Lobby |> World.Room.create |> World.Node.create 0
+    let recordingRoom =
+        RoomType.RecordingRoom
+        |> World.Room.create
+        |> World.Node.create 1
+
+    World.Graph.fromMany [ lobby; recordingRoom ]
+    |> World.Graph.connect lobby.Id recordingRoom.Id North
+
 /// First option of a layout for a concert space.
 let concertSpaceLayout1 =
     let lobby =

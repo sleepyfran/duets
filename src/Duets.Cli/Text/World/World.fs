@@ -28,6 +28,7 @@ let placeDescription (place: Place) (roomType: RoomType) =
         | PlaceType.MerchandiseWorkshop -> MerchandiseWorkshop.description
         | PlaceType.RehearsalSpace _ -> RehearsalSpace.description
         | PlaceType.Restaurant -> Restaurant.description
+        | PlaceType.RadioStudio _ -> RadioStudio.description
         | PlaceType.Studio studio -> Studio.description studio
 
 let placeTypeName (placeType: PlaceTypeIndex) =
@@ -43,6 +44,7 @@ let placeTypeName (placeType: PlaceTypeIndex) =
     | PlaceTypeIndex.Hospital -> "Hospital"
     | PlaceTypeIndex.Hotel -> "Hotel"
     | PlaceTypeIndex.MerchandiseWorkshop -> "Merchandise workshop"
+    | PlaceTypeIndex.RadioStudio -> "Radio Studio"
     | PlaceTypeIndex.RehearsalSpace -> "Rehearsal space"
     | PlaceTypeIndex.Restaurant -> "Restaurant"
     | PlaceTypeIndex.Studio -> "Studio"

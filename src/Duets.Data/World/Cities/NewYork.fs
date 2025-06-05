@@ -1,6 +1,5 @@
 module rec Duets.Data.World.Cities.NewYork
 
-open Fugit.Months
 open Duets.Entities
 open Duets.Entities.Calendar
 
@@ -38,6 +37,7 @@ let generate () =
     |> addRehearsalSpaces
     |> addRestaurants
     |> addStudios
+    |> addRadioStudios
 
 (* -------- Airport --------- *)
 let addAirport city =
@@ -274,12 +274,18 @@ let private addStudios city =
        85<quality>,
        200m<dd>,
        soho,
-       (Character.from "John Smith" Male (Shorthands.Winter 24<days> 1975<years>)))
+       (Character.from
+           "John Smith"
+           Male
+           (Shorthands.Winter 24<days> 1975<years>)))
       ("Brooklyn Studio",
        90<quality>,
        300m<dd>,
        brooklynHeights,
-       (Character.from "Eva Johnson" Female (Shorthands.Spring 15<days> 1980<years>)))
+       (Character.from
+           "Eva Johnson"
+           Female
+           (Shorthands.Spring 15<days> 1980<years>)))
       ("Astoria Sound",
        92<quality>,
        340m<dd>,
@@ -289,31 +295,57 @@ let private addStudios city =
        80<quality>,
        100m<dd>,
        riverdale,
-       (Character.from "Jane Wilson" Female (Shorthands.Autumn 5<days> 1982<years>)))
+       (Character.from
+           "Jane Wilson"
+           Female
+           (Shorthands.Autumn 5<days> 1982<years>)))
       ("St. George Sound",
        88<quality>,
        260m<dd>,
        stGeorge,
-       (Character.from "Peter Brown" Male (Shorthands.Summer 20<days> 1981<years>)))
+       (Character.from
+           "Peter Brown"
+           Male
+           (Shorthands.Summer 20<days> 1981<years>)))
       ("Harlem Harmony Studios",
        86<quality>,
        220m<dd>,
        harlem,
-       (Character.from "Elisa Miller" Female (Shorthands.Spring 1<days> 1990<years>)))
+       (Character.from
+           "Elisa Miller"
+           Female
+           (Shorthands.Spring 1<days> 1990<years>)))
       ("Tribeca Studios",
        85<quality>,
        200m<dd>,
        tribeca,
-       (Character.from "Alice Davis" Female (Shorthands.Summer 15<days> 1977<years>)))
+       (Character.from
+           "Alice Davis"
+           Female
+           (Shorthands.Summer 15<days> 1977<years>)))
       ("Midtown Studios",
        89<quality>,
        280m<dd>,
        midtown,
-       (Character.from "Martin Thompson" Male (Shorthands.Winter 30<days> 1976<years>)))
+       (Character.from
+           "Martin Thompson"
+           Male
+           (Shorthands.Winter 30<days> 1976<years>)))
       ("Upper East Side Sound",
        90<quality>,
        300m<dd>,
        upperEastSide,
-       (Character.from "Margaret Taylor" Female (Shorthands.Spring 3<days> 1988<years>))) ]
+       (Character.from
+           "Margaret Taylor"
+           Female
+           (Shorthands.Spring 3<days> 1988<years>))) ]
     |> List.map PlaceCreators.createStudio
+    |> List.fold (fun city place -> World.City.addPlace place city) city
+
+(* -------- Radio Studios --------- *)
+let private addRadioStudios city =
+    [ ("Z100", 94<quality>, "Pop", midtown)
+      ("Q104.3", 92<quality>, "Rock", midtown)
+      ("WBGO 88.3 FM", 90<quality>, "Jazz", harlem) ]
+    |> List.map PlaceCreators.createRadioStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

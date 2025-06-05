@@ -25,6 +25,7 @@
         <Compile Include="Types\Places\RehearsalSpace.Types.fs"/>
         <Compile Include="Types\Places\Studio.Types.fs"/>
         <Compile Include="Types\Places\Shop.Types.fs"/>
+        <Compile Include="Types\Places\RadioStudio.Types.fs"/>
         <Compile Include="Types\Item.Types.fs"/>
         <Compile Include="Types\Merch.Types.fs"/>
         <Compile Include="Types\World.Types.fs"/>

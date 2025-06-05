@@ -22,6 +22,9 @@ let private placePopulationRange (place: Place) =
     | Hotel _ -> 1, 5
     | Hospital -> 1, 2
     | MerchandiseWorkshop -> 0, 0
+    | RadioStudio _ ->
+        (* Radio studios will only be populated by the band. *)
+        0, 0
     | RehearsalSpace _ ->
         (* Rehearsal spaces will only be populated by the band. *)
         0, 0

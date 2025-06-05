@@ -79,6 +79,16 @@ let createRehearsalSpace (name, quality, price, zone) =
         zone
     |> World.Place.changeOpeningHours OpeningHours.servicesOpeningHours
 
+/// Creates a radio studio with the given name, quality, music genre and zone.
+let createRadioStudio (name, quality, musicGenre, zone) =
+    World.Place.create
+        name
+        quality
+        (RadioStudio { MusicGenre = musicGenre })
+        Layouts.radioStudioLayout
+        zone
+    |> World.Place.changeOpeningHours OpeningHours.servicesOpeningHours
+
 /// Creates a restaurant with the given name, quality, cuisine and zone.
 let createRestaurant (name, quality, cuisine, zone) =
     let place =

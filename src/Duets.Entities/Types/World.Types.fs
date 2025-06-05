@@ -93,6 +93,7 @@ module WorldTypes =
         | Hotel of Hotel
         | Hospital
         | MerchandiseWorkshop
+        | RadioStudio of RadioStudio
         | RehearsalSpace of RehearsalSpace
         | Restaurant
         | Studio of Studio
@@ -112,6 +113,7 @@ module WorldTypes =
         | Hotel
         | Hospital
         | MerchandiseWorkshop
+        | RadioStudio
         | RehearsalSpace
         | Restaurant
         | Studio

@@ -119,6 +119,7 @@ module Place =
             | Hotel _ -> PlaceTypeIndex.Hotel
             | Hospital -> PlaceTypeIndex.Hospital
             | MerchandiseWorkshop -> PlaceTypeIndex.MerchandiseWorkshop
+            | RadioStudio _ -> PlaceTypeIndex.RadioStudio
             | RehearsalSpace _ -> PlaceTypeIndex.RehearsalSpace
             | Restaurant -> PlaceTypeIndex.Restaurant
             | Studio _ -> PlaceTypeIndex.Studio
