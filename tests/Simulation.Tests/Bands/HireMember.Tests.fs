@@ -55,9 +55,9 @@ let MembersForHireShouldExposeMembersWithAgeAroundBandsAverage () =
 
     let assertAgeRange =
         fun age ->
-            age |> should be (lessThanOrEqualTo (characterAge + 5))
+            age |> should be (lessThanOrEqualTo (characterAge + 5<years>))
 
-            age |> should be (greaterThanOrEqualTo (characterAge - 5))
+            age |> should be (greaterThanOrEqualTo (characterAge - 5<years>))
 
     assertOnMembers (fun m ->
         Queries.Characters.ageOf state m.Character |> assertAgeRange)

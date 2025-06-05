@@ -8,7 +8,7 @@ let create t startDate expiration =
 
 /// Returns the days since the moodlet started.
 let daysSinceStart moodlet currentDate =
-    Calendar.Query.daysBetween moodlet.StartedOn currentDate * -1
+    Calendar.Query.daysBetween moodlet.StartedOn currentDate
 
 /// Returns the day moments since the moodlet started.
 let dayMomentsSinceStart moodlet currentDate =

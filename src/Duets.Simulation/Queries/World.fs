@@ -84,7 +84,8 @@ module World =
         match place.OpeningHours with
         | PlaceOpeningHours.AlwaysOpen -> true
         | PlaceOpeningHours.OpeningHours(daysOfWeekOpen, dayMomentsOpen) ->
-            (daysOfWeekOpen |> List.contains currentTime.DayOfWeek
+            (daysOfWeekOpen
+             |> List.contains (Calendar.Query.dayOfWeek currentTime)
              && dayMomentsOpen |> List.contains currentDayMoment)
 
     /// Like `placeCurrentlyOpen` but implicitly passing the current time.

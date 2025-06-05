@@ -1,7 +1,7 @@
 module rec Duets.Data.World.Cities.Madrid
 
-open Fugit.Months
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let private sol = World.Zone.create "Sol"
 let private salamanca = World.Zone.create "Salamanca"
@@ -229,51 +229,81 @@ let private addStudios city =
        85<quality>,
        200m<dd>,
        chamberí,
-       (Character.from "Carlos García" Male (December 24 1975)))
+       (Character.from
+           "Carlos García"
+           Male
+           (Shorthands.Winter 24<days> 1975<years>)))
       ("Registros Madrileños",
        90<quality>,
        300m<dd>,
        salamanca,
-       (Character.from "Ana Martínez" Female (March 15 1980)))
+       (Character.from
+           "Ana Martínez"
+           Female
+           (Shorthands.Spring 15<days> 1980<years>)))
       ("Grabación El Retiro",
        92<quality>,
        340m<dd>,
        retiro,
-       (Character.from "Fernando López" Male (July 10 1978)))
+       (Character.from
+           "Fernando López"
+           Male
+           (Shorthands.Summer 10<days> 1978<years>)))
       ("Sonido Sol",
        80<quality>,
        100m<dd>,
        sol,
-       (Character.from "Isabel Gómez" Female (September 5 1982)))
+       (Character.from
+           "Isabel Gómez"
+           Female
+           (Shorthands.Autumn 5<days> 1982<years>)))
       ("Malasaña Discos",
        88<quality>,
        260m<dd>,
        malasaña,
-       (Character.from "Pedro Torres" Male (June 20 1981)))
+       (Character.from
+           "Pedro Torres"
+           Male
+           (Shorthands.Summer 20<days> 1981<years>)))
       ("Mezcla Latina",
        86<quality>,
        220m<dd>,
        latina,
-       (Character.from "Elena Sánchez" Female (April 1 1990)))
+       (Character.from
+           "Elena Sánchez"
+           Female
+           (Shorthands.Spring 1<days> 1990<years>)))
       ("Melodías Chamberí",
        87<quality>,
        240m<dd>,
        chamberí,
-       (Character.from "Javier Pérez" Male (January 30 1976)))
+       (Character.from
+           "Javier Pérez"
+           Male
+           (Shorthands.Winter 30<days> 1976<years>)))
       ("Sonido Moncloa",
        85<quality>,
        200m<dd>,
        moncloa,
-       (Character.from "Patricia Díaz" Female (August 15 1977)))
+       (Character.from
+           "Patricia Díaz"
+           Female
+           (Shorthands.Summer 15<days> 1977<years>)))
       ("Tones de Tetuán",
        89<quality>,
        280m<dd>,
        tetuán,
-       (Character.from "Ricardo Aguilera" Male (February 2 1960)))
+       (Character.from
+           "Ricardo Aguilera"
+           Male
+           (Shorthands.Winter 2<days> 1960<years>)))
       ("Armonía de Arganzuela",
        90<quality>,
        300m<dd>,
        arganzuela,
-       (Character.from "María Fernández" Female (May 3 1988))) ]
+       (Character.from
+           "María Fernández"
+           Female
+           (Shorthands.Spring 3<days> 1988<years>))) ]
     |> List.map PlaceCreators.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

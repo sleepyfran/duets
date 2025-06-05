@@ -25,7 +25,7 @@ let private createOrderEffects state merchItem quantity =
     let place = Queries.World.currentPlace state
     let currentDate = Queries.Calendar.today state
 
-    let deliveryDate = currentDate |> Calendar.Ops.addDays 7
+    let deliveryDate = currentDate |> Calendar.Ops.addDays 7<days>
     let currentDayMoment = Calendar.Query.dayMomentOf currentDate
 
     let deliverable =

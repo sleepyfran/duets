@@ -2,6 +2,7 @@ module rec Duets.Data.World.Cities.MexicoCity
 
 open Fugit.Months
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let private condesa = World.Zone.create "Condesa"
 let private roma = World.Zone.create "Roma"
@@ -279,46 +280,46 @@ let private addStudios city =
        85<quality>,
        200m<dd>,
        polanco,
-       (Character.from "Juan Pérez" Male (December 24 1975)))
+       (Character.from "Juan Pérez" Male (Shorthands.Winter 24<days> 1975<years>)))
       ("Sonido Condesa",
        90<quality>,
        300m<dd>,
        condesa,
-       (Character.from "Eva González" Female (March 15 1980)))
+       (Character.from "Eva González" Female (Shorthands.Spring 15<days> 1980<years>)))
       ("Audio Azcapotzalco",
        92<quality>,
        340m<dd>,
        azcapotzalco,
-       (Character.from "Tomás Méndez" Male (July 10 1978)))
+       (Character.from "Tomás Méndez" Male (Shorthands.Summer 10<days> 1978<years>)))
       ("Ritmo Roma",
        80<quality>,
        100m<dd>,
        roma,
-       (Character.from "Ana Martínez" Female (September 5 1982)))
+       (Character.from "Ana Martínez" Female (Shorthands.Autumn 5<days> 1982<years>)))
       ("Vibración Venustiano",
        88<quality>,
        260m<dd>,
        venustianoCarranza,
-       (Character.from "Pedro Gómez" Male (June 20 1981)))
+       (Character.from "Pedro Gómez" Male (Shorthands.Summer 20<days> 1981<years>)))
       ("Harmonía Guerrero",
        86<quality>,
        220m<dd>,
        guerrero,
-       (Character.from "Elisa Ramírez" Female (April 1 1990)))
+       (Character.from "Elisa Ramírez" Female (Shorthands.Spring 1<days> 1990<years>)))
       ("Tabacalera Tunes",
        85<quality>,
        200m<dd>,
        tabacalera,
-       (Character.from "Carlos López" Male (January 30 1976)))
+       (Character.from "Carlos López" Male (Shorthands.Winter 30<days> 1976<years>)))
       ("Xoco Xound",
        89<quality>,
        280m<dd>,
        xoco,
-       (Character.from "María García" Female (August 15 1977)))
+       (Character.from "María García" Female (Shorthands.Summer 15<days> 1977<years>)))
       ("Iztacalco Inspiración",
        90<quality>,
        300m<dd>,
        iztacalco,
-       (Character.from "Luisa Fernández" Female (May 3 1988))) ]
+       (Character.from "Luisa Fernández" Female (Shorthands.Spring 3<days> 1988<years>))) ]
     |> List.map PlaceCreators.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

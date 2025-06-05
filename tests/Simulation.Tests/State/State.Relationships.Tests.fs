@@ -13,7 +13,7 @@ let npc =
     Character.from
         "Npc"
         Other
-        (Calendar.gameBeginning |> Calendar.Ops.addYears -20)
+        (Calendar.gameBeginning |> Calendar.Ops.addYears -20<years>)
 
 let relationship: Relationship =
     { Character = npc.Id

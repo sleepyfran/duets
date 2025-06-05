@@ -1,7 +1,7 @@
 module rec Duets.Data.World.Cities.Tokyo
 
-open Fugit.Months
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let private chuo = World.Zone.create "Chuo"
 let private minato = World.Zone.create "Minato"
@@ -218,51 +218,81 @@ let private addStudios city =
        85<quality>,
        200m<dd>,
        shinjuku,
-       (Character.from "Tetsuya Komuro" Male (November 27 1958)))
+       (Character.from
+           "Tetsuya Komuro"
+           Male
+           (Shorthands.Autumn 27<days> 1958<years>)))
       ("Victor Studio",
        90<quality>,
        300m<dd>,
        chuo,
-       (Character.from "Yoshiki Hayashi" Male (November 20 1965)))
+       (Character.from
+           "Yoshiki Hayashi"
+           Male
+           (Shorthands.Autumn 20<days> 1965<years>)))
       ("King Records",
        92<quality>,
        340m<dd>,
        shibuya,
-       (Character.from "Haruki Komuro" Male (November 27 1958)))
+       (Character.from
+           "Haruki Komuro"
+           Male
+           (Shorthands.Autumn 27<days> 1958<years>)))
       ("Sony Music Studios",
        80<quality>,
        100m<dd>,
        minato,
-       (Character.from "Hikaru Utada" Female (January 19 1983)))
+       (Character.from
+           "Hikaru Utada"
+           Female
+           (Shorthands.Winter 19<days> 1983<years>)))
       ("Warner Music Recording Studio",
        88<quality>,
        260m<dd>,
        chuo,
-       (Character.from "Kazutoshi Sakurai" Male (March 8 1970)))
+       (Character.from
+           "Kazutoshi Sakurai"
+           Male
+           (Shorthands.Spring 8<days> 1970<years>)))
       ("Universal Music Studios",
        86<quality>,
        220m<dd>,
        minato,
-       (Character.from "Tak Matsumoto" Male (March 27 1961)))
+       (Character.from
+           "Tak Matsumoto"
+           Male
+           (Shorthands.Spring 27<days> 1961<years>)))
       ("Avex Trax Studios",
        87<quality>,
        240m<dd>,
        shibuya,
-       (Character.from "Max Matsuura" Male (January 1 1964)))
+       (Character.from
+           "Max Matsuura"
+           Male
+           (Shorthands.Winter 1<days> 1964<years>)))
       ("Sunrise Music Studio",
        85<quality>,
        200m<dd>,
        shinjuku,
-       (Character.from "Ayumi Hamasaki" Female (October 2 1978)))
+       (Character.from
+           "Ayumi Hamasaki"
+           Female
+           (Shorthands.Autumn 2<days> 1978<years>)))
       ("Epic Records Studio",
        89<quality>,
        280m<dd>,
        chuo,
-       (Character.from "Masaharu Fukuyama" Male (February 6 1969)))
+       (Character.from
+           "Masaharu Fukuyama"
+           Male
+           (Shorthands.Winter 6<days> 1969<years>)))
       ("Zapuni Studio",
        90<quality>,
        300m<dd>,
        shibuya,
-       (Character.from "Ryuichi Sakamoto" Male (January 17 1952))) ]
+       (Character.from
+           "Ryuichi Sakamoto"
+           Male
+           (Shorthands.Winter 17<days> 1952<years>))) ]
     |> List.map PlaceCreators.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

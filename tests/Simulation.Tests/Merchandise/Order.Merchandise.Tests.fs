@@ -59,7 +59,7 @@ let ``ordering items creates expenses`` () =
 [<Test>]
 let ``ordering adds a deliverable item to the merch workshop in a week`` () =
     let coords = Queries.World.currentCoordinates stateWithBandFunds
-    let nextWeek = dummyToday |> Calendar.Ops.addDays 7
+    let nextWeek = dummyToday |> Calendar.Ops.addDays 7<days>
 
     let effect =
         orderMerch stateWithBandFunds dummyMerch 100<quantity>
@@ -84,7 +84,7 @@ let ``ordering adds a deliverable item to the merch workshop in a week`` () =
 
 [<Test>]
 let ``ordering schedules a notification for the delivery time`` () =
-    let nextWeek = dummyToday |> Calendar.Ops.addDays 7
+    let nextWeek = dummyToday |> Calendar.Ops.addDays 7<days>
 
     let effect =
         orderMerch stateWithBandFunds dummyMerch 100<quantity>

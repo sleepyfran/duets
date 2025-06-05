@@ -1,7 +1,7 @@
 module rec Duets.Data.World.Cities.Prague
 
-open Fugit.Months
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let private břevnov = World.Zone.create "Břevnov"
 let private dejvice = World.Zone.create "Dejvice"
@@ -234,51 +234,75 @@ let private addStudios city =
        85<quality>,
        200m<dd>,
        smíchov,
-       (Character.from "Jan Novák" Male (December 24 1975)))
+       (Character.from "Jan Novák" Male (Shorthands.Winter 24<days> 1975<years>)))
       ("Pražské Záznamy",
        90<quality>,
        300m<dd>,
        novéMěsto,
-       (Character.from "Eva Svobodová" Female (March 15 1980)))
+       (Character.from
+           "Eva Svobodová"
+           Female
+           (Shorthands.Spring 15<days> 1980<years>)))
       ("Vyšehrad Nahrávání",
        92<quality>,
        340m<dd>,
        staréMěsto,
-       (Character.from "Tomáš Dvořák" Male (July 10 1978)))
+       (Character.from
+           "Tomáš Dvořák"
+           Male
+           (Shorthands.Summer 10<days> 1978<years>)))
       ("Vinohradský Zvuk",
        80<quality>,
        100m<dd>,
        vinohrady,
-       (Character.from "Jana Novotná" Female (September 5 1982)))
+       (Character.from
+           "Jana Novotná"
+           Female
+           (Shorthands.Autumn 5<days> 1982<years>)))
       ("Vršovice Rekordy",
        88<quality>,
        260m<dd>,
        vršovice,
-       (Character.from "Petr Čech" Male (June 20 1981)))
+       (Character.from "Petr Čech" Male (Shorthands.Summer 20<days> 1981<years>)))
       ("Žižkov Mix",
        86<quality>,
        220m<dd>,
        žižkov,
-       (Character.from "Eliška Křenková" Female (April 1 1990)))
+       (Character.from
+           "Eliška Křenková"
+           Female
+           (Shorthands.Spring 1<days> 1990<years>)))
       ("Karlín Melodie",
        87<quality>,
        240m<dd>,
        karlín,
-       (Character.from "Martin Václavík" Male (January 30 1976)))
+       (Character.from
+           "Martin Václavík"
+           Male
+           (Shorthands.Winter 30<days> 1976<years>)))
       ("Smíchovský Zvuk",
        85<quality>,
        200m<dd>,
        smíchov,
-       (Character.from "Alena Horáková" Female (August 15 1977)))
+       (Character.from
+           "Alena Horáková"
+           Female
+           (Shorthands.Summer 15<days> 1977<years>)))
       ("Holešovické Tóny",
        89<quality>,
        280m<dd>,
        holešovice,
-       (Character.from "Ondřej Soukup" Male (February 2 1960)))
+       (Character.from
+           "Ondřej Soukup"
+           Male
+           (Shorthands.Winter 2<days> 1960<years>)))
       ("Libeňská Harmonie",
        90<quality>,
        300m<dd>,
        libeň,
-       (Character.from "Markéta Irglová" Female (May 3 1988))) ]
+       (Character.from
+           "Markéta Irglová"
+           Female
+           (Shorthands.Spring 3<days> 1988<years>))) ]
     |> List.map PlaceCreators.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

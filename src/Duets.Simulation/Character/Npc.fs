@@ -6,11 +6,11 @@ open Duets.Simulation
 
 let private randomAdultBirthday state =
     let age = RandomGen.genBetween 18 65
-    let dayVariation = RandomGen.genBetween -30 0
+    let dayVariation = RandomGen.genBetween -30 0 |> (*) 1<days>
     let currentDate = Queries.Calendar.today state
 
     currentDate
-    |> Calendar.Ops.addYears -age
+    |> Calendar.Ops.addYears -(age * 1<years>)
     |> Calendar.Ops.addDays dayVariation
 
 /// Generates a random NPC with a name and a gender from the database and a

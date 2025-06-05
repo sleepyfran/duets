@@ -1,7 +1,7 @@
 module rec Duets.Data.World.Cities.LosAngeles
 
-open Fugit.Months
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let private downtownLA = World.Zone.create "Downtown LA"
 let private hollywood = World.Zone.create "Hollywood"
@@ -282,46 +282,70 @@ let addStudios city =
        98<quality>,
        870m<dd>,
        hollywood,
-       (Character.from "John Smith" Male (December 24 1975)))
+       (Character.from
+           "John Smith"
+           Male
+           (Shorthands.Winter 24<days> 1975<years>)))
       ("EastWest Studios",
        90<quality>,
        780m<dd>,
        hollywood,
-       (Character.from "Eva Johnson" Female (March 15 1980)))
+       (Character.from
+           "Eva Johnson"
+           Female
+           (Shorthands.Spring 15<days> 1980<years>)))
       ("The Village Studios",
        92<quality>,
        800m<dd>,
        westLosAngeles,
-       (Character.from "Tom Davis" Male (July 10 1978)))
+       (Character.from "Tom Davis" Male (Shorthands.Summer 10<days> 1978<years>)))
       ("United Recording Studios",
        80<quality>,
        560m<dd>,
        hollywood,
-       (Character.from "Jane Wilson" Female (September 5 1982)))
+       (Character.from
+           "Jane Wilson"
+           Female
+           (Shorthands.Autumn 5<days> 1982<years>)))
       ("Ocean Way Recording",
        88<quality>,
        670m<dd>,
        santaMonica,
-       (Character.from "Peter Brown" Male (June 20 1981)))
+       (Character.from
+           "Peter Brown"
+           Male
+           (Shorthands.Summer 20<days> 1981<years>)))
       ("Capitol Studios",
        86<quality>,
        680m<dd>,
        hollywood,
-       (Character.from "Elisa Miller" Female (April 1 1990)))
+       (Character.from
+           "Elisa Miller"
+           Female
+           (Shorthands.Spring 1<days> 1990<years>)))
       ("The Echo Bar Studios",
        85<quality>,
        690m<dd>,
        echoPark,
-       (Character.from "Alice Davis" Female (August 15 1977)))
+       (Character.from
+           "Alice Davis"
+           Female
+           (Shorthands.Summer 15<days> 1977<years>)))
       ("Sunset Studio One",
        89<quality>,
        790m<dd>,
        hollywood,
-       (Character.from "Martin Thompson" Male (January 30 1976)))
+       (Character.from
+           "Martin Thompson"
+           Male
+           (Shorthands.Winter 30<days> 1976<years>)))
       ("Westlake Recording Studios",
        90<quality>,
        880m<dd>,
        westLosAngeles,
-       (Character.from "Margaret Taylor" Female (May 3 1988))) ]
+       (Character.from
+           "Margaret Taylor"
+           Female
+           (Shorthands.Spring 3<days> 1988<years>))) ]
     |> List.map PlaceCreators.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

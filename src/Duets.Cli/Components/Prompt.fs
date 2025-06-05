@@ -98,31 +98,6 @@ let showRangedDecimalPrompt min max title =
 /// <returns>The decimal given by the user</returns>
 let showDecimalPrompt title = AnsiConsole.Ask<decimal>(title)
 
-/// <summary>
-/// Renders a prompt that accepts a date in the dd/mm/YYYY format.
-/// </summary>
-/// <param name="title">Title of the prompt to show when asking</param>
-/// <returns>The date given by the user</returns>
-let showTextDatePrompt title =
-    let mutable datePrompt = TextPrompt<string>(title)
-
-    let validate (date: string) =
-        match Calendar.Parse.date date with
-        | Some _ -> ValidationResult.Success()
-        | None -> ValidationResult.Error(Generic.invalidDate)
-
-    datePrompt.Validator <- Func.toFunc validate
-
-    AnsiConsole.Prompt(datePrompt)
-    |> fun date ->
-        match Calendar.Parse.date date with
-        | Some date -> date
-        | None ->
-            raise (
-                invalidOp
-                    "The given input was not a correct date. This should've been caught by the validator but apparently it didn't :)"
-            )
-
 type private InteractiveDatePromptOption =
     | Date of Date
     | NextMonth
@@ -133,9 +108,9 @@ type private InteractiveDatePromptOption =
 /// prompt was cancelled.
 /// </summary>
 let rec showInteractiveDatePrompt title firstDate =
-    let monthDays = Calendar.Query.monthDaysFrom firstDate |> Seq.map Date
+    let monthDays = Calendar.Query.seasonDaysFrom firstDate |> Seq.map Date
 
-    let nextMonthDate = Calendar.Query.firstDayOfNextMonth firstDate
+    let nextMonthDate = Calendar.Query.firstDayOfNextSeason firstDate
 
     let toText opt =
         match opt with

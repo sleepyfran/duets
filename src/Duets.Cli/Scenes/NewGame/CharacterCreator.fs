@@ -43,7 +43,8 @@ and private promptForBirthday name gender =
     Creator.characterBirthdayInfo |> showMessage
 
     Creator.characterBirthdayPrompt gender
-    |> showTextDatePrompt
+    |> showRangedNumberPrompt 1930 (Calendar.gameBeginning.Year / 1<years>)
+    |> (*) 1<years>
     |> Character.validateBirthday
     |> Result.switch
         (Character.from name gender >> Scene.WorldSelector)

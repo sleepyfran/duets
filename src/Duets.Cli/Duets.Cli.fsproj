@@ -58,9 +58,9 @@
         <Compile Include="Components\ProgressBar.fs"/>
         <Compile Include="Components\Map.fs"/>
         <Compile Include="Components\Notification.fs"/>
+        <Compile Include="Components\Table.fs"/>
         <Compile Include="Components\Calendar.fs"/>
         <Compile Include="Components\Post.fs"/>
-        <Compile Include="Components\Table.fs"/>
         <Compile Include="Components\Prompt.fs"/>
         <Compile Include="Components\Review.fs"/>
         <Compile Include="Components\Tip.fs"/>

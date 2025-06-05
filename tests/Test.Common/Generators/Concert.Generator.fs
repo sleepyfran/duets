@@ -4,7 +4,6 @@ open FsCheck
 open Test.Common
 
 open Duets.Entities
-open Duets.Simulation
 
 type ConcertGenOptions =
     { From: Date
@@ -15,7 +14,7 @@ type ConcertGenOptions =
 
 let defaultOptions =
     { From = Calendar.gameBeginning
-      To = Calendar.gameBeginning.AddYears(10)
+      To = Calendar.gameBeginning |> Calendar.Ops.addYears 10<years>
       City = Prague
       Venue = dummyVenue.Id
       DayMoment = Evening }

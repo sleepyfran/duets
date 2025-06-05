@@ -13,9 +13,11 @@ let applyIfNeeded state =
     |> List.ofMapValues
     |> List.filter (fun relationship ->
         let daysSinceLastInteraction =
-            relationship.LastIterationDate - currentDate |> _.Days |> abs
+            Calendar.Query.daysBetween
+                relationship.LastIterationDate
+                currentDate
 
-        daysSinceLastInteraction > 14)
+        daysSinceLastInteraction > 14<days>)
     |> List.map (fun relationship ->
         let npc = Queries.Characters.find state relationship.Character
 

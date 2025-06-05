@@ -14,7 +14,7 @@ module Rentals =
 
     /// Returns a list of all upcoming monthly rental payments within this week.
     let allUpcoming state =
-        let nextWeekDate = Calendar.today state |> Calendar.Ops.addDays 7
+        let nextWeekDate = Calendar.today state |> Calendar.Ops.addDays 7<days>
 
         all state
         |> List.filter (fun rental ->

@@ -1,7 +1,7 @@
 module rec Duets.Data.World.Cities.Sydney
 
-open Fugit.Months
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let private cbd = World.Zone.create "CBD"
 let private surryHills = World.Zone.create "Surry Hills"
@@ -212,26 +212,38 @@ let private addStudios city =
        85<quality>,
        200m<dd>,
        cbd,
-       (Character.from "Daniel Johns" Male (April 22 1979)))
+       (Character.from
+           "Daniel Johns"
+           Male
+           (Shorthands.Spring 22<days> 1979<years>)))
       ("Australian Studios",
        90<quality>,
        300m<dd>,
        cbd,
-       (Character.from "Sia Furler" Female (December 18 1975)))
+       (Character.from
+           "Sia Furler"
+           Female
+           (Shorthands.Winter 18<days> 1975<years>)))
       ("The Grove Studios",
        92<quality>,
        340m<dd>,
        cbd,
-       (Character.from "Keith Urban" Male (October 26 1967)))
+       (Character.from
+           "Keith Urban"
+           Male
+           (Shorthands.Autumn 26<days> 1967<years>)))
       ("BJB Studios",
        80<quality>,
        100m<dd>,
        surryHills,
-       (Character.from "Nick Cave" Male (September 22 1957)))
+       (Character.from "Nick Cave" Male (Shorthands.Spring 22<days> 1957<years>)))
       ("Electric Avenue Studios",
        88<quality>,
        260m<dd>,
        cbd,
-       (Character.from "Kylie Minogue" Female (May 28 1968))) ]
+       (Character.from
+           "Kylie Minogue"
+           Female
+           (Shorthands.Spring 28<days> 1968<years>))) ]
     |> List.map PlaceCreators.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

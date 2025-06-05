@@ -26,8 +26,8 @@ let forDay state date =
 
 /// Retrieves all the flights booked in the month of the given date.
 let forMonth state date =
-    let firstDayOfMonth = date |> Calendar.Query.firstDayOfMonth
-    let lastDayOfMonth = date |> Calendar.Query.lastDayOfMonth
+    let firstDayOfMonth = date |> Calendar.Query.firstDayOfSeason
+    let lastDayOfMonth = date |> Calendar.Query.lastDayOfSeason
 
     Optic.get Lenses.State.flights_ state
     |> List.filter (fun flight ->

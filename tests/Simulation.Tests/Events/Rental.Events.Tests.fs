@@ -21,9 +21,9 @@ let earlyMorningDate =
     dummyToday |> Calendar.Transform.changeDayMoment EarlyMorning
 
 let morningDate = earlyMorningDate |> Calendar.Query.next
-let dayBeforeYesterday = dummyToday |> Calendar.Ops.addDays -2
-let yesterday = dummyToday |> Calendar.Ops.addDays -1
-let nextMonth = dummyToday |> Calendar.Ops.addMonths 1
+let dayBeforeYesterday = dummyToday |> Calendar.Ops.addDays -2<days>
+let yesterday = dummyToday |> Calendar.Ops.addDays -1<days>
+let nextMonth = dummyToday |> Calendar.Ops.addSeasons 1
 
 let filterRentalExpired =
     List.filter (function

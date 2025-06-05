@@ -6,7 +6,7 @@ open Aether
 open Aether.Operators
 open Duets.Common
 open Duets.Data.World
-open Fugit.Months
+open Duets.Entities.Calendar
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Concerts.Live
@@ -50,19 +50,19 @@ let dummyCharacter =
     Character.from
         "Test"
         Other
-        (Calendar.gameBeginning |> Calendar.Ops.addYears -24)
+        (Calendar.gameBeginning |> Calendar.Ops.addYears -24<years>)
 
 let dummyCharacter2 =
     Character.from
         "Test 2"
         Female
-        (Calendar.gameBeginning |> Calendar.Ops.addYears -35)
+        (Calendar.gameBeginning |> Calendar.Ops.addYears -35<years>)
 
 let dummyCharacter3 =
     Character.from
         "Test 3"
         Male
-        (Calendar.gameBeginning |> Calendar.Ops.addYears -28)
+        (Calendar.gameBeginning |> Calendar.Ops.addYears -28<years>)
 
 let dummyBand =
     { Band.empty with
@@ -102,7 +102,8 @@ let dummyTodayOneDayMomentAfter =
     dummyToday |> Calendar.Transform.changeDayMoment Morning
 
 let dummyTodayMiddleOfYear =
-    June 20 2021 |> Calendar.Transform.changeDayMoment EarlyMorning
+    Shorthands.Summer 20<days> 2021<years>
+    |> Calendar.Transform.changeDayMoment EarlyMorning
 
 let dummyCharacterBankAccount = BankAccount.forCharacter dummyCharacter.Id
 
@@ -156,7 +157,7 @@ let dummyConcert =
     { Id = Identity.create ()
       CityId = Prague
       VenueId = dummyVenue.Id
-      Date = dummyToday.AddDays(30)
+      Date = dummyToday |> Ops.addDays 30<days>
       DayMoment = Night
       TicketPrice = 20m<dd>
       TicketsSold = 0

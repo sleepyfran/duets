@@ -61,7 +61,7 @@ let ``tick of low character health during concert should cancel concert`` () =
 let ``tick of low character health advances one week`` () =
     let state = State.generateOne State.defaultOptions
 
-    let oneWeekLater = Calendar.gameBeginning |> Calendar.Ops.addDays 7
+    let oneWeekLater = Calendar.gameBeginning |> Calendar.Ops.addDays 7<days>
 
     Simulation.tickOne state (lowCharacterHealthEffect state)
     |> fst

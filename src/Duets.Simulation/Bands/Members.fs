@@ -8,7 +8,11 @@ open Duets.Simulation
 /// Derives an age that will be +-5 of a given average but no less than 18
 /// or more than 80.
 let private birthdayFromAverageAge today avg =
-    let computedAge = System.Random().Next(-5, 5) |> (+) avg |> Math.clamp 18 80
+    let computedAge =
+        System.Random().Next(-5, 5)
+        |> (+) (avg / 1<years>)
+        |> Math.clamp 18 80
+        |> (*) 1<years>
 
     today |> Calendar.Ops.addYears -computedAge
 
@@ -42,7 +46,10 @@ let membersForHire state band instrument =
     let averageSkillLevel =
         Queries.Bands.averageSkillLevel state band |> Math.roundToNearest
 
-    let averageAge = Queries.Bands.averageAge state band |> Math.roundToNearest
+    let averageAge =
+        Queries.Bands.averageAge state band
+        |> Math.roundToNearest
+        |> (*) 1<years>
 
     let today = Queries.Calendar.today state
 

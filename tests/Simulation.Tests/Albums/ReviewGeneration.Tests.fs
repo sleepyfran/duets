@@ -1,6 +1,5 @@
 module Duets.Simulation.Tests.Albums.ReviewGeneration
 
-open Aether
 open FsUnit
 open NUnit.Framework
 open Test.Common
@@ -21,11 +20,11 @@ let addAlbumReleasedDaysAgo' days album state =
 let rec addAlbumReleasedDaysAgo days state =
     addAlbumReleasedDaysAgo' days album state
 
-let addAlbumWithNoReviews state = addAlbumReleasedDaysAgo 3 state
+let addAlbumWithNoReviews state = addAlbumReleasedDaysAgo 3<days> state
 
 let addAlbumWithReviews state =
     let today = Queries.Calendar.today state
-    let releaseDate = today |> Calendar.Ops.addDays -5
+    let releaseDate = today |> Calendar.Ops.addDays -5<days>
 
     let album =
         { album with
@@ -44,7 +43,7 @@ let addAlbumWithQuality quality =
     let releasedAlbum =
         Album.Released.fromUnreleased unreleasedAlbum dummyToday 1.0
 
-    addAlbumReleasedDaysAgo' 3 releasedAlbum
+    addAlbumReleasedDaysAgo' 3<days> releasedAlbum
 
 [<Test>]
 let ``generateReviews should return empty if band has not released any albums``
@@ -85,7 +84,7 @@ let ``generateReviews should return empty if band does not have any albums relea
                 BandFansMin =
                     Config.MusicSimulation.minimumFanBaseForReviews * 1<fans>
                 BandFansMax = 10000<fans> }
-        |> addAlbumReleasedDaysAgo days
+        |> addAlbumReleasedDaysAgo (days * 1<days>)
         |> generateReviewsForLatestAlbums
         |> should haveLength 0)
 
@@ -113,7 +112,7 @@ let ``generateReviews should return effects if the day was three days ago regard
     |> List.iter (fun dayMoment ->
         let releaseDate =
             dummyToday
-            |> Calendar.Ops.addDays -3
+            |> Calendar.Ops.addDays -3<days>
             |> Calendar.Transform.changeDayMoment dayMoment
 
         State.generateOne

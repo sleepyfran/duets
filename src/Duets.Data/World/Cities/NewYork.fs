@@ -2,6 +2,7 @@ module rec Duets.Data.World.Cities.NewYork
 
 open Fugit.Months
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let private soho = World.Zone.create "SoHo"
 let private tribeca = World.Zone.create "Tribeca"
@@ -273,46 +274,46 @@ let private addStudios city =
        85<quality>,
        200m<dd>,
        soho,
-       (Character.from "John Smith" Male (December 24 1975)))
+       (Character.from "John Smith" Male (Shorthands.Winter 24<days> 1975<years>)))
       ("Brooklyn Studio",
        90<quality>,
        300m<dd>,
        brooklynHeights,
-       (Character.from "Eva Johnson" Female (March 15 1980)))
+       (Character.from "Eva Johnson" Female (Shorthands.Spring 15<days> 1980<years>)))
       ("Astoria Sound",
        92<quality>,
        340m<dd>,
        astoria,
-       (Character.from "Tom Davis" Male (July 10 1978)))
+       (Character.from "Tom Davis" Male (Shorthands.Summer 10<days> 1978<years>)))
       ("Riverdale Studio",
        80<quality>,
        100m<dd>,
        riverdale,
-       (Character.from "Jane Wilson" Female (September 5 1982)))
+       (Character.from "Jane Wilson" Female (Shorthands.Autumn 5<days> 1982<years>)))
       ("St. George Sound",
        88<quality>,
        260m<dd>,
        stGeorge,
-       (Character.from "Peter Brown" Male (June 20 1981)))
+       (Character.from "Peter Brown" Male (Shorthands.Summer 20<days> 1981<years>)))
       ("Harlem Harmony Studios",
        86<quality>,
        220m<dd>,
        harlem,
-       (Character.from "Elisa Miller" Female (April 1 1990)))
+       (Character.from "Elisa Miller" Female (Shorthands.Spring 1<days> 1990<years>)))
       ("Tribeca Studios",
        85<quality>,
        200m<dd>,
        tribeca,
-       (Character.from "Alice Davis" Female (August 15 1977)))
+       (Character.from "Alice Davis" Female (Shorthands.Summer 15<days> 1977<years>)))
       ("Midtown Studios",
        89<quality>,
        280m<dd>,
        midtown,
-       (Character.from "Martin Thompson" Male (January 30 1976)))
+       (Character.from "Martin Thompson" Male (Shorthands.Winter 30<days> 1976<years>)))
       ("Upper East Side Sound",
        90<quality>,
        300m<dd>,
        upperEastSide,
-       (Character.from "Margaret Taylor" Female (May 3 1988))) ]
+       (Character.from "Margaret Taylor" Female (Shorthands.Spring 3<days> 1988<years>))) ]
     |> List.map PlaceCreators.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city

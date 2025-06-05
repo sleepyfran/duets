@@ -26,7 +26,7 @@ let private createFlightGen fromDate toDate =
 let ``create returns an effect scheduling the notification`` () =
     let normalizedTomorrow =
         dummyToday
-        |> Calendar.Ops.addDays 1
+        |> Calendar.Ops.addDays 1<days>
         |> Calendar.Transform.resetDayMoment
 
     let tomorrow =
@@ -99,7 +99,7 @@ let ``showPendingNotifications returns nothing if the next event is happening af
 
     let flightGen =
         beginningDate
-        |> Calendar.Ops.addMonths 6
+        |> Calendar.Ops.addSeasons 6
         |> createFlightGen beginningDate
 
     State.generateN
@@ -164,7 +164,7 @@ let ``showPendingNotifications returns concert event if it's happening in 4 day 
 let ``showPendingNotifications returns rental payment reminder if a monthly rental will expire a week from the current date``
     ()
     =
-    let nextWeekFromDummyToday = dummyToday |> Calendar.Ops.addDays 7
+    let nextWeekFromDummyToday = dummyToday |> Calendar.Ops.addDays 7<days>
 
     let dummyRental =
         { RentalType = Monthly nextWeekFromDummyToday
@@ -194,7 +194,7 @@ let ``showPendingNotifications returns rental payment reminder if a monthly rent
 let ``showPendingNotifications returns rental payment reminder if a monthly rental will expire tomorrow``
     ()
     =
-    let tomorrowFromDummyToday = dummyToday |> Calendar.Ops.addDays 1
+    let tomorrowFromDummyToday = dummyToday |> Calendar.Ops.addDays 1<days>
 
     let dummyRental =
         { RentalType = Monthly tomorrowFromDummyToday
@@ -224,7 +224,7 @@ let ``showPendingNotifications returns rental payment reminder if a monthly rent
 let ``showPendingNotifications returns nothing for rentals that are one time``
     ()
     =
-    let nextWeekFromDummyToday = dummyToday |> Calendar.Ops.addDays 7
+    let nextWeekFromDummyToday = dummyToday |> Calendar.Ops.addDays 7<days>
 
     let dummyRental =
         { RentalType = OneTime(dummyToday, nextWeekFromDummyToday)

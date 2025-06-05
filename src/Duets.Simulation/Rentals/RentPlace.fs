@@ -14,7 +14,7 @@ type RentError =
 let createMonthlyRental currentDate cityId place =
     let rentalPrice = Queries.Rentals.calculateMonthlyRentalPrice cityId place
 
-    let nextPaymentDate = currentDate |> Calendar.Ops.addMonths 1
+    let nextPaymentDate = currentDate |> Calendar.Ops.addSeasons 1
 
     { Amount = rentalPrice
       Coords = cityId, place.Id

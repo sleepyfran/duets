@@ -17,8 +17,8 @@ let scheduleShow app =
     match selectedCity with
     | Some city ->
         OpeningActOpportunities.generate (State.get ()) city.Id
-        |> List.groupBy (fun (_, concert) -> concert.Date)
-        |> Map.ofList
+        |> Seq.groupBy (fun (_, concert) -> concert.Date)
+        |> Map.ofSeq
         |> promptForDate app
     | None -> app ()
 

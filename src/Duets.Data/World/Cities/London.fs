@@ -1,7 +1,7 @@
 module rec Duets.Data.World.Cities.London
 
-open Fugit.Months
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let private soho = World.Zone.create "Soho"
 let private coventGarden = World.Zone.create "Covent Garden"
@@ -259,51 +259,78 @@ let private addStudios city =
        85<quality>,
        200m<dd>,
        camdenTown,
-       (Character.from "George Martin" Male (January 3 1926)))
+       (Character.from
+           "George Martin"
+           Male
+           (Shorthands.Winter 3<days> 1926<years>)))
       ("AIR Studios",
        90<quality>,
        300m<dd>,
        camdenTown,
-       (Character.from "Eva Johnson" Female (March 15 1980)))
+       (Character.from
+           "Eva Johnson"
+           Female
+           (Shorthands.Spring 15<days> 1980<years>)))
       ("Metropolis Studios",
        92<quality>,
        340m<dd>,
        tottenham,
-       (Character.from "Tom Davis" Male (July 10 1978)))
+       (Character.from "Tom Davis" Male (Shorthands.Summer 10<days> 1978<years>)))
       ("Sarm West Studios",
        80<quality>,
        100m<dd>,
        nottingHill,
-       (Character.from "Jane Wilson" Female (September 5 1982)))
+       (Character.from
+           "Jane Wilson"
+           Female
+           (Shorthands.Autumn 5<days> 1982<years>)))
       ("Strongroom",
        88<quality>,
        260m<dd>,
        shoreditch,
-       (Character.from "Peter Brown" Male (June 20 1981)))
+       (Character.from
+           "Peter Brown"
+           Male
+           (Shorthands.Summer 20<days> 1981<years>)))
       ("The Church Studios",
        86<quality>,
        220m<dd>,
        camdenTown,
-       (Character.from "Elisa Miller" Female (April 1 1990)))
+       (Character.from
+           "Elisa Miller"
+           Female
+           (Shorthands.Spring 1<days> 1990<years>)))
       ("Trident Studios",
        87<quality>,
        240m<dd>,
        soho,
-       (Character.from "Martin Thompson" Male (January 30 1976)))
+       (Character.from
+           "Martin Thompson"
+           Male
+           (Shorthands.Winter 30<days> 1976<years>)))
       ("Olympic Studios",
        85<quality>,
        200m<dd>,
        hackney,
-       (Character.from "Alice Davis" Female (August 15 1977)))
+       (Character.from
+           "Alice Davis"
+           Female
+           (Shorthands.Summer 15<days> 1977<years>)))
       ("The Pool",
        89<quality>,
        280m<dd>,
        hammersmith,
-       (Character.from "Andrew Johnson" Male (February 2 1960)))
+       (Character.from
+           "Andrew Johnson"
+           Male
+           (Shorthands.Winter 2<days> 1960<years>)))
       ("Rak Studios",
        90<quality>,
        300m<dd>,
        stratford,
-       (Character.from "Margaret Taylor" Female (May 3 1988))) ]
+       (Character.from
+           "Margaret Taylor"
+           Female
+           (Shorthands.Spring 3<days> 1988<years>))) ]
     |> List.map PlaceCreators.createStudio
     |> List.fold (fun city place -> World.City.addPlace place city) city
