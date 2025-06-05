@@ -198,10 +198,10 @@ let addMerchandiseWorkshops city =
 
 (* -------- Radio Studios --------- *)
 let private addRadioStudios city =
-    [ ("Evropa 2", 98<quality>, "Pop", novéMěsto)
-      ("Radio Beat", 86<quality>, "Rock", žižkov)
-      ("ČRo Jazz", 92<quality>, "Jazz", staréMěsto) ]
-    |> List.map PlaceCreators.createRadioStudio
+    [ ("Evropa 2", 90<quality>, "Pop", vinohrady)
+      ("Radio Beat", 88<quality>, "Rock", žižkov)
+      ("Český rozhlas Jazz", 85<quality>, "Jazz", novéMěsto) ]
+    |> List.map (PlaceCreators.createRadioStudio city)
     |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Rehearsal spaces --------- *)

@@ -96,11 +96,15 @@ let merchandiseWorkshopLayout =
 
 /// Usual layout for a radio studio.
 let radioStudioLayout =
-    let lobby = RoomType.Lobby |> World.Room.create |> World.Node.create 0
+    let lobby =
+        RoomType.Lobby
+        |> World.Room.create
+        |> World.Node.create Ids.RadioStudio.lobby
+
     let recordingRoom =
         RoomType.RecordingRoom
         |> World.Room.create
-        |> World.Node.create 1
+        |> World.Node.create Ids.RadioStudio.recordingRoom
 
     World.Graph.fromMany [ lobby; recordingRoom ]
     |> World.Graph.connect lobby.Id recordingRoom.Id North

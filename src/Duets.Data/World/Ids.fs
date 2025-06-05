@@ -24,3 +24,7 @@ module Home =
     let kitchen = 0
     let livingRoom = 1
     let bedroom = 2
+
+module RadioStudio =
+    let lobby = 0
+    let recordingRoom = 1

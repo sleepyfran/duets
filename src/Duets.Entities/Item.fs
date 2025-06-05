@@ -50,12 +50,18 @@ module Beer =
                     DrinkType = Beer(alcoholContent) }
               ) ] }
 
-module Chip =
+module Key =
     /// Creates a chip to access a place in a city.
-    let createFor cityId placeId =
+    let createChipFor cityId placeId =
         { Brand = "DuetsCorp"
           Name = "Chip"
           Properties = [ Chip(cityId, placeId) |> Key ] }
+
+    /// Creates an entrance card to access a place in a city.
+    let createEntranceCardFor cityId placeId =
+        { Brand = "DuetsCorp"
+          Name = "EntranceCard"
+          Properties = [ EntranceCard(cityId, placeId) |> Key ] }
 
 module Coffee =
     /// Creates a coffee item.

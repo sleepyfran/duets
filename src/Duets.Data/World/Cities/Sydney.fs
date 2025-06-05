@@ -251,8 +251,8 @@ let private addStudios city =
 
 (* -------- Radio Studios --------- *)
 let private addRadioStudios city =
-    [ ("KIIS 106.5", 93<quality>, "Pop", cbd)
-      ("Triple M 104.9 FM", 90<quality>, "Rock", surryHills)
-      ("Eastside Radio 89.7 FM", 87<quality>, "Jazz", darlinghurst) ]
-    |> List.map PlaceCreators.createRadioStudio
+    [ ("Nova 96.9", 93<quality>, "Pop", cbd)
+      ("Triple M", 90<quality>, "Rock", darlinghurst)
+      ("Eastside Radio 89.7FM", 88<quality>, "Jazz", bondi) ]
+    |> List.map (PlaceCreators.createRadioStudio city)
     |> List.fold (fun city place -> World.City.addPlace place city) city
