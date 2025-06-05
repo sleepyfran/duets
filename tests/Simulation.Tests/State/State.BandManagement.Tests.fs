@@ -15,7 +15,7 @@ let hiredCharacter =
     Character.from
         "Another"
         Other
-        (Calendar.Ops.addYears -18 Calendar.gameBeginning)
+        (Calendar.Ops.addYears -18<years> Calendar.gameBeginning)
 
 let hiredMember = Band.Member.from hiredCharacter.Id Guitar dummyToday
 
@@ -46,9 +46,7 @@ let ``MemberHired should add skills to member's character`` () =
     let characterSkills =
         Skills.characterSkillsWithLevel state hiredMember.CharacterId
 
-    characterSkills
-    |> Map.head
-    |> should equal (List.head memberSkills)
+    characterSkills |> Map.head |> should equal (List.head memberSkills)
 
 [<Test>]
 let ``MemberFired should remove band member and add past member`` () =
@@ -68,7 +66,4 @@ let ``MemberFired should remove band member and add past member`` () =
     |> Bands.currentBandMembersWithoutPlayableCharacter
     |> should haveLength 0
 
-    state
-    |> Bands.pastBandMembers
-    |> List.head
-    |> should equal firedMember
+    state |> Bands.pastBandMembers |> List.head |> should equal firedMember

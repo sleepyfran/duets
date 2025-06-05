@@ -3,7 +3,6 @@ module Duets.Simulation.Tests.Events.Moodlets.NotInspired
 open FsUnit
 open NUnit.Framework
 open Test.Common
-open Test.Common.Generators
 
 open Duets.Common
 open Duets.Entities
@@ -34,7 +33,7 @@ let ``tick of song finished should not apply any extra effects if the previous s
     =
     [ 8; 10; 20; 30 ]
     |> List.iter (fun daysAgo ->
-        let finishDate = Calendar.Ops.addDays daysAgo dummyToday
+        let finishDate = Calendar.Ops.addDays (daysAgo * 1<days>) dummyToday
 
         let stateWithSong =
             dummyState
@@ -54,7 +53,7 @@ let ``tick of song finished should apply NotInspired moodlet if the previous son
     =
     [ 1..7 ]
     |> List.iter (fun daysAgo ->
-        let finishDate = Calendar.Ops.addDays daysAgo dummyToday
+        let finishDate = Calendar.Ops.addDays (daysAgo * 1<days>) dummyToday
 
         let stateWithSong =
             dummyState
@@ -86,8 +85,8 @@ let ``tick of song finished should apply NotInspired moodlet if the previous son
 let ``tick of AdvanceTime should not remove any moodlets if none have expired``
     ()
     =
-    let yesterday = dummyToday |> Calendar.Ops.addDays -1
-    let lastWeek = dummyToday |> Calendar.Ops.addDays -7
+    let yesterday = dummyToday |> Calendar.Ops.addDays -1<days>
+    let lastWeek = dummyToday |> Calendar.Ops.addDays -7<days>
 
     let moodlets =
         [ Moodlet.create
@@ -126,8 +125,8 @@ let ``tick of AdvanceTime should not remove any moodlets if none have expired``
 
 [<Test>]
 let ``tick of AdvanceTime should remove any moodlets that have expired`` () =
-    let yesterday = dummyToday |> Calendar.Ops.addDays -1
-    let lastWeek = dummyToday |> Calendar.Ops.addDays -7
+    let yesterday = dummyToday |> Calendar.Ops.addDays -1<days>
+    let lastWeek = dummyToday |> Calendar.Ops.addDays -7<days>
 
     let nonExpiringMoodlet1 =
         Moodlet.create

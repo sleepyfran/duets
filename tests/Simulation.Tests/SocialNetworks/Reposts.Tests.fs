@@ -63,7 +63,7 @@ let ``should not raise effects if there the posts are older than 3 days`` () =
         |> State.SocialNetworks.addPost
             SocialNetworkKey.Mastodon
             { testPost with
-                Timestamp = dummyToday |> Calendar.Ops.addDays days }
+                Timestamp = dummyToday |> Calendar.Ops.addDays (days * 1<days>) }
         |> SocialNetworks.Reposts.applyToLatestAfterTimeChange
         |> should haveLength 0)
 

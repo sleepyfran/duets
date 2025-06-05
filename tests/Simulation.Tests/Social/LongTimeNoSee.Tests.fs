@@ -4,7 +4,6 @@ open FsUnit
 open NUnit.Framework
 open Test.Common
 
-open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 
@@ -32,7 +31,7 @@ let ``does nothing if the last interaction was less than 14 days ago`` () =
     [ 0..13 ]
     |> List.iter (fun daysSince ->
         dummyToday
-        |> Calendar.Ops.addDays -daysSince
+        |> Calendar.Ops.addDays -(daysSince * 1<days>)
         |> createStateWithRelationship 10<relationshipLevel>
         |> Social.LongTimeNoSee.applyIfNeeded
         |> should haveLength 0)
@@ -43,7 +42,7 @@ let ``reduces relationship level by 5 and sets last interaction time to today if
     =
     let effects =
         dummyToday
-        |> Calendar.Ops.addDays -15
+        |> Calendar.Ops.addDays -15<days>
         |> createStateWithRelationship 10<relationshipLevel>
         |> Social.LongTimeNoSee.applyIfNeeded
 
@@ -64,7 +63,7 @@ let ``removes relationship if interaction was more than 14 days ago and it was a
     =
     let effects =
         dummyToday
-        |> Calendar.Ops.addDays -15
+        |> Calendar.Ops.addDays -15<days>
         |> createStateWithRelationship 0<relationshipLevel>
         |> Social.LongTimeNoSee.applyIfNeeded
 
@@ -78,7 +77,7 @@ let ``removes relationship if interaction was more than 14 days ago and it was a
 let ``gets applied every day in the morning`` () =
     let state =
         dummyToday
-        |> Calendar.Ops.addDays -15
+        |> Calendar.Ops.addDays -15<days>
         |> createStateWithRelationship 10<relationshipLevel>
 
     dummyToday

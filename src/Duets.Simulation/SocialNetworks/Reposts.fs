@@ -27,7 +27,7 @@ module Reposts =
                     Queries.SocialNetworks.postsFromPreviousNDays
                         state
                         account
-                        3
+                        3<days>
                     |> List.collect (fun post ->
                         let updatedReposts = post.Reposts + newReposts
 

@@ -64,7 +64,5 @@ module Characters =
     /// Returns the age of the character.
     let ageOf state character =
         let today = Calendar.today state
-
         let birthday = Optic.get Lenses.Character.birthday_ character
-
-        Calendar.Query.yearsBetween birthday today
+        Calendar.Query.yearsBetween birthday today |> abs

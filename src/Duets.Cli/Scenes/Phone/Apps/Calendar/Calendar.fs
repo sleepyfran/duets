@@ -8,24 +8,24 @@ open Duets.Entities
 open Duets.Simulation
 
 type private CalendarMenuOption =
-    | NextMonth
-    | PreviousMonth
+    | NextSeason
+    | PreviousSeason
 
 let rec private textFromOption opt =
     match opt with
-    | NextMonth -> "Next month"
-    | PreviousMonth -> "Previous month"
+    | NextSeason -> "Next season"
+    | PreviousSeason -> "Previous season"
     |> Styles.faded
 
 let rec calendarApp () =
     State.get () |> Queries.Calendar.today |> calendarApp'
 
 let private calendarApp' firstDay =
-    let nextMonthDate = Calendar.Query.firstDayOfNextMonth firstDay
-    let previousMonthDate = Calendar.Query.firstDayOfPreviousMonth firstDay
+    let nextSeasonDate = Calendar.Query.firstDayOfNextSeason firstDay
+    let previousSeasonDate = Calendar.Query.firstDayOfPreviousSeason firstDay
 
     let calendarEvents =
-        Queries.CalendarEvents.allOfDateMonth (State.get ()) firstDay
+        Queries.CalendarEvents.allOfDateSeason (State.get ()) firstDay
 
     let calendarEventDates = calendarEvents |> List.map fst
 
@@ -33,10 +33,10 @@ let private calendarApp' firstDay =
 
     calendarEventDates
     |> List.map fst
-    |> showCalendar firstDay.Year firstDay.Month
+    |> showCalendar firstDay.Year firstDay.Season
 
     if List.isEmpty calendarEvents then
-        "No events this month" |> showMessage
+        "No events this season" |> Styles.danger |> showMessage
     else
         showEventList calendarEvents
 
@@ -47,16 +47,16 @@ let private calendarApp' firstDay =
             Phone.concertAssistantAppVisualizeMoreDatesPrompt
             Generic.back
             textFromOption
-            [ NextMonth; PreviousMonth ]
+            [ NextSeason; PreviousSeason ]
 
     match selectedOption with
-    | Some NextMonth -> calendarApp' nextMonthDate
-    | Some PreviousMonth -> calendarApp' previousMonthDate
+    | Some NextSeason -> calendarApp' nextSeasonDate
+    | Some PreviousSeason -> calendarApp' previousSeasonDate
     | None -> Scene.Phone
 
 let private showEventList dateGroupedEvents =
     let today = Queries.Calendar.today (State.get ())
-    let tomorrow = today |> Calendar.Ops.addDays 1
+    let tomorrow = today |> Calendar.Ops.addDays 1<days>
 
     dateGroupedEvents
     |> List.iter (fun ((date, _), events) ->

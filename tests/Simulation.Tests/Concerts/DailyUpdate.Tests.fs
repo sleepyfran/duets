@@ -66,7 +66,7 @@ let ``sold tickets get lower when band fame is lower`` () =
             dummyBand
             (ScheduledConcert(
                 { dummyConcert with
-                    Date = dummyToday.AddDays(1)
+                    Date = dummyToday |> Calendar.Ops.addDays 1<days>
                     TicketPrice = 2m<dd> },
                 dummyToday
             ))
@@ -104,7 +104,7 @@ let ``daily sold tickets are calculated based on how many days are left until th
             dummyBand
             (ScheduledConcert(
                 { dummyConcert with
-                    Date = dummyToday.AddDays(15)
+                    Date = dummyToday |> Calendar.Ops.addDays 15<days>
                     TicketPrice = 10m<dd> },
                 dummyToday
             ))
@@ -222,8 +222,8 @@ let ``sold tickets should not decrease out of the normal cap when last visit to 
             return!
                 Concert.pastConcertGenerator
                     { Concert.defaultOptions with
-                        From = dummyToday.AddYears(-2)
-                        To = dummyToday.AddDays(-180) }
+                        From = dummyToday |> Calendar.Ops.addYears -2<years>
+                        To = dummyToday |> Calendar.Ops.addDays -80<days> }
         }
 
     let concert =
@@ -250,8 +250,8 @@ let ``sold tickets decrease to 70% of the normal cap when last visit to the city
             return!
                 Concert.pastConcertGenerator
                     { Concert.defaultOptions with
-                        From = dummyToday.AddDays(1)
-                        To = dummyToday.AddDays(15) }
+                        From = dummyToday |> Calendar.Ops.addDays 1<days>
+                        To = dummyToday |> Calendar.Ops.addDays 15<days> }
         }
 
     let concert =
@@ -278,8 +278,8 @@ let ``sold tickets decrease to 20% of the normal cap when last visit to the city
             return!
                 Concert.pastConcertGenerator
                     { Concert.defaultOptions with
-                        From = dummyToday.AddDays(20)
-                        To = dummyToday.AddDays(30) }
+                        From = dummyToday |> Calendar.Ops.addDays 20<days>
+                        To = dummyToday |> Calendar.Ops.addDays 30<days> }
         }
 
     let concert =

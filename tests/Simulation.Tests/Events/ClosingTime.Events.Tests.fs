@@ -90,8 +90,8 @@ let ``tick of advance day moment kicks out the character if they had a concert t
     =
     let concert =
         Concert.generator
-            { From = dummyToday |> Calendar.Ops.addDays -5
-              To = dummyToday |> Calendar.Ops.addDays -3
+            { From = dummyToday |> Calendar.Ops.addDays -5<days>
+              To = dummyToday |> Calendar.Ops.addDays -3<days>
               City = Prague
               Venue = cafe.Id
               DayMoment = Evening }
@@ -119,8 +119,8 @@ let ``tick of advance day moment kicks out the character if they have a concert 
     =
     let concert =
         Concert.generator
-            { From = dummyToday |> Calendar.Ops.addDays 3
-              To = dummyToday |> Calendar.Ops.addDays 5
+            { From = dummyToday |> Calendar.Ops.addDays 3<days>
+              To = dummyToday |> Calendar.Ops.addDays 5<days>
               City = Prague
               Venue = cafe.Id
               DayMoment = Evening }

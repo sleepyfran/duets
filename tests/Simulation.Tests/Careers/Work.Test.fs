@@ -4,12 +4,12 @@ module Duets.Simulation.Tests.Careers.Work
 
 open FsCheck
 open FsUnit
-open Fugit.Months
 open NUnit.Framework
 open Test.Common.Generators
 
 open Duets.Data
 open Duets.Entities
+open Duets.Entities.Calendar.Shorthands
 open Duets.Simulation
 open Duets.Simulation.Careers
 
@@ -21,7 +21,8 @@ let private job =
       CurrentStage = (Careers.BaristaCareer.stages |> List.head)
       Location = Prague, place.Id }
 
-let morningTime = August 21 2023 |> Calendar.Transform.changeDayMoment Morning
+let morningTime =
+    Summer 21<days> 2023<years> |> Calendar.Transform.changeDayMoment Morning
 
 let private state =
     State.generateOne State.defaultOptions |> State.Calendar.setTime morningTime

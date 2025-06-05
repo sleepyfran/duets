@@ -30,7 +30,7 @@ let rec scheduleShow app =
     // Skip 5 days to give enough time for the scheduler to compute some ticket
     // purchases, otherwise the concert would be empty.
     let firstAvailableDay =
-        Queries.Calendar.today (State.get ()) |> Calendar.Ops.addDays 5
+        Queries.Calendar.today (State.get ()) |> Calendar.Ops.addDays 5<days>
 
     promptForDate app firstAvailableDay
 

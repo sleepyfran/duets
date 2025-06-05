@@ -89,7 +89,8 @@ let dayMomentTime dayMoment =
 let dayName (day: DayOfWeek) = day.ToString()
 
 /// Returns the name of the day in the given date.
-let todayName (date: Date) = date.DayOfWeek.ToString()
+let todayName (date: Date) =
+    (Calendar.Query.dayOfWeek date).ToString()
 
 /// Returns the formatted name for an album type.
 let albumType t =

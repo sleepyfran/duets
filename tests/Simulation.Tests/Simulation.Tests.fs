@@ -3,7 +3,6 @@ module Duets.Simulation.Tests.Simulation
 open System
 open Aether
 open FsUnit
-open Fugit.Months
 open NUnit.Framework
 open Duets
 open Duets.Simulation.Time
@@ -11,6 +10,7 @@ open Test.Common
 open Test.Common.Generators
 
 open Duets.Entities
+open Duets.Entities.Calendar.Shorthands
 open Duets.Simulation
 open Duets.Data.Careers
 
@@ -22,9 +22,11 @@ let stateInMorning =
     { state with
         Today = state.Today |> Calendar.Transform.changeDayMoment Morning }
 
-let stateInMidnightBeforeNewYear =
+let stateInMidnightOfNewYear =
     { state with
-        Today = January 1 2023 |> Calendar.Transform.changeDayMoment Midnight }
+        Today =
+            Spring 1<days> 2023<years>
+            |> Calendar.Transform.changeDayMoment Midnight }
 
 let unfinishedSong = Unfinished(dummySong, 10<quality>, 10<quality>)
 
@@ -71,7 +73,14 @@ let ``tick should gather and apply associated effects`` () =
 
     effects
     |> List.item 0
-    |> should equal (TimeAdvanced(DateTime(2021, 6, 20, 10, 0, 0)))
+    |> should
+        equal
+        (TimeAdvanced(
+            { Year = 2021<years>
+              Season = Season.Summer
+              Day = 20<days>
+              DayMoment = Morning }
+        ))
 
     effects
     |> List.item 1
@@ -173,8 +182,8 @@ let filterMarketUpdateEffects effect =
 
 [<Test>]
 let ``tick should update markets every year in the early morning`` () =
-    AdvanceTime.advanceDayMoment' stateInMidnightBeforeNewYear 1<dayMoments>
-    |> Simulation.tickMultiple stateInMidnightBeforeNewYear
+    AdvanceTime.advanceDayMoment' stateInMidnightOfNewYear 1<dayMoments>
+    |> Simulation.tickMultiple stateInMidnightOfNewYear
     |> fst
     |> List.filter filterMarketUpdateEffects
     |> should haveLength 1
@@ -197,7 +206,7 @@ let ``tick should check for failed concerts in every time update`` () =
 
     let dateAfterConcert =
         Simulation.Queries.Calendar.today state
-        |> Calendar.Ops.addDays 31
+        |> Calendar.Ops.addDays 31<days>
         |> Calendar.Transform.changeDayMoment Midnight
 
     let stateAfterConcert =
@@ -230,7 +239,14 @@ let ``tick should advance day moment if the effects triggered enough time`` () =
     |> List.find (function
         | TimeAdvanced _ -> true
         | _ -> false)
-    |> should equal (TimeAdvanced(DateTime(2021, 6, 20, 10, 0, 0)))
+    |> should
+        equal
+        (TimeAdvanced(
+            { Year = 2021<years>
+              Season = Season.Summer
+              Day = 20<days>
+              DayMoment = Morning }
+        ))
 
     stateAfterTick
     |> Optic.get Lenses.State.turnMinutes_
@@ -249,7 +265,14 @@ let ``tick should keep leftover time after advancing day moment if effects trigg
     |> List.find (function
         | TimeAdvanced _ -> true
         | _ -> false)
-    |> should equal (TimeAdvanced(DateTime(2021, 6, 20, 10, 0, 0)))
+    |> should
+        equal
+        (TimeAdvanced(
+            { Year = 2021<years>
+              Season = Season.Summer
+              Day = 20<days>
+              DayMoment = Morning }
+        ))
 
     stateAfterTick
     |> Optic.get Lenses.State.turnMinutes_
@@ -275,7 +298,14 @@ let ``ticks that include effects spanning multiple day moments get applied corre
     |> List.find (function
         | TimeAdvanced _ -> true
         | _ -> false)
-    |> should equal (TimeAdvanced(DateTime(2021, 6, 20, 10, 0, 0)))
+    |> should
+        equal
+        (TimeAdvanced(
+            { Year = 2021<years>
+              Season = Season.Summer
+              Day = 20<days>
+              DayMoment = Morning }
+        ))
 
     stateAfterTick
     |> Optic.get Lenses.State.turnMinutes_

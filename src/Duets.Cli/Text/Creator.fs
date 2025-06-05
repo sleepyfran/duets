@@ -15,10 +15,10 @@ let characterGenderOther = "Other"
 
 let characterBirthdayInfo =
     Styles.faded
-        $"The game starts on {Date.simple Calendar.gameBeginning} and your character has to be at least 18 by then"
+        $"The game starts on {Calendar.gameBeginning.Year} and your character has to be at least 18 by then"
 
 let characterBirthdayPrompt gender =
-    $"""When is {Generic.possessiveAdjectiveForGender gender |> String.lowercase} {Styles.highlight "birthday"}? (format {Styles.information "dd/mm/YYYY"})"""
+    $"""When was {Generic.possessiveAdjectiveForGender gender |> String.lowercase} {Styles.highlight "born"}? (format {Styles.information "YYYY"})"""
 
 let bandInitialPrompt =
     $"""Let's create your first band. What's the band's {Styles.highlight "name"}?"""

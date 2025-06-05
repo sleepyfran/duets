@@ -14,7 +14,7 @@ let bandMember =
         Character.from
             "Test"
             Other
-            (Calendar.Ops.addYears -28 Calendar.gameBeginning)
+            (Calendar.Ops.addYears -28<years> Calendar.gameBeginning)
 
     Band.Member.from hiredCharacter.Id Guitar dummyToday
 

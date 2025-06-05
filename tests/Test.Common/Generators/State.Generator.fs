@@ -4,14 +4,14 @@ open Duets.Data.World
 open FsCheck
 
 open Duets.Entities
-open Test.Common
 open Duets.Simulation
+open Test.Common
 
 let dateGenerator =
     Arb.generate<Date>
     |> Gen.filter (fun date ->
         date > Calendar.gameBeginning
-        && date < Calendar.gameBeginning.AddYears(2))
+        && date < (Calendar.gameBeginning |> Calendar.Ops.addYears 2<years>))
 
 type StateGenOptions =
     { BandFansMin: int<fans>
@@ -39,13 +39,13 @@ let defaultOptions =
       PastConcertGen =
         (Concert.pastConcertGenerator
             { Concert.defaultOptions with
-                From = dummyToday.AddYears(-2)
+                From = dummyToday |> Calendar.Ops.addYears -2<years>
                 To = dummyToday })
       ScheduledConcertGen =
         (Concert.scheduledConcertGenerator
             { Concert.defaultOptions with
-                From = dummyToday.AddDays(1)
-                To = dummyToday.AddYears(2) })
+                From = dummyToday |> Calendar.Ops.addDays 1<days>
+                To = dummyToday |> Calendar.Ops.addYears 2<years> })
       FlightGen = Arb.generate<Flight>
       PostGen = Arb.generate<SocialNetworkPost> }
 

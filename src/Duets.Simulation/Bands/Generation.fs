@@ -72,7 +72,7 @@ module Members =
     /// and skill based on the band's start date and the fame level.
     let generate state (bandStartDate: Date) genre fameLevel =
         let currentDate = Queries.Calendar.today state
-        let averageBirthdayYear = bandStartDate.Year - 10
+        let averageBirthdayYear = bandStartDate.Year - 10<years>
         let averageAge = currentDate.Year - averageBirthdayYear
 
         let averageSkills =
@@ -96,7 +96,7 @@ module StartDate =
     /// Generates a date when a band should start playing by randomly adding
     /// between 0 to -30 years to the current date.
     let generate state =
-        let startDateYearDifference = RandomGen.genBetween -30 0
+        let startDateYearDifference = RandomGen.genBetween -30 0 |> (*) 1<years>
 
         Queries.Calendar.today state
         |> Calendar.Ops.addYears startDateYearDifference

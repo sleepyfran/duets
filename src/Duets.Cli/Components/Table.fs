@@ -1,6 +1,7 @@
 [<AutoOpen>]
 module Duets.Cli.Components.Table
 
+open Duets.Cli.Text
 open Spectre.Console
 
 let private createTable
@@ -11,7 +12,7 @@ let private createTable
     let mutable table = Table()
 
     match title with
-    | Some title -> table.Title <- TableTitle(title)
+    | Some title -> table.Title <- TableTitle(Styles.title title)
     | None -> ()
 
     columns |> List.iter (fun column -> table <- table.AddColumn(column))

@@ -66,8 +66,8 @@ let ``having multiple concerts scheduled does not break getting of the stage``
         |> List.head
 
     let today = dummyToday
-    let tomorrow = today |> Calendar.Ops.addDays 1
-    let dayAfterTomorrow = tomorrow |> Calendar.Ops.addDays 1
+    let tomorrow = today |> Calendar.Ops.addDays 1<days>
+    let dayAfterTomorrow = tomorrow |> Calendar.Ops.addDays 1<days>
 
     let concert1 =
         Concert.create today Evening Prague pragueVenue.Id 10m Headliner

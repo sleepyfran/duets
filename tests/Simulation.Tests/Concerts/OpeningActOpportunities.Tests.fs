@@ -131,7 +131,7 @@ let ``generate does not create any opportunities in venues that are too big or s
         |> Bands.Generation.addInitialBandsToState
 
     OpeningActOpportunities.generate state Prague
-    |> List.iter (fun (headliner, concert) ->
+    |> Seq.iter (fun (headliner, concert) ->
         let venue = Queries.World.placeInCityById Prague concert.VenueId
 
         let venueCapacity =
@@ -179,7 +179,7 @@ let ``generate does not create any opportunity for a band that has more than 35 
     let bandFame = band.Id |> Queries.Bands.estimatedFameLevel state
 
     OpeningActOpportunities.generate state Prague
-    |> List.iter (fun (headliner, _) ->
+    |> Seq.iter (fun (headliner, _) ->
         let headlinerFame =
             headliner.Id |> Queries.Bands.estimatedFameLevel state
 

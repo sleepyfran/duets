@@ -38,18 +38,18 @@ let private lastVisitModifier state (band: Band) concert =
     | Some lastConcert ->
         let lastConcert = Concert.fromPast lastConcert
 
-        concert.Date - lastConcert.Date
-        |> fun span ->
-            match span.Days with
-            | days when days <= 10 -> 0.2
-            | days when days <= 30 -> 0.7
+        Calendar.Query.daysBetween lastConcert.Date concert.Date
+        |> function
+            | days when days <= 10<days> -> 0.2
+            | days when days <= 30<days> -> 0.7
             | _ -> 1.0
     | None -> 1.0
 
 let private dailyTicketSell concert attendanceCap =
     let (ScheduledConcert(concert, dateScheduled)) = concert
 
-    let daysUntilConcert = (concert.Date - dateScheduled).Days |> max 1
+    let daysUntilConcert =
+        Calendar.Query.daysBetween concert.Date dateScheduled |> max 1<days>
 
     attendanceCap / float daysUntilConcert
 

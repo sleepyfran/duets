@@ -14,7 +14,7 @@ let payRental state (rental: Rental) =
     result {
         let! expenseEffects = rental.Amount |> expense state characterAccount
 
-        let nextPaymentDate = Rental.dueDate rental |> Calendar.Ops.addMonths 1
+        let nextPaymentDate = Rental.dueDate rental |> Calendar.Ops.addSeasons 1
 
         let updatedRental =
             { rental with

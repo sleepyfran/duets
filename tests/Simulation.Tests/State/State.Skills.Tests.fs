@@ -6,7 +6,6 @@ open FsUnit
 open NUnit.Framework
 open Test.Common
 
-open Aether
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation
@@ -35,7 +34,7 @@ let ``SkillImproved should add skill even if character is not present in the map
         Character.from
             "Made Up"
             Male
-            (Calendar.Ops.addYears -25 Calendar.gameBeginning)
+            (Calendar.Ops.addYears -25<years> Calendar.gameBeginning)
 
     let skills =
         SkillImproved(madeUpCharacter, Diff(skill, skill))

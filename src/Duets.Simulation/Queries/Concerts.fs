@@ -58,8 +58,8 @@ let scheduledAroundDate state bandId =
     let timeline = bandSchedule state bandId
 
     let aroundCurrentDate concert =
-        let spanBetween = concert.Date - today
-        if abs (spanBetween.Days) <= 1 then Some concert else None
+        let daysBetween = Calendar.Query.daysBetween concert.Date today
+        if daysBetween <= 1<days> then Some concert else None
 
     let concertsScheduledAroundCurrentDate =
         timeline.ScheduledEvents
@@ -75,8 +75,8 @@ let scheduledAroundDate state bandId =
 
 /// Returns all date from today to the end of the month that have a concert
 /// scheduled.
-let scheduleForMonth state bandId fromDay =
-    Calendar.Query.monthDaysFrom fromDay
+let scheduleForSeason state bandId fromDay =
+    Calendar.Query.seasonDaysFrom fromDay
     |> Seq.choose (scheduleForDay state bandId)
 
 /// Returns all scheduled concerts.

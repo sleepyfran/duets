@@ -8,7 +8,7 @@ open Duets.Simulation
 let private createHappeningSoon state date =
     let dateInFiveDayMoments = date |> Calendar.Query.nextN 4
 
-    Queries.CalendarEvents.allOfDateMonth state date
+    Queries.CalendarEvents.allOfDateSeason state date
     |> List.map snd
     |> List.concat
     |> List.choose (fun event ->
@@ -24,8 +24,8 @@ let private createHappeningSoon state date =
 /// Checks if there's any pending notification to be sent about upcoming payments
 /// in rentals.
 let private createRentalDueNotifications state date =
-    let tomorrowDate = date |> Calendar.Ops.addDays 1
-    let nextWeekDate = date |> Calendar.Ops.addDays 7
+    let tomorrowDate = date |> Calendar.Ops.addDays 1<days>
+    let nextWeekDate = date |> Calendar.Ops.addDays 7<days>
 
     Queries.Rentals.allUpcoming state
     |> List.choose (fun rental ->

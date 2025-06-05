@@ -11,8 +11,8 @@ let generate state cityId =
     let currentBand = Queries.Bands.currentBand state
 
     // Start from a week after so that there's time to gather ticket sales.
-    let firstAvailableDay = today |> Calendar.Ops.addDays 7
-    let lastAvailableDay = today |> Calendar.Ops.addMonths 1
+    let firstAvailableDay = today |> Calendar.Ops.addDays 7<days>
+    let lastAvailableDay = today |> Calendar.Ops.addSeasons 1
 
     let simulatedBands =
         Queries.Bands.allSimulated state
@@ -27,7 +27,7 @@ let generate state cityId =
             headlinerFame >=< (0, currentBandFame + 35))
 
     Calendar.Query.datesBetween firstAvailableDay lastAvailableDay
-    |> List.collect (generateOpeningActShowsOnDate state simulatedBands cityId)
+    |> Seq.collect (generateOpeningActShowsOnDate state simulatedBands cityId)
 
 let private generateOpeningActShowsOnDate state headlinerBands cityId date =
     let eventsToGenerate = RandomGen.genBetween 0 15
