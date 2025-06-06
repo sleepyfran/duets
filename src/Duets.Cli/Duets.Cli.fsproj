@@ -138,6 +138,7 @@
         <Compile Include="Components\Commands\Cheats\Band.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>
+        <Compile Include="Components\Commands\Cheats\Skills.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\World.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Clock.Command.fs"/>

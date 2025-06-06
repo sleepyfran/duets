@@ -52,6 +52,29 @@ module LifeCommands =
 
                 Scene.Cheats) }
 
+    /// Command which lets the player modify their fame freely.
+    let spotlight =
+        { Name = "spotlight"
+          Description =
+            "Lets you modify your fame without actually having to put up any work for it!"
+          Handler =
+            (fun _ ->
+                let selectedFame =
+                    showRangedNumberPrompt
+                        0
+                        100
+                        "What fame level do you want to have?"
+
+                let state = State.get ()
+
+                Character.Attribute.setToPlayable
+                    CharacterAttribute.Fame
+                    selectedFame
+                    state
+                |> Effect.applyMultiple
+
+                Scene.Cheats) }
+
     /// Command which lets the user advance in time.
     let timeTravel =
         { Name = "time travel"
