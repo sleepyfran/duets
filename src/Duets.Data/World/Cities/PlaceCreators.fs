@@ -102,7 +102,7 @@ let createRadioStudio (city: City) (name, quality, musicGenre, zone) =
             |> World.Room.changeRequiredItemForEntrance requiredItems
             |> Some
         | _ -> None)
-    |> World.Place.changeOpeningHours OpeningHours.servicesOpeningHours
+    |> World.Place.changeOpeningHours OpeningHours.radioStudioOpeningHours
 
 /// Creates a restaurant with the given name, quality, cuisine and zone.
 let createRestaurant (name, quality, cuisine, zone) =
