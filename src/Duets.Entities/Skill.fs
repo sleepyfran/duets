@@ -10,6 +10,7 @@ let categoryFor id =
     | SkillId.Genre _
     | SkillId.Instrument _ -> SkillCategory.Music
     | SkillId.MusicProduction -> SkillCategory.Production
+    | SkillId.Cooking
     | SkillId.Fitness
     | SkillId.Speech -> SkillCategory.Character
     | SkillId.Barista

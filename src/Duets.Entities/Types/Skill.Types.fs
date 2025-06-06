@@ -14,6 +14,7 @@ module SkillTypes =
         (* Character. *)
         | Fitness
         | Speech
+        | Cooking
         (* Job. *)
         | Barista
         | Bartending

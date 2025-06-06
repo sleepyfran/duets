@@ -76,11 +76,15 @@ module Coffee =
 
 module Food =
     /// Creates a food item.
-    let create name amount foodType =
+    let create name amount foodType cookingSkillRequired =
         { Brand = "DuetsFoods"
           Name = name
           Properties =
-            [ Edible({ Amount = amount; FoodType = foodType })
+            [ Edible(
+                  { Amount = amount
+                    FoodType = foodType
+                    CookingSkillRequired = cookingSkillRequired }
+              )
               PlaceableInStorage(Fridge) ] }
 
 module Soda =

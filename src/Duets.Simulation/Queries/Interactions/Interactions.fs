@@ -51,7 +51,7 @@ module Interactions =
                 itemsInPlace
 
         let itemInteractions =
-            inventory @ itemsInPlace |> Items.getItemInteractions
+            inventory @ itemsInPlace |> Items.getItemInteractions state
 
         let careerInteractions = currentPlace |> Career.interactions state
 

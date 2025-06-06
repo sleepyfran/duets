@@ -18,7 +18,8 @@ module rec ItemTypes =
     /// Defines an item that can be eaten by the player.
     type EdibleItem =
         { Amount: int<gram>
-          FoodType: FoodType }
+          FoodType: FoodType
+          CookingSkillRequired: int }
 
     /// Defines what kind of deliverables the game supports.
     [<RequireQualifiedAccess>]
