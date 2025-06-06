@@ -1,19 +1,12 @@
 module Duets.Data.Skills
 
+open Duets.Common
 open Duets.Entities
 
 /// Generates all the available skills in the game, scoped to a given genre and
 /// instrument.
 let allFor (genre: Genre) (instrument: InstrumentType) =
-    [ // Music.
-      SkillId.Composition
-      SkillId.Genre genre
-      SkillId.Instrument instrument
-      // Production.
-      SkillId.MusicProduction
-      // Character.
-      SkillId.Speech
-      // Job.
-      SkillId.Barista
-      SkillId.Bartending ]
+    let skillsWithoutParams = Union.allCasesOf<SkillId> ()
+
+    SkillId.Genre genre :: SkillId.Instrument instrument :: skillsWithoutParams
     |> List.map Skill.create
