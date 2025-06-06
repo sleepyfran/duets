@@ -39,10 +39,28 @@ module RadioHost =
         | 3uy -> "Lead Program Host"
         | _ -> "Network Star Presenter"
 
+module Chef =
+    let careerStageName (CareerStageId stage) =
+        match stage with
+        | 0uy -> "Kitchen Porter"
+        | 1uy -> "Commis Chef"
+        | 2uy -> "Chef de Partie"
+        | 3uy -> "Sous Chef"
+        | _ -> "Head Chef"
+
+let careerName (id: CareerId) =
+    match id with
+    | Barista -> "Barista"
+    | Bartender -> "Bartender"
+    | Chef -> "Chef"
+    | MusicProducer -> "Music Producer"
+    | RadioHost -> "Radio Host"
+
 let name (job: Job) =
     match job.Id with
     | Barista -> Barista.careerStageName job.CurrentStage.Id
     | Bartender -> Bartender.careerStageName job.CurrentStage.Id
+    | Chef -> Chef.careerStageName job.CurrentStage.Id
     | MusicProducer -> MusicProducer.careerStageName job.CurrentStage.Id
     | RadioHost -> RadioHost.careerStageName job.CurrentStage.Id
 
@@ -50,6 +68,7 @@ let typeName id =
     match id with
     | Barista -> "Barista"
     | Bartender -> "Bartender"
+    | Chef -> "Chef"
     | MusicProducer -> "Music Producer"
     | RadioHost -> "Radio Host"
 
@@ -87,6 +106,12 @@ let workShiftEvent (job: Job) =
           "Get ready to shake, stir, and garnish concoctions so elaborate, they could star in their own reality show..."
           "Welcome to the world of mixology mayhem, where your cocktail shaker is your trusty weapon, and the bar is your battleground..."
           "In this mixological madness, you'll encounter patrons who order 'a drink that tastes like the color blue' and 'something that transports me to a tropical beach, minus the sand...'" ]
+    | Chef ->
+        [ "Prepare to chop, dice, and sauté your way through a busy kitchen shift."
+          "Today's specials include a soup that's been simmering for hours and a sauce that's been reduced to perfection."
+          "Get ready to plate up a storm and make the dishes look almost too good to eat."
+          "The kitchen is hot, and so are the orders. Keep your cool and get the food out on time."
+          "A VIP guest is coming in tonight, and the chef has a special menu planned. Make sure everything is perfect." ]
     | MusicProducer ->
         [ "Get ready to produce the musical equivalent of a herd of tone-deaf cats in a room full of broken instruments. It's your chance to turn this disaster into a symphony of chaos!"
           "Brace yourself for a band with more egos than members. It's your job to make them sound harmonious, or at least get them to agree on a pizza topping."

@@ -38,3 +38,7 @@ module Bar =
 module RecordingStudio =
     let masteringRoom = 0
     let recordingRoom = 1
+
+module Restaurant =
+    let kitchen = 0
+    let dining = 1

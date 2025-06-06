@@ -5,10 +5,18 @@ open Duets.Data.World
 
 /// Usual layout for a restaurant.
 let restaurantRoomLayout menu =
-    RoomType.Restaurant menu
-    |> World.Room.create
-    |> World.Node.create Ids.Common.restaurant
-    |> World.Graph.from
+    let kitchen =
+        RoomType.Kitchen
+        |> World.Room.create
+        |> World.Node.create Ids.Restaurant.kitchen
+
+    let diningRoom =
+        RoomType.Restaurant menu
+        |> World.Room.create
+        |> World.Node.create Ids.Restaurant.dining
+
+    World.Graph.fromMany [ diningRoom; kitchen ]
+    |> World.Graph.connect kitchen.Id diningRoom.Id North
 
 /// Usual layout for a bar.
 let barRoomLayout =

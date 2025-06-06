@@ -9,8 +9,9 @@ open Duets.Simulation.Careers.Common
 
 let private placeTypeForJobType jobType =
     match jobType with
-    | Bartender -> PlaceTypeIndex.Bar
     | Barista -> PlaceTypeIndex.Cafe
+    | Bartender -> PlaceTypeIndex.Bar
+    | Chef -> PlaceTypeIndex.Restaurant
     | MusicProducer -> PlaceTypeIndex.Studio
     | RadioHost -> PlaceTypeIndex.RadioStudio
 
@@ -64,6 +65,15 @@ let private generateRadioHostJob state cityId placeId =
         Ids.RadioStudio.recordingRoom
         RadioHostCareer.stages
 
+let private generateChefJob state cityId placeId =
+    findSuitableJob
+        state
+        Chef
+        cityId
+        placeId
+        Ids.Restaurant.kitchen
+        ChefCareer.stages
+
 let private generateJobsForPlace state cityId place =
     place.Rooms
     |> World.Graph.nodes
@@ -74,6 +84,7 @@ let private generateJobsForPlace state cityId place =
         | RoomType.MasteringRoom ->
             generateMusicProducerJob state cityId place.Id
         | RoomType.RecordingRoom -> generateRadioHostJob state cityId place.Id
+        | RoomType.Kitchen -> generateChefJob state cityId place.Id
         | _ -> None)
 
 let private generateJobs state cityId (places: Place list) =

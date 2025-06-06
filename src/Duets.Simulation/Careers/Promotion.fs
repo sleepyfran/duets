@@ -9,6 +9,7 @@ let private stagesForJob (job: Job) =
     match job.Id with
     | Barista -> Careers.BaristaCareer.stages
     | Bartender -> Careers.BartenderCareer.stages
+    | Chef -> Careers.ChefCareer.stages
     | MusicProducer -> Careers.MusicProducerCareer.stages
     | RadioHost -> Careers.RadioHostCareer.stages
 

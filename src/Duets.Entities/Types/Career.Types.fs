@@ -6,6 +6,7 @@ module CareerTypes =
     type CareerId =
         | Barista
         | Bartender
+        | Chef
         | MusicProducer
         | RadioHost
 
