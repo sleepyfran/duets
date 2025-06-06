@@ -236,7 +236,12 @@ let private displayEffect effect =
 
             gameResultMessage result |> showMessage
         | PlayResult.VideoGame ->
-            "You played some video games and had a good time"
+            "You pick up the controller..." |> showMessage
+
+            wait 2000<millisecond>
+
+            Interaction.videoGameResults
+            |> List.sample
             |> Styles.success
             |> showMessage
     | RentalKickedOut _ ->
