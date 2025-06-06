@@ -30,17 +30,28 @@ module MusicProducer =
         | 3uy -> "Senior Producer"
         | _ -> "Distinguished Producer"
 
+module RadioHost =
+    let careerStageName (CareerStageId stage) =
+        match stage with
+        | 0uy -> "Station Intern"
+        | 1uy -> "Junior On-Air Talent"
+        | 2uy -> "Radio Host"
+        | 3uy -> "Lead Program Host"
+        | _ -> "Network Star Presenter"
+
 let name (job: Job) =
     match job.Id with
     | Barista -> Barista.careerStageName job.CurrentStage.Id
     | Bartender -> Bartender.careerStageName job.CurrentStage.Id
     | MusicProducer -> MusicProducer.careerStageName job.CurrentStage.Id
+    | RadioHost -> RadioHost.careerStageName job.CurrentStage.Id
 
 let typeName id =
     match id with
     | Barista -> "Barista"
     | Bartender -> "Bartender"
     | MusicProducer -> "Music Producer"
+    | RadioHost -> "Radio Host"
 
 let shiftDurationDescription schedule =
     match schedule with
@@ -86,6 +97,12 @@ let workShiftEvent (job: Job) =
           "Get ready to produce the next big hip-hop sensation. This rap collective has a strong message to convey through their lyrics, and it's up to you to make their beats shine."
           "Your task today is to work with a seasoned jazz ensemble. These musicians have a deep appreciation for improvisation, and it's your job to capture their magic in the studio."
           "Today you have a well-established country band. Their storytelling through music has earned them a loyal fanbase, and you're here to help them craft their next hit album." ]
+    | RadioHost ->
+        [ "Time to hit the airwaves! Don't forget your coffee, it's going to be a long talk session..."
+          "The lines are open! Prepare for callers ranging from conspiracy theorists to someone who just wants to request a song from 1982."
+          "You're live in 3, 2, 1... Try not to spill your water on the mixing console today."
+          "It's pledge drive week! Time to charm the listeners into opening their wallets."
+          "An exclusive interview with a local celebrity is on the schedule. Hope you've done your research!" ]
     |> List.sample
     |> Styles.progress
 

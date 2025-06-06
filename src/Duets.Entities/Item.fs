@@ -52,10 +52,10 @@ module Beer =
 
 module Key =
     /// Creates a chip to access a place in a city.
-    let createChipFor cityId placeId =
+    let createGymChipFor cityId placeId =
         { Brand = "DuetsCorp"
           Name = "Chip"
-          Properties = [ Chip(cityId, placeId) |> Key ] }
+          Properties = [ TemporaryChip(cityId, placeId) |> Key ] }
 
     /// Creates an entrance card to access a place in a city.
     let createEntranceCardFor cityId placeId =

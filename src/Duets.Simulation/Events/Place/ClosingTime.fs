@@ -21,9 +21,7 @@ let checkCurrentPlace state =
 
 // Returns true if the character should not be kicked out of the place.
 let private shouldPreserveCharacterInPlace state =
-    let currentCoordinates =
-        Queries.World.currentCoordinates state
-        |> World.Coordinates.toPlaceCoordinates
+    let currentCoordinates = Queries.World.currentCoordinates state
 
     let isWorkplace () =
         match Queries.Career.current state with
@@ -32,7 +30,7 @@ let private shouldPreserveCharacterInPlace state =
 
     let hasConcertInPlace () =
         let bandId = Queries.Bands.currentBandId state
-        let cityId, placeId = currentCoordinates
+        let cityId, placeId, _ = currentCoordinates
 
         Queries.Concerts.scheduledAroundDate state bandId
         |> List.exists (fun concert ->

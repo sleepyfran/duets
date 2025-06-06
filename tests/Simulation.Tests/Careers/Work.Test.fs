@@ -2,6 +2,7 @@ module Duets.Simulation.Tests.Careers.Work
 
 #nowarn "25"
 
+open Duets.Data.World
 open Duets.Simulation.Careers.Work
 open FsCheck
 open FsUnit
@@ -21,7 +22,7 @@ let private place =
 let private job =
     { Id = Barista
       CurrentStage = (Careers.BaristaCareer.stages |> List.head)
-      Location = Prague, place.Id }
+      Location = Prague, place.Id, Ids.Cafe.cafe }
 
 let morningTime =
     Summer 21<days> 2023<years> |> Calendar.Transform.changeDayMoment Morning

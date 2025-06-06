@@ -51,15 +51,24 @@ let private displayEffect effect =
         $"Your band {band.Name} is now playing {currGenre |> Styles.genre} instead of {prevGenre |> Styles.genre}"
         |> showMessage
     | CareerAccept(_, job) ->
-        let place = job.Location ||> Queries.World.placeInCityById
+        let place =
+            job.Location
+            |> World.Coordinates.toPlaceCoordinates
+            ||> Queries.World.placeInCityById
 
         Career.careerChange job place.Name |> showMessage
     | CareerLeave(_, job) ->
-        let place = job.Location ||> Queries.World.placeInCityById
+        let place =
+            job.Location
+            |> World.Coordinates.toPlaceCoordinates
+            ||> Queries.World.placeInCityById
 
         Career.careerLeft job place.Name |> showMessage
     | CareerPromoted(job, salary) ->
-        let place = job.Location ||> Queries.World.placeInCityById
+        let place =
+            job.Location
+            |> World.Coordinates.toPlaceCoordinates
+            ||> Queries.World.placeInCityById
 
         Career.careerPromoted job place.Name salary |> showMessage
     | CareerShiftPerformed(_, _, payment) ->

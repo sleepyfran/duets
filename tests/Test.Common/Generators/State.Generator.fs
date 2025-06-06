@@ -13,8 +13,10 @@ let dateGenerator =
         && date < (Calendar.gameBeginning |> Calendar.Ops.addYears 2<years>))
 
 type StateGenOptions =
-    { BandFansMin: int<fans>
+    { InitialCityId: CityId
+      BandFansMin: int<fans>
       BandFansMax: int<fans>
+      Career: Job option
       CharacterMoodMin: int
       CharacterMoodMax: int
       FutureConcertsToGenerate: int
@@ -28,8 +30,10 @@ type StateGenOptions =
       PostGen: Gen<SocialNetworkPost> }
 
 let defaultOptions =
-    { BandFansMin = 0<fans>
+    { InitialCityId = Queries.World.allCities |> List.head |> _.Id
+      BandFansMin = 0<fans>
       BandFansMax = 25<fans>
+      Career = None
       CharacterMoodMin = 100
       CharacterMoodMax = 100
       FutureConcertsToGenerate = 0
@@ -50,7 +54,7 @@ let defaultOptions =
 
 let generator (opts: StateGenOptions) =
     gen {
-        let city = Queries.World.allCities |> List.head
+        let city = Queries.World.cityById opts.InitialCityId
 
         let venueId =
             Queries.World.placeIdsByTypeInCity
@@ -114,6 +118,7 @@ let generator (opts: StateGenOptions) =
             { initialState with
                 CurrentPosition = (city.Id, venueId, 0)
                 Today = Calendar.gameBeginning
+                Career = opts.Career
                 Bands =
                     { Current = band.Id
                       Character = [ (band.Id, band) ] |> Map.ofList

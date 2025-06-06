@@ -36,7 +36,7 @@ let createConcertSpace (name, capacity, zone, quality, layout) =
 let createGym (city: City) (name, quality, zone) =
     let place = World.Place.create name quality Gym Layouts.gymLayout zone
 
-    let entranceChip = Item.Key.createChipFor city.Id place.Id
+    let entranceChip = Item.Key.createGymChipFor city.Id place.Id
 
     place
     |> World.Place.changeRoom Ids.Gym.changingRoom (function

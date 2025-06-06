@@ -14,6 +14,7 @@ let skillName id =
     | SkillId.Speech -> "Speech"
     | SkillId.Barista -> "Barista"
     | SkillId.Bartending -> "Bartending"
+    | SkillId.Presenting -> "Presenting"
 
 let categoryName category =
     match category with
@@ -40,6 +41,8 @@ let skillDescription id =
         "The barista skill determines how good you are at making coffee. This skill is not that important if you won't work as a barista"
     | SkillId.Bartending ->
         "The bartending skill determines how good you are at making drinks. This skill is not that important if you won't work as a bartender"
+    | SkillId.Presenting ->
+        "The presenting skill determines how good you are at presenting shows, whether on radio or TV. This skill is not that important if you won't work as radio host or TV presenter"
     |> Styles.faded
 
 let skillImproved

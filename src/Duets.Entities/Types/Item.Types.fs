@@ -48,7 +48,7 @@ module rec ItemTypes =
 
     /// Defines all kind of keys that can be used to unlock a specific place.
     type KeyItem =
-        | Chip of cityId: CityId * placeId: PlaceId
+        | TemporaryChip of cityId: CityId * placeId: PlaceId
         | EntranceCard of cityId: CityId * placeId: PlaceId
 
     /// Defines all types of physical media that can be listened to.

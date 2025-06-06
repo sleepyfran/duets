@@ -4,7 +4,7 @@ open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 
-/// Returns whether the character can enter in a room by checking if it requires
+/// Returns whether the character can enter a room by checking if it requires
 /// any item and disallowing the entry if the character does not have it.
 let canEnter currentRoomId state cityId placeId nextRoomId =
     let room = Queries.World.roomById cityId placeId nextRoomId

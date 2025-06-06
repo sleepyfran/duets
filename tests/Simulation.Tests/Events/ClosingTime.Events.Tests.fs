@@ -1,5 +1,6 @@
 ﻿module Duets.Simulation.Tests.Events.ClosingTime
 
+open Duets.Data.World
 open FsCheck
 open FsUnit
 open NUnit.Framework
@@ -20,7 +21,7 @@ let private concertSpace =
 let private cafeCareer =
     { Id = Barista
       CurrentStage = (Careers.BaristaCareer.stages |> List.head)
-      Location = Prague, cafe.Id }
+      Location = Prague, cafe.Id, Ids.Cafe.cafe }
 
 let nearClosingTime = dummyToday |> Calendar.Transform.changeDayMoment Evening
 let closingTime = nearClosingTime |> Calendar.Query.next

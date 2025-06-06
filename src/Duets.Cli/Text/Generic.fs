@@ -261,7 +261,7 @@ let itemDetailedName (item: Item) =
         $"{Styles.item book.Title} by {Styles.person book.Author} ({Styles.Level.from book.ReadProgress}%% read)"
     | Readable(Book book) ->
         $"{Styles.item book.Title} by {Styles.person book.Author}"
-    | Key(Chip(cityId, placeId)) ->
+    | Key(TemporaryChip(cityId, placeId)) ->
         let place = Queries.World.placeInCityById cityId placeId
         $"Chip for {place.Name} in {cityName cityId}"
     | Key(EntranceCard(cityId, placeId)) ->

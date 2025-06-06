@@ -15,7 +15,8 @@ let private workAttributeChange state (job: Job) =
 
 let private dayMomentsUntilClosingTime state job =
     let currentTime = Queries.Calendar.today state
-    let jobPlace = job.Location ||> Queries.World.placeInCityById
+    let cityId, placeId, _ = job.Location
+    let jobPlace = Queries.World.placeInCityById cityId placeId
 
     match jobPlace.OpeningHours with
     | PlaceOpeningHours.OpeningHours(_, dayMoments) ->

@@ -12,7 +12,10 @@ let restaurantRoomLayout menu =
 
 /// Usual layout for a bar.
 let barRoomLayout =
-    RoomType.Bar |> World.Room.create |> World.Node.create 0 |> World.Graph.from
+    RoomType.Bar
+    |> World.Room.create
+    |> World.Node.create Ids.Bar.bar
+    |> World.Graph.from
 
 /// Usual layout for a bookstore.
 let bookstoreLayout =
@@ -25,7 +28,7 @@ let bookstoreLayout =
 let cafeRoomLayout =
     RoomType.Cafe
     |> World.Room.create
-    |> World.Node.create 0
+    |> World.Node.create Ids.Cafe.cafe
     |> World.Graph.from
 
 /// Usual layout for a casino.
@@ -281,10 +284,14 @@ let rehearsalSpaceLayout =
 /// Usual layout for a studio.
 let studioLayout =
     let masteringRoom =
-        RoomType.MasteringRoom |> World.Room.create |> World.Node.create 0
+        RoomType.MasteringRoom
+        |> World.Room.create
+        |> World.Node.create Ids.RecordingStudio.masteringRoom
 
     let recordingRoom =
-        RoomType.RecordingRoom |> World.Room.create |> World.Node.create 1
+        RoomType.RecordingRoom
+        |> World.Room.create
+        |> World.Node.create Ids.RecordingStudio.recordingRoom
 
     World.Graph.fromMany [ masteringRoom; recordingRoom ]
     |> World.Graph.connectMany [ masteringRoom.Id, recordingRoom.Id, North ]

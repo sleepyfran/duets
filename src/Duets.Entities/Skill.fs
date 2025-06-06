@@ -13,7 +13,8 @@ let categoryFor id =
     | SkillId.Fitness
     | SkillId.Speech -> SkillCategory.Character
     | SkillId.Barista
-    | SkillId.Bartending -> SkillCategory.Job
+    | SkillId.Bartending
+    | SkillId.Presenting -> SkillCategory.Job
 
 /// Creates a new skill for a given ID. Its category is automatically populated
 /// based on the type of skill given.

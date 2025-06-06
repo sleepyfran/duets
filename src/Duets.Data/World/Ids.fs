@@ -28,3 +28,13 @@ module Home =
 module RadioStudio =
     let lobby = 0
     let recordingRoom = 1
+
+module Cafe =
+    let cafe = 0
+
+module Bar =
+    let bar = 0
+
+module RecordingStudio =
+    let masteringRoom = 0
+    let recordingRoom = 1

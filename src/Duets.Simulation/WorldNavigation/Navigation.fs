@@ -45,7 +45,7 @@ module Navigation =
             )
         )
 
-    /// Moves the player to the specified room inside of the current place.
+    /// Moves the player to the specified room inside the current place.
     let enter roomId state =
         let currentCoords = Queries.World.currentCoordinates state
         let cityId, placeId, currentRoomId = currentCoords

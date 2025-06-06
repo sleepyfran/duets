@@ -44,13 +44,18 @@ let private findJobForType jobsApp currentCareer jobType =
     jobsApp ()
 
 let private askForJobConfirmation currentCareer job =
-    let newCareerPlace = job.Location ||> Queries.World.placeInCityById
+    let newCareerPlace =
+        job.Location
+        |> World.Coordinates.toPlaceCoordinates
+        ||> Queries.World.placeInCityById
 
     let confirmed =
         match currentCareer with
         | Some currentJob ->
             let currentPlace =
-                currentJob.Location ||> Queries.World.placeInCityById
+                currentJob.Location
+                |> World.Coordinates.toPlaceCoordinates
+                ||> Queries.World.placeInCityById
 
             Phone.findJobAcceptLeaveConfirmation
                 job
@@ -66,6 +71,9 @@ let private askForJobConfirmation currentCareer job =
         ()
 
 let private jobItemText job =
-    let place = job.Location ||> Queries.World.placeInCityById
+    let place =
+        job.Location
+        |> World.Coordinates.toPlaceCoordinates
+        ||> Queries.World.placeInCityById
 
     Phone.findJobSelectItem job place.Name

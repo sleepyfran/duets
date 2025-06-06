@@ -2,6 +2,7 @@ module Duets.Simulation.Tests.Simulation
 
 open System
 open Aether
+open Duets.Data.World
 open FsUnit
 open NUnit.Framework
 open Duets
@@ -288,7 +289,7 @@ let ``ticks that include effects spanning multiple day moments get applied corre
         CareerShiftPerformed(
             { Id = Barista
               CurrentStage = baristaManagerCareer
-              Location = (Prague, "") },
+              Location = (Prague, "", Ids.Cafe.cafe) },
             4<dayMoments>,
             0.0m<dd>
         )

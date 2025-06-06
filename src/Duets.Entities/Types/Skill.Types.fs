@@ -17,6 +17,7 @@ module SkillTypes =
         (* Job. *)
         | Barista
         | Bartending
+        | Presenting
 
     /// Defines all possible categories to which skills can be related to.
     [<RequireQualifiedAccess>]

@@ -7,6 +7,7 @@ module CareerTypes =
         | Barista
         | Bartender
         | MusicProducer
+        | RadioHost
 
     /// Wrapper around a byte that holds the stage number in which a career
     /// is currently in.
@@ -15,7 +16,9 @@ module CareerTypes =
     /// Defines all the different requirements that can be added to a specific
     /// career stage in order to unlock the next one.
     [<RequireQualifiedAccess>]
-    type CareerStageRequirement = Skill of SkillId * int
+    type CareerStageRequirement =
+        | Skill of SkillId * int
+        | Fame of minLevel: int
 
     /// Number of day moments that it takes to perform a shift in a job.
     [<RequireQualifiedAccess>]
@@ -45,4 +48,4 @@ module CareerTypes =
     type Job =
         { Id: CareerId
           CurrentStage: CareerStage
-          Location: PlaceCoordinates }
+          Location: RoomCoordinates }

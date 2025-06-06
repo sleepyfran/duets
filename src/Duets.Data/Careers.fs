@@ -131,5 +131,54 @@ module MusicProducerCareer =
             Schedule = JobSchedule.Free 4<dayMoments>
             ShiftAttributeEffect = [ CharacterAttribute.Energy, -8 ]
             Requirements =
-              [ CareerStageRequirement.Skill(SkillId.Bartending, 100)
+              [ CareerStageRequirement.Skill(SkillId.MusicProduction, 100)
                 CareerStageRequirement.Skill(SkillId.Speech, 60) ] } ]
+
+[<RequireQualifiedAccess>]
+module RadioHostCareer =
+    let stages =
+        [ // Station Intern
+          { Id = CareerStageId 0uy
+            BaseSalaryPerDayMoment = 8m<dd>
+            Schedule = JobSchedule.Free 2<dayMoments>
+            ShiftAttributeEffect = [ CharacterAttribute.Energy, -10 ]
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.Presenting, 1) ] }
+          // Junior On-Air Talent
+          { Id = CareerStageId 1uy
+            BaseSalaryPerDayMoment = 15m<dd>
+            Schedule = JobSchedule.Free 2<dayMoments>
+            ShiftAttributeEffect = [ CharacterAttribute.Energy, -10 ]
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.Presenting, 20)
+                CareerStageRequirement.Fame 10 ] }
+          // Radio Host
+          { Id = CareerStageId 2uy
+            BaseSalaryPerDayMoment = 30m<dd>
+            Schedule = JobSchedule.Free 3<dayMoments>
+            ShiftAttributeEffect =
+              [ CharacterAttribute.Energy, -12; CharacterAttribute.Mood, 2 ]
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.Presenting, 40)
+                CareerStageRequirement.Skill(SkillId.Speech, 20)
+                CareerStageRequirement.Fame 25 ] }
+          // Lead Program Host
+          { Id = CareerStageId 3uy
+            BaseSalaryPerDayMoment = 60m<dd>
+            Schedule = JobSchedule.Free 4<dayMoments>
+            ShiftAttributeEffect =
+              [ CharacterAttribute.Energy, -10; CharacterAttribute.Mood, 5 ]
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.Presenting, 70)
+                CareerStageRequirement.Skill(SkillId.Speech, 50)
+                CareerStageRequirement.Fame 50 ] }
+          // Network Star Presenter
+          { Id = CareerStageId 4uy
+            BaseSalaryPerDayMoment = 90m<dd>
+            Schedule = JobSchedule.Free 4<dayMoments>
+            ShiftAttributeEffect =
+              [ CharacterAttribute.Energy, -8; CharacterAttribute.Mood, 8 ]
+            Requirements =
+              [ CareerStageRequirement.Skill(SkillId.Presenting, 100)
+                CareerStageRequirement.Skill(SkillId.Speech, 70)
+                CareerStageRequirement.Fame 75 ] } ]

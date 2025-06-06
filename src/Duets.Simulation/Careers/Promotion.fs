@@ -3,33 +3,21 @@ module Duets.Simulation.Careers.Promotion
 open Duets.Entities
 open Duets.Data
 open Duets.Simulation
+open Duets.Simulation.Careers.Common
 
 let private stagesForJob (job: Job) =
     match job.Id with
     | Barista -> Careers.BaristaCareer.stages
     | Bartender -> Careers.BartenderCareer.stages
     | MusicProducer -> Careers.MusicProducerCareer.stages
-
-let private fulfillsRequirements state nextStage =
-    let character = Queries.Characters.playableCharacter state
-
-    nextStage.Requirements
-    |> List.forall (function
-        | CareerStageRequirement.Skill(skillId, minLevel) ->
-            let _, currentSkillLevel =
-                Queries.Skills.characterSkillWithLevel
-                    state
-                    character.Id
-                    skillId
-
-            currentSkillLevel >= minLevel)
+    | RadioHost -> Careers.RadioHostCareer.stages
 
 let private givePromotionChance (job: Job) nextStage =
     if RandomGen.chance 10 then
-        let cityId, placeId = job.Location
+        let cityId, placeId, _ = job.Location
 
         let nextStageWithAdjustedSalary =
-            Common.createCareerStage cityId placeId nextStage
+            createCareerStage cityId placeId nextStage
 
         let adjustedSalary = nextStageWithAdjustedSalary.BaseSalaryPerDayMoment
 
@@ -51,10 +39,10 @@ let promoteIfNeeded job state =
 
     nextStage
     |> Option.bind (fun nextStage ->
-        if fulfillsRequirements state nextStage then
-            Some nextStage
-        else
-            None)
+        let canBePromoted =
+            fulfillsRequirements state nextStage.Requirements 0<adjustment>
+
+        if canBePromoted then Some nextStage else None)
     |> Option.map (givePromotionChance job)
     |> Option.defaultValue
         [] (* Either no promotions available or chance didn't succeed. *)
