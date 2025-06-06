@@ -15,7 +15,9 @@ open Duets.Simulation
 /// <param name="season">Season to display</param>
 /// <param name="events">List of dates to highlight</param>
 let showCalendar (year: int<years>) season (events: Date list) =
-    let today = Queries.Calendar.today (State.get ())
+    let today =
+        Queries.Calendar.today (State.get ())
+        |> Calendar.Transform.resetDayMoment
 
     (*
     Get a set of dates for quickly contains checking and make sure that their
@@ -34,11 +36,11 @@ let showCalendar (year: int<years>) season (events: Date list) =
         Calendar.Query.seasonDaysFrom firstDayOfSeason
         |> List.ofSeq
         |> List.map (fun date ->
-            let hasEvent =
-                Set.contains (Calendar.Transform.resetDayMoment date) eventSet
+            let normalizedDate = date |> Calendar.Transform.resetDayMoment
+            let hasEvent = Set.contains normalizedDate eventSet
 
             let style =
-                if date = today then Styles.faded
+                if normalizedDate = today then Styles.faded
                 elif hasEvent then Styles.highlight
                 else Styles.number
 
