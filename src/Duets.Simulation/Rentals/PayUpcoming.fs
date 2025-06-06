@@ -5,9 +5,9 @@ open Duets.Simulation
 open Duets.Simulation.Bank.Operations
 open FsToolkit.ErrorHandling
 
-/// Attempts to pay for an upcoming monthly rental, expensing the money from the
+/// Attempts to pay for an upcoming seasonal rental, expensing the money from the
 /// character's account and then updating the rental's next payment date to
-/// next month.
+/// next season.
 let payRental state (rental: Rental) =
     let characterAccount = Queries.Bank.playableCharacterAccount state
 
@@ -18,7 +18,7 @@ let payRental state (rental: Rental) =
 
         let updatedRental =
             { rental with
-                RentalType = Monthly nextPaymentDate }
+                RentalType = Seasonal nextPaymentDate }
 
         return updatedRental, expenseEffects @ [ RentalUpdated updatedRental ]
     }

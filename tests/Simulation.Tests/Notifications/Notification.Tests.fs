@@ -35,7 +35,7 @@ let ``create returns an effect scheduling the notification`` () =
             Night (* To test date normalization. *)
 
     let dummyRental =
-        { RentalType = Monthly tomorrow
+        { RentalType = Seasonal tomorrow
           Amount = 900m<dd>
           Coords = dummyCity.Id, dummyPlace.Id }
 
@@ -66,7 +66,7 @@ let ``showPendingNotifications returns notifications scheduled on the state``
     ()
     =
     let dummyRental =
-        { RentalType = Monthly dummyToday
+        { RentalType = Seasonal dummyToday
           Amount = 900m<dd>
           Coords = dummyCity.Id, dummyPlace.Id }
 
@@ -161,13 +161,13 @@ let ``showPendingNotifications returns concert event if it's happening in 4 day 
     | _ -> failwith "Incorrect effect raised!"
 
 [<Test>]
-let ``showPendingNotifications returns rental payment reminder if a monthly rental will expire a week from the current date``
+let ``showPendingNotifications returns rental payment reminder if a seasonal rental will expire a week from the current date``
     ()
     =
     let nextWeekFromDummyToday = dummyToday |> Calendar.Ops.addDays 7<days>
 
     let dummyRental =
-        { RentalType = Monthly nextWeekFromDummyToday
+        { RentalType = Seasonal nextWeekFromDummyToday
           Amount = 900m<dd>
           Coords = dummyCity.Id, dummyPlace.Id }
 
@@ -191,13 +191,13 @@ let ``showPendingNotifications returns rental payment reminder if a monthly rent
     | _ -> failwith "Incorrect effect raised!"
 
 [<Test>]
-let ``showPendingNotifications returns rental payment reminder if a monthly rental will expire tomorrow``
+let ``showPendingNotifications returns rental payment reminder if a seasonal rental will expire tomorrow``
     ()
     =
     let tomorrowFromDummyToday = dummyToday |> Calendar.Ops.addDays 1<days>
 
     let dummyRental =
-        { RentalType = Monthly tomorrowFromDummyToday
+        { RentalType = Seasonal tomorrowFromDummyToday
           Amount = 900m<dd>
           Coords = dummyCity.Id, dummyPlace.Id }
 

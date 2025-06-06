@@ -8,7 +8,7 @@ open Duets.Entities
 open Duets.Simulation
 
 /// <summary>
-/// Renders a calendar for the given month of the given year highlighting the
+/// Renders a calendar for the given season of the given year highlighting the
 /// dates provided.
 /// </summary>
 /// <param name="year">Year to display</param>

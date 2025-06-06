@@ -39,7 +39,7 @@ let private confirmPayment selectedRental =
             let nextPaymentDate = Rental.dueDate rental
 
             Styles.success
-                $"You paid for another month of your rental. Your next payment date is {Generic.dateWithDay nextPaymentDate}"
+                $"You paid for another season of your rental. Your next payment date is {Generic.dateWithDay nextPaymentDate}"
             |> showMessage
 
             effects |> Effect.applyMultiple

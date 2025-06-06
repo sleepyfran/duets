@@ -24,15 +24,15 @@ let forDay state date =
     let _, upcomingFlights = all state
     upcomingFlights |> List.filter (fun flight -> flight.Date = normalizedDate)
 
-/// Retrieves all the flights booked in the month of the given date.
-let forMonth state date =
-    let firstDayOfMonth = date |> Calendar.Query.firstDayOfSeason
-    let lastDayOfMonth = date |> Calendar.Query.lastDayOfSeason
+/// Retrieves all the flights booked in the season of the given date.
+let forSeason state date =
+    let firstDayOfSeason = date |> Calendar.Query.firstDayOfSeason
+    let lastDayOfSeason = date |> Calendar.Query.lastDayOfSeason
 
     Optic.get Lenses.State.flights_ state
     |> List.filter (fun flight ->
-        flight.Date >= firstDayOfMonth
-        && flight.Date <= lastDayOfMonth
+        flight.Date >= firstDayOfSeason
+        && flight.Date <= lastDayOfSeason
         && not flight.AlreadyUsed)
 
 /// Retrieves any flight that is currently possible for the character to board.

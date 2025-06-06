@@ -21,8 +21,10 @@ let rec private placeInformationText cityId (place: Place) =
 
             $"{Styles.money price}/day"
         | _ ->
-            let price = Queries.Rentals.calculateMonthlyRentalPrice cityId place
-            $"{Styles.money price}/month"
+            let price =
+                Queries.Rentals.calculateSeasonalRentalPrice cityId place
+
+            $"{Styles.money price}/season"
 
     $"""{Styles.header place.Name} ({place.Zone.Name}) - Price: {pricing}"""
 
@@ -71,21 +73,21 @@ and private toPlaceSelection cityId placeType =
 
 and private displayPlaceInformation cityId place =
     match place.PlaceType with
-    | PlaceType.Home -> displayMonthlyRentalInformation cityId place
+    | PlaceType.Home -> displaySeasonalRentalInformation cityId place
     | PlaceType.Hotel hotel -> toHotelDateSelection cityId place hotel
     | _ -> failwith "Not supported to rent"
 
-and private displayMonthlyRentalInformation cityId place =
-    let rentPrice = Queries.Rentals.calculateMonthlyRentalPrice cityId place
+and private displaySeasonalRentalInformation cityId place =
+    let rentPrice = Queries.Rentals.calculateSeasonalRentalPrice cityId place
     let placeType = World.Place.Type.toIndex place.PlaceType
 
-    $"This {placeType |> World.placeTypeName} is located in {place.Zone.Name}. It costs {Styles.money rentPrice} per month"
+    $"This {placeType |> World.placeTypeName} is located in {place.Zone.Name}. It costs {Styles.money rentPrice} per season"
     |> showMessage
 
     let confirmed = showConfirmationPrompt "Do you want to rent it?"
 
     if confirmed then
-        rentMonthlyPlace (State.get ()) cityId place
+        rentSeasonalPlace (State.get ()) cityId place
         |> showRentalResult cityId place
     else
         ()
@@ -129,7 +131,7 @@ and private showRentalResult cityId place rentResult =
         effects |> Effect.applyMultiple
 
         match rental.RentalType with
-        | Monthly nextPaymentDate ->
+        | Seasonal nextPaymentDate ->
             $"You've started renting a {place.Name |> String.lowercase} in {Generic.cityName cityId |> Styles.place}, you can now access it. Your next payment date is {Date.simple nextPaymentDate}. You will get a notification before it's time to pay again, but make sure you do it otherwise the rent will expire and you won't be able to access the place anymore"
         | OneTime(fromDate, untilDate) ->
             $"You've rented {place.Name} in {Generic.cityName cityId} and you can now access it from {Date.simple fromDate} until {Date.simple untilDate}"

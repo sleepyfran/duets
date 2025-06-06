@@ -30,7 +30,7 @@ let private createRentalDueNotifications state date =
     Queries.Rentals.allUpcoming state
     |> List.choose (fun rental ->
         match rental.RentalType with
-        | Monthly nextPaymentDate ->
+        | Seasonal nextPaymentDate ->
             match nextPaymentDate with
             | date when date = tomorrowDate ->
                 RentalNotificationType.RentalDueTomorrow rental

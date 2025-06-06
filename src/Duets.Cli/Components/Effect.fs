@@ -257,8 +257,8 @@ let private displayEffect effect =
         let cityId, _ = rental.Coords
 
         match rental.RentalType with
-        | Monthly _ ->
-            $"You didn't pay this month's rent, so you can no longer access {expiredPlace.Name |> Styles.place} in {Generic.cityName cityId |> Styles.place}"
+        | Seasonal _ ->
+            $"You didn't pay this seasons's rent, so you can no longer access {expiredPlace.Name |> Styles.place} in {Generic.cityName cityId |> Styles.place}"
         | OneTime _ ->
             $"You rental of {expiredPlace.Name |> Styles.place} in {Generic.cityName cityId |> Styles.place} has expired, so you can no longer access it"
         |> Styles.warning

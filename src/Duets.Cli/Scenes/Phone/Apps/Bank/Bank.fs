@@ -17,7 +17,7 @@ let private textFromOption opt =
     match opt with
     | TransferToBand -> "Transfer money to band"
     | DistributeBandFunds -> "Distribute your band's funds"
-    | PayRental -> Styles.warning "Pay for next month's rent"
+    | PayRental -> Styles.warning "Pay for next season's rent"
 
 /// Creates the bank scene which allows to transfer money between accounts.
 let rec bankApp () =

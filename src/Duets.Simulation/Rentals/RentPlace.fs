@@ -10,15 +10,15 @@ type RentError =
     | TransactionError of TransactionError
 
 /// Creates a rental for the given city and place, with the payment date set to
-/// the current date + 1 month.
-let createMonthlyRental currentDate cityId place =
-    let rentalPrice = Queries.Rentals.calculateMonthlyRentalPrice cityId place
+/// the current date + 1 season.
+let createSeasonalRental currentDate cityId place =
+    let rentalPrice = Queries.Rentals.calculateSeasonalRentalPrice cityId place
 
     let nextPaymentDate = currentDate |> Calendar.Ops.addSeasons 1
 
     { Amount = rentalPrice
       Coords = cityId, place.Id
-      RentalType = Monthly nextPaymentDate }
+      RentalType = Seasonal nextPaymentDate }
 
 /// Creates a rental for the given city and place, with the payment date set to
 /// the given date + the given number of days.
@@ -34,12 +34,12 @@ let createOneTimeRental fromDate numberOfDays cityId place =
 
 /// Attempts to rent the given place for the character. If the place is not available
 /// for rent or if the character does not have enough money, returns an error.
-let rentMonthlyPlace state cityId (place: Place) =
+let rentSeasonalPlace state cityId (place: Place) =
     match place.PlaceType with
     | Home ->
         let characterAccount = Queries.Bank.playableCharacterAccount state
         let currentDate = Queries.Calendar.today state
-        let rental = createMonthlyRental currentDate cityId place
+        let rental = createSeasonalRental currentDate cityId place
 
         result {
             let! expenseEffects =

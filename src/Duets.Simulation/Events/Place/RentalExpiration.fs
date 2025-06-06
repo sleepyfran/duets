@@ -18,7 +18,7 @@ let rec private expireRentalIfNeeded state rental currentDate untilDate =
 
 let private checkPlaceRental state currentDate rental =
     match rental.RentalType with
-    | Monthly untilDate
+    | Seasonal untilDate
     | OneTime(_, untilDate) ->
         expireRentalIfNeeded state rental currentDate untilDate
 

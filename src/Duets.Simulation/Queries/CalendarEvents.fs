@@ -3,13 +3,13 @@ namespace Duets.Simulation.Queries
 open Duets.Entities
 
 module CalendarEvents =
-    /// Returns all the concerts and flights scheduled in the month from the
+    /// Returns all the concerts and flights scheduled in the season from the
     /// given date.
     let allOfDateSeason state date =
         let currentBand = Bands.currentBand state
 
         let flights =
-            Flights.forMonth state date |> List.map CalendarEventType.Flight
+            Flights.forSeason state date |> List.map CalendarEventType.Flight
 
         let concerts =
             Concerts.scheduleForSeason state currentBand.Id date

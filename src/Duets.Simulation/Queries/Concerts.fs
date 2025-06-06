@@ -73,7 +73,7 @@ let scheduledAroundDate state bandId =
     [ yield! concertsScheduledAroundCurrentDate
       yield! lastPerformedAroundCurrentDate ]
 
-/// Returns all date from today to the end of the month that have a concert
+/// Returns all date from today to the end of the season that have a concert
 /// scheduled.
 let scheduleForSeason state bandId fromDay =
     Calendar.Query.seasonDaysFrom fromDay
