@@ -180,7 +180,12 @@ module RadioHostCareer =
             Schedule = JobSchedule.Free 2<dayMoments>
             ShiftAttributeEffect = [ CharacterAttribute.Energy, -10 ]
             Requirements =
-              [ CareerStageRequirement.Skill(SkillId.Presenting, 1) ] }
+              [ CareerStageRequirement.Skill(SkillId.Presenting, 1)
+                (*
+                  Even though this might seem superfluous it's actually important
+                  to ensure that the fame increases whenever the character works.
+                  *)
+                CareerStageRequirement.Fame 0 ] }
           // Junior On-Air Talent
           { Id = CareerStageId 1uy
             BaseSalaryPerDayMoment = 15m<dd>

@@ -94,7 +94,6 @@
         <Compile Include="Bands\FundDistribution.fs"/>
         <Compile Include="Skills\ImproveSkills.Common.fs"/>
         <Compile Include="Skills\ImproveSkills.Composition.fs"/>
-        <Compile Include="Skills\ImproveSkills.Career.fs"/>
         <Compile Include="Items\Items.fs"/>
         <Compile Include="Interactions\Items\Actions\Exercise.Action.fs"/>
         <Compile Include="Interactions\Items\Actions\Read.Action.fs"/>
@@ -115,6 +114,7 @@
         <Compile Include="Careers\Employment.fs"/>
         <Compile Include="Careers\Work.fs"/>
         <Compile Include="Careers\Promotion.fs"/>
+        <Compile Include="Careers\RequirementCharacterUpgrade.fs"/>
         <Compile Include="Flights\TicketGeneration.fs"/>
         <Compile Include="Flights\Booking.fs"/>
         <Compile Include="Flights\Airport.fs"/>
