@@ -263,10 +263,14 @@ let itemDetailedName (item: Item) =
         $"{Styles.item book.Title} by {Styles.person book.Author}"
     | Key(TemporaryChip(cityId, placeId)) ->
         let place = Queries.World.placeInCityById cityId placeId
-        $"Chip for {place.Name} in {cityName cityId}"
+
+        Styles.item
+            $"Chip for {place.Name |> Styles.place} in {cityName cityId |> Styles.place}"
     | Key(EntranceCard(cityId, placeId)) ->
         let place = Queries.World.placeInCityById cityId placeId
-        $"Entrance card for {place.Name} in {cityName cityId}"
+
+        Styles.item
+            $"Entrance card for {place.Name |> Styles.place} in {cityName cityId |> Styles.place}"
     | _ -> itemName item
 
 let moreDates = Styles.faded "More dates"
