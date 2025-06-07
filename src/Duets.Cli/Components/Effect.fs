@@ -214,9 +214,9 @@ let private displayEffect effect =
         let gameResultMessage simpleResult =
             match simpleResult with
             | SimpleResult.Win ->
-                "You won against a random stranger at the bar" |> Styles.success
+                "You won against a random stranger" |> Styles.success
             | SimpleResult.Lose ->
-                "A random stranger at the bar beat you..." |> Styles.error
+                "You lost against a random stranger" |> Styles.error
 
         match result with
         | PlayResult.Darts result ->
