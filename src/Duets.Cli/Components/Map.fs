@@ -9,25 +9,58 @@ open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Navigation
 
-let private placeWithOpenInfo (city: City) (place: Place) =
-    let rentedPlaces = Queries.Rentals.allAsMap (State.get ())
-    let hasPlaceRented = rentedPlaces |> Map.containsKey (city.Id, place.Id)
-    let currentlyOpen = Queries.World.placeCurrentlyOpen' (State.get ()) place
+type private PlaceSpecialProperty =
+    | Rented
+    | ConcertScheduled
+
+let private placesWithSpecialProperties state =
+    let band = Queries.Bands.currentBand state
+    let currentDate = Queries.Calendar.today state
+
+    let scheduledConcert =
+        Queries.Concerts.scheduleForDay state band.Id currentDate
+        |> Option.map (fun scheduledConcert ->
+            let concert = Concert.fromScheduled scheduledConcert
+
+            [ concert.VenueId, PlaceSpecialProperty.ConcertScheduled ]
+            |> Map.ofList)
+        |> Option.defaultValue Map.empty
+
+    let rentedPlaces =
+        Queries.Rentals.all state
+        |> List.collect (fun rental ->
+            let _, placeId = rental.Coords
+            [ placeId, PlaceSpecialProperty.Rented ])
+        |> Map.ofList
+
+    Map.merge rentedPlaces scheduledConcert
+
+
+let private placeWithOpenInfo (city: City) (place: Place) specialProperties =
+    let state = State.get ()
+
+    let currentlyOpen = Queries.World.placeCurrentlyOpen' state place
+
+    let placeSpecialProperties = specialProperties |> Map.tryFind place.Id
 
     let placeDetails =
-        match hasPlaceRented with
-        | true ->
+        match placeSpecialProperties with
+        | Some Rented ->
             $"""{World.placeWithZone place} ({"Rented" |> Styles.highlight})"""
-        | false -> World.placeWithZone place
+        | Some ConcertScheduled ->
+            $"""{World.placeWithZone place} ({"Concert scheduled" |> Styles.highlight})"""
+        | None -> World.placeWithZone place
 
     World.placeNameWithOpeningInfo placeDetails currentlyOpen
 
 let private showPlaceChoice city placesInCity places =
+    let specialProperties = placesWithSpecialProperties (State.get ())
+
     let selectedPlace =
         showCancellableChoicePrompt
             Command.mapChoosePlace
             Generic.back
-            (placeWithOpenInfo city)
+            (fun place -> placeWithOpenInfo city place specialProperties)
             places
 
     match selectedPlace with
@@ -107,6 +140,23 @@ let private sortHotels (currentCity: City) rentedPlaces =
         (List.sortByDescending (fun (place: Place) ->
             rentedPlaces |> Map.containsKey (currentCity.Id, place.Id)))
 
+let private sortConcertSpaces state =
+    let band = Queries.Bands.currentBand state
+    let currentDate = Queries.Calendar.today state
+
+    let scheduledConcert =
+        Queries.Concerts.scheduleForDay state band.Id currentDate
+
+    match scheduledConcert with
+    | Some scheduledConcert ->
+        let concert = Concert.fromScheduled scheduledConcert
+
+        changePlace
+            PlaceTypeIndex.ConcertSpace
+            (List.sortByDescending (fun (place: Place) ->
+                place.Id = concert.VenueId))
+    | None -> id
+
 /// Shows a list of all the place types in the current city and, upon selecting
 /// one type, shows all the places of that specific type in the current city.
 /// If the user selects one of the places, it will attempt to move the character
@@ -122,6 +172,7 @@ let showMap () =
         Queries.World.allPlacesInCurrentCity state
         |> filterRentedHomePlaces currentCity rentedPlaces
         |> sortHotels currentCity rentedPlaces
+        |> sortConcertSpaces state
 
     allAvailablePlaces |> askForPlace currentCity
 
