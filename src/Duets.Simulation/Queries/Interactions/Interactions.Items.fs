@@ -54,7 +54,7 @@ module rec Items =
             match edibleProperty with
             | Some(ItemProperty.Edible(edibleItem)) ->
                 edibleItem.CookingSkillRequired
-                |> between cookingSkillLevel (cookingSkillLevel + 10)
+                |> between 0 (cookingSkillLevel + 5)
             | _ -> false)
         |> List.map (fun (item, price) -> item, price / 2m)
         |> List.sortBy (fun (item, _) -> item.Brand)
