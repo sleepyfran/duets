@@ -217,7 +217,30 @@ let ``tick of ConcertFinished with a good concert should decrease character's mo
         Config.LifeSimulation.Mood.concertGoodResultIncrease
 
 [<Test>]
-let ``tick of BandFansChanged updates the character's fame to half of the estimated fame of the band``
+let ``tick of BandFansChanged does nothing if character's fame is already at least half of the estimated fame of the band``
+    ()
+    =
+    let state =
+        dummyState
+        |> State.Characters.setAttribute
+            dummyCharacter.Id
+            CharacterAttribute.Fame
+            20
+
+    let previousFans = [ Prague, 5000<fans> ] |> Map.ofList
+    let updatedFans = [ Prague, 10000<fans> ] |> Map.ofList
+
+    let effect = BandFansChanged(dummyBand, Diff(previousFans, updatedFans))
+
+    Simulation.tickOne state effect
+    |> fst
+    |> List.filter (function
+        | CharacterAttributeChanged _ -> true
+        | _ -> false)
+    |> should haveLength 0
+
+[<Test>]
+let ``tick of BandFansChanged updates the character's fame to be at least half of the estimated fame of the band``
     ()
     =
     let state =
