@@ -51,7 +51,7 @@ module Interactions =
                 itemsInPlace
 
         let itemInteractions =
-            inventory @ itemsInPlace |> Items.getItemInteractions
+            inventory @ itemsInPlace |> Items.getItemInteractions state
 
         let careerInteractions = currentPlace |> Career.interactions state
 
@@ -88,6 +88,7 @@ module Interactions =
                     state
                     currentCoords
                     currentRoom.RoomType
+            | RadioStudio _ -> []
             | RehearsalSpace _ ->
                 RehearsalSpace.interactions state cityId currentRoom.RoomType
             | Restaurant -> Restaurant.interactions cityId currentRoom.RoomType

@@ -26,7 +26,7 @@ let listAll rentApp =
 
             let price =
                 match rental.RentalType with
-                | Monthly _ -> $"{Styles.money rental.Amount} / month"
+                | Seasonal _ -> $"{Styles.money rental.Amount} / season"
                 | OneTime _ -> Styles.money rental.Amount
 
             [ placeName place
@@ -46,5 +46,5 @@ let private placeName (place: Place) =
 
 let private startDate rental =
     match rental.RentalType with
-    | Monthly _ -> Styles.faded "-"
+    | Seasonal _ -> Styles.faded "-"
     | OneTime(fromDate, _) -> Generic.dateWithDay fromDate

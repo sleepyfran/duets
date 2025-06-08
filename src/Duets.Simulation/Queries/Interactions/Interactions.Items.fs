@@ -1,17 +1,19 @@
 namespace Duets.Simulation.Queries.Internal.Interactions
 
+open Duets.Common.Math
 open Duets.Data.Items
 open Duets.Entities
+open Duets.Simulation.Queries
 
 module rec Items =
     /// Retrieves a list of all interactions that can performed on the given
     /// list of items.
-    let internal getItemInteractions (items: Item list) =
+    let internal getItemInteractions state (items: Item list) =
         items
         |> List.collect (fun item ->
             item.Properties
             |> List.choose (function
-                | Cookware -> cookingInteractions |> Some
+                | Cookware -> cookingInteractions state |> Some
                 | Drinkable _ ->
                     ItemInteraction.Drink |> Interaction.Item |> Some
                 | Deliverable _ ->
@@ -38,8 +40,24 @@ module rec Items =
                 | Wearable _ -> None (* TODO: Add "wear" interactions once we support buying clothes *) ))
         |> List.distinct
 
-    let private cookingInteractions =
+    let private cookingInteractions state =
+        let playableCharacter = Characters.playableCharacter state
+
+        let _, cookingSkillLevel =
+            Skills.characterSkillWithLevel
+                state
+                playableCharacter.Id
+                SkillId.Cooking
+
         Food.Index.all
+        |> List.filter (fun (item, _) ->
+            let edibleProperty = Item.Property.tryMain item
+
+            match edibleProperty with
+            | Some(ItemProperty.Edible(edibleItem)) ->
+                edibleItem.CookingSkillRequired
+                |> between 0 (cookingSkillLevel + 5)
+            | _ -> false)
         |> List.map (fun (item, price) -> item, price / 2m)
         |> List.sortBy (fun (item, _) -> item.Brand)
         |> ItemInteraction.Cook

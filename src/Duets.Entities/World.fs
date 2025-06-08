@@ -138,6 +138,7 @@ module Place =
             | Hospital -> PlaceTypeIndex.Hospital
             | MetroStation -> PlaceTypeIndex.MetroStation
             | MerchandiseWorkshop -> PlaceTypeIndex.MerchandiseWorkshop
+            | RadioStudio _ -> PlaceTypeIndex.RadioStudio
             | RehearsalSpace _ -> PlaceTypeIndex.RehearsalSpace
             | Restaurant -> PlaceTypeIndex.Restaurant
             | Street -> PlaceTypeIndex.Street

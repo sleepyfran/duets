@@ -8,9 +8,11 @@ module Index =
         [ BandCommands.pactWithTheDevil
           LifeCommands.happy
           LifeCommands.notMoody
+          LifeCommands.spotlight
           LifeCommands.timeTravel
           MoneyCommands.motherlode
           MoneyCommands.rosebud
+          SkillCommands.pureSkill
           WorldCommands.teleport ]
 
     let enterCommand =

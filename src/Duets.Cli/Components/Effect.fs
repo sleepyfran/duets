@@ -51,15 +51,24 @@ let private displayEffect effect =
         $"Your band {band.Name} is now playing {currGenre |> Styles.genre} instead of {prevGenre |> Styles.genre}"
         |> showMessage
     | CareerAccept(_, job) ->
-        let place = job.Location ||> Queries.World.placeInCityById
+        let place =
+            job.Location
+            |> World.Coordinates.toPlaceCoordinates
+            ||> Queries.World.placeInCityById
 
         Career.careerChange job place.Name |> showMessage
     | CareerLeave(_, job) ->
-        let place = job.Location ||> Queries.World.placeInCityById
+        let place =
+            job.Location
+            |> World.Coordinates.toPlaceCoordinates
+            ||> Queries.World.placeInCityById
 
         Career.careerLeft job place.Name |> showMessage
     | CareerPromoted(job, salary) ->
-        let place = job.Location ||> Queries.World.placeInCityById
+        let place =
+            job.Location
+            |> World.Coordinates.toPlaceCoordinates
+            ||> Queries.World.placeInCityById
 
         Career.careerPromoted job place.Name salary |> showMessage
     | CareerShiftPerformed(_, _, payment) ->
@@ -205,9 +214,9 @@ let private displayEffect effect =
         let gameResultMessage simpleResult =
             match simpleResult with
             | SimpleResult.Win ->
-                "You won against a random stranger at the bar" |> Styles.success
+                "You won against a random stranger" |> Styles.success
             | SimpleResult.Lose ->
-                "A random stranger at the bar beat you..." |> Styles.error
+                "You lost against a random stranger" |> Styles.error
 
         match result with
         | PlayResult.Darts result ->
@@ -227,7 +236,12 @@ let private displayEffect effect =
 
             gameResultMessage result |> showMessage
         | PlayResult.VideoGame ->
-            "You played some video games and had a good time"
+            "You pick up the controller..." |> showMessage
+
+            wait 2000<millisecond>
+
+            Interaction.videoGameResults
+            |> List.sample
             |> Styles.success
             |> showMessage
     | RentalKickedOut _ ->
@@ -243,8 +257,8 @@ let private displayEffect effect =
         let cityId, _ = rental.Coords
 
         match rental.RentalType with
-        | Monthly _ ->
-            $"You didn't pay this month's rent, so you can no longer access {expiredPlace.Name |> Styles.place} in {Generic.cityName cityId |> Styles.place}"
+        | Seasonal _ ->
+            $"You didn't pay this seasons's rent, so you can no longer access {expiredPlace.Name |> Styles.place} in {Generic.cityName cityId |> Styles.place}"
         | OneTime _ ->
             $"You rental of {expiredPlace.Name |> Styles.place} in {Generic.cityName cityId |> Styles.place} has expired, so you can no longer access it"
         |> Styles.warning

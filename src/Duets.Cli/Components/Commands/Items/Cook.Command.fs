@@ -45,7 +45,7 @@ module CookCommand =
 
                 match recipe with
                 | Selection.Selected item ->
-                    let orderResult = Shop.order (State.get ()) item
+                    let orderResult = Cooking.cook (State.get ()) item
 
                     match orderResult with
                     | Ok effects -> showCookingResult effects

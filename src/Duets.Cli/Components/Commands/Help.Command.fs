@@ -3,7 +3,6 @@ namespace Duets.Cli.Components.Commands
 open Duets.Cli.Components
 open Duets.Cli.Text
 open Duets.Cli.SceneIndex
-open Duets.Entities
 
 [<RequireQualifiedAccess>]
 module HelpCommand =
@@ -29,10 +28,6 @@ module HelpCommand =
                 lineBreak ()
 
                 $"""Remember that when referencing items you {Styles.highlight "don't"} need to write diacritics"""
-                |> Styles.faded
-                |> showMessage
-
-                "The numbers in the third column reference the amount of day moments that would pass when that command is executed"
                 |> Styles.faded
                 |> showMessage
 

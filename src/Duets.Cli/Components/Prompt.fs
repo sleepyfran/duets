@@ -100,22 +100,21 @@ let showDecimalPrompt title = AnsiConsole.Ask<decimal>(title)
 
 type private InteractiveDatePromptOption =
     | Date of Date
-    | NextMonth
+    | NextSeason
 
 /// <summary>
-/// Renders a choice prompt with all the dates of the month after the given
+/// Renders a choice prompt with all the dates of the season after the given
 /// first date. Returns some date if character selected something, none if the
 /// prompt was cancelled.
 /// </summary>
 let rec showInteractiveDatePrompt title firstDate =
-    let monthDays = Calendar.Query.seasonDaysFrom firstDate |> Seq.map Date
-
-    let nextMonthDate = Calendar.Query.firstDayOfNextSeason firstDate
+    let seasonDays = Calendar.Query.seasonDaysFrom firstDate |> Seq.map Date
+    let nextSeasonDate = Calendar.Query.firstDayOfNextSeason firstDate
 
     let toText opt =
         match opt with
         | Date date -> Generic.dateWithDay date
-        | NextMonth -> Generic.moreDates
+        | NextSeason -> Generic.moreDates
 
     let selectedDate =
         showOptionalChoicePrompt
@@ -123,13 +122,13 @@ let rec showInteractiveDatePrompt title firstDate =
             Generic.cancel
             toText
             (seq {
-                yield! monthDays
-                yield NextMonth
+                yield! seasonDays
+                yield NextSeason
             })
 
     match selectedDate with
     | Some(Date date) -> Some date
-    | Some NextMonth -> showInteractiveDatePrompt title nextMonthDate
+    | Some NextSeason -> showInteractiveDatePrompt title nextSeasonDate
     | None -> None
 
 /// <summary>

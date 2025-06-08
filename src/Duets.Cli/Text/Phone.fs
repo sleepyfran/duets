@@ -114,7 +114,7 @@ let concertAssistantAppAgenda = "View schedule"
 let concertAssistantAppVisualizeNoConcerts = "No concerts"
 
 let concertAssistantAppVisualizeMoreDatesPrompt =
-    "Do you want to see the next month?"
+    "Do you want to see the next season?"
 
 let concertAssistantAppShowDatePrompt = "When is the concert happening?"
 

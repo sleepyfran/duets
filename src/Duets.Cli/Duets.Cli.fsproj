@@ -40,6 +40,7 @@
         <Compile Include="Text\World\ConcertSpace.fs"/>
         <Compile Include="Text\World\Gym.fs"/>
         <Compile Include="Text\World\Home.fs"/>
+        <Compile Include="Text\World\RadioStudio.fs"/>
         <Compile Include="Text\World\Hospital.fs"/>
         <Compile Include="Text\World\Hotel.fs"/>
         <Compile Include="Text\World\MerchandiseWorkshop.fs"/>
@@ -143,6 +144,7 @@
         <Compile Include="Components\Commands\Cheats\Band.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>
+        <Compile Include="Components\Commands\Cheats\Skills.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\World.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Clock.Command.fs"/>

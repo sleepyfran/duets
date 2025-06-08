@@ -240,9 +240,9 @@ module Query =
 
     /// Returns the first date of the previous season from the given date.
     let firstDayOfPreviousSeason (date: Date) =
-        let dateWithSubtractedMonth = Ops.subtractSeason date
+        let dateWithSubtractedSeason = Ops.subtractSeason date
 
-        { dateWithSubtractedMonth with
+        { dateWithSubtractedSeason with
             Day = 1<days> }
 
     /// Retrieves all dates from today until the end of the season.

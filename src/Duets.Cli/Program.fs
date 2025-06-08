@@ -57,7 +57,9 @@ let rec showScene skipSaving scene =
         World.worldScene World.WorldMode.ShowDescription |> showScene skipSaving
     | Scene.Exit exitMode ->
         match exitMode with
-        | ExitMode.SaveGame when not skipSaving -> Savegame.saveSync ()
+        | ExitMode.SaveGame when not skipSaving ->
+            Savegame.saveSync ()
+            Log.dumpToFileSync ()
         | _ -> ()
 
 let private parseNoSavingArg args =

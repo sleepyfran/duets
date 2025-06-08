@@ -43,9 +43,7 @@ module InteractiveCommand =
             ItemInteraction.Read
             (function
              | Ok effects ->
-                 "You open the book and start reading a few pages..."
-                 |> showMessage
-
+                 Interaction.readProgress |> showMessage
                  wait 1000<millisecond>
                  Items.readBook |> showMessage
                  effects |> Duets.Cli.Effect.applyMultiple

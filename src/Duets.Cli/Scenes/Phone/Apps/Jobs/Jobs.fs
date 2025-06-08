@@ -4,6 +4,7 @@ open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
+open Duets.Entities
 open Duets.Simulation
 
 type private JobsMenuOption = | FindJob
@@ -17,7 +18,10 @@ let rec jobsApp () =
 
     match currentCareer with
     | Some job ->
-        let currentJobPlace = job.Location ||> Queries.World.placeInCityById
+        let currentJobPlace =
+            job.Location
+            |> World.Coordinates.toPlaceCoordinates
+            ||> Queries.World.placeInCityById
 
         Phone.currentJobDescription job currentJobPlace.Name
     | None -> Phone.unemployed

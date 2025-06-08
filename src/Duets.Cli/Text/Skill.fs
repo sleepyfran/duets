@@ -6,6 +6,7 @@ open Duets.Entities
 let skillName id =
     match id with
     | SkillId.Composition -> "Composition"
+    | SkillId.Cooking -> "Cooking"
     | SkillId.Genre genre -> $"{genre} (Genre)"
     | SkillId.Instrument instrument ->
         $"{Generic.instrumentName instrument} (Instrument)"
@@ -14,6 +15,7 @@ let skillName id =
     | SkillId.Speech -> "Speech"
     | SkillId.Barista -> "Barista"
     | SkillId.Bartending -> "Bartending"
+    | SkillId.Presenting -> "Presenting"
 
 let categoryName category =
     match category with
@@ -24,6 +26,8 @@ let categoryName category =
 
 let skillDescription id =
     match id with
+    | SkillId.Cooking ->
+        "The cooking skill determines how good you are at cooking dishes. It impacts which dishes you can cook and is also useful if you're planning to work as a chef"
     | SkillId.Composition ->
         "The composition skill determines how good you are at making new music. It directly impacts how good your songs will be"
     | SkillId.Genre genre ->
@@ -40,6 +44,8 @@ let skillDescription id =
         "The barista skill determines how good you are at making coffee. This skill is not that important if you won't work as a barista"
     | SkillId.Bartending ->
         "The bartending skill determines how good you are at making drinks. This skill is not that important if you won't work as a bartender"
+    | SkillId.Presenting ->
+        "The presenting skill determines how good you are at presenting shows, whether on radio or TV. This skill is not that important if you won't work as radio host or TV presenter"
     |> Styles.faded
 
 let skillImproved

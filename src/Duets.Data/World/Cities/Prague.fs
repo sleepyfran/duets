@@ -35,6 +35,7 @@ let generate () =
     |> addHospital
     |> addHotels
     |> addMerchandiseWorkshops
+    |> addRadioStudios
     |> addRehearsalSpaces
     |> addRestaurants
     |> addStudios
@@ -194,6 +195,14 @@ let addMerchandiseWorkshops city =
     ("Prague Merch", staréMěsto)
     |> PlaceCreators.createMerchandiseWorkshop
     |> World.City.addPlace' city
+
+(* -------- Radio Studios --------- *)
+let private addRadioStudios city =
+    [ ("Evropa 2", 90<quality>, "Pop", vinohrady)
+      ("Radio Beat", 88<quality>, "Rock", žižkov)
+      ("Český rozhlas Jazz", 85<quality>, "Jazz", novéMěsto) ]
+    |> List.map (PlaceCreators.createRadioStudio city)
+    |> List.fold (fun city place -> World.City.addPlace place city) city
 
 (* -------- Rehearsal spaces --------- *)
 let private addRehearsalSpaces city =

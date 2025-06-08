@@ -41,7 +41,7 @@ let createConcertSpace streetId (name, capacity, quality, layout, zoneId) =
 let createGym (city: City) streetId (name, quality, zoneId) =
     let place = World.Place.create name quality Gym Layouts.gymLayout zoneId
 
-    let entranceChip = Item.Chip.createFor city.Id place.Id
+    let entranceChip = Item.Key.createGymChipFor city.Id place.Id
 
     place
     |> World.Place.changeRoom Ids.Gym.changingRoom (function
@@ -99,6 +99,31 @@ let createRehearsalSpace streetId (name, quality, price, zoneId) =
         zoneId
     |> World.Place.changeOpeningHours OpeningHours.servicesOpeningHours
     |> World.Place.addExit Ids.Common.lobby streetId
+
+/// Creates a radio studio with the given name, quality, music genre and zone.
+let createRadioStudio (city: City) (name, quality, musicGenre, zone) =
+    let place =
+        World.Place.create
+            name
+            quality
+            (RadioStudio { MusicGenre = musicGenre })
+            Layouts.radioStudioLayout
+            zone
+
+    let invitation = Item.Key.createEntranceCardFor city.Id place.Id
+
+    place
+    |> World.Place.changeRoom Ids.RadioStudio.recordingRoom (function
+        | Some room ->
+            let requiredItems =
+                { ComingFrom = Ids.RadioStudio.lobby
+                  Items = [ invitation ] }
+
+            room
+            |> World.Room.changeRequiredItemForEntrance requiredItems
+            |> Some
+        | _ -> None)
+    |> World.Place.changeOpeningHours OpeningHours.radioStudioOpeningHours
 
 /// Creates a restaurant with the given name, quality, cuisine and zone.
 let createRestaurant streetId (name, quality, cuisine, zoneId) =

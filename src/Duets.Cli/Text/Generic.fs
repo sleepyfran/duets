@@ -238,7 +238,12 @@ let instrument instrumentType = instrumentName instrumentType
 let role instrumentType = roleName instrumentType
 
 let itemName (item: Item) =
-    item.Name |> String.lowercase |> Styles.item
+    let mainProperty = item.Properties |> List.head
+
+    match mainProperty with
+    | Key(EntranceCard _) -> "entrance card"
+    | _ -> item.Name |> String.lowercase
+    |> Styles.item
 
 let itemDetailedName (item: Item) =
     let mainProperty = item.Properties |> List.head
@@ -256,9 +261,16 @@ let itemDetailedName (item: Item) =
         $"{Styles.item book.Title} by {Styles.person book.Author} ({Styles.Level.from book.ReadProgress}%% read)"
     | Readable(Book book) ->
         $"{Styles.item book.Title} by {Styles.person book.Author}"
-    | Key(Chip(cityId, placeId)) ->
+    | Key(TemporaryChip(cityId, placeId)) ->
         let place = Queries.World.placeInCityById cityId placeId
-        $"Chip for {place.Name} in {cityName cityId}"
+
+        Styles.item
+            $"Chip for {place.Name |> Styles.place} in {cityName cityId |> Styles.place}"
+    | Key(EntranceCard(cityId, placeId)) ->
+        let place = Queries.World.placeInCityById cityId placeId
+
+        Styles.item
+            $"Entrance card for {place.Name |> Styles.place} in {cityName cityId |> Styles.place}"
     | _ -> itemName item
 
 let moreDates = Styles.faded "More dates"

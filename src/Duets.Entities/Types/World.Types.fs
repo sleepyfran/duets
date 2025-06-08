@@ -91,6 +91,7 @@ module WorldTypes =
         | Hospital
         | MerchandiseWorkshop
         | MetroStation
+        | RadioStudio of RadioStudio
         | RehearsalSpace of RehearsalSpace
         | Restaurant
         | Street
@@ -112,6 +113,7 @@ module WorldTypes =
         | Hospital
         | MerchandiseWorkshop
         | MetroStation
+        | RadioStudio
         | RehearsalSpace
         | Restaurant
         | Street

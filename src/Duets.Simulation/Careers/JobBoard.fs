@@ -2,45 +2,50 @@ module Duets.Simulation.Careers.JobBoard
 
 open Duets.Common
 open Duets.Data.Careers
+open Duets.Data.World
 open Duets.Entities
 open Duets.Simulation
+open Duets.Simulation.Careers.Common
 
 let private placeTypeForJobType jobType =
     match jobType with
-    | Bartender -> PlaceTypeIndex.Bar
     | Barista -> PlaceTypeIndex.Cafe
+    | Bartender -> PlaceTypeIndex.Bar
+    | Chef -> PlaceTypeIndex.Restaurant
     | MusicProducer -> PlaceTypeIndex.Studio
+    | RadioHost -> PlaceTypeIndex.RadioStudio
 
 let private findSuitableCareerStage state (careerStages: CareerStage list) =
-    let character = Queries.Characters.playableCharacter state
-
     careerStages
     |> List.takeWhile (fun stage ->
-        stage.Requirements
-        |> List.forall (function
-            | CareerStageRequirement.Skill(skillId, minLevel) ->
-                let _, currentSkillLevel =
-                    Queries.Skills.characterSkillWithLevel
-                        state
-                        character.Id
-                        skillId
+        fulfillsRequirements state stage.Requirements -2<adjustment>)
 
-                currentSkillLevel >= minLevel - 2))
-
-let private findSuitableJob state careerId cityId placeId stages =
+let private findSuitableJob state careerId cityId placeId roomId stages =
     findSuitableCareerStage state stages
     |> List.tryLast
-    |> Option.map (Common.createCareerStage cityId placeId)
+    |> Option.map (createCareerStage cityId placeId)
     |> Option.map (fun stage ->
         { Id = careerId
           CurrentStage = stage
-          Location = cityId, placeId })
+          Location = cityId, placeId, roomId })
 
 let private generateBartenderJob state cityId placeId =
-    findSuitableJob state Bartender cityId placeId BartenderCareer.stages
+    findSuitableJob
+        state
+        Bartender
+        cityId
+        placeId
+        Ids.Cafe.cafe
+        BartenderCareer.stages
 
 let private generateBaristaJob state cityId placeId =
-    findSuitableJob state Barista cityId placeId BaristaCareer.stages
+    findSuitableJob
+        state
+        Barista
+        cityId
+        placeId
+        Ids.Cafe.cafe
+        BaristaCareer.stages
 
 let private generateMusicProducerJob state cityId placeId =
     findSuitableJob
@@ -48,7 +53,26 @@ let private generateMusicProducerJob state cityId placeId =
         MusicProducer
         cityId
         placeId
+        Ids.RecordingStudio.masteringRoom
         MusicProducerCareer.stages
+
+let private generateRadioHostJob state cityId placeId =
+    findSuitableJob
+        state
+        RadioHost
+        cityId
+        placeId
+        Ids.RadioStudio.recordingRoom
+        RadioHostCareer.stages
+
+let private generateChefJob state cityId placeId =
+    findSuitableJob
+        state
+        Chef
+        cityId
+        placeId
+        Ids.Restaurant.kitchen
+        ChefCareer.stages
 
 let private generateJobsForPlace state cityId place =
     place.Rooms
@@ -59,6 +83,8 @@ let private generateJobsForPlace state cityId place =
         | RoomType.Cafe -> generateBaristaJob state cityId place.Id
         | RoomType.MasteringRoom ->
             generateMusicProducerJob state cityId place.Id
+        | RoomType.RecordingRoom -> generateRadioHostJob state cityId place.Id
+        | RoomType.Kitchen -> generateChefJob state cityId place.Id
         | _ -> None)
 
 let private generateJobs state cityId (places: Place list) =

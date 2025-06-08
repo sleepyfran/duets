@@ -23,7 +23,7 @@ let earlyMorningDate =
 let morningDate = earlyMorningDate |> Calendar.Query.next
 let dayBeforeYesterday = dummyToday |> Calendar.Ops.addDays -2<days>
 let yesterday = dummyToday |> Calendar.Ops.addDays -1<days>
-let nextMonth = dummyToday |> Calendar.Ops.addSeasons 1
+let nextSeason = dummyToday |> Calendar.Ops.addSeasons 1
 
 let filterRentalExpired =
     List.filter (function
@@ -40,7 +40,7 @@ let ``tick of time passed in the morning should expire rental if it is due``
     ()
     =
     let state =
-        Monthly yesterday
+        Seasonal yesterday
         |> createRental dummyPlace.Id
         |> generateStateWithRental
 
@@ -57,7 +57,7 @@ let ``tick of time passed in any other day moment should not expire rentals even
     [ EarlyMorning; Midday; Evening; Afternoon; Night; Midnight ]
     |> List.iter (fun dayMoment ->
         let state =
-            Monthly yesterday
+            Seasonal yesterday
             |> createRental dummyPlace.Id
             |> generateStateWithRental
 
@@ -73,7 +73,7 @@ let ``rental expiring in the current location results in player getting kicked o
     ()
     =
     let state =
-        Monthly yesterday
+        Seasonal yesterday
         |> createRental dummyPlace.Id
         |> generateStateWithRental
         |> State.World.move dummyCity.Id dummyPlace.Id "0"
@@ -89,7 +89,7 @@ let ``rental expiring outside of current location does not generate kicked out e
     ()
     =
     let state =
-        Monthly yesterday
+        Seasonal yesterday
         |> createRental dummyPlace.Id
         |> generateStateWithRental
 
@@ -105,7 +105,7 @@ let ``if the character has multiple rentals, one which has expired and another o
     let expiredRental =
         OneTime(dayBeforeYesterday, yesterday) |> createRental dummyHotel2.Id
 
-    let notExpiredRental = Monthly nextMonth |> createRental dummyHotel1.Id
+    let notExpiredRental = Seasonal nextSeason |> createRental dummyHotel1.Id
 
     let state =
         notExpiredRental

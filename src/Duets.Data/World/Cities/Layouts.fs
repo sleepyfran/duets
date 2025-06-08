@@ -5,16 +5,24 @@ open Duets.Data.World
 
 /// Usual layout for a restaurant.
 let restaurantRoomLayout menu =
-    RoomType.Restaurant menu
-    |> World.Room.create
-    |> World.Node.create Ids.Common.restaurant
-    |> World.Graph.from
+    let kitchen =
+        RoomType.Kitchen
+        |> World.Room.create
+        |> World.Node.create Ids.Restaurant.kitchen
+
+    let diningRoom =
+        RoomType.Restaurant menu
+        |> World.Room.create
+        |> World.Node.create Ids.Restaurant.dining
+
+    World.Graph.fromMany [ diningRoom; kitchen ]
+    |> World.Graph.connect kitchen.Id diningRoom.Id North
 
 /// Usual layout for a bar.
 let barRoomLayout =
     RoomType.Bar
     |> World.Room.create
-    |> World.Node.create Ids.Common.bar
+    |> World.Node.create Ids.Bar.bar
     |> World.Graph.from
 
 /// Usual layout for a bookstore.
@@ -28,7 +36,7 @@ let bookstoreLayout =
 let cafeRoomLayout =
     RoomType.Cafe
     |> World.Room.create
-    |> World.Node.create Ids.Common.cafe
+    |> World.Node.create Ids.Cafe.cafe
     |> World.Graph.from
 
 /// Usual layout for a casino.
@@ -116,6 +124,21 @@ let merchandiseWorkshopLayout =
         |> World.Node.create Ids.Workshop.workshop
 
     World.Graph.from workshop
+
+/// Usual layout for a radio studio.
+let radioStudioLayout =
+    let lobby =
+        RoomType.Lobby
+        |> World.Room.create
+        |> World.Node.create Ids.RadioStudio.lobby
+
+    let recordingRoom =
+        RoomType.RecordingRoom
+        |> World.Room.create
+        |> World.Node.create Ids.RadioStudio.recordingRoom
+
+    World.Graph.fromMany [ lobby; recordingRoom ]
+    |> World.Graph.connect lobby.Id recordingRoom.Id North
 
 /// First option of a layout for a concert space.
 let concertSpaceLayout1 =
@@ -303,12 +326,12 @@ let studioLayout =
     let masteringRoom =
         RoomType.MasteringRoom
         |> World.Room.create
-        |> World.Node.create Ids.Studio.masteringRoom
+        |> World.Node.create Ids.RecordingStudio.masteringRoom
 
     let recordingRoom =
         RoomType.RecordingRoom
         |> World.Room.create
-        |> World.Node.create Ids.Studio.recordingRoom
+        |> World.Node.create Ids.RecordingStudio.recordingRoom
 
     World.Graph.fromMany [ masteringRoom; recordingRoom ]
     |> World.Graph.connectMany [ masteringRoom.Id, recordingRoom.Id, North ]

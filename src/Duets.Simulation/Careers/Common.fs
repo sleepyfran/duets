@@ -20,6 +20,40 @@ let private salaryModifiers cityId placeId =
 
     costOfLivingModifier * qualityModifier
 
+[<Measure>]
+type adjustment
+
+/// Checks wether the playable character fulfills the given requirements for
+/// a certain career stage. Accepts a `requirementAdjustment` parameter that will
+/// be subtracted from the requirement level where applicable so that it's lower
+/// or raised. For example, giving an adjustment of -2 means that skill and fame
+/// levels will be reduced by 2 when comparing against the character's.
+let fulfillsRequirements
+    state
+    requirements
+    (requirementAdjustment: int<adjustment>)
+    =
+    let character = Queries.Characters.playableCharacter state
+    let adjustmentInt = requirementAdjustment / 1<adjustment>
+
+    requirements
+    |> List.forall (function
+        | CareerStageRequirement.Skill(skillId, minLevel) ->
+            let _, currentSkillLevel =
+                Queries.Skills.characterSkillWithLevel
+                    state
+                    character.Id
+                    skillId
+
+            currentSkillLevel >= minLevel + adjustmentInt
+        | CareerStageRequirement.Fame(fameLevel) ->
+            let characterFame =
+                Queries.Characters.playableCharacterAttribute
+                    state
+                    CharacterAttribute.Fame
+
+            characterFame >= fameLevel + adjustmentInt)
+
 /// Creates a career stage with salary adjusted for the city and place quality.
 let createCareerStage cityId placeId careerStage =
     let salaryModifier = salaryModifiers cityId placeId

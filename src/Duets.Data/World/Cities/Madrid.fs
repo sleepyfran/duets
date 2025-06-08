@@ -41,6 +41,7 @@ let generate () =
     |> addRehearsalSpaces
     |> addRestaurants
     |> addStudios
+    |> addRadioStudios
 
 (* -------- Airport --------- *)
 let addAirport city =
@@ -306,4 +307,12 @@ let private addStudios city =
            Female
            (Shorthands.Spring 3<days> 1988<years>))) ]
     |> List.map PlaceCreators.createStudio
+    |> List.fold (fun city place -> World.City.addPlace place city) city
+
+(* -------- Radio Studios --------- *)
+let private addRadioStudios city =
+    [ ("Los40 Classic", 93<quality>, "Pop", sol)
+      ("RockFM", 90<quality>, "Rock", moncloa)
+      ("Radio Clásica", 88<quality>, "Jazz", retiro) ]
+    |> List.map (PlaceCreators.createRadioStudio city)
     |> List.fold (fun city place -> World.City.addPlace place city) city

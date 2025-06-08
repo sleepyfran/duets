@@ -2,6 +2,7 @@ module Duets.Simulation.Tests.Events.Career
 
 #nowarn "25"
 
+open Duets.Data.World
 open FsUnit
 open NUnit.Framework
 open Test.Common
@@ -13,12 +14,12 @@ open Duets.Simulation
 let baristaJob =
     { Id = Barista
       CurrentStage = Careers.BaristaCareer.stages |> List.head
-      Location = dummyCity.Id, dummyPlace.Id }
+      Location = dummyCity.Id, dummyPlace.Id, Ids.Cafe.cafe }
 
 let bartenderJob =
     { Id = Bartender
       CurrentStage = Careers.BartenderCareer.stages |> List.head
-      Location = dummyCity.Id, dummyPlace.Id }
+      Location = dummyCity.Id, dummyPlace.Id, Ids.Cafe.cafe }
 
 let baristaSkill = Skill.create SkillId.Barista
 let bartendingSkill = Skill.create SkillId.Bartending

@@ -29,7 +29,7 @@ module rec PutCommand =
                     | _, None -> Items.itemNotFound item2Name |> showMessage
                     | Some item1, Some item2 ->
                         Items.place (State.get ()) item1 item2
-                        |> showPlaceResult item2.Brand
+                        |> showPlaceResult (Generic.itemName item2)
                 | _ ->
                     Command.putUsage
                     |> Command.wrongUsage

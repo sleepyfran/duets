@@ -2,11 +2,11 @@ namespace Duets.Entities
 
 [<AutoOpen>]
 module RentalTypes =
-    /// Defines when the rental has to be paid. Monthly is for rentals like a
-    /// flat, where a fee has to be paid repeatedly each month. OneTime is for
+    /// Defines when the rental has to be paid. Seasonal is for rentals like a
+    /// flat, where a fee has to be paid repeatedly each season. OneTime is for
     /// rentals like a hotel room, where there's just one payment.
     type RentalType =
-        | Monthly of nextPaymentDate: Date
+        | Seasonal of nextPaymentDate: Date
         | OneTime of from: Date * until: Date
 
     /// Defines a rental that the character holds over some place.

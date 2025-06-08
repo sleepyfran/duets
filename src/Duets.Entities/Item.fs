@@ -50,12 +50,18 @@ module Beer =
                     DrinkType = Beer(alcoholContent) }
               ) ] }
 
-module Chip =
+module Key =
     /// Creates a chip to access a place in a city.
-    let createFor cityId placeId =
+    let createGymChipFor cityId placeId =
         { Brand = "DuetsCorp"
           Name = "Chip"
-          Properties = [ Chip(cityId, placeId) |> Key ] }
+          Properties = [ TemporaryChip(cityId, placeId) |> Key ] }
+
+    /// Creates an entrance card to access a place in a city.
+    let createEntranceCardFor cityId placeId =
+        { Brand = "DuetsCorp"
+          Name = "EntranceCard"
+          Properties = [ EntranceCard(cityId, placeId) |> Key ] }
 
 module Coffee =
     /// Creates a coffee item.
@@ -70,11 +76,15 @@ module Coffee =
 
 module Food =
     /// Creates a food item.
-    let create name amount foodType =
+    let create name amount foodType cookingSkillRequired =
         { Brand = "DuetsFoods"
           Name = name
           Properties =
-            [ Edible({ Amount = amount; FoodType = foodType })
+            [ Edible(
+                  { Amount = amount
+                    FoodType = foodType
+                    CookingSkillRequired = cookingSkillRequired }
+              )
               PlaceableInStorage(Fridge) ] }
 
 module Soda =
