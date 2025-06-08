@@ -35,7 +35,7 @@ let private generateBartenderJob state cityId placeId =
         Bartender
         cityId
         placeId
-        Ids.Cafe.cafe
+        Ids.Common.cafe
         BartenderCareer.stages
 
 let private generateBaristaJob state cityId placeId =
@@ -44,7 +44,7 @@ let private generateBaristaJob state cityId placeId =
         Barista
         cityId
         placeId
-        Ids.Cafe.cafe
+        Ids.Common.cafe
         BaristaCareer.stages
 
 let private generateMusicProducerJob state cityId placeId =
@@ -53,7 +53,7 @@ let private generateMusicProducerJob state cityId placeId =
         MusicProducer
         cityId
         placeId
-        Ids.RecordingStudio.masteringRoom
+        Ids.Studio.masteringRoom
         MusicProducerCareer.stages
 
 let private generateRadioHostJob state cityId placeId =
@@ -62,7 +62,7 @@ let private generateRadioHostJob state cityId placeId =
         RadioHost
         cityId
         placeId
-        Ids.RadioStudio.recordingRoom
+        Ids.Studio.recordingRoom
         RadioHostCareer.stages
 
 let private generateChefJob state cityId placeId =

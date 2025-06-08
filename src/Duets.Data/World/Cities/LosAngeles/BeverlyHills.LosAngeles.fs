@@ -2,7 +2,7 @@ module rec Duets.Data.World.Cities.LosAngeles.BeverlyHills
 
 open Duets.Data.World.Cities
 open Duets.Entities
-open Fugit.Months
+open Duets.Entities.Calendar
 
 let private rodeoDrive (zone: Zone) =
     let street = World.Street.create "Rodeo Drive" (StreetType.Split(North, 3))
@@ -82,12 +82,18 @@ let private canyonDrive (zone: Zone) =
         [ ("Beverly Hills Recording",
            90<quality>,
            380m<dd>,
-           (Character.from "David Foster" Male (November 1 1949)),
+           (Character.from
+               "David Foster"
+               Male
+               (Shorthands.Autumn 1<days> 1949<years>)),
            zone.Id)
           ("Platinum Sound",
            92<quality>,
            400m<dd>,
-           (Character.from "Quincy Jones" Male (March 14 1933)),
+           (Character.from
+               "Quincy Jones"
+               Male
+               (Shorthands.Spring 14<days> 1933<years>)),
            zone.Id) ]
         |> List.map (PlaceCreators.createStudio street.Id)
 

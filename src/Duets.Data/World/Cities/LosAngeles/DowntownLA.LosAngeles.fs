@@ -2,7 +2,7 @@ module rec Duets.Data.World.Cities.LosAngeles.DowntownLA
 
 open Duets.Data.World.Cities
 open Duets.Entities
-open Fugit.Months
+open Duets.Entities.Calendar
 
 let financialCorridor city (zone: Zone) =
     let street =
@@ -26,12 +26,18 @@ let financialCorridor city (zone: Zone) =
         [ ("United Recording",
            85<quality>,
            280m<dd>,
-           (Character.from "David Foster" Male (November 1 1949)),
+           (Character.from
+               "David Foster"
+               Male
+               (Shorthands.Autumn 1<days> 1949<years>)),
            zone.Id)
           ("Capitol Studios",
            90<quality>,
            300m<dd>,
-           (Character.from "Al Schmitt" Male (April 17 1930)),
+           (Character.from
+               "Al Schmitt"
+               Male
+               (Shorthands.Spring 17<days> 1930<years>)),
            zone.Id) ]
         |> List.map (PlaceCreators.createStudio street.Id)
 
@@ -75,12 +81,18 @@ let grandStreet (zone: Zone) =
         [ ("EastWest Studios",
            92<quality>,
            350m<dd>,
-           (Character.from "Greg Kurstin" Male (May 14 1969)),
+           (Character.from
+               "Greg Kurstin"
+               Male
+               (Shorthands.Spring 14<days> 1969<years>)),
            zone.Id)
           ("Village Studios",
            95<quality>,
            380m<dd>,
-           (Character.from "Rick Rubin" Male (March 10 1963)),
+           (Character.from
+               "Rick Rubin"
+               Male
+               (Shorthands.Spring 10<days> 1963<years>)),
            zone.Id) ]
         |> List.map (PlaceCreators.createStudio street.Id)
 
@@ -97,12 +109,18 @@ let backstreets (zone: Zone) =
         [ ("Conway Recording Studios",
            83<quality>,
            290m<dd>,
-           (Character.from "Bruce Swedien" Male (April 19 1934)),
+           (Character.from
+               "Bruce Swedien"
+               Male
+               (Shorthands.Spring 19<days> 1934<years>)),
            zone.Id)
           ("Paramount Recording Studio",
            79<quality>,
            250m<dd>,
-           (Character.from "Rodney Jenkins" Male (October 24 1969)),
+           (Character.from
+               "Rodney Jenkins"
+               Male
+               (Shorthands.Autumn 24<days> 1969<years>)),
            zone.Id) ]
         |> List.map (PlaceCreators.createStudio street.Id)
 

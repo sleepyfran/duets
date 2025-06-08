@@ -45,11 +45,10 @@ let private placeWithOpenInfo (city: City) (place: Place) specialProperties =
 
     let placeDetails =
         match placeSpecialProperties with
-        | Some Rented ->
-            $"""{World.placeWithZone place} ({"Rented" |> Styles.highlight})"""
+        | Some Rented -> $"""{place.Name} ({"Rented" |> Styles.highlight})"""
         | Some ConcertScheduled ->
-            $"""{World.placeWithZone place} ({"Concert scheduled" |> Styles.highlight})"""
-        | None -> World.placeWithZone place
+            $"""{place.Name} ({"Concert scheduled" |> Styles.highlight})"""
+        | None -> place.Name
 
     World.placeNameWithOpeningInfo placeDetails currentlyOpen
 

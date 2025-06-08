@@ -2,7 +2,7 @@ module rec Duets.Data.World.Cities.LosAngeles.SantaMonica
 
 open Duets.Data.World.Cities
 open Duets.Entities
-open Fugit.Months
+open Duets.Entities.Calendar
 
 let oceanAvenue city (zone: Zone) =
     let street = World.Street.create "Ocean Avenue" (StreetType.Split(North, 3))
@@ -95,12 +95,18 @@ let promenadePath (zone: Zone) =
         [ ("Sound City Studios",
            93<quality>,
            350m<dd>,
-           (Character.from "Butch Vig" Male (August 2 1957)),
+           (Character.from
+               "Butch Vig"
+               Male
+               (Shorthands.Summer 2<days> 1957<years>)),
            zone.Id)
           ("Record Plant",
            90<quality>,
            320m<dd>,
-           (Character.from "Jack Joseph Puig" Male (May 2 1967)),
+           (Character.from
+               "Jack Joseph Puig"
+               Male
+               (Shorthands.Spring 2<days> 1967<years>)),
            zone.Id) ]
         |> List.map (PlaceCreators.createStudio street.Id)
 

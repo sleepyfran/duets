@@ -22,7 +22,7 @@ let private place =
 let private job =
     { Id = Barista
       CurrentStage = (Careers.BaristaCareer.stages |> List.head)
-      Location = Prague, place.Id, Ids.Cafe.cafe }
+      Location = Prague, place.Id, Ids.Common.cafe }
 
 let morningTime =
     Summer 21<days> 2023<years> |> Calendar.Transform.changeDayMoment Morning
@@ -30,7 +30,7 @@ let morningTime =
 let private state =
     State.generateOne State.defaultOptions
     |> State.Calendar.setTime morningTime
-    |> State.World.move Prague place.Id 0
+    |> State.World.move Prague place.Id Ids.Common.cafe
 
 [<TestFixture>]
 type ``When place is not near closing time``() =

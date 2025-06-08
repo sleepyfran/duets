@@ -2,7 +2,7 @@ module rec Duets.Data.World.Cities.LosAngeles.Venice
 
 open Duets.Data.World.Cities
 open Duets.Entities
-open Fugit.Months
+open Duets.Entities.Calendar
 
 let private veniceBeachBoardwalk city (zone: Zone) =
     let street =
@@ -100,12 +100,18 @@ let private pacificAvenue (zone: Zone) =
         [ ("Venice Sound Studio",
            82<quality>,
            300m<dd>,
-           (Character.from "Sarah McLachlan" Female (January 28 1968)),
+           (Character.from
+               "Sarah McLachlan"
+               Female
+               (Shorthands.Winter 28<days> 1968<years>)),
            zone.Id)
           ("Beach Beats Recording",
            80<quality>,
            280m<dd>,
-           (Character.from "John Doe" Male (February 25 1977)),
+           (Character.from
+               "John Doe"
+               Male
+               (Shorthands.Winter 25<days> 1977<years>)),
            zone.Id) ]
         |> List.map (PlaceCreators.createStudio street.Id)
 

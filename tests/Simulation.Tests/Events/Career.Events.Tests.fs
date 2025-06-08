@@ -14,12 +14,12 @@ open Duets.Simulation
 let baristaJob =
     { Id = Barista
       CurrentStage = Careers.BaristaCareer.stages |> List.head
-      Location = dummyCity.Id, dummyPlace.Id, Ids.Cafe.cafe }
+      Location = dummyCity.Id, dummyPlace.Id, Ids.Common.cafe }
 
 let bartenderJob =
     { Id = Bartender
       CurrentStage = Careers.BartenderCareer.stages |> List.head
-      Location = dummyCity.Id, dummyPlace.Id, Ids.Cafe.cafe }
+      Location = dummyCity.Id, dummyPlace.Id, Ids.Common.cafe }
 
 let baristaSkill = Skill.create SkillId.Barista
 let bartendingSkill = Skill.create SkillId.Bartending

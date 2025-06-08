@@ -113,10 +113,10 @@ let createRadioStudio (city: City) (name, quality, musicGenre, zone) =
     let invitation = Item.Key.createEntranceCardFor city.Id place.Id
 
     place
-    |> World.Place.changeRoom Ids.RadioStudio.recordingRoom (function
+    |> World.Place.changeRoom Ids.Studio.recordingRoom (function
         | Some room ->
             let requiredItems =
-                { ComingFrom = Ids.RadioStudio.lobby
+                { ComingFrom = Ids.Common.lobby
                   Items = [ invitation ] }
 
             room

@@ -2,7 +2,7 @@ module rec Duets.Data.World.Cities.LosAngeles.Hollywood
 
 open Duets.Data.World.Cities
 open Duets.Entities
-open Fugit.Months
+open Duets.Entities.Calendar
 
 let private studioRow (zone: Zone) =
     let street = World.Street.create "Studio Row" (StreetType.Split(North, 3))
@@ -11,22 +11,34 @@ let private studioRow (zone: Zone) =
         [ ("Starlight Studios",
            88<quality>,
            260m<dd>,
-           (Character.from "Max Sterling" Male (June 20 1981)),
+           (Character.from
+               "Max Sterling"
+               Male
+               (Shorthands.Summer 20<days> 1981<years>)),
            zone.Id)
           ("Soundwave Labs",
            75<quality>,
            220m<dd>,
-           (Character.from "Eva Ríos" Female (March 15 1985)),
+           (Character.from
+               "Eva Ríos"
+               Female
+               (Shorthands.Spring 15<days> 1985<years>)),
            zone.Id)
           ("Echo Chamber",
            68<quality>,
            180m<dd>,
-           (Character.from "Leo Vance" Male (July 10 1978)),
+           (Character.from
+               "Leo Vance"
+               Male
+               (Shorthands.Summer 10<days> 1978<years>)),
            zone.Id)
           ("Retro Tracks",
            82<quality>,
            240m<dd>,
-           (Character.from "Mia Chen" Female (September 5 1990)),
+           (Character.from
+               "Mia Chen"
+               Female
+               (Shorthands.Autumn 5<days> 1990<years>)),
            zone.Id) ]
         |> List.map (PlaceCreators.createStudio street.Id)
 
@@ -140,12 +152,18 @@ let private alleyway (zone: Zone) =
         [ ("Backstage Recording",
            65<quality>,
            190m<dd>,
-           (Character.from "Sarah Jones" Male (January 10 1988)),
+           (Character.from
+               "Sarah Jones"
+               Male
+               (Shorthands.Winter 10<days> 1988<years>)),
            zone.Id)
           ("Urban Beats Studio",
            58<quality>,
            160m<dd>,
-           (Character.from "Carlos Ramirez" Female (February 12 1980)),
+           (Character.from
+               "Carlos Ramirez"
+               Female
+               (Shorthands.Winter 12<days> 1980<years>)),
            zone.Id) ]
         |> List.map (PlaceCreators.createStudio street.Id)
 

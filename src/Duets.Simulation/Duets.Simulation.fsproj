@@ -26,6 +26,7 @@
         <Compile Include="Queries\Shop.fs"/>
         <Compile Include="Queries\Inventory.fs"/>
         <Compile Include="Queries\Merch.fs"/>
+        <Compile Include="Queries\Metro.fs"/>
         <Compile Include="Queries\Items.fs"/>
         <Compile Include="Queries\SocialNetworks.fs"/>
         <Compile Include="Queries\Concerts.fs"/>
@@ -45,6 +46,7 @@
         <Compile Include="Queries\Interactions\Interactions.RehearsalSpace.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Social.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Studio.fs"/>
+        <Compile Include="Queries\Interactions\Interactions.MetroStation.fs"/>
         <Compile Include="Queries\Interactions\Interactions.fs"/>
         <Compile Include="State\Bank.fs"/>
         <Compile Include="State\Characters.fs"/>
@@ -141,6 +143,7 @@
         <Compile Include="SocialNetworks\Reposts.fs"/>
         <Compile Include="SocialNetworks\SocialNetworks.fs"/>
         <Compile Include="Shop\Shop.fs"/>
+        <Compile Include="Travel\Metro.fs"/>
         <Compile Include="Cooking\Cooking.fs"/>
         <Compile Include="World\Population.fs"/>
         <Compile Include="Events\Types.fs"/>

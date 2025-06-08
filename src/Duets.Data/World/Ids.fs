@@ -42,20 +42,6 @@ module RehearsalRoom =
 module Workshop =
     let workshop = "workshop"
 
-module RadioStudio =
-    let lobby = 0
-    let recordingRoom = 1
-
-module Cafe =
-    let cafe = 0
-
-module Bar =
-    let bar = 0
-
-module RecordingStudio =
-    let masteringRoom = 0
-    let recordingRoom = 1
-
 module Restaurant =
-    let kitchen = 0
-    let dining = 1
+    let kitchen = "kitchen"
+    let dining = "dining"
