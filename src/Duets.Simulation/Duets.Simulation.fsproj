@@ -180,6 +180,5 @@
     <ItemGroup>
         <PackageReference Include="FsToolkit.ErrorHandling" Version="4.3.0"/>
         <PackageReference Include="Aether" Version="8.3.1"/>
-        <PackageReference Include="Fugit" Version="0.4.1"/>
     </ItemGroup>
 </Project>
