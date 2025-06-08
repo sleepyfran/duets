@@ -105,17 +105,18 @@ module LookCommand =
     let private listPeople
         (knownPeople: Character list)
         (unknownPeople: Character list)
+        roomType
         =
         let peopleDescription people =
             Generic.listOf people (fun person ->
                 $"{person.Name |> Styles.person}")
 
         if knownPeople.IsEmpty |> not then
-            $"""{peopleDescription knownPeople} {Generic.pluralOf "is" "are" knownPeople.Length} in the room."""
+            $"""{peopleDescription knownPeople} {Generic.pluralOf "is" "are" knownPeople.Length} in the {World.roomName roomType}."""
             |> showMessage
 
         if unknownPeople.IsEmpty |> not then
-            $"""There {Generic.pluralOf "is" "are" unknownPeople.Length} {unknownPeople.Length |> Styles.person} {Generic.pluralOf "person" "people" unknownPeople.Length |> Styles.person} you don't know in the room."""
+            $"""There {Generic.pluralOf "is" "are" unknownPeople.Length} {unknownPeople.Length |> Styles.person} {Generic.pluralOf "person" "people" unknownPeople.Length |> Styles.person} you don't know in the {World.roomName roomType}."""
             |> showMessage
 
     let private listItems items =
@@ -148,7 +149,7 @@ module LookCommand =
                 listRoomConnections interactions
                 listEntrances interactions
                 listExits interactions
-                listPeople knownPeople unknownPeople
+                listPeople knownPeople unknownPeople currentRoom.RoomType
                 listItems items
 
                 Scene.World) }
