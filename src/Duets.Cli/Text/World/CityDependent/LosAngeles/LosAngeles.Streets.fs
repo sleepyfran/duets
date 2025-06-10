@@ -1,6 +1,7 @@
 [<RequireQualifiedAccess>]
 module Duets.Cli.Text.World.LosAngeles.Streets
 
+open Duets.Cli.Text.World.Common
 open Duets.Entities
 
 let rec description dayMoment descriptor =
@@ -9,8 +10,11 @@ let rec description dayMoment descriptor =
     | BusinessDistrict -> businessDistrict
     | Creative -> creative
     | Coastal -> coastal
+    | Cultural -> cultural
     | EntertainmentHeart -> entertainmentHeart
+    | Historic -> nonExistent
     | Glitz -> glitz
+    | Industrial -> industrial
     | Luxurious -> luxurious
     | Nature -> nature
     |> fun fn -> fn dayMoment
@@ -191,3 +195,47 @@ and private nature dayMoment =
         [ "The buildings that can be seen from the street look small and insignificant. Mostly what you see here is foliage and the tall trees. The street here is narrow and seems to barely penetrate the wilderness that looms all around. The sound of insects dominates over the sound of birds.  No humans can be seen anywhere here now."
           "The road here feels very dark and seems barely lit by starlight that manages to penetrate the canopy above. There are very few human sounds here and they mostly have to do with the cars using the side road."
           "The area is mostly black and it can only be identified from the sparse bits of starlight that manage to slip through the heavy foliage that towers overhead. Insects now rule this domain." ]
+
+and private cultural dayMoment =
+    match dayMoment with
+    | EarlyMorning
+    | Morning ->
+        [ "The broad avenue is dotted with grand museums and galleries, their facades bathed in gentle morning light. A few early visitors stroll between exhibits, clutching coffees as they chat. Outdoor banners flutter softly in the breeze, heralding the day’s cultural offerings."
+          "Morning light streams through the large windows of historic theaters and concert halls, illuminating posters of upcoming performances. Street performers begin setting up near museum entrances, tuning instruments for later shows."
+          "The quiet of dawn is broken by the murmur of museum staff unlocking doors and art lovers arriving with anticipation. The scent of fresh pastries wafts from nearby cafes popular with gallery-goers." ]
+    | Midday
+    | Afternoon ->
+        [ "Tourists and locals alike wander between cultural landmarks, pausing to admire sculptures in outdoor plazas. Guided tours breeze through museum courtyards, their narrators animatedly sharing stories."
+          "The energy of the cultural district is palpable as midday crowds gather for exhibitions and matinee performances. Musicians play on street corners, adding to the lively atmosphere."
+          "Artisans display handmade crafts at pop-up stalls near gallery entrances. The sounds of conversation, camera shutters, and distant music blend into a vibrant midday symphony." ]
+    | Evening ->
+        [ "Historic theaters light up with marquee signs, inviting patrons to evening shows. Outdoor spaces host impromptu performances as twilight settles over the district."
+          "Galleries stay open late for special exhibitions and wine receptions. Crowds cluster beneath ornate archways, discussing art and anticipation for the night’s events."
+          "Theaters open their doors to eager audiences, and the glow from stage lights spills onto the sidewalks. A sense of cultured excitement fills the air." ]
+    | Night
+    | Midnight ->
+        [ "The cultural district is hushed, save for the distant hum of evening performances still underway. Soft lights highlight stately facades and empty courtyards."
+          "Museum interiors are dark, but security lights trace the outlines of grand columns and statues in silent courtyards. The echo of late-night rehearsals can be heard through open windows."
+          "Few wander the moonlit plazas, where shadows cast dramatic shapes against gallery walls. The cultural heartbeat slows to a gentle pace under the stars." ]
+
+and private industrial dayMoment =
+    match dayMoment with
+    | EarlyMorning
+    | Morning ->
+        [ "The street awakens with the rumble of delivery trucks lining up at factory gates. Smokestacks emit gentle plumes of steam as the first shifts arrive."
+          "Warehouse doors roll open, revealing rows of crates and machinery bathed in pale morning light. Workers in high-visibility vests move purposefully between buildings."
+          "The scent of oil and metal mingles with cool dawn air. Forklifts ping and beep softly as they transport goods along the concrete sidewalks." ]
+    | Midday
+    | Afternoon ->
+        [ "The industrial district hums with activity: conveyor belts whirr, cranes groan, and machinery rattles inside open factories. Forklifts weave between shipping containers."
+          "Steel structures glint under the midday sun as workers coordinate loading and unloading tasks. The air is thick with mechanical sounds."
+          "Delivery vans and heavy trucks traverse the wide boulevards, while welding sparks occasionally flit behind open shutters of metal workshops." ]
+    | Evening ->
+        [ "Shift change sees workers streaming from factory gates under amber floodlights. The hum of machinery calms as evening routines begin."
+          "Loading docks become quieter, lit only by overhead lamps. The smell of industrial grease lingers in the cooling air."
+          "Large overhead doors close one by one, and the district takes on a more open feel under the glow of streetlights." ]
+    | Night
+    | Midnight ->
+        [ "Most factories are silent now, their machinery dormant beneath harsh floodlights. A few night-shift workers move through fenced pathways."
+          "The industrial area feels deserted except for the glow of security lights and the occasional patrol vehicle. The air holds a metallic chill."
+          "Shadows stretch across empty warehouses, and the distant hum of a single generator is the only reminder of the day’s bustle." ]

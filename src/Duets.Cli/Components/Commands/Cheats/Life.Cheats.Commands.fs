@@ -33,6 +33,16 @@ module LifeCommands =
 
                 Scene.Cheats) }
 
+    /// Command which sets the player in free roam.
+    let roaming =
+        { Name = "roaming"
+          Description =
+            "Allows you to change the current situation to free roam"
+          Handler =
+            (fun _ ->
+                Situations.freeRoam |> Effect.apply
+                Scene.Cheats) }
+
     /// Command which removes all moodlets of the character.
     let notMoody =
         { Name = "not moody"

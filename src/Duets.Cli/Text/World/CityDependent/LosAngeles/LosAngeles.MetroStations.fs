@@ -1,6 +1,7 @@
 [<RequireQualifiedAccess>]
 module Duets.Cli.Text.World.LosAngeles.MetroStations
 
+open Duets.Cli.Text.World.Common
 open Duets.Entities
 
 let rec description dayMoment descriptor =
@@ -9,8 +10,11 @@ let rec description dayMoment descriptor =
     | BusinessDistrict -> businessDistrict
     | Creative -> creative
     | Coastal -> coastal
+    | Cultural -> cultural
     | EntertainmentHeart -> entertainmentHeart
     | Glitz -> glitz
+    | Historic -> nonExistent
+    | Industrial -> industrial
     | Luxurious -> luxurious
     | Nature -> nature
     |> fun fn -> fn dayMoment
@@ -103,6 +107,28 @@ and private coastal dayMoment =
           "The platform here is totally abandoned by travellers, leaving just a few night cleaners and workers doing small maintenance tasks in this huge empty structure. It feels incredibly lonely and vast here."
           "The station feels incredibly large when seen now as most of the lighting has been shut off. Few remain here, either having been sent to work the closing shifts or because they were particularly late getting home. " ]
 
+and private cultural dayMoment =
+    match dayMoment with
+    | EarlyMorning
+    | Morning ->
+        [ "The station has a grand, almost reverent feel, with high ceilings and informational placards on the walls. Early visitors and museum staff move quietly through the space."
+          "The air is still and cool, with the faint scent of old paper and polished wood. The platform is quiet, with only a few people waiting for the first trains of the day."
+          "Sunlight streams through large windows, illuminating dust motes dancing in the air. The station feels like a gateway to knowledge, a quiet starting point for a day of exploration." ]
+    | Midday
+    | Afternoon ->
+        [ "The station is now bustling with a diverse crowd of tourists, students, and locals. The sound of different languages fills the air, creating a vibrant, cosmopolitan atmosphere."
+          "Groups of schoolchildren, led by their teachers, add a lively energy to the station. The walls are adorned with posters for current and upcoming exhibitions."
+          "The station is a hub of activity, a crossroads where people from all walks of life intersect on their way to the nearby cultural institutions. It feels educational and lively." ]
+    | Evening ->
+        [ "The crowds have thinned, and a sense of calm descends upon the station. The lighting is softer now, creating a more intimate and contemplative mood."
+          "The station is quieter, with the remaining travelers looking thoughtful, perhaps reflecting on the art or history they've just experienced. It feels like a place of quiet reflection."
+          "As the nearby museums and galleries close, the station becomes a place of departure. The energy of the day gives way to a peaceful, end-of-day stillness." ]
+    | Night
+    | Midnight ->
+        [ "The station is nearly deserted, its grand architecture now feeling somewhat imposing in the silence. The only sound is the distant rumble of the last trains."
+          "The platforms are empty, and the informational displays are turned off. The station sleeps, holding the stories and histories of the day within its silent walls."
+          "A profound quiet has settled over the station. It feels like a historical monument in its own right, a silent witness to the comings and goings of countless people." ]
+
 and private entertainmentHeart dayMoment =
     match dayMoment with
     | EarlyMorning
@@ -146,6 +172,28 @@ and private glitz dayMoment =
         [ "The station is deserted, with the lights dimmed to a minimal setting and only security personnel still patrolling. It has a distinctly lonely feel"
           "The platforms seem unnaturally vast with the limited night time lights cast across it. There are so few people visible that it feels as though the place is totally devoid of travellers, beyond night time employees."
           "The platforms have a strangely austere tone and it almost seems that everything there is perfectly styled and waiting for visitors to arrive in the next day but few remain to experience its careful designs." ]
+
+and private industrial dayMoment =
+    match dayMoment with
+    | EarlyMorning
+    | Morning ->
+        [ "The station is stark and functional, built with concrete and steel. The air smells of diesel and metal, and the sound of heavy machinery can be heard in the distance."
+          "Workers in high-visibility jackets and steel-toed boots form the bulk of the commuters. There's a sense of purpose and industry in the air, a place waking up to a day of hard work."
+          "The platform is crowded with people heading to their shifts. The conversations are practical and direct, the atmosphere is one of focused energy." ]
+    | Midday
+    | Afternoon ->
+        [ "The station is a constant flow of workers coming and going for their breaks. The noise from the nearby industrial zone is a constant backdrop to the station's activity."
+          "The station is utilitarian and no-frills. There are no decorative elements, only functional signage and durable benches. It's a place of transit, not of leisure."
+          "The air is thick with the smells of manufacturing. The station serves its purpose efficiently, a vital link in the chain of production." ]
+    | Evening ->
+        [ "The station is filled with tired workers heading home after a long day. The energy is subdued, a stark contrast to the morning's rush."
+          "The noise from the industrial zone begins to subside as the evening shift ends. The station becomes quieter, the flow of people slowing to a trickle."
+          "As darkness falls, the station's bright fluorescent lights seem harsh in the growing quiet. The last of the workers board their trains, leaving the station to the night." ]
+    | Night
+    | Midnight ->
+        [ "The station is almost completely empty, save for a few security guards and maintenance workers. The silence is punctuated by the hum of the ventilation systems."
+          "The air is cool and still, the industrial smells of the day having dissipated. The station feels vast and desolate in the quiet of the night."
+          "Under the stark lighting, the station's raw, functional design is more apparent than ever. It's a skeleton of a place, waiting for the lifeblood of the workforce to return with the dawn." ]
 
 and private luxurious dayMoment =
     match dayMoment with

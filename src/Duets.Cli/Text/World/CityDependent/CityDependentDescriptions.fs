@@ -10,6 +10,10 @@ let private placeDescriptionByCity =
     [ LosAngeles,
       [ PlaceTypeIndex.MetroStation, LosAngeles.MetroStations.description
         PlaceTypeIndex.Street, LosAngeles.Streets.description ]
+      |> Map.ofList
+      Prague,
+      [ PlaceTypeIndex.MetroStation, Prague.MetroStations.description
+        PlaceTypeIndex.Street, Prague.Streets.description ]
       |> Map.ofList ]
     |> Map.ofList
 

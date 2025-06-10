@@ -32,7 +32,10 @@ module CityTypes =
         | BusinessDistrict
         | Creative
         | Coastal
+        | Cultural
         | EntertainmentHeart
         | Glitz
+        | Historic
+        | Industrial
         | Luxurious
         | Nature

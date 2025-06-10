@@ -7,8 +7,9 @@ open Duets.Entities
 /// generate the world and all the cities in it.
 let private generate () =
     let losAngeles = Cities.LosAngeles.Root.generate ()
+    let prague = Cities.Prague.Root.generate ()
 
-    World.create [ losAngeles ]
+    World.create [ losAngeles; prague ]
 
 /// Returns the game world. The world is initialized when the module is loaded.
 let get = generate ()

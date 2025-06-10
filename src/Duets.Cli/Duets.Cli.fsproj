@@ -45,8 +45,11 @@
         <Compile Include="Text\World\Hotel.fs"/>
         <Compile Include="Text\World\MerchandiseWorkshop.fs"/>
         <Compile Include="Text\World\RehearsalSpace.fs"/>
+        <Compile Include="Text\World\CityDependent\Common.fs"/>
         <Compile Include="Text\World\CityDependent\LosAngeles\LosAngeles.Streets.fs"/>
         <Compile Include="Text\World\CityDependent\LosAngeles\LosAngeles.MetroStations.fs"/>
+        <Compile Include="Text\World\CityDependent\Prague\Prague.Streets.fs"/>
+        <Compile Include="Text\World\CityDependent\Prague\Prague.MetroStations.fs"/>
         <Compile Include="Text\World\CityDependent\CityDependentDescriptions.fs"/>
         <Compile Include="Text\World\Studio.fs"/>
         <Compile Include="Text\World\World.fs"/>
