@@ -23,8 +23,7 @@ module LookCommand =
         | [] -> None
         | entrances ->
             let entrancesDescription =
-                Generic.listOf entrances (fun place ->
-                    place.Name |> Styles.place)
+                Generic.listOf entrances World.placeNameWithType
 
             Some(
                 $"""There {Generic.pluralOf "is an entrance" "are entrances" entrancesDescription.Length} towards {entrancesDescription}."""

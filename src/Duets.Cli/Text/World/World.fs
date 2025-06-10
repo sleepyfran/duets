@@ -5,6 +5,7 @@ open Duets.Agents
 open Duets.Cli.Text
 open Duets.Entities
 open Duets.Entities.SituationTypes
+open Duets.Entities.World.Place.Type
 open Duets.Simulation
 
 let placeNameWithOpeningInfo placeDetails currentlyOpen =
@@ -55,6 +56,9 @@ let placeTypeName (placeType: PlaceTypeIndex) =
     | PlaceTypeIndex.Restaurant -> "Restaurant"
     | PlaceTypeIndex.Studio -> "Studio"
     | PlaceTypeIndex.Street -> "Street"
+
+let placeTypeName' (place: Place) =
+    place.PlaceType |> toIndex |> placeTypeName
 
 let roomName (room: RoomType) =
     match room with
@@ -148,6 +152,12 @@ let placeArrivalMessage place roomType =
 let placeClosedError (place: Place) =
     $"{place.Name} is currently closed. Try again during their opening hours"
     |> Styles.error
+
+let placeNameWithType (place: Place) =
+    match place.PlaceType with
+    | Home -> place.Name
+    | _ -> $"""{place.Name} {$"({placeTypeName' place})" |> Styles.faded}"""
+    |> Styles.place
 
 let placeOpeningHours place =
     match place.OpeningHours with
