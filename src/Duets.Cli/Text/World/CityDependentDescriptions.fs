@@ -6,16 +6,16 @@ open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 
-let private placeDescriptionByCity =
-    [ LosAngeles,
-      [ PlaceTypeIndex.MetroStation, LosAngeles.MetroStations.description
-        PlaceTypeIndex.Street, LosAngeles.Streets.description ]
-      |> Map.ofList
-      Prague,
-      [ PlaceTypeIndex.MetroStation, Prague.MetroStations.description
-        PlaceTypeIndex.Street, Prague.Streets.description ]
-      |> Map.ofList ]
-    |> Map.ofList
+let private placeDescriptionByCity cityId placeType =
+    match cityId, placeType with
+    | LosAngeles, PlaceTypeIndex.MetroStation ->
+        LosAngeles.MetroStations.description
+    | LosAngeles, PlaceTypeIndex.Street -> LosAngeles.Streets.description
+    | NewYork, PlaceTypeIndex.MetroStation -> NewYork.MetroStations.description
+    | NewYork, PlaceTypeIndex.Street -> NewYork.Streets.description
+    | Prague, PlaceTypeIndex.MetroStation -> Prague.MetroStations.description
+    | Prague, PlaceTypeIndex.Street -> Prague.Streets.description
+    | _ -> fun _ _ -> [ "" ]
 
 let cityDependentDescription (place: Place) (_: RoomType) : string =
     let state = State.get ()
@@ -27,8 +27,8 @@ let cityDependentDescription (place: Place) (_: RoomType) : string =
 
     let generateDescriptions =
         placeDescriptionByCity
-        |> Map.find city.Id
-        |> Map.find (place.PlaceType |> World.Place.Type.toIndex)
+            city.Id
+            (place.PlaceType |> World.Place.Type.toIndex)
 
     let randomDescriptor = zone.Descriptors |> List.sample
     generateDescriptions currentDayMoment randomDescriptor |> List.sample

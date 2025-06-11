@@ -24,5 +24,8 @@ let ceil (flt: float) = System.Math.Ceiling flt
 /// Rounds a float to its upper nearest int.
 let ceilToNearest (flt: float) = ceil flt |> roundToNearest
 
+/// Floors a float to its nearest integer value.
+let floorToNearest (flt: float) = floor flt |> roundToNearest
+
 /// Returns whether the given value is between min and max.
 let between min max i = i >= min && i <= max

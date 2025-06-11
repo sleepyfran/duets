@@ -49,6 +49,7 @@
         <Compile Include="World\Cities\LosAngeles\SantaMonica.LosAngeles.fs"/>
         <Compile Include="World\Cities\LosAngeles\BeverlyHills.LosAngeles.fs"/>
         <Compile Include="World\Cities\LosAngeles\Venice.LosAngeles.fs"/>
+        <Compile Include="World\Cities\LosAngeles\LAX.LosAngeles.fs"/>
         <Compile Include="World\Cities\LosAngeles\LosAngeles.fs"/>
         <Compile Include="World\Cities\Prague\Smíchov.Prague.fs"/>
         <Compile Include="World\Cities\Prague\StaréMěsto.Prague.fs"/>
@@ -59,6 +60,12 @@
         <Compile Include="World\Cities\Prague\Ruzyně.Prague.fs"/>
         <Compile Include="World\Cities\Prague\Vršovice.Prague.fs"/>
         <Compile Include="World\Cities\Prague\Prague.fs"/>
+        <Compile Include="World\Cities\NewYork\Astoria.NewYork.fs"/>
+        <Compile Include="World\Cities\NewYork\BrooklynHeights.NewYork.fs"/>
+        <Compile Include="World\Cities\NewYork\Harlem.NewYork.fs"/>
+        <Compile Include="World\Cities\NewYork\Midtown.NewYork.fs"/>
+        <Compile Include="World\Cities\NewYork\Soho.NewYork.fs"/>
+        <Compile Include="World\Cities\NewYork\NewYork.fs"/>
         <Compile Include="World\World.fs"/>
         <None Include="Util\NpcGen.fsx"/>
         <Content Include="ATTRIBUTIONS.md"/>

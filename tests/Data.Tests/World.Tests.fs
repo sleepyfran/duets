@@ -83,3 +83,25 @@ let ``all cities must have concert spaces to accomodate all sort of bands by cap
     ()
     =
     World.get.Cities |> List.ofMapValues |> List.iter checkConcertSpaces
+
+[<Test>]
+let ``all cities must have a hospital`` () =
+    World.get.Cities
+    |> List.ofMapValues
+    |> List.iter (fun city ->
+        let hospitals =
+            Queries.World.placesByTypeInCity city.Id PlaceTypeIndex.Hospital
+
+        System.Console.WriteLine city.Id
+        hospitals |> should haveLength 1)
+
+[<Test>]
+let ``all cities must have an airport`` () =
+    World.get.Cities
+    |> List.ofMapValues
+    |> List.iter (fun city ->
+        let hospitals =
+            Queries.World.placesByTypeInCity city.Id PlaceTypeIndex.Airport
+
+        System.Console.WriteLine city.Id
+        hospitals |> should haveLength 1)

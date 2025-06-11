@@ -44,4 +44,3 @@ module Workshop =
 
 module Restaurant =
     let kitchen = "kitchen"
-    let dining = "dining"

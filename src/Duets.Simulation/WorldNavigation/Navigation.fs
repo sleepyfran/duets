@@ -66,9 +66,15 @@ module Navigation =
                     street.Places
                     |> List.findIndex (fun place -> place.Id = currentPlace.Id)
 
-                let itemsPerGroup = street.Places.Length / splits
-                let idx = float currentPlaceIndex / float itemsPerGroup
-                idx - 1.0 |> Math.ceilToNearest |> string
+                // Streets themselves are added to the places, so skip one.
+                let itemsInStreet = street.Places.Length - 1
+                let itemsPerGroup = float itemsInStreet / float splits
+                let idx = float currentPlaceIndex / itemsPerGroup
+
+                idx - 1.0
+                |> Math.floorToNearest
+                |> Math.clamp 0 (splits - 1)
+                |> string
 
         // Streets are not "real" places, but we index them like them via
         // their street ID.

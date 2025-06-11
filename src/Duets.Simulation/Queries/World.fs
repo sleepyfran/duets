@@ -46,7 +46,7 @@ module World =
     let zoneInCurrentCityById state zoneId =
         let cityId, _, _ = state.CurrentPosition
         zoneInCityById cityId zoneId
-        
+
     /// Returns the zone and street in which the character is in currently.
     let currentZoneCoordinates state =
         let cityId, placeId, _ = state.CurrentPosition
@@ -54,7 +54,7 @@ module World =
         let zoneId, streetId, _ = city.PlaceIndex |> Map.find placeId
         let zone = zoneInCityById cityId zoneId
         let street = zone.Streets.Nodes |> Map.find streetId
-        
+
         zone, street
 
     /// Returns a place inside of the current city given its ID.

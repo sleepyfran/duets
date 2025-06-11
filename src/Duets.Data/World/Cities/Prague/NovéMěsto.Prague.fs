@@ -1,6 +1,5 @@
 module rec Duets.Data.World.Cities.Prague.NovéMěsto
 
-open Duets.Data.World
 open Duets.Data.World.Cities
 open Duets.Entities
 open Duets.Entities.Calendar
@@ -80,22 +79,6 @@ let naPříkopě city (zone: Zone) =
         [ ("Bistro Prostřeno", 88<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createBar street.Id)
 
-    let hospital =
-        let lobby =
-            RoomType.Lobby
-            |> World.Room.create
-            |> World.Node.create Ids.Common.lobby
-
-        let roomGraph = World.Graph.from lobby
-
-        World.Place.create
-            "General University Hospital"
-            65<quality>
-            Hospital
-            roomGraph
-            zone.Id
-        |> World.Place.addExit Ids.Common.lobby street.Id
-
     let rehearsalSpaces =
         [ ("Pokoje Prostor", 90<quality>, 150m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createRehearsalSpace street.Id)
@@ -124,7 +107,6 @@ let naPříkopě city (zone: Zone) =
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces rehearsalSpaces
         |> World.Street.addPlaces concertSpaces
-        |> World.Street.addPlace hospital
 
     street
 

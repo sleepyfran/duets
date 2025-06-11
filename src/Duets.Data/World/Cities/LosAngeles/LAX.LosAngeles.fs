@@ -1,21 +1,21 @@
-module rec Duets.Data.World.Cities.Prague.Ruzyně
+module rec Duets.Data.World.Cities.LosAngeles.LAX
 
 open Duets.Data.World.Cities
 open Duets.Entities
 
 let zone =
-    let ruzyněZone = World.Zone.create "Ruzyně"
+    let laxZone = World.Zone.create "LAX"
 
     let airportStreet =
-        World.Street.create "Letecká" (StreetType.Split(North, 1))
+        World.Street.create "World Way" (StreetType.Split(North, 1))
 
     let airport =
         PlaceCreators.createAirport
             airportStreet.Id
-            ("Letiště Václava Havla Praha", 85<quality>, ruzyněZone.Id)
+            ("Los Angeles International Airport", 90<quality>, laxZone.Id)
 
     let metroStation =
-        ("Letiště Station", ruzyněZone.Id)
+        ("LAX/Metro Transit Center", laxZone.Id)
         |> PlaceCreators.createMetro airportStreet.Id
 
     let airportStreet =
@@ -28,7 +28,7 @@ let zone =
           LeavesToStreet = airportStreet.Id
           PlaceId = metroStation.Id }
 
-    ruzyněZone
+    laxZone
     |> World.Zone.addStreet (World.Node.create airportStreet.Id airportStreet)
     |> World.Zone.addDescriptor Industrial
     |> World.Zone.addMetroStation station

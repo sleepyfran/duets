@@ -84,6 +84,10 @@ let náměstíMíru city (zone: Zone) =
         ("Náměstí Míru Station", zone.Id)
         |> (PlaceCreators.createMetro street.Id)
 
+    let hospital =
+        ("Královské Vinohrady University Hospital", 75<quality>, zone.Id)
+        |> PlaceCreators.createHospital street.Id
+
     let street =
         street
         |> World.Street.addPlaces concertSpaces
@@ -94,6 +98,7 @@ let náměstíMíru city (zone: Zone) =
         |> World.Street.addPlaces recordingStudios
         |> World.Street.addPlaces rehearsalSpaces
         |> World.Street.addPlace metroStation
+        |> World.Street.addPlace hospital
 
     street, metroStation
 

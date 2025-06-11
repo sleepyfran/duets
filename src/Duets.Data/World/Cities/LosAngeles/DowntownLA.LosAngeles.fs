@@ -96,11 +96,16 @@ let grandStreet (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createStudio street.Id)
 
+    let hospital =
+        ("Good Samaritan Hospital", 80<quality>, zone.Id)
+        |> PlaceCreators.createHospital street.Id
+
     street
     |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces casinos
     |> World.Street.addPlaces recordingStudios
+    |> World.Street.addPlace hospital
 
 let backstreets (zone: Zone) =
     let street = World.Street.create "Backstreets" (StreetType.Split(West, 2))

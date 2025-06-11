@@ -73,6 +73,11 @@ let createHotel streetId (name, quality, pricePerNight, zoneId) =
         zoneId
     |> World.Place.addExit Ids.Common.lobby streetId
 
+/// Creates a hospital with the given name, quality and zone.
+let createHospital streetId (name, quality, zoneId) =
+    World.Place.create name quality Hospital Layouts.hospitalLayout zoneId
+    |> World.Place.addExit Ids.Common.lobby streetId
+
 /// Creates a merchandise workshop with the given name and zone.
 let createMerchandiseWorkshop streetId (name, zoneId) =
     World.Place.create
@@ -140,8 +145,7 @@ let createRestaurant streetId (name, quality, cuisine, zoneId) =
         | Turkish -> PlaceOpeningHours.AlwaysOpen
         | _ -> OpeningHours.restaurantOpeningHours
 
-    (openingHours, place)
-    ||> World.Place.changeOpeningHours
+    World.Place.changeOpeningHours openingHours place
     |> World.Place.addExit Ids.Common.restaurant streetId
 
 /// Creates a studio with the given name, quality, price per song and zone.
@@ -153,3 +157,8 @@ let createStudio streetId (name, quality, pricePerSong, producer, zoneId) =
     World.Place.create name quality (Studio studio) Layouts.studioLayout zoneId
     |> World.Place.changeOpeningHours OpeningHours.servicesOpeningHours
     |> World.Place.addExit Ids.Studio.masteringRoom streetId
+
+/// Creates an airport with the given name and quality.
+let createAirport streetId (name, quality, zoneId) =
+    World.Place.create name quality Airport Layouts.airportLayout zoneId
+    |> World.Place.addExit Ids.Common.lobby streetId

@@ -13,7 +13,7 @@ let restaurantRoomLayout menu =
     let diningRoom =
         RoomType.Restaurant menu
         |> World.Room.create
-        |> World.Node.create Ids.Restaurant.dining
+        |> World.Node.create Ids.Common.restaurant
 
     World.Graph.fromMany [ diningRoom; kitchen ]
     |> World.Graph.connect kitchen.Id diningRoom.Id North
@@ -335,3 +335,12 @@ let studioLayout =
 
     World.Graph.fromMany [ masteringRoom; recordingRoom ]
     |> World.Graph.connectMany [ masteringRoom.Id, recordingRoom.Id, North ]
+
+/// Usual layout for a hospital.
+let hospitalLayout =
+    let lobby =
+        RoomType.Lobby
+        |> World.Room.create
+        |> World.Node.create Ids.Common.lobby
+
+    World.Graph.from lobby

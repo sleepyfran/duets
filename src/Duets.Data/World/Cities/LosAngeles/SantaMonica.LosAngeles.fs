@@ -80,7 +80,7 @@ let promenadePath (zone: Zone) =
         [ ("Barnes & Noble", 75<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createBookstore street.Id)
 
-    let homes = [ zone.Id ] |> List.map (PlaceCreators.createHome street.Id)
+    let home = PlaceCreators.createHome street.Id zone.Id
 
     let hotels =
         [ ("Fairmont Miramar Hotel & Bungalows", 92<quality>, 380m<dd>, zone.Id) ]
@@ -112,10 +112,10 @@ let promenadePath (zone: Zone) =
 
     street
     |> World.Street.addPlaces bookstores
-    |> World.Street.addPlaces homes
     |> World.Street.addPlaces hotels
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces recordingStudios
+    |> World.Street.addPlace home
 
 let createZone city =
     let santaMonicaZone = World.Zone.create "Santa Monica"
