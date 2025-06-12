@@ -105,3 +105,5 @@ let ``all cities must have an airport`` () =
 
         System.Console.WriteLine city.Id
         hospitals |> should haveLength 1)
+
+// TODO: Add tests for traversing the cities and checking for crashes!
