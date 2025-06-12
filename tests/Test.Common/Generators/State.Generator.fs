@@ -1,11 +1,11 @@
 module Test.Common.Generators.State
 
-open Duets.Data.World
 open FsCheck
+open Test.Common.Generators
 
+open Duets.Data.World
 open Duets.Entities
 open Duets.Simulation
-open Test.Common
 
 let dateGenerator =
     Arb.generate<Date>
@@ -23,6 +23,7 @@ type StateGenOptions =
       FutureConcertsToGenerate: int
       PastConcertsToGenerate: int
       FlightsToGenerate: int
+      Today: Date
 
       // <-- Generators -->
       PastConcertGen: Gen<PastConcert>
@@ -31,6 +32,8 @@ type StateGenOptions =
       PostGen: Gen<SocialNetworkPost> }
 
 let defaultOptions =
+    let defaultDate = Calendar.gameBeginning
+
     { InitialCityId = Queries.World.allCities |> List.head |> _.Id
       BandFansMin = 0<fans>
       BandFansMax = 25<fans>
@@ -40,16 +43,18 @@ let defaultOptions =
       FutureConcertsToGenerate = 0
       PastConcertsToGenerate = 0
       FlightsToGenerate = 0
+      Today = defaultDate
+
       PastConcertGen =
         (Concert.pastConcertGenerator
             { Concert.defaultOptions with
-                From = dummyToday |> Calendar.Ops.addYears -2<years>
-                To = dummyToday })
+                From = defaultDate |> Calendar.Ops.addYears -2<years>
+                To = defaultDate })
       ScheduledConcertGen =
         (Concert.scheduledConcertGenerator
             { Concert.defaultOptions with
-                From = dummyToday |> Calendar.Ops.addDays 1<days>
-                To = dummyToday |> Calendar.Ops.addYears 2<years> })
+                From = defaultDate |> Calendar.Ops.addDays 1<days>
+                To = defaultDate |> Calendar.Ops.addYears 2<years> })
       FlightGen = Arb.generate<Flight>
       PostGen = Arb.generate<SocialNetworkPost> }
 
@@ -99,7 +104,7 @@ let generator (opts: StateGenOptions) =
             bandMembers
             |> List.map (fun cm ->
                 let character =
-                    Generators.Character.generator { Id = Some cm.CharacterId }
+                    Character.generator { Id = Some cm.CharacterId }
                     |> Gen.sample 1 1
                     |> List.head
 
@@ -111,14 +116,16 @@ let generator (opts: StateGenOptions) =
         let bandFans = [ Prague, generatedFans * 1<fans> ] |> Map.ofList
 
         let band =
-            { dummyBand with
+            { Band.empty with
+                Name = "Test Band"
+                Genre = "Jazz"
                 Fans = bandFans
                 Members = bandMembers }
 
         return
             { initialState with
                 CurrentPosition = (city.Id, venueId, Ids.Common.lobby)
-                Today = Calendar.gameBeginning
+                Today = opts.Today
                 Career = opts.Career
                 Bands =
                     { Current = band.Id

@@ -1,7 +1,6 @@
 module Test.Common.Generators.Concert
 
 open FsCheck
-open Test.Common
 
 open Duets.Entities
 
@@ -16,7 +15,7 @@ let defaultOptions =
     { From = Calendar.gameBeginning
       To = Calendar.gameBeginning |> Calendar.Ops.addYears 10<years>
       City = Prague
-      Venue = dummyVenue.Id
+      Venue = Identity.Reproducible.create "O2 Arena"
       DayMoment = Evening }
 
 let generator opts =

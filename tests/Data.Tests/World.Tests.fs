@@ -2,11 +2,13 @@ module Duets.Data.Tests.World
 
 open FsUnit
 open NUnit.Framework
+open Test.Common.Generators
 
 open Duets.Common
 open Duets.Entities
 open Duets.Data.World
 open Duets.Simulation
+open Duets.Simulation.Navigation
 
 let rec private checkCities (cities: City list) =
     // Go through all cities and check that they are connected to all the
@@ -106,4 +108,28 @@ let ``all cities must have an airport`` () =
         System.Console.WriteLine city.Id
         hospitals |> should haveLength 1)
 
-// TODO: Add tests for traversing the cities and checking for crashes!
+[<Test>]
+let ``player is able to exit every place in the world`` () =
+    let state =
+        State.generateOne
+            { State.defaultOptions with
+                Today =
+                    Calendar.Date.fromSeasonAndYear Winter 2025<years>
+                    |> Calendar.Transform.changeDayMoment Midday }
+
+    World.get.Cities
+    |> List.ofMapValues
+    |> List.iter (fun city ->
+        city.PlaceIndex
+        |> Map.iter (fun placeId _ ->
+            let place = Queries.World.placeInCityById city.Id placeId
+            let startingRoom = place.Rooms.StartingNode
+
+            place.Exits
+            |> Map.iter (fun _ streetId ->
+                let state =
+                    { state with
+                        CurrentPosition = (city.Id, place.Id, startingRoom) }
+
+                (fun () -> Navigation.exitTo streetId state |> ignore)
+                |> should not' (throw typeof<System.Exception>))))

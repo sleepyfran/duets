@@ -61,7 +61,6 @@ module Navigation =
             match street.Type with
             | StreetType.OneWay -> "0"
             | StreetType.Split(_, splits) ->
-                // TODO: Please write tests for all street related stuff, it's really fragile!
                 let currentPlaceIndex =
                     street.Places
                     |> List.findIndex (fun place -> place.Id = currentPlace.Id)
@@ -75,6 +74,8 @@ module Navigation =
                 |> Math.floorToNearest
                 |> Math.clamp 0 (splits - 1)
                 |> string
+
+        System.Console.WriteLine $"Moving to {cityId}, {streetId}, {streetPart}"
 
         // Streets are not "real" places, but we index them like them via
         // their street ID.
