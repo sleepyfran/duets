@@ -15,6 +15,8 @@ let private placeDescriptionByCity cityId placeType =
     | NewYork, PlaceTypeIndex.Street -> NewYork.Streets.description
     | Prague, PlaceTypeIndex.MetroStation -> Prague.MetroStations.description
     | Prague, PlaceTypeIndex.Street -> Prague.Streets.description
+    | Tokyo, PlaceTypeIndex.MetroStation -> Tokyo.MetroStations.description
+    | Tokyo, PlaceTypeIndex.Street -> Tokyo.Streets.description
     | _ -> fun _ _ -> [ "" ]
 
 let cityDependentDescription (place: Place) (_: RoomType) : string =

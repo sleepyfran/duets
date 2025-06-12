@@ -9,8 +9,9 @@ let private generate () =
     let losAngeles = Cities.LosAngeles.Root.generate ()
     let newYork = Cities.NewYork.Root.generate ()
     let prague = Cities.Prague.Root.generate ()
+    let tokyo = Cities.Tokyo.Root.generate ()
 
-    World.create [ losAngeles; newYork; prague ]
+    World.create [ losAngeles; newYork; prague; tokyo ]
 
 /// Returns the game world. The world is initialized when the module is loaded.
 let get = generate ()
@@ -59,7 +60,7 @@ let private connectionMetadata
       ((NewYork, Prague), (6570<km>, [ Air ]))
       ((NewYork, Sydney), (15900<km>, [ Air ]))
       ((NewYork, Tokyo), (10800<km>, [ Air ]))
-      ((Prague, Tokyo), (90904<km>, [ Air ]))
+      ((Prague, Tokyo), (9090<km>, [ Air ]))
       ((Prague, Sydney), (16084<km>, [ Air ]))
       ((Sydney, Tokyo), (7818<km>, [ Air ])) ]
     |> Map.ofList

@@ -66,6 +66,12 @@
         <Compile Include="World\Cities\NewYork\Midtown.NewYork.fs"/>
         <Compile Include="World\Cities\NewYork\Soho.NewYork.fs"/>
         <Compile Include="World\Cities\NewYork\NewYork.fs"/>
+        <Compile Include="World\Cities\Tokyo\Shinjuku.Tokyo.fs"/>
+        <Compile Include="World\Cities\Tokyo\Asakusa.Tokyo.fs"/>
+        <Compile Include="World\Cities\Tokyo\Ginza.Tokyo.fs"/>
+        <Compile Include="World\Cities\Tokyo\Shibuya.Tokyo.fs"/>
+        <Compile Include="World\Cities\Tokyo\Haneda.Tokyo.fs"/>
+        <Compile Include="World\Cities\Tokyo\Tokyo.fs"/>
         <Compile Include="World\World.fs"/>
         <None Include="Util\NpcGen.fsx"/>
         <Content Include="ATTRIBUTIONS.md"/>
