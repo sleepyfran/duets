@@ -54,6 +54,8 @@
         <Compile Include="Text\World\CityDependent\NewYork\NewYork.MetroStations.fs"/>
         <Compile Include="Text\World\CityDependent\Tokyo\Tokyo.Streets.fs"/>
         <Compile Include="Text\World\CityDependent\Tokyo\Tokyo.MetroStations.fs"/>
+        <Compile Include="Text\World\CityDependent\Madrid\Madrid.Streets.fs"/>
+        <Compile Include="Text\World\CityDependent\Madrid\Madrid.MetroStations.fs"/>
         <Compile Include="Text\World\CityDependentDescriptions.fs"/>
         <Compile Include="Text\World\Studio.fs"/>
         <Compile Include="Text\World\World.fs"/>

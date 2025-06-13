@@ -28,6 +28,7 @@ module Shop =
             | Italian -> Food.Italian.all
             | Japanese -> Food.Japanese.all
             | Mexican -> Food.Mexican.all
+            | Spanish -> Food.Spanish.all
             | Turkish -> Food.Turkish.all
             | Vietnamese -> Food.Vietnamese.all
             @ cityDrinks cityId

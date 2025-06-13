@@ -23,7 +23,6 @@ module TravelByMetroCommand =
             fun _ ->
                 let state = State.get ()
 
-                // TODO: Destinations should include ALL available stations.
                 let destinations =
                     availableConnections
                     |> List.fold

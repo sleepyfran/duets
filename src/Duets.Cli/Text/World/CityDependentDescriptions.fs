@@ -11,6 +11,8 @@ let private placeDescriptionByCity cityId placeType =
     | LosAngeles, PlaceTypeIndex.MetroStation ->
         LosAngeles.MetroStations.description
     | LosAngeles, PlaceTypeIndex.Street -> LosAngeles.Streets.description
+    | Madrid, PlaceTypeIndex.MetroStation -> Madrid.MetroStations.description
+    | Madrid, PlaceTypeIndex.Street -> Madrid.Streets.description
     | NewYork, PlaceTypeIndex.MetroStation -> NewYork.MetroStations.description
     | NewYork, PlaceTypeIndex.Street -> NewYork.Streets.description
     | Prague, PlaceTypeIndex.MetroStation -> Prague.MetroStations.description

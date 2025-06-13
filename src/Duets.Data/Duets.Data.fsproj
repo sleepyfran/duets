@@ -29,6 +29,7 @@
         <Compile Include="Items\Food\French.Food.fs"/>
         <Compile Include="Items\Food\Mexican.Food.fs"/>
         <Compile Include="Items\Food\Snack.Food.fs"/>
+        <Compile Include="Items\Food\Spanish.Food.fs"/>
         <Compile Include="Items\Food\Turkish.Food.fs"/>
         <Compile Include="Items\Food\USA.Food.fs"/>
         <Compile Include="Items\Food\Vietnamese.Food.fs"/>
@@ -72,6 +73,13 @@
         <Compile Include="World\Cities\Tokyo\Shibuya.Tokyo.fs"/>
         <Compile Include="World\Cities\Tokyo\Haneda.Tokyo.fs"/>
         <Compile Include="World\Cities\Tokyo\Tokyo.fs"/>
+        <Compile Include="World\Cities\Madrid\Barajas.Madrid.fs"/>
+        <Compile Include="World\Cities\Madrid\Retiro.Madrid.fs"/>
+        <Compile Include="World\Cities\Madrid\Salamanca.Madrid.fs"/>
+        <Compile Include="World\Cities\Madrid\Chamberi.Madrid.fs"/>
+        <Compile Include="World\Cities\Madrid\Centro.Madrid.fs"/>
+        <Compile Include="World\Cities\Madrid\Chamartin.Madrid.fs"/>
+        <Compile Include="World\Cities\Madrid\Madrid.fs"/>
         <Compile Include="World\World.fs"/>
         <None Include="Util\NpcGen.fsx"/>
         <Content Include="ATTRIBUTIONS.md"/>

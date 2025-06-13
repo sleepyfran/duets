@@ -94,19 +94,19 @@ let ``all cities must have a hospital`` () =
         let hospitals =
             Queries.World.placesByTypeInCity city.Id PlaceTypeIndex.Hospital
 
-        System.Console.WriteLine city.Id
-        hospitals |> should haveLength 1)
+        if hospitals.Length = 0 then
+            failwith $"{city.Id} does not have a hospital")
 
 [<Test>]
 let ``all cities must have an airport`` () =
     World.get.Cities
     |> List.ofMapValues
     |> List.iter (fun city ->
-        let hospitals =
+        let airports =
             Queries.World.placesByTypeInCity city.Id PlaceTypeIndex.Airport
 
-        System.Console.WriteLine city.Id
-        hospitals |> should haveLength 1)
+        if airports.Length = 0 then
+            failwith $"{city.Id} does not have an airport")
 
 [<Test>]
 let ``player is able to exit every place in the world`` () =
@@ -133,3 +133,95 @@ let ``player is able to exit every place in the world`` () =
 
                 (fun () -> Navigation.exitTo streetId state |> ignore)
                 |> should not' (throw typeof<System.Exception>))))
+
+[<Test>]
+let ``all metro stations in each city are reachable`` () =
+    // For each city, ensure that every metro station belongs to a connected
+    // component, i.e. you can reach every other station by travelling through
+    // successive `MetroStationConnection`s.
+    let buildAdjacency (metroLines: MetroLine list) =
+        metroLines
+        |> List.collect (fun line ->
+            line.Stations
+            |> Map.toList
+            |> List.collect (fun (zoneId, connection) ->
+                match connection with
+                | OnlyNext next -> [ zoneId, next; next, zoneId ]
+                | OnlyPrevious prev -> [ zoneId, prev; prev, zoneId ]
+                | PreviousAndNext(prev, next) ->
+                    [ zoneId, prev; prev, zoneId; zoneId, next; next, zoneId ]))
+        |> List.groupBy fst
+        |> List.map (fun (from, tos) -> from, tos |> List.map snd |> Set.ofList)
+        |> Map.ofList
+
+    let rec bfs (adj: Map<ZoneId, Set<ZoneId>>) queue visited =
+        match queue with
+        | [] -> visited
+        | current :: rest ->
+            let neighbours =
+                adj |> Map.tryFind current |> Option.defaultValue Set.empty
+
+            let unseen =
+                neighbours
+                |> Set.filter (fun n -> not (visited |> Set.contains n))
+
+            bfs adj (rest @ (unseen |> Set.toList)) (Set.union visited unseen)
+
+    World.get.Cities
+    |> List.ofMapValues
+    |> List.iter (fun city ->
+        let metroLines = city.MetroLines |> List.ofMapValues
+
+        let stationIds =
+            metroLines
+            |> List.collect (fun line ->
+                line.Stations |> Map.toList |> List.map fst)
+            |> Set.ofList
+
+        if stationIds.Count > 0 then
+            let adjacency = buildAdjacency metroLines
+            let start = stationIds |> Seq.head
+            let visited = bfs adjacency [ start ] (Set.singleton start)
+
+            if visited.Count <> stationIds.Count then
+                failwith $"""{city.Id} has unreachable metro stations""")
+
+[<Test>]
+let ``player can moveTo every metro station in a city`` () =
+    let state = State.generateOne State.defaultOptions
+
+    World.get.Cities
+    |> List.ofMapValues
+    |> List.iter (fun city ->
+        let stationPlaceIds =
+            city.Zones
+            |> List.ofMapValues
+            |> List.collect (fun zone ->
+                zone.MetroStations |> List.ofMapValues)
+            |> List.map _.PlaceId
+            |> Set.ofList
+            |> Set.toList
+
+        match stationPlaceIds with
+        | [] -> ()
+        | startingPlaceId :: _ ->
+            let startingPlace =
+                Queries.World.placeInCityById city.Id startingPlaceId
+
+            let startingRoom = startingPlace.Rooms.StartingNode
+
+            stationPlaceIds
+            |> List.iter (fun targetPlaceId ->
+                let state =
+                    { state with
+                        CurrentPosition =
+                            (city.Id, startingPlaceId, startingRoom) }
+
+                try
+                    Navigation.moveTo targetPlaceId state |> ignore
+                with ex ->
+                    let decodedTarget =
+                        Identity.Reproducible.decode targetPlaceId
+
+                    failwith
+                        $"There was an exception thrown when moving from {startingPlace.Name} towards {decodedTarget} by metro in {city.Id}\nException: {ex.Message}"))

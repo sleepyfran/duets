@@ -75,8 +75,6 @@ module Navigation =
                 |> Math.clamp 0 (splits - 1)
                 |> string
 
-        System.Console.WriteLine $"Moving to {cityId}, {streetId}, {streetPart}"
-
         // Streets are not "real" places, but we index them like them via
         // their street ID.
         WorldMoveToPlace(Diff(currentCoords, (cityId, streetId, streetPart)))

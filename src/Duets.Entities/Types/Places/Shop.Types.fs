@@ -16,3 +16,4 @@ module ShopTypes =
         | Mexican
         | Turkish
         | Vietnamese
+        | Spanish

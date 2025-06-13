@@ -14,3 +14,7 @@ module Reproducible =
     /// are based on the name of the place or zone.
     let create (input: string) =
         input |> Text.Encoding.ASCII.GetBytes |> Convert.ToBase64String
+
+    /// Decodes a previously reproducible ID.
+    let decode (identity: string) =
+        identity |> Convert.FromBase64String |> Text.Encoding.ASCII.GetString
