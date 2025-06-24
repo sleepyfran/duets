@@ -58,6 +58,11 @@
         <Compile Include="World\Cities\London\Heathrow.London.fs"/>
         <Compile Include="World\Cities\London\WestEnd.London.fs"/>
         <Compile Include="World\Cities\London\London.fs"/>
+        <Compile Include="World\Cities\MexicoCity\Aeropuerto.MexicoCity.fs"/>
+        <Compile Include="World\Cities\MexicoCity\Centro.MexicoCity.fs"/>
+        <Compile Include="World\Cities\MexicoCity\Coyoacan.MexicoCity.fs"/>
+        <Compile Include="World\Cities\MexicoCity\Polanco.MexicoCity.fs"/>
+        <Compile Include="World\Cities\MexicoCity\MexicoCity.fs"/>
         <Compile Include="World\Cities\Prague\Smíchov.Prague.fs"/>
         <Compile Include="World\Cities\Prague\StaréMěsto.Prague.fs"/>
         <Compile Include="World\Cities\Prague\Holešovice.Prague.fs"/>
