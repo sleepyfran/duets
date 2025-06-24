@@ -91,6 +91,12 @@
         <Compile Include="World\Cities\Madrid\Centro.Madrid.fs"/>
         <Compile Include="World\Cities\Madrid\Chamartin.Madrid.fs"/>
         <Compile Include="World\Cities\Madrid\Madrid.fs"/>
+        <Compile Include="World\Cities\Sydney\Bondi.Sydney.fs"/>
+        <Compile Include="World\Cities\Sydney\CBD.Sydney.fs"/>
+        <Compile Include="World\Cities\Sydney\Mascot.Sydney.fs"/>
+        <Compile Include="World\Cities\Sydney\Newtown.Sydney.fs"/>
+        <Compile Include="World\Cities\Sydney\NorthSydney.Sydney.fs"/>
+        <Compile Include="World\Cities\Sydney\Sydney.fs"/>
         <Compile Include="World\World.fs"/>
         <None Include="Util\NpcGen.fsx"/>
         <Content Include="ATTRIBUTIONS.md"/>

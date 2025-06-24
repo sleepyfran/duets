@@ -12,10 +12,18 @@ let private generate () =
     let mexicoCity = Cities.MexicoCity.Root.generate ()
     let newYork = Cities.NewYork.Root.generate ()
     let prague = Cities.Prague.Root.generate ()
+    let sydney = Cities.Sydney.Root.generate ()
     let tokyo = Cities.Tokyo.Root.generate ()
 
     World.create
-        [ london; losAngeles; madrid; mexicoCity; newYork; prague; tokyo ]
+        [ london
+          losAngeles
+          madrid
+          mexicoCity
+          newYork
+          prague
+          sydney
+          tokyo ]
 
 /// Returns the game world. The world is initialized when the module is loaded.
 let get = generate ()
