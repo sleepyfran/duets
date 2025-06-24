@@ -14,14 +14,15 @@ let generate () =
     let smíchov = Smíchov.createZone city
     let staréMěsto = StaréMěsto.createZone city
     let vinohrady = Vinohrady.createZone city
-    let vršovice = Vršovice.createZone city
+    let vršovice = Vršovice.zone
 
     let redMetroLine =
         { Id = Red
           Stations =
             [ (holešovice.Id, OnlyNext novéMěsto.Id)
               (novéMěsto.Id, PreviousAndNext(holešovice.Id, vinohrady.Id))
-              (vinohrady.Id, OnlyPrevious novéMěsto.Id) ]
+              (vinohrady.Id, PreviousAndNext(novéMěsto.Id, vršovice.Id))
+              (vršovice.Id, OnlyPrevious vinohrady.Id) ]
             |> Map.ofList
           UsualWaitingTime = 3<minute> }
 
