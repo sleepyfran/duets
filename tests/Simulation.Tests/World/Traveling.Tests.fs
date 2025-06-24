@@ -20,14 +20,16 @@ let private hotelInNewYork =
 
 let private bookstoreInSohoNewYork =
     Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.Bookstore
-    |> List.find (fun place -> place.ZoneId = "SoHo")
+    |> List.find (fun place ->
+        place.ZoneId = Identity.Reproducible.create "SoHo")
 
 let private cafeInSohoNewYork =
     Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.Cafe
-    |> List.find (fun place -> place.ZoneId = "SoHo")
+    |> List.find (fun place ->
+        place.ZoneId = Identity.Reproducible.create "SoHo")
 
 [<Test>]
-let ``traveling to another place inside the same city but in another region consumes 30 minutes``
+let ``traveling to another place inside the same city but in another region consumes 25 minutes``
     ()
     =
     let effects =
@@ -39,10 +41,10 @@ let ``traveling to another place inside the same city but in another region cons
         )
         |> Simulation.tickOne dummyState
 
-    effects |> fst |> should contain (TurnTimeUpdated 30<minute>)
+    effects |> fst |> should contain (TurnTimeUpdated 25<minute>)
 
 [<Test>]
-let ``traveling to another place inside the same city but in the same region consumes 15 minutes``
+let ``traveling to another place inside the same city but in the same region consumes 10 minutes``
     ()
     =
     let effects =
@@ -54,10 +56,10 @@ let ``traveling to another place inside the same city but in the same region con
         )
         |> Simulation.tickOne dummyState
 
-    effects |> fst |> should contain (TurnTimeUpdated 15<minute>)
+    effects |> fst |> should contain (TurnTimeUpdated 10<minute>)
 
 [<Test>]
-let ``traveling to another city does not add 30 minutes on top of flight time``
+let ``traveling to another city does not add 25 minutes on top of flight time``
     ()
     =
     let effects =
