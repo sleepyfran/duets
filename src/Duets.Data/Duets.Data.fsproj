@@ -52,6 +52,12 @@
         <Compile Include="World\Cities\LosAngeles\Venice.LosAngeles.fs"/>
         <Compile Include="World\Cities\LosAngeles\LAX.LosAngeles.fs"/>
         <Compile Include="World\Cities\LosAngeles\LosAngeles.fs"/>
+        <Compile Include="World\Cities\London\Camden.London.fs"/>
+        <Compile Include="World\Cities\London\CityOfLondon.London.fs"/>
+        <Compile Include="World\Cities\London\Greenwich.London.fs"/>
+        <Compile Include="World\Cities\London\Heathrow.London.fs"/>
+        <Compile Include="World\Cities\London\WestEnd.London.fs"/>
+        <Compile Include="World\Cities\London\London.fs"/>
         <Compile Include="World\Cities\Prague\Smíchov.Prague.fs"/>
         <Compile Include="World\Cities\Prague\StaréMěsto.Prague.fs"/>
         <Compile Include="World\Cities\Prague\Holešovice.Prague.fs"/>

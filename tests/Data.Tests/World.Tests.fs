@@ -250,3 +250,21 @@ let ``player can moveTo every metro station in a city`` () =
 
                     failwith
                         $"There was an exception thrown when moving from {startingPlace.Name} towards {decodedTarget} by metro in {city.Id}\nException: {ex.Message}"))
+
+[<Test>]
+let ``every zone has at least another one metro station`` () =
+    World.get.Cities
+    |> List.ofMapValues
+    |> List.iter (fun city ->
+        let zones = city.Zones
+
+        zones
+        |> List.ofMapValues
+        |> List.iter (fun zone ->
+            let metroStations = zone.MetroStations
+
+            if metroStations.Count = 0 then
+                let decodedZone = Identity.Reproducible.decode zone.Id
+
+                failwith
+                    $"{city.Id} has a zone ({decodedZone}) with no metro stations"))

@@ -6,13 +6,14 @@ open Duets.Entities
 /// a bunch of places interconnected, in the future this should procedurally
 /// generate the world and all the cities in it.
 let private generate () =
+    let london = Cities.London.Root.generate ()
     let losAngeles = Cities.LosAngeles.Root.generate ()
     let madrid = Cities.Madrid.Root.generate ()
     let newYork = Cities.NewYork.Root.generate ()
     let prague = Cities.Prague.Root.generate ()
     let tokyo = Cities.Tokyo.Root.generate ()
 
-    World.create [ losAngeles; madrid; newYork; prague; tokyo ]
+    World.create [ london; losAngeles; madrid; newYork; prague; tokyo ]
 
 /// Returns the game world. The world is initialized when the module is loaded.
 let get = generate ()
