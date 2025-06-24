@@ -1,5 +1,6 @@
 module Duets.Simulation.Tests.Events.Rental
 
+open Duets.Data.World
 open FsCheck
 open FsUnit
 open NUnit.Framework
@@ -76,7 +77,7 @@ let ``rental expiring in the current location results in player getting kicked o
         Seasonal yesterday
         |> createRental dummyPlace.Id
         |> generateStateWithRental
-        |> State.World.move dummyCity.Id dummyPlace.Id "0"
+        |> State.World.move dummyCity.Id dummyPlace.Id Ids.Common.lobby
 
     Simulation.tickOne state (TimeAdvanced morningDate)
     |> fst

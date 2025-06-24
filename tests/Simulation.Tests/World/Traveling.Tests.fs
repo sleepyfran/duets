@@ -1,5 +1,6 @@
 module Duets.Simulation.Tests.World.Traveling
 
+open Duets.Data.World
 open FsUnit
 open NUnit.Framework
 open Test.Common
@@ -32,8 +33,8 @@ let ``traveling to another place inside the same city but in another region cons
     let effects =
         WorldMoveToPlace(
             Diff(
-                (Prague, hotelInPrague.Id, "1"),
-                (Prague, hospitalInPrague.Id, "1")
+                (Prague, hotelInPrague.Id, Ids.Common.lobby),
+                (Prague, hospitalInPrague.Id, Ids.Common.lobby)
             )
         )
         |> Simulation.tickOne dummyState
@@ -47,8 +48,8 @@ let ``traveling to another place inside the same city but in the same region con
     let effects =
         WorldMoveToPlace(
             Diff(
-                (NewYork, bookstoreInSohoNewYork.Id, "1"),
-                (NewYork, cafeInSohoNewYork.Id, "1")
+                (NewYork, bookstoreInSohoNewYork.Id, Ids.Bookstore.readingRoom),
+                (NewYork, cafeInSohoNewYork.Id, Ids.Common.cafe)
             )
         )
         |> Simulation.tickOne dummyState
@@ -62,8 +63,8 @@ let ``traveling to another city does not add 30 minutes on top of flight time``
     let effects =
         WorldMoveToPlace(
             Diff(
-                (Prague, hotelInPrague.Id, "1"),
-                (NewYork, hotelInNewYork.Id, "1")
+                (Prague, hotelInPrague.Id, Ids.Common.lobby),
+                (NewYork, hotelInNewYork.Id, Ids.Common.lobby)
             )
         )
         |> Simulation.tickOne dummyState

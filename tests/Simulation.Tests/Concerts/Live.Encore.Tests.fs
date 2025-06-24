@@ -1,5 +1,6 @@
 module Duets.Simulation.Tests.Concerts.Encore
 
+open Duets.Data.World
 open FsCheck
 open FsUnit
 open NUnit.Framework
@@ -61,8 +62,8 @@ let ``having multiple concerts scheduled does not break getting of the stage``
         Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.ConcertSpace
         |> List.head
 
-    let sydneyVenue =
-        Queries.World.placesByTypeInCity Sydney PlaceTypeIndex.ConcertSpace
+    let tokyoVenue =
+        Queries.World.placesByTypeInCity Tokyo PlaceTypeIndex.ConcertSpace
         |> List.head
 
     let today = dummyToday
@@ -79,8 +80,8 @@ let ``having multiple concerts scheduled does not break getting of the stage``
         Concert.create
             dayAfterTomorrow
             Evening
-            Sydney
-            sydneyVenue.Id
+            Tokyo
+            tokyoVenue.Id
             10m
             Headliner
 
@@ -94,7 +95,10 @@ let ``having multiple concerts scheduled does not break getting of the stage``
 
     let state =
         State.generateOne State.defaultOptions
-        |> State.World.move concert1.CityId concert1.VenueId "0"
+        |> State.World.move
+            concert1.CityId
+            concert1.VenueId
+            Ids.ConcertSpace.backstage
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(concert1, today))

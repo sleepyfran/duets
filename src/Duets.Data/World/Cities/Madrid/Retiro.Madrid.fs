@@ -34,12 +34,16 @@ let parqueRetiro (zone: Zone) =
     let metroStation =
         ("Retiro Station", zone.Id) |> PlaceCreators.createMetro street.Id
 
+    let home =
+        World.Place.create "Home" 100<quality> Home Layouts.homeLayout zone.Id
+
     let street =
         street
         |> World.Street.addPlaces cafes
         |> World.Street.addPlaces bookstores
         |> World.Street.addPlaces concertSpaces
         |> World.Street.addPlace metroStation
+        |> World.Street.addPlace home
 
     street, metroStation
 

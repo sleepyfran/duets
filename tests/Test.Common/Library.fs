@@ -147,7 +147,7 @@ let dummyHotel1 =
 
 let dummyHotel2 =
     Queries.World.placesByTypeInCity dummyCity.Id PlaceTypeIndex.Hotel
-    |> List.item 1
+    |> List.head
 
 let dummyVenue =
     Queries.World.placesByTypeInCity dummyCity.Id PlaceTypeIndex.ConcertSpace

@@ -43,12 +43,14 @@ let ``tick of world enter should remove required items from inventory if movemen
     |> should be (ofCase <@ ItemRemovedFromCharacterInventory @>)
 
 [<Test>]
-let ``tick of world move should remove required items from inventory if moving from a place that has any room with required items`` =
+let ``tick of world move should remove required items from inventory if moving from a place that has any room with required items``
+    ()
+    =
     let effect =
         WorldMoveToPlace(
             Diff(
                 (Prague, gym.Id, World.Ids.Gym.changingRoom),
-                (Prague, dummyPlace.Id, "0")
+                (Prague, dummyPlace.Id, World.Ids.Common.lobby)
             )
         )
 

@@ -31,8 +31,11 @@ let rec private checkCities (cities: City list) =
 [<Test>]
 let ``all city IDs are added to the world`` () =
     Union.allCasesOf<CityId> ()
-    |> List.forall (fun city -> World.get.Cities |> Map.containsKey city)
-    |> should equal true
+    |> List.iter (fun city ->
+        let cityAdded = World.get.Cities |> Map.containsKey city
+
+        if not cityAdded then
+            failwith $"{city} has not been added to the world")
 
 [<Test>]
 let ``all cities are connected to each other`` () =
@@ -96,6 +99,28 @@ let ``all cities must have a hospital`` () =
 
         if hospitals.Length = 0 then
             failwith $"{city.Id} does not have a hospital")
+
+[<Test>]
+let ``all cities must have hotels`` () =
+    World.get.Cities
+    |> List.ofMapValues
+    |> List.iter (fun city ->
+        let hotels =
+            Queries.World.placesByTypeInCity city.Id PlaceTypeIndex.Hotel
+
+        if hotels.Length <= 1 then
+            failwith $"{city.Id} does not have enough hotels")
+
+[<Test>]
+let ``all cities must have a home`` () =
+    World.get.Cities
+    |> List.ofMapValues
+    |> List.iter (fun city ->
+        let homes =
+            Queries.World.placesByTypeInCity city.Id PlaceTypeIndex.Home
+
+        if homes.Length = 0 then
+            failwith $"{city.Id} does not have a home")
 
 [<Test>]
 let ``all cities must have an airport`` () =

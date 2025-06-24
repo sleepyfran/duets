@@ -18,6 +18,23 @@ let actAndGetConcert state =
         | ConcertUpdated(_, concert) :: _ -> Concert.fromScheduled concert
         | _ -> failwith "Not possible"
 
+let venue =
+    Queries.World.placesByTypeInCity Prague PlaceTypeIndex.ConcertSpace
+    |> List.find (fun place ->
+        match place.PlaceType with
+        | ConcertSpace venue -> venue.Capacity = 800
+        | _ -> false)
+
+let concert =
+    { Id = Identity.create ()
+      CityId = Prague
+      VenueId = venue.Id
+      Date = Calendar.gameBeginning |> Calendar.Ops.addDays 30<days>
+      DayMoment = Night
+      TicketPrice = 20m<dd>
+      TicketsSold = 0
+      ParticipationType = Headliner }
+
 [<Test>]
 let ``generates as many effects as concerts are scheduled`` () =
     State.generateN
@@ -50,7 +67,7 @@ let ``generates sold tickets based on band's fame, venue capacity, last time vis
             state
             |> State.Concerts.addScheduledConcert
                 dummyBand
-                (ScheduledConcert(dummyConcert, dummyToday))
+                (ScheduledConcert(concert, dummyToday))
 
         let concert = actAndGetConcert state
         concert.TicketsSold |> should be (lessThanOrEqualTo 50))
@@ -65,7 +82,7 @@ let ``sold tickets get lower when band fame is lower`` () =
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(
-                { dummyConcert with
+                { concert with
                     Date = dummyToday |> Calendar.Ops.addDays 1<days>
                     TicketPrice = 2m<dd> },
                 dummyToday
@@ -83,10 +100,7 @@ let ``sold tickets get added to the previously sold tickets`` () =
                 BandFansMax = 25000<fans> }
         |> State.Concerts.addScheduledConcert
             dummyBand
-            (ScheduledConcert(
-                { dummyConcert with TicketsSold = 10 },
-                dummyToday
-            ))
+            (ScheduledConcert({ concert with TicketsSold = 10 }, dummyToday))
 
     let concert = actAndGetConcert state
     concert.TicketsSold |> should equal 135
@@ -103,7 +117,7 @@ let ``daily sold tickets are calculated based on how many days are left until th
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(
-                { dummyConcert with
+                { concert with
                     Date = dummyToday |> Calendar.Ops.addDays 15<days>
                     TicketPrice = 10m<dd> },
                 dummyToday
@@ -129,7 +143,7 @@ let ``daily sold tickets are calculated based on the fans in the concert's city`
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(
-                { dummyConcert with
+                { concert with
                     TicketsSold = 0
                     CityId = NewYork
                     VenueId = newYorkVenue.Id },
@@ -146,11 +160,7 @@ let actAndGetConcertWithPrice price =
             BandFansMax = 25000<fans> }
     |> State.Concerts.addScheduledConcert
         dummyBand
-        (ScheduledConcert(
-            { dummyConcert with
-                TicketPrice = price },
-            dummyToday
-        ))
+        (ScheduledConcert({ concert with TicketPrice = price }, dummyToday))
     |> actAndGetConcert
 
 [<Test>]
@@ -204,10 +214,7 @@ let ``sold tickets are capped to venue capacity`` () =
                 BandFansMax = 25<fans> }
         |> State.Concerts.addScheduledConcert
             dummyBand
-            (ScheduledConcert(
-                { dummyConcert with TicketsSold = 1500 },
-                dummyToday
-            ))
+            (ScheduledConcert({ concert with TicketsSold = 1500 }, dummyToday))
         |> actAndGetConcert
 
     concert.TicketsSold |> should equal 800
@@ -235,7 +242,7 @@ let ``sold tickets should not decrease out of the normal cap when last visit to 
                 PastConcertGen = concertInCityGenerator }
         |> State.Concerts.addScheduledConcert
             dummyBand
-            (ScheduledConcert(dummyConcert, dummyToday))
+            (ScheduledConcert(concert, dummyToday))
         |> actAndGetConcert
 
     concert.TicketsSold |> should equal 125
@@ -263,7 +270,7 @@ let ``sold tickets decrease to 70% of the normal cap when last visit to the city
                 PastConcertGen = concertInCityGenerator }
         |> State.Concerts.addScheduledConcert
             dummyBand
-            (ScheduledConcert(dummyConcert, dummyToday))
+            (ScheduledConcert(concert, dummyToday))
         |> actAndGetConcert
 
     concert.TicketsSold |> should equal 800
@@ -291,7 +298,7 @@ let ``sold tickets decrease to 20% of the normal cap when last visit to the city
                 PastConcertGen = concertInCityGenerator }
         |> State.Concerts.addScheduledConcert
             dummyBand
-            (ScheduledConcert(dummyConcert, dummyToday))
+            (ScheduledConcert(concert, dummyToday))
         |> actAndGetConcert
 
     concert.TicketsSold |> should equal 248
@@ -307,10 +314,7 @@ let ``does not compute daily tickets sold as infinity when the days until the co
                 BandFansMax = 2500000<fans> }
         |> State.Concerts.addScheduledConcert
             dummyBand
-            (ScheduledConcert(
-                { dummyConcert with Date = dummyToday },
-                dummyToday
-            ))
+            (ScheduledConcert({ concert with Date = dummyToday }, dummyToday))
         |> actAndGetConcert
 
     concert.TicketsSold |> should equal 800
@@ -326,11 +330,11 @@ let ``computes daily tickets based on headliner if participation type is opening
                 BandFansMax = 250<fans> }
         |> State.Bands.addSimulated
             { dummyHeadlinerBand with
-                Fans = [ dummyConcert.CityId, 1200<fans> ] |> Map.ofList }
+                Fans = [ concert.CityId, 1200<fans> ] |> Map.ofList }
         |> State.Concerts.addScheduledConcert
             dummyBand
             (ScheduledConcert(
-                { dummyConcert with
+                { concert with
                     Date = dummyToday
                     TicketPrice = 6m<dd>
                     ParticipationType =

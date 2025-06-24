@@ -1,43 +1,46 @@
 module Duets.Simulation.Tests.Items.Remove
 
+open Duets.Data.World
 open FsUnit
 open NUnit.Framework
-open Test.Common
+open Test.Common.Generators
 
 open Duets.Data.Items
 open Duets.Entities
 open Duets.Simulation
 
-let private dummyItem = Food.Index.all |> List.head |> fst
+let private item = Food.Index.all |> List.head |> fst
 
-let private dummyPlace =
+let private bar =
     Queries.World.placesByTypeInCity Prague PlaceTypeIndex.Bar |> List.head
+
+let private state = State.generateOne State.defaultOptions
 
 [<Test>]
 let ``remove does nothing if the item is not in world or inventory`` () =
-    Items.remove dummyState dummyItem |> should haveLength 0
+    Items.remove state item |> should haveLength 0
 
 [<Test>]
 let ``remove removes from world if it in the current location`` () =
-    let currentLocation = Prague, dummyPlace.Id, "0"
+    let currentLocation = Prague, bar.Id, Ids.Common.bar
 
     let state =
-        { dummyState with
+        { state with
             CurrentPosition = currentLocation
-            WorldItems = [ currentLocation, [ dummyItem ] ] |> Map.ofList }
+            WorldItems = [ currentLocation, [ item ] ] |> Map.ofList }
 
-    Items.remove state dummyItem
+    Items.remove state item
     |> List.head
     |> should be (ofCase <@ ItemRemovedFromWorld @>)
 
 [<Test>]
 let ``remove removes form inventory if the character has it there`` () =
     let state =
-        { dummyState with
+        { state with
             Inventories =
-                { Character = [ dummyItem ]
+                { Character = [ item ]
                   Band = Map.empty } }
 
-    Items.remove state dummyItem
+    Items.remove state item
     |> List.head
     |> should be (ofCase <@ ItemRemovedFromCharacterInventory @>)

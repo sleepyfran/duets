@@ -1,5 +1,6 @@
 module Duets.Simulation.Tests.Events.Moodlets.JetLagged
 
+open Duets.Data.World
 open FsUnit
 open NUnit.Framework
 open Test.Common
@@ -18,8 +19,8 @@ let private worldMoveEffect prevCity currCity =
 
     WorldMoveToPlace(
         Diff(
-            (prevCity, prevCityPlace.Id, "0"),
-            (currCity, currCityPlace.Id, "0")
+            (prevCity, prevCityPlace.Id, Ids.Common.lobby),
+            (currCity, currCityPlace.Id, Ids.Common.lobby)
         )
     )
 

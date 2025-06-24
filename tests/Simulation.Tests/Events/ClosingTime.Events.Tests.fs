@@ -29,7 +29,7 @@ let timeAdvancedEffect = TimeAdvanced(closingTime)
 
 let private initialState =
     dummyState
-    |> State.World.move Prague cafe.Id "0"
+    |> State.World.move Prague cafe.Id Ids.Common.cafe
     |> State.Calendar.setTime nearClosingTime
 
 [<Test>]

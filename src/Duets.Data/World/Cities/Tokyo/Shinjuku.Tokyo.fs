@@ -35,6 +35,9 @@ let private kabukicho (zone: Zone) =
     let metroStation =
         ("Shinjuku Station", zone.Id) |> PlaceCreators.createMetro street.Id
 
+    let home =
+        World.Place.create "Home" 100<quality> Home Layouts.homeLayout zone.Id
+
     let street =
         street
         |> World.Street.addPlaces bars
@@ -42,6 +45,7 @@ let private kabukicho (zone: Zone) =
         |> World.Street.addPlaces rehearsalSpaces
         |> World.Street.addPlaces concertSpaces
         |> World.Street.addPlace metroStation
+        |> World.Street.addPlace home
 
     street, metroStation
 
