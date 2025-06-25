@@ -5,16 +5,16 @@ open Duets.Entities
 let generate () =
     let holešovice = Holešovice.zone
     let ruzyně = Ruzyně.zone
+    let libeň = Libeň.zone
+    let novéMěsto = NovéMěsto.zone
+    let staréMěsto = StaréMěsto.zone
+    let vršovice = Vršovice.zone
 
     let city =
         World.City.create Prague 1.6<costOfLiving> 1<utcOffset> holešovice
 
-    let libeň = Libeň.createZone city
-    let novéMěsto = NovéMěsto.createZone city
     let smíchov = Smíchov.createZone city
-    let staréMěsto = StaréMěsto.createZone city
     let vinohrady = Vinohrady.createZone city
-    let vršovice = Vršovice.zone
 
     let redMetroLine =
         { Id = Red
