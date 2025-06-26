@@ -275,14 +275,26 @@ type MainWindow() =
                                             let pos =
                                                 streetPositions[streetId]
 
+                                            let hasMetroStation =
+                                                street.Places
+                                                |> List.exists (fun p ->
+                                                    p.PlaceType = PlaceType.MetroStation)
+
                                             let node =
                                                 Ellipse(
                                                     Width = 20.0,
                                                     Height = 20.0,
                                                     Fill =
-                                                        SolidColorBrush(
-                                                            Colors.SlateBlue
-                                                        )
+                                                        if
+                                                            hasMetroStation
+                                                        then
+                                                            SolidColorBrush(
+                                                                Colors.MediumSeaGreen
+                                                            )
+                                                        else
+                                                            SolidColorBrush(
+                                                                Colors.DarkSlateBlue
+                                                            )
                                                 )
 
                                             Canvas.SetLeft(
