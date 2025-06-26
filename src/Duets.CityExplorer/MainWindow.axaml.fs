@@ -177,91 +177,112 @@ type MainWindow() =
                                         )
 
                                     detailsStack.Children.Add(detailsText)
-                                    // --- PLACES BY TYPE ---
+                                    // --- PLACES BY STREET, THEN TYPE ---
                                     let zone = city.Zones[zoneId]
 
-                                    let placesByType =
-                                        zone.Streets.Nodes
-                                        |> Map.toList
-                                        |> List.collect (fun (_, street) ->
-                                            street.Places)
-                                        |> List.groupBy (fun p ->
-                                            p.PlaceType)
-
-                                    for (placeType, places) in placesByType do
-                                        let typeHeaderBorder =
-                                            Border(
-                                                Background =
-                                                    SolidColorBrush(
-                                                        Colors.DarkSlateGray
-                                                    ),
-                                                CornerRadius =
-                                                    CornerRadius(6.0),
-                                                Padding =
-                                                    Thickness(
-                                                        8.0,
-                                                        2.0,
-                                                        8.0,
-                                                        2.0
-                                                    ),
+                                    for (streetId, street) in
+                                        zone.Streets.Nodes |> Map.toList do
+                                        let streetHeader =
+                                            TextBlock(
+                                                Text = street.Name,
+                                                FontSize = 18.0,
+                                                FontWeight = FontWeight.Bold,
                                                 Margin =
                                                     Thickness(
                                                         0.0,
-                                                        8.0,
+                                                        12.0,
                                                         0.0,
-                                                        2.0
+                                                        4.0
                                                     )
                                             )
 
-                                        let placeTypeIdx =
-                                            placeType
-                                            |> World.Place.Type.toIndex
-
-                                        let typeHeaderText =
-                                            TextBlock(
-                                                Text =
-                                                    placeTypeIdx.ToString(),
-                                                FontWeight = FontWeight.Bold
-                                            )
-
-                                        typeHeaderBorder.Child <-
-                                            typeHeaderText
-
                                         detailsStack.Children.Add(
-                                            typeHeaderBorder
+                                            streetHeader
                                         )
 
-                                        for place in places do
-                                            let info =
-                                                match place.PlaceType with
-                                                | PlaceType.ConcertSpace c ->
-                                                    $" ({c})"
-                                                | PlaceType.Hotel h ->
-                                                    $" ({h})"
-                                                | PlaceType.RadioStudio r ->
-                                                    $" ({r})"
-                                                | PlaceType.RehearsalSpace r ->
-                                                    $" ({r})"
-                                                | PlaceType.Studio s ->
-                                                    $" ({s})"
-                                                | _ -> ""
+                                        let placesByType =
+                                            street.Places
+                                            |> List.groupBy (fun p ->
+                                                p.PlaceType)
 
-                                            let placeText =
-                                                TextBlock(
-                                                    Text =
-                                                        $"- {place.Name}{info}",
+                                        for (placeType, places) in
+                                            placesByType do
+                                            let typeHeaderBorder =
+                                                Border(
+                                                    Background =
+                                                        SolidColorBrush(
+                                                            Colors.DarkSlateGray
+                                                        ),
+                                                    CornerRadius =
+                                                        CornerRadius(6.0),
+                                                    Padding =
+                                                        Thickness(
+                                                            8.0,
+                                                            2.0,
+                                                            8.0,
+                                                            2.0
+                                                        ),
                                                     Margin =
                                                         Thickness(
                                                             8.0,
+                                                            8.0,
                                                             0.0,
-                                                            0.0,
-                                                            0.0
+                                                            2.0
                                                         )
                                                 )
 
+                                            let placeTypeText =
+                                                placeType
+                                                |> World.Place.Type.toIndex
+                                                |> _.ToString()
+
+                                            let typeHeaderText =
+                                                TextBlock(
+                                                    Text = placeTypeText,
+                                                    FontWeight =
+                                                        FontWeight.Bold
+                                                )
+
+                                            typeHeaderBorder.Child <-
+                                                typeHeaderText
+
                                             detailsStack.Children.Add(
-                                                placeText
+                                                typeHeaderBorder
                                             )
+
+                                            for place in places do
+                                                let info =
+                                                    match
+                                                        place.PlaceType
+                                                    with
+                                                    | PlaceType.ConcertSpace c ->
+                                                        $" ({c})"
+                                                    | PlaceType.Hotel h ->
+                                                        $" ({h})"
+                                                    | PlaceType.RadioStudio r ->
+                                                        $" ({r})"
+                                                    | PlaceType.RehearsalSpace r ->
+                                                        $" ({r})"
+                                                    | PlaceType.Studio s ->
+                                                        $" ({s})"
+                                                    | _ -> ""
+
+                                                let placeText =
+                                                    TextBlock(
+                                                        Text =
+                                                            $"- {place.Name}{info}",
+                                                        Margin =
+                                                            Thickness(
+                                                                16.0,
+                                                                0.0,
+                                                                0.0,
+                                                                0.0
+                                                            )
+                                                    )
+
+                                                detailsStack.Children.Add(
+                                                    placeText
+                                                )
 
                                     zoneDetailsPanel.Children.Add(
                                         detailsStack
