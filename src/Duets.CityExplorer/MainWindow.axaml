@@ -8,7 +8,6 @@
     <Grid ColumnDefinitions="200,*">
         <!-- Sidebar -->
         <StackPanel Grid.Column="0" Background="{DynamicResource ThemeControlLowBrush}">
-            <TextBlock Text="Cities" FontWeight="Bold" Margin="0 0 0 10" />
             <ListBox x:Name="CitiesListBox">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
