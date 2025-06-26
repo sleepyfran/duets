@@ -2,6 +2,7 @@ namespace Duets.CityExplorer
 
 open Avalonia
 open Avalonia.Controls
+open Avalonia.Controls.Shapes
 open Avalonia.Layout
 open Avalonia.Markup.Xaml
 open Avalonia.Media
@@ -177,9 +178,152 @@ type MainWindow() =
                                         )
 
                                     detailsStack.Children.Add(detailsText)
-                                    // --- PLACES BY STREET, THEN TYPE ---
                                     let zone = city.Zones[zoneId]
 
+                                    // --- STREET GRAPH ---
+                                    let streetGraphCanvas =
+                                        Canvas(
+                                            Width = 400.0,
+                                            Height = 200.0,
+                                            Background =
+                                                SolidColorBrush(
+                                                    Colors.LightGray
+                                                ),
+                                            Margin =
+                                                Thickness(
+                                                    0.0,
+                                                    0.0,
+                                                    0.0,
+                                                    16.0
+                                                )
+                                        )
+
+                                    let streets = zone.Streets.Nodes
+
+                                    let connections =
+                                        zone.Streets.Connections
+
+                                    if not streets.IsEmpty then
+                                        let streetPositions =
+                                            let angleStep =
+                                                2.0 * System.Math.PI
+                                                / float streets.Count
+
+                                            let radius = 80.0
+                                            let centerX = 200.0
+                                            let centerY = 100.0
+
+                                            streets
+                                            |> Map.toList
+                                            |> List.mapi
+                                                (fun i (streetId, _) ->
+                                                    let angle =
+                                                        float i * angleStep
+
+                                                    let x =
+                                                        centerX
+                                                        + radius
+                                                          * System.Math.Cos(
+                                                              angle
+                                                          )
+
+                                                    let y =
+                                                        centerY
+                                                        + radius
+                                                          * System.Math.Sin(
+                                                              angle
+                                                          )
+
+                                                    (streetId, Point(x, y)))
+                                            |> Map.ofList
+
+                                        // Draw edges first, so they appear behind nodes
+                                        for (startStreetId, endStreetMap) in
+                                            connections |> Map.toList do
+                                            let startPos =
+                                                streetPositions[startStreetId]
+
+                                            for endStreetId in
+                                                (endStreetMap |> Map.values) do
+                                                if
+                                                    startStreetId < endStreetId
+                                                then
+                                                    let endPos =
+                                                        streetPositions[endStreetId]
+
+                                                    let line =
+                                                        Line(
+                                                            StartPoint =
+                                                                startPos,
+                                                            EndPoint =
+                                                                endPos,
+                                                            Stroke =
+                                                                SolidColorBrush(
+                                                                    Colors.Black
+                                                                ),
+                                                            StrokeThickness =
+                                                                1.0
+                                                        )
+
+                                                    streetGraphCanvas
+                                                        .Children
+                                                        .Add(line)
+
+                                        // Draw nodes
+                                        for (streetId, street) in
+                                            streets |> Map.toList do
+                                            let pos =
+                                                streetPositions[streetId]
+
+                                            let node =
+                                                Ellipse(
+                                                    Width = 20.0,
+                                                    Height = 20.0,
+                                                    Fill =
+                                                        SolidColorBrush(
+                                                            Colors.SlateBlue
+                                                        )
+                                                )
+
+                                            Canvas.SetLeft(
+                                                node,
+                                                pos.X - 10.0
+                                            )
+
+                                            Canvas.SetTop(
+                                                node,
+                                                pos.Y - 10.0
+                                            )
+
+                                            streetGraphCanvas.Children.Add(
+                                                node
+                                            )
+
+                                            let label =
+                                                TextBlock(
+                                                    Text = street.Name,
+                                                    FontSize = 12.0
+                                                )
+
+                                            Canvas.SetLeft(
+                                                label,
+                                                pos.X + 15.0
+                                            )
+
+                                            Canvas.SetTop(
+                                                label,
+                                                pos.Y - 8.0
+                                            )
+
+                                            streetGraphCanvas.Children.Add(
+                                                label
+                                            )
+
+                                    detailsStack.Children.Add(
+                                        streetGraphCanvas
+                                    )
+
+                                    // --- PLACES BY STREET, THEN TYPE ---
                                     for (streetId, street) in
                                         zone.Streets.Nodes |> Map.toList do
                                         let streetHeader =
@@ -234,7 +378,7 @@ type MainWindow() =
                                             let placeTypeText =
                                                 placeType
                                                 |> World.Place.Type.toIndex
-                                                |> _.ToString()
+                                                |> string
 
                                             let typeHeaderText =
                                                 TextBlock(
