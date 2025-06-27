@@ -1,8 +1,8 @@
 module rec Duets.Data.World.Cities.Prague.Vinohrady
 
+open Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
-open Duets.Entities.Calendar
 
 let francouzská city (zone: Zone) =
     let street = World.Street.create "Francouzská" (StreetType.Split(North, 2))
@@ -22,7 +22,11 @@ let francouzská city (zone: Zone) =
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
     let concertSpaces =
-        [ ("Retro Music Hall", 1000, 80<quality>, Layouts.concertSpaceLayout4, zone.Id) ]
+        [ ("Retro Music Hall",
+           1000,
+           80<quality>,
+           Layouts.concertSpaceLayout4,
+           zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let street =
@@ -35,10 +39,15 @@ let francouzská city (zone: Zone) =
     street
 
 let náměstíMíru (zone: Zone) =
-    let street = World.Street.create "Náměstí Míru" (StreetType.Split(East, 3))
+    let street =
+        World.Street.create Ids.Street.náměstíMíru (StreetType.Split(East, 3))
 
     let concertSpaces =
-        [ ("Vinohrady Theatre", 700, 89<quality>, Layouts.concertSpaceLayout4, zone.Id) ]
+        [ ("Vinohrady Theatre",
+           700,
+           89<quality>,
+           Layouts.concertSpaceLayout4,
+           zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let bars =
@@ -77,5 +86,5 @@ let createZone city =
     |> World.Zone.addStreet (World.Node.create francouzská.Id francouzská)
     |> World.Zone.addStreet (World.Node.create náměstíMíru.Id náměstíMíru)
     |> World.Zone.connectStreets francouzská.Id náměstíMíru.Id South
-    
+
     |> World.Zone.addMetroStation station

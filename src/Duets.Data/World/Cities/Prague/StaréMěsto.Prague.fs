@@ -1,11 +1,14 @@
 module rec Duets.Data.World.Cities.Prague.StaréMěsto
 
+open Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
 
 let staroměstskéNáměstí (zone: Zone) =
     let street =
-        World.Street.create "Staroměstské náměstí" (StreetType.Split(South, 3))
+        World.Street.create
+            Ids.Street.staroměstskéNáměstí
+            (StreetType.Split(South, 3))
 
     let bars =
         [ ("The Dubliner Irish Bar", 85<quality>, zone.Id) ]
@@ -49,7 +52,7 @@ let jilská (zone: Zone) =
     street |> World.Street.addPlaces concertSpaces
 
 let dlouhá (zone: Zone) =
-    let street = World.Street.create "Dlouhá" (StreetType.OneWay)
+    let street = World.Street.create Ids.Street.dlouhá (StreetType.OneWay)
 
     let concertSpaces =
         [ ("Roxy Prague", 900, 90<quality>, Layouts.concertSpaceLayout3, zone.Id) ]
@@ -58,7 +61,8 @@ let dlouhá (zone: Zone) =
     street |> World.Street.addPlaces concertSpaces
 
 let karlova (zone: Zone) =
-    let street = World.Street.create "Karlova" (StreetType.Split(West, 2))
+    let street =
+        World.Street.create Ids.Street.karlova (StreetType.Split(West, 2))
 
     let concertSpaces =
         [ ("Klementinum Mirror Chapel",

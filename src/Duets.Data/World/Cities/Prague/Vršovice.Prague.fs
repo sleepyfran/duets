@@ -1,10 +1,12 @@
 module rec Duets.Data.World.Cities.Prague.Vršovice
 
+open Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
 
 let krymská (zone: Zone) =
-    let street = World.Street.create "Krymská" (StreetType.Split(East, 1))
+    let street =
+        World.Street.create Ids.Street.krymská (StreetType.Split(East, 1))
 
     let concertSpaces =
         [ ("Café v lese", 150, 85<quality>, Layouts.concertSpaceLayout1, zone.Id)
@@ -30,7 +32,9 @@ let krymská (zone: Zone) =
 
 let jiříhozPoděbrad (zone: Zone) =
     let street =
-        World.Street.create "Jiřího z Poděbrad" (StreetType.Split(North, 2))
+        World.Street.create
+            Ids.Street.jiříhozPoděbrad
+            (StreetType.Split(North, 2))
 
     let metroStation =
         ("Jiřího z Poděbrad Station", zone.Id)

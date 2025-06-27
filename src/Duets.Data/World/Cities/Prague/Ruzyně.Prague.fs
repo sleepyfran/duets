@@ -1,5 +1,6 @@
 module rec Duets.Data.World.Cities.Prague.Ruzyně
 
+open Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
 
@@ -14,7 +15,8 @@ let kLetišti (zone: Zone) =
     street |> World.Street.addPlace airport
 
 let evropská (zone: Zone) =
-    let street = World.Street.create "Evropská" (StreetType.Split(East, 2))
+    let street =
+        World.Street.create Ids.Street.evropská (StreetType.Split(East, 2))
 
     let metroStation =
         ("Nádraží Veleslavín Station", zone.Id)

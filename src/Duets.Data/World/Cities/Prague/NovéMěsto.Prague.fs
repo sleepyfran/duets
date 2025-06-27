@@ -1,11 +1,14 @@
 module rec Duets.Data.World.Cities.Prague.NovéMěsto
 
+open Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
 
 let václavskéNáměstí (zone: Zone) =
     let street =
-        World.Street.create "Václavské náměstí" (StreetType.Split(North, 3))
+        World.Street.create
+            Ids.Street.václavskéNáměstí
+            (StreetType.Split(North, 3))
 
     let bars =
         [ ("The Alchemist Bar", 92<quality>, zone.Id) ]
@@ -45,7 +48,7 @@ let vodičkova (zone: Zone) =
     street |> World.Street.addPlaces concertSpaces
 
 let národní (zone: Zone) =
-    let street = World.Street.create "Národní" StreetType.OneWay
+    let street = World.Street.create Ids.Street.národní StreetType.OneWay
 
     let concertSpaces =
         [ ("National Theatre",

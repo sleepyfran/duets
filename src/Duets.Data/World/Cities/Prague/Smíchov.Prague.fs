@@ -1,5 +1,6 @@
 module rec Duets.Data.World.Cities.Prague.Smíchov
 
+open Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
 open Duets.Entities.Calendar
@@ -68,7 +69,8 @@ let keSklárně (zone: Zone) =
     street |> World.Street.addPlaces concertSpaces
 
 let janáčkovoNábřeží (zone: Zone) =
-    let street = World.Street.create "Janáčkovo nábřeží" StreetType.OneWay
+    let street =
+        World.Street.create Ids.Street.janáčkovoNábřeží StreetType.OneWay
 
     let concertSpaces =
         [ ("Jazz Dock", 150, 95<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
