@@ -40,8 +40,7 @@ let komuniní (zone: Zone) =
            600,
            84<quality>,
            Layouts.concertSpaceLayout2,
-           zone.Id)
-          ("Vnitroblock", 350, 83<quality>, Layouts.concertSpaceLayout1, zone.Id) ]
+           zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let bars =
