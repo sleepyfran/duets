@@ -7,8 +7,7 @@ let plynární (zone: Zone) =
     let street = World.Street.create "Plynární" (StreetType.Split(West, 2))
 
     let concertSpaces =
-        [ ("Cross Club", 400, 86<quality>, Layouts.concertSpaceLayout3, zone.Id)
-          ("La Fabrika", 800, 85<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
+        [ ("Cross Club", 400, 86<quality>, Layouts.concertSpaceLayout3, zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let bars =
@@ -32,7 +31,7 @@ let plynární (zone: Zone) =
 
     street, metroStation
 
-let komuniní (zone: Zone) =
+let komunardů (zone: Zone) =
     let street = World.Street.create "Komunardů" (StreetType.Split(North, 2))
 
     let concertSpaces =
@@ -40,7 +39,8 @@ let komuniní (zone: Zone) =
            600,
            84<quality>,
            Layouts.concertSpaceLayout2,
-           zone.Id) ]
+           zone.Id)
+          ("La Fabrika", 800, 85<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let bars =
@@ -90,7 +90,7 @@ let zone =
     let holešoviceZone = World.Zone.create "Holešovice"
 
     let plynární, metroStation = plynární holešoviceZone
-    let komunardů = komuniní holešoviceZone
+    let komunardů = komunardů holešoviceZone
     let zaElektrarnou = zaElektrarnou holešoviceZone
 
     let station =

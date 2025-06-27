@@ -23,16 +23,22 @@ let krymská (zone: Zone) =
         [ ("Café Sladkovský", 86<quality>, Czech, zone.Id) ]
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
-    let metroStation =
-        ("Jiřího z Poděbrad Station", zone.Id)
-        |> PlaceCreators.createMetro street.Id
-
     street
     |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces restaurants
-    |> World.Street.addPlace metroStation,
-    metroStation
+
+let jiříhozPoděbrad (zone: Zone) =
+    let street =
+        World.Street.create "Jiřího z Poděbrad" (StreetType.Split(North, 2))
+
+    let metroStation =
+        ("Jiřího z Poděbrad Station", zone.Id)
+        |> PlaceCreators.createMetro street.Id
+
+    let street = street |> World.Street.addPlace metroStation
+
+    street, metroStation
 
 let moskevská (zone: Zone) =
     let street = World.Street.create "Moskevská" (StreetType.Split(West, 2))
@@ -52,17 +58,22 @@ let moskevská (zone: Zone) =
 
 let zone =
     let vršoviceZone = World.Zone.create "Vršovice"
-    let krymská, metroStation = krymská vršoviceZone
+    let krymská = krymská vršoviceZone
     let moskevská = moskevská vršoviceZone
+    let jiříhozPoděbrad, metroStation = jiříhozPoděbrad vršoviceZone
 
     let zoneMetroStation =
         { Lines = [ Red ]
-          LeavesToStreet = krymská.Id
+          LeavesToStreet = jiříhozPoděbrad.Id
           PlaceId = metroStation.Id }
 
     vršoviceZone
     |> World.Zone.addStreet (World.Node.create krymská.Id krymská)
     |> World.Zone.addStreet (World.Node.create moskevská.Id moskevská)
+    |> World.Zone.addStreet (
+        World.Node.create jiříhozPoděbrad.Id jiříhozPoděbrad
+    )
     |> World.Zone.connectStreets krymská.Id moskevská.Id North
+    |> World.Zone.connectStreets krymská.Id jiříhozPoděbrad.Id West
 
     |> World.Zone.addMetroStation zoneMetroStation

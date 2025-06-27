@@ -7,15 +7,6 @@ let václavskéNáměstí (zone: Zone) =
     let street =
         World.Street.create "Václavské náměstí" (StreetType.Split(North, 3))
 
-    let concertSpaces =
-        [ ("Lucerna Music Bar",
-           800,
-           90<quality>,
-           Layouts.concertSpaceLayout1,
-           zone.Id)
-          ("Rock Café", 350, 88<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
-
     let bars =
         [ ("The Alchemist Bar", 92<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createBar street.Id)
@@ -33,13 +24,25 @@ let václavskéNáměstí (zone: Zone) =
 
     let street =
         street
-        |> World.Street.addPlaces concertSpaces
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces restaurants
         |> World.Street.addPlaces hospitals
         |> World.Street.addPlace metroStation
 
     street, metroStation
+
+let vodičkova (zone: Zone) =
+    let street = World.Street.create "Vodičkova" StreetType.OneWay
+
+    let concertSpaces =
+        [ ("Lucerna Music Bar",
+           800,
+           90<quality>,
+           Layouts.concertSpaceLayout1,
+           zone.Id) ]
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
+
+    street |> World.Street.addPlaces concertSpaces
 
 let národní (zone: Zone) =
     let street = World.Street.create "Národní" StreetType.OneWay
@@ -49,7 +52,8 @@ let národní (zone: Zone) =
            1000,
            95<quality>,
            Layouts.concertSpaceLayout4,
-           zone.Id) ]
+           zone.Id)
+          ("Rock Café", 350, 88<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let bars =
@@ -75,6 +79,7 @@ let zone =
 
     let václavskéNáměstí, metroStation = václavskéNáměstí novéMěstoZone
     let národní = národní novéMěstoZone
+    let vodičkova = vodičkova novéMěstoZone
 
     let station =
         { Lines = [ Red; Blue ]
@@ -86,6 +91,8 @@ let zone =
         World.Node.create václavskéNáměstí.Id václavskéNáměstí
     )
     |> World.Zone.addStreet (World.Node.create národní.Id národní)
+    |> World.Zone.addStreet (World.Node.create vodičkova.Id vodičkova)
     |> World.Zone.connectStreets václavskéNáměstí.Id národní.Id West
+    |> World.Zone.connectStreets václavskéNáměstí.Id vodičkova.Id South
 
     |> World.Zone.addMetroStation station

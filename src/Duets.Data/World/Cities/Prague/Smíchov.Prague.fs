@@ -7,11 +7,6 @@ open Duets.Entities.Calendar
 let plzeňská (zone: Zone) =
     let street = World.Street.create "Plzeňská" (StreetType.Split(East, 2))
 
-    let concertSpaces =
-        [ ("Futurum Music Bar", 650, 89<quality>, Layouts.concertSpaceLayout4, zone.Id)
-          ("Jazz Dock", 150, 95<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
-
     let bars =
         [ ("The Pub Praha 5", 86<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createBar street.Id)
@@ -25,7 +20,6 @@ let plzeňská (zone: Zone) =
 
     let street =
         street
-        |> World.Street.addPlaces concertSpaces
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces restaurants
         |> World.Street.addPlace metroStation
@@ -34,10 +28,6 @@ let plzeňská (zone: Zone) =
 
 let štefánikova city (zone: Zone) =
     let street = World.Street.create "Štefánikova" StreetType.OneWay
-
-    let concertSpaces =
-        [ ("MeetFactory", 500, 88<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let bars =
         [ ("BackDoors Bar", 84<quality>, zone.Id) ]
@@ -63,17 +53,50 @@ let štefánikova city (zone: Zone) =
         |> List.map (PlaceCreators.createStudio street.Id)
 
     street
-    |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces gyms
     |> World.Street.addPlaces recordingStudios
+
+let keSklárně (zone: Zone) =
+    let street = World.Street.create "Ke Sklárně" StreetType.OneWay
+
+    let concertSpaces =
+        [ ("MeetFactory", 500, 88<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
+
+    street |> World.Street.addPlaces concertSpaces
+
+let janáčkovoNábřeží (zone: Zone) =
+    let street = World.Street.create "Janáčkovo nábřeží" StreetType.OneWay
+
+    let concertSpaces =
+        [ ("Jazz Dock", 150, 95<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
+
+    street |> World.Street.addPlaces concertSpaces
+
+let zborovská (zone: Zone) =
+    let street = World.Street.create "Zborovská" StreetType.OneWay
+
+    let concertSpaces =
+        [ ("Futurum Music Bar",
+           650,
+           89<quality>,
+           Layouts.concertSpaceLayout4,
+           zone.Id) ]
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
+
+    street |> World.Street.addPlaces concertSpaces
 
 let createZone city =
     let smíchovZone = World.Zone.create "Smíchov"
 
     let plzeňská, metroStation = plzeňská smíchovZone
     let štefánikova = štefánikova city smíchovZone
+    let zborovská = zborovská smíchovZone
+    let janáčkovoNábřeží = janáčkovoNábřeží smíchovZone
+    let keSklárně = keSklárně smíchovZone
 
     let station =
         { Lines = [ Blue ]
@@ -83,6 +106,15 @@ let createZone city =
     smíchovZone
     |> World.Zone.addStreet (World.Node.create plzeňská.Id plzeňská)
     |> World.Zone.addStreet (World.Node.create štefánikova.Id štefánikova)
+    |> World.Zone.addStreet (World.Node.create zborovská.Id zborovská)
+    |> World.Zone.addStreet (
+        World.Node.create janáčkovoNábřeží.Id janáčkovoNábřeží
+    )
+    |> World.Zone.addStreet (World.Node.create keSklárně.Id keSklárně)
     |> World.Zone.connectStreets plzeňská.Id štefánikova.Id North
-    
+    |> World.Zone.connectStreets plzeňská.Id zborovská.Id East
+    |> World.Zone.connectStreets plzeňská.Id janáčkovoNábřeží.Id South
+    |> World.Zone.connectStreets štefánikova.Id keSklárně.Id South
+    |> World.Zone.connectStreets štefánikova.Id zborovská.Id East
+
     |> World.Zone.addMetroStation station

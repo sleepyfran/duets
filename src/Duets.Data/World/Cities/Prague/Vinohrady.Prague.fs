@@ -21,6 +21,10 @@ let francouzská city (zone: Zone) =
         [ ("U Bulínů", 91<quality>, Czech, zone.Id) ]
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
+    let concertSpaces =
+        [ ("Retro Music Hall", 1000, 80<quality>, Layouts.concertSpaceLayout4, zone.Id) ]
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
+
     let street =
         street
         |> World.Street.addPlace home
@@ -34,8 +38,7 @@ let náměstíMíru (zone: Zone) =
     let street = World.Street.create "Náměstí Míru" (StreetType.Split(East, 3))
 
     let concertSpaces =
-        [ ("Retro Music Hall", 1000, 80<quality>, Layouts.concertSpaceLayout4, zone.Id)
-          ("Vinohrady Theatre", 700, 89<quality>, Layouts.concertSpaceLayout4, zone.Id) ]
+        [ ("Vinohrady Theatre", 700, 89<quality>, Layouts.concertSpaceLayout4, zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let bars =
