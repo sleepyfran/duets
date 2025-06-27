@@ -36,14 +36,23 @@ type MainWindow() =
         let listBox = this.FindControl<ListBox>("CitiesListBox")
         let zonesPanel = this.FindControl<StackPanel>("ZonesPanel")
         let zoneDetailsPanel = this.FindControl<StackPanel>("ZoneDetailsPanel")
+
+        let placesSummaryPanel =
+            this.FindControl<StackPanel>("PlacesSummaryPanel")
+
         let mutable detailsOpen = false
 
         listBox.ItemsSource <- cities
 
         listBox.SelectionChanged.Add(fun _ ->
             zonesPanel.Children.Clear()
-            zonesPanel.IsVisible <- true
             zoneDetailsPanel.Children.Clear()
+            placesSummaryPanel.Children.Clear()
+
+            // Show city overview panels, hide zone details
+            zonesPanel.IsVisible <- true
+            placesSummaryPanel.IsVisible <- true
+            zoneDetailsPanel.IsVisible <- false
             detailsOpen <- false
 
             match listBox.SelectedItem with
@@ -54,6 +63,36 @@ type MainWindow() =
 
                     match cityOpt with
                     | Some city ->
+                        // Calculate and display places summary
+                        let placesSummary =
+                            city.Zones
+                            |> Map.values
+                            |> Seq.collect (fun zone ->
+                                zone.Streets.Nodes |> Map.values)
+                            |> Seq.collect _.Places
+                            |> Seq.countBy (fun place ->
+                                place.PlaceType |> World.Place.Type.toIndex)
+                            |> Map.ofSeq
+
+                        let summaryTitle =
+                            TextBlock(
+                                Text = "Places In City",
+                                FontWeight = FontWeight.Bold,
+                                Margin = Thickness(0.0, 0.0, 0.0, 4.0)
+                            )
+
+                        placesSummaryPanel.Children.Add(summaryTitle)
+
+                        placesSummary
+                        |> Map.iter (fun placeTypeIndex count ->
+                            let placeTypeText = placeTypeIndex |> string
+
+                            let summaryText =
+                                TextBlock(Text = $"{placeTypeText}: {count}")
+
+                            placesSummaryPanel.Children.Add(summaryText))
+
+
                         // For each metro line, draw a horizontal row of zones
                         city.MetroLines
                         |> Map.toList
@@ -137,10 +176,13 @@ type MainWindow() =
                                 border.Child <- text
 
                                 border.PointerPressed.Add(fun _ ->
-                                    // Hide zonesPanel and show details
+                                    // Hide city overview panels and show zone details
                                     zonesPanel.IsVisible <- false
+                                    placesSummaryPanel.IsVisible <- false
+                                    zoneDetailsPanel.IsVisible <- true
                                     zoneDetailsPanel.Children.Clear()
                                     detailsOpen <- true
+
                                     let detailsStack = StackPanel()
 
                                     let arrowBtn =
@@ -156,8 +198,13 @@ type MainWindow() =
                                         )
 
                                     arrowBtn.Click.Add(fun _ ->
-                                        zoneDetailsPanel.Children.Clear()
+                                        // Show city overview panels and hide zone details
+                                        zoneDetailsPanel.IsVisible <- false
                                         zonesPanel.IsVisible <- true
+
+                                        placesSummaryPanel.IsVisible <-
+                                            true
+
                                         detailsOpen <- false)
 
                                     detailsStack.Children.Add(arrowBtn)
@@ -238,7 +285,7 @@ type MainWindow() =
                                             |> Map.ofList
 
                                         // Draw edges first, so they appear behind nodes
-                                        for (startStreetId, endStreetMap) in
+                                        for startStreetId, endStreetMap in
                                             connections |> Map.toList do
                                             let startPos =
                                                 streetPositions[startStreetId]
@@ -270,7 +317,7 @@ type MainWindow() =
                                                         .Add(line)
 
                                         // Draw nodes
-                                        for (streetId, street) in
+                                        for streetId, street in
                                             streets |> Map.toList do
                                             let pos =
                                                 streetPositions[streetId]
@@ -336,7 +383,7 @@ type MainWindow() =
                                     )
 
                                     // --- PLACES BY STREET, THEN TYPE ---
-                                    for (streetId, street) in
+                                    for _, street in
                                         zone.Streets.Nodes |> Map.toList do
                                         let streetHeader =
                                             TextBlock(
@@ -358,10 +405,9 @@ type MainWindow() =
 
                                         let placesByType =
                                             street.Places
-                                            |> List.groupBy (fun p ->
-                                                p.PlaceType)
+                                            |> List.groupBy _.PlaceType
 
-                                        for (placeType, places) in
+                                        for placeType, places in
                                             placesByType do
                                             let typeHeaderBorder =
                                                 Border(

@@ -43,6 +43,7 @@
             <StackPanel Margin="16" Spacing="8">
                 <StackPanel x:Name="ZoneDetailsPanel" Margin="0 0 0 16" />
                 <StackPanel x:Name="ZonesPanel" />
+                <StackPanel x:Name="PlacesSummaryPanel" Margin="0 24 0 0" Spacing="6" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
