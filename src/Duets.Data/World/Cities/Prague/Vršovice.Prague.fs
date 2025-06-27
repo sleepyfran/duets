@@ -1,6 +1,6 @@
 module rec Duets.Data.World.Cities.Prague.Vršovice
 
-open Data.World.Cities.Prague
+open Duets.Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
 
@@ -61,7 +61,7 @@ let moskevská (zone: Zone) =
 
 
 let zone =
-    let vršoviceZone = World.Zone.create "Vršovice"
+    let vršoviceZone = World.Zone.create Ids.Zone.vršovice
     let krymská = krymská vršoviceZone
     let moskevská = moskevská vršoviceZone
     let jiříhozPoděbrad, metroStation = jiříhozPoděbrad vršoviceZone

@@ -1,6 +1,6 @@
 module rec Duets.Data.World.Cities.Prague.Smíchov
 
-open Data.World.Cities.Prague
+open Duets.Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
 open Duets.Entities.Calendar
@@ -92,7 +92,7 @@ let zborovská (zone: Zone) =
     street |> World.Street.addPlaces concertSpaces
 
 let createZone city =
-    let smíchovZone = World.Zone.create "Smíchov"
+    let smíchovZone = World.Zone.create Ids.Zone.smíchov
 
     let plzeňská, metroStation = plzeňská smíchovZone
     let štefánikova = štefánikova city smíchovZone

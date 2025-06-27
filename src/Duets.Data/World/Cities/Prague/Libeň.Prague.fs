@@ -50,7 +50,7 @@ let voctářova (zone: Zone) =
     street |> World.Street.addPlaces bars |> World.Street.addPlaces restaurants
 
 let zone =
-    let libeňZone = World.Zone.create "Libeň"
+    let libeňZone = World.Zone.create Ids.Zone.libeň
 
     let ocelářská, metroStation = ocelářská libeňZone
     let voctářova = voctářova libeňZone

@@ -1,4 +1,4 @@
-module Data.World.Cities.Prague.Ids
+module Duets.Data.World.Cities.Prague.Ids
 
 module Street =
     let staroměstskéNáměstí = "Staroměstské Náměstí"
@@ -11,3 +11,13 @@ module Street =
     let náměstíMíru = "Náměstí Míru"
     let krymská = "Krymská"
     let jiříhozPoděbrad = "Jiřího z Poděbrad"
+
+module Zone =
+    let holešovice = "Holešovice"
+    let libeň = "Libeň"
+    let novéMěsto = "Nové Město"
+    let ruzyně = "Ruzyně"
+    let smíchov = "Smíchov"
+    let staréMěsto = "Staré Město"
+    let vinohrady = "Vinohrady"
+    let vršovice = "Vršovice"

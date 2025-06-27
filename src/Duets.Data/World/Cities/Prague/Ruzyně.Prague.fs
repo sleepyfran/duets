@@ -1,6 +1,6 @@
 module rec Duets.Data.World.Cities.Prague.Ruzyně
 
-open Data.World.Cities.Prague
+open Duets.Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
 
@@ -27,7 +27,7 @@ let evropská (zone: Zone) =
     street, metroStation
 
 let zone =
-    let ruzyněZone = World.Zone.create "Ruzyně"
+    let ruzyněZone = World.Zone.create Ids.Zone.ruzyně
 
     let kLetišti = kLetišti ruzyněZone
     let evropská, metroStation = evropská ruzyněZone

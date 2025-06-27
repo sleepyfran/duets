@@ -1,6 +1,6 @@
 module rec Duets.Data.World.Cities.Prague.NovéMěsto
 
-open Data.World.Cities.Prague
+open Duets.Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
 
@@ -78,7 +78,7 @@ let národní (zone: Zone) =
     |> World.Street.addPlaces hotels
 
 let zone =
-    let novéMěstoZone = World.Zone.create "Nové Město"
+    let novéMěstoZone = World.Zone.create Ids.Zone.novéMěsto
 
     let václavskéNáměstí, metroStation = václavskéNáměstí novéMěstoZone
     let národní = národní novéMěstoZone

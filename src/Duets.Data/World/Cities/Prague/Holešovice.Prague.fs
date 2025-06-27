@@ -87,7 +87,7 @@ let zaElektrarnou (zone: Zone) =
     |> World.Street.addPlaces restaurants
 
 let zone =
-    let holešoviceZone = World.Zone.create "Holešovice"
+    let holešoviceZone = World.Zone.create Ids.Zone.holešovice
 
     let plynární, metroStation = plynární holešoviceZone
     let komunardů = komunardů holešoviceZone

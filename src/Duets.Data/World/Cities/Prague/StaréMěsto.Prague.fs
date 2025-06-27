@@ -1,6 +1,6 @@
 module rec Duets.Data.World.Cities.Prague.StaréMěsto
 
-open Data.World.Cities.Prague
+open Duets.Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
 
@@ -91,7 +91,7 @@ let karlova (zone: Zone) =
     |> World.Street.addPlaces rehearsalSpaces
 
 let zone =
-    let staréMěstoZone = World.Zone.create "Staré Město"
+    let staréMěstoZone = World.Zone.create Ids.Zone.staréMěsto
 
     let staroměstskéNáměstí = staroměstskéNáměstí staréMěstoZone
 

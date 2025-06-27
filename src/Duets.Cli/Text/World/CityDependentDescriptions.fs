@@ -5,21 +5,16 @@ open Duets.Agents
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation
+open Duets.Cli.Text.World
 
-let private placeDescriptionByCity cityId placeType =
-    match cityId, placeType with
-    | LosAngeles, PlaceTypeIndex.MetroStation ->
-        LosAngeles.MetroStations.description
-    | LosAngeles, PlaceTypeIndex.Street -> LosAngeles.Streets.description
-    | Madrid, PlaceTypeIndex.MetroStation -> Madrid.MetroStations.description
-    | Madrid, PlaceTypeIndex.Street -> Madrid.Streets.description
-    | NewYork, PlaceTypeIndex.MetroStation -> NewYork.MetroStations.description
-    | NewYork, PlaceTypeIndex.Street -> NewYork.Streets.description
-    | Prague, PlaceTypeIndex.MetroStation -> Prague.MetroStations.description
-    | Prague, PlaceTypeIndex.Street -> Prague.Streets.description
-    | Tokyo, PlaceTypeIndex.MetroStation -> Tokyo.MetroStations.description
-    | Tokyo, PlaceTypeIndex.Street -> Tokyo.Streets.description
-    | _ -> fun _ _ -> [ "" ]
+let private noDescription _ _ = [ "" ]
+
+let private streetDescriptionById cityId streetId =
+    let street = Queries.World.streetById cityId streetId
+
+    match cityId with
+    | Prague -> Prague.ofStreet street
+    | _ -> noDescription
 
 let cityDependentDescription (place: Place) (_: RoomType) : string =
     let state = State.get ()
@@ -29,10 +24,9 @@ let cityDependentDescription (place: Place) (_: RoomType) : string =
     let currentDayMoment =
         Queries.Calendar.today state |> Calendar.Query.dayMomentOf
 
-    let generateDescriptions =
-        placeDescriptionByCity
-            city.Id
-            (place.PlaceType |> World.Place.Type.toIndex)
+    let generator =
+        match place.PlaceType with
+        | Street -> streetDescriptionById city.Id place.Id
+        | _ -> noDescription
 
-    let randomDescriptor = zone.Descriptors |> List.sample
-    generateDescriptions currentDayMoment randomDescriptor |> List.sample
+    generator zone currentDayMoment |> List.sample

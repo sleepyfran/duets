@@ -1,6 +1,6 @@
 module rec Duets.Data.World.Cities.Prague.Vinohrady
 
-open Data.World.Cities.Prague
+open Duets.Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
 
@@ -72,7 +72,7 @@ let náměstíMíru (zone: Zone) =
     street, metroStation
 
 let createZone city =
-    let vinohradyZone = World.Zone.create "Vinohrady"
+    let vinohradyZone = World.Zone.create Ids.Zone.vinohrady
 
     let francouzská = francouzská city vinohradyZone
     let náměstíMíru, metroStation = náměstíMíru vinohradyZone
