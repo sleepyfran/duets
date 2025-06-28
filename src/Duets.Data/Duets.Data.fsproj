@@ -48,6 +48,10 @@
         <Compile Include="World\Cities\LosAngeles\Ids.LosAngeles.fs"/>
         <Compile Include="World\Cities\LosAngeles\Hollywood.LosAngeles.fs"/>
         <Compile Include="World\Cities\LosAngeles\DowntownLA.LosAngeles.fs"/>
+        <Compile Include="World\Cities\LosAngeles\Westside.LosAngeles.fs"/>
+        <Compile Include="World\Cities\LosAngeles\Koreatown.LosAngeles.fs"/>
+        <Compile Include="World\Cities\LosAngeles\GriffithPark.LosAngeles.fs"/>
+        <Compile Include="World\Cities\LosAngeles\EchoParkSilverLake.LosAngeles.fs"/>
         <Compile Include="World\Cities\LosAngeles\LosAngeles.fs"/>
         <Compile Include="World\Cities\London\Camden.London.fs"/>
         <Compile Include="World\Cities\London\CityOfLondon.London.fs"/>

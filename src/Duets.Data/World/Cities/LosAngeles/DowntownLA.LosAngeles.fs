@@ -169,7 +169,7 @@ let zone =
     let hewittStreet = hewittStreet downtownLAZone
 
     let station =
-        { Lines = [ Red ]
+        { Lines = [ Red; Blue ]
           LeavesToStreet = seventhStreet.Id
           PlaceId = seventhStreetStation.Id }
 
