@@ -174,7 +174,7 @@ type MainWindow() =
     member private this.ShowStreetGraph(zone: Zone) =
         let streetGraphCanvas =
             Canvas(
-                Width = 400.0,
+                Width = 900.0,
                 Height = 200.0,
                 Background = SolidColorBrush(Colors.LightGray),
                 Margin = Thickness(0.0, 0.0, 0.0, 16.0)
@@ -184,20 +184,79 @@ type MainWindow() =
         let connections = zone.Streets.Connections
 
         if not streets.IsEmpty then
-            let streetPositions =
-                let angleStep = 2.0 * System.Math.PI / float streets.Count
-                let radius = 80.0
-                let centerX = 200.0
-                let centerY = 100.0
+            // Check if this is a linear graph (each node has at most 2 connections)
+            let isLinearGraph =
+                connections
+                |> Map.forall (fun _ nodeConnections ->
+                    nodeConnections |> Map.count <= 2)
 
-                streets
-                |> Map.toList
-                |> List.mapi (fun i (streetId, _) ->
-                    let angle = float i * angleStep
-                    let x = centerX + radius * System.Math.Cos(angle)
-                    let y = centerY + radius * System.Math.Sin(angle)
-                    (streetId, Point(x, y)))
-                |> Map.ofList
+            let streetPositions =
+                if isLinearGraph && streets.Count > 2 then
+                    // Use linear layout for linear graphs
+                    let startingStreet = zone.Streets.StartingNode
+                    let visited = ref Set.empty
+                    let orderedStreets = ref []
+
+                    // Traverse the graph linearly starting from the starting node
+                    let rec traverse currentStreetId =
+                        if not (visited.Value.Contains(currentStreetId)) then
+                            visited.Value <- visited.Value.Add(currentStreetId)
+
+                            orderedStreets.Value <-
+                                currentStreetId :: orderedStreets.Value
+
+                            // Find next unvisited connected street
+                            match connections.TryFind(currentStreetId) with
+                            | Some nodeConnections ->
+                                let nextStreet =
+                                    nodeConnections
+                                    |> Map.values
+                                    |> Seq.tryFind (fun streetId ->
+                                        not (visited.Value.Contains(streetId)))
+
+                                match nextStreet with
+                                | Some nextId -> traverse nextId
+                                | None -> ()
+                            | None -> ()
+
+                    traverse startingStreet
+                    let orderedStreets = List.rev orderedStreets.Value
+
+                    // Ensure all streets have positions, even if not visited in traversal
+                    let allStreetIds = streets |> Map.keys |> Set.ofSeq
+                    let visitedStreetIds = orderedStreets |> Set.ofList
+
+                    let unvisitedStreets =
+                        Set.difference allStreetIds visitedStreetIds
+                        |> Set.toList
+
+                    let finalOrderedStreets = orderedStreets @ unvisitedStreets
+
+                    // Position streets in a horizontal line
+                    let spacing = 800.0 / float (finalOrderedStreets.Length - 1)
+                    let startX = 50.0
+                    let y = 100.0
+
+                    finalOrderedStreets
+                    |> List.mapi (fun i streetId ->
+                        let x = startX + (float i * spacing)
+                        (streetId, Point(x, y)))
+                    |> Map.ofList
+                else
+                    // Use circular layout for complex graphs or small graphs
+                    let angleStep = 2.0 * System.Math.PI / float streets.Count
+                    let radius = 80.0
+                    let centerX = 300.0 // Adjusted for larger canvas
+                    let centerY = 100.0
+
+                    streets
+                    |> Map.toList
+                    |> List.mapi (fun i (streetId, _) ->
+                        let angle = float i * angleStep
+                        let x = centerX + radius * System.Math.Cos(angle)
+                        let y = centerY + radius * System.Math.Sin(angle)
+                        (streetId, Point(x, y)))
+                    |> Map.ofList
 
             // Draw edges first, so they appear behind nodes
             for startStreetId, endStreetMap in connections |> Map.toList do
@@ -243,8 +302,27 @@ type MainWindow() =
 
                 let label = TextBlock(Text = street.Name, FontSize = 12.0)
 
-                Canvas.SetLeft(label, pos.X + 15.0)
-                Canvas.SetTop(label, pos.Y - 8.0)
+                // Position labels differently based on layout type
+                if isLinearGraph && streets.Count > 2 then
+                    // For linear layout, alternate labels above and below to prevent overlap
+                    let streetIndex =
+                        streetPositions
+                        |> Map.toList
+                        |> List.findIndex (fun (id, _) -> id = streetId)
+
+                    let isEven = streetIndex % 2 = 0
+
+                    Canvas.SetLeft(label, pos.X - 30.0) // Center the label under the node
+
+                    Canvas.SetTop(
+                        label,
+                        if isEven then pos.Y + 25.0 else pos.Y - 35.0
+                    ) // Alternate above/below
+                else
+                    // For circular layout, use original positioning
+                    Canvas.SetLeft(label, pos.X + 15.0)
+                    Canvas.SetTop(label, pos.Y - 8.0)
+
                 streetGraphCanvas.Children.Add(label)
 
         streetGraphCanvas
