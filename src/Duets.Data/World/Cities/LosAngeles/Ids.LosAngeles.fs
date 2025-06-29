@@ -36,6 +36,7 @@ module Street =
     let wAlamedaAvenue = "W. Alameda Avenue"
     let sewardStreet = "Seward Street"
     let nSycamoreAvenue = "N. Sycamore Avenue"
+    let centuryBoulevard = "Century Boulevard"
 
 module Zone =
     let hollywood = "Hollywood"
@@ -44,3 +45,4 @@ module Zone =
     let koreatown = "Koreatown"
     let griffithPark = "Griffith Park"
     let echoParkSilverLake = "Echo Park/Silver Lake"
+    let southBay = "South Bay"

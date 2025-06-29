@@ -8,6 +8,7 @@ let generate () =
     let koreatown = Koreatown.zone
     let griffithPark = GriffithPark.zone
     let echoParkSilverLake = EchoParkSilverLake.zone
+    let southBay = SouthBay.zone
 
     let city =
         World.City.create LosAngeles 5.7<costOfLiving> -8<utcOffset> downtownLA
@@ -20,7 +21,8 @@ let generate () =
             [ (hollywood.Id, OnlyNext downtownLA.Id)
               (downtownLA.Id, PreviousAndNext(hollywood.Id, westside.Id))
               (westside.Id, PreviousAndNext(downtownLA.Id, koreatown.Id))
-              (koreatown.Id, OnlyPrevious westside.Id) ]
+              (koreatown.Id, PreviousAndNext(westside.Id, southBay.Id))
+              (southBay.Id, OnlyPrevious koreatown.Id) ]
             |> Map.ofList
           UsualWaitingTime = 9<minute> }
 
@@ -40,5 +42,6 @@ let generate () =
     |> World.City.addZone koreatown
     |> World.City.addZone griffithPark
     |> World.City.addZone echoParkSilverLake
+    |> World.City.addZone southBay
     |> World.City.addMetroLine redMetroLine
     |> World.City.addMetroLine blueMetroLine
