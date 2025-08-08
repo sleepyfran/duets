@@ -33,6 +33,15 @@ let effectMinutes =
         | SocialActionKind.Chat -> 15<minute>
         | SocialActionKind.AskAboutDay -> 10<minute>
         | SocialActionKind.TellStory -> 30<minute>
+        | SocialActionKind.Compliment -> 5<minute>
+        | SocialActionKind.TellJoke -> 10<minute>
+        | SocialActionKind.Gossip -> 20<minute>
+        | SocialActionKind.Argue -> 15<minute>
+        | SocialActionKind.Hug -> 5<minute>
+        | SocialActionKind.Flirt -> 10<minute>
+        | SocialActionKind.DiscussInterests -> 25<minute>
+        | SocialActionKind.AskAboutCareer -> 15<minute>
+        | SocialActionKind.ShareMemory -> 20<minute>
     | SongImproved _
     | SongPracticed _
     | SongStarted _ -> 120<minute>
