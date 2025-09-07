@@ -77,9 +77,15 @@ let flightsNotEnoughFunds amount =
 
 (* --- Jobs --- *)
 let currentJobDescription (job: Job) (placeName: string) =
+    let scheduleText = 
+        match job.CurrentStage.Schedule with
+        | JobSchedule.Free _ -> "You don't have any schedule"
+        | JobSchedule.Fixed (workDays, _) ->
+            let dayNames = workDays |> List.map (fun day -> day.ToString()) |> String.concat ", "
+            $"You work on: {dayNames}"
+    
     Styles.faded
-        $"""You currently work as {Career.name job |> String.lowercase} at {placeName} earning {Styles.money job.CurrentStage.BaseSalaryPerDayMoment} per day moment. {match job.CurrentStage.Schedule with
-                                                                                                                                                                       | JobSchedule.Free _ -> "You don't have any schedule"}"""
+        $"""You currently work as {Career.name job |> String.lowercase} at {placeName} earning {Styles.money job.CurrentStage.BaseSalaryPerDayMoment} per day moment. {scheduleText}"""
 
 let unemployed = Styles.faded "You are currently unemployed"
 

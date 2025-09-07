@@ -76,11 +76,16 @@ let shiftDurationDescription schedule =
     match schedule with
     | JobSchedule.Free shiftDuration ->
         $"""{shiftDuration} {Generic.simplePluralOf "day moment" shiftDuration} per shift"""
+    | JobSchedule.Fixed (_, shiftDuration) ->
+        $"""{shiftDuration} {Generic.simplePluralOf "day moment" shiftDuration} per shift"""
 
 let scheduleDescription schedule =
     match schedule with
     | JobSchedule.Free _ ->
         $"""No schedule, {shiftDurationDescription schedule}"""
+    | JobSchedule.Fixed (workDays, _) ->
+        let dayNames = workDays |> List.map (fun day -> day.ToString()) |> String.concat ", "
+        $"""Fixed schedule ({dayNames}), {shiftDurationDescription schedule}"""
 
 let careerChange (job: Job) placeName =
     Styles.success $"You now work as {name job} at {Styles.place placeName}"

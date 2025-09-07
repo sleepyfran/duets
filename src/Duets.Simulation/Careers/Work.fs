@@ -37,7 +37,17 @@ let private timeAdvancement state job =
     | Some dayMoments -> min shiftDayMoments dayMoments
     | None -> shiftDayMoments
 
-type WorkshiftError = | AttemptedToWorkDuringClosingTime
+let private isValidWorkDay state job =
+    match job.CurrentStage.Schedule with
+    | JobSchedule.Free _ -> true
+    | JobSchedule.Fixed (workDays, _) ->
+        let currentTime = Queries.Calendar.today state
+        let currentDayOfWeek = Calendar.Query.dayOfWeek currentTime
+        workDays |> List.contains currentDayOfWeek
+
+type WorkshiftError = 
+    | AttemptedToWorkDuringClosingTime
+    | AttemptedToWorkOnNonScheduledDay
 
 /// Starts a work shift in the given job, passing the necessary amount of day
 /// moments until the shift ends, paying the character the earned amount and
@@ -49,8 +59,12 @@ let rec workShift state job =
     let currentlyClosed =
         Queries.World.placeCurrentlyOpen currentPlace currentTime |> not
 
+    let invalidWorkDay = isValidWorkDay state job |> not
+
     if currentlyClosed then
         Error AttemptedToWorkDuringClosingTime
+    elif invalidWorkDay then
+        Error AttemptedToWorkOnNonScheduledDay
     else
         workShift' state job |> Ok
 

@@ -25,8 +25,14 @@ module WorkCommand =
                     Effect.applyMultiple effects
 
                     Scene.WorldAfterMovement
-                | Error _ ->
+                | Error AttemptedToWorkDuringClosingTime ->
                     "The place is currently close, you can't work now!"
+                    |> Styles.error
+                    |> showMessage
+
+                    Scene.World
+                | Error AttemptedToWorkOnNonScheduledDay ->
+                    "You can't work today according to your schedule!"
                     |> Styles.error
                     |> showMessage
 
