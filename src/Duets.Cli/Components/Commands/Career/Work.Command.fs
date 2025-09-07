@@ -47,7 +47,7 @@ module WorkCommand =
                             $"{daysText} during {momentsText}"
                         | JobSchedule.Free _ -> "" // This shouldn't happen but just in case
 
-                    $"Today is a free day for you. Try again on: {workDaysText}"
+                    $"Right now is your free time. Try to work on {workDaysText}"
                     |> Styles.error
                     |> showMessage
 
