@@ -81,9 +81,12 @@ let currentJobDescription (job: Job) (placeName: string) =
     let scheduleText = 
         match job.CurrentStage.Schedule with
         | JobSchedule.Free _ -> "You don't have any schedule"
-        | JobSchedule.Fixed (workDays, _) ->
+        | JobSchedule.Fixed (workDays, workDayMoments, _) ->
             let dayNames = workDays |> List.map Calendar.DayOfWeek.name
-            $"You work on: {Generic.listOf dayNames id}"
+            let dayMomentNames = workDayMoments |> List.map Calendar.DayMoment.name
+            let daysText = Generic.listOf dayNames id
+            let momentsText = Generic.listOf dayMomentNames id
+            $"You work on: {daysText} during {momentsText}"
     
     Styles.faded
         $"""You currently work as {Career.name job |> String.lowercase} at {placeName} earning {Styles.money job.CurrentStage.BaseSalaryPerDayMoment} per day moment. {scheduleText}"""

@@ -40,10 +40,15 @@ let private timeAdvancement state job =
 let private isValidWorkDay state job =
     match job.CurrentStage.Schedule with
     | JobSchedule.Free _ -> true
-    | JobSchedule.Fixed (workDays, _) ->
+    | JobSchedule.Fixed (workDays, workDayMoments, _) ->
         let currentTime = Queries.Calendar.today state
         let currentDayOfWeek = Calendar.Query.dayOfWeek currentTime
-        workDays |> List.contains currentDayOfWeek
+        let currentDayMoment = currentTime.DayMoment
+        
+        let validDay = workDays |> List.contains currentDayOfWeek
+        let validDayMoment = workDayMoments |> List.contains currentDayMoment
+        
+        validDay && validDayMoment
 
 type WorkshiftError = 
     | AttemptedToWorkDuringClosingTime

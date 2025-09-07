@@ -28,12 +28,12 @@ module CareerTypes =
     /// Defines the schedule of a job. Which each option meaning:
     /// - Free: No assigned schedule, player is free to work whenever they feel
     ///   like it.
-    /// - Fixed: Fixed schedule with specific days of the week when work is allowed
-    ///   and a duration per shift.
+    /// - Fixed: Fixed schedule with specific days of the week when work is allowed,
+    ///   specific day moments when work can be performed, and a duration per shift.
     [<RequireQualifiedAccess>]
     type JobSchedule =
         | Free of duration: ShiftDuration
-        | Fixed of workDays: DayOfWeek list * duration: ShiftDuration
+        | Fixed of workDays: DayOfWeek list * workDayMoments: DayMoment list * duration: ShiftDuration
 
     /// Defines the effect that performing a job's shift has on the character's
     /// attribute.

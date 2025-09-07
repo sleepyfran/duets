@@ -4,7 +4,7 @@ module Duets.Entities.Career
 let jobDuration job =
     match job.CurrentStage.Schedule with
     | JobSchedule.Free duration -> duration
-    | JobSchedule.Fixed (_, duration) -> duration
+    | JobSchedule.Fixed (_, _, duration) -> duration
 
 /// Retrieves the list of skills required for the given job.
 let jobSkills job =

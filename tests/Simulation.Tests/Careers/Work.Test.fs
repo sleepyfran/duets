@@ -120,12 +120,12 @@ type ``When job has fixed schedule``() =
     let tuesdayTime = mondayTime |> Calendar.Query.nextN 7 // Day 23 = Tuesday
     let wednesdayTime = tuesdayTime |> Calendar.Query.nextN 7 // Day 24 = Wednesday
     
-    // Create a job with fixed schedule for Monday and Wednesday only
+    // Create a job with fixed schedule for Monday and Wednesday only, during Morning and Afternoon
     let fixedScheduleJob =
         { Id = Barista
           CurrentStage = 
             { (Careers.BaristaCareer.stages |> List.head) with
-                Schedule = JobSchedule.Fixed([DayOfWeek.Monday; DayOfWeek.Wednesday], 2<dayMoments>) }
+                Schedule = JobSchedule.Fixed([DayOfWeek.Monday; DayOfWeek.Wednesday], [DayMoment.Morning; DayMoment.Afternoon], 2<dayMoments>) }
           Location = Prague, place.Id, Ids.Cafe.cafe }
     
     let stateOnMonday = state |> State.Calendar.setTime mondayTime
@@ -147,5 +147,38 @@ type ``When job has fixed schedule``() =
     [<Test>]
     member _.``work returns error on non-scheduled work day (Tuesday)``() =
         workShift stateOnTuesday fixedScheduleJob
+        |> Result.unwrapError
+        |> should equal WorkshiftError.AttemptedToWorkOnNonScheduledDay
+
+    [<Test>]
+    member _.``work succeeds on scheduled work day and day moment (Monday Morning)``() =
+        workShift stateOnMonday fixedScheduleJob
+        |> Result.isOk
+        |> should be True
+
+    [<Test>]
+    member _.``work succeeds on scheduled work day and day moment (Wednesday Afternoon)``() =
+        let afternoonWednesdayTime = wednesdayTime |> Calendar.Transform.changeDayMoment Afternoon
+        let stateOnWednesdayAfternoon = state |> State.Calendar.setTime afternoonWednesdayTime
+        
+        workShift stateOnWednesdayAfternoon fixedScheduleJob
+        |> Result.isOk
+        |> should be True
+
+    [<Test>]
+    member _.``work returns error on scheduled work day but wrong day moment (Monday Midday)``() =
+        let middayMondayTime = mondayTime |> Calendar.Transform.changeDayMoment Midday
+        let stateOnMondayMidday = state |> State.Calendar.setTime middayMondayTime
+        
+        workShift stateOnMondayMidday fixedScheduleJob
+        |> Result.unwrapError
+        |> should equal WorkshiftError.AttemptedToWorkOnNonScheduledDay
+
+    [<Test>]
+    member _.``work returns error on scheduled work day but wrong day moment (Wednesday Midday)``() =
+        let middayWednesdayTime = wednesdayTime |> Calendar.Transform.changeDayMoment Midday
+        let stateOnWednesdayMidday = state |> State.Calendar.setTime middayWednesdayTime
+        
+        workShift stateOnWednesdayMidday fixedScheduleJob
         |> Result.unwrapError
         |> should equal WorkshiftError.AttemptedToWorkOnNonScheduledDay

@@ -35,11 +35,16 @@ module WorkCommand =
                 | Error AttemptedToWorkOnNonScheduledDay ->
                     let workDaysText =
                         match job.CurrentStage.Schedule with
-                        | JobSchedule.Fixed(workDays, _) ->
+                        | JobSchedule.Fixed(workDays, workDayMoments, _) ->
                             let dayNames =
                                 workDays |> List.map Calendar.DayOfWeek.name
-
-                            Generic.listOf dayNames id
+                            let dayMomentNames =
+                                workDayMoments |> List.map Calendar.DayMoment.name
+                            
+                            let daysText = Generic.listOf dayNames id
+                            let momentsText = Generic.listOf dayMomentNames id
+                            
+                            $"{daysText} during {momentsText}"
                         | JobSchedule.Free _ -> "" // This shouldn't happen but just in case
 
                     $"Today is a free day for you. Try again on: {workDaysText}"

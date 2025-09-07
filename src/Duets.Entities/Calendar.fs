@@ -293,6 +293,19 @@ module DayOfWeek =
         | Sunday -> "Sunday"
 
 [<RequireQualifiedAccess>]
+module DayMoment =
+    /// Returns the English name of the given day moment.
+    let name (dayMoment: DayMoment) =
+        match dayMoment with
+        | EarlyMorning -> "Early Morning"
+        | Morning -> "Morning"
+        | Midday -> "Midday"
+        | Afternoon -> "Afternoon"
+        | Evening -> "Evening"
+        | Night -> "Night"
+        | Midnight -> "Midnight"
+
+[<RequireQualifiedAccess>]
 module Seconds =
     /// Transforms the given number of seconds into minutes.
     let toMinutes seconds = (seconds / 60<second>) * 1<minute>
