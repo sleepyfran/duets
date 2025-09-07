@@ -1,30 +1,23 @@
 module rec Duets.Entities.Calendar
 
 open FSharp.Data.UnitSystems.SI.UnitNames
-open System
 
 let daysInSeason = 21<days>
 
 let allDayMoments =
     [ Midnight; EarlyMorning; Morning; Midday; Afternoon; Evening; Night ]
 
-let weekday =
-    [ DayOfWeek.Monday
-      DayOfWeek.Tuesday
-      DayOfWeek.Wednesday
-      DayOfWeek.Thursday
-      DayOfWeek.Wednesday
-      DayOfWeek.Friday ]
+let weekday = [ Monday; Tuesday; Wednesday; Thursday; Wednesday; Friday ]
 
 let everyDay =
-    [ DayOfWeek.Monday
-      DayOfWeek.Tuesday
-      DayOfWeek.Wednesday
-      DayOfWeek.Thursday
-      DayOfWeek.Wednesday
-      DayOfWeek.Friday
-      DayOfWeek.Saturday
-      DayOfWeek.Sunday ]
+    [ Monday
+      Tuesday
+      Wednesday
+      Thursday
+      Wednesday
+      Friday
+      Saturday
+      Sunday ]
 
 module DayMoments =
     /// Contains all the possible day moments in a week.
@@ -172,13 +165,13 @@ module Query =
         let dayOfWeekNumber = date.Day % 7<days>
 
         match dayOfWeekNumber with
-        | 1<days> -> DayOfWeek.Monday
-        | 2<days> -> DayOfWeek.Tuesday
-        | 3<days> -> DayOfWeek.Wednesday
-        | 4<days> -> DayOfWeek.Thursday
-        | 5<days> -> DayOfWeek.Friday
-        | 6<days> -> DayOfWeek.Saturday
-        | _ -> DayOfWeek.Sunday
+        | 1<days> -> Monday
+        | 2<days> -> Tuesday
+        | 3<days> -> Wednesday
+        | 4<days> -> Thursday
+        | 5<days> -> Friday
+        | 6<days> -> Saturday
+        | _ -> Sunday
 
     /// Returns the number of years between to dates.
     let yearsBetween (fromDate: Date) (toDate: Date) =
@@ -291,14 +284,13 @@ module DayOfWeek =
     /// Returns the English name of the given day of the week.
     let name (day: DayOfWeek) =
         match day with
-        | System.DayOfWeek.Monday -> "Monday"
-        | System.DayOfWeek.Tuesday -> "Tuesday"
-        | System.DayOfWeek.Wednesday -> "Wednesday"
-        | System.DayOfWeek.Thursday -> "Thursday"
-        | System.DayOfWeek.Friday -> "Friday"
-        | System.DayOfWeek.Saturday -> "Saturday"
-        | System.DayOfWeek.Sunday -> "Sunday"
-        | _ -> "Unknown"
+        | Monday -> "Monday"
+        | Tuesday -> "Tuesday"
+        | Wednesday -> "Wednesday"
+        | Thursday -> "Thursday"
+        | Friday -> "Friday"
+        | Saturday -> "Saturday"
+        | Sunday -> "Sunday"
 
 [<RequireQualifiedAccess>]
 module Seconds =

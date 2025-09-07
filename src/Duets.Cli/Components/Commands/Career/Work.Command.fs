@@ -33,13 +33,15 @@ module WorkCommand =
 
                     Scene.World
                 | Error AttemptedToWorkOnNonScheduledDay ->
-                    let workDaysText = 
+                    let workDaysText =
                         match job.CurrentStage.Schedule with
-                        | JobSchedule.Fixed (workDays, _) ->
-                            let dayNames = workDays |> List.map Calendar.DayOfWeek.name
+                        | JobSchedule.Fixed(workDays, _) ->
+                            let dayNames =
+                                workDays |> List.map Calendar.DayOfWeek.name
+
                             Generic.listOf dayNames id
-                        | JobSchedule.Free _ -> "any day" // This shouldn't happen but just in case
-                    
+                        | JobSchedule.Free _ -> "" // This shouldn't happen but just in case
+
                     $"Today is a free day for you. Try again on: {workDaysText}"
                     |> Styles.error
                     |> showMessage

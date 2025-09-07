@@ -1,6 +1,5 @@
 namespace Duets.Entities
 
-open System
 open Duets.Entities
 
 [<AutoOpen>]

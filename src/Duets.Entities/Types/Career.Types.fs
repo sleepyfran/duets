@@ -1,7 +1,5 @@
 namespace Duets.Entities
 
-open System
-
 [<AutoOpen>]
 module CareerTypes =
     /// Defines all the different careers that the game supports.
@@ -33,7 +31,7 @@ module CareerTypes =
     /// - Fixed: Fixed schedule with specific days of the week when work is allowed
     ///   and a duration per shift.
     [<RequireQualifiedAccess>]
-    type JobSchedule = 
+    type JobSchedule =
         | Free of duration: ShiftDuration
         | Fixed of workDays: DayOfWeek list * duration: ShiftDuration
 
