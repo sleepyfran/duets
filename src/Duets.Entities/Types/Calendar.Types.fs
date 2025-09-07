@@ -18,6 +18,16 @@ module CalendarTypes =
     [<Measure>]
     type dayMoments
 
+    /// Days of the week.
+    type DayOfWeek =
+        | Monday
+        | Tuesday
+        | Wednesday
+        | Thursday
+        | Friday
+        | Saturday
+        | Sunday
+
     /// Season of the year.
     type Season =
         | Spring
