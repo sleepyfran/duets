@@ -278,33 +278,6 @@ module Parse =
         | "Midnight" -> Midnight
         | _ -> EarlyMorning
 
-
-[<RequireQualifiedAccess>]
-module DayOfWeek =
-    /// Returns the English name of the given day of the week.
-    let name (day: DayOfWeek) =
-        match day with
-        | Monday -> "Monday"
-        | Tuesday -> "Tuesday"
-        | Wednesday -> "Wednesday"
-        | Thursday -> "Thursday"
-        | Friday -> "Friday"
-        | Saturday -> "Saturday"
-        | Sunday -> "Sunday"
-
-[<RequireQualifiedAccess>]
-module DayMoment =
-    /// Returns the English name of the given day moment.
-    let name (dayMoment: DayMoment) =
-        match dayMoment with
-        | EarlyMorning -> "Early Morning"
-        | Morning -> "Morning"
-        | Midday -> "Midday"
-        | Afternoon -> "Afternoon"
-        | Evening -> "Evening"
-        | Night -> "Night"
-        | Midnight -> "Midnight"
-
 [<RequireQualifiedAccess>]
 module Seconds =
     /// Transforms the given number of seconds into minutes.

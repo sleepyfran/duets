@@ -36,14 +36,14 @@ module WorkCommand =
                     let workDaysText =
                         match job.CurrentStage.Schedule with
                         | JobSchedule.Fixed(workDays, workDayMoments, _) ->
-                            let dayNames =
-                                workDays |> List.map Calendar.DayOfWeek.name
+                            let dayNames = workDays |> List.map Generic.dayName
+
                             let dayMomentNames =
-                                workDayMoments |> List.map Calendar.DayMoment.name
-                            
+                                workDayMoments |> List.map Generic.dayMomentName
+
                             let daysText = Generic.listOf dayNames id
                             let momentsText = Generic.listOf dayMomentNames id
-                            
+
                             $"{daysText} during {momentsText}"
                         | JobSchedule.Free _ -> "" // This shouldn't happen but just in case
 

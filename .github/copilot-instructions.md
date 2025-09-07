@@ -10,7 +10,8 @@ The project is divided into several projects:
 - `Duets.Entities`: Contains the domain entities and types used throughout every other project.
 - `Duets.Simulation`: Contains the core game logic. Completely stateless and pure functions that receive the current game state
   and return a set of effects (as defined in `Duets.Entities`) that modify the game state, as well as the new game state. These
-  effects are then interpreted by the `Duets.Cli` project to display the results to the player.
+  effects are then interpreted by the `Duets.Cli` project to display the results to the player. This layer should **NEVER** contain
+  any side effects or translation strings. Those should always be handled by the CLI.
 - `Duets.Data`: Contains static data used in the game, such as the game world (cities, venues, etc.), genres, instruments, etc.
 - `Duets.Agents`: Contains various asynchronous agents (implemented using MailboxProcessor) that handle background tasks such as
   saving/loading the game on every turn, logging game events, keeping the current state of the game and tracking the play time.
