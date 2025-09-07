@@ -3,6 +3,7 @@ module Duets.Cli.Text.Phone
 
 open Duets.Common
 open Duets.Entities
+open Duets.Cli.Text
 
 let title = "Phone"
 
@@ -81,8 +82,8 @@ let currentJobDescription (job: Job) (placeName: string) =
         match job.CurrentStage.Schedule with
         | JobSchedule.Free _ -> "You don't have any schedule"
         | JobSchedule.Fixed (workDays, _) ->
-            let dayNames = workDays |> List.map (fun day -> day.ToString()) |> String.concat ", "
-            $"You work on: {dayNames}"
+            let dayNames = workDays |> List.map Calendar.DayOfWeek.name
+            $"You work on: {Generic.listOf dayNames id}"
     
     Styles.faded
         $"""You currently work as {Career.name job |> String.lowercase} at {placeName} earning {Styles.money job.CurrentStage.BaseSalaryPerDayMoment} per day moment. {scheduleText}"""

@@ -287,6 +287,20 @@ module Parse =
 
 
 [<RequireQualifiedAccess>]
+module DayOfWeek =
+    /// Returns the English name of the given day of the week.
+    let name (day: DayOfWeek) =
+        match day with
+        | System.DayOfWeek.Monday -> "Monday"
+        | System.DayOfWeek.Tuesday -> "Tuesday"
+        | System.DayOfWeek.Wednesday -> "Wednesday"
+        | System.DayOfWeek.Thursday -> "Thursday"
+        | System.DayOfWeek.Friday -> "Friday"
+        | System.DayOfWeek.Saturday -> "Saturday"
+        | System.DayOfWeek.Sunday -> "Sunday"
+        | _ -> "Unknown"
+
+[<RequireQualifiedAccess>]
 module Seconds =
     /// Transforms the given number of seconds into minutes.
     let toMinutes seconds = (seconds / 60<second>) * 1<minute>

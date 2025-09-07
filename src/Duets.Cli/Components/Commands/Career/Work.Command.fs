@@ -5,6 +5,7 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
+open Duets.Entities
 open Duets.Simulation.Careers.Work
 
 [<RequireQualifiedAccess>]
@@ -32,7 +33,14 @@ module WorkCommand =
 
                     Scene.World
                 | Error AttemptedToWorkOnNonScheduledDay ->
-                    "You can't work today according to your schedule!"
+                    let workDaysText = 
+                        match job.CurrentStage.Schedule with
+                        | JobSchedule.Fixed (workDays, _) ->
+                            let dayNames = workDays |> List.map Calendar.DayOfWeek.name
+                            Generic.listOf dayNames id
+                        | JobSchedule.Free _ -> "any day" // This shouldn't happen but just in case
+                    
+                    $"Today is a free day for you. Try again on: {workDaysText}"
                     |> Styles.error
                     |> showMessage
 

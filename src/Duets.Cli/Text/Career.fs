@@ -2,6 +2,7 @@ module Duets.Cli.Text.Career
 
 open Duets.Common
 open Duets.Entities
+open Duets.Cli.Text
 
 module Barista =
     let careerStageName (CareerStageId stage) =
@@ -84,8 +85,8 @@ let scheduleDescription schedule =
     | JobSchedule.Free _ ->
         $"""No schedule, {shiftDurationDescription schedule}"""
     | JobSchedule.Fixed (workDays, _) ->
-        let dayNames = workDays |> List.map (fun day -> day.ToString()) |> String.concat ", "
-        $"""Fixed schedule ({dayNames}), {shiftDurationDescription schedule}"""
+        let dayNames = workDays |> List.map Calendar.DayOfWeek.name
+        $"""Fixed schedule ({Generic.listOf dayNames id}), {shiftDurationDescription schedule}"""
 
 let careerChange (job: Job) placeName =
     Styles.success $"You now work as {name job} at {Styles.place placeName}"
