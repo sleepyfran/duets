@@ -14,6 +14,8 @@ type SocialActionResult =
     | TooManyRepetitionsPenalized
     /// The action was not performed because it was done too many times.
     | TooManyRepetitionsNoAction
+    /// The action was not performed because the relationship level is too low.
+    | RelationshipLevelTooLow
 
 type SocialActionResponse =
     { Effects: Effect list
@@ -62,27 +64,37 @@ type internal Limit =
 type internal SocialAction =
     { Kind: SocialActionKind
       Limit: Limit
-      RelationshipChange: RelationshipChange }
+      RelationshipChange: RelationshipChange
+      MinimumLevel: int<relationshipLevel> }
 
 /// Performs the given socializing action and returns a response that contains
 /// the updated socializing state and the effects that were produced by
 /// performing the action.
 let rec internal performAction state socializingState action =
-    let timesPerformedAction =
-        Social.State.timesDoneAction socializingState action.Kind
+    // Check if relationship level meets minimum requirement
+    let currentLevel = 
+        socializingState.Relationship
+        |> Option.map (fun r -> r.Level)
+        |> Option.defaultValue 0<relationshipLevel>
+    
+    if currentLevel < action.MinimumLevel then
+        Response.withoutEffects RelationshipLevelTooLow socializingState
+    else
+        let timesPerformedAction =
+            Social.State.timesDoneAction socializingState action.Kind
 
-    match action.Limit with
-    | NoLimit -> performAction' state socializingState action
-    | Penalized(limit, penalization) ->
-        if timesPerformedAction < limit then
-            performAction' state socializingState action
-        else
-            applyPenalization state socializingState penalization action
-    | NoAction limit ->
-        if timesPerformedAction < limit then
-            performAction' state socializingState action
-        else
-            Response.withoutEffects TooManyRepetitionsNoAction socializingState
+        match action.Limit with
+        | NoLimit -> performAction' state socializingState action
+        | Penalized(limit, penalization) ->
+            if timesPerformedAction < limit then
+                performAction' state socializingState action
+            else
+                applyPenalization state socializingState penalization action
+        | NoAction limit ->
+            if timesPerformedAction < limit then
+                performAction' state socializingState action
+            else
+                Response.withoutEffects TooManyRepetitionsNoAction socializingState
 
 and private applyPenalization state socializingState penalization action =
     { action with

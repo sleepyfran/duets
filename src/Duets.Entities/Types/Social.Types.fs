@@ -10,6 +10,15 @@ module SocialTypes =
         | Chat
         | AskAboutDay
         | TellStory
+        | Compliment
+        | TellJoke
+        | Gossip
+        | Argue
+        | Hug
+        | Flirt
+        | DiscussInterests
+        | AskAboutCareer
+        | ShareMemory
 
     /// Defines a state for a current social interaction.
     type SocializingState =

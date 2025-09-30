@@ -5,6 +5,7 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
+open Duets.Entities
 open Duets.Simulation.Careers.Work
 
 [<RequireQualifiedAccess>]
@@ -25,8 +26,28 @@ module WorkCommand =
                     Effect.applyMultiple effects
 
                     Scene.WorldAfterMovement
-                | Error _ ->
+                | Error AttemptedToWorkDuringClosingTime ->
                     "The place is currently close, you can't work now!"
+                    |> Styles.error
+                    |> showMessage
+
+                    Scene.World
+                | Error AttemptedToWorkOnNonScheduledDay ->
+                    let workDaysText =
+                        match job.CurrentStage.Schedule with
+                        | JobSchedule.Fixed(workDays, workDayMoments, _) ->
+                            let dayNames = workDays |> List.map Generic.dayName
+
+                            let dayMomentNames =
+                                workDayMoments |> List.map Generic.dayMomentName
+
+                            let daysText = Generic.listOf dayNames id
+                            let momentsText = Generic.listOf dayMomentNames id
+
+                            $"{daysText} during {momentsText}"
+                        | JobSchedule.Free _ -> "" // This shouldn't happen but just in case
+
+                    $"Right now is your free time. Try to work on {workDaysText}"
                     |> Styles.error
                     |> showMessage
 
