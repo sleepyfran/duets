@@ -1,5 +1,7 @@
 namespace Duets.Entities
 
+open System
+open System.Collections.Generic
 open Duets.Entities
 
 [<AutoOpen>]
