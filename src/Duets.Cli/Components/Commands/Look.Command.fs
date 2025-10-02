@@ -4,9 +4,11 @@ open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
+open Duets.Cli.Text.LanguageModelPrompts
 open Duets.Cli.Text.World
 open Duets.Entities
 open Duets.Simulation
+open FSharp.Control
 
 [<RequireQualifiedAccess>]
 module LookCommand =
@@ -139,11 +141,14 @@ module LookCommand =
             (fun _ ->
                 let state = State.get ()
 
-                let currentPlace = state |> Queries.World.currentPlace
                 let currentRoom = state |> Queries.World.currentRoom
 
-                World.placeDescription currentPlace currentRoom.RoomType
-                |> showMessage
+                createRoomDescriptionPrompt state interactions
+                |> LanguageModel.streamMessage
+                |> AsyncSeq.iter showInlineMessage
+                |> Async.RunSynchronously
+
+                lineBreak ()
 
                 listRoomConnections interactions
                 listEntrances interactions

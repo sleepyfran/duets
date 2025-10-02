@@ -1,6 +1,7 @@
 # Duets 🎸
 
-Duets is a music/life simulation game focused on allowing the player to be the leader of their own band, composing songs and making gigs to become a star.
+Duets is a music/life simulation game focused on allowing the player to be the leader of their own band, composing songs
+and making gigs to become a star.
 
 <details>
   <summary><h3>📷 Screenshots<h3/></summary>
@@ -20,10 +21,16 @@ cd duets
 ```
 
 > [!WARNING]
-> Duets currently uses a fork of Spectre.Console, so it's important to clone the submodules as well to bring that dependency.
+> Duets currently uses a fork of Spectre.Console, so it's important to clone the submodules as well to bring that
+> dependency.
 
 Once you have it, you can either chose to run it with a local installation of the .NET SDK or, if you prefer, through
 Docker to avoid installing the SDK on your computer and instead running the game inside a container.
+
+> [!IMPORTANT]
+> Descriptions and dialogues in the game are generated with a local large language model (LLM) that is downloaded during
+> build time. The model is a quantized version of Gemma 3 1B, which weights around 1GB. Due to this the first build of
+> the project will take a while as it needs to download the model, but subsequent builds will be much faster.
 
 ## Running with local .NET
 
@@ -46,9 +53,12 @@ docker run -it duets
 ```
 
 > [!WARNING]
-> The game is nowhere near done or bug-free. I'm constantly doing changes to the savegame format and thus constantly breaking
-> savegames. In the future when the game will be more complete I'll introduce some mechanism to automatically migrate savegames
-> but for the time being you either need to tinker with the savegame file to adapt it when new versions come up or be okay
+> The game is nowhere near done or bug-free. I'm constantly doing changes to the savegame format and thus constantly
+> breaking
+> savegames. In the future when the game will be more complete I'll introduce some mechanism to automatically migrate
+> savegames
+> but for the time being you either need to tinker with the savegame file to adapt it when new versions come up or be
+> okay
 > with losing your savegames.
 
 # 🧪 Testing

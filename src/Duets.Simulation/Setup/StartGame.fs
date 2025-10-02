@@ -13,22 +13,25 @@ let private allInitialWorldItems =
     |> List.map (fun city ->
         let homeId =
             Queries.World.placeIdsByTypeInCity city.Id PlaceTypeIndex.Home
-            |> List.head
+            |> List.tryHead
 
-        let kitchenItems =
-            [ fst Furniture.Stove.lgStove
-              fst Furniture.Storage.samsungFridge ]
+        match homeId with
+        | Some homeId ->
+            let kitchenItems =
+                [ fst Furniture.Stove.lgStove
+                  fst Furniture.Storage.samsungFridge ]
 
-        let bedroomItems = [ fst Furniture.Bed.ikeaBed ]
+            let bedroomItems = [ fst Furniture.Bed.ikeaBed ]
 
-        let livingRoomItems =
-            [ fst Electronics.Tv.lgTv
-              fst Electronics.GameConsole.xbox
-              fst Furniture.Storage.ikeaShelf ]
+            let livingRoomItems =
+                [ fst Electronics.Tv.lgTv
+                  fst Electronics.GameConsole.xbox
+                  fst Furniture.Storage.ikeaShelf ]
 
-        [ (city.Id, homeId, World.Ids.Home.bedroom), bedroomItems
-          (city.Id, homeId, World.Ids.Home.kitchen), kitchenItems
-          (city.Id, homeId, World.Ids.Home.livingRoom), livingRoomItems ])
+            [ (city.Id, homeId, World.Ids.Home.bedroom), bedroomItems
+              (city.Id, homeId, World.Ids.Home.kitchen), kitchenItems
+              (city.Id, homeId, World.Ids.Home.livingRoom), livingRoomItems ]
+        | None -> [])
     |> List.concat
     |> Map.ofList
 

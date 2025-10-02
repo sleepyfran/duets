@@ -58,6 +58,7 @@
         <Compile Include="Text\World\CityDependentDescriptions.fs"/>
         <Compile Include="Text\World\Studio.fs"/>
         <Compile Include="Text\World\World.fs"/>
+        <Compile Include="Text\LanguageModelPrompts.fs"/>
         <Compile Include="Components\VisualEffects.fs"/>
         <Compile Include="Components\Separator.fs"/>
         <Compile Include="Components\Layout.fs"/>
@@ -198,6 +199,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AvsAn" Version="3.2.0"/>
+        <PackageReference Include="FSharp.Control.AsyncSeq" Version="3.2.1"/>
         <PackageReference Include="FSharpx.Extras" Version="3.0.0"/>
         <PackageReference Include="FsToolkit.ErrorHandling" Version="4.3.0"/>
         <PackageReference Include="RadLine" Version="0.6.0"/>

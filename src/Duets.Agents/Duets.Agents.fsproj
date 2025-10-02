@@ -5,15 +5,49 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <ModelUrl>https://huggingface.co/unsloth/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q8_0.gguf</ModelUrl>
+        <ModelPath>$(MSBuildProjectDirectory)\models\model.gguf</ModelPath>
+    </PropertyGroup>
+
+    <Target Name="DownloadModel" BeforeTargets="Build">
+        <ItemGroup>
+            <ModelDir Include="$(MSBuildProjectDirectory)\models\"/>
+        </ItemGroup>
+
+        <MakeDir Directories="@(ModelDir)" Condition="!Exists('$(ModelPath)')"/>
+
+        <DownloadFile
+                SourceUrl="$(ModelUrl)"
+                DestinationFolder="$(MSBuildProjectDirectory)\models\"
+                DestinationFileName="model.gguf"
+                Condition="!Exists('$(ModelPath)')"/>
+
+        <Message Text="Model already exists at $(ModelPath)" Importance="normal" Condition="Exists('$(ModelPath)')"/>
+        <Message Text="Downloaded model to $(ModelPath)" Importance="normal" Condition="!Exists('$(ModelPath)')"/>
+    </Target>
+
     <ItemGroup>
         <Compile Include="State.fs"/>
         <Compile Include="Log.fs"/>
         <Compile Include="Savegame.fs"/>
         <Compile Include="Stats.fs"/>
+        <Compile Include="LanguageModel.fs"/>
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Duets.Entities\Duets.Entities.fsproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FSharp.Control.AsyncSeq" Version="3.2.1"/>
+        <PackageReference Include="LLamaSharp" Version="0.25.0"/>
+        <PackageReference Include="LLamaSharp.Backend.Cpu" Version="0.25.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="models\**\*" CopyToOutputDirectory="PreserveNewest"/>
+        <None Remove="models\**\*"/>
     </ItemGroup>
 
 </Project>
