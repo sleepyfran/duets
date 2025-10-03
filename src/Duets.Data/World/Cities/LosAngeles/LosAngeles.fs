@@ -3,45 +3,39 @@ module rec Duets.Data.World.Cities.LosAngeles.Root
 open Duets.Entities
 
 let generate () =
+    let hollywood = Hollywood.zone
     let downtownLA = DowntownLA.zone
-    let westside = Westside.zone
-    let koreatown = Koreatown.zone
-    let griffithPark = GriffithPark.zone
-    let echoParkSilverLake = EchoParkSilverLake.zone
-    let southBay = SouthBay.zone
+    let lax = Lax.zone
 
     let city =
-        World.City.create LosAngeles 5.7<costOfLiving> -8<utcOffset> downtownLA
+        World.City.create LosAngeles 5.7<costOfLiving> -8<utcOffset> hollywood
 
-    let hollywood = Hollywood.createZone city
+    let koreatown = Koreatown.createZone city
+    let santaMonica = SantaMonica.createZone city
 
     let redMetroLine =
         { Id = Red
           Stations =
-            [ (hollywood.Id, OnlyNext downtownLA.Id)
-              (downtownLA.Id, PreviousAndNext(hollywood.Id, westside.Id))
-              (westside.Id, PreviousAndNext(downtownLA.Id, koreatown.Id))
-              (koreatown.Id, PreviousAndNext(westside.Id, southBay.Id))
-              (southBay.Id, OnlyPrevious koreatown.Id) ]
+            [ (hollywood.Id, OnlyNext(downtownLA.Id))
+              (downtownLA.Id, OnlyPrevious(hollywood.Id)) ]
             |> Map.ofList
-          UsualWaitingTime = 9<minute> }
+          UsualWaitingTime = 8<minute> }
 
     let blueMetroLine =
         { Id = Blue
           Stations =
-            [ (griffithPark.Id, OnlyNext downtownLA.Id)
-              (downtownLA.Id,
-               PreviousAndNext(griffithPark.Id, echoParkSilverLake.Id))
-              (echoParkSilverLake.Id, OnlyPrevious downtownLA.Id) ]
+            [ (downtownLA.Id, OnlyNext(koreatown.Id))
+              (koreatown.Id, PreviousAndNext(downtownLA.Id, santaMonica.Id))
+              (santaMonica.Id, PreviousAndNext(koreatown.Id, lax.Id))
+              (lax.Id, OnlyPrevious(santaMonica.Id)) ]
             |> Map.ofList
-          UsualWaitingTime = 12<minute> }
+          UsualWaitingTime = 10<minute> }
 
     city
     |> World.City.addZone hollywood
-    |> World.City.addZone westside
     |> World.City.addZone koreatown
-    |> World.City.addZone griffithPark
-    |> World.City.addZone echoParkSilverLake
-    |> World.City.addZone southBay
+    |> World.City.addZone downtownLA
+    |> World.City.addZone santaMonica
+    |> World.City.addZone lax
     |> World.City.addMetroLine redMetroLine
     |> World.City.addMetroLine blueMetroLine

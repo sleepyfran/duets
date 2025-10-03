@@ -1,6 +1,7 @@
 module Duets.Data.World.Cities.LosAngeles.DowntownLA
 
 open Duets.Data.World.Cities
+open Duets.Data.World.Cities.LosAngeles
 open Duets.Entities
 
 let figueroaStreet (zone: Zone) =
@@ -11,113 +12,33 @@ let figueroaStreet (zone: Zone) =
 
     let concertSpaces =
         [ ("Crypto.com Arena",
-           20000,
+           17000,
            98<quality>,
-           Layouts.concertSpaceLayout2,
-           zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
-
-    street |> World.Street.addPlaces concertSpaces
-
-let olympicBoulevard (zone: Zone) =
-    let street =
-        World.Street.create
-            Ids.Street.olympicBoulevard
-            (StreetType.Split(East, 2))
-
-    let concertSpaces =
-        [ ("The Novo", 2400, 90<quality>, Layouts.concertSpaceLayout4, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
-
-    street |> World.Street.addPlaces concertSpaces
-
-let chickHearnCourt (zone: Zone) =
-    let street =
-        World.Street.create
-            Ids.Street.chickHearnCourt
-            (StreetType.Split(East, 2))
-
-    let concertSpaces =
-        [ ("Peacock Theater",
+           Layouts.concertSpaceLayout4,
+           zone.Id)
+          ("Microsoft Theater",
            7100,
            94<quality>,
-           Layouts.concertSpaceLayout1,
-           zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
-
-    street |> World.Street.addPlaces concertSpaces
-
-let hillStreet (zone: Zone) =
-    let street =
-        World.Street.create Ids.Street.hillStreet (StreetType.Split(North, 2))
-
-    let concertSpaces =
-        [ ("The Belasco",
-           1500,
-           88<quality>,
-           Layouts.concertSpaceLayout3,
+           Layouts.concertSpaceLayout4,
            zone.Id)
-          ("The Mayan", 1491, 87<quality>, Layouts.concertSpaceLayout3, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
-
-    street |> World.Street.addPlaces concertSpaces
-
-let broadway (zone: Zone) =
-    let street =
-        World.Street.create Ids.Street.broadway (StreetType.Split(North, 2))
-
-    let concertSpaces =
-        [ ("Orpheum Theatre",
+          ("Orpheum Theatre",
            2000,
            91<quality>,
-           Layouts.concertSpaceLayout4,
-           zone.Id)
-          ("The Theatre at Ace Hotel",
-           1600,
-           90<quality>,
-           Layouts.concertSpaceLayout4,
+           Layouts.concertSpaceLayout3,
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
-    street |> World.Street.addPlaces concertSpaces
+    let bars =
+        [ ("W Hotel/L.A. Live Lounge", 93<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBar street.Id)
 
-let mainStreet (zone: Zone) =
-    let street =
-        World.Street.create Ids.Street.mainStreet (StreetType.Split(North, 2))
+    let rehearsalSpaces =
+        [ ("Los Angeles Convention Center", 95<quality>, 500m<dd>, zone.Id) ]
+        |> List.map (PlaceCreators.createRehearsalSpace street.Id)
 
-    let concertSpaces =
-        [ ("The Smell", 100, 75<quality>, Layouts.concertSpaceLayout1, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
-
-    street |> World.Street.addPlaces concertSpaces
-
-let boylstonStreet (zone: Zone) =
-    let street =
-        World.Street.create
-            Ids.Street.boylstonStreet
-            (StreetType.Split(North, 2))
-
-    let concertSpaces =
-        [ ("The Bellwether",
-           1600,
-           89<quality>,
-           Layouts.concertSpaceLayout4,
-           zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
-
-    street |> World.Street.addPlaces concertSpaces
-
-let seventhStreet (zone: Zone) =
-    let street =
-        World.Street.create Ids.Street.seventhStreet (StreetType.Split(East, 2))
-
-    let concertSpaces =
-        [ ("Teragram Ballroom",
-           600,
-           86<quality>,
-           Layouts.concertSpaceLayout2,
-           zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+    let hotels =
+        [ ("The Grand Biltmore", 95<quality>, 500m<dd>, zone.Id) ]
+        |> List.map (PlaceCreators.createHotel street.Id)
 
     let metroStation =
         ("7th St/Metro Center", zone.Id)
@@ -126,75 +47,55 @@ let seventhStreet (zone: Zone) =
     let street =
         street
         |> World.Street.addPlaces concertSpaces
+        |> World.Street.addPlaces bars
+        |> World.Street.addPlaces rehearsalSpaces
+        |> World.Street.addPlaces hotels
         |> World.Street.addPlace metroStation
 
     street, metroStation
 
-let firstStreet (zone: Zone) =
-    let street =
-        World.Street.create Ids.Street.firstStreet (StreetType.Split(East, 2))
+let grandAvenue (zone: Zone) =
+    let street = World.Street.create Ids.Street.grandAvenue StreetType.OneWay
 
     let concertSpaces =
-        [ ("Moroccan Lounge",
-           275,
-           84<quality>,
-           Layouts.concertSpaceLayout1,
+        [ ("Walt Disney Concert Hall",
+           2265,
+           97<quality>,
+           Layouts.concertSpaceLayout4,
+           zone.Id)
+          ("Dorothy Chandler Pavilion",
+           3197,
+           95<quality>,
+           Layouts.concertSpaceLayout4,
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
-    street |> World.Street.addPlaces concertSpaces
+    let restaurants =
+        [ ("Patina Restaurant", 94<quality>, French, zone.Id) ]
+        |> List.map (PlaceCreators.createRestaurant street.Id)
 
-let hewittStreet (zone: Zone) =
-    let street =
-        World.Street.create Ids.Street.hewittStreet (StreetType.Split(North, 2))
+    let cafes =
+        [ ("Anya's Coffee", 90<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
 
-    let concertSpaces =
-        [ ("Resident", 200, 83<quality>, Layouts.concertSpaceLayout1, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
-
-    street |> World.Street.addPlaces concertSpaces
+    street
+    |> World.Street.addPlaces concertSpaces
+    |> World.Street.addPlaces restaurants
+    |> World.Street.addPlaces cafes
 
 let zone =
     let downtownLAZone = World.Zone.create Ids.Zone.downtownLA
 
-    let figueroaStreet = figueroaStreet downtownLAZone
-    let olympicBoulevard = olympicBoulevard downtownLAZone
-    let chickHearnCourt = chickHearnCourt downtownLAZone
-    let hillStreet = hillStreet downtownLAZone
-    let broadway = broadway downtownLAZone
-    let mainStreet = mainStreet downtownLAZone
-    let boylstonStreet = boylstonStreet downtownLAZone
-    let seventhStreet, seventhStreetStation = seventhStreet downtownLAZone
-    let firstStreet = firstStreet downtownLAZone
-    let hewittStreet = hewittStreet downtownLAZone
+    let figueroaStreet, figueroaStreetStation = figueroaStreet downtownLAZone
+    let grandAvenue = grandAvenue downtownLAZone
 
     let station =
         { Lines = [ Red; Blue ]
-          LeavesToStreet = seventhStreet.Id
-          PlaceId = seventhStreetStation.Id }
+          LeavesToStreet = figueroaStreet.Id
+          PlaceId = figueroaStreetStation.Id }
 
     downtownLAZone
     |> World.Zone.addStreet (World.Node.create figueroaStreet.Id figueroaStreet)
-    |> World.Zone.addStreet (
-        World.Node.create olympicBoulevard.Id olympicBoulevard
-    )
-    |> World.Zone.addStreet (
-        World.Node.create chickHearnCourt.Id chickHearnCourt
-    )
-    |> World.Zone.addStreet (World.Node.create hillStreet.Id hillStreet)
-    |> World.Zone.addStreet (World.Node.create broadway.Id broadway)
-    |> World.Zone.addStreet (World.Node.create mainStreet.Id mainStreet)
-    |> World.Zone.addStreet (World.Node.create boylstonStreet.Id boylstonStreet)
-    |> World.Zone.addStreet (World.Node.create seventhStreet.Id seventhStreet)
-    |> World.Zone.addStreet (World.Node.create firstStreet.Id firstStreet)
-    |> World.Zone.addStreet (World.Node.create hewittStreet.Id hewittStreet)
-    |> World.Zone.connectStreets figueroaStreet.Id olympicBoulevard.Id East
-    |> World.Zone.connectStreets olympicBoulevard.Id chickHearnCourt.Id East
-    |> World.Zone.connectStreets chickHearnCourt.Id hillStreet.Id East
-    |> World.Zone.connectStreets hillStreet.Id broadway.Id East
-    |> World.Zone.connectStreets broadway.Id mainStreet.Id East
-    |> World.Zone.connectStreets mainStreet.Id boylstonStreet.Id East
-    |> World.Zone.connectStreets boylstonStreet.Id seventhStreet.Id East
-    |> World.Zone.connectStreets seventhStreet.Id firstStreet.Id East
-    |> World.Zone.connectStreets firstStreet.Id hewittStreet.Id East
+    |> World.Zone.addStreet (World.Node.create grandAvenue.Id grandAvenue)
+    |> World.Zone.connectStreets figueroaStreet.Id grandAvenue.Id East
     |> World.Zone.addMetroStation station

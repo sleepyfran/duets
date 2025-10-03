@@ -16,6 +16,11 @@ let private createPrompt prompt =
 <start_of_turn>model
 """
 
+let private placeNameWithType (place: Place) =
+    match place.PlaceType with
+    | Home -> "your home"
+    | _ -> $"{place.Name} ({place |> World.placeTypeName'})"
+
 let private entrancesForPrompt interactions =
     let entrances =
         interactions
@@ -28,12 +33,21 @@ let private entrancesForPrompt interactions =
     match entrances with
     | [] -> ""
     | entrances ->
-        $"""(Entrances to: {Generic.listOf entrances World.placeNameWithType})"""
+        $"""(Entrances to: {Generic.listOf entrances placeNameWithType})"""
 
 let private roomNameForPrompt place roomType interactions =
     match place.PlaceType with
     | Street -> entrancesForPrompt interactions
     | _ -> World.roomName roomType
+
+let private itemName item =
+    let mainProperty = item.Properties |> List.head
+
+    match mainProperty with
+    | Key(EntranceCard(cityId, placeId)) ->
+        let place = Queries.World.placeInCityById cityId placeId
+        $"entrance card for {place.Name}"
+    | _ -> item.Name
 
 let createRoomDescriptionPrompt state interactions =
     let coords = state |> Queries.World.currentCoordinates
@@ -46,7 +60,7 @@ let createRoomDescriptionPrompt state interactions =
         roomNameForPrompt currentPlace currentRoom.RoomType interactions
 
     let objectsInCurrentRoom =
-        Queries.Items.allIn state coords |> List.map Generic.itemName
+        Queries.Items.allIn state coords |> List.map itemName
 
     let objectDescriptions =
         if objectsInCurrentRoom.IsEmpty then
