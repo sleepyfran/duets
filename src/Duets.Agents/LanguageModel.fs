@@ -99,12 +99,16 @@ type LanguageModelAgent() =
 
             loop None
 
-    do agent.PostAndReply(fun channel -> Initialize(channel))
+    member _.Initialize() =
+        agent.PostAndReply(fun channel -> Initialize(channel))
 
     member _.StreamMessage(context) =
         agent.PostAndReply(fun channel -> StreamMessage(context, channel))
 
 let agent = LanguageModelAgent()
+
+/// Initializes the language model agent.
+let initialize = agent.Initialize
 
 /// Streams a message from the language model given a prompt.
 let streamMessage prompt = agent.StreamMessage prompt

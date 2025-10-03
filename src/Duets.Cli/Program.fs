@@ -69,6 +69,8 @@ let private parseNoSavingArg args =
 let main args =
     let skipSaving = parseNoSavingArg args
 
+    LanguageModel.initialize ()
+
     clearScreen ()
 
     Stats.startTrackingTime ()
