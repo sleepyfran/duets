@@ -130,6 +130,8 @@ module WorldTypes =
             /// Map of nodes that are considered exist in the room graph with the
             /// ID of the street that it exits to if the player follows it.
             Exits: Map<NodeId, StreetId>
+            /// Context that can be used to influence the description of the place.
+            PromptContext: string
             Quality: Quality
             PlaceType: PlaceType
             OpeningHours: PlaceOpeningHours
@@ -150,10 +152,14 @@ module WorldTypes =
 
     /// Defines a street inside of a zone where places are contained.
     type Street =
-        { Id: StreetId
-          Name: string
-          Type: StreetType
-          Places: Place list }
+        {
+            Id: StreetId
+            Name: string
+            /// Context that can be used to influence the description of the street.
+            PromptContext: string
+            Type: StreetType
+            Places: Place list
+        }
 
     /// Defines a zone inside of a city where places are contained.
     type Zone =

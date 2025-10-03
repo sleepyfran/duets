@@ -103,9 +103,14 @@ module Place =
           Exits = Map.empty
           Quality = quality
           PlaceType = placeType
+          PromptContext = ""
           OpeningHours = PlaceOpeningHours.AlwaysOpen
           Rooms = rooms
           ZoneId = zoneId }
+
+    /// Attaches a prompt context to the given place.
+    let attachContext context (place: Place) =
+        { place with PromptContext = context }
 
     /// Adds an exit to the given place.
     let addExit originRoomId targetPlaceId place =
@@ -152,8 +157,13 @@ module Street =
 
         { Id = inferredId
           Name = name
+          PromptContext = ""
           Type = streetType
           Places = [] }
+
+    /// Attaches a prompt context to the given street.
+    let attachContext context (street: Street) =
+        { street with PromptContext = context }
 
     /// Adds a place to the given street.
     let addPlace place street =
@@ -239,6 +249,7 @@ module Zone =
                 PlaceType.Street
                 streetRoomGraph
                 zone.Id
+            |> Place.attachContext street.Content.PromptContext
 
         let street =
             { street with

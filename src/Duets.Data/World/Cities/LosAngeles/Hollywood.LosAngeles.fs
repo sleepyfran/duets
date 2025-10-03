@@ -10,6 +10,19 @@ let sunsetBoulevard (zone: Zone) =
         World.Street.create
             Ids.Street.sunsetBoulevardHollywood
             (StreetType.Split(East, 3))
+        |> World.Street.attachContext
+            """This street is the theatrical core of Hollywood, lined with
+            classic movie palaces and bustling with costumed characters. The
+            sidewalk is famously embedded with the Hollywood Walk of Fame,
+            featuring thousands of brass stars dedicated to entertainment legends.
+            Key landmarks visible along the central tourist stretch include the
+            iconic TCL Chinese Theatre (with its celebrity hand and footprints),
+            the modern Dolby Theatre (home of the Academy Awards), and the
+            distinct, circular Capitol Records Building a block north. While
+            less glamorous than its reputation suggests, it's the heart of
+            tourist Hollywood, where the industry's history is literally beneath
+            your feet.
+"""
 
     let concertSpaces =
         [ ("The Roxy Theatre",
@@ -73,6 +86,18 @@ let hollywoodBoulevard (zone: Zone) =
         World.Street.create
             Ids.Street.hollywoodBoulevard
             (StreetType.Split(East, 2))
+        |> World.Street.attachContext
+            """
+        Stretching from Downtown to the Pacific, this major artery transforms as it
+        travels westward. The famous portion known as the Sunset Strip (in West
+        Hollywood) is the city's legendary nightlife and music hub, characterized
+        by large, colorful billboards and boutique hotels. Along the Hollywood
+        section, you can spot the massive Hollywood Palladium concert venue and
+        the historic Sunset Gower Studios. The vibe is a mix of rock-and-roll
+        grunge and classic Old Hollywood glamour, with entire sections known as
+        "Guitar Row" due to the concentration of music stores and studios. This
+        road carries the energy of L.A.'s living, breathing music industry.
+"""
 
     let concertSpaces =
         [ ("Hollywood Palladium",

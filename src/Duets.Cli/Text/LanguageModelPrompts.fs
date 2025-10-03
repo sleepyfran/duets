@@ -88,8 +88,12 @@ Rules:
 The player is inside **{currentPlace.Name}** (quality: {currentPlace.Quality}) {roomTypeSection}, which is
 located in the city of **{cityId}**. It's the day **{currentDate.Day}** of **{currentDate.Season}**,
 in the year **{currentDate.Year}**, currently in the **{currentDate.DayMoment}**.
+     
+--- Context for the current place ---
+{currentPlace.PromptContext}
 
-Items in the room: {objectDescriptions}.
+--- Items in the place ---
+{objectDescriptions}.
 
 **Provide the generated description and *only* the description.**
 """
