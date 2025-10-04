@@ -7,6 +7,17 @@ open Duets.Data.World.Cities
 let callePonzano (city: City) (zone: Zone) =
     let street =
         World.Street.create "Calle de Ponzano" (StreetType.Split(West, 2))
+        |> World.Street.attachContext
+            """
+        A trendy gastronomic street that has transformed into one of Madrid's premier
+        culinary destinations. The narrow street is lined with a mix of traditional
+        tapas bars and modern fusion restaurants, creating a vibrant dining scene.
+        Historic low-rise buildings with traditional balconies house street-level establishments
+        with outdoor terraces. On evenings and weekends, the street becomes crowded with
+        locals and food enthusiasts hopping between venues. The atmosphere is casual
+        yet sophisticated, with chalkboard menus, wine barrel tables on sidewalks, and
+        the constant buzz of conversation and clinking glasses.
+"""
 
     let bars =
         [ ("Fide", 80<quality>, zone.Id); ("El Doble", 82<quality>, zone.Id) ]
@@ -55,6 +66,16 @@ let callePonzano (city: City) (zone: Zone) =
 let calleAlmagro (zone: Zone) =
     let street =
         World.Street.create "Calle de Almagro" (StreetType.Split(North, 2))
+        |> World.Street.attachContext
+            """
+        A quiet residential street in the Chamberí district with an artistic and
+        intellectual character. The street features elegant 19th-century buildings
+        with well-preserved facades, balconies with intricate ironwork, and wide sidewalks
+        lined with mature trees. The area has a neighborhood feel with small independent
+        shops, cultural centers, and intimate cafés. The architecture reflects the bourgeois
+        development of Madrid in the late 1800s, with ornamental details and harmonious
+        proportions that create a refined urban environment.
+"""
 
     let studios =
         [ ("Estudio Almagro",
@@ -92,6 +113,17 @@ let calleAlmagro (zone: Zone) =
 let calleFuencarral city (zone: Zone) =
     let street =
         World.Street.create "Calle de Fuencarral" (StreetType.Split(South, 2))
+        |> World.Street.attachContext
+            """
+        A long commercial street stretching from the city center northward, known for
+        its eclectic mix of alternative fashion, vintage shops, and youth culture.
+        The street combines different architectural periods, from traditional Madrid buildings
+        to modern retail spaces. Street art and murals occasionally appear on building walls,
+        and the sidewalks are busy with shoppers, students, and urban wanderers.
+        The atmosphere shifts from mainstream commercial in some sections to more bohemian
+        and alternative in others, with independent boutiques, record stores, and tattoo
+        parlors contributing to the diverse character.
+"""
 
     let gyms =
         [ ("Basic-Fit", 80<quality>, zone.Id) ]

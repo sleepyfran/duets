@@ -6,6 +6,16 @@ open Duets.Data.World.Cities
 let calleSerrano (city: City) (zone: Zone) =
     let street =
         World.Street.create "Calle de Serrano" (StreetType.Split(North, 2))
+        |> World.Street.attachContext
+            """
+        One of Madrid's most prestigious shopping streets in the exclusive Salamanca district.
+        The boulevard is lined with luxury boutiques, flagship stores of international designers,
+        and elegant residential buildings with ornate facades from the late 19th and early
+        20th centuries. Wide sidewalks accommodate well-dressed shoppers, and the street
+        exudes sophistication with its polished marble entrances, designer window displays,
+        and perfectly manicured trees. Art Nouveau and rationalist architectural details
+        adorn many buildings, while luxury cars frequently park along the curbs.
+"""
 
     let hotels =
         [ ("Hotel Wellington", 92<quality>, 350m<dd>, zone.Id) ]
@@ -49,6 +59,15 @@ let calleSerrano (city: City) (zone: Zone) =
 let calleVelazquez city (zone: Zone) =
     let street =
         World.Street.create "Calle de Velázquez" (StreetType.Split(East, 2))
+        |> World.Street.attachContext
+            """
+        A prominent street in the Salamanca neighborhood named after the famous
+        Spanish painter Diego Velázquez. The street features neoclassical and modernist
+        architecture with buildings showcasing wrought-iron balconies and decorative stonework.
+        The area has an upscale yet relaxed atmosphere with wide pavements, designer
+        storefronts, and contemporary galleries. Tall trees provide shade, and the
+        well-maintained urban landscape reflects the district's affluent character.
+"""
 
     let restaurants =
         [ ("Amazonico", 89<quality>, Japanese, zone.Id)
@@ -75,6 +94,16 @@ let calleVelazquez city (zone: Zone) =
 let calleGoya (zone: Zone) =
     let street =
         World.Street.create "Calle de Goya" (StreetType.Split(South, 2))
+        |> World.Street.attachContext
+            """
+        A vibrant commercial street named after painter Francisco de Goya, serving
+        as one of Salamanca's main shopping arteries. The street combines traditional
+        Spanish architecture with modern retail spaces, featuring a mix of local businesses
+        and international chains. Elegant apartment buildings with characteristic Madrid
+        balconies line the upper floors, while street-level shops create a bustling
+        pedestrian environment. The area attracts a diverse crowd of residents and
+        visitors, with sidewalk cafés and historic pastry shops adding charm to the urban landscape.
+"""
 
     let cafes =
         [ ("La Duquesita", 80<quality>, zone.Id)
