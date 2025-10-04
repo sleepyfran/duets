@@ -4,7 +4,7 @@ open Duets.Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
 
-let václavskéNáměstí (zone: Zone) =
+let václavskéNáměstí (city: City) (zone: Zone) =
     let street =
         World.Street.create
             Ids.Street.václavskéNáměstí
@@ -33,6 +33,10 @@ let václavskéNáměstí (zone: Zone) =
         [ ("General University Hospital", 95<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createHospital street.Id)
 
+    let radioStudios =
+        [ ("Radio 1", 92<quality>, "Pop", zone.Id) ]
+        |> List.map (PlaceCreators.createRadioStudio city)
+
     let metroStation =
         ("Můstek Station", zone.Id) |> (PlaceCreators.createMetro street.Id)
 
@@ -41,6 +45,7 @@ let václavskéNáměstí (zone: Zone) =
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces restaurants
         |> World.Street.addPlaces hospitals
+        |> World.Street.addPlaces radioStudios
         |> World.Street.addPlace metroStation
 
     street, metroStation
@@ -113,10 +118,10 @@ let národní (zone: Zone) =
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces hotels
 
-let zone =
+let createZone city =
     let novéMěstoZone = World.Zone.create Ids.Zone.novéMěsto
 
-    let václavskéNáměstí, metroStation = václavskéNáměstí novéMěstoZone
+    let václavskéNáměstí, metroStation = václavskéNáměstí city novéMěstoZone
     let národní = národní novéMěstoZone
     let vodičkova = vodičkova novéMěstoZone
 

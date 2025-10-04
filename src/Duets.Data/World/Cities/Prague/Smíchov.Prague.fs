@@ -4,7 +4,7 @@ open Duets.Data.World.Cities
 open Duets.Entities
 open Duets.Entities.Calendar
 
-let plzeňská (zone: Zone) =
+let plzeňská (city: City) (zone: Zone) =
     let street =
         World.Street.create "Plzeňská" (StreetType.Split(East, 2))
         |> World.Street.attachContext
@@ -28,6 +28,10 @@ let plzeňská (zone: Zone) =
         [ ("El Sabor Mexicano", 89<quality>, Mexican, zone.Id) ]
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
+    let radioStudios =
+        [ ("Radio Beat", 89<quality>, "Rock", zone.Id) ]
+        |> List.map (PlaceCreators.createRadioStudio city)
+
     let metroStation =
         ("Anděl Station", zone.Id) |> (PlaceCreators.createMetro street.Id)
 
@@ -35,6 +39,7 @@ let plzeňská (zone: Zone) =
         street
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces restaurants
+        |> World.Street.addPlaces radioStudios
         |> World.Street.addPlace metroStation
 
     street, metroStation
@@ -152,7 +157,7 @@ let zborovská (zone: Zone) =
 let createZone city =
     let smíchovZone = World.Zone.create Ids.Zone.smíchov
 
-    let plzeňská, metroStation = plzeňská smíchovZone
+    let plzeňská, metroStation = plzeňská city smíchovZone
     let štefánikova = štefánikova city smíchovZone
     let zborovská = zborovská smíchovZone
     let janáčkovoNábřeží = janáčkovoNábřeží smíchovZone

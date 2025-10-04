@@ -41,6 +41,10 @@ let francouzská city (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
+    let radioStudios =
+        [ ("Jazz Radio", 87<quality>, "Jazz", zone.Id) ]
+        |> List.map (PlaceCreators.createRadioStudio city)
+
     let street =
         street
         |> World.Street.addPlace home
@@ -48,6 +52,7 @@ let francouzská city (zone: Zone) =
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces restaurants
         |> World.Street.addPlaces concertSpaces
+        |> World.Street.addPlaces radioStudios
 
     street
 
