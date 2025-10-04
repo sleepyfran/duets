@@ -10,6 +10,16 @@ let wilshireBoulevard (zone: Zone) (city: City) =
         World.Street.create
             Ids.Street.wilshireBoulevardKoreatown
             (StreetType.Split(East, 2))
+        |> World.Street.attachContext
+            """
+        Wilshire Boulevard is the main east-west artery of Koreatown, defined by
+        high-density urban development, historic architecture, and major transportation hubs.
+        It is the location of significant landmarks like the iconic jade-green
+        Wiltern Theatre and its attached Pellissier Building, a masterpiece of
+        Art Deco architecture that serves as a major concert venue. The boulevard
+        features modern high-rises, mixed with preserved historic buildings and
+        plazas like Beneficial Plaza and Liberty Park.
+"""
 
     let concertSpaces =
         [ ("The Wiltern Theatre",
@@ -56,7 +66,19 @@ let wilshireBoulevard (zone: Zone) (city: City) =
     street, metroStation
 
 let westernAvenue (zone: Zone) =
-    let street = World.Street.create Ids.Street.westernAvenue StreetType.OneWay
+    let street =
+        World.Street.create Ids.Street.westernAvenue StreetType.OneWay
+        |> World.Street.attachContext
+            """
+        Western Avenue is a major north-south street forming the western boundary
+        of Koreatown. As one of the longest major north-south avenues in LA County,
+        its Koreatown stretch is characterized by its high concentration of businesses,
+        including shopping centers like Koreatown Galleria and smaller, busy commercial
+        strips. It acts as a bustling, vibrant, and multi-cultural corridor,
+        intersecting with many of the neighborhood's side streets that lead to the
+        residential core. The intersection with Wilshire Boulevard marks a key,
+        dense nexus of the community.
+"""
 
     let concertSpaces =
         [ ("The Catch One",

@@ -6,7 +6,17 @@ open Duets.Entities
 open Duets.Entities.Calendar
 
 let oceanAvenue (zone: Zone) =
-    let street = World.Street.create Ids.Street.oceanAvenue StreetType.OneWay
+    let street =
+        World.Street.create Ids.Street.oceanAvenue StreetType.OneWay
+        |> World.Street.attachContext
+            """
+        This is the iconic, palm-tree-lined westernmost street, running along a
+        bluff overlooking the Pacific Ocean and Santa Monica State Beach. It is a
+        vital link to the Santa Monica Pier (at the intersection with Colorado Ave),
+        a massive landmark with its amusement park, Ferris Wheel, and the
+        "End of the Trail" Route 66 sign. The street is bordered by Palisades Park
+        and Tongva Park, offering stunning ocean views and a mix of high-end hotels and residences.
+"""
 
     let concertSpaces =
         [ ("Santa Monica Pier",
@@ -45,7 +55,18 @@ let oceanAvenue (zone: Zone) =
     street, metroStation
 
 let mainStreet (zone: Zone) =
-    let street = World.Street.create Ids.Street.mainStreet StreetType.OneWay
+    let street =
+        World.Street.create Ids.Street.mainStreet StreetType.OneWay
+        |> World.Street.attachContext
+            """
+        Running parallel to the beach, a couple of blocks inland, Main Street is
+        known for its "local, surfer vibe"—a sophisticated yet laid-back shopping
+        and dining district in the Ocean Park neighborhood. It features eclectic
+        and upscale shops, cafes, and restaurants, including the famous Chinois
+        on Main restaurant. The area also showcases modern architecture, including
+        two buildings designed by Frank Gehry and the striking Ballerina Clown
+        sculpture by Jonathan Borofsky.
+"""
 
     let concertSpaces =
         [ ("The Central Club",
@@ -76,6 +97,16 @@ let mainStreet (zone: Zone) =
 let picoBoulevard (zone: Zone) (city: City) =
     let street =
         World.Street.create Ids.Street.picoBoulevard (StreetType.Split(East, 2))
+        |> World.Street.attachContext
+            """
+        Pico Boulevard is a major, diverse artery connecting Santa Monica to
+        Downtown Los Angeles. It is a cultural hub distinguished by numerous striking
+        street art murals that have turned stretches of the street into an open-air
+        art exhibition. Notable landmarks include the Santa Monica Civic Auditorium,
+        Santa Monica High School, and Santa Monica College. The boulevard is also
+        home to a mix of small galleries, live music venues like
+        McCabe's Guitar Shop (a noted folk concert forum), and a wide variety of culturally diverse restaurants.
+"""
 
     let home = PlaceCreators.createHome street.Id zone.Id
 
