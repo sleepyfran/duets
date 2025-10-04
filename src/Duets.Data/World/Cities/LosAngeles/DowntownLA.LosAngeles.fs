@@ -9,6 +9,18 @@ let figueroaStreet (zone: Zone) =
         World.Street.create
             Ids.Street.figueroaStreet
             (StreetType.Split(North, 2))
+        |> World.Street.attachContext
+            """
+        Figueroa Street in Downtown LA is a major north-south artery known as the
+        "Arts, Sports, and Entertainment Corridor." This lively stretch is dominated
+        by large-scale venues and modern developments. Key non-interactive landmarks
+        include the Los Angeles Convention Center, and the bustling L.A. Live entertainment
+        complex with its sleek neon signs and high-rise hotels. Farther south, the
+        street connects to the historic Shrine Auditorium and the campus of the
+        University of Southern California (USC). The street feels busy, commercial,
+        and is characterized by a mix of tall office towers and modern entertainment
+        architecture, defining the southwestern edge of the central business district.
+"""
 
     let concertSpaces =
         [ ("Crypto.com Arena",
@@ -55,7 +67,19 @@ let figueroaStreet (zone: Zone) =
     street, metroStation
 
 let grandAvenue (zone: Zone) =
-    let street = World.Street.create Ids.Street.grandAvenue StreetType.OneWay
+    let street =
+        World.Street.create Ids.Street.grandAvenue StreetType.OneWay
+        |> World.Street.attachContext
+            """
+        Grand Avenue is DTLA's cultural and civic heart, contrasting with the commercial
+        vibe of Figueroa. It runs along the top of Bunker Hill and is an architectural showcase.
+        The street is home to world-class cultural institutions like the contemporary art
+        museum The Broad, and the Museum of Contemporary Art (MOCA).
+        The avenue also features the expansive green space of Grand Park, which stretches
+        from the Music Center complex down to City Hall, providing an open, public
+        contrast to the surrounding skyscrapers. The atmosphere is upscale, art-focused,
+        and distinctly metropolitan, centered around performance and visual arts.
+"""
 
     let concertSpaces =
         [ ("Walt Disney Concert Hall",
