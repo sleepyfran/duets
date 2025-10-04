@@ -32,7 +32,6 @@ let generate () =
           UsualWaitingTime = 10<minute> }
 
     city
-    |> World.City.addZone hollywood
     |> World.City.addZone koreatown
     |> World.City.addZone downtownLA
     |> World.City.addZone santaMonica
