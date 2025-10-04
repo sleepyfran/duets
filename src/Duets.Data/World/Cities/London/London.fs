@@ -36,7 +36,6 @@ let generate () =
     |> World.City.addZone westEnd
     |> World.City.addZone cityOfLondon
     |> World.City.addZone camden
-    |> World.City.addZone greenwich
     |> World.City.addZone heathrow
     |> World.City.addMetroLine blueMetroLine
     |> World.City.addMetroLine redMetroLine

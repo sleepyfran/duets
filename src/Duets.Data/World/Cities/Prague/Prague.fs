@@ -38,7 +38,6 @@ let generate () =
           UsualWaitingTime = 2<minute> }
 
     city
-    |> World.City.addZone holešovice
     |> World.City.addZone libeň
     |> World.City.addZone novéMěsto
     |> World.City.addZone ruzyně
