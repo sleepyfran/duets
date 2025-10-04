@@ -4,7 +4,7 @@ open Duets.Entities
 open Duets.Entities.Calendar
 open Duets.Data.World.Cities
 
-let callePonzano (zone: Zone) =
+let callePonzano (city: City) (zone: Zone) =
     let street =
         World.Street.create "Calle de Ponzano" (StreetType.Split(West, 2))
 
@@ -34,6 +34,10 @@ let callePonzano (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
+    let radioStudios =
+        [ ("Radio Clásica", 88<quality>, "Jazz", zone.Id) ]
+        |> List.map (PlaceCreators.createRadioStudio city)
+
     let metroStation =
         ("Chamberí Station", zone.Id) |> PlaceCreators.createMetro street.Id
 
@@ -43,6 +47,7 @@ let callePonzano (zone: Zone) =
         |> World.Street.addPlaces restaurants
         |> World.Street.addPlaces cafes
         |> World.Street.addPlaces concertSpaces
+        |> World.Street.addPlaces radioStudios
         |> World.Street.addPlace metroStation
 
     street, metroStation
@@ -108,7 +113,7 @@ let calleFuencarral city (zone: Zone) =
 let createZone city =
     let chamberiZone = World.Zone.create "Chamberí"
 
-    let callePonzano, metroStation = callePonzano chamberiZone
+    let callePonzano, metroStation = callePonzano city chamberiZone
     let calleAlmagro = calleAlmagro chamberiZone
     let calleFuencarral = calleFuencarral city chamberiZone
 

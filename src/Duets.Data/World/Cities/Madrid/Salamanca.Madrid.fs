@@ -3,7 +3,7 @@ module rec Duets.Data.World.Cities.Madrid.Salamanca
 open Duets.Entities
 open Duets.Data.World.Cities
 
-let calleSerrano (zone: Zone) =
+let calleSerrano (city: City) (zone: Zone) =
     let street =
         World.Street.create "Calle de Serrano" (StreetType.Split(North, 2))
 
@@ -28,6 +28,10 @@ let calleSerrano (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
+    let radioStudios =
+        [ ("RockFM", 90<quality>, "Rock", zone.Id) ]
+        |> List.map (PlaceCreators.createRadioStudio city)
+
     let metroStation =
         ("Serrano Station", zone.Id) |> PlaceCreators.createMetro street.Id
 
@@ -37,6 +41,7 @@ let calleSerrano (zone: Zone) =
         |> World.Street.addPlaces restaurants
         |> World.Street.addPlaces cafes
         |> World.Street.addPlaces concertSpaces
+        |> World.Street.addPlaces radioStudios
         |> World.Street.addPlace metroStation
 
     street, metroStation
@@ -85,7 +90,7 @@ let calleGoya (zone: Zone) =
 let createZone city =
     let salamancaZone = World.Zone.create "Salamanca"
 
-    let calleSerrano, metroStation = calleSerrano salamancaZone
+    let calleSerrano, metroStation = calleSerrano city salamancaZone
     let calleVelazquez = calleVelazquez city salamancaZone
     let calleGoya = calleGoya salamancaZone
 

@@ -4,7 +4,7 @@ open Duets.Entities
 open Duets.Entities.Calendar
 open Duets.Data.World.Cities
 
-let granVia (zone: Zone) =
+let granVia (city: City) (zone: Zone) =
     let street = World.Street.create "Gran Vía" (StreetType.Split(East, 3))
 
     let hotels =
@@ -40,6 +40,10 @@ let granVia (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
+    let radioStudios =
+        [ ("Los40 Classic", 93<quality>, "Pop", zone.Id) ]
+        |> List.map (PlaceCreators.createRadioStudio city)
+
     let metroStation =
         ("Gran Vía Station", zone.Id) |> PlaceCreators.createMetro street.Id
 
@@ -49,6 +53,7 @@ let granVia (zone: Zone) =
         |> World.Street.addPlaces restaurants
         |> World.Street.addPlaces cafes
         |> World.Street.addPlaces concertSpaces
+        |> World.Street.addPlaces radioStudios
         |> World.Street.addPlace metroStation
 
     street, metroStation
@@ -179,10 +184,10 @@ let calleAlcala (zone: Zone) =
 
     street |> World.Street.addPlaces concertSpaces
 
-let zone =
+let createZone (city: City) =
     let centroZone = World.Zone.create "Centro"
 
-    let granVia, metroStation = granVia centroZone
+    let granVia, metroStation = granVia city centroZone
     let puertaDelSol = puertaDelSol centroZone
     let barrioDeLasLetras = barrioDeLasLetras centroZone
     let calleArenal = calleArenal centroZone
@@ -214,3 +219,5 @@ let zone =
     |> World.Zone.addMetroStation station
     |> World.Zone.addDescriptor Cultural
     |> World.Zone.addDescriptor EntertainmentHeart
+
+let zone = createZone

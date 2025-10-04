@@ -3,15 +3,14 @@ module rec Duets.Data.World.Cities.Madrid.Root
 open Duets.Entities
 
 let generate () =
-    let centro = Centro.zone
+    let barajas = Barajas.zone
+    let city = World.City.create Madrid 5.3<costOfLiving> 1<utcOffset> barajas
 
-    let city = World.City.create Madrid 5.3<costOfLiving> 1<utcOffset> centro
-
+    let centro = Centro.createZone city
     let salamanca = Salamanca.createZone city
     let chamberi = Chamberi.createZone city
     let chamartin = Chamartin.createZone city
     let retiro = Retiro.createZone city
-    let barajas = Barajas.zone
 
     let blueMetroLine =
         { Id = Blue
@@ -39,6 +38,5 @@ let generate () =
     |> World.City.addZone chamberi
     |> World.City.addZone chamartin
     |> World.City.addZone retiro
-    |> World.City.addZone barajas
     |> World.City.addMetroLine blueMetroLine
     |> World.City.addMetroLine redMetroLine
