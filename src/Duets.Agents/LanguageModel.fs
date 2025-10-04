@@ -1,5 +1,7 @@
 module Duets.Agents.LanguageModel
 
+open Duets.Common
+
 open System
 open System.IO
 open System.Threading
@@ -92,6 +94,10 @@ type LanguageModelAgent() =
 
                         rawAsyncEnumerable
                         |> AsyncSeq.ofAsyncEnum
+                        |> AsyncSeq.map (fun s ->
+                            s
+                            |> String.replace @"\s+" " "
+                            |> String.replace @"(?<!\n)\n(?!\n)" " ")
                         |> channel.Reply
 
                         return! loop state

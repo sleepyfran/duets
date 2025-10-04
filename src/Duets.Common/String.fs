@@ -2,6 +2,7 @@ module Duets.Common.String
 
 open System
 open System.Globalization
+open System.Text.RegularExpressions
 
 /// Calls Split on the given string with the specified separator.
 let split separator (str: string) = str.Split([| separator |])
@@ -45,3 +46,7 @@ let lowercase (str: string) = str.ToLower()
 /// Transforms the given string into "Title Case".
 let titleCase (str: string) =
     CultureInfo.InvariantCulture.TextInfo.ToTitleCase str
+
+/// Replaces all occurrences of `pattern` in `str` with `replacement`.
+let replace (pattern: string) (replacement: string) (str: string) =
+    Regex.Replace(str, pattern, replacement)
