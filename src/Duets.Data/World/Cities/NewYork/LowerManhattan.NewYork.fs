@@ -7,7 +7,7 @@ let private bleeckerStreet (zone: Zone) =
     let street =
         World.Street.create
             Ids.Street.bleeckerStreet
-            (StreetType.Split(East, 4))
+            (StreetType.Split(East, 3))
 
     let concerts =
         [ ("The Bitter End",
@@ -35,10 +35,22 @@ let private bleeckerStreet (zone: Zone) =
     street
     |> World.Street.addPlaces concerts
     |> World.Street.addPlaces restaurants
+    |> World.Street.attachContext
+        """
+    Bleecker Street in Greenwich Village is a bohemian enclave with narrow sidewalks,
+    historic brownstones, and small storefronts that have survived gentrification.
+    The street has an artistic, countercultural legacy visible in its independent
+    music venues, vintage record shops, and poetry bookstores. Trees arch over the
+    street creating dappled shade, while the aroma of wood-fired pizza wafts from
+    corner restaurants. Jazz and folk music sometimes drift from open doorways,
+    and locals sit on stoops chatting with neighbors. The area maintains a village-like
+    intimacy despite being in the heart of Manhattan, with cobblestone side streets
+    and iron fire escapes adorning brick facades.
+"""
 
 let private bowery (zone: Zone) =
     let street =
-        World.Street.create Ids.Street.bowery (StreetType.Split(North, 4))
+        World.Street.create Ids.Street.bowery (StreetType.Split(North, 3))
 
     let concerts =
         [ ("Bowery Ballroom",
@@ -67,6 +79,8 @@ let private bowery (zone: Zone) =
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces shops
     |> World.Street.addPlaces hotels
+    |> World.Street.attachContext
+        "The Bowery has transformed from its gritty past into a corridor of luxury hotels and contemporary art spaces, though echoes of its historic character remain. Cast-iron buildings stand alongside modern glass and steel structures, creating an architectural timeline of New York's evolution. The street is wider than typical Manhattan avenues, allowing more light to reach the pavement. Street art and murals still appear on select walls, nodding to the area's punk rock heritage. The New Museum's stacked-box architecture dominates the skyline, while boutique retailers occupy ground floors of renovated industrial buildings. The atmosphere mixes artistic credibility with upscale development."
 
 let private irvingPlace (zone: Zone) =
     let street =
@@ -104,12 +118,24 @@ let private irvingPlace (zone: Zone) =
         |> World.Street.addPlaces hotels
         |> World.Street.addPlaces hospitals
         |> World.Street.addPlace metroStation
+        |> World.Street.attachContext
+            """
+        Irving Place is a short, tree-lined street with a residential character unusual
+        for its proximity to Union Square. Historic brick townhouses with ornate cornices
+        and wrought-iron railings create an elegant streetscape reminiscent of old
+        New York. Gas lamps (now electric) still line the sidewalk, and small parks
+        with benches offer quiet respite. The street maintains a neighborhood feel
+        with locals walking dogs and reading newspapers at sidewalk cafes.
+        Gramercy Park's exclusive, gated greenery lies just blocks away, lending the
+        area an air of privilege. The architecture dates primarily from the
+        19th century, with well-preserved facades and original details.
+"""
 
     street, metroStation
 
 let private lowerEastSide (city: City) (zone: Zone) =
     let street =
-        World.Street.create Ids.Street.lowerEastSide (StreetType.Split(East, 3))
+        World.Street.create Ids.Street.lowerEastSide (StreetType.Split(East, 2))
 
     let concerts =
         [ ("Mercury Lounge",
@@ -131,6 +157,18 @@ let private lowerEastSide (city: City) (zone: Zone) =
     street
     |> World.Street.addPlaces concerts
     |> World.Street.addPlaces radioStudios
+    |> World.Street.attachContext
+        """
+    The Lower East Side retains its immigrant heritage character with tenement
+    buildings, fire escapes zigzagging down facades, and small shops at street level.
+    The neighborhood has gentrified but still shows its roots in kosher delis,
+    old synagogues, and discount retailers alongside newer cocktail bars and indie
+    music venues. Graffiti and street art cover many walls, reflecting the
+    area's punk and hip-hop history. The streets are narrower here, creating
+    intimate urban canyons where laundry sometimes still hangs from windows.
+    Multicultural restaurants, vintage clothing stores, and underground performance spaces
+    give the area a creative, alternative edge that attracts artists and musicians.
+"""
 
 let createZone (city: City) =
     let lowerManhattanZone = World.Zone.create Ids.Zone.lowerManhattan

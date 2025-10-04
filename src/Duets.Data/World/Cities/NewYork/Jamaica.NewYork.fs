@@ -5,9 +5,7 @@ open Duets.Entities
 
 let private vanWyckExpressway (zone: Zone) =
     let street =
-        World.Street.create
-            Ids.Street.vanWyckExpressway
-            (StreetType.Split(North, 2))
+        World.Street.create Ids.Street.vanWyckExpressway StreetType.OneWay
 
     let airports =
         [ ("John F. Kennedy International Airport", 95<quality>, zone.Id) ]
@@ -20,6 +18,19 @@ let private vanWyckExpressway (zone: Zone) =
         street
         |> World.Street.addPlaces airports
         |> World.Street.addPlace metroStation
+        |> World.Street.attachContext
+            """
+        The Van Wyck Expressway is a major highway corridor leading to JFK
+        International Airport, dominated by the roar of traffic and jet engines overhead.
+        Aircraft follow flight paths directly above, their landing gear visible
+        as they descend toward the runways. The expressway cuts through Queens with
+        elevated sections offering views of surrounding neighborhoods and distant Manhattan skyline.
+        Concrete barriers, overhead signs directing to terminals, and the AirTrain's elevated
+        tracks characterize the infrastructure-heavy landscape. Airport hotels, gas stations,
+        and car rental facilities line the service roads. The area pulses with the
+        constant movement of taxis, buses, and travelers with luggage, creating
+        a transitional zone between city and sky.
+"""
 
     street, metroStation
 
