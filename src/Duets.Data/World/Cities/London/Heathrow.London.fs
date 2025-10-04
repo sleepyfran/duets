@@ -4,7 +4,19 @@ open Duets.Data.World.Cities
 open Duets.Entities
 
 let private heathrowAirport (zone: Zone) =
-    let street = World.Street.create "Heathrow" StreetType.OneWay
+    let street =
+        World.Street.create "Heathrow" StreetType.OneWay
+        |> World.Street.attachContext
+            """
+        Heathrow Airport sprawls across 12.27 square kilometers on London's western edge,
+        its five terminals handling over 80 million passengers annually. The constant roar
+        of aircraft taking off and landing creates a distinctive soundscape. Terminal buildings
+        blend brutalist concrete with modern glass and steel expansions. Signs in dozens of
+        languages guide international travelers through the complex. The airport tunnel road
+        system channels vehicles between terminals beneath the runways. Despite the functional
+        architecture, the area pulses with the energy of global movement, as business travelers,
+        tourists, and airline crews flow through 24 hours a day.
+"""
 
     let airport =
         ("Heathrow Airport", 100<quality>, zone.Id)
@@ -21,7 +33,19 @@ let private heathrowAirport (zone: Zone) =
     street, metroStation
 
 let private bathRoad (zone: Zone) =
-    let street = World.Street.create "Bath Road" (StreetType.Split(West, 2))
+    let street =
+        World.Street.create "Bath Road" (StreetType.Split(West, 2))
+        |> World.Street.attachContext
+            """
+        Bath Road runs parallel to Heathrow's northern perimeter, a functional corridor
+        dominated by airport hotels, car rental offices, and logistics facilities. The A4
+        road carries constant traffic between central London and the airport terminals.
+        Aircraft pass low overhead every few minutes on their final approach, their landing
+        gear visible from the street. Modern hotel blocks in corporate architectural styles
+        line the route, interspersed with older buildings that predate the airport's expansion.
+        The atmosphere is transient and utilitarian, serving the needs of travelers in transit
+        rather than fostering community life.
+"""
 
     let hotels =
         [ ("Sofitel London Heathrow", 85<quality>, 350m<dd>, zone.Id)

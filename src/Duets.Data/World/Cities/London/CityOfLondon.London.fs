@@ -4,7 +4,19 @@ open Duets.Data.World.Cities
 open Duets.Entities
 
 let private bank (zone: Zone) =
-    let street = World.Street.create "Bank" (StreetType.Split(East, 2))
+    let street =
+        World.Street.create "Bank" (StreetType.Split(East, 2))
+        |> World.Street.attachContext
+            """
+        Bank is the historic financial heart of London, named after the Bank of England
+        which dominates the area with its imposing neoclassical facade. The junction where
+        seven streets converge creates a bustling intersection surrounded by grand Victorian
+        and Edwardian banking halls, now repurposed as bars and restaurants. The Royal Exchange
+        with its impressive columned portico stands as a testament to centuries of commerce.
+        Narrow medieval alleyways wind between towering modern office blocks, creating dramatic
+        contrasts between old and new. During weekdays, the area swarms with suited professionals,
+        while weekends see it quieter and more atmospheric.
+"""
 
     let bars =
         [ ("The Counting House", 80<quality>, zone.Id) ]
@@ -26,7 +38,18 @@ let private bank (zone: Zone) =
     street, metroStation
 
 let private stPauls (city: City) (zone: Zone) =
-    let street = World.Street.create "St Paul's" (StreetType.Split(North, 2))
+    let street =
+        World.Street.create "St Paul's" (StreetType.Split(North, 2))
+        |> World.Street.attachContext
+            """
+        St Paul's is dominated by Christopher Wren's magnificent cathedral, its iconic dome
+        visible from across the city skyline. The cathedral steps and surrounding pedestrianized
+        areas provide open spaces rare in the densely built City. Paternoster Square to the
+        north features modern architecture mixed with restored medieval street patterns. The
+        area retains a contemplative atmosphere despite the modern office workers, with the
+        cathedral bells marking the hours. Millennium Bridge to the south offers views across
+        the Thames to Tate Modern.
+"""
 
     let bookstores =
         [ ("Daunt Books", 85<quality>, zone.Id) ]
@@ -46,7 +69,18 @@ let private stPauls (city: City) (zone: Zone) =
     |> World.Street.addPlaces radioStudios
 
 let private barbican (zone: Zone) =
-    let street = World.Street.create "Barbican" (StreetType.Split(West, 2))
+    let street =
+        World.Street.create "Barbican" (StreetType.Split(West, 2))
+        |> World.Street.attachContext
+            """
+        The Barbican is a striking example of Brutalist architecture, a vast residential and
+        cultural complex built in the 1960s-80s on WWII bomb sites. Elevated walkways connect
+        fortress-like concrete towers and terraced housing blocks arranged around a central
+        lake and gardens. The arts centre hosts world-class concerts, theatre, and exhibitions.
+        Despite its harsh exterior, hidden gardens and conservatories provide unexpected green
+        spaces. The area has a unique, futuristic atmosphere that divides opinion but remains
+        an iconic London landmark.
+"""
 
     let concertSpaces =
         [ ("Barbican Hall",
@@ -67,6 +101,16 @@ let private barbican (zone: Zone) =
 let private stBartsHospital (zone: Zone) =
     let street =
         World.Street.create "St Bartholomew's Hospital" StreetType.OneWay
+        |> World.Street.attachContext
+            """
+        St Bartholomew's Hospital, founded in 1123, is Britain's oldest hospital still
+        occupying its original site. The main square features an elegant 18th-century
+        gateway leading to buildings that blend medieval, Georgian, and modern architecture.
+        The atmosphere is purposeful and calm, with medical staff and visitors moving through
+        historic courtyards. The nearby St Bartholomew-the-Great church, London's oldest
+        parish church, adds to the area's medieval character. Despite surrounding modern
+        development, this enclave preserves centuries of healing tradition.
+"""
 
     let hospital =
         ("St Bartholomew's Hospital", 100<quality>, zone.Id)
