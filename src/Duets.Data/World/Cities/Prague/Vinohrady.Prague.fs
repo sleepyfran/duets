@@ -5,7 +5,19 @@ open Duets.Data.World.Cities
 open Duets.Entities
 
 let francouzská city (zone: Zone) =
-    let street = World.Street.create "Francouzská" (StreetType.Split(North, 2))
+    let street =
+        World.Street.create "Francouzská" (StreetType.Split(North, 2))
+        |> World.Street.attachContext
+            """
+        Francouzská is a residential street in the heart of Vinohrady, lined with
+        elegant late 19th-century apartment buildings featuring ornate neo-Renaissance
+        and Art Nouveau facades. The street is characterized by tree-lined sidewalks,
+        small boutiques, and local cafes that serve the neighborhood's affluent residents.
+        Ground-floor spaces host fitness centers, wine bars, and quality restaurants.
+        The atmosphere is upscale yet relaxed, representing Vinohrady's reputation as
+        one of Prague's most desirable residential districts. Well-maintained buildings
+        with decorative balconies and period details create an architecturally cohesive streetscape.
+"""
 
     let home = PlaceCreators.createHome street.Id zone.Id
 
@@ -35,12 +47,24 @@ let francouzská city (zone: Zone) =
         |> World.Street.addPlaces gyms
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces restaurants
+        |> World.Street.addPlaces concertSpaces
 
     street
 
 let náměstíMíru (zone: Zone) =
     let street =
         World.Street.create Ids.Street.náměstíMíru (StreetType.Split(East, 3))
+        |> World.Street.attachContext
+            """
+        Náměstí Míru (Peace Square) is Vinohrady's grand central square, dominated
+        by the imposing neo-Gothic Church of St. Ludmila with its twin spires. The
+        square is laid out as a formal park with mature trees, benches, and a children's
+        playground at its center. Elegant turn-of-the-century buildings surround the square,
+        including the Art Nouveau Vinohrady Theatre. The metro station provides convenient
+        transport connections. Cafes with outdoor seating overlook the park, creating a
+        pleasant meeting point. The atmosphere is genteel and family-friendly, with
+        locals walking dogs and meeting for coffee at the square's established institutions.
+"""
 
     let concertSpaces =
         [ ("Vinohrady Theatre",
@@ -71,20 +95,56 @@ let náměstíMíru (zone: Zone) =
 
     street, metroStation
 
+let jiříhozPoděbrad (zone: Zone) =
+    let street =
+        World.Street.create
+            Ids.Street.jiříhozPoděbrad
+            (StreetType.Split(North, 2))
+        |> World.Street.attachContext
+            """
+        The area around Jiřího z Poděbrad (George of Poděbrady Square) features a
+        distinctive modernist church with its tall concrete tower visible from afar.
+        The square serves as a local market location, with farmers' markets drawing
+        crowds on weekends. Surrounding streets contain a mix of interwar modernist
+        architecture and older buildings. The metro station makes this a transport
+        hub for eastern Vinohrady and Vršovice. Local shops, bakeries, and
+        traditional Czech businesses serve the residential community.
+        The atmosphere is neighborly and unpretentious, with local residents shopping
+        at the market stalls.
+"""
+
+    let metroStation =
+        ("Jiřího z Poděbrad Station", zone.Id)
+        |> PlaceCreators.createMetro street.Id
+
+    let street = street |> World.Street.addPlace metroStation
+
+    street, metroStation
+
 let createZone city =
     let vinohradyZone = World.Zone.create Ids.Zone.vinohrady
 
     let francouzská = francouzská city vinohradyZone
-    let náměstíMíru, metroStation = náměstíMíru vinohradyZone
+    let náměstíMíru, náměstíMíruMetro = náměstíMíru vinohradyZone
+    let jiříhozPoděbrad, jiříhozPoděbradMetro = jiříhozPoděbrad vinohradyZone
 
-    let station =
+    let náměstíMíruStation =
         { Lines = [ Red ]
           LeavesToStreet = náměstíMíru.Id
-          PlaceId = metroStation.Id }
+          PlaceId = náměstíMíruMetro.Id }
+
+    let jiříhozPoděbradStation =
+        { Lines = [ Red ]
+          LeavesToStreet = jiříhozPoděbrad.Id
+          PlaceId = jiříhozPoděbradMetro.Id }
 
     vinohradyZone
     |> World.Zone.addStreet (World.Node.create francouzská.Id francouzská)
     |> World.Zone.addStreet (World.Node.create náměstíMíru.Id náměstíMíru)
+    |> World.Zone.addStreet (
+        World.Node.create jiříhozPoděbrad.Id jiříhozPoděbrad
+    )
     |> World.Zone.connectStreets francouzská.Id náměstíMíru.Id South
-
-    |> World.Zone.addMetroStation station
+    |> World.Zone.connectStreets náměstíMíru.Id jiříhozPoděbrad.Id East
+    |> World.Zone.addMetroStation náměstíMíruStation
+    |> World.Zone.addMetroStation jiříhozPoděbradStation

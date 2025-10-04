@@ -5,7 +5,19 @@ open Duets.Data.World.Cities
 open Duets.Entities
 
 let kLetišti (zone: Zone) =
-    let street = World.Street.create "K Letišti" (StreetType.Split(North, 1))
+    let street =
+        World.Street.create "K Letišti" (StreetType.Split(North, 1))
+        |> World.Street.attachContext
+            """
+        K Letišti is the main approach road to Václav Havel Airport Prague, characterized
+        by modern infrastructure and aviation-related facilities. The street is wide
+        and designed for efficient traffic flow, with clear signage directing travelers
+        to different airport terminals. Commercial buildings, car rental agencies,
+        and airport hotels line the route. The area has a distinctly functional character,
+        dominated by the airport's presence. Aircraft can be seen taking off and
+        landing in the distance, while the constant flow of taxis and airport shuttles
+        creates a transient, international atmosphere.
+"""
 
     let airport =
         PlaceCreators.createAirport
@@ -17,6 +29,16 @@ let kLetišti (zone: Zone) =
 let evropská (zone: Zone) =
     let street =
         World.Street.create Ids.Street.evropská (StreetType.Split(East, 2))
+        |> World.Street.attachContext
+            """
+        Evropská is a major arterial road connecting the airport area to central Prague,
+        featuring a mix of commercial developments and residential areas. The street
+        is characterized by modern office buildings, shopping centers, and the Nádraží Veleslavín
+        metro station hub. Wide lanes accommodate heavy traffic, while pedestrian infrastructure
+        includes modern sidewalks and crossings. The architecture is predominantly contemporary,
+        with glass-fronted buildings and standardized commercial developments. The area serves
+        as a gateway between the international airport zone and Prague's urban core.
+"""
 
     let metroStation =
         ("Nádraží Veleslavín Station", zone.Id)

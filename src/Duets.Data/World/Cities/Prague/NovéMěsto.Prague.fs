@@ -9,6 +9,17 @@ let václavskéNáměstí (zone: Zone) =
         World.Street.create
             Ids.Street.václavskéNáměstí
             (StreetType.Split(North, 3))
+        |> World.Street.attachContext
+            """
+        Wenceslas Square is actually a broad boulevard rather than a traditional square,
+        serving as Prague's commercial and cultural heart. The upper end features
+        the monumental National Museum building and the iconic equestrian statue of Saint Wenceslas.
+        The boulevard is lined with hotels, restaurants, shops, and Art Nouveau
+        buildings including the famous Hotel Evropa. Historic significance marks every corner
+        this was the site of major political demonstrations including the 1989 Velvet Revolution.
+        The atmosphere is cosmopolitan and bustling, with street vendors, tourists,
+        and locals mixing in equal measure. At night, neon signs illuminate the wide promenade.
+"""
 
     let bars =
         [ ("The Alchemist Bar", 92<quality>, zone.Id) ]
@@ -35,7 +46,19 @@ let václavskéNáměstí (zone: Zone) =
     street, metroStation
 
 let vodičkova (zone: Zone) =
-    let street = World.Street.create "Vodičkova" StreetType.OneWay
+    let street =
+        World.Street.create "Vodičkova" StreetType.OneWay
+        |> World.Street.attachContext
+            """
+        Vodičkova is a busy commercial street connecting Wenceslas Square to the
+        Vltava River area, characterized by its shopping arcades and historic passages.
+        The famous Lucerna Palace complex, built by Václav Havel's grandfather,
+        dominates the street with its Art Nouveau architecture and the iconic upside-down horse statue.
+        Pedestrian traffic is constant, with shoppers moving between department stores and boutiques.
+        The street features a mix of architectural styles from different eras, with ornate
+        early 20th-century facades alongside more utilitarian communist-era buildings.
+        Underground passages connect to the metro and various shopping arcades.
+"""
 
     let concertSpaces =
         [ ("Lucerna Music Bar",
@@ -48,7 +71,20 @@ let vodičkova (zone: Zone) =
     street |> World.Street.addPlaces concertSpaces
 
 let národní (zone: Zone) =
-    let street = World.Street.create Ids.Street.národní StreetType.OneWay
+    let street =
+        World.Street.create Ids.Street.národní StreetType.OneWay
+        |> World.Street.attachContext
+            """
+        Národní třída (National Avenue) runs from Wenceslas Square to the Vltava River,
+        passing through the heart of cultural Prague. The street is anchored by the
+        majestic National Theatre with its golden roof, a symbol of Czech national revival.
+        Along the route, numerous cultural institutions, cafes, and historic buildings
+        line the wide sidewalks. The street witnessed pivotal moments in Czech history,
+        particularly during the 1989 demonstrations. Art Nouveau and neo-Renaissance
+        architecture predominates, with the famous Café Louvre maintaining its historic
+        interiors. The atmosphere is intellectual and cultural, with theater-goers,
+        students, and artists frequenting the area.
+"""
 
     let concertSpaces =
         [ ("National Theatre",

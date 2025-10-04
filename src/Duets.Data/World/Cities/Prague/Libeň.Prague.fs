@@ -4,7 +4,19 @@ open Duets.Data.World.Cities
 open Duets.Entities
 
 let ocelářská (zone: Zone) =
-    let street = World.Street.create "Ocelářská" (StreetType.Split(East, 2))
+    let street =
+        World.Street.create "Ocelářská" (StreetType.Split(East, 2))
+        |> World.Street.attachContext
+            """Ocelářská street is dominated by the modern 
+        O2 Arena complex, one of Central Europe's largest entertainment venues with
+        its distinctive dome visible across the district. The street features contemporary
+        commercial architecture, including the smaller O2 Universum hall and various
+        retail spaces. The area is characterized by wide pedestrian zones and modern
+        urban planning, with integrated public art installations. During major events,
+        the street transforms into a bustling hub with crowds flowing to and from concerts
+        and sporting events. The nearby Českomoravská metro station provides direct
+        access to this entertainment district.
+"""
 
     let concertSpaces =
         [ ("O2 Arena", 18000, 95<quality>, Layouts.concertSpaceLayout2, zone.Id)
@@ -37,7 +49,19 @@ let ocelářská (zone: Zone) =
     street, metroStation
 
 let voctářova (zone: Zone) =
-    let street = World.Street.create "Voctářova" (StreetType.Split(West, 1))
+    let street =
+        World.Street.create "Voctářova" (StreetType.Split(West, 1))
+        |> World.Street.attachContext
+            """
+        Voctářova is a quieter residential and local commercial street in
+        Libeň, maintaining a more traditional Prague neighborhood character. The street
+        features early 20th-century apartment buildings with period facades and small
+        local businesses. Traditional Czech pubs like U Hubatků serve as community
+        gathering points, preserving the authentic local atmosphere. Tree-lined sidewalks
+        and smaller scale development create a neighborhood feel distinct from the
+        modern entertainment district nearby. The street reflects Libeň's working-class
+        roots while slowly gentrifying.
+"""
 
     let bars =
         [ ("U Hubatků", 82<quality>, zone.Id) ]
