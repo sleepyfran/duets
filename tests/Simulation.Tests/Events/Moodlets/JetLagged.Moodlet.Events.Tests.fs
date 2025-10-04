@@ -28,7 +28,7 @@ let private worldMoveEffect prevCity currCity =
 let ``tick of WorldMoveTo does not apply any extra effects if the difference in timezones is less than 4 hours``
     ()
     =
-    [ London, Prague; Madrid, Prague; NewYork, MexicoCity; Sydney, Tokyo ]
+    [ London, Prague; Madrid, Prague; NewYork, LosAngeles ]
     |> List.iter (fun (prevCity, currCity) ->
         Simulation.tickOne dummyState (worldMoveEffect prevCity currCity)
         |> fst
@@ -41,7 +41,7 @@ let ``tick of WorldMoveTo does not apply any extra effects if the difference in 
 let ``tick of song finished should apply JetLagged moodlet if the cities are more than 4 timezones apart``
     ()
     =
-    [ London, NewYork; London, Sydney; NewYork, London; Sydney, London ]
+    [ London, NewYork; NewYork, London; LosAngeles, London; London, LosAngeles ]
     |> List.iter (fun (prevCity, currCity) ->
         let moodletEffect =
             Simulation.tickOne dummyState (worldMoveEffect prevCity currCity)

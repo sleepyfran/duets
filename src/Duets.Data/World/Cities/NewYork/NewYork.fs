@@ -3,37 +3,27 @@ module rec Duets.Data.World.Cities.NewYork.Root
 open Duets.Entities
 
 let generate () =
-    let astoria = Astoria.zone
+    let brooklyn = Brooklyn.zone
 
-    let city = World.City.create NewYork 6.0<costOfLiving> -5<utcOffset> astoria
+    let city =
+        World.City.create NewYork 6.0<costOfLiving> -5<utcOffset> brooklyn
 
-    let soho = Soho.zone
-    let midtown = Midtown.createZone city
-    let brooklynHeights = BrooklynHeights.createZone city
-    let harlem = Harlem.createZone city
+    let midtownWest = MidtownWest.createZone city
+    let lowerManhattan = LowerManhattan.createZone city
+    let jamaica = Jamaica.zone
 
     let blueMetroLine =
         { Id = Blue
           Stations =
-            [ (astoria.Id, OnlyNext(midtown.Id))
-              (midtown.Id, PreviousAndNext(astoria.Id, soho.Id))
-              (soho.Id, PreviousAndNext(midtown.Id, brooklynHeights.Id))
-              (brooklynHeights.Id, OnlyPrevious(soho.Id)) ]
+            [ (midtownWest.Id, OnlyNext(lowerManhattan.Id))
+              (lowerManhattan.Id, PreviousAndNext(midtownWest.Id, brooklyn.Id))
+              (brooklyn.Id, PreviousAndNext(lowerManhattan.Id, jamaica.Id))
+              (jamaica.Id, OnlyPrevious(brooklyn.Id)) ]
             |> Map.ofList
           UsualWaitingTime = 10<minute> }
 
-    let redMetroLine =
-        { Id = Red
-          Stations =
-            [ (harlem.Id, OnlyNext(midtown.Id))
-              (midtown.Id, OnlyPrevious(harlem.Id)) ]
-            |> Map.ofList
-          UsualWaitingTime = 8<minute> }
-
     city
-    |> World.City.addZone soho
-    |> World.City.addZone midtown
-    |> World.City.addZone brooklynHeights
-    |> World.City.addZone harlem
+    |> World.City.addZone midtownWest
+    |> World.City.addZone lowerManhattan
+    |> World.City.addZone jamaica
     |> World.City.addMetroLine blueMetroLine
-    |> World.City.addMetroLine redMetroLine

@@ -62,8 +62,8 @@ let ``having multiple concerts scheduled does not break getting of the stage``
         Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.ConcertSpace
         |> List.head
 
-    let tokyoVenue =
-        Queries.World.placesByTypeInCity Tokyo PlaceTypeIndex.ConcertSpace
+    let laVenue =
+        Queries.World.placesByTypeInCity LosAngeles PlaceTypeIndex.ConcertSpace
         |> List.head
 
     let today = dummyToday
@@ -80,8 +80,8 @@ let ``having multiple concerts scheduled does not break getting of the stage``
         Concert.create
             dayAfterTomorrow
             Evening
-            Tokyo
-            tokyoVenue.Id
+            LosAngeles
+            laVenue.Id
             10m
             Headliner
 

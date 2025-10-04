@@ -17,11 +17,8 @@ type MainWindow() =
         | "London" -> Some CityId.London
         | "LosAngeles" -> Some CityId.LosAngeles
         | "Madrid" -> Some CityId.Madrid
-        | "MexicoCity" -> Some CityId.MexicoCity
         | "NewYork" -> Some CityId.NewYork
         | "Prague" -> Some CityId.Prague
-        | "Sydney" -> Some CityId.Sydney
-        | "Tokyo" -> Some CityId.Tokyo
         | _ -> None
 
     // Show places summary for the city

@@ -84,9 +84,7 @@ let ``boardPlane should return an effect that marks the ticket as used`` () =
 let ``boardPlane should return the correct length of the flight in minutes``
     ()
     =
-    [ Prague, Madrid, 237<minute>
-      Prague, London, 138<minute>
-      Sydney, MexicoCity, 1730<minute> ]
+    [ Prague, Madrid, 237<minute>; Prague, London, 138<minute> ]
     |> List.iter (fun (origin, destination, expected) ->
         let ticket = createTicket origin destination
 

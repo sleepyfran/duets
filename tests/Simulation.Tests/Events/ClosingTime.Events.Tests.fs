@@ -151,7 +151,7 @@ let ``tick of advance day moment kicks out the character if they had a concert b
         Concert.generator
             { From = dummyToday
               To = dummyToday
-              City = Sydney
+              City = LosAngeles
               Venue = cafe.Id
               DayMoment = Evening }
         |> Gen.sample 1 1
@@ -180,7 +180,7 @@ let ``tick of advance day moment kicks out the character if they have a concert 
         Concert.generator
             { From = dummyToday
               To = dummyToday
-              City = Sydney
+              City = LosAngeles
               Venue = cafe.Id
               DayMoment = Evening }
         |> Gen.sample 1 1
