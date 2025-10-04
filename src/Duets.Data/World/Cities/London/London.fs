@@ -3,10 +3,13 @@ module rec Duets.Data.World.Cities.London.Root
 open Duets.Entities
 
 let generate () =
-    let westEnd = WestEnd.zone
-    let cityOfLondon = CityOfLondon.zone
-    let camden = Camden.zone
     let greenwich = Greenwich.zone
+
+    let city = World.City.create London 6.2<costOfLiving> 0<utcOffset> greenwich
+
+    let westEnd = WestEnd.createZone city
+    let cityOfLondon = CityOfLondon.createZone city
+    let camden = Camden.createZone city
     let heathrow = Heathrow.zone
 
     let blueMetroLine =
@@ -29,7 +32,7 @@ let generate () =
             |> Map.ofList
           UsualWaitingTime = 7<minute> }
 
-    World.City.create London 6.2<costOfLiving> 0<utcOffset> westEnd
+    city
     |> World.City.addZone westEnd
     |> World.City.addZone cityOfLondon
     |> World.City.addZone camden

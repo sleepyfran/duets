@@ -3,7 +3,7 @@ module rec Duets.Data.World.Cities.London.WestEnd
 open Duets.Data.World.Cities
 open Duets.Entities
 
-let private oxfordStreet (zone: Zone) =
+let private oxfordStreet (city: City) (zone: Zone) =
     let street =
         World.Street.create "Oxford Street" (StreetType.Split(North, 3))
 
@@ -25,6 +25,10 @@ let private oxfordStreet (zone: Zone) =
           ("100 Club", 350, 80<quality>, Layouts.concertSpaceLayout1, zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
+    let radioStudios =
+        [ ("BBC Radio 1", 94<quality>, "Pop", zone.Id) ]
+        |> List.map (PlaceCreators.createRadioStudio city)
+
     let metroStation =
         ("Oxford Circus Station", zone.Id)
         |> (PlaceCreators.createMetro street.Id)
@@ -34,6 +38,7 @@ let private oxfordStreet (zone: Zone) =
         |> World.Street.addPlaces shops
         |> World.Street.addPlaces cafes
         |> World.Street.addPlaces concertSpaces
+        |> World.Street.addPlaces radioStudios
         |> World.Street.addPlace metroStation
 
     street, metroStation
@@ -89,9 +94,9 @@ let private coventGarden (zone: Zone) =
     |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces concertSpaces
 
-let zone =
+let createZone (city: City) =
     let zone = World.Zone.create "West End"
-    let oxfordStreet, metroStation = oxfordStreet zone
+    let oxfordStreet, metroStation = oxfordStreet city zone
     let soho = soho zone
     let coventGarden = coventGarden zone
 
@@ -109,3 +114,5 @@ let zone =
     |> World.Zone.addDescriptor EntertainmentHeart
     |> World.Zone.addDescriptor Glitz
     |> World.Zone.addMetroStation metroStation
+
+let zone = createZone

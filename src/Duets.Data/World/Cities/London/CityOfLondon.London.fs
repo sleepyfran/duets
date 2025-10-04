@@ -25,7 +25,7 @@ let private bank (zone: Zone) =
 
     street, metroStation
 
-let private stPauls (zone: Zone) =
+let private stPauls (city: City) (zone: Zone) =
     let street = World.Street.create "St Paul's" (StreetType.Split(North, 2))
 
     let bookstores =
@@ -36,7 +36,14 @@ let private stPauls (zone: Zone) =
         [ ("Cafe Rouge", 75<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createCafe street.Id)
 
-    street |> World.Street.addPlaces bookstores |> World.Street.addPlaces cafes
+    let radioStudios =
+        [ ("Jazz FM", 88<quality>, "Jazz", zone.Id) ]
+        |> List.map (PlaceCreators.createRadioStudio city)
+
+    street
+    |> World.Street.addPlaces bookstores
+    |> World.Street.addPlaces cafes
+    |> World.Street.addPlaces radioStudios
 
 let private barbican (zone: Zone) =
     let street = World.Street.create "Barbican" (StreetType.Split(West, 2))
@@ -67,10 +74,10 @@ let private stBartsHospital (zone: Zone) =
 
     street |> World.Street.addPlace hospital
 
-let zone =
+let createZone (city: City) =
     let zone = World.Zone.create "City of London"
     let bank, metroStation = bank zone
-    let stPauls = stPauls zone
+    let stPauls = stPauls city zone
     let barbican = barbican zone
     let stBarts = stBartsHospital zone
 
@@ -90,3 +97,5 @@ let zone =
     |> World.Zone.addDescriptor BusinessDistrict
     |> World.Zone.addDescriptor Historic
     |> World.Zone.addMetroStation metroStation
+
+let zone = createZone

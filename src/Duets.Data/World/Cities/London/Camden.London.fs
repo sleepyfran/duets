@@ -3,7 +3,7 @@ module rec Duets.Data.World.Cities.London.Camden
 open Duets.Data.World.Cities
 open Duets.Entities
 
-let private camdenHighStreet (zone: Zone) =
+let private camdenHighStreet (city: City) (zone: Zone) =
     let street =
         World.Street.create "Camden High Street" (StreetType.Split(North, 2))
 
@@ -20,6 +20,10 @@ let private camdenHighStreet (zone: Zone) =
         [ ("Camden Practice Rooms", 75<quality>, 160m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createRehearsalSpace street.Id)
 
+    let radioStudios =
+        [ ("Absolute Radio", 90<quality>, "Rock", zone.Id) ]
+        |> List.map (PlaceCreators.createRadioStudio city)
+
     let metroStation =
         ("Camden Town Station", zone.Id)
         |> (PlaceCreators.createMetro street.Id)
@@ -29,6 +33,7 @@ let private camdenHighStreet (zone: Zone) =
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces concertSpaces
         |> World.Street.addPlaces rehearsalSpaces
+        |> World.Street.addPlaces radioStudios
         |> World.Street.addPlace metroStation
 
     street, metroStation
@@ -65,9 +70,9 @@ let private regentsPark (zone: Zone) =
     |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces cafes
 
-let zone =
+let createZone (city: City) =
     let zone = World.Zone.create "Camden"
-    let camdenHighStreet, metroStation = camdenHighStreet zone
+    let camdenHighStreet, metroStation = camdenHighStreet city zone
     let chalkFarm = chalkFarm zone
     let regentsPark = regentsPark zone
 
@@ -87,3 +92,5 @@ let zone =
     |> World.Zone.addDescriptor Creative
     |> World.Zone.addDescriptor Cultural
     |> World.Zone.addMetroStation metroStation
+
+let zone = createZone
