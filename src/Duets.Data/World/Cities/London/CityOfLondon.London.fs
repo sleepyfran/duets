@@ -138,8 +138,6 @@ let createZone (city: City) =
     |> World.Zone.connectStreets bank.Id stPauls.Id North
     |> World.Zone.connectStreets stPauls.Id barbican.Id East
     |> World.Zone.connectStreets bank.Id stBarts.Id South
-    |> World.Zone.addDescriptor BusinessDistrict
-    |> World.Zone.addDescriptor Historic
     |> World.Zone.addMetroStation metroStation
 
 let zone = createZone

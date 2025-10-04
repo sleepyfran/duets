@@ -71,6 +71,4 @@ let zone =
     zone
     |> World.Zone.addStreet (World.Node.create heathrow.Id heathrow)
     |> World.Zone.addStreet (World.Node.create bathRoad.Id bathRoad)
-    |> World.Zone.addDescriptor BusinessDistrict
-    |> World.Zone.addDescriptor Industrial
     |> World.Zone.addMetroStation metroStation

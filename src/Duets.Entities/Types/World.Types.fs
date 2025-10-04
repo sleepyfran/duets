@@ -166,11 +166,6 @@ module WorldTypes =
         {
             Id: ZoneId
             Name: string
-            /// Descriptors that can describe the zone, like "Bohemian" or "Luxurious".
-            /// The generator will do its best to generate a description based on the
-            /// descriptors provided, but at most this should include 3 descriptors
-            /// to avoid having conflicting descriptors.
-            Descriptors: ZoneDescriptor list
             Streets: Graph<Street>
             /// Stations that these zone have per line.
             MetroStations: Map<MetroLineId, MetroStation>

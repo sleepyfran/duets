@@ -44,4 +44,3 @@ let zone =
         World.Node.create aeropuertoStreet.Id aeropuertoStreet
     )
     |> World.Zone.addMetroStation station
-    |> World.Zone.addDescriptor Industrial

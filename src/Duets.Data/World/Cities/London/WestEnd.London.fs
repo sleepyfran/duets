@@ -145,8 +145,6 @@ let createZone (city: City) =
     |> World.Zone.addStreet (World.Node.create coventGarden.Id coventGarden)
     |> World.Zone.connectStreets oxfordStreet.Id soho.Id East
     |> World.Zone.connectStreets soho.Id coventGarden.Id South
-    |> World.Zone.addDescriptor EntertainmentHeart
-    |> World.Zone.addDescriptor Glitz
     |> World.Zone.addMetroStation metroStation
 
 let zone = createZone

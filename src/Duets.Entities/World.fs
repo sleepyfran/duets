@@ -187,14 +187,8 @@ module Zone =
 
         { Id = inferredId.ToString()
           Name = name
-          Descriptors = []
           MetroStations = Map.empty
           Streets = Graph.empty }
-
-    /// Adds a descriptor to the given zone.
-    let addDescriptor descriptor zone =
-        { zone with
-            Descriptors = descriptor :: zone.Descriptors }
 
     /// Adds a street to the given zone.
     let addStreet (street: Node<Street>) (zone: Zone) =

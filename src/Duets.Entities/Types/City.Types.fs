@@ -18,18 +18,3 @@ module CityTypes =
         | Madrid
         | NewYork
         | Prague
-
-    /// A descriptor that can be used to create descriptions for a specific
-    /// zone.
-    type ZoneDescriptor =
-        | Bohemian
-        | BusinessDistrict
-        | Creative
-        | Coastal
-        | Cultural
-        | EntertainmentHeart
-        | Glitz
-        | Historic
-        | Industrial
-        | Luxurious
-        | Nature

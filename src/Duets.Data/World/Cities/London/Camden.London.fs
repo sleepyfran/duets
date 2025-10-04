@@ -123,8 +123,6 @@ let createZone (city: City) =
     |> World.Zone.addStreet (World.Node.create regentsPark.Id regentsPark)
     |> World.Zone.connectStreets camdenHighStreet.Id chalkFarm.Id West
     |> World.Zone.connectStreets camdenHighStreet.Id regentsPark.Id North
-    |> World.Zone.addDescriptor Creative
-    |> World.Zone.addDescriptor Cultural
     |> World.Zone.addMetroStation metroStation
 
 let zone = createZone

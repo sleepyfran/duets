@@ -150,4 +150,3 @@ let createZone city =
     |> World.Zone.connectStreets paseoCastellana.Id avenidaAmerica.Id East
     |> World.Zone.connectStreets paseoCastellana.Id zonaBernabeu.Id West
     |> World.Zone.addMetroStation station
-    |> World.Zone.addDescriptor BusinessDistrict

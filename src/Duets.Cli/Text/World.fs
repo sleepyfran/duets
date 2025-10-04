@@ -16,27 +16,6 @@ let placeNameWithOpeningInfo placeDetails currentlyOpen =
 let placeNameWithOpeningInfo' (place: Place) currentlyOpen =
     placeNameWithOpeningInfo place.Name currentlyOpen
 
-let placeDescription (place: Place) (roomType: RoomType) =
-    (place, roomType)
-    ||> match place.PlaceType with
-        | PlaceType.Airport -> Airport.description
-        | PlaceType.Bar -> Bar.description
-        | PlaceType.Bookstore -> Bookstore.description
-        | PlaceType.Cafe -> Cafe.description
-        | PlaceType.Casino -> Casino.description
-        | PlaceType.ConcertSpace _ -> ConcertSpace.description
-        | PlaceType.Gym -> Gym.description
-        | PlaceType.Home -> Home.description
-        | PlaceType.Hospital -> Hospital.description
-        | PlaceType.Hotel _ -> Hotel.description
-        | PlaceType.MerchandiseWorkshop -> MerchandiseWorkshop.description
-        | PlaceType.RehearsalSpace _ -> RehearsalSpace.description
-        | PlaceType.Restaurant -> Restaurant.description
-        | PlaceType.RadioStudio _ -> RadioStudio.description
-        | PlaceType.Studio studio -> Studio.description studio
-        | PlaceType.MetroStation
-        | PlaceType.Street -> CityDependentDescriptions.cityDependentDescription
-
 let placeTypeName (placeType: PlaceTypeIndex) =
     match placeType with
     | PlaceTypeIndex.Airport -> "Airport"
@@ -144,9 +123,21 @@ let connectingNodes
 
         $"There is {connectionsDescription}."
 
+let private arrivalMessage roomType =
+    let characterIsUninspired =
+        (State.get (), MoodletType.NotInspired)
+        ||> Queries.Characters.playableCharacterHasMoodlet
+
+    match roomType with
+    | RoomType.RehearsalRoom when characterIsUninspired ->
+        "You're currently feeling uninspired, composing or improving songs will not be easy"
+        |> Styles.warning
+        |> Some
+    | _ -> None
+
 let placeArrivalMessage place roomType =
     match place.PlaceType with
-    | PlaceType.RehearsalSpace _ -> RehearsalSpace.arrivalMessage roomType
+    | PlaceType.RehearsalSpace _ -> arrivalMessage roomType
     | _ -> None
 
 let placeClosedError (place: Place) =

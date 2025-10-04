@@ -137,5 +137,3 @@ let createZone city =
         avenidaMenendezPelayo.Id
         North
     |> World.Zone.addMetroStation station
-    |> World.Zone.addDescriptor Nature
-    |> World.Zone.addDescriptor Historic

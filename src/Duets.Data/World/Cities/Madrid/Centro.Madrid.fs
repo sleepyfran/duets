@@ -295,7 +295,5 @@ let createZone (city: City) =
     |> World.Zone.connectStreets calleBarquillo.Id callePrincesa.Id South
     |> World.Zone.connectStreets callePrincesa.Id calleAlcala.Id East
     |> World.Zone.addMetroStation station
-    |> World.Zone.addDescriptor Cultural
-    |> World.Zone.addDescriptor EntertainmentHeart
 
 let zone = createZone

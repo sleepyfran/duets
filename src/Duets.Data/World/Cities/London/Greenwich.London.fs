@@ -114,6 +114,4 @@ let zone =
     |> World.Zone.addStreet (World.Node.create greenwichPark.Id greenwichPark)
     |> World.Zone.connectStreets greenwichMarket.Id royalObservatory.Id North
     |> World.Zone.connectStreets greenwichMarket.Id greenwichPark.Id East
-    |> World.Zone.addDescriptor Nature
-    |> World.Zone.addDescriptor Cultural
     |> World.Zone.addMetroStation metroStation
