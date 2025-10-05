@@ -19,7 +19,9 @@ type RandomGenDisposable() =
 let private randomImpl impl =
     { new Random() with
         override this.Next() = impl ()
-        override this.Next(_, _) = impl () }
+        override this.Next _ = impl ()
+        override this.Next(_, _) = impl ()
+        override this.NextDouble() = impl () |> float }
     |> RandomGen.change
 
     new RandomGenDisposable()

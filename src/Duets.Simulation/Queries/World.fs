@@ -161,3 +161,11 @@ module World =
             |> List.filter (fun connectedPlace ->
                 String.diacriticInsensitiveContains connectedPlace.Name query)
         | _ -> []
+
+    /// Returns the current weather in the current city.
+    let currentWeather state =
+        let cityId, _, _ = currentCoordinates state
+
+        state
+        |> Optic.get Lenses.State.currentWeatherCondition_
+        |> Map.find cityId

@@ -145,6 +145,7 @@
         <Compile Include="Shop\Shop.fs"/>
         <Compile Include="Travel\Metro.fs"/>
         <Compile Include="Cooking\Cooking.fs"/>
+        <Compile Include="Weather\WeatherTransition.fs"/>
         <Compile Include="World\Population.fs"/>
         <Compile Include="Events\Types.fs"/>
         <Compile Include="Events\Character\Hospitalization.fs"/>

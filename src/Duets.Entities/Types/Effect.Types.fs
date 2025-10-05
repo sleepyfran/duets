@@ -100,6 +100,7 @@ module EffectTypes =
         | TimeAdvanced of Date
         | TurnTimeUpdated of int<minute>
         | WatchedTv of Item
+        | WeatherChanged of CityId * Diff<WeatherCondition>
         /// Moves the player to a new room inside the current place.
         | WorldEnterRoom of Diff<RoomCoordinates>
         /// Moves the player to a different place in the current city or a

@@ -33,4 +33,5 @@ let empty =
               Accounts = Map.empty } }
       Today = Calendar.gameBeginning
       TurnMinutes = 0<minute>
+      CurrentWeatherCondition = Map.empty
       WorldItems = Map.empty }

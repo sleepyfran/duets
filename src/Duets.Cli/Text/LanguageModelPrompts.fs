@@ -76,6 +76,7 @@ let createRoomDescriptionPrompt state interactions =
     let currentPlace = state |> Queries.World.currentPlace
     let currentRoom = state |> Queries.World.currentRoom
     let currentDate = state |> Queries.Calendar.today
+    let currentWeather = state |> Queries.World.currentWeather
 
     let roomTypeSection =
         roomNameForPrompt currentPlace currentRoom.RoomType interactions
@@ -102,12 +103,12 @@ Rules:
 - Do not include any information that is not directly related to the place being described.
 - Do not include sensory details or feelings of the player or character.
 - Do not format the text in any way, specially do not add extra spaces or line breaks unless there's a new paragraph.
-- **Crucially, ensure the description's tone and lighting reflect the current Day Moment and Season.**
+- **Crucially, ensure the description's tone and lighting reflect the current Day Moment, Season and Weather.**
 
 --- Context for Description ---
 The player is inside **{currentPlace.Name}** (quality: {currentPlace.Quality}) {roomTypeSection}, which is
 located in the city of **{cityId}**. It's the day **{currentDate.Day}** of **{currentDate.Season}**,
-in the year **{currentDate.Year}**, currently in the **{currentDate.DayMoment}**.
+in the year **{currentDate.Year}**, currently in the **{currentDate.DayMoment}**. It is currently **{currentWeather}** outside.
      
 --- Context for the current place ---
 {currentPlace.PromptContext}

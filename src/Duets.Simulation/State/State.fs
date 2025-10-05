@@ -176,6 +176,8 @@ let applyEffect state effect =
     | TimeAdvanced time -> Calendar.setTime time state
     | TurnTimeUpdated minutes -> Calendar.setTurnMinutes minutes state
     | WatchedTv _ -> state
+    | WeatherChanged(cityId, Diff(_, weather)) ->
+        World.setWeather cityId weather state
     | WorldEnterRoom(Diff(_, (cityId, placeId, romId))) ->
         World.move cityId placeId romId state
     | WorldMoveToPlace(Diff(_, (cityId, placeId, roomId))) ->

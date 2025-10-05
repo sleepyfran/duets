@@ -1,6 +1,5 @@
 module Duets.Simulation.Setup
 
-open Duets
 open Duets.Data
 open Duets.Data.Items
 open Duets.Entities
@@ -63,7 +62,7 @@ let startGame
             (fun acc (skill, level) -> Map.add skill.Id (skill, level) acc)
             Map.empty
 
-    let initialGenreMarket = GenreMarket.create Data.Genres.all
+    let initialGenreMarket = GenreMarket.create Genres.all
 
     { Bands =
         { Current = band.Id
@@ -96,6 +95,10 @@ let startGame
       SocialNetworks = SocialNetwork.empty
       Today = Calendar.gameBeginning
       TurnMinutes = 0<minute>
+      CurrentWeatherCondition =
+        Queries.World.allCities
+        |> List.map (fun c -> c.Id, WeatherCondition.Sunny)
+        |> Map.ofList
       WorldItems = allInitialWorldItems }
     |> Bands.Generation.addInitialBandsToState
     |> GameCreated

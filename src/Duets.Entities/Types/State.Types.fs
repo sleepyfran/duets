@@ -30,4 +30,5 @@ module StateTypes =
           // TODO: Merge today and turn minutes into one property.
           Today: Date
           TurnMinutes: int<minute>
+          CurrentWeatherCondition: WeatherConditionPerCity
           WorldItems: WorldItems }
