@@ -8,7 +8,6 @@ open Duets.Cli.Text
 open Duets.Cli.Text.World
 open Duets.Common
 open Duets.Entities
-open Duets.Simulation
 open Duets.Simulation.Navigation
 
 [<RequireQualifiedAccess>]
@@ -124,7 +123,7 @@ module GoToCommand =
 [<RequireQualifiedAccess>]
 module EnterCommand =
     /// Creates a command that allows the player to go enter a place.
-    let get =
+    let create (place: Place) =
         { Name = "enter"
           Description =
             $"""Allows you to enter inside a place. Use as {Styles.information "enter {place name}"}"""
@@ -132,14 +131,11 @@ module EnterCommand =
             fun args ->
                 let input = args |> String.concat " "
 
-                let matchingPlace =
-                    Queries.World.matchingPlacesInCurrentStreet
-                        input
-                        (State.get ())
-                    |> List.tryHead
+                let nameMatches =
+                    String.diacriticInsensitiveContains place.Name input
 
-                match matchingPlace with
-                | Some(place) ->
+                match nameMatches with
+                | true ->
                     let navigationResult =
                         State.get () |> Navigation.moveTo place.Id
 
@@ -167,7 +163,7 @@ module EnterCommand =
                         |> showMessage
 
                     Scene.WorldAfterMovement
-                | None ->
+                | false ->
                     $"There are no places called {input} around here"
                     |> Styles.error
                     |> showMessage
