@@ -89,8 +89,13 @@ let private bedfordAvenue (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
+    let rehearsalSpaces =
+        [ ("Music Building", 88<quality>, 175m<dd>, zone.Id) ]
+        |> List.map (PlaceCreators.createRehearsalSpace street.Id)
+
     street
     |> World.Street.addPlaces concerts
+    |> World.Street.addPlaces rehearsalSpaces
     |> World.Street.attachContext
         """
     Bedford Avenue in Williamsburg is Brooklyn's hipster main street, lined

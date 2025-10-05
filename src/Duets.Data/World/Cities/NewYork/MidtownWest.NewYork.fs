@@ -73,6 +73,10 @@ let private seventhAvenue (zone: Zone) =
           ("Juniper Bar & Grill", 82<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createBar street.Id)
 
+    let rehearsalSpaces =
+        [ ("SIR Studios", 92<quality>, 200m<dd>, zone.Id) ]
+        |> List.map (PlaceCreators.createRehearsalSpace street.Id)
+
     let metroStation =
         ("Penn Station", zone.Id) |> PlaceCreators.createMetro street.Id
 
@@ -80,6 +84,7 @@ let private seventhAvenue (zone: Zone) =
         street
         |> World.Street.addPlaces concerts
         |> World.Street.addPlaces bars
+        |> World.Street.addPlaces rehearsalSpaces
         |> World.Street.addPlace metroStation
         |> World.Street.attachContext
             """

@@ -134,6 +134,19 @@ let ``all cities must have a radio station`` () =
             failwith $"{city.Id} does not have a radio station")
 
 [<Test>]
+let ``all cities must have a rehearsal room`` () =
+    World.get.Cities
+    |> List.ofMapValues
+    |> List.iter (fun city ->
+        let radioStations =
+            Queries.World.placesByTypeInCity
+                city.Id
+                PlaceTypeIndex.RehearsalSpace
+
+        if radioStations.Length = 0 then
+            failwith $"{city.Id} does not have a rehearsal room")
+
+[<Test>]
 let ``all cities must have an airport`` () =
     World.get.Cities
     |> List.ofMapValues
