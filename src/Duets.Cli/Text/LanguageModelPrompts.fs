@@ -49,6 +49,27 @@ let private itemName item =
         $"entrance card for {place.Name}"
     | _ -> item.Name
 
+let rec private npcsInRoom state =
+    let knownNpcs, unknownNpcs = Queries.World.peopleInCurrentPlace state
+
+    let knownNames =
+        let npcsWithRelation =
+            knownNpcs
+            |> List.choose (fun npc ->
+                Queries.Relationship.withCharacter npc.Id state
+                |> Option.map (fun rel -> npc, rel))
+
+        match npcsWithRelation with
+        | [] -> "none"
+        | _ ->
+            Generic.listOf npcsWithRelation (fun (npc, rel) ->
+                $"{npc.Name} ({Social.relationshipType rel.RelationshipType})")
+
+    $"""
+Known NPCs here: {knownNames}.
+{unknownNpcs.Length} unknown NPCs here.
+"""
+
 let createRoomDescriptionPrompt state interactions =
     let coords = state |> Queries.World.currentCoordinates
     let cityId, _, _ = coords
@@ -75,8 +96,7 @@ the descriptions of places based on a given context.
 
 Rules:
 - Keep it short and concise, no more than a paragraph. Follow the style of classic text-based adventure games.
-- Do NOT mention people, characters, NPCs, or any living beings in the description unless explicitly asked.
-- Do NOT mention items that are not physically present in the room.
+- Only mention the people and items that are physically present in the room, as listed below.
 - Do not display any text other than the description itself. **Avoid any extra commentary or headers.**
 - **Avoid** referring to the player or the character. Describe the environment using objective language (third person, or second person only for static features, e.g., 'A bar stands before you').
 - Do not include any information that is not directly related to the place being described.
@@ -94,6 +114,9 @@ in the year **{currentDate.Year}**, currently in the **{currentDate.DayMoment}**
 
 --- Items in the place ---
 {objectDescriptions}.
+        
+--- NPCs in the place ---
+{npcsInRoom state}
 
 **Provide the generated description and *only* the description.**
 """
