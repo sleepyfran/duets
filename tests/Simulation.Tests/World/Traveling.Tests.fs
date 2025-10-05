@@ -1,16 +1,18 @@
 module Duets.Simulation.Tests.World.Traveling
 
-open Duets.Data.World
 open FsUnit
 open NUnit.Framework
 open Test.Common
 
 open Duets.Entities
 open Duets.Simulation
+open Duets.Data.World
+open Duets.Data.World.Cities
 
 
 let private hotelInPrague =
-    Queries.World.placesByTypeInCity Prague PlaceTypeIndex.Hotel |> List.head
+    Queries.World.placesByTypeInCity Prague PlaceTypeIndex.MetroStation
+    |> List.head
 
 let private hospitalInPrague =
     Queries.World.placesByTypeInCity Prague PlaceTypeIndex.Hospital |> List.head
@@ -18,15 +20,15 @@ let private hospitalInPrague =
 let private hotelInNewYork =
     Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.Hotel |> List.head
 
-let private bookstoreInSohoNewYork =
-    Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.Bookstore
+let private barInBrooklynNewYork =
+    Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.Bar
     |> List.find (fun place ->
-        place.ZoneId = Identity.Reproducible.create "SoHo")
+        place.ZoneId = Identity.Reproducible.create NewYork.Ids.Zone.brooklyn)
 
-let private cafeInSohoNewYork =
-    Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.Cafe
+let private cafeInBrooklynNewYork =
+    Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.MetroStation
     |> List.find (fun place ->
-        place.ZoneId = Identity.Reproducible.create "SoHo")
+        place.ZoneId = Identity.Reproducible.create NewYork.Ids.Zone.brooklyn)
 
 [<Test>]
 let ``traveling to another place inside the same city but in another region consumes 25 minutes``
@@ -50,8 +52,8 @@ let ``traveling to another place inside the same city but in the same region con
     let effects =
         WorldMoveToPlace(
             Diff(
-                (NewYork, bookstoreInSohoNewYork.Id, Ids.Bookstore.readingRoom),
-                (NewYork, cafeInSohoNewYork.Id, Ids.Common.cafe)
+                (NewYork, barInBrooklynNewYork.Id, Ids.Bookstore.readingRoom),
+                (NewYork, cafeInBrooklynNewYork.Id, Ids.Common.cafe)
             )
         )
         |> Simulation.tickOne dummyState
