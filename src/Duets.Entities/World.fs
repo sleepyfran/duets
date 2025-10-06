@@ -95,7 +95,7 @@ module Node =
 [<RequireQualifiedAccess>]
 module Place =
     /// Creates a place with the given initial room and no exits.
-    let create name quality placeType rooms zoneId =
+    let create name quality placeType rooms zoneId streetId =
         let inferredId = Identity.Reproducible.create name
 
         { Id = inferredId
@@ -106,7 +106,8 @@ module Place =
           PromptContext = ""
           OpeningHours = PlaceOpeningHours.AlwaysOpen
           Rooms = rooms
-          ZoneId = zoneId }
+          ZoneId = zoneId
+          StreetId = streetId }
 
     /// Attaches a prompt context to the given place.
     let attachContext context (place: Place) =
@@ -243,6 +244,7 @@ module Zone =
                 PlaceType.Street
                 streetRoomGraph
                 zone.Id
+                street.Content.Id
             |> Place.attachContext street.Content.PromptContext
 
         let street =

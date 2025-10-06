@@ -152,7 +152,7 @@ let private lowerEastSide (city: City) (zone: Zone) =
 
     let radioStudios =
         [ ("WBAI (Pacifica)", 86<quality>, "Jazz", zone.Id) ]
-        |> List.map (PlaceCreators.createRadioStudio city)
+        |> List.map (PlaceCreators.createRadioStudio city street.Id)
 
     street
     |> World.Street.addPlaces concerts

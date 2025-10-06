@@ -33,7 +33,7 @@ let private camdenHighStreet (city: City) (zone: Zone) =
 
     let radioStudios =
         [ ("Absolute Radio", 90<quality>, "Rock", zone.Id) ]
-        |> List.map (PlaceCreators.createRadioStudio city)
+        |> List.map (PlaceCreators.createRadioStudio city street.Id)
 
     let metroStation =
         ("Camden Town Station", zone.Id)

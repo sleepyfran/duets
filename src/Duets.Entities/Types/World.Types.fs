@@ -137,6 +137,7 @@ module WorldTypes =
             OpeningHours: PlaceOpeningHours
             Rooms: Graph<Room>
             ZoneId: ZoneId
+            StreetId: StreetId
         }
 
         interface IComparer<Place> with

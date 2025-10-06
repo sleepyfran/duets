@@ -47,7 +47,7 @@ let callePonzano (city: City) (zone: Zone) =
 
     let radioStudios =
         [ ("Radio Clásica", 88<quality>, "Jazz", zone.Id) ]
-        |> List.map (PlaceCreators.createRadioStudio city)
+        |> List.map (PlaceCreators.createRadioStudio city street.Id)
 
     let metroStation =
         ("Chamberí Station", zone.Id) |> PlaceCreators.createMetro street.Id

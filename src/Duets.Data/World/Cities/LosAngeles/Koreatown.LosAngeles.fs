@@ -39,7 +39,7 @@ let wilshireBoulevard (zone: Zone) (city: City) =
 
     let radioStudios =
         [ ("K-Town Broadcast Tower", 87<quality>, "Pop", zone.Id) ]
-        |> List.map (PlaceCreators.createRadioStudio city)
+        |> List.map (PlaceCreators.createRadioStudio city street.Id)
 
     let restaurants =
         [ ("BCD Tofu House", 86<quality>, Vietnamese, zone.Id) ]

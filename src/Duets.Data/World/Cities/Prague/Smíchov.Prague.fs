@@ -30,7 +30,7 @@ let plzeňská (city: City) (zone: Zone) =
 
     let radioStudios =
         [ ("Radio Beat", 89<quality>, "Rock", zone.Id) ]
-        |> List.map (PlaceCreators.createRadioStudio city)
+        |> List.map (PlaceCreators.createRadioStudio city street.Id)
 
     let metroStation =
         ("Anděl Station", zone.Id) |> (PlaceCreators.createMetro street.Id)

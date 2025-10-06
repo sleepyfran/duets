@@ -35,7 +35,7 @@ let václavskéNáměstí (city: City) (zone: Zone) =
 
     let radioStudios =
         [ ("Radio 1", 92<quality>, "Pop", zone.Id) ]
-        |> List.map (PlaceCreators.createRadioStudio city)
+        |> List.map (PlaceCreators.createRadioStudio city street.Id)
 
     let metroStation =
         ("Můstek Station", zone.Id) |> (PlaceCreators.createMetro street.Id)
