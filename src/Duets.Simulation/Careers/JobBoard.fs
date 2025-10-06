@@ -35,7 +35,7 @@ let private generateBartenderJob state cityId placeId =
         Bartender
         cityId
         placeId
-        Ids.Common.cafe
+        Ids.Common.bar
         BartenderCareer.stages
 
 let private generateBaristaJob state cityId placeId =
