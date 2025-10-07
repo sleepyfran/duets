@@ -43,7 +43,7 @@ let ``traveling to another place inside the same city but in another region cons
         )
         |> Simulation.tickOne dummyState
 
-    effects |> fst |> should contain (TurnTimeUpdated 25<minute>)
+    effects |> fst |> should contain (TurnTimeUpdated 30<minute>)
 
 [<Test>]
 let ``traveling to another place inside the same city but in the same region consumes 10 minutes``
