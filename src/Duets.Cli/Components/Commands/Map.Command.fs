@@ -53,6 +53,11 @@ module rec MapCommand =
                     $"""{prefix} {Styles.action "Walk"} from {fromStreet.Name |> Styles.place} to {toStreet.Name |> Styles.place} through the {World.World.directionName throughDirection |> Styles.direction}"""
                 |> showMessage)
 
+        let estimatedTravelTime = TravelTime.travelTime directions
+
+        $"Estimated travel time: ~{estimatedTravelTime |> Styles.time} minutes"
+        |> showMessage
+
     /// Creates a command that allows the player to get directions to other
     /// places inside the current city.
     let get =

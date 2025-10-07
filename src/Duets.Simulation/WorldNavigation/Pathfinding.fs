@@ -4,7 +4,7 @@ open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 
-type DirectionHint =
+type PathAction =
     | GoOut of fromPlace: Place * toStreet: Street
     | Enter of fromStreet: Street * toPlace: Place
     | TakeMetro of
