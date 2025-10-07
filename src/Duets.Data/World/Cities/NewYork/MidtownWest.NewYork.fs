@@ -83,15 +83,11 @@ let private seventhAvenue (zone: Zone) =
         [ ("SIR Studios", 92<quality>, 200m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createRehearsalSpace street.Id)
 
-    let metroStation =
-        ("Penn Station", zone.Id) |> PlaceCreators.createMetro street.Id
-
     let street =
         street
         |> World.Street.addPlaces concerts
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces rehearsalSpaces
-        |> World.Street.addPlace metroStation
         |> World.Street.attachContext
             """
         7th Avenue near 34th Street is dominated by the cylindrical form of Madison
@@ -104,7 +100,7 @@ let private seventhAvenue (zone: Zone) =
         shadow of MSG's distinctive architecture.
 """
 
-    street, metroStation
+    street
 
 let private fiftySeventhStreet (zone: Zone) =
     let street =
@@ -191,7 +187,7 @@ let createZone (city: City) =
     let midtownWestZone = World.Zone.create Ids.Zone.midtownWest
 
     let broadway, broadwayMetro = broadway city midtownWestZone
-    let seventhAvenue, pennStation = seventhAvenue midtownWestZone
+    let seventhAvenue = seventhAvenue midtownWestZone
     let fiftySeventhStreet = fiftySeventhStreet midtownWestZone
     let sixthAvenue = sixthAvenue city midtownWestZone
 
@@ -199,11 +195,6 @@ let createZone (city: City) =
         { Lines = [ Blue ]
           LeavesToStreet = broadway.Id
           PlaceId = broadwayMetro.Id }
-
-    let pennStationMetro =
-        { Lines = [ Blue ]
-          LeavesToStreet = seventhAvenue.Id
-          PlaceId = pennStation.Id }
 
     midtownWestZone
     |> World.Zone.addStreet (World.Node.create broadway.Id broadway)
@@ -216,4 +207,3 @@ let createZone (city: City) =
     |> World.Zone.connectStreets broadway.Id fiftySeventhStreet.Id North
     |> World.Zone.connectStreets broadway.Id sixthAvenue.Id East
     |> World.Zone.addMetroStation broadwayMetroStation
-    |> World.Zone.addMetroStation pennStationMetro

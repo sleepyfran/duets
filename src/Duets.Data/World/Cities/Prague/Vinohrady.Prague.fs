@@ -100,56 +100,19 @@ let náměstíMíru (zone: Zone) =
 
     street, metroStation
 
-let jiříhozPoděbrad (zone: Zone) =
-    let street =
-        World.Street.create
-            Ids.Street.jiříhozPoděbrad
-            (StreetType.Split(North, 2))
-        |> World.Street.attachContext
-            """
-        The area around Jiřího z Poděbrad (George of Poděbrady Square) features a
-        distinctive modernist church with its tall concrete tower visible from afar.
-        The square serves as a local market location, with farmers' markets drawing
-        crowds on weekends. Surrounding streets contain a mix of interwar modernist
-        architecture and older buildings. The metro station makes this a transport
-        hub for eastern Vinohrady and Vršovice. Local shops, bakeries, and
-        traditional Czech businesses serve the residential community.
-        The atmosphere is neighborly and unpretentious, with local residents shopping
-        at the market stalls.
-"""
-
-    let metroStation =
-        ("Jiřího z Poděbrad Station", zone.Id)
-        |> PlaceCreators.createMetro street.Id
-
-    let street = street |> World.Street.addPlace metroStation
-
-    street, metroStation
-
 let createZone city =
     let vinohradyZone = World.Zone.create Ids.Zone.vinohrady
 
     let francouzská = francouzská city vinohradyZone
     let náměstíMíru, náměstíMíruMetro = náměstíMíru vinohradyZone
-    let jiříhozPoděbrad, jiříhozPoděbradMetro = jiříhozPoděbrad vinohradyZone
 
     let náměstíMíruStation =
         { Lines = [ Red ]
           LeavesToStreet = náměstíMíru.Id
           PlaceId = náměstíMíruMetro.Id }
 
-    let jiříhozPoděbradStation =
-        { Lines = [ Red ]
-          LeavesToStreet = jiříhozPoděbrad.Id
-          PlaceId = jiříhozPoděbradMetro.Id }
-
     vinohradyZone
     |> World.Zone.addStreet (World.Node.create francouzská.Id francouzská)
     |> World.Zone.addStreet (World.Node.create náměstíMíru.Id náměstíMíru)
-    |> World.Zone.addStreet (
-        World.Node.create jiříhozPoděbrad.Id jiříhozPoděbrad
-    )
     |> World.Zone.connectStreets francouzská.Id náměstíMíru.Id South
-    |> World.Zone.connectStreets náměstíMíru.Id jiříhozPoděbrad.Id East
     |> World.Zone.addMetroStation náměstíMíruStation
-    |> World.Zone.addMetroStation jiříhozPoděbradStation
