@@ -7,7 +7,6 @@ open Duets.Cli.Text.World
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation
-open Duets.Simulation.Navigation
 
 type private PlaceSpecialProperty =
     | Rented
@@ -70,7 +69,7 @@ let private showPlaceTypeChoice
     city
     (placesInCity: Map<PlaceTypeIndex, Place list>)
     =
-    let availablePlaceTypes = placesInCity |> List.ofSeq |> List.map (_.Key)
+    let availablePlaceTypes = placesInCity |> List.ofSeq |> List.map _.Key
 
     showCancellableChoicePrompt
         Command.mapChoosePlaceTypePrompt
@@ -79,53 +78,6 @@ let private showPlaceTypeChoice
         availablePlaceTypes
     |> Option.bind (fun placeType ->
         placesInCity |> Map.find placeType |> showPlaceChoice city placesInCity)
-
-let private showDirectionsToPlace (city: City) (destination: Place) =
-    let currentPlace = Queries.World.currentPlace (State.get ())
-
-    let directionsToPlace =
-        Pathfinding.directionsToNode city.Id currentPlace.Id destination.Id
-
-    let directions = directionsToPlace |> Option.defaultValue []
-
-    match directions with
-    | [] -> ()
-    | directions ->
-        $"Directions to {destination.Name |> Styles.place}:"
-        |> Styles.header
-        |> showMessage
-
-        showSeparator None
-
-        directions
-        |> List.indexed
-        |> List.iter (fun (index, direction) ->
-            let isLast = index = (List.length directions - 1)
-            let prefix = if isLast then "└─" else "├─"
-
-            match direction with
-            | Pathfinding.GoOut(fromPlace, toStreet) ->
-                $"""{prefix} {Styles.action "Leave"} {fromPlace.Name |> Styles.place} and {Styles.action "walk"} to {toStreet.Name |> Styles.place}"""
-            | Pathfinding.Enter(fromStreet, toPlace) ->
-                $"""{prefix} {Styles.action "Enter"} {toPlace.Name |> Styles.place} from {fromStreet.Name |> Styles.place}"""
-            | Pathfinding.TakeMetro(fromStation, toStation, throughLine) ->
-                let fromStation =
-                    Queries.World.placeInCityById city.Id fromStation.PlaceId
-
-                let toStation =
-                    Queries.World.placeInCityById city.Id toStation.PlaceId
-
-                $"""{prefix} {Styles.action "Take the metro"} from {fromStation.Name |> Styles.place} to {toStation.Name |> Styles.place} through the {Styles.line throughLine} line"""
-            | Pathfinding.Walk(fromStreet, toStreet, throughDirection) ->
-                $"""{prefix} {Styles.action "Walk"} from {fromStreet.Name |> Styles.place} to {toStreet.Name |> Styles.place} through the {World.directionName throughDirection |> Styles.direction}"""
-            |> showMessage)
-
-let private askForPlace city availablePlaces =
-    let selectedPlace = availablePlaces |> showPlaceTypeChoice city
-
-    match selectedPlace with
-    | Some place -> showDirectionsToPlace city place
-    | None -> ()
 
 let private changePlace idxType fn (places: Map<PlaceTypeIndex, Place list>) =
     Map.change idxType (Option.bind (fn >> Option.ofList)) places
@@ -164,9 +116,7 @@ let private sortConcertSpaces state =
 
 /// Shows a list of all the place types in the current city and, upon selecting
 /// one type, shows all the places of that specific type in the current city.
-/// If the user selects one of the places, it will attempt to move the character
-/// to that location and return the effects associated with it, respecting the
-/// place opening hours and any other policies it might have.
+/// Returns the selected place if one was chosen, or None if the user cancelled.
 let showMap () =
     let state = State.get ()
     let rentedPlaces = Queries.Rentals.allAsMap state
@@ -180,9 +130,4 @@ let showMap () =
         |> sortHotels currentCity rentedPlaces
         |> sortConcertSpaces state
 
-    allAvailablePlaces |> askForPlace currentCity
-
-/// Shows the map, forcing the user to make a choice.
-let showMapUntilChoice () =
-    // TODO: We no longer support this, so properly handle when people get kicked out!
-    ()
+    allAvailablePlaces |> showPlaceTypeChoice currentCity

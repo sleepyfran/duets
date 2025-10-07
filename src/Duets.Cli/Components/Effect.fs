@@ -204,11 +204,6 @@ let private displayEffect effect =
 
         Styles.danger $"{place.Name} is closing and they're kicking you out."
         |> showMessage
-
-        "Choose where you want to go next" |> showMessage
-
-    // TODO: Properly handle this now that we don't have this!
-    // showMapUntilChoice () |> applyMultiple
     | GamePlayed result ->
         lineBreak ()
 
@@ -249,9 +244,6 @@ let private displayEffect effect =
         "Since your rental has ran out, you need to go somewhere else"
         |> Styles.error
         |> showMessage
-
-    // TODO: Properly handle this since we no longer navigate with a map!
-    // showMapUntilChoice () |> applyMultiple
     | RentalExpired rental ->
         lineBreak ()
 

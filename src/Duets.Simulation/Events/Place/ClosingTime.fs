@@ -1,7 +1,9 @@
 module rec Duets.Simulation.Events.Place.ClosingTime (* Open all the doors and let you out into the wooooorld... *)
 
+open Duets.Common
 open Duets.Entities
 open Duets.Simulation
+open Duets.Simulation.Navigation
 
 /// Checks if the given time is outside of the opening hours of the place
 /// the character is currently in and, if so, creates a PlaceClosed effect.
@@ -15,7 +17,9 @@ let checkCurrentPlace state =
     let skipKickingOut = shouldPreserveCharacterInPlace state
 
     if currentlyClosed && not skipKickingOut then
-        [ Effect.PlaceClosed currentPlace ]
+        let firstExit = currentPlace.Exits |> Map.head
+
+        [ PlaceClosed currentPlace; Navigation.exitTo firstExit state ]
     else
         []
 
