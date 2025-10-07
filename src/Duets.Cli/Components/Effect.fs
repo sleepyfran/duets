@@ -207,7 +207,8 @@ let private displayEffect effect =
 
         "Choose where you want to go next" |> showMessage
 
-        showMapUntilChoice () |> applyMultiple
+    // TODO: Properly handle this now that we don't have this!
+    // showMapUntilChoice () |> applyMultiple
     | GamePlayed result ->
         lineBreak ()
 
@@ -249,7 +250,8 @@ let private displayEffect effect =
         |> Styles.error
         |> showMessage
 
-        showMapUntilChoice () |> applyMultiple
+    // TODO: Properly handle this since we no longer navigate with a map!
+    // showMapUntilChoice () |> applyMultiple
     | RentalExpired rental ->
         lineBreak ()
 

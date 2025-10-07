@@ -80,44 +80,52 @@ let private showPlaceTypeChoice
     |> Option.bind (fun placeType ->
         placesInCity |> Map.find placeType |> showPlaceChoice city placesInCity)
 
-let private moveToPlace city availablePlaces (destination: Place) =
-    let navigationResult = Navigation.moveTo destination.Id (State.get ())
+let private showDirectionsToPlace (city: City) (destination: Place) =
+    let currentPlace = Queries.World.currentPlace (State.get ())
 
-    $"You walk to {destination.Name}..." |> showMessage
+    let directionsToPlace =
+        Pathfinding.directionsToNode city.Id currentPlace.Id destination.Id
 
-    wait 2000<millisecond>
+    let directions = directionsToPlace |> Option.defaultValue []
 
-    match navigationResult with
-    | Ok effect -> [ effect ]
-    | Error PlaceEntranceError.CannotEnterOutsideOpeningHours ->
-        showSeparator None
-
-        World.placeClosedError destination |> showMessage
-        World.placeOpeningHours destination |> showMessage
-
-        showSeparator None
-
-        askForPlace city availablePlaces
-    | Error PlaceEntranceError.CannotEnterWithoutRental ->
-        showSeparator None
-
-        Styles.error "You cannot enter this place without renting it first"
-        |> showMessage
-
-        Styles.information
-            "Try to use your phone to rent it out and come back again afterwards"
+    match directions with
+    | [] -> ()
+    | directions ->
+        $"Directions to {destination.Name |> Styles.place}:"
+        |> Styles.header
         |> showMessage
 
         showSeparator None
 
-        askForPlace city availablePlaces
+        directions
+        |> List.indexed
+        |> List.iter (fun (index, direction) ->
+            let isLast = index = (List.length directions - 1)
+            let prefix = if isLast then "└─" else "├─"
+
+            match direction with
+            | Pathfinding.GoOut(fromPlace, toStreet) ->
+                $"""{prefix} {Styles.action "Leave"} {fromPlace.Name |> Styles.place} and {Styles.action "walk"} to {toStreet.Name |> Styles.place}"""
+            | Pathfinding.Enter(fromStreet, toPlace) ->
+                $"""{prefix} {Styles.action "Enter"} {toPlace.Name |> Styles.place} from {fromStreet.Name |> Styles.place}"""
+            | Pathfinding.TakeMetro(fromStation, toStation, throughLine) ->
+                let fromStation =
+                    Queries.World.placeInCityById city.Id fromStation.PlaceId
+
+                let toStation =
+                    Queries.World.placeInCityById city.Id toStation.PlaceId
+
+                $"""{prefix} {Styles.action "Take the metro"} from {fromStation.Name |> Styles.place} to {toStation.Name |> Styles.place} through the {Styles.line throughLine} line"""
+            | Pathfinding.Walk(fromStreet, toStreet, throughDirection) ->
+                $"""{prefix} {Styles.action "Walk"} from {fromStreet.Name |> Styles.place} to {toStreet.Name |> Styles.place} through the {World.directionName throughDirection |> Styles.direction}"""
+            |> showMessage)
 
 let private askForPlace city availablePlaces =
     let selectedPlace = availablePlaces |> showPlaceTypeChoice city
 
     match selectedPlace with
-    | Some place -> moveToPlace city availablePlaces place
-    | None -> []
+    | Some place -> showDirectionsToPlace city place
+    | None -> ()
 
 let private changePlace idxType fn (places: Map<PlaceTypeIndex, Place list>) =
     Map.change idxType (Option.bind (fn >> Option.ofList)) places
@@ -127,6 +135,9 @@ let private filterRentedHomePlaces (currentCity: City) rentedPlaces =
         PlaceTypeIndex.Home
         (List.filter (fun (place: Place) ->
             rentedPlaces |> Map.containsKey (currentCity.Id, place.Id)))
+
+let private filterStreets =
+    changePlace PlaceTypeIndex.Street (List.filter (fun _ -> false))
 
 let private sortHotels (currentCity: City) rentedPlaces =
     changePlace
@@ -165,6 +176,7 @@ let showMap () =
     let allAvailablePlaces =
         Queries.World.allPlacesInCurrentCity state
         |> filterRentedHomePlaces currentCity rentedPlaces
+        |> filterStreets
         |> sortHotels currentCity rentedPlaces
         |> sortConcertSpaces state
 
@@ -172,6 +184,5 @@ let showMap () =
 
 /// Shows the map, forcing the user to make a choice.
 let showMapUntilChoice () =
-    match showMap () with
-    | effects when effects.Length > 0 -> effects
-    | _ -> showMapUntilChoice ()
+    // TODO: We no longer support this, so properly handle when people get kicked out!
+    ()

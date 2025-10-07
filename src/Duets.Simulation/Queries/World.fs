@@ -30,7 +30,6 @@ module World =
     let placeInCityById cityId placeId =
         let city = cityById cityId
         let zoneId, streetId, placeId = Map.find placeId city.PlaceIndex
-        let city = cityById cityId
         let zone = city.Zones |> Map.find zoneId
 
         let street = zone.Streets.Nodes |> Map.find streetId
@@ -77,14 +76,18 @@ module World =
         let city = currentCity state
         streetById city.Id streetId
 
-    /// Returns all the places in the current city, organized by their place type.
-    let allPlacesInCurrentCity state =
-        let cityId, _, _ = state.CurrentPosition
+    /// Returns all the places in the given city, organized by their place type.
+    let allPlacesInCity cityId =
         let city = cityById cityId
 
         city.PlaceByTypeIndex
         |> Map.map (fun _ placeIds ->
             placeIds |> List.map (placeInCityById cityId))
+
+    /// Returns all the places in the current city, organized by their place type.
+    let allPlacesInCurrentCity state =
+        let cityId, _, _ = state.CurrentPosition
+        allPlacesInCity cityId
 
     /// Returns the place in which the character is in currently.
     let currentPlace state =
@@ -95,6 +98,13 @@ module World =
     let currentRoom state =
         let cityId, placeId, roomId = state.CurrentPosition
         roomById cityId placeId roomId
+
+    /// Returns whether the given nodes belong to the given city.
+    let nodesBelongToCity cityId originNode destinationNode =
+        let city = cityById cityId
+
+        city.PlaceIndex |> Map.containsKey originNode
+        && city.PlaceIndex |> Map.containsKey destinationNode
 
     /// Returns a list of IDs of the places with the given type inside of the
     /// given city.

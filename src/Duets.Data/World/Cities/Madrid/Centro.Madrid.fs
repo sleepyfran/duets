@@ -145,14 +145,7 @@ let barrioDeLasLetras (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createStudio street.Id)
 
-    let rehearsalSpaces =
-        [ ("Sala Clamores", 75<quality>, 120m<dd>, zone.Id) ]
-        |> List.map (PlaceCreators.createRehearsalSpace street.Id)
-
-    street
-    |> World.Street.addPlaces cafes
-    |> World.Street.addPlaces studios
-    |> World.Street.addPlaces rehearsalSpaces
+    street |> World.Street.addPlaces cafes |> World.Street.addPlaces studios
 
 let calleArenal (zone: Zone) =
     let street =

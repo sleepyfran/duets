@@ -73,6 +73,7 @@
         <Compile Include="Weather\WeatherTransition.Tests.fs"/>
         <Compile Include="World\Population.Tests.fs"/>
         <Compile Include="World\Traveling.Tests.fs"/>
+        <Compile Include="World\Pathfinding.Tests.fs"/>
         <Compile Include="Events\Character.Events.Tests.fs"/>
         <Compile Include="Events\ClosingTime.Events.Tests.fs"/>
         <Compile Include="Events\Band.Events.Tests.fs"/>

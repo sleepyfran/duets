@@ -67,6 +67,7 @@
         <Compile Include="State\SocialNetworks.fs"/>
         <Compile Include="State\World.fs"/>
         <Compile Include="State\State.fs"/>
+        <Compile Include="WorldNavigation\Pathfinding.fs"/>
         <Compile Include="WorldNavigation\Policies\OpeningHours.Policies.fs"/>
         <Compile Include="WorldNavigation\Policies\Rental.Policies.fs"/>
         <Compile Include="WorldNavigation\Policies\Concert.Policies.fs"/>

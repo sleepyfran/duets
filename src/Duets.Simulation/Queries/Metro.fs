@@ -5,10 +5,17 @@ open Duets.Entities
 
 module Metro =
     /// Attempts to find a station that belongs to the given metro line in the
+    /// given zone of the given city. If the station does not belong to the line,
+    /// it returns None.
+    let tryStationFromZone' cityId zoneId lineId =
+        let zone = World.zoneInCityById cityId zoneId
+        zone.MetroStations |> Map.tryFind lineId
+
+    /// Attempts to find a station that belongs to the given metro line in the
     /// given zone. If the station does not belong to the line, it returns None.
     let tryStationFromZone state zoneId lineId =
-        let zone = World.zoneInCurrentCityById state zoneId
-        zone.MetroStations |> Map.tryFind lineId
+        let cityId, _, _ = World.currentCoordinates state
+        tryStationFromZone' cityId zoneId lineId
 
     /// Attempts to find the current station that the character is in.
     let tryCurrentStation state =
@@ -22,8 +29,7 @@ module Metro =
     let stationLines state station =
         let currentCity = World.currentCity state
 
-        station.Lines
-        |> List.map (fun lineId -> currentCity.MetroLines.[lineId])
+        station.Lines |> List.map (fun lineId -> currentCity.MetroLines[lineId])
 
     /// Returns the current station line. If the character is not in a metro
     /// station, it returns None.
@@ -32,20 +38,19 @@ module Metro =
         |> Option.map (stationLines state)
         |> Option.defaultValue []
 
-    /// Returns the connections of a given station and line.
-    let currentZoneConnections state lineId =
-        let city = World.currentCity state
-        let zone, _ = World.currentZoneCoordinates state
+    /// Returns the connections of a given zone and line.
+    let zoneConnections cityId (zone: Zone) lineId =
+        let city = World.cityById cityId
         let metroLine = city.MetroLines |> Map.find lineId
 
         let resolveConnectionToZone targetZoneId =
             let targetStation =
-                tryStationFromZone state targetZoneId lineId |> Option.get
+                tryStationFromZone' cityId targetZoneId lineId |> Option.get
 
-            let resolvedZone = World.zoneInCurrentCityById state targetZoneId
+            let resolvedZone = World.zoneInCityById cityId targetZoneId
 
             let resolvedPlace =
-                World.placeInCurrentCityById state targetStation.PlaceId
+                World.placeInCityById cityId targetStation.PlaceId
 
             let targetCoords =
                 targetZoneId,
@@ -70,6 +75,12 @@ module Metro =
                     PreviousAndNextCoords(previous, next))
 
         connection |> Option.map (fun connection -> connection, metroLine)
+
+    /// Returns the connections of the current station and line.
+    let currentZoneConnections state lineId =
+        let city = World.currentCity state
+        let zone, _ = World.currentZoneCoordinates state
+        zoneConnections city.Id zone lineId
 
     /// Returns the connections of a given station in the current metro line.
     let stationLineConnections state currentStation =

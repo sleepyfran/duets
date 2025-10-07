@@ -11,7 +11,9 @@ open Duets.Simulation
 let placeNameWithOpeningInfo placeDetails currentlyOpen =
     match currentlyOpen with
     | true -> placeDetails
-    | false -> Styles.faded $"{placeDetails} - Closed"
+    | false ->
+        let closedText = Styles.faded "(Closed)"
+        $"{placeDetails} {closedText}"
 
 let placeNameWithOpeningInfo' (place: Place) currentlyOpen =
     placeNameWithOpeningInfo place.Name currentlyOpen
