@@ -22,6 +22,10 @@ let figueroaStreet (zone: Zone) =
         architecture, defining the southwestern edge of the central business district.
 """
 
+    let casinos =
+        [ ("The Commerce Casino", 91<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCasino street.Id)
+
     let concertSpaces =
         [ ("Crypto.com Arena",
            17000,
@@ -58,6 +62,7 @@ let figueroaStreet (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces casinos
         |> World.Street.addPlaces concertSpaces
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces rehearsalSpaces
