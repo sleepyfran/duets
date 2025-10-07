@@ -90,72 +90,34 @@ let ``all cities must have concert spaces to accomodate all sort of bands by cap
     World.get.Cities |> List.ofMapValues |> List.iter checkConcertSpaces
 
 [<Test>]
-let ``all cities must have a hospital`` () =
-    World.get.Cities
-    |> List.ofMapValues
-    |> List.iter (fun city ->
-        let hospitals =
-            Queries.World.placesByTypeInCity city.Id PlaceTypeIndex.Hospital
+let ``all cities must have at least one place of each type`` () =
+    let citiesWithMissingPlaces =
+        Queries.World.allCities
+        |> List.map (fun city ->
+            Union.allCasesOf<PlaceTypeIndex> ()
+            |> List.choose (fun placeType ->
+                let places =
+                    Queries.World.placesByTypeInCity city.Id placeType
 
-        if hospitals.Length = 0 then
-            failwith $"{city.Id} does not have a hospital")
+                if places.Length = 0 then Some(city.Id, placeType) else None))
+        |> List.concat
 
-[<Test>]
-let ``all cities must have hotels`` () =
-    World.get.Cities
-    |> List.ofMapValues
-    |> List.iter (fun city ->
-        let hotels =
-            Queries.World.placesByTypeInCity city.Id PlaceTypeIndex.Hotel
+    if citiesWithMissingPlaces.Length > 0 then
+        let errorMessage =
+            citiesWithMissingPlaces
+            |> List.groupBy fst
+            |> List.map (fun (cityId, places) ->
+                let missingPlaceTypes =
+                    places
+                    |> List.map snd
+                    |> List.map string
+                    |> String.concat ", "
 
-        if hotels.Length <= 1 then
-            failwith $"{city.Id} does not have enough hotels")
+                $"{cityId}: {missingPlaceTypes}")
+            |> String.concat "\n"
 
-[<Test>]
-let ``all cities must have a home`` () =
-    World.get.Cities
-    |> List.ofMapValues
-    |> List.iter (fun city ->
-        let homes =
-            Queries.World.placesByTypeInCity city.Id PlaceTypeIndex.Home
-
-        if homes.Length = 0 then
-            failwith $"{city.Id} does not have a home")
-
-[<Test>]
-let ``all cities must have a radio station`` () =
-    World.get.Cities
-    |> List.ofMapValues
-    |> List.iter (fun city ->
-        let radioStations =
-            Queries.World.placesByTypeInCity city.Id PlaceTypeIndex.RadioStudio
-
-        if radioStations.Length = 0 then
-            failwith $"{city.Id} does not have a radio station")
-
-[<Test>]
-let ``all cities must have a rehearsal room`` () =
-    World.get.Cities
-    |> List.ofMapValues
-    |> List.iter (fun city ->
-        let radioStations =
-            Queries.World.placesByTypeInCity
-                city.Id
-                PlaceTypeIndex.RehearsalSpace
-
-        if radioStations.Length = 0 then
-            failwith $"{city.Id} does not have a rehearsal room")
-
-[<Test>]
-let ``all cities must have an airport`` () =
-    World.get.Cities
-    |> List.ofMapValues
-    |> List.iter (fun city ->
-        let airports =
-            Queries.World.placesByTypeInCity city.Id PlaceTypeIndex.Airport
-
-        if airports.Length = 0 then
-            failwith $"{city.Id} does not have an airport")
+        failwith
+            $"The following cities are missing place types:\n{errorMessage}"
 
 [<Test>]
 let ``player is able to exit every place in the world`` () =
