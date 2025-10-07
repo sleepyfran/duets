@@ -19,6 +19,10 @@ let granVia (city: City) (zone: Zone) =
         and street musicians create a constant urban symphony.
 """
 
+    let merchandiseWorkshops =
+        [ ("Gran Vía Merch", zone.Id) ]
+        |> List.map (PlaceCreators.createMerchandiseWorkshop street.Id)
+
     let hotels =
         [ ("Hotel Emperador", 90<quality>, 320m<dd>, zone.Id)
           ("Hotel Vincci", 85<quality>, 280m<dd>, zone.Id) ]
@@ -61,6 +65,7 @@ let granVia (city: City) (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces merchandiseWorkshops
         |> World.Street.addPlaces hotels
         |> World.Street.addPlaces restaurants
         |> World.Street.addPlaces cafes

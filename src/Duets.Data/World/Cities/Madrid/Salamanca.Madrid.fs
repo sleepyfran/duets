@@ -17,6 +17,10 @@ let calleSerrano (city: City) (zone: Zone) =
         adorn many buildings, while luxury cars frequently park along the curbs.
 """
 
+    let casinos =
+        [ ("Casino Gran Madrid", 92<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCasino street.Id)
+
     let hotels =
         [ ("Hotel Wellington", 92<quality>, 350m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createHotel street.Id)
@@ -47,6 +51,7 @@ let calleSerrano (city: City) (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces casinos
         |> World.Street.addPlaces hotels
         |> World.Street.addPlaces restaurants
         |> World.Street.addPlaces cafes
