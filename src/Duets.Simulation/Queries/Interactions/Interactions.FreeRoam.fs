@@ -10,7 +10,7 @@ module FreeRoam =
             FreeRoamInteraction.Move(direction, destinationId)
             |> Interaction.FreeRoam)
 
-    let private getEnterInteractions state roomId place =
+    let private getEnterInteraction state roomId place =
         match place.PlaceType with
         | PlaceType.Street ->
             (* When the place is a street the ID of the place matches the street. *)
@@ -37,9 +37,8 @@ module FreeRoam =
                     |> List.splitInto splits
                     |> List.item currentSplit
 
-            places
-            |> List.map (FreeRoamInteraction.Enter >> Interaction.FreeRoam)
-        | _ -> []
+            FreeRoamInteraction.Enter places |> Interaction.FreeRoam |> Some
+        | _ -> None
 
     let getGoToInteractions state place =
         (*
@@ -74,7 +73,7 @@ module FreeRoam =
         FreeRoamInteraction.Look(itemsInPlace, knownPeople, unknownPeople)
 
     let private getNavigationInteractions state (_, _, roomId) place =
-        let enterInteractions = getEnterInteractions state roomId place
+        let enterInteractions = getEnterInteraction state roomId place
 
         let goToInteractions = getGoToInteractions state place
 
@@ -83,10 +82,13 @@ module FreeRoam =
 
         let exitInteraction = getOutInteractions roomId place
 
-        withinPlaceMovementInteractions
-        @ exitInteraction
-        @ enterInteractions
-        @ goToInteractions
+        [ yield! withinPlaceMovementInteractions
+          yield! exitInteraction
+          yield! goToInteractions
+
+          match enterInteractions with
+          | Some interaction -> interaction
+          | None -> () ]
 
     let internal interactions
         state

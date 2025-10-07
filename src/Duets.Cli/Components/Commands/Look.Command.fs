@@ -20,6 +20,7 @@ module LookCommand =
                 | Interaction.FreeRoam(FreeRoamInteraction.Enter(place)) ->
                     Some(place)
                 | _ -> None)
+            |> List.concat
 
         match entrances with
         | [] -> None

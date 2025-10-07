@@ -29,6 +29,7 @@ let private entrancesForPrompt interactions =
             | Interaction.FreeRoam(FreeRoamInteraction.Enter(place)) ->
                 Some(place)
             | _ -> None)
+        |> List.concat
 
     match entrances with
     | [] -> ""

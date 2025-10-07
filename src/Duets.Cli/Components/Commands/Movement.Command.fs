@@ -123,7 +123,7 @@ module GoToCommand =
 [<RequireQualifiedAccess>]
 module EnterCommand =
     /// Creates a command that allows the player to go enter a place.
-    let create (place: Place) =
+    let create (places: Place list) =
         { Name = "enter"
           Description =
             $"""Allows you to enter inside a place. Use as {Styles.information "enter {place name}"}"""
@@ -132,10 +132,12 @@ module EnterCommand =
                 let input = args |> String.concat " "
 
                 let nameMatches =
-                    String.diacriticInsensitiveContains place.Name input
+                    places
+                    |> List.tryFind (fun place ->
+                        String.diacriticInsensitiveContains place.Name input)
 
                 match nameMatches with
-                | true ->
+                | Some place ->
                     let navigationResult =
                         State.get () |> Navigation.moveTo place.Id
 
@@ -163,7 +165,7 @@ module EnterCommand =
                         |> showMessage
 
                     Scene.WorldAfterMovement
-                | false ->
+                | None ->
                     $"There are no places called {input} around here"
                     |> Styles.error
                     |> showMessage

@@ -100,7 +100,7 @@ module rec InteractionTypes =
         /// are left in the day.
         | Clock of (DayMoment * CalendarEventType list) list
         /// Allows the player to enter a place.
-        | Enter of place: Place
+        | Enter of places: Place list
         /// Allows the player to exit a place towards a specific destination.
         | GoOut of destinationStreetId: StreetId
         /// Allows the player to move onto a connecting street.
