@@ -2,6 +2,7 @@ module rec Duets.Data.World.Cities.London.WestEnd
 
 open Duets.Data.World.Cities
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let private oxfordStreet (city: City) (zone: Zone) =
     let street =
@@ -17,6 +18,17 @@ let private oxfordStreet (city: City) (zone: Zone) =
         modernization, architectural details from the street's 18th-century origins persist
         in upper-story windows and cornices above the contemporary shop displays.
 """
+
+    let recordingStudios =
+        [ ("AIR Studios",
+           96<quality>,
+           450m<dd>,
+           (Character.from
+               "George Martin"
+               Male
+               (Shorthands.Winter 3<days> 1926<years>)),
+           zone.Id) ]
+        |> List.map (PlaceCreators.createStudio street.Id)
 
     let shops =
         [ ("Selfridges", zone.Id); ("John Lewis", zone.Id) ]
@@ -46,6 +58,7 @@ let private oxfordStreet (city: City) (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces recordingStudios
         |> World.Street.addPlaces shops
         |> World.Street.addPlaces cafes
         |> World.Street.addPlaces concertSpaces
@@ -54,7 +67,7 @@ let private oxfordStreet (city: City) (zone: Zone) =
 
     street, metroStation
 
-let private soho (zone: Zone) =
+let private soho (city: City) (zone: Zone) =
     let street =
         World.Street.create "Soho" (StreetType.Split(West, 2))
         |> World.Street.attachContext
@@ -68,6 +81,14 @@ let private soho (zone: Zone) =
         occupy ground floors beneath post-production studios and advertising agencies. The
         atmosphere balances creative industry professionalism with bohemian nightlife.
 """
+
+    let casinos =
+        [ ("Hippodrome Casino", 90<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCasino street.Id)
+
+    let gyms =
+        [ ("Third Space Soho", 91<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createGym city street.Id)
 
     let bars =
         [ ("Ronnie Scott's", 85<quality>, zone.Id)
@@ -86,6 +107,8 @@ let private soho (zone: Zone) =
     let home = PlaceCreators.createHome street.Id zone.Id
 
     street
+    |> World.Street.addPlaces casinos
+    |> World.Street.addPlaces gyms
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces rehearsalSpaces
     |> World.Street.addPlaces restaurants
@@ -131,7 +154,7 @@ let private coventGarden (zone: Zone) =
 let createZone (city: City) =
     let zone = World.Zone.create "West End"
     let oxfordStreet, metroStation = oxfordStreet city zone
-    let soho = soho zone
+    let soho = soho city zone
     let coventGarden = coventGarden zone
 
     let metroStation =

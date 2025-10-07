@@ -3,7 +3,7 @@ module rec Duets.Data.World.Cities.London.CityOfLondon
 open Duets.Data.World.Cities
 open Duets.Entities
 
-let private bank (zone: Zone) =
+let private bank (city: City) (zone: Zone) =
     let street =
         World.Street.create "Bank" (StreetType.Split(East, 2))
         |> World.Street.attachContext
@@ -18,6 +18,10 @@ let private bank (zone: Zone) =
         while weekends see it quieter and more atmospheric.
 """
 
+    let gyms =
+        [ ("Virgin Active Bank", 88<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createGym city street.Id)
+
     let bars =
         [ ("The Counting House", 80<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createBar street.Id)
@@ -31,6 +35,7 @@ let private bank (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces gyms
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces hotels
         |> World.Street.addPlace metroStation
@@ -120,7 +125,7 @@ let private stBartsHospital (zone: Zone) =
 
 let createZone (city: City) =
     let zone = World.Zone.create "City of London"
-    let bank, metroStation = bank zone
+    let bank, metroStation = bank city zone
     let stPauls = stPauls city zone
     let barbican = barbican zone
     let stBarts = stBartsHospital zone

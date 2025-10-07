@@ -2,6 +2,7 @@ module rec Duets.Data.World.Cities.London.Camden
 
 open Duets.Data.World.Cities
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let private camdenHighStreet (city: City) (zone: Zone) =
     let street =
@@ -17,6 +18,29 @@ let private camdenHighStreet (city: City) (zone: Zone) =
         tourists, musicians, artists, and counterculture enthusiasts. Music venues tucked
         into side streets have launched countless careers since the punk era.
 """
+
+    let gyms =
+        [ ("Gymbox Camden", 86<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createGym city street.Id)
+
+    let recordingStudios =
+        [ ("The Pool Studio",
+           89<quality>,
+           320m<dd>,
+           (Character.from
+               "Ian Caple"
+               Male
+               (Shorthands.Spring 20<days> 1962<years>)),
+           zone.Id)
+          ("Sarm Studios",
+           92<quality>,
+           380m<dd>,
+           (Character.from
+               "Jill Sinclair"
+               Female
+               (Shorthands.Summer 5<days> 1952<years>)),
+           zone.Id) ]
+        |> List.map (PlaceCreators.createStudio street.Id)
 
     let bars =
         [ ("The World's End", 80<quality>, zone.Id)
@@ -41,6 +65,8 @@ let private camdenHighStreet (city: City) (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces gyms
+        |> World.Street.addPlaces recordingStudios
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces concertSpaces
         |> World.Street.addPlaces rehearsalSpaces
@@ -49,7 +75,7 @@ let private camdenHighStreet (city: City) (zone: Zone) =
 
     street, metroStation
 
-let private chalkFarm (zone: Zone) =
+let private chalkFarm (city: City) (zone: Zone) =
     let street =
         World.Street.create "Chalk Farm" (StreetType.Split(West, 2))
         |> World.Street.attachContext
@@ -63,6 +89,17 @@ let private chalkFarm (zone: Zone) =
         Camden's bustle, with local residents mixing with venue-goers.
 """
 
+    let recordingStudios =
+        [ ("Abbey Road Studios",
+           98<quality>,
+           500m<dd>,
+           (Character.from
+               "Giles Martin"
+               Male
+               (Shorthands.Autumn 9<days> 1969<years>)),
+           zone.Id) ]
+        |> List.map (PlaceCreators.createStudio street.Id)
+
     let cafes =
         [ ("The Coffee Jar", 75<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createCafe street.Id)
@@ -71,7 +108,10 @@ let private chalkFarm (zone: Zone) =
         [ ("Owl Bookshop", 80<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createBookstore street.Id)
 
-    street |> World.Street.addPlaces cafes |> World.Street.addPlaces bookstores
+    street 
+    |> World.Street.addPlaces recordingStudios
+    |> World.Street.addPlaces cafes 
+    |> World.Street.addPlaces bookstores
 
 let private regentsPark (zone: Zone) =
     let street =
@@ -107,7 +147,7 @@ let private regentsPark (zone: Zone) =
 let createZone (city: City) =
     let zone = World.Zone.create "Camden"
     let camdenHighStreet, metroStation = camdenHighStreet city zone
-    let chalkFarm = chalkFarm zone
+    let chalkFarm = chalkFarm city zone
     let regentsPark = regentsPark zone
 
     let metroStation =
