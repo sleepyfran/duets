@@ -3,14 +3,14 @@ module rec Duets.Data.World.Cities.NewYork.Root
 open Duets.Entities
 
 let generate () =
-    let brooklyn = Brooklyn.zone
+    let jamaica = Jamaica.zone
 
     let city =
-        World.City.create NewYork 6.0<costOfLiving> -5<utcOffset> brooklyn
+        World.City.create NewYork 6.0<costOfLiving> -5<utcOffset> jamaica
 
+    let brooklyn = Brooklyn.zone city
     let midtownWest = MidtownWest.createZone city
     let lowerManhattan = LowerManhattan.createZone city
-    let jamaica = Jamaica.zone
 
     let blueMetroLine =
         { Id = Blue
@@ -25,5 +25,5 @@ let generate () =
     city
     |> World.City.addZone midtownWest
     |> World.City.addZone lowerManhattan
-    |> World.City.addZone jamaica
+    |> World.City.addZone brooklyn
     |> World.City.addMetroLine blueMetroLine

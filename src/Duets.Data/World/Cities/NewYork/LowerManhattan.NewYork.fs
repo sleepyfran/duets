@@ -2,12 +2,17 @@ module rec Duets.Data.World.Cities.NewYork.LowerManhattan
 
 open Duets.Data.World.Cities
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let private bleeckerStreet (zone: Zone) =
     let street =
         World.Street.create
             Ids.Street.bleeckerStreet
             (StreetType.Split(East, 3))
+
+    let bookstores =
+        [ ("McNally Jackson Books", 91<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBookstore street.Id)
 
     let concerts =
         [ ("The Bitter End",
@@ -33,6 +38,7 @@ let private bleeckerStreet (zone: Zone) =
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
     street
+    |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces concerts
     |> World.Street.addPlaces restaurants
     |> World.Street.attachContext
@@ -51,6 +57,10 @@ let private bleeckerStreet (zone: Zone) =
 let private bowery (zone: Zone) =
     let street =
         World.Street.create Ids.Street.bowery (StreetType.Split(North, 3))
+
+    let bookstores =
+        [ ("Strand Bookstore", 94<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBookstore street.Id)
 
     let concerts =
         [ ("Bowery Ballroom",
@@ -75,6 +85,7 @@ let private bowery (zone: Zone) =
         |> List.map (PlaceCreators.createHotel street.Id)
 
     street
+    |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces concerts
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces shops
@@ -82,9 +93,20 @@ let private bowery (zone: Zone) =
     |> World.Street.attachContext
         "The Bowery has transformed from its gritty past into a corridor of luxury hotels and contemporary art spaces, though echoes of its historic character remain. Cast-iron buildings stand alongside modern glass and steel structures, creating an architectural timeline of New York's evolution. The street is wider than typical Manhattan avenues, allowing more light to reach the pavement. Street art and murals still appear on select walls, nodding to the area's punk rock heritage. The New Museum's stacked-box architecture dominates the skyline, while boutique retailers occupy ground floors of renovated industrial buildings. The atmosphere mixes artistic credibility with upscale development."
 
-let private irvingPlace (zone: Zone) =
+let private irvingPlace city (zone: Zone) =
     let street =
         World.Street.create Ids.Street.irvingPlace (StreetType.Split(North, 3))
+
+    let recordingStudios =
+        [ ("Electric Lady Studios",
+           96<quality>,
+           350m<dd>,
+           (Character.from
+               "Steve Rosenthal"
+               Male
+               (Shorthands.Winter 15<days> 1965<years>)),
+           zone.Id) ]
+        |> List.map (PlaceCreators.createStudio street.Id)
 
     let concerts =
         [ ("Irving Plaza",
@@ -113,6 +135,7 @@ let private irvingPlace (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces recordingStudios
         |> World.Street.addPlaces concerts
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces hotels
@@ -175,7 +198,7 @@ let createZone (city: City) =
 
     let bleeckerStreet = bleeckerStreet lowerManhattanZone
     let bowery = bowery lowerManhattanZone
-    let irvingPlace, unionSquareMetro = irvingPlace lowerManhattanZone
+    let irvingPlace, unionSquareMetro = irvingPlace city lowerManhattanZone
     let lowerEastSide = lowerEastSide city lowerManhattanZone
 
     let unionSquareMetroStation =

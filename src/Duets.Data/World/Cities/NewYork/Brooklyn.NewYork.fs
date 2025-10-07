@@ -3,11 +3,15 @@ module rec Duets.Data.World.Cities.NewYork.Brooklyn
 open Duets.Data.World.Cities
 open Duets.Entities
 
-let private lafayetteAtlantic (zone: Zone) =
+let private lafayetteAtlantic (city: City) (zone: Zone) =
     let street =
         World.Street.create
             Ids.Street.lafayetteAtlantic
             (StreetType.Split(East, 3))
+
+    let gyms =
+        [ ("Blink Fitness Brooklyn", 84<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createGym city street.Id)
 
     let concerts =
         [ ("Barclays Center",
@@ -36,6 +40,7 @@ let private lafayetteAtlantic (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces gyms
         |> World.Street.addPlaces concerts
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces restaurants
@@ -110,10 +115,10 @@ let private bedfordAvenue (zone: Zone) =
     and experimental performance spaces still thriving alongside newer, upscale establishments.
 """
 
-let zone =
+let zone city =
     let brooklynZone = World.Zone.create Ids.Zone.brooklyn
 
-    let lafayetteAtlantic, atlanticMetro = lafayetteAtlantic brooklynZone
+    let lafayetteAtlantic, atlanticMetro = lafayetteAtlantic city brooklynZone
     let frostStreet = frostStreet brooklynZone
     let bedfordAvenue = bedfordAvenue brooklynZone
 

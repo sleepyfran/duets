@@ -2,12 +2,17 @@ module rec Duets.Data.World.Cities.NewYork.MidtownWest
 
 open Duets.Data.World.Cities
 open Duets.Entities
+open Duets.Entities.Calendar
 
-let private broadway (zone: Zone) =
+let private broadway (city: City) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.broadway (StreetType.Split(North, 3))
 
     let home = PlaceCreators.createHome street.Id zone.Id
+
+    let gyms =
+        [ ("Equinox Times Square", 93<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createGym city street.Id)
 
     let concerts =
         [ ("The Majestic Theatre",
@@ -36,6 +41,7 @@ let private broadway (zone: Zone) =
     let street =
         street
         |> World.Street.addPlace home
+        |> World.Street.addPlaces gyms
         |> World.Street.addPlaces concerts
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces shops
@@ -142,12 +148,32 @@ let private fiftySeventhStreet (zone: Zone) =
 let private sixthAvenue (city: City) (zone: Zone) =
     let street = World.Street.create Ids.Street.sixthAvenue StreetType.OneWay
 
+    let recordingStudios =
+        [ ("Avatar Studios",
+           94<quality>,
+           400m<dd>,
+           (Character.from
+               "Roy Hendrickson"
+               Male
+               (Shorthands.Spring 10<days> 1968<years>)),
+           zone.Id)
+          ("Sear Sound",
+           95<quality>,
+           420m<dd>,
+           (Character.from
+               "Roberta Findlay"
+               Female
+               (Shorthands.Summer 22<days> 1970<years>)),
+           zone.Id) ]
+        |> List.map (PlaceCreators.createStudio street.Id)
+
     let radioStudios =
         [ ("Z100 (WHTZ-FM)", 94<quality>, "Pop", zone.Id)
           ("Q104.3 (WAXQ-FM)", 92<quality>, "Rock", zone.Id) ]
         |> List.map (PlaceCreators.createRadioStudio city street.Id)
 
     street
+    |> World.Street.addPlaces recordingStudios
     |> World.Street.addPlaces radioStudios
     |> World.Street.attachContext
         """
@@ -164,7 +190,7 @@ let private sixthAvenue (city: City) (zone: Zone) =
 let createZone (city: City) =
     let midtownWestZone = World.Zone.create Ids.Zone.midtownWest
 
-    let broadway, broadwayMetro = broadway midtownWestZone
+    let broadway, broadwayMetro = broadway city midtownWestZone
     let seventhAvenue, pennStation = seventhAvenue midtownWestZone
     let fiftySeventhStreet = fiftySeventhStreet midtownWestZone
     let sixthAvenue = sixthAvenue city midtownWestZone

@@ -7,6 +7,10 @@ let private vanWyckExpressway (zone: Zone) =
     let street =
         World.Street.create Ids.Street.vanWyckExpressway StreetType.OneWay
 
+    let casinos =
+        [ ("Resorts World Casino", 89<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCasino street.Id)
+
     let airports =
         [ ("John F. Kennedy International Airport", 95<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createAirport street.Id)
@@ -16,6 +20,7 @@ let private vanWyckExpressway (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces casinos
         |> World.Street.addPlaces airports
         |> World.Street.addPlace metroStation
         |> World.Street.attachContext
