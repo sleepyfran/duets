@@ -19,6 +19,10 @@ let krymská (zone: Zone) =
         bars and small concert spaces.
 """
 
+    let bookstores =
+        [ ("Shakespeare and Sons", 92<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBookstore street.Id)
+
     let concertSpaces =
         [ ("Café v lese", 150, 85<quality>, Layouts.concertSpaceLayout1, zone.Id)
           ("Bad Flash Bar",
@@ -37,6 +41,7 @@ let krymská (zone: Zone) =
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
     street
+    |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces restaurants

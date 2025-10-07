@@ -21,6 +21,10 @@ let václavskéNáměstí (city: City) (zone: Zone) =
         and locals mixing in equal measure. At night, neon signs illuminate the wide promenade.
 """
 
+    let casinos =
+        [ ("Casino Admiral", 88<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCasino street.Id)
+
     let bars =
         [ ("The Alchemist Bar", 92<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createBar street.Id)
@@ -42,6 +46,7 @@ let václavskéNáměstí (city: City) (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces casinos
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces restaurants
         |> World.Street.addPlaces hospitals
@@ -91,6 +96,10 @@ let národní (zone: Zone) =
         students, and artists frequenting the area.
 """
 
+    let merchandiseWorkshops =
+        [ ("Tiskárna Praha", zone.Id) ]
+        |> List.map (PlaceCreators.createMerchandiseWorkshop street.Id)
+
     let concertSpaces =
         [ ("National Theatre",
            1000,
@@ -113,6 +122,7 @@ let národní (zone: Zone) =
         |> List.map (PlaceCreators.createHotel street.Id)
 
     street
+    |> World.Street.addPlaces merchandiseWorkshops
     |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces restaurants
