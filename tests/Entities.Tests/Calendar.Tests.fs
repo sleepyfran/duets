@@ -134,3 +134,31 @@ let ``dayMomentsBetween handles midnight gracefully`` () =
 
     Calendar.Query.dayMomentsBetween beginning end'
     |> should equal 6<dayMoments>
+
+(* -- dayMomentsUntil -- *)
+[<Test>]
+let ``dayMomentsUntil correctly counts day moments`` () =
+    let currentDate =
+        Shorthands.Spring 1<days> 2025<years>
+        |> Calendar.Transform.changeDayMoment Midday
+
+    Calendar.Query.dayMomentsUntil Afternoon currentDate
+    |> should equal 1<dayMoments>
+
+[<Test>]
+let ``dayMomentsUntil correctly counts over midnight`` () =
+    let currentDate =
+        Shorthands.Spring 1<days> 2025<years>
+        |> Calendar.Transform.changeDayMoment Night
+
+    Calendar.Query.dayMomentsUntil Midnight currentDate
+    |> should equal 1<dayMoments>
+
+[<Test>]
+let ``dayMomentsUntil handles day moments that have passed`` () =
+    let currentDate =
+        Shorthands.Spring 1<days> 2025<years>
+        |> Calendar.Transform.changeDayMoment Midday
+
+    Calendar.Query.dayMomentsUntil EarlyMorning currentDate
+    |> should equal 5<dayMoments>

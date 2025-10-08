@@ -35,6 +35,38 @@ let private state =
 [<TestFixture>]
 type ``When place is not near closing time``() =
     [<Test>]
+    member _.``shift is properly calculated when closing time is before current time``
+        ()
+        =
+        let middayTime = morningTime |> Calendar.Query.next
+
+        let state = state |> State.Calendar.setTime middayTime
+
+        let bar =
+            Queries.World.placesByTypeInCity Prague PlaceTypeIndex.Bar
+            |> List.head
+
+        let bartenderJob =
+            { Id = Bartender
+              CurrentStage = (Careers.BartenderCareer.stages |> List.head)
+              Location = Prague, bar.Id, Ids.Common.bar }
+
+        let effect =
+            Work.workShift state bartenderJob
+            |> Result.unwrap
+            |> List.filter (function
+                | CareerShiftPerformed _ -> true
+                | _ -> false)
+            |> List.head
+
+        match effect with
+        | CareerShiftPerformed(_, duration, _) ->
+            duration |> should equal 2<dayMoments>
+        | _ -> failwith "Unexpected effect"
+
+        ()
+
+    [<Test>]
     member _.``work pays the full payment for all the day moments worked``() =
         let effect =
             Work.workShift state job

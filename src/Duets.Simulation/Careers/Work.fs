@@ -23,10 +23,7 @@ let private dayMomentsUntilClosingTime state job =
         let closedDayMoment =
             dayMoments |> List.last |> Calendar.Query.nextDayMoment
 
-        let closingTime =
-            currentTime |> Calendar.Transform.changeDayMoment closedDayMoment
-
-        Calendar.Query.dayMomentsBetween currentTime closingTime |> Some
+        Calendar.Query.dayMomentsUntil closedDayMoment currentTime |> Some
     | PlaceOpeningHours.AlwaysOpen -> None
 
 let private timeAdvancement state job =
@@ -40,17 +37,17 @@ let private timeAdvancement state job =
 let private isValidWorkDay state job =
     match job.CurrentStage.Schedule with
     | JobSchedule.Free _ -> true
-    | JobSchedule.Fixed (workDays, workDayMoments, _) ->
+    | JobSchedule.Fixed(workDays, workDayMoments, _) ->
         let currentTime = Queries.Calendar.today state
         let currentDayOfWeek = Calendar.Query.dayOfWeek currentTime
         let currentDayMoment = currentTime.DayMoment
-        
+
         let validDay = workDays |> List.contains currentDayOfWeek
         let validDayMoment = workDayMoments |> List.contains currentDayMoment
-        
+
         validDay && validDayMoment
 
-type WorkshiftError = 
+type WorkshiftError =
     | AttemptedToWorkDuringClosingTime
     | AttemptedToWorkOnNonScheduledDay
 

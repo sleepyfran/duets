@@ -215,6 +215,17 @@ module Query =
             let nextDayMoment = next beginningDate
             1<dayMoments> + dayMomentsBetween nextDayMoment endDate
 
+    /// Counts the number of day moments between the current date and the given
+    /// day moment.
+    let dayMomentsUntil (dayMoment: DayMoment) (currentDate: Date) =
+        let rec count n (targetDayMoment: DayMoment) (date: Date) =
+            if date.DayMoment = targetDayMoment then
+                n
+            else
+                date |> next |> count (n + 1<dayMoments>) targetDayMoment
+
+        count 0<dayMoments> dayMoment currentDate
+
     /// Determines whether the given date is the first day of the year or not.
     let isFirstMomentOfYear (date: Date) =
         date.Day = 1<days>
