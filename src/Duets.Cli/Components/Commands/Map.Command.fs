@@ -49,8 +49,8 @@ module rec MapCommand =
                         Queries.World.placeInCityById city.Id toStation.PlaceId
 
                     $"""{prefix} {Styles.action "Take the metro"} from {fromStation.Name |> Styles.place} to {toStation.Name |> Styles.place} through the {Styles.line throughLine} line"""
-                | Pathfinding.Walk(fromStreet, toStreet, throughDirection) ->
-                    $"""{prefix} {Styles.action "Walk"} from {fromStreet.Name |> Styles.place} to {toStreet.Name |> Styles.place} through the {World.World.directionName throughDirection |> Styles.direction}"""
+                | Pathfinding.Walk(fromStreet, toStreet, _) ->
+                    $"""{prefix} {Styles.action "Walk"} from {fromStreet.Name |> Styles.place} to {toStreet.Name |> Styles.place}"""
                 |> showMessage)
 
         let estimatedTravelTime = TravelTime.travelTime directions
