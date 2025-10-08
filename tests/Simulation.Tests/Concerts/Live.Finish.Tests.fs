@@ -6,12 +6,10 @@ open NUnit.Framework
 open Test.Common
 open Test.Common.Generators
 
-open Aether
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Concerts.Live.Finish
-open Duets.Simulation.Time
 
 let private attendance = 1000
 
@@ -36,6 +34,31 @@ let private assertFanGain modifier state band concert =
 
     totalFans |> should equal (calculateExpectedFanGain band.Fans modifier)
 
+let private venue =
+    Queries.World.placesByTypeInCity Prague PlaceTypeIndex.ConcertSpace
+    |> List.find (fun place ->
+        match place.PlaceType with
+        | ConcertSpace venue -> venue.Capacity = 800
+        | _ -> false)
+
+let private concert =
+    { Id = Identity.create ()
+      CityId = Prague
+      VenueId = venue.Id
+      Date = Calendar.gameBeginning |> Calendar.Ops.addDays 30<days>
+      DayMoment = Night
+      TicketPrice = 20m<dd>
+      TicketsSold = 0
+      ParticipationType = Headliner }
+
+let private ongoingConcert =
+    { Events = []
+      Points = 0<quality>
+      Checklist =
+        { MerchStandSetup = false
+          SoundcheckDone = false }
+      Concert = concert }
+
 let private simulateAndCheck'
     minConcertPoints
     maxConcertPoints
@@ -56,12 +79,12 @@ let private simulateAndCheck'
             |> List.head
 
         let concertWithAttendance =
-            { dummyConcert with
+            { concert with
                 TicketsSold = attendance
                 ParticipationType = participationType }
 
         let concertWithPoints =
-            { dummyOngoingConcert with
+            { ongoingConcert with
                 Concert = concertWithAttendance
                 Points = randomPoints * 1<quality> }
 
@@ -127,11 +150,7 @@ let ``finishing the concert should grant the band the earnings from the tickets 
                 | _ -> None)
             |> List.head
 
-        let expectedTotal =
-            (decimal concert.Concert.TicketsSold * concert.Concert.TicketPrice)
-            * 0.73m (* Minus 27% from the venue cut. *)
-
-        moneyEarned |> should equal expectedTotal)
+        moneyEarned |> should equal 14900m<dd>)
 
 [<Test>]
 let ``finishing an opening act concert should grant the band the correct percentage of the tickets sold``
@@ -150,10 +169,4 @@ let ``finishing an opening act concert should grant the band the correct percent
                     | _ -> None)
                 |> List.head
 
-            let expectedEarnings =
-                decimal concert.Concert.TicketsSold
-                * concert.Concert.TicketPrice
-                * 0.73m (* Minus 27% from the venue cut. *)
-                * 0.5m (* Opening act earnings. *)
-
-            moneyEarned |> should equal expectedEarnings)
+            moneyEarned |> should equal 7450m<dd>)

@@ -142,23 +142,24 @@ module Beer =
              stAustellTribute ])
           (LosAngeles, americanBeers)
           (Madrid, [ cruzcampo; estrellaDamm; mahou; alhambra; sanMiguel ])
-          (MexicoCity,
-           [ coronaExtra; modeloEspecial; pacifico; tecate; dosEquis ])
+          // (MexicoCity,
+          //  [ coronaExtra; modeloEspecial; pacifico; tecate; dosEquis ])
           (NewYork, americanBeers)
           (Prague,
            [ gambrinusPint; kozelPint; pilsnerUrquellPint; staropramenPint ])
-          (Sydney,
-           [ victoriaBitter
-             fostersLager
-             coopersPaleAle
-             carltonDraught
-             tooheysNew ])
-          (Tokyo,
-           [ asahiSuperDry
-             kirinIchiban
-             sapporoPremium
-             suntoryPremiumMalts
-             yebisu ]) ]
+          // (Sydney,
+          //  [ victoriaBitter
+          //    fostersLager
+          //    coopersPaleAle
+          //    carltonDraught
+          //    tooheysNew ])
+          // (Tokyo,
+          //  [ asahiSuperDry
+          //    kirinIchiban
+          //    sapporoPremium
+          //    suntoryPremiumMalts
+          //    yebisu ])
+          ]
         |> Map.ofList
 
     let all =

@@ -17,7 +17,7 @@ module PassSecurityCommand =
           Description = Command.passSecurityCheckDescription
           Handler =
             fun _ ->
-                showProgressBarSync [ Airport.passingSecurityCheck ] 5<second>
+                showProgressBarSync [ Travel.passingSecurityCheck ] 5<second>
 
                 let effects = passSecurityCheck (State.get ())
                 Effect.applyMultiple effects
@@ -30,7 +30,7 @@ module PassSecurityCommand =
 
                 match takenItemsEffect with
                 | eff when eff.Length > 0 ->
-                    Airport.itemsTakenBySecurity |> showMessage
+                    Travel.itemsTakenBySecurity |> showMessage
                 | _ -> ()
 
                 Scene.WorldAfterMovement }

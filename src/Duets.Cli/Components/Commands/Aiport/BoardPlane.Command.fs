@@ -15,11 +15,11 @@ module BoardPlaneCommand =
           Description = Command.boardPlaneDescription flight
           Handler =
             fun _ ->
-                showProgressBarAsync [ Airport.waitingToBoard ] 5<second>
+                showProgressBarAsync [ Travel.waitingToBoard ] 5<second>
 
                 let effects, flightTime = boardPlane flight
 
-                Airport.planeBoarded flight flightTime |> showMessage
+                Travel.planeBoarded flight flightTime |> showMessage
 
                 effects |> Effect.applyMultiple
 

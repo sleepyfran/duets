@@ -67,12 +67,10 @@ let private findSuitableVenue state cityId venuesInCity band : Place =
     *)
     venuesInCity
     |> List.filter (fun venue ->
-        let capacity =
-            match venue.PlaceType with
-            | PlaceType.ConcertSpace concertSpace -> concertSpace.Capacity
-            | _ -> 0
-
-        capacity >=< range)
+        match venue.PlaceType with
+        | PlaceType.ConcertSpace concertSpace ->
+            concertSpace.Capacity >=< range
+        | _ -> false)
     |> List.sample
 
 let private calculateEarningPercentage headlinerFame =

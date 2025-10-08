@@ -1,7 +1,9 @@
 module Duets.Simulation.Events.Place.RentalExpiration
 
+open Duets.Common
 open Duets.Entities
 open Duets.Simulation
+open Duets.Simulation.Navigation
 
 let rec private expireRentalIfNeeded state rental currentDate untilDate =
     let currentPlace = Queries.World.currentPlace state
@@ -12,7 +14,10 @@ let rec private expireRentalIfNeeded state rental currentDate untilDate =
 
           (* If the player is currently here, kick them out! *)
           if currentPlace = expiredPlace then
-              RentalKickedOut rental ]
+              let firstExit = currentPlace.Exits |> Map.head
+
+              yield!
+                  [ RentalKickedOut rental; Navigation.exitTo firstExit state ] ]
     else
         []
 

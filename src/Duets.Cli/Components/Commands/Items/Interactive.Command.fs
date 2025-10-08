@@ -52,6 +52,30 @@ module InteractiveCommand =
                  Items.itemNotReadable |> showMessage
                  Scene.World)
 
+    let ride vehicle =
+        let verb =
+            match vehicle with
+            | Metro -> "board"
+
+        let vehicleName =
+            match vehicle with
+            | Metro -> "metro"
+
+        Command.itemInteraction
+            (Command.VerbOnly verb)
+            (Command.rideDescription verb)
+            (ItemInteraction.Ride vehicle)
+            (function
+             | Ok effects ->
+                 $"You enter the {vehicleName}..." |> showMessage
+
+                 wait 1000<millisecond>
+                 effects |> Duets.Cli.Effect.applyMultiple
+                 Scene.World
+             | Error _ ->
+                 Items.itemNotRideable |> showMessage
+                 Scene.World)
+
     let watch =
         Command.itemInteraction
             (Command.VerbOnly "watch")

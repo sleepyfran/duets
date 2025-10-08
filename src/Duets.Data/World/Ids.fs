@@ -1,44 +1,46 @@
 module Duets.Data.World.Ids
 
 module Common =
-    let restaurant = 4
+    let bar = "bar"
+    let cafe = "cafe"
+    let lobby = "lobby"
+    let restaurant = "restaurant"
 
 module Airport =
-    let lobby = 0
-    let securityControl = 1
-    let boardingGate = 2
-    let cafe = 3
+    let securityControl = "security_control"
+    let boardingGate = "boarding_gate"
+
+module Bookstore =
+    let readingRoom = "reading_room"
+
+module Casino =
+    let casinoFloor = "casino_floor"
 
 module ConcertSpace =
-    let lobby = 0
-    let backstage = 1
-    let stage = 2
-    let bar = 3
+    let backstage = "backstage"
+    let stage = "stage"
 
 module Gym =
-    let lobby = 0
-    let changingRoom = 1
-    let gym = 2
+    let changingRoom = "changing_room"
+    let gym = "gym"
 
 module Home =
-    let kitchen = 0
-    let livingRoom = 1
-    let bedroom = 2
+    let kitchen = "kitchen"
+    let livingRoom = "living_room"
+    let bedroom = "bedroom"
 
-module RadioStudio =
-    let lobby = 0
-    let recordingRoom = 1
+module Metro =
+    let platform = "platform"
 
-module Cafe =
-    let cafe = 0
+module Studio =
+    let masteringRoom = "mastering_room"
+    let recordingRoom = "recording_room"
 
-module Bar =
-    let bar = 0
+module RehearsalRoom =
+    let room (n: int<_>) = $"rehearsal_room_{n}"
 
-module RecordingStudio =
-    let masteringRoom = 0
-    let recordingRoom = 1
+module Workshop =
+    let workshop = "workshop"
 
 module Restaurant =
-    let kitchen = 0
-    let dining = 1
+    let kitchen = "kitchen"

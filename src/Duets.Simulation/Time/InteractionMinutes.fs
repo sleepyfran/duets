@@ -56,8 +56,8 @@ let effectMinutes =
         let previousPlace = Queries.World.placeInCityById prevCityId prevPlaceId
         let currentPlace = Queries.World.placeInCityById currCityId currPlaceId
 
-        if currentPlace.Zone.Id <> previousPlace.Zone.Id then
-            30<minute>
+        if currentPlace.ZoneId = previousPlace.ZoneId then
+            Config.Time.travelTimeBetweenSameZone
         else
-            15<minute>
+            Config.Time.travelTimeBetweenDifferentZones
     | _ -> 0<minute>

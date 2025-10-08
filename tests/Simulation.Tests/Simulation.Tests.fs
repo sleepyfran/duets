@@ -289,7 +289,7 @@ let ``ticks that include effects spanning multiple day moments get applied corre
         CareerShiftPerformed(
             { Id = Barista
               CurrentStage = baristaManagerCareer
-              Location = (Prague, "", Ids.Cafe.cafe) },
+              Location = (Prague, "", Ids.Common.cafe) },
             4<dayMoments>,
             0.0m<dd>
         )

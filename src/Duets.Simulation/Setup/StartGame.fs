@@ -1,6 +1,5 @@
 module Duets.Simulation.Setup
 
-open Duets
 open Duets.Data
 open Duets.Data.Items
 open Duets.Entities
@@ -13,22 +12,25 @@ let private allInitialWorldItems =
     |> List.map (fun city ->
         let homeId =
             Queries.World.placeIdsByTypeInCity city.Id PlaceTypeIndex.Home
-            |> List.head
+            |> List.tryHead
 
-        let kitchenItems =
-            [ fst Furniture.Stove.lgStove
-              fst Furniture.Storage.samsungFridge ]
+        match homeId with
+        | Some homeId ->
+            let kitchenItems =
+                [ fst Furniture.Stove.lgStove
+                  fst Furniture.Storage.samsungFridge ]
 
-        let bedroomItems = [ fst Furniture.Bed.ikeaBed ]
+            let bedroomItems = [ fst Furniture.Bed.ikeaBed ]
 
-        let livingRoomItems =
-            [ fst Electronics.Tv.lgTv
-              fst Electronics.GameConsole.xbox
-              fst Furniture.Storage.ikeaShelf ]
+            let livingRoomItems =
+                [ fst Electronics.Tv.lgTv
+                  fst Electronics.GameConsole.xbox
+                  fst Furniture.Storage.ikeaShelf ]
 
-        [ (city.Id, homeId, World.Ids.Home.bedroom), bedroomItems
-          (city.Id, homeId, World.Ids.Home.kitchen), kitchenItems
-          (city.Id, homeId, World.Ids.Home.livingRoom), livingRoomItems ])
+            [ (city.Id, homeId, World.Ids.Home.bedroom), bedroomItems
+              (city.Id, homeId, World.Ids.Home.kitchen), kitchenItems
+              (city.Id, homeId, World.Ids.Home.livingRoom), livingRoomItems ]
+        | None -> [])
     |> List.concat
     |> Map.ofList
 
@@ -60,7 +62,7 @@ let startGame
             (fun acc (skill, level) -> Map.add skill.Id (skill, level) acc)
             Map.empty
 
-    let initialGenreMarket = GenreMarket.create Data.Genres.all
+    let initialGenreMarket = GenreMarket.create Genres.all
 
     { Bands =
         { Current = band.Id
@@ -93,6 +95,10 @@ let startGame
       SocialNetworks = SocialNetwork.empty
       Today = Calendar.gameBeginning
       TurnMinutes = 0<minute>
+      CurrentWeatherCondition =
+        Queries.World.allCities
+        |> List.map (fun c -> c.Id, WeatherCondition.Sunny)
+        |> Map.ofList
       WorldItems = allInitialWorldItems }
     |> Bands.Generation.addInitialBandsToState
     |> GameCreated

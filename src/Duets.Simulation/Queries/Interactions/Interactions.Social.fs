@@ -36,7 +36,8 @@ module Social =
               SocialInteraction.StopConversation |> Interaction.Social ]
         (* Might be able to start a new social situation if there are NPCs around. *)
         | Airport _
-        | FreeRoam -> startConversationInteractions state
+        | FreeRoam
+        | Travelling _ -> startConversationInteractions state
         (* Not available. *)
         | Concert _
         | PlayingMiniGame _ -> []

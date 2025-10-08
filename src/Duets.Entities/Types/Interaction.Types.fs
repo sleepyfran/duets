@@ -3,7 +3,7 @@ namespace Duets.Entities
 open Duets.Entities
 
 [<AutoOpen>]
-module InteractionTypes =
+module rec InteractionTypes =
     [<RequireQualifiedAccess>]
     type AirportInteraction =
         /// Allows the character to board a flight they've previously booked.
@@ -89,6 +89,7 @@ module InteractionTypes =
         | Put
         | Play
         | Read
+        | Ride of RideableItem
         | Sleep
         | Watch
 
@@ -98,6 +99,12 @@ module InteractionTypes =
         /// Allows the player to see the current time and how many day moments
         /// are left in the day.
         | Clock of (DayMoment * CalendarEventType list) list
+        /// Allows the player to enter a place.
+        | Enter of places: Place list
+        /// Allows the player to exit a place towards a specific destination.
+        | GoOut of destinationStreetId: StreetId
+        /// Allows the player to move onto a connecting street.
+        | GoToStreet of connectingStreets: Street list
         /// Allows the player to see what they are currently carrying.
         | Inventory of inventory: Item list
         /// Allows the user to look around and see which objects are available.
@@ -215,6 +222,16 @@ module InteractionTypes =
         /// Allows to release a previously recorded album.
         | ReleaseAlbum of albums: UnreleasedAlbum list
 
+    /// Interactions that can only be performed when travelling in a vehicle.
+    [<RequireQualifiedAccess>]
+    type TravelInteraction =
+        /// Allows the character to leave the metro onto the station.
+        | LeaveMetro
+        /// Allows the character to travel to a specific destination by metro.
+        | TravelByMetroTo of (MetroStationConnections * MetroLine) list
+        /// Allows the character to wait for the metro to arrive.
+        | WaitForMetro
+
     /// Defines all interactions that can be performed in the game. These
     /// interactions are passed back into the CLI layer to actually execute the
     /// flow. Interactions should have all the necessary information for the
@@ -234,6 +251,7 @@ module InteractionTypes =
         | Shop of ShopInteraction
         | Social of SocialInteraction
         | Studio of StudioInteraction
+        | Travel of TravelInteraction
 
     /// Defines all possible reasons why an interaction can be disabled.
     [<RequireQualifiedAccess>]
@@ -271,3 +289,15 @@ module InteractionTypes =
         | Darts of SimpleResult
         | Pool of SimpleResult
         | VideoGame
+
+    /// Represents the information about a destination in a metro station.
+    type MetroStationDestination = Place * Zone * ZonedPlaceCoordinates
+
+    /// Defines the coordinates of the next and previous stations that connect
+    /// to the current station, if any.
+    type MetroStationConnections =
+        | OnlyPreviousCoords of MetroStationDestination
+        | PreviousAndNextCoords of
+            previous: MetroStationDestination *
+            next: MetroStationDestination
+        | OnlyNextCoords of MetroStationDestination

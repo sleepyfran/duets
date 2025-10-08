@@ -7,7 +7,6 @@ open Duets.Cli.Text.World
 open Duets.Common
 open Duets.Entities
 open Duets.Simulation
-open Duets.Simulation.Navigation
 
 type private PlaceSpecialProperty =
     | Rented
@@ -45,11 +44,10 @@ let private placeWithOpenInfo (city: City) (place: Place) specialProperties =
 
     let placeDetails =
         match placeSpecialProperties with
-        | Some Rented ->
-            $"""{World.placeWithZone place} ({"Rented" |> Styles.highlight})"""
+        | Some Rented -> $"""{place.Name} ({"Rented" |> Styles.highlight})"""
         | Some ConcertScheduled ->
-            $"""{World.placeWithZone place} ({"Concert scheduled" |> Styles.highlight})"""
-        | None -> World.placeWithZone place
+            $"""{place.Name} ({"Concert scheduled" |> Styles.highlight})"""
+        | None -> place.Name
 
     World.placeNameWithOpeningInfo placeDetails currentlyOpen
 
@@ -71,7 +69,7 @@ let private showPlaceTypeChoice
     city
     (placesInCity: Map<PlaceTypeIndex, Place list>)
     =
-    let availablePlaceTypes = placesInCity |> List.ofSeq |> List.map (_.Key)
+    let availablePlaceTypes = placesInCity |> List.ofSeq |> List.map _.Key
 
     showCancellableChoicePrompt
         Command.mapChoosePlaceTypePrompt
@@ -81,50 +79,6 @@ let private showPlaceTypeChoice
     |> Option.bind (fun placeType ->
         placesInCity |> Map.find placeType |> showPlaceChoice city placesInCity)
 
-let private moveToPlace city availablePlaces (destination: Place) =
-    let currentPlace = State.get () |> Queries.World.currentPlace
-    let navigationResult = Navigation.moveTo destination.Id (State.get ())
-
-    if currentPlace.Zone.Id <> destination.Zone.Id then
-        $"You take the public transport to get to {destination.Name}..."
-    else
-        $"You walk to {destination.Name}..."
-    |> showMessage
-
-    wait 2000<millisecond>
-
-    match navigationResult with
-    | Ok effect -> [ effect ]
-    | Error PlaceEntranceError.CannotEnterOutsideOpeningHours ->
-        showSeparator None
-
-        World.placeClosedError destination |> showMessage
-        World.placeOpeningHours destination |> showMessage
-
-        showSeparator None
-
-        askForPlace city availablePlaces
-    | Error PlaceEntranceError.CannotEnterWithoutRental ->
-        showSeparator None
-
-        Styles.error "You cannot enter this place without renting it first"
-        |> showMessage
-
-        Styles.information
-            "Try to use your phone to rent it out and come back again afterwards"
-        |> showMessage
-
-        showSeparator None
-
-        askForPlace city availablePlaces
-
-let private askForPlace city availablePlaces =
-    let selectedPlace = availablePlaces |> showPlaceTypeChoice city
-
-    match selectedPlace with
-    | Some place -> moveToPlace city availablePlaces place
-    | None -> []
-
 let private changePlace idxType fn (places: Map<PlaceTypeIndex, Place list>) =
     Map.change idxType (Option.bind (fn >> Option.ofList)) places
 
@@ -133,6 +87,9 @@ let private filterRentedHomePlaces (currentCity: City) rentedPlaces =
         PlaceTypeIndex.Home
         (List.filter (fun (place: Place) ->
             rentedPlaces |> Map.containsKey (currentCity.Id, place.Id)))
+
+let private filterStreets =
+    changePlace PlaceTypeIndex.Street (List.filter (fun _ -> false))
 
 let private sortHotels (currentCity: City) rentedPlaces =
     changePlace
@@ -159,9 +116,7 @@ let private sortConcertSpaces state =
 
 /// Shows a list of all the place types in the current city and, upon selecting
 /// one type, shows all the places of that specific type in the current city.
-/// If the user selects one of the places, it will attempt to move the character
-/// to that location and return the effects associated with it, respecting the
-/// place opening hours and any other policies it might have.
+/// Returns the selected place if one was chosen, or None if the user cancelled.
 let showMap () =
     let state = State.get ()
     let rentedPlaces = Queries.Rentals.allAsMap state
@@ -171,13 +126,8 @@ let showMap () =
     let allAvailablePlaces =
         Queries.World.allPlacesInCurrentCity state
         |> filterRentedHomePlaces currentCity rentedPlaces
+        |> filterStreets
         |> sortHotels currentCity rentedPlaces
         |> sortConcertSpaces state
 
-    allAvailablePlaces |> askForPlace currentCity
-
-/// Shows the map, forcing the user to make a choice.
-let showMapUntilChoice () =
-    match showMap () with
-    | effects when effects.Length > 0 -> effects
-    | _ -> showMapUntilChoice ()
+    allAvailablePlaces |> showPlaceTypeChoice currentCity

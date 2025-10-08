@@ -94,6 +94,10 @@ module State =
         (fun (s: State) -> s.TurnMinutes),
         (fun v (s: State) -> { s with TurnMinutes = v })
 
+    let currentWeatherCondition_ =
+        (fun (s: State) -> s.CurrentWeatherCondition),
+        (fun v (s: State) -> { s with CurrentWeatherCondition = v })
+
     let worldItems_ =
         (fun (s: State) -> s.WorldItems),
         (fun v (s: State) -> { s with WorldItems = v })
@@ -288,9 +292,13 @@ module World =
             (fun (c: City) -> c.PlaceIndex),
             (fun v (c: City) -> { c with PlaceIndex = v })
 
-        let zoneIndex_ =
-            (fun (c: City) -> c.ZoneIndex),
-            (fun v (c: City) -> { c with ZoneIndex = v })
+        let streetIndex_ =
+            (fun (c: City) -> c.StreetIndex),
+            (fun v (c: City) -> { c with StreetIndex = v })
+
+        let zones_ =
+            (fun (c: City) -> c.Zones),
+            (fun v (c: City) -> { c with Zones = v })
 
     module Place =
         let type_ =
@@ -354,3 +362,8 @@ module FromState =
             State.bandSongRepertoire_
             >-> BandRepertoire.finishedSongs_
             >-> Map.key_ bandId
+
+    module Weather =
+        /// Lens into the weather condition for a specific city ID.
+        let forCity_ cityId =
+            State.currentWeatherCondition_ >-> Map.key_ cityId

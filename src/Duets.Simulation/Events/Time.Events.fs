@@ -4,7 +4,6 @@ open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Character
 open Duets.Simulation.Market
-open Duets.Simulation.Time
 
 let private runYearlyEffects time state =
     if Calendar.Query.isFirstMomentOfYear time then
@@ -14,6 +13,7 @@ let private runYearlyEffects time state =
 
 let private runDailyEffects time state =
     match Calendar.Query.dayMomentOf time with
+    | Midnight -> Weather.Transition.dailyWeatherUpdate state
     | Morning ->
         Albums.DailyUpdate.dailyUpdate state
         @ Albums.ReviewGeneration.generateReviewsForLatestAlbums state

@@ -12,5 +12,9 @@ module Reproducible =
     /// Creates a Base64 encoded based on the given input. This is useful for
     /// IDs that need to be reproducible, like the ones in Places or Zones that
     /// are based on the name of the place or zone.
-    let createFor (input: string) =
+    let create (input: string) =
         input |> Text.Encoding.ASCII.GetBytes |> Convert.ToBase64String
+
+    /// Decodes a previously reproducible ID.
+    let decode (identity: string) =
+        identity |> Convert.FromBase64String |> Text.Encoding.ASCII.GetString

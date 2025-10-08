@@ -95,3 +95,27 @@ let distribute (total: int<_>) (items: 'a list) : Map<'a, int> =
         |> List.map (fun w -> float total * w |> Math.ceilToNearest)
 
     List.zip items distributedItems |> Map.ofList
+
+/// Selects a random element from a list of choices, where each choice has an
+/// associated weight, and the probability of selecting each choice is
+/// proportional to its weight. If the total weight is zero or negative, returns None.
+let weightedRandomChoice (choices: ('T * float) list) : 'T option =
+    let totalWeight = choices |> List.sumBy snd
+
+    if totalWeight <= 0.0 then
+        None
+    else
+        let rand = genDouble () * totalWeight
+
+        let rec pick prevCumulative =
+            function
+            | [] -> None
+            | (value, weight) :: tail ->
+                let cumulative = prevCumulative + weight
+
+                if rand <= cumulative then
+                    Some value
+                else
+                    pick cumulative tail
+
+        pick 0.0 choices

@@ -24,3 +24,6 @@ let remove coords item =
 
 let setPeople people =
     Optic.set Lenses.State.peopleInCurrentPosition_ people
+
+let setWeather cityId =
+    Optic.set (Lenses.FromState.Weather.forCity_ cityId)

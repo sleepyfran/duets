@@ -1,0 +1,50 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Duets.CityExplorer.MainWindow"
+        Title="Duets.CityExplorer">
+    <Grid ColumnDefinitions="200,*">
+        <!-- Sidebar -->
+        <StackPanel Grid.Column="0" Background="{DynamicResource ThemeControlLowBrush}">
+            <ListBox x:Name="CitiesListBox">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{DynamicResource ThemeControlMidBrush}" CornerRadius="4" Padding="6"
+                                Margin="0 2">
+                            <TextBlock Text="{Binding}" />
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel Margin="0 24 0 0" Spacing="6">
+                <TextBlock Text="Legend" FontWeight="Bold" Margin="0 0 0 4" />
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <Border Width="18" Height="18" Background="White" BorderBrush="IndianRed" BorderThickness="2"
+                            CornerRadius="4" />
+                    <TextBlock Text="Red Line" VerticalAlignment="Center" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <Border Width="18" Height="18" Background="White" BorderBrush="SteelBlue" BorderThickness="2"
+                            CornerRadius="4" />
+                    <TextBlock Text="Blue Line" VerticalAlignment="Center" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <Border Width="18" Height="18" Background="White" BorderBrush="MediumSeaGreen" BorderThickness="2"
+                            CornerRadius="4" />
+                    <TextBlock Text="Transfer (2+ lines)" VerticalAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Main Content -->
+        <ScrollViewer Grid.Column="1" Background="{DynamicResource ThemeBackgroundBrush}">
+            <StackPanel Margin="16" Spacing="8">
+                <StackPanel x:Name="ZoneDetailsPanel" Margin="0 0 0 16" />
+                <StackPanel x:Name="ZonesPanel" />
+                <StackPanel x:Name="PlacesSummaryPanel" Margin="0 24 0 0" Spacing="6" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

@@ -6,6 +6,7 @@ open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Cli.Text.World
+open Duets.Common
 open Duets.Entities
 open Duets.Simulation.Navigation
 
@@ -66,3 +67,107 @@ module MovementCommand =
                     |> showMessage
 
                 Scene.WorldAfterMovement }
+
+[<RequireQualifiedAccess>]
+module GoOutCommand =
+    /// Creates a command that allows the player to go out of a place towards
+    /// the street that the place connects to.
+    let create streetId =
+        { Name = "go out"
+          Description = "Allows you to go out to the street"
+          Handler =
+            fun _ ->
+                "You open the door to outside..." |> showMessage
+
+                wait 1000<millisecond>
+
+                State.get () |> Navigation.exitTo streetId |> Effect.apply
+
+                Scene.WorldAfterMovement }
+
+[<RequireQualifiedAccess>]
+module GoToCommand =
+    /// Creates a command that allows the player to go to a different street
+    /// that is connecting to the current one.
+    let create (connectingStreets: Street list) =
+        { Name = "go to"
+          Description =
+            $"""Allows you to go to a connecting street. Use as {Styles.information "go to {street name}"}"""
+          Handler =
+            fun args ->
+                let input = args |> String.concat " "
+
+                let matchingStreet =
+                    connectingStreets
+                    |> List.tryFind (fun street ->
+                        String.diacriticInsensitiveContains street.Name input)
+
+                match matchingStreet with
+                | Some street ->
+                    $"You make your way to {street.Name}..." |> showMessage
+
+                    wait 1000<millisecond>
+
+                    State.get ()
+                    |> Navigation.moveTo street.Id
+                    |> Result.iter Effect.apply
+
+                    Scene.WorldAfterMovement
+                | None ->
+                    $"""There are no streets named "{input}" here! Use {Styles.information "look"} to see the available streets"""
+                    |> Styles.error
+                    |> showMessage
+
+                    Scene.World }
+
+[<RequireQualifiedAccess>]
+module EnterCommand =
+    /// Creates a command that allows the player to go enter a place.
+    let create (places: Place list) =
+        { Name = "enter"
+          Description =
+            $"""Allows you to enter inside a place. Use as {Styles.information "enter {place name}"}"""
+          Handler =
+            fun args ->
+                let input = args |> String.concat " "
+
+                let nameMatches =
+                    places
+                    |> List.tryFind (fun place ->
+                        String.diacriticInsensitiveContains place.Name input)
+
+                match nameMatches with
+                | Some place ->
+                    let navigationResult =
+                        State.get () |> Navigation.moveTo place.Id
+
+                    match navigationResult with
+                    | Ok effect ->
+                        "You open the door to enter..." |> showMessage
+
+                        wait 1000<millisecond>
+
+                        effect |> Effect.apply
+                    | Error PlaceEntranceError.CannotEnterOutsideOpeningHours ->
+                        showSeparator None
+
+                        World.placeClosedError place |> showMessage
+                        World.placeOpeningHours place |> showMessage
+                    | Error PlaceEntranceError.CannotEnterWithoutRental ->
+                        showSeparator None
+
+                        Styles.error
+                            "You cannot enter this place without renting it first"
+                        |> showMessage
+
+                        Styles.information
+                            "Try to use your phone to rent it out and come back again afterwards"
+                        |> showMessage
+
+                    Scene.WorldAfterMovement
+                | None ->
+                    $"There are no places called {input} around here"
+                    |> Styles.error
+                    |> showMessage
+
+                    Scene.World }

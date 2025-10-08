@@ -26,27 +26,13 @@
         <Compile Include="Text\Rehearsal.fs"/>
         <Compile Include="Text\Shop.fs"/>
         <Compile Include="Text\Studio.fs"/>
-        <Compile Include="Text\Airport.fs"/>
+        <Compile Include="Text\Travel.fs"/>
         <Compile Include="Text\Skill.fs"/>
         <Compile Include="Text\Character.fs"/>
         <Compile Include="Text\Songs.fs"/>
         <Compile Include="Text\Social.fs"/>
-        <Compile Include="Text\World\Bar.fs"/>
-        <Compile Include="Text\World\Bookstore.fs"/>
-        <Compile Include="Text\World\Cafe.fs"/>
-        <Compile Include="Text\World\Restaurant.fs"/>
-        <Compile Include="Text\World\Airport.fs"/>
-        <Compile Include="Text\World\Casino.fs"/>
-        <Compile Include="Text\World\ConcertSpace.fs"/>
-        <Compile Include="Text\World\Gym.fs"/>
-        <Compile Include="Text\World\Home.fs"/>
-        <Compile Include="Text\World\RadioStudio.fs"/>
-        <Compile Include="Text\World\Hospital.fs"/>
-        <Compile Include="Text\World\Hotel.fs"/>
-        <Compile Include="Text\World\MerchandiseWorkshop.fs"/>
-        <Compile Include="Text\World\RehearsalSpace.fs"/>
-        <Compile Include="Text\World\Studio.fs"/>
-        <Compile Include="Text\World\World.fs"/>
+        <Compile Include="Text\World.fs"/>
+        <Compile Include="Text\LanguageModelPrompts.fs"/>
         <Compile Include="Components\VisualEffects.fs"/>
         <Compile Include="Components\Separator.fs"/>
         <Compile Include="Components\Layout.fs"/>
@@ -135,6 +121,9 @@
         <Compile Include="Components\Commands\Social\Social.Command.fs"/>
         <Compile Include="Components\Commands\Social\StartStopConversation.Command.fs"/>
         <Compile Include="Components\Commands\Social\Social.Commands.fs"/>
+        <Compile Include="Components\Commands\Travel\LeaveMetro.Command.fs"/>
+        <Compile Include="Components\Commands\Travel\TravelByMetro.Command.fs"/>
+        <Compile Include="Components\Commands\Travel\WaitForMetro.Command.fs"/>
         <Compile Include="Components\Commands\Cheats\Band.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>
@@ -184,6 +173,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AvsAn" Version="3.2.0"/>
+        <PackageReference Include="FSharp.Control.AsyncSeq" Version="3.2.1"/>
         <PackageReference Include="FSharpx.Extras" Version="3.0.0"/>
         <PackageReference Include="FsToolkit.ErrorHandling" Version="4.3.0"/>
         <PackageReference Include="RadLine" Version="0.6.0"/>

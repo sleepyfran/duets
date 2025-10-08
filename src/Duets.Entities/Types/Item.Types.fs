@@ -60,6 +60,10 @@ module rec ItemTypes =
     /// Defines all types of readable items available in the game.
     type ReadableItem = Book of Book
 
+    /// Defines all types of items that can be ridden by the player to move
+    /// around the city.
+    type RideableItem = Metro
+
     /// Defines what kind of storage the current item is.
     type StorageType =
         | Fridge
@@ -101,6 +105,8 @@ module rec ItemTypes =
         | Playable of GameType
         /// Example: a book.
         | Readable of ReadableItem
+        /// Example: a metro.
+        | Rideable of RideableItem
         //// Example: a shelf.
         | Storage of StorageType * items: StoredItems
         /// Example: a bed.

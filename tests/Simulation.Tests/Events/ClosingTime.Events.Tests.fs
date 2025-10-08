@@ -21,7 +21,7 @@ let private concertSpace =
 let private cafeCareer =
     { Id = Barista
       CurrentStage = (Careers.BaristaCareer.stages |> List.head)
-      Location = Prague, cafe.Id, Ids.Cafe.cafe }
+      Location = Prague, cafe.Id, Ids.Common.cafe }
 
 let nearClosingTime = dummyToday |> Calendar.Transform.changeDayMoment Evening
 let closingTime = nearClosingTime |> Calendar.Query.next
@@ -29,7 +29,7 @@ let timeAdvancedEffect = TimeAdvanced(closingTime)
 
 let private initialState =
     dummyState
-    |> State.World.move Prague cafe.Id 0
+    |> State.World.move Prague cafe.Id Ids.Common.cafe
     |> State.Calendar.setTime nearClosingTime
 
 [<Test>]
@@ -151,7 +151,7 @@ let ``tick of advance day moment kicks out the character if they had a concert b
         Concert.generator
             { From = dummyToday
               To = dummyToday
-              City = Sydney
+              City = LosAngeles
               Venue = cafe.Id
               DayMoment = Evening }
         |> Gen.sample 1 1
@@ -180,7 +180,7 @@ let ``tick of advance day moment kicks out the character if they have a concert 
         Concert.generator
             { From = dummyToday
               To = dummyToday
-              City = Sydney
+              City = LosAngeles
               Venue = cafe.Id
               DayMoment = Evening }
         |> Gen.sample 1 1

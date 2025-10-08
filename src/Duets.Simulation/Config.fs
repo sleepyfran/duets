@@ -193,6 +193,14 @@ module Time =
     /// number of minutes we allow the player to perform per turn.
     let minutesPerDayMoment = 180<minute>
 
+    /// Number of minutes that it takes to travel between two places that are
+    /// in the same zone.
+    let travelTimeBetweenSameZone = 10<minute>
+
+    /// Number of minutes that it takes to travel between two places that are
+    /// in different zones.
+    let travelTimeBetweenDifferentZones = 30<minute>
+
 module Travel =
     /// Price per kilometers for buying plane tickets.
     let pricePerKm = 0.067m

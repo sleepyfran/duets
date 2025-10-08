@@ -21,6 +21,7 @@ let private placePopulationRange (place: Place) =
     | Home -> 0, 0 (* Homes are private *)
     | Hotel _ -> 1, 5
     | Hospital -> 1, 2
+    | MetroStation -> 1, 20
     | MerchandiseWorkshop -> 0, 0
     | RadioStudio _ ->
         (* Radio studios will only be populated by the band. *)
@@ -32,6 +33,7 @@ let private placePopulationRange (place: Place) =
     | Studio _ ->
         (* Studios will only be populated by the producer and the band. *)
         0, 0
+    | Street -> 1, 20 (* TODO: Base this on the current time of day. *)
 
 /// Returns a random known NPC in the given city, if any.
 let private allKnownNpcs cityId state =

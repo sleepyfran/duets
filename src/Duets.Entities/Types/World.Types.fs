@@ -1,5 +1,7 @@
 namespace Duets.Entities
 
+open System
+open System.Collections.Generic
 open Duets.Entities
 
 [<AutoOpen>]
@@ -33,12 +35,6 @@ module WorldTypes =
           Nodes: Map<NodeId, 'a>
           Connections: Map<NodeId, NodeConnections> }
 
-    /// ID for a zone in a city.
-    type ZoneId = string
-
-    /// Defines a zone inside of a city where places are contained.
-    type Zone = { Id: ZoneId; Name: string }
-
     /// Defines the opening hours of one place, which can be always open (24/7)
     /// or a selection of day moments for some given days.
     [<RequireQualifiedAccess>]
@@ -61,12 +57,14 @@ module WorldTypes =
         | LivingRoom
         | Lobby
         | MasteringRoom
+        | Platform
         | ReadingRoom
         | RecordingRoom
         | RehearsalRoom
         | Restaurant of RestaurantCuisine
         | SecurityControl
         | Stage
+        | Street
         | Workshop
 
     /// Defines which items are required to enter a given room from a given
@@ -92,9 +90,11 @@ module WorldTypes =
         | Hotel of Hotel
         | Hospital
         | MerchandiseWorkshop
+        | MetroStation
         | RadioStudio of RadioStudio
         | RehearsalSpace of RehearsalSpace
         | Restaurant
+        | Street
         | Studio of Studio
 
     /// Re-defines all types of places above but without its content, to be able
@@ -112,9 +112,11 @@ module WorldTypes =
         | Hotel
         | Hospital
         | MerchandiseWorkshop
+        | MetroStation
         | RadioStudio
         | RehearsalSpace
         | Restaurant
+        | Street
         | Studio
 
     /// Defines a place inside of the game world, which wraps a given space
@@ -122,13 +124,53 @@ module WorldTypes =
     /// rooms that the place itself contains and the exits that connect that
     /// place with the outside.
     type Place =
-        { Id: PlaceId
-          Name: string
-          Quality: Quality
-          PlaceType: PlaceType
-          OpeningHours: PlaceOpeningHours
-          Rooms: Graph<Room>
-          Zone: Zone }
+        {
+            Id: PlaceId
+            Name: string
+            /// Map of nodes that are considered exist in the room graph with the
+            /// ID of the street that it exits to if the player follows it.
+            Exits: Map<NodeId, StreetId>
+            /// Context that can be used to influence the description of the place.
+            PromptContext: string
+            Quality: Quality
+            PlaceType: PlaceType
+            OpeningHours: PlaceOpeningHours
+            Rooms: Graph<Room>
+            ZoneId: ZoneId
+            StreetId: StreetId
+        }
+
+        interface IComparer<Place> with
+            member this.Compare(x: Place, y: Place) = String.Compare(x.Id, y.Id)
+
+    /// The type of the streets defines whether the street will be displayed
+    /// as a single street (all places will be available at one upon arrival)
+    /// or split, where the places will be distributed based on the specified
+    /// number of splits.
+    type StreetType =
+        | OneWay
+        | Split of throughDirection: Direction * splits: int
+
+    /// Defines a street inside of a zone where places are contained.
+    type Street =
+        {
+            Id: StreetId
+            Name: string
+            /// Context that can be used to influence the description of the street.
+            PromptContext: string
+            Type: StreetType
+            Places: Place list
+        }
+
+    /// Defines a zone inside of a city where places are contained.
+    type Zone =
+        {
+            Id: ZoneId
+            Name: string
+            Streets: Graph<Street>
+            /// Stations that these zone have per line.
+            MetroStations: Map<MetroLineId, MetroStation>
+        }
 
     [<Measure>]
     type utcOffset
@@ -147,12 +189,14 @@ module WorldTypes =
         {
             Id: CityId
             PlaceByTypeIndex: Map<PlaceTypeIndex, PlaceId list>
-            PlaceIndex: Map<PlaceId, Place>
+            PlaceIndex: Map<PlaceId, ZonedPlaceCoordinates>
+            StreetIndex: Map<StreetId, Street>
+            MetroLines: Map<MetroLineId, MetroLine>
             /// Modifier that will be used to compute the final prices of things
             /// like rent, wages and food.
             CostOfLiving: float<costOfLiving>
-            ZoneIndex: Map<ZoneId, PlaceId list>
             Timezone: Timezone
+            Zones: Map<ZoneId, Zone>
         }
 
     /// Defines a distance between two cities in km.

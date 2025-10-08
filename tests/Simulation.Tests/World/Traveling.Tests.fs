@@ -6,10 +6,13 @@ open Test.Common
 
 open Duets.Entities
 open Duets.Simulation
+open Duets.Data.World
+open Duets.Data.World.Cities
 
 
 let private hotelInPrague =
-    Queries.World.placesByTypeInCity Prague PlaceTypeIndex.Hotel |> List.head
+    Queries.World.placesByTypeInCity Prague PlaceTypeIndex.MetroStation
+    |> List.head
 
 let private hospitalInPrague =
     Queries.World.placesByTypeInCity Prague PlaceTypeIndex.Hospital |> List.head
@@ -17,23 +20,25 @@ let private hospitalInPrague =
 let private hotelInNewYork =
     Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.Hotel |> List.head
 
-let private bookstoreInSohoNewYork =
-    Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.Bookstore
-    |> List.find (fun place -> place.Zone.Name = "SoHo")
+let private barInBrooklynNewYork =
+    Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.Bar
+    |> List.find (fun place ->
+        place.ZoneId = Identity.Reproducible.create NewYork.Ids.Zone.brooklyn)
 
-let private cafeInSohoNewYork =
-    Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.Cafe
-    |> List.find (fun place -> place.Zone.Name = "SoHo")
+let private cafeInBrooklynNewYork =
+    Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.MetroStation
+    |> List.find (fun place ->
+        place.ZoneId = Identity.Reproducible.create NewYork.Ids.Zone.brooklyn)
 
 [<Test>]
-let ``traveling to another place inside the same city but in another region consumes 30 minutes``
+let ``traveling to another place inside the same city but in another region consumes 25 minutes``
     ()
     =
     let effects =
         WorldMoveToPlace(
             Diff(
-                (Prague, hotelInPrague.Id, 1),
-                (Prague, hospitalInPrague.Id, 1)
+                (Prague, hotelInPrague.Id, Ids.Common.lobby),
+                (Prague, hospitalInPrague.Id, Ids.Common.lobby)
             )
         )
         |> Simulation.tickOne dummyState
@@ -41,27 +46,30 @@ let ``traveling to another place inside the same city but in another region cons
     effects |> fst |> should contain (TurnTimeUpdated 30<minute>)
 
 [<Test>]
-let ``traveling to another place inside the same city but in the same region consumes 15 minutes``
+let ``traveling to another place inside the same city but in the same region consumes 10 minutes``
     ()
     =
     let effects =
         WorldMoveToPlace(
             Diff(
-                (NewYork, bookstoreInSohoNewYork.Id, 1),
-                (NewYork, cafeInSohoNewYork.Id, 1)
+                (NewYork, barInBrooklynNewYork.Id, Ids.Bookstore.readingRoom),
+                (NewYork, cafeInBrooklynNewYork.Id, Ids.Common.cafe)
             )
         )
         |> Simulation.tickOne dummyState
 
-    effects |> fst |> should contain (TurnTimeUpdated 15<minute>)
+    effects |> fst |> should contain (TurnTimeUpdated 10<minute>)
 
 [<Test>]
-let ``traveling to another city does not add 30 minutes on top of flight time``
+let ``traveling to another city does not add 25 minutes on top of flight time``
     ()
     =
     let effects =
         WorldMoveToPlace(
-            Diff((Prague, hotelInPrague.Id, 1), (NewYork, hotelInNewYork.Id, 1))
+            Diff(
+                (Prague, hotelInPrague.Id, Ids.Common.lobby),
+                (NewYork, hotelInNewYork.Id, Ids.Common.lobby)
+            )
         )
         |> Simulation.tickOne dummyState
 

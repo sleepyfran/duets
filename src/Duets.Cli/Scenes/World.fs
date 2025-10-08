@@ -97,12 +97,19 @@ let private commandsFromInteractions interactions =
             | ItemInteraction.Put -> [ PutCommand.get ]
             | ItemInteraction.Play -> [ InteractiveCommand.play ]
             | ItemInteraction.Read -> [ InteractiveCommand.read ]
+            | ItemInteraction.Ride vehicle ->
+                [ InteractiveCommand.ride vehicle ]
             | ItemInteraction.Sleep -> [ SleepCommand.get ]
             | ItemInteraction.Watch -> [ InteractiveCommand.watch ]
         | Interaction.FreeRoam freeRoamInteraction ->
             match freeRoamInteraction with
             | FreeRoamInteraction.Clock dayMomentsWithEvents ->
                 [ ClockCommand.create dayMomentsWithEvents ]
+            | FreeRoamInteraction.Enter place -> [ EnterCommand.create place ]
+            | FreeRoamInteraction.GoOut streetId ->
+                [ GoOutCommand.create streetId ]
+            | FreeRoamInteraction.GoToStreet street ->
+                [ GoToCommand.create street ]
             | FreeRoamInteraction.Inventory inventory ->
                 [ InventoryCommand.create inventory ]
             | FreeRoamInteraction.Look(items, knownPeople, unknownPeople) ->
@@ -185,6 +192,12 @@ let private commandsFromInteractions interactions =
                 [ ListUnreleasedAlbumsCommand.create unreleasedAlbums ]
             | StudioInteraction.ReleaseAlbum unreleasedAlbums ->
                 [ ReleaseAlbumCommand.create unreleasedAlbums ]
+        | Interaction.Travel travelInteraction ->
+            match travelInteraction with
+            | TravelInteraction.LeaveMetro -> [ LeaveMetroCommand.get ]
+            | TravelInteraction.TravelByMetroTo(connections) ->
+                [ TravelByMetroCommand.create connections ]
+            | TravelInteraction.WaitForMetro -> [ WaitForMetroCommand.get ]
         |> List.map (Tuple.two interactionWithMetadata))
     |> List.map (fun (interactionWithMetadata, command) ->
         match interactionWithMetadata.State with
@@ -227,8 +240,7 @@ let worldScene mode =
     | ShowDescription ->
         let currentRoom = State.get () |> Queries.World.currentRoom
 
-        $"You are in the {World.roomName currentRoom.RoomType |> Styles.room} inside of {currentPlace.Name |> Styles.place}"
-        |> showMessage
+        World.youAreInMessage currentPlace currentRoom.RoomType |> showMessage
 
         World.placeArrivalMessage currentPlace currentRoom.RoomType
         |> Option.iter showMessage
@@ -241,7 +253,7 @@ let worldScene mode =
     let promptText =
         match situation with
         | Airport(Flying flight) ->
-            Airport.planeActionPrompt
+            Travel.planeActionPrompt
                 today
                 currentDayMoment
                 characterAttributes
@@ -272,7 +284,14 @@ let worldScene mode =
                 characterAttributes
                 socializingState.Npc
                 relationshipLevel
-        | _ -> Command.commonPrompt today currentDayMoment characterAttributes
+        | Travelling vehicle ->
+            Travel.actionPrompt
+                today
+                currentDayMoment
+                characterAttributes
+                vehicle
+        | FreeRoam ->
+            Command.commonPrompt today currentDayMoment characterAttributes
 
     let commands =
         commandsFromInteractions interactionsWithState

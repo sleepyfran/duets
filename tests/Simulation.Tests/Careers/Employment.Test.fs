@@ -24,17 +24,17 @@ let private radioStudioPlace =
 let private baristaJob =
     { Id = Barista
       CurrentStage = (Careers.BaristaCareer.stages |> List.head)
-      Location = Prague, cafePlace.Id, Ids.Cafe.cafe }
+      Location = Prague, cafePlace.Id, Ids.Common.cafe }
 
 let private bartenderJob =
     { Id = Bartender
       CurrentStage = (Careers.BartenderCareer.stages |> List.head)
-      Location = Prague, barPlace.Id, Ids.Bar.bar }
+      Location = Prague, barPlace.Id, Ids.Common.bar }
 
 let private radioHostJob =
     { Id = RadioHost
       CurrentStage = (Careers.RadioHostCareer.stages |> List.head)
-      Location = Prague, radioStudioPlace.Id, Ids.RadioStudio.recordingRoom }
+      Location = Prague, radioStudioPlace.Id, Ids.Studio.recordingRoom }
 
 [<Test>]
 let ``joining a job with no previous job accepts the career`` () =

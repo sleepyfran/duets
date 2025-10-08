@@ -8,6 +8,7 @@ module Index =
         [ BandCommands.pactWithTheDevil
           LifeCommands.happy
           LifeCommands.notMoody
+          LifeCommands.roaming
           LifeCommands.spotlight
           LifeCommands.timeTravel
           MoneyCommands.motherlode

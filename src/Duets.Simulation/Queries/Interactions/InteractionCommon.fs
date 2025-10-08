@@ -42,4 +42,25 @@ module InteractionCommon =
             | Socializing _ ->
                 match interaction with
                 | Interaction.Social _ -> true
+                | _ -> false
+            | Travelling _ ->
+                match interaction with
+                | Interaction.FreeRoam(FreeRoamInteraction.Clock _)
+                | Interaction.FreeRoam(FreeRoamInteraction.Inventory _)
+                | Interaction.FreeRoam FreeRoamInteraction.Phone -> true
+                | Interaction.FreeRoam _ -> false
+                | Interaction.Travel _ -> true
                 | _ -> false)
+
+    let internal filterOutPlaceSpecificInteractions place =
+        List.filter (fun interaction ->
+            match place.PlaceType with
+            | MetroStation ->
+                (*
+                If the player is in a metro station, wait is replaced with another
+                action that waits for the next train instead of passing a day moment.
+                *)
+                match interaction with
+                | Interaction.FreeRoam FreeRoamInteraction.Wait -> false
+                | _ -> true
+            | _ -> true)

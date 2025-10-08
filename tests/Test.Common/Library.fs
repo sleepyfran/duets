@@ -19,7 +19,9 @@ type RandomGenDisposable() =
 let private randomImpl impl =
     { new Random() with
         override this.Next() = impl ()
-        override this.Next(_, _) = impl () }
+        override this.Next _ = impl ()
+        override this.Next(_, _) = impl ()
+        override this.NextDouble() = impl () |> float }
     |> RandomGen.change
 
     new RandomGenDisposable()
@@ -147,7 +149,7 @@ let dummyHotel1 =
 
 let dummyHotel2 =
     Queries.World.placesByTypeInCity dummyCity.Id PlaceTypeIndex.Hotel
-    |> List.item 1
+    |> List.head
 
 let dummyVenue =
     Queries.World.placesByTypeInCity dummyCity.Id PlaceTypeIndex.ConcertSpace

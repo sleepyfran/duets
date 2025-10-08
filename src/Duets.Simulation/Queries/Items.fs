@@ -20,7 +20,6 @@ module Items =
             Items.Electronics.Dartboard.dartboard
             :: [ Items.Furniture.BilliardTable.sonomaTable ]
             |> List.map fst
-        | PlaceType.Home, RoomType.Bedroom
         | PlaceType.Hotel _, RoomType.Bedroom ->
             (* Otherwise, nowhere to sleep on. *)
             [ fst Items.Furniture.Bed.ikeaBed ]
@@ -34,15 +33,41 @@ module Items =
             localBeer @ Items.Food.Snack.all |> List.map fst
         | _ -> []
 
+    let private spawnableItems state (coords: RoomCoordinates) =
+        let cityId, placeId, _ = coords
+        let place = (cityId, placeId) ||> World.placeInCityById
+
+        match place.PlaceType with
+        | MetroStation ->
+            (*
+            Auto-magically spawn a metro train in the station if the current
+            turn is a multiple of the usual waiting time. Otherwise, the
+            station is empty and the player has to wait for the next train.
+            *)
+            let stationLines = Metro.currentStationLines state
+
+            let timeOverlaps =
+                stationLines
+                |> List.map (Metro.timeOverlapsWithWaitingTime state)
+                |> List.exists id
+
+            if timeOverlaps then
+                [ Items.Vehicles.Metro.metroTrain ]
+            else
+                []
+        | _ -> []
+
     /// Returns all the items currently available in the given coordinates,
     /// including those that should not be visible to the character.
     let allWithHiddenIn state coords =
         let defaultLocationItems = defaultItems coords
+        let spawnableItems = spawnableItems state coords
 
         Optic.get Lenses.State.worldItems_ state
         |> Map.tryFind coords
         |> Option.defaultValue []
         |> (@) defaultLocationItems
+        |> (@) spawnableItems
 
     /// Returns all the items currently available in the given coordinates.
     let allIn state coords =

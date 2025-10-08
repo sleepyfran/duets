@@ -13,6 +13,18 @@ let create (cities: City list) =
 
 [<RequireQualifiedAccess>]
 module Graph =
+    /// Creates an empty, invalid graph. Since starting node is a mandatory
+    /// field, this will create a graph with a starting node pointing to nowhere.
+    /// Only use for cases where you **really** don't have the first node without
+    /// having access to the graph first.
+    let empty =
+        { StartingNode = "INVALID"
+          Nodes = Map.empty
+          Connections = Map.empty }
+
+    /// Sets the starting node of the given graph to the given node ID.
+    let setStartingNode nodeId graph = { graph with StartingNode = nodeId }
+
     /// Creates a graph with the given starting node as the starting point, that
     /// node as the only node available and no connections.
     let from (node: Node<'a>) =
@@ -83,16 +95,28 @@ module Node =
 [<RequireQualifiedAccess>]
 module Place =
     /// Creates a place with the given initial room and no exits.
-    let create name quality placeType rooms zone =
-        let inferredId = Identity.Reproducible.createFor name
+    let create name quality placeType rooms zoneId streetId =
+        let inferredId = Identity.Reproducible.create name
 
         { Id = inferredId
           Name = name
+          Exits = Map.empty
           Quality = quality
           PlaceType = placeType
+          PromptContext = ""
           OpeningHours = PlaceOpeningHours.AlwaysOpen
           Rooms = rooms
-          Zone = zone }
+          ZoneId = zoneId
+          StreetId = streetId }
+
+    /// Attaches a prompt context to the given place.
+    let attachContext context (place: Place) =
+        { place with PromptContext = context }
+
+    /// Adds an exit to the given place.
+    let addExit originRoomId targetPlaceId place =
+        { place with
+            Exits = Map.add originRoomId targetPlaceId place.Exits }
 
     /// Changes the opening hours to a certain days and day moments.
     let changeOpeningHours openingHours place =
@@ -118,61 +142,210 @@ module Place =
             | Home -> PlaceTypeIndex.Home
             | Hotel _ -> PlaceTypeIndex.Hotel
             | Hospital -> PlaceTypeIndex.Hospital
+            | MetroStation -> PlaceTypeIndex.MetroStation
             | MerchandiseWorkshop -> PlaceTypeIndex.MerchandiseWorkshop
             | RadioStudio _ -> PlaceTypeIndex.RadioStudio
             | RehearsalSpace _ -> PlaceTypeIndex.RehearsalSpace
             | Restaurant -> PlaceTypeIndex.Restaurant
+            | Street -> PlaceTypeIndex.Street
             | Studio _ -> PlaceTypeIndex.Studio
+
+[<RequireQualifiedAccess>]
+module Street =
+    /// Creates a street with the given name, type and places.
+    let create name streetType =
+        let inferredId = Identity.Reproducible.create name
+
+        { Id = inferredId
+          Name = name
+          PromptContext = ""
+          Type = streetType
+          Places = [] }
+
+    /// Attaches a prompt context to the given street.
+    let attachContext context (street: Street) =
+        { street with PromptContext = context }
+
+    /// Adds a place to the given street.
+    let addPlace place street =
+        { street with
+            Places = place :: street.Places }
+
+    /// Adds many places to the given street.
+    let addPlaces places street =
+        { street with
+            Places = places @ street.Places }
+
+    /// Attempts to find a place of the given type in the street.
+    let tryFindPlaceOfType placeType street =
+        street.Places |> List.tryFind (fun place -> place.PlaceType = placeType)
 
 [<RequireQualifiedAccess>]
 module Zone =
     /// Creates a zone with the given name and an ID based on it.
     let create name =
-        let inferredId = Identity.Reproducible.createFor name
+        let inferredId = Identity.Reproducible.create name
 
         { Id = inferredId.ToString()
-          Name = name }
+          Name = name
+          MetroStations = Map.empty
+          Streets = Graph.empty }
+
+    /// Adds a street to the given zone.
+    let addStreet (street: Node<Street>) (zone: Zone) =
+        (*
+        In order for streets to work at all we need to have synthetic rooms added
+        to it so that we can reference them through regular coordinates. However,
+        since we also allow streets to be navigated through its splits (in case
+        the street is a split street), we need to add multiple rooms to cover
+        these cases.
+        *)
+        let streetRoomGraph =
+            match street.Content.Type with
+            | OneWay ->
+                Node.create
+                    "0"
+                    { RoomType = RoomType.Street
+                      RequiredItemsForEntrance = None }
+                |> Graph.from
+            | Split(throughDirection, splits) ->
+                let graph = Graph.empty |> Graph.setStartingNode "0"
+
+                let connections =
+                    Seq.init (splits - 1) (fun i -> i, i + 1)
+                    |> Seq.map (fun (fromNode, toNode) ->
+                        (fromNode.ToString(),
+                         toNode.ToString(),
+                         throughDirection))
+                    |> List.ofSeq
+
+                Seq.init splits id
+                |> Seq.fold
+                    (fun outerGraph index ->
+                        Graph.addNode
+                            (Node.create
+                                (index.ToString())
+                                { RoomType = RoomType.Street
+                                  RequiredItemsForEntrance = None })
+                            outerGraph)
+                    graph
+                |> Graph.connectMany connections
+
+        (*
+        When looking up places we need to perform the lookup inside a street.
+        That means that if the player goes out to the street, it won't be found
+        since streets won't contain themselves. To go around this, we add a
+        synthetic, empty street place to the street.
+        *)
+        let syntheticStreetPlace =
+            Place.create
+                street.Content.Name
+                100<quality>
+                PlaceType.Street
+                streetRoomGraph
+                zone.Id
+                street.Content.Id
+            |> Place.attachContext street.Content.PromptContext
+
+        let street =
+            { street with
+                Content.Places = syntheticStreetPlace :: street.Content.Places }
+
+        { zone with
+            Streets = Graph.addNode street zone.Streets }
+
+    /// Connects two streets in the given zone.
+    let connectStreets fromStreet toStreet direction zone =
+        { zone with
+            Streets = Graph.connect fromStreet toStreet direction zone.Streets }
+
+    /// Adds a metro station to the given zone.
+    let addMetroStation station zone =
+        { zone with
+            MetroStations =
+                station.Lines
+                |> List.fold
+                    (fun acc line -> Map.add line station acc)
+                    zone.MetroStations }
 
 [<RequireQualifiedAccess>]
 module City =
-    let private addToPlaceByTypeIndex place index =
-        let mapKey = Place.Type.toIndex place.PlaceType
+    let private allPlacesInZone zone =
+        zone.Streets.Nodes
+        |> Map.fold
+            (fun places _ street ->
+                let street = zone.Streets.Nodes |> Map.find street.Id
 
-        Map.change
-            mapKey
-            (function
-            | Some list -> list @ [ place.Id ] |> Some
-            | None -> [ place.Id ] |> Some)
+                street.Places
+                |> List.fold
+                    (fun (outerPlaces: List<_>) place ->
+                        (zone, street, place) :: outerPlaces)
+                    places)
+            List.empty
+
+    let private indexZoneByPlacesTypes zone index =
+        allPlacesInZone zone
+        |> List.fold
+            (fun outerIndex (_, _, place) ->
+                let mapKey = Place.Type.toIndex place.PlaceType
+
+                Map.change
+                    mapKey
+                    (function
+                    | Some list -> list @ [ place.Id ] |> Some
+                    | None -> [ place.Id ] |> Some)
+                    outerIndex)
             index
 
-    let private addToZoneIndex place =
-        Map.change place.Zone.Id (function
-            | Some list -> list @ [ place.Id ] |> Some
-            | None -> [ place.Id ] |> Some)
+    let private indexStreets zone index =
+        zone.Streets.Nodes
+        |> Map.fold
+            (fun outerIndex streetId street ->
+                outerIndex |> Map.add streetId street)
+            index
+
+    let private indexZonePlaces zone index =
+        // Index a synthetic "Street" place type for each street so that we have
+        // a way to put the player somewhere when they enter a street. This is
+        // important for storing the current location in the save file.
+        let index =
+            zone.Streets.Nodes
+            |> Map.fold
+                (fun outerIndex _ street ->
+                    outerIndex |> Map.add street.Id (zone.Id, street.Id, "0"))
+                index
+
+        allPlacesInZone zone
+        |> List.fold
+            (fun outerIndex (zone, street, place) ->
+                outerIndex |> Map.add place.Id (zone.Id, street.Id, place.Id))
+            index
 
     /// Creates a city with only one initial starting node.
-    let create id costOfLiving utcOffset place =
+    let create id costOfLiving utcOffset zone =
         { Id = id
-          PlaceByTypeIndex = addToPlaceByTypeIndex place Map.empty
-          PlaceIndex = [ (place.Id, place) ] |> Map.ofList
+          PlaceByTypeIndex = indexZoneByPlacesTypes zone Map.empty
+          PlaceIndex = indexZonePlaces zone Map.empty
+          StreetIndex = indexStreets zone Map.empty
+          MetroLines = Map.empty
           CostOfLiving = costOfLiving
-          ZoneIndex = addToZoneIndex place Map.empty
+          Zones = [ zone.Id, zone ] |> Map.ofList
           Timezone = Utc(utcOffset) }
 
-    /// Changes the timezone of the city.
-    let changeTimezone timezone city = { city with Timezone = timezone }
-
-    /// Adds a new place to the city.
-    let addPlace place city =
+    /// Adds a zone to the given city.
+    let addZone zone city =
         Optic.map
             Lenses.World.City.placeByTypeIndex_
-            (addToPlaceByTypeIndex place)
+            (indexZoneByPlacesTypes zone)
             city
-        |> Optic.map Lenses.World.City.placeIndex_ (Map.add place.Id place)
-        |> Optic.map Lenses.World.City.zoneIndex_ (addToZoneIndex place)
+        |> Optic.map Lenses.World.City.placeIndex_ (indexZonePlaces zone)
+        |> Optic.map Lenses.World.City.streetIndex_ (indexStreets zone)
+        |> Optic.map Lenses.World.City.zones_ (Map.add zone.Id zone)
 
-    // Adds a new place to the city.
-    let addPlace' city place = addPlace place city
+    /// Adds a metro line to the given city.
+    let addMetroLine (metroLine: MetroLine) city =
+        { city with
+            MetroLines = Map.add metroLine.Id metroLine city.MetroLines }
 
 [<RequireQualifiedAccess>]
 module Room =

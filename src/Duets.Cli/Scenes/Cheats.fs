@@ -20,7 +20,8 @@ let cheatsScene () =
         $"""{"[[Cheat mode enabled]]" |> Styles.error} What magic trickery are you doing today?"""
         |> Styles.prompt
 
-    let commands = leaveCommand :: ExitCommand.get :: Cheats.Index.all
+    let commands =
+        leaveCommand :: ExitCommand.get :: MapCommand.get :: Cheats.Index.all
 
     commands
     |> (@)

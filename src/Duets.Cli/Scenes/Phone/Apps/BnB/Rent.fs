@@ -13,6 +13,8 @@ open Duets.Simulation.Rentals.RentPlace
 open FsToolkit.ErrorHandling
 
 let rec private placeInformationText cityId (place: Place) =
+    let zone = Queries.World.zoneInCityById cityId place.ZoneId
+
     let pricing =
         match place.PlaceType with
         | PlaceType.Hotel _ ->
@@ -26,7 +28,7 @@ let rec private placeInformationText cityId (place: Place) =
 
             $"{Styles.money price}/season"
 
-    $"""{Styles.header place.Name} ({place.Zone.Name}) - Price: {pricing}"""
+    $"""{Styles.header place.Name} ({zone.Name}) - Price: {pricing}"""
 
 /// Allows the player to rent a place in any city.
 let rec rent bnbApp =
@@ -79,9 +81,10 @@ and private displayPlaceInformation cityId place =
 
 and private displaySeasonalRentalInformation cityId place =
     let rentPrice = Queries.Rentals.calculateSeasonalRentalPrice cityId place
+    let zone = Queries.World.zoneInCityById cityId place.ZoneId
     let placeType = World.Place.Type.toIndex place.PlaceType
 
-    $"This {placeType |> World.placeTypeName} is located in {place.Zone.Name}. It costs {Styles.money rentPrice} per season"
+    $"This {placeType |> World.placeTypeName} is located in {zone.Name}. It costs {Styles.money rentPrice} per season"
     |> showMessage
 
     let confirmed = showConfirmationPrompt "Do you want to rent it?"

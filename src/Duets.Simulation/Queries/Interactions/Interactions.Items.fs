@@ -30,6 +30,8 @@ module rec Items =
                     ItemInteraction.Play |> Interaction.Item |> Some
                 | Readable _ ->
                     ItemInteraction.Read |> Interaction.Item |> Some
+                | Rideable vehicle ->
+                    ItemInteraction.Ride vehicle |> Interaction.Item |> Some
                 | Storage _ -> ItemInteraction.Open |> Interaction.Item |> Some
                 | Sleepable ->
                     ItemInteraction.Sleep |> Interaction.Item |> Some

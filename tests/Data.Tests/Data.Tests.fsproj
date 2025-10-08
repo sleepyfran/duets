@@ -24,6 +24,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\src\Duets.Data\Duets.Data.fsproj"/>
         <ProjectReference Include="..\..\src\Duets.Simulation\Duets.Simulation.fsproj"/>
+        <ProjectReference Include="..\Test.Common\Test.Common.fsproj"/>
     </ItemGroup>
 
 </Project>

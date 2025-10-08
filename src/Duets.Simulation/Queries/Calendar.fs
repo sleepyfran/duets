@@ -20,6 +20,10 @@ module Calendar =
         Seq.initInfinite (fun index ->
             currentDate |> Calendar.Query.nextN (index + 1))
 
+    /// Returns the time spent in the current turn in minutes.
+    let currentTurnMinutes state =
+        Optic.get Lenses.State.turnMinutes_ state
+
     /// Returns information about the current turn, including the current day
     /// moment, the time spent in the current day moment, the duration of the
     /// day moment and the time left in the current day moment.
@@ -27,7 +31,7 @@ module Calendar =
         let currentDayMoment = today state |> Calendar.Query.dayMomentOf
         let nextDayMoment = currentDayMoment |> Calendar.Query.nextDayMoment
 
-        let currentTurnTime = state |> Optic.get Lenses.State.turnMinutes_
+        let currentTurnTime = state |> currentTurnMinutes
 
         let dayMomentDuration = Config.Time.minutesPerDayMoment
 

@@ -6,6 +6,9 @@ open Spectre.Console
 /// Renders a message into the screen.
 let showMessage text = text |> AnsiConsole.MarkupLine
 
+/// Renders an inline message into the screen.
+let showInlineMessage text = text |> AnsiConsole.Markup
+
 /// Renders a path into the screen.
 let showPath path =
     let mutable path = TextPath path
