@@ -8,7 +8,6 @@ open Duets.Cli.Text.LanguageModelPrompts
 open Duets.Cli.Text.World
 open Duets.Entities
 open Duets.Simulation
-open FSharp.Control
 
 [<RequireQualifiedAccess>]
 module LookCommand =
@@ -146,8 +145,7 @@ module LookCommand =
 
                 createRoomDescriptionPrompt state interactions
                 |> LanguageModel.streamMessage
-                |> AsyncSeq.iter showInlineMessage
-                |> Async.RunSynchronously
+                |> streamMessage
 
                 lineBreak ()
 

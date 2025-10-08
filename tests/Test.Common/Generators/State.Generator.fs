@@ -15,6 +15,8 @@ let dateGenerator =
 
 type StateGenOptions =
     { InitialCityId: CityId
+      CharacterFundsMin: Amount
+      CharacterFundsMax: Amount
       BandFansMin: int<fans>
       BandFansMax: int<fans>
       Career: Job option
@@ -37,6 +39,8 @@ let defaultOptions =
     { InitialCityId = Queries.World.allCities |> List.head |> _.Id
       BandFansMin = 0<fans>
       BandFansMax = 25<fans>
+      CharacterFundsMin = 0m<dd>
+      CharacterFundsMax = 0m<dd>
       Career = None
       CharacterMoodMin = 100
       CharacterMoodMax = 100
@@ -122,6 +126,13 @@ let generator (opts: StateGenOptions) =
                 Fans = bandFans
                 Members = bandMembers }
 
+        let minCents = int (opts.CharacterFundsMin / 0.01m<dd>)
+        let maxCents = int (opts.CharacterFundsMax / 0.01m<dd>) |> max minCents
+
+        let! characterFunds =
+            Gen.choose (minCents, maxCents)
+            |> Gen.map (fun cents -> (decimal cents / 100m) * 1m<dd>)
+
         return
             { initialState with
                 CurrentPosition = (city.Id, venueId, Ids.Common.lobby)
@@ -137,7 +148,7 @@ let generator (opts: StateGenOptions) =
                         Balance = 0m<dd> }
                       Character playableCharacter.Id,
                       { Holder = Character playableCharacter.Id
-                        Balance = 0m<dd> } ]
+                        Balance = characterFunds } ]
                     |> Map.ofList
                 Concerts = [ (band.Id, timeline) ] |> Map.ofList
                 Characters =

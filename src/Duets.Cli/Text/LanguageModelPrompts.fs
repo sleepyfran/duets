@@ -122,3 +122,36 @@ in the year **{currentDate.Year}**, currently in the **{currentDate.DayMoment}**
 
 **Provide the generated description and *only* the description.**
 """
+
+let createDuberDriverConversationPrompt
+    state
+    (driverName: string)
+    (destinationName: string)
+    =
+    let currentPlace = state |> Queries.World.currentPlace
+    let currentCity = state |> Queries.World.currentCity
+    let currentDate = state |> Queries.Calendar.today
+    let currentWeather = state |> Queries.World.currentWeather
+    let character = state |> Queries.Characters.playableCharacter
+
+    createPrompt
+        $"""
+You are {driverName}, a friendly Duber (ride-sharing) driver in {currentCity.Id}. You're currently driving a passenger (a musician named {character.Name}) to {destinationName}.
+
+Rules:
+- Generate a single, short line of casual conversation (1-2 sentences max).
+- Stay in character as a driver - you might comment on traffic, the city, music, weather, or make small talk.
+- Keep it natural and conversational, like real driver small talk.
+- **Do not** use quotation marks, asterisks, or any formatting.
+- **Do not** include the driver's name or any labels like "Driver:" - just the dialogue itself.
+- Match the tone to the current context (time of day, weather, etc).
+
+Context:
+- Time: {currentDate.DayMoment} in {currentDate.Season}
+- Weather: {currentWeather}
+- Pickup location: {currentPlace.Name}
+- Destination: {destinationName}
+- City: {currentCity.Id}
+
+Generate the driver's conversational line:
+"""

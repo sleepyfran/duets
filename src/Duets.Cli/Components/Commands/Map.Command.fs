@@ -53,7 +53,7 @@ module rec MapCommand =
                     $"""{prefix} {Styles.action "Walk"} from {fromStreet.Name |> Styles.place} to {toStreet.Name |> Styles.place}"""
                 |> showMessage)
 
-        let estimatedTravelTime = TravelTime.travelTime directions
+        let estimatedTravelTime = TravelTime.byPublicTransport directions
 
         $"Estimated travel time: ~{estimatedTravelTime |> Styles.time} minutes"
         |> showMessage

@@ -143,6 +143,7 @@
         <Compile Include="Scenes\Phone\Apps\BnB\List.fs"/>
         <Compile Include="Scenes\Phone\Apps\BnB\Rent.fs"/>
         <Compile Include="Scenes\Phone\Apps\BnB\BnB.fs"/>
+        <Compile Include="Scenes\Phone\Apps\Duber\Duber.fs"/>
         <Compile Include="Scenes\Phone\Apps\Flights\BookFlight.fs"/>
         <Compile Include="Scenes\Phone\Apps\Flights\Flights.fs"/>
         <Compile Include="Scenes\Phone\Apps\FoodDelivery\FoodDelivery.fs"/>

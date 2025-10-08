@@ -204,3 +204,6 @@ module Time =
 module Travel =
     /// Price per kilometers for buying plane tickets.
     let pricePerKm = 0.067m
+
+    /// Base rate per minute of travel for taxi rides.
+    let taxiRatePerMinute = 0.5m<dd>

@@ -185,3 +185,59 @@ let statisticsAppAlbumStreams streams =
     Styles.highlight (Styles.number streams)
 
 let statisticsAppAlbumRevenue revenue = Styles.money revenue
+
+(* --- Duber --- *)
+let duberAppTitle = "Duber"
+
+let duberWelcome = "Where would you like to go?"
+
+let duberCalculatingFare = "Calculating fare..."
+
+let duberFareEstimate fare travelTime destination =
+    $"""Your ride to {Styles.place destination} will cost approximately {Styles.money fare} and take about {Styles.time travelTime} minutes."""
+
+let duberConfirmRide = "Book this ride?"
+
+let duberRideBooked = "Your Duber is on the way!"
+
+let duberArrivedAtDestination destination =
+    $"You've arrived at {Styles.place destination}!"
+
+let duberAlreadyAtDestination = Styles.error "You're already at this location!"
+
+let duberCannotReachDestination =
+    Styles.error "Sorry, we can't find a route to that destination."
+
+let duberNotEnoughFunds amount =
+    $"You don't have enough money for this ride. You need at least {Styles.money amount} in your account."
+    |> Styles.error
+
+let duberRideCancelled = "Ride cancelled" |> Styles.error
+
+let duberDriverArriving driverName =
+    $"Your driver {Styles.person driverName} is arriving..." |> Styles.hint
+
+let duberDriverSays driverName message =
+    $"{Styles.person driverName}: {Styles.dialog message}"
+
+let duberDriverSaysPrefix driverName = $"{Styles.person driverName}: "
+
+let duberDriverGreeting =
+    [ "Hey there! Hop in!"
+      "Good to see you! Let's get you there."
+      "Welcome aboard! How's your day going?"
+      "Hi! Ready to head out?"
+      "Hey! Nice day for a ride, huh?"
+      "Hello! Make yourself comfortable."
+      "Yo! Let's hit the road!"
+      "Hey friend! Buckle up!" ]
+
+let duberDriverFarewell () =
+    [ Styles.success "Here we are! Have a great day!"
+      Styles.success "All set! Take care now!"
+      Styles.success "We're here! Hope you enjoyed the ride."
+      Styles.success "Destination reached! Rock on!"
+      Styles.success "And we're here! Good luck with everything!"
+      Styles.success "Here you go! Stay safe!"
+      Styles.success "Made it! Have an awesome day!"
+      Styles.success "All done! Catch you later!" ]

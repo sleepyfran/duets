@@ -1,10 +1,13 @@
+[<RequireQualifiedAccess>]
 module Duets.Simulation.Navigation.TravelTime
 
+open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 
-/// Returns the approximate travel time it takes to perform the given path.
-let travelTime path =
+/// Returns the approximate travel time it takes to perform the given path by
+/// walk/public transport.
+let byPublicTransport path =
     (0<minute>, path)
     ||> List.fold (fun acc action ->
         let hintTime =
@@ -16,3 +19,9 @@ let travelTime path =
             | Pathfinding.Walk _ -> Config.Time.travelTimeBetweenSameZone
 
         acc + hintTime)
+
+/// Returns the approximate travel time it takes to perform the given path by
+/// taxi.
+let byTaxi path =
+    let regularTravelTime = byPublicTransport path
+    float regularTravelTime / 2.0 |> Math.roundToNearest |> (*) 1<minute>
