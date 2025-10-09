@@ -123,7 +123,7 @@ and private takeRide destinationName travelTime effects driverName =
 and private generateAndShowDriverConversation driverName destinationName =
     let state = State.get ()
 
-    Phone.duberDriverSaysPrefix driverName |> showInlineMessage
+    Social.npcSaysPrefix driverName |> showInlineMessage
 
     LanguageModelPrompts.createDuberDriverConversationPrompt
         state

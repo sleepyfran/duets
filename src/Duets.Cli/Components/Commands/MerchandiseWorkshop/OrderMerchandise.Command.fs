@@ -10,6 +10,8 @@ open Duets.Simulation.Merchandise.Order
 
 [<RequireQualifiedAccess>]
 module OrderMerchandiseCommand =
+    let private merchantName = "Merchant"
+
     let private promptForQuantity merchItem =
         showRangedNumberPrompt
             merchItem.MinPieces
@@ -21,10 +23,8 @@ module OrderMerchandiseCommand =
         | Ok effects ->
             effects |> Effect.applyMultiple
 
-            "The merchant says:" |> showMessage
-
             "Thank you! Your order will be ready for pick-up here in a week."
-            |> Styles.dialog
+            |> Social.npcSays merchantName
             |> showMessage
         | Error(MinNotReached min) ->
             $"You need to order at least {min} pieces for the order to go in."
@@ -35,7 +35,7 @@ module OrderMerchandiseCommand =
             |> Styles.error
             |> showMessage
         | Error NotEnoughFunds ->
-            $"You don't have enough money on your band's bank account to afford that."
+            "You don't have enough money on your band's bank account to afford that."
             |> Styles.error
             |> showMessage
 
@@ -53,14 +53,8 @@ module OrderMerchandiseCommand =
           Description = "Allows you to order merchandise from the current shop"
           Handler =
             fun _ ->
-                "The merchant says:" |> showMessage
-
-                "All items have a 50% discount when ordering more than 100 items"
-                |> Styles.dialog
-                |> showMessage
-
-                "Orders will be delivered in a week after the order is placed."
-                |> Styles.dialog
+                "All items have a 50% discount when ordering more than 100 items. Orders will be delivered a week after the order is placed."
+                |> Social.npcSays merchantName
                 |> showMessage
 
                 let merchItem =

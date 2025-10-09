@@ -220,8 +220,6 @@ let duberDriverArriving driverName =
 let duberDriverSays driverName message =
     $"{Styles.person driverName}: {Styles.dialog message}"
 
-let duberDriverSaysPrefix driverName = $"{Styles.person driverName}: "
-
 let duberDriverGreeting =
     [ "Hey there! Hop in!"
       "Good to see you! Let's get you there."

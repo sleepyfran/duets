@@ -12,3 +12,8 @@ let relationshipType =
     function
     | Friend -> "Friend"
     | Bandmate -> "Bandmate"
+
+let npcSaysPrefix npcName = $"{Styles.person npcName}: "
+
+let npcSays npcName text =
+    $"{npcSaysPrefix npcName}{Styles.dialog text}"
