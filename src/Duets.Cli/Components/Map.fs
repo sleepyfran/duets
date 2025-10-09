@@ -35,19 +35,23 @@ let private placesWithSpecialProperties state =
     Map.merge rentedPlaces scheduledConcert
 
 
-let private placeWithOpenInfo (city: City) (place: Place) specialProperties =
+let private placeWithInfo (city: City) (place: Place) specialProperties =
     let state = State.get ()
 
     let currentlyOpen = Queries.World.placeCurrentlyOpen' state place
 
     let placeSpecialProperties = specialProperties |> Map.tryFind place.Id
 
+    let zone = Queries.World.zoneInCityById city.Id place.ZoneId
+    let zonePrefix = $"{zone.Name |> Styles.place},"
+
     let placeDetails =
         match placeSpecialProperties with
-        | Some Rented -> $"""{place.Name} ({"Rented" |> Styles.highlight})"""
+        | Some Rented ->
+            $"""{zonePrefix} {place.Name} ({"Rented" |> Styles.highlight})"""
         | Some ConcertScheduled ->
-            $"""{place.Name} ({"Concert scheduled" |> Styles.highlight})"""
-        | None -> place.Name
+            $"""{zonePrefix} {place.Name} ({"Concert scheduled" |> Styles.highlight})"""
+        | None -> $"{zonePrefix} {place.Name}"
 
     World.placeNameWithOpeningInfo placeDetails currentlyOpen
 
@@ -58,7 +62,7 @@ let private showPlaceChoice city placesInCity places =
         showCancellableChoicePrompt
             Command.mapChoosePlace
             Generic.back
-            (fun place -> placeWithOpenInfo city place specialProperties)
+            (fun place -> placeWithInfo city place specialProperties)
             places
 
     match selectedPlace with
