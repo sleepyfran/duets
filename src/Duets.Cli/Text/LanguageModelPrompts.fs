@@ -16,10 +16,32 @@ let private createPrompt prompt =
 <start_of_turn>model
 """
 
+let private placeTypeForPrompt (placeType: PlaceType) =
+    match placeType with
+    | Airport -> "an airport"
+    | Bar -> "a bar"
+    | Bookstore -> "a bookstore"
+    | Cafe -> "a coffee shop"
+    | Casino -> "a casino"
+    | ConcertSpace concertSpace ->
+        $"a concert space wich a capacity for {concertSpace.Capacity} people"
+    | Gym -> "a gym"
+    | Home -> "the character's home"
+    | Hotel _ -> "a hotel"
+    | Hospital -> "a hospital"
+    | MerchandiseWorkshop -> "a place where the player can order merchandise"
+    | MetroStation -> "a metro station"
+    | RadioStudio radioStudio ->
+        $"a radio station for {radioStudio.MusicGenre} music"
+    | RehearsalSpace _ -> "a rehearsal space for bands"
+    | Restaurant -> "a restaurant"
+    | Street -> "a street"
+    | Studio studio -> $"a studio whose producer is {studio.Producer.Name}"
+
 let private placeNameWithType (place: Place) =
     match place.PlaceType with
     | Home -> "your home"
-    | _ -> $"{place.Name} ({place |> World.placeTypeName'})"
+    | _ -> $"{place.Name} (which is {placeTypeForPrompt place.PlaceType})"
 
 let private entrancesForPrompt interactions =
     let entrances =
@@ -75,6 +97,7 @@ let createRoomDescriptionPrompt state interactions =
     let coords = state |> Queries.World.currentCoordinates
     let cityId, _, _ = coords
     let currentPlace = state |> Queries.World.currentPlace
+    let currentZone, street = state |> Queries.World.currentZoneCoordinates
     let currentRoom = state |> Queries.World.currentRoom
     let currentDate = state |> Queries.Calendar.today
     let currentWeather = state |> Queries.World.currentWeather
@@ -97,8 +120,8 @@ You are an expert in role-playing and simulation games. You will be asked to gen
 the descriptions of places based on a given context.
 
 Rules:
-- Keep it short and concise, no more than a paragraph. Follow the style of classic text-based adventure games.
-- Only mention the people and items that are physically present in the room, as listed below.
+- Keep it short and concise. Follow the style of classic text-based adventure games.
+- Only mention the people that are physically present in the room, as listed below.
 - Do not display any text other than the description itself. **Avoid any extra commentary or headers.**
 - **Avoid** referring to the player or the character. Describe the environment using objective language (third person, or second person only for static features, e.g., 'A bar stands before you').
 - Do not include any information that is not directly related to the place being described.
@@ -107,9 +130,10 @@ Rules:
 - **Crucially, ensure the description's tone and lighting reflect the current Day Moment, Season and Weather.**
 
 --- Context for Description ---
-The player is inside **{currentPlace.Name}** (quality: {currentPlace.Quality}) {roomTypeSection}, which is
-located in the city of **{cityId}**. It's the day **{currentDate.Day}** of **{currentDate.Season}**,
-in the year **{currentDate.Year}**, currently in the **{currentDate.DayMoment}**. It is currently **{currentWeather}** outside.
+The player is in the {roomTypeSection} of **{currentPlace.Name}** (which is a **{placeTypeForPrompt currentPlace.PlaceType}**) (quality: {currentPlace.Quality}), which is
+located in the city of **{cityId}**, in the zone of {currentZone.Name}.
+Current date: **{currentDate.Day}** of **{currentDate.Season}**, in the year **{currentDate.Year}**, currently in the **{currentDate.DayMoment}**.
+Weather: **{currentWeather}** outside.
      
 --- Context for the current place ---
 {currentPlace.PromptContext}
