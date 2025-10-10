@@ -62,7 +62,9 @@ module rec ItemTypes =
 
     /// Defines all types of items that can be ridden by the player to move
     /// around the city.
-    type RideableItem = Metro
+    type RideableItem =
+        | Car
+        | Metro
 
     /// Defines what kind of storage the current item is.
     type StorageType =

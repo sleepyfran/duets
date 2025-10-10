@@ -1,6 +1,7 @@
 namespace Duets.Simulation.Queries.Internal.Interactions
 
 open Duets.Entities
+open Duets.Entities.SituationTypes
 open Duets.Simulation
 
 module FreeRoam =
@@ -60,6 +61,16 @@ module FreeRoam =
               |> Interaction.FreeRoam ]
         | _ -> []
 
+    let getDriveInteractions state =
+        let currentSituation = Queries.Situations.current state
+
+        match currentSituation with
+        | Travelling(TravellingByCar(currentCarPosition, car)) ->
+            [ TravelInteraction.Drive(currentCarPosition, car)
+              |> Interaction.Travel
+              TravelInteraction.LeaveVehicle |> Interaction.Travel ]
+        | _ -> []
+
     let private getOutInteractions roomId place =
         place.Exits
         |> Map.tryFind roomId
@@ -77,6 +88,8 @@ module FreeRoam =
 
         let goToInteractions = getGoToInteractions state place
 
+        let driveInteractions = getDriveInteractions state
+
         let withinPlaceMovementInteractions =
             getMovementInteractions roomId place
 
@@ -85,6 +98,7 @@ module FreeRoam =
         [ yield! withinPlaceMovementInteractions
           yield! exitInteraction
           yield! goToInteractions
+          yield! driveInteractions
 
           match enterInteractions with
           | Some interaction -> interaction

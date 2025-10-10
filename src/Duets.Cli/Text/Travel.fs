@@ -1,6 +1,7 @@
 module Duets.Cli.Text.Travel
 
 open Duets.Entities
+open Duets.Entities.SituationTypes
 
 let planeActionPrompt date dayMoment attributes flight =
     $"""{Generic.infoBar date dayMoment attributes}
@@ -30,9 +31,14 @@ let gettingAnnoyed = Styles.progress "Getting annoyed..."
 
 let waitingSomeMore = Styles.progress "Waiting some more..."
 
-let actionPrompt date dayMoment attributes vehicle =
+let vehicleEmoji situation =
+    match situation with
+    | TravellingByCar _ -> Emoji.vehicle Car
+    | TravellingByMetro -> Emoji.vehicle Metro
+
+let actionPrompt date dayMoment attributes situation =
     $"""{Generic.infoBar date dayMoment attributes}
-{Emoji.vehicle vehicle} Travelling
+{vehicleEmoji situation} Travelling
 What do you want to do?"""
     |> Styles.prompt
 
@@ -49,3 +55,30 @@ let arrivedAtStation dayMoment =
     | Midnight ->
         "The train glides to a quiet stop, the air brakes sighing softly. The doors slide open to reveal a dimly lit platform, where only a handful of other travelers are waiting. The silence, broken only by occasional announcements and the low hum of the station, is striking. You disembark, arriving at your stop in the quiet of the night."
     |> Styles.event
+
+let driveCancelled =
+    "You decide not to drive anywhere right now." |> Styles.error
+
+let driveCalculatingRoute = "Calculating route..." |> Styles.progress
+
+
+let driveAlreadyAtDestination =
+    "You're already at this location. No need to drive!" |> Styles.success
+
+let driveCannotReachDestination =
+    "You cannot reach this destination by car from here." |> Styles.error
+
+let driveRouteEstimate travelTime destinationName =
+    $"Driving to {destinationName |> Styles.place} takes approximately {Styles.time travelTime} minutes."
+    |> Styles.hint
+
+let driveConfirmRoute = "Do you want to drive there?" |> Styles.prompt
+
+let driveStarting destinationName =
+    $"You get in your car and start driving to {destinationName |> Styles.place}..."
+    |> Styles.information
+
+let driveArrivedAtDestination destinationName =
+    $"You've arrived at {destinationName |> Styles.place}!" |> Styles.success
+
+let drivingMomentPrefix = "As you drive, you notice: "

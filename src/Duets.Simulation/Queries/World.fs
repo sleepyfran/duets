@@ -179,3 +179,29 @@ module World =
         state
         |> Optic.get Lenses.State.currentWeatherCondition_
         |> Map.find cityId
+
+    /// Finds the partition of a street to which the given place belongs. This
+    /// function assumes that the given place belongs to the given street, otherwise
+    /// it will throw.
+    let findPlaceStreetPart cityId placeId streetId =
+        let street = streetById cityId streetId
+
+        match street.Type with
+        | StreetType.OneWay -> "0"
+        | StreetType.Split(_, splits) ->
+            let currentPlaceIndex =
+                street.Places
+                |> List.findIndex (fun place -> place.Id = placeId)
+
+            // Streets themselves are added to the places, so skip one.
+            let itemsInStreet = street.Places.Length - 1
+            let itemsPerGroup = float itemsInStreet / float splits
+            let idx = float currentPlaceIndex / itemsPerGroup
+
+            idx - 1.0
+            |> Math.floorToNearest
+            |> Math.clamp 0 (splits - 1)
+            |> string
+
+    /// Returns the first exit registered in the given place.
+    let firstExitOfPlace place = place.Exits |> Map.head

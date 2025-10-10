@@ -3,12 +3,13 @@ namespace Duets.Simulation.Queries.Internal.Interactions
 open Duets.Common.Math
 open Duets.Data.Items
 open Duets.Entities
+open Duets.Entities.SituationTypes
 open Duets.Simulation.Queries
 
 module rec Items =
     /// Retrieves a list of all interactions that can performed on the given
     /// list of items.
-    let internal getItemInteractions state (items: Item list) =
+    let internal getItemInteractions state currentCoords (items: Item list) =
         items
         |> List.collect (fun item ->
             item.Properties
@@ -31,7 +32,14 @@ module rec Items =
                 | Readable _ ->
                     ItemInteraction.Read |> Interaction.Item |> Some
                 | Rideable vehicle ->
-                    ItemInteraction.Ride vehicle |> Interaction.Item |> Some
+                    let situation =
+                        match vehicle with
+                        | Car -> TravellingByCar(currentCoords, item)
+                        | Metro -> TravellingByMetro
+
+                    ItemInteraction.Ride(vehicle, situation)
+                    |> Interaction.Item
+                    |> Some
                 | Storage _ -> ItemInteraction.Open |> Interaction.Item |> Some
                 | Sleepable ->
                     ItemInteraction.Sleep |> Interaction.Item |> Some

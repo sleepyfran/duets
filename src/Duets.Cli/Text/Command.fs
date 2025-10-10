@@ -147,6 +147,8 @@ let orderDescription =
 let buyDescription =
     $"""Allows you to buy an item from the shop. Use either as {Styles.information "buy {item name}"} or use without arguments to select interactively"""
 
+let buyCarDescription = "Allows you to buy a car from the dealer."
+
 let seeMenuDescription =
     "Displays the available items that can be bought in this establishment"
 

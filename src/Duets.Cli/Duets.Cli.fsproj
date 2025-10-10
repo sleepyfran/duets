@@ -32,7 +32,11 @@
         <Compile Include="Text\Songs.fs"/>
         <Compile Include="Text\Social.fs"/>
         <Compile Include="Text\World.fs"/>
-        <Compile Include="Text\LanguageModelPrompts.fs"/>
+        <Compile Include="Text\Prompts\CommonPrompts.fs"/>
+        <Compile Include="Text\Prompts\WorldPrompts.fs"/>
+        <Compile Include="Text\Prompts\DrivingPrompts.fs"/>
+        <Compile Include="Text\Prompts\DuberPrompts.fs"/>
+        <Compile Include="Text\Prompts\CarDealerPrompts.fs"/>
         <Compile Include="Components\VisualEffects.fs"/>
         <Compile Include="Components\Separator.fs"/>
         <Compile Include="Components\Layout.fs"/>
@@ -103,6 +107,7 @@
         <Compile Include="Components\Commands\Gym\AskForEntrance.Command.fs"/>
         <Compile Include="Components\Commands\Shop\SeeMenu.Command.fs"/>
         <Compile Include="Components\Commands\Shop\Buy.Command.fs"/>
+        <Compile Include="Components\Commands\Shop\BuyCar.Command.fs"/>
         <Compile Include="Components\Commands\Shop\Order.Command.fs"/>
         <Compile Include="Components\Commands\Items\Consume.Command.fs"/>
         <Compile Include="Components\Commands\Items\Interactive.Command.fs"/>
@@ -121,9 +126,10 @@
         <Compile Include="Components\Commands\Social\Social.Command.fs"/>
         <Compile Include="Components\Commands\Social\StartStopConversation.Command.fs"/>
         <Compile Include="Components\Commands\Social\Social.Commands.fs"/>
-        <Compile Include="Components\Commands\Travel\LeaveMetro.Command.fs"/>
+        <Compile Include="Components\Commands\Travel\LeaveVehicle.Command.fs"/>
         <Compile Include="Components\Commands\Travel\TravelByMetro.Command.fs"/>
         <Compile Include="Components\Commands\Travel\WaitForMetro.Command.fs"/>
+        <Compile Include="Components\Commands\Travel\Drive.Command.fs"/>
         <Compile Include="Components\Commands\Cheats\Band.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>

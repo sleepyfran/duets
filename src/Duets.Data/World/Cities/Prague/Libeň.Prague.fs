@@ -2,6 +2,7 @@ module rec Duets.Data.World.Cities.Prague.Libeň
 
 open Duets.Data.World.Cities
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let ocelářská (zone: Zone) =
     let street =
@@ -63,6 +64,18 @@ let voctářova (zone: Zone) =
         roots while slowly gentrifying.
 """
 
+    let carDealers =
+        [ ("Auto Libeň",
+           77<quality>,
+           zone.Id,
+           { Dealer =
+               (Character.from
+                   "Jana Horáková"
+                   Female
+                   (Shorthands.Autumn 20<days> 1986<years>))
+             PriceRange = CarPriceRange.MidRange }) ]
+        |> List.map (PlaceCreators.createCarDealer street.Id)
+
     let bars =
         [ ("U Hubatků", 82<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createBar street.Id)
@@ -71,7 +84,10 @@ let voctářova (zone: Zone) =
         [ ("Restaurace U Hubatků", 81<quality>, Czech, zone.Id) ]
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
-    street |> World.Street.addPlaces bars |> World.Street.addPlaces restaurants
+    street
+    |> World.Street.addPlaces carDealers
+    |> World.Street.addPlaces bars
+    |> World.Street.addPlaces restaurants
 
 let zone =
     let libeňZone = World.Zone.create Ids.Zone.libeň

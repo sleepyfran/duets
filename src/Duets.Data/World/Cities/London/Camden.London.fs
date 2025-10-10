@@ -19,6 +19,18 @@ let private camdenHighStreet (city: City) (zone: Zone) =
         into side streets have launched countless careers since the punk era.
 """
 
+    let carDealers =
+        [ ("Camden Motor Co",
+           78<quality>,
+           zone.Id,
+           { Dealer =
+               (Character.from
+                   "Sophie Clarke"
+                   Female
+                   (Shorthands.Autumn 14<days> 1985<years>))
+             PriceRange = CarPriceRange.MidRange }) ]
+        |> List.map (PlaceCreators.createCarDealer street.Id)
+
     let gyms =
         [ ("Gymbox Camden", 86<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createGym city street.Id)
@@ -65,6 +77,7 @@ let private camdenHighStreet (city: City) (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces carDealers
         |> World.Street.addPlaces gyms
         |> World.Street.addPlaces recordingStudios
         |> World.Street.addPlaces bars

@@ -3,6 +3,7 @@ module Duets.Data.World.Cities.LosAngeles.DowntownLA
 open Duets.Data.World.Cities
 open Duets.Data.World.Cities.LosAngeles
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let figueroaStreet (zone: Zone) =
     let street =
@@ -25,6 +26,18 @@ let figueroaStreet (zone: Zone) =
     let casinos =
         [ ("The Commerce Casino", 91<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createCasino street.Id)
+
+    let carDealers =
+        [ ("High-End",
+           98<quality>,
+           zone.Id,
+           { Dealer =
+               (Character.from
+                   "David Peterson"
+                   Male
+                   (Shorthands.Spring 2<days> 1979<years>))
+             PriceRange = CarPriceRange.Premium }) ]
+        |> List.map (PlaceCreators.createCarDealer street.Id)
 
     let concertSpaces =
         [ ("Crypto.com Arena",
@@ -62,6 +75,7 @@ let figueroaStreet (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces carDealers
         |> World.Street.addPlaces casinos
         |> World.Street.addPlaces concertSpaces
         |> World.Street.addPlaces bars

@@ -110,6 +110,18 @@ let picoBoulevard (zone: Zone) (city: City) =
 
     let home = PlaceCreators.createHome street.Id zone.Id
 
+    let carDealers =
+        [ ("Pacific Coast Motors",
+           82<quality>,
+           zone.Id,
+           { Dealer =
+               (Character.from
+                   "Jennifer Martinez"
+                   Female
+                   (Shorthands.Spring 15<days> 1980<years>))
+             PriceRange = CarPriceRange.MidRange }) ]
+        |> List.map (PlaceCreators.createCarDealer street.Id)
+
     let rehearsalSpaces =
         [ ("The Lockout Rooms", 84<quality>, 350m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createRehearsalSpace street.Id)
@@ -135,6 +147,7 @@ let picoBoulevard (zone: Zone) (city: City) =
 
     street
     |> World.Street.addPlace home
+    |> World.Street.addPlaces carDealers
     |> World.Street.addPlaces rehearsalSpaces
     |> World.Street.addPlaces studios
     |> World.Street.addPlaces hospitals

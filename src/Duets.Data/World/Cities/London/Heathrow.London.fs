@@ -2,6 +2,7 @@ module rec Duets.Data.World.Cities.London.Heathrow
 
 open Duets.Data.World.Cities
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let private heathrowAirport (zone: Zone) =
     let street =
@@ -47,6 +48,18 @@ let private bathRoad (zone: Zone) =
         rather than fostering community life.
 """
 
+    let carDealers =
+        [ ("Airport Auto Centre",
+           68<quality>,
+           zone.Id,
+           { Dealer =
+               (Character.from
+                   "Graham Wilson"
+                   Male
+                   (Shorthands.Winter 18<days> 1977<years>))
+             PriceRange = CarPriceRange.Budget }) ]
+        |> List.map (PlaceCreators.createCarDealer street.Id)
+
     let hotels =
         [ ("Sofitel London Heathrow", 85<quality>, 350m<dd>, zone.Id)
           ("Hilton Garden Inn", 80<quality>, 300m<dd>, zone.Id) ]
@@ -56,7 +69,10 @@ let private bathRoad (zone: Zone) =
         [ ("Costa Coffee", 70<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createCafe street.Id)
 
-    street |> World.Street.addPlaces hotels |> World.Street.addPlaces cafes
+    street
+    |> World.Street.addPlaces carDealers
+    |> World.Street.addPlaces hotels
+    |> World.Street.addPlaces cafes
 
 let zone =
     let zone = World.Zone.create "Heathrow"

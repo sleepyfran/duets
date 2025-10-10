@@ -4,7 +4,7 @@ open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Cli.Text.LanguageModelPrompts
+open Duets.Cli.Text.Prompts
 open Duets.Cli.Text.World
 open Duets.Entities
 open Duets.Simulation
@@ -143,7 +143,7 @@ module LookCommand =
 
                 let currentRoom = state |> Queries.World.currentRoom
 
-                createRoomDescriptionPrompt state interactions
+                World.createRoomDescriptionPrompt state interactions
                 |> LanguageModel.streamMessage
                 |> streamMessage
 

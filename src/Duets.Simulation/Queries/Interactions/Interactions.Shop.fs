@@ -37,6 +37,24 @@ module Cafe =
             Food.Breakfast.all @ Drink.Coffee.all |> Shop.interactions
         | _ -> []
 
+module CarDealer =
+    /// Gather all available interactions inside a car dealer.
+    let internal interactions carDealer roomType =
+        match roomType with
+        | RoomType.ShowRoom when carDealer.PriceRange = CarPriceRange.Budget ->
+            [ (carDealer, Vehicles.Car.budget)
+              |> ShopInteraction.BuyCar
+              |> Interaction.Shop ]
+        | RoomType.ShowRoom when carDealer.PriceRange = CarPriceRange.MidRange ->
+            [ (carDealer, Vehicles.Car.midRange)
+              |> ShopInteraction.BuyCar
+              |> Interaction.Shop ]
+        | RoomType.ShowRoom when carDealer.PriceRange = CarPriceRange.Premium ->
+            [ (carDealer, Vehicles.Car.premium)
+              |> ShopInteraction.BuyCar
+              |> Interaction.Shop ]
+        | _ -> []
+
 module Restaurant =
     /// Gather all available interactions inside a restaurant.
     let internal interactions cityId room =

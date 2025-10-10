@@ -2,10 +2,23 @@ module rec Duets.Data.World.Cities.NewYork.Jamaica
 
 open Duets.Data.World.Cities
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let private vanWyckExpressway (zone: Zone) =
     let street =
         World.Street.create Ids.Street.vanWyckExpressway StreetType.OneWay
+
+    let carDealers =
+        [ ("Queens Auto Mall",
+           70<quality>,
+           zone.Id,
+           { Dealer =
+               (Character.from
+                   "Ray Johnson"
+                   Male
+                   (Shorthands.Autumn 22<days> 1975<years>))
+             PriceRange = CarPriceRange.Budget }) ]
+        |> List.map (PlaceCreators.createCarDealer street.Id)
 
     let casinos =
         [ ("Resorts World Casino", 89<quality>, zone.Id) ]
@@ -20,6 +33,7 @@ let private vanWyckExpressway (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces carDealers
         |> World.Street.addPlaces casinos
         |> World.Street.addPlaces airports
         |> World.Street.addPlace metroStation

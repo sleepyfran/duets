@@ -39,6 +39,13 @@ let cafeRoomLayout =
     |> World.Node.create Ids.Common.cafe
     |> World.Graph.from
 
+/// Usual layout for a car dealer.
+let carDealerLayout =
+    RoomType.ShowRoom
+    |> World.Room.create
+    |> World.Node.create Ids.CarDealer.showRoom
+    |> World.Graph.from
+
 /// Usual layout for a casino.
 let casinoLayout =
     let lobby =

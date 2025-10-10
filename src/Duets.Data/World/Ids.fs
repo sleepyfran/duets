@@ -13,6 +13,9 @@ module Airport =
 module Bookstore =
     let readingRoom = "reading_room"
 
+module CarDealer =
+    let showRoom = "show_room"
+
 module Casino =
     let casinoFloor = "casino_floor"
 

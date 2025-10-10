@@ -125,6 +125,18 @@ let calleFuencarral city (zone: Zone) =
         parlors contributing to the diverse character.
 """
 
+    let carDealers =
+        [ ("Motor Chamberí",
+           79<quality>,
+           zone.Id,
+           { Dealer =
+               (Character.from
+                   "Ana Ruiz"
+                   Female
+                   (Shorthands.Autumn 7<days> 1984<years>))
+             PriceRange = CarPriceRange.MidRange }) ]
+        |> List.map (PlaceCreators.createCarDealer street.Id)
+
     let gyms =
         [ ("Basic-Fit", 80<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createGym city street.Id)
@@ -138,6 +150,7 @@ let calleFuencarral city (zone: Zone) =
         |> List.map (PlaceCreators.createCafe street.Id)
 
     street
+    |> World.Street.addPlaces carDealers
     |> World.Street.addPlaces gyms
     |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces cafes

@@ -9,6 +9,11 @@ module SituationTypes =
         | Preparing of ConcertPreparationChecklist
         | InConcert of OngoingConcert
 
+    /// Situations that happen while the character is travelling.
+    type TravelSituation =
+        | TravellingByCar of currentCarPosition: RoomCoordinates * car: Item
+        | TravellingByMetro
+
     /// Defines all situations in which the character can be in.
     type Situation =
         /// Player is exploring the world in no specific situation.
@@ -22,4 +27,4 @@ module SituationTypes =
         /// Player is in a conversation with an NPC.
         | Socializing of SocializingState
         /// Player is travelling in a vehicle.
-        | Travelling of vehicle: RideableItem
+        | Travelling of TravelSituation

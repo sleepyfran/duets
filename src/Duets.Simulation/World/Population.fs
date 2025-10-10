@@ -13,6 +13,7 @@ let private placePopulationRange (place: Place) =
     | Bar -> 1, 10
     | Bookstore -> 1, 5
     | Cafe -> 1, 5
+    | CarDealer _ -> 1, 2
     | Casino -> 1, 10
     | ConcertSpace concertSpace ->
         1,

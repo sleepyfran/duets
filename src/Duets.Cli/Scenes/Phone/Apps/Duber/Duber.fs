@@ -5,6 +5,7 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
+open Duets.Cli.Text.Prompts
 open Duets.Common
 open Duets.Data
 open Duets.Entities
@@ -125,10 +126,7 @@ and private generateAndShowDriverConversation driverName destinationName =
 
     Social.npcSaysPrefix driverName |> showInlineMessage
 
-    LanguageModelPrompts.createDuberDriverConversationPrompt
-        state
-        driverName
-        destinationName
+    Duber.createDriverConversationPrompt state driverName destinationName
     |> LanguageModel.streamMessage
     |> streamStyled Styles.dialog
 

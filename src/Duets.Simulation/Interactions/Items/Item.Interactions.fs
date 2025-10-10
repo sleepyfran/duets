@@ -72,10 +72,11 @@ let private (|ReadingBooks|_|) (action, item) =
 
 let private (|RidingVehicle|_|) (action, item) =
     match action with
-    | ItemInteraction.Ride vehicle ->
+    | ItemInteraction.Ride(vehicle, situation) ->
         item
         |> Item.Property.tryPick (function
-            | Rideable rideableItem when vehicle = rideableItem -> Some vehicle
+            | Rideable rideableItem when vehicle = rideableItem ->
+                Some situation
             | _ -> None)
     | _ -> None
 
@@ -125,7 +126,7 @@ let perform state (item: Item) action =
                   CharacterAttribute.Mood
                   Config.LifeSimulation.Mood.readingBookIncrease ]
         |> Ok
-    | RidingVehicle vehicle -> [ Situations.travelling vehicle ] |> Ok
+    | RidingVehicle situation -> [ Situations.travelling situation ] |> Ok
     | WatchingTV ->
         [ yield WatchedTv item
           yield!

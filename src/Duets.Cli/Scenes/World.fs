@@ -97,8 +97,8 @@ let private commandsFromInteractions interactions =
             | ItemInteraction.Put -> [ PutCommand.get ]
             | ItemInteraction.Play -> [ InteractiveCommand.play ]
             | ItemInteraction.Read -> [ InteractiveCommand.read ]
-            | ItemInteraction.Ride vehicle ->
-                [ InteractiveCommand.ride vehicle ]
+            | ItemInteraction.Ride(vehicle, situation) ->
+                [ InteractiveCommand.ride vehicle situation ]
             | ItemInteraction.Sleep -> [ SleepCommand.get ]
             | ItemInteraction.Watch -> [ InteractiveCommand.watch ]
         | Interaction.FreeRoam freeRoamInteraction ->
@@ -169,6 +169,8 @@ let private commandsFromInteractions interactions =
         | Interaction.Shop shopInteraction ->
             match shopInteraction with
             | ShopInteraction.Buy shop -> [ BuyCommand.create shop ]
+            | ShopInteraction.BuyCar(carDealer, shop) ->
+                [ BuyCarCommand.create carDealer shop ]
             | ShopInteraction.Order shop -> [ OrderCommand.create shop ]
             | ShopInteraction.SeeMenu shop -> [ SeeMenuCommand.create shop ]
         | Interaction.Social socialInteraction ->
@@ -194,7 +196,9 @@ let private commandsFromInteractions interactions =
                 [ ReleaseAlbumCommand.create unreleasedAlbums ]
         | Interaction.Travel travelInteraction ->
             match travelInteraction with
-            | TravelInteraction.LeaveMetro -> [ LeaveMetroCommand.get ]
+            | TravelInteraction.Drive(currentCarPosition, car) ->
+                [ DriveCommand.create currentCarPosition car ]
+            | TravelInteraction.LeaveVehicle -> [ LeaveVehicleCommand.get ]
             | TravelInteraction.TravelByMetroTo(connections) ->
                 [ TravelByMetroCommand.create connections ]
             | TravelInteraction.WaitForMetro -> [ WaitForMetroCommand.get ]
@@ -284,12 +288,12 @@ let worldScene mode =
                 characterAttributes
                 socializingState.Npc
                 relationshipLevel
-        | Travelling vehicle ->
+        | Travelling situation ->
             Travel.actionPrompt
                 today
                 currentDayMoment
                 characterAttributes
-                vehicle
+                situation
         | FreeRoam ->
             Command.commonPrompt today currentDayMoment characterAttributes
 

@@ -17,7 +17,7 @@ module MetroStation =
             |> List.exists id
 
         match situation, atLeastOneLineOverlaps with
-        | Travelling Metro, _ ->
+        | Travelling(TravellingByMetro), _ ->
             Queries.Metro.tryCurrentStation state
             |> Option.map (Queries.Metro.stationLineConnections state)
             |> Option.map (
@@ -26,7 +26,7 @@ module MetroStation =
                 >> List.singleton
             )
             |> Option.defaultValue []
-            |> (@) [ TravelInteraction.LeaveMetro |> Interaction.Travel ]
+            |> (@) [ TravelInteraction.LeaveVehicle |> Interaction.Travel ]
         | _, false ->
             (* If the time does not overlap, let the player wait for the next train. *)
             [ TravelInteraction.WaitForMetro |> Interaction.Travel ]

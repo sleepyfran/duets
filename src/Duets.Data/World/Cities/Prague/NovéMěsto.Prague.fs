@@ -3,6 +3,7 @@ module rec Duets.Data.World.Cities.Prague.NovéMěsto
 open Duets.Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let václavskéNáměstí (city: City) (zone: Zone) =
     let street =
@@ -20,6 +21,18 @@ let václavskéNáměstí (city: City) (zone: Zone) =
         The atmosphere is cosmopolitan and bustling, with street vendors, tourists,
         and locals mixing in equal measure. At night, neon signs illuminate the wide promenade.
 """
+
+    let carDealers =
+        [ ("Praha Premium Motors",
+           93<quality>,
+           zone.Id,
+           { Dealer =
+               (Character.from
+                   "Viktor Černý"
+                   Male
+                   (Shorthands.Winter 9<days> 1977<years>))
+             PriceRange = CarPriceRange.Premium }) ]
+        |> List.map (PlaceCreators.createCarDealer street.Id)
 
     let casinos =
         [ ("Casino Admiral", 88<quality>, zone.Id) ]
@@ -46,6 +59,7 @@ let václavskéNáměstí (city: City) (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces carDealers
         |> World.Street.addPlaces casinos
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces restaurants

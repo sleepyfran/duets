@@ -88,8 +88,9 @@ let moodlet m =
     | MoodletType.JetLagged -> ":sleepy_face:"
     | MoodletType.NotInspired -> ":expressionless_face:"
     | MoodletType.TiredOfTouring -> ":minibus:"
-    
+
 /// Returns the correct emoji for showing a vehicle.
 let vehicle v =
     match v with
+    | Car -> ":oncoming_automobile:"
     | Metro -> ":metro:"

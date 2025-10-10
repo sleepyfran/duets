@@ -63,6 +63,7 @@ module WorldTypes =
         | RehearsalRoom
         | Restaurant of RestaurantCuisine
         | SecurityControl
+        | ShowRoom
         | Stage
         | Street
         | Workshop
@@ -72,7 +73,7 @@ module WorldTypes =
     type RequireItemsForEntrance =
         { ComingFrom: NodeId; Items: Item list }
 
-    /// Defines a room which is contained inside of a place.
+    /// Defines a room which is contained inside a place.
     type Room =
         { RoomType: RoomType
           RequiredItemsForEntrance: RequireItemsForEntrance option }
@@ -82,6 +83,7 @@ module WorldTypes =
         | Airport
         | Bar
         | Bookstore
+        | CarDealer of CarDealer
         | Cafe
         | Casino
         | ConcertSpace of ConcertSpace
@@ -104,6 +106,7 @@ module WorldTypes =
         | Airport
         | Bar
         | Bookstore
+        | CarDealer
         | Cafe
         | Casino
         | ConcertSpace

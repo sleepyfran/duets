@@ -108,6 +108,18 @@ let private fiftySeventhStreet (zone: Zone) =
             Ids.Street.fiftySeventhStreet
             (StreetType.Split(East, 2))
 
+    let carDealers =
+        [ ("Manhattan Luxury Motors",
+           96<quality>,
+           zone.Id,
+           { Dealer =
+               (Character.from
+                   "Michael Sterling"
+                   Male
+                   (Shorthands.Spring 5<days> 1978<years>))
+             PriceRange = CarPriceRange.Premium }) ]
+        |> List.map (PlaceCreators.createCarDealer street.Id)
+
     let concerts =
         [ ("Carnegie Hall",
            2800,
@@ -126,6 +138,7 @@ let private fiftySeventhStreet (zone: Zone) =
         |> List.map (PlaceCreators.createCafe street.Id)
 
     street
+    |> World.Street.addPlaces carDealers
     |> World.Street.addPlaces concerts
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces cafes

@@ -3,6 +3,7 @@ module rec Duets.Data.World.Cities.Prague.Ruzyně
 open Duets.Data.World.Cities.Prague
 open Duets.Data.World.Cities
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let kLetišti (zone: Zone) =
     let street =
@@ -40,11 +41,26 @@ let evropská (zone: Zone) =
         as a gateway between the international airport zone and Prague's urban core.
 """
 
+    let carDealers =
+        [ ("Auto Ruzyně",
+           69<quality>,
+           zone.Id,
+           { Dealer =
+               (Character.from
+                   "Petr Novák"
+                   Male
+                   (Shorthands.Summer 16<days> 1981<years>))
+             PriceRange = CarPriceRange.Budget }) ]
+        |> List.map (PlaceCreators.createCarDealer street.Id)
+
     let metroStation =
         ("Nádraží Veleslavín Station", zone.Id)
         |> PlaceCreators.createMetro street.Id
 
-    let street = street |> World.Street.addPlace metroStation
+    let street =
+        street
+        |> World.Street.addPlaces carDealers
+        |> World.Street.addPlace metroStation
 
     street, metroStation
 

@@ -1,6 +1,7 @@
 module rec Duets.Data.World.Cities.Madrid.Salamanca
 
 open Duets.Entities
+open Duets.Entities.Calendar
 open Duets.Data.World.Cities
 
 let calleSerrano (city: City) (zone: Zone) =
@@ -16,6 +17,18 @@ let calleSerrano (city: City) (zone: Zone) =
         and perfectly manicured trees. Art Nouveau and rationalist architectural details
         adorn many buildings, while luxury cars frequently park along the curbs.
 """
+
+    let carDealers =
+        [ ("Salamanca Premium Autos",
+           95<quality>,
+           zone.Id,
+           { Dealer =
+               (Character.from
+                   "Javier Cortés"
+                   Male
+                   (Shorthands.Winter 3<days> 1975<years>))
+             PriceRange = CarPriceRange.Premium }) ]
+        |> List.map (PlaceCreators.createCarDealer street.Id)
 
     let casinos =
         [ ("Casino Gran Madrid", 92<quality>, zone.Id) ]
@@ -51,6 +64,7 @@ let calleSerrano (city: City) (zone: Zone) =
 
     let street =
         street
+        |> World.Street.addPlaces carDealers
         |> World.Street.addPlaces casinos
         |> World.Street.addPlaces hotels
         |> World.Street.addPlaces restaurants

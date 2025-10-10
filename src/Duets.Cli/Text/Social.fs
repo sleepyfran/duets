@@ -13,7 +13,7 @@ let relationshipType =
     | Friend -> "Friend"
     | Bandmate -> "Bandmate"
 
-let npcSaysPrefix npcName = $"{Styles.person npcName}: "
+let npcSaysPrefix (npcName: string) = $"{Styles.person npcName}: "
 
 let npcSays npcName text =
     $"{npcSaysPrefix npcName}{Styles.dialog text}"

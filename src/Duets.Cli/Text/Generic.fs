@@ -239,6 +239,7 @@ let itemName (item: Item) =
 
     match mainProperty with
     | Key(EntranceCard _) -> "entrance card"
+    | Rideable(RideableItem.Car) -> $"{item.Brand} {item.Name}"
     | _ -> item.Name |> String.lowercase
     |> Styles.item
 

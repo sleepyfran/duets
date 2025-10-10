@@ -1,6 +1,7 @@
 namespace Duets.Entities
 
 open Duets.Entities
+open Duets.Entities.SituationTypes
 
 [<AutoOpen>]
 module rec InteractionTypes =
@@ -89,7 +90,7 @@ module rec InteractionTypes =
         | Put
         | Play
         | Read
-        | Ride of RideableItem
+        | Ride of RideableItem * TravelSituation
         | Sleep
         | Watch
 
@@ -187,6 +188,9 @@ module rec InteractionTypes =
         /// Allows the character to buy a certain item from a selection of
         /// available items in a shop.
         | Buy of PurchasableItem list
+        /// Allows the character to buy a car, which from the shop part is mostly
+        /// the same but has different delivery methods.
+        | BuyCar of CarDealer * PurchasableItem list
         /// Allows the character to order a certain item from a selection of
         /// available items in a shop.
         | Order of PurchasableItem list
@@ -225,8 +229,10 @@ module rec InteractionTypes =
     /// Interactions that can only be performed when travelling in a vehicle.
     [<RequireQualifiedAccess>]
     type TravelInteraction =
-        /// Allows the character to leave the metro onto the station.
-        | LeaveMetro
+        /// Allows the character to drive somewhere in their car.
+        | Drive of currentCarPosition: RoomCoordinates * car: Item
+        /// Allows the character to leave the current vehicle.
+        | LeaveVehicle
         /// Allows the character to travel to a specific destination by metro.
         | TravelByMetroTo of (MetroStationConnections * MetroLine) list
         /// Allows the character to wait for the metro to arrive.

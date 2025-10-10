@@ -5,13 +5,12 @@ open Duets.Cli.SceneIndex
 open Duets.Simulation
 
 [<RequireQualifiedAccess>]
-module LeaveMetroCommand =
-    /// Command to leave the metro onto the platform.
+module LeaveVehicleCommand =
+    /// Command to leave the car or metro.
     let get =
         { Name = "leave"
-          Description = "Allows you leave the metro onto the platform."
+          Description = "Allows you leave the current vehicle."
           Handler =
             fun _ ->
                 Situations.freeRoam |> Effect.apply
-
                 Scene.WorldAfterMovement }

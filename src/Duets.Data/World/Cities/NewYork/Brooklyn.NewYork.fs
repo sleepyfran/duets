@@ -2,6 +2,7 @@ module rec Duets.Data.World.Cities.NewYork.Brooklyn
 
 open Duets.Data.World.Cities
 open Duets.Entities
+open Duets.Entities.Calendar
 
 let private lafayetteAtlantic (city: City) (zone: Zone) =
     let street =
@@ -86,6 +87,18 @@ let private frostStreet (zone: Zone) =
 let private bedfordAvenue (zone: Zone) =
     let street = World.Street.create Ids.Street.bedfordAvenue StreetType.OneWay
 
+    let carDealers =
+        [ ("Williamsburg Motors",
+           80<quality>,
+           zone.Id,
+           { Dealer =
+               (Character.from
+                   "Alex Rivera"
+                   Male
+                   (Shorthands.Summer 10<days> 1983<years>))
+             PriceRange = CarPriceRange.MidRange }) ]
+        |> List.map (PlaceCreators.createCarDealer street.Id)
+
     let concerts =
         [ ("The Knitting Factory",
            150,
@@ -99,6 +112,7 @@ let private bedfordAvenue (zone: Zone) =
         |> List.map (PlaceCreators.createRehearsalSpace street.Id)
 
     street
+    |> World.Street.addPlaces carDealers
     |> World.Street.addPlaces concerts
     |> World.Street.addPlaces rehearsalSpaces
     |> World.Street.attachContext

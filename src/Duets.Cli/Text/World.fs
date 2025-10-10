@@ -24,6 +24,7 @@ let placeTypeName (placeType: PlaceTypeIndex) =
     | PlaceTypeIndex.Bar -> "Bar"
     | PlaceTypeIndex.Bookstore -> "Bookstore"
     | PlaceTypeIndex.Cafe -> "Café"
+    | PlaceTypeIndex.CarDealer -> "Car dealer"
     | PlaceTypeIndex.Casino -> "Casino"
     | PlaceTypeIndex.ConcertSpace -> "Concert space"
     | PlaceTypeIndex.Gym -> "Gym"
@@ -61,6 +62,7 @@ let roomName (room: RoomType) =
     | RoomType.RehearsalRoom -> "rehearsal room"
     | RoomType.Restaurant _ -> "restaurant"
     | RoomType.SecurityControl -> "security control"
+    | RoomType.ShowRoom -> "show room"
     | RoomType.Stage -> "stage"
     | RoomType.Street -> "street"
     | RoomType.Workshop -> "workshop"
@@ -82,7 +84,8 @@ let youAreInMessage (place: Place) roomType =
     let zone = Queries.World.zoneInCurrentCityById state place.ZoneId
 
     match roomType, situation with
-    | RoomType.Platform, Travelling Metro ->
+    | _, Travelling(TravellingByCar _) -> "You are currently in your car."
+    | RoomType.Platform, Travelling TravellingByMetro ->
         "You are currently travelling on the metro."
     | RoomType.Street, _ ->
         $"You stand outside on {place.Name |> Styles.room}, {zone.Name |> Styles.place}"

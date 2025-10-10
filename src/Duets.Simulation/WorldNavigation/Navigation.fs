@@ -51,29 +51,13 @@ module Navigation =
         let currentPlace = Queries.World.currentPlace state
 
         let cityId, _, _ = currentCoords
-        let street = Queries.World.streetInCurrentCity streetId state
 
         // Streets can be partitioned into multiple parts (to have "Street
         // continues to..."), so when exiting from a building attempt to leave
         // the player in the part of the street that connects to the building,
         // otherwise it's a bit confusing.
         let streetPart =
-            match street.Type with
-            | StreetType.OneWay -> "0"
-            | StreetType.Split(_, splits) ->
-                let currentPlaceIndex =
-                    street.Places
-                    |> List.findIndex (fun place -> place.Id = currentPlace.Id)
-
-                // Streets themselves are added to the places, so skip one.
-                let itemsInStreet = street.Places.Length - 1
-                let itemsPerGroup = float itemsInStreet / float splits
-                let idx = float currentPlaceIndex / itemsPerGroup
-
-                idx - 1.0
-                |> Math.floorToNearest
-                |> Math.clamp 0 (splits - 1)
-                |> string
+            Queries.World.findPlaceStreetPart cityId currentPlace.Id streetId
 
         // Streets are not "real" places, but we index them like them via
         // their street ID.

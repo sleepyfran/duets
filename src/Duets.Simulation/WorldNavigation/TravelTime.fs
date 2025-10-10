@@ -25,3 +25,9 @@ let byPublicTransport path =
 let byTaxi path =
     let regularTravelTime = byPublicTransport path
     float regularTravelTime / 2.0 |> Math.roundToNearest |> (*) 1<minute>
+
+/// Returns the approximate travel time it takes to perform the given path by
+/// car (similar to taxi but player is driving).
+let byCar path =
+    let regularTravelTime = byPublicTransport path
+    float regularTravelTime / 2.0 |> Math.roundToNearest |> (*) 1<minute>

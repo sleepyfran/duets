@@ -82,6 +82,18 @@ let private soho (city: City) (zone: Zone) =
         atmosphere balances creative industry professionalism with bohemian nightlife.
 """
 
+    let carDealers =
+        [ ("Mayfair Prestige Motors",
+           94<quality>,
+           zone.Id,
+           { Dealer =
+               (Character.from
+                   "Oliver Harrington"
+                   Male
+                   (Shorthands.Spring 12<days> 1976<years>))
+             PriceRange = CarPriceRange.Premium }) ]
+        |> List.map (PlaceCreators.createCarDealer street.Id)
+
     let casinos =
         [ ("Hippodrome Casino", 90<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createCasino street.Id)
@@ -107,6 +119,7 @@ let private soho (city: City) (zone: Zone) =
     let home = PlaceCreators.createHome street.Id zone.Id
 
     street
+    |> World.Street.addPlaces carDealers
     |> World.Street.addPlaces casinos
     |> World.Street.addPlaces gyms
     |> World.Street.addPlaces bars

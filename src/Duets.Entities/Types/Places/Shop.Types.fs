@@ -17,3 +17,15 @@ module ShopTypes =
         | Turkish
         | Vietnamese
         | Spanish
+
+    /// Defines the type of cars that a dealer sells.
+    type CarPriceRange =
+        | Budget
+        | MidRange
+        | Premium
+
+    /// Represents a specific type of shop where the character can buy cars, which
+    /// has a dealer that manages the purchase.
+    type CarDealer =
+        { Dealer: Character
+          PriceRange: CarPriceRange }

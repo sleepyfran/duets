@@ -52,19 +52,21 @@ module InteractiveCommand =
                  Items.itemNotReadable |> showMessage
                  Scene.World)
 
-    let ride vehicle =
+    let ride vehicle situation =
         let verb =
             match vehicle with
+            | Car -> "ride"
             | Metro -> "board"
 
         let vehicleName =
             match vehicle with
+            | Car -> "car"
             | Metro -> "metro"
 
         Command.itemInteraction
             (Command.VerbOnly verb)
             (Command.rideDescription verb)
-            (ItemInteraction.Ride vehicle)
+            (ItemInteraction.Ride(vehicle, situation))
             (function
              | Ok effects ->
                  $"You enter the {vehicleName}..." |> showMessage

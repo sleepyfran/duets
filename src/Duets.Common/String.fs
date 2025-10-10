@@ -50,3 +50,7 @@ let titleCase (str: string) =
 /// Replaces all occurrences of `pattern` in `str` with `replacement`.
 let replace (pattern: string) (replacement: string) (str: string) =
     Regex.Replace(str, pattern, replacement)
+
+/// Calls String join with the given separator and items.
+let join (separator: string) (items: string list) =
+    String.Join(separator, items)

@@ -80,6 +80,18 @@ let westernAvenue (zone: Zone) =
         dense nexus of the community.
 """
 
+    let carDealers =
+        [ ("Budget Auto Sales",
+           72<quality>,
+           zone.Id,
+           { Dealer =
+               (Character.from
+                   "Tommy Chen"
+                   Male
+                   (Shorthands.Winter 8<days> 1982<years>))
+             PriceRange = CarPriceRange.Budget }) ]
+        |> List.map (PlaceCreators.createCarDealer street.Id)
+
     let concertSpaces =
         [ ("The Catch One",
            350,
@@ -113,6 +125,7 @@ let westernAvenue (zone: Zone) =
         |> List.map (PlaceCreators.createCafe street.Id)
 
     street
+    |> World.Street.addPlaces carDealers
     |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces rehearsalSpaces
     |> World.Street.addPlaces studios
