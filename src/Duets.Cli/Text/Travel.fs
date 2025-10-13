@@ -36,9 +36,14 @@ let vehicleEmoji situation =
     | TravellingByCar _ -> Emoji.vehicle Car
     | TravellingByMetro -> Emoji.vehicle Metro
 
+let vehicleName situation =
+    match situation with
+    | TravellingByCar(_, car) -> $"on {Generic.itemName car |> Styles.object}"
+    | TravellingByMetro -> "by metro"
+
 let actionPrompt date dayMoment attributes situation =
     $"""{Generic.infoBar date dayMoment attributes}
-{vehicleEmoji situation} Travelling
+{vehicleEmoji situation} Travelling {vehicleName situation}
 What do you want to do?"""
     |> Styles.prompt
 

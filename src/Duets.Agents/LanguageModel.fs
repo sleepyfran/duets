@@ -92,12 +92,34 @@ type LanguageModelAgent() =
                                 CancellationToken.None
                             )
 
+                        let mutable previousToken = ""
+
                         rawAsyncEnumerable
                         |> AsyncSeq.ofAsyncEnum
-                        |> AsyncSeq.map (fun s ->
-                            s
-                            |> String.replace @"\s+" " "
-                            |> String.replace @"(?<!\n)\n(?!\n)" " ")
+                        |> AsyncSeq.map (fun token ->
+                            let sanitizedToken =
+                                token
+                                |> String.replace @"\s+" " "
+                                |> String.replace @"(?<!\n)\n(?!\n)" " "
+
+                            let sanitizedToken =
+                                (*
+                                Sometimes tokens include a space on them, other
+                                times they come in a "space word" fashion, from
+                                what I have seen mostly to separate words from
+                                a full stop, so only allow empty spaces if the
+                                previous token was a period to allow that.
+                                *)
+                                if
+                                    sanitizedToken = " "
+                                    && previousToken <> "."
+                                then
+                                    ""
+                                else
+                                    sanitizedToken
+
+                            previousToken <- sanitizedToken
+                            sanitizedToken)
                         |> channel.Reply
 
                         return! loop state
