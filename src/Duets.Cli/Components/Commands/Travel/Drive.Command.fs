@@ -71,7 +71,7 @@ module DriveCommand =
 
         wait 500<millisecond>
 
-        takeDrive destination.Name
+        takeDrive destination.Name car
 
         let moveEffects =
             Vehicles.Car.drive state destination currentCarCoords car
@@ -80,20 +80,19 @@ module DriveCommand =
 
         Scene.WorldAfterMovement
 
-    and private takeDrive destinationName =
+    and private takeDrive destinationName car =
         let state = State.get ()
 
-        generateDrivingMoment state destinationName
+        generateDrivingMoment state destinationName car
         wait 2000<millisecond>
 
         showSeparator None
         Travel.driveArrivedAtDestination destinationName |> showMessage
         lineBreak ()
 
-    and private generateDrivingMoment state destinationName =
-        Driving.createDrivingMomentPrompt state destinationName
+    and private generateDrivingMoment state destinationName car =
+        Driving.createDrivingMomentPrompt state destinationName car
         |> LanguageModel.streamMessage
         |> streamStyled Styles.event
 
-        lineBreak ()
         lineBreak ()

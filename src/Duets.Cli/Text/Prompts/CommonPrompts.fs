@@ -1,5 +1,8 @@
 namespace Duets.Cli.Text.Prompts
 
+open Duets.Common
+open Duets.Entities
+
 [<RequireQualifiedAccess>]
 module Common =
     /// Creates a prompt that improves the response quality of the language model.
@@ -12,3 +15,11 @@ module Common =
     <end_of_turn>
     <start_of_turn>model
     """
+
+    let internal itemNameForPrompt item =
+        let mainProperty = item.Properties |> List.head
+
+        match mainProperty with
+        | Key(EntranceCard _) -> "entrance card"
+        | Rideable(RideableItem.Car) -> $"{item.Brand} {item.Name}"
+        | _ -> item.Name |> String.lowercase
