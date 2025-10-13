@@ -5,7 +5,7 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
+open Duets.Cli.Text.Prompts
 open Duets.Simulation.Flights.Airport
 
 [<RequireQualifiedAccess>]
@@ -16,11 +16,24 @@ module WaitForLandingCommand =
           Description = Command.waitForLandingDescription
           Handler =
             fun _ ->
-                showProgressBarSync
-                    [ Travel.waitForLanding
-                      Travel.gettingOffPlane
-                      Travel.passingPassportControl ]
-                    5<second>
+                let state = State.get ()
+
+                Flight.createInFlightExperiencePrompt state flight
+                |> LanguageModel.streamMessage
+                |> streamStyled Styles.event
+
+                lineBreak ()
+                lineBreak ()
+                wait 2000<millisecond>
+
+                Flight.createAirportExperiencePrompt state flight
+                |> LanguageModel.streamMessage
+                |> streamStyled Styles.event
+
+                lineBreak ()
+                wait 1500<millisecond>
+
+                lineBreak ()
 
                 leavePlane (State.get ()) flight |> Effect.applyMultiple
 
