@@ -33,8 +33,8 @@ let waitingSomeMore = Styles.progress "Waiting some more..."
 
 let vehicleEmoji situation =
     match situation with
-    | TravellingByCar _ -> Emoji.vehicle Car
-    | TravellingByMetro -> Emoji.vehicle Metro
+    | TravellingByCar _ -> Emoji.car
+    | TravellingByMetro -> Emoji.metro
 
 let vehicleName situation =
     match situation with
@@ -76,6 +76,13 @@ let driveCannotReachDestination =
 let driveRouteEstimate travelTime destinationName =
     $"Driving to {destinationName |> Styles.place} takes approximately {Styles.time travelTime} minutes."
     |> Styles.hint
+
+let driveIntercityEstimate destinationCity distance (time: int<hour>) =
+    $"Driving to {destinationCity |> Styles.place} is {distance} km away and will take approximately {Styles.time time} hours."
+    |> Styles.hint
+
+let driveIntercityWarning =
+    "This process cannot be cancelled once started." |> Styles.warning
 
 let driveConfirmRoute = "Do you want to drive there?" |> Styles.prompt
 

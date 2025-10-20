@@ -55,12 +55,12 @@ module InteractiveCommand =
     let ride vehicle situation =
         let verb =
             match vehicle with
-            | Car -> "ride"
+            | Car _ -> "ride"
             | Metro -> "board"
 
         let vehicleName =
             match vehicle with
-            | Car -> "car"
+            | Car _ -> "car"
             | Metro -> "metro"
 
         Command.itemInteraction

@@ -196,8 +196,8 @@ let private commandsFromInteractions interactions =
                 [ ReleaseAlbumCommand.create unreleasedAlbums ]
         | Interaction.Travel travelInteraction ->
             match travelInteraction with
-            | TravelInteraction.Drive(currentCarPosition, car) ->
-                [ DriveCommand.create currentCarPosition car ]
+            | TravelInteraction.Drive(currentCarPosition, car, reachableCities) ->
+                [ DriveCommand.create currentCarPosition car reachableCities ]
             | TravelInteraction.LeaveVehicle -> [ LeaveVehicleCommand.get ]
             | TravelInteraction.TravelByMetroTo(connections) ->
                 [ TravelByMetroCommand.create connections ]

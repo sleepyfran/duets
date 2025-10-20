@@ -49,3 +49,15 @@ let private connectionMetadata
 let distanceBetween city1 city2 =
     let key = if city1 < city2 then (city1, city2) else (city2, city1)
     connectionMetadata |> Map.find key |> fst
+
+/// Returns all cities that can be reached by road from the given city.
+let citiesReachableByRoadFrom cityId =
+    connectionMetadata
+    |> Map.toList
+    |> List.collect (fun ((city1, city2), (distance, connections)) ->
+        if connections |> List.contains Road then
+            if city1 = cityId then [ (city2, distance) ]
+            elif city2 = cityId then [ (city1, distance) ]
+            else []
+        else
+            [])

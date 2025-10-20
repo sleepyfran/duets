@@ -66,7 +66,12 @@ module FreeRoam =
 
         match currentSituation with
         | Travelling(TravellingByCar(currentCarPosition, car)) ->
-            [ TravelInteraction.Drive(currentCarPosition, car)
+            let currentCityId, _, _ = state.CurrentPosition
+
+            let reachableCities =
+                Duets.Data.World.World.citiesReachableByRoadFrom currentCityId
+
+            [ TravelInteraction.Drive(currentCarPosition, car, reachableCities)
               |> Interaction.Travel
               TravelInteraction.LeaveVehicle |> Interaction.Travel ]
         | _ -> []

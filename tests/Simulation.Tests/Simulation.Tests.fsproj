@@ -70,7 +70,8 @@
         <Compile Include="Items\Items.Remove.Tests.fs"/>
         <Compile Include="Items\Items.Put.Tests.fs"/>
         <Compile Include="Items\Items.Take.Tests.fs"/>
-        <Compile Include="Taxi\Taxi.Tests.fs"/>
+        <Compile Include="Vehicles\Taxi.Tests.fs"/>
+        <Compile Include="Vehicles\Car.Tests.fs"/>
         <Compile Include="Weather\WeatherTransition.Tests.fs"/>
         <Compile Include="World\Population.Tests.fs"/>
         <Compile Include="World\Traveling.Tests.fs"/>

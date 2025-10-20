@@ -21,5 +21,5 @@ module Common =
 
         match mainProperty with
         | Key(EntranceCard _) -> "entrance card"
-        | Rideable(RideableItem.Car) -> $"{item.Brand} {item.Name}"
+        | Rideable(RideableItem.Car _) -> $"{item.Brand} {item.Name}"
         | _ -> item.Name |> String.lowercase

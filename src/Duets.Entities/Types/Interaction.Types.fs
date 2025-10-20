@@ -230,7 +230,10 @@ module rec InteractionTypes =
     [<RequireQualifiedAccess>]
     type TravelInteraction =
         /// Allows the character to drive somewhere in their car.
-        | Drive of currentCarPosition: RoomCoordinates * car: Item
+        | Drive of
+            currentCarPosition: RoomCoordinates *
+            car: Item *
+            reachableCities: (CityId * CityConnectionDistance) list
         /// Allows the character to leave the current vehicle.
         | LeaveVehicle
         /// Allows the character to travel to a specific destination by metro.

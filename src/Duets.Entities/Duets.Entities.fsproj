@@ -15,6 +15,7 @@
         <Compile Include="Types\Attribute.Types.fs"/>
         <Compile Include="Types\Moodlet.Types.fs"/>
         <Compile Include="Types\Book.Types.fs"/>
+        <Compile Include="Types\Car.Types.fs"/>
         <Compile Include="Types\Character.Types.fs"/>
         <Compile Include="Types\Band.Types.fs"/>
         <Compile Include="Types\Song.Types.fs"/>

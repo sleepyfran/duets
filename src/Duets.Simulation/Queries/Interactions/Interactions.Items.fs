@@ -34,7 +34,7 @@ module rec Items =
                 | Rideable vehicle ->
                     let situation =
                         match vehicle with
-                        | Car -> TravellingByCar(currentCoords, item)
+                        | Car _ -> TravellingByCar(currentCoords, item)
                         | Metro -> TravellingByMetro
 
                     ItemInteraction.Ride(vehicle, situation)
