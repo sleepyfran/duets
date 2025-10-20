@@ -20,7 +20,22 @@ let streamStyled styleFn iter =
 /// Streams a message from an async iterator, normally used to show messages
 /// coming from the language model.
 let streamMessage iter =
-    iter |> AsyncSeq.iter showInlineMessage |> Async.RunSynchronously
+    let mutable accumulated = ""
+
+    AnsiConsole
+        .Live(Markup(""))
+        .Start(fun ctx ->
+            iter
+            |> AsyncSeq.iter (fun token ->
+                accumulated <- accumulated + token
+
+                // Updating the target with an empty string would cause an
+                // exception to be thrown, so skip an update if we have nothing.
+                if accumulated = "" then
+                    ()
+                else
+                    ctx.UpdateTarget(Markup(accumulated)))
+            |> Async.RunSynchronously)
 
 /// Renders a path into the screen.
 let showPath path =
