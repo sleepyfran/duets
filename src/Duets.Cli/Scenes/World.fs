@@ -229,16 +229,17 @@ type WorldMode =
 let worldScene mode =
     lineBreak ()
 
-    let today = Queries.Calendar.today (State.get ())
+    let state = State.get ()
+    let today = Queries.Calendar.today state
 
     let currentDayMoment = Calendar.Query.dayMomentOf today
 
-    let interactionsWithState =
-        Queries.Interactions.availableCurrently (State.get ())
+    let interactionsWithState = Queries.Interactions.availableCurrently state
 
+    let cityId, _, _ = Queries.World.currentCoordinates state
     let currentPlace = State.get () |> Queries.World.currentPlace
 
-    let situation = Queries.Situations.current (State.get ())
+    let situation = Queries.Situations.current state
 
     match mode with
     | ShowDescription ->
@@ -294,6 +295,7 @@ let worldScene mode =
                 currentDayMoment
                 characterAttributes
                 situation
+                currentPlace
         | FreeRoam ->
             Command.commonPrompt today currentDayMoment characterAttributes
 

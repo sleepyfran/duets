@@ -41,9 +41,9 @@ let vehicleName situation =
     | TravellingByCar(_, car) -> $"on {Generic.itemName car |> Styles.object}"
     | TravellingByMetro -> "by metro"
 
-let actionPrompt date dayMoment attributes situation =
+let actionPrompt date dayMoment attributes situation (currentPlace: Place) =
     $"""{Generic.infoBar date dayMoment attributes}
-{vehicleEmoji situation} Travelling {vehicleName situation}
+{vehicleEmoji situation} Travelling {vehicleName situation} from {currentPlace.Name |> Styles.place}
 What do you want to do?"""
     |> Styles.prompt
 
