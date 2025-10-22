@@ -196,16 +196,19 @@ module World =
         match street.Type with
         | StreetType.OneWay -> "0"
         | StreetType.Split(_, splits) ->
-            let currentPlaceIndex =
+            let idx =
                 filteredPlaces
-                |> List.findIndex (fun place -> place.Id = placeId)
+                |> List.splitInto splits
+                |> List.indexed
+                |> List.choose (fun (idx, group) ->
+                    let containsPlace =
+                        group |> List.exists (fun place -> place.Id = placeId)
 
-            // Streets themselves are added to the places, so skip one.
-            let itemsInStreet = filteredPlaces.Length - 1
-            let itemsPerGroup = float itemsInStreet / float splits
-            let idx = float currentPlaceIndex / itemsPerGroup
+                    if containsPlace then Some(idx) else None)
+                |> List.tryHead
+                |> Option.defaultValue 0
 
-            idx |> Math.floorToNearest |> Math.clamp 0 (splits - 1) |> string
+            idx |> Math.clamp 0 (splits - 1) |> string
 
     /// Returns the first exit registered in the given place.
     let firstExitOfPlace place = place.Exits |> Map.head
