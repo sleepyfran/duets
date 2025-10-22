@@ -38,6 +38,7 @@
         <Compile Include="Text\Prompts\FlightPrompts.fs"/>
         <Compile Include="Text\Prompts\DuberPrompts.fs"/>
         <Compile Include="Text\Prompts\CarDealerPrompts.fs"/>
+        <Compile Include="Text\Prompts\WorkPrompts.fs"/>
         <Compile Include="Components\VisualEffects.fs"/>
         <Compile Include="Components\Separator.fs"/>
         <Compile Include="Components\Layout.fs"/>

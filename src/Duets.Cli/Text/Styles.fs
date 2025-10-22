@@ -93,6 +93,9 @@ let genre text = $"[grey]{text}[/]"
 /// Pre-defined style for dialog text.
 let dialog text = $"[lightseagreen italic]{text}[/]"
 
+/// Pre-defined style for text related to work events.
+let work text = $"[dodgerblue1]{text}[/]"
+
 /// Pre-defined style for a metro line that follows the line's color.
 let line lineId =
     match lineId with

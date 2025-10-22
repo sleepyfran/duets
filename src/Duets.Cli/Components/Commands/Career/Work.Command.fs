@@ -5,6 +5,7 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
+open Duets.Cli.Text.Prompts
 open Duets.Entities
 open Duets.Simulation.Careers.Work
 
@@ -16,12 +17,16 @@ module WorkCommand =
           Description = Command.workDescription job
           Handler =
             fun _ ->
-
-                let result = workShift (State.get ()) job
+                let state = State.get ()
+                let result = workShift state job
 
                 match result with
                 | Ok effects ->
-                    Career.workShiftEvent job |> showMessage
+                    Work.createWorkShiftDescriptionPrompt state job
+                    |> LanguageModel.streamMessage
+                    |> streamStyled Styles.work
+
+                    lineBreak ()
                     wait 5000<millisecond>
                     Effect.applyMultiple effects
 
