@@ -239,3 +239,9 @@ let duberDriverFarewell () =
       Styles.success "Here you go! Stay safe!"
       Styles.success "Made it! Have an awesome day!"
       Styles.success "All done! Catch you later!" ]
+
+(* --- Weather --- *)
+let weatherAppTitle = "Weather"
+
+let weatherAppContent (cityId: CityId) (icon: string) (description: string) =
+    $"It's currently {icon} {Styles.highlight description} in {Generic.cityName cityId |> Styles.place}"

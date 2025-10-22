@@ -18,6 +18,7 @@ type private PhoneMenuOption =
     | Jobs
     | Mastodon
     | Statistics
+    | Weather
 
 let private textFromOption opt =
     match opt with
@@ -31,6 +32,7 @@ let private textFromOption opt =
     | Jobs -> "Jobs"
     | Mastodon -> "Mastodon"
     | Statistics -> "Statistics"
+    | Weather -> "Weather"
 
 let private availableApps =
     [ Bank
@@ -42,7 +44,8 @@ let private availableApps =
       FoodDelivery
       Jobs
       Mastodon
-      Statistics ]
+      Statistics
+      Weather ]
 
 let rec phoneScene () =
     let currentDate = State.get () |> Queries.Calendar.today
@@ -67,4 +70,5 @@ let rec phoneScene () =
     | Some Jobs -> Apps.Jobs.Root.jobsApp ()
     | Some Mastodon -> Apps.Mastodon.Root.mastodonApp ()
     | Some Statistics -> Apps.Statistics.Root.statisticsApp ()
+    | Some Weather -> Apps.Weather.Root.weatherApp ()
     | None -> Scene.World

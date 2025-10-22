@@ -94,3 +94,12 @@ let car = ":oncoming_automobile:"
 
 /// Returns the correct emoji for a metro.
 let metro = ":metro:"
+
+/// Returns the correct emoji for the given weather.
+let weather w =
+    match w with
+    | WeatherCondition.Sunny -> ":sun:"
+    | WeatherCondition.Cloudy -> ":cloud:"
+    | WeatherCondition.Rainy -> ":cloud_with_rain:"
+    | WeatherCondition.Stormy -> ":cloud_with_lightning_and_rain:"
+    | WeatherCondition.Snowy -> ":snowflake:"
