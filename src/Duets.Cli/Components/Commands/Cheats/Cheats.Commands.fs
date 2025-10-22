@@ -12,6 +12,7 @@ module Index =
           LifeCommands.roaming
           LifeCommands.spotlight
           LifeCommands.timeTravel
+          MoneyCommands.moneyHeist
           MoneyCommands.motherlode
           MoneyCommands.rosebud
           SkillCommands.pureSkill
