@@ -175,6 +175,7 @@ let createRadioStudio
             |> Some
         | _ -> None)
     |> World.Place.changeOpeningHours OpeningHours.radioStudioOpeningHours
+    |> World.Place.addExit Ids.Common.lobby streetId
 
 /// Creates a restaurant with the given name, quality, cuisine and zone.
 let createRestaurant streetId (name, quality, cuisine, zoneId) =

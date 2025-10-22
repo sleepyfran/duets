@@ -120,6 +120,34 @@ let ``all cities must have at least one place of each type`` () =
             $"The following cities are missing place types:\n{errorMessage}"
 
 [<Test>]
+let ``all non-street places in the world must have at least one exit`` () =
+    let placesWithoutExits =
+        World.get.Cities
+        |> List.ofMapValues
+        |> List.collect (fun city ->
+            city.PlaceIndex
+            |> List.ofMap
+            |> List.choose (fun (placeId, _) ->
+                let place = Queries.World.placeInCityById city.Id placeId
+
+                match place.PlaceType with
+                | Street -> None
+                | _ ->
+                    let exists = place.Exits |> Map.count
+                    if exists <= 0 then Some(place, city.Id) else None))
+
+    if placesWithoutExits.Length > 0 then
+        let formattedPlaces =
+            placesWithoutExits
+            |> List.map (fun (place, cityId) ->
+                let zone = Queries.World.zoneInCityById cityId place.ZoneId
+
+                $"{place.Name} in {cityId} ({zone.Name}) does not have any exit")
+            |> String.concat "\n"
+
+        failwith formattedPlaces
+
+[<Test>]
 let ``player is able to exit every place in the world`` () =
     let state =
         State.generateOne
