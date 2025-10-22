@@ -10,7 +10,7 @@ let effectMinutes =
     | AlbumStarted _
     | AlbumSongAdded _ -> 2 * Config.Time.minutesPerDayMoment
     | Ate _ -> 25<minute>
-    | BookRead _ -> 60<minute>
+    | BookRead _ -> 90<minute>
     | CharacterHospitalized _ ->
         Calendar.DayMoments.oneWeek |> Calendar.DayMoments.toMinutes
     | CareerShiftPerformed(_, shiftDuration, _) ->
@@ -24,7 +24,7 @@ let effectMinutes =
     | FlightBoarded _ -> 25<minute>
     | FlightLanded flight ->
         Queries.Flights.flightTime flight |> Calendar.Seconds.toMinutes
-    | GamePlayed _ -> 30<minute>
+    | GamePlayed _ -> 90<minute>
     | MerchStandSetup -> 30<minute>
     | MiniGamePlayed _ -> 30<minute>
     | SocialActionPerformed(_, actionKind) ->
