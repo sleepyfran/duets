@@ -37,11 +37,6 @@ let planWithinCityDrive state (destination: Place) =
 /// the character to the closest street of the destination and the car with them.
 let driveWithinCity state (destination: Place) currentCarPosition car =
     let streetIdNearPlace = destination.Exits |> Map.head
-
-    let travelEffect =
-        Navigation.moveTo streetIdNearPlace state
-        |> Result.defaultValue (Wait 0<dayMoments>)
-
     let cityId, _, _ = Queries.World.currentCoordinates state
 
     let streetPath =
@@ -49,6 +44,10 @@ let driveWithinCity state (destination: Place) currentCarPosition car =
             cityId
             destination.Id
             streetIdNearPlace
+
+    let travelEffect =
+        Navigation.moveToPlaceAndRoom streetIdNearPlace streetPath state
+        |> Result.defaultValue (Wait 0<dayMoments>)
 
     let finalCarPosition = (cityId, streetIdNearPlace, streetPath)
 

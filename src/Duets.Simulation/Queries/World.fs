@@ -186,22 +186,26 @@ module World =
     let findPlaceStreetPart cityId placeId streetId =
         let street = streetById cityId streetId
 
+        let filteredPlaces =
+            street.Places
+            |> List.filter (fun place ->
+                match place.PlaceType with
+                | Street -> false
+                | _ -> true)
+
         match street.Type with
         | StreetType.OneWay -> "0"
         | StreetType.Split(_, splits) ->
             let currentPlaceIndex =
-                street.Places
+                filteredPlaces
                 |> List.findIndex (fun place -> place.Id = placeId)
 
             // Streets themselves are added to the places, so skip one.
-            let itemsInStreet = street.Places.Length - 1
+            let itemsInStreet = filteredPlaces.Length - 1
             let itemsPerGroup = float itemsInStreet / float splits
             let idx = float currentPlaceIndex / itemsPerGroup
 
-            idx - 1.0
-            |> Math.floorToNearest
-            |> Math.clamp 0 (splits - 1)
-            |> string
+            idx |> Math.floorToNearest |> Math.clamp 0 (splits - 1) |> string
 
     /// Returns the first exit registered in the given place.
     let firstExitOfPlace place = place.Exits |> Map.head

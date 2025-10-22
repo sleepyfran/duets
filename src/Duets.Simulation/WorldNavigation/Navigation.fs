@@ -31,6 +31,17 @@ module Navigation =
                     policy state cityId placeId nextRoomId))
             (Ok())
 
+    /// Moves the player to the specified place and room ID. Useful for "teleporting"
+    /// the player when they travel by car or taxi.
+    let moveToPlaceAndRoom placeId roomId state =
+        let currentCoords = Queries.World.currentCoordinates state
+        let cityId, _, _ = currentCoords
+
+        applyPlacePolicies state cityId placeId
+        |> Result.transform (
+            WorldMoveToPlace(Diff(currentCoords, (cityId, placeId, roomId)))
+        )
+
     /// Moves the player to the specific place ID.
     let moveTo placeId state =
         let currentCoords = Queries.World.currentCoordinates state
@@ -38,12 +49,7 @@ module Navigation =
         let place = Queries.World.placeInCityById cityId placeId
         let startingRoom = place.Rooms.StartingNode
 
-        applyPlacePolicies state cityId placeId
-        |> Result.transform (
-            WorldMoveToPlace(
-                Diff(currentCoords, (cityId, placeId, startingRoom))
-            )
-        )
+        moveToPlaceAndRoom placeId startingRoom state
 
     /// Moves the player to the specified street inside of the current city.
     let exitTo streetId state =

@@ -51,8 +51,17 @@ let bookRide state (destination: Place) =
             |> Result.map (fun paymentEffects ->
                 let streetIdNearPlace = destination.Exits |> Map.head
 
+                let streetPath =
+                    Queries.World.findPlaceStreetPart
+                        currentCity.Id
+                        destination.Id
+                        streetIdNearPlace
+
                 let travelEffect =
-                    Navigation.moveTo streetIdNearPlace state
+                    Navigation.moveToPlaceAndRoom
+                        streetIdNearPlace
+                        streetPath
+                        state
                     |> Result.defaultValue (Wait 0<dayMoments>)
 
                 (fare, travelTime, travelEffect :: paymentEffects))
