@@ -85,7 +85,7 @@ module MerchandiseWorkshop =
                 item.Properties
                 |> List.choose (function
                     | Deliverable(deliveryDate, _) when
-                        deliveryDate = currentDate
+                        deliveryDate <= currentDate
                         ->
                         Some item
                     | _ -> None))
