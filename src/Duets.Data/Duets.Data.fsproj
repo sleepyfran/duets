@@ -41,6 +41,9 @@
         <Compile Include="Skills.fs"/>
         <Compile Include="VocalStyles.fs"/>
         <Compile Include="Words.fs"/>
+        <Compile Include="Savegame\Types.fs"/>
+        <Compile Include="Savegame\Migrations\0_MigrateFromVersionless.fs"/>
+        <Compile Include="Migrations.fs"/>
         <Compile Include="World\Ids.fs"/>
         <Compile Include="World\Cities\OpeningHours.fs"/>
         <Compile Include="World\Cities\Layouts.fs"/>
@@ -96,6 +99,7 @@
         </None>
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="FSharp.Data.Json.Core" Version="6.6.0"/>
         <PackageReference Include="FSharp.SystemTextJson" Version="0.16.6"/>
     </ItemGroup>
 </Project>

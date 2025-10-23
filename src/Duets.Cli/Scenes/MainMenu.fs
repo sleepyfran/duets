@@ -1,10 +1,11 @@
 module Duets.Cli.Scenes.MainMenu
 
 open Duets.Agents
+open Duets.Agents.Savegame
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Simulation.Migrations
+open Duets.Data.Savegame.Types
 
 let gameVersion =
     System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString()
@@ -19,6 +20,12 @@ let private textFromOption opt =
     | NewGame -> MainMenu.newGame
     | LoadGame -> MainMenu.loadGame
     | Settings -> MainMenu.settings
+
+let private textFromMigrationError err =
+    match err with
+    | MigrationError.InvalidStructure message -> message
+    | MigrationError.InvalidVersion version ->
+        $"Unknown savegame version {version}"
 
 /// Main menu of the game where the user can choose to either start a new game
 /// or load a previous one.
@@ -35,10 +42,16 @@ let rec mainMenu skipSaving =
             "--no-saving arg detected, all changes during gameplay won't be persisted!"
         |> showMessage
 
-    if savegameState = Savegame.Incompatible then
-        MainMenu.incompatibleSavegame |> showMessage
+    let hasSavegameAvailable =
+        match savegameState with
+        | Available _ -> true
+        | NotAvailable -> false
+        | Incompatible reason ->
+            textFromMigrationError reason
+            |> MainMenu.incompatibleSavegame
+            |> showMessage
 
-    let hasSavegameAvailable = savegameState = Savegame.Available
+            false
 
     let selectedChoice =
         showOptionalChoicePrompt
@@ -52,11 +65,7 @@ let rec mainMenu skipSaving =
 
     match selectedChoice with
     | Some NewGame -> createNewGame skipSaving hasSavegameAvailable
-    | Some LoadGame ->
-        // TODO: Find a better place for this?
-        Migrations.apply (State.get ()) |> State.set
-
-        Scene.WorldAfterMovement
+    | Some LoadGame -> Scene.WorldAfterMovement
     | Some Settings -> Scene.Settings
     | None -> Scene.Exit ExitMode.SkipSave
 

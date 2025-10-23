@@ -2,15 +2,26 @@
 
 open System
 open Duets.Common
+open Duets.Data
+open Duets.Data.Savegame.Types
 open Duets.Entities
 
-type SavegameState =
-    | Available
-    | NotAvailable
-    | Incompatible
-
+/// Settings that we allow the player to customize.
 type Settings = { SavegamePath: string }
 
+/// Contents of the savegame file, which contains a version for migration
+/// purposes and the actual data.
+type SavegameContents = { Version: int; Data: State }
+
+/// Current state of the savegame, which can be available if the savegame could
+/// be parsed correctly, not available if there's no savegames available and
+/// incompatible if the contents of the savegame could not be properly interpreted
+type SavegameState =
+    | Available of version: int
+    | NotAvailable
+    | Incompatible of reason: MigrationError
+
+/// Result of saving the settings, which can be successful or fail with an exception.
 type SettingsSaveResult =
     | Success
     | Failure of Exception
@@ -19,6 +30,7 @@ type SettingsSaveResult =
 let private loadSettingsFromFile () : Settings option =
     Files.settingsPath () |> Files.readAll |> Option.bind Serializer.deserialize
 
+/// Attempts to read the savegame file from the path specified in the settings.
 let private savegameFile () =
     loadSettingsFromFile ()
     |> Option.map (fun settings -> Files.savegameFile settings.SavegamePath)
@@ -26,17 +38,19 @@ let private savegameFile () =
 
 /// Attempts to read the savegame from the file and sets the state with it,
 /// returning whether it was available or not.
-let private loadStateFromSavegame () =
-    savegameFile ()
-    |> Files.readAll
-    |> Option.bind Serializer.deserialize
-    |> Option.map State.set
-    |> Option.map (fun _ -> Available)
+let private readSavegameFile () = savegameFile () |> Files.readAll
+
+/// Attempts to parse the given savegame contents.
+let private parseSavegame contents =
+    Serializer.deserialize contents
+    |> Option.tap (fun savegame -> State.set savegame.Data)
+    |> Option.map (fun savegame -> Available(savegame.Version))
     |> Option.defaultValue NotAvailable
 
 /// Attempts to write the given state into the savegame file.
-let private writeSavegame (state: State) =
-    state |> Serializer.serialize |> Files.write (savegameFile ())
+let private writeSavegame version (state: State) =
+    let savegame = { Version = version; Data = state }
+    savegame |> Serializer.serialize |> Files.write (savegameFile ())
 
 /// Attempts to write the given settings into the settings file.
 let private writeSettings (settings: Settings) =
@@ -49,6 +63,8 @@ type SavegameAgentMessage =
     | WriteSync of State * AsyncReplyChannel<unit>
     | WriteSettings of Settings option * AsyncReplyChannel<SettingsSaveResult>
 
+type SavegameAgentState = { Version: int }
+
 /// Agent in charge of writing and loading the savegame from a file.
 /// The reason behind having these operations in an agent is that, since we need
 /// to execute the saving constantly, doing it asynchronously is a must to not
@@ -59,24 +75,47 @@ type private SavegameAgent() =
     let agent =
         MailboxProcessor.Start
         <| fun inbox ->
-            let rec loop () =
+            let rec loop agentState =
+                let tryGetVersion () =
+                    match agentState with
+                    | Some state -> state.Version
+                    | None -> Savegame.Migrations.lastSavegameVersion
+
                 async {
                     let! msg = inbox.Receive()
 
                     match msg with
                     | Read channel ->
-                        try
-                            loadStateFromSavegame () |> channel.Reply
-                        with _ ->
-                            channel.Reply Incompatible
+                        let state =
+                            readSavegameFile ()
+                            |> Option.map (fun content ->
+                                // Attempt to first apply migrations if needed.
+                                let result =
+                                    Savegame.Migrations.applyMigrations content
+
+                                match result with
+                                | Ok(contents) -> parseSavegame contents
+                                | Error(error) -> Incompatible(error))
+                            |> Option.defaultValue NotAvailable
+
+                        channel.Reply state
+
+                        // Use the latest version we've got from the savegame.
+                        match state with
+                        | Available(version) ->
+                            return! loop (Some({ Version = version }))
+                        | _ -> return! loop agentState
                     | ReadSettings channel ->
                         try
                             loadSettingsFromFile () |> channel.Reply
                         with _ ->
                             channel.Reply None
-                    | Write state -> writeSavegame state
+                    | Write state ->
+                        let version = tryGetVersion ()
+                        writeSavegame version state
                     | WriteSync(state, channel) ->
-                        writeSavegame state
+                        let version = tryGetVersion ()
+                        writeSavegame version state
                         channel.Reply()
                     | WriteSettings(settings, channel) ->
                         try
@@ -88,10 +127,10 @@ type private SavegameAgent() =
                         with exn ->
                             channel.Reply(Failure exn)
 
-                    return! loop ()
+                    return! loop agentState
                 }
 
-            loop ()
+            loop None
 
     member this.Read() = agent.PostAndReply Read
     member this.ReadSettings() = agent.PostAndReply ReadSettings

@@ -19,3 +19,13 @@ let ofList xs =
     match xs with
     | [] -> None
     | _ -> Some xs
+
+/// Taps into an option, applying the given function if there is some content
+/// and returning the param untouched. Similar to an `iter` and `map` but without
+/// changing the value of the content.
+let tap func opt =
+    match opt with
+    | Some x ->
+        func x
+        Some(x)
+    | None -> None

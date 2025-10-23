@@ -29,13 +29,14 @@
 
     <ItemGroup>
         <Compile Include="State.fs"/>
-        <Compile Include="Log.fs"/>
         <Compile Include="Savegame.fs"/>
+        <Compile Include="Log.fs"/>
         <Compile Include="Stats.fs"/>
         <Compile Include="LanguageModel.fs"/>
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Duets.Data\Duets.Data.fsproj"/>
         <ProjectReference Include="..\Duets.Entities\Duets.Entities.fsproj"/>
     </ItemGroup>
 

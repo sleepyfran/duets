@@ -7,7 +7,6 @@ open Duets.Simulation
 /// they've been hired to the band.
 let addWithMember (npc: Character) state =
     let currentBand = Queries.Bands.currentBand state
-    let currentDate = Queries.Calendar.today state
 
     Social.Relationship.createWith npc currentBand.OriginCity state
     |> List.singleton

@@ -1,8 +1,10 @@
 [<RequireQualifiedAccess>]
 module Duets.Cli.Text.MainMenu
 
-let incompatibleSavegame =
-    Styles.error "Your savegame is incompatible or malformed and was ignored"
+let incompatibleSavegame message =
+    Styles.error
+        $"""Your savegame is incompatible or malformed and was ignored. Error:
+{message}"""
 
 let prompt = "Select an option to begin"
 let newGame = "New game"

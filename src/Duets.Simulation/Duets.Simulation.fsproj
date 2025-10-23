@@ -176,8 +176,6 @@
         <Compile Include="Events\Events.fs"/>
         <Compile Include="EffectModifiers\Moodlets.EffectModifiers.fs"/>
         <Compile Include="EffectModifiers\EffectModifiers.fs"/>
-        <Compile Include="Setup\Migrations\BandMemberRelationships.Migration.fs"/>
-        <Compile Include="Setup\Migrations\Migrations.fs"/>
         <Compile Include="Setup\StartGame.fs"/>
         <Compile Include="Simulation.fs"/>
     </ItemGroup>
