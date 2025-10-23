@@ -103,9 +103,9 @@ let private barbican (zone: Zone) =
     |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces rehearsalSpaces
 
-let private stBartsHospital (zone: Zone) =
+let private smithfield (zone: Zone) =
     let street =
-        World.Street.create "St Bartholomew's Hospital" StreetType.OneWay
+        World.Street.create "Smithfield" StreetType.OneWay
         |> World.Street.attachContext
             """
         St Bartholomew's Hospital, founded in 1123, is Britain's oldest hospital still
@@ -128,7 +128,7 @@ let createZone (city: City) =
     let bank, metroStation = bank city zone
     let stPauls = stPauls city zone
     let barbican = barbican zone
-    let stBarts = stBartsHospital zone
+    let smithfield = smithfield zone
 
     let metroStation =
         { Lines = [ Blue ]
@@ -139,10 +139,10 @@ let createZone (city: City) =
     |> World.Zone.addStreet (World.Node.create bank.Id bank)
     |> World.Zone.addStreet (World.Node.create stPauls.Id stPauls)
     |> World.Zone.addStreet (World.Node.create barbican.Id barbican)
-    |> World.Zone.addStreet (World.Node.create stBarts.Id stBarts)
+    |> World.Zone.addStreet (World.Node.create smithfield.Id smithfield)
     |> World.Zone.connectStreets bank.Id stPauls.Id North
     |> World.Zone.connectStreets stPauls.Id barbican.Id East
-    |> World.Zone.connectStreets bank.Id stBarts.Id South
+    |> World.Zone.connectStreets bank.Id smithfield.Id South
     |> World.Zone.addMetroStation metroStation
 
 let zone = createZone

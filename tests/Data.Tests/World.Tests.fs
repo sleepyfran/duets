@@ -282,3 +282,28 @@ let ``every zone has at least another one metro station`` () =
 
                 failwith
                     $"{city.Id} has a zone ({decodedZone}) with no metro stations"))
+
+[<Test>]
+let ``there should not be two places with the same ID`` () =
+    let mutable duplicated: (CityId * PlaceId * string) list = List.empty
+
+    World.get.Cities
+    |> List.ofMapValues
+    |> List.iter (fun city ->
+        let mutable visited: Set<PlaceId> = Set.empty
+
+        city.PlaceByTypeIndex
+        |> List.ofMapValues
+        |> List.concat
+        |> List.iter (fun place ->
+            if Set.contains place visited then
+                let decoded = Identity.Reproducible.decode place
+                duplicated <- (city.Id, place, decoded) :: duplicated
+            else
+                visited <- Set.add place visited))
+
+    if duplicated.Length > 0 then
+        duplicated
+        |> List.map (fun (city, _, name) -> $"{name} in {city} is duplicated")
+        |> String.concat "\n"
+        |> failwith

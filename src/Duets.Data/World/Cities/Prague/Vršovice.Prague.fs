@@ -32,10 +32,6 @@ let krymská (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
-    let bars =
-        [ ("Bad Flash Bar", 88<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
-
     let restaurants =
         [ ("Café Sladkovský", 86<quality>, Czech, zone.Id) ]
         |> List.map (PlaceCreators.createRestaurant street.Id)
@@ -43,7 +39,6 @@ let krymská (zone: Zone) =
     street
     |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces concertSpaces
-    |> World.Street.addPlaces bars
     |> World.Street.addPlaces restaurants
 
 let moskevská (zone: Zone) =
