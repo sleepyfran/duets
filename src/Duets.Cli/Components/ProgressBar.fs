@@ -55,3 +55,17 @@ let showProgressBarAsync stepNames (stepDuration: int<second>) =
                     tasks.RemoveAt(randomIndex)
 
                 sleepForProgressBar stepDuration)
+
+/// <summary>
+/// Renders a progress bar that shows an indeterminate step with the given name
+/// until the function completes.
+/// </summary>
+/// <param name="stepName">Text to display</param>
+/// <param name="func">Function that will be immediately executed synchronously and used to determine when to hide the progress</param>
+let showProgressForFunc stepName (func: unit -> unit) =
+    AnsiConsole
+        .Progress()
+        .Start(fun ctx ->
+            let task = ctx.AddTask(stepName).IsIndeterminate()
+            func ()
+            task.StopTask())

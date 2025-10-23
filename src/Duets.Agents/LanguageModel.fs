@@ -32,6 +32,24 @@ type private SavegameAgentMessage =
     | Initialize of AsyncReplyChannel<unit>
     | StreamMessage of prompt: string * AsyncReplyChannel<AsyncSeq<String>>
 
+let private waitForFirstToken executor =
+    let chatHistory = ChatHistory()
+    let session = ChatSession(executor, chatHistory)
+
+    let cts = new CancellationTokenSource()
+
+    let rawAsyncEnumerable: Collections.Generic.IAsyncEnumerable<string> =
+        session.ChatAsync(
+            ChatHistory.Message(AuthorRole.User, "Give me an A"),
+            inferenceParams,
+            cts.Token
+        )
+
+    rawAsyncEnumerable
+    |> AsyncSeq.ofAsyncEnum
+    |> AsyncSeq.iter (fun token -> if token <> "" then cts.Cancel() else ())
+    |> Async.RunSynchronously
+
 /// Agent in charge of writing and loading the stats of the game.
 type LanguageModelAgent() =
     let agent =
@@ -68,6 +86,8 @@ type LanguageModelAgent() =
                             let newState =
                                 { Executor = executor
                                   PreviousChatHistory = None }
+
+                            waitForFirstToken executor
 
                             channel.Reply()
                             return! loop (Some newState)

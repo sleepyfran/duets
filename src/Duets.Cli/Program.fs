@@ -1,10 +1,10 @@
+open System.Globalization
+open System.Threading
 open Duets.Agents
 open Duets.Cli.SceneIndex
 open Duets.Cli.Components
 open Duets.Cli.Text
 open Duets.Cli.Scenes
-open System.Globalization
-open System.Threading
 
 /// Determines whether the given scene is out of gameplay (main menu, creators,
 /// etc.) or not.
@@ -69,7 +69,8 @@ let private parseNoSavingArg args =
 let main args =
     let skipSaving = parseNoSavingArg args
 
-    LanguageModel.initialize ()
+    LanguageModel.initialize
+    |> showProgressForFunc (Styles.progress "Initializing game...")
 
     clearScreen ()
 
@@ -86,7 +87,7 @@ An irrecoverable error happened.
 If you haven't been tinkering with the save file and you believe this is a bug,
 please report it in the game's repository:
 https://github.com/sleepyfran/duets/issues
-        
+
 And attach the following exception trace:
         """
         |> Styles.danger
