@@ -6,9 +6,21 @@ open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Data.Savegame.Types
+open System.Reflection
 
 let gameVersion =
-    System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString()
+    let assembly = Assembly.GetEntryAssembly()
+
+    let infoVersion =
+        assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+
+    match infoVersion with
+    | null -> assembly.GetName().Version.ToString()
+    | attr ->
+        let version = attr.InformationalVersion
+        let isNonFinalVersion = version.Contains("-")
+        if isNonFinalVersion then version else version.Split("+")[0]
+
 
 type private MainMenuOption =
     | NewGame
