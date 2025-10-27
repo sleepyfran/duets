@@ -23,3 +23,7 @@ let head (map: Map<'k, 'v>) = tryHead map |> Option.get
 /// left map.
 let merge (left: Map<'a, 'b>) (right: Map<'a, 'b>) =
     Map.fold (fun acc key value -> Map.add key value acc) left right
+
+/// Merges many maps, resolving conflicts by preserving only the value from the
+/// first map that contains the key.
+let mergeMany (maps: Map<'a, 'b> list) = maps |> List.fold merge Map.empty

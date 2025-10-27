@@ -11,6 +11,7 @@ open Duets.Simulation
 type private PlaceSpecialProperty =
     | Rented
     | ConcertScheduled
+    | WorkPlace
 
 let private placesWithSpecialProperties state =
     let band = Queries.Bands.currentBand state
@@ -32,8 +33,14 @@ let private placesWithSpecialProperties state =
             [ placeId, PlaceSpecialProperty.Rented ])
         |> Map.ofList
 
-    Map.merge rentedPlaces scheduledConcert
+    let workPlaces =
+        Queries.Career.current state
+        |> Option.map (fun job ->
+            let _, placeId, _ = job.Location
+            [ placeId, PlaceSpecialProperty.WorkPlace ] |> Map.ofList)
+        |> Option.defaultValue Map.empty
 
+    Map.mergeMany [ rentedPlaces; scheduledConcert; workPlaces ]
 
 let private placeWithInfo (city: City) (place: Place) specialProperties =
     let state = State.get ()
@@ -51,6 +58,8 @@ let private placeWithInfo (city: City) (place: Place) specialProperties =
             $"""{zonePrefix} {place.Name} ({"Rented" |> Styles.highlight})"""
         | Some ConcertScheduled ->
             $"""{zonePrefix} {place.Name} ({"Concert scheduled" |> Styles.highlight})"""
+        | Some WorkPlace ->
+            $"""{zonePrefix} {place.Name} ({"Workplace" |> Styles.highlight})"""
         | None -> $"{zonePrefix} {place.Name}"
 
     World.placeNameWithOpeningInfo placeDetails currentlyOpen
