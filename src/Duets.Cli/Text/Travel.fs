@@ -66,6 +66,8 @@ let driveCancelled =
 
 let driveCalculatingRoute = "Calculating route..." |> Styles.progress
 
+let driverTooDrunk =
+    "You're way too drunk to drive. Sober up first!" |> Styles.error
 
 let driveAlreadyAtDestination =
     "You're already at this location. No need to drive!" |> Styles.success

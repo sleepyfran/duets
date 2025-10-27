@@ -78,6 +78,10 @@ module DriveCommand =
         let planResult = Vehicles.Car.planWithinCityDrive state destination
 
         match planResult with
+        | Error Vehicles.Car.CannotDriveWhileDrunk ->
+            Travel.driverTooDrunk |> showMessage
+            lineBreak ()
+            Scene.World
         | Error Vehicles.Car.AlreadyAtDestination ->
             Travel.driveAlreadyAtDestination |> showMessage
             lineBreak ()
@@ -128,6 +132,10 @@ module DriveCommand =
             Vehicles.Car.planIntercityDrive state destinationCityId car
 
         match planResult with
+        | Error Vehicles.Car.CannotDriveWhileDrunk ->
+            Travel.driverTooDrunk |> showMessage
+            lineBreak ()
+            Scene.World
         | Error Vehicles.Car.AlreadyAtDestination ->
             Travel.driveAlreadyAtDestination |> showMessage
             lineBreak ()

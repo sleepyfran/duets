@@ -8,18 +8,26 @@ open Duets.Simulation.Character
 open Duets.Simulation.Navigation
 
 type CarDriveError =
+    | CannotDriveWhileDrunk
     | AlreadyAtDestination
     | CannotReachDestination
 
 /// Plans a car drive from the current location to the destination place within
 /// the same city. Returns the path and travel time if successful, or an error
-/// if the destination cannot be reached.
+/// if the destination cannot be reached or the character is too drunk to drive.
 let planWithinCityDrive state (destination: Place) =
     let currentPlace = Queries.World.currentPlace state
     let currentCity = Queries.World.currentCity state
 
+    let characterDrunk =
+        Queries.Characters.playableCharacterAttribute
+            state
+            CharacterAttribute.Drunkenness
+
     if currentPlace.Id = destination.Id then
         Error(AlreadyAtDestination)
+    else if characterDrunk > 15 then
+        Error(CannotDriveWhileDrunk)
     else
         let path =
             Pathfinding.directionsToNode
