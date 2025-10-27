@@ -25,6 +25,7 @@ module Work =
     - Make it feel natural and varied - sometimes humorous, sometimes serious, always contextual.
     - **Do not** use quotation marks, asterisks, or any formatting.
     - **Do not** include labels or prefixes - just the description itself.
+    - **Do not** mention any names
     - Keep the tone casual and conversational, as if narrating a game event.
     
     Context:
