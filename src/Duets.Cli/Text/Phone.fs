@@ -245,3 +245,12 @@ let weatherAppTitle = "Weather"
 
 let weatherAppContent (cityId: CityId) (icon: string) (description: string) =
     $"It's currently {icon} {Styles.highlight description} in {Generic.cityName cityId |> Styles.place}"
+
+(* --- Find My Stuff --- *)
+let findMyStuffAppTitle = "Find My Stuff"
+
+let findMyStuffNoCars = Styles.faded "You don't have any cars"
+
+let findMyStuffCarHeader = Styles.header "Car"
+
+let findMyStuffLocationHeader = Styles.header "Location"

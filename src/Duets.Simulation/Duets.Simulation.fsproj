@@ -10,6 +10,7 @@
         <Compile Include="Queries\Calendar.fs"/>
         <Compile Include="Queries\Relationships.fs"/>
         <Compile Include="Queries\World.fs"/>
+        <Compile Include="Queries\FindMyStuff.fs"/>
         <Compile Include="Queries\Songs.fs"/>
         <Compile Include="Queries\Albums.fs"/>
         <Compile Include="Queries\Characters.fs"/>
