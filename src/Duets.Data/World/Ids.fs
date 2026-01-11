@@ -19,6 +19,9 @@ module CarDealer =
 module Casino =
     let casinoFloor = "casino_floor"
 
+module Cinema =
+    let screeningRoom = "screening_room"
+
 module ConcertSpace =
     let backstage = "backstage"
     let stage = "stage"

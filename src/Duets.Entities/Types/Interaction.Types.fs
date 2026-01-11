@@ -75,6 +75,12 @@ module rec InteractionTypes =
         /// Tunes the player's instrument, which gives a tiny point increase.
         | TuneInstrument of OngoingConcert
 
+    /// Interactions that can be done inside of a cinema.
+    [<RequireQualifiedAccess>]
+    type CinemaInteraction =
+        /// Allows the character to watch a movie.
+        | WatchMovie of movie: Movie
+
     /// Interactions that can be done inside of a gym.
     [<RequireQualifiedAccess>]
     type GymInteraction = PayEntrance of price: Amount
@@ -250,6 +256,7 @@ module rec InteractionTypes =
     type Interaction =
         | Airport of AirportInteraction
         | Career of CareerInteraction
+        | Cinema of CinemaInteraction
         | Concert of ConcertInteraction
         | Gym of GymInteraction
         | FreeRoam of FreeRoamInteraction

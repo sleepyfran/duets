@@ -105,7 +105,14 @@ let dlouhá (zone: Zone) =
         [ ("Roxy Prague", 900, 90<quality>, Layouts.concertSpaceLayout3, zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
-    street |> World.Street.addPlaces concertSpaces
+    let cinemas =
+        [ ("Bio Oko", 85<quality>, zone.Id)
+          ("Kino Světozor", 83<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCinema street.Id)
+
+    street
+    |> World.Street.addPlaces concertSpaces
+    |> World.Street.addPlaces cinemas
 
 let karlova (zone: Zone) =
     let street =

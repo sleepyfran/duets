@@ -75,6 +75,7 @@ module Interactions =
             | CarDealer carDealer ->
                 CarDealer.interactions carDealer currentRoom.RoomType
             | Casino -> Casino.interactions state currentRoom.RoomType
+            | Cinema -> Cinema.interactions state currentRoom.RoomType
             | ConcertSpace _ ->
                 ConcertSpace.interactions
                     state

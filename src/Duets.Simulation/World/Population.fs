@@ -15,6 +15,7 @@ let private placePopulationRange (place: Place) =
     | Cafe -> 1, 5
     | CarDealer _ -> 1, 2
     | Casino -> 1, 10
+    | Cinema -> 5, 30
     | ConcertSpace concertSpace ->
         1,
         (min 20 concertSpace.Capacity) (* TODO: Base this on whether there's any concert or not and the assistance to the concert. *)

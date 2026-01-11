@@ -44,6 +44,12 @@ let createCasino streetId (name, quality, zoneId) =
     World.Place.create name quality Casino Layouts.casinoLayout zoneId streetId
     |> World.Place.addExit Ids.Common.lobby streetId
 
+/// Creates a cinema with the given name, quality and zone.
+let createCinema streetId (name, quality, zoneId) =
+    World.Place.create name quality Cinema Layouts.cinemaLayout zoneId streetId
+    |> World.Place.changeOpeningHours OpeningHours.cinemaOpeningHours
+    |> World.Place.addExit Ids.Common.lobby streetId
+
 /// Creates a concert space with the given name, capacity, quality and zone.
 let createConcertSpace streetId (name, capacity, quality, layout, zoneId) =
     World.Place.create

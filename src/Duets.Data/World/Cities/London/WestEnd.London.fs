@@ -159,10 +159,16 @@ let private coventGarden (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
+    let cinemas =
+        [ ("Odeon Leicester Square", 92<quality>, zone.Id)
+          ("Curzon Soho", 88<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCinema street.Id)
+
     street
     |> World.Street.addPlaces cafes
     |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces concertSpaces
+    |> World.Street.addPlaces cinemas
 
 let createZone (city: City) =
     let zone = World.Zone.create "West End"

@@ -135,10 +135,16 @@ let hollywoodBoulevard (zone: Zone) =
         [ ("The Gold Standard", 95<quality>, 500m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createHotel street.Id)
 
+    let cinemas =
+        [ ("TCL Chinese Theatre", 95<quality>, zone.Id)
+          ("ArcLight Hollywood", 90<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCinema street.Id)
+
     street
     |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces merchandiseWorkshops
     |> World.Street.addPlaces hotels
+    |> World.Street.addPlaces cinemas
 
 let zone =
     let hollywoodZone = World.Zone.create Ids.Zone.hollywood

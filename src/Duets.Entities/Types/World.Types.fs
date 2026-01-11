@@ -61,6 +61,7 @@ module WorldTypes =
         | ReadingRoom
         | RecordingRoom
         | RehearsalRoom
+        | ScreeningRoom
         | Restaurant of RestaurantCuisine
         | SecurityControl
         | ShowRoom
@@ -86,6 +87,7 @@ module WorldTypes =
         | CarDealer of CarDealer
         | Cafe
         | Casino
+        | Cinema
         | ConcertSpace of ConcertSpace
         | Gym
         | Home
@@ -109,6 +111,7 @@ module WorldTypes =
         | CarDealer
         | Cafe
         | Casino
+        | Cinema
         | ConcertSpace
         | Gym
         | Home

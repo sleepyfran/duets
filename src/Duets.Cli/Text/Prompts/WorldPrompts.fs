@@ -17,6 +17,7 @@ module World =
         | Cafe -> "a coffee shop"
         | CarDealer _ -> "a car dealer"
         | Casino -> "a casino"
+        | Cinema -> "a cinema"
         | ConcertSpace concertSpace ->
             $"a concert space wich a capacity for {concertSpace.Capacity} people"
         | Gym -> "a gym"

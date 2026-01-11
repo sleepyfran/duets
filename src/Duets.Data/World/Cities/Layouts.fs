@@ -65,6 +65,21 @@ let casinoLayout =
     |> World.Graph.connectMany
         [ lobby.Id, bar.Id, East; lobby.Id, casinoFloor.Id, North ]
 
+/// Usual layout for a cinema.
+let cinemaLayout =
+    let lobby =
+        RoomType.Lobby
+        |> World.Room.create
+        |> World.Node.create Ids.Common.lobby
+
+    let screeningRoom =
+        RoomType.ScreeningRoom
+        |> World.Room.create
+        |> World.Node.create Ids.Cinema.screeningRoom
+
+    World.Graph.fromMany [ lobby; screeningRoom ]
+    |> World.Graph.connect lobby.Id screeningRoom.Id North
+
 /// Usual layout for a gym.
 let gymLayout =
     let lobby =

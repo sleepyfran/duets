@@ -24,6 +24,13 @@ let private commandsFromInteractions interactions =
         | Interaction.Career careerInteraction ->
             match careerInteraction with
             | CareerInteraction.Work job -> [ WorkCommand.create job ]
+        | Interaction.Cinema cinemaInteraction ->
+            match cinemaInteraction with
+            | CinemaInteraction.WatchMovie movie ->
+                [ Command.message
+                      "watch movie"
+                      $"Watch {movie.Title}"
+                      Cinema.watchMovieMessage ]
         | Interaction.Concert concertInteraction ->
             match concertInteraction with
             | ConcertInteraction.SetupMerchStand(checklist, itemsWithoutPrice) ->

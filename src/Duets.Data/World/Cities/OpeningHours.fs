@@ -16,6 +16,13 @@ let cafeOpeningHours =
         [ EarlyMorning; Morning; Midday; Afternoon; Evening ]
     )
 
+/// Usual cinema opening hours around the world.
+let cinemaOpeningHours =
+    PlaceOpeningHours.OpeningHours(
+        Calendar.everyDay,
+        [ Midday; Afternoon; Evening; Night ]
+    )
+
 /// Usual concert space hours around the world.
 let concertSpaceOpeningHours =
     PlaceOpeningHours.OpeningHours(
