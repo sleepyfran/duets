@@ -58,6 +58,7 @@
         <Compile Include="Components\Review.fs"/>
         <Compile Include="Components\Tip.fs"/>
         <Compile Include="Components\ConcertDetails.fs"/>
+        <Compile Include="Components\RoomInfo.fs"/>
         <Compile Include="Components\Effect.fs"/>
         <Compile Include="Components\Commands\Command.fs"/>
         <Compile Include="Components\Commands\Exit.Command.fs"/>

@@ -4,105 +4,13 @@ open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Cli.Text.Prompts
 open Duets.Cli.Text.World
 open Duets.Entities
 open Duets.Simulation
 
 [<RequireQualifiedAccess>]
 module LookCommand =
-    let private listEntrances (interactions: InteractionWithMetadata list) =
-        let entrances =
-            interactions
-            |> List.choose (fun interaction ->
-                match interaction.Interaction with
-                | Interaction.FreeRoam(FreeRoamInteraction.Enter(place)) ->
-                    Some(place)
-                | _ -> None)
-            |> List.concat
-
-        match entrances with
-        | [] -> None
-        | entrances ->
-            let entrancesDescription =
-                Generic.listOf entrances World.placeNameWithType
-
-            Some(
-                $"""There {Generic.pluralOf "is an entrance" "are entrances" entrancesDescription.Length} towards {entrancesDescription}."""
-            )
-        |> Option.iter showMessage
-
-    let private listExits (interactions: InteractionWithMetadata list) =
-        let state = State.get ()
-
-        let exits =
-            interactions
-            |> List.choose (fun interaction ->
-                match interaction.Interaction with
-                | Interaction.FreeRoam(FreeRoamInteraction.GoOut(streetId)) ->
-                    Some(streetId)
-                | _ -> None)
-
-        match exits with
-        | [] -> None
-        | exits ->
-            let exitsDescription =
-                Generic.listOf exits (fun streetId ->
-                    let street =
-                        Queries.World.streetInCurrentCity streetId state
-
-                    $"{street.Name |> Styles.place}")
-
-            Some(
-                $"""There is an exit towards {exitsDescription} leading out of this place."""
-            )
-        |> Option.iter showMessage
-
-    let private getConnectedStreets
-        (interactions: InteractionWithMetadata list)
-        =
-        let connectedStreets =
-            interactions
-            |> List.choose (fun interaction ->
-                match interaction.Interaction with
-                | Interaction.FreeRoam(FreeRoamInteraction.GoToStreet(streets)) ->
-                    Some(streets)
-                | _ -> None)
-            |> List.concat
-
-        match connectedStreets with
-        | [] -> None
-        | exits ->
-            Generic.listOf exits (fun street ->
-                $"{street.Name |> Styles.place}")
-            |> Some
-
-    let private listRoomConnections
-        (interactions: InteractionWithMetadata list)
-        =
-        let state = State.get ()
-        let cityId, placeId, _ = state |> Queries.World.currentCoordinates
-        let place = Queries.World.placeInCityById cityId placeId
-
-        let connections =
-            interactions
-            |> List.choose (fun interaction ->
-                match interaction.Interaction with
-                | Interaction.FreeRoam(FreeRoamInteraction.Move(direction,
-                                                                roomId)) ->
-                    let roomType = Queries.World.roomById cityId placeId roomId
-
-                    Some(direction, roomType)
-                | _ -> None)
-
-        let connectedStreetListOpt = getConnectedStreets interactions
-
-        match connections with
-        | [] -> World.noConnectionsToRoom place connectedStreetListOpt
-        | connections ->
-            World.connectingNodes place connections connectedStreetListOpt
-        |> showMessage
-
+    /// Lists all people in the room.
     let private listPeople
         (knownPeople: Character list)
         (unknownPeople: Character list)
@@ -120,6 +28,7 @@ module LookCommand =
             $"""There {Generic.pluralOf "is" "are" unknownPeople.Length} {unknownPeople.Length |> Styles.person} {Generic.pluralOf "person" "people" unknownPeople.Length |> Styles.person} you don't know in the {World.roomName roomType}."""
             |> showMessage
 
+    /// Lists all items in the room.
     let private listItems items =
         match items with
         | [] -> Command.lookNoObjectsAround |> showMessage
@@ -143,15 +52,14 @@ module LookCommand =
 
                 let currentRoom = state |> Queries.World.currentRoom
 
-                World.createRoomDescriptionPrompt state interactions
+                Prompts.World.createRoomDescriptionPrompt state interactions
                 |> LanguageModel.streamMessage
                 |> streamMessage
 
                 lineBreak ()
 
-                listRoomConnections interactions
-                listEntrances interactions
-                listExits interactions
+                showRoomInfo interactions
+
                 listPeople knownPeople unknownPeople currentRoom.RoomType
                 listItems items
 

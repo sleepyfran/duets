@@ -249,6 +249,8 @@ let worldScene mode =
 
         World.placeArrivalMessage currentPlace currentRoom.RoomType
         |> Option.iter showMessage
+
+        showRoomInfo interactionsWithState
     | IgnoreDescription -> ()
 
     let characterAttributes =
