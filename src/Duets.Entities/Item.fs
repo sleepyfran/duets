@@ -57,6 +57,12 @@ module Key =
           Name = "Chip"
           Properties = [ TemporaryChip(cityId, placeId) |> Key ] }
 
+    /// Creates a cinema ticket to enter the screening room of a cinema.
+    let createCinemaTicketFor cityId placeId =
+        { Brand = "DuetsCinemas"
+          Name = "Movie Ticket"
+          Properties = [ MovieTicket(cityId, placeId) |> Key ] }
+
     /// Creates an entrance card to access a place in a city.
     let createEntranceCardFor cityId placeId =
         { Brand = "DuetsCorp"

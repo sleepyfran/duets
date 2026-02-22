@@ -41,7 +41,7 @@ let private broadway (city: City) (zone: Zone) =
     let cinemas =
         [ ("AMC Empire 25", 91<quality>, zone.Id)
           ("Regal UA Court Street", 89<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createCinema street.Id)
+        |> List.map (PlaceCreators.createCinema city.Id street.Id)
 
     let street =
         street

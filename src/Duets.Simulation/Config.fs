@@ -222,7 +222,7 @@ module Travel =
 
 module Cinema =
     /// Base ticket price before city cost of living multiplier.
-    let baseTicketPrice = 12m<dd>
+    let baseTicketPrice = 3m<dd>
 
     /// Time consumed when watching a movie.
     let movieWatchingTime = 2<dayMoments>

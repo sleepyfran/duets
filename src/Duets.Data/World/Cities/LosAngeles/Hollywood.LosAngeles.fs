@@ -81,7 +81,7 @@ let sunsetBoulevard (zone: Zone) =
 
     street, metroStation
 
-let hollywoodBoulevard (zone: Zone) =
+let hollywoodBoulevard (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create
             Ids.Street.hollywoodBoulevard
@@ -138,7 +138,7 @@ let hollywoodBoulevard (zone: Zone) =
     let cinemas =
         [ ("TCL Chinese Theatre", 95<quality>, zone.Id)
           ("ArcLight Hollywood", 90<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createCinema street.Id)
+        |> List.map (PlaceCreators.createCinema cityId street.Id)
 
     street
     |> World.Street.addPlaces concertSpaces
@@ -146,11 +146,11 @@ let hollywoodBoulevard (zone: Zone) =
     |> World.Street.addPlaces hotels
     |> World.Street.addPlaces cinemas
 
-let zone =
+let createZone (cityId: CityId) =
     let hollywoodZone = World.Zone.create Ids.Zone.hollywood
 
     let sunsetBoulevard, sunsetBoulevardStation = sunsetBoulevard hollywoodZone
-    let hollywoodBoulevard = hollywoodBoulevard hollywoodZone
+    let hollywoodBoulevard = hollywoodBoulevard cityId hollywoodZone
 
     let station =
         { Lines = [ Red ]

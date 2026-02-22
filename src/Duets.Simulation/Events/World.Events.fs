@@ -6,6 +6,7 @@ open Duets.Simulation
 
 let private isKeyTemporary key =
     match key with
+    | MovieTicket _ -> true
     | TemporaryChip _ -> true
     | EntranceCard _ -> false
 

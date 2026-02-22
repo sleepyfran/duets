@@ -26,11 +26,10 @@ let private commandsFromInteractions interactions =
             | CareerInteraction.Work job -> [ WorkCommand.create job ]
         | Interaction.Cinema cinemaInteraction ->
             match cinemaInteraction with
+            | CinemaInteraction.BuyTicket(movie, price) ->
+                [ BuyTicketCommand.create movie price ]
             | CinemaInteraction.WatchMovie movie ->
-                [ Command.message
-                      "watch movie"
-                      $"Watch {movie.Title}"
-                      Cinema.watchMovieMessage ]
+                [ WatchMovieCommand.create movie ]
         | Interaction.Concert concertInteraction ->
             match concertInteraction with
             | ConcertInteraction.SetupMerchStand(checklist, itemsWithoutPrice) ->

@@ -45,8 +45,23 @@ let createCasino streetId (name, quality, zoneId) =
     |> World.Place.addExit Ids.Common.lobby streetId
 
 /// Creates a cinema with the given name, quality and zone.
-let createCinema streetId (name, quality, zoneId) =
-    World.Place.create name quality Cinema Layouts.cinemaLayout zoneId streetId
+let createCinema (cityId: CityId) streetId (name, quality, zoneId) =
+    let place =
+        World.Place.create name quality Cinema Layouts.cinemaLayout zoneId streetId
+
+    let cinemaTicket = Item.Key.createCinemaTicketFor cityId place.Id
+
+    place
+    |> World.Place.changeRoom Ids.Cinema.screeningRoom (function
+        | Some room ->
+            let requiredItems =
+                { ComingFrom = Ids.Common.lobby
+                  Items = [ cinemaTicket ] }
+
+            room
+            |> World.Room.changeRequiredItemForEntrance requiredItems
+            |> Some
+        | _ -> None)
     |> World.Place.changeOpeningHours OpeningHours.cinemaOpeningHours
     |> World.Place.addExit Ids.Common.lobby streetId
 

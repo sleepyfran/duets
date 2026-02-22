@@ -126,6 +126,7 @@
         <Compile Include="Flights\TicketGeneration.fs"/>
         <Compile Include="Flights\Booking.fs"/>
         <Compile Include="Flights\Airport.fs"/>
+        <Compile Include="Cinema\PayTicket.fs"/>
         <Compile Include="Gym\PayEntrance.fs"/>
         <Compile Include="Notifications\Notifications.fs"/>
         <Compile Include="MiniGames\Blackjack.fs"/>

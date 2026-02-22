@@ -66,7 +66,7 @@ let granVia (city: City) (zone: Zone) =
     let cinemas =
         [ ("Cine Callao", 87<quality>, zone.Id)
           ("Capitol Cinema", 89<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createCinema street.Id)
+        |> List.map (PlaceCreators.createCinema city.Id street.Id)
 
     let street =
         street

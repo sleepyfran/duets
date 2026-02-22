@@ -127,7 +127,7 @@ let private soho (city: City) (zone: Zone) =
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlace home
 
-let private coventGarden (zone: Zone) =
+let private coventGarden (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create "Covent Garden" (StreetType.Split(South, 2))
         |> World.Street.attachContext
@@ -162,7 +162,7 @@ let private coventGarden (zone: Zone) =
     let cinemas =
         [ ("Odeon Leicester Square", 92<quality>, zone.Id)
           ("Curzon Soho", 88<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createCinema street.Id)
+        |> List.map (PlaceCreators.createCinema cityId street.Id)
 
     street
     |> World.Street.addPlaces cafes
@@ -174,7 +174,7 @@ let createZone (city: City) =
     let zone = World.Zone.create "West End"
     let oxfordStreet, metroStation = oxfordStreet city zone
     let soho = soho city zone
-    let coventGarden = coventGarden zone
+    let coventGarden = coventGarden city.Id zone
 
     let metroStation =
         { Lines = [ Blue; Red ]

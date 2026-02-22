@@ -261,6 +261,11 @@ let itemDetailedName (item: Item) =
         $"{Styles.item book.Title} by {Styles.person book.Author} ({Styles.Level.from book.ReadProgress}%% read)"
     | Readable(Book book) ->
         $"{Styles.item book.Title} by {Styles.person book.Author}"
+    | Key(MovieTicket(cityId, placeId)) ->
+        let place = Queries.World.placeInCityById cityId placeId
+
+        Styles.item
+            $"Movie ticket for {place.Name |> Styles.place} in {cityName cityId |> Styles.place}"
     | Key(TemporaryChip(cityId, placeId)) ->
         let place = Queries.World.placeInCityById cityId placeId
 

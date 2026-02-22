@@ -3,7 +3,7 @@ module rec Duets.Data.World.Cities.LosAngeles.Root
 open Duets.Entities
 
 let generate () =
-    let hollywood = Hollywood.zone
+    let hollywood = Hollywood.createZone LosAngeles
     let downtownLA = DowntownLA.zone
     let lax = Lax.zone
 

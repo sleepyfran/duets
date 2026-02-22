@@ -78,7 +78,9 @@ module rec InteractionTypes =
     /// Interactions that can be done inside of a cinema.
     [<RequireQualifiedAccess>]
     type CinemaInteraction =
-        /// Allows the character to watch a movie.
+        /// Allows the character to purchase a ticket to watch a movie.
+        | BuyTicket of movie: Movie * price: Amount
+        /// Allows the character to watch a movie (requires a ticket).
         | WatchMovie of movie: Movie
 
     /// Interactions that can be done inside of a gym.

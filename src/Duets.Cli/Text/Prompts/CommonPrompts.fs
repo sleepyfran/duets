@@ -20,6 +20,7 @@ module Common =
         let mainProperty = item.Properties |> List.head
 
         match mainProperty with
+        | Key(MovieTicket _) -> "movie ticket"
         | Key(EntranceCard _) -> "entrance card"
         | Rideable(RideableItem.Car _) -> $"{item.Brand} {item.Name}"
         | _ -> item.Name |> String.lowercase
