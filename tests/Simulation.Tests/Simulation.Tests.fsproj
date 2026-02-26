@@ -31,6 +31,7 @@
         <Compile Include="Bands\FireMember.Tests.fs"/>
         <Compile Include="Bands\BandGeneration.Tests.fs"/>
         <Compile Include="Bands\DistributeFunds.Tests.fs"/>
+        <Compile Include="Cinema\Cinema.Queries.Tests.fs"/>
         <Compile Include="Bank\Transfer.Tests.fs"/>
         <Compile Include="Bank\Queries.Tests.fs"/>
         <Compile Include="Careers\JobBoard.Test.fs"/>
@@ -89,6 +90,7 @@
         <Compile Include="Program.fs"/>
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\src\Duets.Data\Duets.Data.fsproj"/>
         <ProjectReference Include="..\..\src\Duets.Simulation\Duets.Simulation.fsproj"/>
         <ProjectReference Include="..\Test.Common\Test.Common.fsproj"/>
     </ItemGroup>
