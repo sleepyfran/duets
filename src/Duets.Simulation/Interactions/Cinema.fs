@@ -34,5 +34,4 @@ let watchMovie state (movie: Movie) =
 
     [ yield! consumeCinemaItems state
       yield MovieWatched(movie.Title, movie.Quality)
-      yield! Character.Attribute.add character CharacterAttribute.Mood moodIncrease
-      yield Wait Config.Cinema.movieWatchingTime ]
+      yield! Character.Attribute.add character CharacterAttribute.Mood moodIncrease ]

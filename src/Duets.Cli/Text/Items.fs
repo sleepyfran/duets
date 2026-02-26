@@ -11,8 +11,15 @@ let itemAddedToBandInventory item quantity =
     |> Styles.success
 
 let itemRemovedFromCharacterInventory item =
-    Styles.warning
-        $"{Generic.itemDetailedName item} has been removed from your inventory"
+    let mainProperty = item.Properties |> List.tryHead
+
+    match mainProperty with
+    | Some(Edible _) ->
+        Styles.success $"You eat the {Generic.itemDetailedName item}."
+    | Some(Drinkable _) ->
+        Styles.success $"You take a sip of your {Generic.itemDetailedName item}."
+    | _ ->
+        Styles.warning $"{Generic.itemDetailedName item} has been removed from your inventory"
 
 let noItemsInventory = "You are not carrying anything"
 
