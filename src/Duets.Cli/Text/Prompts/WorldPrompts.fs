@@ -58,7 +58,7 @@ module World =
         match place.PlaceType, roomType with
         | Street, _ -> entrancesForPrompt interactions
         | Cinema, RoomType.Lobby ->
-            "cinema lobby with a ticket counter and a concession stand"
+            "cinema lobby with a ticket counter and a stand for buying pop-corn and other snacks and drinks"
         | Cinema, RoomType.ScreeningRoom ->
             "movie theater auditorium with rows of seats, a large screen, and a projector"
         | _ -> World.roomName roomType
