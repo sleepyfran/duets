@@ -1,5 +1,6 @@
 namespace Duets.Simulation.Queries.Internal.Interactions
 
+open Duets.Data.Items
 open Duets.Entities
 open Duets.Simulation
 
@@ -11,11 +12,15 @@ module Cinema =
 
         match roomType with
         | RoomType.Lobby ->
+            let shopInteractions =
+                [ ShopInteraction.Order Cinema.all |> Interaction.Shop
+                  ShopInteraction.SeeMenu Cinema.all |> Interaction.Shop ]
+
             match Queries.Cinema.currentMovie currentDate with
             | Some movie ->
                 let price = Queries.Cinema.ticketPrice city
-                [ Interaction.Cinema(CinemaInteraction.BuyTicket(movie, price)) ]
-            | None -> []
+                Interaction.Cinema(CinemaInteraction.BuyTicket(movie, price)) :: shopInteractions
+            | None -> shopInteractions
         | RoomType.ScreeningRoom ->
             match Queries.Cinema.currentMovie currentDate with
             | Some movie ->

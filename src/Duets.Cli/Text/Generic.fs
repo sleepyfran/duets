@@ -253,7 +253,7 @@ let itemDetailedName (item: Item) =
             $"""{Styles.item $"{item.Brand}"} ({drink.Amount}ml, {alcohol}%%)"""
         | Coffee coffeeMl ->
             $"""{Styles.item item.Name} ({coffeeMl}ml of coffee)"""
-        | Soda -> $"""{Styles.item item.Brand} ({drink.Amount}ml)"""
+        | Soda -> $"""{Styles.item item.Name} ({drink.Amount}ml)"""
     | Edible food -> $"""{Styles.item item.Name} ({food.Amount}g)"""
     | Listenable(CD, _) -> $"""{Styles.item item.Name} (CD)"""
     | Listenable(Vinyl, _) -> $"""{Styles.item item.Name} (Vinyl)"""
