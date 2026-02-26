@@ -1,5 +1,6 @@
 namespace Duets.Cli.Components.Commands
 
+open FSharp.Data.UnitSystems.SI.UnitNames
 open Duets.Agents
 open Duets.Cli
 open Duets.Cli.Components
@@ -17,7 +18,7 @@ module WatchMovieCommand =
           Description = $"Watch {movie.Title}"
           Handler =
             (fun _ ->
-                Cinema.watchMovieMessage |> showMessage
+                (Cinema.watchMovieSteps, 1<second>) ||> showProgressBarSync
 
                 Cinema.watchMovie (State.get ()) movie
                 |> Effect.applyMultiple
