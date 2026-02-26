@@ -1,0 +1,1292 @@
+[
+  {
+    "Title": "The Shawshank Redemption",
+    "Year": 1994,
+    "Quality": 10
+  },
+  {
+    "Title": "Citizen Kane",
+    "Year": 1941,
+    "Quality": 9
+  },
+  {
+    "Title": "Pulp Fiction",
+    "Year": 1994,
+    "Quality": 9
+  },
+  {
+    "Title": "The Grand Budapest Hotel",
+    "Year": 2014,
+    "Quality": 8
+  },
+  {
+    "Title": "Inception",
+    "Year": 2010,
+    "Quality": 8
+  },
+  {
+    "Title": "La La Land",
+    "Year": 2016,
+    "Quality": 7
+  },
+  {
+    "Title": "The Avengers",
+    "Year": 2012,
+    "Quality": 6
+  },
+  {
+    "Title": "Fast & Furious 9",
+    "Year": 2021,
+    "Quality": 5
+  },
+  {
+    "Title": "Transformers: Age of Extinction",
+    "Year": 2014,
+    "Quality": 3
+  },
+  {
+    "Title": "Sharknado",
+    "Year": 2013,
+    "Quality": 1
+  },
+  {
+    "Title": "The Godfather",
+    "Year": 1972,
+    "Quality": 10
+  },
+  {
+    "Title": "Schindler's List",
+    "Year": 1993,
+    "Quality": 10
+  },
+  {
+    "Title": "Raging Bull",
+    "Year": 1980,
+    "Quality": 9
+  },
+  {
+    "Title": "Casablanca",
+    "Year": 1942,
+    "Quality": 10
+  },
+  {
+    "Title": "Gone with the Wind",
+    "Year": 1939,
+    "Quality": 9
+  },
+  {
+    "Title": "The Wizard of Oz",
+    "Year": 1939,
+    "Quality": 9
+  },
+  {
+    "Title": "One Flew Over the Cuckoo's Nest",
+    "Year": 1975,
+    "Quality": 10
+  },
+  {
+    "Title": "Lawrence of Arabia",
+    "Year": 1962,
+    "Quality": 10
+  },
+  {
+    "Title": "Vertigo",
+    "Year": 1958,
+    "Quality": 9
+  },
+  {
+    "Title": "Psycho",
+    "Year": 1960,
+    "Quality": 9
+  },
+  {
+    "Title": "The Godfather: Part II",
+    "Year": 1974,
+    "Quality": 10
+  },
+  {
+    "Title": "On the Waterfront",
+    "Year": 1954,
+    "Quality": 9
+  },
+  {
+    "Title": "Forrest Gump",
+    "Year": 1994,
+    "Quality": 8
+  },
+  {
+    "Title": "The Sound of Music",
+    "Year": 1965,
+    "Quality": 8
+  },
+  {
+    "Title": "12 Angry Men",
+    "Year": 1957,
+    "Quality": 9
+  },
+  {
+    "Title": "West Side Story",
+    "Year": 1961,
+    "Quality": 8
+  },
+  {
+    "Title": "Star Wars: Episode IV - A New Hope",
+    "Year": 1977,
+    "Quality": 9
+  },
+  {
+    "Title": "2001: A Space Odyssey",
+    "Year": 1968,
+    "Quality": 9
+  },
+  {
+    "Title": "Chinatown",
+    "Year": 1974,
+    "Quality": 9
+  },
+  {
+    "Title": "Singin' in the Rain",
+    "Year": 1952,
+    "Quality": 9
+  },
+  {
+    "Title": "It's a Wonderful Life",
+    "Year": 1946,
+    "Quality": 9
+  },
+  {
+    "Title": "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",
+    "Year": 1964,
+    "Quality": 9
+  },
+  {
+    "Title": "Some Like It Hot",
+    "Year": 1959,
+    "Quality": 9
+  },
+  {
+    "Title": "Ben-Hur",
+    "Year": 1959,
+    "Quality": 8
+  },
+  {
+    "Title": "Apocalypse Now",
+    "Year": 1979,
+    "Quality": 9
+  },
+  {
+    "Title": "Amadeus",
+    "Year": 1984,
+    "Quality": 9
+  },
+  {
+    "Title": "The Lord of the Rings: The Return of the King",
+    "Year": 2003,
+    "Quality": 9
+  },
+  {
+    "Title": "Gladiator",
+    "Year": 2000,
+    "Quality": 7
+  },
+  {
+    "Title": "Unforgiven",
+    "Year": 1992,
+    "Quality": 9
+  },
+  {
+    "Title": "Raiders of the Lost Ark",
+    "Year": 1981,
+    "Quality": 9
+  },
+  {
+    "Title": "Rocky",
+    "Year": 1976,
+    "Quality": 8
+  },
+  {
+    "Title": "A Streetcar Named Desire",
+    "Year": 1951,
+    "Quality": 8
+  },
+  {
+    "Title": "To Kill a Mockingbird",
+    "Year": 1962,
+    "Quality": 9
+  },
+  {
+    "Title": "My Fair Lady",
+    "Year": 1964,
+    "Quality": 8
+  },
+  {
+    "Title": "A Clockwork Orange",
+    "Year": 1971,
+    "Quality": 9
+  },
+  {
+    "Title": "Doctor Zhivago",
+    "Year": 1965,
+    "Quality": 8
+  },
+  {
+    "Title": "The Searchers",
+    "Year": 1956,
+    "Quality": 8
+  },
+  {
+    "Title": "Jaws",
+    "Year": 1975,
+    "Quality": 9
+  },
+  {
+    "Title": "Patton",
+    "Year": 1970,
+    "Quality": 8
+  },
+  {
+    "Title": "Butch Cassidy and the Sundance Kid",
+    "Year": 1969,
+    "Quality": 8
+  },
+  {
+    "Title": "The Good, the Bad and the Ugly",
+    "Year": 1966,
+    "Quality": 10
+  },
+  {
+    "Title": "The Apartment",
+    "Year": 1960,
+    "Quality": 8
+  },
+  {
+    "Title": "Platoon",
+    "Year": 1986,
+    "Quality": 8
+  },
+  {
+    "Title": "Braveheart",
+    "Year": 1995,
+    "Quality": 8
+  },
+  {
+    "Title": "Dances with Wolves",
+    "Year": 1990,
+    "Quality": 7
+  },
+  {
+    "Title": "The Exorcist",
+    "Year": 1973,
+    "Quality": 8
+  },
+  {
+    "Title": "The Pianist",
+    "Year": 2002,
+    "Quality": 9
+  },
+  {
+    "Title": "Goodfellas",
+    "Year": 1990,
+    "Quality": 10
+  },
+  {
+    "Title": "The Deer Hunter",
+    "Year": 1978,
+    "Quality": 9
+  },
+  {
+    "Title": "All Quiet on the Western Front",
+    "Year": 1930,
+    "Quality": 8
+  },
+  {
+    "Title": "Bonnie and Clyde",
+    "Year": 1967,
+    "Quality": 8
+  },
+  {
+    "Title": "The French Connection",
+    "Year": 1971,
+    "Quality": 8
+  },
+  {
+    "Title": "Midnight Cowboy",
+    "Year": 1969,
+    "Quality": 8
+  },
+  {
+    "Title": "Mr. Smith Goes to Washington",
+    "Year": 1939,
+    "Quality": 8
+  },
+  {
+    "Title": "Rain Man",
+    "Year": 1988,
+    "Quality": 7
+  },
+  {
+    "Title": "Annie Hall",
+    "Year": 1977,
+    "Quality": 8
+  },
+  {
+    "Title": "Fargo",
+    "Year": 1996,
+    "Quality": 9
+  },
+  {
+    "Title": "Close Encounters of the Third Kind",
+    "Year": 1977,
+    "Quality": 8
+  },
+  {
+    "Title": "Nashville",
+    "Year": 1975,
+    "Quality": 8
+  },
+  {
+    "Title": "Network",
+    "Year": 1976,
+    "Quality": 8
+  },
+  {
+    "Title": "The Graduate",
+    "Year": 1967,
+    "Quality": 9
+  },
+  {
+    "Title": "American Graffiti",
+    "Year": 1973,
+    "Quality": 7
+  },
+  {
+    "Title": "Terms of Endearment",
+    "Year": 1983,
+    "Quality": 7
+  },
+  {
+    "Title": "The Great Dictator",
+    "Year": 1940,
+    "Quality": 8
+  },
+  {
+    "Title": "Double Indemnity",
+    "Year": 1944,
+    "Quality": 9
+  },
+  {
+    "Title": "The Maltese Falcon",
+    "Year": 1941,
+    "Quality": 9
+  },
+  {
+    "Title": "Taxi Driver",
+    "Year": 1976,
+    "Quality": 9
+  },
+  {
+    "Title": "Rear Window",
+    "Year": 1954,
+    "Quality": 9
+  },
+  {
+    "Title": "The Third Man",
+    "Year": 1949,
+    "Quality": 9
+  },
+  {
+    "Title": "Rebel Without a Cause",
+    "Year": 1955,
+    "Quality": 8
+  },
+  {
+    "Title": "North by Northwest",
+    "Year": 1959,
+    "Quality": 9
+  },
+  {
+    "Title": "Tom Jones",
+    "Year": 1963,
+    "Quality": 7
+  },
+  {
+    "Title": "A Man for All Seasons",
+    "Year": 1966,
+    "Quality": 8
+  },
+  {
+    "Title": "In the Heat of the Night",
+    "Year": 1967,
+    "Quality": 8
+  },
+  {
+    "Title": "Oliver!",
+    "Year": 1968,
+    "Quality": 7
+  },
+  {
+    "Title": "The Sting",
+    "Year": 1973,
+    "Quality": 8
+  },
+  {
+    "Title": "Kramer vs. Kramer",
+    "Year": 1979,
+    "Quality": 8
+  },
+  {
+    "Title": "Ordinary People",
+    "Year": 1980,
+    "Quality": 7
+  },
+  {
+    "Title": "Chariots of Fire",
+    "Year": 1981,
+    "Quality": 7
+  },
+  {
+    "Title": "Gandhi",
+    "Year": 1982,
+    "Quality": 8
+  },
+  {
+    "Title": "Out of Africa",
+    "Year": 1985,
+    "Quality": 7
+  },
+  {
+    "Title": "The Last Emperor",
+    "Year": 1987,
+    "Quality": 8
+  },
+  {
+    "Title": "Driving Miss Daisy",
+    "Year": 1989,
+    "Quality": 7
+  },
+  {
+    "Title": "The English Patient",
+    "Year": 1996,
+    "Quality": 7
+  },
+  {
+    "Title": "Shakespeare in Love",
+    "Year": 1998,
+    "Quality": 7
+  },
+  {
+    "Title": "American Beauty",
+    "Year": 1999,
+    "Quality": 8
+  },
+  {
+    "Title": "A Beautiful Mind",
+    "Year": 2001,
+    "Quality": 8
+  },
+  {
+    "Title": "Chicago",
+    "Year": 2002,
+    "Quality": 7
+  },
+  {
+    "Title": "Million Dollar Baby",
+    "Year": 2004,
+    "Quality": 8
+  },
+  {
+    "Title": "Crash",
+    "Year": 2005,
+    "Quality": 7
+  },
+  {
+    "Title": "The Departed",
+    "Year": 2006,
+    "Quality": 9
+  },
+  {
+    "Title": "No Country for Old Men",
+    "Year": 2007,
+    "Quality": 9
+  },
+  {
+    "Title": "Slumdog Millionaire",
+    "Year": 2008,
+    "Quality": 8
+  },
+  {
+    "Title": "The Hurt Locker",
+    "Year": 2009,
+    "Quality": 8
+  },
+  {
+    "Title": "The King's Speech",
+    "Year": 2010,
+    "Quality": 8
+  },
+  {
+    "Title": "The Artist",
+    "Year": 2011,
+    "Quality": 7
+  },
+  {
+    "Title": "Argo",
+    "Year": 2012,
+    "Quality": 8
+  },
+  {
+    "Title": "12 Years a Slave",
+    "Year": 2013,
+    "Quality": 9
+  },
+  {
+    "Title": "Birdman",
+    "Year": 2014,
+    "Quality": 8
+  },
+  {
+    "Title": "Spotlight",
+    "Year": 2015,
+    "Quality": 9
+  },
+  {
+    "Title": "Moonlight",
+    "Year": 2016,
+    "Quality": 9
+  },
+  {
+    "Title": "The Shape of Water",
+    "Year": 2017,
+    "Quality": 8
+  },
+  {
+    "Title": "Black Swan",
+    "Year": 2010,
+    "Quality": 8
+  },
+  {
+    "Title": "The Social Network",
+    "Year": 2010,
+    "Quality": 9
+  },
+  {
+    "Title": "Toy Story 3",
+    "Year": 2010,
+    "Quality": 8
+  },
+  {
+    "Title": "True Grit",
+    "Year": 2010,
+    "Quality": 8
+  },
+  {
+    "Title": "Moneyball",
+    "Year": 2011,
+    "Quality": 8
+  },
+  {
+    "Title": "War Horse",
+    "Year": 2011,
+    "Quality": 7
+  },
+  {
+    "Title": "Life of Pi",
+    "Year": 2012,
+    "Quality": 8
+  },
+  {
+    "Title": "Silver Linings Playbook",
+    "Year": 2012,
+    "Quality": 7
+  },
+  {
+    "Title": "Zero Dark Thirty",
+    "Year": 2012,
+    "Quality": 8
+  },
+  {
+    "Title": "Dallas Buyers Club",
+    "Year": 2013,
+    "Quality": 8
+  },
+  {
+    "Title": "Gravity",
+    "Year": 2013,
+    "Quality": 8
+  },
+  {
+    "Title": "Her",
+    "Year": 2013,
+    "Quality": 9
+  },
+  {
+    "Title": "The Wolf of Wall Street",
+    "Year": 2013,
+    "Quality": 8
+  },
+  {
+    "Title": "American Sniper",
+    "Year": 2014,
+    "Quality": 7
+  },
+  {
+    "Title": "Boyhood",
+    "Year": 2014,
+    "Quality": 9
+  },
+  {
+    "Title": "The Imitation Game",
+    "Year": 2014,
+    "Quality": 8
+  },
+  {
+    "Title": "Selma",
+    "Year": 2014,
+    "Quality": 8
+  },
+  {
+    "Title": "Whiplash",
+    "Year": 2014,
+    "Quality": 9
+  },
+  {
+    "Title": "The Big Short",
+    "Year": 2015,
+    "Quality": 8
+  },
+  {
+    "Title": "Mad Max: Fury Road",
+    "Year": 2015,
+    "Quality": 9
+  },
+  {
+    "Title": "The Martian",
+    "Year": 2015,
+    "Quality": 8
+  },
+  {
+    "Title": "The Revenant",
+    "Year": 2015,
+    "Quality": 8
+  },
+  {
+    "Title": "Arrival",
+    "Year": 2016,
+    "Quality": 9
+  },
+  {
+    "Title": "Hidden Figures",
+    "Year": 2016,
+    "Quality": 8
+  },
+  {
+    "Title": "Manchester by the Sea",
+    "Year": 2016,
+    "Quality": 9
+  },
+  {
+    "Title": "Call Me by Your Name",
+    "Year": 2017,
+    "Quality": 9
+  },
+  {
+    "Title": "Darkest Hour",
+    "Year": 2017,
+    "Quality": 8
+  },
+  {
+    "Title": "Dunkirk",
+    "Year": 2017,
+    "Quality": 9
+  },
+  {
+    "Title": "Get Out",
+    "Year": 2017,
+    "Quality": 9
+  },
+  {
+    "Title": "Lady Bird",
+    "Year": 2017,
+    "Quality": 9
+  },
+  {
+    "Title": "Phantom Thread",
+    "Year": 2017,
+    "Quality": 8
+  },
+  {
+    "Title": "The Post",
+    "Year": 2017,
+    "Quality": 7
+  },
+  {
+    "Title": "Three Billboards Outside Ebbing, Missouri",
+    "Year": 2017,
+    "Quality": 8
+  },
+  {
+    "Title": "Chocolat",
+    "Year": 2000,
+    "Quality": 7
+  },
+  {
+    "Title": "Crouching Tiger, Hidden Dragon",
+    "Year": 2000,
+    "Quality": 9
+  },
+  {
+    "Title": "Erin Brockovich",
+    "Year": 2000,
+    "Quality": 7
+  },
+  {
+    "Title": "Traffic",
+    "Year": 2000,
+    "Quality": 8
+  },
+  {
+    "Title": "The Lord of the Rings: The Fellowship of the Ring",
+    "Year": 2001,
+    "Quality": 9
+  },
+  {
+    "Title": "Moulin Rouge!",
+    "Year": 2001,
+    "Quality": 7
+  },
+  {
+    "Title": "Gangs of New York",
+    "Year": 2002,
+    "Quality": 8
+  },
+  {
+    "Title": "The Hours",
+    "Year": 2002,
+    "Quality": 7
+  },
+  {
+    "Title": "The Lord of the Rings: The Two Towers",
+    "Year": 2002,
+    "Quality": 9
+  },
+  {
+    "Title": "Lost in Translation",
+    "Year": 2003,
+    "Quality": 9
+  },
+  {
+    "Title": "Master and Commander: The Far Side of the World",
+    "Year": 2003,
+    "Quality": 8
+  },
+  {
+    "Title": "Mystic River",
+    "Year": 2003,
+    "Quality": 8
+  },
+  {
+    "Title": "Seabiscuit",
+    "Year": 2003,
+    "Quality": 6
+  },
+  {
+    "Title": "Sideways",
+    "Year": 2004,
+    "Quality": 8
+  },
+  {
+    "Title": "Brokeback Mountain",
+    "Year": 2005,
+    "Quality": 9
+  },
+  {
+    "Title": "Capote",
+    "Year": 2005,
+    "Quality": 8
+  },
+  {
+    "Title": "Good Night, and Good Luck",
+    "Year": 2005,
+    "Quality": 8
+  },
+  {
+    "Title": "Little Miss Sunshine",
+    "Year": 2006,
+    "Quality": 8
+  },
+  {
+    "Title": "Juno",
+    "Year": 2007,
+    "Quality": 8
+  },
+  {
+    "Title": "There Will Be Blood",
+    "Year": 2007,
+    "Quality": 9
+  },
+  {
+    "Title": "The Curious Case of Benjamin Button",
+    "Year": 2008,
+    "Quality": 7
+  },
+  {
+    "Title": "Avatar",
+    "Year": 2009,
+    "Quality": 6
+  },
+  {
+    "Title": "District 9",
+    "Year": 2009,
+    "Quality": 8
+  },
+  {
+    "Title": "Inglourious Basterds",
+    "Year": 2009,
+    "Quality": 9
+  },
+  {
+    "Title": "Up",
+    "Year": 2009,
+    "Quality": 9
+  },
+  {
+    "Title": "Blade Runner",
+    "Year": 1982,
+    "Quality": 9
+  },
+  {
+    "Title": "Beetlejuice",
+    "Year": 1988,
+    "Quality": 7
+  },
+  {
+    "Title": "Ghostbusters",
+    "Year": 1984,
+    "Quality": 8
+  },
+  {
+    "Title": "Back to the Future",
+    "Year": 1985,
+    "Quality": 9
+  },
+  {
+    "Title": "The Princess Bride",
+    "Year": 1987,
+    "Quality": 9
+  },
+  {
+    "Title": "The Goonies",
+    "Year": 1985,
+    "Quality": 8
+  },
+  {
+    "Title": "The Shining",
+    "Year": 1980,
+    "Quality": 9
+  },
+  {
+    "Title": "Full Metal Jacket",
+    "Year": 1987,
+    "Quality": 9
+  },
+  {
+    "Title": "Top Gun",
+    "Year": 1986,
+    "Quality": 7
+  },
+  {
+    "Title": "The Outsiders",
+    "Year": 1983,
+    "Quality": 7
+  },
+  {
+    "Title": "Uncle Buck",
+    "Year": 1989,
+    "Quality": 6
+  },
+  {
+    "Title": "The Karate Kid",
+    "Year": 1984,
+    "Quality": 7
+  },
+  {
+    "Title": "E.T. the Extra-Terrestrial",
+    "Year": 1982,
+    "Quality": 9
+  },
+  {
+    "Title": "The Breakfast Club",
+    "Year": 1985,
+    "Quality": 8
+  },
+  {
+    "Title": "Dune",
+    "Year": 1984,
+    "Quality": 6
+  },
+  {
+    "Title": "Aliens",
+    "Year": 1986,
+    "Quality": 9
+  },
+  {
+    "Title": "Stand by Me",
+    "Year": 1986,
+    "Quality": 9
+  },
+  {
+    "Title": "Scarface",
+    "Year": 1983,
+    "Quality": 8
+  },
+  {
+    "Title": "Road House",
+    "Year": 1989,
+    "Quality": 5
+  },
+  {
+    "Title": "Die Hard",
+    "Year": 1988,
+    "Quality": 8
+  },
+  {
+    "Title": "Dirty Dancing",
+    "Year": 1987,
+    "Quality": 7
+  },
+  {
+    "Title": "Batman",
+    "Year": 1989,
+    "Quality": 7
+  },
+  {
+    "Title": "Star Wars: Episode VI - Return of the Jedi",
+    "Year": 1983,
+    "Quality": 8
+  },
+  {
+    "Title": "Star Wars: Episode V - The Empire Strikes Back",
+    "Year": 1980,
+    "Quality": 10
+  },
+  {
+    "Title": "Ferris Bueller's Day Off",
+    "Year": 1986,
+    "Quality": 8
+  },
+  {
+    "Title": "Predator",
+    "Year": 1987,
+    "Quality": 7
+  },
+  {
+    "Title": "The Little Mermaid",
+    "Year": 1989,
+    "Quality": 8
+  },
+  {
+    "Title": "Dead Poets Society",
+    "Year": 1989,
+    "Quality": 9
+  },
+  {
+    "Title": "The Thing",
+    "Year": 1982,
+    "Quality": 8
+  },
+  {
+    "Title": "Weekend at Bernie's",
+    "Year": 1989,
+    "Quality": 5
+  },
+  {
+    "Title": "Heathers",
+    "Year": 1988,
+    "Quality": 7
+  },
+  {
+    "Title": "The Terminator",
+    "Year": 1984,
+    "Quality": 8
+  },
+  {
+    "Title": "Ghostbusters II",
+    "Year": 1989,
+    "Quality": 6
+  },
+  {
+    "Title": "Once Upon a Time in America",
+    "Year": 1984,
+    "Quality": 9
+  },
+  {
+    "Title": "Coming to America",
+    "Year": 1988,
+    "Quality": 7
+  },
+  {
+    "Title": "Indiana Jones and the Last Crusade",
+    "Year": 1989,
+    "Quality": 8
+  },
+  {
+    "Title": "The Blue Lagoon",
+    "Year": 1980,
+    "Quality": 4
+  },
+  {
+    "Title": "Airplane!",
+    "Year": 1980,
+    "Quality": 8
+  },
+  {
+    "Title": "Fast Times at Ridgemont High",
+    "Year": 1982,
+    "Quality": 7
+  },
+  {
+    "Title": "Indiana Jones and the Temple of Doom",
+    "Year": 1984,
+    "Quality": 7
+  },
+  {
+    "Title": "TRON",
+    "Year": 1982,
+    "Quality": 6
+  },
+  {
+    "Title": "Caddyshack",
+    "Year": 1980,
+    "Quality": 7
+  },
+  {
+    "Title": "Beverly Hills Cop",
+    "Year": 1984,
+    "Quality": 7
+  },
+  {
+    "Title": "The Evil Dead",
+    "Year": 1981,
+    "Quality": 7
+  },
+  {
+    "Title": "Highlander",
+    "Year": 1986,
+    "Quality": 6
+  },
+  {
+    "Title": "The NeverEnding Story",
+    "Year": 1984,
+    "Quality": 7
+  },
+  {
+    "Title": "Jumanji",
+    "Year": 1995,
+    "Quality": 7
+  },
+  {
+    "Title": "The Silence of the Lambs",
+    "Year": 1991,
+    "Quality": 9
+  },
+  {
+    "Title": "The Lion King",
+    "Year": 1994,
+    "Quality": 9
+  },
+  {
+    "Title": "Titanic",
+    "Year": 1997,
+    "Quality": 8
+  },
+  {
+    "Title": "Eyes Wide Shut",
+    "Year": 1999,
+    "Quality": 7
+  },
+  {
+    "Title": "The Professional",
+    "Year": 1994,
+    "Quality": 8
+  },
+  {
+    "Title": "The Matrix",
+    "Year": 1999,
+    "Quality": 9
+  },
+  {
+    "Title": "Deep Impact",
+    "Year": 1998,
+    "Quality": 5
+  },
+  {
+    "Title": "Newsies",
+    "Year": 1992,
+    "Quality": 6
+  },
+  {
+    "Title": "Casino",
+    "Year": 1995,
+    "Quality": 8
+  },
+  {
+    "Title": "The Green Mile",
+    "Year": 1999,
+    "Quality": 8
+  },
+  {
+    "Title": "Fight Club",
+    "Year": 1999,
+    "Quality": 9
+  },
+  {
+    "Title": "Jurassic Park",
+    "Year": 1993,
+    "Quality": 8
+  },
+  {
+    "Title": "Saving Private Ryan",
+    "Year": 1998,
+    "Quality": 9
+  },
+  {
+    "Title": "The Fifth Element",
+    "Year": 1997,
+    "Quality": 7
+  },
+  {
+    "Title": "The Big Lebowski",
+    "Year": 1998,
+    "Quality": 8
+  },
+  {
+    "Title": "American Pie",
+    "Year": 1999,
+    "Quality": 6
+  },
+  {
+    "Title": "Beauty and the Beast",
+    "Year": 1991,
+    "Quality": 9
+  },
+  {
+    "Title": "Se7en",
+    "Year": 1995,
+    "Quality": 9
+  },
+  {
+    "Title": "10 Things I Hate About You",
+    "Year": 1999,
+    "Quality": 7
+  },
+  {
+    "Title": "The Godfather: Part III",
+    "Year": 1990,
+    "Quality": 6
+  },
+  {
+    "Title": "Toy Story",
+    "Year": 1995,
+    "Quality": 9
+  },
+  {
+    "Title": "Boogie Nights",
+    "Year": 1997,
+    "Quality": 8
+  },
+  {
+    "Title": "Cruel Intentions",
+    "Year": 1999,
+    "Quality": 6
+  },
+  {
+    "Title": "Romeo + Juliet",
+    "Year": 1996,
+    "Quality": 7
+  },
+  {
+    "Title": "The Usual Suspects",
+    "Year": 1995,
+    "Quality": 9
+  },
+  {
+    "Title": "Good Will Hunting",
+    "Year": 1997,
+    "Quality": 9
+  },
+  {
+    "Title": "Heat",
+    "Year": 1995,
+    "Quality": 9
+  },
+  {
+    "Title": "Star Wars: Episode I - The Phantom Menace",
+    "Year": 1999,
+    "Quality": 5
+  },
+  {
+    "Title": "American History X",
+    "Year": 1998,
+    "Quality": 9
+  },
+  {
+    "Title": "The Mummy",
+    "Year": 1999,
+    "Quality": 6
+  },
+  {
+    "Title": "Clueless",
+    "Year": 1995,
+    "Quality": 7
+  },
+  {
+    "Title": "Reservoir Dogs",
+    "Year": 1992,
+    "Quality": 9
+  },
+  {
+    "Title": "Basic Instinct",
+    "Year": 1992,
+    "Quality": 6
+  },
+  {
+    "Title": "Magnolia",
+    "Year": 1999,
+    "Quality": 8
+  },
+  {
+    "Title": "The Sixth Sense",
+    "Year": 1999,
+    "Quality": 8
+  },
+  {
+    "Title": "The Truman Show",
+    "Year": 1998,
+    "Quality": 9
+  },
+  {
+    "Title": "Waterworld",
+    "Year": 1995,
+    "Quality": 4
+  },
+  {
+    "Title": "Terminator 2",
+    "Year": 1991,
+    "Quality": 9
+  },
+  {
+    "Title": "Trainspotting",
+    "Year": 1996,
+    "Quality": 9
+  },
+  {
+    "Title": "Dazed and Confused",
+    "Year": 1993,
+    "Quality": 8
+  },
+  {
+    "Title": "Pretty Woman",
+    "Year": 1990,
+    "Quality": 7
+  }
+]

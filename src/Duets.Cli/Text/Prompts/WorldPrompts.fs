@@ -17,6 +17,7 @@ module World =
         | Cafe -> "a coffee shop"
         | CarDealer _ -> "a car dealer"
         | Casino -> "a casino"
+        | Cinema -> "a cinema"
         | ConcertSpace concertSpace ->
             $"a concert space wich a capacity for {concertSpace.Capacity} people"
         | Gym -> "a gym"
@@ -54,14 +55,21 @@ module World =
             $"""(Entrances to: {Generic.listOf entrances placeNameWithType})"""
 
     let private roomNameForPrompt place roomType interactions =
-        match place.PlaceType with
-        | Street -> entrancesForPrompt interactions
+        match place.PlaceType, roomType with
+        | Street, _ -> entrancesForPrompt interactions
+        | Cinema, RoomType.Lobby ->
+            "cinema lobby with a ticket counter and a stand for buying pop-corn and other snacks and drinks"
+        | Cinema, RoomType.ScreeningRoom ->
+            "movie theater auditorium with rows of seats, a large screen, and a projector"
         | _ -> World.roomName roomType
 
     let private itemName item =
         let mainProperty = item.Properties |> List.head
 
         match mainProperty with
+        | Key(MovieTicket(cityId, placeId)) ->
+            let place = Queries.World.placeInCityById cityId placeId
+            $"movie ticket for {place.Name}"
         | Key(EntranceCard(cityId, placeId)) ->
             let place = Queries.World.placeInCityById cityId placeId
             $"entrance card for {place.Name}"
@@ -165,7 +173,8 @@ module World =
         (objectsInCurrentRoom: string list)
         npcsPrompt
         =
-        let roomTypeName = World.roomName currentRoom.RoomType
+        let roomTypeName =
+            roomNameForPrompt currentPlace currentRoom.RoomType []
 
         let objectDescriptions =
             if objectsInCurrentRoom.IsEmpty then

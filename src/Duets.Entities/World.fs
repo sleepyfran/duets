@@ -138,6 +138,7 @@ module Place =
             | Cafe -> PlaceTypeIndex.Cafe
             | CarDealer _ -> PlaceTypeIndex.CarDealer
             | Casino -> PlaceTypeIndex.Casino
+            | Cinema -> PlaceTypeIndex.Cinema
             | ConcertSpace _ -> PlaceTypeIndex.ConcertSpace
             | Gym -> PlaceTypeIndex.Gym
             | Home -> PlaceTypeIndex.Home

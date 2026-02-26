@@ -112,6 +112,8 @@ let applyEffect state effect =
         Bands.removeMember band currentMember state
         |> Bands.addPastMember band pastMember
     | MiniGamePlayed _ -> state
+    | MovieTicketPurchased _ -> state
+    | MovieWatched _ -> state
     | NotificationScheduled(date, dayMoment, notification) ->
         Notifications.schedule date dayMoment notification state
     | NotificationShown _ -> state

@@ -31,6 +31,7 @@
         <Compile Include="Queries\Items.fs"/>
         <Compile Include="Queries\SocialNetworks.fs"/>
         <Compile Include="Queries\Concerts.fs"/>
+        <Compile Include="Queries\Cinema.fs"/>
         <Compile Include="Queries\CalendarEvents.fs"/>
         <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Health.fs"/>
         <Compile Include="Queries\Interactions\Requirements\Interactions.Requirements.Energy.fs"/>
@@ -38,6 +39,7 @@
         <Compile Include="Queries\Interactions\Interactions.FreeRoam.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Items.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Casino.fs"/>
+        <Compile Include="Queries\Interactions\Interactions.Cinema.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Career.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Shop.fs"/>
         <Compile Include="Queries\Interactions\Interactions.Gym.fs"/>
@@ -105,6 +107,7 @@
         <Compile Include="Interactions\Items\Drink.Interactions.fs"/>
         <Compile Include="Interactions\Items\Food.Interactions.fs"/>
         <Compile Include="Interactions\Items\Item.Interactions.fs"/>
+        <Compile Include="Interactions\Cinema.fs"/>
         <Compile Include="Interactions\Sleep.fs"/>
         <Compile Include="Concerts\DailyUpdate.fs"/>
         <Compile Include="Concerts\Scheduler.fs"/>
@@ -123,6 +126,7 @@
         <Compile Include="Flights\TicketGeneration.fs"/>
         <Compile Include="Flights\Booking.fs"/>
         <Compile Include="Flights\Airport.fs"/>
+        <Compile Include="Cinema\PayTicket.fs"/>
         <Compile Include="Gym\PayEntrance.fs"/>
         <Compile Include="Notifications\Notifications.fs"/>
         <Compile Include="MiniGames\Blackjack.fs"/>

@@ -49,6 +49,7 @@ module rec ItemTypes =
 
     /// Defines all kind of keys that can be used to unlock a specific place.
     type KeyItem =
+        | MovieTicket of cityId: CityId * placeId: PlaceId
         | TemporaryChip of cityId: CityId * placeId: PlaceId
         | EntranceCard of cityId: CityId * placeId: PlaceId
 

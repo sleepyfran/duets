@@ -86,7 +86,7 @@ let jilská (zone: Zone) =
 
     street |> World.Street.addPlaces concertSpaces
 
-let dlouhá (zone: Zone) =
+let dlouhá (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.dlouhá (StreetType.OneWay)
         |> World.Street.attachContext
@@ -105,7 +105,14 @@ let dlouhá (zone: Zone) =
         [ ("Roxy Prague", 900, 90<quality>, Layouts.concertSpaceLayout3, zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
-    street |> World.Street.addPlaces concertSpaces
+    let cinemas =
+        [ ("Bio Oko", 85<quality>, zone.Id)
+          ("Kino Světozor", 83<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCinema cityId street.Id)
+
+    street
+    |> World.Street.addPlaces concertSpaces
+    |> World.Street.addPlaces cinemas
 
 let karlova (zone: Zone) =
     let street =
@@ -149,13 +156,13 @@ let karlova (zone: Zone) =
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces rehearsalSpaces
 
-let zone =
+let createZone (city: City) =
     let staréMěstoZone = World.Zone.create Ids.Zone.staréMěsto
 
     let staroměstskéNáměstí = staroměstskéNáměstí staréMěstoZone
 
     let karlova = karlova staréMěstoZone
-    let dlouhá = dlouhá staréMěstoZone
+    let dlouhá = dlouhá city.Id staréMěstoZone
     let jilská = jilská staréMěstoZone
     let kaprova, metroStation = kaprova staréMěstoZone
 

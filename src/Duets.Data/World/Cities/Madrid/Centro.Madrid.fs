@@ -63,6 +63,11 @@ let granVia (city: City) (zone: Zone) =
     let metroStation =
         ("Gran Vía Station", zone.Id) |> PlaceCreators.createMetro street.Id
 
+    let cinemas =
+        [ ("Cine Callao", 87<quality>, zone.Id)
+          ("Capitol Cinema", 89<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCinema city.Id street.Id)
+
     let street =
         street
         |> World.Street.addPlaces merchandiseWorkshops
@@ -71,6 +76,7 @@ let granVia (city: City) (zone: Zone) =
         |> World.Street.addPlaces cafes
         |> World.Street.addPlaces concertSpaces
         |> World.Street.addPlaces radioStudios
+        |> World.Street.addPlaces cinemas
         |> World.Street.addPlace metroStation
 
     street, metroStation

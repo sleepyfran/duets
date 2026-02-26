@@ -12,6 +12,9 @@
         <Content Include="Resources\genres.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
+        <Content Include="Resources\movies.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
         <Content Include="Resources\nouns.json"/>
         <Content Include="Resources\npcs.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -20,6 +23,7 @@
         <Compile Include="Items\Drink.Items.fs"/>
         <Compile Include="Items\Electronics.Items.fs"/>
         <Compile Include="Items\Furniture.Items.fs"/>
+        <Compile Include="Items\Cinema.Items.fs"/>
         <Compile Include="Items\Gym.Items.fs"/>
         <Compile Include="Items\Vehicle.Items.fs"/>
         <Compile Include="Items\Food\Breakfast.Food.fs"/>
@@ -36,6 +40,7 @@
         <Compile Include="Items\Food\All.Food.fs"/>
         <Compile Include="Careers.fs"/>
         <Compile Include="Genres.fs"/>
+        <Compile Include="Movies.fs"/>
         <Compile Include="Npcs.fs"/>
         <Compile Include="Roles.fs"/>
         <Compile Include="Skills.fs"/>

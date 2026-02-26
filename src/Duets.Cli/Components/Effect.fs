@@ -147,6 +147,10 @@ let private displayEffect effect =
         Items.itemAddedToBandInventory item quantity |> showMessage
     | ItemRemovedFromCharacterInventory item ->
         Items.itemRemovedFromCharacterInventory item |> showMessage
+    | MovieTicketPurchased(_, _, movieTitle, _) ->
+        Cinema.ticketPurchased movieTitle |> showMessage
+    | MovieWatched(movieTitle, quality) ->
+        Cinema.movieFinished movieTitle quality |> showMessage
     | MerchSold(_, items, income) ->
         let itemsSold = items |> Seq.sumBy snd
 

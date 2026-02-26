@@ -38,6 +38,11 @@ let private broadway (city: City) (zone: Zone) =
     let metroStation =
         ("Times Square Station", zone.Id) |> PlaceCreators.createMetro street.Id
 
+    let cinemas =
+        [ ("AMC Empire 25", 91<quality>, zone.Id)
+          ("Regal UA Court Street", 89<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCinema city.Id street.Id)
+
     let street =
         street
         |> World.Street.addPlace home
@@ -45,6 +50,7 @@ let private broadway (city: City) (zone: Zone) =
         |> World.Street.addPlaces concerts
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces shops
+        |> World.Street.addPlaces cinemas
         |> World.Street.addPlace metroStation
         |> World.Street.attachContext
             """

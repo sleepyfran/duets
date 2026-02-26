@@ -27,6 +27,8 @@ let effectMinutes =
     | GamePlayed _ -> 90<minute>
     | MerchStandSetup -> 30<minute>
     | MiniGamePlayed _ -> 30<minute>
+    | MovieWatched _ ->
+        Config.Cinema.movieWatchingTime |> Calendar.DayMoments.toMinutes
     | SocialActionPerformed(_, actionKind) ->
         match actionKind with
         | SocialActionKind.Greet -> 5<minute>

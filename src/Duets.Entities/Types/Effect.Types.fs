@@ -63,6 +63,12 @@ module EffectTypes =
         | MemberHired of Band * Character * CurrentMember * SkillWithLevel list
         | MemberFired of Band * CurrentMember * PastMember
         | MiniGamePlayed of MiniGameId
+        | MovieTicketPurchased of
+            cityId: CityId *
+            placeId: PlaceId *
+            movieTitle: string *
+            price: Amount
+        | MovieWatched of movieTitle: string * quality: int
         | MoneyEarned of BankAccountHolder * BankTransaction
         | MoneyTransferred of BankAccountHolder * BankTransaction
         | NotificationScheduled of Date * DayMoment * Notification

@@ -63,6 +63,18 @@ module LifeSimulation =
         /// How much the character's mood is improved when watching TV.
         let watchingTvIncrease = 5
 
+        /// How much the character's mood is improved when watching a poor quality movie (0-3).
+        let watchingPoorMovieIncrease = 2
+
+        /// How much the character's mood is improved when watching a decent quality movie (4-6).
+        let watchingDecentMovieIncrease = 5
+
+        /// How much the character's mood is improved when watching a good quality movie (7-8).
+        let watchingGoodMovieIncrease = 8
+
+        /// How much the character's mood is improved when watching an excellent quality movie (9-10).
+        let watchingExcellentMovieIncrease = 12
+
     /// Rate at which the character's energy is reduced each time a unit of time
     /// passes.
     let energyReductionRate = -20
@@ -207,3 +219,10 @@ module Travel =
 
     /// Base rate per minute of travel for taxi rides.
     let taxiRatePerMinute = 0.5m<dd>
+
+module Cinema =
+    /// Base ticket price before city cost of living multiplier.
+    let baseTicketPrice = 3m<dd>
+
+    /// Time consumed when watching a movie.
+    let movieWatchingTime = 2<dayMoments>
