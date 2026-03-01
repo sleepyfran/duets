@@ -87,19 +87,18 @@ module RehearsalSpace =
                   )
 
           yield Interaction.Rehearsal RehearsalInteraction.HireMember
+          yield
+              Interaction.Rehearsal(
+                  RehearsalInteraction.ListMembers(
+                      currentBandMembers,
+                      pastBandMembers
+                  )
+              )
           if hasMembersAsideOfPlayableCharacter then
               yield
                   Interaction.Rehearsal(
                       RehearsalInteraction.FireMember
                           bandMembersWithoutPlayableCharacter
-                  )
-
-              yield
-                  Interaction.Rehearsal(
-                      RehearsalInteraction.ListMembers(
-                          currentBandMembers,
-                          pastBandMembers
-                      )
                   ) ]
 
     /// Returns all interactions available in the current rehearsal room.
