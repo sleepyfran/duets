@@ -7,61 +7,38 @@ open Avalonia.Layout
 open Duets.UI
 open Duets.UI.Theme
 open Duets.UI.SceneIndex
-
-let private content scene =
-    Component.create (
-        "SceneRootContent",
-        fun ctx ->
-            let currentScene = ctx.usePassedRead scene
-
-            let rec onScroll (x: ScrollChangedEventArgs) =
-                if x.ExtentDelta.Y > 0 then
-                    match x.Source with
-                    | :? ScrollViewer as scrollViewer ->
-                        scrollViewer.ScrollToEnd()
-                    | _ -> ()
-
-                ()
-
-            Border.create [
-                Border.background Brush.containerBg
-                Border.cornerRadius 10
-                Border.margin (80, 30)
-                Border.child (
-                    ScrollViewer.create [
-                        ScrollViewer.onScrollChanged onScroll
-                        ScrollViewer.content (
-                            StackPanel.create [
-                                StackPanel.horizontalAlignment
-                                    HorizontalAlignment.Stretch
-                                StackPanel.margin 50
-                                StackPanel.children [
-                                    match currentScene.Current with
-                                    | Scene.NewGame ->
-                                        Duets.UI.Scenes.NewGame.view
-                                    | Scene.MainMenu ->
-                                        Duets.UI.Scenes.MainMenu.view
-                                    | Scene.InGame ->
-                                        Duets.UI.Scenes.InGame.Root.view
-                                ]
-                            ]
-                        )
-                    ]
-                )
-            ]
-    )
+open Duets.UI.Hooks.Scene
 
 let view =
     Component(fun ctx ->
         let currentScene = ctx.usePassedRead Store.shared.CurrentScene
+        let switchTo = ctx.useSceneSwitcher ()
 
-        DockPanel.create [
-            DockPanel.children [
-                match currentScene.Current with
-                | Scene.InGame ->
-                    Duets.UI.Scenes.InGame.Header.view ctx
-                | _ -> ()
-
-                content currentScene
-            ]
-        ])
+        Border.create [
+            Border.background Brush.containerBg
+            Border.cornerRadius 10
+            Border.margin (80, 30)
+            Border.child (
+                ScrollViewer.create [
+                    ScrollViewer.content (
+                        StackPanel.create [
+                            StackPanel.horizontalAlignment HorizontalAlignment.Stretch
+                            StackPanel.margin 50
+                            StackPanel.children [
+                                match currentScene.Current with
+                                | Scene.MainMenu ->
+                                    Duets.UI.Scenes.MainMenu.view switchTo
+                                | Scene.NewGame ->
+                                    Duets.UI.Scenes.NewGame.view switchTo
+                                | Scene.InGame ->
+                                    // Not yet migrated to the Scene DSL
+                                    TextBlock.create [
+                                        TextBlock.text "InGame scene coming soon."
+                                    ]
+                            ]
+                        ]
+                    )
+                ]
+            )
+        ]
+    )

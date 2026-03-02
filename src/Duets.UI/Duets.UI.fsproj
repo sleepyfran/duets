@@ -27,6 +27,7 @@
         <Compile Include="Components\Run.fs"/>
         <Compile Include="Components\StreamingText.fs"/>
         <Compile Include="Text\World\Places.fs"/>
+        <Compile Include="Renderer.fs"/>
         <Compile Include="Hooks\Scene.Hook.fs"/>
         <Compile Include="Hooks\GameState.Hook.fs"/>
         <Compile Include="Hooks\ViewStack.Hook.fs"/>
@@ -49,6 +50,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Duets.UI.Common\Duets.UI.Common.fsproj" />
         <ProjectReference Include="..\Duets.Agents\Duets.Agents.fsproj" />
         <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj" />
         <ProjectReference Include="..\Duets.Data\Duets.Data.fsproj" />

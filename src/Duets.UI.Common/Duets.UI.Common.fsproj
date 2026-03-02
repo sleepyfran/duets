@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>$(DotnetVersion)</TargetFramework>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Content.fs"/>
+        <Compile Include="Scene.fs"/>
+        <Compile Include="Navigate.fs"/>
+        <Compile Include="Text\Character.fs"/>
+        <Compile Include="Text\Music.fs"/>
+        <Compile Include="Text\World\Cities.fs"/>
+        <Compile Include="Scenes\MainMenu.fs"/>
+        <Compile Include="Scenes\NewGame.fs"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FSharp.Control.AsyncSeq" Version="3.2.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj"/>
+        <ProjectReference Include="..\Duets.Entities\Duets.Entities.fsproj"/>
+        <ProjectReference Include="..\Duets.Data\Duets.Data.fsproj"/>
+        <ProjectReference Include="..\Duets.Agents\Duets.Agents.fsproj"/>
+        <ProjectReference Include="..\Duets.Simulation\Duets.Simulation.fsproj"/>
+    </ItemGroup>
+
+</Project>
