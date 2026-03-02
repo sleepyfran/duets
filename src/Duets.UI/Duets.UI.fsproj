@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>$(DotnetVersion)</TargetFramework>
@@ -7,12 +7,49 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Theme.fs"/>
+        <Compile Include="Scene.fs"/>
+        <Compile Include="Store.fs"/>
+        <Compile Include="Types.fs"/>
+        <Compile Include="Text\Base.fs"/>
+        <Compile Include="Text\Emoji.fs"/>
+        <Compile Include="Text\Character.fs"/>
+        <Compile Include="Text\Music.fs"/>
+        <Compile Include="Text\Date.fs"/>
+        <Compile Include="Text\World\Cities.fs"/>
+        <Compile Include="Text\World\Interactions.fs"/>
+        <Compile Include="Text\World\Places.fs"/>
+        <Compile Include="Components\Layout.fs"/>
+        <Compile Include="Components\MultiProgressBar.fs"/>
+        <Compile Include="Components\Picker.fs"/>
+        <Compile Include="Components\Divider.fs"/>
+        <Compile Include="Components\Choice.fs"/>
+        <Compile Include="Components\Run.fs"/>
+        <Compile Include="Hooks\Scene.Hook.fs"/>
+        <Compile Include="Hooks\GameState.Hook.fs"/>
+        <Compile Include="Hooks\ViewStack.Hook.fs"/>
+        <Compile Include="Hooks\Effect.Hook.fs"/>
+        <Compile Include="Scenes\InGame\RehearsalRoom\ComposeSong.fs"/>
+        <Compile Include="Scenes\InGame\Header.fs"/>
+        <Compile Include="Scenes\InGame\InGame.fs"/>
+        <Compile Include="Scenes\NewGame.fs"/>
+        <Compile Include="Scenes\MainMenu.fs"/>
+        <Compile Include="Scenes\SceneRoot.fs"/>
         <Compile Include="Program.fs"/>
+        <AvaloniaResource Include="**\*.xaml"/>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Avalonia.Desktop" Version="11.1.0" />
         <PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.0" />
         <PackageReference Include="Avalonia.FuncUI" Version="1.5.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Duets.Agents\Duets.Agents.fsproj" />
+        <ProjectReference Include="..\Duets.Common\Duets.Common.fsproj" />
+        <ProjectReference Include="..\Duets.Data\Duets.Data.fsproj" />
+        <ProjectReference Include="..\Duets.Entities\Duets.Entities.fsproj" />
+        <ProjectReference Include="..\Duets.Simulation\Duets.Simulation.fsproj" />
     </ItemGroup>
 </Project>
