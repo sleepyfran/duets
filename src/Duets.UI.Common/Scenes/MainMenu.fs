@@ -1,5 +1,6 @@
 module Duets.UI.Common.Scenes.MainMenu
 
+open Duets.Agents
 open Duets.UI.Common
 
 type private MenuOption =
@@ -7,8 +8,16 @@ type private MenuOption =
     | LoadGame
     | Exit
 
-let scene (navigate: Navigate -> unit) (gameVersion: string) (hasSave: bool) : Scene<unit> =
+let scene () : Scene<Navigate> =
     scene {
+        let gameVersion =
+            System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString()
+
+        let hasSave =
+            match Savegame.load () with
+            | Savegame.Available _ -> true
+            | _ -> false
+
         do! showFiglet "duets"
         do! showGameInfo gameVersion
 
@@ -24,8 +33,9 @@ let scene (navigate: Navigate -> unit) (gameVersion: string) (hasSave: bool) : S
                 | LoadGame -> "Load game"
                 | Exit -> "Exit")
 
-        match option with
-        | NewGame -> navigate Navigate.NewGame
-        | LoadGame -> navigate Navigate.InGame
-        | Exit -> navigate Navigate.Exit
+        return
+            match option with
+            | NewGame -> Navigate.NewGame
+            | LoadGame -> Navigate.InGame
+            | Exit -> Navigate.Exit
     }

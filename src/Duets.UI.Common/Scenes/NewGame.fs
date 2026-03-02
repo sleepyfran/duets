@@ -24,7 +24,7 @@ let private applyEffects (effects: Effect list) : Scene<unit> =
                 moreEffects |> Seq.iter Log.appendEffect)
         }
 
-let scene (navigate: Navigate -> unit) : Scene<unit> =
+let scene () : Scene<Navigate> =
     scene {
         do!
             showText
@@ -60,5 +60,5 @@ let scene (navigate: Navigate -> unit) : Scene<unit> =
 
         do! applyEffects [ startGame character band [] city ]
 
-        navigate Navigate.InGame
+        return Navigate.InGame
     }

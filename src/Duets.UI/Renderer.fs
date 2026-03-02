@@ -9,6 +9,7 @@ open Avalonia.Media
 open Duets.Entities
 open Duets.UI.Common
 open Duets.UI.Theme
+open FSharp.Control
 open System.Threading.Tasks
 
 // ── Widget builders ───────────────────────────────────────────────────────────
@@ -18,16 +19,31 @@ let private choiceWidget
     (display: 'T -> string)
     (onSelected: 'T -> unit)
     : IView =
-    StackPanel.create
-        [ StackPanel.orientation Orientation.Vertical
-          StackPanel.spacing Padding.small
-          StackPanel.children
-              [ for v in values do
-                    Button.create
-                        [ Button.content (display v)
-                          Button.onClick (fun _ -> onSelected v)
-                          Button.classes [ "menu" ] ]
-                    :> IView ] ]
+    Component.create (
+        $"""Choice-{values.Length}-{values |> List.map display |> String.concat ""}""",
+        fun ctx ->
+            let selected = ctx.useState false
+
+            WrapPanel.create
+                [ WrapPanel.orientation Orientation.Horizontal
+                  WrapPanel.children
+                      [ for v in values do
+                            Button.create
+                                [ Button.content (display v)
+                                  Button.margin (
+                                      0,
+                                      0,
+                                      Padding.small,
+                                      Padding.small
+                                  )
+                                  Button.isEnabled (not selected.Current)
+                                  Button.onClick (fun _ ->
+                                      if not selected.Current then
+                                          selected.Set true
+                                          onSelected v)
+                                  Button.classes [ "menu" ] ]
+                            :> IView ] ]
+    )
     :> IView
 
 let private textBoxWidget
@@ -118,9 +134,7 @@ let private renderShow (content: ShowContent) : IView =
         :> IView
     | ShowContent.LineBreak ->
         Border.create [ Border.height (float Padding.medium) ] :> IView
-    | _ ->
-        // Stub: content types not yet needed for MainMenu/NewGame
-        Border.create [] :> IView
+    | _ -> Border.create [] :> IView
 
 // ── Renderer factory ──────────────────────────────────────────────────────────
 
@@ -132,7 +146,53 @@ let create (viewStack: IWritable<IView list>) : IRenderer =
         viewStack.Set(viewStack.Current @ [ view ])
 
     { new IRenderer with
-        member _.Show content = async { add (renderShow content) }
+        member _.Show content =
+            async {
+                match content with
+                | ShowContent.Clear -> viewStack.Set []
+                | ShowContent.LLMStream asyncSeq ->
+                    let tcs = TaskCompletionSource<unit>()
+
+                    let widget =
+                        Component.create (
+                            $"LLMStream-{System.Guid.NewGuid()}",
+                            fun ctx ->
+                                let text = ctx.useState ""
+
+                                ctx.useEffect (
+                                    handler =
+                                        (fun _ ->
+                                            async {
+                                                let mutable acc = ""
+
+                                                do!
+                                                    asyncSeq
+                                                    |> AsyncSeq.iterAsync
+                                                        (fun token ->
+                                                            async {
+                                                                acc <-
+                                                                    acc
+                                                                    + token
+
+                                                                text.Set acc
+                                                            })
+
+                                                tcs.TrySetResult() |> ignore
+                                            }
+                                            |> Async.Start),
+                                    triggers = [ EffectTrigger.AfterInit ]
+                                )
+
+                                TextBlock.create
+                                    [ TextBlock.text text.Current
+                                      TextBlock.textWrapping TextWrapping.Wrap ]
+                        )
+                        :> IView
+
+                    add widget
+                    do! tcs.Task |> Async.AwaitTask
+                | _ -> add (renderShow content)
+            }
 
         member _.Ask(content: AskContent<'T>) =
             let tcs = TaskCompletionSource<'T>()
@@ -202,8 +262,9 @@ let run (key: string) (sceneDesc: Scene<unit>) : IView =
             )
 
             StackPanel.create
-                [ StackPanel.horizontalAlignment HorizontalAlignment.Center
+                [ StackPanel.horizontalAlignment HorizontalAlignment.Stretch
                   StackPanel.spacing Padding.medium
+                  StackPanel.margin 50
                   StackPanel.children [ yield! views.Current ] ]
     )
     :> IView

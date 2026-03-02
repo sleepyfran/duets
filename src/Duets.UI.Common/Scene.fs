@@ -84,6 +84,7 @@ module Scene =
     let lineBreak: Scene<unit> = show ShowContent.LineBreak
     let wait ms : Scene<unit> = show (ShowContent.Wait ms)
     let stream seq : Scene<unit> = show (ShowContent.LLMStream seq)
+    let clear : Scene<unit> = show ShowContent.Clear
 
     let showProgress steps dur : Scene<unit> =
         show (ShowContent.Progress(steps, dur))

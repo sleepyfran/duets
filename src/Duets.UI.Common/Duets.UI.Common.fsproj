@@ -13,8 +13,13 @@
         <Compile Include="Text\Character.fs"/>
         <Compile Include="Text\Music.fs"/>
         <Compile Include="Text\World\Cities.fs"/>
+        <Compile Include="Text\World\Interactions.fs"/>
+        <Compile Include="Text\World\Places.fs"/>
+        <Compile Include="Text\World\Prompts.fs"/>
         <Compile Include="Scenes\MainMenu.fs"/>
         <Compile Include="Scenes\NewGame.fs"/>
+        <Compile Include="Scenes\InGame.fs"/>
+        <Compile Include="Scenes\Dispatcher.fs"/>
     </ItemGroup>
 
     <ItemGroup>

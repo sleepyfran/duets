@@ -3,17 +3,18 @@ module Duets.UI.Scenes.SceneRoot
 open Avalonia.Controls
 open Avalonia.FuncUI
 open Avalonia.FuncUI.DSL
-open Avalonia.Layout
+open Duets.Entities
 open Duets.UI
 open Duets.UI.Theme
-open Duets.UI.SceneIndex
-open Duets.UI.Hooks.Scene
+open Duets.UI.Common
+
+let private displayLabel (item: InteractionWithMetadata) : string =
+    let e = Text.World.Interactions.emoji item
+    let l = Duets.UI.Common.Text.World.Interactions.label item
+    $"{e} {l}"
 
 let view =
-    Component(fun ctx ->
-        let currentScene = ctx.usePassedRead Store.shared.CurrentScene
-        let switchTo = ctx.useSceneSwitcher ()
-
+    Component(fun _ ->
         Border.create [
             Border.background Brush.containerBg
             Border.cornerRadius 10
@@ -21,22 +22,9 @@ let view =
             Border.child (
                 ScrollViewer.create [
                     ScrollViewer.content (
-                        StackPanel.create [
-                            StackPanel.horizontalAlignment HorizontalAlignment.Stretch
-                            StackPanel.margin 50
-                            StackPanel.children [
-                                match currentScene.Current with
-                                | Scene.MainMenu ->
-                                    Duets.UI.Scenes.MainMenu.view switchTo
-                                | Scene.NewGame ->
-                                    Duets.UI.Scenes.NewGame.view switchTo
-                                | Scene.InGame ->
-                                    // Not yet migrated to the Scene DSL
-                                    TextBlock.create [
-                                        TextBlock.text "InGame scene coming soon."
-                                    ]
-                            ]
-                        ]
+                        Renderer.run
+                            "Game"
+                            (Duets.UI.Common.Scenes.Dispatcher.run displayLabel Navigate.MainMenu)
                     )
                 ]
             )

@@ -23,6 +23,7 @@ type ShowContent =
     | AlbumReviews of Album
     | SocialPost of account: SocialNetworkAccount * post: SocialNetworkPost
     | Path of string
+    | Clear
 
 /// Content that asks the user for input, returning a value of type 'T.
 /// Only contains cases whose return type is genuinely generic — fixed-return
