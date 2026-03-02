@@ -5,6 +5,7 @@ open Avalonia.Controls.ApplicationLifetimes
 open Avalonia.FuncUI
 open Avalonia.FuncUI.Hosts
 open Avalonia.Themes.Fluent
+open Duets.Agents
 open Duets.UI.Scenes
 
 type MainWindow() as this =
@@ -39,6 +40,8 @@ module Program =
 
     [<EntryPoint>]
     let main (args: string[]) =
+        LanguageModel.initialize ()
+
         AppBuilder
             .Configure<App>()
             .UsePlatformDetect()

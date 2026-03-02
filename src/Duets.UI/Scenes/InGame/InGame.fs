@@ -44,7 +44,7 @@ let private addInteractionsChoiceView (viewStack: ViewStack) =
     let interactions =
         Queries.Interactions.availableCurrently state |> filterInteractions
 
-    [ Text.World.Places.text currentPlace ] |> Message |> viewStack.AddAction
+    [ Text.World.Places.text state interactions ] |> Subcomponent |> viewStack.AddAction
 
     [
         create

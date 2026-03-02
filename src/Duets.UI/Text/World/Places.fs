@@ -1,16 +1,11 @@
 module Duets.UI.Text.World.Places
 
-open Avalonia.Controls
-open Avalonia.FuncUI.DSL
 open Avalonia.FuncUI.Types
 open Duets.Entities
+open Duets.UI.Components
+open Duets.UI.Text.Prompts
 
-/// Describes the given place in text.
-let text (place: Place) : IView =
-    let description =
-        match place.PlaceType with
-        | RehearsalSpace _ ->
-            "You're in the rehearsal room, the previous band left all their empty beers and a bunch of cigarettes on the floor. Your band's morale has decreased a bit."
-        | _ -> ""
-
-    TextBlock.create [ TextBlock.text description ] :> IView
+/// Generates a streaming LLM description of the given place using the current
+/// game state and available interactions for context.
+let text state (interactions: InteractionWithMetadata list) : IView =
+    createRoomDescriptionPrompt state interactions |> StreamingText.create
