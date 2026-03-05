@@ -53,6 +53,9 @@ let checkmark = ":check_mark_button:"
 /// Emoji for a red cross-mark.
 let crossMark = ":cross_mark:"
 
+/// Emoji for a telephone.
+let phone = ":telephone_receiver:"
+
 /// Returns the correct emoji for showing the current day moment.
 let dayMoment dayMoment =
     match dayMoment with

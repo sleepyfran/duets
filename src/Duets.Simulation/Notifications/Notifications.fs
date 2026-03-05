@@ -15,8 +15,12 @@ let private createHappeningSoon state date =
         let eventDate =
             CalendarEvent.date event ||> Calendar.Transform.changeDayMoment'
 
-        (* Notify the player if the event is happening in 5 day moments or right now. *)
-        if dateInFiveDayMoments = eventDate || date = eventDate then
+        (* Notify the player if the event is happening in 5 day moments or one
+           day moment from now. *)
+        if
+            dateInFiveDayMoments = eventDate
+            || Calendar.Query.next date = eventDate
+        then
             Notification.CalendarEvent event |> Some
         else
             None)

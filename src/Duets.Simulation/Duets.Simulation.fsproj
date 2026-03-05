@@ -111,6 +111,7 @@
         <Compile Include="Interactions\Sleep.fs"/>
         <Compile Include="Concerts\DailyUpdate.fs"/>
         <Compile Include="Concerts\Scheduler.fs"/>
+        <Compile Include="Concerts\LateAlert.fs"/>
         <Compile Include="Concerts\OpeningActOpportunities.fs"/>
         <Compile Include="Concerts\Live\Live.Common.fs"/>
         <Compile Include="Concerts\Live\Live.Actions.fs"/>

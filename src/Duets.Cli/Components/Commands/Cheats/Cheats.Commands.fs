@@ -7,6 +7,7 @@ module Index =
     let all =
         [ BandCommands.makeMeABand
           BandCommands.pactWithTheDevil
+          ConcertCommands.scheduleNightConcert
           LifeCommands.happy
           LifeCommands.notMoody
           LifeCommands.roaming

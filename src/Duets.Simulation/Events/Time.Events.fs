@@ -25,6 +25,7 @@ let private runDailyEffects time state =
 
 let rec private runCurrentTimeChecks time state =
     Concerts.Scheduler.moveFailedConcerts state time
+    @ Concerts.LateAlert.checkIfRunningLate state time
     @ Notifications.showPendingNotifications state time
     @ AttributeChange.applyAfterTimeChange state
     @ SocialNetworks.Reposts.applyToLatestAfterTimeChange state

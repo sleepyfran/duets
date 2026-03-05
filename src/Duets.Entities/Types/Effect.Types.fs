@@ -41,6 +41,9 @@ module EffectTypes =
         | ConcertUpdated of Band * ScheduledConcert
         | ConcertCancelled of Band * PastConcert
         | ConcertSoundcheckPerformed
+        | CharacterRunningLateToConcert of
+            callerCharacter: Character option *
+            concert: Concert
         | Drank of item: Item * drink: DrinkableItem
         | Exercised of Item
         | FlightBoarded of Flight

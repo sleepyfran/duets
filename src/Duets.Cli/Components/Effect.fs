@@ -134,6 +134,42 @@ let private displayEffect effect =
         |> showMessage
 
         Concert.concertSummary concert income |> showMessage
+    | CharacterRunningLateToConcert(Some caller, concert) ->
+        let venue = Queries.World.placeInCityById concert.CityId concert.VenueId
+        let cityName = Generic.cityName concert.CityId
+
+        let playerName =
+            (Queries.Characters.playableCharacter (State.get ())).Name
+
+        let attendance = Queries.Concerts.attendancePercentage concert
+
+        lineBreak ()
+
+        showNotification
+            "Incoming call"
+            $"{Emoji.phone} {caller.Name} is calling you"
+
+        let accepted = showConfirmationPrompt "Pick up?"
+
+        if accepted then
+            Prompts.Concert.createRunningLateCallPrompt
+                caller.Name
+                playerName
+                venue.Name
+                cityName
+                attendance
+            |> LanguageModel.streamMessage
+            |> streamMessage
+        else
+            "You ignored the call. Hope you remember what it was about..."
+            |> Styles.faded
+            |> showMessage
+    | CharacterRunningLateToConcert(None, _) ->
+        lineBreak ()
+
+        "You have the feeling that you're forgetting something important, but you can't quite remember what..."
+        |> Styles.warning
+        |> showMessage
     | ConcertCancelled(band, FailedConcert(concert, reason)) ->
         let place = Queries.World.placeInCityById concert.CityId concert.VenueId
 

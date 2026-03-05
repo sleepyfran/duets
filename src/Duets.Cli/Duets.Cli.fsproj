@@ -34,6 +34,7 @@
         <Compile Include="Text\Social.fs"/>
         <Compile Include="Text\World.fs"/>
         <Compile Include="Text\Prompts\CommonPrompts.fs"/>
+        <Compile Include="Text\Prompts\ConcertPrompts.fs"/>
         <Compile Include="Text\Prompts\WorldPrompts.fs"/>
         <Compile Include="Text\Prompts\DrivingPrompts.fs"/>
         <Compile Include="Text\Prompts\FlightPrompts.fs"/>
@@ -137,6 +138,7 @@
         <Compile Include="Components\Commands\Travel\WaitForMetro.Command.fs"/>
         <Compile Include="Components\Commands\Travel\Drive.Command.fs"/>
         <Compile Include="Components\Commands\Cheats\Band.Cheats.Commands.fs"/>
+        <Compile Include="Components\Commands\Cheats\Concert.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Life.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Money.Cheats.Commands.fs"/>
         <Compile Include="Components\Commands\Cheats\Skills.Cheats.Commands.fs"/>
