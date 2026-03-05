@@ -9,6 +9,7 @@ module ShopTypes =
     /// Defines the type of cuisine a restaurant serves.
     type RestaurantCuisine =
         | American
+        | Canadian
         | Czech
         | Italian
         | French

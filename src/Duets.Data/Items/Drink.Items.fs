@@ -94,6 +94,22 @@ module Beer =
     let dosEquis: PurchasableItem =
         Item.Beer.create "Dos Equis beer" 355<milliliter> 4.2, 2.6m<dd>
 
+    (* Canadian beer. *)
+    let moosehead: PurchasableItem =
+        Item.Beer.create "Moosehead Lager beer" 355<milliliter> 5.0, 2.8m<dd>
+
+    let steamWhistle: PurchasableItem =
+        Item.Beer.create "Steam Whistle Pilsner beer" 355<milliliter> 5.0, 3.0m<dd>
+
+    let millStreetOrganic: PurchasableItem =
+        Item.Beer.create "Mill Street Organic beer" 355<milliliter> 4.2, 3.2m<dd>
+
+    let bellwoodsWhitePicket: PurchasableItem =
+        Item.Beer.create "Bellwoods White Picket beer" 355<milliliter> 5.6, 3.5m<dd>
+
+    let amsterdamBoneshaker: PurchasableItem =
+        Item.Beer.create "Amsterdam Boneshaker beer" 355<milliliter> 7.1, 3.3m<dd>
+
     (* US beer. *)
     let budLight: PurchasableItem =
         Item.Beer.create "Bud Light beer" 355<milliliter> 4.2, 2.5m<dd>
@@ -147,6 +163,12 @@ module Beer =
           (NewYork, americanBeers)
           (Prague,
            [ gambrinusPint; kozelPint; pilsnerUrquellPint; staropramenPint ])
+          (Toronto,
+           [ moosehead
+             steamWhistle
+             millStreetOrganic
+             bellwoodsWhitePicket
+             amsterdamBoneshaker ])
           // (Sydney,
           //  [ victoriaBitter
           //    fostersLager

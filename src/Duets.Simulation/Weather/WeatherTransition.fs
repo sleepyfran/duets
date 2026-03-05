@@ -258,6 +258,9 @@ module private CityTransitionMatrix =
         | Prague ->
             { AutumnWinter = pragueWinterMatrix
               SpringSummer = pragueSummerMatrix }
+        | Toronto ->
+            { AutumnWinter = newYorkWinterMatrix
+              SpringSummer = newYorkSummerMatrix }
 
 let private updateWeatherIn cityId state =
     let currentWeather =

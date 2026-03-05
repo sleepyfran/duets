@@ -178,7 +178,8 @@ module World =
 
         state
         |> Optic.get Lenses.State.currentWeatherCondition_
-        |> Map.find cityId
+        |> Map.tryFind cityId
+        |> Option.defaultValue WeatherCondition.Sunny
 
     /// Finds the partition of a street to which the given place belongs. This
     /// function assumes that the given place belongs to the given street, otherwise

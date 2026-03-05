@@ -5,6 +5,7 @@ module CityTypes =
     /// ID for a country in the game world, which declared every possible country
     /// available in the game.
     type CountryId =
+        | Canada
         | CzechRepublic
         | England
         | Spain
@@ -18,3 +19,4 @@ module CityTypes =
         | Madrid
         | NewYork
         | Prague
+        | Toronto

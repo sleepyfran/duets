@@ -89,6 +89,13 @@
         <Compile Include="World\Cities\Madrid\Centro.Madrid.fs"/>
         <Compile Include="World\Cities\Madrid\Chamartin.Madrid.fs"/>
         <Compile Include="World\Cities\Madrid\Madrid.fs"/>
+        <Compile Include="World\Cities\Toronto\Ids.Toronto.fs"/>
+        <Compile Include="World\Cities\Toronto\Pearson.Toronto.fs"/>
+        <Compile Include="World\Cities\Toronto\QueenWest.Toronto.fs"/>
+        <Compile Include="World\Cities\Toronto\DowntownCore.Toronto.fs"/>
+        <Compile Include="World\Cities\Toronto\EastEnd.Toronto.fs"/>
+        <Compile Include="World\Cities\Toronto\Midtown.Toronto.fs"/>
+        <Compile Include="World\Cities\Toronto\Toronto.fs"/>
         <Compile Include="World\World.fs"/>
         <None Include="Util\NpcGen.fsx"/>
         <Content Include="ATTRIBUTIONS.md"/>
