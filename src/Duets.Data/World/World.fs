@@ -11,11 +11,12 @@ let private generate () =
     let madrid = Cities.Madrid.Root.generate ()
     let newYork = Cities.NewYork.Root.generate ()
     let prague = Cities.Prague.Root.generate ()
+    let santiago = Cities.Santiago.Root.generate ()
     let seoul = Cities.Seoul.Root.generate ()
     let tokyo = Cities.Tokyo.Root.generate ()
     let toronto = Cities.Toronto.Root.generate ()
 
-    World.create [ london; losAngeles; madrid; newYork; prague; seoul; tokyo; toronto ]
+    World.create [ london; losAngeles; madrid; newYork; prague; santiago; seoul; tokyo; toronto ]
 
 /// Returns the game world. The world is initialized when the module is loaded.
 let get = generate ()
@@ -27,6 +28,7 @@ let private countryMetadata: Map<CityId, CountryId> =
       (Madrid, Spain)
       (NewYork, UnitedStates)
       (Prague, CzechRepublic)
+      (Santiago, Chile)
       (Seoul, SouthKorea)
       (Tokyo, Japan)
       (Toronto, Canada) ]
@@ -39,31 +41,39 @@ let countryOf city = countryMetadata |> Map.find city
 /// distance between them and which connections are available (road, sea or air)
 let private connectionMetadata
     : Map<CityId * CityId, CityConnectionDistance * CityConnections> =
-    [ ((London, LosAngeles), (8800<km>, [ Air ]))
+    [ ((London, Santiago), (11700<km>, [ Air ]))
+      ((London, LosAngeles), (8800<km>, [ Air ]))
       ((London, Madrid), (1260<km>, [ Road; Air ]))
       ((London, NewYork), (5570<km>, [ Air ]))
       ((London, Prague), (1035<km>, [ Road; Air ]))
       ((London, Tokyo), (9560<km>, [ Air ]))
       ((London, Toronto), (5700<km>, [ Air ]))
       ((London, Seoul), (8900<km>, [ Air ]))
+      ((LosAngeles, Santiago), (8900<km>, [ Air ]))
       ((LosAngeles, Madrid), (9120<km>, [ Air ]))
       ((LosAngeles, NewYork), (3930<km>, [ Air; Road ]))
       ((LosAngeles, Prague), (9640<km>, [ Air ]))
       ((LosAngeles, Seoul), (9600<km>, [ Air ]))
       ((LosAngeles, Tokyo), (8815<km>, [ Air ]))
       ((LosAngeles, Toronto), (3500<km>, [ Air ]))
+      ((Madrid, Santiago), (10400<km>, [ Air ]))
       ((Madrid, NewYork), (5768<km>, [ Air ]))
       ((Madrid, Prague), (1780<km>, [ Road; Air ]))
       ((Madrid, Seoul), (9800<km>, [ Air ]))
       ((Madrid, Tokyo), (10500<km>, [ Air ]))
       ((Madrid, Toronto), (6050<km>, [ Air ]))
+      ((NewYork, Santiago), (8250<km>, [ Air ]))
       ((NewYork, Prague), (6570<km>, [ Air ]))
       ((NewYork, Seoul), (11050<km>, [ Air ]))
       ((NewYork, Tokyo), (10850<km>, [ Air ]))
       ((NewYork, Toronto), (550<km>, [ Air; Road ]))
+      ((Prague, Santiago), (12400<km>, [ Air ]))
       ((Prague, Seoul), (8600<km>, [ Air ]))
       ((Prague, Tokyo), (9100<km>, [ Air ]))
       ((Prague, Toronto), (6900<km>, [ Air ]))
+      ((Santiago, Seoul), (18700<km>, [ Air ]))
+      ((Santiago, Tokyo), (17200<km>, [ Air ]))
+      ((Santiago, Toronto), (8600<km>, [ Air ]))
       ((Seoul, Tokyo), (1160<km>, [ Air ]))
       ((Seoul, Toronto), (10600<km>, [ Air ]))
       ((Tokyo, Toronto), (10340<km>, [ Air ])) ]

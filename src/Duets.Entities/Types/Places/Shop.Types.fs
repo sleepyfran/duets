@@ -10,6 +10,7 @@ module ShopTypes =
     type RestaurantCuisine =
         | American
         | Canadian
+        | Chilean
         | Czech
         | Italian
         | French

@@ -145,6 +145,22 @@ module Beer =
     let stAustellTribute: PurchasableItem =
         Item.Beer.create "St Austell Tribute beer" 568<milliliter> 4.2, 3.6m<dd>
 
+    (* Chilean beer. *)
+    let cristal: PurchasableItem =
+        Item.Beer.create "Cristal beer" 350<milliliter> 4.5, 2.0m<dd>
+
+    let escudo: PurchasableItem =
+        Item.Beer.create "Escudo beer" 350<milliliter> 4.5, 2.0m<dd>
+
+    let kunstmannTorobayo: PurchasableItem =
+        Item.Beer.create "Kunstmann Torobayo beer" 330<milliliter> 5.0, 3.0m<dd>
+
+    let australCalafate: PurchasableItem =
+        Item.Beer.create "Austral Calafate beer" 330<milliliter> 5.5, 3.5m<dd>
+
+    let krossGoldenAle: PurchasableItem =
+        Item.Beer.create "Kross Golden Ale beer" 330<milliliter> 5.0, 3.2m<dd>
+
     (* Korean beer. *)
     let hiteExtra: PurchasableItem =
         Item.Beer.create "Hite Extra Cold beer" 500<milliliter> 4.3, 2.5m<dd>
@@ -173,6 +189,8 @@ module Beer =
              adnamsBroadside
              stAustellTribute ])
           (LosAngeles, americanBeers)
+          (Santiago,
+           [ cristal; escudo; kunstmannTorobayo; australCalafate; krossGoldenAle ])
           (Madrid, [ cruzcampo; estrellaDamm; mahou; alhambra; sanMiguel ])
           // (MexicoCity,
           //  [ coronaExtra; modeloEspecial; pacifico; tecate; dosEquis ])

@@ -24,6 +24,7 @@ module Shop =
             match cuisineType with
             | American -> Food.USA.all
             | Canadian -> Food.Canadian.all
+            | Chilean -> Food.Chilean.all
             | Czech -> Food.Czech.all
             | French -> Food.French.all
             | Italian -> Food.Italian.all

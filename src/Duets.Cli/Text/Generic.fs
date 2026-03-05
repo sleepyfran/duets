@@ -107,6 +107,7 @@ let cityName id =
     | Madrid -> "Madrid"
     | NewYork -> "New York"
     | Prague -> "Prague"
+    | Santiago -> "Santiago"
     | Seoul -> "Seoul"
     | Tokyo -> "Tokyo"
     | Toronto -> "Toronto"
