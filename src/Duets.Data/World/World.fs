@@ -6,6 +6,7 @@ open Duets.Entities
 /// a bunch of places interconnected, in the future this should procedurally
 /// generate the world and all the cities in it.
 let private generate () =
+    let berlin = Cities.Berlin.Root.generate ()
     let london = Cities.London.Root.generate ()
     let losAngeles = Cities.LosAngeles.Root.generate ()
     let madrid = Cities.Madrid.Root.generate ()
@@ -17,14 +18,15 @@ let private generate () =
     let tokyo = Cities.Tokyo.Root.generate ()
     let toronto = Cities.Toronto.Root.generate ()
 
-    World.create [ london; losAngeles; madrid; newYork; paris; prague; santiago; seoul; tokyo; toronto ]
+    World.create [ berlin; london; losAngeles; madrid; newYork; paris; prague; santiago; seoul; tokyo; toronto ]
 
 /// Returns the game world. The world is initialized when the module is loaded.
 let get = generate ()
 
 /// Defines the metadata about the country a certain city belongs to.
 let private countryMetadata: Map<CityId, CountryId> =
-    [ (London, England)
+    [ (Berlin, Germany)
+      (London, England)
       (LosAngeles, UnitedStates)
       (Madrid, Spain)
       (NewYork, UnitedStates)
@@ -43,7 +45,17 @@ let countryOf city = countryMetadata |> Map.find city
 /// distance between them and which connections are available (road, sea or air)
 let private connectionMetadata
     : Map<CityId * CityId, CityConnectionDistance * CityConnections> =
-    [ ((London, LosAngeles), (8800<km>, [ Air ]))
+    [ ((Berlin, London), (930<km>, [ Road; Air ]))
+      ((Berlin, LosAngeles), (9300<km>, [ Air ]))
+      ((Berlin, Madrid), (1870<km>, [ Road; Air ]))
+      ((Berlin, NewYork), (6380<km>, [ Air ]))
+      ((Berlin, Paris), (880<km>, [ Road; Air ]))
+      ((Berlin, Prague), (280<km>, [ Road; Air ]))
+      ((Berlin, Santiago), (12300<km>, [ Air ]))
+      ((Berlin, Seoul), (8600<km>, [ Air ]))
+      ((Berlin, Tokyo), (8920<km>, [ Air ]))
+      ((Berlin, Toronto), (6500<km>, [ Air ]))
+      ((London, LosAngeles), (8800<km>, [ Air ]))
       ((London, Madrid), (1260<km>, [ Road; Air ]))
       ((London, NewYork), (5570<km>, [ Air ]))
       ((London, Paris), (340<km>, [ Road; Air ]))

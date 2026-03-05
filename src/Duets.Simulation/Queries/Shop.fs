@@ -26,6 +26,7 @@ module Shop =
             | Canadian -> Food.Canadian.all
             | Chilean -> Food.Chilean.all
             | Czech -> Food.Czech.all
+            | German -> Food.German.all
             | French -> Food.French.all
             | Italian -> Food.Italian.all
             | Japanese -> Food.Japanese.all

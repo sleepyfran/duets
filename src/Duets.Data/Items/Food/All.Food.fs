@@ -8,6 +8,7 @@ let all: PurchasableItem list =
     @ Canadian.all
     @ Chilean.all
     @ Czech.all
+    @ German.all
     @ Japanese.all
     @ Italian.all
     @ French.all

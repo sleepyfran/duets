@@ -14,6 +14,7 @@ type MainWindow() =
     // Helper to parse string to CityId DU
     let tryParseCityId (name: string) =
         match name with
+        | "Berlin" -> Some CityId.Berlin
         | "London" -> Some CityId.London
         | "LosAngeles" -> Some CityId.LosAngeles
         | "Madrid" -> Some CityId.Madrid

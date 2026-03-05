@@ -161,6 +161,22 @@ module Beer =
     let krossGoldenAle: PurchasableItem =
         Item.Beer.create "Kross Golden Ale beer" 330<milliliter> 5.0, 3.2m<dd>
 
+    (* German beer. *)
+    let berlinerKindl: PurchasableItem =
+        Item.Beer.create "Berliner Kindl beer" 500<milliliter> 4.8, 2.5m<dd>
+
+    let augustinerHelles: PurchasableItem =
+        Item.Beer.create "Augustiner Helles beer" 500<milliliter> 5.2, 3.0m<dd>
+
+    let paulanerHefeWeiss: PurchasableItem =
+        Item.Beer.create "Paulaner Hefe-Weißbier beer" 500<milliliter> 5.5, 3.2m<dd>
+
+    let erdingerWeiss: PurchasableItem =
+        Item.Beer.create "Erdinger Weißbier beer" 500<milliliter> 5.3, 3.1m<dd>
+
+    let warsteiner: PurchasableItem =
+        Item.Beer.create "Warsteiner Premium beer" 500<milliliter> 4.8, 2.8m<dd>
+
     (* French beer. *)
     let kronenbourg1664: PurchasableItem =
         Item.Beer.create "Kronenbourg 1664 beer" 330<milliliter> 5.0, 2.5m<dd>
@@ -196,9 +212,13 @@ module Beer =
     let private americanBeers =
         [ budLight; coorsLight; millerLite; yuengling; samuelAdams ]
 
+    let private germanBeers =
+        [ berlinerKindl; augustinerHelles; paulanerHefeWeiss; erdingerWeiss; warsteiner ]
+
     /// Defines the most common beers by location.
     let byLocation =
-        [ (London,
+        [ (Berlin, germanBeers)
+          (London,
            [ fullersLondonPride
              timothyTaylorLandlord
              shepherdNeameSpitfire

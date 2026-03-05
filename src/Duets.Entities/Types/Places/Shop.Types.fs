@@ -12,6 +12,7 @@ module ShopTypes =
         | Canadian
         | Chilean
         | Czech
+        | German
         | Italian
         | French
         | Japanese

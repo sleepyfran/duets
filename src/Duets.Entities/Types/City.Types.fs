@@ -10,6 +10,7 @@ module CityTypes =
         | CzechRepublic
         | England
         | France
+        | Germany
         | Japan
         | SouthKorea
         | Spain
@@ -18,6 +19,7 @@ module CityTypes =
     /// ID for a city in the game world, which declared every possible city
     /// available in the game.
     type CityId =
+        | Berlin
         | London
         | LosAngeles
         | Madrid

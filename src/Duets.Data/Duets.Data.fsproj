@@ -39,6 +39,7 @@
         <Compile Include="Items\Food\Spanish.Food.fs"/>
         <Compile Include="Items\Food\Turkish.Food.fs"/>
         <Compile Include="Items\Food\USA.Food.fs"/>
+        <Compile Include="Items\Food\German.Food.fs"/>
         <Compile Include="Items\Food\Vietnamese.Food.fs"/>
         <Compile Include="Items\Food\HomeCooking.Food.fs"/>
         <Compile Include="Items\Food\All.Food.fs"/>
@@ -57,6 +58,13 @@
         <Compile Include="World\Cities\OpeningHours.fs"/>
         <Compile Include="World\Cities\Layouts.fs"/>
         <Compile Include="World\Cities\PlaceCreators.fs"/>
+        <Compile Include="World\Cities\Berlin\Ids.Berlin.fs"/>
+        <Compile Include="World\Cities\Berlin\Mitte.Berlin.fs"/>
+        <Compile Include="World\Cities\Berlin\Kreuzberg.Berlin.fs"/>
+        <Compile Include="World\Cities\Berlin\Friedrichshain.Berlin.fs"/>
+        <Compile Include="World\Cities\Berlin\Charlottenburg.Berlin.fs"/>
+        <Compile Include="World\Cities\Berlin\Schoenefeld.Berlin.fs"/>
+        <Compile Include="World\Cities\Berlin\Berlin.fs"/>
         <Compile Include="World\Cities\LosAngeles\Ids.LosAngeles.fs"/>
         <Compile Include="World\Cities\LosAngeles\Hollywood.LosAngeles.fs"/>
         <Compile Include="World\Cities\LosAngeles\DowntownLA.LosAngeles.fs"/>

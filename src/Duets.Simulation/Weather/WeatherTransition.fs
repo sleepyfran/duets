@@ -243,6 +243,9 @@ module private CityTransitionMatrix =
 
     let transitionMatrix cityId : CityWeatherTransitionMatrix =
         match cityId with
+        | Berlin ->
+            { AutumnWinter = pragueWinterMatrix
+              SpringSummer = pragueSummerMatrix }
         | London ->
             { AutumnWinter = londonMatrix
               SpringSummer = londonMatrix }

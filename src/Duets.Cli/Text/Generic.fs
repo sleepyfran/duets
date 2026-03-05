@@ -102,10 +102,12 @@ let albumType t =
 /// Returns the name of a city given its id.
 let cityName id =
     match id with
+    | Berlin -> "Berlin"
     | London -> "London"
     | LosAngeles -> "Los Angeles"
     | Madrid -> "Madrid"
     | NewYork -> "New York"
+    | Paris -> "Paris"
     | Prague -> "Prague"
     | Santiago -> "Santiago"
     | Seoul -> "Seoul"
