@@ -19,6 +19,7 @@ type MainWindow() =
         | "Madrid" -> Some CityId.Madrid
         | "NewYork" -> Some CityId.NewYork
         | "Prague" -> Some CityId.Prague
+        | "Paris" -> Some CityId.Paris
         | "Santiago" -> Some CityId.Santiago
         | "Toronto" -> Some CityId.Toronto
         | "Tokyo" -> Some CityId.Tokyo

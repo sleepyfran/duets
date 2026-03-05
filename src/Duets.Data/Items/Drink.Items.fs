@@ -161,6 +161,22 @@ module Beer =
     let krossGoldenAle: PurchasableItem =
         Item.Beer.create "Kross Golden Ale beer" 330<milliliter> 5.0, 3.2m<dd>
 
+    (* French beer. *)
+    let kronenbourg1664: PurchasableItem =
+        Item.Beer.create "Kronenbourg 1664 beer" 330<milliliter> 5.0, 2.5m<dd>
+
+    let leffeBlonde: PurchasableItem =
+        Item.Beer.create "Leffe Blonde beer" 330<milliliter> 6.6, 3.0m<dd>
+
+    let fischerBier: PurchasableItem =
+        Item.Beer.create "Fischer Bier beer" 330<milliliter> 6.0, 2.8m<dd>
+
+    let pelforthBlonde: PurchasableItem =
+        Item.Beer.create "Pelforth Blonde beer" 330<milliliter> 5.8, 2.4m<dd>
+
+    let kronenbourg1664Blanc: PurchasableItem =
+        Item.Beer.create "1664 Blanc beer" 330<milliliter> 5.0, 2.7m<dd>
+
     (* Korean beer. *)
     let hiteExtra: PurchasableItem =
         Item.Beer.create "Hite Extra Cold beer" 500<milliliter> 4.3, 2.5m<dd>
@@ -195,6 +211,12 @@ module Beer =
           // (MexicoCity,
           //  [ coronaExtra; modeloEspecial; pacifico; tecate; dosEquis ])
           (NewYork, americanBeers)
+          (Paris,
+           [ kronenbourg1664
+             leffeBlonde
+             fischerBier
+             pelforthBlonde
+             kronenbourg1664Blanc ])
           (Prague,
            [ gambrinusPint; kozelPint; pilsnerUrquellPint; staropramenPint ])
           (Toronto,

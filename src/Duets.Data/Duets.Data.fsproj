@@ -121,6 +121,13 @@
         <Compile Include="World\Cities\Tokyo\Roppongi.Tokyo.fs"/>
         <Compile Include="World\Cities\Tokyo\Akihabara.Tokyo.fs"/>
         <Compile Include="World\Cities\Tokyo\Tokyo.fs"/>
+        <Compile Include="World\Cities\Paris\Ids.Paris.fs"/>
+        <Compile Include="World\Cities\Paris\Montmartre.Paris.fs"/>
+        <Compile Include="World\Cities\Paris\LeMarais.Paris.fs"/>
+        <Compile Include="World\Cities\Paris\SaintGermain.Paris.fs"/>
+        <Compile Include="World\Cities\Paris\LaDefense.Paris.fs"/>
+        <Compile Include="World\Cities\Paris\Roissy.Paris.fs"/>
+        <Compile Include="World\Cities\Paris\Paris.fs"/>
         <Compile Include="World\World.fs"/>
         <None Include="Util\NpcGen.fsx"/>
         <Content Include="ATTRIBUTIONS.md"/>

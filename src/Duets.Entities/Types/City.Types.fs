@@ -9,6 +9,7 @@ module CityTypes =
         | Chile
         | CzechRepublic
         | England
+        | France
         | Japan
         | SouthKorea
         | Spain
@@ -21,6 +22,7 @@ module CityTypes =
         | LosAngeles
         | Madrid
         | NewYork
+        | Paris
         | Prague
         | Santiago
         | Seoul
