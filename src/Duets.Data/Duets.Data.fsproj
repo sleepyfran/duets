@@ -27,6 +27,7 @@
         <Compile Include="Items\Gym.Items.fs"/>
         <Compile Include="Items\Vehicle.Items.fs"/>
         <Compile Include="Items\Food\Breakfast.Food.fs"/>
+        <Compile Include="Items\Food\Canadian.Food.fs"/>
         <Compile Include="Items\Food\Czech.Food.fs"/>
         <Compile Include="Items\Food\Japanese.Food.fs"/>
         <Compile Include="Items\Food\Italian.Food.fs"/>
@@ -96,6 +97,13 @@
         <Compile Include="World\Cities\Toronto\EastEnd.Toronto.fs"/>
         <Compile Include="World\Cities\Toronto\Midtown.Toronto.fs"/>
         <Compile Include="World\Cities\Toronto\Toronto.fs"/>
+        <Compile Include="World\Cities\Tokyo\Ids.Tokyo.fs"/>
+        <Compile Include="World\Cities\Tokyo\Narita.Tokyo.fs"/>
+        <Compile Include="World\Cities\Tokyo\Shibuya.Tokyo.fs"/>
+        <Compile Include="World\Cities\Tokyo\Shinjuku.Tokyo.fs"/>
+        <Compile Include="World\Cities\Tokyo\Roppongi.Tokyo.fs"/>
+        <Compile Include="World\Cities\Tokyo\Akihabara.Tokyo.fs"/>
+        <Compile Include="World\Cities\Tokyo\Tokyo.fs"/>
         <Compile Include="World\World.fs"/>
         <None Include="Util\NpcGen.fsx"/>
         <Content Include="ATTRIBUTIONS.md"/>

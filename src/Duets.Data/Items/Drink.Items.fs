@@ -175,12 +175,12 @@ module Beer =
           //    coopersPaleAle
           //    carltonDraught
           //    tooheysNew ])
-          // (Tokyo,
-          //  [ asahiSuperDry
-          //    kirinIchiban
-          //    sapporoPremium
-          //    suntoryPremiumMalts
-          //    yebisu ])
+          (Tokyo,
+           [ asahiSuperDry
+             kirinIchiban
+             sapporoPremium
+             suntoryPremiumMalts
+             yebisu ])
           ]
         |> Map.ofList
 

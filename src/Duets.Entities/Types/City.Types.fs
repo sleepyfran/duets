@@ -8,6 +8,7 @@ module CityTypes =
         | Canada
         | CzechRepublic
         | England
+        | Japan
         | Spain
         | UnitedStates
 
@@ -19,4 +20,5 @@ module CityTypes =
         | Madrid
         | NewYork
         | Prague
+        | Tokyo
         | Toronto

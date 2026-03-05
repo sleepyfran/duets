@@ -11,9 +11,10 @@ let private generate () =
     let madrid = Cities.Madrid.Root.generate ()
     let newYork = Cities.NewYork.Root.generate ()
     let prague = Cities.Prague.Root.generate ()
+    let tokyo = Cities.Tokyo.Root.generate ()
     let toronto = Cities.Toronto.Root.generate ()
 
-    World.create [ london; losAngeles; madrid; newYork; prague; toronto ]
+    World.create [ london; losAngeles; madrid; newYork; prague; tokyo; toronto ]
 
 /// Returns the game world. The world is initialized when the module is loaded.
 let get = generate ()
@@ -25,6 +26,7 @@ let private countryMetadata: Map<CityId, CountryId> =
       (Madrid, Spain)
       (NewYork, UnitedStates)
       (Prague, CzechRepublic)
+      (Tokyo, Japan)
       (Toronto, Canada) ]
     |> Map.ofList
 
@@ -39,17 +41,23 @@ let private connectionMetadata
       ((London, Madrid), (1260<km>, [ Road; Air ]))
       ((London, NewYork), (5570<km>, [ Air ]))
       ((London, Prague), (1035<km>, [ Road; Air ]))
+      ((London, Tokyo), (9560<km>, [ Air ]))
       ((London, Toronto), (5700<km>, [ Air ]))
       ((LosAngeles, Madrid), (9120<km>, [ Air ]))
       ((LosAngeles, NewYork), (3930<km>, [ Air; Road ]))
       ((LosAngeles, Prague), (9640<km>, [ Air ]))
+      ((LosAngeles, Tokyo), (8815<km>, [ Air ]))
       ((LosAngeles, Toronto), (3500<km>, [ Air ]))
       ((Madrid, NewYork), (5768<km>, [ Air ]))
       ((Madrid, Prague), (1780<km>, [ Road; Air ]))
+      ((Madrid, Tokyo), (10500<km>, [ Air ]))
       ((Madrid, Toronto), (6050<km>, [ Air ]))
       ((NewYork, Prague), (6570<km>, [ Air ]))
+      ((NewYork, Tokyo), (10850<km>, [ Air ]))
       ((NewYork, Toronto), (550<km>, [ Air; Road ]))
-      ((Prague, Toronto), (6900<km>, [ Air ])) ]
+      ((Prague, Tokyo), (9100<km>, [ Air ]))
+      ((Prague, Toronto), (6900<km>, [ Air ]))
+      ((Tokyo, Toronto), (10340<km>, [ Air ])) ]
     |> Map.ofList
 
 /// Returns the distance between the given cities.

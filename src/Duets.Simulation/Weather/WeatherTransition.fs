@@ -258,6 +258,9 @@ module private CityTransitionMatrix =
         | Prague ->
             { AutumnWinter = pragueWinterMatrix
               SpringSummer = pragueSummerMatrix }
+        | Tokyo ->
+            { AutumnWinter = pragueWinterMatrix
+              SpringSummer = losAngelesMatrix }
         | Toronto ->
             { AutumnWinter = newYorkWinterMatrix
               SpringSummer = newYorkSummerMatrix }

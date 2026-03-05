@@ -20,6 +20,7 @@ type MainWindow() =
         | "NewYork" -> Some CityId.NewYork
         | "Prague" -> Some CityId.Prague
         | "Toronto" -> Some CityId.Toronto
+        | "Tokyo" -> Some CityId.Tokyo
         | _ -> None
 
     // Show places summary for the city
