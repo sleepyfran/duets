@@ -28,6 +28,7 @@ module Shop =
             | French -> Food.French.all
             | Italian -> Food.Italian.all
             | Japanese -> Food.Japanese.all
+            | Korean -> Food.Korean.all
             | Mexican -> Food.Mexican.all
             | Spanish -> Food.Spanish.all
             | Turkish -> Food.Turkish.all

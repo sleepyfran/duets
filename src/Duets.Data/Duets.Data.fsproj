@@ -32,6 +32,7 @@
         <Compile Include="Items\Food\Japanese.Food.fs"/>
         <Compile Include="Items\Food\Italian.Food.fs"/>
         <Compile Include="Items\Food\French.Food.fs"/>
+        <Compile Include="Items\Food\Korean.Food.fs"/>
         <Compile Include="Items\Food\Mexican.Food.fs"/>
         <Compile Include="Items\Food\Snack.Food.fs"/>
         <Compile Include="Items\Food\Spanish.Food.fs"/>
@@ -97,6 +98,13 @@
         <Compile Include="World\Cities\Toronto\EastEnd.Toronto.fs"/>
         <Compile Include="World\Cities\Toronto\Midtown.Toronto.fs"/>
         <Compile Include="World\Cities\Toronto\Toronto.fs"/>
+        <Compile Include="World\Cities\Seoul\Ids.Seoul.fs"/>
+        <Compile Include="World\Cities\Seoul\Incheon.Seoul.fs"/>
+        <Compile Include="World\Cities\Seoul\Gangnam.Seoul.fs"/>
+        <Compile Include="World\Cities\Seoul\Hongdae.Seoul.fs"/>
+        <Compile Include="World\Cities\Seoul\Myeongdong.Seoul.fs"/>
+        <Compile Include="World\Cities\Seoul\Itaewon.Seoul.fs"/>
+        <Compile Include="World\Cities\Seoul\Seoul.fs"/>
         <Compile Include="World\Cities\Tokyo\Ids.Tokyo.fs"/>
         <Compile Include="World\Cities\Tokyo\Narita.Tokyo.fs"/>
         <Compile Include="World\Cities\Tokyo\Shibuya.Tokyo.fs"/>

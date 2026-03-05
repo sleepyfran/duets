@@ -145,6 +145,22 @@ module Beer =
     let stAustellTribute: PurchasableItem =
         Item.Beer.create "St Austell Tribute beer" 568<milliliter> 4.2, 3.6m<dd>
 
+    (* Korean beer. *)
+    let hiteExtra: PurchasableItem =
+        Item.Beer.create "Hite Extra Cold beer" 500<milliliter> 4.3, 2.5m<dd>
+
+    let cass: PurchasableItem =
+        Item.Beer.create "Cass beer" 500<milliliter> 4.5, 2.4m<dd>
+
+    let kloud: PurchasableItem =
+        Item.Beer.create "Kloud beer" 500<milliliter> 5.0, 3.0m<dd>
+
+    let terrapinBrew: PurchasableItem =
+        Item.Beer.create "Magpie Pale Ale beer" 355<milliliter> 5.2, 3.5m<dd>
+
+    let jeju: PurchasableItem =
+        Item.Beer.create "Jeju Wit Ale beer" 330<milliliter> 5.3, 3.8m<dd>
+
     let private americanBeers =
         [ budLight; coorsLight; millerLite; yuengling; samuelAdams ]
 
@@ -175,6 +191,8 @@ module Beer =
           //    coopersPaleAle
           //    carltonDraught
           //    tooheysNew ])
+          (Seoul,
+           [ hiteExtra; cass; kloud; terrapinBrew; jeju ])
           (Tokyo,
            [ asahiSuperDry
              kirinIchiban

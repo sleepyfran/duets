@@ -13,4 +13,5 @@ I'm looking to add more cities into my game. Enter planning mode and follow the 
   something like that.
 - Add a simplified metro system with up to two lines (only Blue and Red) at the moment and make sure they connect in a similar-ish way of how they'd do in the real city.
 - Make sure you add exactly one hospital and one airport in the zone you see fit.
-- Each zone should contain two to five streets, all interconnected, and each street a few types of each place type.
+- If adding the city requires a new country, make sure that country is covered with cuisine (@src/Duets.Data/Items/Food/) and drinks (@src/Duets.Data/Items/Drink.Items.fs) from that country
+- Each zone should contain two to five streets, all interconnected, and each street a few types of each place type. If splitting the streets, make sure you add a bit of variety instead of simply putting the splits in the East/West.

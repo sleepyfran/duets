@@ -14,6 +14,7 @@ module ShopTypes =
         | Italian
         | French
         | Japanese
+        | Korean
         | Mexican
         | Turkish
         | Vietnamese
