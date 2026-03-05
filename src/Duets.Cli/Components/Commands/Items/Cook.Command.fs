@@ -4,12 +4,17 @@ open Duets.Agents
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
+open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 open FSharp.Data.UnitSystems.SI.UnitNames
 
 [<RequireQualifiedAccess>]
 module CookCommand =
+    type private CookChoice =
+        | Recipe of Item * decimal<dd>
+        | More
+
     let private notEnoughFundsError =
         "You don't have enough money to buy the ingredients for that"
         |> Styles.error
@@ -24,36 +29,63 @@ module CookCommand =
         "You cooked a delicious meal!" |> Styles.success |> showMessage
         Duets.Cli.Effect.applyMultiple effects
 
+    let private doCook itemWithPrice =
+        match Cooking.cook (State.get ()) itemWithPrice with
+        | Ok effects -> showCookingResult effects
+        | Error _ -> notEnoughFundsError |> showMessage
+
+    let private toItemStr (item: Item, price: decimal<dd>) =
+        $"{Generic.itemDetailedName item} ({Styles.money price} for ingredients)"
+
     /// Command to cook food.
     let create availableItems =
         { Name = "cook"
           Description = "Allows you to cook a recipe"
           Handler =
             (fun args ->
-                let toString (item, price) =
-                    $"{Generic.itemDetailedName item} ({Styles.money price} for ingredients)"
+                let homeMeals = Cooking.homeMeals
+                let input = args |> String.concat " "
 
-                let toReferenceName (item: Item, _) = item.Name
+                if String.isEmpty input then
+                    let options =
+                        (homeMeals |> List.map (fun (i, p) -> Recipe(i, p)))
+                        @ [ More ]
 
-                let recipe =
-                    Selection.fromArgsOrInteractive
-                        args
-                        "What do you want to cook?"
-                        availableItems
-                        toString
-                        toReferenceName
+                    let toChoiceStr =
+                        function
+                        | Recipe(item, price) -> toItemStr (item, price)
+                        | More -> Styles.faded "More recipes..."
 
-                match recipe with
-                | Selection.Selected item ->
-                    let orderResult = Cooking.cook (State.get ()) item
+                    match showSearchableOptionalChoicePrompt
+                              "What do you want to cook?"
+                              Generic.nothing
+                              toChoiceStr
+                              options with
+                    | Some(Recipe(item, price)) -> doCook (item, price)
+                    | Some More ->
+                        match showSearchableOptionalChoicePrompt
+                                  "What other recipe do you want to cook?"
+                                  Generic.nothing
+                                  toItemStr
+                                  availableItems with
+                        | Some item -> doCook item
+                        | None -> ()
+                    | None -> ()
+                else
+                    let allItems =
+                        homeMeals @ availableItems
+                        |> List.distinctBy (fun (item: Item, _) -> item.Name)
 
-                    match orderResult with
-                    | Ok effects -> showCookingResult effects
-                    | Error _ -> notEnoughFundsError |> showMessage
-                | Selection.NoMatchingItem input ->
-                    $"There's no such recipe as {input}"
-                    |> Styles.error
-                    |> showMessage
-                | Selection.Cancelled -> ()
+                    let found =
+                        allItems
+                        |> List.tryFind (fun (item: Item, _) ->
+                            String.diacriticInsensitiveContains item.Name input)
+
+                    match found with
+                    | Some item -> doCook item
+                    | None ->
+                        $"There's no such recipe as {input}"
+                        |> Styles.error
+                        |> showMessage
 
                 Scene.World) }

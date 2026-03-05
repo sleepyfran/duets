@@ -1,8 +1,12 @@
 module Duets.Simulation.Cooking
 
+open Duets.Data.Items.Food
 open Duets.Simulation
 open Duets.Entities
 open Duets.Simulation.Skills.Improve.Common
+
+/// The 20 most common western meals for quick selection in the cook command.
+let homeMeals: PurchasableItem list = HomeCooking.all
 
 /// Attempts to cook an item, checking if the character has enough money, and
 /// granting a 25% chance of increasing their cooking skills.

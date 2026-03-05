@@ -40,6 +40,7 @@
         <Compile Include="Items\Food\Turkish.Food.fs"/>
         <Compile Include="Items\Food\USA.Food.fs"/>
         <Compile Include="Items\Food\Vietnamese.Food.fs"/>
+        <Compile Include="Items\Food\HomeCooking.Food.fs"/>
         <Compile Include="Items\Food\All.Food.fs"/>
         <Compile Include="Careers.fs"/>
         <Compile Include="Genres.fs"/>
