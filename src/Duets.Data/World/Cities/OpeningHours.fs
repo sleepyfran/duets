@@ -57,6 +57,13 @@ let servicesOpeningHours =
         Calendar.everyDay,
         [ Morning; Midday; Afternoon; Evening ]
     )
+    
+/// Usual opening hours for rehearsal room places.
+let rehearsalRoomOpeningHours =
+    PlaceOpeningHours.OpeningHours(
+        Calendar.everyDay,
+        [ Morning; Midday; Afternoon; Evening; Night ]
+    )
 
 /// Usual opening hours for radio studios.
 let radioStudioOpeningHours =

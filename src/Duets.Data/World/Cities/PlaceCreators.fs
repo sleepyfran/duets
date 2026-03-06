@@ -164,7 +164,7 @@ let createRehearsalSpace streetId (name, quality, price, zoneId) =
         Layouts.rehearsalSpaceLayout
         zoneId
         streetId
-    |> World.Place.changeOpeningHours OpeningHours.servicesOpeningHours
+    |> World.Place.changeOpeningHours OpeningHours.rehearsalRoomOpeningHours
     |> World.Place.addExit Ids.Common.lobby streetId
 
 /// Creates a radio studio with the given name, quality, music genre and zone.
