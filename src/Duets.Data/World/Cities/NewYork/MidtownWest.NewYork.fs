@@ -187,9 +187,14 @@ let private sixthAvenue (city: City) (zone: Zone) =
           ("Q104.3 (WAXQ-FM)", 92<quality>, "Rock", zone.Id) ]
         |> List.map (PlaceCreators.createRadioStudio city street.Id)
 
+    let cafes =
+        [ ("Birch Coffee", 86<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
+
     street
     |> World.Street.addPlaces recordingStudios
     |> World.Street.addPlaces radioStudios
+    |> World.Street.addPlaces cafes
     |> World.Street.attachContext
         """
     6th Avenue in Midtown is a major commercial corridor lined with towering office

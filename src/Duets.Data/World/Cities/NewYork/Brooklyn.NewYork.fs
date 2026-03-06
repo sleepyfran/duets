@@ -35,6 +35,10 @@ let private lafayetteAtlantic (city: City) (zone: Zone) =
         [ ("Bacchus", 88<quality>, French, zone.Id) ]
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
+    let cafes =
+        [ ("Hungry Ghost Coffee", 84<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
+
     let metroStation =
         ("Atlantic Avenue-Barclays Center", zone.Id)
         |> PlaceCreators.createMetro street.Id
@@ -45,6 +49,7 @@ let private lafayetteAtlantic (city: City) (zone: Zone) =
         |> World.Street.addPlaces concerts
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces restaurants
+        |> World.Street.addPlaces cafes
         |> World.Street.addPlace metroStation
         |> World.Street.attachContext
             """
@@ -111,10 +116,15 @@ let private bedfordAvenue (zone: Zone) =
         [ ("Music Building", 88<quality>, 175m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createRehearsalSpace street.Id)
 
+    let cafes =
+        [ ("Toby's Estate Coffee", 88<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
+
     street
     |> World.Street.addPlaces carDealers
     |> World.Street.addPlaces concerts
     |> World.Street.addPlaces rehearsalSpaces
+    |> World.Street.addPlaces cafes
     |> World.Street.attachContext
         """
     Bedford Avenue in Williamsburg is Brooklyn's hipster main street, lined

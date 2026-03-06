@@ -37,10 +37,15 @@ let private bleeckerStreet (zone: Zone) =
           ("Kesté Pizza & Vino", 86<quality>, Italian, zone.Id) ]
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
+    let cafes =
+        [ ("Joe Coffee", 88<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
+
     street
     |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces concerts
     |> World.Street.addPlaces restaurants
+    |> World.Street.addPlaces cafes
     |> World.Street.attachContext
         """
     Bleecker Street in Greenwich Village is a bohemian enclave with narrow sidewalks,
@@ -84,12 +89,17 @@ let private bowery (zone: Zone) =
         [ ("The Bowery Hotel", 92<quality>, 450m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createHotel street.Id)
 
+    let cafes =
+        [ ("Café Integral", 89<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
+
     street
     |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces concerts
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces shops
     |> World.Street.addPlaces hotels
+    |> World.Street.addPlaces cafes
     |> World.Street.attachContext
         "The Bowery has transformed from its gritty past into a corridor of luxury hotels and contemporary art spaces, though echoes of its historic character remain. Cast-iron buildings stand alongside modern glass and steel structures, creating an architectural timeline of New York's evolution. The street is wider than typical Manhattan avenues, allowing more light to reach the pavement. Street art and murals still appear on select walls, nodding to the area's punk rock heritage. The New Museum's stacked-box architecture dominates the skyline, while boutique retailers occupy ground floors of renovated industrial buildings. The atmosphere mixes artistic credibility with upscale development."
 
@@ -128,6 +138,10 @@ let private irvingPlace city (zone: Zone) =
         [ ("NewYork-Presbyterian Lower Manhattan Hospital", 93<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createHospital street.Id)
 
+    let cafes =
+        [ ("Irving Farm Coffee Roasters", 90<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
+
     // TODO: Add Union Square Park once we support parks
 
     let metroStation =
@@ -140,6 +154,7 @@ let private irvingPlace city (zone: Zone) =
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces hotels
         |> World.Street.addPlaces hospitals
+        |> World.Street.addPlaces cafes
         |> World.Street.addPlace metroStation
         |> World.Street.attachContext
             """
