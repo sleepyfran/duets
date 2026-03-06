@@ -110,9 +110,14 @@ let dlouhá (cityId: CityId) (zone: Zone) =
           ("Kino Světozor", 83<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createCinema cityId street.Id)
 
+    let cafes =
+        [ ("Mamacoffee", 85<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
+
     street
     |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces cinemas
+    |> World.Street.addPlaces cafes
 
 let karlova (zone: Zone) =
     let street =

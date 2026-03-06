@@ -87,6 +87,10 @@ let náměstíMíru (zone: Zone) =
         [ ("La Bohème Café", 93<quality>, French, zone.Id) ]
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
+    let cafes =
+        [ ("Doubleshot", 91<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
+
     let metroStation =
         ("Náměstí Míru Station", zone.Id)
         |> (PlaceCreators.createMetro street.Id)
@@ -96,6 +100,7 @@ let náměstíMíru (zone: Zone) =
         |> World.Street.addPlaces concertSpaces
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces restaurants
+        |> World.Street.addPlaces cafes
         |> World.Street.addPlace metroStation
 
     street, metroStation

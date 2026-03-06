@@ -135,12 +135,17 @@ let národní (zone: Zone) =
         [ ("Hotel Perla", 85<quality>, 120m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createHotel street.Id)
 
+    let cafes =
+        [ ("The Miners", 88<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
+
     street
     |> World.Street.addPlaces merchandiseWorkshops
     |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces hotels
+    |> World.Street.addPlaces cafes
 
 let createZone city =
     let novéMěstoZone = World.Zone.create Ids.Zone.novéMěsto

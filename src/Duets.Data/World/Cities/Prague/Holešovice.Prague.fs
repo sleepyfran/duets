@@ -77,7 +77,8 @@ let komunardů (zone: Zone) =
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
     let cafes =
-        [ ("Vnitroblock Café", 88<quality>, zone.Id) ]
+        [ ("Vnitroblock Café", 88<quality>, zone.Id)
+          ("Café Letka", 84<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createCafe street.Id)
 
     street
