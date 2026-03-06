@@ -187,6 +187,12 @@ let applyEffect state effect =
         World.move cityId placeId roomId state
     | WorldPeopleInCurrentRoomChanged people -> World.setPeople people state
     | Wait _ -> state
+    | LoanTaken loan -> Bank.setLoan loan state
+    | LoanPaid loan -> Bank.setLoan loan state
+    | LoanPaidOff _ -> Bank.removeLoan state
+    | LoanPaymentMissed(loan, reputation) ->
+        Bank.setLoan loan state |> Bank.setReputation reputation
+    | BankReputationChanged(Diff(_, newRep)) -> Bank.setReputation newRep state
 
 /// Applies multiple effects to the given initial state and returns the result.
 let applyEffects initialState effects =

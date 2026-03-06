@@ -12,3 +12,12 @@ let setBalance account transaction =
         | Outgoing(_, balance) -> balance
 
     Optic.set balanceLens updatedBalance
+
+let setLoan loan state =
+    Optic.set Lenses.FromState.Bank.activeLoan_ (Some loan) state
+
+let removeLoan state =
+    Optic.set Lenses.FromState.Bank.activeLoan_ None state
+
+let setReputation reputation state =
+    Optic.set Lenses.FromState.Bank.reputation_ reputation state

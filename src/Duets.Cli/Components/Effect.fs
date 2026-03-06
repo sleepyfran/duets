@@ -239,6 +239,17 @@ let private displayEffect effect =
 
             $"Your rental of {place.Name} in {Generic.cityName cityId |> Styles.place} is set to expire in one week unless you pay the next rent.\nHead over to your phone's bank app to do so"
             |> createRentalNotification
+        | Notification.LoanNotification notificationType ->
+            match notificationType with
+            | LoanNotificationType.LoanPaymentMissedWarning ->
+                Phone.bankAppLoanMissedWarning
+                |> showNotification "Bank"
+            | LoanNotificationType.LoanPaymentMissedWithFee fee ->
+                Phone.bankAppLoanMissedWithFee fee
+                |> showNotification "Bank"
+            | LoanNotificationType.LoanSeasonalPaymentMade payment ->
+                Phone.bankAppLoanPaymentMadeNotification payment
+                |> showNotification "Bank"
     | PlaceClosed place ->
         lineBreak ()
 

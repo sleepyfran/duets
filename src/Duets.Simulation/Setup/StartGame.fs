@@ -73,11 +73,13 @@ let startGame
           Simulated = Map.empty }
       BandAlbumRepertoire = Band.AlbumRepertoire.emptyFor band.Id
       BandSongRepertoire = Band.SongRepertoire.emptyFor band.Id
-      BankAccounts =
-        [ (Character character.Id,
-           BankAccount.forCharacterWithBalance character.Id initialFunds)
-          (Band band.Id, BankAccount.forBand band.Id) ]
-        |> Map.ofSeq
+      Bank =
+        { Accounts =
+            [ (Character character.Id,
+               BankAccount.forCharacterWithBalance character.Id initialFunds)
+              (Band band.Id, BankAccount.forBand band.Id) ]
+            |> Map.ofSeq
+          LoanState = { ActiveLoan = None; Reputation = GoodStanding } }
       Career = None
       Characters = [ (character.Id, character) ] |> Map.ofList
       CharacterSkills = [ (character.Id, initialSkillMap) ] |> Map.ofList

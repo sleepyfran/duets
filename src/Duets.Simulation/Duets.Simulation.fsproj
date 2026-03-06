@@ -83,6 +83,7 @@
         <Compile Include="Character\Moodlets.fs"/>
         <Compile Include="Character\Npc.fs"/>
         <Compile Include="Bank\Operations.fs"/>
+        <Compile Include="Bank\LoanOperations.fs"/>
         <Compile Include="Albums\DailyStreams.fs"/>
         <Compile Include="Albums\Hype.fs"/>
         <Compile Include="Albums\FanIncrease.fs"/>
@@ -166,6 +167,7 @@
         <Compile Include="Events\Band\Relationships.fs"/>
         <Compile Include="Events\Band\Reviews.fs"/>
         <Compile Include="Events\Band\Band.Events.fs"/>
+        <Compile Include="Events\Bank\LoanPayment.fs"/>
         <Compile Include="Events\Place\ClosingTime.fs"/>
         <Compile Include="Events\Place\RentalExpiration.fs"/>
         <Compile Include="Events\Moodlets\NotInspired.fs"/>

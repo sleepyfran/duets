@@ -226,3 +226,17 @@ module Cinema =
 
     /// Time consumed when watching a movie.
     let movieWatchingTime = 2<dayMoments>
+
+module Loan =
+    /// Base annual interest rate for loans (15%).
+    let baseAnnualRate = 0.15
+
+    /// Additional annual rate when the character is Flagged (+10%).
+    let flaggedAdditionalRate = 0.10
+
+    /// Late fee percentage applied to the principal on 2nd+ missed payments (2%).
+    let lateFeeRate = 0.02
+
+    /// Available loan amounts in Duets Dollars.
+    let availableAmounts =
+        [ 1000m<dd>; 2500m<dd>; 5000m<dd>; 10000m<dd>; 25000m<dd> ]

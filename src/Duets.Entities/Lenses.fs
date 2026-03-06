@@ -11,9 +11,8 @@ module State =
     let bands_ =
         (fun (s: State) -> s.Bands), (fun v (s: State) -> { s with Bands = v })
 
-    let bankAccounts_ =
-        (fun (s: State) -> s.BankAccounts),
-        (fun v (s: State) -> { s with BankAccounts = v })
+    let bank_ =
+        (fun (s: State) -> s.Bank), (fun v (s: State) -> { s with Bank = v })
 
     let bandSongRepertoire_ =
         (fun (s: State) -> s.BandSongRepertoire),
@@ -101,6 +100,24 @@ module State =
     let worldItems_ =
         (fun (s: State) -> s.WorldItems),
         (fun v (s: State) -> { s with WorldItems = v })
+
+module BankState =
+    let accounts_ =
+        (fun (b: BankState) -> b.Accounts),
+        (fun v (b: BankState) -> { b with Accounts = v })
+
+    let loanState_ =
+        (fun (b: BankState) -> b.LoanState),
+        (fun v (b: BankState) -> { b with LoanState = v })
+
+module LoanState =
+    let activeLoan_ =
+        (fun (l: LoanState) -> l.ActiveLoan),
+        (fun v (l: LoanState) -> { l with ActiveLoan = v })
+
+    let reputation_ =
+        (fun (l: LoanState) -> l.Reputation),
+        (fun v (l: LoanState) -> { l with Reputation = v })
 
 module Album =
     let streams_ =
@@ -325,11 +342,14 @@ module FromState =
 
     module BankAccount =
         /// Lens into a specific account.
-        let account_ id = State.bankAccounts_ >-> Map.key_ id
+        let account_ id = State.bank_ >-> BankState.accounts_ >-> Map.key_ id
 
         /// Lens into the balance of a specific account.
         let balanceOf_ id =
-            State.bankAccounts_ >-> Map.key_ id >?> BankAccount.balance_
+            State.bank_
+            >-> BankState.accounts_
+            >-> Map.key_ id
+            >?> BankAccount.balance_
 
     module Concerts =
         /// Lens into all the concerts currently scheduled.
@@ -362,6 +382,15 @@ module FromState =
             State.bandSongRepertoire_
             >-> BandRepertoire.finishedSongs_
             >-> Map.key_ bandId
+
+    module Bank =
+        /// Lens into the active loan from state.
+        let activeLoan_ =
+            State.bank_ >-> BankState.loanState_ >-> LoanState.activeLoan_
+
+        /// Lens into the bank reputation from state.
+        let reputation_ =
+            State.bank_ >-> BankState.loanState_ >-> LoanState.reputation_
 
     module Weather =
         /// Lens into the weather condition for a specific city ID.

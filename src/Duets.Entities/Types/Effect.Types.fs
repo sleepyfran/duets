@@ -117,3 +117,8 @@ module EffectTypes =
         | WorldMoveToPlace of Diff<RoomCoordinates>
         | WorldPeopleInCurrentRoomChanged of Character list
         | Wait of int<dayMoments>
+        | LoanTaken of Loan
+        | LoanPaid of Loan
+        | LoanPaidOff of Loan
+        | LoanPaymentMissed of Loan * BankReputation
+        | BankReputationChanged of Diff<BankReputation>

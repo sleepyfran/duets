@@ -10,7 +10,7 @@ module StateTypes =
         { Bands: Bands
           BandAlbumRepertoire: BandAlbumRepertoire
           BandSongRepertoire: BandSongRepertoire
-          BankAccounts: Map<BankAccountHolder, BankAccount>
+          Bank: BankState
           Career: Job option
           Characters: Map<CharacterId, Character>
           CharacterSkills: CharacterSkills

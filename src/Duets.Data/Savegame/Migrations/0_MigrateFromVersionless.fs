@@ -1,5 +1,6 @@
 module Data.Savegame.Migrations.MigrateFromVersionless
 
+open Data.Savegame.Migrations.Common
 open Duets.Data.Savegame.Types
 open FSharp.Data
 
@@ -8,10 +9,5 @@ open FSharp.Data
 /// "Data" field.
 let migrate (root: JsonValue) =
     match root with
-    | JsonValue.Record values ->
-        Ok(
-            JsonValue.Record
-                [| ("Version", JsonValue.Number(0m))
-                   ("Data", JsonValue.Record(values)) |]
-        )
+    | JsonValue.Record _ -> Ok(root |> addField "Version" (JsonValue.Number 0m))
     | _ -> Error(InvalidStructure("Root of savegame should be an object"))

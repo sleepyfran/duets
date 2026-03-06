@@ -12,12 +12,20 @@ module NotificationTypes =
     [<RequireQualifiedAccess>]
     type DeliveryType = Merchandise
 
+    /// Represents a notification related to loans.
+    [<RequireQualifiedAccess>]
+    type LoanNotificationType =
+        | LoanPaymentMissedWarning
+        | LoanPaymentMissedWithFee of feeAmount: Amount
+        | LoanSeasonalPaymentMade of payment: Amount
+
     /// Represents a notification that needs to be raised to the player.
     [<RequireQualifiedAccess>]
     type Notification =
         | CalendarEvent of CalendarEventType
         | DeliveryArrived of CityId * PlaceId * DeliveryType
         | RentalNotification of RentalNotificationType
+        | LoanNotification of LoanNotificationType
 
     /// Defines all notifications that have to be raised at a certain date and
     /// day moment. Dates should have their time erased so that they're easily

@@ -2,30 +2,18 @@ namespace Duets.Simulation.Queries
 
 open Duets.Simulation
 
-module Bank =
+module Loan =
     open Aether
     open Duets.Entities
 
-    /// Returns the playable character's bank account holder.
-    let playableCharacterAccount state =
-        let character = Characters.playableCharacter state
-
-        Character character.Id
-
-    /// Returns the account balance of the given holder.
-    let balanceOf state holder =
-        state
-        |> Optic.get (Lenses.FromState.BankAccount.balanceOf_ holder)
-        |> Option.defaultValue 0m<dd>
-
     /// Returns the character's current loan state.
-    let loanStateOf state = Optic.get Lenses.State.bank_ state |> _.LoanState
+    let loanState state = Optic.get Lenses.State.loan_ state
 
     /// Returns the active loan if any.
-    let activeLoan state = (loanStateOf state).ActiveLoan
+    let activeLoan state = (loanState state).ActiveLoan
 
     /// Returns the current bank reputation.
-    let reputation state = (loanStateOf state).Reputation
+    let reputation state = (loanState state).Reputation
 
     /// Calculates the annual interest rate based on the given reputation.
     let interestRateForReputation reputation =
@@ -36,7 +24,7 @@ module Bank =
 
     /// Returns whether the character can take out a new loan.
     let canTakeLoan state =
-        let ls = loanStateOf state
+        let ls = loanState state
         ls.ActiveLoan.IsNone && ls.Reputation <> Blacklisted
 
     /// Calculates the seasonal payment for a loan (principal * annualRate / 4).

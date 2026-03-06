@@ -12,12 +12,16 @@ type private BankMenuOptions =
     | TransferToBand
     | DistributeBandFunds
     | PayRental
+    | RequestLoan
+    | PayOffLoan
 
 let private textFromOption opt =
     match opt with
     | TransferToBand -> "Transfer money to band"
     | DistributeBandFunds -> "Distribute your band's funds"
     | PayRental -> Styles.warning "Pay for next season's rent"
+    | RequestLoan -> "Request a loan"
+    | PayOffLoan -> Styles.warning "Pay off loan in full"
 
 /// Creates the bank scene which allows to transfer money between accounts.
 let rec bankApp () =
@@ -34,7 +38,21 @@ let rec bankApp () =
 
     let upcomingPayments = Queries.Rentals.allUpcoming state
 
+    let activeLoan = Queries.Bank.activeLoan state
+    let reputation = Queries.Bank.reputation state
+
     Phone.bankAppWelcome characterBalance bandBalance |> showMessage
+
+    match activeLoan with
+    | Some loan ->
+        let payment = Queries.Bank.seasonalPayment loan
+        Phone.bankAppLoanInfo loan.Principal loan.InterestRate payment |> showMessage
+    | None -> Phone.bankAppNoLoan |> showMessage
+
+    match reputation with
+    | Flagged -> Phone.bankAppLoanFlagged |> showMessage
+    | Blacklisted -> Phone.bankAppLoanBlacklisted |> showMessage
+    | GoodStanding -> ()
 
     let selection =
         showOptionalChoicePrompt
@@ -44,7 +62,11 @@ let rec bankApp () =
             [ TransferToBand
               DistributeBandFunds
               if List.isNotEmpty upcomingPayments then
-                  PayRental ]
+                  PayRental
+              if Queries.Bank.canTakeLoan state then
+                  RequestLoan
+              if activeLoan.IsSome then
+                  PayOffLoan ]
 
     match selection with
     | Some TransferToBand ->
@@ -52,4 +74,6 @@ let rec bankApp () =
     | Some DistributeBandFunds -> DistributeBandFunds.distributeFunds bankApp
     | Some PayRental ->
         UpcomingPayments.upcomingPayments bankApp upcomingPayments
+    | Some RequestLoan -> LoanRequest.requestLoan bankApp
+    | Some PayOffLoan -> LoanPayoff.payOffLoan bankApp
     | None -> Scene.Phone

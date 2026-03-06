@@ -10,7 +10,9 @@ let empty =
           Simulated = Map.empty }
       BandSongRepertoire = Band.SongRepertoire.empty
       BandAlbumRepertoire = Band.AlbumRepertoire.empty
-      BankAccounts = Map.empty
+      Bank =
+        { Accounts = Map.empty
+          LoanState = { ActiveLoan = None; Reputation = GoodStanding } }
       Career = None
       Characters = Map.empty
       CharacterSkills = Map.empty

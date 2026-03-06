@@ -41,6 +41,52 @@ let bankAppTransferNotEnoughFunds =
 
 let bankAppTransferNothingTransferred = Styles.success "Nothing transferred"
 
+(* --- Loan --- *)
+
+let bankAppLoanInfo (principal: Amount) (interestRate: float) (seasonalPayment: Amount) =
+    let ratePercent = int (interestRate * 100.0)
+    $"Active loan: {Styles.money principal} at {ratePercent}%% annual interest. Seasonal payment: {Styles.money seasonalPayment}"
+    |> Styles.highlight
+
+let bankAppNoLoan = Styles.faded "No active loans"
+
+let bankAppLoanBlacklisted =
+    Styles.error
+        "You are blacklisted by the bank and cannot take out any more loans"
+
+let bankAppLoanFlagged =
+    Styles.warning
+        "Your bank reputation is Flagged. A higher interest rate will apply to new loans"
+
+let bankAppLoanSelectAmount = "How much would you like to borrow?"
+
+let bankAppLoanConfirmation (amount: Amount) (rate: float) (seasonalPayment: Amount) =
+    let ratePercent = int (rate * 100.0)
+    $"Borrow {Styles.money amount} at {ratePercent}%% annual interest? Seasonal payment: {Styles.money seasonalPayment}"
+
+let bankAppLoanSuccess (amount: Amount) =
+    Styles.success $"Loan of {Styles.money amount} approved and deposited into your account"
+
+let bankAppLoanPayoffConfirmation (amount: Amount) =
+    $"Pay off your remaining loan of {Styles.money amount}?"
+
+let bankAppLoanPayoffSuccess = Styles.success "Loan paid off in full!"
+
+let bankAppLoanPayoffNotEnoughFunds (amount: Amount) =
+    Styles.error $"You need {Styles.money amount} to pay off this loan"
+
+let bankAppLoanPaymentMadeNotification (payment: Amount) =
+    Styles.success
+        $"Your seasonal loan payment of {Styles.money payment} has been automatically deducted"
+
+let bankAppLoanMissedWarning =
+    Styles.warning
+        "You missed your seasonal loan payment. Please ensure you have enough funds before the next season"
+
+let bankAppLoanMissedWithFee (fee: Amount) =
+    Styles.error
+        $"You missed your loan payment again. A late fee of {Styles.money fee} has been added to your loan balance and your bank reputation has been downgraded"
+
 (* --- Flights --- *)
 let flightsNoUpcomingWelcome = "No upcoming flights"
 

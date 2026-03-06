@@ -142,14 +142,16 @@ let generator (opts: StateGenOptions) =
                     { Current = band.Id
                       Character = [ (band.Id, band) ] |> Map.ofList
                       Simulated = Map.empty }
-                BankAccounts =
-                    [ Band band.Id,
-                      { Holder = Band band.Id
-                        Balance = 0m<dd> }
-                      Character playableCharacter.Id,
-                      { Holder = Character playableCharacter.Id
-                        Balance = characterFunds } ]
-                    |> Map.ofList
+                Bank =
+                    { Accounts =
+                        [ Band band.Id,
+                          { Holder = Band band.Id
+                            Balance = 0m<dd> }
+                          Character playableCharacter.Id,
+                          { Holder = Character playableCharacter.Id
+                            Balance = characterFunds } ]
+                        |> Map.ofList
+                      LoanState = { ActiveLoan = None; Reputation = GoodStanding } }
                 Concerts = [ (band.Id, timeline) ] |> Map.ofList
                 Characters =
                     bandCharacters

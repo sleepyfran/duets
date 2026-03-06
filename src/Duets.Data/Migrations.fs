@@ -8,7 +8,8 @@ open FSharp.Data
 /// Array of migrations that can be applied. Should have migrations from the
 /// very first supported version in incremental steps up until the last supported
 /// version.
-let private migrations = [ MigrateFromVersionless.migrate ]
+let private migrations =
+    [ MigrateFromVersionless.migrate; AddLoanState.migrate ]
 
 /// Last version of savegame data that has a migration associated. Should
 /// always be the last index of the migrations array, since that's how we

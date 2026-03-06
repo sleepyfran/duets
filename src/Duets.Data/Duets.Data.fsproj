@@ -52,7 +52,9 @@
         <Compile Include="VocalStyles.fs"/>
         <Compile Include="Words.fs"/>
         <Compile Include="Savegame\Types.fs"/>
+        <Compile Include="Savegame\Migrations\Migrations.Common.fs" />
         <Compile Include="Savegame\Migrations\0_MigrateFromVersionless.fs"/>
+        <Compile Include="Savegame\Migrations\1_AddLoanState.fs"/>
         <Compile Include="Migrations.fs"/>
         <Compile Include="World\Ids.fs"/>
         <Compile Include="World\Cities\OpeningHours.fs"/>

@@ -3,6 +3,7 @@ module Duets.Simulation.Events.Time
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Character
+open Duets.Simulation.Events.Bank
 open Duets.Simulation.Market
 
 let private runYearlyEffects time state =
@@ -20,6 +21,7 @@ let private runDailyEffects time state =
         @ Concerts.DailyUpdate.dailyUpdate state
         @ Place.RentalExpiration.expireRentals state time
         @ Social.LongTimeNoSee.applyIfNeeded state
+        @ LoanPayment.processSeasonalPayment state time
     | Midday -> SocialNetworks.DailyUpdate.dailyUpdate state
     | _ -> []
 
