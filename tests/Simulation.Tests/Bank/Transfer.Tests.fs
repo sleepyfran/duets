@@ -42,4 +42,4 @@ let transferAmountLowerThanBalanceShouldReturnOkWithEffects () =
               <| (dummyBandBankAccount.Holder, Incoming(amount, amount))
               MoneyTransferred
               <| (dummyCharacterBankAccount.Holder,
-                  Outgoing(amount, 1000m<dd> - amount)) ])
+                  Outgoing(amount, 1600m<dd> - amount)) ])

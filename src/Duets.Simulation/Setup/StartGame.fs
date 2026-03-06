@@ -1,5 +1,6 @@
 module Duets.Simulation.Setup
 
+open Duets.Common.Math
 open Duets.Data
 open Duets.Data.Items
 open Duets.Entities
@@ -64,6 +65,8 @@ let startGame
 
     let initialGenreMarket = GenreMarket.create Genres.all
 
+    let initialFunds = initialCity.CostOfLiving * 1000.0 |> Amount.fromFloat
+
     { Bands =
         { Current = band.Id
           Character = [ (band.Id, band) ] |> Map.ofList
@@ -72,7 +75,7 @@ let startGame
       BandSongRepertoire = Band.SongRepertoire.emptyFor band.Id
       BankAccounts =
         [ (Character character.Id,
-           BankAccount.forCharacterWithBalance character.Id 1000m<dd>)
+           BankAccount.forCharacterWithBalance character.Id initialFunds)
           (Band band.Id, BankAccount.forBand band.Id) ]
         |> Map.ofSeq
       Career = None

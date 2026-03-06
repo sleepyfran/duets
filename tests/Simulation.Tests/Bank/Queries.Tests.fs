@@ -10,7 +10,7 @@ open Duets.Simulation.Queries.Bank
 [<Test>]
 let balanceOfShouldReturnCorrectBalance () =
     balanceOf dummyState dummyCharacterBankAccount.Holder
-    |> should equal 1000
+    |> should equal 1600
 
 [<Test>]
 let balanceOfUnknownShouldReturn0 () =
