@@ -18,7 +18,11 @@ let checkIfRunningLate state date =
             concert.Date
             |> Calendar.Transform.changeDayMoment concert.DayMoment
 
-        if date = concertDate then
+        let currentCityId, currentPlaceId, _ = state.CurrentPosition
+        let alreadyAtVenue =
+            currentCityId = concert.CityId && currentPlaceId = concert.VenueId
+
+        if date = concertDate && not alreadyAtVenue then
             let otherMembers =
                 Queries.Bands.currentBandMembersWithoutPlayableCharacter state
 

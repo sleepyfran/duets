@@ -43,6 +43,7 @@
         <Compile Include="Concerts\Live.DedicateSong.Tests.fs"/>
         <Compile Include="Concerts\Live.Finish.Tests.fs"/>
         <Compile Include="Concerts\OpeningActOpportunities.Tests.fs"/>
+        <Compile Include="Concerts\LateAlert.Tests.fs"/>
         <Compile Include="Concerts\Live.Encore.Tests.fs"/>
         <Compile Include="Market\GenreMarket.Tests.fs"/>
         <Compile Include="Merchandise\Order.Merchandise.Tests.fs"/>
