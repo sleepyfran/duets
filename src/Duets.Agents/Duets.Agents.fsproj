@@ -6,11 +6,12 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <ModelUrl>https://huggingface.co/unsloth/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q8_0.gguf</ModelUrl>
-        <ModelPath>$(MSBuildProjectDirectory)\models\model.gguf</ModelPath>
+        <ModelFileName>gemma-4-E2B_q4_0-it.gguf</ModelFileName>
+        <ModelUrl>https://huggingface.co/google/gemma-4-E2B-it-qat-q4_0-gguf/resolve/main/$(ModelFileName)?download=true</ModelUrl>
+        <ModelPath>$(MSBuildProjectDirectory)\models\$(ModelFileName)</ModelPath>
     </PropertyGroup>
 
-    <Target Name="DownloadModel" BeforeTargets="Build">
+    <Target Name="DownloadModel" BeforeTargets="Build" Condition="'$(SkipModelDownload)' != 'true'">
         <ItemGroup>
             <ModelDir Include="$(MSBuildProjectDirectory)\models\"/>
         </ItemGroup>
@@ -20,7 +21,7 @@
         <DownloadFile
                 SourceUrl="$(ModelUrl)"
                 DestinationFolder="$(MSBuildProjectDirectory)\models\"
-                DestinationFileName="model.gguf"
+                DestinationFileName="$(ModelFileName)"
                 Condition="!Exists('$(ModelPath)')"/>
 
         <Message Text="Model already exists at $(ModelPath)" Importance="normal" Condition="Exists('$(ModelPath)')"/>
@@ -28,6 +29,7 @@
     </Target>
 
     <ItemGroup>
+        <Compile Include="AssemblyInfo.fs"/>
         <Compile Include="State.fs"/>
         <Compile Include="Savegame.fs"/>
         <Compile Include="Log.fs"/>
@@ -42,8 +44,8 @@
 
     <ItemGroup>
         <PackageReference Include="FSharp.Control.AsyncSeq" Version="3.2.1"/>
-        <PackageReference Include="LLamaSharp" Version="0.25.0"/>
-        <PackageReference Include="LLamaSharp.Backend.Cpu" Version="0.25.0"/>
+        <PackageReference Include="LLamaSharp" Version="0.27.0"/>
+        <PackageReference Include="LLamaSharp.Backend.Cpu" Version="0.27.0"/>
     </ItemGroup>
 
     <ItemGroup>

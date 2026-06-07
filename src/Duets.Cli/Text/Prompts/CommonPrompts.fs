@@ -6,15 +6,8 @@ open Duets.Entities
 [<RequireQualifiedAccess>]
 module Common =
     /// Creates a prompt that improves the response quality of the language model.
-    /// Currently tuned for Gemma 3, which requires explicit turn markers to get
-    /// anything useful out of it.
-    let internal createPrompt prompt =
-        $"""
-    <start_of_turn>user
-    {prompt}
-    <end_of_turn>
-    <start_of_turn>model
-    """
+    /// Gemma 4 chat formatting is applied from the model metadata by LLamaSharp.
+    let internal createPrompt prompt = prompt |> String.trim
 
     let internal itemNameForPrompt item =
         let mainProperty = item.Properties |> List.head

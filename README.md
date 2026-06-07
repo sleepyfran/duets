@@ -29,7 +29,7 @@ Docker to avoid installing the SDK on your computer and instead running the game
 
 > [!IMPORTANT]
 > Descriptions and dialogues in the game are generated with a local large language model (LLM) that is downloaded during
-> build time. The model is a quantized version of Gemma 3 1B, which weights around 1GB. Due to this the first build of
+> build time. The model is the Gemma 4 E2B Q4_0 GGUF, which weighs around 3.4GB. Due to this the first build of
 > the project will take a while as it needs to download the model, but subsequent builds will be much faster.
 
 ## Running with local .NET

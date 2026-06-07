@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>$(DotnetVersion)</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
-    <RootNamespace>State.Tests</RootNamespace>
+    <RootNamespace>Agents.Tests</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Aether" Version="8.3.1" />
@@ -13,11 +13,10 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LanguageModel.Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Entities\Entities.fsproj" />
-    <ProjectReference Include="..\..\src\State\State.fsproj" />
-    <ProjectReference Include="..\Test.Common\Test.Common.fsproj" />
+    <ProjectReference Include="..\..\src\Duets.Agents\Duets.Agents.fsproj" AdditionalProperties="SkipModelDownload=true" />
   </ItemGroup>
 </Project>

@@ -12,45 +12,174 @@ open LLama.Native
 open LLama.Sampling
 
 type private LanguageModelState =
-    { Executor: InteractiveExecutor
-      PreviousChatHistory: ChatHistory option }
+    { Weights: LLamaWeights
+      Executor: StatelessExecutor }
+
+[<RequireQualifiedAccess>]
+module internal ResponseParser =
+    let private thoughtStart = "<|channel>thought"
+    let private thoughtEnd = "<channel|>"
+
+    let private responseTerminators =
+        [ "<turn|>"
+          "<end_of_turn>"
+          "<|turn>user"
+          "<|turn>system"
+          "<|turn>model"
+          "<|tool_response>"
+          "<tool_response|>"
+          "<|tool_call>"
+          "<tool_call|>"
+          "<|end_of_text|>"
+          "<eos>"
+          "</s>" ]
+
+    let private controlTokens =
+        thoughtStart
+        :: thoughtEnd
+           :: [ "<|channel>"
+                "<channel|>"
+                "<|think|>"
+                "<|turn>"
+                "<turn|>"
+                "<|tool>"
+                "<tool|>"
+                "<|tool_call>"
+                "<tool_call|>"
+                "<|tool_response>"
+                "<tool_response|>"
+                "<|end_of_text|>"
+                "<eos>"
+                "<bos>"
+                "</s>"
+                "<start_of_turn>"
+                "<end_of_turn>" ]
+
+    let private controlTokenPrefixes =
+        controlTokens
+        |> List.collect (fun token ->
+            [ 1 .. token.Length - 1 ]
+            |> List.map (fun length -> token.Substring(0, length)))
+        |> List.distinct
+        |> List.sortByDescending (fun prefix -> prefix.Length)
+
+    let rec private stripThoughtBlocks (text: string) =
+        let thoughtStartIndex =
+            text.IndexOf(thoughtStart, StringComparison.Ordinal)
+
+        if thoughtStartIndex < 0 then
+            text
+        else
+            let beforeThought = text.Substring(0, thoughtStartIndex)
+
+            let thoughtEndIndex =
+                text.IndexOf(
+                    thoughtEnd,
+                    thoughtStartIndex + thoughtStart.Length,
+                    StringComparison.Ordinal
+                )
+
+            if thoughtEndIndex < 0 then
+                beforeThought
+            else
+                let afterThought =
+                    text.Substring(thoughtEndIndex + thoughtEnd.Length)
+
+                beforeThought + stripThoughtBlocks afterThought
+
+    let private truncateAtTerminator (text: string) =
+        responseTerminators
+        |> List.choose (fun terminator ->
+            let index = text.IndexOf(terminator, StringComparison.Ordinal)
+
+            if index < 0 then
+                None
+            else
+                Some index)
+        |> List.sort
+        |> List.tryHead
+        |> Option.map (fun index -> text.Substring(0, index))
+        |> Option.defaultValue text
+
+    let private removeControlTokens text =
+        controlTokens
+        |> List.fold (fun (response: string) token -> response.Replace(token, "")) text
+
+    let private holdTrailingControlTokenPrefix (text: string) =
+        controlTokenPrefixes
+        |> List.tryFind (fun prefix ->
+            text.EndsWith(prefix, StringComparison.Ordinal))
+        |> Option.map (fun prefix -> text.Substring(0, text.Length - prefix.Length))
+        |> Option.defaultValue text
+
+    let private normalizeWhitespace text =
+        text
+        |> String.replace @"\s+" " "
+        |> String.replace @"^\s+" ""
+
+    let internal streamingVisibleText text =
+        text
+        |> truncateAtTerminator
+        |> stripThoughtBlocks
+        |> removeControlTokens
+        |> normalizeWhitespace
+        |> holdTrailingControlTokenPrefix
+
+    let internal completeVisibleText text =
+        text |> streamingVisibleText |> String.trim
+
+let private gemmaSamplingPipeline () =
+    // Settings taken from the Gemma 4 model card.
+    new DefaultSamplingPipeline(
+        Temperature = 1f,
+        TopK = 64,
+        TopP = 0.95f,
+        MinP = 0f
+    )
 
 let private inferenceParams =
     InferenceParams(
-        SamplingPipeline =
-            // Settings taken from model card: https://huggingface.co/unsloth/gemma-3-270m-it-GGUF
-            new DefaultSamplingPipeline(
-                Temperature = 1f,
-                TopK = 64,
-                TopP = 0.95f,
-                MinP = 0f
-            ),
-        AntiPrompts = [ "<end_of_turn>" ]
+        SamplingPipeline = gemmaSamplingPipeline (),
+        DecodeSpecialTokens = true,
+        AntiPrompts =
+            [ "<turn|>"
+              "<end_of_turn>"
+              "<|turn>user"
+              "<|turn>system"
+              "<|tool_response>" ]
     )
 
-type private SavegameAgentMessage =
+let private warmupInferenceParams =
+    InferenceParams(
+        SamplingPipeline = gemmaSamplingPipeline (),
+        DecodeSpecialTokens = true,
+        MaxTokens = 1
+    )
+
+type private LanguageModelAgentMessage =
     | Initialize of AsyncReplyChannel<unit>
     | StreamMessage of prompt: string * AsyncReplyChannel<AsyncSeq<String>>
 
-let private waitForFirstToken executor =
-    let chatHistory = ChatHistory()
-    let session = ChatSession(executor, chatHistory)
+let private createPrompt prompt =
+    $"""<|turn>user
+{prompt |> String.trim}<turn|>
+<|turn>model
+"""
 
-    let cts = new CancellationTokenSource()
-
+let private warmUp (executor: StatelessExecutor) =
     let rawAsyncEnumerable: Collections.Generic.IAsyncEnumerable<string> =
-        session.ChatAsync(
-            ChatHistory.Message(AuthorRole.User, "Give me an A"),
-            inferenceParams,
-            cts.Token
+        executor.InferAsync(
+            createPrompt "Give me an A",
+            warmupInferenceParams,
+            CancellationToken.None
         )
 
     rawAsyncEnumerable
     |> AsyncSeq.ofAsyncEnum
-    |> AsyncSeq.iter (fun token -> if token <> "" then cts.Cancel() else ())
+    |> AsyncSeq.iter ignore
     |> Async.RunSynchronously
 
-/// Agent in charge of writing and loading the stats of the game.
+/// Agent in charge of loading and streaming language model responses.
 type LanguageModelAgent() =
     let agent =
         MailboxProcessor.Start
@@ -62,10 +191,6 @@ type LanguageModelAgent() =
                     match msg with
                     | Initialize(channel) ->
                         try
-                            NativeLibraryConfig.All.WithLogCallback(fun _ _ ->
-                                ())
-                            |> ignore
-
                             // Force to load now instead of after the first inference.
                             NativeApi.llama_empty_call ()
 
@@ -73,21 +198,25 @@ type LanguageModelAgent() =
                                 Path.Combine(
                                     AppDomain.CurrentDomain.BaseDirectory,
                                     "models",
-                                    "model.gguf"
+                                    "gemma-4-E2B_q4_0-it.gguf"
                                 )
 
                             let parameters =
                                 ModelParams(modelPath, GpuLayerCount = 5)
 
                             let model = LLamaWeights.LoadFromFile(parameters)
-                            let context = model.CreateContext(parameters)
-                            let executor = InteractiveExecutor(context)
+                            let executor =
+                                StatelessExecutor(
+                                    model,
+                                    parameters,
+                                    ApplyTemplate = false
+                                )
 
                             let newState =
-                                { Executor = executor
-                                  PreviousChatHistory = None }
+                                { Weights = model
+                                  Executor = executor }
 
-                            waitForFirstToken executor
+                            warmUp executor
 
                             channel.Reply()
                             return! loop (Some newState)
@@ -100,46 +229,39 @@ type LanguageModelAgent() =
 
                     | StreamMessage(prompt, channel) ->
                         let executor = state.Value.Executor
-                        let chatHistory = ChatHistory()
-
-                        let session = ChatSession(executor, chatHistory)
 
                         let rawAsyncEnumerable
                             : Collections.Generic.IAsyncEnumerable<string> =
-                            session.ChatAsync(
-                                ChatHistory.Message(AuthorRole.User, prompt),
+                            executor.InferAsync(
+                                createPrompt prompt,
                                 inferenceParams,
                                 CancellationToken.None
                             )
 
-                        let mutable previousToken = ""
+                        let mutable rawResponse = ""
+                        let mutable emittedResponse = ""
 
                         rawAsyncEnumerable
                         |> AsyncSeq.ofAsyncEnum
                         |> AsyncSeq.map (fun token ->
-                            let sanitizedToken =
-                                token
-                                |> String.replace @"\s+" " "
-                                |> String.replace @"(?<!\n)\n(?!\n)" " "
+                            rawResponse <- rawResponse + token
 
-                            let sanitizedToken =
-                                (*
-                                Sometimes tokens include a space on them, other
-                                times they come in a "space word" fashion, from
-                                what I have seen mostly to separate words from
-                                a full stop, so only allow empty spaces if the
-                                previous token was a period to allow that.
-                                *)
+                            let visibleResponse =
+                                ResponseParser.streamingVisibleText rawResponse
+
+                            let newText =
                                 if
-                                    sanitizedToken = " "
-                                    && previousToken <> "."
+                                    visibleResponse.Length
+                                    <= emittedResponse.Length
                                 then
                                     ""
                                 else
-                                    sanitizedToken
+                                    visibleResponse.Substring(
+                                        emittedResponse.Length
+                                    )
 
-                            previousToken <- sanitizedToken
-                            sanitizedToken)
+                            emittedResponse <- visibleResponse
+                            newText)
                         |> channel.Reply
 
                         return! loop state
