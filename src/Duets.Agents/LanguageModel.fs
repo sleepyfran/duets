@@ -191,6 +191,12 @@ type LanguageModelAgent() =
                     match msg with
                     | Initialize(channel) ->
                         try
+                            // Ignore all logs, otherwise the player receives
+                            // a lot of noisy logs meddled with their gameplay.
+                            NativeLibraryConfig.All.WithLogCallback(fun _ _ ->
+                                ())
+                            |> ignore
+                            
                             // Force to load now instead of after the first inference.
                             NativeApi.llama_empty_call ()
 
