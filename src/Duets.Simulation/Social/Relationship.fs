@@ -13,6 +13,7 @@ let createWith (character: Character) meetingCity state =
           Level = 0<relationshipLevel>
           MeetingCity = meetingCity
           RelationshipType = Bandmate
+          DiscoveredTraits = Set.empty
           LastIterationDate = currentDate }
 
     RelationshipChanged(character, meetingCity, Some relationship)

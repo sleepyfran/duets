@@ -20,6 +20,7 @@ let relationship: Relationship =
       Level = 10<relationshipLevel>
       MeetingCity = Prague
       RelationshipType = Friend
+      DiscoveredTraits = Set.empty
       LastIterationDate = dummyToday }
 
 [<Test>]

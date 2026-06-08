@@ -12,6 +12,7 @@ let private createRelationshipWithLevel lastInteractionTime level =
       MeetingCity = Prague
       LastIterationDate = lastInteractionTime
       RelationshipType = Friend
+      DiscoveredTraits = Set.empty
       Level = level }
 
 let createStateWithRelationship level lastInteractionTime =

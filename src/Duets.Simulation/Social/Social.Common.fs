@@ -72,11 +72,11 @@ type internal SocialAction =
 /// performing the action.
 let rec internal performAction state socializingState action =
     // Check if relationship level meets minimum requirement
-    let currentLevel = 
+    let currentLevel =
         socializingState.Relationship
         |> Option.map (fun r -> r.Level)
         |> Option.defaultValue 0<relationshipLevel>
-    
+
     if currentLevel < action.MinimumLevel then
         Response.withoutEffects RelationshipLevelTooLow socializingState
     else
@@ -94,7 +94,9 @@ let rec internal performAction state socializingState action =
             if timesPerformedAction < limit then
                 performAction' state socializingState action
             else
-                Response.withoutEffects TooManyRepetitionsNoAction socializingState
+                Response.withoutEffects
+                    TooManyRepetitionsNoAction
+                    socializingState
 
 and private applyPenalization state socializingState penalization action =
     { action with
@@ -128,6 +130,7 @@ and private responseFromPoints state socializingState points =
               MeetingCity = cityId
               LastIterationDate = currentDate
               Level = clampedSum 0<relationshipLevel> points
+              DiscoveredTraits = Set.empty
               RelationshipType = Friend }
 
     let state =

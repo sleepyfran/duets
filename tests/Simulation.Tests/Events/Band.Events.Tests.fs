@@ -128,6 +128,7 @@ let dummyRelationship =
       Level = 0<relationshipLevel>
       MeetingCity = NewYork
       RelationshipType = Bandmate
+      DiscoveredTraits = Set.empty
       LastIterationDate = dummyToday }
 
 [<Test>]

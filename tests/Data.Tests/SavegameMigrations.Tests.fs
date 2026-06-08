@@ -183,7 +183,10 @@ let ``migration 2 adds empty Traits to characters without Traits`` () =
         "Characters": [
             ["character-1", { "Name": "Fran" }],
             ["character-2", { "Name": "Alex" }]
-        ]
+        ],
+        "Relationships": {
+            "ByCharacterId": []
+        }
     }
 }
 """
@@ -210,7 +213,10 @@ let ``migration 2 preserves existing Traits on characters`` () =
     "Data": {
         "Characters": [
             ["character-1", { "Name": "Fran", "Traits": ["Warm"] }]
-        ]
+        ],
+        "Relationships": {
+            "ByCharacterId": []
+        }
     }
 }
 """
@@ -235,7 +241,10 @@ let ``migration 2 sets version to 2`` () =
 {
     "Version": 1,
     "Data": {
-        "Characters": []
+        "Characters": [],
+        "Relationships": {
+            "ByCharacterId": []
+        }
     }
 }
 """
@@ -253,7 +262,91 @@ let ``migration 2 errors when Characters field is missing from Data`` () =
             """
 {
     "Version": 1,
-    "Data": {}
+    "Data": {
+        "Relationships": {
+            "ByCharacterId": []
+        }
+    }
+}
+"""
+
+    let result = Data.Savegame.Migrations.AddSocialFields.migrate input
+
+    match result with
+    | Error(MigrationError.InvalidStructure _) -> ()
+    | res -> failwith $"Expected InvalidStructure error, got {res}"
+
+[<Test>]
+let ``migration 2 adds empty DiscoveredTraits to relationships without DiscoveredTraits`` () =
+    let input =
+        JsonValue.Parse
+            """
+{
+    "Version": 1,
+    "Data": {
+        "Characters": [],
+        "Relationships": {
+            "ByCharacterId": [
+                ["character-1", { "Level": 25 }],
+                ["character-2", { "Level": 50 }]
+            ]
+        }
+    }
+}
+"""
+
+    let result = Data.Savegame.Migrations.AddSocialFields.migrate input
+
+    match result with
+    | Ok(json) ->
+        let relationships = json?Data?Relationships?ByCharacterId.AsArray()
+        let firstRelationship = relationships[0].AsArray()[1]
+        let secondRelationship = relationships[1].AsArray()[1]
+
+        firstRelationship?DiscoveredTraits.AsArray().Length |> should equal 0
+        secondRelationship?DiscoveredTraits.AsArray().Length |> should equal 0
+    | res -> failwith $"Expected migrated JSON, got {res}"
+
+[<Test>]
+let ``migration 2 preserves existing DiscoveredTraits on relationships`` () =
+    let input =
+        JsonValue.Parse
+            """
+{
+    "Version": 1,
+    "Data": {
+        "Characters": [],
+        "Relationships": {
+            "ByCharacterId": [
+                ["character-1", { "Level": 25, "DiscoveredTraits": ["Warm"] }]
+            ]
+        }
+    }
+}
+"""
+
+    let result = Data.Savegame.Migrations.AddSocialFields.migrate input
+
+    match result with
+    | Ok(json) ->
+        let relationships = json?Data?Relationships?ByCharacterId.AsArray()
+        let relationship = relationships[0].AsArray()[1]
+        let discoveredTraits = relationship?DiscoveredTraits.AsArray()
+
+        discoveredTraits.Length |> should equal 1
+        discoveredTraits[0].AsString() |> should equal "Warm"
+    | res -> failwith $"Expected migrated JSON, got {res}"
+
+[<Test>]
+let ``migration 2 errors when Relationships field is missing from Data`` () =
+    let input =
+        JsonValue.Parse
+            """
+{
+    "Version": 1,
+    "Data": {
+        "Characters": []
+    }
 }
 """
 
