@@ -169,3 +169,96 @@ let ``migration 1 errors when BankAccounts field is missing from Data`` () =
     match result with
     | Error(MigrationError.InvalidStructure _) -> ()
     | res -> failwith $"Expected InvalidStructure error, got {res}"
+
+(* --- Migration 2: AddSocialFields --- *)
+
+[<Test>]
+let ``migration 2 adds empty Traits to characters without Traits`` () =
+    let input =
+        JsonValue.Parse
+            """
+{
+    "Version": 1,
+    "Data": {
+        "Characters": [
+            ["character-1", { "Name": "Fran" }],
+            ["character-2", { "Name": "Alex" }]
+        ]
+    }
+}
+"""
+
+    let result = Data.Savegame.Migrations.AddSocialFields.migrate input
+
+    match result with
+    | Ok(json) ->
+        let characters = json?Data?Characters.AsArray()
+        let firstCharacter = characters[0].AsArray()[1]
+        let secondCharacter = characters[1].AsArray()[1]
+
+        firstCharacter?Traits.AsArray().Length |> should equal 0
+        secondCharacter?Traits.AsArray().Length |> should equal 0
+    | res -> failwith $"Expected migrated JSON, got {res}"
+
+[<Test>]
+let ``migration 2 preserves existing Traits on characters`` () =
+    let input =
+        JsonValue.Parse
+            """
+{
+    "Version": 1,
+    "Data": {
+        "Characters": [
+            ["character-1", { "Name": "Fran", "Traits": ["Warm"] }]
+        ]
+    }
+}
+"""
+
+    let result = Data.Savegame.Migrations.AddSocialFields.migrate input
+
+    match result with
+    | Ok(json) ->
+        let characters = json?Data?Characters.AsArray()
+        let character = characters[0].AsArray()[1]
+        let traits = character?Traits.AsArray()
+
+        traits.Length |> should equal 1
+        traits[0].AsString() |> should equal "Warm"
+    | res -> failwith $"Expected migrated JSON, got {res}"
+
+[<Test>]
+let ``migration 2 sets version to 2`` () =
+    let input =
+        JsonValue.Parse
+            """
+{
+    "Version": 1,
+    "Data": {
+        "Characters": []
+    }
+}
+"""
+
+    let result = Data.Savegame.Migrations.AddSocialFields.migrate input
+
+    match result with
+    | Ok(json) -> json?Version.AsInteger() |> should equal 2
+    | res -> failwith $"Expected migrated JSON, got {res}"
+
+[<Test>]
+let ``migration 2 errors when Characters field is missing from Data`` () =
+    let input =
+        JsonValue.Parse
+            """
+{
+    "Version": 1,
+    "Data": {}
+}
+"""
+
+    let result = Data.Savegame.Migrations.AddSocialFields.migrate input
+
+    match result with
+    | Error(MigrationError.InvalidStructure _) -> ()
+    | res -> failwith $"Expected InvalidStructure error, got {res}"
