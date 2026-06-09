@@ -81,7 +81,7 @@ module World =
         let knownNames =
             let npcsWithRelation =
                 knownNpcs
-                |> List.choose (fun npc ->
+                |> List.choose (fun { Npc = npc } ->
                     Queries.Relationship.withCharacter npc.Id state
                     |> Option.map (fun rel -> npc, rel))
 

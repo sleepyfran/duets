@@ -155,7 +155,7 @@ module World =
         | RoomType.Bedroom -> [], []
         | _ ->
             state.PeopleInCurrentPosition
-            |> List.partition (fun person ->
+            |> List.partition (fun { Npc = person } ->
                 Relationship.withCharacter person.Id state |> Option.isSome)
 
     /// Returns all connected places to the current street that match the given

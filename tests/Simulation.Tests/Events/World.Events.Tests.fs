@@ -50,7 +50,7 @@ let ``tick of world move should remove required items from inventory if moving f
         WorldMoveToPlace(
             Diff(
                 (Prague, gym.Id, World.Ids.Gym.changingRoom),
-                (Prague, dummyPlace.Id, World.Ids.Common.lobby)
+                (Prague, dummyPlace.Id, World.Ids.Home.kitchen)
             )
         )
 

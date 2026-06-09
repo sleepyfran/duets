@@ -56,7 +56,8 @@ let ``versions that equal latest return original data`` () =
 
 [<Test>]
 let ``savegames without version get migrated to the latest version`` () =
-    let input = $"""
+    let input =
+        $"""
 {{
     "Data": {{
         "BankAccounts": {{}}
@@ -76,8 +77,11 @@ let ``savegames without version get migrated to the latest version`` () =
 (* --- Migration 1: AddLoanState --- *)
 
 [<Test>]
-let ``migration 1 restructures BankAccounts into Bank with default LoanState`` () =
-    let input = """
+let ``migration 1 restructures BankAccounts into Bank with default LoanState``
+    ()
+    =
+    let input =
+        """
 {
     "Version": 0,
     "Data": {
@@ -98,7 +102,8 @@ let ``migration 1 restructures BankAccounts into Bank with default LoanState`` (
 
 [<Test>]
 let ``migration 1 sets version to 1`` () =
-    let input = """
+    let input =
+        """
 {
     "Version": 0,
     "Data": {
@@ -117,7 +122,8 @@ let ``migration 1 sets version to 1`` () =
 
 [<Test>]
 let ``migration 1 removes BankAccounts and adds Bank`` () =
-    let input = """
+    let input =
+        """
 {
     "Version": 0,
     "Data": {
@@ -136,8 +142,11 @@ let ``migration 1 removes BankAccounts and adds Bank`` () =
     | res -> failwith $"Expected migrated JSON, got {res}"
 
 [<Test>]
-let ``migration 1 preserves existing BankAccounts data under Bank.Accounts`` () =
-    let input = """
+let ``migration 1 preserves existing BankAccounts data under Bank.Accounts``
+    ()
+    =
+    let input =
+        """
 {
     "Version": 0,
     "Data": {
@@ -157,7 +166,8 @@ let ``migration 1 preserves existing BankAccounts data under Bank.Accounts`` () 
 
 [<Test>]
 let ``migration 1 errors when BankAccounts field is missing from Data`` () =
-    let input = """
+    let input =
+        """
 {
     "Version": 0,
     "Data": {}
@@ -277,7 +287,9 @@ let ``migration 2 errors when Characters field is missing from Data`` () =
     | res -> failwith $"Expected InvalidStructure error, got {res}"
 
 [<Test>]
-let ``migration 2 adds empty DiscoveredTraits to relationships without DiscoveredTraits`` () =
+let ``migration 2 adds empty DiscoveredTraits to relationships without DiscoveredTraits``
+    ()
+    =
     let input =
         JsonValue.Parse
             """
@@ -355,3 +367,34 @@ let ``migration 2 errors when Relationships field is missing from Data`` () =
     match result with
     | Error(MigrationError.InvalidStructure _) -> ()
     | res -> failwith $"Expected InvalidStructure error, got {res}"
+
+[<Test>]
+let ``migration 2 resets PeopleInCurrentPosition regardless of what's there``
+    ()
+    =
+    let input =
+        JsonValue.Parse
+            """
+{
+    "Version": 1,
+    "Data": {
+        "Characters": [],
+        "Relationships": {
+            "ByCharacterId": [
+                ["character-1", { "Level": 25, "DiscoveredTraits": ["Warm"] }]
+            ]
+        },
+        "PeopleInCurrentPosition": [
+            { "Name": "Test" }
+        ]
+    }
+}
+"""
+
+    let result = Data.Savegame.Migrations.AddSocialFields.migrate input
+
+    match result with
+    | Ok(json) ->
+        let npcs = json?Data?PeopleInCurrentPosition.AsArray()
+        npcs.Length |> should equal 0
+    | res -> failwith $"Expected migrated JSON, got {res}"

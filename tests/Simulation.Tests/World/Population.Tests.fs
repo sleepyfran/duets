@@ -18,6 +18,9 @@ let private hotel =
 let private home =
     Queries.World.placesByTypeInCity Prague PlaceTypeIndex.Home |> List.head
 
+let private bar =
+    Queries.World.placesByTypeInCity Prague PlaceTypeIndex.Bar |> List.head
+
 let private extractCharacters =
     function
     | WorldPeopleInCurrentRoomChanged(characters) -> characters
@@ -28,21 +31,45 @@ let setup = RandomGen.reset
 
 [<Test>]
 let ``generateForPlace does not generate anyone at home`` () =
-    World.Population.generateForPlace Prague home dummyState
+    World.Population.generateForPlace Prague home RoomType.Kitchen dummyState
     |> extractCharacters
     |> should haveLength 0
 
 [<Test>]
 let ``generateForPlace generates people depending on place type`` () =
-    World.Population.generateForPlace Prague airport dummyState
+    World.Population.generateForPlace Prague airport RoomType.Lobby dummyState
     |> extractCharacters
     |> _.Length
     |> should be (inRange 0 10)
 
-    World.Population.generateForPlace Prague hotel dummyState
+    World.Population.generateForPlace Prague hotel RoomType.Lobby dummyState
     |> extractCharacters
     |> _.Length
     |> should be (inRange 1 5)
+
+[<Test>]
+let ``generateForPlace assigns fixed and weighted NPC room goals`` () =
+    use _ =
+        [ (* Number of people being generated. *)
+          yield 10
+          (* Birthday generation for each random NPC. *)
+          for _ in 1..10 do
+              yield 18
+              yield 0 ]
+        |> changeToOrderedRandom
+
+    let generatedPeople =
+        World.Population.generateForPlace Prague bar RoomType.Bar dummyState
+        |> extractCharacters
+
+    generatedPeople |> should haveLength 10
+
+    let goalsByCount = generatedPeople |> List.countBy _.Goal |> Map.ofList
+
+    goalsByCount
+    |> should equal (Map.ofList
+                         [ NpcRoomGoal.Working(PlayableWork Bartender), 1
+                           NpcRoomGoal.Customer, 9 ])
 
 [<Test>]
 let ``generateForPlace should add known people if character has relationships and does not add duplicates``
@@ -76,7 +103,11 @@ let ``generateForPlace should add known people if character has relationships an
         )
         |> State.Root.applyEffect dummyState
 
-    World.Population.generateForPlace Prague airport stateWithRelationship
+    World.Population.generateForPlace
+        Prague
+        airport
+        RoomType.SecurityControl
+        stateWithRelationship
     |> extractCharacters
-    |> List.filter (fun character -> character.Id = knownCharacter.Id)
+    |> List.filter (fun { Npc = character } -> character.Id = knownCharacter.Id)
     |> should haveLength 1

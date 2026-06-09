@@ -26,7 +26,7 @@ let private barInBrooklynNewYork =
         place.ZoneId = Identity.Reproducible.create NewYork.Ids.Zone.brooklyn)
 
 let private cafeInBrooklynNewYork =
-    Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.MetroStation
+    Queries.World.placesByTypeInCity NewYork PlaceTypeIndex.Cafe
     |> List.find (fun place ->
         place.ZoneId = Identity.Reproducible.create NewYork.Ids.Zone.brooklyn)
 
@@ -52,7 +52,7 @@ let ``traveling to another place inside the same city but in the same region con
     let effects =
         WorldMoveToPlace(
             Diff(
-                (NewYork, barInBrooklynNewYork.Id, Ids.Bookstore.readingRoom),
+                (NewYork, barInBrooklynNewYork.Id, Ids.Common.bar),
                 (NewYork, cafeInBrooklynNewYork.Id, Ids.Common.cafe)
             )
         )

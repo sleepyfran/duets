@@ -12,12 +12,12 @@ open Duets.Simulation
 module LookCommand =
     /// Lists all people in the room.
     let private listPeople
-        (knownPeople: Character list)
-        (unknownPeople: Character list)
+        (knownPeople: PresentNpc list)
+        (unknownPeople: PresentNpc list)
         roomType
         =
         let peopleDescription people =
-            Generic.listOf people (fun person ->
+            Generic.listOf people (fun { Npc = person } ->
                 $"{person.Name |> Styles.person}")
 
         if knownPeople.IsEmpty |> not then
@@ -41,8 +41,8 @@ module LookCommand =
     let create
         (interactions: InteractionWithMetadata list)
         (items: Item list)
-        (knownPeople: Character list)
-        (unknownPeople: Character list)
+        (knownPeople: PresentNpc list)
+        (unknownPeople: PresentNpc list)
         =
         { Name = "look"
           Description = Command.lookDescription

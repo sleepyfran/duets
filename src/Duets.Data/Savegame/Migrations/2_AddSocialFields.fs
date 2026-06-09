@@ -46,6 +46,14 @@ let private migrateRelationships (data: JsonValue) =
         data |> replaceField "Relationships" updatedRelationships |> Ok
     | _ -> Error(InvalidStructure "Relationships should be present in the data")
 
+let private migratePeopleInCurrentPosition (data: JsonValue) =
+    // No point in trying to actually migrate this because we need information
+    // about the position that would be harder to obtain at this stage. Set list
+    // to empty and let it re-create on next update.
+    data
+    |> replaceField "PeopleInCurrentPosition" (JsonValue.Array(Array.empty))
+    |> Ok
+
 /// Migration that adds all the new social fields.
 let migrate (root: JsonValue) =
     let data = root.TryGetProperty("Data")
@@ -55,6 +63,7 @@ let migrate (root: JsonValue) =
         data
         |> migrateCharacters
         |> Result.bind migrateRelationships
+        |> Result.bind migratePeopleInCurrentPosition
         |> Result.map (fun data ->
             root |> replaceField "Data" data |> setVersion 2m)
     | _ -> Error(InvalidStructure "Data field should be on the root")

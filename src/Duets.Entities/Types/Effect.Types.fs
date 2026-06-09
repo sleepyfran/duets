@@ -115,7 +115,7 @@ module EffectTypes =
         /// Moves the player to a different place in the current city or a
         /// different one.
         | WorldMoveToPlace of Diff<RoomCoordinates>
-        | WorldPeopleInCurrentRoomChanged of Character list
+        | WorldPeopleInCurrentRoomChanged of PresentNpc list
         | Wait of int<dayMoments>
         | LoanTaken of Loan
         | LoanPaid of Loan

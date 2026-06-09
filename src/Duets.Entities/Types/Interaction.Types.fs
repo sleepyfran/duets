@@ -119,8 +119,8 @@ module rec InteractionTypes =
         /// Allows the user to look around and see which objects are available.
         | Look of
             items: Item list *
-            knownCharacters: Character list *
-            unknownCharacters: Character list
+            knownCharacters: PresentNpc list *
+            unknownCharacters: PresentNpc list
         /// Allows the player to travel around the current city.
         | Map
         /// Allows movement into the specified direction.
@@ -210,8 +210,8 @@ module rec InteractionTypes =
     type SocialInteraction =
         /// Allows the player to start a conversation with an NPC.
         | StartConversation of
-            knownNpcs: Character list *
-            unknownNpcs: Character list
+            knownNpcs: PresentNpc list *
+            unknownNpcs: PresentNpc list
         /// Allows the player to stop a conversation with an NPC.
         | StopConversation
         /// Allows the player to perform a social action on the NPC.

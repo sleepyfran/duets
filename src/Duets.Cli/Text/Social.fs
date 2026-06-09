@@ -10,6 +10,7 @@ What do you want to do?"""
 
 let relationshipType =
     function
+    | Unknown -> "Unknown"
     | Friend -> "Friend"
     | Bandmate -> "Bandmate"
 

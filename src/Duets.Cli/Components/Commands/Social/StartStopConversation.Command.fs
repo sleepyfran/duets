@@ -11,7 +11,7 @@ open Duets.Simulation
 [<RequireQualifiedAccess>]
 module StartConversationCommand =
     /// Command which starts a new conversation with an NPC.
-    let create (knownNpcs: Character list) (unknownNpcs: Character list) =
+    let create (knownNpcs: PresentNpc list) (unknownNpcs: PresentNpc list) =
         { Name = "start conversation"
           Description = "Starts a conversation with another character"
           Handler =
@@ -21,15 +21,18 @@ module StartConversationCommand =
                         "Who do you want to talk to?"
                         Generic.nothing
                         (fun npc ->
+                            let character = npc.Npc
+                            let goal = npc.Goal
+
                             if List.contains npc knownNpcs then
-                                npc.Name
+                                character.Name
                             else
-                                $"Unknown ({npc.Gender})"
+                                $"Unknown ({character.Gender}) (DEBUG: {goal})"
                             |> Styles.person)
                         (knownNpcs @ unknownNpcs)
 
                 match npc with
-                | Some npc ->
+                | Some { Npc = npc } ->
                     Social.Actions.startConversation (State.get ()) npc
                     |> Effect.apply
                 | None -> ()

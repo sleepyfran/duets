@@ -47,16 +47,20 @@ let private generateForPlaceWithSpecificNpcs place state =
     let bandMembers =
         Queries.Bands.currentBandMembersWithoutPlayableCharacter state
         |> List.map (_.CharacterId >> Queries.Characters.find state)
+        |> List.map (Npc.fromCharacterWithGoal BandMember)
 
     match place.PlaceType with
     | RehearsalSpace _ -> bandMembers
-    | Studio studio -> studio.Producer :: bandMembers
+    | Studio studio ->
+        (studio.Producer
+         |> Npc.fromCharacterWithGoal (Working(PlayableWork MusicProducer)))
+        :: bandMembers
     | _ -> []
 
 /// Generates an effect that puts a random number of people in the given place,
 /// keeping in mind the place's population range, which depends on the place type
 /// and whether it is private or not (like a home or a studio).
-let generateForPlace cityId place state =
+let generateForPlace cityId place roomType state =
     let numberOfPeople = placePopulationRange place ||> RandomGen.genBetween
     let knownNpcs = allKnownNpcs cityId state
 
@@ -85,6 +89,7 @@ let generateForPlace cityId place state =
                     (randomNpc :: npcsInRoom, knownNpcs))
             ([], knownNpcs)
         |> fst
+        |> Character.Npc.assignRoomRoles place.PlaceType roomType
 
     let placeSpecificNpcs = generateForPlaceWithSpecificNpcs place state
 
