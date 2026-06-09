@@ -34,11 +34,13 @@ let private migrateRelationships (data: JsonValue) =
             mapArray (
                 mapTuple2 (fun (characterId, relationship) ->
                     (characterId,
-                     addFieldIfNonExistent
-                         "DiscoveredTraits"
-                         (JsonValue.Array(Array.empty))
-                         relationship
-                     |> renameField "Level" "Familiarity"))
+                      addFieldIfNonExistent
+                          "DiscoveredTraits"
+                          (JsonValue.Array(Array.empty))
+                          relationship
+                      |> addFieldIfNonExistent "Affinity" (JsonValue.Number 0m)
+                      |> addFieldIfNonExistent "Attraction" (JsonValue.Number 0m)
+                      |> renameField "Level" "Familiarity"))
             )
 
         let updatedRelationships =

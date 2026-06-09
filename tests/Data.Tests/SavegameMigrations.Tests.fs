@@ -302,6 +302,34 @@ let ``migration 2 adds empty DiscoveredTraits to relationships without Discovere
     | res -> failwith $"Expected migrated JSON, got {res}"
 
 [<Test>]
+let ``migration 2 adds neutral Affinity and Attraction to relationships without them``
+    ()
+    =
+    let input =
+        defaultMigrationData
+        |> withMigrationData
+            2
+            [ "Characters", emptyArray
+              "Relationships",
+              relationships
+                  [ tuple2
+                        (jsonString "character-1")
+                        (jsonObject [ "Level", jsonNumber 25 ]) ]
+              "PeopleInCurrentPosition", emptyArray ]
+        |> buildSavegame 1
+
+    let result = Data.Savegame.Migrations.AddSocialFields.migrate input
+
+    match result with
+    | Ok(json) ->
+        let relationships = json?Data?Relationships?ByCharacterId.AsArray()
+        let relationship = relationships[0].AsArray()[1]
+
+        relationship?Affinity.AsInteger() |> should equal 0
+        relationship?Attraction.AsInteger() |> should equal 0
+    | res -> failwith $"Expected migrated JSON, got {res}"
+
+[<Test>]
 let ``migration 2 preserves existing DiscoveredTraits on relationships`` () =
     let input =
         defaultMigrationData

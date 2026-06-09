@@ -17,7 +17,9 @@ let npc =
 
 let relationship: Relationship =
     { Character = npc.Id
-      Familiarity = 10<relationshipLevel>
+      Affinity = 0<affinity>
+      Attraction = 0<attraction>
+      Familiarity = 10<familiarity>
       MeetingCity = Prague
       RelationshipType = Friend
       DiscoveredTraits = Set.empty

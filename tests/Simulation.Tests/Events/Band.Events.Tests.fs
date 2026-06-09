@@ -125,7 +125,9 @@ let ``tick of band fans changed should generate reviews for all previously relea
 
 let dummyRelationship =
     { Character = dummyCharacter2.Id
-      Familiarity = 0<relationshipLevel>
+      Affinity = 0<affinity>
+      Attraction = 0<attraction>
+      Familiarity = 0<familiarity>
       MeetingCity = NewYork
       RelationshipType = Bandmate
       DiscoveredTraits = Set.empty

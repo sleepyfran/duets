@@ -289,7 +289,7 @@ let worldScene mode =
             let relationshipLevel =
                 socializingState.Relationship
                 |> Option.map (_.Familiarity)
-                |> Option.defaultValue 0<relationshipLevel>
+                |> Option.defaultValue 0<familiarity>
 
             Social.actionPrompt
                 today

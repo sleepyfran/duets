@@ -65,7 +65,7 @@ type internal SocialAction =
     { Kind: SocialActionKind
       Limit: Limit
       RelationshipChange: RelationshipChange
-      MinimumLevel: int<relationshipLevel> }
+      MinimumLevel: int<familiarity> }
 
 /// Performs the given socializing action and returns a response that contains
 /// the updated socializing state and the effects that were produced by
@@ -75,7 +75,7 @@ let rec internal performAction state socializingState action =
     let currentLevel =
         socializingState.Relationship
         |> Option.map (fun r -> r.Familiarity)
-        |> Option.defaultValue 0<relationshipLevel>
+        |> Option.defaultValue 0<familiarity>
 
     if currentLevel < action.MinimumLevel then
         Response.withoutEffects RelationshipLevelTooLow socializingState
@@ -117,7 +117,7 @@ and private performAction' state socializingState action =
 and private responseFromPoints state socializingState points =
     let cityId, _, _ = Queries.World.currentCoordinates state
     let currentDate = Queries.Calendar.today state
-    let points = points * 1<relationshipLevel>
+    let points = points * 1<familiarity>
 
     let updatedRelationship =
         socializingState.Relationship
@@ -127,9 +127,11 @@ and private responseFromPoints state socializingState points =
                 Familiarity = clampedSum relationship.Familiarity points })
         |> Option.defaultValue
             { Character = socializingState.Npc.Id
+              Affinity = 0<affinity>
+              Attraction = 0<attraction>
               MeetingCity = cityId
               LastIterationDate = currentDate
-              Familiarity = clampedSum 0<relationshipLevel> points
+              Familiarity = clampedSum 0<familiarity> points
               DiscoveredTraits = Set.empty
               RelationshipType = Friend }
 
@@ -141,7 +143,7 @@ and private responseFromPoints state socializingState points =
 
 and private clampedSum currentLevel points =
     currentLevel + points
-    |> Math.clamp 0<relationshipLevel> 100<relationshipLevel>
+    |> Math.clamp 0<familiarity> 100<familiarity>
 
 and private addAction actionKind response =
     { response with

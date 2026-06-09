@@ -22,12 +22,12 @@ let applyIfNeeded state =
         let npc = Queries.Characters.find state relationship.Character
 
         let updatedLevel =
-            relationship.Familiarity - 5<relationshipLevel>
-            |> Math.clamp 0<relationshipLevel> 100<relationshipLevel>
+            relationship.Familiarity - 5<familiarity>
+            |> Math.clamp 0<familiarity> 100<familiarity>
 
         let updatedRelationship =
             match relationship.Familiarity, updatedLevel with
-            | 0<relationshipLevel>, 0<relationshipLevel> -> None
+            | 0<familiarity>, 0<familiarity> -> None
             | _ ->
                 Some
                     { relationship with

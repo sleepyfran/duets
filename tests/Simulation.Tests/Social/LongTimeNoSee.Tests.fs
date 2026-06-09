@@ -9,6 +9,8 @@ open Duets.Simulation
 
 let private createRelationshipWithLevel lastInteractionTime level =
     { Character = dummyCharacter2.Id
+      Affinity = 0<affinity>
+      Attraction = 0<attraction>
       MeetingCity = Prague
       LastIterationDate = lastInteractionTime
       RelationshipType = Friend
@@ -33,7 +35,7 @@ let ``does nothing if the last interaction was less than 14 days ago`` () =
     |> List.iter (fun daysSince ->
         dummyToday
         |> Calendar.Ops.addDays -(daysSince * 1<days>)
-        |> createStateWithRelationship 10<relationshipLevel>
+        |> createStateWithRelationship 10<familiarity>
         |> Social.LongTimeNoSee.applyIfNeeded
         |> should haveLength 0)
 
@@ -44,11 +46,11 @@ let ``reduces relationship level by 5 and sets last interaction time to today if
     let effects =
         dummyToday
         |> Calendar.Ops.addDays -15<days>
-        |> createStateWithRelationship 10<relationshipLevel>
+        |> createStateWithRelationship 10<familiarity>
         |> Social.LongTimeNoSee.applyIfNeeded
 
     let expectedRelationship =
-        createRelationshipWithLevel dummyToday 5<relationshipLevel>
+        createRelationshipWithLevel dummyToday 5<familiarity>
 
     effects |> should haveLength 1
 
@@ -65,7 +67,7 @@ let ``removes relationship if interaction was more than 14 days ago and it was a
     let effects =
         dummyToday
         |> Calendar.Ops.addDays -15<days>
-        |> createStateWithRelationship 0<relationshipLevel>
+        |> createStateWithRelationship 0<familiarity>
         |> Social.LongTimeNoSee.applyIfNeeded
 
     effects |> should haveLength 1
@@ -79,7 +81,7 @@ let ``gets applied every day in the morning`` () =
     let state =
         dummyToday
         |> Calendar.Ops.addDays -15<days>
-        |> createStateWithRelationship 10<relationshipLevel>
+        |> createStateWithRelationship 10<familiarity>
 
     dummyToday
     |> Calendar.Transform.changeDayMoment Morning
