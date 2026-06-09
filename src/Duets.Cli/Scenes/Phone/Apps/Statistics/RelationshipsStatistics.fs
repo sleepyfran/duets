@@ -24,7 +24,7 @@ let rec relationshipsStatisticsSubScene statisticsApp =
             [ Styles.person npc.Name
               Social.relationshipType relationship.RelationshipType
               |> Styles.highlight
-              $"{relationship.Level |> Styles.Level.from}%%" ])
+              $"{relationship.Familiarity |> Styles.Level.from}%%" ])
 
     showTable tableColumns tableRows
 

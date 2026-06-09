@@ -33,6 +33,21 @@ let addField fieldName fieldValue (values: JsonValue) =
     | JsonValue.Record(props) ->
         JsonValue.Record(props |> Array.append [| fieldName, fieldValue |])
     | _ -> values
+    
+/// Renames a field keeping its current value in the given JSON value if it is
+/// an object, otherwise returns the JSON as-is.
+let renameField currentFieldName updatedFieldName (values: JsonValue) =
+    match values with
+    | JsonValue.Record(props) ->
+        JsonValue.Record(
+            props
+            |> Array.map (fun (fieldName, fieldValue) ->
+                if fieldName = currentFieldName then
+                    (updatedFieldName, fieldValue)
+                else
+                    (fieldName, fieldValue))
+        )
+    | _ -> values
 
 /// Maps a specific field off a record if it is an object, otherwise returns the
 /// JSON as-is.

@@ -37,7 +37,8 @@ let private migrateRelationships (data: JsonValue) =
                      addFieldIfNonExistent
                          "DiscoveredTraits"
                          (JsonValue.Array(Array.empty))
-                         relationship))
+                         relationship
+                     |> renameField "Level" "Familiarity"))
             )
 
         let updatedRelationships =

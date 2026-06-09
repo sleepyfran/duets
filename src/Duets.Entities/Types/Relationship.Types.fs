@@ -21,8 +21,8 @@ module RelationshipTypes =
           MeetingCity: CityId
           LastIterationDate: Date
           RelationshipType: RelationshipType
-          DiscoveredTraits: Set<PersonalityTrait>
-          Level: int<relationshipLevel> }
+          DiscoveredTraits: Set<Trait>
+          Familiarity: int<relationshipLevel> }
 
     type RelationshipsByCharacterId = Map<CharacterId, Relationship>
     type RelationshipsByMeetingCity = Map<CityId, Set<CharacterId>>

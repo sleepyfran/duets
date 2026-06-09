@@ -22,16 +22,16 @@ let applyIfNeeded state =
         let npc = Queries.Characters.find state relationship.Character
 
         let updatedLevel =
-            relationship.Level - 5<relationshipLevel>
+            relationship.Familiarity - 5<relationshipLevel>
             |> Math.clamp 0<relationshipLevel> 100<relationshipLevel>
 
         let updatedRelationship =
-            match relationship.Level, updatedLevel with
+            match relationship.Familiarity, updatedLevel with
             | 0<relationshipLevel>, 0<relationshipLevel> -> None
             | _ ->
                 Some
                     { relationship with
-                        Level = updatedLevel
+                        Familiarity = updatedLevel
                         (*
                         Artificially change the last interaction time so that we don't apply
                         this again until two weeks later.

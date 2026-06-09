@@ -10,7 +10,7 @@ let createWith (character: Character) meetingCity state =
 
     let relationship =
         { Character = character.Id
-          Level = 0<relationshipLevel>
+          Familiarity = 0<relationshipLevel>
           MeetingCity = meetingCity
           RelationshipType = Bandmate
           DiscoveredTraits = Set.empty

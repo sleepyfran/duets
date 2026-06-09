@@ -331,6 +331,32 @@ let ``migration 2 preserves existing DiscoveredTraits on relationships`` () =
     | res -> failwith $"Expected migrated JSON, got {res}"
 
 [<Test>]
+let ``migration 2 renames relationship Level to Familiarity`` () =
+    let input =
+        defaultMigrationData
+        |> withMigrationData
+            2
+            [ "Characters", emptyArray
+              "Relationships",
+              relationships
+                  [ tuple2
+                        (jsonString "character-1")
+                        (jsonObject [ "Level", jsonNumber 25 ]) ]
+              "PeopleInCurrentPosition", emptyArray ]
+        |> buildSavegame 1
+
+    let result = Data.Savegame.Migrations.AddSocialFields.migrate input
+
+    match result with
+    | Ok(json) ->
+        let relationships = json?Data?Relationships?ByCharacterId.AsArray()
+        let relationship = relationships[0].AsArray()[1]
+
+        relationship.TryGetProperty("Level") |> should equal None
+        relationship?Familiarity.AsInteger() |> should equal 25
+    | res -> failwith $"Expected migrated JSON, got {res}"
+
+[<Test>]
 let ``migration 2 errors when Relationships field is missing from Data`` () =
     let input =
         defaultMigrationData

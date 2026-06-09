@@ -94,7 +94,7 @@ let ``generateForPlace should add known people if character has relationships an
             Prague,
             Some(
                 { Character = knownCharacter.Id
-                  Level = 10<relationshipLevel>
+                  Familiarity = 10<relationshipLevel>
                   MeetingCity = Prague
                   RelationshipType = Friend
                   DiscoveredTraits = Set.empty

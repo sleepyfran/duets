@@ -74,7 +74,7 @@ let rec internal performAction state socializingState action =
     // Check if relationship level meets minimum requirement
     let currentLevel =
         socializingState.Relationship
-        |> Option.map (fun r -> r.Level)
+        |> Option.map (fun r -> r.Familiarity)
         |> Option.defaultValue 0<relationshipLevel>
 
     if currentLevel < action.MinimumLevel then
@@ -124,12 +124,12 @@ and private responseFromPoints state socializingState points =
         |> Option.map (fun relationship ->
             { relationship with
                 LastIterationDate = currentDate
-                Level = clampedSum relationship.Level points })
+                Familiarity = clampedSum relationship.Familiarity points })
         |> Option.defaultValue
             { Character = socializingState.Npc.Id
               MeetingCity = cityId
               LastIterationDate = currentDate
-              Level = clampedSum 0<relationshipLevel> points
+              Familiarity = clampedSum 0<relationshipLevel> points
               DiscoveredTraits = Set.empty
               RelationshipType = Friend }
 
