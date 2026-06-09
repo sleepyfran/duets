@@ -1,6 +1,7 @@
 [<AutoOpen>]
 module Duets.Cli.Components.ProgressBar
 
+open Duets.Simulation
 open FSharp.Data.UnitSystems.SI.UnitNames
 open Spectre.Console
 
@@ -69,3 +70,30 @@ let showProgressForFunc stepName (func: unit -> unit) =
             let task = ctx.AddTask(stepName).IsIndeterminate()
             func ()
             task.StopTask())
+
+/// <summary>
+/// Renders an indeterminate status loader that finishes when the given function
+/// completes.
+/// </summary>
+/// <param name="stepName">Text to display</param>
+/// <param name="func">Function that will be immediately executed synchronously and used to determine when to hide the status</param>
+let showIndeterminateProgressForFunc stepName (func: unit -> unit) =
+    AnsiConsole
+        .Status()
+        .Start(
+            stepName,
+            fun (ctx: StatusContext) ->
+                let spinner =
+                    RandomGen.choice
+                        [ Spinner.Known.Balloon
+                          Spinner.Known.Balloon2
+                          Spinner.Known.BouncingBall
+                          Spinner.Known.BouncingBar
+                          Spinner.Known.BoxBounce
+                          Spinner.Known.BoxBounce2
+                          Spinner.Known.BetaWave
+                          Spinner.Known.Aesthetic ]
+
+                ctx.Spinner(spinner) |> ignore
+                func ()
+        )

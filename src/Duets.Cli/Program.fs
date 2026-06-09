@@ -70,7 +70,7 @@ let main args =
     let skipSaving = parseNoSavingArg args
 
     LanguageModel.initialize
-    |> showProgressForFunc (Styles.progress "Initializing game...")
+    |> showIndeterminateProgressForFunc (Styles.progress "Initializing game...")
 
     clearScreen ()
 
