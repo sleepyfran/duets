@@ -51,7 +51,7 @@ let private applyMigrations' originalData root =
     | _ ->
         // No version means we haven't even performed the first migration, start
         // from the very beginning.
-        applyMigrationsFromVersion' 0 root
+        applyMigrationsFromVersion' -1 root
 
 let private applyMigrationsFromVersion' originVersion root =
     let applicableMigrations = migrations |> List.skip (originVersion + 1)

@@ -8,6 +8,51 @@ open NUnit.Framework
 open Duets.Data.Savegame.Migrations
 open Duets.Data.Savegame.Types
 
+let private jsonObject (fields: (string * JsonValue) list) =
+    fields |> Array.ofList |> JsonValue.Record
+
+let private jsonArray (values: JsonValue list) =
+    values |> Array.ofList |> JsonValue.Array
+
+let private jsonString value = JsonValue.String value
+
+let private jsonNumber value = JsonValue.Number(decimal value)
+
+let private tuple2 first second = jsonArray [ first; second ]
+
+let private emptyObject = jsonObject []
+let private emptyArray = jsonArray []
+
+let private relationships byCharacterId =
+    jsonObject [ "ByCharacterId", jsonArray byCharacterId ]
+
+let private defaultMigrationData =
+    Map.ofList
+        [ 1, [ "BankAccounts", emptyObject ]
+          2,
+          [ "Characters", emptyArray
+            "Relationships", relationships []
+            "PeopleInCurrentPosition", emptyArray ] ]
+
+let private withMigrationData migration data builder =
+    builder |> Map.add migration data
+
+let private buildData builder =
+    builder
+    |> Map.toSeq
+    |> Seq.collect snd
+    |> Seq.toArray
+    |> JsonValue.Record
+
+let private buildSavegame version builder =
+    jsonObject [ "Version", jsonNumber version; "Data", buildData builder ]
+
+let private buildSavegameString version builder =
+    builder |> buildSavegame version |> string
+
+let private buildVersionlessSavegameString builder =
+    jsonObject [ "Data", buildData builder ] |> string
+
 [<Test>]
 let ``anything other than an object is not accepted as a root`` () =
     [ "[1,2,3]"; "3"; "45.4"; "\"test\""; "null"; "false" ]
@@ -56,14 +101,7 @@ let ``versions that equal latest return original data`` () =
 
 [<Test>]
 let ``savegames without version get migrated to the latest version`` () =
-    let input =
-        $"""
-{{
-    "Data": {{
-        "BankAccounts": {{}}
-    }}
-}}
-"""
+    let input = defaultMigrationData |> buildVersionlessSavegameString
 
     let result = applyMigrations input
 
@@ -80,21 +118,12 @@ let ``savegames without version get migrated to the latest version`` () =
 let ``migration 1 restructures BankAccounts into Bank with default LoanState``
     ()
     =
-    let input =
-        """
-{
-    "Version": 0,
-    "Data": {
-        "BankAccounts": {}
-    }
-}
-"""
+    let input = defaultMigrationData |> buildSavegame 0
 
-    let result = applyMigrations input
+    let result = Data.Savegame.Migrations.AddLoanState.migrate input
 
     match result with
     | Ok(json) ->
-        let json = JsonValue.Parse(json)
         let loanState = json?Data?Bank?LoanState
         loanState?ActiveLoan |> should equal JsonValue.Null
         loanState?Reputation?Case.AsString() |> should equal "GoodStanding"
@@ -102,41 +131,23 @@ let ``migration 1 restructures BankAccounts into Bank with default LoanState``
 
 [<Test>]
 let ``migration 1 sets version to 1`` () =
-    let input =
-        """
-{
-    "Version": 0,
-    "Data": {
-        "BankAccounts": {}
-    }
-}
-"""
+    let input = defaultMigrationData |> buildSavegame 0
 
-    let result = applyMigrations input
+    let result = Data.Savegame.Migrations.AddLoanState.migrate input
 
     match result with
     | Ok(json) ->
-        let json = JsonValue.Parse(json)
         json?Version.AsInteger() |> should equal 1
     | res -> failwith $"Expected migrated JSON, got {res}"
 
 [<Test>]
 let ``migration 1 removes BankAccounts and adds Bank`` () =
-    let input =
-        """
-{
-    "Version": 0,
-    "Data": {
-        "BankAccounts": {}
-    }
-}
-"""
+    let input = defaultMigrationData |> buildSavegame 0
 
-    let result = applyMigrations input
+    let result = Data.Savegame.Migrations.AddLoanState.migrate input
 
     match result with
     | Ok(json) ->
-        let json = JsonValue.Parse(json)
         json?Data.TryGetProperty("BankAccounts") |> should equal None
         json?Data.TryGetProperty("Bank") |> should not' (equal None)
     | res -> failwith $"Expected migrated JSON, got {res}"
@@ -146,20 +157,14 @@ let ``migration 1 preserves existing BankAccounts data under Bank.Accounts``
     ()
     =
     let input =
-        """
-{
-    "Version": 0,
-    "Data": {
-        "BankAccounts": { "someKey": 42 }
-    }
-}
-"""
+        defaultMigrationData
+        |> withMigrationData 1 [ "BankAccounts", jsonObject [ "someKey", jsonNumber 42 ] ]
+        |> buildSavegame 0
 
-    let result = applyMigrations input
+    let result = Data.Savegame.Migrations.AddLoanState.migrate input
 
     match result with
     | Ok(json) ->
-        let json = JsonValue.Parse(json)
         let accounts = json?Data?Bank?Accounts
         accounts?someKey.AsInteger() |> should equal 42
     | res -> failwith $"Expected migrated JSON, got {res}"
@@ -167,14 +172,11 @@ let ``migration 1 preserves existing BankAccounts data under Bank.Accounts``
 [<Test>]
 let ``migration 1 errors when BankAccounts field is missing from Data`` () =
     let input =
-        """
-{
-    "Version": 0,
-    "Data": {}
-}
-"""
+        defaultMigrationData
+        |> withMigrationData 1 []
+        |> buildSavegame 0
 
-    let result = applyMigrations input
+    let result = Data.Savegame.Migrations.AddLoanState.migrate input
 
     match result with
     | Error(MigrationError.InvalidStructure _) -> ()
@@ -185,21 +187,20 @@ let ``migration 1 errors when BankAccounts field is missing from Data`` () =
 [<Test>]
 let ``migration 2 adds empty Traits to characters without Traits`` () =
     let input =
-        JsonValue.Parse
-            """
-{
-    "Version": 1,
-    "Data": {
-        "Characters": [
-            ["character-1", { "Name": "Fran" }],
-            ["character-2", { "Name": "Alex" }]
-        ],
-        "Relationships": {
-            "ByCharacterId": []
-        }
-    }
-}
-"""
+        defaultMigrationData
+        |> withMigrationData
+            2
+            [ "Characters",
+              jsonArray
+                  [ tuple2
+                        (jsonString "character-1")
+                        (jsonObject [ "Name", jsonString "Fran" ])
+                    tuple2
+                        (jsonString "character-2")
+                        (jsonObject [ "Name", jsonString "Alex" ]) ]
+              "Relationships", relationships []
+              "PeopleInCurrentPosition", emptyArray ]
+        |> buildSavegame 1
 
     let result = Data.Savegame.Migrations.AddSocialFields.migrate input
 
@@ -216,20 +217,19 @@ let ``migration 2 adds empty Traits to characters without Traits`` () =
 [<Test>]
 let ``migration 2 preserves existing Traits on characters`` () =
     let input =
-        JsonValue.Parse
-            """
-{
-    "Version": 1,
-    "Data": {
-        "Characters": [
-            ["character-1", { "Name": "Fran", "Traits": ["Warm"] }]
-        ],
-        "Relationships": {
-            "ByCharacterId": []
-        }
-    }
-}
-"""
+        defaultMigrationData
+        |> withMigrationData
+            2
+            [ "Characters",
+              jsonArray
+                  [ tuple2
+                        (jsonString "character-1")
+                        (jsonObject
+                            [ "Name", jsonString "Fran"
+                              "Traits", jsonArray [ jsonString "Warm" ] ]) ]
+              "Relationships", relationships []
+              "PeopleInCurrentPosition", emptyArray ]
+        |> buildSavegame 1
 
     let result = Data.Savegame.Migrations.AddSocialFields.migrate input
 
@@ -245,19 +245,7 @@ let ``migration 2 preserves existing Traits on characters`` () =
 
 [<Test>]
 let ``migration 2 sets version to 2`` () =
-    let input =
-        JsonValue.Parse
-            """
-{
-    "Version": 1,
-    "Data": {
-        "Characters": [],
-        "Relationships": {
-            "ByCharacterId": []
-        }
-    }
-}
-"""
+    let input = defaultMigrationData |> buildSavegame 1
 
     let result = Data.Savegame.Migrations.AddSocialFields.migrate input
 
@@ -268,17 +256,12 @@ let ``migration 2 sets version to 2`` () =
 [<Test>]
 let ``migration 2 errors when Characters field is missing from Data`` () =
     let input =
-        JsonValue.Parse
-            """
-{
-    "Version": 1,
-    "Data": {
-        "Relationships": {
-            "ByCharacterId": []
-        }
-    }
-}
-"""
+        defaultMigrationData
+        |> withMigrationData
+            2
+            [ "Relationships", relationships []
+              "PeopleInCurrentPosition", emptyArray ]
+        |> buildSavegame 1
 
     let result = Data.Savegame.Migrations.AddSocialFields.migrate input
 
@@ -291,21 +274,20 @@ let ``migration 2 adds empty DiscoveredTraits to relationships without Discovere
     ()
     =
     let input =
-        JsonValue.Parse
-            """
-{
-    "Version": 1,
-    "Data": {
-        "Characters": [],
-        "Relationships": {
-            "ByCharacterId": [
-                ["character-1", { "Level": 25 }],
-                ["character-2", { "Level": 50 }]
-            ]
-        }
-    }
-}
-"""
+        defaultMigrationData
+        |> withMigrationData
+            2
+            [ "Characters", emptyArray
+              "Relationships",
+              relationships
+                  [ tuple2
+                        (jsonString "character-1")
+                        (jsonObject [ "Level", jsonNumber 25 ])
+                    tuple2
+                        (jsonString "character-2")
+                        (jsonObject [ "Level", jsonNumber 50 ]) ]
+              "PeopleInCurrentPosition", emptyArray ]
+        |> buildSavegame 1
 
     let result = Data.Savegame.Migrations.AddSocialFields.migrate input
 
@@ -322,20 +304,19 @@ let ``migration 2 adds empty DiscoveredTraits to relationships without Discovere
 [<Test>]
 let ``migration 2 preserves existing DiscoveredTraits on relationships`` () =
     let input =
-        JsonValue.Parse
-            """
-{
-    "Version": 1,
-    "Data": {
-        "Characters": [],
-        "Relationships": {
-            "ByCharacterId": [
-                ["character-1", { "Level": 25, "DiscoveredTraits": ["Warm"] }]
-            ]
-        }
-    }
-}
-"""
+        defaultMigrationData
+        |> withMigrationData
+            2
+            [ "Characters", emptyArray
+              "Relationships",
+              relationships
+                  [ tuple2
+                        (jsonString "character-1")
+                        (jsonObject
+                            [ "Level", jsonNumber 25
+                              "DiscoveredTraits", jsonArray [ jsonString "Warm" ] ]) ]
+              "PeopleInCurrentPosition", emptyArray ]
+        |> buildSavegame 1
 
     let result = Data.Savegame.Migrations.AddSocialFields.migrate input
 
@@ -352,15 +333,12 @@ let ``migration 2 preserves existing DiscoveredTraits on relationships`` () =
 [<Test>]
 let ``migration 2 errors when Relationships field is missing from Data`` () =
     let input =
-        JsonValue.Parse
-            """
-{
-    "Version": 1,
-    "Data": {
-        "Characters": []
-    }
-}
-"""
+        defaultMigrationData
+        |> withMigrationData
+            2
+            [ "Characters", emptyArray
+              "PeopleInCurrentPosition", emptyArray ]
+        |> buildSavegame 1
 
     let result = Data.Savegame.Migrations.AddSocialFields.migrate input
 
@@ -373,23 +351,20 @@ let ``migration 2 resets PeopleInCurrentPosition regardless of what's there``
     ()
     =
     let input =
-        JsonValue.Parse
-            """
-{
-    "Version": 1,
-    "Data": {
-        "Characters": [],
-        "Relationships": {
-            "ByCharacterId": [
-                ["character-1", { "Level": 25, "DiscoveredTraits": ["Warm"] }]
-            ]
-        },
-        "PeopleInCurrentPosition": [
-            { "Name": "Test" }
-        ]
-    }
-}
-"""
+        defaultMigrationData
+        |> withMigrationData
+            2
+            [ "Characters", emptyArray
+              "Relationships",
+              relationships
+                  [ tuple2
+                        (jsonString "character-1")
+                        (jsonObject
+                            [ "Level", jsonNumber 25
+                              "DiscoveredTraits", jsonArray [ jsonString "Warm" ] ]) ]
+              "PeopleInCurrentPosition",
+              jsonArray [ jsonObject [ "Name", jsonString "Test" ] ] ]
+        |> buildSavegame 1
 
     let result = Data.Savegame.Migrations.AddSocialFields.migrate input
 
