@@ -1,70 +1,77 @@
 module rec Duets.Data.Savegame.Migrations
 
-open Data.Savegame.Migrations
-open Duets.Common
 open Duets.Data.Savegame.Types
-open FSharp.Data
+open Nerdbank.MessagePack
+open System
+
+type private Migration = byte array -> Result<byte array, MigrationError>
+
+/// The first savegame version that uses MessagePack.
+let firstSavegameVersion = 0
 
 /// Array of migrations that can be applied. Should have migrations from the
-/// very first supported version in incremental steps up until the last supported
+/// first MessagePack version in incremental steps up until the last supported
 /// version.
-let private migrations =
-    [ MigrateFromVersionless.migrate
-      AddLoanState.migrate
-      AddSocialFields.migrate ]
+let private migrations: Migration list = []
 
-/// Last version of savegame data that has a migration associated. Should
-/// always be the last index of the migrations array, since that's how we
-/// compute which migrations need to be performed.
-let lastSavegameVersion = migrations.Length - 1
+/// Last version of savegame data that has a migration associated.
+let lastSavegameVersion = firstSavegameVersion + migrations.Length
 
-/// Attempts to parse the given JSON file and compares the version in the data
-/// with the last available one, applying any migrations needed to bring the
-/// savegame data up to date. If any migration fails, returns an error with
-/// details about what went wrong.
-let applyMigrations (currentData: string) : Result<string, MigrationError> =
-    let data = JsonValue.Parse(currentData)
+let private tryReadVersion (data: byte array) =
+    try
+        let bytes = ReadOnlyMemory<byte>(data)
+        let context = SerializationContext()
+        let mutable reader = MessagePackReader(bytes)
+        let mutable remainingFields = reader.ReadMapHeader()
+        let mutable version = None
 
-    match data with
-    | JsonValue.Record _ -> applyMigrations' currentData data
-    | _ ->
-        Error(
-            InvalidStructure("Root of the save-game data should be an object")
-        )
+        while remainingFields > 0 && Option.isNone version do
+            let key = reader.ReadString()
 
-let private applyMigrations' originalData root =
-    let currentVersion = root.TryGetProperty("Version")
+            if key = "Version" then
+                version <- Some(reader.ReadInt32())
+            else
+                reader.Skip(context)
 
-    match currentVersion with
-    | Some(JsonValue.Number version) ->
-        let version = Math.roundDecimalToNearest version
+            remainingFields <- remainingFields - 1
 
-        // No need to migrate anything, we're already at the last version, so
-        // we should be able to parse this savegame if it's not corrupted.
-        if version = lastSavegameVersion then
-            Ok(originalData)
-        else if version > lastSavegameVersion then
+        version
+    with _ ->
+        None
+
+/// Attempts to parse the given MessagePack data and compares the version in
+/// the data with the last available one, applying any migrations needed to
+/// bring the savegame data up to date. If any migration fails, returns an error
+/// with details about what went wrong.
+let applyMigrations
+    (currentData: byte array)
+    : Result<byte array, MigrationError> =
+    match currentData |> tryReadVersion with
+    | Some version ->
+        if version < firstSavegameVersion then
+            Error(InvalidVersion(version.ToString()))
+        elif version = lastSavegameVersion then
+            Ok(currentData)
+        elif version > lastSavegameVersion then
             Error(InvalidVersion(version.ToString()))
         else
-            applyMigrationsFromVersion' version root
-    | Some value -> Error(InvalidVersion(value.ToString()))
-    | _ ->
-        // No version means we haven't even performed the first migration, start
-        // from the very beginning.
-        applyMigrationsFromVersion' -1 root
+            applyMigrationsFromVersion' version currentData
+    | None ->
+        Error(
+            InvalidStructure(
+                "Savegame data should be a MessagePack object with a Version field"
+            )
+        )
 
-let private applyMigrationsFromVersion' originVersion root =
-    let applicableMigrations = migrations |> List.skip (originVersion + 1)
-    let result = applyAllMigrations applicableMigrations root
+let private applyMigrationsFromVersion' originVersion data =
+    let migrationsToSkip = originVersion - firstSavegameVersion
+    let applicableMigrations = migrations |> List.skip migrationsToSkip
+    applyAllMigrations applicableMigrations data
 
-    match result with
-    | Ok(root) -> Ok(root.ToString())
-    | Error(error) -> Error(error)
-
-let private applyAllMigrations migrations root =
+let private applyAllMigrations migrations data =
     match migrations with
-    | [] -> Ok(root)
+    | [] -> Ok(data)
     | migration :: tail ->
-        match migration root with
-        | Ok(root) -> applyAllMigrations tail root
+        match migration data with
+        | Ok(data) -> applyAllMigrations tail data
         | err -> err

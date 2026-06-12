@@ -9,10 +9,6 @@ open Duets.Entities
 /// Settings that we allow the player to customize.
 type Settings = { SavegamePath: string }
 
-/// Contents of the savegame file, which contains a version for migration
-/// purposes and the actual data.
-type SavegameContents = { Version: int; Data: State }
-
 /// Current state of the savegame, which can be available if the savegame could
 /// be parsed correctly, not available if there's no savegames available and
 /// incompatible if the contents of the savegame could not be properly interpreted
@@ -38,11 +34,11 @@ let private savegameFile () =
 
 /// Attempts to read the savegame from the file and sets the state with it,
 /// returning whether it was available or not.
-let private readSavegameFile () = savegameFile () |> Files.readAll
+let private readSavegameFile () = savegameFile () |> Files.readAllBytes
 
 /// Attempts to parse the given savegame contents.
 let private parseSavegame contents =
-    Serializer.deserialize contents
+    Serializer.tryDeserializeBinary<SavegameContents> contents
     |> Option.tap (fun savegame -> State.set savegame.Data)
     |> Option.map (fun savegame -> Available(savegame.Version))
     |> Option.defaultValue NotAvailable
@@ -50,7 +46,7 @@ let private parseSavegame contents =
 /// Attempts to write the given state into the savegame file.
 let private writeSavegame version (state: State) =
     let savegame = { Version = version; Data = state }
-    savegame |> Serializer.serialize |> Files.write (savegameFile ())
+    savegame |> Serializer.serializeBinary |> Files.writeBytes (savegameFile ())
 
 /// Attempts to write the given settings into the settings file.
 let private writeSettings (settings: Settings) =

@@ -18,10 +18,10 @@ let settingsPath () =
 
 /// Returns the path to the savegame file.
 let savegamePath () =
-    duetsFolder () |> fun duetsPath -> Path.Combine(duetsPath, "savegame.json")
+    duetsFolder () |> fun duetsPath -> Path.Combine(duetsPath, "savegame.save")
 
 /// Returns the path to the savegame file given a root path.
-let savegameFile path = $"{path}/savegame.json"
+let savegameFile path = $"{path}/savegame.save"
 
 /// Returns the path to the log file.
 let logPath () =
@@ -66,11 +66,24 @@ let readAll path =
     with _ ->
         None
 
+/// Attempts to read all bytes from a given file and returns an option with the
+/// bytes.
+let readAllBytes path =
+    try
+        File.ReadAllBytes path |> Some
+    with _ ->
+        None
+
 /// Writes the content in the specified path. Creates the file if it's not
 /// created already. Notice that while the file is automatically created the
 /// parent folders are not, so if the path is `/a/b/c.txt` and the b folder
 /// is not present, the file will not be written.
 let write (path: string) (content: string) = File.WriteAllText(path, content)
+
+/// Writes the bytes in the specified path. Creates the file if it's not
+/// created already.
+let writeBytes (path: string) (content: byte array) =
+    File.WriteAllBytes(path, content)
 
 /// Appends the content to the specified path. Creates the file if it's not
 /// created already. Notice that while the file is automatically created the
