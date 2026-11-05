@@ -172,3 +172,23 @@ let placeOpeningHours place =
     | _ ->
         (* Obviously if it's always open this shouldn't happen :) *)
         ""
+
+let streetSceneHeader streetName zoneName part dayMoment =
+    let partText =
+        match part with
+        | Some(current, total) -> Styles.faded $" ({current}/{total})"
+        | None -> ""
+
+    $"""{streetName |> Styles.room}{partText}, {zoneName |> Styles.place} {Styles.faded "·"} {Generic.dayMomentName dayMoment |> Styles.time}"""
+
+let streetContinues directions = $"The street continues {directions}."
+
+let streetConnectsTo streets = $"It connects to {streets}."
+
+let streetPlaceRented = "your place"
+
+let streetPlaceConcertToday = "concert today"
+
+let streetPlaceConcertScheduled date = $"concert on {Date.simple date}"
+
+let streetPlaceWorkplace = "your workplace"

@@ -11,6 +11,7 @@
         <Compile Include="Scenes.fs"/>
         <Compile Include="Text\Emoji.fs"/>
         <Compile Include="Text\Styles.fs"/>
+        <Compile Include="Text\SceneStyles.fs"/>
         <Compile Include="Text\Date.fs"/>
         <Compile Include="Text\Generic.fs"/>
         <Compile Include="Text\Career.fs"/>
@@ -60,6 +61,16 @@
         <Compile Include="Components\Review.fs"/>
         <Compile Include="Components\Tip.fs"/>
         <Compile Include="Components\ConcertDetails.fs"/>
+        <Compile Include="Components\Scene\SceneGrid.fs"/>
+        <Compile Include="Components\Scene\Common.fs"/>
+        <Compile Include="Components\Scene\CitySkin.fs"/>
+        <Compile Include="Components\Scene\Sky.fs"/>
+        <Compile Include="Components\Scene\Street\Facades.fs"/>
+        <Compile Include="Components\Scene\Street\Highlights.fs"/>
+        <Compile Include="Components\Scene\Street\FacadeRenderer.fs"/>
+        <Compile Include="Components\Scene\Street\Ground.fs"/>
+        <Compile Include="Components\Scene\Street\Legend.fs"/>
+        <Compile Include="Components\Scene\Street\StreetScene.fs"/>
         <Compile Include="Components\RoomInfo.fs"/>
         <Compile Include="Components\Effect.fs"/>
         <Compile Include="Components\Commands\Command.fs"/>

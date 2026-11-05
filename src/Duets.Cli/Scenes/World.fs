@@ -2,6 +2,7 @@ module Duets.Cli.Scenes.World
 
 open Duets.Agents
 open Duets.Cli.Components
+open Duets.Cli.Components.Scene
 open Duets.Cli.Components.Commands
 open Duets.Cli.Text
 open Duets.Cli.Text.World
@@ -248,6 +249,8 @@ let worldScene mode =
     let situation = Queries.Situations.current state
 
     match mode with
+    | ShowDescription when StreetScene.canShow state ->
+        StreetScene.show state interactionsWithState
     | ShowDescription ->
         let currentRoom = State.get () |> Queries.World.currentRoom
 

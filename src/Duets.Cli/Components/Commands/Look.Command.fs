@@ -2,6 +2,7 @@ namespace Duets.Cli.Components.Commands
 
 open Duets.Agents
 open Duets.Cli.Components
+open Duets.Cli.Components.Scene
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
 open Duets.Cli.Text.World
@@ -52,13 +53,16 @@ module LookCommand =
 
                 let currentRoom = state |> Queries.World.currentRoom
 
-                Prompts.World.createRoomDescriptionPrompt state interactions
-                |> LanguageModel.streamMessage
-                |> streamMessage
+                if StreetScene.canShow state then
+                    StreetScene.show state interactions
+                else
+                    Prompts.World.createRoomDescriptionPrompt state interactions
+                    |> LanguageModel.streamMessage
+                    |> streamMessage
 
-                lineBreak ()
+                    lineBreak ()
 
-                showRoomInfo interactions
+                    showRoomInfo interactions
 
                 listPeople knownPeople unknownPeople currentRoom.RoomType
                 listItems items
