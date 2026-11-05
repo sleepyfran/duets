@@ -1,6 +1,7 @@
 namespace Duets.Cli.Components.Commands.Cheats
 
 open Duets.Agents
+open Duets.Common
 open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.Components.Commands
@@ -41,3 +42,34 @@ module WorldCommands =
 
                     Scene.WorldAfterMovement
                 | None -> Scene.Cheats) }
+
+    /// Command which changes the weather of the current city.
+    let weatherman =
+        { Name = "weatherman"
+          Description = "Changes the weather in the current city"
+          Handler =
+            (fun _ ->
+                let state = State.get ()
+                let cityId, _, _ = Queries.World.currentCoordinates state
+                let currentWeather = Queries.World.currentWeather state
+
+                let selectedWeather =
+                    Union.allCasesOf<WeatherCondition> ()
+                    |> showOptionalChoicePrompt
+                        "What weather do you want? :^)"
+                        Generic.cancel
+                        (fun weather ->
+                            let name = $"{Emoji.weather weather} %A{weather}"
+
+                            if weather = currentWeather then
+                                $"{name} (Current)" |> Styles.highlight
+                            else
+                                name)
+
+                match selectedWeather with
+                | Some weather when weather <> currentWeather ->
+                    WeatherChanged(cityId, Diff(currentWeather, weather))
+                    |> Effect.apply
+                | _ -> ()
+
+                Scene.Cheats) }

@@ -17,7 +17,8 @@ module Index =
           MoneyCommands.motherlode
           MoneyCommands.rosebud
           SkillCommands.pureSkill
-          WorldCommands.teleport ]
+          WorldCommands.teleport
+          WorldCommands.weatherman ]
 
     let enterCommand =
         { Name = "iwanttoskipreality"
