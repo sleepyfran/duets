@@ -4,6 +4,7 @@ module Duets.Cli.Components.Scene.StreetScene
 open Duets.Cli.Components
 open Duets.Cli.Components.Scene.Common
 open Duets.Cli.Components.Scene.Street
+open Duets.Cli.Text
 open Duets.Cli.Text.World
 open Duets.Entities
 open Duets.Simulation
@@ -135,6 +136,14 @@ let show state (interactions: InteractionWithMetadata list) =
             (seed + index)
         |> SceneGrid.toMarkup
         |> List.iter showMessage)
+
+    let peopleCount = (fst people).Length + (snd people).Length
+
+    places
+    |> List.map (fun (place, isOpen, _) -> place, isOpen)
+    |> Caption.create street roomId lighting peopleCount
+    |> Styles.faded
+    |> showMessage
 
     Legend.showPlaces places
     Legend.showDirections state place street interactions
