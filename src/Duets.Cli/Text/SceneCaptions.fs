@@ -104,9 +104,7 @@ let allClosed =
     [ "Every shutter on the street is down."
       "All the shops have called it a day." ]
 
-/// Opening clauses of the room caption, describing how well kept the place
-/// is. They have no punctuation at the end since they're followed by an
-/// activity.
+/// Opening clauses of the room caption, by the quality of the place.
 let roomCondition (quality: Quality) =
     match quality with
     | q when q < 20<quality> ->
@@ -130,8 +128,7 @@ let roomCondition (quality: Quality) =
           "Polished surfaces gleam all around"
           "Not a speck of dust in sight" ]
 
-/// Closing clauses of the first sentence of the room caption, describing how
-/// busy the room is.
+/// Closing clauses of the room caption, by the number of people.
 let roomActivity peopleCount =
     match peopleCount with
     | 0 ->
@@ -149,8 +146,7 @@ let roomActivity peopleCount =
           " and it's hard to find a free spot."
           ", and voices fill the room." ]
 
-/// Replaces the room caption while the band is on stage, describing how full
-/// the venue is (from 0 to 1).
+/// Room caption on stage during a concert, by how full the venue is.
 let crowd (fill: float) =
     match fill with
     | fill when fill < 0.2 ->
@@ -166,8 +162,7 @@ let crowd (fill: float) =
         [ "The venue is packed wall to wall."
           "The crowd roars from the front row to the back." ]
 
-/// Optional second sentence of the room caption, about the weather outside.
-/// Only used in rooms with windows.
+/// Second sentence of the room caption for rooms with windows.
 let throughWindow weather phase =
     match weather, phase with
     | WeatherCondition.Rainy, _ ->

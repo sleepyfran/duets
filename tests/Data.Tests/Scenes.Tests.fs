@@ -199,3 +199,30 @@ let ``every room type except streets has a default template`` () =
     |> List.filter (fun roomType ->
         Scenes.resolve Prague place roomType |> Option.isNone)
     |> should be Empty
+
+[<Test>]
+let ``tryResolveSkyline prefers the zone over the city`` () =
+    let template art = parseOk $"[art]\n{art}"
+    let zone = World.Zone.create "Lower Manhattan"
+
+    let templates =
+        [ "skylines/new-york", template "city"
+          "skylines/new-york.lower-manhattan", template "zone" ]
+        |> Map.ofList
+
+    let resolveIn templates cityId zone =
+        tryResolveSkyline templates cityId zone |> Option.map (_.Art >> List.head)
+
+    resolveIn templates NewYork zone |> should equal (Some "zone")
+
+    resolveIn templates NewYork (World.Zone.create "Brooklyn")
+    |> should equal (Some "city")
+
+    resolveIn templates Prague zone |> should equal None
+
+[<Test>]
+let ``every city has a skyline`` () =
+    Union.allCasesOf<CityId> ()
+    |> List.filter (fun cityId ->
+        Scenes.resolveSkyline cityId (World.Zone.create "Zone") |> Option.isNone)
+    |> should be Empty

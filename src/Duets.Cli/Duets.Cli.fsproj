@@ -65,10 +65,12 @@
         <Compile Include="Components\Scene\Common.fs"/>
         <Compile Include="Components\Scene\CitySkin.fs"/>
         <Compile Include="Components\Scene\Sky.fs"/>
+        <Compile Include="Components\Scene\Skyline.fs"/>
         <Compile Include="Components\Scene\Street\Facades.fs"/>
         <Compile Include="Components\Scene\Street\Highlights.fs"/>
         <Compile Include="Components\Scene\Street\FacadeRenderer.fs"/>
         <Compile Include="Components\Scene\Street\Ground.fs"/>
+        <Compile Include="Components\Scene\Street\Furniture.fs"/>
         <Compile Include="Components\Scene\Street\Legend.fs"/>
         <Compile Include="Components\Scene\Street\Caption.fs"/>
         <Compile Include="Components\Scene\Street\StreetScene.fs"/>

@@ -10,6 +10,7 @@
     <ItemGroup>
         <Compile Include="SceneGrid.Tests.fs"/>
         <Compile Include="RoomScene.Tests.fs"/>
+        <Compile Include="StreetScene.Tests.fs"/>
         <Compile Include="Program.fs"/>
     </ItemGroup>
 

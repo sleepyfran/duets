@@ -72,3 +72,12 @@ crowd use each character as a separate position.
 
 The default templates use the numpad for the exits (`7 8 9`, `4 6`, `1 2 3`
 and `0` for the street), but any character works.
+
+## Skylines
+
+`skylines/{city}.scene` is drawn in the distance behind the façades of the
+streets, and `skylines/{city}.{zone}.scene` replaces it in a specific zone.
+They use the same format but only `[art]` and `[legend]` (with `$lamp` for
+windows that light up at night). The art is centered and its bottom sits on
+the sidewalk, so make it taller than the façades (around 12 rows) or only the
+gaps between buildings will show it.

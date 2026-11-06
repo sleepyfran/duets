@@ -12,10 +12,7 @@ let private pick (random: System.Random) (options: string list) =
 let private hasWindows (template: Template) =
     template.Slots |> Map.exists (fun _ slot -> slot.Kind = SlotKind.Window)
 
-/// Creates one line of flavor text for the room. Like the street caption, it
-/// only depends on the room, the quality of the place, the time of the day,
-/// the weather and how many people are around, so it stays the same on every
-/// visit with the same conditions.
+/// Creates a caption for the current room.
 let create
     (context: RoomRenderer.RoomContext)
     (template: Template)

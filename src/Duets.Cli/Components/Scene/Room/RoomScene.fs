@@ -116,7 +116,6 @@ let show state (interactions: InteractionWithMetadata list) =
     |> Option.iter (fun template ->
         let width = sceneWidth AnsiConsole.Profile.Width
 
-        (* On terminals that can't fit the art we only show the caption. *)
         if width >= compactWidth && width >= template.Width then
             let padding =
                 String.replicate (max 0 ((width - template.Width) / 2)) " "

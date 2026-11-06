@@ -51,10 +51,8 @@ let repeat width (pattern: string) =
     String.replicate (width / pattern.Length + 1) pattern
     |> fun text -> text.Substring(0, width)
 
-/// Terminals narrower than this get a compact scene without art, since the
-/// drawings would wrap and become unreadable.
+/// Minimum width of the terminal to draw the art of a scene.
 let compactWidth = 40
 
-/// Returns the width scenes are drawn at, capped so they don't stretch on
-/// very wide terminals.
+/// Returns the width at which scenes are drawn.
 let sceneWidth terminalWidth = min terminalWidth 120

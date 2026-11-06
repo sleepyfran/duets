@@ -400,3 +400,15 @@ let all = lazy (loadFrom scenesFolder)
 /// Returns the template for the given room, if any.
 let resolve cityId place roomType =
     tryResolve all.Value cityId place roomType
+
+/// Returns the keys of the possible skylines of the given zone.
+let skylineKeys (cityId: CityId) (zone: Zone) =
+    let city = Union.caseName cityId |> toKey
+    [ $"skylines/{city}.{toKey zone.Name}"; $"skylines/{city}" ]
+
+/// Returns the skyline of the given zone from the given templates.
+let tryResolveSkyline (templates: Map<string, Template>) cityId zone =
+    skylineKeys cityId zone |> List.tryPick templates.TryFind
+
+/// Returns the skyline of the given zone.
+let resolveSkyline cityId zone = tryResolveSkyline all.Value cityId zone

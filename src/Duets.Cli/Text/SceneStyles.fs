@@ -187,6 +187,67 @@ module Ground =
     let doubleLaneMarkings = "══  "
     let heavyLaneMarkings = "━━  "
 
+/// Vehicles and street props of the cities.
+module Furniture =
+    let lamp = "$lamp"
+
+    let greyCar = "▄██▄", Colors.grey62
+    let whiteCar = "▄██▄", Colors.white
+    let redCar = "▄██▄", Colors.indianRed
+    let blueCar = "▄██▄", Colors.steelBlue
+    let convertible = "▄▆▄▄", Colors.hotPink
+
+    let yellowCab = " TAXI ", "bold black on yellow"
+    let blackCab = " TAXI ", "bold yellow on grey11"
+    let ivoryCab = " TAXI ", "bold black on navajowhite1"
+    let madridCab = " TAXI ", "bold red3 on white"
+    let tokyoCab = " TAXI ", "bold white on navyblue"
+    let orangeCab = " TAXI ", "bold black on orange1"
+
+    let mtaBus = " ▪▪ MTA ▪▪▪ ", "bold white on steelblue"
+    let doubleDecker = " ▪▪▪ 73 ▪▪▪ ", "bold white on red3"
+    let berlinTram = " ▪▪ M10 ▪▪▪ ", "bold black on yellow"
+    let laMetroBus = " ▪▪ METRO ▪▪ ", "bold black on orange1"
+    let emtBus = " ▪▪ EMT ▪▪▪ ", "bold white on blue"
+    let ratpBus = " ▪▪ RATP ▪▪ ", "bold white on darkgreen"
+    let pragueTram = " ▪▪ 22 ▪▪▪▪ ", "bold white on red3"
+    let redBus = " ▪▪ RED ▪▪▪ ", "bold white on red3"
+    let seoulBus = " ▪▪ 7016 ▪▪ ", "bold white on green3"
+    let toeiBus = " ▪▪ TOEI ▪▪ ", "bold black on grey85"
+    let ttcStreetcar = " ▪▪ 504 ▪▪▪ ", "bold white on red3"
+
+    let streetLamp =
+        [ '│', Colors.grey50; '│', Colors.grey50; '●', lamp ]
+
+    let gasLamp = [ '│', Colors.grey50; '│', Colors.grey50; '♦', lamp ]
+
+    let trafficLight =
+        [ '│', Colors.grey50
+          '●', Colors.springGreen
+          '●', Colors.gold
+          '●', Colors.red ]
+
+    let tree = [ '│', Colors.tan; '♣', "green3" ]
+    let cherryTree = [ '│', Colors.tan; '♣', "pink1" ]
+    let mapleTree = [ '│', Colors.tan; '♣', Colors.red ]
+
+    let palmTree =
+        [ '│', Colors.tan; '│', Colors.tan; '│', Colors.tan; '✱', "green3" ]
+
+    let subwaySteam =
+        [ '≈', Colors.grey70; '~', Colors.grey62; '·', Colors.grey50 ]
+
+    let uBahnSign = [ '│', Colors.grey50; 'U', "bold white on blue" ]
+    let undergroundSign = [ '│', Colors.grey50; 'Θ', "bold red3" ]
+    let parisMetroSign = [ '│', Colors.grey50; 'M', "bold black on yellow" ]
+    let madridMetroSign = [ '│', Colors.grey50; 'M', "bold white on red3" ]
+    let ttcSign = [ '│', Colors.grey50; 'T', "bold white on red3" ]
+    let phoneBox = [ '█', Colors.red; '▀', Colors.red ]
+    let morrisColumn = [ '█', "darkgreen"; '█', "darkgreen"; '▲', "darkgreen" ]
+    let vendingMachine = [ '▥', "bold white on blue"; '▥', "bold white on blue" ]
+
+    let skylineUnlitColor = "grey30"
+
 module Room =
     let exitColor = bold Colors.aqua
     let streetExit = '⇩'

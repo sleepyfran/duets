@@ -6,6 +6,7 @@ open Duets.Cli.Components.Scene.Common
 open Duets.Cli.Components.Scene.Street
 open Duets.Cli.Text
 open Duets.Cli.Text.World
+open Duets.Data.Scenes
 open Duets.Entities
 open Duets.Simulation
 open Spectre.Console
@@ -15,7 +16,7 @@ let private skyHeight = 2
 
 /// Builds the grid for one row of façades. The first row includes the sky
 /// above the buildings and the last one the road.
-let private buildRow
+let buildRow
     skin
     (lighting: Lighting)
     width
@@ -23,14 +24,22 @@ let private buildRow
     isFirst
     isLast
     people
+    (skyline: Template option)
     seed
     =
     let buildingsHeight =
         places
         |> List.map (fun (place, _, _) -> FacadeRenderer.heightOf place) |> List.fold max 1
 
+    let skyline = if isFirst then skyline else None
     let sky = if isFirst then skyHeight else 0
-    let groundRow = sky + buildingsHeight
+
+    (* Leave a row on top of the skyline for the sun and the moon. *)
+    let groundRow =
+        match skyline with
+        | Some skyline -> max (sky + buildingsHeight) (skyline.Height + 1)
+        | None -> sky + buildingsHeight
+
     let height = groundRow + 1 + (if isLast then 1 else 0)
 
     let grid = SceneGrid.create width height
@@ -42,6 +51,21 @@ let private buildRow
         places.Length * Facades.width + (places.Length - 1) * gap
 
     let startX = max 0 ((width - rowWidth) / 2)
+
+    (* The skyline only shows above the roofs, not in the gaps. *)
+    let behindBuildings x y =
+        places
+        |> List.indexed
+        |> List.exists (fun (index, (place, _, _)) ->
+            let left = startX + index * (Facades.width + gap) - 1
+            let right = left + Facades.width + 1
+            let top = groundRow - FacadeRenderer.heightOf place
+
+            x >= left && x <= right && y >= top)
+
+    skyline
+    |> Option.iter (fun skyline ->
+        Skyline.draw grid lighting skyline (groundRow - 1) behindBuildings seed)
 
     places
     |> List.iteri (fun index (place, isOpen, highlights) ->
@@ -57,11 +81,20 @@ let private buildRow
             isOpen
             highlights)
 
+    let gaps =
+        [ yield startX - gap
+          for index in 1 .. places.Length - 1 do
+              yield startX + index * (Facades.width + gap) - gap
+          yield startX + rowWidth + gap - 1 ]
+        |> List.filter (fun x -> x >= 0 && x < width)
+
+    Furniture.drawProps grid skin lighting gaps groundRow seed
     Sky.drawParticles grid lighting groundRow seed
 
     if isLast then
         Ground.drawSidewalk grid skin groundRow (Some people) seed
         Ground.drawRoad grid skin (groundRow + 1)
+        Furniture.drawTraffic grid skin lighting (groundRow + 1) seed
     else
         Ground.drawSidewalk grid skin groundRow None seed
 
@@ -122,9 +155,8 @@ let show state (interactions: InteractionWithMetadata list) =
 
     let people = Queries.World.peopleInCurrentPlace state
     let seed = seedOf $"{place.Id}{roomId}"
+    let skyline = resolveSkyline cityId zone
 
-    (* On very narrow terminals the façades take a row each and the sky
-       barely fits, so we skip the art and rely on the caption and legend. *)
     if width >= compactWidth then
         rows
         |> List.iteri (fun index row ->
@@ -136,6 +168,7 @@ let show state (interactions: InteractionWithMetadata list) =
                 (index = 0)
                 (index = rows.Length - 1)
                 people
+                skyline
                 (seed + index)
             |> SceneGrid.toMarkup
             |> List.iter showMessage)
