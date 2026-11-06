@@ -179,7 +179,7 @@ let streetSceneHeader streetName zoneName part dayMoment =
         | Some(current, total) -> Styles.faded $" ({current}/{total})"
         | None -> ""
 
-    $"""{streetName |> Styles.room}{partText}, {zoneName |> Styles.place} {Styles.faded "·"} {Generic.dayMomentName dayMoment |> Styles.time}"""
+    $"""{streetName |> Styles.room}{partText}, {zoneName |> Styles.place}"""
 
 let streetContinues directions = $"The street continues {directions}."
 
@@ -192,3 +192,8 @@ let streetPlaceConcertToday = "concert today"
 let streetPlaceConcertScheduled date = $"concert on {Date.simple date}"
 
 let streetPlaceWorkplace = "your workplace"
+
+let roomSceneHeader roomType placeName dayMoment =
+    $"""{roomName roomType |> Duets.Common.String.titleCase |> Styles.room}, {placeName |> Styles.place} {Styles.faded "·"} {Generic.dayMomentName dayMoment |> Styles.time}"""
+
+let roomSceneExits exits = $"Exits: {exits}."

@@ -1,0 +1,39 @@
+# Casino floor.
+
+[art]
+╔═77══════════════════════8888══════════════════════99═╗
+║  ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣  ║
+║  n     n        n         n          n         n     ║
+║        ○  ○  ○                       ○  ○  ○         ║
+║      ○╭───────╮○      RRRRR        ○╭───────╮○       ║
+4       │ ♠ ♥ ♣ │      RRRRRRR        │ ♦ ♠ ♥ │        6
+║      ○╰───────╯○      RRRRR        ○╰───────╯○       ║
+║         n                   n           n            ║
+║  ◆◆◆                    p                     ◆◆◆    ║
+╚═11═══════0000════════════2222═══════════════════33═══╝
+
+[legend]
+╔═╗║╚╝ = $wall
+▣ = magenta1
+○ = grey62
+╭─╮│╰╯ = green3
+♠♣ = white
+♥♦ = red3
+◆ = gold1
+◯◉● = gold1
+▓ = red3
+▒ = green3
+
+[slots]
+7 = exit north-west else ═
+8 = exit north else ═
+9 = exit north-east else ═
+4 = exit west else ║
+6 = exit east else ║
+1 = exit south-west else ═
+2 = exit south else ═
+3 = exit south-east else ═
+0 = exit street else ═
+p = player
+n = npc
+R = prop ▒ | ▓ ▒ | ◉

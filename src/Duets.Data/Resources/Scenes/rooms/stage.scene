@@ -1,0 +1,41 @@
+# Stage of a concert space. The crowd fills up depending on the tickets sold.
+
+[art]
+╔═77══════════════════════8888══════════════════════99═╗
+║    ▼        ▼        ▼        ▼        ▼        ▼    ║
+║        ▐▓▓▌          ⊙  ◯  ⊙          ▐▓▓▌           ║
+4   ▐▓▓▌   m    ┼     ◯   ◉   ◯     ┼    m   ▐▓▓▌      6
+║     ◣◢         m        p          m        ◣◢       ║
+║ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ║
+║  ┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬    ║
+║  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  ║
+║  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  n║
+║  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  ║
+║  n  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  n ║
+╚═11═══════0000════════════2222═══════════════════33═══╝
+
+[legend]
+╔═╗║╚╝ = $wall
+▼ = $stage
+▐▓▌ = grey62
+⊙ = gold1
+◯◉ = navajowhite1
+┼ = grey70
+◣◢ = grey50
+▀ = tan
+┬ = grey35
+
+[slots]
+7 = exit north-west else ═
+8 = exit north else ═
+9 = exit north-east else ═
+4 = exit west else ║
+6 = exit east else ║
+1 = exit south-west else ═
+2 = exit south else ═
+3 = exit south-east else ═
+0 = exit street else ═
+p = player
+n = npc
+m = band
+a = crowd

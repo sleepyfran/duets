@@ -1,0 +1,34 @@
+# Airport hall.
+
+[art]
+┌─77────────wwwwww────────8888────────wwwwww────────99─┐
+│  wwwwwwwwwwwwwwww           ┌──────────────────────┐ │
+│                             │ ✈ DEPARTURES ▪▪▪▪▪▪▪ │ │
+│                             └──────────────────────┘ │
+4  ▐n▌  ▐n▌  ▐n▌  ▐n▌                                  6
+│  ═══  ═══  ═══  ═══      n   n        n     n        │
+│    n   n     n       n         n   n      n          │
+│           n        p      n        n          iii    │
+└─11───────0000────────────2222───────────────────33───┘
+
+[legend]
+┌─┐│└┘ = $wall
+┌─┐│└┘ = grey62
+✈DEPARTURS = bold gold1
+▪ = gold1
+▐▌═ = steelblue
+
+[slots]
+7 = exit north-west else ─
+8 = exit north else ─
+9 = exit north-east else ─
+4 = exit west else │
+6 = exit east else │
+1 = exit south-west else ─
+2 = exit south else ─
+3 = exit south-east else ─
+0 = exit street else ─
+w = window
+p = player
+n = npc
+i = item

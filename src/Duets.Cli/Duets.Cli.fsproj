@@ -73,6 +73,8 @@
         <Compile Include="Components\Scene\Street\Legend.fs"/>
         <Compile Include="Components\Scene\Street\Caption.fs"/>
         <Compile Include="Components\Scene\Street\StreetScene.fs"/>
+        <Compile Include="Components\Scene\Room\RoomRenderer.fs"/>
+        <Compile Include="Components\Scene\Room\RoomScene.fs"/>
         <Compile Include="Components\RoomInfo.fs"/>
         <Compile Include="Components\Effect.fs"/>
         <Compile Include="Components\Commands\Command.fs"/>

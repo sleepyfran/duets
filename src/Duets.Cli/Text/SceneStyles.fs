@@ -187,6 +187,68 @@ module Ground =
     let doubleLaneMarkings = "══  "
     let heavyLaneMarkings = "━━  "
 
+module Room =
+    let exitColor = bold Colors.aqua
+    let streetExit = '⇩'
+
+    let crowd = [| '☺'; 'o'; 'ö' |]
+    let crowdColor = Colors.grey70
+
+    /// Style of `$lamp`, for lights that turn on at night.
+    let lampOnColor = bold Colors.khaki
+    let lampOffColor = Colors.grey50
+
+    /// Style of `$stage`, for lights that turn on during concerts.
+    let stageOnColor = bold Colors.magenta
+    let stageOffColor = Colors.grey35
+
+    let daySky = '░'
+    let daySkyColor = Colors.lightSkyBlue
+    let sunsetSkyColor = Colors.orange
+    let cloudySkyColor = Colors.grey62
+    let nightSky = ' '
+
+    /// Returns how the given item looks in a scene.
+    let itemVisual (item: Item) =
+        match item.Properties |> List.tryHead with
+        | Some Cookware -> "◙◙", Colors.grey70
+        | Some(Drinkable { DrinkType = Beer _ }) -> "¡", Colors.gold
+        | Some(Drinkable { DrinkType = Coffee _ }) -> "c", Colors.tan
+        | Some(Drinkable _) -> "¡", Colors.red
+        | Some(Edible _) -> "•", Colors.orange
+        | Some FitnessEquipment -> "╪═╪", Colors.grey70
+        | Some(Key _) -> "⌐", Colors.gold
+        | Some(Listenable _) -> "◉", Colors.grey70
+        | Some(Playable Darts) -> "◎", bold Colors.red
+        | Some(Playable Billiard) -> "▓▓▓▓▓", Colors.springGreen
+        | Some(Playable VideoGame) -> "▪", Colors.white
+        | Some(Readable _) -> "▤", Colors.tan
+        | Some(Rideable Metro) -> "▐■■■■■■■■■■■■■■■■■■■■■■▌", Colors.steelBlue
+        | Some(Rideable(Car _)) -> "▄▆▆▄", Colors.indianRed
+        | Some Sleepable -> "■▄▄▄▄", Colors.navajoWhite
+        | Some(Storage(Fridge, _)) -> "▐█▌", Colors.white
+        | Some(Storage(Shelf, _)) -> "╞═╡", Colors.tan
+        | Some Watchable -> "[▓▓]", Colors.lightSkyBlue
+        | Some(Wearable _) -> "⊤", Colors.hotPink
+        | _ -> "•", Colors.grey62
+
+    /// Returns the sign of a restaurant of the given cuisine.
+    let cuisineSign cuisine =
+        match cuisine with
+        | American -> "★ DINER ★"
+        | Canadian -> "POUTINE"
+        | Chilean -> "EMPANADAS"
+        | Czech -> "HOSPODA"
+        | German -> "BIERHAUS"
+        | Italian -> "PIZZA·PASTA"
+        | French -> "BISTROT"
+        | Japanese -> "SUSHI·RAMEN"
+        | Korean -> "KOREAN BBQ"
+        | Mexican -> "TACOS"
+        | Turkish -> "KEBAP"
+        | Vietnamese -> "PHỞ"
+        | Spanish -> "TAPAS"
+
 /// Returns an arrow pointing to the given direction.
 let directionArrow direction =
     match direction with

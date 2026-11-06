@@ -251,6 +251,11 @@ let worldScene mode =
     match mode with
     | ShowDescription when StreetScene.canShow state ->
         StreetScene.show state interactionsWithState
+    | ShowDescription when RoomScene.canShow state ->
+        World.placeArrivalMessage currentPlace (Queries.World.currentRoom state).RoomType
+        |> Option.iter showMessage
+
+        RoomScene.show state interactionsWithState
     | ShowDescription ->
         let currentRoom = State.get () |> Queries.World.currentRoom
 

@@ -51,6 +51,8 @@
         <Compile Include="Skills.fs"/>
         <Compile Include="VocalStyles.fs"/>
         <Compile Include="Words.fs"/>
+        <Compile Include="Scenes.fs"/>
+        <Content Include="Resources\Scenes\**\*.scene"/>
         <Compile Include="Savegame\Types.fs"/>
         <Compile Include="Savegame\Migrations\Migrations.Common.fs" />
         <Compile Include="Savegame\Migrations\0_MigrateFromVersionless.fs"/>

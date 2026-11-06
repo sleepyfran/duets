@@ -42,12 +42,15 @@ type DataKey =
     | Npcs
     | Studios
 
+let private dataDirectory =
+    Directory.GetParent(__SOURCE_DIRECTORY__)
+    |> fun baseDir -> Path.Combine(baseDir.FullName, "Duets.Data/Resources")
+
+/// Returns the full path to a folder located in the Data folder.
+let dataFolder name = Path.Combine(dataDirectory, name)
+
 /// Returns the full path to a data file located in the Data folder.
 let dataFile key =
-    let dataDirectory =
-        Directory.GetParent(__SOURCE_DIRECTORY__)
-        |> fun baseDir -> Path.Combine(baseDir.FullName, "Duets.Data/Resources")
-
     match key with
     | Adjectives -> Path.Combine(dataDirectory, "adjectives.json")
     | Adverbs -> Path.Combine(dataDirectory, "adverbs.json")

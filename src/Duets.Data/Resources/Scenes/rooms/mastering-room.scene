@@ -1,0 +1,37 @@
+# Mastering room of a studio.
+
+[art]
+┌─77──────────────────────8888──────────────────────99─┐
+│  ▐█▌                 ▒▒▒▒▒▒▒▒▒▒▒▒                 ▐█▌│
+│  ▐█▌                                              ▐█▌│
+│          ╔══════════════════════════════╗            │
+4          ║ ┼┼┼┼┼┼┼┼┼┼  [▓▓] [▓▓]  ┼┼┼┼┼┼┼ ║          6
+│          ╚══════════════════════════════╝            │
+│                  ●     n        ●                    │
+│  AAAAAA               p                     iii      │
+└─11───────0000────────────2222───────────────────33───┘
+
+[legend]
+┌─┐│└┘ = $wall
+▐█▌ = grey62
+▒ = lightskyblue1
+╔═╗║╚╝ = grey50
+┼ = grey70
+[▓] = springgreen2
+● = grey35
+▙▄▟▖▗ = steelblue
+
+[slots]
+7 = exit north-west else ─
+8 = exit north else ─
+9 = exit north-east else ─
+4 = exit west else │
+6 = exit east else │
+1 = exit south-west else ─
+2 = exit south else ─
+3 = exit south-east else ─
+0 = exit street else ─
+p = player
+n = npc
+A = prop ▖▄▄▗ | ▙▄▄▄▟ | ▙▄▄▄▄▟
+i = item

@@ -1,0 +1,46 @@
+# Rehearsal room.
+
+[art]
+┏━77━━━━━━━━━━━━━━━━━━━━━━8888━━━━━━━━━━━━━━━━━━━━━━99━┓
+┃ GGGGGG   AAAAA   CCCCCCCCCCCCCCCCCCCCCCCC   AAAAA    ┃
+┃                                                      ┃
+┃  ▐▓▓▌                 ⊙  ◯  ⊙                 ▐▓▓▌   ┃
+┃  ▐▓▓▌   n            ◯   ◉   ◯         n      ▐▓▓▌   ┃
+4     ┼  ♪                 ●                ♪  ┼       6
+┃             n                        n               ┃
+┃                 DDDDDDDDDDDDDDDDDDDD                 ┃
+┃  EEEEEE    n            p              iiii  iiii    ┃
+┗━11━━━━━━━0000━━━━━━━━━━━━2222━━━━━━━━━━━━━━━━━━━33━━━┛
+
+[legend]
+┏━┓┃┗┛ = $wall
+▐▓▌ = grey62
+⊙ = gold1
+◯◉ = navajowhite1
+● = grey50
+┼ = grey70
+♪ = orange1
+▤▣ = magenta1
+▒▓ = grey35
+░ = indianred
+▙▄▟▖▗ = tan
+~≈ = magenta1
+
+[slots]
+7 = exit north-west else ━
+8 = exit north else ━
+9 = exit north-east else ━
+4 = exit west else ┃
+6 = exit east else ┃
+1 = exit south-west else ━
+2 = exit south else ━
+3 = exit south-east else ━
+0 = exit street else ━
+p = player
+n = npc
+G = prop ~≈~~≈ ≈~≈~ | _ | _
+A = prop _ ▤ | ▤ ▤▤ | ▤▤▤ ▣▤▣
+C = prop _ | ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ | ▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒
+D = prop _ ░░░░░░░░ | ░░░░░░░░░░░░░░ | ░░░░░░░░░░░░░░░░░░░░
+E = prop ▖▄▄▗ ▖▄▗▄ | ▙▄▄▄▄▟ | ▙▄▄▄▄▟
+i = item

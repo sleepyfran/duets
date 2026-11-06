@@ -1,0 +1,36 @@
+# Boarding gate of an airport.
+
+[art]
+┌─77──────────────────────8888──────────────────────99─┐
+│  wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww  │
+│  wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww  │
+│                         ✈                            │
+│   ┌─────┐                                            │
+4   │GATE │   ○○○○○○○○  ○○○○○○○○   ○○○○○○○○            6
+│   └─────┘   nnnnnnnn  nnnnnnnn   nnnnnnnn            │
+│                                                      │
+│             ○○○○○○○○  ○○○○○○○○   ○○○○○○○○            │
+│             nnnnnnnn  p  nnnnn   nnnnnnnn       iii  │
+└─11───────0000────────────2222───────────────────33───┘
+
+[legend]
+┌─┐│└┘ = $wall
+✈ = bold white
+┌─┐│└┘ = gold1
+GATE = bold gold1
+○ = steelblue
+
+[slots]
+7 = exit north-west else ─
+8 = exit north else ─
+9 = exit north-east else ─
+4 = exit west else │
+6 = exit east else │
+1 = exit south-west else ─
+2 = exit south else ─
+3 = exit south-east else ─
+0 = exit street else ─
+w = window
+p = player
+n = npc
+i = item
