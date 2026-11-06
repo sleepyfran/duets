@@ -37,6 +37,7 @@ dotnet test tests/Simulation.Tests/Simulation.Tests.fsproj
 dotnet test tests/Entities.Tests/Entities.Tests.fsproj
 dotnet test tests/Agents.Tests/Agents.Tests.fsproj
 dotnet test tests/Data.Tests/Data.Tests.fsproj
+dotnet test tests/Cli.Tests/Cli.Tests.fsproj
 
 # Run a specific test (use --filter with test name pattern)
 dotnet test --filter "TestName~SomeSpecificTest"
@@ -174,6 +175,7 @@ Recursive scene dispatcher in `Program.fs`: each scene returns the next scene.
 - `Entities.Tests` - Domain entity validation tests
 - `Agents.Tests` - Concurrent agent tests
 - `Data.Tests` - Static data and migration tests
+- `Cli.Tests` - Scene rendering and caption tests
 
 ## Important Principles
 

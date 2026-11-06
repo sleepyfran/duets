@@ -7,15 +7,6 @@ open Duets.Entities
 let airportBoulevard (zone: Zone) =
     let street =
         World.Street.create Ids.Street.airportBoulevard StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        The Airport Boulevard runs through the heart of Berlin Brandenburg Airport (BER),
-        the long-awaited international gateway to the German capital. After years of
-        notorious delays, BER finally opened in 2020, serving as the main hub for flights
-        connecting Berlin to destinations across Europe and the world. The surrounding area
-        is a modern transit landscape of terminals, car parks, and business hotels, with
-        direct rail links running into central Berlin via the S-Bahn and regional trains.
-"""
 
     let airports =
         [ ("Berlin Brandenburg Airport (BER)", 88<quality>, zone.Id) ]

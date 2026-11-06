@@ -7,16 +7,6 @@ open Duets.Entities
 let airportRo (zone: Zone) =
     let street =
         World.Street.create Ids.Street.airportRo StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Airport-ro is the main arterial road connecting Incheon International
-        Airport to the expressway network and the broader Seoul metropolitan
-        area. Lined with large international hotels, transit hubs, and car
-        rental facilities, this road serves as the primary gateway into South
-        Korea for millions of travellers each year. Incheon Airport has
-        consistently been rated one of the best airports in the world, renowned
-        for its efficiency, cleanliness, and extensive amenities.
-"""
 
     let airports =
         [ ("Incheon International Airport", 96<quality>, zone.Id) ]

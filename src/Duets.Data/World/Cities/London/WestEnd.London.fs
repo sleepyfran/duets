@@ -7,17 +7,6 @@ open Duets.Entities.Calendar
 let private oxfordStreet (city: City) (zone: Zone) =
     let street =
         World.Street.create "Oxford Street" (StreetType.Split(North, 3))
-        |> World.Street.attachContext
-            """
-        Oxford Street forms the backbone of London's retail heart, a 1.2-mile stretch of
-        continuous shopfronts that attracts over 300,000 visitors daily. Grand department
-        stores with ornate Victorian facades alternate with modern glass-fronted chains.
-        Red double-decker buses queue in heavy traffic while crowds navigate wide pavements.
-        The street's commercial energy peaks during sales periods when queues snake around
-        corners. Side streets lead to quieter Georgian squares and mews houses. Despite
-        modernization, architectural details from the street's 18th-century origins persist
-        in upper-story windows and cornices above the contemporary shop displays.
-"""
 
     let recordingStudios =
         [ ("AIR Studios",
@@ -70,17 +59,6 @@ let private oxfordStreet (city: City) (zone: Zone) =
 let private soho (city: City) (zone: Zone) =
     let street =
         World.Street.create "Soho" (StreetType.Split(West, 2))
-        |> World.Street.attachContext
-            """
-        Soho's narrow streets and tight alleyways preserve the area's historic village-like
-        layout, though the character has transformed from 17th-century fields to London's
-        entertainment and media hub. Neon signs for jazz clubs, theaters, and restaurants
-        illuminate Victorian and Georgian buildings. The area transitions throughout the day
-        from media professionals in Wardour Street production houses to late-night revelers
-        in Dean Street bars. Independent record shops, tailors, and family-run Italian delis
-        occupy ground floors beneath post-production studios and advertising agencies. The
-        atmosphere balances creative industry professionalism with bohemian nightlife.
-"""
 
     let carDealers =
         [ ("Mayfair Prestige Motors",
@@ -130,17 +108,6 @@ let private soho (city: City) (zone: Zone) =
 let private coventGarden (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create "Covent Garden" (StreetType.Split(South, 2))
-        |> World.Street.attachContext
-            """
-        Covent Garden centers on its historic market building, a Victorian iron and glass
-        structure now housing upscale shops and restaurants. The piazza around it provides
-        open space where street performers entertain crowds against the backdrop of the
-        Royal Opera House's neoclassical portico. Cobbled lanes radiating from the square
-        contain specialist shops, antique markets, and theaters. The area retains its market
-        origins in the layout and building stock, though the former fruit and vegetable
-        trade has given way to tourism and culture. Theater-goers, tourists, and Londoners
-        seeking boutique shopping create a lively, cosmopolitan atmosphere day and night.
-"""
 
     let cafes =
         [ ("Monmouth Coffee", 80<quality>, zone.Id)

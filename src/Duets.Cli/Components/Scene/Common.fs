@@ -50,3 +50,11 @@ let fit width (text: string) =
 let repeat width (pattern: string) =
     String.replicate (width / pattern.Length + 1) pattern
     |> fun text -> text.Substring(0, width)
+
+/// Terminals narrower than this get a compact scene without art, since the
+/// drawings would wrap and become unreadable.
+let compactWidth = 40
+
+/// Returns the width scenes are drawn at, capped so they don't stretch on
+/// very wide terminals.
+let sceneWidth terminalWidth = min terminalWidth 120

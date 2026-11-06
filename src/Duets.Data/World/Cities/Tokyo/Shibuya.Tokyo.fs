@@ -8,16 +8,6 @@ open Duets.Entities.Calendar
 let dogenzaka (zone: Zone) =
     let street =
         World.Street.create Ids.Street.dogenzaka (StreetType.Split(East, 2))
-        |> World.Street.attachContext
-            """
-        Dogenzaka is the beating heart of Shibuya's entertainment district, a
-        steep hill lined with clubs, live music venues, and izakayas. It runs
-        directly above the famous Shibuya Scramble Crossing and connects the
-        station area to the quieter Love Hotel Hill. The street has historically
-        been the launching pad for many of Japan's biggest music acts, with
-        its dense cluster of live houses drawing audiences from across the city.
-        The neon-lit side alleys are legendary for their labyrinthine bar scene.
-"""
 
     let concertSpaces =
         [ ("Club Quattro", 800, 90<quality>, Layouts.concertSpaceLayout3, zone.Id)
@@ -56,16 +46,6 @@ let dogenzaka (zone: Zone) =
 let centerGai (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.centerGai StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Center-gai is a narrow, covered pedestrian street exploding with
-        colour and sound, running north from the Scramble Crossing. It is
-        the spiritual home of Japanese youth culture — packed with fast-fashion
-        boutiques, crepe stands, arcades, and karaoke towers stacked ten floors
-        high. The street never truly sleeps; the crowds thin only slightly after
-        midnight. It captures the frantic, joyful energy that makes Shibuya
-        one of the world's most recognisable urban spectacles.
-"""
 
     let cafes =
         [ ("Starbucks Reserve Roastery Tokyo", 92<quality>, zone.Id)
@@ -95,16 +75,6 @@ let centerGai (cityId: CityId) (zone: Zone) =
 let miyamasuzaka (zone: Zone) (city: City) =
     let street =
         World.Street.create Ids.Street.miyamasuzaka StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Miyamasuzaka is a quieter, more residential slope that runs parallel
-        to the busy Dogen-zaka. It transitions from the commercial frenzy of
-        central Shibuya into a mix of smaller studios, production offices,
-        and local cafes. Many independent musicians rent rehearsal rooms in the
-        buildings along this street, giving it a creative, underground feel
-        compared to its louder neighbours. It connects smoothly towards the
-        upscale Daikanyama neighbourhood to the west.
-"""
 
     let studios =
         [ ("Shibuya Recording Studio",

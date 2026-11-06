@@ -25,15 +25,6 @@ let private airportRoad (zone: Zone) =
         |> World.Street.addPlaces airports
         |> World.Street.addPlaces hotels
         |> World.Street.addPlace metroStation
-        |> World.Street.attachContext
-            """
-        Airport Road leads to Toronto Pearson International Airport, Canada's
-        busiest hub. The wide road is flanked by airport hotels, rental car lots,
-        and the elevated guideway of the UP Express. Jets descend overhead toward
-        parallel runways while taxis and rideshares jostle for terminal curb space.
-        The area has a utilitarian, transit-focused atmosphere with constant movement
-        of travelers and luggage carts between terminals and parking garages.
-"""
 
     street, metroStation
 

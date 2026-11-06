@@ -8,16 +8,6 @@ open Duets.Entities.Calendar
 let hongikRo (zone: Zone) =
     let street =
         World.Street.create Ids.Street.hongikRo (StreetType.Split(East, 2))
-        |> World.Street.attachContext
-            """
-        Hongik-ro is the central artery of Hongdae — Seoul's beating heart of
-        indie music, street art, and youth culture. The area surrounding Hongik
-        University has been the cradle of Korea's underground music scene for
-        decades, with dozens of small live music venues, record shops, and art
-        studios packed into its narrow lanes. On weekend nights the street
-        transforms into an open-air festival, with buskers competing for
-        attention alongside the queues stretching out of the clubs.
-"""
 
     let concertSpaces =
         [ ("Rolling Hall", 300, 87<quality>, Layouts.concertSpaceLayout2, zone.Id)
@@ -46,15 +36,6 @@ let hongikRo (zone: Zone) =
 let wausanRo (zone: Zone) (city: City) =
     let street =
         World.Street.create Ids.Street.wausanRo StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Wausan-ro is a quieter street climbing the gentle slope of Wausan Hill,
-        lined with independent cafes, rehearsal studios, and the kind of
-        low-key creative spaces that form the backbone of Hongdae's artistic
-        community. Many musicians rent practice rooms in the buildings here,
-        and the street has a distinctly collaborative, experimental atmosphere
-        far removed from the commercial bustle of the area's main drag.
-"""
 
     let studios =
         [ ("Soundholick Studio",
@@ -99,15 +80,6 @@ let wausanRo (zone: Zone) (city: City) =
 let yanghwaRo (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.yangwhaRo StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Yanghwa-ro runs along the northern edge of the Hongdae neighbourhood
-        toward the Yanghwa Bridge and the Han River. It mixes mid-size
-        entertainment venues with cafes and the kind of restaurants that
-        feed the late-night crowds spilling out of the clubs. The road offers
-        occasional views over the Han, providing brief breathing space from
-        the density of the surrounding streets.
-"""
 
     let concertSpaces =
         [ ("Mecenatpolis Concert Hall", 800, 87<quality>, Layouts.concertSpaceLayout3, zone.Id) ]

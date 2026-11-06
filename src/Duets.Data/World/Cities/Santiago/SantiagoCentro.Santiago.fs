@@ -10,16 +10,6 @@ let paseoAhumada (cityId: CityId) (zone: Zone) =
         World.Street.create
             Ids.Street.paseoAhumada
             (StreetType.Split(North, 2))
-        |> World.Street.attachContext
-            """
-        Paseo Ahumada is Santiago's most famous pedestrian thoroughfare,
-        cutting through the historic centre from the Alameda to the Plaza
-        de Armas. Closed to traffic, it is perpetually alive with street
-        performers, vendors, commuters, and tourists. Flanking the paseo
-        are department stores, banks, and some of the city's most iconic
-        cultural institutions. Beneath the street runs the Baquedano metro
-        interchange, one of the busiest transit nodes in South America.
-"""
 
     let concertSpaces =
         [ ("Teatro Caupolicán", 5000, 88<quality>, Layouts.concertSpaceLayout3, zone.Id)
@@ -55,15 +45,6 @@ let paseoAhumada (cityId: CityId) (zone: Zone) =
 let calleBandera (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.calleBandera StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Calle Bandera is one of the oldest streets in Santiago's historic
-        centre, running alongside government buildings and civic institutions.
-        The area mixes colonial architecture with small bars, independent
-        eateries, and intimate music venues that have served the city's
-        working crowd for generations. After dark, the street comes alive
-        with a local music scene rooted in folk, cumbia, and rock.
-"""
 
     let concertSpaces =
         [ ("Club Chocolate", 150, 78<quality>, Layouts.concertSpaceLayout1, zone.Id)
@@ -90,16 +71,6 @@ let avenidaOHiggins (city: City) (zone: Zone) =
         World.Street.create
             Ids.Street.avenidaOHiggins
             (StreetType.Split(East, 2))
-        |> World.Street.attachContext
-            """
-        Avenida Libertador Bernardo O'Higgins, commonly known as La Alameda,
-        is the main boulevard of Santiago and one of the widest avenues in
-        South America. Lined with universities, cultural centres, hospitals,
-        and monuments, it serves as both a physical and symbolic spine of
-        the city. The avenue runs from the hills of Cerro San Cristóbal all
-        the way to the western suburbs, carrying metro lines, buses, and
-        the daily pulse of millions of Santiaguinos.
-"""
 
     let hospitals =
         [ ("Hospital San Borja Arriarán", 84<quality>, zone.Id) ]

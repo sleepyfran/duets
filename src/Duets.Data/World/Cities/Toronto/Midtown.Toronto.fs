@@ -42,16 +42,6 @@ let private yongeStreet (city: City) (zone: Zone) =
         |> World.Street.addPlaces cinemas
         |> World.Street.addPlaces hotels
         |> World.Street.addPlace metroStation
-        |> World.Street.attachContext
-            """
-        Yonge Street, once billed as the longest street in the world, is Toronto's
-        central spine. The stretch through Midtown passes the newly restored Massey
-        Hall, the city's most storied concert venue, alongside the Elgin Theatre's
-        ornate Edwardian facade. Neon signs compete with digital billboards as the
-        street transitions from the commercial bustle of Dundas Square northward
-        into the upscale Yorkville neighbourhood. The Bloor-Yonge subway interchange
-        below is the system's busiest station.
-"""
 
     street, metroStation
 
@@ -86,14 +76,6 @@ let private bloorStreetWest (city: City) (zone: Zone) =
     |> World.Street.addPlaces carDealers
     |> World.Street.addPlaces gyms
     |> World.Street.addPlaces hospitals
-    |> World.Street.attachContext
-        """
-    Bloor Street West through Yorkville is Toronto's luxury corridor, lined with
-    designer boutiques, art galleries, and the Victorian houses-turned-shops of
-    the old village. The Royal Ontario Museum's crystal extension juts dramatically
-    over the sidewalk. Mount Sinai Hospital's research tower rises nearby,
-    anchoring the Discovery District where medicine meets upscale retail.
-"""
 
 let private avenueRoad (zone: Zone) =
     let street =
@@ -127,14 +109,6 @@ let private avenueRoad (zone: Zone) =
     |> World.Street.addPlaces rehearsalSpaces
     |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces cafes
-    |> World.Street.attachContext
-        """
-    Avenue Road climbs from Bloor Street into the leafy residential streets of
-    upper Yorkville and Forest Hill. Recording studios and rehearsal rooms occupy
-    converted mansions alongside independent bookshops and specialty coffee roasters.
-    The tree-canopied street has a quieter, more residential character than the
-    commercial strips to the south, favored by musicians seeking focused creative space.
-"""
 
 let createZone (city: City) =
     let midtownZone = World.Zone.create Ids.Zone.midtown

@@ -37,7 +37,6 @@
         <Compile Include="Text\SceneCaptions.fs"/>
         <Compile Include="Text\Prompts\CommonPrompts.fs"/>
         <Compile Include="Text\Prompts\ConcertPrompts.fs"/>
-        <Compile Include="Text\Prompts\WorldPrompts.fs"/>
         <Compile Include="Text\Prompts\DrivingPrompts.fs"/>
         <Compile Include="Text\Prompts\FlightPrompts.fs"/>
         <Compile Include="Text\Prompts\DuberPrompts.fs"/>
@@ -74,6 +73,7 @@
         <Compile Include="Components\Scene\Street\Caption.fs"/>
         <Compile Include="Components\Scene\Street\StreetScene.fs"/>
         <Compile Include="Components\Scene\Room\RoomRenderer.fs"/>
+        <Compile Include="Components\Scene\Room\Caption.fs"/>
         <Compile Include="Components\Scene\Room\RoomScene.fs"/>
         <Compile Include="Components\RoomInfo.fs"/>
         <Compile Include="Components\Effect.fs"/>

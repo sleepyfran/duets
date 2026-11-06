@@ -8,18 +8,6 @@ open Duets.Entities.Calendar
 let roppongiDori (zone: Zone) =
     let street =
         World.Street.create Ids.Street.roppongiDori (StreetType.Split(East, 2))
-        |> World.Street.attachContext
-            """
-        Roppongi-dori is the main artery cutting through Tokyo's most
-        internationally famous nightlife district, flanked by embassies,
-        art galleries, and an eclectic mix of upscale clubs and bars.
-        The area is home to world-class cultural landmarks including the
-        Mori Art Museum atop Roppongi Hills and the National Art Center.
-        By night the street transforms into one of Asia's most vibrant
-        entertainment corridors, attracting a diverse crowd of Tokyo
-        residents, expatriates, and tourists seeking everything from
-        jazz concerts to massive arena shows.
-"""
 
     let concertSpaces =
         [ ("Billboard Live Tokyo", 300, 95<quality>, Layouts.concertSpaceLayout2, zone.Id)
@@ -59,17 +47,6 @@ let roppongiDori (zone: Zone) =
 let azabuJuban (zone: Zone) (city: City) =
     let street =
         World.Street.create Ids.Street.azabuJuban StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Azabu-Juban is an upscale, slightly old-fashioned shopping and
-        residential street just south of Roppongi, retaining the feel of
-        a traditional Tokyo shitamachi neighbourhood despite its wealthy
-        surroundings. The main arcade is lined with long-established sweet
-        shops, fine restaurants, and boutique stores. Recording studios
-        hidden in the basements of non-descript buildings serve many of
-        Japan's top-tier artists who live or work in the nearby Minami-Azabu
-        residential district.
-"""
 
     let studios =
         [ ("Azabu Sound Studio",

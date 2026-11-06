@@ -52,17 +52,6 @@ let private broadway (city: City) (zone: Zone) =
         |> World.Street.addPlaces shops
         |> World.Street.addPlaces cinemas
         |> World.Street.addPlace metroStation
-        |> World.Street.attachContext
-            """
-        Broadway in the Theater District is the beating heart of New York's entertainment scene,
-        lined with grand Broadway theaters featuring elaborate marquees and towering vertical signs.
-        The street buzzes with constant activity - tourists, theatergoers, street performers,
-        and vendors create a chaotic symphony of movement and sound. Times Square's
-        massive digital billboards cast colorful light across the pavement even in daylight,
-        while the iconic TKTS booth's red glass stairs serve as an impromptu gathering place.
-        The area never truly sleeps, with neon glowing against Art Deco facades
-        and steam rising from subway grates below.
-"""
 
     street, metroStation
 
@@ -94,17 +83,6 @@ let private seventhAvenue (zone: Zone) =
         |> World.Street.addPlaces concerts
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces rehearsalSpaces
-        |> World.Street.attachContext
-            """
-        7th Avenue near 34th Street is dominated by the cylindrical form of Madison
-        Square Garden rising above Penn Station, creating a major transit and entertainment
-        hub. The wide avenue channels rivers of commuters and tourists between the
-        sidewalks, while the Penn Plaza towers loom overhead. Street vendors sell
-        hot dogs and pretzels from their carts, competing with the smell of exhaust
-        and subway air. The area has a working-class energy, with sports fans,
-        daily commuters, and businesspeople sharing the sidewalks beneath the
-        shadow of MSG's distinctive architecture.
-"""
 
     street
 
@@ -148,17 +126,6 @@ let private fiftySeventhStreet (zone: Zone) =
     |> World.Street.addPlaces concerts
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces cafes
-    |> World.Street.attachContext
-        """
-    57th Street near 7th Avenue is part of Billionaires' Row, where gleaming
-    residential supertall towers pierce the Manhattan skyline. Carnegie Hall's
-    terra cotta facade and arched windows stand as a historical anchor among the modern
-    luxury developments. The street has an upscale atmosphere with well-dressed
-    pedestrians, luxury car services idling at curbs, and high-end restaurant awnings
-    extending over the sidewalk. Ornate street lamps and carefully maintained trees
-    soften the canyon of buildings, while the occasional glimpse of Central Park
-    can be caught between the towers to the north.
-"""
 
 let private sixthAvenue (city: City) (zone: Zone) =
     let street = World.Street.create Ids.Street.sixthAvenue StreetType.OneWay
@@ -195,17 +162,6 @@ let private sixthAvenue (city: City) (zone: Zone) =
     |> World.Street.addPlaces recordingStudios
     |> World.Street.addPlaces radioStudios
     |> World.Street.addPlaces cafes
-    |> World.Street.attachContext
-        """
-    6th Avenue in Midtown is a major commercial corridor lined with towering office
-    buildings and media headquarters. The Avenue of the Americas, as it's officially known,
-    features uniform street lamps and small planted areas that do little to soften
-    the corporate atmosphere. Radio towers and satellite dishes are visible atop several
-    buildings, marking the presence of broadcast studios. The sidewalks are
-    crowded with office workers during rush hours, while food trucks cluster at
-    corners serving quick lunches to the business crowd. The street has a purposeful,
-    professional energy with less tourist presence than nearby Broadway.
-"""
 
 let createZone (city: City) =
     let midtownWestZone = World.Zone.create Ids.Zone.midtownWest

@@ -47,16 +47,6 @@ let private kingStreetWest (city: City) (zone: Zone) =
         |> World.Street.addPlaces cinemas
         |> World.Street.addPlaces bars
         |> World.Street.addPlace metroStation
-        |> World.Street.attachContext
-            """
-        King Street West in the Entertainment District is Toronto's cultural
-        powerhouse. Scotiabank Arena anchors the south end, hosting arena-scale
-        concerts and sports events, while Roy Thomson Hall's mirrored glass facade
-        reflects the surrounding towers. The Four Seasons Centre for the Performing
-        Arts adds opera and ballet to the mix. Streetcar tracks run down the center
-        of the road as crowds flow between venues, restaurants, and the cluster of
-        theatres that line the blocks.
-"""
 
     street, metroStation
 
@@ -98,15 +88,6 @@ let private bayStreet (zone: Zone) =
     |> World.Street.addPlaces hotels
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces cafes
-    |> World.Street.attachContext
-        """
-    Bay Street is Toronto's financial canyon, lined with glass and steel towers
-    housing the country's major banks. The Fairmont Royal York, a grand chateau-style
-    hotel, faces Union Station across Front Street. Suited professionals stride
-    between PATH underground entrances while street-level cafes and restaurants
-    serve the lunch rush. The atmosphere is corporate and purposeful, softened by
-    occasional public art installations between the towers.
-"""
 
 let private frontStreet (zone: Zone) =
     let street =
@@ -132,15 +113,6 @@ let private frontStreet (zone: Zone) =
     |> World.Street.addPlaces hotels
     |> World.Street.addPlaces concerts
     |> World.Street.addPlaces restaurants
-    |> World.Street.attachContext
-        """
-    Front Street runs along the southern edge of downtown Toronto, with views
-    toward the waterfront and the CN Tower looming overhead. Meridian Hall's
-    modernist facade hosts touring Broadway shows and large-scale concerts. The
-    street mixes office towers with older brick buildings, and the St. Lawrence
-    Market neighbourhood to the east draws weekend crowds for fresh produce and
-    artisan food stalls.
-"""
 
 let createZone (city: City) =
     let downtownCoreZone = World.Zone.create Ids.Zone.downtownCore

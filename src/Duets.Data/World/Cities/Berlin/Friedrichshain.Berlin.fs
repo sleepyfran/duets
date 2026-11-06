@@ -9,17 +9,6 @@ let warschauerStrasse (zone: Zone) =
         World.Street.create
             Ids.Street.warschauerStrasse
             (StreetType.Split(East, 2))
-        |> World.Street.attachContext
-            """
-        Warschauer Straße is the nerve centre of Berlin's legendary club scene.
-        The Oberbaumbrücke, the double-deck bridge connecting Friedrichshain and
-        Kreuzberg across the Spree, is visible from here. The street and its
-        surroundings host some of the world's most famous nightclubs — including
-        Berghain, whose disused power station looms over the nearby rail yard —
-        as well as the Mercedes-Benz Arena for major concerts and the East Side
-        Gallery, the longest remaining section of the Berlin Wall, now an open-air
-        mural museum.
-"""
 
     let concertSpaces =
         [ ("Berghain",
@@ -66,15 +55,6 @@ let simonDachStrasse (zone: Zone) =
         World.Street.create
             Ids.Street.simonDachStrasse
             StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Simon-Dach-Straße is the social hub of the "Kiez" (neighbourhood) in
-        Friedrichshain, packed with independent bars, restaurants, and cafés spilling
-        onto the pavement. Named after a 17th-century poet, the street has a festive,
-        laid-back atmosphere that draws locals and visitors alike. On warm evenings
-        it becomes one long outdoor party, with tables and chairs extending across
-        the wide pavement and music drifting from every doorway.
-"""
 
     let concertSpaces =
         [ ("Cassiopeia",

@@ -10,16 +10,6 @@ let avenidaProvidencia (zone: Zone) =
         World.Street.create
             Ids.Street.avenidaProvidencia
             (StreetType.Split(East, 3))
-        |> World.Street.attachContext
-            """
-        Avenida Providencia is the commercial and cultural backbone of
-        Santiago's most cosmopolitan neighbourhood. Tree-lined and vibrant,
-        it stretches from the western edge of Providencia through a succession
-        of bookshops, cafés, restaurants, and boutiques that attract a
-        creative, professional crowd. The avenue also hosts some of the city's
-        best live music venues and is a central gathering point for locals
-        and visitors who want to experience Santiago at its most energetic.
-"""
 
     let concertSpaces =
         [ ("Bar El Clan", 300, 84<quality>, Layouts.concertSpaceLayout1, zone.Id)
@@ -52,15 +42,6 @@ let avenidaProvidencia (zone: Zone) =
 let avenidaSuecia (zone: Zone) =
     let street =
         World.Street.create Ids.Street.avenidaSuecia StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Avenida Suecia is a charming street in the heart of Providencia,
-        known for its concentration of cosy restaurants, lively bars, and
-        independent bookshops. Its relaxed atmosphere makes it a favourite
-        for long lunches and evening outings. A short walk from the main
-        Providencia boulevard, it captures the quieter, more intimate side
-        of the district.
-"""
 
     let restaurants =
         [ ("Liguria Providencia", 88<quality>, Chilean, zone.Id)
@@ -84,14 +65,6 @@ let avenidaSuecia (zone: Zone) =
 let avenidaNuevaProvidencia (city: City) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.avenidaNuevaProvidencia StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Avenida Nueva Providencia, also known as Avenida 11 de Septiembre
-        in part of its stretch, is a key commercial artery in Providencia
-        lined with service businesses, car showrooms, fitness centres, and
-        modern office towers. It serves the daily needs of the neighbourhood's
-        residents and the thousands of professionals who work in the area.
-"""
 
     let carDealers =
         [ ("Automotora Gildemeister Providencia",

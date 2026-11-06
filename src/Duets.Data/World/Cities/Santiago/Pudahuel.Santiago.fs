@@ -7,16 +7,6 @@ open Duets.Entities
 let ruta68 (zone: Zone) =
     let street =
         World.Street.create Ids.Street.ruta68 StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Ruta 68 is the main expressway connecting Santiago's city centre to
-        Arturo Merino Benítez International Airport and the coastal city of
-        Valparaíso. The stretch near the airport is lined with large
-        international hotels and shuttle services, providing a gateway for
-        millions of travellers arriving in Chile each year. The airport
-        itself is regularly ranked among the best in Latin America,
-        serving as the region's most important aviation hub.
-"""
 
     let airports =
         [ ("Aeropuerto Internacional Arturo Merino Benítez", 90<quality>, zone.Id) ]

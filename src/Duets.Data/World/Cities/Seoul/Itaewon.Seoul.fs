@@ -8,16 +8,6 @@ open Duets.Entities.Calendar
 let itaewonRo (zone: Zone) (city: City) =
     let street =
         World.Street.create Ids.Street.itaewonRo (StreetType.Split(East, 2))
-        |> World.Street.attachContext
-            """
-        Itaewon-ro is Seoul's most internationally flavoured street, a legacy
-        of its proximity to the former US military base at Yongsan. The strip
-        is lined with foreign restaurants, imported goods stores, and venues
-        that have historically catered to an expat crowd. In recent years the
-        neighbourhood has undergone a significant cultural shift, drawing
-        younger Koreans and tourists attracted by its cosmopolitan atmosphere,
-        boutique bars, and large-scale entertainment venues nearby.
-"""
 
     let concertSpaces =
         [ ("Seoul Olympic Gymnastics Arena", 15000, 90<quality>, Layouts.concertSpaceLayout4, zone.Id)
@@ -53,17 +43,6 @@ let itaewonRo (zone: Zone) (city: City) =
 let gyeongndanGil (zone: Zone) (city: City) =
     let street =
         World.Street.create Ids.Street.gyeongndanGil StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Gyeongnidan-gil is a winding hillside street that climbs away from
-        the main Itaewon strip toward Namsan Mountain. It has emerged as one
-        of Seoul's most eclectic neighbourhoods, packed with independent
-        restaurants serving cuisines from across the world, boutique clothing
-        stores, and small music studios. The incline and the narrow lane-ways
-        give it a more intimate, village-like feel than the busier streets
-        below — a quality that has made it a favourite haunt for creatives
-        and the city's international community.
-"""
 
     let studios =
         [ ("KOKO Sound Studio",

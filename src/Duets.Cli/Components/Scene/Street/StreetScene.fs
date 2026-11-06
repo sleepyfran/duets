@@ -112,7 +112,7 @@ let show state (interactions: InteractionWithMetadata list) =
     World.streetSceneHeader street.Name zone.Name part lighting.DayMoment
     |> showMessage
 
-    let width = min AnsiConsole.Profile.Width 120
+    let width = sceneWidth AnsiConsole.Profile.Width
     let perRow = max 1 ((width + gap) / (Facades.width + gap))
 
     let rows =
@@ -123,19 +123,22 @@ let show state (interactions: InteractionWithMetadata list) =
     let people = Queries.World.peopleInCurrentPlace state
     let seed = seedOf $"{place.Id}{roomId}"
 
-    rows
-    |> List.iteri (fun index row ->
-        buildRow
-            skin
-            lighting
-            width
-            row
-            (index = 0)
-            (index = rows.Length - 1)
-            people
-            (seed + index)
-        |> SceneGrid.toMarkup
-        |> List.iter showMessage)
+    (* On very narrow terminals the façades take a row each and the sky
+       barely fits, so we skip the art and rely on the caption and legend. *)
+    if width >= compactWidth then
+        rows
+        |> List.iteri (fun index row ->
+            buildRow
+                skin
+                lighting
+                width
+                row
+                (index = 0)
+                (index = rows.Length - 1)
+                people
+                (seed + index)
+            |> SceneGrid.toMarkup
+            |> List.iter showMessage)
 
     let peopleCount = (fst people).Length + (snd people).Length
 

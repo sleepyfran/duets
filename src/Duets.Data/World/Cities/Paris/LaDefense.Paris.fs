@@ -10,19 +10,6 @@ let esplanadeDeLaDefense (zone: Zone) (city: City) =
         World.Street.create
             Ids.Street.esplanadeDeLaDefense
             (StreetType.Split(North, 2))
-        |> World.Street.attachContext
-            """
-        The Esplanade de La Défense is the vast pedestrian axis at the heart of
-        Europe's largest purpose-built business district. Stretching over a kilometre,
-        it is an open-air museum of monumental contemporary sculpture—works by Calder,
-        Miró, Torricini and dozens of other artists are installed permanently along
-        its length. The Esplanade terminates at the Grande Arche de La Défense, a
-        hollow marble cube aligned precisely with the Arc de Triomphe and the Louvre
-        along the historic Grand Axe of Paris. By day it is one of the most animated
-        public spaces in the region, with hundreds of thousands of office workers,
-        tourists and Parisians crossing it; by night the illuminated towers create an
-        extraordinary skyline that rivals any in the world.
-"""
 
     let concertSpaces =
         [ ("Paris La Défense Arena",
@@ -69,18 +56,6 @@ let esplanadeDeLaDefense (zone: Zone) (city: City) =
 let rueBellini (zone: Zone) =
     let street =
         World.Street.create Ids.Street.rueBellini StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Rue Bellini is a quieter side street in La Défense, running parallel to the
-        Esplanade and threading between the bases of the district's glass towers.
-        Unlike the monumental public spaces nearby, it has a more human scale,
-        with street-level restaurants catering to office workers at lunch and a
-        handful of specialist music and electronics shops. The street connects
-        directly to the RER A and metro lines, making it one of the busiest
-        pedestrian thoroughfares during rush hour despite its modest width.
-        A small garden square at its northern end provides a rare patch of green
-        within this otherwise entirely built environment.
-"""
 
     let studios =
         [ ("Studio La Défense",

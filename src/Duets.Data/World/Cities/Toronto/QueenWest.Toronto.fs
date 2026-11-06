@@ -47,15 +47,6 @@ let private queenStreetWest (zone: Zone) =
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces shops
         |> World.Street.addPlace metroStation
-        |> World.Street.attachContext
-            """
-        Queen Street West is Toronto's bohemian artery, a strip of independent
-        galleries, vintage shops, and legendary music venues. The Horseshoe Tavern's
-        neon sign has beckoned musicians since 1947, while the Drake Hotel anchors
-        the west end with its rooftop bar and intimate performance space. Street art
-        covers alley walls and construction hoardings, and the sidewalks fill with
-        musicians, artists, and weekend shoppers browsing thrift stores.
-"""
 
     street, metroStation
 
@@ -84,14 +75,6 @@ let private ossingtonAvenue (zone: Zone) =
     |> World.Street.addPlaces cafes
     |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces restaurants
-    |> World.Street.attachContext
-        """
-    Ossington Avenue is a narrow, tree-lined corridor of craft breweries,
-    independent coffee shops, and small restaurants. Former garages and warehouses
-    have been converted into taprooms and galleries. The pace is slower here than
-    on Queen, with locals lingering on patios and browsing the handful of
-    independent bookshops that anchor the strip.
-"""
 
 let private dundasStreetWest (zone: Zone) =
     let street =
@@ -124,14 +107,6 @@ let private dundasStreetWest (zone: Zone) =
     |> World.Street.addPlaces studios
     |> World.Street.addPlaces rehearsalSpaces
     |> World.Street.addPlaces concerts
-    |> World.Street.attachContext
-        """
-    Dundas Street West in this stretch is a working musicians' corridor, home to
-    recording studios and rehearsal spaces tucked into converted industrial
-    buildings. The Baby G hosts emerging acts in its intimate back room, while
-    nearby studios hum with sessions day and night. The street has a creative,
-    no-frills energy favored by working artists over tourists.
-"""
 
 let zone =
     let queenWestZone = World.Zone.create Ids.Zone.queenWest

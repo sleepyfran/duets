@@ -10,17 +10,6 @@ let kurfuerstendamm (cityId: CityId) (zone: Zone) =
         World.Street.create
             Ids.Street.kurfuerstendamm
             (StreetType.Split(East, 3))
-        |> World.Street.attachContext
-            """
-        The Kurfürstendamm — universally known as the "Ku'damm" — is the grand
-        boulevard of West Berlin, stretching 3.5 km through Charlottenburg. Conceived
-        in the 19th century as Berlin's answer to the Champs-Élysées, it is lined with
-        luxury boutiques, department stores, high-end restaurants, cinemas, and the
-        bombed-out Kaiser Wilhelm Memorial Church (Gedächtniskirche), preserved as a
-        permanent reminder of the Second World War. The Ku'damm represents the wealth
-        and cultural ambition of the former West Berlin, and remains the city's premier
-        shopping and promenading address.
-"""
 
     let concertSpaces =
         [ ("Theater des Westens",
@@ -62,16 +51,6 @@ let kantstrasse (zone: Zone) =
         World.Street.create
             Ids.Street.kantstrasse
             StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Running parallel to the Ku'damm one block north, Kantstraße is a lively,
-        slightly more relaxed counterpart to its famous neighbour. It is particularly
-        known for its Asian restaurant scene — an extraordinarily dense concentration
-        of Chinese, Japanese, Thai, and Vietnamese eateries has earned this stretch the
-        nickname "Berlin's Chinatown." The street is also home to the Theater des
-        Westens entrance, independent art galleries, and the iconic Literaturhaus
-        cultural centre with its charming bookshop and café.
-"""
 
     let restaurants =
         [ ("Marjellchen", 88<quality>, German, zone.Id) ]
@@ -107,16 +86,6 @@ let bismarckstrasse (zone: Zone) (city: City) =
         World.Street.create
             Ids.Street.bismarckstrasse
             StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Bismarckstraße is the main artery running east-west through the centre of
-        Charlottenburg, connecting Savignyplatz with Deutsche Oper station and
-        onward to Ernst-Reuter-Platz. The Deutsche Oper Berlin, one of the world's
-        leading opera companies, dominates this stretch with its imposing modernist
-        facade. The street also borders the Technische Universität campus and is
-        flanked by well-maintained Gründerzeit apartment blocks, giving the area
-        a refined, academic atmosphere.
-"""
 
     let concertSpaces =
         [ ("Deutsche Oper Berlin",

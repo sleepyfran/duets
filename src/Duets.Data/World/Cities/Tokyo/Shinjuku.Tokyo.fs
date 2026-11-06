@@ -8,16 +8,6 @@ open Duets.Entities.Calendar
 let kabukicho (zone: Zone) =
     let street =
         World.Street.create Ids.Street.kabukicho (StreetType.Split(East, 3))
-        |> World.Street.attachContext
-            """
-        Kabukicho is Tokyo's most famous entertainment and red-light district,
-        a labyrinthine grid of hostess clubs, live music bars, cinemas, and
-        game arcades stretching east of Shinjuku Station. At night the streets
-        glow with a relentless barrage of neon and LED signage. The area draws
-        everyone from salarymen to tourists, and its live music scene is
-        surprisingly robust — dozens of small live houses operate above and
-        below street level throughout the district.
-"""
 
     let concertSpaces =
         [ ("Shinjuku BLAZE", 1500, 89<quality>, Layouts.concertSpaceLayout3, zone.Id)
@@ -57,17 +47,6 @@ let kabukicho (zone: Zone) =
 let nishiShinjuku (zone: Zone) (city: City) =
     let street =
         World.Street.create Ids.Street.nishiShinjuku StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Nishi-Shinjuku is the skyscraper district on the west side of Shinjuku
-        Station — a grid of towering office blocks, luxury hotels, and
-        civic buildings including the Tokyo Metropolitan Government Building.
-        It has a strikingly different character from the crowded entertainment
-        zones to the east: wide, planned boulevards, large medical facilities,
-        and well-maintained public spaces. The area is particularly busy on
-        weekday mornings as hundreds of thousands of commuters pour out of
-        the station below.
-"""
 
     let gyms =
         [ ("Gold's Gym Shinjuku", 90<quality>, zone.Id) ]
@@ -95,16 +74,6 @@ let nishiShinjuku (zone: Zone) (city: City) =
 let shinjukuSanchome (zone: Zone) =
     let street =
         World.Street.create Ids.Street.shinjukuSanchome StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Shinjuku-sanchome is the culturally vibrant neighbourhood centred on
-        the station of the same name, known for its dense concentration of
-        independent bookshops, jazz cafes, and small theatre venues. It sits
-        between the retail behemoths of central Shinjuku and the quieter
-        residential streets of Yotsuya. The area has a long artistic tradition
-        and remains a gathering point for writers, musicians, and the broader
-        Tokyo arts community.
-"""
 
     let bookstores =
         [ ("Kinokuniya Shinjuku", 95<quality>, zone.Id) ]

@@ -10,17 +10,6 @@ let boulevardSaintGermain (zone: Zone) (cityId: CityId) (city: City) =
         World.Street.create
             Ids.Street.boulevardSaintGermain
             (StreetType.Split(East, 2))
-        |> World.Street.attachContext
-            """
-        Boulevard Saint-Germain is the grand east-west spine of the Left Bank,
-        running from the Pont de Sully near the Île Saint-Louis all the way to the
-        Pont de la Concorde. Its western end around Saint-Germain-des-Prés church—
-        the oldest in Paris—is legendary for the literary cafés where Sartre, de Beauvoir,
-        Camus and Hemingway once debated existentialism: Les Deux Magots and Café de Flore
-        still attract crowds for their intellectual heritage as much as their coffee.
-        The boulevard is flanked by premier bookshops, fashion houses, antique dealers
-        and art galleries, making it the cultural high street of intellectual Paris.
-"""
 
     let concertSpaces =
         [ ("L'Olympia",
@@ -59,18 +48,6 @@ let boulevardSaintGermain (zone: Zone) (cityId: CityId) (city: City) =
 let rueDeSeine (zone: Zone) =
     let street =
         World.Street.create Ids.Street.rueDeSeine StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Rue de Seine runs from the Boulevard Saint-Germain down to the Seine river,
-        and is one of the most densely gallery-packed streets in Paris. Its short
-        length contains an extraordinary concentration of contemporary and modern art
-        galleries—dealers of painting, sculpture, photography and works on paper rub
-        shoulders with antique shops and specialist print sellers. The street spills
-        into the adjoining Rue Mazarine and Rue Guénégaud to form Paris's main gallery
-        district, known simply as "Saint-Germain galleries." Early on weekday mornings,
-        before the tourists arrive, it is almost eerily quiet, the pale light catching
-        the art in the windows.
-"""
 
     let cafes =
         [ ("Café de la Mairie", 84<quality>, zone.Id) ]
@@ -97,17 +74,6 @@ let rueDeSeine (zone: Zone) =
 let rueDuBac (zone: Zone) (city: City) =
     let street =
         World.Street.create Ids.Street.rueDuBac StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Rue du Bac is one of the most elegant streets on the Left Bank, running south
-        from the Seine through the heart of the 7th arrondissement. It is particularly
-        famous for its upscale food shops, including the legendary Hédiard and Poilâne
-        bakery. The street also passes the Bon Marché, Paris's oldest department store,
-        and a cluster of prestigious antique dealers whose combined galleries form the
-        Carré Rive Gauche. The Chapelle Notre-Dame de la Médaille Miraculeuse, a site
-        of major Catholic pilgrimage, stands partway along the street, regularly drawing
-        quiet queues of devotees among the fashionable shoppers.
-"""
 
     let hospitals =
         [ ("Hôpital Laennec", 90<quality>, zone.Id) ]

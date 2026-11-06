@@ -8,17 +8,6 @@ open Duets.Entities.Calendar
 let gangnamDaero (zone: Zone) =
     let street =
         World.Street.create Ids.Street.gangnamDaero (StreetType.Split(East, 3))
-        |> World.Street.attachContext
-            """
-        Gangnam-daero is the spine of Seoul's most affluent and fashionable
-        district, stretching south from the Han River past gleaming skyscrapers,
-        designer boutiques, and the sprawling COEX Mall complex. The road
-        embodies the transformation of modern South Korea — polished, ambitious,
-        and relentlessly forward-looking. Below street level, the enormous
-        COEX underground city and its connected subway station form one of
-        Asia's busiest transit hubs, feeding the district's constant stream
-        of commuters, shoppers, and concertgoers.
-"""
 
     let concertSpaces =
         [ ("COEX Artium", 3000, 92<quality>, Layouts.concertSpaceLayout4, zone.Id)
@@ -51,16 +40,6 @@ let gangnamDaero (zone: Zone) =
 let teheranRo (zone: Zone) =
     let street =
         World.Street.create Ids.Street.teheranRo StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Teheran-ro, named after a street in the Iranian capital as part of a
-        sister-city exchange, runs east through the heart of Gangnam's business
-        district. Flanked by the glass towers of Korea's largest corporations and
-        tech startups alike, it is often called the Silicon Valley of Seoul.
-        After business hours the street transforms, with upscale restaurants
-        and bars filling with professionals unwinding from the high-pressure
-        workday.
-"""
 
     let concertSpaces =
         [ ("Yes24 Live Hall", 2000, 88<quality>, Layouts.concertSpaceLayout3, zone.Id) ]
@@ -100,15 +79,6 @@ let teheranRo (zone: Zone) =
 let apgujeongRo (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.apgujeongRo StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Apgujeong-ro cuts through one of Seoul's most exclusive enclaves, where
-        designer fashion houses sit alongside upscale plastic surgery clinics and
-        Michelin-starred restaurants. The Rodeo Street area nearby draws a mix
-        of celebrities, K-pop stars, and well-heeled shoppers. The neighbourhood
-        has a manicured, almost cinematic quality — wide pavements, immaculate
-        storefronts, and the quiet hum of serious money.
-"""
 
     let concertSpaces =
         [ ("Blue Square Mastercard Hall", 2800, 91<quality>, Layouts.concertSpaceLayout4, zone.Id) ]

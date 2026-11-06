@@ -8,17 +8,6 @@ open Duets.Entities.Calendar
 let callePioNono (zone: Zone) =
     let street =
         World.Street.create Ids.Street.callePioNono (StreetType.Split(North, 2))
-        |> World.Street.attachContext
-            """
-        Calle Pío Nono is the beating heart of Bellavista, Santiago's
-        bohemian barrio nestled at the foot of Cerro San Cristóbal. Named
-        after Pope Pius IX, the street is famous for its clusters of bars,
-        outdoor restaurants, and live music venues that draw artists,
-        students, and night owls from across the city. Murals cover the
-        walls of the narrow side streets branching off it, and the smell
-        of grilled meat and fresh empanadas drifts through the air from
-        dusk onwards.
-"""
 
     let concertSpaces =
         [ ("La Batuta", 150, 80<quality>, Layouts.concertSpaceLayout1, zone.Id)
@@ -53,15 +42,6 @@ let callePioNono (zone: Zone) =
 let calleConstitucion (city: City) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.calleConstitucion StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Calle Constitución is one of the quieter lanes that run parallel to
-        Pío Nono in Bellavista, offering a slightly more tranquil experience
-        amid the barrio's energy. It is home to independent bookshops,
-        small recording studios, and cafés favoured by writers and musicians.
-        The street's low-rise architecture and leafy pavements give it
-        a village-like quality that contrasts pleasantly with the bustle nearby.
-"""
 
     let bookstores =
         [ ("Librería Metales Pesados", 86<quality>, zone.Id) ]

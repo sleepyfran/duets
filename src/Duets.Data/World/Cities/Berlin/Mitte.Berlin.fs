@@ -10,16 +10,6 @@ let unterDenLinden (cityId: CityId) (zone: Zone) =
         World.Street.create
             Ids.Street.unterDenLinden
             (StreetType.Split(East, 2))
-        |> World.Street.attachContext
-            """
-        Berlin's most celebrated boulevard, stretching from the Brandenburg Gate
-        to Museum Island. Lined with linden trees, historic palaces, embassies,
-        and cultural institutions, it is the ceremonial heart of the German capital.
-        The neoclassical Staatsoper Unter den Linden, the Humboldt University, and the
-        New Guardhouse (Neue Wache) define its character — a mix of imperial grandeur
-        and vibrant contemporary life. The Brandenburg Gate stands at the western end
-        as an iconic symbol of German reunification.
-"""
 
     let concertSpaces =
         [ ("Staatsoper Unter den Linden",
@@ -66,16 +56,6 @@ let alexanderplatz (zone: Zone) =
         World.Street.create
             Ids.Street.alexanderplatz
             (StreetType.Split(North, 2))
-        |> World.Street.attachContext
-            """
-        Alexanderplatz — or "Alex" as locals call it — is the beating public heart
-        of East Berlin. Dominated by the towering TV Tower (Fernsehturm), the largest
-        structure in Germany, this vast open square is surrounded by brutalist GDR-era
-        architecture, modern shopping centres, and lively street life. The iconic
-        World Time Clock is a popular meeting point. Markets, street performers, and
-        an endless flow of Berliners and tourists make Alex one of the city's
-        most energetic spaces.
-"""
 
     let bars =
         [ ("Park Inn Rooftop Bar", 88<quality>, zone.Id)
@@ -105,15 +85,6 @@ let friedrichstrasse (zone: Zone) =
         World.Street.create
             Ids.Street.friedrichstrasse
             StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Friedrichstraße runs north-south through Mitte, once divided by the Berlin Wall.
-        Today it's a prestigious shopping and entertainment corridor, home to high-end
-        boutiques, the historic Friedrichstadt-Palast variety theatre, and several
-        significant cultural venues. The area around Checkpoint Charlie — the famous
-        Cold War crossing point — lies just to the south, lending historical weight
-        to this thoroughly modern street.
-"""
 
     let concertSpaces =
         [ ("Friedrichstadt-Palast",

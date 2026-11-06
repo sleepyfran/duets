@@ -7,17 +7,6 @@ open Duets.Entities
 let airportRoad (zone: Zone) =
     let street =
         World.Street.create Ids.Street.naritaRoad StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        The Airport Access Road connects Narita International Airport to the
-        surrounding area, lined with large airport hotels, transit hubs, and
-        international car rental facilities. Narita Airport serves as the
-        primary international gateway to Tokyo, handling tens of millions of
-        passengers annually across its three terminals. The road has a calm,
-        functional character compared to the frenetic energy of central Tokyo,
-        offering travellers a brief decompression zone before diving into the
-        metropolis.
-"""
 
     let airports =
         [ ("Narita International Airport", 90<quality>, zone.Id) ]

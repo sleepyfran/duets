@@ -41,16 +41,6 @@ let private danforthAvenue (city: City) (zone: Zone) =
         |> World.Street.addPlaces cafes
         |> World.Street.addPlaces gyms
         |> World.Street.addPlace metroStation
-        |> World.Street.attachContext
-            """
-        Danforth Avenue, known as Greektown, is a lively east-end strip of
-        restaurants, cafes, and the iconic Danforth Music Hall. Blue and white
-        awnings mark Greek tavernas alongside newer additions from Toronto's
-        multicultural food scene. The Bloor-Danforth subway rumbles beneath the
-        street while families, joggers, and musicians share the wide sidewalks.
-        The annual Taste of the Danforth festival transforms the avenue into one
-        of the city's largest street parties.
-"""
 
     street, metroStation
 
@@ -83,15 +73,6 @@ let private queenStreetEast (city: City) (zone: Zone) =
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces radioStudios
     |> World.Street.addPlaces restaurants
-    |> World.Street.attachContext
-        """
-    Queen Street East in Leslieville has transformed from a working-class strip
-    into a hub of indie culture. The Opera House, a converted vaudeville theatre,
-    hosts mid-size touring acts, while the surrounding blocks offer craft breweries,
-    vintage furniture shops, and independent radio studios broadcasting from
-    converted storefronts. The neighbourhood retains a gritty charm beneath its
-    gentrifying surface.
-"""
 
 let createZone (city: City) =
     let eastEndZone = World.Zone.create Ids.Zone.eastEnd

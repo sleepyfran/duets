@@ -7,19 +7,6 @@ open Duets.Entities
 let avenueCharlesDeGaulle (zone: Zone) =
     let street =
         World.Street.create Ids.Street.avenueCharlesDeGaulle StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Avenue Charles de Gaulle leads to and from Charles de Gaulle Airport,
-        the largest international airport in France and the second busiest in
-        Europe. Named after the French general and statesman, the avenue is flanked
-        by a succession of large airport hotels, car rental agencies, logistics hubs
-        and transport infrastructure. The RER B line runs directly beneath the
-        avenue, providing a direct rail link to central Paris in under forty minutes.
-        The airport itself—designed by Paul Andreu and opened in 1974—is noted for
-        its striking brutalist Terminal 1, a circular concrete drum with satellite
-        pods connected by moving walkways. It handles over seventy million passengers
-        a year, making it a true gateway to France.
-"""
 
     let airports =
         [ ("Charles de Gaulle Airport", 90<quality>, zone.Id) ]

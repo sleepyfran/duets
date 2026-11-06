@@ -7,17 +7,6 @@ open Duets.Entities
 let francouzská city (zone: Zone) =
     let street =
         World.Street.create "Francouzská" (StreetType.Split(North, 2))
-        |> World.Street.attachContext
-            """
-        Francouzská is a residential street in the heart of Vinohrady, lined with
-        elegant late 19th-century apartment buildings featuring ornate neo-Renaissance
-        and Art Nouveau facades. The street is characterized by tree-lined sidewalks,
-        small boutiques, and local cafes that serve the neighborhood's affluent residents.
-        Ground-floor spaces host fitness centers, wine bars, and quality restaurants.
-        The atmosphere is upscale yet relaxed, representing Vinohrady's reputation as
-        one of Prague's most desirable residential districts. Well-maintained buildings
-        with decorative balconies and period details create an architecturally cohesive streetscape.
-"""
 
     let home = PlaceCreators.createHome street.Id zone.Id
 
@@ -59,17 +48,6 @@ let francouzská city (zone: Zone) =
 let náměstíMíru (zone: Zone) =
     let street =
         World.Street.create Ids.Street.náměstíMíru (StreetType.Split(East, 3))
-        |> World.Street.attachContext
-            """
-        Náměstí Míru (Peace Square) is Vinohrady's grand central square, dominated
-        by the imposing neo-Gothic Church of St. Ludmila with its twin spires. The
-        square is laid out as a formal park with mature trees, benches, and a children's
-        playground at its center. Elegant turn-of-the-century buildings surround the square,
-        including the Art Nouveau Vinohrady Theatre. The metro station provides convenient
-        transport connections. Cafes with outdoor seating overlook the park, creating a
-        pleasant meeting point. The atmosphere is genteel and family-friendly, with
-        locals walking dogs and meeting for coffee at the square's established institutions.
-"""
 
     let concertSpaces =
         [ ("Vinohrady Theatre",

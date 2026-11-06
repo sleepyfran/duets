@@ -10,16 +10,6 @@ let oranienstrasse (zone: Zone) =
         World.Street.create
             Ids.Street.oranienstrasse
             (StreetType.Split(East, 2))
-        |> World.Street.attachContext
-            """
-        The pulsing artery of Kreuzberg 36, Oranienstraße is the epicentre of Berlin's
-        alternative and countercultural scene. Lined with independent record shops,
-        vintage stores, Turkish grocers, bars open until dawn, and legendary live music
-        venues, it represents the rebellious spirit that made West Berlin famous during
-        the Cold War. May Day demonstrations traditionally end here, and the street never
-        truly sleeps. The legendary SO36 club, named after the old postal code, has been
-        a cornerstone of punk, new wave, and techno culture since 1978.
-"""
 
     let concertSpaces =
         [ ("SO36",
@@ -70,15 +60,6 @@ let kottbusserDamm (zone: Zone) (city: City) =
         World.Street.create
             Ids.Street.kottbusserDamm
             (StreetType.Split(North, 2))
-        |> World.Street.attachContext
-            """
-        Kottbusser Damm stretches through the heart of Kreuzberg, connecting the
-        bustling Kottbusser Tor junction southward. The area around "Kotti" is one of
-        Berlin's most diverse and densely populated neighbourhoods, with a large Turkish
-        and Arab community alongside long-time residents, artists, and students. Döner
-        kebab shops, tea houses, community centres, and late-night kiosks line the street,
-        creating a vibrant, chaotic, and unmistakably Berlin atmosphere.
-"""
 
     let home = PlaceCreators.createHome street.Id zone.Id
 
@@ -127,15 +108,6 @@ let bergmannstrasse (zone: Zone) =
         World.Street.create
             Ids.Street.bergmannstrasse
             StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Bergmannstraße is the genteel, leafy face of Kreuzberg 61 — a contrast to
-        the raw energy of Oranienstraße. Lined with independent cafés, antique bookshops,
-        organic delis, and the famous Marheineke Markthalle covered market, it draws
-        families and creative professionals. The nearby Chamissoplatz square, a
-        perfectly preserved Gründerzeit ensemble, makes this corner of Kreuzberg feel
-        almost like a village within the city.
-"""
 
     let bookstores =
         [ ("Antiquariat Kisch & Co.", 87<quality>, zone.Id) ]

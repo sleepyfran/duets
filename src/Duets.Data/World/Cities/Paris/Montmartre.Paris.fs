@@ -10,17 +10,6 @@ let rueDesAbbesses (zone: Zone) (cityId: CityId) =
         World.Street.create
             Ids.Street.rueDesAbbesses
             (StreetType.Split(East, 2))
-        |> World.Street.attachContext
-            """
-        Rue des Abbesses is the lively main artery at the foot of the Montmartre
-        hill, centered around the charming Place des Abbesses with its Art Nouveau
-        metro entrance. The street is lined with independent boutiques, bakeries,
-        and café terraces that fill with locals and artists. The neighbourhood retains
-        a village feel, with winding cobblestone side streets leading up toward the
-        Sacré-Cœur basilica. Street musicians and portrait artists are a constant
-        presence, giving the area a permanent creative energy that has attracted
-        painters and writers for over a century.
-"""
 
     let concertSpaces =
         [ ("Le Divan du Monde",
@@ -59,17 +48,6 @@ let rueDesAbbesses (zone: Zone) (cityId: CityId) =
 let rueLepic (zone: Zone) =
     let street =
         World.Street.create Ids.Street.rueLepic StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Rue Lepic winds steeply up the southern slope of the Montmartre hill,
-        one of the most photogenic streets in Paris. It is home to the last two
-        working windmills in Montmartre—the Moulin Radet and the Moulin de la Galette—
-        which once served as dance halls frequented by Renoir and Toulouse-Lautrec.
-        The street is packed with specialty food shops, wine merchants, a beloved
-        weekend market, and several artists' ateliers. The further you climb, the
-        quieter and more residential it becomes, offering sweeping views across
-        northern Paris.
-"""
 
     let restaurants =
         [ ("Chez Plumeau", 86<quality>, French, zone.Id) ]
@@ -93,18 +71,6 @@ let boulevardDeClichy (zone: Zone) (cityId: CityId) =
         World.Street.create
             Ids.Street.boulevardDeClichy
             (StreetType.Split(East, 2))
-        |> World.Street.attachContext
-            """
-        Boulevard de Clichy marks the northern boundary between Montmartre and
-        Pigalle, a wide, tree-lined boulevard famous for its iconic entertainment
-        landmarks. The unmistakable red sails of the Moulin Rouge cabaret dominate
-        its eastern end, a symbol of Parisian nightlife since 1889. The boulevard
-        transitions from tourist-facing cabarets and sex shops near Pigalle into
-        a more artistic, residential character as it approaches Place de Clichy to
-        the west. Street artists set up stalls along its wide pavement, and the
-        buzz of the evening crowd makes it one of the most animated boulevards in
-        the city.
-"""
 
     let home = PlaceCreators.createHome street.Id zone.Id
 

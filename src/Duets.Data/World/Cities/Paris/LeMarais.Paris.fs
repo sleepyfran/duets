@@ -10,18 +10,6 @@ let rueDeRivoli (zone: Zone) (city: City) =
         World.Street.create
             Ids.Street.rueDeRivoli
             (StreetType.Split(East, 3))
-        |> World.Street.attachContext
-            """
-        Rue de Rivoli runs along the northern edge of Le Marais, one of the longest
-        and most recognisable streets in Paris. Lined on one side by the arcaded
-        buildings that Napoleon I commissioned, it connects the Louvre and the
-        Tuileries Garden to the west with the Place de la Bastille to the east.
-        In the Marais section, it borders the historic Hôtel de Ville (Paris City Hall)
-        and the Saint-Gervais church. The street is a major commercial artery by day,
-        bustling with fashion boutiques, department stores and tourists, while the
-        side streets branching off into the Marais plunge into centuries-old courtyard
-        architecture and a vibrant cultural scene.
-"""
 
     let concertSpaces =
         [ ("Café de la Danse",
@@ -68,17 +56,6 @@ let rueDeRivoli (zone: Zone) (city: City) =
 let rueDesFrancsBourgeois (zone: Zone) (city: City) =
     let street =
         World.Street.create Ids.Street.rueDesFrancsBourgeois StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Rue des Francs-Bourgeois is the beating heart of Le Marais, stretching from
-        the Place des Vosges—Paris's oldest planned square—westward through a corridor
-        of medieval hôtels particuliers converted into fashion boutiques, museums and
-        galleries. On Sundays it becomes one of the few major Parisian streets where
-        shops remain open, drawing crowds of Parisians and visitors alike. Its medieval
-        pavement hides a remarkably dense cultural offering: the Musée Carnavalet,
-        the Archives nationales, and dozens of contemporary art spaces are tucked into
-        its grand courtyards.
-"""
 
     let restaurants =
         [ ("L'As du Fallafel", 88<quality>, French, zone.Id) ]
@@ -105,17 +82,6 @@ let rueDesFrancsBourgeois (zone: Zone) (city: City) =
 let rueVieilleDuTemple (zone: Zone) =
     let street =
         World.Street.create Ids.Street.rueVieilleDuTemple StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Rue Vieille du Temple is a long north-south axis that traverses the whole of
-        Le Marais, changing character every few blocks. At its southern end it is
-        flanked by the grand courtyards of noble mansions, including the Hôtel de
-        Rohan and the Hôtel de Soubise. Moving north it passes through the lively
-        café and bar strip of the upper Marais, a focal point of Paris's LGBTQ+
-        community, before ending in the quieter Haut Marais, celebrated for its
-        independent design studios and concept stores. The street is one of the
-        clearest cross-sections through the historic stratification of the neighbourhood.
-"""
 
     let bars =
         [ ("Andy Wahloo", 86<quality>, zone.Id) ]

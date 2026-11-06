@@ -8,16 +8,6 @@ open Duets.Entities.Calendar
 let myeongdongGil (zone: Zone) =
     let street =
         World.Street.create Ids.Street.myeongdongGil (StreetType.Split(East, 2))
-        |> World.Street.attachContext
-            """
-        Myeongdong-gil is Seoul's most famous shopping and tourism corridor,
-        a pedestrianised street of wall-to-wall cosmetics stores, street food
-        stalls, and international fashion chains. By day it draws shoppers from
-        across Asia seeking Korean beauty products and fashion; by night the
-        food carts take over, filling the air with the smell of tteokbokki and
-        hotteok. Despite its commercial character the street retains a lively,
-        festive energy that makes it one of the most visited spots in the country.
-"""
 
     let concertSpaces =
         [ ("Chungmu Art Center", 1000, 89<quality>, Layouts.concertSpaceLayout3, zone.Id)
@@ -49,16 +39,6 @@ let myeongdongGil (zone: Zone) =
 let namdaemunRo (cityId: CityId) (zone: Zone) (city: City) =
     let street =
         World.Street.create Ids.Street.namdaemunRo StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Namdaemun-ro passes through the historic heart of Seoul, running
-        alongside the ancient Namdaemun Gate — one of the last surviving gates
-        of the old city wall. The road anchors Seoul's traditional market
-        district and connects the southern end of the city centre with the
-        grand civic institutions that line its length: major concert halls,
-        city offices, and national institutions. It is a street where old
-        Seoul and modern Seoul coexist, sometimes uneasily, always vividly.
-"""
 
     let concertSpaces =
         [ ("Seoul Arts Center", 2500, 93<quality>, Layouts.concertSpaceLayout4, zone.Id)

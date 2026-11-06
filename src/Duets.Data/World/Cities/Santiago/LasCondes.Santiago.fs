@@ -10,15 +10,6 @@ let avenidaApoquindo (city: City) (zone: Zone) =
         World.Street.create
             Ids.Street.avenidaApoquindo
             (StreetType.Split(East, 3))
-        |> World.Street.attachContext
-            """
-        Avenida Apoquindo is the financial and commercial spine of Las Condes,
-        Santiago's most affluent district. The avenue is flanked by gleaming
-        glass office towers, luxury hotels, and upscale shopping centres such
-        as El Golf and Parque Arauco. It also hosts the El Golf metro station,
-        one of the key stops on Line 1, and several of the city's premier
-        performance venues that attract international touring acts.
-"""
 
     let concertSpaces =
         [ ("Teatro Municipal Las Condes", 800, 88<quality>, Layouts.concertSpaceLayout2, zone.Id)
@@ -49,15 +40,6 @@ let avenidaApoquindo (city: City) (zone: Zone) =
 let avenidaIsidoraGoyenechea (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.avenidaIsidoraGoyenechea StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Avenida Isidora Goyenechea is the social hub of Las Condes,
-        a tree-lined street packed with Santiago's finest restaurants,
-        wine bars, and cocktail lounges. Known locally as 'El Barrio El Golf',
-        it is the go-to destination for business dinners, celebrations,
-        and after-work drinks among Santiago's professional class. High-end
-        cinemas and concept stores fill in the gaps between the restaurants.
-"""
 
     let restaurants =
         [ ("Osaka Santiago", 92<quality>, Japanese, zone.Id)
@@ -81,16 +63,6 @@ let avenidaIsidoraGoyenechea (cityId: CityId) (zone: Zone) =
 let avenidaManquehue (city: City) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.avenidaManquehue StreetType.OneWay
-        |> World.Street.attachContext
-            """
-        Avenida Manquehue runs north-south through the upper reaches of
-        Las Condes, connecting the residential highlands to the busy
-        commercial corridor below. Flanked by exclusive apartment blocks,
-        luxury car dealerships, and large-scale sports venues, it serves
-        a well-heeled population that values quality, convenience, and access.
-        The nearby Estadio Nacional sits at the boundary between districts
-        and hosts the largest concerts and sporting events in Chile.
-"""
 
     let concertSpaces =
         [ ("Estadio Nacional Julio Martínez Prádanos", 50000, 82<quality>, Layouts.concertSpaceLayout4, zone.Id) ]

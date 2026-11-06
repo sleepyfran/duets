@@ -51,16 +51,16 @@ module LookCommand =
             (fun _ ->
                 let state = State.get ()
 
+                let currentPlace = state |> Queries.World.currentPlace
                 let currentRoom = state |> Queries.World.currentRoom
 
                 if StreetScene.canShow state then
                     StreetScene.show state interactions
+                elif RoomScene.canShow state then
+                    RoomScene.show state interactions
                 else
-                    Prompts.World.createRoomDescriptionPrompt state interactions
-                    |> LanguageModel.streamMessage
-                    |> streamMessage
-
-                    lineBreak ()
+                    World.youAreInMessage currentPlace currentRoom.RoomType
+                    |> showMessage
 
                     showRoomInfo interactions
 

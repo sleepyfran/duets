@@ -114,11 +114,19 @@ let show state (interactions: InteractionWithMetadata list) =
 
     template state
     |> Option.iter (fun template ->
-        let width = min AnsiConsole.Profile.Width 120
-        let padding = String.replicate (max 0 ((width - template.Width) / 2)) " "
+        let width = sceneWidth AnsiConsole.Profile.Width
 
-        RoomRenderer.build context template
-        |> SceneGrid.toMarkup
-        |> List.iter (fun line -> padding + line |> showMessage))
+        (* On terminals that can't fit the art we only show the caption. *)
+        if width >= compactWidth && width >= template.Width then
+            let padding =
+                String.replicate (max 0 ((width - template.Width) / 2)) " "
+
+            RoomRenderer.build context template
+            |> SceneGrid.toMarkup
+            |> List.iter (fun line -> padding + line |> showMessage)
+
+        Caption.create context template room.RoomType
+        |> Styles.faded
+        |> showMessage)
 
     showExits state exits

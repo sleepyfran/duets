@@ -103,3 +103,84 @@ let coffee placeName =
 let allClosed =
     [ "Every shutter on the street is down."
       "All the shops have called it a day." ]
+
+/// Opening clauses of the room caption, describing how well kept the place
+/// is. They have no punctuation at the end since they're followed by an
+/// activity.
+let roomCondition (quality: Quality) =
+    match quality with
+    | q when q < 20<quality> ->
+        [ "The paint peels off the walls"
+          "A damp smell hangs in the air"
+          "The floor creaks with every step" ]
+    | q when q < 40<quality> ->
+        [ "The furniture has seen better days"
+          "Scuff marks cover the floor"
+          "A flickering bulb buzzes overhead" ]
+    | q when q < 60<quality> ->
+        [ "The place looks lived in"
+          "Nothing here stands out much"
+          "The room is plain but tidy" ]
+    | q when q < 80<quality> ->
+        [ "Everything looks clean and in its place"
+          "The room feels warm and well kept"
+          "Fresh paint brightens the walls" ]
+    | _ ->
+        [ "Everything shines like it's brand new"
+          "Polished surfaces gleam all around"
+          "Not a speck of dust in sight" ]
+
+/// Closing clauses of the first sentence of the room caption, describing how
+/// busy the room is.
+let roomActivity peopleCount =
+    match peopleCount with
+    | 0 ->
+        [ ", and the room is quiet."
+          " and nobody else is around."
+          ", and you have the place to yourself." ]
+    | 1 ->
+        [ ", and someone else is around."
+          " and one other person keeps to themselves." ]
+    | count when count <= 3 ->
+        [ ", and a few people chat quietly."
+          " and a couple of people hang around." ]
+    | _ ->
+        [ ", and the room is buzzing with people."
+          " and it's hard to find a free spot."
+          ", and voices fill the room." ]
+
+/// Replaces the room caption while the band is on stage, describing how full
+/// the venue is (from 0 to 1).
+let crowd (fill: float) =
+    match fill with
+    | fill when fill < 0.2 ->
+        [ "Only a handful of people stand in front of the stage."
+          "Your voice echoes across a mostly empty room." ]
+    | fill when fill < 0.6 ->
+        [ "A decent crowd gathers in front of the stage."
+          "Heads bob along across half of the room." ]
+    | fill when fill < 0.9 ->
+        [ "The crowd fills the room, hands in the air."
+          "A sea of faces looks up at the stage." ]
+    | _ ->
+        [ "The venue is packed wall to wall."
+          "The crowd roars from the front row to the back." ]
+
+/// Optional second sentence of the room caption, about the weather outside.
+/// Only used in rooms with windows.
+let throughWindow weather phase =
+    match weather, phase with
+    | WeatherCondition.Rainy, _ ->
+        [ "Rain taps against the windows."
+          "Raindrops race down the glass." ]
+    | WeatherCondition.Stormy, _ ->
+        [ "Thunder rattles the windows."
+          "Lightning flashes through the glass." ]
+    | WeatherCondition.Snowy, _ ->
+        [ "Snowflakes drift past the windows."
+          "Frost creeps along the edges of the glass." ]
+    | _, Dawn -> [ "The first light of the day comes through the windows." ]
+    | WeatherCondition.Sunny, Day -> [ "Sunlight pours through the windows." ]
+    | _, Dusk -> [ "The windows glow orange with the sunset." ]
+    | _, Dark -> [ "City lights twinkle outside the windows." ]
+    | _ -> []

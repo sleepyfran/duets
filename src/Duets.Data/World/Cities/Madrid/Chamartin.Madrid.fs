@@ -8,17 +8,6 @@ let paseoCastellana city (zone: Zone) =
         World.Street.create
             "Paseo de la Castellana"
             (StreetType.Split(North, 3))
-        |> World.Street.attachContext
-            """
-        Madrid's main north-south artery and one of the longest urban boulevards in Spain.
-        This wide, multi-lane avenue is flanked by modern skyscrapers, corporate headquarters,
-        and iconic towers like the Puerta de Europa (KIO Towers). The street features a
-        central pedestrian promenade with sculptures, fountains, and green spaces
-        separating the traffic lanes. The architecture ranges from modernist glass-and-steel
-        towers to brutalist structures, representing Madrid's financial and business power.
-        Heavy traffic flows constantly, while joggers and cyclists use the dedicated
-        paths along the median
-"""
 
     let hotels =
         [ ("Hotel Eurostars Madrid Tower", 93<quality>, 400m<dd>, zone.Id)
@@ -59,15 +48,6 @@ let paseoCastellana city (zone: Zone) =
 let avenidaAmerica (zone: Zone) =
     let street =
         World.Street.create "Avenida de América" (StreetType.Split(East, 2))
-        |> World.Street.attachContext
-            """
-        A major transportation interchange and commercial corridor in northeastern Madrid.
-        The area is dominated by the América metro and bus station, creating constant
-        pedestrian flow. The street features utilitarian architecture from the 1970s and 80s,
-        with functional office buildings and commercial centers. Wide sidewalks accommodate
-        commuters, and the urban landscape is practical rather than ornamental, with basic
-        street furniture and signage directing travelers to various transport connections.
-"""
 
     let cafes =
         [ ("Café América", 80<quality>, zone.Id)
@@ -83,16 +63,6 @@ let avenidaAmerica (zone: Zone) =
 let zonaBernabeu (zone: Zone) =
     let street =
         World.Street.create "Zona Bernabéu" (StreetType.Split(West, 2))
-        |> World.Street.attachContext
-            """
-        The neighborhood surrounding the legendary Santiago Bernabéu stadium, home
-        of Real Madrid. On match days, the streets fill with fans wearing white jerseys,
-        street vendors selling scarves and memorabilia, and a palpable energy of anticipation.
-        The area features sports bars, souvenir shops, and restaurants catering to
-        football enthusiasts. Modern apartment blocks and commercial buildings surround
-        the massive stadium, which dominates the skyline with its distinctive white facade.
-        Even on non-match days, the presence of the stadium shapes the neighborhood's identity.
-"""
 
     let restaurants =
         [ ("Asador Donostiarra", 88<quality>, Spanish, zone.Id)
