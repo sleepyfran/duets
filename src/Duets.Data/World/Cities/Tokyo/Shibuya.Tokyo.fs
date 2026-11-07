@@ -46,6 +46,7 @@ let dogenzaka (zone: Zone) =
 let centerGai (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.centerGai StreetType.OneWay
+        |> World.Street.tag "pedestrian"
 
     let cafes =
         [ ("Starbucks Reserve Roastery Tokyo", 92<quality>, zone.Id)

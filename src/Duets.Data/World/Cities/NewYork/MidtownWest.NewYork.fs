@@ -7,6 +7,7 @@ open Duets.Entities.Calendar
 let private broadway (city: City) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.broadway (StreetType.Split(North, 3))
+        |> World.Street.tag "times-square"
 
     let home = PlaceCreators.createHome street.Id zone.Id
 

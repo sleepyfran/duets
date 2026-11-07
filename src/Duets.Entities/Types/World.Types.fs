@@ -162,6 +162,8 @@ module WorldTypes =
             Name: string
             Type: StreetType
             Places: Place list
+            /// Tags of the landmarks drawn in the street scene.
+            SceneTags: string list
         }
 
     /// Defines a zone inside of a city where places are contained.

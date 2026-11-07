@@ -77,7 +77,60 @@ and `0` for the street), but any character works.
 
 `skylines/{city}.scene` is drawn in the distance behind the façades of the
 streets, and `skylines/{city}.{zone}.scene` replaces it in a specific zone.
+Zones with an airport and no skyline of their own use `skylines/airport.scene`.
 They use the same format but only `[art]` and `[legend]` (with `$lamp` for
 windows that light up at night). The art is centered and its bottom sits on
 the sidewalk, so make it taller than the façades (around 12 rows) or only the
 gaps between buildings will show it.
+
+## Landmarks
+
+`landmarks/{tag}.scene` changes the scene of the streets tagged with `tag`
+(see `World.Street.tag`). Tags are applied in order. Every section is optional, but a
+landmark has to change something:
+
+```
+# Comment.
+
+[art]
+ ▄█▄
+▐█·█▌
+
+[legend]
+★ = gold1
+· = $lamp
+default = grey30
+
+[options]
+layer = back
+traffic = no
+
+[sidewalk]
+──★──
+
+[road]
+═══
+≈~≈~
+
+[props]
+♣ ┬
+│ ║
+
+[captions]
+A sentence about the landmark.
+```
+
+- `[art]`: drawn centered. With `layer = back` (the default) it goes over the
+  skyline and behind the façades, so make it taller than them. With
+  `layer = front` it stands on the sidewalk, in front of everything but the
+  people.
+- `[legend]`: colors the glyphs of every section. Without one, the sidewalk
+  and the road use the city color.
+- `[sidewalk]`: a line repeated along the sidewalk.
+- `[road]`: lines repeated along the road, one row each. There's no traffic
+  unless `traffic = yes`.
+- `[props]`: each column is a prop between the façades, replacing the city
+  ones.
+- `[captions]`: sentences that replace the city ones in the caption.
+
+Trailing spaces are dropped, so don't end a pattern with one.

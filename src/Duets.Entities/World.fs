@@ -156,7 +156,13 @@ module Street =
         { Id = inferredId
           Name = name
           Type = streetType
-          Places = [] }
+          Places = []
+          SceneTags = [] }
+
+    /// Adds a scene tag to the given street.
+    let tag sceneTag street =
+        { street with
+            SceneTags = street.SceneTags @ [ sceneTag ] }
 
     /// Adds a place to the given street.
     let addPlace place street =

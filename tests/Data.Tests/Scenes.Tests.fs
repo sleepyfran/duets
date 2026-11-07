@@ -221,8 +221,164 @@ let ``tryResolveSkyline prefers the zone over the city`` () =
     resolveIn templates Prague zone |> should equal None
 
 [<Test>]
+let ``tryResolveSkyline uses the airport one in zones with an airport`` () =
+    let template art = parseOk $"[art]\n{art}"
+
+    let templates =
+        [ "skylines/london", template "city"
+          "skylines/airport", template "airport" ]
+        |> Map.ofList
+
+    let resolveIn zone =
+        tryResolveSkyline templates London zone
+        |> Option.map (_.Art >> List.head)
+
+    resolveIn London.Heathrow.zone |> should equal (Some "airport")
+
+    resolveIn (World.Zone.create "Camden") |> should equal (Some "city")
+
+[<Test>]
 let ``every city has a skyline`` () =
     Union.allCasesOf<CityId> ()
     |> List.filter (fun cityId ->
         Scenes.resolveSkyline cityId (World.Zone.create "Zone") |> Option.isNone)
+    |> should be Empty
+
+[<Test>]
+let ``every zone skyline matches a zone of its city`` () =
+    let zoneKeys =
+        Duets.Data.World.World.get.Cities
+        |> List.ofMapValues
+        |> List.collect (fun city ->
+            city.Zones
+            |> List.ofMapValues
+            |> List.map (fun zone -> skylineKeys city.Id zone |> List.head))
+        |> Set.ofList
+
+    Scenes.all.Value
+    |> Map.keys
+    |> Seq.filter (fun key -> key.StartsWith "skylines/" && key.Contains '.')
+    |> Seq.filter (fun key -> not (zoneKeys.Contains key))
+    |> List.ofSeq
+    |> should be Empty
+
+let private parseLandmarkOk text =
+    match Landmark.parse text with
+    | Ok landmark -> landmark
+    | Error error -> failwith error
+
+let private isLandmarkError text =
+    match Landmark.parse text with
+    | Ok _ -> false
+    | Error _ -> true
+
+[<Test>]
+let ``Landmark.parse reads every section`` () =
+    let landmark =
+        parseLandmarkOk
+            """
+# A comment.
+[art]
+ ▲
+███
+
+[legend]
+★ = gold1
+default = grey30
+
+[options]
+layer = front
+
+[sidewalk]
+─★─
+
+[road]
+┬┬┬
+~~~
+
+[props]
+♣
+│ ║
+
+[captions]
+First caption.
+Second caption.
+"""
+
+    landmark.Art |> Option.map _.Art |> should equal (Some [ " ▲ "; "███" ])
+    landmark.Layer |> should equal LandmarkLayer.Front
+    landmark.Sidewalk |> should equal (Some "─★─")
+    landmark.Road |> should equal [ "┬┬┬"; "~~~" ]
+    landmark.Props |> should equal [ "♣│"; "║" ]
+    landmark.Captions |> should equal [ "First caption."; "Second caption." ]
+    Landmark.styleOf landmark '★' |> should equal (Some "gold1")
+    Landmark.styleOf landmark '─' |> should equal (Some "grey30")
+
+[<Test>]
+let ``Landmark.parse disables traffic only when the road is replaced`` () =
+    (parseLandmarkOk "[road]\n~~").Traffic |> should equal false
+    (parseLandmarkOk "[sidewalk]\n★").Traffic |> should equal true
+    (parseLandmarkOk "[road]\n~~\n[options]\ntraffic = yes").Traffic |> should equal true
+
+[<Test>]
+let ``Landmark.parse fails with invalid landmarks`` () =
+    isLandmarkError "[captions]\n" |> should equal true
+    isLandmarkError "[sidewalk]\n★\n★" |> should equal true
+    isLandmarkError "[road]\n~~\n[options]\nlayer = middle" |> should equal true
+    isLandmarkError "[road]\n~~\n[options]\nspeed = fast" |> should equal true
+
+[<Test>]
+let ``tryResolveLandmarks follows the order of the tags`` () =
+    let landmark caption = parseLandmarkOk $"[captions]\n{caption}"
+
+    let landmarks =
+        [ "landmarks/first", landmark "first"
+          "landmarks/second", landmark "second" ]
+        |> Map.ofList
+
+    let street =
+        World.Street.create "Street" StreetType.OneWay
+        |> World.Street.tag "second"
+        |> World.Street.tag "missing"
+        |> World.Street.tag "first"
+
+    tryResolveLandmarks landmarks street
+    |> List.collect _.Captions
+    |> should equal [ "second"; "first" ]
+
+let private allStreets () =
+    Duets.Data.World.World.get.Cities
+    |> List.ofMapValues
+    |> List.collect (fun city ->
+        city.Zones
+        |> List.ofMapValues
+        |> List.collect (fun zone -> zone.Streets.Nodes |> List.ofMapValues))
+
+[<Test>]
+let ``landmarks are not loaded as templates`` () =
+    Scenes.all.Value
+    |> Map.keys
+    |> Seq.filter (fun key -> key.StartsWith "landmarks/")
+    |> List.ofSeq
+    |> should be Empty
+
+[<Test>]
+let ``every tag of a street has a landmark`` () =
+    allStreets ()
+    |> List.collect (fun street -> street.SceneTags)
+    |> List.distinct
+    |> List.filter (fun tag -> Scenes.landmarks.Value.ContainsKey(landmarkKey tag) |> not)
+    |> should be Empty
+
+[<Test>]
+let ``every landmark is used by a street`` () =
+    let usedKeys =
+        allStreets ()
+        |> List.collect (fun street -> street.SceneTags |> List.map landmarkKey)
+        |> Set.ofList
+
+    Scenes.landmarks.Value
+    |> Map.keys
+    |> Seq.filter (fun key -> not (usedKeys.Contains key))
+    |> List.ofSeq
     |> should be Empty

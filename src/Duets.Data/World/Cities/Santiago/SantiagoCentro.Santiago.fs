@@ -10,6 +10,7 @@ let paseoAhumada (cityId: CityId) (zone: Zone) =
         World.Street.create
             Ids.Street.paseoAhumada
             (StreetType.Split(North, 2))
+        |> World.Street.tag "pedestrian"
 
     let concertSpaces =
         [ ("Teatro Caupolicán", 5000, 88<quality>, Layouts.concertSpaceLayout3, zone.Id)

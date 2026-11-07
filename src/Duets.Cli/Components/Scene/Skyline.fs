@@ -14,20 +14,20 @@ let private windowStyle lighting (random: System.Random) =
     | true -> Furniture.skylineUnlitColor
     | false -> Room.lampOffColor
 
-/// Draws the skyline centered in the grid with its bottom on the given row.
+/// Draws the art centered in the grid with its bottom on the given row.
 let draw
     (grid: SceneGrid.Grid)
     (lighting: Lighting)
-    (skyline: Template)
+    (art: Template)
     bottom
     isHidden
     seed
     =
     let random = System.Random(seed)
-    let left = (grid.Width - skyline.Width) / 2
-    let top = bottom - skyline.Height + 1
+    let left = (grid.Width - art.Width) / 2
+    let top = bottom - art.Height + 1
 
-    skyline.Art
+    art.Art
     |> List.iteri (fun y line ->
         line
         |> Seq.iteri (fun x glyph ->
@@ -35,9 +35,9 @@ let draw
 
             if glyph <> ' ' && not (isHidden x y) then
                 let style =
-                    skyline.Legend
+                    art.Legend
                     |> Map.tryFind glyph
-                    |> Option.orElse skyline.DefaultStyle
+                    |> Option.orElse art.DefaultStyle
                     |> Option.map (fun style ->
                         if style = Furniture.lamp then
                             windowStyle lighting random

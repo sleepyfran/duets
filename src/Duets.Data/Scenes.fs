@@ -79,20 +79,108 @@ type Template =
         Slots: Map<char, Slot>
     }
 
+/// Defines where the art of a landmark is drawn.
+[<RequireQualifiedAccess>]
+type LandmarkLayer =
+    /// Behind the façades, on top of the skyline.
+    | Back
+    /// On top of everything, standing on the sidewalk.
+    | Front
+
+/// Defines a parsed landmark.
+type Landmark =
+    {
+        Art: Template option
+        Layer: LandmarkLayer
+        /// Pattern repeated along the sidewalk instead of the city one.
+        Sidewalk: string option
+        /// Lines that replace the road, from top to bottom.
+        Road: string list
+        Traffic: bool
+        /// Props drawn between the façades, each one from the top down.
+        Props: string list
+        Captions: string list
+        Legend: Map<char, string>
+        DefaultStyle: string option
+    }
+
 type private ResultBuilder() =
     member _.Bind(result, binder) = Result.bind binder result
     member _.Return value = Ok value
 
 let private result = ResultBuilder()
 
-module Template =
-    let private sectionHeaders = [ "[art]"; "[legend]"; "[slots]" ]
-
-    let private splitAssignment (line: string) =
+module private Sections =
+    let splitAssignment (line: string) =
         match line.IndexOf(" = ") with
         | -1 -> Error $"Expected 'key = value' but got '{line}'"
         | index ->
             Ok(line.Substring(0, index).Trim(), line.Substring(index + 3).Trim())
+
+    let private isIgnored (line: string) =
+        String.IsNullOrWhiteSpace line || line.TrimStart().StartsWith("#")
+
+    let read (headers: string list) (drawings: string list) (text: string) =
+        let lines = text.Replace("\r", "").Split('\n') |> List.ofArray
+
+        let rec readLines section lines sections =
+            match lines, section with
+            | [], _ -> Ok sections
+            | (line: string) :: rest, _ when headers |> List.contains (line.Trim()) ->
+                readLines (Some(line.Trim())) rest sections
+            | line :: rest, Some section when drawings |> List.contains section ->
+                readLines (Some section) rest ((section, line.TrimEnd()) :: sections)
+            | line :: rest, _ when isIgnored line -> readLines section rest sections
+            | line :: rest, Some section ->
+                readLines (Some section) rest ((section, line) :: sections)
+            | line :: _, None -> Error $"Unexpected line outside of a section: '{line}'"
+
+        readLines None lines []
+        |> Result.map (fun sections ->
+            sections
+            |> List.rev
+            |> List.groupBy fst
+            |> List.map (fun (section, lines) -> section, List.map snd lines)
+            |> Map.ofList)
+
+    let find section (sections: Map<string, string list>) =
+        sections |> Map.tryFind section |> Option.defaultValue []
+
+    let trimEmptyLines lines =
+        lines
+        |> List.skipWhile String.IsNullOrWhiteSpace
+        |> List.rev
+        |> List.skipWhile String.IsNullOrWhiteSpace
+        |> List.rev
+
+    let collect parser lines =
+        lines
+        |> List.fold
+            (fun acc line ->
+                match acc, splitAssignment line |> Result.bind parser with
+                | Ok parsed, Ok entry -> Ok(entry :: parsed)
+                | Error error, _
+                | _, Error error -> Error error)
+            (Ok [])
+        |> Result.map List.rev
+
+    let parseLegend lines =
+        collect Ok lines
+        |> Result.map (fun legend ->
+            let defaultStyle =
+                legend |> List.tryFind (fst >> (=) "default") |> Option.map snd
+
+            let styles =
+                legend
+                |> List.filter (fst >> (<>) "default")
+                |> List.collect (fun (glyphs, style) ->
+                    glyphs |> Seq.map (fun glyph -> glyph, style) |> List.ofSeq)
+                |> Map.ofList
+
+            styles, defaultStyle)
+
+module Template =
+    let private sectionHeaders = [ "[art]"; "[legend]"; "[slots]" ]
 
     let private tokens (text: string) =
         text.Split(
@@ -184,56 +272,13 @@ module Template =
 
     /// Parses the given template text.
     let parse (text: string) : Result<Template, string> =
-        let lines =
-            text.Replace("\r", "").Split('\n') |> List.ofArray
-
-        let isIgnored (line: string) =
-            String.IsNullOrWhiteSpace line || line.TrimStart().StartsWith("#")
-
-        let rec readSections section lines (art, legend, slots) =
-            match lines with
-            | [] -> Ok(List.rev art, List.rev legend, List.rev slots)
-            | (line: string) :: rest when
-                sectionHeaders |> List.contains (line.Trim())
-                ->
-                readSections (Some(line.Trim())) rest (art, legend, slots)
-            | line :: rest ->
-                match section with
-                | Some "[art]" ->
-                    readSections
-                        section
-                        rest
-                        (line.TrimEnd() :: art, legend, slots)
-                | _ when isIgnored line -> readSections section rest (art, legend, slots)
-                | Some "[legend]" ->
-                    readSections section rest (art, line :: legend, slots)
-                | Some "[slots]" ->
-                    readSections section rest (art, legend, line :: slots)
-                | _ -> Error $"Unexpected line outside of a section: '{line}'"
-
-        let collect parser lines =
-            lines
-            |> List.fold
-                (fun acc line ->
-                    match acc, splitAssignment line |> Result.bind parser with
-                    | Ok parsed, Ok entry -> Ok(entry :: parsed)
-                    | Error error, _
-                    | _, Error error -> Error error)
-                (Ok [])
-            |> Result.map List.rev
-
-        let trimEmptyLines lines =
-            lines
-            |> List.skipWhile String.IsNullOrWhiteSpace
-            |> List.rev
-            |> List.skipWhile String.IsNullOrWhiteSpace
-            |> List.rev
-
         result {
-            let! artLines, legendLines, slotLines =
-                readSections None lines ([], [], [])
+            let! sections = Sections.read sectionHeaders [ "[art]" ] text
+            let artLines = Sections.find "[art]" sections
+            let legendLines = Sections.find "[legend]" sections
+            let slotLines = Sections.find "[slots]" sections
 
-            let art = trimEmptyLines artLines
+            let art = Sections.trimEmptyLines artLines
 
             do!
                 if art.IsEmpty then
@@ -244,21 +289,11 @@ module Template =
             let width = art |> List.map _.Length |> List.max
             let art = art |> List.map _.PadRight(width)
 
-            let! legend = legendLines |> collect (fun entry -> Ok entry)
+            let! legend, defaultStyle = Sections.parseLegend legendLines
 
-            let defaultStyle =
-                legend
-                |> List.tryFind (fst >> (=) "default")
-                |> Option.map snd
-
-            let legend =
-                legend
-                |> List.filter (fst >> (<>) "default")
-                |> List.collect (fun (glyphs, style) ->
-                    glyphs |> Seq.map (fun glyph -> glyph, style) |> List.ofSeq)
-                |> Map.ofList
-
-            let! slots = slotLines |> collect (fun (key, value) -> parseSlot key value)
+            let! slots =
+                slotLines
+                |> Sections.collect (fun (key, value) -> parseSlot key value)
 
             let missingMarker =
                 slots
@@ -313,6 +348,103 @@ module Template =
     let tierFor (quality: Quality) tierCount =
         let quality = Math.Clamp(int quality, 0, 100)
         min (tierCount - 1) (quality * tierCount / 101)
+
+module Landmark =
+    let private sectionHeaders =
+        [ "[art]"; "[legend]"; "[options]"; "[sidewalk]"; "[road]"; "[props]"; "[captions]" ]
+
+    let private drawings = [ "[art]"; "[sidewalk]"; "[road]"; "[props]" ]
+
+    let private parseLayer text =
+        match text with
+        | "back" -> Ok LandmarkLayer.Back
+        | "front" -> Ok LandmarkLayer.Front
+        | other -> Error $"Unknown layer '{other}'"
+
+    let private parseSwitch text =
+        match text with
+        | "yes" -> Ok true
+        | "no" -> Ok false
+        | other -> Error $"Expected 'yes' or 'no' but got '{other}'"
+
+    (* Each column is a prop, so all of them stand on the same ground. *)
+    let private parseProps (lines: string list) =
+        let width = lines |> List.map _.Length |> List.fold max 0
+        let lines = lines |> List.map _.PadRight(width)
+
+        [ for x in 0 .. width - 1 do
+              let column =
+                  lines |> List.map (fun line -> line[x]) |> Array.ofList |> String
+
+              if not (String.IsNullOrWhiteSpace column) then
+                  yield column.TrimStart() ]
+
+    /// Parses the given landmark text.
+    let parse (text: string) : Result<Landmark, string> =
+        result {
+            let! sections = Sections.read sectionHeaders drawings text
+            let find section = Sections.find section sections
+            let art = find "[art]" |> Sections.trimEmptyLines
+            let sidewalk = find "[sidewalk]" |> Sections.trimEmptyLines
+            let road = find "[road]" |> Sections.trimEmptyLines
+            let props = find "[props]" |> Sections.trimEmptyLines |> parseProps
+            let captions = find "[captions]" |> List.map _.Trim()
+
+            let! legend, defaultStyle = Sections.parseLegend (find "[legend]")
+            let! options = Sections.collect Ok (find "[options]")
+
+            let option key parser defaultValue =
+                match options |> List.tryFind (fst >> (=) key) with
+                | Some(_, value) -> parser value
+                | None -> Ok defaultValue
+
+            let! layer = option "layer" parseLayer LandmarkLayer.Back
+            let! traffic = option "traffic" parseSwitch road.IsEmpty
+
+            do!
+                match options |> List.tryFind (fun (key, _) -> key <> "layer" && key <> "traffic") with
+                | Some(key, _) -> Error $"Unknown option '{key}'"
+                | None -> Ok()
+
+            do!
+                if sidewalk.Length > 1 then
+                    Error "The sidewalk must be a single line"
+                elif
+                    art.IsEmpty && sidewalk.IsEmpty && road.IsEmpty && props.IsEmpty && captions.IsEmpty
+                then
+                    Error "The landmark doesn't change anything"
+                else
+                    Ok()
+
+            let art =
+                match art with
+                | [] -> None
+                | art ->
+                    let width = art |> List.map _.Length |> List.max
+
+                    Some
+                        { Art = art |> List.map _.PadRight(width)
+                          Width = width
+                          Height = art.Length
+                          Legend = legend
+                          DefaultStyle = defaultStyle
+                          Slots = Map.empty }
+
+            return
+                { Art = art
+                  Layer = layer
+                  Sidewalk = List.tryHead sidewalk
+                  Road = road
+                  Traffic = traffic
+                  Props = props
+                  Captions = captions
+                  Legend = legend
+                  DefaultStyle = defaultStyle }
+        }
+
+    /// Returns the style of the given glyph of the landmark, if it has one.
+    let styleOf (landmark: Landmark) glyph =
+        landmark.Legend |> Map.tryFind glyph |> Option.orElse landmark.DefaultStyle
 
 module ItemCategory =
     /// Returns the category of the given item.
@@ -377,9 +509,9 @@ let tryResolve (templates: Map<string, Template>) cityId place roomType =
 
 let private scenesFolder = Files.dataFolder "Scenes"
 
-/// Loads all the templates in the given folder, keyed by their path. Throws
-/// if any of them is invalid.
-let loadFrom folder =
+let private landmarksFolder = "landmarks"
+
+let private loadFiles parse kind inLandmarks folder =
     if Directory.Exists folder then
         Directory.EnumerateFiles(folder, "*.scene", SearchOption.AllDirectories)
         |> Seq.map (fun path ->
@@ -387,24 +519,50 @@ let loadFrom folder =
                 Path.ChangeExtension(Path.GetRelativePath(folder, path), null)
                     .Replace('\\', '/')
 
-            match File.ReadAllText path |> Template.parse with
-            | Ok template -> key, template
-            | Error error -> failwith $"Invalid scene template {key}: {error}")
+            key, path)
+        |> Seq.filter (fun (key, _) ->
+            key.StartsWith $"{landmarksFolder}/" = inLandmarks)
+        |> Seq.map (fun (key, path) ->
+            match File.ReadAllText path |> parse with
+            | Ok parsed -> key, parsed
+            | Error error -> failwith $"Invalid {kind} {key}: {error}")
         |> Map.ofSeq
     else
         Map.empty
 
+/// Loads all the templates in the given folder, keyed by their path. Throws
+/// if any of them is invalid.
+let loadFrom folder = loadFiles Template.parse "scene template" false folder
+
+/// Loads all the landmarks in the given folder, keyed by their path. Throws
+/// if any of them is invalid.
+let loadLandmarksFrom folder = loadFiles Landmark.parse "landmark" true folder
+
 /// All the templates of the game.
 let all = lazy (loadFrom scenesFolder)
+
+/// All the landmarks of the game.
+let landmarks = lazy (loadLandmarksFrom scenesFolder)
 
 /// Returns the template for the given room, if any.
 let resolve cityId place roomType =
     tryResolve all.Value cityId place roomType
 
-/// Returns the keys of the possible skylines of the given zone.
+let private hasAirport (zone: Zone) =
+    zone.Streets.Nodes
+    |> Map.exists (fun _ street ->
+        street.Places
+        |> List.exists (fun place -> place.PlaceType = PlaceType.Airport))
+
+/// Returns the keys of the possible skylines of the given zone. Zones with an
+/// airport use the airport skyline unless they have their own.
 let skylineKeys (cityId: CityId) (zone: Zone) =
     let city = Union.caseName cityId |> toKey
-    [ $"skylines/{city}.{toKey zone.Name}"; $"skylines/{city}" ]
+
+    [ $"skylines/{city}.{toKey zone.Name}"
+      if hasAirport zone then
+          "skylines/airport"
+      $"skylines/{city}" ]
 
 /// Returns the skyline of the given zone from the given templates.
 let tryResolveSkyline (templates: Map<string, Template>) cityId zone =
@@ -412,3 +570,13 @@ let tryResolveSkyline (templates: Map<string, Template>) cityId zone =
 
 /// Returns the skyline of the given zone.
 let resolveSkyline cityId zone = tryResolveSkyline all.Value cityId zone
+
+/// Returns the key of the landmark with the given tag.
+let landmarkKey (tag: string) = $"{landmarksFolder}/{tag}"
+
+/// Returns the landmarks of the given street from the given landmarks.
+let tryResolveLandmarks (landmarks: Map<string, Landmark>) (street: Street) =
+    street.SceneTags |> List.choose (landmarkKey >> landmarks.TryFind)
+
+/// Returns the landmarks of the given street.
+let resolveLandmarks street = tryResolveLandmarks landmarks.Value street

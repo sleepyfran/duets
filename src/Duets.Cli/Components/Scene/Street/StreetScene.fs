@@ -14,10 +14,22 @@ open Spectre.Console
 let private gap = 2
 let private skyHeight = 2
 
+let private landmarkStyle landmark fallback glyph =
+    Landmark.styleOf landmark glyph |> Option.defaultValue fallback
+
+let private landmarkProps (landmark: Landmark) : CitySkin.StreetProp list =
+    landmark.Props
+    |> List.map (fun prop ->
+        prop
+        |> Seq.rev
+        |> Seq.map (fun glyph ->
+            glyph, landmarkStyle landmark SceneStyles.Colors.grey62 glyph)
+        |> List.ofSeq)
+
 /// Builds the grid for one row of façades. The first row includes the sky
 /// above the buildings and the last one the road.
 let buildRow
-    skin
+    (skin: CitySkin.Skin)
     (lighting: Lighting)
     width
     (places: (Place * bool * Highlights.Highlight list) list)
@@ -25,22 +37,39 @@ let buildRow
     isLast
     people
     (skyline: Template option)
+    (landmarks: Landmark list)
     seed
     =
     let buildingsHeight =
         places
         |> List.map (fun (place, _, _) -> FacadeRenderer.heightOf skin place) |> List.fold max 1
 
+    let artOf layer =
+        landmarks
+        |> List.filter (fun landmark -> landmark.Layer = layer)
+        |> List.choose _.Art
+
     let skyline = if isFirst then skyline else None
+    let backArt = if isFirst then artOf LandmarkLayer.Back else []
+    let frontArt = artOf LandmarkLayer.Front
     let sky = if isFirst then skyHeight else 0
 
-    (* Leave a row on top of the skyline for the sun and the moon. *)
-    let groundRow =
-        match skyline with
-        | Some skyline -> max (sky + buildingsHeight) (skyline.Height + 1)
-        | None -> sky + buildingsHeight
+    let road =
+        landmarks |> List.filter (fun landmark -> not landmark.Road.IsEmpty) |> List.tryLast
 
-    let height = groundRow + 1 + (if isLast then 1 else 0)
+    let roadHeight =
+        match road with
+        | Some landmark when isLast -> landmark.Road.Length
+        | None when isLast -> 1
+        | _ -> 0
+
+    let backdropHeight =
+        Option.toList skyline @ backArt |> List.map _.Height |> List.fold max 0
+
+    (* Leave a row on top of the skyline for the sun and the moon. *)
+    let groundRow = max (sky + buildingsHeight) (backdropHeight + 1)
+
+    let height = groundRow + 1 + roadHeight
 
     let grid = SceneGrid.create width height
 
@@ -63,9 +92,9 @@ let buildRow
 
             x >= left && x <= right && y >= top)
 
-    skyline
-    |> Option.iter (fun skyline ->
-        Skyline.draw grid lighting skyline (groundRow - 1) behindBuildings seed)
+    Option.toList skyline @ backArt
+    |> List.iter (fun art ->
+        Skyline.draw grid lighting art (groundRow - 1) behindBuildings seed)
 
     places
     |> List.iteri (fun index (place, isOpen, highlights) ->
@@ -88,15 +117,50 @@ let buildRow
           yield startX + rowWidth + gap - 1 ]
         |> List.filter (fun x -> x >= 0 && x < width)
 
-    Furniture.drawProps grid skin lighting gaps groundRow seed
+    let propsSkin =
+        landmarks
+        |> List.filter (fun landmark -> not landmark.Props.IsEmpty)
+        |> List.tryLast
+        |> Option.map (fun landmark ->
+            { skin with
+                StreetProps = landmarkProps landmark })
+        |> Option.defaultValue skin
+
+    Furniture.drawProps grid propsSkin lighting gaps groundRow seed
     Sky.drawParticles grid lighting groundRow seed
 
+    Ground.drawSidewalk grid skin groundRow
+
+    landmarks
+    |> List.iter (fun landmark ->
+        landmark.Sidewalk
+        |> Option.iter (fun pattern ->
+            Ground.drawPattern
+                grid
+                groundRow
+                pattern
+                (landmarkStyle landmark skin.SidewalkColor)))
+
     if isLast then
-        Ground.drawSidewalk grid skin groundRow (Some people) seed
-        Ground.drawRoad grid skin (groundRow + 1)
-        Furniture.drawTraffic grid skin lighting (groundRow + 1) seed
-    else
-        Ground.drawSidewalk grid skin groundRow None seed
+        match road with
+        | Some landmark ->
+            landmark.Road
+            |> List.iteri (fun index pattern ->
+                Ground.drawPattern
+                    grid
+                    (groundRow + 1 + index)
+                    pattern
+                    (landmarkStyle landmark skin.RoadColor))
+        | None -> Ground.drawRoad grid skin (groundRow + 1)
+
+        if landmarks |> List.forall _.Traffic then
+            Furniture.drawTraffic grid skin lighting (groundRow + 1) seed
+
+        frontArt
+        |> List.iter (fun art ->
+            Skyline.draw grid lighting art groundRow (fun _ _ -> false) seed)
+
+        Ground.drawPeople grid groundRow people seed
 
     grid
 
@@ -156,6 +220,7 @@ let show state (interactions: InteractionWithMetadata list) =
     let people = Queries.World.peopleInCurrentPlace state
     let seed = seedOf $"{place.Id}{roomId}"
     let skyline = resolveSkyline cityId zone
+    let landmarks = resolveLandmarks street
 
     if width >= compactWidth then
         rows
@@ -169,6 +234,7 @@ let show state (interactions: InteractionWithMetadata list) =
                 (index = rows.Length - 1)
                 people
                 skyline
+                landmarks
                 (seed + index)
             |> SceneGrid.toMarkup
             |> List.iter showMessage)
@@ -177,7 +243,13 @@ let show state (interactions: InteractionWithMetadata list) =
 
     places
     |> List.map (fun (place, isOpen, _) -> place, isOpen)
-    |> Caption.create cityId street roomId lighting peopleCount
+    |> Caption.create
+        cityId
+        street
+        (landmarks |> List.collect _.Captions)
+        roomId
+        lighting
+        peopleCount
     |> Styles.faded
     |> showMessage
 

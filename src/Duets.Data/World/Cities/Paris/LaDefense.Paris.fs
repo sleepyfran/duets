@@ -10,6 +10,7 @@ let esplanadeDeLaDefense (zone: Zone) (city: City) =
         World.Street.create
             Ids.Street.esplanadeDeLaDefense
             (StreetType.Split(North, 2))
+        |> World.Street.tag "pedestrian"
 
     let concertSpaces =
         [ ("Paris La Défense Arena",

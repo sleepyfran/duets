@@ -1,0 +1,7 @@
+# Pedestrian streets: paving instead of the road, so there's no traffic.
+
+[road]
+·▫
+
+[legend]
+default = grey50

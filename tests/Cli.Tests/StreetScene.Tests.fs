@@ -42,8 +42,15 @@ let private lighting =
     { DayMoment = Midday
       Weather = WeatherCondition.Sunny }
 
-let private build skin skyline =
-    StreetScene.buildRow skin lighting 40 [ bar, true, [] ] true true ([], []) skyline 42
+let private buildWith skin skyline landmarks =
+    StreetScene.buildRow skin lighting 40 [ bar, true, [] ] true true ([], []) skyline landmarks 42
+
+let private build skin skyline = buildWith skin skyline []
+
+let private landmark text =
+    match Landmark.parse text with
+    | Ok landmark -> landmark
+    | Error error -> failwith error
 
 let private row y (grid: SceneGrid.Grid) =
     System.String [| for x in 0 .. grid.Width - 1 -> grid.Cells[y, x].Glyph |]
@@ -160,7 +167,7 @@ let ``draw adds a vertical sign with the name of the place`` () =
 [<Test>]
 let ``street caption ends with a sentence about the city without places`` () =
     let street = World.Street.create "Street" StreetType.OneWay
-    let caption = Caption.create Prague street 0 lighting 0 []
+    let caption = Caption.create Prague street [] 0 lighting 0 []
 
     SceneCaptions.city Prague SceneCaptions.Day
     |> List.exists (fun (sentence: string) -> caption.EndsWith(sentence))
@@ -178,3 +185,36 @@ let ``every city has caption sentences for every phase`` () =
     |> List.collect (fun cityId -> phases |> List.map (fun phase -> cityId, phase))
     |> List.filter (fun (cityId, phase) -> SceneCaptions.city cityId phase |> List.isEmpty)
     |> should be Empty
+
+[<Test>]
+let ``buildRow replaces the road and stops the traffic with a landmark road`` () =
+    let skin = CitySkin.forCity NewYork
+    let grid = buildWith skin None [ landmark "[road]\n┬┬\n~~" ]
+    let groundRow = (build skin None).Height - 2
+
+    grid.Height |> should equal (groundRow + 3)
+    row (groundRow + 1) grid |> should equal (String.replicate 20 "┬┬")
+    row (groundRow + 2) grid |> should equal (String.replicate 20 "~~")
+
+[<Test>]
+let ``buildRow keeps the player in front of the landmark art`` () =
+    let art = String.replicate 40 "▒"
+    let grid = buildWith (CitySkin.forCity Prague) None [ landmark $"[art]\n{art}\n[options]\nlayer = front" ]
+    let groundRow = grid.Height - 2
+    let sidewalk = row groundRow grid
+
+    sidewalk.Replace("▒", "").Trim() |> should equal (string SceneStyles.People.player)
+
+[<Test>]
+let ``buildRow draws the landmark sidewalk`` () =
+    let grid = buildWith (CitySkin.forCity Prague) None [ landmark "[sidewalk]\n★─" ]
+    let groundRow = grid.Height - 2
+
+    row groundRow grid |> should haveSubstring "★─★─"
+
+[<Test>]
+let ``street caption ends with a landmark sentence instead of the city one`` () =
+    let street = World.Street.create "Street" StreetType.OneWay
+    let caption = Caption.create Prague street [ "A landmark." ] 0 lighting 0 []
+
+    caption |> should endWith "A landmark."

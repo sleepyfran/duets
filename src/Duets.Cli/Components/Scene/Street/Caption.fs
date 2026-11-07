@@ -45,6 +45,7 @@ let private placeSentence (random: System.Random) phase (places: (Place * bool) 
 let create
     cityId
     (street: Street)
+    landmarkCaptions
     part
     (lighting: Lighting)
     peopleCount
@@ -63,7 +64,9 @@ let create
     let closing = SceneCaptions.activity peopleCount |> pick random
 
     let citySentence () =
-        SceneCaptions.city cityId phase |> pick random
+        match landmarkCaptions with
+        | [] -> SceneCaptions.city cityId phase |> pick random
+        | captions -> pick random captions
 
     let sentence =
         match placeSentence random phase places with

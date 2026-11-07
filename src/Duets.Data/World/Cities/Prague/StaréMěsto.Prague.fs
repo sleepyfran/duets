@@ -9,6 +9,7 @@ let staroměstskéNáměstí (zone: Zone) =
         World.Street.create
             Ids.Street.staroměstskéNáměstí
             (StreetType.Split(South, 3))
+        |> World.Street.tag "pedestrian"
 
     let bars =
         [ ("The Dubliner Irish Bar", 85<quality>, zone.Id) ]

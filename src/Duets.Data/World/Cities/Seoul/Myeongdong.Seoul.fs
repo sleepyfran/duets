@@ -8,6 +8,7 @@ open Duets.Entities.Calendar
 let myeongdongGil (zone: Zone) =
     let street =
         World.Street.create Ids.Street.myeongdongGil (StreetType.Split(East, 2))
+        |> World.Street.tag "pedestrian"
 
     let concertSpaces =
         [ ("Chungmu Art Center", 1000, 89<quality>, Layouts.concertSpaceLayout3, zone.Id)
