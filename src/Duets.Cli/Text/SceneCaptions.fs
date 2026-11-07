@@ -179,3 +179,84 @@ let throughWindow weather phase =
     | _, Dusk -> [ "The windows glow orange with the sunset." ]
     | _, Dark -> [ "City lights twinkle outside the windows." ]
     | _ -> []
+
+/// Optional second sentence of the street caption about the city itself.
+let city cityId phase =
+    match cityId, phase with
+    | Berlin, Dark ->
+        [ "A bass drum thumps behind a metal door somewhere."
+          "A bike with a crate of Club-Mate leans on a lamp post." ]
+    | Berlin, _ ->
+        [ "A tram bell rings at the corner."
+          "Fresh posters cover last week's on the wall."
+          "Bikes are chained to every railing." ]
+    | London, Dark ->
+        [ "Last orders get called in a pub down the road."
+          "A night bus rumbles past, half empty." ]
+    | London, _ ->
+        [ "A red bus squeezes past a parked van."
+          "A newspaper flaps around in the wind."
+          "A pigeon struts along the curb like it owns it." ]
+    | LosAngeles, Dark ->
+        [ "A helicopter sweeps its light over the rooftops."
+          "Bass rolls out of a car stuck at the light." ]
+    | LosAngeles, _ ->
+        [ "Traffic crawls bumper to bumper down the boulevard."
+          "Palm trees sway over a billboard for a new show."
+          "Sprinklers hiss on a patch of lawn." ]
+    | Madrid, Dark ->
+        [ "Chatter comes from the terraces around the corner."
+          "A waiter somewhere shouts an order of cañas." ]
+    | Madrid, _ ->
+        [ "The smell of fried churros drifts down the street."
+          "Neighbours chat from balcony to balcony."
+          "A scooter buzzes past a row of terraces." ]
+    | NewYork, Dark ->
+        [ "A siren wails a few blocks uptown."
+          "The bodega on the corner is still open, as always." ]
+    | NewYork, _ ->
+        [ "A cab honks at nobody in particular."
+          "Steam rises from a grate in the sidewalk."
+          "A hot dog cart sets up on the corner." ]
+    | Paris, Dark ->
+        [ "Glasses clink on a terrace that refuses to close."
+          "A scooter zips through the empty street." ]
+    | Paris, _ ->
+        [ "The smell of fresh bread comes from a boulangerie."
+          "Wicker chairs line up on a café terrace."
+          "A bakery window is packed with baguettes." ]
+    | Prague, Dark ->
+        [ "Singing comes from a pub down the street."
+          "The gas lamps flicker over the cobblestones." ]
+    | Prague, _ ->
+        [ "A red tram rattles over the cobblestones."
+          "The smell of trdelník drifts from a stand."
+          "Church bells ring somewhere in the old town." ]
+    | Santiago, Dark ->
+        [ "Music spills out of a picada on the corner."
+          "A street dog naps under a lamp post." ]
+    | Santiago, _ ->
+        [ "The snowy Andes stand behind the city."
+          "A completo stand fills the air with the smell of avocado."
+          "A street dog trots along, minding its own business." ]
+    | Seoul, Dark ->
+        [ "Neon signs climb up the buildings floor by floor."
+          "Laughter and clinking soju glasses come from a tent bar." ]
+    | Seoul, _ ->
+        [ "A delivery scooter weaves between the cars."
+          "K-pop plays from a cosmetics shop."
+          "A café sign promises the best bingsu in town." ]
+    | Tokyo, Dark ->
+        [ "Red lanterns glow over the door of a tiny bar."
+          "Vending machines glow on every corner." ]
+    | Tokyo, _ ->
+        [ "The pedestrian crossing chirps a little tune."
+          "A vending machine hums next to a doorway."
+          "The entrance of a shop has been freshly swept." ]
+    | Toronto, Dark ->
+        [ "The streetcar's bell rings through the quiet street."
+          "A hockey game blares from the TV of a bar." ]
+    | Toronto, _ ->
+        [ "A streetcar rolls by, packed with commuters."
+          "A maple leaf flag hangs over a shop door."
+          "The smell of coffee drifts out of a café." ]

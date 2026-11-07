@@ -41,11 +41,9 @@ let private placeSentence (random: System.Random) phase (places: (Place * bool) 
         | SceneCaptions.Dusk -> food () |> Option.orElseWith nightlife
         | SceneCaptions.Dark -> nightlife ()
 
-/// Creates one line of flavor text for the street. The caption only depends
-/// on the street, the time of the day, the weather, how many people are
-/// around and which places are open, so it stays the same on every visit
-/// with the same conditions.
+/// Creates a caption for the given street.
 let create
+    cityId
     (street: Street)
     part
     (lighting: Lighting)
@@ -64,6 +62,12 @@ let create
 
     let closing = SceneCaptions.activity peopleCount |> pick random
 
-    match placeSentence random phase places with
-    | Some sentence -> $"{opening}{closing} {sentence}"
-    | None -> $"{opening}{closing}"
+    let citySentence () =
+        SceneCaptions.city cityId phase |> pick random
+
+    let sentence =
+        match placeSentence random phase places with
+        | Some sentence when random.NextDouble() < 0.5 -> sentence
+        | _ -> citySentence ()
+
+    $"{opening}{closing} {sentence}"

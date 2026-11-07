@@ -5,6 +5,7 @@ open Duets.Cli.Text
 open Duets.Entities
 
 module Colors = SceneStyles.Colors
+module Facade = SceneStyles.Facade
 module Furniture = SceneStyles.Furniture
 module Ground = SceneStyles.Ground
 
@@ -13,6 +14,29 @@ type Vehicle = string * string
 
 /// Defines the glyphs and styles of a street prop, from the bottom up.
 type StreetProp = (char * string) list
+
+/// Defines how the buildings of a city differ from the default façades.
+type FacadeStyle =
+    {
+        /// Pattern of the windows of each floor, where W is a window.
+        FloorPattern: string
+        /// Roof of the buildings that don't have their own.
+        Roof: string list
+        RoofColor: string option
+        /// Floors added to every building that has floors.
+        ExtraFloors: int
+        VerticalSigns: bool
+        /// Chance of graffiti on the empty parts of the storefronts.
+        Graffiti: float
+    }
+
+let private defaultFacade =
+    { FloorPattern = Facade.defaultFloor
+      Roof = []
+      RoofColor = None
+      ExtraFloors = 0
+      VerticalSigns = false
+      Graffiti = 0.0 }
 
 /// Defines how a city looks when rendered in a scene: the colors of its buildings
 /// and signs and the patterns used for the sidewalk and the road.
@@ -32,6 +56,7 @@ type Skin =
         Vehicles: Vehicle list
         /// Props between the buildings.
         StreetProps: StreetProp list
+        Facade: FacadeStyle
     }
 
 /// Returns the skin of the given city.
@@ -54,7 +79,11 @@ let forCity cityId =
             [ Furniture.streetLamp
               Furniture.trafficLight
               Furniture.uBahnSign
-              Furniture.tree ] }
+              Furniture.tree ]
+          Facade =
+            { defaultFacade with
+                FloorPattern = Facade.plattenbauFloor
+                Graffiti = 0.3 } }
     | London ->
         { Wall = Colors.indianRed
           Signs = [ Colors.gold; Colors.white ]
@@ -72,7 +101,10 @@ let forCity cityId =
             [ Furniture.streetLamp
               Furniture.undergroundSign
               Furniture.phoneBox
-              Furniture.tree ] }
+              Furniture.tree ]
+          Facade =
+            { defaultFacade with
+                Roof = Facade.chimneyPotsRoof } }
     | LosAngeles ->
         { Wall = Colors.navajoWhite
           Signs = [ Colors.orange; Colors.hotPink; Colors.aqua ]
@@ -92,7 +124,11 @@ let forCity cityId =
               Furniture.palmTree
               Furniture.palmTree
               Furniture.trafficLight
-              Furniture.streetLamp ] }
+              Furniture.streetLamp ]
+          Facade =
+            { defaultFacade with
+                FloorPattern = Facade.glassFloor
+                ExtraFloors = -1 } }
     | Madrid ->
         { Wall = Colors.lightSalmon
           Signs = [ Colors.gold; Colors.white ]
@@ -110,7 +146,12 @@ let forCity cityId =
             [ Furniture.streetLamp
               Furniture.madridMetroSign
               Furniture.tree
-              Furniture.trafficLight ] }
+              Furniture.trafficLight ]
+          Facade =
+            { defaultFacade with
+                FloorPattern = Facade.balconyFloor
+                Roof = Facade.tiledRoof
+                RoofColor = Some Colors.indianRed } }
     | NewYork ->
         { Wall = Colors.rosyBrown
           Signs = [ Colors.gold; Colors.red; Colors.white ]
@@ -127,7 +168,12 @@ let forCity cityId =
           StreetProps =
             [ Furniture.streetLamp
               Furniture.trafficLight
-              Furniture.subwaySteam ] }
+              Furniture.subwaySteam ]
+          Facade =
+            { defaultFacade with
+                FloorPattern = Facade.fireEscapeFloor
+                Roof = Facade.waterTowerRoof
+                ExtraFloors = 1 } }
     | Paris ->
         { Wall = Colors.navajoWhite
           Signs = [ Colors.gold; Colors.white ]
@@ -144,7 +190,12 @@ let forCity cityId =
             [ Furniture.gasLamp
               Furniture.parisMetroSign
               Furniture.morrisColumn
-              Furniture.tree ] }
+              Furniture.tree ]
+          Facade =
+            { defaultFacade with
+                FloorPattern = Facade.haussmannFloor
+                Roof = Facade.mansardRoof
+                RoofColor = Some Colors.grey50 } }
     | Prague ->
         { Wall = Colors.khaki
           Signs = [ Colors.gold; Colors.white ]
@@ -160,7 +211,10 @@ let forCity cityId =
           StreetProps =
             [ Furniture.gasLamp
               Furniture.gasLamp
-              Furniture.tree ] }
+              Furniture.tree ]
+          Facade =
+            { defaultFacade with
+                Roof = Facade.gableRoof } }
     | Santiago ->
         { Wall = Colors.lightSalmon
           Signs = [ Colors.gold; Colors.springGreen; Colors.white ]
@@ -178,7 +232,13 @@ let forCity cityId =
             [ Furniture.streetLamp
               Furniture.tree
               Furniture.palmTree
-              Furniture.trafficLight ] }
+              Furniture.trafficLight ]
+          Facade =
+            { defaultFacade with
+                FloorPattern = Facade.colonialFloor
+                Roof = Facade.tiledRoof
+                RoofColor = Some Colors.indianRed
+                ExtraFloors = -1 } }
     | Seoul ->
         { Wall = Colors.grey50
           Signs =
@@ -197,7 +257,12 @@ let forCity cityId =
             [ Furniture.streetLamp
               Furniture.cherryTree
               Furniture.vendingMachine
-              Furniture.trafficLight ] }
+              Furniture.trafficLight ]
+          Facade =
+            { defaultFacade with
+                FloorPattern = Facade.gridFloor
+                ExtraFloors = 1
+                VerticalSigns = true } }
     | Tokyo ->
         { Wall = Colors.grey62
           Signs = [ Colors.magenta; Colors.aqua; Colors.hotPink; Colors.gold ]
@@ -216,7 +281,12 @@ let forCity cityId =
               Furniture.vendingMachine
               Furniture.vendingMachine
               Furniture.cherryTree
-              Furniture.trafficLight ] }
+              Furniture.trafficLight ]
+          Facade =
+            { defaultFacade with
+                FloorPattern = Facade.glassFloor
+                ExtraFloors = 1
+                VerticalSigns = true } }
     | Toronto ->
         { Wall = Colors.grey62
           Signs = [ Colors.red; Colors.white ]
@@ -234,4 +304,8 @@ let forCity cityId =
             [ Furniture.streetLamp
               Furniture.ttcSign
               Furniture.mapleTree
-              Furniture.trafficLight ] }
+              Furniture.trafficLight ]
+          Facade =
+            { defaultFacade with
+                FloorPattern = Facade.glassFloor
+                ExtraFloors = 1 } }

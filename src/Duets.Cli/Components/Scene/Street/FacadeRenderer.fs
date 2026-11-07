@@ -9,20 +9,31 @@ open Duets.Entities.World.Place.Type
 
 module Styles = SceneStyles.Facade
 
-/// Pattern of the windows of each floor, where W is a window.
-let private floorPattern = " WW  WW  WW  WW "
-
 let private extraFloorOf (place: Place) = seedOf place.Id % 2 |> abs
+
+let private floorsOf (skin: CitySkin.Skin) (facade: Facades.Facade) place =
+    let floors =
+        if facade.Floors > 0 then
+            max 1 (facade.Floors + skin.Facade.ExtraFloors)
+        else
+            0
+
+    floors + extraFloorOf place
+
+let private roofOf (skin: CitySkin.Skin) (facade: Facades.Facade) =
+    if facade.Roof.IsEmpty && facade.Floors > 0 then
+        skin.Facade.Roof
+    else
+        facade.Roof
 
 /// Computes the total height of the façade of the given place, including its
 /// roof decoration.
-let heightOf (place: Place) =
+let heightOf skin (place: Place) =
     let facade = Facades.of' place
 
-    facade.Roof.Length
+    (roofOf skin facade).Length
     + 1 (* Frame top. *)
-    + facade.Floors
-    + extraFloorOf place
+    + floorsOf skin facade place
     + 1 (* Sign. *)
     + (if facade.Awning.IsSome then 1 else 0)
     + 1 (* Storefront. *)
@@ -35,7 +46,14 @@ let private signStyle (skin: CitySkin.Skin) (random: System.Random) isOpen =
     else
         Styles.closedSignColor
 
-let private storefrontRow (facade: Facades.Facade) wall lighting isOpen =
+let private storefrontRow
+    (facade: Facades.Facade)
+    (skin: CitySkin.Skin)
+    wall
+    lighting
+    isOpen
+    (random: System.Random)
+    =
     let shopWindow, shopWindowStyle =
         match isOpen, isDark lighting with
         | false, _ -> Styles.closedShopWindow, Styles.closedShopWindowColor
@@ -62,11 +80,14 @@ let private storefrontRow (facade: Facades.Facade) wall lighting isOpen =
         | 'D' -> Styles.shutter, Some Styles.shutterColor
         | 'G' -> Styles.graffiti, Some Styles.graffitiColor
         | 'S' -> Styles.stairs, wall
+        | _ when random.NextDouble() < skin.Facade.Graffiti ->
+            Styles.graffiti, Some Styles.graffitiColor
         | _ -> ' ', wall)
     |> List.ofSeq
 
-let private floorRow wall lighting (random: System.Random) =
-    floorPattern
+let private floorRow (skin: CitySkin.Skin) wall lighting (random: System.Random) =
+    skin.Facade.FloorPattern
+    |> fit Facades.innerWidth
     |> Seq.map (fun placeholder ->
         match placeholder with
         | 'W' ->
@@ -79,7 +100,7 @@ let private floorRow wall lighting (random: System.Random) =
                     Styles.unlitWindowColor
 
             Styles.window, Some color
-        | _ -> ' ', wall)
+        | glyph -> glyph, wall)
     |> List.ofSeq
 
 let private roofStyle (place: Place) sign wall isOpen =
@@ -121,7 +142,7 @@ let draw
         SceneGrid.set grid (x + Facades.width - 1) y side wall
         y <- y - 1
 
-    storefrontRow facade wall lighting isOpen |> drawRow
+    storefrontRow facade skin wall lighting isOpen random |> drawRow
 
     facade.Awning
     |> Option.iter (fun awning ->
@@ -133,8 +154,17 @@ let draw
     |> List.ofSeq
     |> drawRow
 
-    for _ in 1 .. facade.Floors + extraFloorOf place do
-        floorRow wall lighting random |> drawRow
+    let floorsTop = y
+
+    for _ in 1 .. floorsOf skin facade place do
+        floorRow skin wall lighting random |> drawRow
+
+    if skin.Facade.VerticalSigns && floorsTop - y >= 2 then
+        place.Name.ToUpperInvariant()
+        |> Seq.filter System.Char.IsLetterOrDigit
+        |> Seq.truncate (floorsTop - y)
+        |> Seq.iteri (fun index glyph ->
+            SceneGrid.set grid (x + Facades.width - 2) (y + 1 + index) glyph (Some sign))
 
     let top =
         string topLeft
@@ -150,9 +180,12 @@ let draw
 
     y <- y - 1
 
-    let roof = roofStyle place sign wall isOpen
+    let roof =
+        match facade.Roof, skin.Facade.RoofColor with
+        | [], Some color -> Some color
+        | _ -> roofStyle place sign wall isOpen
 
-    facade.Roof
+    roofOf skin facade
     |> List.rev
     |> List.iter (fun roofLine ->
         SceneGrid.stamp grid x y (center Facades.width roofLine) roof

@@ -6,6 +6,7 @@ open NUnit.Framework
 open Duets.Cli.Components.Scene
 open Duets.Cli.Components.Scene.Common
 open Duets.Cli.Components.Scene.Street
+open Duets.Cli.Text
 open Duets.Common
 open Duets.Data.Scenes
 open Duets.Data.World.Cities
@@ -60,7 +61,7 @@ let ``buildRow makes the sky taller to fit the skyline`` () =
 let ``buildRow keeps the skyline out of the buildings and their gaps`` () =
     let grid = build (CitySkin.forCity Prague) (Some skyline)
     let groundRow = grid.Height - 2
-    let facadeTop = groundRow - FacadeRenderer.heightOf bar
+    let facadeTop = groundRow - FacadeRenderer.heightOf (CitySkin.forCity Prague) bar
     let left = (40 - Facades.width) / 2
 
     row (facadeTop - 1) grid |> should equal (String.replicate 40 "█")
@@ -125,4 +126,55 @@ let ``every city has vehicles and street props`` () =
     |> List.filter (fun cityId ->
         let skin = CitySkin.forCity cityId
         skin.Vehicles.IsEmpty || skin.StreetProps.IsEmpty)
+    |> should be Empty
+
+let private hotel =
+    World.Place.create
+        "Hotel Name"
+        50<quality>
+        (PlaceType.Hotel { PricePerNight = 100m<dd> })
+        Layouts.hotelLayout
+        "zone"
+        "street"
+
+[<Test>]
+let ``heightOf adds the extra floors and roof of the city`` () =
+    let height cityId =
+        FacadeRenderer.heightOf (CitySkin.forCity cityId) hotel
+
+    height NewYork |> should equal (height Berlin + 1 + 2)
+    height LosAngeles |> should equal (height Berlin - 1)
+
+[<Test>]
+let ``draw adds a vertical sign with the name of the place`` () =
+    let skin = CitySkin.forCity Tokyo
+    let grid = SceneGrid.create Facades.width 20
+
+    FacadeRenderer.draw grid skin lighting 0 19 hotel true []
+
+    let column =
+        System.String [| for y in 0..19 -> grid.Cells[y, Facades.width - 2].Glyph |]
+
+    column |> should haveSubstring "HOTEL"
+
+[<Test>]
+let ``street caption ends with a sentence about the city without places`` () =
+    let street = World.Street.create "Street" StreetType.OneWay
+    let caption = Caption.create Prague street 0 lighting 0 []
+
+    SceneCaptions.city Prague SceneCaptions.Day
+    |> List.exists (fun (sentence: string) -> caption.EndsWith(sentence))
+    |> should equal true
+
+[<Test>]
+let ``every city has caption sentences for every phase`` () =
+    let phases =
+        [ SceneCaptions.Dawn
+          SceneCaptions.Day
+          SceneCaptions.Dusk
+          SceneCaptions.Dark ]
+
+    Union.allCasesOf<CityId> ()
+    |> List.collect (fun cityId -> phases |> List.map (fun phase -> cityId, phase))
+    |> List.filter (fun (cityId, phase) -> SceneCaptions.city cityId phase |> List.isEmpty)
     |> should be Empty

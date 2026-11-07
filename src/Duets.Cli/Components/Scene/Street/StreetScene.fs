@@ -29,7 +29,7 @@ let buildRow
     =
     let buildingsHeight =
         places
-        |> List.map (fun (place, _, _) -> FacadeRenderer.heightOf place) |> List.fold max 1
+        |> List.map (fun (place, _, _) -> FacadeRenderer.heightOf skin place) |> List.fold max 1
 
     let skyline = if isFirst then skyline else None
     let sky = if isFirst then skyHeight else 0
@@ -59,7 +59,7 @@ let buildRow
         |> List.exists (fun (index, (place, _, _)) ->
             let left = startX + index * (Facades.width + gap) - 1
             let right = left + Facades.width + 1
-            let top = groundRow - FacadeRenderer.heightOf place
+            let top = groundRow - FacadeRenderer.heightOf skin place
 
             x >= left && x <= right && y >= top)
 
@@ -177,7 +177,7 @@ let show state (interactions: InteractionWithMetadata list) =
 
     places
     |> List.map (fun (place, isOpen, _) -> place, isOpen)
-    |> Caption.create street roomId lighting peopleCount
+    |> Caption.create cityId street roomId lighting peopleCount
     |> Styles.faded
     |> showMessage
 

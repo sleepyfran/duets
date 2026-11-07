@@ -141,6 +141,21 @@ module Facade =
     let crossRoof = [ "✚" ]
     let sawtoothRoof = [ "◢◣◢◣◢◣◢◣◢◣◢◣" ]
 
+    let waterTowerRoof = [ "           ◢◣ "; "           ╨╨ " ]
+    let mansardRoof = [ "  ▄   ▄   ▄   ▄  "; " ▟█▄▄▄█▄▄▄█▄▄▄█▙ " ]
+    let chimneyPotsRoof = [ " ▐▌▐▌        ▐▌▐▌ " ]
+    let gableRoof = [ "▗▄▖"; "▄▟███▙▄" ]
+    let tiledRoof = [ "▁▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▁" ]
+
+    let defaultFloor = " WW  WW  WW  WW "
+    let fireEscapeFloor = " WW╫WW    WW╫WW "
+    let haussmannFloor = " W W W W W W W W"
+    let plattenbauFloor = "W W W W W W W W "
+    let balconyFloor = "╟W╢ ╟W╢ ╟W╢ ╟W╢ "
+    let glassFloor = " WWWWWWWWWWWWWW "
+    let gridFloor = " WW WW WW WW WW "
+    let colonialFloor = "  W   W   W   W "
+
     let shopWindow = '▒'
     let shopWindowDayColor = Colors.lightSkyBlue
     let shopWindowNightColor = Colors.gold
