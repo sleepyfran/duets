@@ -1,0 +1,27 @@
+# Royal Observatory: Flamsteed House with the red time ball and the meridian
+# line in the ground.
+
+[art]
+     ●
+     ┃
+   ▄███▄
+ ▄▟█▀▀▀█▙▄
+ █ ▐▌ ▐▌ █
+ █ ▐▌ ▐▌ █
+ █▄▄▄▄▄▄▄█
+     ║
+
+[options]
+layer = front
+align = right
+
+[legend]
+● = bold red3
+┃ = grey62
+║ = bold gold1
+default = indianred
+
+[captions]
+Visitors line up to stand with a foot on each side of the meridian line.
+The red time ball on top of the observatory drops at one o'clock every day.
+The whole of London spreads out below the hill.

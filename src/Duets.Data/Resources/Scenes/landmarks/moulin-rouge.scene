@@ -1,0 +1,27 @@
+# Moulin Rouge: the red windmill over the cabaret.
+
+[art]
+╲     ╱
+ ╲   ╱
+  ╲ ╱
+   ●
+  ╱█╲
+ ╱▐█▌╲
+╱ ▐█▌ ╲
+ ▐███▌
+▐ROUGE▌
+▐█████▌
+
+[options]
+layer = front
+align = right
+
+[legend]
+╱╲● = bold red3
+ROUGE = bold white on red3
+default = red3
+
+[captions]
+The sails of the Moulin Rouge turn slowly over the boulevard.
+A queue in evening clothes waits for the next show at the Moulin Rouge.
+Neon from the cabarets reflects on the pavement of the boulevard.

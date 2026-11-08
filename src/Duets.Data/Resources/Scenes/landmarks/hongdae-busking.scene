@@ -1,0 +1,22 @@
+# Hongik-ro: a busker with an amp and a crowd around them.
+
+[art]
+ ♪     ♫
+  o  o  ▄▄
+ ╱█╲╱▓╲ ██
+ ╱ ╲╱ ╲ ██
+
+[options]
+layer = front
+align = left
+
+[legend]
+♪♫ = bold gold1
+▓ = hotpink
+▄█ = grey30
+default = white
+
+[captions]
+A busker plays a cover to a crowd filming on their phones.
+A dance crew practises in front of the station, speaker blasting.
+Students from the art university sell their prints on the street.

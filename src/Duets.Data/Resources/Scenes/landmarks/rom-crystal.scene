@@ -1,0 +1,22 @@
+# Bloor Street West: the crystal of the Royal Ontario Museum.
+
+[art]
+      ◢
+ ◢◣  ◢█◣
+◢██◣◢███◣
+████████◣
+█▀▀▀▀▀▀▀█
+█ ▪ ▪ ▪ █
+
+[options]
+layer = front
+align = right
+
+[legend]
+▪ = $lamp
+default = lightskyblue1
+
+[captions]
+The crystal of the museum juts out over the sidewalk.
+School groups line up for the dinosaurs in the museum.
+Shoppers with designer bags walk along the Mink Mile.

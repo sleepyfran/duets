@@ -10,6 +10,7 @@ let oranienstrasse (zone: Zone) =
         World.Street.create
             Ids.Street.oranienstrasse
             (StreetType.Split(East, 2))
+        |> World.Street.tag "murals"
 
     let concertSpaces =
         [ ("SO36",
@@ -60,6 +61,7 @@ let kottbusserDamm (zone: Zone) (city: City) =
         World.Street.create
             Ids.Street.kottbusserDamm
             (StreetType.Split(North, 2))
+        |> World.Street.tag "elevated-train"
 
     let home = PlaceCreators.createHome street.Id zone.Id
 

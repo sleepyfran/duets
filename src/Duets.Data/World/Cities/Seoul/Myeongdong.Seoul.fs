@@ -9,6 +9,7 @@ let myeongdongGil (zone: Zone) =
     let street =
         World.Street.create Ids.Street.myeongdongGil (StreetType.Split(East, 2))
         |> World.Street.tag "pedestrian"
+        |> World.Street.tag "market"
 
     let concertSpaces =
         [ ("Chungmu Art Center", 1000, 89<quality>, Layouts.concertSpaceLayout3, zone.Id)
@@ -40,6 +41,8 @@ let myeongdongGil (zone: Zone) =
 let namdaemunRo (cityId: CityId) (zone: Zone) (city: City) =
     let street =
         World.Street.create Ids.Street.namdaemunRo StreetType.OneWay
+        |> World.Street.tag "market"
+        |> World.Street.tag "namdaemun"
 
     let concertSpaces =
         [ ("Seoul Arts Center", 2500, 93<quality>, Layouts.concertSpaceLayout4, zone.Id)

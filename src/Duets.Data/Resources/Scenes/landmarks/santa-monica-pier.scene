@@ -1,0 +1,25 @@
+# Santa Monica Pier: the arch sign at the entrance of the pier.
+
+[art]
+ ▄▄▄▄▄▄▄▄▄
+▐░SANTA░░░▌
+▐░MONICA░░▌
+▐░░PIER░░░▌
+ ▀▀█▀▀▀█▀▀
+   █   █
+   █   █
+
+[options]
+layer = front
+align = right
+
+[legend]
+▄▀▐▌ = deepskyblue1
+SANTMOICPER = bold white on deepskyblue1
+░ = deepskyblue1 on deepskyblue1
+█ = grey62
+
+[captions]
+The arch over the entrance of the pier glows against the sky.
+The Ferris wheel turns slowly at the end of the pier.
+Fishermen lean on the railing at the end of the pier.

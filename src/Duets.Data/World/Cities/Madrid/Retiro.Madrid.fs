@@ -6,6 +6,7 @@ open Duets.Data.World.Cities
 let parqueRetiro (zone: Zone) =
     let street =
         World.Street.create "Parque del Retiro" (StreetType.Split(East, 2))
+        |> World.Street.tag "park"
 
     let cafes =
         [ ("Florida Retiro", 86<quality>, zone.Id)

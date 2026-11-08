@@ -8,6 +8,8 @@ open Duets.Entities.Calendar
 let oceanAvenue (zone: Zone) =
     let street =
         World.Street.create Ids.Street.oceanAvenue StreetType.OneWay
+        |> World.Street.tag "waterfront"
+        |> World.Street.tag "santa-monica-pier"
 
     let concertSpaces =
         [ ("Santa Monica Pier",

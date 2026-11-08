@@ -1,0 +1,22 @@
+# Karlova: the Old Town Bridge Tower at the end of the street.
+
+[art]
+▲    ▲    ▲
+█▙▄▄▟█▙▄▄▟█
+▐█████████▌
+▐██▀▀▀▀▀██▌
+▐█▌     ▐█▌
+▐█▌     ▐█▌
+▐█▌     ▐█▌
+
+[options]
+layer = front
+align = right
+
+[legend]
+default = grey35
+
+[captions]
+The street squeezes through the bridge tower onto Charles Bridge.
+The crowd thickens as it gets closer to Charles Bridge.
+Shops sell marionettes and garnets all the way to the bridge.

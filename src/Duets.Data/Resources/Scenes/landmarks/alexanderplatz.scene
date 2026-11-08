@@ -1,0 +1,25 @@
+# Alexanderplatz: the World Clock on its column.
+
+[art]
+ ◢▀▀▀◣
+▐ ╭─╮ ▌
+▐ ╰─╯ ▌
+ ◥▄▄▄◤
+   █
+   █
+  ▄█▄
+
+[options]
+layer = front
+align = left
+
+[legend]
+◢◣◥◤▀▄ = gold1
+▐▌ = grey62
+╭─╮╰╯ = deepskyblue1
+█ = grey50
+
+[captions]
+People meet under the World Clock, checking the time in cities far away.
+The TV tower looms over the square, impossible to miss.
+Trams ring their bells as they cross the square.

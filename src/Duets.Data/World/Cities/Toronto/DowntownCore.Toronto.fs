@@ -92,6 +92,7 @@ let private bayStreet (zone: Zone) =
 let private frontStreet (zone: Zone) =
     let street =
         World.Street.create Ids.Street.frontStreet StreetType.OneWay
+        |> World.Street.tag "gooderham-building"
 
     let hotels =
         [ ("Delta Hotels Toronto", 80<quality>, 220m<dd>, zone.Id) ]

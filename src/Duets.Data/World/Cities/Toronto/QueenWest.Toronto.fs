@@ -10,6 +10,7 @@ let private queenStreetWest (zone: Zone) =
         World.Street.create
             Ids.Street.queenStreetWest
             (StreetType.Split(East, 2))
+        |> World.Street.tag "murals"
 
     let concerts =
         [ ("Horseshoe Tavern",

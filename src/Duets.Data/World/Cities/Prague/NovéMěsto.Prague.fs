@@ -10,6 +10,7 @@ let václavskéNáměstí (city: City) (zone: Zone) =
         World.Street.create
             Ids.Street.václavskéNáměstí
             (StreetType.Split(North, 3))
+        |> World.Street.tag "wenceslas-square"
 
     let carDealers =
         [ ("Praha Premium Motors",

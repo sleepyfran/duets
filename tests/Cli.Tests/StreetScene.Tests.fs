@@ -11,6 +11,7 @@ open Duets.Common
 open Duets.Data.Scenes
 open Duets.Data.World.Cities
 open Duets.Entities
+open Spectre.Console
 
 let private parseOk text =
     match Template.parse text with
@@ -218,3 +219,27 @@ let ``street caption ends with a landmark sentence instead of the city one`` () 
     let caption = Caption.create Prague street [ "A landmark." ] 0 lighting 0 []
 
     caption |> should endWith "A landmark."
+
+[<Test>]
+let ``buildRow puts side landmarks next to the façades at the given elevation`` () =
+    let grid =
+        buildWith
+            (CitySkin.forCity Prague)
+            None
+            [ landmark "[art]\n▲\n[options]\nlayer = front\nalign = left\nelevation = 2" ]
+
+    let groundRow = grid.Height - 2
+    let firstFacade = (40 - Facades.width) / 2
+
+    grid.Cells[groundRow - 2, firstFacade - 3].Glyph |> should equal '▲'
+
+[<Test>]
+let ``every landmark only uses valid styles`` () =
+    Duets.Data.Scenes.landmarks.Value
+    |> Map.toList
+    |> List.collect (fun (key, landmark) ->
+        Option.toList landmark.DefaultStyle @ (landmark.Legend |> Map.values |> List.ofSeq)
+        |> List.map (fun style -> key, style))
+    |> List.filter (fun (_, style) ->
+        style <> SceneStyles.Furniture.lamp && not (fst (Style.TryParse style)))
+    |> should be Empty

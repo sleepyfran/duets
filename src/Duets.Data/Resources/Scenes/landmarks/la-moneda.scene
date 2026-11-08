@@ -1,0 +1,30 @@
+# Alameda: La Moneda palace and the wide median of the avenue.
+
+[art]
+     ▄▀▀
+     █
+▄▄▄▄▄█▄▄▄▄▄
+█▀▀▀▀▀▀▀▀▀█
+█ █ ▐▀▌ █ █
+█▄█▄▐ ▌▄█▄█
+
+[options]
+layer = front
+align = right
+traffic = yes
+
+[road]
+  ──
+ ♣
+  ──
+
+[legend]
+▄▀ = red3
+♣ = green3
+─ = white
+default = navajowhite1
+
+[captions]
+Guards in white gloves stand at the doors of La Moneda.
+The Alameda runs wide through the city, buses in every lane.
+A protest gathers in front of the palace, flags and drums.

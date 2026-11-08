@@ -1,0 +1,24 @@
+# Abbesses: the glass canopy of the Art Nouveau Métro entrance.
+
+[art]
+ ▄▄▄▄▄▄▄▄▄
+▐▓▓▓▓▓▓▓▓▓▌
+ ▌░METRO░▐
+ ║       ║
+ ║       ║
+ ║       ║
+
+[options]
+layer = front
+align = left
+
+[legend]
+▓ = lightskyblue1
+▄▐▌║ = darkgreen
+METRO = bold darkgreen on navajowhite1
+░ = navajowhite1 on navajowhite1
+
+[captions]
+Couples look for their language on the wall of "I love you"s.
+The green iron canopy of the Métro entrance curls over the stairs.
+An accordion plays by the steps going up to Sacré-Cœur.

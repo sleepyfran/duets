@@ -1,0 +1,24 @@
+# East Side Gallery: the painted Wall along the near side of the street.
+
+[road]
+  ──
+▓▓▓▓▒▒▒░░░██▚▚▚▞▞▓▓▓░░░▒▒▒██▚│
+░░▒▒▓▓▓█▞▞▞░░▚▚▓▓▒▒███▞▞░░▓▓▒│
+
+[options]
+traffic = yes
+
+[legend]
+▓ = magenta1
+▒ = deepskyblue1
+░ = gold1
+█ = orange1
+▚ = lightgreen_1
+▞ = red3
+│ = grey62
+─ = white
+
+[captions]
+The East Side Gallery runs along the street, every slab of the Wall painted.
+A tour group stops in front of the most famous mural on the Wall.
+Bits of the Wall are covered in paint from top to bottom.

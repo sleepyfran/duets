@@ -10,6 +10,7 @@ let unterDenLinden (cityId: CityId) (zone: Zone) =
         World.Street.create
             Ids.Street.unterDenLinden
             (StreetType.Split(East, 2))
+        |> World.Street.tag "brandenburg-gate"
 
     let concertSpaces =
         [ ("Staatsoper Unter den Linden",
@@ -56,6 +57,7 @@ let alexanderplatz (zone: Zone) =
         World.Street.create
             Ids.Street.alexanderplatz
             (StreetType.Split(North, 2))
+        |> World.Street.tag "alexanderplatz"
 
     let bars =
         [ ("Park Inn Rooftop Bar", 88<quality>, zone.Id)
@@ -85,6 +87,7 @@ let friedrichstrasse (zone: Zone) =
         World.Street.create
             Ids.Street.friedrichstrasse
             StreetType.OneWay
+        |> World.Street.tag "checkpoint-charlie"
 
     let concertSpaces =
         [ ("Friedrichstadt-Palast",

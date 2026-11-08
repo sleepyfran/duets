@@ -10,6 +10,7 @@ let staroměstskéNáměstí (zone: Zone) =
             Ids.Street.staroměstskéNáměstí
             (StreetType.Split(South, 3))
         |> World.Street.tag "pedestrian"
+        |> World.Street.tag "astronomical-clock"
 
     let bars =
         [ ("The Dubliner Irish Bar", 85<quality>, zone.Id) ]
@@ -79,6 +80,7 @@ let dlouhá (cityId: CityId) (zone: Zone) =
 let karlova (zone: Zone) =
     let street =
         World.Street.create Ids.Street.karlova (StreetType.Split(West, 2))
+        |> World.Street.tag "charles-bridge-gate"
 
     let concertSpaces =
         [ ("Klementinum Mirror Chapel",

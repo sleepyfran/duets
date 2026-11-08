@@ -1,0 +1,22 @@
+# Kabukicho: the red neon gate of Ichiban-gai.
+
+[art]
+▄▄▄▄▄▄▄▄▄▄▄
+█KABUKICHO█
+▀█▀▀▀▀▀▀▀█▀
+ █       █
+ █       █
+ █       █
+
+[options]
+layer = front
+align = left
+
+[legend]
+KABUICHO = bold white on red3
+default = red3
+
+[captions]
+The red gate of Kabukicho glows over the entrance of the street.
+Touts in suits call out to everyone walking under the gate.
+Neon signs climb every building, one bar per floor.

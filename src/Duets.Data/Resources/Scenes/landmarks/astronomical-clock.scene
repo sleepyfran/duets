@@ -1,0 +1,26 @@
+# Old Town Square: the tower of the astronomical clock.
+
+[art]
+    ▲
+   ▟█▙
+  ▐███▌
+  ▐▀▀▀▌
+ ╭─────╮
+ │╭─●─╮│
+ │╰───╯│
+ ╰─────╯
+  ▐███▌
+  ▐▌ ▐▌
+
+[options]
+layer = front
+align = right
+
+[legend]
+╭─╮│╰╯● = bold gold1
+default = grey35
+
+[captions]
+A crowd gathers under the astronomical clock, waiting for the hour.
+The apostles of the astronomical clock parade past their windows.
+The spires of Týn Church rise over the square.

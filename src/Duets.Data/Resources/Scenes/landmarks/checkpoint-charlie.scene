@@ -1,0 +1,27 @@
+# Checkpoint Charlie: the guard booth, the sandbags and the sign.
+
+[art]
+┌─────────┐
+│░YOU░ARE░│
+│░LEAVING░│
+└────┬────┘
+ ▄▄▄▄█▄▄▄▄
+ █▐▀▀▀▀▀▌█
+ █▐░░░░░▌█
+▄▄▄▄▄▄▄▄▄▄▄
+
+[options]
+layer = front
+align = left
+
+[legend]
+┌─┐│└┘┬ = grey62
+YOUARENWLVIG = bold black on white
+░ = white on white
+▄█ = navajowhite1
+▐▀▌ = grey50
+
+[captions]
+Tourists pose with actors in uniform in front of the old guard booth.
+A sign warns that you're leaving the American sector.
+Sandbags are stacked around the booth in the middle of the road.

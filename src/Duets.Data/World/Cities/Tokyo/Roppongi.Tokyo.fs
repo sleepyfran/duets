@@ -8,6 +8,7 @@ open Duets.Entities.Calendar
 let roppongiDori (zone: Zone) =
     let street =
         World.Street.create Ids.Street.roppongiDori (StreetType.Split(East, 2))
+        |> World.Street.tag "roppongi-hills"
 
     let concertSpaces =
         [ ("Billboard Live Tokyo", 300, 95<quality>, Layouts.concertSpaceLayout2, zone.Id)

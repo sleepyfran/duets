@@ -83,6 +83,7 @@ let keSklárně (zone: Zone) =
 let janáčkovoNábřeží (zone: Zone) =
     let street =
         World.Street.create Ids.Street.janáčkovoNábřeží StreetType.OneWay
+        |> World.Street.tag "waterfront"
 
     let concertSpaces =
         [ ("Jazz Dock", 150, 95<quality>, Layouts.concertSpaceLayout2, zone.Id) ]

@@ -1,0 +1,30 @@
+# Wenceslas Square: St Wenceslas on his horse, with trees down the middle.
+
+[art]
+   o
+  ▟█▖
+▗▟███▙▖
+ ▌▐ ▌▐
+▄▄▄▄▄▄▄
+▐█████▌
+▐█████▌
+
+[options]
+layer = front
+align = left
+
+[props]
+♣
+♣
+│
+
+[legend]
+o▟█▖▗▙▌▐ = darkgreen
+♣ = green3
+│ = tan
+default = grey50
+
+[captions]
+People meet under the horse, as everyone in Prague does.
+The National Museum closes off the top of the square.
+Sausage stands steam down the middle of the square.

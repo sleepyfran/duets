@@ -1,0 +1,26 @@
+# Camden High Street: the railway bridge over the street with CAMDEN LOCK on
+# it.
+
+[art]
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+█████████████████████████████████████████████████████░CAMDEN░LOCK░██████████████████████████████████████████████████████
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+[options]
+layer = front
+elevation = 4
+
+[props]
+█
+█
+█
+
+[legend]
+▄█▀ = grey30
+CAMDENLOK = bold white on grey30
+░ = grey30 on grey30
+
+[captions]
+CAMDEN LOCK is painted across the railway bridge over the high street.
+Giant sculptures hang over the shopfronts: a boot, a dragon, a scooter.
+Someone hands out flyers for tonight's gigs at the station exit.

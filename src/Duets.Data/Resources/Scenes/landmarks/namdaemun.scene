@@ -1,0 +1,26 @@
+# Namdaemun: the Sungnyemun gate on its traffic island.
+
+[art]
+  ▁▄▄▄▄▄▁
+▝▀▀▀▀▀▀▀▀▀▘
+  ▐▓▓▓▓▓▌
+ ▄▄▄▄▄▄▄▄▄
+▝▀▀▀▀▀▀▀▀▀▘
+ █▀▀▀▀▀▀▀█
+ █  ▄▄▄  █
+ █ █   █ █
+ █▄█   █▄█
+
+[options]
+layer = front
+align = right
+
+[legend]
+▁▄▀▝▘ = darkgreen
+▓ = red3
+default = grey62
+
+[captions]
+Sungnyemun stands on its island, traffic running all around it.
+Stalls of Namdaemun Market spill out onto the pavement.
+Vendors shout prices for ginseng, socks and hotteok.

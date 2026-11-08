@@ -103,6 +103,8 @@ default = grey30
 
 [options]
 layer = back
+align = center
+elevation = 0
 traffic = no
 
 [sidewalk]
@@ -120,10 +122,15 @@ traffic = no
 A sentence about the landmark.
 ```
 
-- `[art]`: drawn centered. With `layer = back` (the default) it goes over the
-  skyline and behind the façades, so make it taller than them. With
-  `layer = front` it stands on the sidewalk, in front of everything but the
-  people.
+- `[art]`: with `layer = back` (the default) it goes over the skyline and
+  behind the façades, so make it taller than them. With `layer = front` it
+  stands on the sidewalk, in front of everything but the people, and hides
+  what's behind it.
+- `align`: `center` (the default), or `left` and `right` to stand next to the
+  first or last façade. Side art always stays behind the façades, so keep it
+  around 10 columns wide or it gets hidden on busy streets.
+- `elevation`: rows between the sidewalk and the bottom of the art, for things
+  like bridges over the street.
 - `[legend]`: colors the glyphs of every section. Without one, the sidewalk
   and the road use the city color.
 - `[sidewalk]`: a line repeated along the sidewalk.

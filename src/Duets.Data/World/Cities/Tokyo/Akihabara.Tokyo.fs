@@ -8,6 +8,7 @@ open Duets.Entities.Calendar
 let chuoDori (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.chuoDori (StreetType.Split(East, 2))
+        |> World.Street.tag "elevated-train"
 
     let concertSpaces =
         [ ("Akihabara Goodman", 200, 85<quality>, Layouts.concertSpaceLayout1, zone.Id)
@@ -44,6 +45,7 @@ let chuoDori (cityId: CityId) (zone: Zone) =
 let kandaDori (zone: Zone) (city: City) =
     let street =
         World.Street.create Ids.Street.kandaDori StreetType.OneWay
+        |> World.Street.tag "kanda-myojin"
 
     let restaurants =
         [ ("Kanda Yabu Soba", 91<quality>, Japanese, zone.Id)

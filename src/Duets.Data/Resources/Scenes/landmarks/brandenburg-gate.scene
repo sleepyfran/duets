@@ -1,0 +1,31 @@
+# Brandenburg Gate: the quadriga on top of the columns, with lindens down the
+# street.
+
+[art]
+   ▗▞▀▙▖
+▄▄▄▟███▙▄▄▄
+▀▀▀▀▀▀▀▀▀▀▀
+▐▌█ █ █ █▐▌
+▐▌█ █ █ █▐▌
+▐▌█ █ █ █▐▌
+▟▙█▄█▄█▄█▟▙
+
+[options]
+layer = front
+align = right
+
+[props]
+♣
+♣
+│
+
+[legend]
+▗▞▀▙▖ = grey62
+♣ = green3
+│ = tan
+default = navajowhite1
+
+[captions]
+The Brandenburg Gate closes the end of Unter den Linden, the quadriga on top.
+Tourists line up for a photo between the columns of the gate.
+Lindens run down the middle of the boulevard.

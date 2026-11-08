@@ -1,0 +1,17 @@
+# Markets: stalls between the buildings and crates on the sidewalk.
+
+[sidewalk]
+──▪●▪─────●▪───
+
+[props]
+▀ ▬ ▀
+│ │ │
+▄ ▄ ▄
+
+[legend]
+▀ = indianred
+▬ = gold1
+│ = grey62
+▄ = tan
+▪ = orange1
+● = red3

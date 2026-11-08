@@ -1,0 +1,23 @@
+# Covent Garden: the columns of the market hall and a street performer.
+
+[art]
+▄▄▄▄▄▄▄▄▄▄▄▄
+▐▀▀▀▀▀▀▀▀▀▀▌
+▐▌   ▐▌° °▐▌
+▐▌   ▐▌ o ▐▌
+▐▌   ▐▌/▓\▐▌
+▐▌   ▐▌/ \▐▌
+▀▀▀▀▀▀▀▀▀▀▀▀
+
+[options]
+layer = front
+align = left
+
+[legend]
+°o/\▓ = hotpink
+default = navajowhite1
+
+[captions]
+A juggler draws a circle of people in front of the market hall.
+Someone sings opera on the terrace above the market.
+Stalls in the old market hall sell jam, jewellery and tea towels.

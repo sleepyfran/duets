@@ -1,0 +1,23 @@
+# Bank: the portico of the Royal Exchange.
+
+[art]
+    ▄▄▄
+  ▄▀▀▀▀▀▄
+▄▀▀▀▀▀▀▀▀▀▄
+▀▀▀▀▀▀▀▀▀▀▀
+█ █ █ █ █ █
+█ █ █ █ █ █
+█ █ █ █ █ █
+█▄█▄█▄█▄█▄█
+
+[options]
+layer = front
+align = left
+
+[legend]
+default = navajowhite1
+
+[captions]
+Bankers in suits cut across the junction in front of the Royal Exchange.
+The columns of the Royal Exchange watch over six streets meeting at once.
+Couriers weave between the buses at the busiest junction of the City.

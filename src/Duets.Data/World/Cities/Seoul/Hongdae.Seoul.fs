@@ -8,6 +8,8 @@ open Duets.Entities.Calendar
 let hongikRo (zone: Zone) =
     let street =
         World.Street.create Ids.Street.hongikRo (StreetType.Split(East, 2))
+        |> World.Street.tag "murals"
+        |> World.Street.tag "hongdae-busking"
 
     let concertSpaces =
         [ ("Rolling Hall", 300, 87<quality>, Layouts.concertSpaceLayout2, zone.Id)

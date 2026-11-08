@@ -47,7 +47,8 @@ let buildRow
     let artOf layer =
         landmarks
         |> List.filter (fun landmark -> landmark.Layer = layer)
-        |> List.choose _.Art
+        |> List.choose (fun landmark ->
+            landmark.Art |> Option.map (fun art -> landmark, art))
 
     let skyline = if isFirst then skyline else None
     let backArt = if isFirst then artOf LandmarkLayer.Back else []
@@ -64,7 +65,9 @@ let buildRow
         | _ -> 0
 
     let backdropHeight =
-        Option.toList skyline @ backArt |> List.map _.Height |> List.fold max 0
+        (skyline |> Option.map _.Height |> Option.toList)
+        @ (backArt |> List.map (fun (landmark, art) -> art.Height + landmark.Elevation))
+        |> List.fold max 0
 
     (* Leave a row on top of the skyline for the sun and the moon. *)
     let groundRow = max (sky + buildingsHeight) (backdropHeight + 1)
@@ -92,9 +95,35 @@ let buildRow
 
             x >= left && x <= right && y >= top)
 
-    Option.toList skyline @ backArt
-    |> List.iter (fun art ->
-        Skyline.draw grid lighting art (groundRow - 1) behindBuildings seed)
+    (* Side landmarks go next to the façades, or at the edge if they don't fit. *)
+    let leftOf (landmark: Landmark) (art: Template) =
+        match landmark.Align with
+        | LandmarkAlign.Center -> (width - art.Width) / 2
+        | LandmarkAlign.Left -> max 0 (startX - gap - art.Width)
+        | LandmarkAlign.Right -> min (width - art.Width) (startX + rowWidth + gap)
+
+    (* Only centered art can cover the façades, side art stays behind them. *)
+    let drawLandmark bottom (landmark: Landmark, art) =
+        let isHidden =
+            match landmark.Layer, landmark.Align with
+            | LandmarkLayer.Front, LandmarkAlign.Center -> fun _ _ -> false
+            | _ -> behindBuildings
+
+        Skyline.drawAt
+            grid
+            lighting
+            art
+            (leftOf landmark art)
+            (bottom - landmark.Elevation)
+            isHidden
+            (landmark.Layer = LandmarkLayer.Front)
+            seed
+
+    skyline
+    |> Option.iter (fun skyline ->
+        Skyline.draw grid lighting skyline (groundRow - 1) behindBuildings seed)
+
+    backArt |> List.iter (drawLandmark (groundRow - 1))
 
     places
     |> List.iteri (fun index (place, isOpen, highlights) ->
@@ -156,9 +185,7 @@ let buildRow
         if landmarks |> List.forall _.Traffic then
             Furniture.drawTraffic grid skin lighting (groundRow + 1) seed
 
-        frontArt
-        |> List.iter (fun art ->
-            Skyline.draw grid lighting art groundRow (fun _ _ -> false) seed)
+        frontArt |> List.iter (drawLandmark groundRow)
 
         Ground.drawPeople grid groundRow people seed
 

@@ -7,6 +7,7 @@ open Duets.Data.World.Cities
 let granVia (city: City) (zone: Zone) =
     let street =
         World.Street.create "Gran Vía" (StreetType.Split(East, 3))
+        |> World.Street.tag "gran-via"
 
     let merchandiseWorkshops =
         [ ("Gran Vía Merch", zone.Id) ]
@@ -73,6 +74,7 @@ let granVia (city: City) (zone: Zone) =
 let puertaDelSol (zone: Zone) =
     let street =
         World.Street.create "Puerta del Sol" (StreetType.Split(South, 2))
+        |> World.Street.tag "puerta-del-sol"
 
     let restaurants =
         [ ("Casa Labra", 84<quality>, Spanish, zone.Id)
@@ -173,6 +175,7 @@ let callePrincesa (zone: Zone) =
 let calleAlcala (zone: Zone) =
     let street =
         World.Street.create "Calle de Alcalá" (StreetType.Split(East, 2))
+        |> World.Street.tag "puerta-de-alcala"
 
     let concertSpaces =
         [ ("Teatro de la Zarzuela",

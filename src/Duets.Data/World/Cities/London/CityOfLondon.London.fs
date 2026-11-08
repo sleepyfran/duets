@@ -6,6 +6,7 @@ open Duets.Entities
 let private bank (city: City) (zone: Zone) =
     let street =
         World.Street.create "Bank" (StreetType.Split(East, 2))
+        |> World.Street.tag "bank-junction"
 
     let gyms =
         [ ("Virgin Active Bank", 88<quality>, zone.Id) ]

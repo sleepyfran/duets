@@ -315,6 +315,18 @@ Second caption.
     Landmark.styleOf landmark '─' |> should equal (Some "grey30")
 
 [<Test>]
+let ``Landmark.parse reads the alignment and elevation`` () =
+    let landmark =
+        parseLandmarkOk "[art]\n▲\n[options]\nalign = right\nelevation = 3"
+
+    landmark.Align |> should equal LandmarkAlign.Right
+    landmark.Elevation |> should equal 3
+
+    let defaults = parseLandmarkOk "[art]\n▲"
+    defaults.Align |> should equal LandmarkAlign.Center
+    defaults.Elevation |> should equal 0
+
+[<Test>]
 let ``Landmark.parse disables traffic only when the road is replaced`` () =
     (parseLandmarkOk "[road]\n~~").Traffic |> should equal false
     (parseLandmarkOk "[sidewalk]\n★").Traffic |> should equal true
@@ -326,6 +338,8 @@ let ``Landmark.parse fails with invalid landmarks`` () =
     isLandmarkError "[sidewalk]\n★\n★" |> should equal true
     isLandmarkError "[road]\n~~\n[options]\nlayer = middle" |> should equal true
     isLandmarkError "[road]\n~~\n[options]\nspeed = fast" |> should equal true
+    isLandmarkError "[art]\n▲\n[options]\nalign = up" |> should equal true
+    isLandmarkError "[art]\n▲\n[options]\nelevation = -1" |> should equal true
 
 [<Test>]
 let ``tryResolveLandmarks follows the order of the tags`` () =

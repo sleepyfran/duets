@@ -7,6 +7,7 @@ open Duets.Entities.Calendar
 let private camdenHighStreet (city: City) (zone: Zone) =
     let street =
         World.Street.create "Camden High Street" (StreetType.Split(North, 2))
+        |> World.Street.tag "camden-high-street"
 
     let carDealers =
         [ ("Camden Motor Co",
@@ -108,6 +109,7 @@ let private chalkFarm (city: City) (zone: Zone) =
 let private regentsPark (zone: Zone) =
     let street =
         World.Street.create "Regent's Park" StreetType.OneWay
+        |> World.Street.tag "park"
 
     let concertSpaces =
         [ ("Open Air Theatre",

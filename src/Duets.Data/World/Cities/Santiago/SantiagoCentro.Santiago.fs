@@ -72,6 +72,7 @@ let avenidaOHiggins (city: City) (zone: Zone) =
         World.Street.create
             Ids.Street.avenidaOHiggins
             (StreetType.Split(East, 2))
+        |> World.Street.tag "la-moneda"
 
     let hospitals =
         [ ("Hospital San Borja Arriarán", 84<quality>, zone.Id) ]

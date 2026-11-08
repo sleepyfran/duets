@@ -1,0 +1,22 @@
+# Puerta de Alcalá: the gate in the middle of the roundabout.
+
+[art]
+  ▄▄▄▄▄▄▄
+▄▄█▀▀▀▀▀█▄▄
+▀▀▀▀▀▀▀▀▀▀▀
+█▀█▀▀█▀▀█▀█
+█ █ ╭─╮ █ █
+█ █ │ │ █ █
+█▄█▄█▄█▄█▄█
+
+[options]
+layer = front
+align = right
+
+[legend]
+default = navajowhite1
+
+[captions]
+Traffic loops around the Puerta de Alcalá in the middle of the roundabout.
+The Puerta de Alcalá stands at the gates of the Retiro.
+Someone hums the old song about the Puerta de Alcalá as they walk past.

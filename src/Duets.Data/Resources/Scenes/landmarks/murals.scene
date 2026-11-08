@@ -1,0 +1,15 @@
+# Murals: painted walls between the buildings.
+
+[props]
+▓░▒█▚
+▒▓█▚░
+░█▚▓▒
+█▚▓░▒
+▚▒░▓█
+
+[legend]
+▓ = magenta1
+▒ = aqua
+░ = gold1
+█ = orange1
+▚ = lightgreen_1

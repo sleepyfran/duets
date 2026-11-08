@@ -8,6 +8,7 @@ open Duets.Entities.Calendar
 let kabukicho (zone: Zone) =
     let street =
         World.Street.create Ids.Street.kabukicho (StreetType.Split(East, 3))
+        |> World.Street.tag "kabukicho"
 
     let concertSpaces =
         [ ("Shinjuku BLAZE", 1500, 89<quality>, Layouts.concertSpaceLayout3, zone.Id)
@@ -47,6 +48,7 @@ let kabukicho (zone: Zone) =
 let nishiShinjuku (zone: Zone) (city: City) =
     let street =
         World.Street.create Ids.Street.nishiShinjuku StreetType.OneWay
+        |> World.Street.tag "omoide-yokocho"
 
     let gyms =
         [ ("Gold's Gym Shinjuku", 90<quality>, zone.Id) ]

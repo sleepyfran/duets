@@ -1,0 +1,22 @@
+# Kanda-Myojin-dori: the torii of the shrine.
+
+[art]
+▄▄▄▄▄▄▄▄▄▄▄
+▀▀█▀▀▀▀▀█▀▀
+▀▀█▀▀▀▀▀█▀▀
+  █     █
+  █     █
+  █     █
+ ▄█▄   ▄█▄
+
+[options]
+layer = front
+align = right
+
+[legend]
+default = orangered1
+
+[captions]
+A torii marks the way up to Kanda Myojin.
+Office workers stop to pray at the shrine on their way to work.
+Charms for good luck with electronics are sold at the shrine.

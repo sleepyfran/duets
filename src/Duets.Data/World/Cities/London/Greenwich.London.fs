@@ -6,6 +6,7 @@ open Duets.Entities
 let private greenwichMarket (zone: Zone) =
     let street =
         World.Street.create "Greenwich Market" (StreetType.Split(South, 2))
+        |> World.Street.tag "market"
 
     let shops =
         [ ("Greenwich Vintage", zone.Id); ("Market Antiques", zone.Id) ]
@@ -38,6 +39,7 @@ let private greenwichMarket (zone: Zone) =
 let private royalObservatory (zone: Zone) =
     let street =
         World.Street.create "Royal Observatory" StreetType.OneWay
+        |> World.Street.tag "prime-meridian"
 
     let cafes =
         [ ("Astronomy Cafe", 68<quality>, zone.Id) ]
@@ -52,6 +54,7 @@ let private royalObservatory (zone: Zone) =
 let private greenwichPark (zone: Zone) =
     let street =
         World.Street.create "Greenwich Park" StreetType.OneWay
+        |> World.Street.tag "park"
 
     let concertSpaces =
         [ ("Bandstand", 300, 70<quality>, Layouts.concertSpaceLayout1, zone.Id) ]

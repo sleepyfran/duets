@@ -48,6 +48,7 @@ let private yongeStreet (city: City) (zone: Zone) =
 let private bloorStreetWest (city: City) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.bloorStreetWest StreetType.OneWay
+        |> World.Street.tag "rom-crystal"
 
     let home = PlaceCreators.createHome street.Id zone.Id
 

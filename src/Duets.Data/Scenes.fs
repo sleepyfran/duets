@@ -87,11 +87,23 @@ type LandmarkLayer =
     /// On top of everything, standing on the sidewalk.
     | Front
 
+/// Defines where the art of a landmark goes along the street.
+[<RequireQualifiedAccess>]
+type LandmarkAlign =
+    | Center
+    /// Next to the first façade.
+    | Left
+    /// Next to the last façade.
+    | Right
+
 /// Defines a parsed landmark.
 type Landmark =
     {
         Art: Template option
         Layer: LandmarkLayer
+        Align: LandmarkAlign
+        /// Rows between the sidewalk and the bottom of the art.
+        Elevation: int
         /// Pattern repeated along the sidewalk instead of the city one.
         Sidewalk: string option
         /// Lines that replace the road, from top to bottom.
@@ -361,6 +373,18 @@ module Landmark =
         | "front" -> Ok LandmarkLayer.Front
         | other -> Error $"Unknown layer '{other}'"
 
+    let private parseAlign text =
+        match text with
+        | "center" -> Ok LandmarkAlign.Center
+        | "left" -> Ok LandmarkAlign.Left
+        | "right" -> Ok LandmarkAlign.Right
+        | other -> Error $"Unknown alignment '{other}'"
+
+    let private parseElevation (text: string) =
+        match Int32.TryParse text with
+        | true, elevation when elevation >= 0 -> Ok elevation
+        | _ -> Error $"Expected a positive number but got '{text}'"
+
     let private parseSwitch text =
         match text with
         | "yes" -> Ok true
@@ -399,10 +423,14 @@ module Landmark =
                 | None -> Ok defaultValue
 
             let! layer = option "layer" parseLayer LandmarkLayer.Back
+            let! align = option "align" parseAlign LandmarkAlign.Center
+            let! elevation = option "elevation" parseElevation 0
             let! traffic = option "traffic" parseSwitch road.IsEmpty
 
+            let knownOptions = [ "layer"; "align"; "elevation"; "traffic" ]
+
             do!
-                match options |> List.tryFind (fun (key, _) -> key <> "layer" && key <> "traffic") with
+                match options |> List.tryFind (fun (key, _) -> not (List.contains key knownOptions)) with
                 | Some(key, _) -> Error $"Unknown option '{key}'"
                 | None -> Ok()
 
@@ -433,6 +461,8 @@ module Landmark =
             return
                 { Art = art
                   Layer = layer
+                  Align = align
+                  Elevation = elevation
                   Sidewalk = List.tryHead sidewalk
                   Road = road
                   Traffic = traffic

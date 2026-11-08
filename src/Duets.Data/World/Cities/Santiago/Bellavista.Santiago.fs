@@ -8,6 +8,7 @@ open Duets.Entities.Calendar
 let callePioNono (zone: Zone) =
     let street =
         World.Street.create Ids.Street.callePioNono (StreetType.Split(North, 2))
+        |> World.Street.tag "murals"
 
     let concertSpaces =
         [ ("La Batuta", 150, 80<quality>, Layouts.concertSpaceLayout1, zone.Id)

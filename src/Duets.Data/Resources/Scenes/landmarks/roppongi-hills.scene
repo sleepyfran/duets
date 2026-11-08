@@ -1,0 +1,21 @@
+# Roppongi-dori: the giant spider in front of Mori Tower.
+
+[art]
+    ▄██▄
+ ╱╲▐████▌╱╲
+╱  ╲▀██▀╱  ╲
+│  ╱ ╱╲ ╲  │
+│ ╱ ╱  ╲ ╲ │
+│ │ │  │ │ │
+
+[options]
+layer = front
+align = left
+
+[legend]
+default = grey50
+
+[captions]
+The giant spider sculpture stands over the plaza, legs and all.
+Mori Tower rises behind the spider, its top lost in the sky.
+A queue forms for the observation deck at the top of the tower.

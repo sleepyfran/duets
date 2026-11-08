@@ -10,6 +10,7 @@ let rueDeRivoli (zone: Zone) (city: City) =
         World.Street.create
             Ids.Street.rueDeRivoli
             (StreetType.Split(East, 3))
+        |> World.Street.tag "rue-de-rivoli"
 
     let concertSpaces =
         [ ("Café de la Danse",

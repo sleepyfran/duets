@@ -9,6 +9,7 @@ let private danforthAvenue (city: City) (zone: Zone) =
         World.Street.create
             Ids.Street.danforthAvenue
             (StreetType.Split(East, 2))
+        |> World.Street.tag "greektown"
 
     let concerts =
         [ ("Danforth Music Hall",

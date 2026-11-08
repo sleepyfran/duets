@@ -9,6 +9,7 @@ let warschauerStrasse (zone: Zone) =
         World.Street.create
             Ids.Street.warschauerStrasse
             (StreetType.Split(East, 2))
+        |> World.Street.tag "east-side-gallery"
 
     let concertSpaces =
         [ ("Berghain",

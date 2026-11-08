@@ -1,0 +1,22 @@
+# Rue de Rivoli: arcades along the shops.
+
+[art]
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟▙    ▟
+
+[options]
+layer = front
+elevation = 4
+
+[props]
+█
+█
+█
+
+[legend]
+default = navajowhite1
+
+[captions]
+The arcades of Rue de Rivoli keep the shoppers out of the rain.
+Souvenir shops under the arcades sell tiny Eiffel Towers by the dozen.
+The Tuileries gardens open up across the street.

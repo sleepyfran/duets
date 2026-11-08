@@ -10,6 +10,7 @@ let rueDesAbbesses (zone: Zone) (cityId: CityId) =
         World.Street.create
             Ids.Street.rueDesAbbesses
             (StreetType.Split(East, 2))
+        |> World.Street.tag "abbesses"
 
     let concertSpaces =
         [ ("Le Divan du Monde",
@@ -71,6 +72,7 @@ let boulevardDeClichy (zone: Zone) (cityId: CityId) =
         World.Street.create
             Ids.Street.boulevardDeClichy
             (StreetType.Split(East, 2))
+        |> World.Street.tag "moulin-rouge"
 
     let home = PlaceCreators.createHome street.Id zone.Id
 

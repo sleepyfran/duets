@@ -109,6 +109,7 @@ let private coventGarden (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create "Covent Garden" (StreetType.Split(South, 2))
         |> World.Street.tag "pedestrian"
+        |> World.Street.tag "covent-garden"
 
     let cafes =
         [ ("Monmouth Coffee", 80<quality>, zone.Id)

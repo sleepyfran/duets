@@ -10,6 +10,7 @@ let sunsetBoulevard (zone: Zone) =
         World.Street.create
             Ids.Street.sunsetBoulevardHollywood
             (StreetType.Split(East, 3))
+        |> World.Street.tag "sunset-strip"
 
     let concertSpaces =
         [ ("The Roxy Theatre",
@@ -73,6 +74,7 @@ let hollywoodBoulevard (cityId: CityId) (zone: Zone) =
         World.Street.create
             Ids.Street.hollywoodBoulevard
             (StreetType.Split(East, 2))
+        |> World.Street.tag "walk-of-fame"
 
     let concertSpaces =
         [ ("Hollywood Palladium",
