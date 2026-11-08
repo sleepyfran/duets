@@ -6,6 +6,20 @@ open Duets.Entities
 
 let prompt = Styles.faded ">"
 
+let private inputHintTabToComplete = "(Tab to complete)"
+
+let inputHintSingleCandidate name description =
+    Styles.hint $"{name}: {description} {inputHintTabToComplete}"
+
+let inputHintCandidates (names: string list) remaining =
+    let more = if remaining > 0 then $" (+{remaining} more)" else ""
+
+    Styles.hint
+        $"""{names |> String.concat " · "}{more} {inputHintTabToComplete}"""
+
+let inputHintUnknown =
+    $"""{Styles.danger "Unknown command."} {Styles.hint "Type 'help' to see what you can do"}"""
+
 let commonPrompt date dayMoment attributes =
     $"""{Generic.infoBar date dayMoment attributes}
 {Styles.prompt "What do you want to do? Type 'help' if you're lost"}"""

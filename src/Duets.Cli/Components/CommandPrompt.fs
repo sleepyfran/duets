@@ -10,32 +10,80 @@ open Spectre.Console
 open System
 
 type CommandCompletion(availableCommands: Command list) =
+    (*
+    RadLine replaces the word with the completion and asks again on the next
+    Tab, cycling to the next item only if the list still contains the current
+    word. Since the word is now the full completion, recomputing would only
+    return that one, so keep returning the last list while the word is in it.
+    *)
+    let mutable lastCompletions: (string * string list) option = None
+
     interface ITextCompletion with
         member this.GetCompletions(prefix, word, _) =
-            availableCommands
-            |> List.filter (fun cmd ->
-                String.nonEmptyContains prefix cmd.Name
-                || String.nonEmptyContains word cmd.Name)
-            |> List.choose (fun cmd ->
-                let tokens = String.split ' ' cmd.Name
+            match lastCompletions with
+            | Some(lastPrefix, completions) when
+                lastPrefix = prefix && completions |> List.contains word
+                ->
+                completions
+            | _ ->
+                let completions =
+                    CommandInput.completions availableCommands prefix word
 
-                match tokens with
-                | [| fullCommand |] ->
-                    if String.nonEmptyContains word fullCommand then
-                        Some cmd.Name
-                    else
-                        None
-                | [| firstWord; secondWord |] ->
-                    (* Player has already introduced the full first word, autocomplete the second. *)
-                    if prefix.Trim() = firstWord then
-                        Some secondWord
-                    (* Player has introduced part of the first word, so autocomplete it. *)
-                    else if String.nonEmptyContains word firstWord then
-                        Some firstWord
-                    else
-                        None
-                | _ -> None)
+                lastCompletions <- Some(prefix, completions)
+                completions
             |> Seq.ofList
+
+/// Highlights recognized commands in green and their arguments in blue, and
+/// any input that can't become a command in red.
+type CommandHighlighter(analyze: string -> CommandInput.Analysis) =
+    interface IHighlighter with
+        member this.BuildHighlightedText(text) =
+            let paragraph = Paragraph()
+
+            CommandInput.highlight (analyze text) text
+            |> List.iter (fun (segment, style) ->
+                paragraph.Append(segment, Option.toNullable style) |> ignore)
+
+            paragraph
+
+/// Renders a hint for the current input in the line right below the prompt.
+type CommandHintRenderer(analyze: string -> CommandInput.Analysis) =
+    static let saveCursor = "\u001b7"
+    static let restoreCursor = "\u001b8"
+    static let nextLineStart = "\u001b[1B\u001b[1G"
+    static let clearLine = "\u001b[2K"
+
+    static let fitToWidth (hint: string) =
+        let maxLength = AnsiConsole.Profile.Width - 1
+        let plainHint = Markup.Remove hint
+
+        if plainHint.Length <= maxLength then
+            hint
+        else
+            plainHint.Substring(0, maxLength - 1) + "…"
+            |> Markup.Escape
+            |> Styles.hint
+
+    interface ILineDecorationRenderer with
+        member this.RenderLineDecoration(buffer) =
+            let hint =
+                CommandInput.hint (analyze buffer.Content)
+                |> Option.map (fitToWidth >> Markup >> AnsiConsole.Console.ToAnsi)
+                |> Option.defaultValue ""
+
+            AnsiConsole.Console.WriteAnsi(
+                saveCursor + nextLineStart + clearLine + hint + restoreCursor
+            )
+
+    /// Makes sure there's an empty line below the cursor for the hint, even if
+    /// the prompt is at the bottom of the terminal.
+    static member reserveHintLine() =
+        AnsiConsole.WriteLine()
+        AnsiConsole.Cursor.MoveUp()
+
+    /// Clears the hint once the input has been submitted, which leaves the
+    /// cursor at the start of the hint line.
+    static member clearHintLine() = AnsiConsole.Console.WriteAnsi clearLine
 
 /// Shortcut to enter the cheat menu without typing the full secret command.
 type CheatMenuShortcutCommand() =
@@ -85,40 +133,51 @@ type private HistoryAgent() =
 
 let private historyAgent = HistoryAgent()
 
-let private editor availableCommands =
-    (* Highlight all recognized commands in green. *)
-    let mutable highlighter = WordHighlighter()
+/// Replaces the input with the previous (negative step) or next (positive
+/// step) command in the history. Unlike RadLine's history commands, this edits
+/// the buffer in place so that the hint below the prompt gets updated.
+type private HistoryNavigationCommand(step: int) =
+    inherit LineEditorCommand()
 
-    availableCommands
-    |> List.iter (fun cmd ->
-        (*
-        Highlight command names in green, but if a command has more than one
-        token (for example: "compose song"), highlight the first token in green
-        and the second one in a lighter green. This is done mainly to overcome
-        RadLine's lack of support of spaces in the highlighter.
-        *)
-        String.split ' ' cmd.Name
-        |> Array.iteri (fun index token ->
-            let tokenColor =
-                match index with
-                | 0 -> Color.Green
-                | _ -> Color.SpringGreen4
+    static let indexStateKey = "historyIndex"
+    static let draftStateKey = "historyDraft"
 
-            highlighter <-
-                highlighter.AddWord(token, Style(foreground = tokenColor))))
+    override _.Execute(context) =
+        let history = historyAgent.Get() |> Array.ofList
+        let buffer = context.Buffer
+
+        (* The position right after the last command holds what was being typed. *)
+        let draftIndex = history.Length
+        let index = context.GetState(indexStateKey, fun () -> draftIndex)
+        let newIndex = index + step |> max 0 |> min draftIndex
+
+        if newIndex <> index then
+            if index = draftIndex then
+                context.SetState(draftStateKey, buffer.Content)
+
+            let content =
+                if newIndex = draftIndex then
+                    context.GetState(draftStateKey, fun () -> "")
+                else
+                    history[newIndex]
+
+            buffer.Move(0) |> ignore
+            buffer.Clear(0, buffer.Length) |> ignore
+            buffer.Insert(content)
+            buffer.MoveEnd() |> ignore
+            context.SetState(indexStateKey, newIndex)
+
+let private editor availableCommands hiddenCommands =
+    let analyze = CommandInput.analyze availableCommands hiddenCommands
 
     let editor =
         LineEditor(
             Prompt = LineEditorPrompt Command.prompt,
             MultiLine = false,
             Completion = CommandCompletion(availableCommands),
-            Highlighter = highlighter
+            Highlighter = CommandHighlighter(analyze),
+            LineDecorationRenderer = CommandHintRenderer(analyze)
         )
-
-    (*
-    TODO: Consider a better way of keeping the history without duplicating it. Maybe a static editor wouldn't be that bad idea.
-    *)
-    historyAgent.Get() |> List.iter editor.History.Add
 
     (*
     Setup history with up and down arrow. By default RadLine includes the
@@ -128,8 +187,26 @@ let private editor availableCommands =
     *)
     editor.KeyBindings.Remove(ConsoleKey.UpArrow)
     editor.KeyBindings.Remove(ConsoleKey.DownArrow)
-    editor.KeyBindings.Add<PreviousHistoryCommand>(ConsoleKey.UpArrow)
-    editor.KeyBindings.Add<NextHistoryCommand>(ConsoleKey.DownArrow)
+
+    editor.KeyBindings.Add(
+        ConsoleKey.UpArrow,
+        fun () -> HistoryNavigationCommand(-1)
+    )
+
+    editor.KeyBindings.Add(
+        ConsoleKey.DownArrow,
+        fun () -> HistoryNavigationCommand(1)
+    )
+
+    (*
+    RadLine binds going back through the completions to Ctrl+Tab, which most
+    terminals don't send, so use Shift+Tab instead.
+    *)
+    editor.KeyBindings.Add(
+        ConsoleKey.Tab,
+        ConsoleModifiers.Shift,
+        fun () -> AutoCompleteCommand(AutoComplete.Previous)
+    )
 
     (* Ctrl+G twice in a row enters the cheat menu. *)
     editor.KeyBindings.Add<CheatMenuShortcutCommand>(
@@ -156,32 +233,28 @@ let private editor availableCommands =
 /// The scene that the last executed command returned.
 /// </returns>
 let rec showCommandPrompt title availableCommands =
-    let prompt = editor availableCommands
-
     /// Adds a way to enter a "secret" cheat/debug prompt from any command
     /// prompt.
-    let commandsWithCheatEntry = Cheats.Index.enterCommand :: availableCommands
+    let hiddenCommands = [ Cheats.Index.enterCommand ]
+
+    let prompt = editor availableCommands hiddenCommands
 
     let rec promptForCommand () =
         lineBreak ()
         showMessage title
 
+        CommandHintRenderer.reserveHintLine ()
+
         prompt.ReadLine(CancellationToken.None)
         |> Async.AwaitTask
         |> Async.RunSynchronously
         |> fun input ->
-            historyAgent.Add input
+            CommandHintRenderer.clearHintLine ()
 
-            let inputTokens = String.split ' ' input |> List.ofArray
+            if not (String.isEmpty input) then
+                historyAgent.Add input
 
-            commandsWithCheatEntry
-            |> List.tryFind (fun command ->
-                let commandTokens =
-                    String.split ' ' command.Name |> List.ofArray
-
-                inputTokens
-                |> List.truncate commandTokens.Length
-                |> List.forall2' (=) commandTokens)
+            CommandInput.tryFind (hiddenCommands @ availableCommands) input
             |> tryRunCommand input
         |> Option.defaultWith promptForCommand
 
