@@ -84,14 +84,15 @@ let buildRow
 
     let startX = max 0 ((width - rowWidth) / 2)
 
-    (* The skyline only shows above the roofs, not in the gaps. *)
+    (* The skyline only shows above the façades, not in the gaps. Roofs are
+       drawn over it so it shows through around them. *)
     let behindBuildings x y =
         places
         |> List.indexed
         |> List.exists (fun (index, (place, _, _)) ->
             let left = startX + index * (Facades.width + gap) - 1
             let right = left + Facades.width + 1
-            let top = groundRow - FacadeRenderer.heightOf skin place
+            let top = groundRow - FacadeRenderer.bodyHeightOf skin place
 
             x >= left && x <= right && y >= top)
 

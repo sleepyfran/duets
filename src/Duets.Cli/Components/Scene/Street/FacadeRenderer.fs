@@ -26,17 +26,21 @@ let private roofOf (skin: CitySkin.Skin) (facade: Facades.Facade) =
     else
         facade.Roof
 
-/// Computes the total height of the façade of the given place, including its
-/// roof decoration.
-let heightOf skin (place: Place) =
+/// Computes the height of the façade of the given place without its roof
+/// decoration.
+let bodyHeightOf skin (place: Place) =
     let facade = Facades.of' place
 
-    (roofOf skin facade).Length
-    + 1 (* Frame top. *)
+    1 (* Frame top. *)
     + floorsOf skin facade place
     + 1 (* Sign. *)
     + (if facade.Awning.IsSome then 1 else 0)
     + 1 (* Storefront. *)
+
+/// Computes the total height of the façade of the given place, including its
+/// roof decoration.
+let heightOf skin (place: Place) =
+    (roofOf skin (Facades.of' place)).Length + bodyHeightOf skin place
 
 let private signStyle (skin: CitySkin.Skin) (random: System.Random) isOpen =
     if isOpen then
