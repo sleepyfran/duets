@@ -136,7 +136,6 @@ let private displayEffect effect =
         Concert.concertSummary concert income |> showMessage
     | CharacterRunningLateToConcert(Some caller, concert) ->
         let venue = Queries.World.placeInCityById concert.CityId concert.VenueId
-        let cityName = Generic.cityName concert.CityId
 
         let playerName =
             (Queries.Characters.playableCharacter (State.get ())).Name
@@ -152,14 +151,9 @@ let private displayEffect effect =
         let accepted = showConfirmationPrompt "Pick up?"
 
         if accepted then
-            Prompts.Concert.createRunningLateCallPrompt
-                caller.Name
-                playerName
-                venue.Name
-                cityName
-                attendance
-            |> LanguageModel.streamMessage
-            |> streamMessage
+            Flavor.Concert.runningLateCall playerName venue.Name attendance
+            |> Social.npcSays caller.Name
+            |> showMessage
         else
             "You ignored the call. Hope you remember what it was about..."
             |> Styles.faded

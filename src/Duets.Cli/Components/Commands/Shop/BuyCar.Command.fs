@@ -5,7 +5,7 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Cli.Text.Prompts
+open Duets.Cli.Text.Flavor
 open Duets.Simulation
 open Duets.Entities
 open FSharp.Data.UnitSystems.SI.UnitNames
@@ -24,13 +24,10 @@ module BuyCarCommand =
 
                 lineBreak ()
 
-                Social.npcSaysPrefix carDealer.Dealer.Name |> showInlineMessage
+                CarDealer.greeting state carDealer
+                |> Social.npcSays carDealer.Dealer.Name
+                |> showMessage
 
-                CarDealer.createGreetingPrompt state carDealer availableItems
-                |> LanguageModel.streamMessage
-                |> streamStyled Styles.dialog
-
-                lineBreak ()
                 lineBreak ()
 
                 let selectedCar =
@@ -47,8 +44,6 @@ module BuyCarCommand =
                 | Some(car, price) -> showCarDetails carDealer car price }
 
     and private showCarDetails carDealer car price =
-        let state = State.get ()
-
         showSeparator None
         lineBreak ()
 
@@ -59,13 +54,10 @@ module BuyCarCommand =
         Shop.carPrice price |> showMessage
         lineBreak ()
 
-        Social.npcSaysPrefix carDealer.Dealer.Name |> showInlineMessage
+        CarDealer.pitch carDealer car
+        |> Social.npcSays carDealer.Dealer.Name
+        |> showMessage
 
-        CarDealer.createPitchPrompt state carDealer car price
-        |> LanguageModel.streamMessage
-        |> streamStyled Styles.dialog
-
-        lineBreak ()
         lineBreak ()
 
         let confirmed = showConfirmationPrompt Shop.confirmCarPurchase
@@ -111,13 +103,10 @@ module BuyCarCommand =
             showSeparator None
             lineBreak ()
 
-            Social.npcSaysPrefix carDealer.Dealer.Name |> showInlineMessage
+            CarDealer.insufficientFunds carDealer car
+            |> Social.npcSays carDealer.Dealer.Name
+            |> showMessage
 
-            CarDealer.createInsufficientFundsPrompt state carDealer car price
-            |> LanguageModel.streamMessage
-            |> streamStyled Styles.dialog
-
-            lineBreak ()
             lineBreak ()
 
             Scene.World
@@ -126,17 +115,12 @@ module BuyCarCommand =
         showSeparator None
         lineBreak ()
 
-        Social.npcSaysPrefix carDealer.Dealer.Name |> showInlineMessage
-
         match carOption with
-        | Some car ->
-            CarDealer.createClosingPrompt carDealer car purchased
-            |> LanguageModel.streamMessage
-            |> streamStyled Styles.dialog
-        | None ->
-            Shop.carDealerGenericFarewell |> Styles.dialog |> showInlineMessage
+        | Some car -> CarDealer.closing car purchased
+        | None -> Shop.carDealerGenericFarewell
+        |> Social.npcSays carDealer.Dealer.Name
+        |> showMessage
 
-        lineBreak ()
         lineBreak ()
 
         if purchased then

@@ -5,7 +5,7 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Cli.Text.Prompts
+open Duets.Cli.Text.Flavor
 open Duets.Entities
 open Duets.Simulation.Careers.Work
 
@@ -22,9 +22,8 @@ module WorkCommand =
 
                 match result with
                 | Ok effects ->
-                    Work.createWorkShiftDescriptionPrompt state job
-                    |> LanguageModel.streamMessage
-                    |> streamStyled Styles.work
+                    Work.shiftArrival state |> Styles.work |> showMessage
+                    Career.workShiftEvent job |> showMessage
 
                     lineBreak ()
                     wait 5000<millisecond>

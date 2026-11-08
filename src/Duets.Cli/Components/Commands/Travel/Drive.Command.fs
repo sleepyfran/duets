@@ -5,7 +5,7 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Cli.Text.Prompts
+open Duets.Cli.Text.Flavor
 open Duets.Entities
 open Duets.Simulation
 
@@ -224,9 +224,9 @@ module DriveCommand =
         lineBreak ()
 
     and private generateWithinCityDrivingMoment state destinationName car =
-        Driving.createWithinCityDrivingMomentPrompt state destinationName car
-        |> LanguageModel.streamMessage
-        |> streamStyled Styles.event
+        Driving.withinCityMoment state destinationName car
+        |> Styles.event
+        |> showMessage
 
         lineBreak ()
 
@@ -236,12 +236,8 @@ module DriveCommand =
         destinationCityId
         car
         =
-        Driving.createIntercityDrivingMomentPrompt
-            state
-            originCityId
-            destinationCityId
-            car
-        |> LanguageModel.streamMessage
-        |> streamStyled Styles.event
+        Driving.intercityMoment state originCityId destinationCityId car
+        |> Styles.event
+        |> showMessage
 
         lineBreak ()

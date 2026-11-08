@@ -35,13 +35,13 @@
         <Compile Include="Text\Social.fs"/>
         <Compile Include="Text\World.fs"/>
         <Compile Include="Text\SceneCaptions.fs"/>
-        <Compile Include="Text\Prompts\CommonPrompts.fs"/>
-        <Compile Include="Text\Prompts\ConcertPrompts.fs"/>
-        <Compile Include="Text\Prompts\DrivingPrompts.fs"/>
-        <Compile Include="Text\Prompts\FlightPrompts.fs"/>
-        <Compile Include="Text\Prompts\DuberPrompts.fs"/>
-        <Compile Include="Text\Prompts\CarDealerPrompts.fs"/>
-        <Compile Include="Text\Prompts\WorkPrompts.fs"/>
+        <Compile Include="Text\Flavor\CommonFlavor.fs"/>
+        <Compile Include="Text\Flavor\ConcertFlavor.fs"/>
+        <Compile Include="Text\Flavor\DrivingFlavor.fs"/>
+        <Compile Include="Text\Flavor\FlightFlavor.fs"/>
+        <Compile Include="Text\Flavor\DuberFlavor.fs"/>
+        <Compile Include="Text\Flavor\CarDealerFlavor.fs"/>
+        <Compile Include="Text\Flavor\WorkFlavor.fs"/>
         <Compile Include="Components\VisualEffects.fs"/>
         <Compile Include="Components\Separator.fs"/>
         <Compile Include="Components\Layout.fs"/>
@@ -209,7 +209,6 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AvsAn" Version="3.2.0"/>
-        <PackageReference Include="FSharp.Control.AsyncSeq" Version="3.2.1"/>
         <PackageReference Include="FSharpx.Extras" Version="3.0.0"/>
         <PackageReference Include="FsToolkit.ErrorHandling" Version="4.3.0"/>
         <PackageReference Include="RadLine" Version="0.6.0"/>

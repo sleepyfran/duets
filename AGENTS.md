@@ -8,8 +8,6 @@ Duets is a music/life simulation game built with F# as an interactive CLI game. 
 
 **Important:** The game uses a fork of Spectre.Console as a git submodule. Always clone with `git clone --recurse-submodules` and ensure the submodule is present when building.
 
-**Note:** First build downloads the Gemma 4 E2B Q4_0 GGUF (~3.4GB) for LLM-generated content (descriptions, dialogues), so initial build will be slower.
-
 # Development Commands
 
 ## Building and Running

@@ -27,11 +27,6 @@ cd duets
 Once you have it, you can either chose to run it with a local installation of the .NET SDK or, if you prefer, through
 Docker to avoid installing the SDK on your computer and instead running the game inside a container.
 
-> [!IMPORTANT]
-> Descriptions and dialogues in the game are generated with a local large language model (LLM) that is downloaded during
-> build time. The model is the Gemma 4 E2B Q4_0 GGUF, which weighs around 3.4GB. Due to this the first build of
-> the project will take a while as it needs to download the model, but subsequent builds will be much faster.
-
 ## Running with local .NET
 
 If you you want to install .NET, follow the instructions [here](https://dotnet.microsoft.com/download) to get the latest

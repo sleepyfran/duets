@@ -69,11 +69,6 @@ let private parseNoSavingArg args =
 let main args =
     let skipSaving = parseNoSavingArg args
 
-    LanguageModel.initialize
-    |> showIndeterminateProgressForFunc (Styles.progress "Initializing game...")
-
-    clearScreen ()
-
     Stats.startTrackingTime ()
 
     // Set default culture to UK for sane defaults :)

@@ -5,7 +5,7 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Cli.Text.Prompts
+open Duets.Cli.Text.Flavor
 open Duets.Simulation.Flights.Airport
 
 [<RequireQualifiedAccess>]
@@ -18,21 +18,16 @@ module WaitForLandingCommand =
             fun _ ->
                 let state = State.get ()
 
-                Flight.createInFlightExperiencePrompt state flight
-                |> LanguageModel.streamMessage
-                |> streamStyled Styles.event
+                Flight.inFlightMoment state flight
+                |> Styles.event
+                |> showMessage
 
-                lineBreak ()
                 lineBreak ()
                 wait 2000<millisecond>
 
-                Flight.createAirportExperiencePrompt state flight
-                |> LanguageModel.streamMessage
-                |> streamStyled Styles.event
+                Flight.arrivalMoment flight |> Styles.event |> showMessage
 
-                lineBreak ()
                 wait 1500<millisecond>
-
                 lineBreak ()
 
                 leavePlane (State.get ()) flight |> Effect.applyMultiple

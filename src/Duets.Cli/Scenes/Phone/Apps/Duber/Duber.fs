@@ -5,7 +5,7 @@ open Duets.Cli
 open Duets.Cli.Components
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
-open Duets.Cli.Text.Prompts
+open Duets.Cli.Text.Flavor
 open Duets.Common
 open Duets.Data
 open Duets.Entities
@@ -124,11 +124,9 @@ and private takeRide destinationName travelTime effects driverName =
 and private generateAndShowDriverConversation driverName destinationName =
     let state = State.get ()
 
-    Social.npcSaysPrefix driverName |> showInlineMessage
-
-    Duber.createDriverConversationPrompt state driverName destinationName
-    |> LanguageModel.streamMessage
-    |> streamStyled Styles.dialog
+    Duber.driverConversation state destinationName
+    |> Social.npcSays driverName
+    |> showMessage
 
     lineBreak ()
     lineBreak ()
