@@ -86,6 +86,29 @@ let showOptionalChoicePrompt title backText optionTextFn choices =
     |> AnsiConsole.Prompt
     |> Pipe.tap (optionalTextFn optionTextFn backText >> showSelection)
 
+let private createCancellableChoicePrompt
+    title
+    cancelOptionText
+    optionTextFn
+    (choices: 'a seq)
+    =
+    let mutable selectionPrompt =
+        choices
+        |> Seq.map Some
+        |> createChoicePrompt title (optionalTextFn optionTextFn cancelOptionText)
+
+    selectionPrompt.CancelResult <- fun () -> None
+
+    selectionPrompt.CancelText <-
+        $"Press Esc to {cancelOptionText}" |> Styles.faded
+
+    selectionPrompt
+
+let private showCancellableChoicePrompt' cancelOptionText optionTextFn prompt =
+    prompt
+    |> AnsiConsole.Prompt
+    |> Pipe.tap (optionalTextFn optionTextFn cancelOptionText >> showSelection)
+
 /// <summary>
 /// Shows the user a list of options to choose from, with the option to cancel
 /// the selection by pressing Esc.
@@ -108,18 +131,8 @@ let showCancellableChoicePrompt
     optionTextFn
     (choices: 'a seq)
     =
-    let mutable selectionPrompt = createChoicePrompt title optionTextFn choices
-
-    selectionPrompt.AbortPlaceholderText <-
-        $"Press Esc to {cancelOptionText}" |> Styles.faded
-
-    match AnsiConsole.TryPrompt(selectionPrompt) with
-    | true, item ->
-        item |> optionTextFn |> showSelection
-        Some item
-    | false, _ ->
-        showSelection cancelOptionText
-        None
+    createCancellableChoicePrompt title cancelOptionText optionTextFn choices
+    |> showCancellableChoicePrompt' cancelOptionText optionTextFn
 
 /// <summary>
 /// Shows the user a list of options to choose from, with the option to cancel
@@ -143,20 +156,13 @@ let showSearchableOptionalChoicePrompt
     optionTextFn
     (choices: 'a seq)
     =
-    let mutable selectionPrompt = createChoicePrompt title optionTextFn choices
+    let mutable selectionPrompt =
+        createCancellableChoicePrompt title cancelOptionText optionTextFn choices
 
     selectionPrompt.SearchEnabled <- true
 
-    selectionPrompt.AbortPlaceholderText <-
-        $"Press Esc to {cancelOptionText}" |> Styles.faded
-
-    match AnsiConsole.TryPrompt(selectionPrompt) with
-    | true, item ->
-        item |> optionTextFn |> showSelection
-        Some item
-    | false, _ ->
-        showSelection cancelOptionText
-        None
+    selectionPrompt
+    |> showCancellableChoicePrompt' cancelOptionText optionTextFn
 
 /// <summary>
 /// Shows the user a list of options to choose from, allowing them to choose

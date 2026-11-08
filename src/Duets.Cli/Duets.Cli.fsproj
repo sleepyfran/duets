@@ -211,7 +211,7 @@
         <PackageReference Include="AvsAn" Version="3.2.0"/>
         <PackageReference Include="FSharpx.Extras" Version="3.0.0"/>
         <PackageReference Include="FsToolkit.ErrorHandling" Version="4.3.0"/>
-        <PackageReference Include="RadLine" Version="0.6.0"/>
+        <PackageReference Include="RadLine" Version="0.10.0"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\deps\spectre.console\src\Spectre.Console\Spectre.Console.csproj"/>
