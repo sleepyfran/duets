@@ -17,11 +17,7 @@ Duets is a music/life simulation game built with F# as an interactive CLI game. 
 dotnet build
 
 # Run the game
-dotnet run --project src/Cli/Cli.fsproj
-
-# Or using Docker
-docker build -t duets .
-docker run -it duets
+dotnet run --project src/Duets.Cli/Duets.Cli.fsproj
 ```
 
 ## Testing

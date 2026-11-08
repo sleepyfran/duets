@@ -24,27 +24,14 @@ cd duets
 > Duets currently uses a fork of Spectre.Console, so it's important to clone the submodules as well to bring that
 > dependency.
 
-Once you have it, you can either chose to run it with a local installation of the .NET SDK or, if you prefer, through
-Docker to avoid installing the SDK on your computer and instead running the game inside a container.
+## Running
 
-## Running with local .NET
-
-If you you want to install .NET, follow the instructions [here](https://dotnet.microsoft.com/download) to get the latest
+To run the game you need the .NET SDK, follow the instructions [here](https://dotnet.microsoft.com/download) to get the latest
 version of .NET. Once you have it, you can simply run:
 
 ```bash
 dotnet build
-dotnet run --project src/Cli/Cli.fsproj
-```
-
-## Running with Docker
-
-There's an included Dockerfile in the repo that allows you to run the game inside a Docker container if you prefer to do
-so, simply run it with:
-
-```bash
-docker build -t duets .
-docker run -it duets
+dotnet run --project src/Duets.Cli/Duets.Cli.fsproj
 ```
 
 > [!WARNING]
