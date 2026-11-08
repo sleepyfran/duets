@@ -1,0 +1,44 @@
+# Electric Lady Studios: the curved walls of Studio A covered by the space
+# mural, with the control room glass in the middle.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌╭────────────────────────────────────────────────────╮▐
+▌│ ·   +   ·    *  ╔════════════════╗     ·    +   ·  │▐
+▌│   ◯◯       ·    ║ ▁▂▃▅▃▂▁   ▪▪▪  ║ ·        ◍      │▐
+▌│  ◯◯◯◯   +       ║▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬║     +     ◍◍◍  ·│▐
+▌│   ◯◯       ·    ╚════════════════╝   ·┌───┐   ◍    │▐
+▌│ ·     *        ·                 *    │ 8 │      + │▐
+▌│            ┬                  ┬       │  ▪│        │▐
+▌│            │       iiiii      │       │   │ iiii   │▐
+4╰ FFFFFFFF n ┴ n         p   n  ┴  n n  │   │ n  nn  ╯6
+▙▄▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄▄▄000▄▄▄▄▄33▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╭─╮│╰╯ = mediumpurple4
+· = grey58
++* = lightgoldenrod2
+◯ = orchid
+◍ = darkorange
+╔═╗║╚╝ = grey50
+▁▂▃▅ = green3
+▪ = grey50
+▬ = grey23
+┌┐ = grey50
+┬┴ = grey70
+░▓ = mediumpurple3
+default = grey30
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+p = player
+n = npc
+F = prop _ | ░░░░░░ | ▓░▓░▓░▓░
+i = item

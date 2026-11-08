@@ -14,7 +14,7 @@ let avenidaApoquindo (city: City) (zone: Zone) =
     let concertSpaces =
         [ ("Teatro Municipal Las Condes", 800, 88<quality>, Layouts.concertSpaceLayout2, zone.Id)
           ("Teatro Oriente", 1200, 86<quality>, Layouts.concertSpaceLayout3, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let hotels =
         [ ("W Santiago", 96<quality>, 450m<dd>, zone.Id)
@@ -49,7 +49,7 @@ let avenidaIsidoraGoyenechea (cityId: CityId) (zone: Zone) =
     let bars =
         [ ("Bar de Cócteles 40/40", 90<quality>, zone.Id)
           ("Whisky Bar Las Condes", 88<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "cocktail-bar")
 
     let cinemas =
         [ ("Cine Hoyts El Golf", 90<quality>, zone.Id) ]

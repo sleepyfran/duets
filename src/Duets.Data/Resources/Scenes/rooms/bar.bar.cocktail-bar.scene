@@ -1,0 +1,47 @@
+# Cocktail bar, seen from the side: a backlit wall of bottles, a neon sign,
+# high stools at the counter and a sofa in the corner.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌              ┌────────────┐                          ▐
+▌ ┌──────┐   ◇ │ ≈COCKTAILS≈│ ◇   ┌───┐ ┌──────┐       ▐
+▌ │wwwwww│  ┌──┴────────────┴┐    │ 8 │ │wwwwww│       ▐
+▌ │wwwwww│  │BBBBBBBBBBBBBBBB│    │   │ │wwwwww│       ▐
+▌ └──────┘  │BBBBBBBBBBBBBBBB│    │  ▪│ └──────┘       ▐
+▌   ◆  ◆    ━━━━━━━━━━━━━━━━━━    │   │                ▐
+▌   │  │     ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓     │   │   ▂▂▂▂▂    ♣ ii▐
+4 nnnnnnnn   ╤ n╤ n╤ n╤ n╤ n╤n    │nnn│ p █▓▓▓█   ▕█▏nn6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+┌─┐│└┘┴ = grey30
+≈COCKTAILS = bold $accent
+◇ = $lamp
+▓ = grey15
+╤ = grey62
+◆ = $lamp
+━ = grey50
+▂ = darkmagenta
+█▓ = purple4
+▪ = grey50
+♣ = green3
+▕█▏ = orange4
+¡ = gold1
+✦ = deepskyblue1
+· = grey30
+default = grey50
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+w = window
+p = player
+n = npc
+B = prop ¡·¡·¡·¡·¡·¡·¡·¡· | ¡¡·¡¡·¡¡·¡¡·¡¡·¡ | ¡✦¡¡✦¡¡✦¡¡✦¡¡✦¡¡
+i = item

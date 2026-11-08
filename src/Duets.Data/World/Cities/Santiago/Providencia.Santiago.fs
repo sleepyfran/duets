@@ -13,8 +13,10 @@ let avenidaProvidencia (zone: Zone) =
 
     let concertSpaces =
         [ ("Bar El Clan", 300, 84<quality>, Layouts.concertSpaceLayout1, zone.Id)
-          ("Club de Jazz de Santiago", 200, 82<quality>, Layouts.concertSpaceLayout1, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          ("Club de Jazz de Santiago", 200, 82<quality>, Layouts.concertSpaceLayout1, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "jazz-club" ]
 
     let bars =
         [ ("Bar Loreto", 85<quality>, zone.Id)

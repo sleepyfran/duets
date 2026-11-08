@@ -1,43 +1,46 @@
 # Cafe.
 
 [art]
-╭─77────────wwwwww────────8888────────wwwwww────────99─╮
-│  ◙ ◙   ▐≡▌  ▐≡▌                         ┌──────┐     │
-│             n                           │ MENU │     │
-│  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  CCCCCC              └──────┘    │
-│   ○   ○   ○   ○                    ○●○      ○●○      │
-4                                                      6
-│   n          ○●○     ○●○                 n           │
-│                                    ○●○    PP         │
-│      n                    p                  iii     │
-╰─11───────0000────────────2222───────────────────33───╯
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌    ╽          ╽           ╽           ╽          ╽   ▐
+▌    ◒          ◒           ◒           ◒          ◒   ▐
+▌ ┌──────┐ ┌───┐ ┌────────────┐ ┌───┐ ┌──────┐ ┌───┐   ▐
+▌ │wwwwww│ │ 7 │ │ MENU ≡≡≡≡≡ │ │ 8 │ │wwwwww│ │ 9 │   ▐
+▌ │wwwwww│ │   │ └────────────┘ │   │ │wwwwww│ │   │   ▐
+▌ └──────┘ │  ▪│  ◙◙  CCCCCC    │  ▪│ └──────┘ │  ▪│   ▐
+▌   ●      │   │ ━━━━━━━━━━━━━━ │   │     ●    │   │   ▐
+4 n┬n  PP  │nnn│ █▒▒▒▒▒▒▒▒▒▒▒▒█ │nnn│ p  n┬n   │nnn│iii6
+▙▄▄▄▄▄▄▄▄▄▄▄111▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄222▄▄▄▄▄▄▄▄▄▄▄▄333▄▄▄▄▟
 
 [legend]
-╭─╮│╰╯ = $wall
-◙ = grey70
-▐≡▌ = tan
-▀ = tan
-○ = grey62
-● = rosybrown
-┌─┐│└┘ = grey50
+▛▀▜▌▐▙▄▟ = $wall
+╽ = grey35
+◒ = $lamp
+┌─┐│└┘ = tan
+▪ = grey50
 MENU = bold white
-◒◓ = hotpink
+≡ = grey70
+◙ = grey70
+▒█━ = tan
+┬ = tan
+● = rosybrown
+◓◔ = hotpink
 · = grey35
 ♣ = green3
 
 [slots]
-7 = exit north-west else ─
-8 = exit north else ─
-9 = exit north-east else ─
-4 = exit west else │
-6 = exit east else │
-1 = exit south-west else ─
-2 = exit south else ─
-3 = exit south-east else ─
-0 = exit street else ─
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
 w = window
 p = player
 n = npc
-C = prop ◒·◓ | ◒◓◒◓ | ◒◓◒◓◒◓
+C = prop ◓·◔ | ◓◔◓◔ | ◓◔◓◔◓◔
 P = prop _ | ♣ | ♣♣
 i = item

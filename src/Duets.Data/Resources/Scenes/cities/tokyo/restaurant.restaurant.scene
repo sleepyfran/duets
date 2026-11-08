@@ -1,0 +1,47 @@
+# Tokyo counter restaurant, seen from the side. Stools along the counter, a
+# noren over the kitchen door and the ticket machine by the entrance.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌ ┌──────┐  ╽         ╽         ╽    ╒══════════════╕  ▐
+▌ │wwwwww│ ◖●◗       ◖●◗       ◖●◗   │ kkkkkkkkkkkk │  ▐
+▌ │wwwwww│     ╾━━━━━━━━━━╼          ╘══════════════╛  ▐
+▌ └──────┘       ▓▓│▓▓│▓▓                   ╔═════╗    ▐
+▌                ▓▓│▓▓│▓▓                   ║▦▦▦▦▦║    ▐
+▌   ◡ ◡ ◡ ◡ ◡ ◡ │   8    │  ◡ ◡ ◡ ◡    PP   ║▦▦▦▦▦║    ▐
+▌ ▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃        ║ ▭ ▭ ║ iii▐
+4 ┰n┰n┰n┰n┰n┰n┰n┰n┰n┰n┰n┰n┰n┰n┰n┰n┰n n p nn ╚═════╝nnnn6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+┌─┐│└┘ = tan
+╒═╕╘╛ = tan
+╽ = grey35
+● = $lamp
+◖◗ = red3
+╾━╼ = tan
+▓ = navyblue
+◡ = grey85
+▃ = tan
+┰ = grey62
+╔╗║╚╝ = grey85
+▦ = bold $accent
+▭ = grey50
+♣ = green3
+▪ = grey50
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+w = window
+p = player
+n = npc
+k = cuisine
+P = prop _ | ♣ | ♣♣
+i = item

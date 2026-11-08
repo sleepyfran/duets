@@ -20,17 +20,20 @@ let private bleeckerStreet (zone: Zone) =
            87<quality>,
            Layouts.concertSpaceLayout1,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("(Le) Poisson Rouge",
            700,
            89<quality>,
            Layouts.concertSpaceLayout2,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("The Lynn Redgrave Theater",
            350,
            85<quality>,
            Layouts.concertSpaceLayout1,
-           zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+           zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "seated" ]
 
     let restaurants =
         [ ("John's of Bleecker Street", 88<quality>, Italian, zone.Id)
@@ -114,7 +117,7 @@ let private irvingPlace city (zone: Zone) =
 
     let bars =
         [ ("Pete's Tavern", 84<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
 
     let hotels =
         [ ("The W New York – Union Square", 90<quality>, 400m<dd>, zone.Id) ]

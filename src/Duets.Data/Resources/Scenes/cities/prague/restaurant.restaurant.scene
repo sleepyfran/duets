@@ -1,0 +1,42 @@
+# Prague beer hall restaurant, seen from the side. Vaulted ceiling on thick
+# pillars, long shared tables and the sign of the cuisine on the back wall.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌▀▄             ▄▄█▄▄              ▄▄█▄▄             ▄▀▐
+▌  ▀▄    ╽    ▄▀  █  ▀▄          ▄▀  █  ▀▄    ╽    ▄▀  ▐
+▌        ◒        █  ╒═════════════╕ █        ◒        ▐
+▌  ┌────┐         █  │kkkkkkkkkkkkk│ █  ┌───┐  ┌────┐  ▐
+▌  │wwww│         █  ╘═════════════╛ █  │ 8 │  │wwww│  ▐
+▌  └────┘ TTTTTT  █    TTTTTTTT      █  │   │  └────┘  ▐
+▌PP      ━━━━━━━━ █   ━━━━━━━━━━━    █  │  ▪│ iiii PP  ▐
+4nnnnn   ║nnnnnn║ █nn ║nnnnnnnnn║nnn █nn│nnn│nnp nnnnn 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟█ = $wall
+┌─┐│└┘ = tan
+╒═╕╘╛ = gold3
+◒ = $lamp
+╽ = grey35
+━║ = tan
+¡ = gold1
+≡ = grey85
+♣ = green3
+▪ = grey50
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+w = window
+p = player
+n = npc
+k = cuisine
+T = prop ¡ ≡ ¡ | ¡¡≡ ¡¡ | ¡¡¡≡¡¡¡
+P = prop _ | ♣ | ♣♣
+i = item

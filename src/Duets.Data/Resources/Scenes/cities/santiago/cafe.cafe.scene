@@ -1,0 +1,48 @@
+# Santiago soda-fountain café, seen from the side. A long counter with
+# swivel stools, soda taps and a booth by the window.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌       ╽           ╽           ╽           ╽          ▐
+▌      ◖◒◗         ◖◒◗         ◖◒◗         ◖◒◗         ▐
+▌ ┌────────┐ ┌───┐  ╭────────────────────────────────╮ ▐
+▌ │wwwwwwww│ │ 8 │  │ HELADOS · SODAS · CAFE · LECHE │ ▐
+▌ │wwwwwwww│ │   │  ╰────────────────────────────────╯ ▐
+▌ └────────┘ │  ▪│     ╓╖╓╖╓╖  ccccccccc   iiii   PP   ▐
+▌█▖ ━┯━ ▗█   │   │   ▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃ ▐
+4██n ┴ n██ n │nnn│n p╤n╤n╤n╤n╤n╤n╤n╤n╤n╤n╤n╤n╤n╤n╤n╤n╤ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+┌─┐│└┘ = tan
+╭─╮╰╯ = grey70
+◒ = $lamp
+◖◗ = grey70
+╽ = grey35
+HELADOSCFE = bold $accent
+╓╖ = grey85
+▃ = grey85
+╤ = bold red3
+█▖▗ = indianred
+━ = white
+┯┴ = grey62
+◒◓ = hotpink
+· = grey35
+♣ = green3
+▪ = grey50
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+w = window
+p = player
+n = npc
+c = prop ◒·◓ | ◒◓◒◓ | ◒◓◒◓◒◓
+P = prop _ | ♣ | ♣♣
+i = item

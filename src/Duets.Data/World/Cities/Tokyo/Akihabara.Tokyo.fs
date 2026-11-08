@@ -54,7 +54,7 @@ let kandaDori (zone: Zone) (city: City) =
 
     let bars =
         [ ("Bar Ishinohana", 85<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "cocktail-bar")
 
     let gyms =
         [ ("Anytime Fitness Akihabara", 82<quality>, zone.Id) ]

@@ -1,0 +1,51 @@
+# New York coffee shop, seen from the side: exposed brick, Edison bulbs,
+# a factory window and an espresso bar.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌     ╽            ╽           ╽              ╽        ▐
+▌     ◦            ◦           ◦              ◦        ▐
+▌ ┌──┬──┬──┐▬┌─┐ ┌────────┐┌───┐▬┌────────────┐▬▬ ▬┌─┐▬▐
+▌▬│ww│ww│ww│ │7│▬│ LATTE ≡││ 8 │▬│QQQQQQQQQQQQ│▬ ▬▬│9│ ▐
+▌ ├──┼──┼──┤▬│ │ │ DRIP  ≡││   │▬└────────────┘▬▬ ▬│ │▬▐
+▌▬│ww│ww│ww│ │ │▬└────────┘│  ▪│▬ ◙▬ ◙▬ ▬♣ ▬▿▿▬▬ ▬▬│ │ ▐
+▌ └──┴──┴──┘ │ │ ━┳━  ii   │   │ ▆▆▆▆▆▆▆▆▆▆▆▆▆▆  KK│ │ ▐
+4 n╥ n╥ n╥   │n│n┃n   p    │nnn│ █▒▒▒▒▒▒▒▒▒▒▒▒█ nn │n│ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▬ = indianred
+╽ = grey35
+◦ = $lamp
+┌┬┐│├┼┤└┴┘─ = grey30
+╥ = grey50
+LATEDRIP = white
+≡ = grey50
+◓◔ = wheat1
+◙ = grey70
+♣ = green3
+▿ = grey85
+▆ = orange4
+█ = grey23
+▒ = grey35
+━ = orange4
+┳┃ = grey23
+▪ = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+w = window
+p = player
+n = npc
+Q = prop ◓ ◔ ◓ | ◓◔◓◔◓◔ | ◓◔◓◔◓◔◓◔◓◔
+K = prop _ | ♣ | ♣♣
+i = item

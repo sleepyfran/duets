@@ -10,7 +10,7 @@ let plzeňská (city: City) (zone: Zone) =
 
     let bars =
         [ ("The Pub Praha 5", 86<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
 
     let restaurants =
         [ ("El Sabor Mexicano", 89<quality>, Mexican, zone.Id) ]
@@ -87,7 +87,7 @@ let janáčkovoNábřeží (zone: Zone) =
 
     let concertSpaces =
         [ ("Jazz Dock", 150, 95<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "jazz-club")
 
     street |> World.Street.addPlaces concertSpaces
 

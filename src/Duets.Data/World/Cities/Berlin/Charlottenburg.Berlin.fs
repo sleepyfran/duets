@@ -22,7 +22,7 @@ let kurfuerstendamm (cityId: CityId) (zone: Zone) =
            95<quality>,
            Layouts.concertSpaceLayout2,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let hotels =
         [ ("Hotel Zoo Berlin", 92<quality>, 320m<dd>, zone.Id)
@@ -93,7 +93,7 @@ let bismarckstrasse (zone: Zone) (city: City) =
            96<quality>,
            Layouts.concertSpaceLayout3,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let gyms =
         [ ("McFit Charlottenburg", 80<quality>, zone.Id) ]

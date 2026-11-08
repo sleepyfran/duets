@@ -1,0 +1,48 @@
+# Tokyo Dome: a huge stage with a screen on one end of the field, the crowd
+# on the field and the stands climbing up under the white roof of the Big Egg.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌╧════╧════╧════╧════╧════╧════╧════╧════╧════╧════╧═══▐
+▌  ▼   ▼    ▼    ▼   ▼     ▼         ▼          ▼      ▐
+▌ ╔═══════════════════╗                                ▐
+▌ ║▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓║ ╔════════════╗                 ▐
+▌ ║▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓║ ║ TOKYO DOME ║            aaaaa▐
+▌ ╚═══════════════════╝ ╚════════════╝       aaaaa━━━━━▐
+▌  ┌───┐ ┌───┐ ┌───┐                    aaaaa━━━━━░░░░░▐
+▌  │ 7 │ │ 8 │ │ 9 │               aaaaa━━━━━░░░░░░░░░░▐
+▌▐▌│   │ │   │ │   │▐▌             ━━━━━░░░░░░░░░░░░░░░▐
+4▐▌│ m │p│ m │m│ m │▐▌             ░░░░░░░░░░░░░░░░░░░░▐
+▌▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  aaaaaaaaaa░░░░░░░░░░░░░░      ▐
+▌██████████████████████naaaaaaaaaaa░░░░░░░░░░░░░░  n   6
+▙▄▄▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄22▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╧═ = grey85
+▼ = $stage
+╔╗╚╝║ = grey50
+▓ = $stage
+TOKYDME = bold white
+┌─┐│ = grey50
+▪ = grey50
+▆ = grey35
+█ = grey19
+━ = royalblue1
+░ = navyblue
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+m = band
+a = crowd

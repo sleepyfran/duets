@@ -1,0 +1,47 @@
+# Roundhouse: the old engine shed, with the stage in the middle, the ring of
+# iron columns holding the roof and the crowd all around.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌        ╱    ╱    ╱    ╱ ╱▔▔╲ ╲    ╲    ╲    ╲        ▐
+▌  ╱    ╱    ╱    ╱    ╱        ╲    ╲    ╲    ╲    ╲  ▐
+▌━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━▐
+▌    ┳       ┳   ═╤═════╤═════╤═════╤═    ┳       ┳    ▐
+▌    ┃       ┃    ▼     ▼     ▼     ▼     ┃       ┃    ▐
+▌    ┃       ┃                            ┃       ┃    ▐
+▌xxxx┃xxxxxxx┃                            ┃xxxxxxx┃xxxx▐
+▌━━━━╋━━━━━━━╋     ▕▓▏   ▂▂▂▂▂▂   ▕▓▏     ╋━━━━━━━╋━━━━▐
+▌    ┃ ┌───┐ ┃   n ▕▓▏m  m ◉p m   ▕▓▏ n   ┃       ┃    ▐
+▌aaaa┃a│ 8 │a┃aaa▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇aaa┃aaaaaaa┃aaaa▐
+▌aaaa┃a│  ▪│a┃aaa██████████████████████aaa┃aaaaaaa┃aaaa▐
+4naaa┃a│   │a┃aaaaaaaaaaaaaaaaaaaaaaaaaaaa┃aaaaaaa┃aaan6
+▙▄▄▄▄▄11▄▄▄▄▄▄▄▄▄000▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╱╲▔ = tan
+━╋ = grey42
+═╤ = grey50
+▼ = $stage
+┳┃ = grey42
+▕▓▏ = grey62
+▂ = grey35
+◉ = navajowhite1
+▇ = tan
+█ = grey19
+┌─┐│ = grey50
+default = grey30
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+p = player
+m = band
+n = npc
+a = crowd
+x = crowd

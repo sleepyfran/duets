@@ -1,0 +1,41 @@
+# Tokyo platform, seen from the side. Waist-high platform doors, the queue
+# markings on the floor and a departure board hanging from the ceiling.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌         ━━━━━     ╽          ╽        ━━━━━          ▐
+▌                 ▕ NEXT ▸ LOCAL ▏                     ▐
+▌ ┌───┐ ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔ ┌───┐ ▐
+▌ │ 7 │ rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr │ 8 │ ▐
+▌ │   │ ════════════════════════════════════════ │   │ ▐
+▌ │  ▪│ ┌─────┐    ┌─────┐    ┌─────┐    ┌─────┐ │  ▪│ ▐
+▌ │   │ │▒▒▒▒▒│    │▒▒▒▒▒│    │▒▒▒▒▒│    │▒▒▒▒▒│ │   │ ▐
+4n│   │nnnnnnnnnnnnnnnn p nnnnnnnnnnnnnnnn iii n │   │n6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▼▼▼0000▄▄▄▄▼▼▼▼▄▄2222▄▼▼▼▼▄▄▄▄▄▄33▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+━ = $lamp
+╽ = grey35
+▕▏ = grey50
+NEXT▸LOCA = bold orange1
+▔ = grey50
+═ = grey50
+┌─┐│└┘ = grey70
+▒ = grey70
+▼ = bold green3
+▪ = grey50
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+7 = exit north-west else ▪
+8 = exit north else ▪
+p = player
+n = npc
+r = item rideable
+i = item

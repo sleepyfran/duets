@@ -82,6 +82,23 @@ let ``parse reads prop tiers and alternatives`` () =
         (SlotKind.Prop [ [ ""; "▤" ]; [ "▤▤" ]; [ "▣▤▣"; "▤▣▤" ] ])
 
 [<Test>]
+let ``parse reads the glyphs of the crowd`` () =
+    let template = parseOk "[art]\naAb\n[slots]\na = crowd ♥ ✦\nA = crowd\nb = crowd ♥ else ▓"
+
+    template.Slots |> Map.find 'a' |> _.Kind |> should equal (SlotKind.Crowd [ '♥'; '✦' ])
+    template.Slots |> Map.find 'A' |> _.Kind |> should equal (SlotKind.Crowd [])
+
+    template.Slots
+    |> Map.find 'b'
+    |> should equal { Kind = SlotKind.Crowd [ '♥' ]; Fallback = '▓' }
+
+[<Test>]
+let ``parse fails when a crowd glyph is longer than a character`` () =
+    Template.parse "[art]\na\n[slots]\na = crowd ♥♥"
+    |> Result.isError
+    |> should equal true
+
+[<Test>]
 let ``parse fails when a slot is not used in the art`` () =
     Template.parse "[art]\nabc\n[slots]\nz = npc"
     |> Result.isError
@@ -146,6 +163,55 @@ let ``candidateKeys go from the most specific to the most generic`` () =
           "rooms/bar.bar"
           "rooms/bar" ]
 
+let private concertSpace capacity =
+    World.Place.create
+        "Jazz Dock"
+        50<quality>
+        (PlaceType.ConcertSpace { Capacity = capacity })
+        Layouts.concertSpaceLayout1
+        "zone"
+        "street"
+
+[<Test>]
+let ``candidateKeys put the tags after the place and the tier before the generic ones`` () =
+    let place =
+        concertSpace 150
+        |> World.Place.tag "jazz-club"
+        |> World.Place.tag "seated"
+
+    candidateKeys Prague place RoomType.Stage
+    |> should
+        equal
+        [ "places/prague/jazz-dock/stage"
+          "rooms/concert-space.stage.jazz-club"
+          "rooms/concert-space.stage.seated"
+          "cities/prague/concert-space.stage"
+          "cities/prague/stage"
+          "rooms/concert-space.stage.club"
+          "rooms/concert-space.stage"
+          "rooms/stage" ]
+
+[<Test>]
+let ``candidateKeys use the tags of any place`` () =
+    candidateKeys London (bar |> World.Place.tag "pub") RoomType.Bar
+    |> should contain "rooms/bar.bar.pub"
+
+[<Test>]
+let ``sizeTier depends on the capacity of the concert space`` () =
+    [ 1; 500; 501; 3000; 3001; 25000; 25001 ]
+    |> List.map (concertSpace >> sizeTier)
+    |> should
+        equal
+        [ Some "club"
+          Some "club"
+          Some "theatre"
+          Some "theatre"
+          Some "arena"
+          Some "arena"
+          Some "stadium" ]
+
+    sizeTier bar |> should equal None
+
 [<Test>]
 let ``candidateKeys ignore the cuisine of restaurants`` () =
     candidateKeys Prague bar (RoomType.Restaurant Czech)
@@ -173,6 +239,33 @@ let ``tryResolve picks the most specific template available`` () =
 
     resolveIn templates Prague |> should equal (Some "default")
     resolveIn Map.empty Prague |> should equal None
+
+[<Test>]
+let ``tryResolve prefers tags over the city and tiers over the generic ones`` () =
+    let template art = parseOk $"[art]\n{art}"
+
+    let templates =
+        [ "rooms/stage", template "default"
+          "rooms/concert-space.stage.arena", template "arena"
+          "cities/prague/stage", template "city"
+          "rooms/concert-space.stage.seated", template "seated" ]
+        |> Map.ofList
+
+    let resolveIn templates place =
+        tryResolve templates Prague place RoomType.Stage
+        |> Option.map (_.Art >> List.head)
+
+    let arena = concertSpace 18000
+
+    resolveIn templates (arena |> World.Place.tag "seated")
+    |> should equal (Some "seated")
+
+    resolveIn templates arena |> should equal (Some "city")
+
+    resolveIn (templates |> Map.remove "cities/prague/stage") arena
+    |> should equal (Some "arena")
+
+    resolveIn templates (concertSpace 100) |> should equal (Some "city")
 
 [<Test>]
 let ``all templates of the game are valid`` () =
@@ -395,4 +488,76 @@ let ``every landmark is used by a street`` () =
     |> Map.keys
     |> Seq.filter (fun key -> not (usedKeys.Contains key))
     |> List.ofSeq
+    |> should be Empty
+
+let private allPlaces () =
+    allStreets () |> List.collect _.Places
+
+let private placeTypeKey (place: Place) =
+    place.PlaceType |> World.Place.Type.toIndex |> Union.caseName |> toKey
+
+[<Test>]
+let ``every place template matches a place of the world`` () =
+    let placeKeys =
+        Duets.Data.World.World.get.Cities
+        |> List.ofMapValues
+        |> List.collect (fun city ->
+            city.Zones
+            |> List.ofMapValues
+            |> List.collect (fun zone -> zone.Streets.Nodes |> List.ofMapValues)
+            |> List.collect _.Places
+            |> List.map (fun place ->
+                $"places/{Union.caseName city.Id |> toKey}/{toKey place.Name}"))
+        |> Set.ofList
+
+    Scenes.all.Value
+    |> Map.keys
+    |> Seq.filter (fun key -> key.StartsWith "places/")
+    |> Seq.map (fun key -> key.Substring(0, key.LastIndexOf '/'))
+    |> Seq.filter (fun key -> not (placeKeys.Contains key))
+    |> List.ofSeq
+    |> should be Empty
+
+let private tiers = [ "club"; "theatre"; "arena"; "stadium" ]
+
+[<Test>]
+let ``every tag template is used by a place of that type`` () =
+    let usedTags =
+        allPlaces ()
+        |> List.collect (fun place ->
+            place.SceneTags |> List.map (fun tag -> $"{placeTypeKey place}.{tag}"))
+        |> Set.ofList
+
+    Scenes.all.Value
+    |> Map.keys
+    |> Seq.filter (fun key -> key.StartsWith "rooms/")
+    |> Seq.choose (fun key ->
+        match key.Substring("rooms/".Length).Split('.') with
+        | [| placeType; _; tag |] when not (List.contains tag tiers) ->
+            Some(key, $"{placeType}.{tag}")
+        | _ -> None)
+    |> Seq.filter (fun (_, tag) -> not (usedTags.Contains tag))
+    |> Seq.map fst
+    |> List.ofSeq
+    |> should be Empty
+
+[<Test>]
+let ``every tag of a place has a template`` () =
+    let templateTags =
+        Scenes.all.Value
+        |> Map.keys
+        |> Seq.choose (fun key ->
+            match key.Split('/') with
+            | [| "rooms"; name |] ->
+                match name.Split('.') with
+                | [| placeType; _; tag |] -> Some $"{placeType}.{tag}"
+                | _ -> None
+            | _ -> None)
+        |> Set.ofSeq
+
+    allPlaces ()
+    |> List.collect (fun place ->
+        place.SceneTags |> List.map (fun tag -> $"{placeTypeKey place}.{tag}"))
+    |> List.distinct
+    |> List.filter (fun tag -> not (templateTags.Contains tag))
     |> should be Empty

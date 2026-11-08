@@ -1,0 +1,50 @@
+# Los Angeles rooftop bar, seen from the side: open sky over the city,
+# string lights, palms and a pool next to the bar. Pool tables and other games
+# are items.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌◦╌╌◦╌╌◦╌╌◦╌╌◦╌╌◦╌╌◦╌╌◦╌╌◦╌╌◦╌╌◦╌╌◦╌╌◦╌╌◦╌╌◦╌╌◦╌╌◦╌╌◦╌╌▐
+▌wwwww╲w│w╱wwwwwwwww╲w│w╱wwwwwwwwwwwwwwwwwwwwwwwwwwwwww▐
+▌w┌─┐w─╲│╱─wwwwwwwww─╲│╱─w┌───┐ww┌──────────────┐ww┌─┐w▐
+▌w│7│www┃wwwwwwwwwwwww┃www│ 8 │ww│QQQQQQQQQQQQQQ│ww│9│w▐
+▌w│ │www┃wwwwwwwwwwwww┃www│   │ww└──────────────┘ww│ │w▐
+▌▂│ │▂▂▆┃▃▂▅▇▅▂▃▂▂▃▅▃▂┃▆▃▂│  ▪│▂▃▅▆▅▃▂▂▂▃▅▃▂▃▆▃▂▃▅▃│ │▂▐
+▌┄│ │┄┄┄┃┄┄▁▁▁▁▁▁▁▁▁┄┄┃┄┄┄│   │┄┄▗▆▆▆▆▆▆▆▆▆▆▆▆▆▆▖g┄│ │┄▐
+4 │n│nn▆▆▆ ≈≈≈≈≈≈≈≈≈n▆▆▆n │nnn│p █╥n╥n╥n╥n╥n╥n╥█ i │n│ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+◦ = $lamp
+╌ = grey35
+▂▃▅▆▇ = grey23
+┄ = lightcyan3
+╲│╱─ = green3
+┃ = tan
+▆ = grey50
+▁ = white
+≈ = deepskyblue1
+┌┐└┘ = grey85
+╥ = white
+▗▖█ = grey85
+¡▮ = gold1
+· = grey35
+▪ = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+w = window
+p = player
+n = npc
+Q = prop ¡·¡¡··¡·¡¡·¡·¡¡ | ¡¡¡¡¡¡¡¡¡¡¡¡¡¡ | ¡▮¡▮¡¡▮¡▮¡¡▮¡▮
+g = item playable
+i = item

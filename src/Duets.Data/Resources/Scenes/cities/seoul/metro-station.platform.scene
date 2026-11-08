@@ -1,0 +1,39 @@
+# Seoul subway platform, seen from the side. Glass screen doors along the
+# edge, the train shows up behind them when it's at the station.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌       ━━━━━    ━━━━━    ━━━━━    ━━━━━    ━━━━━      ▐
+▌       ▐●▌ SUBWAY ═══════════════════ SUBWAY ▐●▌      ▐
+▌ ┌───┐ ╔════╤════╤════╤════╤════╤════╤════╤════╗┌───┐ ▐
+▌ │ 7 │ ║    │    │    │    │    │    │    │    ║│ 8 │ ▐
+▌ │   │ rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr│   │ ▐
+▌ │  ▪│ ║    │    │    │    │    │    │    │    ║│  ▪│ ▐
+▌ │   │ ╚════╧════╧════╧════╧════╧════╧════╧════╝│   │ ▐
+4n│   │nnnnnnnnnnnnnnn p nnnnnnnnnnnnnnnnn iii n │   │n6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+━ = $lamp
+● = bold green3
+SUBWAY = bold white
+═ = green3
+╔╗╚╝║╤╧ = grey70
+│ = grey62
+┌─┐└┘ = grey62
+▪ = grey50
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+7 = exit north-west else ▪
+8 = exit north else ▪
+p = player
+n = npc
+r = item rideable
+i = item

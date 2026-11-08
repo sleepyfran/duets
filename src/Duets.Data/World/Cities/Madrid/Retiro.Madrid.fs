@@ -23,14 +23,18 @@ let parqueRetiro (zone: Zone) =
            84<quality>,
            Layouts.concertSpaceLayout2,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "seated"
           ("La Riviera", 2500, 90<quality>, Layouts.concertSpaceLayout2, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("Sala But", 900, 88<quality>, Layouts.concertSpaceLayout1, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("Sala Caracol",
            500,
            85<quality>,
            Layouts.concertSpaceLayout4,
-           zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+           zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id ]
 
     let metroStation =
         ("Retiro Station", zone.Id) |> PlaceCreators.createMetro street.Id

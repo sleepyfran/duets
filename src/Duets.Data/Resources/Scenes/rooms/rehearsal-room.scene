@@ -1,46 +1,52 @@
 # Rehearsal room.
 
 [art]
-┏━77━━━━━━━━━━━━━━━━━━━━━━8888━━━━━━━━━━━━━━━━━━━━━━99━┓
-┃ GGGGGG   AAAAA   CCCCCCCCCCCCCCCCCCCCCCCC   AAAAA    ┃
-┃                                                      ┃
-┃  ▐▓▓▌                 ⊙  ◯  ⊙                 ▐▓▓▌   ┃
-┃  ▐▓▓▌   n            ◯   ◉   ◯         n      ▐▓▓▌   ┃
-4     ┼  ♪                 ●                ♪  ┼       6
-┃             n                        n               ┃
-┃                 DDDDDDDDDDDDDDDDDDDD                 ┃
-┃  EEEEEE    n            p              iiii  iiii    ┃
-┗━11━━━━━━━0000━━━━━━━━━━━━2222━━━━━━━━━━━━━━━━━━━33━━━┛
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌                      ╽                   ╽           ▐
+▌                      ◒                   ◒           ▐
+▌ ┌───┐ GGGGGG  CCCCCCCCCCCCCCC  ┌───┐           ┌───┐ ▐
+▌ │ 7 │ AAAAAAA CCCCCCCCCCCCCCC  │ 8 │ AAAAAAA   │ 9 │ ▐
+▌ │  ▪│                          │  ▪│  iiiii    │  ▪│ ▐
+▌ │   │            ⊙     ⊙       │   │ ╞═════╡   │   │ ▐
+▌ │   │     █▓▓█   ╿ ◯ ◯ ╿ █▓▓█  │   │           │   │ ▐
+4 │   │ iii █▓▓█ n │ ◯◉◯ │ █▓▓█┼ │   │p n EEEEEE │   │ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄DDDDDDDDDD▄2222▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
 
 [legend]
-┏━┓┃┗┛ = $wall
-▐▓▌ = grey62
+▛▀▜▌▐▙▄▟ = $wall
+◒ = $lamp
+╽ = grey35
+┌─┐│└┘ = grey50
+▪ = grey50
+█ = grey35
+▓ = grey23
 ⊙ = gold1
 ◯◉ = navajowhite1
-● = grey50
+╿ = grey62
 ┼ = grey70
-♪ = orange1
 ▤▣ = magenta1
-▒▓ = grey35
+▒ = grey35
+▩ = grey27
 ░ = indianred
-▙▄▟▖▗ = tan
+▃█▂ = tan
+╞═╡ = tan
 ~≈ = magenta1
 
 [slots]
-7 = exit north-west else ━
-8 = exit north else ━
-9 = exit north-east else ━
-4 = exit west else ┃
-6 = exit east else ┃
-1 = exit south-west else ━
-2 = exit south else ━
-3 = exit south-east else ━
-0 = exit street else ━
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
 p = player
 n = npc
 G = prop ~≈~~≈ ≈~≈~ | _ | _
 A = prop _ ▤ | ▤ ▤▤ | ▤▤▤ ▣▤▣
-C = prop _ | ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ | ▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒
-D = prop _ ░░░░░░░░ | ░░░░░░░░░░░░░░ | ░░░░░░░░░░░░░░░░░░░░
-E = prop ▖▄▄▗ ▖▄▗▄ | ▙▄▄▄▄▟ | ▙▄▄▄▄▟
+C = prop _ | ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ | ▩▒▩▒▩▒▩▒▩▒▩▒▩▒▩▒▩
+D = prop _ | ░░░░░░░░░░ | ░░░░░░░░░░ else ▄
+E = prop ▂▃▃▂ ▂▃▂▃ | ▃▃▃▃▃▃ | █▃▃▃▃█
 i = item

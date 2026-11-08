@@ -1,0 +1,44 @@
+# Toronto brewpub, seen from the side. The brewing tanks behind the railing,
+# taps on the counter and hockey on the TV.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌                       ╽          ╽                   ▐
+▌ ╭━━━╮ ╭━━━╮ ╭━━━╮     ◒ ┌───────┐◒┌──────┐           ▐
+▌ ┃   ┃ ┃   ┃ ┃   ┃       │░░░╏•░░│ │wwwwww│  ┌───┐    ▐
+▌ ┃ ◉ ┃ ┃ ◉ ┃ ┃ ◉ ┃       │░░▸╏░░░│ │wwwwww│  │ 8 │    ▐
+▌ ┃   ┃ ┃   ┃ ┃   ┃       └───┬───┘ └──────┘  │   │    ▐
+▌ ╰┳━┳╯ ╰┳━┳╯ ╰┳━┳╯   ╿╿╿╿╿  iiii             │  ▪│    ▐
+▌  ┃ ┃   ┃ ┃   ┃ ┃   ▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃ ggggg   │   │    ▐
+4 nn nnn nnn nnnn    ┬n┬n┬n┬n┬n┬n┬n┬n n p n nn│   │nnnn6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╭━╮┃╰╯┳ = orange3
+◉ = grey70
+┌─┐│└┘┴ = grey50
+░ = grey93
+╏ = red3
+• = bold grey11
+▸ = blue
+◒ = $lamp
+╽ = grey35
+╿ = bold gold1
+▃ = tan
+┬ = tan
+▪ = grey50
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+w = window
+p = player
+n = npc
+g = item playable
+i = item

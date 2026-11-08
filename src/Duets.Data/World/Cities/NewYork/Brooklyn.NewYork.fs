@@ -20,12 +20,14 @@ let private lafayetteAtlantic (city: City) (zone: Zone) =
            96<quality>,
            Layouts.concertSpaceLayout4,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("BAM (Brooklyn Academy of Music)",
            2100,
            92<quality>,
            Layouts.concertSpaceLayout3,
-           zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+           zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "seated" ]
 
     let bars =
         [ ("baba cool", 86<quality>, zone.Id) ]

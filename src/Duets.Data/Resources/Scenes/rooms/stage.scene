@@ -1,41 +1,50 @@
 # Stage of a concert space. The crowd fills up depending on the tickets sold.
 
 [art]
-╔═77══════════════════════8888══════════════════════99═╗
-║    ▼        ▼        ▼        ▼        ▼        ▼    ║
-║        ▐▓▓▌          ⊙  ◯  ⊙          ▐▓▓▌           ║
-4   ▐▓▓▌   m    ┼     ◯   ◉   ◯     ┼    m   ▐▓▓▌      6
-║     ◣◢         m        p          m        ◣◢       ║
-║ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ║
-║  ┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬    ║
-║  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  ║
-║  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  n║
-║  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  ║
-║  n  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  n ║
-╚═11═══════0000════════════2222═══════════════════33═══╝
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌ ▕█▏  ═╤═══════╤═══════╤═══════╤═══════╤═══════╤═ ▕█▏ ▐
+▌ ▕█▏   ▼       ▼       ▼       ▼       ▼       ▼  ▕█▏ ▐
+▌ ▔▔▔ ┌───┐         ⊙     ⊙         ┌───┐    ┌───┐ ▔▔▔ ▐
+▌     │ 7 │  █▓▓█   ╿ ◯ ◯ ╿   █▓▓█  │ 8 │    │ 9 │     ▐
+▌     │  ▪│  █▓▓█   │ ◯◉◯ │   █▓▓█  │  ▪│    │  ▪│     ▐
+▌     │   │  █▓▓█  ▆▆▆▆▆▆▆▆▆  █▓▓█  │   │    │   │     ▐
+4 m   │   │ ◢◣ m  ┼    p    ┼  m ◢◣ │   │ m  │   │  m  6
+▌━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━▐
+▌▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▐
+▌▓AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA▓▐
+▌ n aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa n ▐
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
 
 [legend]
-╔═╗║╚╝ = $wall
+▛▀▜▌▐▙▄▟ = $wall
 ▼ = $stage
-▐▓▌ = grey62
+═╤ = grey50
+▕█▏ = grey30
+▓ = grey23
+┌─┐│└┘ = grey42
+▪ = grey50
 ⊙ = gold1
+╿ = grey62
 ◯◉ = navajowhite1
+█▆ = grey35
+━ = tan
+▔ = grey30
+◢◣ = grey42
 ┼ = grey70
-◣◢ = grey50
-▀ = tan
-┬ = grey35
+default = grey50
 
 [slots]
-7 = exit north-west else ═
-8 = exit north else ═
-9 = exit north-east else ═
-4 = exit west else ║
-6 = exit east else ║
-1 = exit south-west else ═
-2 = exit south else ═
-3 = exit south-east else ═
-0 = exit street else ═
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
 p = player
 n = npc
 m = band
 a = crowd
+A = crowd else ▓

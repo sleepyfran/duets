@@ -16,8 +16,11 @@ let itaewonRo (zone: Zone) (city: City) =
 
     let bars =
         [ ("Magpie Brewing Itaewon", 87<quality>, zone.Id)
-          ("Southside Parlor", 85<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+          |> PlaceCreators.createBar street.Id
+          |> World.Place.tag "pub"
+          ("Southside Parlor", 85<quality>, zone.Id)
+          |> PlaceCreators.createBar street.Id
+          |> World.Place.tag "cocktail-bar" ]
 
     let hotels =
         [ ("Grand Hyatt Seoul", 94<quality>, 480m<dd>, zone.Id) ]

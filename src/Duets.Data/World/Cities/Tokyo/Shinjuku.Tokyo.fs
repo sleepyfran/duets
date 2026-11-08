@@ -12,16 +12,23 @@ let kabukicho (zone: Zone) =
 
     let concertSpaces =
         [ ("Shinjuku BLAZE", 1500, 89<quality>, Layouts.concertSpaceLayout3, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("Shinjuku Loft", 500, 87<quality>, Layouts.concertSpaceLayout2, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("Pit Inn Shinjuku", 150, 91<quality>, Layouts.concertSpaceLayout1, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "jazz-club"
           ("Shinjuku ReNY", 800, 86<quality>, Layouts.concertSpaceLayout3, zone.Id)
-          ("Shinjuku Naked Loft", 250, 84<quality>, Layouts.concertSpaceLayout1, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          ("Shinjuku Naked Loft", 250, 84<quality>, Layouts.concertSpaceLayout1, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id ]
 
     let bars =
         [ ("Zoetrope Whisky Bar", 91<quality>, zone.Id)
-          ("Albatross G", 83<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+          |> PlaceCreators.createBar street.Id
+          |> World.Place.tag "cocktail-bar"
+          ("Albatross G", 83<quality>, zone.Id)
+          |> PlaceCreators.createBar street.Id ]
 
     let casinos =
         [ ("Shinjuku Pachinko Palace", 78<quality>, zone.Id) ]

@@ -142,6 +142,8 @@ module WorldTypes =
             Rooms: Graph<Room>
             ZoneId: ZoneId
             StreetId: StreetId
+            /// Tags of the templates used for the rooms of the place.
+            SceneTags: string list
         }
 
         interface IComparer<Place> with

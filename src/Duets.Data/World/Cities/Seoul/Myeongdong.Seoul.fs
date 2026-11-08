@@ -14,7 +14,7 @@ let myeongdongGil (zone: Zone) =
     let concertSpaces =
         [ ("Chungmu Art Center", 1000, 89<quality>, Layouts.concertSpaceLayout3, zone.Id)
           ("Nanta Theatre", 500, 86<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let hotels =
         [ ("Lotte Hotel Seoul", 95<quality>, 450m<dd>, zone.Id)
@@ -47,7 +47,7 @@ let namdaemunRo (cityId: CityId) (zone: Zone) (city: City) =
     let concertSpaces =
         [ ("Seoul Arts Center", 2500, 93<quality>, Layouts.concertSpaceLayout4, zone.Id)
           ("Sejong Center for the Performing Arts", 3022, 94<quality>, Layouts.concertSpaceLayout4, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let hospitals =
         [ ("Severance Hospital", 90<quality>, zone.Id) ]

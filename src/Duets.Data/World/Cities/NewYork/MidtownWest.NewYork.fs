@@ -26,7 +26,7 @@ let private broadway (city: City) (zone: Zone) =
            94<quality>,
            Layouts.concertSpaceLayout1,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let bars =
         [ ("TSX Broadway", 88<quality>, zone.Id) ]
@@ -72,8 +72,10 @@ let private seventhAvenue (zone: Zone) =
 
     let bars =
         [ ("Mustang Harry's", 84<quality>, zone.Id)
-          ("Juniper Bar & Grill", 82<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+          |> PlaceCreators.createBar street.Id
+          |> World.Place.tag "pub"
+          ("Juniper Bar & Grill", 82<quality>, zone.Id)
+          |> PlaceCreators.createBar street.Id ]
 
     let rehearsalSpaces =
         [ ("SIR Studios", 92<quality>, 200m<dd>, zone.Id) ]
@@ -111,7 +113,7 @@ let private fiftySeventhStreet (zone: Zone) =
            99<quality>,
            Layouts.concertSpaceLayout3,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let restaurants =
         [ ("The Tea Room", 93<quality>, Czech, zone.Id)

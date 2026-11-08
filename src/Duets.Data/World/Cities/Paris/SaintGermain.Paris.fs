@@ -17,12 +17,14 @@ let boulevardSaintGermain (zone: Zone) (cityId: CityId) (city: City) =
            96<quality>,
            Layouts.concertSpaceLayout4,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("Théâtre du Châtelet",
            2500,
            94<quality>,
            Layouts.concertSpaceLayout4,
-           zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+           zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "seated" ]
 
     let radioStudios =
         [ ("Radio France Studios", 92<quality>, "Jazz", zone.Id) ]
@@ -55,7 +57,7 @@ let rueDeSeine (zone: Zone) =
 
     let bars =
         [ ("Prescription Cocktail Club", 89<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "cocktail-bar")
 
     let merchandiseWorkshops =
         [ ("FNAC Saint-Germain", zone.Id) ]

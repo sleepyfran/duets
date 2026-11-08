@@ -59,7 +59,7 @@ let private queenStreetEast (city: City) (zone: Zone) =
 
     let bars =
         [ ("The Only Cafe", 83<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
 
     let radioStudios =
         [ ("Indie Radio Toronto", 86<quality>, "Indie", zone.Id) ]

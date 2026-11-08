@@ -14,7 +14,7 @@ let staroměstskéNáměstí (zone: Zone) =
 
     let bars =
         [ ("The Dubliner Irish Bar", 85<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
 
     let restaurants =
         [ ("U Prince", 92<quality>, Czech, zone.Id) ]
@@ -51,7 +51,7 @@ let jilská (zone: Zone) =
            88<quality>,
            Layouts.concertSpaceLayout2,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "jazz-club")
 
     street |> World.Street.addPlaces concertSpaces
 
@@ -88,11 +88,11 @@ let karlova (zone: Zone) =
            94<quality>,
            Layouts.concertSpaceLayout4,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let bars =
         [ ("Anonymous Bar", 90<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "cocktail-bar")
 
     let restaurants =
         [ ("Terasa U Zlaté studně", 95<quality>, French, zone.Id) ]

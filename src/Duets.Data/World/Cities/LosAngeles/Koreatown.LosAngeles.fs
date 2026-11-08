@@ -97,7 +97,7 @@ let westernAvenue (zone: Zone) =
     // TODO: Add karaoke venue support.
     let bars =
         [ ("Noraebang City", 87<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "karaoke")
 
     let cafes =
         [ ("The K-Town Bean", 85<quality>, zone.Id) ]

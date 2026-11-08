@@ -1,0 +1,44 @@
+# Santiago beer hall, seen from the side. A long counter with schop taps and
+# a wall of bottles running almost the whole room.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌     ╽         ╽         ╽         ╽           ╽      ▐
+▌     ◒         ◒         ◒         ◒           ◒      ▐
+▌ ╔══════════════════════════════════╗  ┌───┐ ┌──────┐ ▐
+▌ ║BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB║  │ 8 │ │wwwwww│ ▐
+▌ ╠══════════════════════════════════╣  │   │ │wwwwww│ ▐
+▌ ║  ¶  ¶  ¶  ¶      SCHOP     ¶  ¶  ║  │  ▪│ └──────┘ ▐
+▌ ▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃  │   │ ggggg iii▐
+4 ┬n┬n┬n┬n┬n┬n┬n┬n┬n┬n┬n┬n┬n┬n┬n┬n┬n┬nnn│nnn│n p nnnnn 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╔═╗║╚╝╠╣ = tan
+┌─┐│└┘ = tan
+◒ = $lamp
+╽ = grey35
+¶ = bold gold1
+SCHOP = bold $accent
+▃ = tan
+┬ = indianred
+¡ = gold1
+▮ = green4
+· = grey35
+▪ = grey50
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+w = window
+p = player
+n = npc
+B = prop ¡·¡¡·▮·¡¡·¡▮·¡¡·¡·¡ | ¡▮¡¡▮¡¡▮¡¡▮¡¡▮¡¡▮¡¡▮¡¡▮ | ¡▮¡▮¡▮¡▮¡▮¡▮¡▮¡▮¡▮¡▮¡▮¡▮¡▮¡▮¡▮¡▮¡
+g = item playable
+i = item

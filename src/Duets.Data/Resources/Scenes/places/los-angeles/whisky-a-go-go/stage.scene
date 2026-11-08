@@ -1,0 +1,49 @@
+# Whisky a Go Go: a low stage under the red sign of the club, with the go-go
+# cages hanging from the ceiling over the crowd.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌  ╽     ╽     ╽     ╽       ┃            ┃            ▐
+▌  ◒     ◒     ◒     ◒     ╓─┸─╖        ╓─┸─╖          ▐
+▌ ╔════════════════════╗   ║┊♪┊║        ║┊♪┊║          ▐
+▌ ║   WHISKY A GO GO   ║   ║┊┊┊║        ║┊┊┊║          ▐
+▌ ╚════════════════════╝   ╙───╜        ╙───╜          ▐
+▌  ▐▓▓▌   ▼   ▼   ▐▓▓▌    ┌───┐   ┌───┐   ┌───┐        ▐
+▌  ▐▓▓▌  ◯ ◉ ◯    ▐▓▓▌    │ 7 │   │ 8 │   │ 9 │        ▐
+4  ▐▓▓▌ m  ◯◯ p   m▐▓▓▌   │   │   │   │   │   │        ▐
+▌▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  │  ▪│   │  ▪│   │  ▪│        ▐
+▌███████████████████████na│aaa│aaa│aaa│aaa│aaa│aaaaan  6
+▙▄▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄22▄▄▄▄▄▄33▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╽ = grey35
+◒ = $lamp
+┃ = grey50
+╓─┸╖║╙╜ = gold1
+┊ = gold3
+♪ = $stage
+╔═╗╚╝ = red3
+WHISKYAGO = bold red1
+▼ = $stage
+▓ = grey30
+◯◉ = navajowhite1
+▆█ = grey19
+┌┐│ = grey35
+▪ = grey50
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+m = band
+a = crowd

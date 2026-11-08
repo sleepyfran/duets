@@ -1,0 +1,45 @@
+# Stage of a concert hall or an opera house: an organ behind the stage, boxes
+# on the sides and rows of seats for the audience.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌   ✶       ✶       ✶       ✶       ✶       ✶       ✶  ▐
+▌ ▄▄▄▄▄   ┌─────────────────────────────────┐    ▄▄▄▄▄ ▐
+▌ AAAAA   │┃║┃║┃║┃║┃║┃║┃║┃║┃║┃║┃║┃║┃║┃║┃║┃║┃│    AAAAA ▐
+▌ ▀▀▀▀▀   │┃║┃║┃║┃║┃║┃║┃║┃║┃║┃║┃║┃║┃║┃║┃║┃║┃│    ▀▀▀▀▀ ▐
+▌ ▄▄▄▄▄ ┌───┐ ══════════════════════ ┌───┐ ┌───┐ ▄▄▄▄▄ ▐
+▌ AAAAA │ 7 │                        │ 8 │ │ 9 │ AAAAA ▐
+4 ▀▀▀▀▀ │   │  m╿   m╿  p╿   m╿  m╿  │   │ │   │ ▀▀▀▀▀ 6
+▌━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━▐
+▌ n aaaaaaaaaaaaaaaaaaaaaaa  aaaaaaaaaaaaaaaaaaaaaaa   ▐
+▌   ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆   ▐
+▌ n aaaaaaaaaaaaaaaaaaaaaaa  aaaaaaaaaaaaaaaaaaaaaaa n ▐
+▙▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄33▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+✶ = $lamp
+┃║ = gold3
+┌─┐│└┘ = grey42
+═ = $stage
+▪ = grey50
+╿ = grey62
+▆ = darkred
+━ = tan
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+p = player
+n = npc
+m = band
+a = crowd
+A = crowd

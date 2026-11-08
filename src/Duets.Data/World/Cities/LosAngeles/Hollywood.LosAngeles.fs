@@ -37,8 +37,10 @@ let sunsetBoulevard (zone: Zone) =
 
     let bars =
         [ ("The Rainbow Bar & Grill", 89<quality>, zone.Id)
-          ("SkyBar at Mondrian Hotel", 92<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+          |> PlaceCreators.createBar street.Id
+          ("SkyBar at Mondrian Hotel", 92<quality>, zone.Id)
+          |> PlaceCreators.createBar street.Id
+          |> World.Place.tag "cocktail-bar" ]
 
     let studios =
         [ ("Nightbird Studios",
@@ -82,27 +84,32 @@ let hollywoodBoulevard (cityId: CityId) (zone: Zone) =
            91<quality>,
            Layouts.concertSpaceLayout4,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("The Fonda Theatre",
            1300,
            88<quality>,
            Layouts.concertSpaceLayout3,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("Avalon Hollywood",
            1500,
            87<quality>,
            Layouts.concertSpaceLayout3,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("Dolby Theatre",
            3400,
            94<quality>,
            Layouts.concertSpaceLayout4,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "seated"
           ("The Hotel Café",
            100,
            85<quality>,
            Layouts.concertSpaceLayout1,
-           zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+           zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id ]
 
     let merchandiseWorkshops =
         [ ("Amoeba Music", zone.Id) ]

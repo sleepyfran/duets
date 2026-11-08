@@ -96,8 +96,10 @@ let puertaDelSol (zone: Zone) =
            98<quality>,
            Layouts.concertSpaceLayout3,
            zone.Id)
-          ("Sala El Sol", 400, 86<quality>, Layouts.concertSpaceLayout4, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "seated"
+          ("Sala El Sol", 400, 86<quality>, Layouts.concertSpaceLayout4, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id ]
 
     street
     |> World.Street.addPlaces restaurants
@@ -148,8 +150,11 @@ let calleBarquillo (zone: Zone) =
 
     let concertSpaces =
         [ ("Teatro Lara", 400, 89<quality>, Layouts.concertSpaceLayout3, zone.Id)
-          ("Café Berlín", 400, 83<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "seated"
+          ("Café Berlín", 400, 83<quality>, Layouts.concertSpaceLayout2, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "jazz-club" ]
 
     street |> World.Street.addPlaces concertSpaces
 
@@ -188,7 +193,7 @@ let calleAlcala (zone: Zone) =
            88<quality>,
            Layouts.concertSpaceLayout2,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     street |> World.Street.addPlaces concertSpaces
 

@@ -1,0 +1,48 @@
+# Tokyo old coffee house, seen from the side. Dim wood, coffee siphons on the
+# counter and velvet armchairs around low tables.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌     ╽        ╽           ╽                       ╽   ▐
+▌    ◢◆◣      ◢◆◣         ◢◆◣ ┌──────────┐        ◢◆◣  ▐
+▌  ▫▫ ▫▫ ▫▫ ▫▫ ▫▫ ▫▫          │wwwwwwwwww│  ┌───┐      ▐
+▌ ━━━━━━━━━━━━━━━━━━━━        │wwwwwwwwww│  │ 8 │      ▐
+▌   ▿ ▿ ▿    cccccc           └──────────┘  │   │      ▐
+▌   ◍ ◍ ◍   iiii                            │  ▪│      ▐
+▌ ▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃  █  ━┯━  █ █  ━┯━  █ │   │  PP  ▐
+4 ┰n ┰n ┰n ┰n ┰n ┰n ┰  p██n ┴ n██n██n ┴ n██ │   │nnnnn 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+━ = orange4
+▫ = grey85
+┌─┐│└┘ = tan
+╽ = grey35
+◢◣ = darkgoldenrod
+◆ = $lamp
+▿ = grey85
+◍ = orange4
+▃ = orange4
+┰ = darkred
+█ = darkred
+┯┴ = tan
+◒◓ = rosybrown
+· = grey35
+♣ = green3
+▪ = grey50
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+w = window
+p = player
+n = npc
+c = prop ◒·◓ | ◒◓◒◓ | ◒◓◒◓◒◓
+P = prop _ | ♣ | ♣♣
+i = item

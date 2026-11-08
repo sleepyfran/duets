@@ -27,12 +27,14 @@ let callePonzano (city: City) (zone: Zone) =
            87<quality>,
            Layouts.concertSpaceLayout1,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("Sala Clamores",
            500,
            84<quality>,
            Layouts.concertSpaceLayout3,
-           zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+           zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "jazz-club" ]
 
     let radioStudios =
         [ ("Radio Clásica", 88<quality>, "Jazz", zone.Id) ]

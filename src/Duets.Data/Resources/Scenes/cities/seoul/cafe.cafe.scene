@@ -1,0 +1,47 @@
+# Seoul pastel café, seen from the side. Hanging plants, a neon sign, a big
+# window and little round tables.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌     │       │         ╽       ╽       │       ╽      ▐
+▌    PPP     PPP        ◓       ◓      PPP      ◓      ▐
+▌ ╭──────────────╮                ┌───┐ ┌────────────┐ ▐
+▌ │wwwwwwwwwwwwww│  ≋ COFFEE ♥ ≋  │ 8 │ │ ccccccccc  │ ▐
+▌ │wwwwwwwwwwwwww│                │   │ └────────────┘ ▐
+▌ ╰──────────────╯                │  ▪│  iiii          ▐
+▌   ━┯━     ━┯━  ♣    ━┯━   ━┯━   │   │ ▃▃▃▃▃▃▃▃▃▃▃▃▃  ▐
+4nn  ┴ n p   ┴ n ◘ nnn ┴ nnn ┴ nn │nnn│n█████████████nn6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╭─╮╰╯ = plum2
+┌┐└┘ = lightpink1
+│ = grey62
+◓ = $lamp
+╽ = grey35
+≋COFFE♥ = bold hotpink
+━ = white
+┯┴ = lightpink1
+▃ = palegreen1
+█ = lightpink1
+♣ = green3
+◘ = tan
+◒◓ = hotpink
+· = grey35
+▪ = grey50
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+w = window
+p = player
+n = npc
+c = prop ◒·◓ | ◒◓◒◓ | ◒◓◒◓◒◓
+P = prop ♣ _ | ♣ | ♣♣♣
+i = item

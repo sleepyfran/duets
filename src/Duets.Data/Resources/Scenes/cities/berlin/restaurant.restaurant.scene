@@ -1,0 +1,54 @@
+# Berlin restaurant, seen from the side. Cheap places are a kebab counter
+# with strip lights and plastic tables, the good ones have white tablecloths,
+# chandeliers and wine behind the counter. The sign changes with the cuisine.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌   LLLLL         LLLLL          LLLLL       LLLLL     ▐
+▌ ┌──────┐     ┌─────────────┐                         ▐
+▌ │wwwwww│ ┌─┐ │kkkkkkkkkkkkk│ ┌───┐  ┌──────────┐ ┌─┐ ▐
+▌ │wwwwww│ │7│ └─────────────┘ │ 8 │  │ KKKKKKKK │ │9│ ▐
+▌ └──────┘ │ │                 │   │  │ KKKKKKKK │ │ │ ▐
+▌          │ │                 │  ▪│  └──────────┘ │ │ ▐
+▌  TTT  TTT│ │  TTT  TTT  TTTi │   │ ▗▆▆▆▆▆▆▆▆▆▆▆▖ │ │ ▐
+4 n┃n  n┃n │n│ n┃n  n┃n  n┃n p │nnn│ █▒▒▒▒▒▒▒▒▒▒▒█ │n│ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+┌─┐│└┘ = grey50
+▬ = grey93
+◒ = $lamp
+◆ = $lamp
+╰╯ = gold3
+┃ = grey50
+─┬ = grey62
+━┳ = tan
+▆ = grey93
+▗▖ = grey74
+█ = grey74
+▒ = grey42
+▼ = orange3
+▮ = darkorange3
+¡ = darkred
+▿ = grey85
+▪ = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+w = window
+p = player
+n = npc
+k = cuisine
+L = prop ▬▬▬▬▬ | ◒ | ╰◆╯
+T = prop ─┬─ | ━┳━ | ▆▆▆
+K = prop ▼▮▼ | ▿¡▿¡▿¡ | ¡¡▿▿¡¡▿▿
+i = item

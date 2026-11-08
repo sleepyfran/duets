@@ -1,0 +1,48 @@
+# AKB48 Theater: a small idol stage with the pink curtains and the logo, and
+# the two famous pillars in the middle of the audience blocking the view.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌  ╽    ╽    ╽    ╽    ╽   █ ╽          █          ╽   ▐
+▌ ▼◒   ▼◒   ▼◒   ▼◒   ▼◒   █ ◒          █          ◒   ▐
+▌▐▒▒▒╔═════════════╗▒▒▒▌   █            █              ▐
+▌▐▒▒▒║  ♥ AKB48 ♥  ║▒▒▒▌   █  ▣ ▣ ▣ ▣   █   ▣ ▣ ▣ ▣ ▣  ▐
+▌▐▒▒▒╚═════════════╝▒▒▒▌   █  ▣ ▣ ▣ ▣   █   ▣ ▣ ▣ ▣ ▣  ▐
+▌▐▒▒ ┌───┐ ┌───┐ ┌───┐▒▌   █            █              ▐
+▌▐▒▒ │ 7 │ │ ^ │ │ 9 │▒▌   █            █              ▐
+«▐▒▒ │ m │p│ m │m│ m │▒▌   █            █              ▐
+▌▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  ╥█╥ ╥ ╥ ╥ ╥ ╥ █ ╥ ╥ ╥ ╥ ╥ ╥ ╥▐
+▌███████████████████████naa█aaaaaaaaaaaa█aaaaaaaaaaaan »
+▙▄▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄22▄▄▄▄▄▄33▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╽ = grey35
+◒ = $lamp
+▼ = $stage
+▒ = hotpink3
+╔═╗╚╝║ = hotpink
+♥ = $stage
+AKB48 = bold white
+┌─┐│ = grey50
+▪ = grey50
+▣ = lightpink1
+▆ = pink1
+█ = grey30
+╥ = grey35
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+^ = exit north else ▪
+9 = exit north-east else ▪
+« = exit west else ▌
+» = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+m = band
+a = crowd

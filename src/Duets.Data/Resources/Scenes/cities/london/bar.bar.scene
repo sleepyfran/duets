@@ -1,0 +1,54 @@
+# London pub, seen from the side: a horseshoe counter with hand pumps, a
+# dartboard and a fireplace. Darts and billiard tables are items.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌  █▓▓▓▓█        ╽            ╤▿╤▿╤▿╤▿╤▿╤▿╤▿           ▐
+▌  █▓▓▓▓█        ◒           ┌──────────────┐          ▐
+▌  ¡ ◷  ¡  ┌─┐ ╔════╗ ┌───┐  │BBBBBBBBBBBBBB│  ╭─╮ ┌─┐ ▐
+▌ ━━━━━━━━ │7│ ║wwww║ │ 8 │  ├──────────────┤  │◎│ │9│ ▐
+▌ █▓▓▓▓▓▓█ │ │ ║wwww║ │   │  │BBBBBBBBBBBBBB│  ╰─╯ │ │ ▐
+▌ █▓┌──┐▓█ │ │ ╚════╝ │  ▪│    ╿ ╿ ╿    ╿ ╿        │ │ ▐
+▌ █▓│  │▓█ │ │  ii    │   │ ▗▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▖ gg  │ │ ▐
+4 █▓│▴▲│▓█ │n│ nnnnnn │nnn│ █┬n┬n┬n┬n┬n┬n┬n┬n█ p n │n│ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+┌─┐│└┘├┤ = tan
+╔═╗║╚╝ = darkgoldenrod
+█ = darkred
+▓ = indianred
+━ = tan
+◷ = grey70
+▴ = red
+▲ = orange1
+◒ = $lamp
+╽ = grey35
+╤ = grey50
+▿ = grey70
+╿ = wheat1
+▗▆▖ = darkorange3
+┬ = tan
+╭╮╰╯ = grey30
+◎ = red3
+¡▮ = gold1
+· = grey35
+▪ = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+w = window
+p = player
+n = npc
+B = prop ¡·¡¡··¡·¡¡·¡·¡ | ¡¡¡¡¡¡¡¡¡¡¡¡¡¡ | ¡▮¡▮¡¡▮¡▮¡¡▮¡▮
+g = item playable
+i = item

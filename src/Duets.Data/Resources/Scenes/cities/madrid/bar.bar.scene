@@ -1,0 +1,49 @@
+# Madrid tapas bar, seen from the side: hams hanging over the counter,
+# barrels as tables and the football on the TV. Games are items.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌                         ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃              ▐
+▌ ┌──────┐    ┌──────┐    ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼              ▐
+▌ │wwwwww│┌─┐ │▒▒┊◦▒▒│ ┌───┐ ┌──────────────────┐  ┌─┐ ▐
+▌ │wwwwww││7│ │▒▒┊▒▒▒│ │ 8 │ │QQQQQQQQQQQQQQQQQQ│  │9│ ▐
+▌ └──────┘│ │ └──┬───┘ │   │ └──────────────────┘  │ │ ▐
+▌  ¡▿     │ │  ▿¡▿     │  ▪│  ╿ ╿  ◒◒◒   ╿ ╿  ▿    │ │ ▐
+▌  (▓)    │ │  (▓)  gg │   │ ▗▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▖i │ │ ▐
+4 n(▓)n   │n│ n(▓)n p  │nnn│ █n╥n╥n╥n╥n╥n╥n╥n╥n╥█  │n│ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+┃ = grey35
+▼ = indianred
+┌─┐│└┘┬ = tan
+▒ = green4
+┊◦ = white
+()▓ = orange4
+▁ = orange4
+▿ = gold1
+╿ = gold3
+◒ = sandybrown
+▗▆▖█ = orange4
+╥ = tan
+¡▮ = gold1
+· = grey35
+▪ = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+w = window
+p = player
+n = npc
+Q = prop ¡·¡¡··¡·¡¡·¡·¡¡·¡·¡ | ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ | ¡▮¡▮¡¡▮¡▮¡¡▮¡▮¡¡▮¡
+g = item playable
+i = item

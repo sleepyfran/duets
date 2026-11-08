@@ -1,0 +1,49 @@
+# Klementinum Mirror Chapel: a baroque chapel with a painted vault, mirrors in
+# gilded frames, chandeliers and rows of chairs facing the little stage.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌╲∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙╱▐
+▌ ╲▁▁▁▁▁▁▁▁▁▁▁╱╲▁▁▁▁▁▁▁▁▁▁▁▁╱╲▁▁▁▁▁▁▁▁▁▁▁▁╱╲▁▁▁▁▁▁▁▁▁▁╱▐
+▌  ▼  ▼  ▼    │            │             │             ▐
+▌ ╔═══════╗ ◇◆◇◆◇        ◇◆◇◆◇         ◇◆◇◆◇           ▐
+▌ ║▒▒▒▒▒▒▒║  ╲▾╱          ╲▾╱           ╲▾╱            ▐
+▌ ║▒▒▒▒▒▒▒║      ╔═══╗         ╔═══╗        ╔═══╗      ▐
+▌ ╚═══════╝      ║▒▒▒║  ┌───┐  ║▒▒▒║        ║▒▒▒║      ▐
+▌ m  ┼ p  m      ║▒▒▒║  │ 8 │  ║▒▒▒║        ║▒▒▒║      ▐
+▌▇▇▇▇▇▇▇▇▇▇▇     ║▒▒▒║  │  ▪│  ║▒▒▒║        ║▒▒▒║      ▐
+▌███████████     ╚═══╝  │   │  ╚═══╝        ╚═══╝      ▐
+4xxxxxxxxxxxxnxxxxxxxxxx│ n │nxxxxxxxxxxxxxxxxxxxxxxxx 6
+▙▄▄▄▄▄11▄▄▄▄▄▄▄▄2222▄▄▄▄▄000▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╲╱ = gold3
+∙ = lightpink3
+▁ = gold3
+│ = gold3
+◇◆ = $lamp
+▾ = gold3
+╔═╗║╚╝ = gold1
+▒ = lightsteelblue
+▼ = $stage
+┼ = grey70
+▇ = gold3
+█ = grey23
+┌─┐ = gold3
+▪ = grey50
+╥ = tan
+default = grey30
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+p = player
+m = band
+n = npc
+x = crowd else ╥

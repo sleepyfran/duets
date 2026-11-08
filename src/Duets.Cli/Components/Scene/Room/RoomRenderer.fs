@@ -178,10 +178,14 @@ let build (context: RoomContext) (template: Template) =
                     SceneGrid.set grid x y People.unknown (Some People.unknownStyle))
         | SlotKind.Band ->
             fillCells context.BandMembers [| People.known |] People.knownStyle
-        | SlotKind.Crowd ->
+        | SlotKind.Crowd glyphs ->
             let cells = cells ()
             let count = int (System.Math.Ceiling(float cells.Length * context.Crowd))
-            fillCells count Styles.crowd Styles.crowdColor
+
+            let glyphs =
+                if List.isEmpty glyphs then Styles.crowd else Array.ofList glyphs
+
+            fillCells count glyphs Styles.crowdColor
         | SlotKind.Window ->
             cells ()
             |> List.iter (fun (x, y) ->

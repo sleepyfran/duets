@@ -1,0 +1,47 @@
+# Stage of a theatre: a proscenium with curtains in front of the stage and
+# rows of seats for the audience.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌ ╔══════════════════════════════════════════════════╗ ▐
+▌ ║▓▓▒═╤═══════╤═══════╤═══════╤═══════╤═══════╤═ ▒▓▓║ ▐
+▌ ║▓▒░ ▼       ▼       ▼       ▼       ▼       ▼  ░▒▓║ ▐
+▌ ║▓▒░ ┌───┐  ▕█▏    ╿ ◯ ◯ ╿    ▕█▏  ┌───┐ ┌───┐  ░▒▓║ ▐
+▌ ║▓▒░ │ 7 │  ▕█▏    │ ◯◉◯ │    ▕█▏  │ 8 │ │ 9 │  ░▒▓║ ▐
+4 ║▓▒░ │   │  ▕█▏ m  │ ◯◉◯ │ p  m▕█▏  │   │ │   │ ░▒▓║ 6
+▌ ╨━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╨ ▐
+▌ n AAAAAAAAAAAAAAAAAAAAAA    AAAAAAAAAAAAAAAAAAAAAA n ▐
+▌   ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆    ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆   ▐
+▌ n aaaaaaaaaaaaaaaaaaaaaa    aaaaaaaaaaaaaaaaaaaaaa n ▐
+▙▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄33▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╔═╗║╨ = gold3
+▓▒░ = darkred
+▼ = $stage
+╤ = grey50
+┌─┐│└┘ = grey42
+▪ = grey50
+╿ = grey62
+◯◉ = navajowhite1
+▕█▏ = grey30
+━ = tan
+▆ = darkred
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+p = player
+n = npc
+m = band
+a = crowd
+A = crowd

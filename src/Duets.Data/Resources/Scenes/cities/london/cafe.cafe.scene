@@ -1,0 +1,47 @@
+# London greasy spoon, seen from the side: formica tables with ketchup
+# bottles, a breakfast board and a tea urn on the counter.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌              ╽                             ╽         ▐
+▌ ┌────────┐   ◒  ┌─────────────┐            ◒         ▐
+▌ │wwwwwwww│  ┌─┐ │FULL  ENGLISH│ ┌───┐ ┌────────┐ ┌─┐ ▐
+▌ │wwwwwwww│  │7│ │TEA ≡ BACON ≡│ │ 8 │ │QQQQQQQQ│ │9│ ▐
+▌ └────────┘  │ │ └─────────────┘ │   │ └────────┘ │ │ ▐
+▌ ¡ ▿   ▿ ¡   │ │ ¡ ▿    ▿ ¡      │  ▪│  ╓█╖  ▿▿   │ │ ▐
+▌ ━┳━   ━┳━   │ │ ━┳━    ━┳━   i  │   │ ▆▆▆▆▆▆▆▆▆▆ │ │ ▐
+4n ┃ n n ┃ n  │n│n ┃ n  n ┃ n p n │nnn│ █▒▒▒▒▒▒▒▒█ │n│ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+┌─┐│└┘ = grey50
+◒ = $lamp
+╽ = grey35
+━ = indianred
+┳┃ = grey62
+¡ = red
+▿ = white
+FULLENGISHTABCO = bold white
+≡ = grey50
+◓◔ = wheat1
+╓█╖ = grey74
+▆ = indianred
+▒ = grey85
+▪ = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+w = window
+p = player
+n = npc
+Q = prop ◓ ◔ | ◓◔◓◔ | ◓◔◓◔◓◔◓◔
+i = item

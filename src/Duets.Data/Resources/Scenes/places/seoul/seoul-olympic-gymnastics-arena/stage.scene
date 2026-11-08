@@ -1,0 +1,48 @@
+# Seoul Olympic Gymnastics Arena: the dome of the KSPO, a stage with a huge
+# screen and the stands full of fans waving their lightsticks.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌╲═╤═════╤═════╤═════╤═════╤═════╤═════╤═════╤═════╤══╱▐
+▌  ▼     ▼     ▼     ▼     ▼     ▼     ▼     ▼     ▼   ▐
+▌                               ╔═════════════════════╗▐
+▌aaaaa                          ║ ♥ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ♥ ║▐
+▌━━━━━aaaaa                     ║ ♥ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ♥ ║▐
+▌░░░░░━━━━━aaaaa                ╚═════════════════════╝▐
+▌░░░░░░░░░░━━━━━aaaaa            ┌───┐  ┌───┐  ┌───┐   ▐
+▌░░░░░░░░░░░░░░░━━━━━            │ 7 │  │ 8 │  │ 9 │   ▐
+▌░░░░░░░░░░░░░░░░░░░░           ▐│   │  │   │  │   │▌  ▐
+▌░░░░░░░░░░░░░░░░░░░░           ▐│ m │m │ p │m │ m │▌  6
+▌     ░░░░░░░░░░░░░░░ aaaaaaaaa ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▐
+4  n  ░░░░░░░░░░░░░░░aaaaaaaaaan███████████████████████▐
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄22▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╲═╤╱ = grey74
+▼ = $stage
+╔╗╚╝║ = grey35
+▓ = $stage
+♥ = hotpink
+┌─┐│ = grey50
+▪ = grey50
+▆ = mediumpurple3
+█ = grey19
+━ = grey50
+░ = grey23
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+m = band
+a = crowd ╿ ¡ ♥ ✦

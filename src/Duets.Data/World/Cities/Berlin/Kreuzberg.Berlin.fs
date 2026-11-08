@@ -33,7 +33,7 @@ let oranienstrasse (zone: Zone) =
     let bars =
         [ ("Möbel Olfe", 86<quality>, zone.Id)
           ("Zum Goldenen Hahn", 80<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
 
     let studios =
         [ ("Hansa Studios",

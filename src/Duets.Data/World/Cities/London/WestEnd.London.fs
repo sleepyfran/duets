@@ -34,8 +34,11 @@ let private oxfordStreet (city: City) (zone: Zone) =
            90<quality>,
            Layouts.concertSpaceLayout2,
            zone.Id)
-          ("100 Club", 350, 80<quality>, Layouts.concertSpaceLayout1, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "seated"
+          ("100 Club", 350, 80<quality>, Layouts.concertSpaceLayout1, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "jazz-club" ]
 
     let radioStudios =
         [ ("BBC Radio 1", 94<quality>, "Pop", zone.Id) ]
@@ -82,8 +85,11 @@ let private soho (city: City) (zone: Zone) =
 
     let bars =
         [ ("Ronnie Scott's", 85<quality>, zone.Id)
-          ("The French House", 80<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+          |> PlaceCreators.createBar street.Id
+          |> World.Place.tag "jazz-club"
+          ("The French House", 80<quality>, zone.Id)
+          |> PlaceCreators.createBar street.Id
+          |> World.Place.tag "pub" ]
 
     let rehearsalSpaces =
         [ ("Soho Studios", 75<quality>, 200m<dd>, zone.Id) ]
@@ -126,7 +132,7 @@ let private coventGarden (cityId: CityId) (zone: Zone) =
            95<quality>,
            Layouts.concertSpaceLayout3,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let cinemas =
         [ ("Odeon Leicester Square", 92<quality>, zone.Id)

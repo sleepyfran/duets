@@ -1,0 +1,47 @@
+# Santa Monica Pier: an open air stage on the boards of the pier, with the
+# ocean behind the railing and the Ferris wheel lighting up the sky.
+
+[art]
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w▗▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▖wwwwwwwwwwwwww▄▄▄▄▄wwwwwwwwwwww
+w█ ▼   ▼   ▼   ▼   ▼   ▼█wwwwwwwwwww▄▀▀w╲│╱w▀▀▄wwwwwwwww
+w█                      █wwwwwwwwww█w◘ww╲│╱ww◘w█wwwwwwww
+w█▐▓▓▌ ┌───┐  ┌───┐ ▐▓▓▌█wwwwwwwwww█───══╬══───█wwwwwwww
+w█▐▓▓▌ │ 7 │  │ 8 │ ▐▓▓▌█wwwwwwwwww█w◘ww╱│╲ww◘w█wwwwwwww
+ █▐▓▓▌ │   │  │   │ ▐▓▓▌█ ≈≈≈≈≈≈≈≈≈≈▀▄▄ ╱│╲ ▄▄▀≈≈≈≈≈≈≈≈≈
+ █▐▓▓▌ │  ▪│  │  ▪│ ▐▓▓▌█ ~≈~≈~≈~≈~≈~≈~╱█▀█╲≈~┌───┐≈~≈~≈
+4█    m │ m │p │ m │    █ ┬───┬───┬───┬───┬───│ 9 │───┬ 
+ ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ │   │   │   │   │   │  ▪│   │ 
+ ████████████████████████naaaaaaaaaaaaaaaaaaaaaaaaaaaan6
+╧╧╧╧11╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧0000╧╧╧╧╧╧╧╧22╧╧╧╧╧╧33╧╧╧╧
+
+[legend]
+▗▄▖█ = grey85
+▼ = $stage
+▓ = grey30
+┌─┐│ = grey50
+▪ = grey50
+▆ = tan
+▀▄ = gold1
+╲╱┃╬═ = gold1
+◘ = $lamp
+≈~ = deepskyblue3
+┬ = grey70
+╧ = tan
+default = grey62
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west
+6 = exit east
+1 = exit south-west else ╧
+2 = exit south else ╧
+3 = exit south-east else ╧
+0 = exit street else ╧
+w = window
+p = player
+n = npc
+m = band
+a = crowd

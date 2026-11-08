@@ -1,0 +1,45 @@
+# Paris Métro platform, seen from the side: a vault of bevelled white tiles,
+# advertising frames and an Art Nouveau sign between two lamps. The train only
+# shows up when it's at the station.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌█◤▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭◥█▐
+▌◤▭▭▕SORTIE 7▏▭▭▭▭▭▭▭▭▭▕SORTIE 8▏▭▭▭▭▭▭▭▭▭▭▕SORTIE 9▏▭◥▐
+▌▭▭┌───────┐▭▭◉▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭◉▭▭┌───────┐▭▭┌──────┐▭▐
+▌▭▭│▒▒▒▒▒▒▒│▭▭┃▭∽METROPOLITAIN∽▭┃▭▭│▓▓▓▓▓▓▓│▭▭│▒▒▒▒▒▒│▭▐
+▌▭▭└───────┘▭▭┃▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭┃▭▭└───────┘▭▭└──────┘▭▐
+▌rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr▐
+▌▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▐
+4 nn ╓──╖ nnnnnnn p nnnnnnnnnn ╓──╖ nnnnnnnnnn iii nn  6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+█◤◥ = grey19
+▭ = grey85
+▕▏ = darkblue
+SORTIEMPLAN = wheat1
+∽ = darkseagreen4
+◉ = $lamp
+┃ = darkseagreen4
+┌─┐│└┘ = tan
+▒ = $accent
+▓ = steelblue
+▔ = grey70
+╓╖ = darkseagreen4
+
+[slots]
+7 = exit north-west else ·
+8 = exit north else ·
+9 = exit north-east else ·
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+r = item rideable
+i = item

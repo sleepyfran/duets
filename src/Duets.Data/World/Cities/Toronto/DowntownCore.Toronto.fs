@@ -17,17 +17,21 @@ let private kingStreetWest (city: City) (zone: Zone) =
            96<quality>,
            Layouts.concertSpaceLayout4,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("Roy Thomson Hall",
            2630,
            94<quality>,
            Layouts.concertSpaceLayout3,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "seated"
           ("Four Seasons Centre",
            2000,
            93<quality>,
            Layouts.concertSpaceLayout3,
-           zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+           zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "seated" ]
 
     let cinemas =
         [ ("TIFF Bell Lightbox", 92<quality>, zone.Id) ]
@@ -104,7 +108,7 @@ let private frontStreet (zone: Zone) =
            90<quality>,
            Layouts.concertSpaceLayout4,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let restaurants =
         [ ("The Keg", 82<quality>, American, zone.Id) ]

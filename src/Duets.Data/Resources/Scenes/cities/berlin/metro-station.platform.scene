@@ -1,0 +1,45 @@
+# Berlin U-Bahn platform, seen from the side: yellow tiled walls, the blue
+# U signs and the station name. The train only shows up when it's at the station.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌     ╷        ╷       ╷         ╷  ┃     ╷        ╷   ▐
+▌    ▕AUSGANG 7▏      ▕AUSGANG 8▏   ◷    ▕AUSGANG 9▏   ▐
+▌▬▬▬┌──────┐▬▬▬▬▬▬▬▬▬┌──────────────┐▬▬▬▬▬▬▬┌──────┐▬▬▬▐
+▌▬▬▬│▒▒▒▒▒▒│▬▬▬▬█U█▬▬│ ═══ ══ ═════ │▬█U█▬▬▬│▓▓▓▓▓▓│▬▬▬▐
+▌▬▬▬└──────┘▬▬▬▬▬▬▬▬▬└──────────────┘▬▬▬▬▬▬▬└──────┘▬▬▬▐
+▌rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr▐
+▌▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▐
+4 nn ╓──╖ nnnnnnnn p nnnnnnnnnn ╓──╖ nnnnnnnnn iii nn  6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╷┃ = grey35
+◷ = white
+▕▏ = grey30
+AUSGN = bold white
+▬ = gold3
+┌─┐│└┘ = grey50
+▒ = $accent
+▓ = steelblue
+█ = blue
+U = bold white on blue
+═ = white
+▔ = white
+╓╖ = grey62
+
+[slots]
+7 = exit north-west else ·
+8 = exit north else ·
+9 = exit north-east else ·
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+r = item rideable
+i = item

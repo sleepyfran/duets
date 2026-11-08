@@ -1,0 +1,55 @@
+# New York dive bar, seen from the side: neon signs, a pool table under a
+# low lamp and a jukebox in the corner. Darts and billiard tables are items.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌    ╽╽                                                ▐
+▌   ▁◒◒▁       BEER ★       ┌──────────────┐           ▐
+▌ ★        ┌─┐ ┌────┐┌───┐  │QQQQQQQQQQQQQQ│       ┌─┐ ▐
+▌  OPEN    │7│ │wwww││ 8 │  ├──────────────┤       │9│ ▐
+▌          │ │ └────┘│   │  │QQQQQQQQQQQQQQ│  ╭──╮ │ │ ▐
+▌  ◉ ◦ ◉   │ │       │  ▪│  └──────────────┘  │◇◆│ │ │ ▐
+▌ ▆▆▆▆▆▆▆▆ │ │ gg i  │   │ ▗▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▖ │≡≡│ │ │ ▐
+4n┃      ┃n│n│nn p n │nnn│ █╥n╥n╥n╥n╥n╥n╥n╥█  █▓▓█ │n│ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╽ = grey35
+▁ = darkgreen
+◒ = $lamp
+★ = bold red
+OPN = bold deepskyblue1
+BER = bold hotpink
+┌─┐│└┘├┤ = orange4
+▆ = green4
+┃ = orange4
+◉ = white
+◦ = red
+▗▅▖█ = orange4
+╥ = grey50
+╭╮ = gold3
+◇ = deepskyblue1
+◆ = hotpink
+≡ = gold1
+▓ = darkorange3
+¡▮ = gold1
+· = grey35
+▪ = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+w = window
+p = player
+n = npc
+Q = prop ¡·¡¡··¡·¡¡·¡·¡ | ¡¡¡¡¡¡¡¡¡¡¡¡¡¡ | ¡▮¡▮¡¡▮¡▮¡¡▮¡▮
+g = item playable
+i = item

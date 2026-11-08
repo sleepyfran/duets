@@ -1,0 +1,47 @@
+# SMTown Theatre: a K-pop stage wrapped in LED walls, with the seats climbing
+# up in front of it.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌  ╽    ╽    ╽    ╽    ╽    ╽     ╽         ╽         ╽▐
+▌ ▼◒   ▼◒   ▼◒   ▼◒   ▼◒   ▼◒    ◒         ◒         ◒ ▐
+▌▓▒▓▒╔═════════════════╗▒▓▒▓                           ▐
+▌▓▒▓▒║   S M T O W N   ║▒▓▒▓                    aaaaaaa▐
+▌▓▒▓▒╚═════════════════╝▒▓▒▓                    ━━━━━━━▐
+▌▓┌───┐ ┌───┐ ┌───┐ ▒▓▒▓▒▓▒▓              aaaaaaaaaaaaa▐
+▌▓│ 7 │ │ 8 │ │ 9 │ ▒▓▒▓▒▓▒▓              ━━━━━━━━━━━━━▐
+4▓│m ▪│p│  ▪│m│m ▪│m▒▓▒▓▒▓▒▓        aaaaaaaaaaaaaaaaaaa▐
+▌▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆        ━━━━━━━━━━━━━━━━━━━▐
+▌███████████████████████████n aaaaaaaaaaaaaaaaaaaaaan  6
+▙▄▄▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄22▄▄▄▄▄33▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╽ = grey35
+◒ = $lamp
+▼ = $stage
+▓ = $stage
+▒ = mediumpurple4
+╔═╗╚╝║ = grey85
+SMTOWN = bold white
+┌─┐│ = grey50
+▪ = grey50
+▆ = grey85
+█ = grey19
+━ = mediumpurple3
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+m = band
+a = crowd

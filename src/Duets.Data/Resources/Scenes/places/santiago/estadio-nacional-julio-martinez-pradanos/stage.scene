@@ -1,0 +1,47 @@
+# Estadio Nacional: an open air stage on the pitch, the crowd on the grass
+# and the stands climbing up in front of the Andes.
+
+[art]
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww╔══╗wwwww
+w▗▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▖wwwwwwwwwwwwwwwwwwwwwwwww╚╦╦╝wwwww
+w█ ▼   ▼   ▼   ▼   ▼█wwwwwwwwwwwwwwwwwwwwwwwwwww║║wwwwww
+w█╔════════════════╗█wwww▁▂▃▅▆▇▆▅▄▃▂▁▂▃▄▅▄▃▂▁ww▁║║▄▃▂▁ww
+▃█║▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓║█▄▅▆▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▆▅▆▇▇▇▇║║▅▄▅▆▇▆
+ █╚════════════════╝█                            aaaaa▒ 
+ █ ┌───┐┌───┐┌───┐ █                        aaaaa━━━━━▒ 
+ █ │ 7 ││ 8 ││ 9 │ █                   aaaaa━━━━━▒▒▒▒▒▒ 
+4█m│  ▪│p  ▪│m  ▪│m█              aaaaa━━━━━▒▒▒▒▒▒▒▒▒▒▒ 
+▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆  aaaaaaaaaaa━━━━━▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ 
+█████████████████████naaaaaaaaaaaa▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  n   6
+▀▀▀▀▀▀▀11▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀0000▀▀▀▀▀▀▀▀▀▀▀22▀▀▀▀▀▀33▀▀▀▀▀▀
+
+[legend]
+▁▂▃▄▅▆▇ = grey42
+╔╗╚╝╦║ = grey70
+▗▖█ = grey85
+▼ = $stage
+═ = grey50
+▓ = $stage
+┌─┐│ = grey50
+▪ = grey50
+▆ = grey35
+━ = red3
+▒ = grey30
+▀ = green4
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west
+6 = exit east
+1 = exit south-west else ▀
+2 = exit south else ▀
+3 = exit south-east else ▀
+0 = exit street else ▀
+w = window
+p = player
+n = npc
+m = band
+a = crowd

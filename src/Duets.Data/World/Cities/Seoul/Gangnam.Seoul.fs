@@ -17,8 +17,10 @@ let gangnamDaero (zone: Zone) =
 
     let bars =
         [ ("Monkey Museum", 89<quality>, zone.Id)
-          ("Le Chamber", 92<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+          |> PlaceCreators.createBar street.Id
+          ("Le Chamber", 92<quality>, zone.Id)
+          |> PlaceCreators.createBar street.Id
+          |> World.Place.tag "cocktail-bar" ]
 
     let hotels =
         [ ("Park Hyatt Seoul", 96<quality>, 500m<dd>, zone.Id)

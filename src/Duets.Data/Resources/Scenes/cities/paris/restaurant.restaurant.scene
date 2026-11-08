@@ -1,0 +1,42 @@
+# Parisian brasserie, seen from the side: gilded mirrors, globe lamps and
+# a red banquette along the wall. The sign changes with the cuisine.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌     ╽               ╽                 ╽              ▐
+▌ ╔══════╗     ╔═════════════╗       ┌──────┐ ╔══╗     ▐
+▌ ║▒▒▒▒▒▒║ ┌─┐ ║kkkkkkkkkkkkk║ ┌───┐ │wwwwww│ ║▒▒║ ┌─┐ ▐
+▌ ║▒▒▒▒▒▒║ │7│ ╚═════════════╝ │ 8 │ │wwwwww│ ║▒▒║ │9│ ▐
+▌ ╚══════╝ │ │                 │   │ └──────┘ ╚══╝ │ │ ▐
+▌▂▂▂▂▂▂▂▂▂▂│ │▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂│  ▪│▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂│ │ ▐
+▌█━┳━██━┳━█│ │█━┳━██━┳━██iii███│   │█━┳━██━┳━██━┳━█│ │ ▐
+4n┃n  n┃n  │n│n┃n  n┃n   p n   │nnn│n┃n  n┃n  n┃n  │n│ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╔═╗║╚╝ = gold3
+▒ = grey42
+┌─┐│└┘ = tan
+╽ = grey35
+● = $lamp
+▂█ = darkred
+━ = grey93
+┳┃ = grey30
+▪ = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+w = window
+p = player
+n = npc
+k = cuisine
+i = item

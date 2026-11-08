@@ -1,0 +1,45 @@
+# Prague pub, seen from the side. Long shared tables, Pilsner taps on the
+# counter and the waiter's tally pencilled on the beer mats.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌      ╽              ╽                ╽           ╽   ▐
+▌      ◒              ◒                ◒           ◒   ▐
+▌ ┌──────┐  ╒══════════════╕   ┌───┐  ┌────────────┐   ▐
+▌ │wwwwww│  │ PLZEŇ ★ PIVO │   │ 8 │  │BBBBBBBBBBBB│   ▐
+▌ │wwwwww│  ╘══════════════╛   │   │  ├────────────┤   ▐
+▌ └──────┘  TTTTTTTTTTTTTTTT   │  ▪│   ╥╥╥  iiii       ▐
+▌ ━━━━━━━━  ━━━━━━━━━━━━━━━━   │   │  ▄▄▄▄▄▄▄▄▄▄▄ ggggg▐
+4 ║nnnnnn║  ║nnnnnnnnnnnnnn║ nn│nnn│nn███████████ nnpnn6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+┌─┐│└┘├┤ = tan
+╒═╕╘╛ = gold3
+PLZEŇIVO★ = bold gold1
+◒ = $lamp
+╽ = grey35
+¡ = gold1
+≡ = grey85
+▪ = grey50
+╥ = bold gold1
+━ = tan
+█ = tan
+║ = tan
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+w = window
+p = player
+n = npc
+B = prop ¡ ¡  ¡ | ¡¡¡ ¡¡¡¡ | ¡¡¡¡¡¡¡¡¡¡¡¡¡¡
+T = prop ¡≡  ¡≡   ¡≡ | ¡≡ ¡≡¡≡  ¡≡ ¡≡ | ¡≡¡≡ ¡≡¡≡ ¡≡¡≡¡≡
+g = item playable
+i = item

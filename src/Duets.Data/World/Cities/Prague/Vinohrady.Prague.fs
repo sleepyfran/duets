@@ -16,7 +16,7 @@ let francouzská city (zone: Zone) =
 
     let bars =
         [ ("Vinohradský Pivovar", 90<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
 
     let restaurants =
         [ ("U Bulínů", 91<quality>, Czech, zone.Id) ]
@@ -55,11 +55,11 @@ let náměstíMíru (zone: Zone) =
            89<quality>,
            Layouts.concertSpaceLayout4,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let bars =
         [ ("The Down Under", 86<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
 
     let restaurants =
         [ ("La Bohème Café", 93<quality>, French, zone.Id) ]

@@ -1,0 +1,49 @@
+# Akihabara Maid Cafe: pink frills and hearts everywhere, the maids behind a
+# frilly counter and a sign with the magic words for the omurice.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌♥ ◡ ♥ ◡ ♥ ◡ ♥ ◡ ♥ ◡ ♥ ◡ ♥ ◡ ♥ ◡ ♥ ◡ ♥ ◡ ♥ ◡ ♥ ◡ ♥ ◡ ♥ ▐
+▌    ✿          ✿           ✿            ✿          ✿  ▐
+▌ ┌──────┐ ┌───┐ ╭────────────╮ ┌───┐ ┌──────┐ ┌───┐   ▐
+▌ │wwwwww│ │ 7 │ │♡ MOE  MOE ♡│ │ 8 │ │wwwwww│ │ 9 │   ▐
+▌ │wwwwww│ │   │ ╰────────────╯ │   │ │wwwwww│ │   │   ▐
+▌ ╰┴┴┴┴┴┴╯ │  ▪│  ◙◙  CCCCCC    │  ▪│ ╰┴┴┴┴┴┴╯ │  ▪│   ▐
+▌   ●      │   │ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄ │   │     ●    │   │   ▐
+4 n┬n  PP  │nnn│ █▒▒▒▒▒▒▒▒▒▒▒▒█ │nnn│ p  n┬n   │nnn│iii6
+▙▄▄▄▄▄▄▄▄▄▄111▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄222▄▄▄▄▄▄▄▄▄▄▄▄333▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+♥ = hotpink
+◡ = pink1
+✿ = $lamp
+┌─┐│└┘╭╮╰╯┴ = lightpink3
+▪ = grey50
+♡ = hotpink
+MOE = bold hotpink
+◙ = grey70
+▒█ = lightpink1
+┬ = lightpink3
+● = orange1
+◓◔ = hotpink
+· = grey35
+❀ = hotpink
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+w = window
+p = player
+n = npc
+C = prop ◓·◔ | ◓◔◓◔ | ◓◔◓◔◓◔
+P = prop _ | ❀ | ❀❀
+i = item

@@ -1,0 +1,45 @@
+# New York subway platform, seen from the side: white tiles with a mosaic
+# band and the station name, steel columns and turnstiles. The train only shows
+# up when it's at the station.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌  ▕EXIT 7▏  ═█═      ▕EXIT 8▏     ═█═   ▕EXIT 9▏ ═█═  ▐
+▌▚▞▚▞▚▞▚▞▚▞▚▞▚█▚▞▚┌────────────────┐█▚▞▚▞▚▞▚▞▚▞▚▞▚▞█▞▚▞▐
+▌▭▭┌──────┐▭▭▭█▭▭▭│ ════ ═══ ═════ │█▭▭▭┌──────┐▭▭▭█▭▭▭▐
+▌▭▭│▒▒▒▒▒▒│▭▭▭█▭▭▭└────────────────┘█▭▭▭│▓▓▓▓▓▓│▭▭▭█▭▭▭▐
+▌▭▭└──────┘▭▭▭█▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭▭█▭▭▭└──────┘▭▭▭█▭▭▭▐
+▌rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr▐
+▌▔▔▔▔▔▔▔▔▔▔▔▔▔█▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔█▔▔▔▔▔▔▔▔▔▔▔▔▔▔█▔▔▔▐
+4 nn ╓──╖ nnn █ nnnn p nnnnnn ╪ ╪ ╪ █ nnnnnnnn ii  █ n 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▕▏ = grey15
+EXIT = bold white
+▚▞ = $accent
+▭ = grey85
+┌─┐│└┘ = grey50
+═ = white
+▒ = $accent
+▓ = steelblue
+█ = darkgreen
+▔ = yellow
+╓╖ = grey62
+╪ = grey70
+
+[slots]
+7 = exit north-west else ·
+8 = exit north else ·
+9 = exit north-east else ·
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+r = item rideable
+i = item

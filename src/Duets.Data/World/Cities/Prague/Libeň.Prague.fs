@@ -19,7 +19,7 @@ let ocelářská (zone: Zone) =
 
     let bars =
         [ ("Pivovar U Korunky", 85<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
 
     let restaurants =
         [ ("Restaurace U Korunky", 84<quality>, Czech, zone.Id) ]
@@ -56,7 +56,7 @@ let voctářova (zone: Zone) =
 
     let bars =
         [ ("U Hubatků", 82<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
 
     let restaurants =
         [ ("Restaurace U Hubatků", 81<quality>, Czech, zone.Id) ]

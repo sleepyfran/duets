@@ -1,0 +1,53 @@
+# Stage of an arena: a big lighting rig, screens on the sides of the stage and
+# a packed floor in front of it.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌ ╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤═╤  ▐
+▌ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼ ▼  ▐
+▌   ┌────────┐ ║║ ┌──────────────────┐ ║║ ┌────────┐   ▐
+▌   │SSSSSSSS│ ║║ │LLLLLLLLLLLLLLLLLL│ ║║ │SSSSSSSS│   ▐
+▌   └────────┘ ║║ └──────────────────┘ ║║ └────────┘   ▐
+▌  ┌───┐ ▕█▏▕█▏      ╿ ◯ ◯ ╿      ▕█▏▕█▏ ┌───┐ ┌───┐   ▐
+▌  │ 7 │ ▕█▏▕█▏      │ ◯◉◯ │      ▕█▏▕█▏ │ 8 │ │ 9 │   ▐
+4  │   │ ▕█▏▕█▏ m  ▆▆▆▆▆▆▆▆▆ p  m ▕█▏▕█▏ │   │ │   │   6
+▌━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━▐
+▌▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▐
+▌ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ▐
+▌ n aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa n ▐
+▙▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄33▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▼ = $stage
+╤═ = grey50
+┌─┐│└┘ = grey42
+║ = grey30
+▪ = grey50
+╿ = grey62
+◯◉ = navajowhite1
+▕█▏ = grey30
+▆ = grey35
+━ = tan
+▓ = grey23
+░▒ = $stage
+✦ = $stage
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+p = player
+n = npc
+m = band
+a = crowd
+A = crowd else ▓
+S = prop ░░░░░░░░ | ░▒░▒▒░▒░ | ▒░✦▒▒✦░▒
+L = prop ░░░░░░░░░░░░░░░░░░ | ░▒░▒░▒░▒░▒░▒░▒░▒░▒ | ✦▒░▒✦▒░▒✦▒░▒✦▒░▒✦▒

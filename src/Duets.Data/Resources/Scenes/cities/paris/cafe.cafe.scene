@@ -1,0 +1,43 @@
+# Parisian café terrace, seen from the side: the striped awning, the
+# glass front and the little round tables with wicker chairs facing the street.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▚▐
+▌▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▼▽▐
+▌ ┌────────┐ ┌─┐ ┌──────┐ ┌───┐ ┌───────┐ ┌──────┐ ┌─┐ ▐
+▌ │wwwwwwww│ │7│ │wwwwww│ │ 8 │ │QQQQQQQ│ │wwwwww│ │9│ ▐
+▌ │wwwwwwww│ │ │ │wwwwww│ │   │ │ ◙  ◙  │ │wwwwww│ │ │ ▐
+▌ └────────┘ │ │ └──────┘ │  ▪│ └───────┘ └──────┘ │ │ ▐
+▌ ━┳━  ━┳━   │ │ ━┳━ ━┳━  │   │  ╱╲ ━┳━   ━┳━ iii  │ │ ▐
+4n┃n  n┃n    │n│n┃n n┃n p │nnn│  ╱╲n┃n   n┃n  n n  │n│ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▚ = darkred
+▼ = darkred
+▽ = grey85
+┌─┐│└┘ = grey30
+◙ = grey70
+◓◔ = wheat1
+━ = grey85
+┳┃ = gold3
+╱╲ = tan
+▪ = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+w = window
+p = player
+n = npc
+Q = prop ◓ ◔ | ◓◔◓◔◓ | ◓◔◓◔◓◔◓
+i = item

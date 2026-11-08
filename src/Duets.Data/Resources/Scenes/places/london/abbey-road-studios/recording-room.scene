@@ -1,0 +1,42 @@
+# Abbey Road Studios: Studio Two, with the stairs going up the back wall to
+# the control room.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌     ╽         ╽         ╽    ┌───┐ ┌───────────────┐ ▐
+▌     ◒         ◒         ◒    │ 8 │ │ ▁▂▃▂▁ ▪▪ ▁▂▃▂ │ ▐
+▌                              │  ▪│ └───────────────┘ ▐
+▌ FFFFFFFFFF                   │   │                   ▐
+▌ FFFFFFFFFF                ╱▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▐
+▌                        ▁▁╱            STUDIO TWO     ▐
+▌            ┬        ▁▁╱                    ┬         ▐
+▌  iiiiii    │     ▁▁╱                       │  iiii   ▐
+4 n  n     n ┴  ▁▁╱     n p  n     n  n   n  ┴     n   6
+▙▄▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄000▄▄▄▄▄▄▄33▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╽ = grey35
+◒ = $lamp
+┌─┐│└┘ = grey85
+▁▂▃ = green3
+▪ = grey50
+▔ = grey70
+╱ = grey70
+STUDIOW = grey50
+┬┴ = grey70
+░▓ = grey62
+default = grey30
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+p = player
+n = npc
+F = prop _ | ░░░░░░ | ▓░▓░▓░▓░
+i = item

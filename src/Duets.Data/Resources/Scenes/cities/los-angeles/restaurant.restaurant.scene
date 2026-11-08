@@ -1,0 +1,45 @@
+# Los Angeles neon diner, seen from the side: pink neon, turquoise booths
+# by the windows and a chrome counter. The sign changes with the cuisine.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌ ★ DINER ★                   ∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿     ▐
+▌ ┌──────┐    ┌──────┐        ┌──────────────────┐     ▐
+▌ │wwwwww│┌─┐ │wwwwww│  ┌───┐ │kkkkkkkkkkkkkkkkkk│ ┌─┐ ▐
+▌ │wwwwww││7│ │wwwwww│  │ 8 │ └──────────────────┘ │9│ ▐
+▌ └──────┘│ │ └──────┘  │   │  ╭───╮   ◙  ◙        │ │ ▐
+▌ ▂   ▂   │ │ ▂   ▂     │  ▪│  │◓◔◓│               │ │ ▐
+▌ █═╤═█   │ │ █═╤═█ iii │   │ ▗▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▖ │ │ ▐
+4 █n┃n█   │n│ █n┃n█  p  │nnn│ ┃╥n╥n╥n╥n╥n╥n╥n╥n╥n┃ │n│ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+★ = bold yellow
+DINER = bold hotpink
+∿ = bold deepskyblue1
+┌─┐│└┘ = grey74
+▂█ = turquoise2
+═╤┃ = grey85
+╭╮ = grey74
+◓◔ = sandybrown
+◙ = grey70
+▗▆▖ = grey85
+╥ = hotpink
+▪ = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+w = window
+p = player
+n = npc
+k = cuisine
+i = item

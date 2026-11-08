@@ -1,0 +1,50 @@
+# Teatro Caupolicán: the old boxing arena, with the stage set up like a ring
+# under the hanging lamps and the wooden stands all around.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌     ◓        ◓        ◓      ◓        ◓        ◓     ▐
+▌               ╔══════════════════════╗               ▐
+▌aaaa           ║  TEATRO CAUPOLICAN   ║           aaaa▐
+▌╤╤╤╤aaaa       ╚══════════════════════╝       aaaa╤╤╤╤▐
+▌▒▒▒▒╤╤╤╤aaaa        ▼   ▼   ▼   ▼         aaaa╤╤╤╤▒▒▒▒▐
+▌▒▒▒▒▒▒▒▒╤╤╤╤aaaa  ┌───┐ ┌───┐ ┌───┐   aaaa╤╤╤╤▒▒▒▒▒▒▒▒▐
+▌▒▒▒▒▒▒▒▒▒▒▒▒╤╤╤╤  │ 7 │ │ 8 │ │ 9 │   ╤╤╤╤▒▒▒▒▒▒▒▒▒▒▒▒▐
+▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒┰──────────────────────┰▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐
+▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒┃ m   m   m  p   m   m ┃▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐
+▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐
+▌    ▒▒▒▒▒▒▒▒▒▒▒████████████████████████▒▒▒▒▒▒▒▒▒▒▒    ▐
+4 n  ▒▒▒▒▒▒aaaaa aaaaaaaaaaaaaaaaaaaaaa aaaaa▒▒▒▒▒▒  n 6
+▙▄▄▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄22▄▄▄▄▄▄33▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╽ = grey35
+◓ = $lamp
+╔═╗╚╝║ = gold3
+TEATROCAUPLIN = bold gold1
+╤ = tan
+▒ = orange4
+▼ = $stage
+┌─┐│ = grey50
+▪ = grey50
+┰┃ = white
+─ = red3
+▆ = grey70
+█ = grey30
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+m = band
+a = crowd

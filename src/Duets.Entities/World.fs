@@ -106,7 +106,13 @@ module Place =
           OpeningHours = PlaceOpeningHours.AlwaysOpen
           Rooms = rooms
           ZoneId = zoneId
-          StreetId = streetId }
+          StreetId = streetId
+          SceneTags = [] }
+
+    /// Adds a scene tag to the given place.
+    let tag sceneTag (place: Place) =
+        { place with
+            SceneTags = place.SceneTags @ [ sceneTag ] }
 
     /// Adds an exit to the given place.
     let addExit originRoomId targetPlaceId place =
@@ -160,7 +166,7 @@ module Street =
           SceneTags = [] }
 
     /// Adds a scene tag to the given street.
-    let tag sceneTag street =
+    let tag sceneTag (street: Street) =
         { street with
             SceneTags = street.SceneTags @ [ sceneTag ] }
 

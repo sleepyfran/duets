@@ -4,14 +4,22 @@ Each `.scene` file is the drawing of a room. When showing a room, the game
 uses the first template it finds of:
 
 1. `places/{city}/{place-name}/{room}.scene`
-2. `cities/{city}/{place-type}.{room}.scene`
-3. `cities/{city}/{room}.scene`
-4. `rooms/{place-type}.{room}.scene`
-5. `rooms/{room}.scene`
+2. `rooms/{place-type}.{room}.{tag}.scene`, for each tag of the place
+3. `cities/{city}/{place-type}.{room}.scene`
+4. `cities/{city}/{room}.scene`
+5. `rooms/{place-type}.{room}.{tier}.scene`, only for concert spaces
+6. `rooms/{place-type}.{room}.scene`
+7. `rooms/{room}.scene`
 
 Names are lowercase and separated by dashes, without accents. For example:
 `new-york`, `concert-space`, `rehearsal-room`. Restaurants are just
 `restaurant`, no matter the cuisine.
+
+Tags are added to places in `Duets.Data/World/Cities` with `World.Place.tag`
+(eg: `pub`, `jazz-club`, `seated`). When a place has more than one tag, the
+first one that has a template wins. The tier depends on the capacity of the
+concert space: `club` (up to 500), `theatre` (up to 3000), `arena` (up to
+25000) and `stadium` (anything bigger).
 
 ## Format
 
@@ -59,7 +67,8 @@ signs, or it'll get replaced too.
   `rideable`, `sleepable`, `storage`, `watchable` and `wearable`. Without one,
   it takes whatever item is left.
 - `window`: the sky, which changes with the time and weather.
-- `crowd`: the audience during a concert.
+- `crowd [glyphs]`: the audience during a concert. The glyphs, separated by
+  spaces, replace the default people (eg: `crowd ♥ ✦` for lightsticks).
 - `band`: the rest of the band during a concert.
 - `cuisine`: the sign of the restaurant.
 - `prop a b | c | d`: a decoration that depends on the quality of the place,
@@ -72,6 +81,29 @@ crowd use each character as a separate position.
 
 The default templates use the numpad for the exits (`7 8 9`, `4 6`, `1 2 3`
 and `0` for the street), but any character works.
+
+## Drawing rooms
+
+Rooms are seen from the side, like the streets: a cut through the building
+with the ceiling on top, the back wall in the middle and the floor at the
+bottom. Check `rooms/bar.scene` for an example.
+
+- Keep rooms 56 columns wide and around 10 rows tall (12 at most, big stages
+  can go up to 14).
+- The first row is the ceiling (`▛▀▜`), the last one the floor (`▙▄▟`) and
+  the sides are the walls (`▌ ▐`), all with `$wall`.
+- Things hang from the ceiling (lamps, lights, speakers), windows, shelves,
+  posters and doors go on the back wall and furniture stands on the floor.
+- People (`player`, `npc`, `band`, `crowd`) stand on the row right above the
+  floor, between the furniture. Tall furniture like counters or beds takes
+  the two rows above the floor.
+- Exits:
+    - `north`, `north-west` and `north-east` are doors in the back wall
+      (`┌───┐` with the slot inside, `else ▪` so a closed door has a window).
+    - `west` and `east` are gaps in the side walls on the people row
+      (`else ▌` and `else ▐`).
+    - `south`, `south-west`, `south-east` and `street` are towards the viewer,
+      in the floor (`else ▄`).
 
 ## Skylines
 

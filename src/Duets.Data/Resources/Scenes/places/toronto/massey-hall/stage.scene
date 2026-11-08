@@ -1,0 +1,52 @@
+# Massey Hall: an old proscenium stage with red curtains, the stained glass
+# windows on the back wall and two balconies over the seats.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌      ╽       ╽       ╽         ╽        ╽        ╽   ▐
+▌      ▼       ▼       ▼         ◒        ◒        ◒   ▐
+▌╔═══════════════════════╗    ╭───╮   ╭───╮   ╭───╮    ▐
+▌║▒▒    ┌───┐  ┌───┐   ▒▒║    │✦◆✦│   │✦◆✦│   │✦◆✦│    ▐
+▌║▒▒    │ 7 │  │ 9 │   ▒▒║    │◈✦◈│   │◈✦◈│   │◈✦◈│    ▐
+▌║▒▒▐▓▌ │   │  │   │▐▓▌▒▒║  aaaaaaaaaaaaaaaaaaaaaaaaaaa▐
+▌║▒▒▐▓▌ │  ▪│  │  ▪│▐▓▌▒▒║ ╘╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧▐
+▌║▒▒                   ▒▒║     ┌───┐                   ▐
+4║▒▒  m    m  p   m  m ▒▒║     │ 8 │ aaaaaaaaaaaaaaaaaa▐
+▌▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆     │  ▪│╘╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧▐
+▌█████████████████████████naaa ╵nnn╵ aaaaaaaaaaaaaan   6
+▙▄▄▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄▄▄22▄▄▄▄▄33▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╽ = grey35
+◒ = $lamp
+▼ = $stage
+╔═╗║ = gold3
+▒ = red3
+▓ = grey30
+┌─┐│ = grey50
+▪ = grey50
+╭╮ = grey50
+✦ = gold1
+◆ = red1
+◈ = dodgerblue1
+╘╧ = gold3
+╵ = grey50
+▆ = tan
+█ = grey19
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+m = band
+a = crowd

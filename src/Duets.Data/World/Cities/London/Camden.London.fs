@@ -47,7 +47,7 @@ let private camdenHighStreet (city: City) (zone: Zone) =
     let bars =
         [ ("The World's End", 80<quality>, zone.Id)
           ("Dublin Castle", 78<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
 
     let concertSpaces =
         [ ("Roundhouse", 1700, 88<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
@@ -117,7 +117,7 @@ let private regentsPark (zone: Zone) =
            85<quality>,
            Layouts.concertSpaceLayout1,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let cafes =
         [ ("Regent's Park Cafe", 70<quality>, zone.Id) ]

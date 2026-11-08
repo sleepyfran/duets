@@ -1,0 +1,43 @@
+# Museo del Jamón: hams hanging from every inch of the ceiling over the long
+# counter, with a few tables at the back.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━▐
+▌ ╿◖ ╿  ╿◖ ╿  ╿◖ ╿  ╿◖ ╿  ╿◖ ╿  ╿◖ ╿  ╿◖ ╿  ╿◖ ╿  ╿◖ ╿ ▐
+▌ █  █  █  █  █  █  █  █  █  █  █  █  █  █  █  █  █  █ ▐
+▌ ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼  ▼ ▐
+▌  ┌──────┐                         ┌───┐     ┌──────┐ ▐
+▌  │wwwwww│  kkkkkkkkkkkkkkk        │ 8 │     │wwwwww│ ▐
+▌  └──────┘   iiii                  │  ▪│     └──────┘ ▐
+▌           ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄   │   │              ▐
+4  PP  n    ┬n┬ ┬n┬ ┬p┬ ┬n┬ ┬n┬ ┬ n │   │ n╥n    n╥n   6
+▙▄▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄▄000▄▄▄▄▄▄▄▄▄▄33▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+━ = tan
+╿ = grey50
+◖ = gold3
+█ = indianred
+▼ = lightsalmon3
+┌─┐│└┘ = tan
+▪ = grey50
+┬╥ = tan
+♣ = green3
+default = grey30
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+w = window
+p = player
+n = npc
+k = cuisine
+P = prop _ | ♣ | ♣♣
+i = item

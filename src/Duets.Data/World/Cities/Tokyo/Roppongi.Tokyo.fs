@@ -12,15 +12,21 @@ let roppongiDori (zone: Zone) =
 
     let concertSpaces =
         [ ("Billboard Live Tokyo", 300, 95<quality>, Layouts.concertSpaceLayout2, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "jazz-club"
           ("EX Theater Roppongi", 2000, 92<quality>, Layouts.concertSpaceLayout3, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("Tokyo Dome", 55000, 99<quality>, Layouts.concertSpaceLayout4, zone.Id)
-          ("Roppongi Hills Arena", 3000, 90<quality>, Layouts.concertSpaceLayout4, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          ("Roppongi Hills Arena", 3000, 90<quality>, Layouts.concertSpaceLayout4, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id ]
 
     let bars =
         [ ("Mado Lounge", 93<quality>, zone.Id)
-          ("SuperDeluxe", 87<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+          |> PlaceCreators.createBar street.Id
+          |> World.Place.tag "cocktail-bar"
+          ("SuperDeluxe", 87<quality>, zone.Id)
+          |> PlaceCreators.createBar street.Id ]
 
     let restaurants =
         [ ("Brasserie Paul Bocuse le Musee", 96<quality>, French, zone.Id)

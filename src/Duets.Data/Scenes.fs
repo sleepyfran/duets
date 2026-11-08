@@ -51,8 +51,9 @@ type SlotKind =
     | Exit of ExitTarget
     /// The sky, which changes with the time and weather.
     | Window
-    /// The audience during a concert.
-    | Crowd
+    /// The audience during a concert, drawn with the given glyphs or the
+    /// default ones if empty.
+    | Crowd of glyphs: char list
     /// The rest of the band during a concert.
     | Band
     /// Sign of the restaurant, which depends on its cuisine.
@@ -248,7 +249,9 @@ module Template =
         | [ "player" ] -> Ok SlotKind.Player
         | [ "npc" ] -> Ok SlotKind.Npc
         | [ "window" ] -> Ok SlotKind.Window
-        | [ "crowd" ] -> Ok SlotKind.Crowd
+        | "crowd" :: glyphs when glyphs |> List.forall (fun glyph -> glyph.Length = 1) ->
+            glyphs |> List.map (fun glyph -> glyph[0]) |> SlotKind.Crowd |> Ok
+        | "crowd" :: _ -> Error $"Crowd glyphs must be single characters in '{text}'"
         | [ "band" ] -> Ok SlotKind.Band
         | [ "cuisine" ] -> Ok SlotKind.Cuisine
         | [ "item" ] -> Ok(SlotKind.Item ItemCategory.Any)
@@ -518,6 +521,15 @@ let toKey (text: string) =
     builder.ToString().Split('-', StringSplitOptions.RemoveEmptyEntries)
     |> String.concat "-"
 
+/// Returns the size tier of the given place, if it's a concert space.
+let sizeTier (place: Place) =
+    match place.PlaceType with
+    | PlaceType.ConcertSpace space when space.Capacity <= 500 -> Some "club"
+    | PlaceType.ConcertSpace space when space.Capacity <= 3000 -> Some "theatre"
+    | PlaceType.ConcertSpace space when space.Capacity <= 25000 -> Some "arena"
+    | PlaceType.ConcertSpace _ -> Some "stadium"
+    | _ -> None
+
 /// Returns the keys of the templates that could be used for the given room,
 /// from the most specific (the place itself) to the most generic (just the
 /// room type).
@@ -528,8 +540,12 @@ let candidateKeys (cityId: CityId) (place: Place) (roomType: RoomType) =
     let room = Union.caseName roomType |> toKey
 
     [ $"places/{city}/{placeName}/{room}"
+      yield! place.SceneTags |> List.map (fun tag -> $"rooms/{placeType}.{room}.{tag}")
       $"cities/{city}/{placeType}.{room}"
       $"cities/{city}/{room}"
+      match sizeTier place with
+      | Some tier -> $"rooms/{placeType}.{room}.{tier}"
+      | None -> ()
       $"rooms/{placeType}.{room}"
       $"rooms/{room}" ]
 

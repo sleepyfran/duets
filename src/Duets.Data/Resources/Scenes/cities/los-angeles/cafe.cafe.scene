@@ -1,0 +1,50 @@
+# Los Angeles beach café, seen from the side: a window to the ocean,
+# surfboards leaning on the wall and a juice counter of bamboo.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱╲╱▐
+▌ ┌──────────────┐                 ┌──────────┐        ▐
+▌ │wwwwwwwwwwwwww│┌─┐ ◢ ◢ ◢ ┌───┐  │ SMOOTHIE │    ┌─┐ ▐
+▌ │wwwwwwwwwwwwww││7│ █ ▓ ▒ │ 8 │  │ ACAI   ≡ │    │9│ ▐
+▌ │≈≈≈≈≈≈≈≈≈≈≈≈≈≈││ │ █ ▓ ▒ │   │  └──────────┘    │ │ ▐
+▌ └──────────────┘│ │ █ ▓ ▒ │  ▪│   QQQQQQQQ       │ │ ▐
+▌  ━┳━   ━┳━  ii  │ │ █ ▓ ▒ │   │ ▆▆▆▆▆▆▆▆▆▆▆▆▆ KK │ │ ▐
+4 n┃n   n┃n   p   │n│ ◥ ◥ ◥ │nnn│ ┃║║║║║║║║║║║┃ n  │n│ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╲╱ = wheat4
+┌─┐│└┘ = tan
+≈ = deepskyblue1
+━ = wheat1
+┳┃ = tan
+◢◥ = grey85
+█ = orange1
+▓ = turquoise2
+▒ = hotpink
+SMOTHIEAC = bold white
+≡ = grey50
+◓◔ = gold1
+♣ = green3
+▆ = tan
+║ = wheat4
+▪ = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+w = window
+p = player
+n = npc
+Q = prop ◓ ◔ | ◓◔◓◔◓ | ◓◔◓◔◓◔◓◔
+K = prop _ | ♣ | ♣♣
+i = item

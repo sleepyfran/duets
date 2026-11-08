@@ -85,7 +85,7 @@ let yanghwaRo (cityId: CityId) (zone: Zone) =
 
     let concertSpaces =
         [ ("Mecenatpolis Concert Hall", 800, 87<quality>, Layouts.concertSpaceLayout3, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let restaurants =
         [ ("Tosokchon Samgyetang", 90<quality>, Korean, zone.Id)

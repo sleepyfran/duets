@@ -86,7 +86,7 @@ let rueVieilleDuTemple (zone: Zone) =
 
     let bars =
         [ ("Andy Wahloo", 86<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "cocktail-bar")
 
     let studios =
         [ ("Studio des Marais",

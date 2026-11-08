@@ -23,7 +23,7 @@ let unterDenLinden (cityId: CityId) (zone: Zone) =
            94<quality>,
            Layouts.concertSpaceLayout3,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let restaurants =
         [ ("Borchardt", 95<quality>, German, zone.Id)
@@ -61,8 +61,11 @@ let alexanderplatz (zone: Zone) =
 
     let bars =
         [ ("Park Inn Rooftop Bar", 88<quality>, zone.Id)
-          ("The Alex Pub", 82<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+          |> PlaceCreators.createBar street.Id
+          |> World.Place.tag "cocktail-bar"
+          ("The Alex Pub", 82<quality>, zone.Id)
+          |> PlaceCreators.createBar street.Id
+          |> World.Place.tag "pub" ]
 
     let cafes =
         [ ("Café Oliv", 85<quality>, zone.Id) ]
@@ -95,7 +98,7 @@ let friedrichstrasse (zone: Zone) =
            93<quality>,
            Layouts.concertSpaceLayout3,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let casinos =
         [ ("Spielbank Berlin", 90<quality>, zone.Id) ]

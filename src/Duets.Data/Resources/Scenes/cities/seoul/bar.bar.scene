@@ -1,0 +1,47 @@
+# Seoul street tent bar, seen from the side. Orange tarp, clear plastic
+# flaps, low plastic tables with stools and green soju bottles.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▐
+▌        ╽         ╽      ╽                        ╽   ▐
+▌ ┊wwwww┊●┊wwwwww┊ ● ┌───┐● ╔════════════╗  ≈      ●   ▐
+▌ ┊wwwww┊ ┊wwwwww┊   │ 8 │  ║ SOJU  ANJU ║ ◢█◣         ▐
+▌ ┊wwwww┊ ┊wwwwww┊   │   │  ╚════════════╝╘═══╛        ▐
+▌  TTTTT      TTTTT  │  ▪│    TTTTT        iii         ▐
+▌ ▂▂▂▂▂▂▂    ▂▂▂▂▂▂▂ │   │   ▂▂▂▂▂▂▂      ▃▃▃▃▃▃ ggggg ▐
+4nn║   ║n╥nn╥n║   ║n╥│nnn│nn p║   ║n╥ nn  ██████ nnnnnn6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▼ = darkorange
+┊ = orange3
+┌─┐│└┘ = grey62
+╽ = grey35
+● = $lamp
+╔═╗║╚╝ = orange3
+SOJUAN = bold white
+≈ = grey70
+█◢◣╘╛ = grey50
+▃ = grey70
+▂ = bold red3
+╥ = bold dodgerblue2
+▮ = green3
+¡ = grey85
+▪ = grey50
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+w = window
+p = player
+n = npc
+T = prop ▮ ¡ | ▮▮¡¡ | ▮▮▮¡¡
+g = item playable
+i = item

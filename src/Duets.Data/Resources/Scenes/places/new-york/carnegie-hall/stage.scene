@@ -1,0 +1,50 @@
+# Carnegie Hall: the white and gold stage with the band in front of the
+# shell, red seats in the stalls and the balconies stacked on the back wall.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌      ═◎═           ═◎═           ═◎═         ═◎═     ▐
+▌╲  ▼   ▼   ▼   ▼   ▼ ╱                                ▐
+▌ ╲∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙╱             │xxxxxx│xxxxx│xxxxxx▐
+▌  │ │ │ │ │ │ │ │ │ │             ◥━━━━━━━━━━━━━━━━━━━▐
+▌  │ │ │ │ │ │ │ │ │ │                                 ▐
+▌  │ │ │ │ │ │ │ │ │ │         │xxxxxxx│xxxxxx│xxxxxxxx▐
+▌  │ │▂▂▂▂▂▂▂▂▂▂▂▂ │ │  ┌───┐  ◥━━━━━━━━━━━━━━━━━━━━━━━▐
+▌  m ┼ m  ◉  p  m ┼ m   │ 8 │                          ▐
+▌▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ │  ▪││xxxxxxxxxxxxxxxxxxxxxxxxx▐
+▌██████████████████████ │   │◥━━━━━━━━━━━━━━━━━━━━━━━━━▐
+4xxxxxxxxxxxxxxxxxxxxxx │ n │nxxxxxxxxxxxxxxxxxxxxxxxx 6
+▙▄▄▄▄▄11▄▄▄▄▄▄2222▄▄▄▄▄▄▄000▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+═ = gold3
+◎ = $lamp
+▼ = $stage
+╲╱ = grey85
+∙ = gold1
+│ = grey85
+▂ = grey35
+┼ = grey70
+◉ = navajowhite1
+▇ = tan
+█ = grey23
+━ = gold1
+◥ = gold3
+┌─┐ = grey85
+▪ = grey50
+▫ = red3
+default = grey30
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+p = player
+m = band
+n = npc
+x = crowd else ▫

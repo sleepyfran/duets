@@ -22,7 +22,7 @@ let private yongeStreet (city: City) (zone: Zone) =
            91<quality>,
            Layouts.concertSpaceLayout2,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let cinemas =
         [ ("Scotiabank Theatre", 90<quality>, zone.Id) ]

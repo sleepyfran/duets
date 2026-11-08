@@ -33,17 +33,20 @@ let figueroaStreet (zone: Zone) =
            98<quality>,
            Layouts.concertSpaceLayout4,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("Microsoft Theater",
            7100,
            94<quality>,
            Layouts.concertSpaceLayout4,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("Orpheum Theatre",
            2000,
            91<quality>,
            Layouts.concertSpaceLayout3,
-           zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+           zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "seated" ]
 
     let bars =
         [ ("W Hotel/L.A. Live Lounge", 93<quality>, zone.Id) ]
@@ -88,7 +91,7 @@ let grandAvenue (zone: Zone) =
            95<quality>,
            Layouts.concertSpaceLayout4,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let restaurants =
         [ ("Patina Restaurant", 94<quality>, French, zone.Id) ]

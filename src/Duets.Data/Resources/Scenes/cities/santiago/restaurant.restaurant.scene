@@ -1,0 +1,45 @@
+# Santiago sandwich counter restaurant, seen from the side. Everyone eats at
+# the counter, facing the griddle under the hood.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌     ╽     ▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌      ╽    ▐
+▌     ◒     ◥████████kkkkkkkkkkkkkk████████◤      ◒    ▐
+▌ ┌──────┐   LOMITO · CHACARERO · ITALIANO    ┌───┐    ▐
+▌ │wwwwww│     ≈  ≈   ≈  ≈   ≈   ≈  ≈   ≈     │ 8 │    ▐
+▌ │wwwwww│     ▬  ▬   ▬  ●   ▬   ●  ▬   ▬     │   │    ▐
+▌ └──────┘   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━   │  ▪│    ▐
+▌ PP        ▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃▃  │   │iii ▐
+4nnnn n p n ╤n╤n╤n╤n╤n╤n╤n╤n╤n╤n╤n╤n╤n╤n╤n╤nn │nnn│ nn 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+┌─┐│└┘ = tan
+◒ = $lamp
+╽ = grey35
+◥█◤ = grey62
+≈ = grey70
+━ = grey42
+▬ = sandybrown
+● = gold1
+LOMITCHARVD· = bold white
+▃ = tan
+╤ = bold red3
+♣ = green3
+▪ = grey50
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+w = window
+p = player
+n = npc
+k = cuisine
+P = prop _ | ♣ | ♣♣
+i = item

@@ -1,0 +1,46 @@
+# Berlin café, seen from the side: stucco under the ceiling, chandeliers,
+# tall windows and a glass counter full of cakes.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡◡▐
+▌ ╔══════╗   ╿      ╔══════╗  ╿              ╿         ▐
+▌ ║wwwwww║  ╰◆╯ ┌─┐ ║wwwwww║ ╰◆╯ ┌───┐      ╰◆╯    ┌─┐ ▐
+▌ ║wwwwww║      │7│ ║wwwwww║     │ 8 │  ┌────────┐ │9│ ▐
+▌ ║wwwwww║      │ │ ║wwwwww║     │   │  │ KUCHEN │ │ │ ▐
+▌ ╚══════╝      │ │ ╚══════╝     │  ▪│  └────────┘ │ │ ▐
+▌  ━┳━  ━┳━ ii  │ │  ━┳━  ━┳━    │   │  ╓QQQQQQQQ╖ │ │ ▐
+4 n┃n  n┃n  p   │n│ n┃n  n┃n nn  │nnn│  █▒▒▒▒▒▒▒▒█ │n│ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+◡ = grey85
+╿ = gold3
+╰◆╯ = $lamp
+╔═╗║╚╝ = grey85
+┌─┐│└┘ = tan
+KUCHEN = white
+≡ = grey50
+◓◔ = rosybrown
+╓╖█ = tan
+▒ = lightcyan3
+━ = grey93
+┳┃ = grey30
+▪ = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+w = window
+p = player
+n = npc
+Q = prop ◓ ◔ | ◓◔◓◔◓ | ◓◔◓◔◓◔◓◔
+i = item

@@ -14,7 +14,7 @@ let private bank (city: City) (zone: Zone) =
 
     let bars =
         [ ("The Counting House", 80<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
 
     let hotels =
         [ ("The Ned", 90<quality>, 400m<dd>, zone.Id) ]
@@ -63,7 +63,7 @@ let private barbican (zone: Zone) =
            92<quality>,
            Layouts.concertSpaceLayout2,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     let rehearsalSpaces =
         [ ("Guildhall Practice Rooms", 80<quality>, 180m<dd>, zone.Id) ]

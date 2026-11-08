@@ -1,0 +1,50 @@
+# L'Olympia: the red letters over the stage, rows of red seats rising to the
+# back and the balcony above them.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌     O L Y M P I A                                    ▐
+▌▓ ▼   ▼   ▼   ▼   ▼  ▓                                ▐
+▌▓╲                  ╱▓          xxxxxxxxxxxxxxxxxxxxxx▐
+▌▓                    ▓         ◥━━━━━━━━━━━━━━━━━━━━━━▐
+▌▓                    ▓             ╽   ╽   ╽   ╽   ╽  ▐
+▌▓                    ▓             ◒   ◒   ◒   ◒   ◒  ▐
+▌▓    ▂▂▂▂▂▂▂▂▂▂      ▓ ┌───┐                          ▐
+▌▓ m  ┼  m ◉  p  m  ┼m▓ │ 8 │              ◢xxxxxxxxxxx▐
+▌▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ │  ▪│        ◢xxxxxxxxxxxxxxxxx▐
+▌██████████████████████ │   │ ◢xxxxxxxxxxxxxxxxxxxxxxxx▐
+4xxxxxxxxxxxxxxxxxxxxxxx│ n │nxxxxxxxxxxxxxxxxxxxxxxxx 6
+▙▄▄▄▄▄11▄▄▄▄▄▄2222▄▄▄▄▄▄▄000▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+OLYMPIA = bold red1
+▼ = $stage
+▓ = red3
+╲╱ = red3
+▂ = grey35
+┼ = grey70
+◉ = navajowhite1
+▇ = tan
+█ = grey19
+━ = red3
+◥◢ = red3
+╽ = grey35
+◒ = $lamp
+┌─┐│ = grey50
+▪ = grey50
+▫ = red3
+default = grey30
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+p = player
+m = band
+n = npc
+x = crowd else ▫

@@ -31,8 +31,10 @@ let warschauerStrasse (zone: Zone) =
 
     let bars =
         [ ("Hops & Barley", 87<quality>, zone.Id)
-          ("BarCom", 83<quality>, zone.Id) ]
-        |> List.map (PlaceCreators.createBar street.Id)
+          |> PlaceCreators.createBar street.Id
+          |> World.Place.tag "pub"
+          ("BarCom", 83<quality>, zone.Id)
+          |> PlaceCreators.createBar street.Id ]
 
     let hotels =
         [ ("nhow Berlin", 88<quality>, 250m<dd>, zone.Id) ]

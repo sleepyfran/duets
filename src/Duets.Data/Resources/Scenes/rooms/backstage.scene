@@ -1,41 +1,45 @@
-# Backstage of a concert space.
+# Backstage of a concert space, seen from the side.
 
 [art]
-╔═77══════════════════════8888══════════════════════99═╗
-║  ◘◘◘◘◘◘◘◘   ◘◘◘◘◘◘◘◘                ▣▣ ▣▣ ▣▣ ▣▣      ║
-║  ════════   ════════                ▣▣ ▣▣ ▣▣ ▣▣      ║
-║    ○           ○         m       m                   ║
-║                                         n            ║
-4  SSSSSS         ┌────────────┐     m                 6
-║                 │ iii  iii   │                       ║
-║        n        └────────────┘         AAAAA         ║
-║             p                     iii   iii   iii    ║
-╚═11═══════0000════════════2222═══════════════════33═══╝
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌                                    ╽                 ▐
+▌       ◘◘◘◘◘◘◘◘ ◘◘◘◘◘◘◘◘            ◒                 ▐
+▌ ┌───┐ ◘░░░░░░◘ ◘░░░░░░◘  ┌───┐                 ┌───┐ ▐
+▌ │ 7 │ ◘◘◘◘◘◘◘◘ ◘◘◘◘◘◘◘◘  │ 8 │  AAAA           │ 9 │ ▐
+▌ │   │  iii        iii    │   │                 │   │ ▐
+▌ │  ▪│ ═════════════════  │  ▪│           iii   │  ▪│ ▐
+▌ │   │                    │   │   nn     ▣▣ ▣▣  │   │ ▐
+4 │nnn│   m ○ m p  m ○ m n │nnn│nSSSSSS ▣▣ ▣▣ ▣▣ │nnn│ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
 
 [legend]
-╔═╗║╚╝ = $wall
+▛▀▜▌▐▙▄▟ = $wall
+┌─┐│└┘ = tan
 ◘ = $lamp
+◒ = $lamp
+╽ = grey35
+▪ = grey50
+░ = grey70
 ═ = grey62
 ○ = grey50
 ▣ = grey35
-┌─┐│└┘ = tan
-▙▄▟▖▗ = darkorange
+▆▃▗▖█ = darkorange
 ▤ = magenta1
 ♣ = green3
 
 [slots]
-7 = exit north-west else ═
-8 = exit north else ═
-9 = exit north-east else ═
-4 = exit west else ║
-6 = exit east else ║
-1 = exit south-west else ═
-2 = exit south else ═
-3 = exit south-east else ═
-0 = exit street else ═
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
 p = player
 n = npc
-S = prop ▖▄▄▗ | ▙▄▄▄▄▟ | ▙▄▄▄▄▟
+S = prop ▗▃▃▖ | ▆▃▃▃▃▆ | █▆▆▆▆█
 A = prop _ | ▤ | ▤▤ ♣
 m = band
 i = item

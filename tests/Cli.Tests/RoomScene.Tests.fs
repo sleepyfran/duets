@@ -9,6 +9,7 @@ open Duets.Cli.Components.Scene.Room
 open Duets.Cli.Text
 open Duets.Data.Scenes
 open Duets.Entities
+open Spectre.Console
 
 let private parseOk text =
     match Template.parse text with
@@ -187,3 +188,31 @@ let ``caption mentions the weather only in rooms with windows`` () =
     Caption.create rainy windowless RoomType.Bar
     |> mentionsWeather
     |> should equal false
+
+[<Test>]
+let ``all templates and landmarks of the game use valid styles`` () =
+    let templateStyles (template: Template) =
+        Map.values template.Legend |> List.ofSeq |> List.append (Option.toList template.DefaultStyle)
+
+    let landmarkStyles (landmark: Landmark) =
+        Map.values landmark.Legend
+        |> List.ofSeq
+        |> List.append (Option.toList landmark.DefaultStyle)
+        |> List.append (landmark.Art |> Option.map templateStyles |> Option.defaultValue [])
+
+    let styles =
+        [ for KeyValue(key, template) in all.Value do
+              for style in templateStyles template -> key, style
+          for KeyValue(key, landmark) in landmarks.Value do
+              for style in landmarkStyles landmark -> key, style ]
+
+    styles
+    |> List.filter (fun (_, style) ->
+        let resolved =
+            [ "$wall"; "$accent"; "$lamp"; "$stage" ]
+            |> List.fold (fun (style: string) token -> style.Replace(token, "grey50")) style
+
+        match Style.TryParse resolved with
+        | true, _ -> false
+        | _ -> true)
+    |> should be Empty

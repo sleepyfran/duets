@@ -1,0 +1,47 @@
+# Moulin Rouge: the cabaret stage behind red curtains, little tables with red
+# lamps in front of it and the windmill painted on the back wall.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌╲▁▁╱╲▁▁╱╲▁▁╱╲▁▁╱╲▁▁╱╲▁▁╱╲▁▁╱╲▁▁╱╲▁▁╱╲▁▁╱╲▁▁╱╲▁▁╱╲▁▁╱╲▁▐
+▌▓  ▼   ▼   ▼   ▼   ▼ ▓                   ╲   ╱        ▐
+▌▓                    ▓                    ╲ ╱         ▐
+▌▓  MOULIN  ROUGE     ▓                     ●          ▐
+▌▓                    ▓                    ╱█╲         ▐
+▌▓                    ▓                   ╱▕█▏╲        ▐
+▌▓    ▂▂▂▂▂▂▂▂▂▂      ▓  ┌───┐             ███         ▐
+▌▓ m  ┼  m ◉  p  m  ┼m▓  │ 8 │                         ▐
+▌▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇  │  ▪│                         ▐
+▌██████████████████████  │   │  ●    ●    ●    ●    ●  ▐
+4naaaaaaaaaaaaaaaaaaaaaa │ n │ a┬a  a┬a  a┬a  a┬a  a┬a 6
+▙▄▄▄▄▄11▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄000▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+╲▁╱ = red3
+▼ = $stage
+▓ = red3
+MOULINRGE = bold gold1
+▂ = grey35
+┼ = grey70
+◉ = navajowhite1
+▇ = gold3
+█ = darkred
+● = red1
+┬ = gold3
+┌─┐│ = gold3
+▪ = grey50
+default = grey30
+
+[slots]
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
+8 = exit north else ▪
+p = player
+m = band
+n = npc
+a = crowd

@@ -1,34 +1,40 @@
 # Lobby of a concert space.
 
 [art]
-╔═77══════════════════════8888══════════════════════99═╗
-║  AAAAA   AAAAA   AAAAA          AAAAA   AAAAA   AAAAA║
-║                                                      ║
-║  ┌───────────────┐                     ┌───────────┐ ║
-║  │ BOX OFFICE  n │                     │ n  ╤╤╤╤╤╤ │ ║
-4  └───────────────┘                     └───────────┘ 6
-║        n          n           n                      ║
-║              n                          n            ║
-║                        p                       iii   ║
-╚═11═══════0000════════════2222═══════════════════33═══╝
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌     ╽                 ╽   ╽                ╽         ▐
+▌     ◒                 ◒   ◒                ◒         ▐
+▌┌──────────┐   ┌───┐           ┌───┐     MERCH   ┌───┐▐
+▌│BOX OFFICE│   │ 7 │ AAAA AAAA │ 8 │    ┬──────┬ │ 9 │▐
+▌├──────────┤   │   │ AAAA AAAA │   │    │╤╤ ╤╤╤│ │   │▐
+▌│░░░░░░░░░░│   │  ▪│           │  ▪│    │      │ │  ▪│▐
+▌━━━━━━━━━━━━   │   │           │   │    ━━━━━━━━ │   │▐
+4█▒▒▒▒▒▒▒▒▒▒█ n │nnn│ n  p   n  │nnn│ iii█▒▒▒▒▒▒█ │nnn│6
+▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄111▄▄▄▄0000▄▄▄▄▄222▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄333▄▟
 
 [legend]
-╔═╗║╚╝ = $wall
+▛▀▜▌▐▙▄▟ = $wall
+◒ = $lamp
+╽ = grey35
+┌─┐│└┘├┤┬ = gold1
+▪ = grey50
+BOXFICEMRH = bold gold1
+░ = grey35
+━ = gold1
+▒█ = grey30
 ▤▣ = magenta1
-┌─┐│└┘ = gold1
-BOXOFIC = bold gold1
 ╤ = grey62
 
 [slots]
-7 = exit north-west else ═
-8 = exit north else ═
-9 = exit north-east else ═
-4 = exit west else ║
-6 = exit east else ║
-1 = exit south-west else ═
-2 = exit south else ═
-3 = exit south-east else ═
-0 = exit street else ═
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
 p = player
 n = npc
 A = prop ▤ _ | ▤ ▤▣ | ▣▤▣

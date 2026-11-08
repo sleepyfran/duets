@@ -1,0 +1,47 @@
+# Shinjuku Pachinko Palace: rows and rows of blinking pachinko machines with
+# a stool in front of each one, and the prize counter at the back.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ◇ ▐
+▌  ╺━━━━━━━━━━━━━━┫ P A C H I N K O ┣━━━━━━━━━━━━━━╸   ▐
+▌╔══╗╔══╗ ┌───┐ ╔══╗╔══╗╔══╗ ┌───┐ ╔══╗╔══╗ ┌───┐      ▐
+▌║◎·║║◎·║ │ 7 │ ║◎·║║◎·║║◎·║ │ 8 │ ║·◎║║·◎║ │ 9 │  ★★  ▐
+▌║·◎║║·◎║ │   │ ║◉◉║║◉◉║║◉◉║ │   │ ║◎·║║◎·║ │   │      ▐
+▌║◉◉║║◉◉║ │  ▪│ ║·◎║║·◎║║·◎║ │  ▪│ ║◉◉║║◉◉║ │  ▪│ RRRR ▐
+▌╚▬▬╝╚▬▬╝ │   │ ╚▬▬╝╚▬▬╝╚▬▬╝ │   │ ╚▬▬╝╚▬▬╝ │   │ ▆▆▆▆ ▐
+4n┬ ┬n    │nnn│  ┬n ┬ p┬n ┬  │nnn│ ┬n  ┬n   │nnn│ █▒▒█n6
+▙▄▄▄▄▄▄▄▄▄▄111▄▄▄▄▄▄0000▄▄▄▄▄▄222▄▄▄▄▄▄▄▄▄▄▄▄▄333▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+◇ = $lamp
+╺━┫┣╸ = magenta1
+PACHINKO = bold yellow1
+╔═╗║╚╝ = deeppink3
+◎◉ = $lamp
+· = grey70
+┌─┐│ = gold1
+▪ = grey50
+┬ = grey50
+▬ = grey70
+★ = gold1
+▆ = grey70
+█▒ = grey35
+◆ = gold1
+◈ = orange1
+☆ = white
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+R = prop ◈ | ◈ ◆ | ◆☆◆

@@ -1,0 +1,50 @@
+# Parisian bar, seen from the side: a zinc counter with a mirror behind
+# the bottles and the dish of the day on a chalkboard. Table football and other
+# games are items.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌            ╽                  ╔════════════════╗     ▐
+▌ ╔══════╗   ◒ ┌────────┐       ║BBBBBBBBBBBBBBBB║     ▐
+▌ ║wwwwww║┌─┐  │PLAT DU │ ┌───┐ ║▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒║ ┌─┐ ▐
+▌ ║wwwwww║│7│  │JOUR  ≈≈│ │ 8 │ ║BBBBBBBBBBBBBBBB║ │9│ ▐
+▌ ╚══════╝│ │  └────────┘ │   │ ╚════════════════╝ │ │ ▐
+▌  ii     │ │             │  ▪│  ▿ ╿╿ ▿  ¡  ▿ ╿ ▿  │ │ ▐
+▌ ━━┳━━   │ │     gg      │   │ ▗▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▖ │ │ ▐
+4n  ┃  n  │n│  nnnnnnnn p │nnn│ ┃╥n╥n╥nn╥n╥n╥n╥ ┃  │n│ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+┌─┐│└┘ = tan
+╔═╗║╚╝ = gold3
+◒ = $lamp
+╽ = grey35
+━┳┃ = grey62
+PLATDUJOR = white
+≈ = grey58
+▒ = grey42
+▿ = grey85
+╿ = gold3
+▗▆▖ = grey74
+╥ = darkorange3
+¡▮ = gold1
+· = grey35
+▪ = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+w = window
+p = player
+n = npc
+B = prop ¡·¡¡··¡·¡¡·¡·¡·¡ | ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ | ¡▮¡▮¡¡▮¡▮¡¡▮¡▮¡▮
+g = item playable
+i = item

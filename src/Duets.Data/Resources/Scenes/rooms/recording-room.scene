@@ -1,38 +1,46 @@
 # Recording room of a studio.
 
 [art]
-┌─77──────────────────────8888──────────────────────99─┐
-│  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  │
-│                                                      │
-│   ╔═══════╗        ⊙  ◯  ⊙            ┼     ┼        │
-4   ║  ┼  n ║       ◯   ◉   ◯                          6
-│   ╚═══════╝            ●              ▐▓▓▌  ▐▓▓▌     │
-│                n                                     │
-│  FFFFFFFF            p                      iii      │
-└─11───────0000────────────2222───────────────────33───┘
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐
+▌                                  ╽        ╽          ▐
+▌ ┌───┐ ┌──────────────┐  ┌───┐    ◒        ◒    ┌───┐ ▐
+▌ │ 7 │ │░░░░░░░░░░░░░░│  │ 8 │         ╔══════╗ │ 9 │ ▐
+▌ │  ▪│ │░░▫▪▫▪▫▪▫▪▫░░░│  │  ▪│ ⊙     ⊙ ║      ║ │  ▪│ ▐
+▌ │   │ └──────────────┘  │   │ ╿ ◯ ◯ ╿ ║ ╭╮   ║ │   │ ▐
+▌ │   │                   │   │ │ ◯◉◯ │ ║ ┼    ║ │   │ ▐
+4 │   │ iii  n  ┼ p  ┼ n  │   │ ▆▆▆▆▆▆▆ ║ │ n  ║ │   │ 6
+▙▄▄▄▄▄▄▄▄11▄▄▄▄▄▄▄0000▄FFFFFFFF▄▄▄2222▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
 
 [legend]
-┌─┐│└┘ = $wall
+▛▀▜▌▐▙▄▟ = $wall
 ▒ = grey35
-╔═╗║╚╝ = grey50
+◒ = $lamp
+╽ = grey35
+┌─┐│└┘ = grey50
+▪ = grey50
+░ = grey19
+▫ = springgreen2
+╔═╗║╚╝ = grey62
+╭─╮ = grey70
 ┼ = grey70
 ⊙ = gold1
 ◯◉ = navajowhite1
-● = grey50
-▐▓▌ = grey62
-░▓ = indianred
+╿ = grey62
+▆ = grey35
+▓ = indianred
 
 [slots]
-7 = exit north-west else ─
-8 = exit north else ─
-9 = exit north-east else ─
-4 = exit west else │
-6 = exit east else │
-1 = exit south-west else ─
-2 = exit south else ─
-3 = exit south-east else ─
-0 = exit street else ─
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+4 = exit west else ▌
+6 = exit east else ▐
 p = player
 n = npc
-F = prop _ | ░░░░░░ | ▓░▓░▓░▓░
+F = prop _ | ░░░░░░░░ | ▓░▓░▓░▓░ else ▄
 i = item

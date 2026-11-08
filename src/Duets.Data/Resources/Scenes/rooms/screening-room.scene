@@ -1,33 +1,36 @@
 # Screening room of a cinema.
 
 [art]
-╔═77══════════════════════8888══════════════════════99═╗
-║    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄      ║
-║    ████████████████████████████████████████████      ║
-║                                                      ║
-║      ○○○○○○○○○○○○○○    ○○○○○○○○○○○○○○○○              ║
-4      nnnnnnnnnnnnnn    nnnnnnnnnnnnnnnn              6
-║      ○○○○○○○○○○○○○○    ○○○○○○○○○○○○○○○○              ║
-║      nnnnnnnnnnnnnn    nnnnnnnnnnnnnnnn              ║
-║      ○○○○○○○○○○○○○○    ○○○○○○○○○○○○○○○○              ║
-║      nnnnnnnnnnnnnn  p nnnnnnnnnnnnnnnn       iii    ║
-╚═11═══════0000════════════2222═══════════════════33═══╝
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌        ◘               ◘               ◘             ▐
+▌       ▓┌───────────────────────────────┐▓            ▐
+▌ ┌───┐ ▓│███████████████████████████████│▓ ┌───┐ ┌───┐▐
+▌ │ 7 │ ▓│███████████████████████████████│▓ │ 8 │ │ 9 │▐
+▌ │   │ ▓│███████████████████████████████│▓ │   │ │   │▐
+▌ │  ▪│ ▓└───────────────────────────────┘▓ │  ▪│ │  ▪│▐
+▌ │   │ ▓                                 ▓ │   │ │   │▐
+4 │nnn│  n▍n▍n▍n▍n▍n▍n▍n▍p▍n▍n▍n▍n▍n▍n▍ iii │nnn│ │nnn│6
+▙▄▄111▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄222▄▄▄333▄▟
 
 [legend]
-╔═╗║╚╝ = $wall
-▄█ = $stage
-○ = indianred
+▛▀▜▌▐▙▄▟ = $wall
+◘ = $lamp
+▓ = red3
+█ = $stage
+┌─┐│└┘ = grey30
+▪ = grey50
+▍ = indianred
 
 [slots]
-7 = exit north-west else ═
-8 = exit north else ═
-9 = exit north-east else ═
-4 = exit west else ║
-6 = exit east else ║
-1 = exit south-west else ═
-2 = exit south else ═
-3 = exit south-east else ═
-0 = exit street else ═
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
 p = player
 n = npc
 i = item
