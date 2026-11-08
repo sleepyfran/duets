@@ -37,6 +37,28 @@ type CommandCompletion(availableCommands: Command list) =
                 | _ -> None)
             |> Seq.ofList
 
+/// Shortcut to enter the cheat menu without typing the full secret command.
+type CheatMenuShortcutCommand() =
+    inherit LineEditorCommand()
+
+    static let lastPressStateKey = "cheatMenuShortcutLastPress"
+    static let maxTimeBetweenPresses = TimeSpan.FromSeconds 1.0
+
+    override _.Execute(context) =
+        let now = DateTime.UtcNow
+
+        let lastPress =
+            context.GetState(lastPressStateKey, fun () -> DateTime.MinValue)
+
+        if now - lastPress <= maxTimeBetweenPresses then
+            let buffer = context.Buffer
+            buffer.Move(0) |> ignore
+            buffer.Clear(0, buffer.Length) |> ignore
+            buffer.Insert(Cheats.Index.enterCommand.Name)
+            context.Submit(SubmitAction.Submit)
+        else
+            context.SetState(lastPressStateKey, now)
+
 type private HistoryAgentMsg =
     | Add of string
     | Get of AsyncReplyChannel<string list>
@@ -108,6 +130,12 @@ let private editor availableCommands =
     editor.KeyBindings.Remove(ConsoleKey.DownArrow)
     editor.KeyBindings.Add<PreviousHistoryCommand>(ConsoleKey.UpArrow)
     editor.KeyBindings.Add<NextHistoryCommand>(ConsoleKey.DownArrow)
+
+    (* Ctrl+G twice in a row enters the cheat menu. *)
+    editor.KeyBindings.Add<CheatMenuShortcutCommand>(
+        ConsoleKey.G,
+        ConsoleModifiers.Control
+    )
 
     editor
 
