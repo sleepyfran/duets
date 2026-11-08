@@ -18,6 +18,7 @@ module Index =
           MoneyCommands.rosebud
           SkillCommands.pureSkill
           WorldCommands.teleport
+          WorldCommands.beamMeUp
           WorldCommands.weatherman ]
 
     let enterCommand =

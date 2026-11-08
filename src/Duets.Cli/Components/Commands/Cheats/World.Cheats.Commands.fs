@@ -43,6 +43,54 @@ module WorldCommands =
                     Scene.WorldAfterMovement
                 | None -> Scene.Cheats) }
 
+    /// Command which teleports the character to any place inside the current
+    /// city, picking first the zone and then the place.
+    let beamMeUp =
+        { Name = "beam me up"
+          Description =
+            "Teleports you to any place in the current city by zone, ignoring opening hours and rentals"
+          Handler =
+            (fun _ ->
+                let state = State.get ()
+                let city = Queries.World.currentCity state
+
+                let selectedZone =
+                    city.Zones
+                    |> List.ofMapValues
+                    |> List.sortBy _.Name
+                    |> showOptionalChoicePrompt
+                        "Which zone? :^)"
+                        Generic.cancel
+                        _.Name
+
+                let selectedPlace =
+                    selectedZone
+                    |> Option.bind (fun zone ->
+                        zone.Streets.Nodes
+                        |> List.ofMapValues
+                        |> List.collect _.Places
+                        |> List.sortBy _.Name
+                        |> showOptionalChoicePrompt
+                            $"Where in {zone.Name}? :^)"
+                            Generic.cancel
+                            (fun place ->
+                                $"""{place.Name} {$"({Text.World.World.placeTypeName' place})" |> Styles.faded}"""))
+
+                match selectedPlace with
+                | Some place ->
+                    let currentCoords = Queries.World.currentCoordinates state
+
+                    WorldMoveToPlace(
+                        Diff(
+                            currentCoords,
+                            (city.Id, place.Id, place.Rooms.StartingNode)
+                        )
+                    )
+                    |> Effect.apply
+
+                    Scene.WorldAfterMovement
+                | None -> Scene.Cheats) }
+
     /// Command which changes the weather of the current city.
     let weatherman =
         { Name = "weatherman"
