@@ -46,6 +46,51 @@ module BandCommands =
 
                 Scene.Cheats) }
 
+    /// Hires one member per selected role with skills in the given range.
+    let instantBand =
+        { Name = "instant band"
+          Description =
+            "Recruits new members for the roles you choose, with skills in the range you want."
+          Handler =
+            (fun _ ->
+                let roles =
+                    showMultiChoicePrompt
+                        "Which roles do you want to recruit?"
+                        Generic.role
+                        Roles.all
+
+                let minLevel =
+                    "What's the minimum skill level?"
+                    |> Styles.prompt
+                    |> showRangedNumberPrompt 0 100
+
+                let maxLevel =
+                    "What's the maximum skill level?"
+                    |> Styles.prompt
+                    |> showRangedNumberPrompt minLevel 100
+
+                roles
+                |> List.iter (fun role ->
+                    let state = State.get ()
+                    let band = Queries.Bands.currentBand state
+
+                    let memberForHire =
+                        Bands.Members.memberForHireWithSkillRange
+                            state
+                            band
+                            role
+                            minLevel
+                            maxLevel
+
+                    Bands.Members.hireMember state band memberForHire
+                    |> Effect.apply
+
+                    $"{memberForHire.Character.Name |> Styles.highlight} joined the band as {Generic.role role}"
+                    |> Styles.success
+                    |> showMessage)
+
+                Scene.Cheats) }
+
     /// Creates 10 high-quality songs and releases them as an album.
     let makeMeABand =
         { Name = "make me a band"

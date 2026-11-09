@@ -5,7 +5,8 @@ open Duets.Cli.SceneIndex
 
 module Index =
     let all =
-        [ BandCommands.makeMeABand
+        [ BandCommands.instantBand
+          BandCommands.makeMeABand
           BandCommands.pactWithTheDevil
           ConcertCommands.scheduleNightConcert
           LifeCommands.happy
