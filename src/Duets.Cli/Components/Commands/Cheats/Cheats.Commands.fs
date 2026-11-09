@@ -9,6 +9,7 @@ module Index =
           BandCommands.makeMeABand
           BandCommands.pactWithTheDevil
           ConcertCommands.scheduleNightConcert
+          ConcertCommands.soldOut
           LifeCommands.happy
           LifeCommands.notMoody
           LifeCommands.roaming

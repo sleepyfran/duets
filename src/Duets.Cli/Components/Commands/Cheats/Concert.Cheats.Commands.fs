@@ -10,6 +10,7 @@ open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Concerts
+open Aether
 
 [<RequireQualifiedAccess>]
 module ConcertCommands =
@@ -69,3 +70,66 @@ module ConcertCommands =
                     |> showMessage
 
                     Scene.Cheats) }
+
+    /// Allows the player to choose one of the scheduled concerts and set how
+    /// many tickets have been sold for it, up to the venue's capacity.
+    let soldOut =
+        { Name = "sold out"
+          Description =
+            "Allows you to choose how many tickets have been sold for one of your scheduled concerts"
+          Handler =
+            (fun _ ->
+                let state = State.get ()
+                let band = Queries.Bands.currentBand state
+
+                let concertText scheduledConcert =
+                    let concert = Concert.fromScheduled scheduledConcert
+
+                    let venue =
+                        Queries.World.placeInCityById
+                            concert.CityId
+                            concert.VenueId
+
+                    $"""{venue.Name |> Styles.place}, {Generic.cityName concert.CityId |> Styles.place} on {Date.simple concert.Date} {Styles.faded $"({concert.TicketsSold} tickets sold)"}"""
+
+                let selectedConcert =
+                    Queries.Concerts.allScheduled state band.Id
+                    |> showOptionalChoicePrompt
+                        "Which concert do you want to sell tickets for?"
+                        Generic.back
+                        concertText
+
+                match selectedConcert with
+                | Some scheduledConcert ->
+                    let concert = Concert.fromScheduled scheduledConcert
+
+                    let venue =
+                        Queries.World.placeInCityById
+                            concert.CityId
+                            concert.VenueId
+
+                    let capacity =
+                        match venue.PlaceType with
+                        | PlaceType.ConcertSpace concertSpace ->
+                            concertSpace.Capacity
+                        | _ -> 0
+
+                    let ticketsSold =
+                        $"You've sold {concert.TicketsSold} tickets so far, how many do you want to have sold?"
+                        |> Styles.prompt
+                        |> showRangedNumberPrompt 0 capacity
+
+                    let updatedConcert =
+                        Optic.set
+                            Lenses.Concerts.Scheduled.ticketsSold_
+                            ticketsSold
+                            scheduledConcert
+
+                    ConcertUpdated(band, updatedConcert) |> Effect.apply
+
+                    $"Done! {ticketsSold} tickets sold for the concert at {venue.Name |> Styles.place}"
+                    |> Styles.success
+                    |> showMessage
+                | None -> ()
+
+                Scene.Cheats) }
