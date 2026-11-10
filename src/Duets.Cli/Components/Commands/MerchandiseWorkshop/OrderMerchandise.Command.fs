@@ -12,7 +12,8 @@ open Duets.Simulation.Merchandise.Order
 module OrderMerchandiseCommand =
     let private merchantName = "Merchant"
 
-    let private promptForQuantity merchItem =
+    /// Asks the player how many pieces of the given merch item to order.
+    let promptForQuantity merchItem =
         showRangedNumberPrompt
             merchItem.MinPieces
             merchItem.MaxPieces
@@ -47,6 +48,15 @@ module OrderMerchandiseCommand =
         | Some(Listenable(Vinyl, _)) -> $"{item.Name} (Vinyl)"
         | _ -> item.Name
 
+    /// Asks the player which merch item to order from the given list.
+    let promptForItem (availableItems: MerchandiseItem list) =
+        showCancellableChoicePrompt
+            $"""What kind of {"merchandise" |> Styles.prompt} would you like to order?"""
+            Generic.cancel
+            (fun merchItem ->
+                $"""{itemName merchItem.Item |> Styles.item}, {merchItem.PricePerPiece |> Styles.money} / item.{Styles.Spacing.choicePromptNewLine}At least {merchItem.MinPieces}, at most {merchItem.MaxPieces}.""")
+            availableItems
+
     /// Command to order merchandise from a merch workshop.
     let create (availableItems: MerchandiseItem list) =
         { Name = "order"
@@ -57,15 +67,7 @@ module OrderMerchandiseCommand =
                 |> Social.npcSays merchantName
                 |> showMessage
 
-                let merchItem =
-                    showCancellableChoicePrompt
-                        $"""What kind of {"merchandise" |> Styles.prompt} would you like to order?"""
-                        Generic.cancel
-                        (fun merchItem ->
-                            $"""{itemName merchItem.Item |> Styles.item}, {merchItem.PricePerPiece |> Styles.money} / item.{Styles.Spacing.choicePromptNewLine}At least {merchItem.MinPieces}, at most {merchItem.MaxPieces}.""")
-                        availableItems
-
-                match merchItem with
+                match promptForItem availableItems with
                 | Some item ->
                     promptForQuantity item
                     |> orderMerch (State.get ()) item
