@@ -28,7 +28,21 @@ type RoomContext =
       Show: Show option
       Cuisine: RestaurantCuisine option }
 
-let private resolveStyle (context: RoomContext) accent (style: string) =
+/// Returns the color of the stage light at the given column.
+let private stageColorAt (context: RoomContext) frame x =
+    match context.Show with
+    | None -> Styles.stageOffColor
+    | Some { Energy = None } -> Styles.stageOnColor
+    | Some { Energy = Some energy } ->
+        let lights, framesPerStep =
+            match energy with
+            | Energetic -> Styles.energeticLights, 1
+            | PerformEnergy.Normal -> Styles.normalLights, 2
+            | Limited -> Styles.limitedLights, 4
+
+        lights[(x / 2 + frame / framesPerStep) % lights.Length]
+
+let private resolveStyle (context: RoomContext) accent stage (style: string) =
     style
         .Replace("$wall", context.Skin.Wall)
         .Replace("$accent", accent)
@@ -39,13 +53,7 @@ let private resolveStyle (context: RoomContext) accent (style: string) =
             else
                 Styles.lampOffColor
         )
-        .Replace(
-            "$stage",
-            if context.Show.IsSome then
-                Styles.stageOnColor
-            else
-                Styles.stageOffColor
-        )
+        .Replace("$stage", stage)
 
 /// Cuts the art to the given length, keeping the last character so that
 /// things like the metro still have an end.
@@ -61,7 +69,7 @@ let private drawInRun (grid: SceneGrid.Grid) (run: Run) (art: string) styleOf =
     art
     |> Seq.iteri (fun index glyph ->
         if glyph <> ' ' then
-            SceneGrid.set grid (x + index) run.Y glyph (styleOf glyph))
+            SceneGrid.set grid (x + index) run.Y glyph (styleOf (x + index) glyph))
 
 let private shuffle (random: System.Random) list =
     list |> List.map (fun item -> random.Next(), item) |> List.sortBy fst |> List.map snd
@@ -123,6 +131,14 @@ let private crowdStyle (show: Show) accent glyph =
         | CrowdMood.Hyped -> Styles.hypedCrowdColor
         | CrowdMood.Ecstatic -> Styles.ecstaticCrowdColor
 
+/// Returns how likely each person is to move between frames.
+let private crowdMotion mood =
+    match mood with
+    | CrowdMood.Bored -> 0.05
+    | CrowdMood.Warm -> 0.2
+    | CrowdMood.Hyped -> 0.5
+    | CrowdMood.Ecstatic -> 0.7
+
 /// Places the items in the item slots of the template. Slots with a category
 /// get filled first and the rest of items go to the generic ones.
 let private assignItems (template: Template) (items: Item list) =
@@ -153,8 +169,8 @@ let private assignItems (template: Template) (items: Item list) =
         ([], items)
     |> fst
 
-/// Builds the scene of the given template.
-let build (context: RoomContext) (template: Template) =
+/// Builds the given frame of the scene, where only the crowd moves.
+let buildFrame frame (context: RoomContext) (template: Template) =
     let grid = SceneGrid.create template.Width template.Height
     let accentRandom = System.Random(context.Seed)
 
@@ -162,11 +178,11 @@ let build (context: RoomContext) (template: Template) =
         context.Skin.Signs
         |> List.item (accentRandom.Next(context.Skin.Signs.Length))
 
-    let styleOf glyph =
+    let styleOf x glyph =
         template.Legend
         |> Map.tryFind glyph
         |> Option.orElse template.DefaultStyle
-        |> Option.map (resolveStyle context accent)
+        |> Option.map (resolveStyle context accent (stageColorAt context frame x))
 
     template.Art
     |> List.iteri (fun y line ->
@@ -174,9 +190,9 @@ let build (context: RoomContext) (template: Template) =
         |> Seq.iteri (fun x glyph ->
             match template.Slots |> Map.tryFind glyph with
             | Some slot when slot.Fallback <> ' ' ->
-                SceneGrid.set grid x y slot.Fallback (styleOf slot.Fallback)
+                SceneGrid.set grid x y slot.Fallback (styleOf x slot.Fallback)
             | Some _ -> ()
-            | None when glyph <> ' ' -> SceneGrid.set grid x y glyph (styleOf glyph)
+            | None when glyph <> ' ' -> SceneGrid.set grid x y glyph (styleOf x glyph)
             | None -> ()))
 
     (* Bored people leave the stage and go to the npc slots. *)
@@ -216,7 +232,7 @@ let build (context: RoomContext) (template: Template) =
             runs ()
             |> List.tryHead
             |> Option.iter (fun run ->
-                drawInRun grid run (string People.player) (fun _ ->
+                drawInRun grid run (string People.player) (fun _ _ ->
                     Some People.playerStyle))
         | SlotKind.Npc ->
             let positions = cells () |> shuffle random
@@ -237,8 +253,25 @@ let build (context: RoomContext) (template: Template) =
             context.Show
             |> Option.iter (fun show ->
                 let count, _ = crowdCount context.Show (cells ()).Length
+                let glyphs = crowdGlyphs show glyphs
+                let pick (random: System.Random) = glyphs[random.Next(glyphs.Length)]
 
-                fillCells count (crowdGlyphs show glyphs) (crowdStyle show accent))
+                let motion =
+                    System.Random(context.Seed + 7919 * int marker + 104729 * frame)
+
+                cells ()
+                |> shuffle random
+                |> List.truncate count
+                |> List.iter (fun (x, y) ->
+                    let glyph = pick random
+
+                    let glyph =
+                        if frame > 0 && motion.NextDouble() < crowdMotion show.Mood then
+                            pick motion
+                        else
+                            glyph
+
+                    SceneGrid.set grid x y glyph (Some(crowdStyle show accent glyph))))
         | SlotKind.Window ->
             cells ()
             |> List.iter (fun (x, y) ->
@@ -253,7 +286,7 @@ let build (context: RoomContext) (template: Template) =
             runs ()
             |> List.iter (fun run ->
                 clearRun run
-                drawInRun grid run arrow (fun _ -> Some Styles.exitColor))
+                drawInRun grid run arrow (fun _ _ -> Some Styles.exitColor))
         | SlotKind.Exit _ -> ()
         | SlotKind.Cuisine ->
             context.Cuisine
@@ -262,7 +295,7 @@ let build (context: RoomContext) (template: Template) =
                 |> List.iter (fun run ->
                     clearRun run
 
-                    drawInRun grid run (Styles.cuisineSign cuisine) (fun _ ->
+                    drawInRun grid run (Styles.cuisineSign cuisine) (fun _ _ ->
                         Some(SceneStyles.bold accent))))
         | SlotKind.Prop tiers ->
             let alternatives =
@@ -281,6 +314,9 @@ let build (context: RoomContext) (template: Template) =
     |> List.iter (fun (run, item) ->
         let art, style = Styles.itemVisual item
         clearRun run
-        drawInRun grid run art (fun _ -> Some style))
+        drawInRun grid run art (fun _ _ -> Some style))
 
     grid
+
+/// Builds the scene of the given template.
+let build context template = buildFrame 0 context template

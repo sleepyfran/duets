@@ -2,6 +2,7 @@
 
 open Duets.Agents
 open Duets.Cli.Components
+open Duets.Cli.Components.Scene
 open Duets.Cli.Components.Commands
 open Duets.Cli.SceneIndex
 open Duets.Cli.Text
@@ -69,9 +70,14 @@ module PlaySongCommands =
             | Limited -> Concert.playSongLimitedEnergyDescription
             |> showMessage
 
-        showProgressBarSync
-            [ Concert.playSongProgressPlaying song ]
-            (song.Length.Minutes / 1<minute / second>)
+        let state = State.get ()
+        let playing = Concert.playSongProgressPlaying song
+        let duration = song.Length.Minutes / 1<minute / second>
+
+        if RoomScene.canAnimate state then
+            RoomScene.animateSong state response.OngoingConcert energy playing duration
+        else
+            showProgressBarSync [ playing ] duration
 
         match response.Result with
         | LowPerformance reasons

@@ -19,6 +19,14 @@ let private moodSentences (show: Show) =
     | CrowdMood.Ecstatic -> SceneCaptions.ecstaticCrowd
     | CrowdMood.Warm -> []
 
+/// Returns the reactions of the crowd to a song.
+let songReactions (show: Show) =
+    match show.Mood with
+    | CrowdMood.Bored -> SceneCaptions.boredSongReactions
+    | CrowdMood.Warm -> SceneCaptions.warmSongReactions
+    | CrowdMood.Hyped -> SceneCaptions.hypedSongReactions
+    | CrowdMood.Ecstatic -> SceneCaptions.ecstaticSongReactions
+
 /// Creates a caption for the current room.
 let create
     (context: RoomRenderer.RoomContext)

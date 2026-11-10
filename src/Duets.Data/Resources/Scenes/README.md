@@ -52,7 +52,8 @@ you can use:
 - `$wall`: wall color of the city.
 - `$accent`: one of the sign colors of the city.
 - `$lamp`: on at night, off during the day.
-- `$stage`: on during concerts.
+- `$stage`: on during concerts. While a song plays, the lights chase across
+  the stage in colors that depend on the energy of the song.
 
 `[slots]` replaces a character of the art with something from the game. The
 `else` part is what gets drawn when the slot is empty (a space if not set).

@@ -86,7 +86,8 @@ let private context: RoomRenderer.RoomContext =
 
 let private show: Show =
     { Attendance = 1.0
-      Mood = CrowdMood.Warm }
+      Mood = CrowdMood.Warm
+      Energy = None }
 
 let private inConcert show = { context with Show = Some show }
 
@@ -263,3 +264,80 @@ let ``all templates and landmarks of the game use valid styles`` () =
         | true, _ -> false
         | _ -> true)
     |> should be Empty
+
+[<Test>]
+let ``buildFrame keeps the first frame the same as the static scene`` () =
+    let concert = inConcert show
+
+    RoomRenderer.buildFrame 0 concert stage
+    |> SceneGrid.toMarkup
+    |> should equal (RoomRenderer.build concert stage |> SceneGrid.toMarkup)
+
+[<Test>]
+let ``buildFrame keeps the crowd in the same spots`` () =
+    let concert = inConcert { show with Attendance = 0.5 }
+
+    let filled frame =
+        (row 3 (RoomRenderer.buildFrame frame concert stage))
+        |> Seq.map ((<>) ' ')
+        |> List.ofSeq
+
+    [ 1..5 ] |> List.iter (fun frame -> filled frame |> should equal (filled 0))
+
+[<Test>]
+let ``buildFrame moves a hyped crowd`` () =
+    let concert = inConcert { show with Mood = CrowdMood.Hyped }
+
+    [ 1..5 ]
+    |> List.map (fun frame -> row 3 (RoomRenderer.buildFrame frame concert stage))
+    |> List.distinct
+    |> List.length
+    |> should be (greaterThan 1)
+
+[<Test>]
+let ``songReactions depend on how the crowd feels`` () =
+    Caption.songReactions { show with Mood = CrowdMood.Bored }
+    |> should equal SceneCaptions.boredSongReactions
+
+    Caption.songReactions { show with Mood = CrowdMood.Ecstatic }
+    |> should equal SceneCaptions.ecstaticSongReactions
+
+let private lights =
+    parseOk
+        """
+[art]
+┌────────┐
+│▼ ▼ ▼ ▼ │
+│ cccccc │
+└────────┘
+
+[legend]
+▼ = $stage
+
+[slots]
+c = crowd
+"""
+
+let private lightStyles frame context =
+    let grid = RoomRenderer.buildFrame frame context lights
+    [ for x in 1..7 do if grid.Cells[1, x].Glyph = '▼' then grid.Cells[1, x].Style ]
+
+[<Test>]
+let ``buildFrame keeps the stage lights still when no song plays`` () =
+    lightStyles 3 (inConcert show)
+    |> List.distinct
+    |> should equal [ Some SceneStyles.Room.stageOnColor ]
+
+[<Test>]
+let ``buildFrame moves the stage lights while a song plays`` () =
+    let playing = inConcert { show with Energy = Some Energetic }
+
+    lightStyles 1 playing |> List.distinct |> List.length |> should be (greaterThan 1)
+    lightStyles 1 playing |> should not' (equal (lightStyles 2 playing))
+
+[<Test>]
+let ``buildFrame uses the lights of the energy of the song`` () =
+    lightStyles 1 (inConcert { show with Energy = Some Limited })
+    |> List.forall (fun style ->
+        SceneStyles.Room.limitedLights |> Array.exists (Some >> (=) style))
+    |> should equal true

@@ -175,6 +175,27 @@ let ecstaticCrowd =
     [ "The crowd roars, lighters and phones up in the air."
       "The whole room screams every word back at you." ]
 
+/// Reactions of the crowd while a song plays, by how the crowd feels.
+let boredSongReactions =
+    [ "Someone yawns near the front."
+      "A couple heads to the bar in the middle of the song."
+      "The chatter at the back is louder than the amps." ]
+
+let warmSongReactions =
+    [ "A few heads nod along."
+      "Someone near the front taps their foot."
+      "A small group sways by the bar." ]
+
+let hypedSongReactions =
+    [ "Hands go up in the front rows."
+      "A pit opens in the middle of the crowd."
+      "Someone shouts the lyrics back at you." ]
+
+let ecstaticSongReactions =
+    [ "Lighters go up all over the room."
+      "Someone crowd-surfs towards the stage."
+      "The floor shakes as everyone jumps." ]
+
 /// Second sentence of the room caption for rooms with windows.
 let throughWindow weather phase =
     match weather, phase with

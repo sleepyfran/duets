@@ -279,6 +279,10 @@ module Room =
     let crowdLights = [| '✦'; '♥' |]
     let ecstaticCrowdColor = bold Colors.white
 
+    let songProgressDone = '━'
+    let songProgressLeft = '─'
+    let songProgressColor = Colors.grey50
+
     /// How much of a bored crowd stays in front of the stage.
     let boredCrowdRatio = 0.6
 
@@ -289,6 +293,16 @@ module Room =
     /// Style of `$stage`, for lights that turn on during concerts.
     let stageOnColor = bold Colors.magenta
     let stageOffColor = Colors.grey35
+
+    /// Colors that the stage lights go through while a song plays, by the
+    /// energy of the song.
+    let energeticLights =
+        [| bold Colors.red; bold Colors.magenta; bold Colors.white; bold Colors.orange |]
+
+    let normalLights =
+        [| bold Colors.magenta; bold Colors.deepSkyBlue; bold Colors.hotPink |]
+
+    let limitedLights = [| Colors.steelBlue; Colors.deepSkyBlue; Colors.lightSkyBlue |]
 
     let daySky = '░'
     let daySkyColor = Colors.lightSkyBlue

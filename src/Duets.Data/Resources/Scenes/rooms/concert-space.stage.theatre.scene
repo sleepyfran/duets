@@ -1,4 +1,4 @@
-# Stage of a theatre: a proscenium with curtains in front of the stage and
+# Stage of a theatre: a proscenium with lights on the sides of the stage and
 # rows of seats for the audience.
 
 [art]
@@ -18,7 +18,7 @@
 [legend]
 ▛▀▜▌▐▙▄▟ = $wall
 ╔═╗║╨ = gold3
-▓▒░ = darkred
+▓▒░ = $stage
 ▼ = $stage
 ╤ = grey50
 ┌─┐│└┘ = grey42

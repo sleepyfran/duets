@@ -17,6 +17,8 @@ type Show =
         /// How full the venue is, from 0 to 1.
         Attendance: float
         Mood: CrowdMood
+        /// Energy of the song being played, if any.
+        Energy: PerformEnergy option
     }
 
 [<RequireQualifiedAccess>]
@@ -48,4 +50,5 @@ module Show =
         { Attendance =
             float ongoingConcert.Concert.TicketsSold / float (max 1 capacity)
             |> min 1.0
-          Mood = moodOf ongoingConcert }
+          Mood = moodOf ongoingConcert
+          Energy = None }
