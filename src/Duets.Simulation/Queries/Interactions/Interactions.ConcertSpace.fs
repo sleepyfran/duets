@@ -81,7 +81,7 @@ module ConcertSpace =
         let situation = Queries.Situations.current state
 
         match situation with
-        | Concert(Preparing checklist) when roomType = RoomType.Bar ->
+        | Concert(Preparing checklist) when roomType = RoomType.Lobby ->
             setupMerchStandInteraction state checklist
         | Concert(Preparing checklist) when roomType = RoomType.Stage ->
             [ yield! soundcheckInteraction checklist

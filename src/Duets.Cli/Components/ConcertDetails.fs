@@ -40,7 +40,7 @@ let showConcertDetails (concert: Concert) =
     |> AnsiConsole.Write
 
     showTips
-        [ "Make sure to be at the venue at least 2 day moments before the concert so that you can set up the merch stand and do a sound check."
+        [ "Make sure to be at the venue at least 2 day moments before the concert so that you can set up the merch stand in the lobby and do a sound check."
           "You can order merchandise from the Merchandise Workshop to sell at your concerts. They take a week to deliver, so make sure you order them in time!" ]
 
     lineBreak ()
