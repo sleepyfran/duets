@@ -178,3 +178,72 @@ Recursive scene dispatcher in `Program.fs`: each scene returns the next scene.
 - **Use lenses for state updates**: Never manually update nested records
 - **Test core logic**: All game mechanics in Simulation should have tests
 - **Follow the effect pattern**: Actions return effects, effects modify state, state triggers more effects
+
+# Code Comments
+
+Follow this whenever you write or edit F# code (modules, functions, types, record fields, inline comments, tests). Comments here are short and plain. They say **what** something is or does, in one sentence, and stay out of the way. The code explains the how. An inline comment only appears when the why isn't obvious from the code. When in doubt, write less, or nothing.
+
+## Doc comments (`///`)
+
+- Put them on public functions, types and modules. Private helpers usually have none.
+- Write one sentence, starting with a verb in the third person: `Returns`, `Creates`, `Lists`, `Retrieves`, `Defines`, `Shows`, `Draws`.
+- Describe what it does. Don't add how it works, why it was built that way, how it compares to another function, or the edge cases it handles.
+- Keep it to one line when you can and two at most. Wrap at 80 columns.
+- On record fields, add one only when the name doesn't already say it, as a short sentence.
+
+Good, from the repo:
+
+```fsharp
+/// Returns a zone inside a given city by its ID.
+/// Retrieves a street from the current city.
+/// Lists all exits leading to streets from the current room.
+/// Prints an empty line in the console.
+/// Minimum amount of health needed to perform any interaction.
+```
+
+Bad, the agent habit to avoid:
+
+```fsharp
+/// Creates one line of flavor text for the room. Like the street caption, it
+/// only depends on the room, the quality of the place, the time of the day,
+/// the weather and how many people are around, so it stays the same on every
+/// visit with the same conditions.
+```
+
+Rewritten: `/// Creates a caption for the current room.`
+
+## Inline comments (`(* *)`)
+
+- Use them rarely, only for a why that the code can't show: a non-obvious rule, a workaround or an assumption.
+- Short ones go on one line:
+
+  ```fsharp
+  (* Bust, player loses their entire bet. *)
+  (* We assume that this was called from a merch workshop. *)
+  ```
+
+- Longer ones put `(*` and `*)` on their own lines, with the text at the code's indentation:
+
+  ```fsharp
+  (*
+  We rely on the fact that there will always be a suitable venue in the city.
+  *)
+  ```
+
+- Don't continue a comment on an extra-indented second line (`(* ...\n   ... *)`), and don't use `//` in new code.
+- Don't narrate the code (`(* Draw the skyline. *)`), add section banners or leave TODO-style notes to yourself.
+
+## Tone
+
+- Plain and casual, using "we" for the game or the code ("we only show the caption").
+- No em dashes, no clever or flowery phrasing, no hedging.
+- In tests, the test name is the documentation. Comment only when the setup is surprising.
+
+## Before finishing
+
+Re-read every comment you added and check:
+
+1. Is it one sentence that says what the thing does? If not, cut it down.
+2. Does the name already say it? If so, delete the comment.
+3. Is it an inline comment the code already explains? If so, delete it.
+4. Does the density match the rest of the file?
