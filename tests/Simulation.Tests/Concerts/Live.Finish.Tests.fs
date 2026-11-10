@@ -170,3 +170,37 @@ let ``finishing an opening act concert should grant the band the correct percent
                 |> List.head
 
             moneyEarned |> should equal 7450m<dd>)
+
+[<Test>]
+let ``finishing a concert with the merch stand set up forms a queue of buyers``
+    ()
+    =
+    let ongoingConcert =
+        { dummyOngoingConcert with
+            Points = 80<quality>
+            Checklist =
+                { dummyOngoingConcert.Checklist with
+                    MerchStandSetup = true }
+            Concert =
+                { dummyConcert with
+                    TicketsSold = 1000 } }
+
+    finishConcert dummyState ongoingConcert
+    |> List.choose (function
+        | MerchStandQueueFormed(_, _, queue) -> Some queue
+        | _ -> None)
+    |> should
+        equal
+        [ { Venue = Prague, dummyVenue.Id
+            People = 300
+            Until = Calendar.Query.next dummyState.Today } ]
+
+[<Test>]
+let ``finishing a concert without the merch stand set up does not form a queue``
+    ()
+    =
+    finishConcert dummyState dummyOngoingConcert
+    |> List.exists (function
+        | MerchStandQueueFormed _ -> true
+        | _ -> false)
+    |> should equal false

@@ -75,13 +75,19 @@ signs, or it'll get replaced too.
   arms and an ecstatic one gets lighters out.
 - `band`: the rest of the band during a concert.
 - `cuisine`: the sign of the restaurant.
+- `merch art`: part of the merch stand (eg: `merch MERCH` for the sign),
+  drawn only once the band has set it up for a concert.
+- `queue`: fans waiting at the merch stand after a concert. They line up
+  from the cell closest to the `merch` slots and the line gets longer the
+  better the concert went.
 - `prop a b | c | d`: a decoration that depends on the quality of the place,
   from the lowest tier to the highest. One of the options of the tier gets
   picked, `_` means nothing.
 
 Consecutive slot characters in a row are a single spot for items, exits,
-props and signs, which get drawn in the middle of it. People, windows and the
-crowd use each character as a separate position.
+props, signs and the merch stand, which get drawn in the middle of it.
+People, windows, the crowd and the queue use each character as a separate
+position.
 
 The default templates use the numpad for the exits (`7 8 9`, `4 6`, `1 2 3`
 and `0` for the street), but any character works.

@@ -12,6 +12,13 @@ let private pick (random: System.Random) (options: string list) =
 let private hasWindows (template: Template) =
     template.Slots |> Map.exists (fun _ slot -> slot.Kind = SlotKind.Window)
 
+let private hasMerchStand (template: Template) =
+    template.Slots
+    |> Map.exists (fun _ slot ->
+        match slot.Kind with
+        | SlotKind.Merch _ -> true
+        | _ -> false)
+
 let private moodSentences (show: Show) =
     match show.Mood with
     | CrowdMood.Bored -> SceneCaptions.boredCrowd
@@ -38,7 +45,7 @@ let create
 
     let random =
         seedOf
-            $"{context.Seed}{lighting.DayMoment}{lighting.Weather}{peopleCount}{context.Show}"
+            $"{context.Seed}{lighting.DayMoment}{lighting.Weather}{peopleCount}{context.Show}{context.MerchStand}"
         |> System.Random
 
     let phase = SceneCaptions.phaseOf lighting.DayMoment
@@ -54,7 +61,12 @@ let create
         | _ ->
             let opening = SceneCaptions.roomCondition context.Quality |> pick random
             let closing = SceneCaptions.roomActivity peopleCount |> pick random
-            $"{opening}{closing}"
+            let caption = $"{opening}{closing}"
+
+            match context.MerchStand with
+            | Some people when hasMerchStand template ->
+                $"{caption} {SceneCaptions.merchStand people |> pick random}"
+            | _ -> caption
 
     let windowSentence =
         if hasWindows template then

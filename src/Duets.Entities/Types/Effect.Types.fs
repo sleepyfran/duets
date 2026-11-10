@@ -63,6 +63,10 @@ module EffectTypes =
         | MerchPriceSet of band: Band * merchItem: Item * price: Amount
         | MerchSold of band: Band * (Item * int<quantity>) list * income: Amount
         | MerchStandSetup
+        | MerchStandQueueFormed of
+            band: Band *
+            concert: PastConcert *
+            queue: MerchStandQueue
         | MemberHired of Band * Character * CurrentMember * SkillWithLevel list
         | MemberFired of Band * CurrentMember * PastMember
         | MiniGamePlayed of MiniGameId

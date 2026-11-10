@@ -23,6 +23,7 @@ let empty =
       GenreMarkets = Map.empty
       Inventories = Inventory.empty
       MerchPrices = Map.empty
+      MerchStandQueue = None
       Notifications = Map.empty
       PlayableCharacterId = Identity.create () |> CharacterId
       Rentals = Map.empty

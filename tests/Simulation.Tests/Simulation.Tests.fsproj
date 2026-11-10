@@ -49,6 +49,7 @@
         <Compile Include="Merchandise\Order.Merchandise.Tests.fs"/>
         <Compile Include="Merchandise\PickUp.Merchandise.Tests.fs"/>
         <Compile Include="Merchandise\Sell.Merchandise.Tests.fs"/>
+        <Compile Include="Merchandise\Stand.Merchandise.Tests.fs"/>
         <Compile Include="MiniGames\Blackjack.Tests.fs"/>
         <Compile Include="Notifications\Notification.Tests.fs"/>
         <Compile Include="Time\AdvanceTime.Tests.fs"/>

@@ -82,6 +82,7 @@ let private context: RoomRenderer.RoomContext =
       Items = []
       Exits = []
       Show = None
+      MerchStand = None
       Cuisine = None }
 
 let private show: Show =
@@ -301,6 +302,52 @@ let ``songReactions depend on how the crowd feels`` () =
 
     Caption.songReactions { show with Mood = CrowdMood.Ecstatic }
     |> should equal SceneCaptions.ecstaticSongReactions
+
+let private lobby =
+    parseOk
+        """
+[art]
+┌────────────┐
+│     mmmmm  │
+│ p qqqq ███ │
+└────────────┘
+
+[slots]
+p = player
+m = merch MERCH
+q = queue
+"""
+
+[<Test>]
+let ``build hides the merch stand until it's set up`` () =
+    let closed = RoomRenderer.build context lobby
+    let open' = RoomRenderer.build { context with MerchStand = Some 0 } lobby
+
+    row 1 closed |> should equal "│            │"
+    row 1 open' |> should haveSubstring "MERCH"
+
+[<Test>]
+let ``build lines up the queue from the merch stand`` () =
+    let grid = RoomRenderer.build { context with MerchStand = Some 4 } lobby
+
+    row 2 grid |> should equal "│ @   ☺☺ ███ │"
+
+[<Test>]
+let ``build makes the queue longer with more people`` () =
+    let short = RoomRenderer.build { context with MerchStand = Some 1 } lobby
+    let long = RoomRenderer.build { context with MerchStand = Some 100 } lobby
+
+    count SceneStyles.People.unknown short |> should equal 1
+    count SceneStyles.People.unknown long |> should equal 4
+
+[<Test>]
+let ``caption mentions the queue at the merch stand`` () =
+    let caption =
+        Caption.create { context with MerchStand = Some 100 } lobby RoomType.Lobby
+
+    SceneCaptions.merchStand 100
+    |> List.exists (fun sentence -> caption.EndsWith(sentence: string))
+    |> should equal true
 
 let private lights =
     parseOk

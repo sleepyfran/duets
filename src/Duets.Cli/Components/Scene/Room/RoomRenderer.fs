@@ -26,6 +26,8 @@ type RoomContext =
       Exits: ExitTarget list
       /// Only set during a concert.
       Show: Show option
+      /// People waiting at the merch stand, only set once it's set up.
+      MerchStand: int option
       Cuisine: RestaurantCuisine option }
 
 /// Returns the color of the stage light at the given column.
@@ -138,6 +140,31 @@ let private crowdMotion mood =
     | CrowdMood.Warm -> 0.2
     | CrowdMood.Hyped -> 0.5
     | CrowdMood.Ecstatic -> 0.7
+
+/// Returns how many people of the queue fit in the given number of cells.
+let private queueLength people cellCount =
+    (* Long queues would fill any lobby, so it grows slower the longer it gets. *)
+    System.Math.Ceiling(sqrt (float people)) |> int |> min cellCount
+
+/// Returns the cells of the queue, starting with the one closest to the stand.
+let private queueCells (template: Template) marker =
+    let standCells =
+        template.Slots
+        |> Map.toList
+        |> List.collect (fun (standMarker, slot) ->
+            match slot.Kind with
+            | SlotKind.Merch _ -> Template.cellsOf template standMarker
+            | _ -> [])
+
+    let distanceToStand (x, y) =
+        match standCells with
+        | [] -> x
+        | cells ->
+            cells
+            |> List.map (fun (standX, standY) -> abs (standX - x) + abs (standY - y))
+            |> List.min
+
+    Template.cellsOf template marker |> List.sortBy distanceToStand
 
 /// Places the items in the item slots of the template. Slots with a category
 /// get filled first and the rest of items go to the generic ones.
@@ -308,6 +335,22 @@ let buildFrame frame (context: RoomContext) (template: Template) =
                 if prop <> "" then
                     clearRun run
                     drawInRun grid run prop styleOf)
+        | SlotKind.Merch art ->
+            context.MerchStand
+            |> Option.iter (fun _ ->
+                runs ()
+                |> List.iter (fun run ->
+                    clearRun run
+                    drawInRun grid run art styleOf))
+        | SlotKind.Queue ->
+            context.MerchStand
+            |> Option.iter (fun people ->
+                let cells = queueCells template marker
+
+                cells
+                |> List.truncate (queueLength people cells.Length)
+                |> List.iter (fun (x, y) ->
+                    SceneGrid.set grid x y People.unknown (Some People.unknownStyle)))
         | SlotKind.Item _ -> ())
 
     assignItems template context.Items

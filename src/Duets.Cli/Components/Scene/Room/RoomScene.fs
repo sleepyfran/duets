@@ -75,6 +75,7 @@ let private context state exits : RoomRenderer.RoomContext =
       Items = Queries.Items.allIn state coords
       Exits = exits |> List.map fst
       Show = show
+      MerchStand = Queries.Merch.standQueue state cityId place.Id
       Cuisine =
         match room.RoomType with
         | RoomType.Restaurant cuisine -> Some cuisine

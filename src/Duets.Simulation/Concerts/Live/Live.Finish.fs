@@ -54,6 +54,21 @@ let private calculateEarnings ongoingConcert =
 
     totalEarnings - venueCut
 
+let private merchStandQueue state band ongoingConcert pastConcert =
+    if ongoingConcert.Checklist.MerchStandSetup then
+        let buyers = Queries.Merch.buyersAfterConcert pastConcert
+
+        [ MerchStandQueueFormed(
+              band,
+              pastConcert,
+              { Venue =
+                  ongoingConcert.Concert.CityId, ongoingConcert.Concert.VenueId
+                People = buyers / 1<quantity>
+                Until = Queries.Calendar.today state |> Calendar.Query.next }
+          ) ]
+    else
+        []
+
 /// Creates a ConcertFinished effect which adds the concert to the history of
 /// the band and stops them from being able to perform in the venue for the day.
 let finishConcert state ongoingConcert =
@@ -69,11 +84,11 @@ let finishConcert state ongoingConcert =
     let bandAccount = Band band.Id
     let concertEarnings = calculateEarnings ongoingConcert
 
-    [ ConcertFinished(
-          band,
-          PerformedConcert(ongoingConcert.Concert, ongoingConcert.Points),
-          concertEarnings
-      )
+    let pastConcert =
+        PerformedConcert(ongoingConcert.Concert, ongoingConcert.Points)
+
+    [ ConcertFinished(band, pastConcert, concertEarnings)
       BandFansChanged(band, Diff(band.Fans, updatedFans))
       Operations.income state bandAccount concertEarnings
+      yield! merchStandQueue state band ongoingConcert pastConcert
       SituationChanged FreeRoam ]

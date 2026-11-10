@@ -91,6 +91,7 @@ let startGame
       GenreMarkets = initialGenreMarket
       Inventories = Inventory.empty
       MerchPrices = Map.empty
+      MerchStandQueue = None
       Notifications = Map.empty
       PlayableCharacterId = character.Id
       Rentals =

@@ -163,6 +163,22 @@ let crowd (fill: float) =
           "There isn't a free spot from the front row to the back." ]
 
 /// Second sentence of the stage caption, by how the crowd feels.
+/// Sentences about the merch stand, by how many people wait in line.
+let merchStand (people: int) =
+    match people with
+    | 0 ->
+        [ "Your merch stand is set up, but nobody is around it."
+          "The merch stand sits there, neatly arranged and quiet." ]
+    | people when people < 10 ->
+        [ "A few fans hang around the merch stand."
+          "A couple of people browse the shirts at the merch stand." ]
+    | people when people < 50 ->
+        [ "A line of fans waits at the merch stand."
+          "People queue at the merch stand, wallets in hand." ]
+    | _ ->
+        [ "A long line of fans snakes from the merch stand across the lobby."
+          "The queue for the merch stand barely moves, everyone wants something." ]
+
 let boredCrowd =
     [ "Some people check their phones, others head to the bar."
       "The crowd chats among itself, barely looking at the stage." ]

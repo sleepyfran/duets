@@ -13,7 +13,8 @@ open Duets.Simulation.Bank.Operations
 let afterConcert (band: Band) performedConcert state =
     let concert = Concert.fromPast performedConcert
     let merch = Queries.Inventory.band band.Id state
-    let totalPossibleMerchSales = attendantsBuyingMerch performedConcert
+    let totalPossibleMerchSales =
+        Queries.Merch.buyersAfterConcert performedConcert
 
     if Map.isEmpty merch then
         []
@@ -74,27 +75,3 @@ let private itemSalePercentageBasedOnPrice itemPrice recommendedPrice =
     | p when p <= 0.1m -> 0.5
     | p when p <= 0.5m -> 0.1
     | _ -> 0.0
-
-let private attendantsBuyingMerch concert =
-    match concert with
-    | PerformedConcert(concert, quality) ->
-        let qualityBasedPercentage =
-            match quality with
-            | q when q < 25<quality> -> 0.001
-            | q when q < 50<quality> -> 0.05
-            | q when q < 75<quality> -> 0.15
-            | _ -> 0.3
-
-        let percentage =
-            match concert.ParticipationType with
-            | Headliner -> qualityBasedPercentage
-            | OpeningAct _ ->
-                (* Opening a concert doesn't usually give much merch sales. *)
-                qualityBasedPercentage * 0.015
-
-        float concert.TicketsSold * percentage
-        |> Math.ceilToNearest
-        |> (*) 1<quantity>
-    | _ ->
-        (* This technically should not happen, but let's just say they don't sell anything. *)
-        0<quantity>

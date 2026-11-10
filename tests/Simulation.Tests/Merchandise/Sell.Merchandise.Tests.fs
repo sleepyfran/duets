@@ -161,3 +161,49 @@ let ``Sell.afterConcert generates income effect to the band account for all sold
             amount |> should equal 4500m<dd>
             balance |> should equal 4500m<dd>
         | _ -> failwith "Unexpected effect")
+
+let private finishedConcertEffects merchStandSetup =
+    let ongoingConcert =
+        { dummyOngoingConcert with
+            Points = 100<quality>
+            Checklist =
+                { dummyOngoingConcert.Checklist with
+                    MerchStandSetup = merchStandSetup }
+            Concert = headlinerConcert }
+
+    Concerts.Live.Finish.finishConcert stateWithMerch ongoingConcert
+    |> Simulation.tickMultiple stateWithMerch
+
+[<Test>]
+let ``finishing a concert sells merch if the stand was set up`` () =
+    let effects, state = finishedConcertEffects true
+
+    let merchIncome =
+        effects
+        |> List.pick (function
+            | MerchSold(_, _, income) -> Some income
+            | _ -> None)
+
+    let concertIncome =
+        effects
+        |> List.pick (function
+            | ConcertFinished(_, _, income) -> Some income
+            | _ -> None)
+
+    let initialBalance =
+        Queries.Bank.balanceOf stateWithMerch (Band dummyBand.Id)
+
+    Queries.Bank.balanceOf state (Band dummyBand.Id)
+    |> should equal (initialBalance + concertIncome + merchIncome)
+
+[<Test>]
+let ``finishing a concert does not sell merch if the stand was not set up``
+    ()
+    =
+    let effects, _ = finishedConcertEffects false
+
+    effects
+    |> List.exists (function
+        | MerchSold _ -> true
+        | _ -> false)
+    |> should equal false

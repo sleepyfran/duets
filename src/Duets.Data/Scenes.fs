@@ -61,6 +61,11 @@ type SlotKind =
     /// Decoration that depends on the quality of the place, from the lowest
     /// tier to the highest. An empty string means nothing gets drawn.
     | Prop of tiers: string list list
+    /// Art of the merch stand, only drawn once the band has set it up.
+    | Merch of art: string
+    /// Fans waiting at the merch stand after a concert, lined up from the
+    /// cell closest to the stand.
+    | Queue
 
 /// Defines a slot of a template and the glyph to draw when it's empty.
 type Slot = { Kind: SlotKind; Fallback: char }
@@ -258,6 +263,9 @@ module Template =
         | [ "item"; category ] ->
             parseItemCategory category |> Result.map SlotKind.Item
         | [ "exit"; target ] -> parseDirection target |> Result.map SlotKind.Exit
+        | [ "queue" ] -> Ok SlotKind.Queue
+        | "merch" :: _ :: _ ->
+            text.Trim().Substring("merch".Length).Trim() |> SlotKind.Merch |> Ok
         | "prop" :: _ ->
             text.Trim().Substring("prop".Length)
             |> parseTiers

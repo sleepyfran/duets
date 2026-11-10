@@ -21,6 +21,7 @@ module StateTypes =
           GenreMarkets: GenreMarketByGenre
           Inventories: Inventories
           MerchPrices: BandMerchPrices
+          MerchStandQueue: MerchStandQueue option
           Notifications: Notifications
           PlayableCharacterId: CharacterId
           Relationships: Relationships

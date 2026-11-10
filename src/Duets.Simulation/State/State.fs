@@ -100,6 +100,8 @@ let applyEffect state effect =
                 Inventory.reduceForBand band.Id item quantity state)
             state
     | MerchStandSetup -> state
+    | MerchStandQueueFormed(_, _, queue) ->
+        Optic.set Lenses.State.merchStandQueue_ (Some queue) state
     | MemberHired(band, character, currentMember, skills) ->
         let stateWithMember =
             Characters.add character state |> Bands.addMember band currentMember
