@@ -105,9 +105,9 @@ module PlaySongCommands =
                     showResultWithProgressbar response song energy
 
                     response.Effects |> Duets.Cli.Effect.applyMultiple
-                | None -> ()
 
-                Scene.World) }
+                    Scene.WorldAfterMovement
+                | None -> Scene.World) }
 
     // Command which simulates dedicating a song and then playing it in a concert.
     let createDedicateSong ongoingConcert =
@@ -132,6 +132,6 @@ module PlaySongCommands =
                     | _ -> showResultWithProgressbar response song energy
 
                     response.Effects |> Duets.Cli.Effect.applyMultiple
-                | None -> ()
 
-                Scene.World) }
+                    Scene.WorldAfterMovement
+                | None -> Scene.World) }

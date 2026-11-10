@@ -52,6 +52,23 @@ let private windowless =
 p = player
 """
 
+let private stage =
+    parseOk
+        """
+[art]
+┌──────────┐
+│          │
+│  p  m nn │
+│ cccccccc │
+└──────────┘
+
+[slots]
+p = player
+m = band
+n = npc
+c = crowd
+"""
+
 let private context: RoomRenderer.RoomContext =
     { Skin = CitySkin.forCity Prague
       Lighting =
@@ -64,9 +81,14 @@ let private context: RoomRenderer.RoomContext =
       BandMembers = 0
       Items = []
       Exits = []
-      Crowd = 0.0
-      ConcertOngoing = false
+      Show = None
       Cuisine = None }
+
+let private show: Show =
+    { Attendance = 1.0
+      Mood = CrowdMood.Warm }
+
+let private inConcert show = { context with Show = Some show }
 
 let private glyphs (grid: SceneGrid.Grid) =
     [ for y in 0 .. grid.Height - 1 do
@@ -124,7 +146,7 @@ let ``build draws arrows only for the available exits`` () =
 [<Test>]
 let ``build fills the crowd based on how full the venue is`` () =
     let emptyGrid = RoomRenderer.build context template
-    let fullGrid = RoomRenderer.build { context with Crowd = 1.0 } template
+    let fullGrid = RoomRenderer.build (inConcert show) template
 
     row 2 emptyGrid |> should equal "│          │"
     row 2 fullGrid |> should not' (haveSubstring "   ")
@@ -143,7 +165,7 @@ let ``build is stable for the same context`` () =
         { context with
             KnownPeople = 1
             UnknownPeople = 2
-            Crowd = 0.5 }
+            Show = Some { show with Attendance = 0.5 } }
 
     RoomRenderer.build busy template
     |> SceneGrid.toMarkup
@@ -156,14 +178,39 @@ let ``caption is stable for the same context`` () =
 
 [<Test>]
 let ``caption describes the crowd while playing on stage`` () =
-    let concert =
-        { context with
-            ConcertOngoing = true
-            Crowd = 1.0 }
-
-    let caption = Caption.create concert windowless RoomType.Stage
+    let caption = Caption.create (inConcert show) windowless RoomType.Stage
 
     SceneCaptions.crowd 1.0 |> should contain caption
+
+[<Test>]
+let ``caption describes how the crowd feels`` () =
+    let caption =
+        Caption.create
+            (inConcert { show with Mood = CrowdMood.Bored })
+            windowless
+            RoomType.Stage
+
+    SceneCaptions.boredCrowd
+    |> List.exists (fun sentence -> caption.EndsWith(sentence: string))
+    |> should equal true
+
+[<Test>]
+let ``build sends part of a bored crowd to the sides of the room`` () =
+    let bored =
+        RoomRenderer.build (inConcert { show with Mood = CrowdMood.Bored }) stage
+
+    (row 3 bored).Replace(" ", "").Trim('│').Length |> should equal 5
+    count SceneStyles.People.unknown bored |> should equal 2
+
+[<Test>]
+let ``build raises the arms of a hyped crowd`` () =
+    let calm = RoomRenderer.build (inConcert show) template
+
+    let ecstatic =
+        RoomRenderer.build (inConcert { show with Mood = CrowdMood.Ecstatic }) template
+
+    count SceneStyles.Room.armsUp calm |> should equal 0
+    count SceneStyles.Room.armsUp ecstatic |> should be (greaterThan 0)
 
 [<Test>]
 let ``caption mentions the weather only in rooms with windows`` () =

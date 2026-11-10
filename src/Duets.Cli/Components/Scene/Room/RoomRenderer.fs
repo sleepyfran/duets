@@ -24,9 +24,8 @@ type RoomContext =
       BandMembers: int
       Items: Item list
       Exits: ExitTarget list
-      /// How full the venue is, from 0 to 1.
-      Crowd: float
-      ConcertOngoing: bool
+      /// Only set during a concert.
+      Show: Show option
       Cuisine: RestaurantCuisine option }
 
 let private resolveStyle (context: RoomContext) accent (style: string) =
@@ -42,7 +41,7 @@ let private resolveStyle (context: RoomContext) accent (style: string) =
         )
         .Replace(
             "$stage",
-            if context.ConcertOngoing then
+            if context.Show.IsSome then
                 Styles.stageOnColor
             else
                 Styles.stageOffColor
@@ -83,6 +82,46 @@ let private windowCell (lighting: Lighting) (random: System.Random) =
     | _ when lighting.DayMoment = Evening ->
         Styles.daySky, Styles.sunsetSkyColor
     | _ -> Styles.daySky, Styles.daySkyColor
+
+/// Returns how many people stay in front of the stage and how many drift away.
+let private crowdCount (show: Show option) cellCount =
+    match show with
+    | None -> 0, 0
+    | Some show ->
+        let present = int (System.Math.Ceiling(float cellCount * show.Attendance))
+
+        match show.Mood with
+        | CrowdMood.Bored ->
+            let staying =
+                int (System.Math.Ceiling(float present * Styles.boredCrowdRatio))
+
+            staying, present - staying
+        | _ -> present, 0
+
+let private crowdGlyphs (show: Show) (templateGlyphs: char list) =
+    let people =
+        if List.isEmpty templateGlyphs then
+            Styles.crowd
+        else
+            Array.ofList templateGlyphs
+
+    let armsUp count = Array.replicate count Styles.armsUp
+
+    match show.Mood with
+    | CrowdMood.Bored -> Styles.boredCrowd
+    | CrowdMood.Warm -> people
+    | CrowdMood.Hyped -> Array.append people (armsUp people.Length)
+    | CrowdMood.Ecstatic -> Array.append (armsUp 4) Styles.crowdLights
+
+let private crowdStyle (show: Show) accent glyph =
+    if Array.contains glyph Styles.crowdLights then
+        SceneStyles.bold accent
+    else
+        match show.Mood with
+        | CrowdMood.Bored -> Styles.boredCrowdColor
+        | CrowdMood.Warm -> Styles.crowdColor
+        | CrowdMood.Hyped -> Styles.hypedCrowdColor
+        | CrowdMood.Ecstatic -> Styles.ecstaticCrowdColor
 
 /// Places the items in the item slots of the template. Slots with a category
 /// get filled first and the rest of items go to the generic ones.
@@ -140,6 +179,19 @@ let build (context: RoomContext) (template: Template) =
             | None when glyph <> ' ' -> SceneGrid.set grid x y glyph (styleOf glyph)
             | None -> ()))
 
+    (* Bored people leave the stage and go to the npc slots. *)
+    let driftedCrowd =
+        template.Slots
+        |> Map.toList
+        |> List.sumBy (fun (marker, slot) ->
+            match slot.Kind with
+            | SlotKind.Crowd _ ->
+                Template.cellsOf template marker
+                |> List.length
+                |> crowdCount context.Show
+                |> snd
+            | _ -> 0)
+
     let clearRun (run: Run) =
         for x in run.X .. run.X + run.Length - 1 do
             SceneGrid.set grid x run.Y ' ' None
@@ -151,13 +203,13 @@ let build (context: RoomContext) (template: Template) =
         let cells () = Template.cellsOf template marker
         let runs () = Template.runsOf template marker
 
-        let fillCells count glyphs style =
+        let fillCells count glyphs styleOf =
             cells ()
             |> shuffle random
             |> List.truncate count
             |> List.iter (fun (x, y) ->
                 let glyph = glyphs |> Array.item (random.Next(Array.length glyphs))
-                SceneGrid.set grid x y glyph (Some style))
+                SceneGrid.set grid x y glyph (Some(styleOf glyph)))
 
         match slot.Kind with
         | SlotKind.Player ->
@@ -170,22 +222,23 @@ let build (context: RoomContext) (template: Template) =
             let positions = cells () |> shuffle random
 
             positions
-            |> List.truncate (context.KnownPeople + context.UnknownPeople)
+            |> List.truncate (
+                context.KnownPeople + context.UnknownPeople + driftedCrowd
+            )
             |> List.iteri (fun index (x, y) ->
                 if index < context.KnownPeople then
                     SceneGrid.set grid x y People.known (Some People.knownStyle)
                 else
                     SceneGrid.set grid x y People.unknown (Some People.unknownStyle))
         | SlotKind.Band ->
-            fillCells context.BandMembers [| People.known |] People.knownStyle
+            fillCells context.BandMembers [| People.known |] (fun _ ->
+                People.knownStyle)
         | SlotKind.Crowd glyphs ->
-            let cells = cells ()
-            let count = int (System.Math.Ceiling(float cells.Length * context.Crowd))
+            context.Show
+            |> Option.iter (fun show ->
+                let count, _ = crowdCount context.Show (cells ()).Length
 
-            let glyphs =
-                if List.isEmpty glyphs then Styles.crowd else Array.ofList glyphs
-
-            fillCells count glyphs Styles.crowdColor
+                fillCells count (crowdGlyphs show glyphs) (crowdStyle show accent))
         | SlotKind.Window ->
             cells ()
             |> List.iter (fun (x, y) ->

@@ -23,7 +23,7 @@ module Concert =
     /// and handling the usual flow of a concert action: execute action,
     /// show progress/result based on points, update ongoing concert inside
     /// of situation and execute any effect returned by the action before
-    /// showing the world scene again.
+    /// showing the stage again.
     let createCommand
         name
         description
@@ -41,7 +41,7 @@ module Concert =
 
                 response.Effects |> Duets.Cli.Effect.applyMultiple
 
-                Scene.World) }
+                Scene.WorldAfterMovement) }
 
     /// Generic function that creates a command with the given information
     /// but handling the case of a solo since most of the code is shared between

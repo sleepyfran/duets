@@ -154,13 +154,26 @@ let crowd (fill: float) =
           "Your voice echoes across a mostly empty room." ]
     | fill when fill < 0.6 ->
         [ "A decent crowd gathers in front of the stage."
-          "Heads bob along across half of the room." ]
+          "About half of the room is full." ]
     | fill when fill < 0.9 ->
-        [ "The crowd fills the room, hands in the air."
+        [ "The crowd fills most of the room."
           "A sea of faces looks up at the stage." ]
     | _ ->
         [ "The venue is packed wall to wall."
-          "The crowd roars from the front row to the back." ]
+          "There isn't a free spot from the front row to the back." ]
+
+/// Second sentence of the stage caption, by how the crowd feels.
+let boredCrowd =
+    [ "Some people check their phones, others head to the bar."
+      "The crowd chats among itself, barely looking at the stage." ]
+
+let hypedCrowd =
+    [ "Heads bob and hands go up all over the room."
+      "The crowd jumps along with the beat." ]
+
+let ecstaticCrowd =
+    [ "The crowd roars, lighters and phones up in the air."
+      "The whole room screams every word back at you." ]
 
 /// Second sentence of the room caption for rooms with windows.
 let throughWindow weather phase =

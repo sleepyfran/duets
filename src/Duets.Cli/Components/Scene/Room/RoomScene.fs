@@ -45,12 +45,9 @@ let private concertState state (place: Place) =
 
     match Queries.Situations.current state, place.PlaceType with
     | SituationTypes.Concert(SituationTypes.InConcert ongoingConcert), ConcertSpace venue ->
-        let crowd =
-            float ongoingConcert.Concert.TicketsSold / float (max 1 venue.Capacity)
-
-        bandMembers (), min 1.0 crowd, true
-    | SituationTypes.Concert _, _ -> bandMembers (), 0.0, false
-    | _ -> 0, 0.0, false
+        bandMembers (), Show.fromConcert venue.Capacity ongoingConcert |> Some
+    | SituationTypes.Concert _, _ -> bandMembers (), None
+    | _ -> 0, None
 
 let private context state exits : RoomRenderer.RoomContext =
     let coords = Queries.World.currentCoordinates state
@@ -58,7 +55,7 @@ let private context state exits : RoomRenderer.RoomContext =
     let place = Queries.World.currentPlace state
     let room = Queries.World.currentRoom state
     let knownPeople, unknownPeople = Queries.World.peopleInCurrentPlace state
-    let bandMembers, crowd, concertOngoing = concertState state place
+    let bandMembers, show = concertState state place
 
     { Skin = CitySkin.forCity cityId
       Lighting =
@@ -71,8 +68,7 @@ let private context state exits : RoomRenderer.RoomContext =
       BandMembers = bandMembers
       Items = Queries.Items.allIn state coords
       Exits = exits |> List.map fst
-      Crowd = crowd
-      ConcertOngoing = concertOngoing
+      Show = show
       Cuisine =
         match room.RoomType with
         | RoomType.Restaurant cuisine -> Some cuisine

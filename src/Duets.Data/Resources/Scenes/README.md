@@ -68,7 +68,10 @@ signs, or it'll get replaced too.
   it takes whatever item is left.
 - `window`: the sky, which changes with the time and weather.
 - `crowd [glyphs]`: the audience during a concert. The glyphs, separated by
-  spaces, replace the default people (eg: `crowd ♥ ✦` for lightsticks).
+  spaces, replace the default people (eg: `crowd ♥ ✦` for lightsticks). The
+  crowd reacts to the concert: a bored crowd uses its own glyphs and part of
+  it moves to the `npc` slots (so put some by the bar), a hyped one raises its
+  arms and an ecstatic one gets lighters out.
 - `band`: the rest of the band during a concert.
 - `cuisine`: the sign of the restaurant.
 - `prop a b | c | d`: a decoration that depends on the quality of the place,

@@ -270,6 +270,18 @@ module Room =
     let crowd = [| '☺'; 'o'; 'ö' |]
     let crowdColor = Colors.grey70
 
+    let boredCrowd = [| '.'; 'o' |]
+    let boredCrowdColor = Colors.grey35
+
+    let armsUp = 'Y'
+    let hypedCrowdColor = Colors.white
+
+    let crowdLights = [| '✦'; '♥' |]
+    let ecstaticCrowdColor = bold Colors.white
+
+    /// How much of a bored crowd stays in front of the stage.
+    let boredCrowdRatio = 0.6
+
     /// Style of `$lamp`, for lights that turn on at night.
     let lampOnColor = bold Colors.khaki
     let lampOffColor = Colors.grey50

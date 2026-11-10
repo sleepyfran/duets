@@ -35,6 +35,21 @@ let ``dedicateSong adds a dedicated song event to the event list`` () =
     |> should contain DedicateSong
 
 [<Test>]
+let ``dedicateSong stores the dedication and its points in the situation`` () =
+    let response =
+        dedicateSong dummyState dummyOngoingConcert dummyFinishedSong Energetic
+
+    response.Effects
+    |> List.choose (function
+        | SituationChanged situation -> Some situation
+        | _ -> None)
+    |> should
+        equal
+        [ SituationTypes.Concert(SituationTypes.InConcert response.OngoingConcert) ]
+
+    response.OngoingConcert.Events |> should contain DedicateSong
+
+[<Test>]
 let ``dedicateSong returns result from play song`` () =
     let response =
         dedicateSong dummyState dummyOngoingConcert dummyFinishedSong Energetic

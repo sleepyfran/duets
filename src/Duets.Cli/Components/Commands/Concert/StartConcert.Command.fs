@@ -44,4 +44,4 @@ module StartConcertCommand =
                         "As you step out onto the stage, you can't help but feel a rush of excitement as you take in the crowd. The rows of seats are packed, with people standing in the back and in the aisles, eagerly awaiting the start of the show. The stage lights are bright, casting a warm glow over the venue, and the energy in the room is electric."
                 |> showMessage
 
-                Scene.World }
+                Scene.WorldAfterMovement }

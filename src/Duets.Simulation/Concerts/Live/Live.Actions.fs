@@ -126,6 +126,17 @@ let dedicateSong state ongoingConcert song energy =
         playSong state ongoingConcert song energy
         |> Response.addEvent DedicateSong
         |> Response.addPoints 10
+        |> fun response ->
+            let otherEffects =
+                response.Effects
+                |> List.filter (function
+                    | SituationChanged _ -> false
+                    | _ -> true)
+
+            { response with
+                Effects =
+                    otherEffects
+                    @ [ Situations.inConcert response.OngoingConcert ] }
     | _ -> Response.empty' ongoingConcert TooManyRepetitionsNotDone
 
 /// Performs a bass solo, which grants up to 5 points depending on the bass

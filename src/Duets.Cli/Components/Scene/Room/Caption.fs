@@ -12,6 +12,13 @@ let private pick (random: System.Random) (options: string list) =
 let private hasWindows (template: Template) =
     template.Slots |> Map.exists (fun _ slot -> slot.Kind = SlotKind.Window)
 
+let private moodSentences (show: Show) =
+    match show.Mood with
+    | CrowdMood.Bored -> SceneCaptions.boredCrowd
+    | CrowdMood.Hyped -> SceneCaptions.hypedCrowd
+    | CrowdMood.Ecstatic -> SceneCaptions.ecstaticCrowd
+    | CrowdMood.Warm -> []
+
 /// Creates a caption for the current room.
 let create
     (context: RoomRenderer.RoomContext)
@@ -23,15 +30,19 @@ let create
 
     let random =
         seedOf
-            $"{context.Seed}{lighting.DayMoment}{lighting.Weather}{peopleCount}{context.ConcertOngoing}"
+            $"{context.Seed}{lighting.DayMoment}{lighting.Weather}{peopleCount}{context.Show}"
         |> System.Random
 
     let phase = SceneCaptions.phaseOf lighting.DayMoment
 
     let firstSentence =
-        match roomType with
-        | RoomType.Stage when context.ConcertOngoing ->
-            SceneCaptions.crowd context.Crowd |> pick random
+        match roomType, context.Show with
+        | RoomType.Stage, Some show ->
+            let attendance = SceneCaptions.crowd show.Attendance |> pick random
+
+            match moodSentences show with
+            | [] -> attendance
+            | sentences -> $"{attendance} {pick random sentences}"
         | _ ->
             let opening = SceneCaptions.roomCondition context.Quality |> pick random
             let closing = SceneCaptions.roomActivity peopleCount |> pick random
