@@ -10,6 +10,7 @@ open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 open Duets.Simulation.Concerts
+open Duets.Simulation.Concerts.Live
 open Aether
 
 [<RequireQualifiedAccess>]
@@ -133,3 +134,84 @@ module ConcertCommands =
                 | None -> ()
 
                 Scene.Cheats) }
+
+    /// Performs the greeting and unplayed songs of the ongoing concert until
+    /// it reaches the given amount of points.
+    let rockstar =
+        { Name = "rockstar"
+          Description =
+            "Plays through the ongoing concert until it reaches the amount of points you choose"
+          Handler =
+            fun _ ->
+                let state = State.get ()
+
+                match Queries.Situations.current state with
+                | SituationTypes.Concert(SituationTypes.InConcert ongoingConcert) ->
+                    let target =
+                        $"The concert has {ongoingConcert.Points} points, how many do you want to have?"
+                        |> Styles.prompt
+                        |> showRangedNumberPrompt 0 100
+                        |> (*) 1<quality>
+
+                    let band = Queries.Bands.currentBand state
+
+                    let actions =
+                        [ if
+                              Concert.Ongoing.timesDoneEvent
+                                  ongoingConcert
+                                  GreetAudience = 0<times>
+                          then
+                              yield
+                                  fun ongoing ->
+                                      let response =
+                                          greetAudience state ongoing
+
+                                      response.Effects, response.OngoingConcert
+                          yield!
+                              Queries.Songs.finishedByBand state band.Id
+                              |> List.ofMapValues
+                              |> List.filter (fun finishedSong ->
+                                  Song.fromFinished finishedSong
+                                  |> Concert.Ongoing.hasPlayedSong
+                                      ongoingConcert
+                                  |> not)
+                              |> List.map (fun finishedSong ongoing ->
+                                  let response =
+                                      playSong
+                                          state
+                                          ongoing
+                                          finishedSong
+                                          PerformEnergy.Normal
+
+                                  response.Effects, response.OngoingConcert) ]
+
+                    let effects, finalConcert =
+                        actions
+                        |> List.fold
+                            (fun (effects, ongoing: OngoingConcert) action ->
+                                if ongoing.Points >= target then
+                                    effects, ongoing
+                                else
+                                    let actionEffects, updatedConcert =
+                                        action ongoing
+
+                                    effects @ actionEffects, updatedConcert)
+                            ([], ongoingConcert)
+
+                    effects
+                    @ [ Optic.set
+                            Lenses.Concerts.Ongoing.points_
+                            target
+                            finalConcert
+                        |> Situations.inConcert ]
+                    |> Effect.applyMultiple
+
+                    $"Done! The concert now has {target} points"
+                    |> Styles.success
+                    |> showMessage
+                | _ ->
+                    "You're not in a concert right now!"
+                    |> Styles.error
+                    |> showMessage
+
+                Scene.Cheats }
