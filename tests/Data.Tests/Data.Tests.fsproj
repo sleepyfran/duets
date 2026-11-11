@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <Compile Include="Items.Tests.fs"/>
+        <Compile Include="Genres.Tests.fs"/>
         <Compile Include="World.Tests.fs"/>
         <Compile Include="Scenes.Tests.fs"/>
         <Compile Include="SavegameMigrations.Tests.fs"/>

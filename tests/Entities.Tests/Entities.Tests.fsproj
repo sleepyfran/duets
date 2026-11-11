@@ -16,11 +16,13 @@
 
     <ItemGroup>
         <Compile Include="Album.Tests.fs"/>
+        <Compile Include="Band.Tests.fs"/>
         <Compile Include="Calendar.Tests.fs"/>
         <Compile Include="SocialNetwork.Tests.fs"/>
         <Compile Include="Time.Tests.fs"/>
         <Compile Include="Concert.Tests.fs"/>
         <Compile Include="World.Tests.fs"/>
+        <Compile Include="Instrument.Tests.fs"/>
         <Compile Include="Program.fs"/>
     </ItemGroup>
 

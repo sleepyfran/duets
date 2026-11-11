@@ -9,7 +9,9 @@ open FSharp.Data
 /// very first supported version in incremental steps up until the last supported
 /// version.
 let private migrations =
-    [ MigrateFromVersionless.migrate; AddLoanState.migrate ]
+    [ MigrateFromVersionless.migrate
+      AddLoanState.migrate
+      MultiInstrumentMembers.migrate ]
 
 /// Last version of savegame data that has a migration associated. Should
 /// always be the last index of the migrations array, since that's how we
@@ -44,15 +46,15 @@ let private applyMigrations' originalData root =
         else if version > lastSavegameVersion then
             Error(InvalidVersion(version.ToString()))
         else
-            applyMigrationsFromVersion' version root
+            applyMigrationsFromVersion (version + 1) root
     | Some value -> Error(InvalidVersion(value.ToString()))
     | _ ->
         // No version means we haven't even performed the first migration, start
         // from the very beginning.
-        applyMigrationsFromVersion' 0 root
+        applyMigrationsFromVersion 0 root
 
-let private applyMigrationsFromVersion' originVersion root =
-    let applicableMigrations = migrations |> List.skip originVersion
+let private applyMigrationsFromVersion firstMigration root =
+    let applicableMigrations = migrations |> List.skip firstMigration
     let result = applyAllMigrations applicableMigrations root
 
     match result with

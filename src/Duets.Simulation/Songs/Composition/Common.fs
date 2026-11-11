@@ -6,18 +6,23 @@ open Duets.Entities.Skill
 
 /// Computes the score associated with each member of the band for the song.
 let qualityForMember state genre (currentMember: CurrentMember) =
-    let genreSkill = create <| SkillId.Genre genre
+    let skillLevel skillId =
+        Skills.characterSkillWithLevel state currentMember.CharacterId skillId
+        |> snd
 
-    let influencingSkills =
-        [ SkillId.Composition
-          SkillId.Instrument currentMember.Role
-          genreSkill.Id ]
+    let instrumentLevel =
+        currentMember.Roles
+        |> List.sumBy (SkillId.Instrument >> skillLevel)
+        |> fun total -> total / currentMember.Roles.Length
 
-    influencingSkills
-    |> List.map (Skills.characterSkillWithLevel state currentMember.CharacterId)
-    |> List.map snd
+    let influencingLevels =
+        [ skillLevel SkillId.Composition
+          instrumentLevel
+          skillLevel (SkillId.Genre genre) ]
+
+    influencingLevels
     |> List.sum
-    |> fun total -> total / influencingSkills.Length
+    |> fun total -> total / influencingLevels.Length
 
 /// Computes the maximum score that the band can achieve for a song in a moment
 /// in time given each member's skills in composition, the current genre and

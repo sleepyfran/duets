@@ -150,9 +150,9 @@ module Band =
         (fun v (b: Band) -> { b with PastMembers = v })
 
     module CurrentMember =
-        let role_ =
-            (fun (m: CurrentMember) -> m.Role),
-            (fun v (m: CurrentMember) -> { m with Role = v })
+        let roles_ =
+            (fun (m: CurrentMember) -> m.Roles),
+            (fun v (m: CurrentMember) -> { m with Roles = v })
 
 module BankAccount =
     let holder_ =

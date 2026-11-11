@@ -24,9 +24,11 @@ let private createMemberForHireWith
     today
     averageAge
     genre
-    instrument
+    roles
     =
-    [ SkillId.Composition; SkillId.Instrument instrument; SkillId.Genre genre ]
+    [ SkillId.Composition
+      yield! roles |> List.map SkillId.Instrument
+      SkillId.Genre genre ]
     |> List.map createSkill
     |> fun skills ->
         let npc =
@@ -37,12 +39,37 @@ let private createMemberForHireWith
                     gender
                     (birthdayFromAverageAge today averageAge)
 
-        Band.MemberForHire.from npc instrument skills
+        Band.MemberForHire.from npc roles skills
+
+/// Randomly picks an extra instrument that can be played together with the
+/// given one, more likely if it's typical for the genre.
+let private extraInstrumentFor genre instrument =
+    let genreInstruments = Data.Genres.instrumentsFor genre
+    let typical = genreInstruments.Core @ genreInstruments.Common
+
+    let typicalExtras, unusualExtras =
+        Data.Roles.all
+        |> List.filter (fun extra -> Instrument.compatible [ instrument; extra ])
+        |> List.partition (fun extra -> List.contains extra typical)
+
+    if
+        not (List.isEmpty typicalExtras)
+        && RandomGen.chance Config.Population.chanceOfTypicalExtraInstrument
+    then
+        Some(RandomGen.choice typicalExtras)
+    else if
+        not (List.isEmpty unusualExtras)
+        && RandomGen.chance Config.Population.chanceOfUnusualExtraInstrument
+    then
+        Some(RandomGen.choice unusualExtras)
+    else
+        None
 
 /// Creates a member that is available for being hired. The member will have
 /// some skills auto-generated around the given `averageSkillLevel` for the
 /// specified genre, instrument and plus the composition skill and also an
-/// age around the average age of the band.
+/// age around the average age of the band. They might also play an extra
+/// instrument.
 let internal createMemberForHire
     today
     averageSkillLevel
@@ -55,7 +82,7 @@ let internal createMemberForHire
         today
         averageAge
         genre
-        instrument
+        (instrument :: Option.toList (extraInstrumentFor genre instrument))
 
 /// Generates an infinite sequence of available members for the given band
 /// looking for the given instrument.
@@ -96,7 +123,7 @@ let memberForHireWithSkillRange state band instrument minLevel maxLevel =
         today
         averageAge
         band.Genre
-        instrument
+        [ instrument ]
 
 /// Processes the given member for hire into a current member of the band.
 let hireMember state (band: Band) (memberForHire: MemberForHire) =

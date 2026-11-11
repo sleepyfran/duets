@@ -27,6 +27,7 @@ module HireMemberCommand =
         Rehearsal.hireMemberCharacterDescription
             availableMember.Character.Name
             availableMember.Character.Gender
+            availableMember.Roles
         |> showMessage
 
         availableMember.Skills
@@ -52,22 +53,19 @@ module HireMemberCommand =
 
             if continueHiring then promptForMemberSelection role else ()
 
-    let private roleText instrumentType = Generic.role instrumentType
-
     /// Command to hire a new member for the band.
     let get =
         { Name = "hire member"
           Description = Command.hireMemberDescription
           Handler =
             (fun _ ->
-                let availableRoles = Data.Roles.all
+                let band = Queries.Bands.currentBand (State.get ())
 
                 let selectedRole =
-                    showOptionalChoicePrompt
+                    showHireInstrumentPrompt
                         Rehearsal.hireMemberRolePrompt
                         Generic.cancel
-                        roleText
-                        availableRoles
+                        band
 
                 match selectedRole with
                 | Some role -> promptForMemberSelection role

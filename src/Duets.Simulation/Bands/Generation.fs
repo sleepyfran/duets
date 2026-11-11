@@ -83,7 +83,7 @@ module Members =
             | MediumHigh -> RandomGen.genBetween 70 100
             | High -> RandomGen.genBetween 80 100
 
-        Roles.forGenre genre
+        (Genres.instrumentsFor genre).Core
         |> List.map (
             Members.createMemberForHire
                 bandStartDate

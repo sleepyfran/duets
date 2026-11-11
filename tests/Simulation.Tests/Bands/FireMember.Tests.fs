@@ -16,13 +16,13 @@ let bandMember =
             Other
             (Calendar.Ops.addYears -28<years> Calendar.gameBeginning)
 
-    Band.Member.from hiredCharacter.Id Guitar dummyToday
+    Band.Member.from hiredCharacter.Id [ Guitar ] dummyToday
 
 let state = dummyState |> State.Bands.addMember dummyBand bandMember
 
 [<Test>]
 let FireMemberFailsIfGivenMemberIsPlayableCharacter () =
-    let playableMember = Band.Member.from dummyCharacter.Id Guitar dummyToday
+    let playableMember = Band.Member.from dummyCharacter.Id [ Guitar ] dummyToday
 
     fireMember state dummyBand playableMember
     |> Result.unwrapError

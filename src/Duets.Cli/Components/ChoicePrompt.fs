@@ -164,6 +164,83 @@ let showSearchableOptionalChoicePrompt
     selectionPrompt
     |> showCancellableChoicePrompt' cancelOptionText optionTextFn
 
+type private GroupedChoice<'a> =
+    | Group of string
+    | Choice of 'a
+    | MoreChoices
+    | Back
+
+let private groupedChoiceText optionTextFn moreText backText choice =
+    match choice with
+    | Group name -> Styles.faded name
+    | Choice item -> optionTextFn item
+    | MoreChoices -> moreText
+    | Back -> backText
+
+let private showGroupedChoicePrompt'
+    title
+    (backText: string option)
+    moreText
+    optionTextFn
+    (groups: (string * 'a list) list)
+    (rest: 'a list)
+    =
+    let textFn =
+        groupedChoiceText
+            optionTextFn
+            moreText
+            (backText |> Option.defaultValue "")
+
+    let mutable selectionPrompt = SelectionPrompt<GroupedChoice<'a>>()
+    selectionPrompt.Title <- title
+
+    groups
+    |> List.filter (snd >> List.isEmpty >> not)
+    |> List.iter (fun (name, items) ->
+        selectionPrompt <-
+            selectionPrompt.AddChoiceGroup(Group name, items |> List.map Choice))
+
+    if not (List.isEmpty rest) then
+        selectionPrompt <- selectionPrompt.AddChoices([ MoreChoices ])
+
+    if backText.IsSome then
+        selectionPrompt <- selectionPrompt.AddChoices([ Back ])
+
+    selectionPrompt <- selectionPrompt.UseConverter(textFn)
+
+    match AnsiConsole.Prompt selectionPrompt with
+    | Choice item ->
+        showSelection (optionTextFn item)
+        Some item
+    | MoreChoices ->
+        match backText with
+        | Some backText ->
+            showSearchableOptionalChoicePrompt title backText optionTextFn rest
+        | None -> showSearchableChoicePrompt title optionTextFn rest |> Some
+    | Back ->
+        showSelection (textFn Back)
+        None
+    (* Groups can't be selected since the prompt only allows selecting leaves. *)
+    | Group _ -> None
+
+/// Shows the user a list of options split in groups, plus an extra option that
+/// opens a searchable list with the rest of the options.
+let showGroupedChoicePrompt title moreText optionTextFn groups rest =
+    showGroupedChoicePrompt' title None moreText optionTextFn groups rest
+    |> Option.get
+
+/// Shows the user a list of options split in groups, plus an extra option that
+/// opens a searchable list with the rest of the options and a back option.
+let showGroupedOptionalChoicePrompt
+    title
+    backText
+    moreText
+    optionTextFn
+    groups
+    rest
+    =
+    showGroupedChoicePrompt' title (Some backText) moreText optionTextFn groups rest
+
 /// <summary>
 /// Shows the user a list of options to choose from, allowing them to choose
 /// one or multiple items.

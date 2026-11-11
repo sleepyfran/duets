@@ -24,7 +24,7 @@ module SkillCommands =
                 let characterMember = Queries.Bands.currentPlayableMember state
 
                 let allSkills =
-                    Data.Skills.allFor band.Genre characterMember.Role
+                    Data.Skills.allFor band.Genre characterMember.Roles
                     |> List.map (fun skill ->
                         Queries.Skills.characterSkillWithLevel
                             state

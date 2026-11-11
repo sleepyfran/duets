@@ -39,3 +39,46 @@ let ``merch stand can be set up in the lobby while preparing a concert`` () =
 [<Test>]
 let ``merch stand cannot be set up in the bar`` () =
     preparingIn Ids.Common.bar |> canSetupMerchStand |> should equal false
+
+let private inConcertOnStageAs roles =
+    let band =
+        { dummyBand with
+            Members = [ Band.Member.from dummyCharacter.Id roles dummyToday ] }
+
+    match Setup.startGame dummyCharacter band [] dummyCity with
+    | GameCreated state ->
+        { state with
+            CurrentPosition = Prague, dummyVenue.Id, Ids.ConcertSpace.stage
+            Situation = Concert(InConcert dummyOngoingConcert) }
+    | _ -> failwith "Unexpected effect while creating game."
+
+let private concertInteractions state =
+    Queries.Interactions.availableCurrently state
+    |> List.choose (fun interaction ->
+        match interaction.Interaction with
+        | Interaction.Concert concertInteraction -> Some concertInteraction
+        | _ -> None)
+
+[<Test>]
+let ``member with multiple roles gets the concert interactions of all of them``
+    ()
+    =
+    let interactions =
+        inConcertOnStageAs [ Guitar; Vocals ] |> concertInteractions
+
+    interactions
+    |> List.exists (fun i -> i = ConcertInteraction.GuitarSolo dummyOngoingConcert)
+    |> should equal true
+
+    interactions
+    |> List.exists (fun i -> i = ConcertInteraction.TakeMic dummyOngoingConcert)
+    |> should equal true
+
+[<Test>]
+let ``interactions shared between roles are only listed once`` () =
+    inConcertOnStageAs [ Guitar; Vocals ]
+    |> concertInteractions
+    |> List.filter (fun i ->
+        i = ConcertInteraction.TuneInstrument dummyOngoingConcert)
+    |> List.length
+    |> should equal 1

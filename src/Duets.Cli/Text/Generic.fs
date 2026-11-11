@@ -194,6 +194,11 @@ let multiChoiceInstructions =
 let noUnfinishedSongs =
     Styles.error "You don't have any songs, create one first"
 
+let instrumentGroupMissing = "Nobody plays yet"
+let instrumentGroupTypical = "Typical"
+let instrumentGroupAlsoFits = "Also fits"
+let instrumentGroupUnusual = Styles.faded "Something unusual..."
+
 let back = Styles.faded "Go back"
 let cancel = Styles.faded "Cancel"
 let doneOption = Styles.faded "Done"
@@ -239,6 +244,14 @@ let songWithDetails name (quality: Quality) songLength =
 
 let instrument instrumentType = instrumentName instrumentType
 let role instrumentType = roleName instrumentType
+
+/// Returns the formatted names of the given instruments joined together.
+let instrumentsName instrumentTypes =
+    instrumentTypes |> List.map instrumentName |> String.concat " & "
+
+/// Returns the formatted names of the given roles joined together.
+let rolesName instrumentTypes =
+    instrumentTypes |> List.map roleName |> String.concat " & "
 
 let itemName (item: Item) =
     let mainProperty = item.Properties |> List.head

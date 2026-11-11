@@ -6,6 +6,10 @@ type BandNameValidationError =
     | NameTooShort
     | NameTooLong
 
+type MemberRolesValidationError =
+    | NoRoles
+    | IncompatibleRoles
+
 /// Returns default values for a band to serve as a placeholder to build a band
 /// upon. Generates a valid ID.
 let empty =
@@ -36,28 +40,35 @@ let validateName name =
     else Ok name
 
 module Member =
-    /// Creates a member from a character and a role from today onwards.
-    let from character role today =
+    /// Validates that the given roles can be played by one member.
+    let validateRoles roles =
+        match roles with
+        | [] -> Error NoRoles
+        | roles when Instrument.compatible roles -> Ok roles
+        | _ -> Error IncompatibleRoles
+
+    /// Creates a member from a character and its roles from today onwards.
+    let from character roles today =
         { CharacterId = character
-          Role = role
+          Roles = roles
           Since = today }
 
     /// Creates a current member of the band given a member available for hiring.
     let fromMemberForHire date (memberForHire: MemberForHire) =
-        from memberForHire.Character.Id memberForHire.Role date
+        from memberForHire.Character.Id memberForHire.Roles date
 
 module MemberForHire =
-    /// Creates a member for hire given a character, its role and its skills.
-    let from character role skills =
+    /// Creates a member for hire given a character, its roles and its skills.
+    let from character roles skills =
         { Character = character
-          Role = role
+          Roles = roles
           Skills = skills }
 
 module PastMember =
     /// Creates a past member given a current member with today as its fired date.
     let fromMember (currentMember: CurrentMember) today =
         { CharacterId = currentMember.CharacterId
-          Role = currentMember.Role
+          Roles = currentMember.Roles
           Period = (currentMember.Since, today) }
 
 module SongRepertoire =

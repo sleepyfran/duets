@@ -196,6 +196,14 @@ module Population =
     /// by the character instead of randomly generated.
     let chanceOfKnownPeopleAtPlace = 5 (* 5% *)
 
+    /// The chance that a generated musician also plays an instrument that is
+    /// typical for the genre on top of their main one.
+    let chanceOfTypicalExtraInstrument = 30 (* 30% *)
+
+    /// The chance that a generated musician also plays an instrument that is
+    /// unusual for the genre on top of their main one.
+    let chanceOfUnusualExtraInstrument = 5 (* 5% *)
+
 module Revenue =
     /// Indicates how many dd a band makes per stream.
     let revenuePerStream = 0.0055

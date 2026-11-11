@@ -29,8 +29,13 @@ let bandGenrePrompt =
 let bandInstrumentPrompt =
     $"""And lastly, which {Styles.highlight "role"} will you have in the band?"""
 
-let bandConfirmationPrompt characterName bandName bandGenre instrument =
-    $"""You'll be playing as {Styles.highlight characterName} in the band {Styles.highlight bandName} playing {Styles.highlight bandGenre} as a {Generic.roleName instrument |> String.lowercase |> Styles.highlight}"""
+let bandExtraInstrumentPrompt =
+    $"""Do you also {Styles.highlight "play"} or {Styles.highlight "sing"} something else at the same time?"""
+
+let bandNoExtraInstrument = Styles.faded "No, that's it"
+
+let bandConfirmationPrompt characterName bandName bandGenre roles =
+    $"""You'll be playing as {Styles.highlight characterName} in the band {Styles.highlight bandName} playing {Styles.highlight bandGenre} as a {Generic.rolesName roles |> String.lowercase |> Styles.highlight}"""
 
 let cityInfo =
     Styles.faded

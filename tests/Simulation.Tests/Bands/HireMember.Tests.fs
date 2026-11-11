@@ -33,11 +33,33 @@ let hiredMember = Band.Member.fromMemberForHire dummyToday memberForHire
 
 [<Test>]
 let MembersForHireShouldExposeMembersOfGivenInstrument () =
-    assertOnMembers (fun m -> m.Role |> should equal Guitar)
+    assertOnMembers (fun m -> m.Roles |> List.head |> should equal Guitar)
 
 [<Test>]
-let MembersForHireShouldExposeMembersWithAtLeastThreeSkills () =
-    assertOnMembers (fun m -> m.Skills |> should haveLength 3)
+let MembersForHireShouldExposeMembersWithASkillPerInstrument () =
+    assertOnMembers (fun m -> m.Skills |> should haveLength (2 + m.Roles.Length))
+
+[<Test>]
+let MembersForHireShouldOnlyPlayCompatibleInstruments () =
+    assertOnMembers (fun m -> Instrument.compatible m.Roles |> should equal true)
+
+[<Test>]
+let MembersForHireCanPlayAnExtraTypicalInstrument () =
+    use _ = changeToStaticRandom 0
+
+    membersForHire state dummyBand Guitar
+    |> Seq.head
+    |> _.Roles
+    |> should equal [ Guitar; Vocals ]
+
+[<Test>]
+let MembersForHireDoNotAlwaysPlayAnExtraInstrument () =
+    use _ = changeToStaticRandom 100
+
+    membersForHire state dummyBand Guitar
+    |> Seq.head
+    |> _.Roles
+    |> should equal [ Guitar ]
 
 [<Test>]
 let MembersForHireShouldExposeMembersWithSkillLevelAroundBandsAverage () =

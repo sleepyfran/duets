@@ -122,7 +122,8 @@ module Bands =
 
     /// Returns whether the given band has any member with the given role.
     let hasAnyMemberWithRole (band: Band) (role: InstrumentType) =
-        band.Members |> List.exists (fun bandMember -> bandMember.Role = role)
+        band.Members
+        |> List.exists (fun bandMember -> bandMember.Roles |> List.contains role)
 
     /// Returns whether the current band has any member with the given role.
     let currentBandHasAnyMemberWithRole state role =

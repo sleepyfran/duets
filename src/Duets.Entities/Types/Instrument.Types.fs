@@ -13,6 +13,12 @@ module InstrumentTypes =
         | Bass
         | Vocals
 
+    /// Defines the parts of the body that an instrument needs while playing it.
+    type Limb =
+        | Hands
+        | Feet
+        | Mouth
+
     /// Represents the archetype instrument that a character can use.
     type Instrument =
         { Id: InstrumentId

@@ -18,7 +18,7 @@ let skillEditor
     showSeparator None
 
     let skills =
-        Data.Skills.allFor band.Genre bandMember.Role
+        Data.Skills.allFor band.Genre bandMember.Roles
         |> List.groupBy (_.Category)
         |> Map.ofList
 

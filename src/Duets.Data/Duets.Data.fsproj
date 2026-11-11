@@ -9,9 +9,6 @@
         <Content Include="Resources\adjectives.json"/>
         <Content Include="Resources\adverbs.json"/>
         <Content Include="Resources\books.json"/>
-        <Content Include="Resources\genres.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
         <Content Include="Resources\movies.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
@@ -44,10 +41,10 @@
         <Compile Include="Items\Food\HomeCooking.Food.fs"/>
         <Compile Include="Items\Food\All.Food.fs"/>
         <Compile Include="Careers.fs"/>
-        <Compile Include="Genres.fs"/>
         <Compile Include="Movies.fs"/>
         <Compile Include="Npcs.fs"/>
         <Compile Include="Roles.fs"/>
+        <Compile Include="Genres.fs"/>
         <Compile Include="Skills.fs"/>
         <Compile Include="VocalStyles.fs"/>
         <Compile Include="Words.fs"/>
@@ -57,6 +54,7 @@
         <Compile Include="Savegame\Migrations\Migrations.Common.fs" />
         <Compile Include="Savegame\Migrations\0_MigrateFromVersionless.fs"/>
         <Compile Include="Savegame\Migrations\1_AddLoanState.fs"/>
+        <Compile Include="Savegame\Migrations\2_MultiInstrumentMembers.fs"/>
         <Compile Include="Migrations.fs"/>
         <Compile Include="World\Ids.fs"/>
         <Compile Include="World\Cities\OpeningHours.fs"/>

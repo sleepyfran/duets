@@ -105,19 +105,19 @@ let practiceSongProgressGivingUp = Styles.progress "Giving up..."
 
 let hireMemberRolePrompt = "What role are you looking to hire?"
 
-let hireMemberCharacterDescription name gender =
-    $"{Styles.highlight name} is interested in joining your band. {Generic.subjectPronounForGender gender} {Generic.verbConjugationForGender Generic.Have gender |> String.lowercase} the following skills:"
+let hireMemberCharacterDescription name gender roles =
+    $"{Styles.highlight name} is interested in joining your band as a {Generic.rolesName roles |> String.lowercase |> Styles.highlight}. {Generic.subjectPronounForGender gender} {Generic.verbConjugationForGender Generic.Have gender |> String.lowercase} the following skills:"
 
 let hireMemberConfirmation gender =
-    $"Do you want to hire {Generic.objectPronounForGender gender}?"
+    $"Do you want to hire {Generic.objectPronounForGender gender |> String.lowercase}?"
 
 let hireMemberHired = Styles.success "You just hired a new member!"
 
 let hireMemberContinueConfirmation =
     "Do you want to continue looking for members?"
 
-let fireMemberListItem (name, role) =
-    $"{name} ({Generic.instrumentName role})"
+let fireMemberListItem (name, roles) =
+    $"{name} ({Generic.instrumentsName roles})"
 
 let fireMemberNoMembersToFire =
     Styles.error "You are the only member of the band, you can't fire yourself!"
@@ -143,7 +143,7 @@ let memberListPastTitle = Styles.title "Past members"
 
 let memberListName = Styles.person
 
-let memberListRole = Generic.roleName
+let memberListRoles = Generic.rolesName
 
 let memberListSince = Date.simple
 

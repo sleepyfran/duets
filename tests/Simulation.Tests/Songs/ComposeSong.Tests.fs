@@ -64,3 +64,24 @@ let ``Qualities should be calculated based on members skills but never go above 
             dummyBandWithMultipleMembers,
             Unfinished(dummySong, 100<quality>, 20<quality>)
         ))
+
+[<Test>]
+let ``Quality of a member with multiple roles averages their instrument skills``
+    ()
+    =
+    let multiInstrumentMember =
+        Band.Member.from dummyCharacter.Id [ Guitar; Vocals ] dummyToday
+
+    let state =
+        dummyState
+        |> addSkillsTo
+            dummyCharacter
+            [ Skill.createWithLevel SkillId.Composition 60
+              Skill.createWithLevel (SkillId.Genre dummyBand.Genre) 60
+              Skill.createWithLevel (SkillId.Instrument Guitar) 60 ]
+
+    Duets.Simulation.Songs.Composition.Common.qualityForMember
+        state
+        dummyBand.Genre
+        multiInstrumentMember
+    |> should equal 50

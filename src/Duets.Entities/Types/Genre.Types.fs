@@ -27,3 +27,12 @@ module GenreTypes =
 
     /// Defines the genre market by genre.
     type GenreMarketByGenre = Map<Genre, GenreMarket>
+
+    /// Defines the instruments that bands of a genre usually have.
+    type GenreInstruments =
+        {
+            /// Instruments that almost every band of the genre has.
+            Core: InstrumentType list
+            /// Instruments that fit the genre but not every band has.
+            Common: InstrumentType list
+        }

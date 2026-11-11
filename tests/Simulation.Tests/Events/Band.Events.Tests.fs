@@ -133,7 +133,7 @@ let dummyRelationship =
 [<Test>]
 let ``tick of member hired adds a relationship with the new member`` () =
     let dummyMember =
-        Band.Member.from dummyCharacter2.Id InstrumentType.Guitar dummyToday
+        Band.Member.from dummyCharacter2.Id [ InstrumentType.Guitar ] dummyToday
 
     let skill = Skill.create SkillId.Composition
 
@@ -160,7 +160,7 @@ let ``tick of member fired removes the relationship with the member`` () =
         |> State.Root.applyEffect dummyState
 
     let dummyMember =
-        Band.Member.from dummyCharacter2.Id InstrumentType.Guitar dummyToday
+        Band.Member.from dummyCharacter2.Id [ InstrumentType.Guitar ] dummyToday
 
     let pastMember = Band.PastMember.fromMember dummyMember dummyToday
 

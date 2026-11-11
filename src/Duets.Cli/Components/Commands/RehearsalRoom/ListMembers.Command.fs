@@ -29,7 +29,7 @@ module ListMembersCommand =
                                 cm.CharacterId
 
                         [ Rehearsal.memberListName character.Name
-                          Rehearsal.memberListRole cm.Role
+                          Rehearsal.memberListRoles cm.Roles
                           Rehearsal.memberListSince cm.Since ])
 
                 showTableWithTitle
@@ -51,7 +51,7 @@ module ListMembersCommand =
                                     pm.CharacterId
 
                             [ Rehearsal.memberListName character.Name
-                              Rehearsal.memberListRole pm.Role
+                              Rehearsal.memberListRoles pm.Roles
                               Rehearsal.memberListSince (fst pm.Period)
                               Rehearsal.memberListUntil (snd pm.Period) ])
 

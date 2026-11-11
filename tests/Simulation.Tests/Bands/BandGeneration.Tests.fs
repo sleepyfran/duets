@@ -70,3 +70,10 @@ type ``addInitialBandsToState``() =
             let totalFans = Queries.Bands.totalFans' band
             totalFans >=< (2000000<fans>, 4000000<fans>))
         |> should haveCount 10
+
+    [<Test>]
+    member _.``should only generate members that play compatible instruments``() =
+        simulatedBands
+        |> Map.values
+        |> Seq.collect _.Members
+        |> Seq.iter (fun m -> Instrument.compatible m.Roles |> should equal true)

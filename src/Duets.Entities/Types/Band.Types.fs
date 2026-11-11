@@ -5,23 +5,25 @@ module BandTypes =
     /// Unique identifier of a band.
     type BandId = BandId of Identity
 
-    /// Defines a member that is available for being hired into the band.
+    /// Defines a member that is available for being hired into the band. The
+    /// first role is the member's main instrument.
     type MemberForHire =
         { Character: Character
-          Role: InstrumentType
+          Roles: InstrumentType list
           Skills: SkillWithLevel list }
 
-    /// Defines a current member of the band.
+    /// Defines a current member of the band. The first role is the member's
+    /// main instrument.
     type CurrentMember =
         { CharacterId: CharacterId
-          Role: InstrumentType
+          Roles: InstrumentType list
           Since: Date }
 
     /// Defines a member that used to be part of the band but is no longer a
     /// member.
     type PastMember =
         { CharacterId: CharacterId
-          Role: InstrumentType
+          Roles: InstrumentType list
           Period: Period }
 
     /// Number of fans that a band has.

@@ -17,7 +17,7 @@ let hiredCharacter =
         Other
         (Calendar.Ops.addYears -18<years> Calendar.gameBeginning)
 
-let hiredMember = Band.Member.from hiredCharacter.Id Guitar dummyToday
+let hiredMember = Band.Member.from hiredCharacter.Id [ Guitar ] dummyToday
 
 let memberSkills = [ (Skill.createWithLevel SkillId.Composition 10) ]
 

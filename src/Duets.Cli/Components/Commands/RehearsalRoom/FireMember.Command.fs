@@ -15,7 +15,7 @@ module FireMemberCommand =
         let character =
             Queries.Characters.find (State.get ()) bandMember.CharacterId
 
-        Rehearsal.fireMemberListItem (character.Name, bandMember.Role)
+        Rehearsal.fireMemberListItem (character.Name, bandMember.Roles)
 
     let rec private promptForMember bandMembers =
         let selectedMember =

@@ -71,14 +71,14 @@ let dummyBand =
         Name = "Dummy Band"
         Genre = "Jazz"
         Members =
-            [ Band.Member.from dummyCharacter.Id Guitar (Calendar.gameBeginning) ] }
+            [ Band.Member.from dummyCharacter.Id [ Guitar ] (Calendar.gameBeginning) ] }
 
 let dummyBandWithMultipleMembers =
     { dummyBand with
         Members =
-            [ Band.Member.from dummyCharacter.Id Guitar (Calendar.gameBeginning)
-              Band.Member.from dummyCharacter2.Id Bass (Calendar.gameBeginning)
-              Band.Member.from dummyCharacter3.Id Drums (Calendar.gameBeginning) ] }
+            [ Band.Member.from dummyCharacter.Id [ Guitar ] (Calendar.gameBeginning)
+              Band.Member.from dummyCharacter2.Id [ Bass ] (Calendar.gameBeginning)
+              Band.Member.from dummyCharacter3.Id [ Drums ] (Calendar.gameBeginning) ] }
 
 let dummyHeadlinerBand =
     { dummyBand with

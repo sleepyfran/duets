@@ -54,27 +54,32 @@ module ConcertSpace =
                   ConcertInteraction.TuneInstrument ongoingConcert
               ) ]
 
-        match characterBandMember.Role with
-        | Guitar ->
-            [ Interaction.Concert(ConcertInteraction.GuitarSolo ongoingConcert) ]
-            @ stringInstrumentsCommonInteractions
-        | Bass ->
-            [ Interaction.Concert(ConcertInteraction.BassSolo ongoingConcert) ]
-            @ stringInstrumentsCommonInteractions
-        | Drums ->
-            [ Interaction.Concert(ConcertInteraction.DrumSolo ongoingConcert)
-              Interaction.Concert(ConcertInteraction.AdjustDrums ongoingConcert) ]
-        | Vocals ->
-            [ Interaction.Concert(
-                  ConcertInteraction.MakeCrowdSing ongoingConcert
-              )
-              Interaction.Concert(ConcertInteraction.TakeMic ongoingConcert)
-              Interaction.Concert(
-                  ConcertInteraction.PutMicOnStand ongoingConcert
-              )
-              Interaction.Concert(
-                  ConcertInteraction.SpinDrumsticks ongoingConcert
-              ) ]
+        let roleInteractions role =
+            match role with
+            | Guitar ->
+                [ Interaction.Concert(ConcertInteraction.GuitarSolo ongoingConcert) ]
+                @ stringInstrumentsCommonInteractions
+            | Bass ->
+                [ Interaction.Concert(ConcertInteraction.BassSolo ongoingConcert) ]
+                @ stringInstrumentsCommonInteractions
+            | Drums ->
+                [ Interaction.Concert(ConcertInteraction.DrumSolo ongoingConcert)
+                  Interaction.Concert(ConcertInteraction.AdjustDrums ongoingConcert) ]
+            | Vocals ->
+                [ Interaction.Concert(
+                      ConcertInteraction.MakeCrowdSing ongoingConcert
+                  )
+                  Interaction.Concert(ConcertInteraction.TakeMic ongoingConcert)
+                  Interaction.Concert(
+                      ConcertInteraction.PutMicOnStand ongoingConcert
+                  )
+                  Interaction.Concert(
+                      ConcertInteraction.SpinDrumsticks ongoingConcert
+                  ) ]
+
+        characterBandMember.Roles
+        |> List.collect roleInteractions
+        |> List.distinct
 
     /// Returns all interactions available in the current concert room.
     let internal interactions state roomType cityId placeId =
