@@ -27,9 +27,6 @@ let commonPrompt date dayMoment attributes =
 let adjustDrumsDescription =
     "Allows you to adjust the drum settings. Doesn't do much, but it's important to play comfortably"
 
-let bassSoloDescription =
-    "Allows you to play a bass solo and remind people that you are on stage"
-
 let composeSongDescription = "Allows you to create a new song"
 
 let disabledNotEnoughEnergy _ =
@@ -42,9 +39,6 @@ let disabledNotEnoughHealth _ =
 let disabledNotEnoughMood _ =
     Styles.error
         "You don't really feel like doing that... Maybe something more interesting might spark your interest"
-
-let drumSoloDescription =
-    "Allows you to play a drum solo and show the world that the drummer can also rock"
 
 let editAlbumNameDescription =
     "Allows you to edit the name of an album you previously recorded but did not release"
@@ -80,9 +74,6 @@ let finishSongDescription =
     "Prompts your for a song to finish from the list of unfinished songs"
 
 let fireMemberDescription = "Allows you to fire a member of your band"
-
-let guitarSoloDescription =
-    "Allows you to perform a guitar solo and elevate your ego to a higher dimension"
 
 let hireMemberDescription = "Allows you to hire a new member for your band"
 
@@ -229,3 +220,14 @@ let startConcertDescription = "Starts the concert that you scheduled here"
 
 let workDescription (job: Job) =
     $"Starts a shift in your work as {Career.name job}. It will take {Career.shiftDurationDescription job.CurrentStage.Schedule}"
+
+let soloDescription instrument =
+    match instrument with
+    | Guitar ->
+        "Allows you to perform a guitar solo and elevate your ego to a higher dimension"
+    | Bass ->
+        "Allows you to play a bass solo and remind people that you are on stage"
+    | Drums ->
+        "Allows you to play a drum solo and show the world that the drummer can also rock"
+    | _ ->
+        $"Allows you to play a {Generic.instrumentName instrument |> String.lowercase} solo and steal the spotlight for a while"

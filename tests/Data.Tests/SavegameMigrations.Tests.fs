@@ -10,6 +10,7 @@ open Duets.Common
 open Duets.Data.Savegame.Migrations
 open Duets.Data.Savegame.Types
 open Duets.Entities
+open Duets.Entities.SituationTypes
 
 [<Test>]
 let ``anything other than an object is not accepted as a root`` () =
@@ -216,7 +217,7 @@ let private migratedBands () : Bands =
     match applyMigrations savegameWithBands with
     | Ok(json) ->
         let json = JsonValue.Parse(json)
-        json?Version.AsInteger() |> should equal 2
+        json?Version.AsInteger() |> should equal lastSavegameVersion
         json?Data?Bands.ToString() |> Serializer.deserialize
     | res -> failwith $"Expected migrated JSON, got {res}"
 
@@ -266,4 +267,132 @@ let ``migration 2 errors when Bands field is missing from Data`` () =
 let ``savegames at version 1 only apply the migrations after version 1`` () =
     match applyMigrations savegameWithBands with
     | Ok _ -> ()
+    | res -> failwith $"Expected migrated JSON, got {res}"
+
+(* --- Mandatory: AddMissingGenreMarkets --- *)
+
+let private savegameWithMarkets version (markets: string) =
+    $"""
+{{
+    "Version": {version},
+    "Data": {{
+        "GenreMarkets": {markets}
+    }}
+}}
+"""
+
+let private migratedGenreMarkets input : GenreMarketByGenre =
+    match applyMigrations input with
+    | Ok(json) ->
+        let json = JsonValue.Parse(json)
+        json?Data?GenreMarkets.ToString() |> Serializer.deserialize
+    | res -> failwith $"Expected migrated JSON, got {res}"
+
+[<Test>]
+let ``mandatory migrations add a market for every missing genre`` () =
+    savegameWithMarkets lastSavegameVersion "{}"
+    |> migratedGenreMarkets
+    |> Map.keys
+    |> List.ofSeq
+    |> should equal (Duets.Data.Genres.all |> List.sort)
+
+[<Test>]
+let ``mandatory migrations keep existing genre markets as they are`` () =
+    """{ "Rock": { "MarketPoint": 4.2, "Fluctuation": 1.0 } }"""
+    |> savegameWithMarkets lastSavegameVersion
+    |> migratedGenreMarkets
+    |> Map.find "Rock"
+    |> should equal { MarketPoint = 4.2; Fluctuation = 1.0 }
+
+[<Test>]
+let ``mandatory migrations leave the savegame untouched if nothing is missing``
+    ()
+    =
+    let markets =
+        Duets.Data.Genres.all
+        |> List.map (fun genre ->
+            $"\"{genre}\": {{ \"MarketPoint\": 2.0, \"Fluctuation\": 1.0 }}")
+        |> String.concat ", "
+
+    let input = savegameWithMarkets lastSavegameVersion $"{{ {markets} }}"
+
+    applyMigrations input |> should equal (Ok input: Result<string, MigrationError>)
+
+[<Test>]
+let ``mandatory migrations run after versioned migrations`` () =
+    let input =
+        $"""
+{{
+    "Version": 1,
+    "Data": {{
+        "Bands": {{ "Current": "{characterBandId}", "Character": [], "Simulated": [] }},
+        "GenreMarkets": {{}}
+    }}
+}}
+"""
+
+    migratedGenreMarkets input |> should haveCount Duets.Data.Genres.all.Length
+
+(* --- Migration 3: GenericSoloEvents --- *)
+
+let private savegameInConcertWith (events: ConcertEvent list) =
+    let situation =
+        Concert(InConcert { Test.Common.Root.dummyOngoingConcert with Events = events })
+        |> Serializer.serialize
+        |> fun json -> json.Replace("""{"Case":"Solo","Fields":[{"Case":"Guitar"}]}""", """{"Case":"GuitarSolo"}""")
+        |> fun json -> json.Replace("""{"Case":"Solo","Fields":[{"Case":"Bass"}]}""", """{"Case":"BassSolo"}""")
+        |> fun json -> json.Replace("""{"Case":"Solo","Fields":[{"Case":"Drums"}]}""", """{"Case":"DrumSolo"}""")
+
+    $"""
+{{
+    "Version": 2,
+    "Data": {{
+        "Situation": {situation}
+    }}
+}}
+"""
+
+let private migratedSituation input : Situation =
+    match applyMigrations input with
+    | Ok(json) ->
+        let json = JsonValue.Parse(json)
+        json?Version.AsInteger() |> should equal lastSavegameVersion
+        json?Data?Situation.ToString() |> Serializer.deserialize
+    | res -> failwith $"Expected migrated JSON, got {res}"
+
+[<Test>]
+let ``migration 3 turns old solo events of an ongoing concert into solo events``
+    ()
+    =
+    let input =
+        savegameInConcertWith [ Solo Guitar; GreetAudience; Solo Bass; Solo Drums ]
+
+    input |> should haveSubstring "GuitarSolo"
+
+    match migratedSituation input with
+    | Concert(InConcert ongoingConcert) ->
+        ongoingConcert.Events
+        |> should equal [ Solo Guitar; GreetAudience; Solo Bass; Solo Drums ]
+    | situation -> failwith $"Expected an ongoing concert, got {situation}"
+
+[<Test>]
+let ``migration 3 leaves other situations as they are`` () =
+    let input =
+        $"""
+{{
+    "Version": 2,
+    "Data": {{
+        "Situation": {Serializer.serialize FreeRoam}
+    }}
+}}
+"""
+
+    migratedSituation input |> should equal FreeRoam
+
+[<Test>]
+let ``migration 3 sets version to 3`` () =
+    let input = """{ "Version": 2, "Data": {} }"""
+
+    match input |> JsonValue.Parse |> GenericSoloEvents.migrate with
+    | Ok(json) -> json?Version.AsInteger() |> should equal 3
     | res -> failwith $"Expected migrated JSON, got {res}"

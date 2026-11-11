@@ -67,7 +67,7 @@ let ``member with multiple roles gets the concert interactions of all of them``
         inConcertOnStageAs [ Guitar; Vocals ] |> concertInteractions
 
     interactions
-    |> List.exists (fun i -> i = ConcertInteraction.GuitarSolo dummyOngoingConcert)
+    |> List.exists (fun i -> i = ConcertInteraction.Solo(dummyOngoingConcert, Guitar))
     |> should equal true
 
     interactions
@@ -82,3 +82,43 @@ let ``interactions shared between roles are only listed once`` () =
         i = ConcertInteraction.TuneInstrument dummyOngoingConcert)
     |> List.length
     |> should equal 1
+
+[<Test>]
+let ``drummers get a drum solo and can adjust their drums but not tune them`` () =
+    let interactions = inConcertOnStageAs [ Drums ] |> concertInteractions
+
+    interactions
+    |> should contain (ConcertInteraction.Solo(dummyOngoingConcert, Drums))
+
+    interactions
+    |> should contain (ConcertInteraction.AdjustDrums dummyOngoingConcert)
+
+    interactions
+    |> should not' (contain (ConcertInteraction.TuneInstrument dummyOngoingConcert))
+
+[<Test>]
+let ``guitar and harmonica players get a solo for each instrument`` () =
+    let interactions =
+        inConcertOnStageAs [ Guitar; Harmonica ] |> concertInteractions
+
+    interactions
+    |> should contain (ConcertInteraction.Solo(dummyOngoingConcert, Guitar))
+
+    interactions
+    |> should contain (ConcertInteraction.Solo(dummyOngoingConcert, Harmonica))
+
+[<Test>]
+let ``violinists can tune their instrument`` () =
+    inConcertOnStageAs [ Violin ]
+    |> concertInteractions
+    |> should contain (ConcertInteraction.TuneInstrument dummyOngoingConcert)
+
+[<Test>]
+let ``saxophonists get a solo but can't tune their instrument`` () =
+    let interactions = inConcertOnStageAs [ Saxophone ] |> concertInteractions
+
+    interactions
+    |> should contain (ConcertInteraction.Solo(dummyOngoingConcert, Saxophone))
+
+    interactions
+    |> should not' (contain (ConcertInteraction.TuneInstrument dummyOngoingConcert))

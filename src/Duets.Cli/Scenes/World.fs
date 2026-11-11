@@ -44,12 +44,8 @@ let private commandsFromInteractions interactions =
                       "adjust drums"
                       Command.adjustDrumsDescription
                       Concert.adjustDrumsMessage ]
-            | ConcertInteraction.BassSolo ongoingConcert ->
-                [ BassSoloCommand.create ongoingConcert ]
             | ConcertInteraction.DoEncore ongoingConcert ->
                 [ DoEncoreCommand.create ongoingConcert ]
-            | ConcertInteraction.DrumSolo ongoingConcert ->
-                [ DrumSoloCommand.create ongoingConcert ]
             | ConcertInteraction.FinishConcert ongoingConcert ->
                 [ FinishConcertCommand.create ongoingConcert ]
             | ConcertInteraction.GetOffStage ongoingConcert ->
@@ -58,8 +54,6 @@ let private commandsFromInteractions interactions =
                 [ GiveSpeechCommand.create ongoingConcert ]
             | ConcertInteraction.GreetAudience ongoingConcert ->
                 [ GreetAudienceCommand.create ongoingConcert ]
-            | ConcertInteraction.GuitarSolo ongoingConcert ->
-                [ GuitarSoloCommand.create ongoingConcert ]
             | ConcertInteraction.FaceBand _ ->
                 [ Command.message
                       "face band"
@@ -81,6 +75,8 @@ let private commandsFromInteractions interactions =
                       "put mic on stand"
                       Command.putMicOnStandDescription
                       Concert.putMicOnStandMessage ]
+            | ConcertInteraction.Solo(ongoingConcert, instrument) ->
+                [ SoloCommand.create ongoingConcert instrument ]
             | ConcertInteraction.SpinDrumsticks ongoingConcert ->
                 [ SpinDrumsticksCommand.create ongoingConcert ]
             | ConcertInteraction.TakeMic _ ->

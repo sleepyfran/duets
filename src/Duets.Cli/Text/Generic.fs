@@ -24,6 +24,18 @@ let instrumentName instrumentType =
     | Drums -> "Drums"
     | Guitar -> "Guitar"
     | Vocals -> "Microphone"
+    | Keyboard -> "Keyboard"
+    | Synthesizer -> "Synthesizer"
+    | UprightBass -> "Upright bass"
+    | Saxophone -> "Saxophone"
+    | Trumpet -> "Trumpet"
+    | Trombone -> "Trombone"
+    | Violin -> "Violin"
+    | Cello -> "Cello"
+    | Banjo -> "Banjo"
+    | Harmonica -> "Harmonica"
+    | Turntables -> "Turntables"
+    | HandPercussion -> "Hand percussion"
 
 /// Returns the formatted role name given its type.
 let roleName instrumentType =
@@ -32,6 +44,18 @@ let roleName instrumentType =
     | Drums -> "Drummer"
     | Guitar -> "Guitarist"
     | Vocals -> "Singer"
+    | Keyboard -> "Keyboardist"
+    | Synthesizer -> "Synth player"
+    | UprightBass -> "Upright bassist"
+    | Saxophone -> "Saxophonist"
+    | Trumpet -> "Trumpeter"
+    | Trombone -> "Trombonist"
+    | Violin -> "Violinist"
+    | Cello -> "Cellist"
+    | Banjo -> "Banjo player"
+    | Harmonica -> "Harmonica player"
+    | Turntables -> "DJ"
+    | HandPercussion -> "Percussionist"
 
 /// Returns the correct pronoun for the given gender (he, she, they).
 let subjectPronounForGender gender =

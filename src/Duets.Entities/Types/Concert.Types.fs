@@ -53,13 +53,11 @@ module ConcertTypes =
         | GotOffStage
         | PerformedEncore
         | TuneInstrument
-        | GuitarSolo
-        | BassSolo
+        | Solo of InstrumentType
         | TakeMic
         | PutMicOnStand
         | AdjustDrums
         | SpinDrumsticks
-        | DrumSolo
         | MakeCrowdSing
 
     /// Represents the check-list with all the steps that can be done before a

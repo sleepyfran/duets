@@ -121,9 +121,7 @@
         <Compile Include="Components\Commands\Concert\GiveSpeech.Command.fs"/>
         <Compile Include="Components\Commands\Concert\GreetAudience.Command.fs"/>
         <Compile Include="Components\Commands\Concert\PlaySong.Commands.fs"/>
-        <Compile Include="Components\Commands\Concert\DrumSolo.Command.fs"/>
-        <Compile Include="Components\Commands\Concert\GuitarSolo.Command.fs"/>
-        <Compile Include="Components\Commands\Concert\BassSolo.Command.fs"/>
+        <Compile Include="Components\Commands\Concert\Solo.Command.fs"/>
         <Compile Include="Components\Commands\Concert\MakeCrowdSing.Command.fs"/>
         <Compile Include="Components\Commands\Concert\TuneInstrument.Command.fs"/>
         <Compile Include="Components\Commands\Concert\SpinDrumsticks.Command.fs"/>

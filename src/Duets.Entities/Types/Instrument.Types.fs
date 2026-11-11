@@ -12,6 +12,27 @@ module InstrumentTypes =
         | Drums
         | Bass
         | Vocals
+        | Keyboard
+        | Synthesizer
+        | UprightBass
+        | Saxophone
+        | Trumpet
+        | Trombone
+        | Violin
+        | Cello
+        | Banjo
+        | Harmonica
+        | Turntables
+        | HandPercussion
+
+    /// Defines the group of instruments that an instrument belongs to.
+    type InstrumentFamily =
+        | Strings
+        | Keys
+        | Winds
+        | Percussion
+        | Electronic
+        | Voice
 
     /// Defines the parts of the body that an instrument needs while playing it.
     type Limb =

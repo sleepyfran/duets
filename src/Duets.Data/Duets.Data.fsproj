@@ -55,6 +55,8 @@
         <Compile Include="Savegame\Migrations\0_MigrateFromVersionless.fs"/>
         <Compile Include="Savegame\Migrations\1_AddLoanState.fs"/>
         <Compile Include="Savegame\Migrations\2_MultiInstrumentMembers.fs"/>
+        <Compile Include="Savegame\Migrations\3_GenericSoloEvents.fs"/>
+        <Compile Include="Savegame\Migrations\Mandatory\AddMissingGenreMarkets.fs"/>
         <Compile Include="Migrations.fs"/>
         <Compile Include="World\Ids.fs"/>
         <Compile Include="World\Cities\OpeningHours.fs"/>

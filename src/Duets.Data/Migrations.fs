@@ -1,6 +1,7 @@
 module rec Duets.Data.Savegame.Migrations
 
 open Data.Savegame.Migrations
+open Data.Savegame.Migrations.Mandatory
 open Duets.Common
 open Duets.Data.Savegame.Types
 open FSharp.Data
@@ -11,7 +12,13 @@ open FSharp.Data
 let private migrations =
     [ MigrateFromVersionless.migrate
       AddLoanState.migrate
-      MultiInstrumentMembers.migrate ]
+      MultiInstrumentMembers.migrate
+      GenericSoloEvents.migrate ]
+
+/// Migrations that run on every savegame regardless of its version, after any
+/// versioned migration. They must leave the savegame as-is if there's nothing
+/// to do.
+let private mandatoryMigrations = [ AddMissingGenreMarkets.migrate ]
 
 /// Last version of savegame data that has a migration associated. Should
 /// always be the last index of the migrations array, since that's how we
@@ -39,10 +46,9 @@ let private applyMigrations' originalData root =
     | Some(JsonValue.Number version) ->
         let version = Math.roundDecimalToNearest version
 
-        // No need to migrate anything, we're already at the last version, so
-        // we should be able to parse this savegame if it's not corrupted.
+        (* Already at the last version, so only mandatory migrations apply. *)
         if version = lastSavegameVersion then
-            Ok(originalData)
+            applyMandatoryMigrations' originalData root
         else if version > lastSavegameVersion then
             Error(InvalidVersion(version.ToString()))
         else
@@ -54,11 +60,20 @@ let private applyMigrations' originalData root =
         applyMigrationsFromVersion 0 root
 
 let private applyMigrationsFromVersion firstMigration root =
-    let applicableMigrations = migrations |> List.skip firstMigration
+    let applicableMigrations =
+        (migrations |> List.skip firstMigration) @ mandatoryMigrations
+
     let result = applyAllMigrations applicableMigrations root
 
     match result with
     | Ok(root) -> Ok(root.ToString())
+    | Error(error) -> Error(error)
+
+let private applyMandatoryMigrations' originalData root =
+    let result = applyAllMigrations mandatoryMigrations root
+    match result with
+    | Ok(migrated) when migrated = root -> Ok(originalData)
+    | Ok(migrated) -> Ok(migrated.ToString())
     | Error(error) -> Error(error)
 
 let private applyAllMigrations migrations root =

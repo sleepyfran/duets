@@ -12,18 +12,40 @@ let limbs instrumentType =
     | Drums -> [ Hands; Feet ]
     | Bass -> [ Hands ]
     | Vocals -> [ Mouth ]
+    | Keyboard -> [ Hands ]
+    | Synthesizer -> [ Hands ]
+    | UprightBass -> [ Hands ]
+    | Saxophone -> [ Hands; Mouth ]
+    | Trumpet -> [ Hands; Mouth ]
+    | Trombone -> [ Hands; Mouth ]
+    | Violin -> [ Hands ]
+    | Cello -> [ Hands ]
+    | Banjo -> [ Hands ]
+    | Harmonica -> [ Mouth ]
+    | Turntables -> [ Hands ]
+    | HandPercussion -> [ Hands ]
+
+/// Returns the family of the given instrument type.
+let family instrumentType =
+    match instrumentType with
+    | Guitar -> Strings
+    | Drums -> Percussion
+    | Bass -> Strings
+    | Vocals -> Voice
+    | Keyboard -> Keys
+    | Synthesizer -> Electronic
+    | UprightBass -> Strings
+    | Saxophone -> Winds
+    | Trumpet -> Winds
+    | Trombone -> Winds
+    | Violin -> Strings
+    | Cello -> Strings
+    | Banjo -> Strings
+    | Harmonica -> Winds
+    | Turntables -> Electronic
+    | HandPercussion -> Percussion
 
 /// Returns whether one person can play all the given instrument types at once.
 let compatible instrumentTypes =
     let allLimbs = instrumentTypes |> List.collect limbs
     allLimbs |> List.distinct |> List.length = allLimbs.Length
-
-module Type =
-    /// Creates an instrument type given its type as a string. Defaults to vocals if
-    /// an invalid string is given.
-    let from str =
-        match str with
-        | "Guitar" -> Guitar
-        | "Drums" -> Drums
-        | "Bass" -> Bass
-        | _ -> Vocals

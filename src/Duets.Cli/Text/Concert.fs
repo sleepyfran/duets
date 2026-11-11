@@ -94,6 +94,41 @@ let guitarSoloPlayingReallyFast = Styles.progress "Playing REALLY fast..."
 
 let guitarSoloPlayingWithTeeth = Styles.progress "Playing with teeth..."
 
+let soloProgress instrument =
+    match instrument with
+    | Guitar ->
+        [ guitarSoloPlayingReallyFast
+          guitarSoloPlayingWithTeeth
+          guitarSoloDoingSomeTapping ]
+    | Bass ->
+        [ bassSoloMovingFingersQuickly
+          bassSoloSlappingThatBass
+          bassSoloGrooving ]
+    | Drums ->
+        [ drumSoloDoingDrumstickTricks
+          drumSoloPlayingWeirdRhythms
+          drumSoloPlayingReallyFast ]
+    | _ ->
+        match Instrument.family instrument with
+        | Strings ->
+            [ Styles.progress "Bending every string..."
+              Styles.progress "Playing REALLY fast..." ]
+        | Keys ->
+            [ Styles.progress "Running up and down the keys..."
+              Styles.progress "Hammering some chords..." ]
+        | Winds ->
+            [ Styles.progress "Taking a deep breath..."
+              Styles.progress "Holding that note forever..." ]
+        | Percussion ->
+            [ Styles.progress "Finding the groove..."
+              Styles.progress "Playing weird rhythms..." ]
+        | Electronic ->
+            [ Styles.progress "Twisting every knob..."
+              Styles.progress "Dropping the beat..." ]
+        | Voice ->
+            [ Styles.progress "Hitting the high notes..."
+              Styles.progress "Holding that note forever..." ]
+
 let playSongLimitedEnergyDescription =
     Styles.progress
         "Barely moving and with a dull face you play the song to a confused audience..."

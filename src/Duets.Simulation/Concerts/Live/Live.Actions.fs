@@ -139,36 +139,14 @@ let dedicateSong state ongoingConcert song energy =
                     @ [ Situations.inConcert response.OngoingConcert ] }
     | _ -> Response.empty' ongoingConcert TooManyRepetitionsNotDone
 
-/// Performs a bass solo, which grants up to 5 points depending on the bass
-/// skills of the character.
-let bassSolo state ongoingConcert =
-    { Event = BassSolo
+/// Performs a solo with the given instrument, which grants up to 5 points
+/// depending on the character's skill with it.
+let solo state ongoingConcert instrument =
+    { Event = Solo instrument
       Limit = Penalized(2<times>, PointPenalization(-5))
       Effects = []
       ScoreRules =
-        [ CharacterDrunkenness; CharacterSkill(SkillId.Instrument Bass) ]
-      Multipliers = [ 5 ] }
-    |> performAction state ongoingConcert
-
-/// Performs a drum solo, which grants up to 5 points depending on the drumming
-/// skills of the character.
-let drumSolo state ongoingConcert =
-    { Event = DrumSolo
-      Limit = Penalized(2<times>, PointPenalization(-5))
-      Effects = []
-      ScoreRules =
-        [ CharacterDrunkenness; CharacterSkill(SkillId.Instrument Drums) ]
-      Multipliers = [ 5 ] }
-    |> performAction state ongoingConcert
-
-/// Performs a guitar solo, which grants up to 5 points depending on the guitar
-/// skills of the character.
-let guitarSolo state ongoingConcert =
-    { Event = GuitarSolo
-      Limit = Penalized(2<times>, PointPenalization(-5))
-      Effects = []
-      ScoreRules =
-        [ CharacterDrunkenness; CharacterSkill(SkillId.Instrument Guitar) ]
+        [ CharacterDrunkenness; CharacterSkill(SkillId.Instrument instrument) ]
       Multipliers = [ 5 ] }
     |> performAction state ongoingConcert
 

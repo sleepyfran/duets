@@ -34,29 +34,23 @@ module rec InteractionTypes =
         | StartConcert of ScheduledConcert
         /// Makes the character adjust the drum setting. Does nothing.
         | AdjustDrums of OngoingConcert
-        /// Performs a bass solo, which gives points based on the player's
-        /// bass skills.
-        | BassSolo of OngoingConcert
         /// Dedicates a song to a certain someone.
         | DedicateSong of OngoingConcert
         /// Allows to play more songs after stepping out of the stage.
         | DoEncore of OngoingConcert
-        /// Performs a drum solo, which gives points based on the player's
-        /// drumming skills.
-        | DrumSolo of OngoingConcert
         /// Moves back to the backstage, potentially ending the concert.
         | GetOffStage of OngoingConcert
         /// Allows to give a speech to the crowd.
         | GiveSpeech of OngoingConcert
         /// Hallo!
         | GreetAudience of OngoingConcert
-        /// Performs a guitar solo, which gives points based on the player's
-        /// guitar skills.
-        | GuitarSolo of OngoingConcert
         /// Puts the player facing to the band and giving the back to the crowd.
         | FaceBand of OngoingConcert
         /// Puts the player facing the crowd again.
         | FaceCrowd of OngoingConcert
+        /// Performs a solo with the given instrument, which gives points based
+        /// on the player's skill with it.
+        | Solo of OngoingConcert * InstrumentType
         /// Finishes the concert, which computes the final score and disallows
         /// the band from entering the stage again.
         | FinishConcert of OngoingConcert
