@@ -1,0 +1,44 @@
+# Backstage of an arena: a long corridor with cable trays, road cases
+# ready to roll and the production office next to catering.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌═╪═══╪═══╪═══╪═══╪═══╪═══╪═══╪═══╪═══╪═══╪═══╪═══╪═══╪▐
+▌     ▬▬▬▬          ▬▬▬▬          ▬▬▬▬    ┌─────────┐  ▐
+▌                                         │ STAGE ► │  ▐
+▌                                         └─────────┘  ▐
+▌ ┌───┐ ┌────────────┐ ┌───┐    ┌────┐           ┌───┐ ▐
+▌ │ 7 │ │ PRODUCTION │ │ 8 │    │XXXX│           │ 9 │ ▐
+▌ │   │ └────────────┘ │   │    └────┘           │   │ ▐
+▌ │  ▪│  iii   iii     │  ▪│ ┌────┐┌────┐        │  ▪│ ▐
+▌ │   │ ━━━━━━━━━━━━━━ │   │ │XXXX││XXXX│        │   │ ▐
+4 │nnn│  ┃ m  p   m ┃  │nnn│ └○──○┘└○──○┘ m n n  │nnn│n6
+▙▄▄▄11▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▪ = grey50
+═╪ = grey35
+▬ = $lamp
+┌─┐│└┘ = grey42
+STAGEPRODUCIN► = bold $accent
+━┃ = grey62
+○ = grey30
+▣▤ = grey35
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+X = prop ▣▣▣▣ | ▣▤▣▤ | ▤▤▤▤
+i = item
+m = band

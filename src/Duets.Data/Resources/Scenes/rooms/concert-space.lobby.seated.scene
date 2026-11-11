@@ -1,0 +1,54 @@
+# Foyer of a concert hall or an opera house: chandeliers, marble columns,
+# a cloakroom, a big painting and a stand selling programmes.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌  ✶       ✶       ✶       ✶       ✶       ✶       ✶   ▐
+▌┌───────┐ ┌───────────────────┐                       ▐
+▌│ CLOAK │ │ PPPPPPPPPPPPPPPPP │                       ▐
+▌└───────┘ └───────────────────┘                       ▐
+▌ ┌───┐ ╓╖       ┌───┐         mmmmmmmmmm╓╖     ┌───┐  ▐
+▌ │ 7 │ ║║       │ 8 │          ╭──────╮ ║║     │ 9 │  ▐
+▌ │   │ ║║       │   │  iii     │tttttt│ ║║     │   │  ▐
+▌ │  ▪│ ║║       │  ▪│ ▁▁▁▁▁    ━━━━━━━━ ║║     │  ▪│  ▐
+4n│nnn│ ╙╜n n    │nnn│p  ╽  qqqq█▒▒▒▒▒▒█q╙╜qqqq │nnn│ n6
+▙▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▪ = grey50
+✶▲ = $lamp
+║ = gold3
+┌─┐│└┘ = gold3
+CLOAK = bold gold1
+╓╖╙╜ = grey70
+━ = gold3
+█▒ = darkred
+▁ = gold3
+╽┴ = grey62
+╭╮ = gold3
+▔ = darkred
+▒ = grey30
+▓ = darkred
+░ = navajowhite1
+▣ = grey70
+▤ = gold3
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+P = prop ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ | ▒▓▓░▓▓▒▓▓░▓▓▒▓▓░▓ | ▓░▓▒▓░░░▓▒▓░▓░▓▒▓
+i = item
+m = merch PROGRAMMES
+t = merch ▤▣▤▣▤▣
+q = queue

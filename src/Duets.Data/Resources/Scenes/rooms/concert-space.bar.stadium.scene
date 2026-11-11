@@ -1,0 +1,45 @@
+# Bar of a stadium: food and drink kiosks under the stands, with concrete
+# pillars holding everything up.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▐
+▌            ◥▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▐
+▌     ◒             ◒         ◥▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▐
+▌                      ▐▌                              ▐
+▌ ┌───┐ ┌────────────┐ ▐▌ ┌────────────┐ ┌───┐  ┌───┐  ▐
+▌ │ 7 │ │ ≡ DRINKS ≡ │ ▐▌ │  ≡ FOOD ≡  │ │ 8 │  │ 9 │  ▐
+▌ │   │ ├────────────┤ ▐▌ ├────────────┤ │   │  │   │  ▐
+▌ │  ▪│ │ ╥ ╥ ╥  iii │ ▐▌ │ ▥▥   ◖◗◖◗  │ │  ▪│  │  ▪│  ▐
+▌ │   │ ━━━━━━━━━━━━━━ ▐▌ ━━━━━━━━━━━━━━ │   │  │   │  ▐
+4 │nnn│ █▒▒▒▒▒▒▒▒▒▒▒▒█p▐▌n█▒▒▒▒▒▒▒▒▒▒▒▒█n│nnn│nn│nnn│nn6
+▙▄▄▄11▄▄▄000000▄▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▪ = grey50
+▓◥ = grey19
+◒ = $lamp
+┌─┐│└┘├┤ = grey42
+≡DRINKSFO = bold $accent
+╥ = grey62
+▥ = grey85
+◖◗ = darkorange
+━ = grey62
+█▒ = grey30
+▐▌ = grey35
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+i = item

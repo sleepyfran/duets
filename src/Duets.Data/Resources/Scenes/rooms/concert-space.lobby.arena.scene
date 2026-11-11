@@ -1,0 +1,51 @@
+# Lobby of an arena: a wide concourse with turnstiles at the entrance, a
+# screen with the tour on it and a long merch stand.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╤══▐
+▌   ◒       ◒       ◒     ┌────────────────────┐    ◒  ▐
+▌                         │VVVVVVVVVVVVVVVVVVVV│       ▐
+▌                         │VVVVVVVVVVVVVVVVVVVV│       ▐
+▌ ┌───┐ ┌─────────┐ ┌───┐ └────────────────────┘ ┌───┐ ▐
+▌ │ 7 │ │ENTRANCE►│ │ 8 │              mmmmmm    │ 9 │ ▐
+▌ │   │ └─────────┘ │   │           ┬──────────┬ │   │ ▐
+▌ │  ▪│         iii │  ▪│           │tttttttttt│ │  ▪│ ▐
+▌ │   │ ▄═▄ ▄═▄ ━━━ │   │           ━━━━━━━━━━━━ │   │ ▐
+4n│nnn│ █n█ █p█ ┃ ┃ │nnn│ qqqqqqqqq █▒▒▒▒▒▒▒▒▒▒█ │nnn│n6
+▙▄▄▄11▄▄▄000000▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▪ = grey50
+═╤ = grey35
+◒ = $lamp
+┌─┐│└┘┬ = grey42
+ENTRAC► = bold $accent
+▄═█ = grey50
+━┃ = grey62
+█▒ = grey30
+░ = deepskyblue1
+▒ = blue3
+✦ = $accent
+▤ = magenta1
+▣ = grey70
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+V = prop ░░░░░░░░░░░░░░░░░░░░ | ░▒░▒░▒░▒░▒░▒░▒░▒░▒░▒ | ▒✦▒░▒✦▒░▒✦▒░▒✦▒░▒✦▒
+i = item
+m = merch MERCH
+t = merch ▣▤▣ ▤▣▤ ▣▤▣
+q = queue

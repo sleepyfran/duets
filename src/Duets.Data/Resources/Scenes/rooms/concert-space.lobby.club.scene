@@ -1,0 +1,47 @@
+# Lobby of a small club: a cash desk by the door, the bouncer on a stool,
+# walls covered in flyers and a folding table for the merch.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌    ╽            ╽               ╽                ╽   ▐
+▌    ●            ●               ●                ●   ▐
+▌ ┌───┐ ┌──────────┐  ┌───┐ FFFFFFFFFFF   mmmmm  ┌───┐ ▐
+▌ │ 7 │ │ TICKETS  │  │ 8 │ FFFFFFFFFFF  ┬─────┬ │ 9 │ ▐
+▌ │   │ └──────────┘  │   │ FFFFFFFFFFF  │ttttt│ │   │ ▐
+▌ │  ▪│    iii        │  ▪│              │     │ │  ▪│ ▐
+▌ │   │ ━━━━━━━━      │   │              ━━━━━━━ │   │ ▐
+4n│nnn│ █▒▒▒▒▒▒█ n┬ p │nnn│ qqqqqqqqqqqq █▒▒▒▒▒█ │nnn│n6
+▙▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▪ = grey50
+╽ = grey35
+● = $lamp
+┌─┐│└┘┬ = grey42
+TICKES = bold $accent
+━ = tan
+█▒ = grey30
+▤ = magenta1
+▥ = gold1
+▦ = deepskyblue1
+▣ = grey70
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+F = prop ▤▥▦▤▥▦▤▥▦▤▥ ▦▤▥▦▤▥▦▤▥ | ▤▥▦·▤▥·▦▤▥ ▥▦·▤▥▦·▤▥ | ▤▥·▦▤·▥▦ ▥▦··▤▥
+i = item
+m = merch MERCH
+t = merch ▣▤▣▤▣
+q = queue

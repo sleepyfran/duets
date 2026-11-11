@@ -1,0 +1,47 @@
+# Backstage of a jazz club: a small room with an upright piano, the case
+# of a double bass, a coat rack and a table with a bottle of whisky.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌           ╽                 ╽                        ▐
+▌           ◒                 ◒                        ▐
+▌ ┌───┐          ▄  ┌───┐ ┌────┐              ┌───┐    ▐
+▌ │ 7 │ ▗▄▄▄▄▄▄▖ █  │ 8 │ │PPPP│  ▲  ┌┼┐      │ 9 │    ▐
+▌ │   │ ▐██████▌▗█▖ │   │ └────┘  ║   │       │   │    ▐
+▌ │  ▪│ ▐▀▀▀▀▀▀▌███ │  ▪│   iii   ║   │       │  ▪│    ▐
+▌ │   │ ▐█    █▌▜█▛ │   │ ━━━━━━  ║   │       │   │    ▐
+4 │nnn│ ▐▌ m  ▐▌ ▀  │nnn│ m┃  ┃p  ┴  ┴┴┴ m  m │nnn│ n  6
+▙▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▪ = grey50
+╽ = grey35
+◒ = $lamp
+▲ = $lamp
+▗▄▖▐█▌ = orange4
+▀ = grey85
+▜▛ = orange4
+┌─┐│└┘ = grey42
+░ = grey70
+▓ = grey35
+━┃ = tan
+║┴ = grey62
+┼ = grey62
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+P = prop ░░░░ | ░▓▓░ | ▓░░▓
+i = item
+m = band

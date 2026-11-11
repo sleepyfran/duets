@@ -1,0 +1,53 @@
+# Lobby of a theatre: a box office under a row of light bulbs, framed
+# posters of past shows and a proper merch booth.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌                  ╽                ╽              ╽   ▐
+▌ ✶·✶·✶·✶·✶·✶·✶·   ◆                ◆              ◆   ▐
+▌ ┌────────────┐                                       ▐
+▌ │ BOX OFFICE │ ┌───┐ ╔══╗  ╔══╗ ┌───┐  mmmmmm  ┌───┐ ▐
+▌ ├────────────┤ │ 7 │ ║PP║  ║PP║ │ 8 │ ╔══════╗ │ 9 │ ▐
+▌ │░░░░░░░░░░░░│ │   │ ║PP║  ║PP║ │   │ ║tttttt║ │   │ ▐
+▌ │░░░░iii░░░░░│ │  ▪│ ╚══╝  ╚══╝ │  ▪│ ║      ║ │  ▪│ ▐
+▌ ━━━━━━━━━━━━━━ │   │            │   │ ━━━━━━━━ │   │ ▐
+4n█▒▒▒▒▒▒▒▒▒▒▒▒█p│nnn│ qqqqqqqqqq │nnn│n█▒▒▒▒▒▒█ │nnn│n6
+▙▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▪ = grey50
+╽ = grey35
+◆✶ = $lamp
+· = grey35
+┌─┐│└┘├┤ = gold3
+BOXFICE = bold gold1
+░ = grey35
+━ = gold3
+█▒ = grey30
+╔═╗║╚╝ = gold3
+▓ = darkred
+▒ = grey30
+▦ = deepskyblue1
+▤ = magenta1
+▣ = grey70
+╤ = grey62
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+P = prop ▒▒ | ▓▓ ▦▦ | ▤▤ ▦▓
+i = item
+m = merch MERCH
+t = merch ▣▤▣▤▣▣
+q = queue

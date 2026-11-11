@@ -1,0 +1,46 @@
+# Backstage of a stadium: a concrete tunnel under the stands, a golf cart
+# to drive the band to the stage and road cases everywhere.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▐
+▌▓▓▓▓◤        ▬▬▬▬                  ▬▬▬▬          ◥▓▓▓▓▐
+▌▓▓◤                                                ◥▓▓▐
+▌       ┌─────────┐              iii                   ▐
+▌ ┌───┐ │ ARTISTS │   ┌───┐     ┌────┐          ┌───┐  ▐
+▌ │ 7 │ └─────────┘   │ 8 │     │XXXX│          │ 9 │  ▐
+▌ │   │  ╒══════╕     │   │     └────┘          │   │  ▐
+▌ │  ▪│  │      │╲    │  ▪│  ┌────┐┌────┐       │  ▪│  ▐
+▌ │   │  │m  p ▄▄▄▙   │   │  │XXXX││XXXX│       │   │  ▐
+4 │nnn│  ▀◙▀▀▀▀▀◙▀▀n  │nnn│  └○──○┘└○──○┘m m n  │nnn│ n6
+▙▄▄▄11▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▪ = grey50
+▓◤◥ = grey19
+▬ = $lamp
+┌─┐│└┘ = grey42
+ARTIS = bold $accent
+╒═╕╲ = grey85
+▄▙▀ = grey85
+◙ = grey23
+○ = grey30
+▣▤ = grey35
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+X = prop ▣▣▣▣ | ▣▤▣▤ | ▤▤▤▤
+i = item
+m = band

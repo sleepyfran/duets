@@ -1,0 +1,48 @@
+# Backstage of a small club: a cramped room full of graffiti, a worn out
+# sofa, crates of beer and the gear piled up in a corner.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌           ╽                    ╽                     ▐
+▌           ●                    ●                     ▐
+▌ ┌───┐ GGGGGGGGGGGGG ┌───┐ ┌──┐                ┌───┐  ▐
+▌ │ 7 │ GGGGGGGGGGGGG │ 8 │ │░░│                │ 9 │  ▐
+▌ │   │               │   │ └──┘    SSSSSS      │   │  ▐
+▌ │  ▪│           ▤   │  ▪│  ii     ▣▣ ▣▣       │  ▪│  ▐
+▌ │   │ ▄▄▄▄▄▄▄▄▄▤▤   │   │ ━━━━   ▣▣ ▣▣ ▣▣     │   │  ▐
+4 │nnn│ █mmm▓pmm█▤▤▤  │nnn│ ┃n ┃  n▣▣▣▣▣▣▣▣ n   │nnn│ n6
+▙▄▄▄11▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▪ = grey50
+╽ = grey35
+● = $lamp
+┌─┐│└┘ = grey42
+▄ = darkred
+█▓ = darkred
+▤ = darkorange
+░ = grey70
+━┃ = tan
+▣ = grey35
+▆▃▗▖ = grey23
+▚▞▙▟▜▛ = $accent
+✪ = gold1
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+G = prop ▚▞ ✪ ▙▟ | ▚▞▙▟ ▜▛▚▞ ▞✪▚ | ▚▞▙▟▜▛ ▙✪▟▚▞ ▜▛▞▚▙▟
+S = prop ▗▃▃▖ | ▆▃▃▆ | ▆▆▆▆▆▆
+i = item
+m = band else ▓

@@ -1,0 +1,49 @@
+# Lobby of a stadium: a concourse under the stands, turnstiles at the gates
+# and a merch tent.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▐
+▌▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓◤  ◒       ◒  ▐
+▌▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓◤  ◒       ◒                    ▐
+▌                                                      ▐
+▌ ┌───┐ ┌─────────┐ ┌───┐            mmmmmmmmm   ┌───┐ ▐
+▌ │ 7 │ │ GATES ► │ │ 8 │          ╱▔▔▔▔▔▔▔▔▔▔▔╲ │ 9 │ ▐
+▌ │   │ └─────────┘ │   │          │ttttttttttt│ │   │ ▐
+▌ │  ▪│         iii │  ▪│          │ttttttttttt│ │  ▪│ ▐
+▌ │   │ ▄═▄ ▄═▄ ━━━ │   │          ━━━━━━━━━━━━━ │   │ ▐
+4n│nnn│ █n█ █p█ ┃ ┃ │nnn│ qqqqqqqq █▒▒▒▒▒▒▒▒▒▒▒█ │nnn│n6
+▙▄▄▄11▄▄▄000000▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▪ = grey50
+▓◤ = grey19
+◒ = $lamp
+┌─┐│└┘ = grey42
+GATES► = bold $accent
+▄═█ = grey50
+━┃ = grey62
+█▒ = grey30
+╱▔╲ = $accent
+▤ = magenta1
+▣ = grey70
+✧ = gold1
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+i = item
+m = merch MERCH
+t = merch ▣▤▣ ✧ ▤▣▤ ✧ ▣
+q = queue

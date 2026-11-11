@@ -1,0 +1,49 @@
+# Lobby of a jazz club: a coat check, a host stand, photos of old jazz
+# legends on the walls and a small table with records for sale.
+
+[art]
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌           ╽                 ╽              ╽         ▐
+▌           ◒                 ◒              ◒         ▐
+▌ ┌───┐ ┌───────┐ ┌───┐ ┌──┐ ┌──┐  mmmmmmm   ┌───┐     ▐
+▌ │ 7 │ │ COATS │ │ 8 │ │PP│ │PP│ ┬───────┬  │ 9 │     ▐
+▌ │   │ └┬┬┬┬┬┬┬┘ │   │ └──┘ └──┘ │ttttttt│  │   │     ▐
+▌ │  ▪│  ▼▼▼▼▼▼▼  │  ▪│  iii      │       │  │  ▪│     ▐
+▌ │   │ ━━━━━━━━━ │   │ ━━━━━     ━━━━━━━━━  │   │  ╤  ▐
+4n│nnn│ █▒▒▒▒▒▒▒█ │nnn│p ▕█▏ qqqq █▒▒▒▒▒▒▒█  │nnn│n ┃  6
+▙▄▄▄11▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▟
+
+[legend]
+▛▀▜▌▐▙▄▟ = $wall
+▪ = grey50
+╽ = grey35
+◒ = $lamp
+┌─┐│└┘┬ = grey42
+COATS = bold $accent
+▼ = grey62
+━ = orange4
+█▒ = orange4
+▕▏ = orange4
+░ = grey70
+▓ = grey35
+╥║ = gold3
+◉ = grey15
+default = grey50
+
+[slots]
+7 = exit north-west else ▪
+8 = exit north else ▪
+9 = exit north-east else ▪
+4 = exit west else ▌
+6 = exit east else ▐
+1 = exit south-west else ▄
+2 = exit south else ▄
+3 = exit south-east else ▄
+0 = exit street else ▄
+p = player
+n = npc
+P = prop ░░ | ░▓ ▓░ | ▓░
+i = item
+m = merch RECORDS
+t = merch ◉◉◉◉◉◉◉
+q = queue
