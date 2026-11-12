@@ -12,6 +12,9 @@ module World =
     let allCities =
         World.get |> Optic.get Lenses.World.cities_ |> List.ofMapValues
 
+    /// Returns the country of the given city.
+    let countryOf = World.countryOf
+
     /// Returns a specific city given its ID.
     let cityById cityId =
         World.get

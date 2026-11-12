@@ -91,6 +91,65 @@ module WorldCommands =
                     Scene.WorldAfterMovement
                 | None -> Scene.Cheats) }
 
+    /// Command which teleports the character to any concert venue in the world,
+    /// ignoring opening hours.
+    let backstagePass =
+        { Name = "backstage pass"
+          Description =
+            "Teleports you to any concert venue in the world, ignoring opening hours"
+          Handler =
+            (fun _ ->
+                let state = State.get ()
+
+                let capacityOf place =
+                    match place.PlaceType with
+                    | PlaceType.ConcertSpace concertSpace ->
+                        concertSpace.Capacity
+                    | _ -> 0
+
+                let venuesByCountry =
+                    Queries.World.allCities
+                    |> List.collect (fun city ->
+                        Queries.World.placesByTypeInCity
+                            city.Id
+                            PlaceTypeIndex.ConcertSpace
+                        |> List.map (fun place -> city.Id, place))
+                    |> List.groupBy (fst >> Queries.World.countryOf)
+                    |> List.sortBy (fst >> Generic.countryName)
+                    |> List.map (fun (country, venues) ->
+                        Generic.countryName country,
+                        venues |> List.sortByDescending (snd >> capacityOf))
+
+                let venueText (cityId, place) =
+                    let details =
+                        $"({Generic.cityName cityId}, capacity: {capacityOf place})"
+
+                    $"{place.Name} {Styles.faded details}"
+
+                let selectedVenue =
+                    showGroupedOptionalChoicePrompt
+                        "Which venue? :^)"
+                        Generic.cancel
+                        ""
+                        venueText
+                        venuesByCountry
+                        []
+
+                match selectedVenue with
+                | Some(cityId, place) ->
+                    let currentCoords = Queries.World.currentCoordinates state
+
+                    WorldMoveToPlace(
+                        Diff(
+                            currentCoords,
+                            (cityId, place.Id, place.Rooms.StartingNode)
+                        )
+                    )
+                    |> Effect.apply
+
+                    Scene.WorldAfterMovement
+                | None -> Scene.Cheats) }
+
     /// Command which changes the weather of the current city.
     let weatherman =
         { Name = "weatherman"

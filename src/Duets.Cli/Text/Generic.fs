@@ -123,6 +123,20 @@ let albumType t =
     | EP -> "EP"
     | LP -> "LP"
 
+/// Returns the name of a country given its id.
+let countryName id =
+    match id with
+    | Canada -> "Canada"
+    | Chile -> "Chile"
+    | CzechRepublic -> "Czech Republic"
+    | England -> "England"
+    | France -> "France"
+    | Germany -> "Germany"
+    | Japan -> "Japan"
+    | SouthKorea -> "South Korea"
+    | Spain -> "Spain"
+    | UnitedStates -> "United States"
+
 /// Returns the name of a city given its id.
 let cityName id =
     match id with

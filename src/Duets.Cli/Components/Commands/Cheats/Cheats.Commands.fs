@@ -23,6 +23,7 @@ module Index =
           SkillCommands.pureSkill
           WorldCommands.teleport
           WorldCommands.beamMeUp
+          WorldCommands.backstagePass
           WorldCommands.weatherman ]
 
     let enterCommand =
