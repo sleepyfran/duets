@@ -207,3 +207,5 @@ modules.xml
 Duets.sln.DotSettings.user
 
 .vs
+# Agent folders linked from .agents
+.claude
