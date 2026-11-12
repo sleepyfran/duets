@@ -6,10 +6,6 @@ type BandNameValidationError =
     | NameTooShort
     | NameTooLong
 
-type MemberRolesValidationError =
-    | NoRoles
-    | IncompatibleRoles
-
 /// Returns default values for a band to serve as a placeholder to build a band
 /// upon. Generates a valid ID.
 let empty =
@@ -40,13 +36,6 @@ let validateName name =
     else Ok name
 
 module Member =
-    /// Validates that the given roles can be played by one member.
-    let validateRoles roles =
-        match roles with
-        | [] -> Error NoRoles
-        | roles when Instrument.compatible roles -> Ok roles
-        | _ -> Error IncompatibleRoles
-
     /// Creates a member from a character and its roles from today onwards.
     let from character roles today =
         { CharacterId = character
