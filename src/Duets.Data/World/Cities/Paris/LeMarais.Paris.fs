@@ -18,12 +18,20 @@ let rueDeRivoli (zone: Zone) (city: City) =
            87<quality>,
            Layouts.concertSpaceLayout2,
            zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
           ("Le Bataclan",
            1500,
            89<quality>,
            Layouts.concertSpaceLayout3,
-           zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+           zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          ("Théâtre du Châtelet",
+           2500,
+           94<quality>,
+           Layouts.concertSpaceLayout4,
+           zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "seated" ]
 
     let casinos =
         [ ("Casino Barrière Paris", 88<quality>, zone.Id) ]

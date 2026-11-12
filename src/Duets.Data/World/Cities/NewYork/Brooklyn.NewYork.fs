@@ -41,6 +41,10 @@ let private lafayetteAtlantic (city: City) (zone: Zone) =
         [ ("Hungry Ghost Coffee", 84<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createCafe street.Id)
 
+    let cinemas =
+        [ ("Regal UA Court Street", 89<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCinema city.Id street.Id)
+
     let metroStation =
         ("Atlantic Avenue-Barclays Center", zone.Id)
         |> PlaceCreators.createMetro street.Id
@@ -52,6 +56,7 @@ let private lafayetteAtlantic (city: City) (zone: Zone) =
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces restaurants
         |> World.Street.addPlaces cafes
+        |> World.Street.addPlaces cinemas
         |> World.Street.addPlace metroStation
 
     street, metroStation
@@ -64,7 +69,15 @@ let private frostStreet (zone: Zone) =
     // TODO: Add Frost Playground once we support parks
     // TODO: Add Cooper Park once we support parks
 
-    street
+    let concerts =
+        [ ("Brooklyn Steel",
+           1800,
+           90<quality>,
+           Layouts.concertSpaceLayout3,
+           zone.Id) ]
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
+
+    street |> World.Street.addPlaces concerts
 
 let private bedfordAvenue (zone: Zone) =
     let street = World.Street.create Ids.Street.bedfordAvenue StreetType.OneWay

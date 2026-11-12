@@ -41,7 +41,7 @@ let private broadway (city: City) (zone: Zone) =
 
     let cinemas =
         [ ("AMC Empire 25", 91<quality>, zone.Id)
-          ("Regal UA Court Street", 89<quality>, zone.Id) ]
+          ("Regal Times Square", 88<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createCinema city.Id street.Id)
 
     let street =
@@ -81,11 +81,16 @@ let private seventhAvenue (zone: Zone) =
         [ ("SIR Studios", 92<quality>, 200m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createRehearsalSpace street.Id)
 
+    let hotels =
+        [ ("Sheraton New York Times Square", 87<quality>, 380m<dd>, zone.Id) ]
+        |> List.map (PlaceCreators.createHotel street.Id)
+
     let street =
         street
         |> World.Street.addPlaces concerts
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces rehearsalSpaces
+        |> World.Street.addPlaces hotels
 
     street
 
@@ -124,14 +129,19 @@ let private fiftySeventhStreet (zone: Zone) =
         [ ("Carnegie Diner & Cafe", 86<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createCafe street.Id)
 
+    let hotels =
+        [ ("Park Hyatt New York", 97<quality>, 900m<dd>, zone.Id) ]
+        |> List.map (PlaceCreators.createHotel street.Id)
+
     street
     |> World.Street.addPlaces carDealers
     |> World.Street.addPlaces concerts
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces cafes
+    |> World.Street.addPlaces hotels
 
 let private sixthAvenue (city: City) (zone: Zone) =
-    let street = World.Street.create Ids.Street.sixthAvenue StreetType.OneWay
+    let street = World.Street.create Ids.Street.sixthAvenue (StreetType.Split(North, 2))
 
     let recordingStudios =
         [ ("Avatar Studios",

@@ -7,7 +7,7 @@ open Duets.Entities.Calendar
 
 let dogenzaka (zone: Zone) =
     let street =
-        World.Street.create Ids.Street.dogenzaka (StreetType.Split(East, 2))
+        World.Street.create Ids.Street.dogenzaka (StreetType.Split(East, 3))
         |> World.Street.tag "shibuya-crossing"
 
     let concertSpaces =
@@ -46,7 +46,7 @@ let dogenzaka (zone: Zone) =
 
 let centerGai (cityId: CityId) (zone: Zone) =
     let street =
-        World.Street.create Ids.Street.centerGai StreetType.OneWay
+        World.Street.create Ids.Street.centerGai (StreetType.Split(North, 2))
         |> World.Street.tag "pedestrian"
 
     let cafes =

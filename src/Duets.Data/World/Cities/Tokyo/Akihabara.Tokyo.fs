@@ -44,7 +44,7 @@ let chuoDori (cityId: CityId) (zone: Zone) =
 
 let kandaDori (zone: Zone) (city: City) =
     let street =
-        World.Street.create Ids.Street.kandaDori StreetType.OneWay
+        World.Street.create Ids.Street.kandaDori (StreetType.Split(West, 2))
         |> World.Street.tag "kanda-myojin"
 
     let restaurants =
@@ -65,7 +65,12 @@ let kandaDori (zone: Zone) (city: City) =
           ("Guitar Center Akihabara", zone.Id) ]
         |> List.map (PlaceCreators.createMerchandiseWorkshop street.Id)
 
+    let concertSpaces =
+        [ ("Tokyo Dome", 55000, 99<quality>, Layouts.concertSpaceLayout4, zone.Id) ]
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
+
     street
+    |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces gyms

@@ -34,7 +34,7 @@ let figueroaStreet (zone: Zone) =
            Layouts.concertSpaceLayout4,
            zone.Id)
           |> PlaceCreators.createConcertSpace street.Id
-          ("Microsoft Theater",
+          ("Peacock Theater",
            7100,
            94<quality>,
            Layouts.concertSpaceLayout4,

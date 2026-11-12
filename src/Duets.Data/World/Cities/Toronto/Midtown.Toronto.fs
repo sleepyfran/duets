@@ -80,7 +80,7 @@ let private bloorStreetWest (city: City) (zone: Zone) =
 
 let private avenueRoad (zone: Zone) =
     let street =
-        World.Street.create Ids.Street.avenueRoad StreetType.OneWay
+        World.Street.create Ids.Street.avenueRoad (StreetType.Split(North, 2))
 
     let studios =
         [ ("Noble Street Studios",
@@ -105,11 +105,21 @@ let private avenueRoad (zone: Zone) =
         [ ("Pilot Coffee", 88<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createCafe street.Id)
 
+    let bars =
+        [ ("The Pilot", 85<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBar street.Id)
+
+    let restaurants =
+        [ ("ONE Restaurant", 90<quality>, Canadian, zone.Id) ]
+        |> List.map (PlaceCreators.createRestaurant street.Id)
+
     street
     |> World.Street.addPlaces studios
     |> World.Street.addPlaces rehearsalSpaces
     |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces cafes
+    |> World.Street.addPlaces bars
+    |> World.Street.addPlaces restaurants
 
 let createZone (city: City) =
     let midtownZone = World.Zone.create Ids.Zone.midtown

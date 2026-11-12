@@ -59,7 +59,7 @@ let václavskéNáměstí (city: City) (zone: Zone) =
 
     street, metroStation
 
-let vodičkova (zone: Zone) =
+let vodičkova (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create "Vodičkova" StreetType.OneWay
 
@@ -68,14 +68,26 @@ let vodičkova (zone: Zone) =
            800,
            90<quality>,
            Layouts.concertSpaceLayout1,
-           zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+           zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          ("Lucerna Great Hall",
+           2500,
+           92<quality>,
+           Layouts.concertSpaceLayout4,
+           zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id ]
 
-    street |> World.Street.addPlaces concertSpaces
+    let cinemas =
+        [ ("Kino Lucerna", 90<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCinema cityId street.Id)
+
+    street
+    |> World.Street.addPlaces concertSpaces
+    |> World.Street.addPlaces cinemas
 
 let národní (zone: Zone) =
     let street =
-        World.Street.create Ids.Street.národní StreetType.OneWay
+        World.Street.create Ids.Street.národní (StreetType.Split(West, 2))
 
     let merchandiseWorkshops =
         [ ("Tiskárna Praha", zone.Id) ]
@@ -116,12 +128,12 @@ let národní (zone: Zone) =
     |> World.Street.addPlaces hotels
     |> World.Street.addPlaces cafes
 
-let createZone city =
+let createZone (city: City) =
     let novéMěstoZone = World.Zone.create Ids.Zone.novéMěsto
 
     let václavskéNáměstí, metroStation = václavskéNáměstí city novéMěstoZone
     let národní = národní novéMěstoZone
-    let vodičkova = vodičkova novéMěstoZone
+    let vodičkova = vodičkova city.Id novéMěstoZone
 
     let station =
         { Lines = [ Red; Blue ]

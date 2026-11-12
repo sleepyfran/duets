@@ -11,12 +11,14 @@ let generate () =
     let santiagoCentro = SantiagoCentro.createZone city
     let bellavista = Bellavista.createZone city
     let lasCondes = LasCondes.createZone city
+    let ñuñoa = Ñuñoa.createZone city
 
-    // Red Line: Providencia <-> Santiago Centro <-> Bellavista
+    // Red Line: Ñuñoa <-> Providencia <-> Santiago Centro <-> Bellavista
     let redMetroLine =
         { Id = Red
           Stations =
-            [ (providencia.Id, OnlyNext(santiagoCentro.Id))
+            [ (ñuñoa.Id, OnlyNext(providencia.Id))
+              (providencia.Id, PreviousAndNext(ñuñoa.Id, santiagoCentro.Id))
               (santiagoCentro.Id, PreviousAndNext(providencia.Id, bellavista.Id))
               (bellavista.Id, OnlyPrevious(santiagoCentro.Id)) ]
             |> Map.ofList
@@ -37,5 +39,6 @@ let generate () =
     |> World.City.addZone santiagoCentro
     |> World.City.addZone bellavista
     |> World.City.addZone lasCondes
+    |> World.City.addZone ñuñoa
     |> World.City.addMetroLine redMetroLine
     |> World.City.addMetroLine blueMetroLine

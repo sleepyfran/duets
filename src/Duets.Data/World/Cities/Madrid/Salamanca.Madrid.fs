@@ -104,7 +104,18 @@ let calleGoya (zone: Zone) =
         [ ("Librería Goya", 78<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createBookstore street.Id)
 
-    street |> World.Street.addPlaces cafes |> World.Street.addPlaces bookstores
+    let concertSpaces =
+        [ ("WiZink Center",
+           17000,
+           92<quality>,
+           Layouts.concertSpaceLayout4,
+           zone.Id) ]
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
+
+    street
+    |> World.Street.addPlaces cafes
+    |> World.Street.addPlaces bookstores
+    |> World.Street.addPlaces concertSpaces
 
 let createZone city =
     let salamancaZone = World.Zone.create "Salamanca"

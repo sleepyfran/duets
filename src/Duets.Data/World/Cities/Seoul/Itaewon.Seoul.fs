@@ -10,8 +10,7 @@ let itaewonRo (zone: Zone) (city: City) =
         World.Street.create Ids.Street.itaewonRo (StreetType.Split(East, 2))
 
     let concertSpaces =
-        [ ("Seoul Olympic Gymnastics Arena", 15000, 90<quality>, Layouts.concertSpaceLayout4, zone.Id)
-          ("War Memorial Hall", 5000, 88<quality>, Layouts.concertSpaceLayout4, zone.Id) ]
+        [ ("War Memorial Hall", 5000, 88<quality>, Layouts.concertSpaceLayout4, zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let bars =
@@ -45,7 +44,7 @@ let itaewonRo (zone: Zone) (city: City) =
 
 let gyeongndanGil (zone: Zone) (city: City) =
     let street =
-        World.Street.create Ids.Street.gyeongndanGil StreetType.OneWay
+        World.Street.create Ids.Street.gyeongndanGil (StreetType.Split(North, 2))
 
     let studios =
         [ ("KOKO Sound Studio",

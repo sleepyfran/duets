@@ -6,6 +6,7 @@ module Zone =
     let bellavista = "Bellavista"
     let lasCondes = "Las Condes"
     let pudahuel = "Pudahuel"
+    let ñuñoa = "Ñuñoa"
 
 module Street =
     let avenidaProvidencia = "Avenida Providencia"
@@ -20,3 +21,6 @@ module Street =
     let avenidaIsidoraGoyenechea = "Avenida Isidora Goyenechea"
     let avenidaManquehue = "Avenida Manquehue"
     let ruta68 = "Ruta 68"
+    let avenidaIrarrázaval = "Avenida Irarrázaval"
+    let plazaÑuñoa = "Plaza Ñuñoa"
+    let avenidaGrecia = "Avenida Grecia"

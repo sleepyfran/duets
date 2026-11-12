@@ -81,6 +81,11 @@ let boulevardDeClichy (zone: Zone) (cityId: CityId) =
            850,
            95<quality>,
            Layouts.concertSpaceLayout3,
+           zone.Id)
+          ("L'Olympia",
+           2000,
+           96<quality>,
+           Layouts.concertSpaceLayout4,
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 

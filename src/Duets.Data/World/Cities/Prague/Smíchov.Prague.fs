@@ -89,7 +89,13 @@ let janáčkovoNábřeží (zone: Zone) =
         [ ("Jazz Dock", 150, 95<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "jazz-club")
 
-    street |> World.Street.addPlaces concertSpaces
+    let hotels =
+        [ ("Mamaison Hotel Riverside Prague", 87<quality>, 160m<dd>, zone.Id) ]
+        |> List.map (PlaceCreators.createHotel street.Id)
+
+    street
+    |> World.Street.addPlaces concertSpaces
+    |> World.Street.addPlaces hotels
 
 let zborovská (zone: Zone) =
     let street =

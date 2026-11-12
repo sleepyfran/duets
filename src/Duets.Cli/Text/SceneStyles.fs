@@ -338,6 +338,7 @@ module Room =
     let cuisineSign cuisine =
         match cuisine with
         | American -> "★ DINER ★"
+        | British -> "FISH & CHIPS"
         | Canadian -> "POUTINE"
         | Chilean -> "EMPANADAS"
         | Czech -> "HOSPODA"

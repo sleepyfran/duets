@@ -24,6 +24,7 @@
         <Compile Include="Items\Gym.Items.fs"/>
         <Compile Include="Items\Vehicle.Items.fs"/>
         <Compile Include="Items\Food\Breakfast.Food.fs"/>
+        <Compile Include="Items\Food\British.Food.fs"/>
         <Compile Include="Items\Food\Canadian.Food.fs"/>
         <Compile Include="Items\Food\Czech.Food.fs"/>
         <Compile Include="Items\Food\Japanese.Food.fs"/>
@@ -57,6 +58,7 @@
         <Compile Include="Savegame\Migrations\2_MultiInstrumentMembers.fs"/>
         <Compile Include="Savegame\Migrations\3_GenericSoloEvents.fs"/>
         <Compile Include="Savegame\Migrations\Mandatory\AddMissingGenreMarkets.fs"/>
+        <Compile Include="Savegame\Migrations\Mandatory\RenamePlaces.fs"/>
         <Compile Include="Migrations.fs"/>
         <Compile Include="World\Ids.fs"/>
         <Compile Include="World\Cities\OpeningHours.fs"/>
@@ -118,6 +120,7 @@
         <Compile Include="World\Cities\Santiago\SantiagoCentro.Santiago.fs"/>
         <Compile Include="World\Cities\Santiago\Bellavista.Santiago.fs"/>
         <Compile Include="World\Cities\Santiago\LasCondes.Santiago.fs"/>
+        <Compile Include="World\Cities\Santiago\Ñuñoa.Santiago.fs"/>
         <Compile Include="World\Cities\Santiago\Santiago.fs"/>
         <Compile Include="World\Cities\Seoul\Ids.Seoul.fs"/>
         <Compile Include="World\Cities\Seoul\Incheon.Seoul.fs"/>

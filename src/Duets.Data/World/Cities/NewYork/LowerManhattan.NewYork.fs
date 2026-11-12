@@ -169,9 +169,19 @@ let private lowerEastSide (city: City) (zone: Zone) =
         [ ("WBAI (Pacifica)", 86<quality>, "Jazz", zone.Id) ]
         |> List.map (PlaceCreators.createRadioStudio city street.Id)
 
+    let restaurants =
+        [ ("Katz's Delicatessen", 90<quality>, American, zone.Id) ]
+        |> List.map (PlaceCreators.createRestaurant street.Id)
+
+    let hotels =
+        [ ("Hotel Indigo Lower East Side", 86<quality>, 320m<dd>, zone.Id) ]
+        |> List.map (PlaceCreators.createHotel street.Id)
+
     street
     |> World.Street.addPlaces concerts
     |> World.Street.addPlaces radioStudios
+    |> World.Street.addPlaces restaurants
+    |> World.Street.addPlaces hotels
 
 let createZone (city: City) =
     let lowerManhattanZone = World.Zone.create Ids.Zone.lowerManhattan

@@ -18,7 +18,8 @@ let private migrations =
 /// Migrations that run on every savegame regardless of its version, after any
 /// versioned migration. They must leave the savegame as-is if there's nothing
 /// to do.
-let private mandatoryMigrations = [ AddMissingGenreMarkets.migrate ]
+let private mandatoryMigrations =
+    [ AddMissingGenreMarkets.migrate; RenamePlaces.migrate ]
 
 /// Last version of savegame data that has a migration associated. Should
 /// always be the last index of the migrations array, since that's how we

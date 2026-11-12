@@ -7,7 +7,7 @@ open Duets.Entities.Calendar
 
 let roppongiDori (zone: Zone) =
     let street =
-        World.Street.create Ids.Street.roppongiDori (StreetType.Split(East, 2))
+        World.Street.create Ids.Street.roppongiDori (StreetType.Split(East, 3))
         |> World.Street.tag "roppongi-hills"
 
     let concertSpaces =
@@ -15,8 +15,6 @@ let roppongiDori (zone: Zone) =
           |> PlaceCreators.createConcertSpace street.Id
           |> World.Place.tag "jazz-club"
           ("EX Theater Roppongi", 2000, 92<quality>, Layouts.concertSpaceLayout3, zone.Id)
-          |> PlaceCreators.createConcertSpace street.Id
-          ("Tokyo Dome", 55000, 99<quality>, Layouts.concertSpaceLayout4, zone.Id)
           |> PlaceCreators.createConcertSpace street.Id
           ("Roppongi Hills Arena", 3000, 90<quality>, Layouts.concertSpaceLayout4, zone.Id)
           |> PlaceCreators.createConcertSpace street.Id ]

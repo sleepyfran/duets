@@ -11,8 +11,7 @@ let callePioNono (zone: Zone) =
         |> World.Street.tag "murals"
 
     let concertSpaces =
-        [ ("La Batuta", 150, 80<quality>, Layouts.concertSpaceLayout1, zone.Id)
-          ("Centro Arte Alameda", 250, 82<quality>, Layouts.concertSpaceLayout1, zone.Id)
+        [ ("Centro Arte Alameda", 250, 82<quality>, Layouts.concertSpaceLayout1, zone.Id)
           ("Club Blondie", 500, 84<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 

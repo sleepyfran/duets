@@ -23,6 +23,7 @@ module Shop =
         | RoomType.Restaurant cuisineType ->
             match cuisineType with
             | American -> Food.USA.all
+            | British -> Food.British.all
             | Canadian -> Food.Canadian.all
             | Chilean -> Food.Chilean.all
             | Czech -> Food.Czech.all

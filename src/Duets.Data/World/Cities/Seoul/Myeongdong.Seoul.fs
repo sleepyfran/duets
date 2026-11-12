@@ -26,6 +26,10 @@ let myeongdongGil (zone: Zone) =
           ("Myeongdong Kyoja", 88<quality>, Korean, zone.Id) ]
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
+    let bars =
+        [ ("Rooftop Floating", 88<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "cocktail-bar")
+
     let metroStation =
         ("Myeongdong Station", zone.Id) |> PlaceCreators.createMetro street.Id
 
@@ -34,13 +38,14 @@ let myeongdongGil (zone: Zone) =
         |> World.Street.addPlaces concertSpaces
         |> World.Street.addPlaces hotels
         |> World.Street.addPlaces restaurants
+        |> World.Street.addPlaces bars
         |> World.Street.addPlace metroStation
 
     street, metroStation
 
 let namdaemunRo (cityId: CityId) (zone: Zone) (city: City) =
     let street =
-        World.Street.create Ids.Street.namdaemunRo StreetType.OneWay
+        World.Street.create Ids.Street.namdaemunRo (StreetType.Split(West, 2))
         |> World.Street.tag "market"
         |> World.Street.tag "namdaemun"
 

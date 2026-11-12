@@ -20,6 +20,10 @@ let private bank (city: City) (zone: Zone) =
         [ ("The Ned", 90<quality>, 400m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createHotel street.Id)
 
+    let restaurants =
+        [ ("Coq d'Argent", 88<quality>, French, zone.Id) ]
+        |> List.map (PlaceCreators.createRestaurant street.Id)
+
     let metroStation =
         ("Bank Station", zone.Id) |> (PlaceCreators.createMetro street.Id)
 
@@ -28,6 +32,7 @@ let private bank (city: City) (zone: Zone) =
         |> World.Street.addPlaces gyms
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces hotels
+        |> World.Street.addPlaces restaurants
         |> World.Street.addPlace metroStation
 
     street, metroStation
@@ -69,9 +74,14 @@ let private barbican (zone: Zone) =
         [ ("Guildhall Practice Rooms", 80<quality>, 180m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createRehearsalSpace street.Id)
 
+    let bars =
+        [ ("The Jugged Hare", 82<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
+
     street
     |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces rehearsalSpaces
+    |> World.Street.addPlaces bars
 
 let private smithfield (zone: Zone) =
     let street =
@@ -81,7 +91,19 @@ let private smithfield (zone: Zone) =
         ("St Bartholomew's Hospital", 100<quality>, zone.Id)
         |> PlaceCreators.createHospital street.Id
 
-    street |> World.Street.addPlace hospital
+    let restaurants =
+        [ ("Bleeding Heart", 86<quality>, French, zone.Id)
+          ("St. John", 92<quality>, British, zone.Id) ]
+        |> List.map (PlaceCreators.createRestaurant street.Id)
+
+    let bars =
+        [ ("Smiths of Smithfield", 80<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBar street.Id)
+
+    street
+    |> World.Street.addPlace hospital
+    |> World.Street.addPlaces restaurants
+    |> World.Street.addPlaces bars
 
 let createZone (city: City) =
     let zone = World.Zone.create "City of London"
@@ -91,7 +113,7 @@ let createZone (city: City) =
     let smithfield = smithfield zone
 
     let metroStation =
-        { Lines = [ Blue ]
+        { Lines = [ Blue; Red ]
           LeavesToStreet = bank.Id
           PlaceId = metroStation.Id }
 

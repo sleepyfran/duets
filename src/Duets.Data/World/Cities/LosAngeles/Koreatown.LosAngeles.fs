@@ -57,7 +57,7 @@ let wilshireBoulevard (zone: Zone) (city: City) =
 
 let westernAvenue (zone: Zone) =
     let street =
-        World.Street.create Ids.Street.westernAvenue StreetType.OneWay
+        World.Street.create Ids.Street.westernAvenue (StreetType.Split(North, 2))
 
     let carDealers =
         [ ("Budget Auto Sales",

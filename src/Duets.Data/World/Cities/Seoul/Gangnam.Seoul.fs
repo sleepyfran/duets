@@ -41,10 +41,11 @@ let gangnamDaero (zone: Zone) =
 
 let teheranRo (zone: Zone) =
     let street =
-        World.Street.create Ids.Street.teheranRo StreetType.OneWay
+        World.Street.create Ids.Street.teheranRo (StreetType.Split(East, 2))
 
     let concertSpaces =
-        [ ("Yes24 Live Hall", 2000, 88<quality>, Layouts.concertSpaceLayout3, zone.Id) ]
+        [ ("Yes24 Live Hall", 2000, 88<quality>, Layouts.concertSpaceLayout3, zone.Id)
+          ("Seoul Olympic Gymnastics Arena", 15000, 90<quality>, Layouts.concertSpaceLayout4, zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let casinos =
@@ -64,7 +65,7 @@ let teheranRo (zone: Zone) =
         |> List.map (PlaceCreators.createCarDealer street.Id)
 
     let restaurants =
-        [ ("Mingles", 94<quality>, French, zone.Id) ]
+        [ ("Mingles", 94<quality>, Korean, zone.Id) ]
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
     let cafes =

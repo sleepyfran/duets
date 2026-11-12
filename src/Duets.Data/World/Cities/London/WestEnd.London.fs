@@ -61,7 +61,7 @@ let private oxfordStreet (city: City) (zone: Zone) =
 
 let private soho (city: City) (zone: Zone) =
     let street =
-        World.Street.create "Soho" (StreetType.Split(West, 2))
+        World.Street.create "Soho" (StreetType.Split(West, 3))
 
     let carDealers =
         [ ("Mayfair Prestige Motors",
@@ -134,6 +134,10 @@ let private coventGarden (cityId: CityId) (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
+    let restaurants =
+        [ ("Rules", 90<quality>, British, zone.Id) ]
+        |> List.map (PlaceCreators.createRestaurant street.Id)
+
     let cinemas =
         [ ("Odeon Leicester Square", 92<quality>, zone.Id)
           ("Curzon Soho", 88<quality>, zone.Id) ]
@@ -144,6 +148,7 @@ let private coventGarden (cityId: CityId) (zone: Zone) =
     |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces cinemas
+    |> World.Street.addPlaces restaurants
 
 let createZone (city: City) =
     let zone = World.Zone.create "West End"

@@ -7,7 +7,7 @@ open Duets.Entities.Calendar
 
 let oceanAvenue (zone: Zone) =
     let street =
-        World.Street.create Ids.Street.oceanAvenue StreetType.OneWay
+        World.Street.create Ids.Street.oceanAvenue (StreetType.Split(North, 2))
         |> World.Street.tag "waterfront"
         |> World.Street.tag "santa-monica-pier"
 
@@ -16,23 +16,21 @@ let oceanAvenue (zone: Zone) =
            5000,
            89<quality>,
            Layouts.concertSpaceLayout4,
-           zone.Id)
-          ("The Ocean Room",
-           150,
-           91<quality>,
-           Layouts.concertSpaceLayout1,
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
     let restaurants =
-        [ ("The Pacific Hideaway", 93<quality>, French, zone.Id) ]
+        [ ("Water Grill Santa Monica", 90<quality>, American, zone.Id) ]
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
-    // TODO: Add wellness center/spa support - using hotel as placeholder for wellness center
     let hotels =
-        [ ("The Coastal Spa", 94<quality>, 450m<dd>, zone.Id)
-          ("The Ocean House", 95<quality>, 500m<dd>, zone.Id) ]
+        [ ("Hotel Casa del Mar", 95<quality>, 500m<dd>, zone.Id)
+          ("Fairmont Miramar Hotel & Bungalows", 93<quality>, 450m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createHotel street.Id)
+
+    let bars =
+        [ ("Chez Jay", 86<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBar street.Id)
 
     let metroStation =
         ("Downtown Santa Monica", zone.Id)
@@ -43,6 +41,7 @@ let oceanAvenue (zone: Zone) =
         |> World.Street.addPlaces concertSpaces
         |> World.Street.addPlaces restaurants
         |> World.Street.addPlaces hotels
+        |> World.Street.addPlaces bars
         |> World.Street.addPlace metroStation
 
     street, metroStation
@@ -52,23 +51,26 @@ let mainStreet (zone: Zone) =
         World.Street.create Ids.Street.mainStreet StreetType.OneWay
 
     let concertSpaces =
-        [ ("The Central Club",
-           250,
-           83<quality>,
+        [ ("Harvelle's",
+           200,
+           86<quality>,
            Layouts.concertSpaceLayout1,
            zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        |> List.map (
+            PlaceCreators.createConcertSpace street.Id
+            >> World.Place.tag "jazz-club"
+        )
 
     let bookstores =
-        [ ("Ocean View Books", 88<quality>, zone.Id) ]
+        [ ("Angel City Books & Records", 86<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createBookstore street.Id)
 
     let cafes =
-        [ ("The Beach Bean", 86<quality>, zone.Id) ]
+        [ ("Urth Caffé", 87<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createCafe street.Id)
 
     let merchandiseWorkshops =
-        [ ("Vintage Guitar Shop", zone.Id) ]
+        [ ("Truetone Music", zone.Id) ]
         |> List.map (PlaceCreators.createMerchandiseWorkshop street.Id)
 
     street
@@ -111,15 +113,24 @@ let picoBoulevard (zone: Zone) (city: City) =
         |> List.map (PlaceCreators.createStudio street.Id)
 
     let hospitals =
-        [ ("Santa Monica Urgent Care", 85<quality>, zone.Id) ]
+        [ ("UCLA Santa Monica Medical Center", 92<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createHospital street.Id)
 
     let gyms =
-        [ ("Local Iron Gym", 83<quality>, zone.Id) ]
+        [ ("Equinox Santa Monica", 88<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createGym city street.Id)
+
+    let concertSpaces =
+        [ ("McCabe's Guitar Shop",
+           150,
+           88<quality>,
+           Layouts.concertSpaceLayout1,
+           zone.Id) ]
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
     street
     |> World.Street.addPlace home
+    |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces carDealers
     |> World.Street.addPlaces rehearsalSpaces
     |> World.Street.addPlaces studios

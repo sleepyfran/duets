@@ -17,17 +17,23 @@ let staroměstskéNáměstí (zone: Zone) =
         |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
 
     let restaurants =
-        [ ("U Prince", 92<quality>, Czech, zone.Id) ]
+        [ ("U Prince", 92<quality>, Czech, zone.Id)
+          ("Staroměstská Restaurace", 84<quality>, Czech, zone.Id) ]
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
     let hotels =
         [ ("Grand Hotel Praha", 93<quality>, 250m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createHotel street.Id)
 
+    let cafes =
+        [ ("Café Mozart", 88<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
+
     street
     |> World.Street.addPlaces bars
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces hotels
+    |> World.Street.addPlaces cafes
 
 let kaprova (zone: Zone) =
     let street =
@@ -37,7 +43,19 @@ let kaprova (zone: Zone) =
         ("Staroměstská Station", zone.Id)
         |> (PlaceCreators.createMetro street.Id)
 
-    let street = street |> World.Street.addPlace metroStation
+    let bars =
+        [ ("La Bodeguita del Medio", 84<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "cocktail-bar")
+
+    let cafes =
+        [ ("Coffee Lovers", 82<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
+
+    let street =
+        street
+        |> World.Street.addPlaces bars
+        |> World.Street.addPlaces cafes
+        |> World.Street.addPlace metroStation
 
     street, metroStation
 

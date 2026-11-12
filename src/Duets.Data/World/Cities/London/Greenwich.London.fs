@@ -24,6 +24,11 @@ let private greenwichMarket (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
+    let restaurants =
+        [ ("Bianco43", 80<quality>, Italian, zone.Id)
+          ("Goddards at Greenwich", 82<quality>, British, zone.Id) ]
+        |> List.map (PlaceCreators.createRestaurant street.Id)
+
     let metroStation =
         ("Cutty Sark Station", zone.Id) |> (PlaceCreators.createMetro street.Id)
 
@@ -32,6 +37,7 @@ let private greenwichMarket (zone: Zone) =
         |> World.Street.addPlaces shops
         |> World.Street.addPlaces cafes
         |> World.Street.addPlaces concertSpaces
+        |> World.Street.addPlaces restaurants
         |> World.Street.addPlace metroStation
 
     street, metroStation
@@ -60,13 +66,46 @@ let private greenwichPark (zone: Zone) =
         [ ("Bandstand", 300, 70<quality>, Layouts.concertSpaceLayout1, zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
-    street |> World.Street.addPlaces concertSpaces
+    let bars =
+        [ ("Trafalgar Tavern", 84<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
+
+    street
+    |> World.Street.addPlaces concertSpaces
+    |> World.Street.addPlaces bars
+
+let private peninsulaSquare (zone: Zone) =
+    let street =
+        World.Street.create "Peninsula Square" (StreetType.Split(North, 2))
+        |> World.Street.tag "waterfront"
+
+    let concertSpaces =
+        [ ("The O2 Arena",
+           20000,
+           95<quality>,
+           Layouts.concertSpaceLayout4,
+           zone.Id)
+          ("indigo at The O2",
+           2700,
+           86<quality>,
+           Layouts.concertSpaceLayout3,
+           zone.Id) ]
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
+
+    let hotels =
+        [ ("InterContinental London - The O2", 88<quality>, 320m<dd>, zone.Id) ]
+        |> List.map (PlaceCreators.createHotel street.Id)
+
+    street
+    |> World.Street.addPlaces concertSpaces
+    |> World.Street.addPlaces hotels
 
 let zone =
     let zone = World.Zone.create "Greenwich"
     let greenwichMarket, metroStation = greenwichMarket zone
     let royalObservatory = royalObservatory zone
     let greenwichPark = greenwichPark zone
+    let peninsulaSquare = peninsulaSquare zone
 
     let metroStation =
         { Lines = [ Blue ]
@@ -81,6 +120,10 @@ let zone =
         World.Node.create royalObservatory.Id royalObservatory
     )
     |> World.Zone.addStreet (World.Node.create greenwichPark.Id greenwichPark)
+    |> World.Zone.addStreet (
+        World.Node.create peninsulaSquare.Id peninsulaSquare
+    )
     |> World.Zone.connectStreets greenwichMarket.Id royalObservatory.Id North
     |> World.Zone.connectStreets greenwichMarket.Id greenwichPark.Id East
+    |> World.Zone.connectStreets greenwichMarket.Id peninsulaSquare.Id NorthEast
     |> World.Zone.addMetroStation metroStation

@@ -81,7 +81,7 @@ let wausanRo (zone: Zone) (city: City) =
 
 let yanghwaRo (cityId: CityId) (zone: Zone) =
     let street =
-        World.Street.create Ids.Street.yangwhaRo StreetType.OneWay
+        World.Street.create Ids.Street.yangwhaRo (StreetType.Split(West, 2))
 
     let concertSpaces =
         [ ("Mecenatpolis Concert Hall", 800, 87<quality>, Layouts.concertSpaceLayout3, zone.Id) ]

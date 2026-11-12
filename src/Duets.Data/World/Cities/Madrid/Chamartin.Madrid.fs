@@ -79,11 +79,6 @@ let zonaBernabeu (zone: Zone) =
            98<quality>,
            Layouts.concertSpaceLayout4,
            zone.Id) // stadium
-          ("Palacio de Deportes de la Comunidad",
-           5000,
-           92<quality>,
-           Layouts.concertSpaceLayout3,
-           zone.Id) // large
           ("Palacio de Vistalegre",
            15000,
            90<quality>,

@@ -12,26 +12,27 @@ let boulevardSaintGermain (zone: Zone) (cityId: CityId) (city: City) =
             (StreetType.Split(East, 2))
 
     let concertSpaces =
-        [ ("L'Olympia",
-           2000,
-           96<quality>,
-           Layouts.concertSpaceLayout4,
-           zone.Id)
-          |> PlaceCreators.createConcertSpace street.Id
-          ("Théâtre du Châtelet",
-           2500,
-           94<quality>,
-           Layouts.concertSpaceLayout4,
-           zone.Id)
-          |> PlaceCreators.createConcertSpace street.Id
-          |> World.Place.tag "seated" ]
+        [ ("Le Caveau de la Huchette",
+           200,
+           88<quality>,
+           Layouts.concertSpaceLayout1,
+           zone.Id) ]
+        |> List.map (
+            PlaceCreators.createConcertSpace street.Id
+            >> World.Place.tag "jazz-club"
+        )
+
+    let cafes =
+        [ ("Café de Flore", 92<quality>, zone.Id)
+          ("Les Deux Magots", 91<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
 
     let radioStudios =
         [ ("Radio France Studios", 92<quality>, "Jazz", zone.Id) ]
         |> List.map (PlaceCreators.createRadioStudio city street.Id)
 
     let restaurants =
-        [ ("Brasserie Lipp", 91<quality>, Italian, zone.Id) ]
+        [ ("Brasserie Lipp", 91<quality>, French, zone.Id) ]
         |> List.map (PlaceCreators.createRestaurant street.Id)
 
     let metroStation =
@@ -43,6 +44,7 @@ let boulevardSaintGermain (zone: Zone) (cityId: CityId) (city: City) =
         |> World.Street.addPlaces concertSpaces
         |> World.Street.addPlaces radioStudios
         |> World.Street.addPlaces restaurants
+        |> World.Street.addPlaces cafes
         |> World.Street.addPlace metroStation
 
     street, metroStation

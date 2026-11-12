@@ -396,3 +396,46 @@ let ``migration 3 sets version to 3`` () =
     match input |> JsonValue.Parse |> GenericSoloEvents.migrate with
     | Ok(json) -> json?Version.AsInteger() |> should equal 3
     | res -> failwith $"Expected migrated JSON, got {res}"
+
+(* --- Mandatory: RenamePlaces --- *)
+
+let private placeId = Identity.Reproducible.create
+
+let private savegameAt (placeName: string) =
+    $"""
+{{
+    "Version": {lastSavegameVersion},
+    "Data": {{
+        "CurrentPosition": [ "LosAngeles", "{placeId placeName}", "0" ],
+        "Visits": {{ "{placeId placeName}": 2 }}
+    }}
+}}
+"""
+
+[<Test>]
+let ``mandatory migrations replace the IDs of renamed places`` () =
+    match savegameAt "Microsoft Theater" |> applyMigrations with
+    | Ok result ->
+        result |> should haveSubstring (placeId "Peacock Theater")
+        result |> should not' (haveSubstring (placeId "Microsoft Theater"))
+    | res -> failwith $"Expected migrated JSON, got {res}"
+
+[<Test>]
+let ``mandatory migrations replace the IDs of renamed places used as keys``
+    ()
+    =
+    match savegameAt "The Ocean House" |> applyMigrations with
+    | Ok result ->
+        let json = JsonValue.Parse result
+
+        json?Data?Visits.TryGetProperty(placeId "Fairmont Miramar Hotel & Bungalows")
+        |> should not' (equal None)
+    | res -> failwith $"Expected migrated JSON, got {res}"
+
+[<Test>]
+let ``mandatory migrations leave IDs of places that were not renamed as they are``
+    ()
+    =
+    let input = savegameAt "Hollywood Palladium"
+
+    applyMigrations input |> should equal (Ok input: Result<string, MigrationError>)

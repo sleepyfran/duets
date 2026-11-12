@@ -6,7 +6,7 @@ open Duets.Entities.Calendar
 
 let private camdenHighStreet (city: City) (zone: Zone) =
     let street =
-        World.Street.create "Camden High Street" (StreetType.Split(North, 2))
+        World.Street.create "Camden High Street" (StreetType.Split(North, 3))
         |> World.Street.tag "camden-high-street"
 
     let carDealers =
@@ -50,8 +50,16 @@ let private camdenHighStreet (city: City) (zone: Zone) =
         |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
 
     let concertSpaces =
-        [ ("Roundhouse", 1700, 88<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
+        [ ("KOKO", 1500, 89<quality>, Layouts.concertSpaceLayout3, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          ("Jazz Cafe", 440, 87<quality>, Layouts.concertSpaceLayout1, zone.Id)
+          |> PlaceCreators.createConcertSpace street.Id
+          |> World.Place.tag "jazz-club" ]
+
+    let restaurants =
+        [ ("The Blues Kitchen", 82<quality>, American, zone.Id)
+          ("Poppies Fish & Chips", 84<quality>, British, zone.Id) ]
+        |> List.map (PlaceCreators.createRestaurant street.Id)
 
     let rehearsalSpaces =
         [ ("Camden Practice Rooms", 75<quality>, 160m<dd>, zone.Id) ]
@@ -72,6 +80,7 @@ let private camdenHighStreet (city: City) (zone: Zone) =
         |> World.Street.addPlaces recordingStudios
         |> World.Street.addPlaces bars
         |> World.Street.addPlaces concertSpaces
+        |> World.Street.addPlaces restaurants
         |> World.Street.addPlaces rehearsalSpaces
         |> World.Street.addPlaces radioStudios
         |> World.Street.addPlace metroStation
@@ -101,10 +110,20 @@ let private chalkFarm (city: City) (zone: Zone) =
         [ ("Owl Bookshop", 80<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createBookstore street.Id)
 
-    street 
+    let concertSpaces =
+        [ ("Roundhouse", 1700, 88<quality>, Layouts.concertSpaceLayout2, zone.Id) ]
+        |> List.map (PlaceCreators.createConcertSpace street.Id)
+
+    let bars =
+        [ ("The Enterprise", 76<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
+
+    street
     |> World.Street.addPlaces recordingStudios
-    |> World.Street.addPlaces cafes 
+    |> World.Street.addPlaces cafes
     |> World.Street.addPlaces bookstores
+    |> World.Street.addPlaces concertSpaces
+    |> World.Street.addPlaces bars
 
 let private regentsPark (zone: Zone) =
     let street =
@@ -134,7 +153,7 @@ let createZone (city: City) =
     let regentsPark = regentsPark zone
 
     let metroStation =
-        { Lines = [ Red; Blue ]
+        { Lines = [ Red ]
           LeavesToStreet = camdenHighStreet.Id
           PlaceId = metroStation.Id }
 

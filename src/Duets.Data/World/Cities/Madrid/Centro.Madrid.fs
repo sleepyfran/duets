@@ -38,11 +38,6 @@ let granVia (city: City) (zone: Zone) =
            500,
            85<quality>,
            Layouts.concertSpaceLayout2,
-           zone.Id)
-          ("WiZink Center",
-           17000,
-           92<quality>,
-           Layouts.concertSpaceLayout3,
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
@@ -127,7 +122,19 @@ let barrioDeLasLetras (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createStudio street.Id)
 
-    street |> World.Street.addPlaces cafes |> World.Street.addPlaces studios
+    let bars =
+        [ ("Cervecería Alemana", 84<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBar street.Id)
+
+    let restaurants =
+        [ ("Casa Alberto", 86<quality>, Spanish, zone.Id) ]
+        |> List.map (PlaceCreators.createRestaurant street.Id)
+
+    street
+    |> World.Street.addPlaces cafes
+    |> World.Street.addPlaces studios
+    |> World.Street.addPlaces bars
+    |> World.Street.addPlaces restaurants
 
 let calleArenal (zone: Zone) =
     let street =
@@ -142,7 +149,13 @@ let calleArenal (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
-    street |> World.Street.addPlaces concertSpaces
+    let cafes =
+        [ ("Chocolatería San Ginés", 88<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
+
+    street
+    |> World.Street.addPlaces concertSpaces
+    |> World.Street.addPlaces cafes
 
 let calleBarquillo (zone: Zone) =
     let street =
@@ -156,9 +169,15 @@ let calleBarquillo (zone: Zone) =
           |> PlaceCreators.createConcertSpace street.Id
           |> World.Place.tag "jazz-club" ]
 
-    street |> World.Street.addPlaces concertSpaces
+    let restaurants =
+        [ ("Chispa Bistró", 84<quality>, Spanish, zone.Id) ]
+        |> List.map (PlaceCreators.createRestaurant street.Id)
 
-let callePrincesa (zone: Zone) =
+    street
+    |> World.Street.addPlaces concertSpaces
+    |> World.Street.addPlaces restaurants
+
+let callePrincesa (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create "Calle de la Princesa" (StreetType.Split(West, 2))
 
@@ -175,7 +194,18 @@ let callePrincesa (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id)
 
-    street |> World.Street.addPlaces concertSpaces
+    let hotels =
+        [ ("Meliá Madrid Princesa", 87<quality>, 260m<dd>, zone.Id) ]
+        |> List.map (PlaceCreators.createHotel street.Id)
+
+    let cinemas =
+        [ ("Cines Renoir Princesa", 84<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCinema cityId street.Id)
+
+    street
+    |> World.Street.addPlaces concertSpaces
+    |> World.Street.addPlaces hotels
+    |> World.Street.addPlaces cinemas
 
 let calleAlcala (zone: Zone) =
     let street =
@@ -195,7 +225,13 @@ let calleAlcala (zone: Zone) =
            zone.Id) ]
         |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
 
-    street |> World.Street.addPlaces concertSpaces
+    let cafes =
+        [ ("La Pecera del Círculo de Bellas Artes", 87<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createCafe street.Id)
+
+    street
+    |> World.Street.addPlaces concertSpaces
+    |> World.Street.addPlaces cafes
 
 let createZone (city: City) =
     let centroZone = World.Zone.create "Centro"
@@ -205,7 +241,7 @@ let createZone (city: City) =
     let barrioDeLasLetras = barrioDeLasLetras centroZone
     let calleArenal = calleArenal centroZone
     let calleBarquillo = calleBarquillo centroZone
-    let callePrincesa = callePrincesa centroZone
+    let callePrincesa = callePrincesa city.Id centroZone
     let calleAlcala = calleAlcala centroZone
 
     let station =

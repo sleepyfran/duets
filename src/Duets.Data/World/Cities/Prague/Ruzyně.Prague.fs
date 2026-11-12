@@ -14,7 +14,13 @@ let kLetišti (zone: Zone) =
             street.Id
             ("Václav Havel Airport Prague", 85<quality>, zone.Id)
 
-    street |> World.Street.addPlace airport
+    let hotels =
+        [ ("Courtyard by Marriott Prague Airport", 84<quality>, 140m<dd>, zone.Id) ]
+        |> List.map (PlaceCreators.createHotel street.Id)
+
+    street
+    |> World.Street.addPlace airport
+    |> World.Street.addPlaces hotels
 
 let evropská (zone: Zone) =
     let street =
@@ -32,6 +38,13 @@ let evropská (zone: Zone) =
              PriceRange = CarPriceRange.Budget }) ]
         |> List.map (PlaceCreators.createCarDealer street.Id)
 
+    let hotels =
+        [ ("Vienna House by Wyndham Diplomat Prague",
+           86<quality>,
+           150m<dd>,
+           zone.Id) ]
+        |> List.map (PlaceCreators.createHotel street.Id)
+
     let metroStation =
         ("Nádraží Veleslavín Station", zone.Id)
         |> PlaceCreators.createMetro street.Id
@@ -39,6 +52,7 @@ let evropská (zone: Zone) =
     let street =
         street
         |> World.Street.addPlaces carDealers
+        |> World.Street.addPlaces hotels
         |> World.Street.addPlace metroStation
 
     street, metroStation

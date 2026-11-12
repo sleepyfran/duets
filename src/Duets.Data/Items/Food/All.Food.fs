@@ -5,6 +5,7 @@ open Duets.Data.Items.Food
 
 let all: PurchasableItem list =
     Breakfast.all
+    @ British.all
     @ Canadian.all
     @ Chilean.all
     @ Czech.all

@@ -75,11 +75,16 @@ let kantstrasse (zone: Zone) =
         [ ("Charlottenburg Probe", 86<quality>, 320m<dd>, zone.Id) ]
         |> List.map (PlaceCreators.createRehearsalSpace street.Id)
 
+    let bars =
+        [ ("Zwiebelfisch", 84<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBar street.Id >> World.Place.tag "pub")
+
     street
     |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces cafes
     |> World.Street.addPlaces studios
     |> World.Street.addPlaces rehearsalSpaces
+    |> World.Street.addPlaces bars
 
 let bismarckstrasse (zone: Zone) (city: City) =
     let street =

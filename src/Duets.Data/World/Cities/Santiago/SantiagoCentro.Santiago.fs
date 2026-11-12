@@ -45,7 +45,7 @@ let paseoAhumada (cityId: CityId) (zone: Zone) =
 
 let calleBandera (cityId: CityId) (zone: Zone) =
     let street =
-        World.Street.create Ids.Street.calleBandera StreetType.OneWay
+        World.Street.create Ids.Street.calleBandera (StreetType.Split(South, 2))
 
     let concertSpaces =
         [ ("Club Chocolate", 150, 78<quality>, Layouts.concertSpaceLayout1, zone.Id)

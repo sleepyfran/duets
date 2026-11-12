@@ -15,20 +15,19 @@ let generate () =
     let blueMetroLine =
         { Id = Blue
           Stations =
-            [ (westEnd.Id, OnlyNext(cityOfLondon.Id))
+            [ (heathrow.Id, OnlyNext(westEnd.Id))
+              (westEnd.Id, PreviousAndNext(heathrow.Id, cityOfLondon.Id))
               (cityOfLondon.Id, PreviousAndNext(westEnd.Id, greenwich.Id))
-              (greenwich.Id, OnlyPrevious(cityOfLondon.Id))
-              (cityOfLondon.Id, PreviousAndNext(camden.Id, heathrow.Id))
-              (camden.Id, OnlyNext(cityOfLondon.Id))
-              (heathrow.Id, OnlyPrevious(cityOfLondon.Id)) ]
+              (greenwich.Id, OnlyPrevious(cityOfLondon.Id)) ]
             |> Map.ofList
           UsualWaitingTime = 8<minute> }
 
     let redMetroLine =
         { Id = Red
           Stations =
-            [ (westEnd.Id, OnlyNext(camden.Id))
-              (camden.Id, OnlyPrevious(westEnd.Id)) ]
+            [ (camden.Id, OnlyNext(westEnd.Id))
+              (westEnd.Id, PreviousAndNext(camden.Id, cityOfLondon.Id))
+              (cityOfLondon.Id, OnlyPrevious(westEnd.Id)) ]
             |> Map.ofList
           UsualWaitingTime = 7<minute> }
 

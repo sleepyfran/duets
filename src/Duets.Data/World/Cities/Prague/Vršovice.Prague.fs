@@ -6,7 +6,7 @@ open Duets.Entities
 
 let krymská (zone: Zone) =
     let street =
-        World.Street.create Ids.Street.krymská (StreetType.Split(East, 1))
+        World.Street.create Ids.Street.krymská (StreetType.Split(East, 2))
 
     let bookstores =
         [ ("Shakespeare and Sons", 92<quality>, zone.Id) ]
@@ -29,7 +29,12 @@ let krymská (zone: Zone) =
         [ ("Kafé Frída", 86<quality>, zone.Id) ]
         |> List.map (PlaceCreators.createCafe street.Id)
 
+    let bars =
+        [ ("Bar v Krymský", 84<quality>, zone.Id) ]
+        |> List.map (PlaceCreators.createBar street.Id)
+
     street
+    |> World.Street.addPlaces bars
     |> World.Street.addPlaces bookstores
     |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces restaurants
@@ -58,7 +63,28 @@ let vyšehradská (zone: Zone) =
     let metroStation =
         ("Vyšehrad Station", zone.Id) |> PlaceCreators.createMetro street.Id
 
-    let street = street |> World.Street.addPlace metroStation
+    let concertSpaces =
+        [ ("Prague Congress Centre",
+           2764,
+           90<quality>,
+           Layouts.concertSpaceLayout4,
+           zone.Id) ]
+        |> List.map (PlaceCreators.createConcertSpace street.Id >> World.Place.tag "seated")
+
+    let hotels =
+        [ ("Corinthia Hotel Prague", 90<quality>, 180m<dd>, zone.Id) ]
+        |> List.map (PlaceCreators.createHotel street.Id)
+
+    let restaurants =
+        [ ("U Kroka", 86<quality>, Czech, zone.Id) ]
+        |> List.map (PlaceCreators.createRestaurant street.Id)
+
+    let street =
+        street
+        |> World.Street.addPlaces concertSpaces
+        |> World.Street.addPlaces hotels
+        |> World.Street.addPlaces restaurants
+        |> World.Street.addPlace metroStation
 
     street, metroStation
 

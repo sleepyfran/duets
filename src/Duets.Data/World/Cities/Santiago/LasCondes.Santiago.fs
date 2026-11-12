@@ -64,10 +64,6 @@ let avenidaManquehue (city: City) (zone: Zone) =
     let street =
         World.Street.create Ids.Street.avenidaManquehue StreetType.OneWay
 
-    let concertSpaces =
-        [ ("Estadio Nacional Julio Martínez Prádanos", 50000, 82<quality>, Layouts.concertSpaceLayout4, zone.Id) ]
-        |> List.map (PlaceCreators.createConcertSpace street.Id)
-
     let carDealers =
         [ ("Salón BMW Las Condes",
            94<quality>,
@@ -91,7 +87,6 @@ let avenidaManquehue (city: City) (zone: Zone) =
         |> List.map (PlaceCreators.createCafe street.Id)
 
     street
-    |> World.Street.addPlaces concertSpaces
     |> World.Street.addPlaces carDealers
     |> World.Street.addPlaces gyms
     |> World.Street.addPlace home

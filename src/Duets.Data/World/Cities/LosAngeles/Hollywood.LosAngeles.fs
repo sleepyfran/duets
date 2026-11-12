@@ -75,7 +75,7 @@ let hollywoodBoulevard (cityId: CityId) (zone: Zone) =
     let street =
         World.Street.create
             Ids.Street.hollywoodBoulevard
-            (StreetType.Split(East, 2))
+            (StreetType.Split(East, 3))
         |> World.Street.tag "walk-of-fame"
 
     let concertSpaces =
@@ -111,6 +111,10 @@ let hollywoodBoulevard (cityId: CityId) (zone: Zone) =
            zone.Id)
           |> PlaceCreators.createConcertSpace street.Id ]
 
+    let restaurants =
+        [ ("Musso & Frank Grill", 92<quality>, American, zone.Id) ]
+        |> List.map (PlaceCreators.createRestaurant street.Id)
+
     let merchandiseWorkshops =
         [ ("Amoeba Music", zone.Id) ]
         |> List.map (PlaceCreators.createMerchandiseWorkshop street.Id)
@@ -126,6 +130,7 @@ let hollywoodBoulevard (cityId: CityId) (zone: Zone) =
 
     street
     |> World.Street.addPlaces concertSpaces
+    |> World.Street.addPlaces restaurants
     |> World.Street.addPlaces merchandiseWorkshops
     |> World.Street.addPlaces hotels
     |> World.Street.addPlaces cinemas
