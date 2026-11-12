@@ -65,4 +65,5 @@ let zone =
     zone
     |> World.Zone.addStreet (World.Node.create heathrow.Id heathrow)
     |> World.Zone.addStreet (World.Node.create bathRoad.Id bathRoad)
+    |> World.Zone.connectStreets heathrow.Id bathRoad.Id North
     |> World.Zone.addMetroStation metroStation

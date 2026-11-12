@@ -307,3 +307,69 @@ let ``there should not be two places with the same ID`` () =
         |> List.map (fun (city, _, name) -> $"{name} in {city} is duplicated")
         |> String.concat "\n"
         |> failwith
+
+let private oppositeOf direction =
+    match direction with
+    | North -> South
+    | NorthEast -> SouthWest
+    | East -> West
+    | SouthEast -> NorthWest
+    | South -> North
+    | SouthWest -> NorthEast
+    | West -> East
+    | NorthWest -> SouthEast
+
+[<Test>]
+let ``street connections in every zone go both ways`` () =
+    let brokenConnections =
+        World.get.Cities
+        |> Map.values
+        |> Seq.collect (fun city -> city.Zones |> Map.values)
+        |> Seq.collect (fun zone ->
+            zone.Streets.Connections
+            |> Map.toSeq
+            |> Seq.collect (fun (fromStreet, connections) ->
+                connections
+                |> Map.toSeq
+                |> Seq.filter (fun (direction, toStreet) ->
+                    zone.Streets.Connections
+                    |> Map.tryFind toStreet
+                    |> Option.bind (Map.tryFind (oppositeOf direction))
+                    |> (<>) (Some fromStreet))
+                |> Seq.map (fun (direction, toStreet) ->
+                    let streetName id = zone.Streets.Nodes[id].Name
+                    $"{zone.Name}: {streetName fromStreet} -{direction}-> {streetName toStreet}")))
+        |> List.ofSeq
+
+    brokenConnections |> should be Empty
+
+[<Test>]
+let ``every street in a zone can be reached from its metro station`` () =
+    let rec reachableFrom (connections: Map<NodeId, NodeConnections>) visited street =
+        if Set.contains street visited then
+            visited
+        else
+            connections
+            |> Map.tryFind street
+            |> Option.map (Map.values >> List.ofSeq)
+            |> Option.defaultValue []
+            |> Seq.fold (reachableFrom connections) (Set.add street visited)
+
+    let unreachableStreets =
+        World.get.Cities
+        |> Map.values
+        |> Seq.collect (fun city -> city.Zones |> Map.values)
+        |> Seq.collect (fun zone ->
+            let reachable =
+                zone.MetroStations
+                |> Map.values
+                |> Seq.map _.LeavesToStreet
+                |> Seq.fold (reachableFrom zone.Streets.Connections) Set.empty
+
+            zone.Streets.Nodes
+            |> Map.values
+            |> Seq.filter (fun street -> not (Set.contains street.Id reachable))
+            |> Seq.map (fun street -> $"{zone.Name}: {street.Name}"))
+        |> List.ofSeq
+
+    unreachableStreets |> should be Empty

@@ -130,7 +130,7 @@ let createZone city =
     |> World.Zone.connectStreets plzeňská.Id štefánikova.Id North
     |> World.Zone.connectStreets plzeňská.Id zborovská.Id East
     |> World.Zone.connectStreets plzeňská.Id janáčkovoNábřeží.Id South
-    |> World.Zone.connectStreets štefánikova.Id keSklárně.Id South
-    |> World.Zone.connectStreets štefánikova.Id zborovská.Id East
+    |> World.Zone.connectStreets štefánikova.Id keSklárně.Id North
+    |> World.Zone.connectStreets štefánikova.Id zborovská.Id SouthEast
 
     |> World.Zone.addMetroStation station

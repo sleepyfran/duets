@@ -111,5 +111,5 @@ let createZone city =
     |> World.Zone.connectStreets
         doctorEsquerdo.Id
         avenidaMenendezPelayo.Id
-        North
+        West
     |> World.Zone.addMetroStation station

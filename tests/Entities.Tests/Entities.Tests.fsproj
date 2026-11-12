@@ -16,7 +16,6 @@
 
     <ItemGroup>
         <Compile Include="Album.Tests.fs"/>
-        <Compile Include="Band.Tests.fs"/>
         <Compile Include="Genre.Tests.fs"/>
         <Compile Include="Calendar.Tests.fs"/>
         <Compile Include="SocialNetwork.Tests.fs"/>

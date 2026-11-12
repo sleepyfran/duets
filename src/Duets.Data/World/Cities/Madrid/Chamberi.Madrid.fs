@@ -143,6 +143,6 @@ let createZone city =
     |> World.Zone.addStreet (
         World.Node.create calleFuencarral.Id calleFuencarral
     )
-    |> World.Zone.connectStreets callePonzano.Id calleAlmagro.Id North
+    |> World.Zone.connectStreets callePonzano.Id calleAlmagro.Id East
     |> World.Zone.connectStreets calleAlmagro.Id calleFuencarral.Id South
     |> World.Zone.addMetroStation station

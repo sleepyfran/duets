@@ -77,6 +77,6 @@ let zone =
     |> World.Zone.addStreet (World.Node.create krymská.Id krymská)
     |> World.Zone.addStreet (World.Node.create moskevská.Id moskevská)
     |> World.Zone.addStreet (World.Node.create vyšehradská.Id vyšehradská)
-    |> World.Zone.connectStreets krymská.Id moskevská.Id North
+    |> World.Zone.connectStreets krymská.Id moskevská.Id West
     |> World.Zone.connectStreets moskevská.Id vyšehradská.Id South
     |> World.Zone.addMetroStation station

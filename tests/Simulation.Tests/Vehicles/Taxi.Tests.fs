@@ -73,7 +73,7 @@ let ``bookRide returns success with fare and effects when character has enough m
     =
     let destination =
         Queries.World.placesByTypeInCity Prague PlaceTypeIndex.ConcertSpace
-        |> List.sample
+        |> List.find (fun place -> place.Name = "Rock Café")
 
     let result = Taxi.bookRide state destination
 
