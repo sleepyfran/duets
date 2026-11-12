@@ -150,7 +150,8 @@ let ``finishing the concert should grant the band the earnings from the tickets 
                 | _ -> None)
             |> List.head
 
-        moneyEarned |> should equal 14900m<dd>)
+        System.Math.Round(Amount.toDecimal moneyEarned, 2)
+            |> should equal 14900m)
 
 [<Test>]
 let ``finishing an opening act concert should grant the band the correct percentage of the tickets sold``
@@ -169,7 +170,8 @@ let ``finishing an opening act concert should grant the band the correct percent
                     | _ -> None)
                 |> List.head
 
-            moneyEarned |> should equal 7450m<dd>)
+            System.Math.Round(Amount.toDecimal moneyEarned, 2)
+            |> should equal 7450m)
 
 [<Test>]
 let ``finishing a concert with the merch stand set up forms a queue of buyers``

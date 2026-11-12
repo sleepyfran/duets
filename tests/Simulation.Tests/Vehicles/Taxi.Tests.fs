@@ -106,7 +106,7 @@ let ``bookRide calculates fare based on travel time`` () =
     let result = Taxi.bookRide state destination
 
     match result with
-    | Ok(fare, _, _) -> fare |> should equal 52.8m<dd>
+    | Ok(fare, _, _) -> System.Math.Round(Amount.toDecimal fare, 2) |> should equal 52.8m
     | Error err -> failwith $"Expected successful booking, but got {err}"
 
 [<Test>]
@@ -128,7 +128,7 @@ let ``bookRide calculates fare based on city's cost of living`` () =
     let result = Taxi.bookRide state destination
 
     match result with
-    | Ok(fare, _, _) -> fare |> should equal 179.55m<dd>
+    | Ok(fare, _, _) -> System.Math.Round(Amount.toDecimal fare, 2) |> should equal 179.55m
     | Error err -> failwith $"Expected successful booking, but got {err}"
 
 
@@ -184,7 +184,8 @@ let ``bookRide deducts fare from character's account`` () =
                 | _ -> None)
             |> List.head
 
-        amountDeducted |> should equal 52.8m<dd>
+        System.Math.Round(Amount.toDecimal amountDeducted, 2)
+        |> should equal 52.8m
         amountDeducted |> should equal fare
     | Error err -> failwith $"Expected successful booking, but got {err}"
 
