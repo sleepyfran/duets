@@ -31,7 +31,19 @@ version of .NET. Once you have it, you can simply run:
 
 ```bash
 dotnet build
-dotnet run --project src/Duets.Cli/Duets.Cli.fsproj
+make run
+```
+
+If you want to play without writing anything to your savegame, use:
+
+```bash
+make run-ns
+```
+
+There's also a city explorer for browsing the generated cities:
+
+```bash
+make run-city-explorer
 ```
 
 > [!WARNING]
@@ -48,7 +60,7 @@ dotnet run --project src/Duets.Cli/Duets.Cli.fsproj
 You can run the tests with:
 
 ```bash
-dotnet test
+make test
 ```
 
 # 😄 Contributions
