@@ -3,20 +3,24 @@
 # scoreboard hanging over the floor.
 
 [art]
-▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
-▌ ═╤═══╤═══╤═══╤═══╤═══╤═      ┃            ┃          ▐
-▌   ▼   ▼   ▼   ▼   ▼   ▼   ┏━━━━━━━━━━━━━━━━━┓    ◢xxx▐
-▌                           ┃▒▒▒   M S G   ▒▒▒┃  ◢xxxxx▐
-▌   ░░░░░░░░░░░░░░░░░░░     ┗━━━━━━━━━━━━━━━━━┛◢xxxxxxx▐
-▌   ░░░░░░░░░░░░░░░░░░░                      ◢xxxxxxxxx▐
-▌   ░░░░░░░░░░░░░░░░░░░                    ◢xxxxxxxxxxx▐
-▌ ▕▓▓▏   ▂▂▂▂▂▂▂▂▂  ▕▓▓▏                 ◢xxxxxxxxxxxxx▐
-▌ ▕▓▓▏ m  m ◉ m  p m▕▓▓▏  ┌───┐        ◢xxxxxxxxxxxxxxx▐
-▌▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ │ 8 │      ◢xxxxxxxxxxxxxxxxx▐
-▌███████████████████████  │  ▪│    ◢xxxxxxxxxxxxxxxxxxx▐
-▌aaaaaaaaaaaaaaaaaaaaaaaaa│aaa│aa█━━━━━━━━━━━━━━━━━━━━━▐
-4 aaaaaaaaaaaaaaaaaaaaaaaa│aaa│aa█  n    n     n   n   6
-▙▄▄▄▄▄▄11▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄000▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▟
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌ ═╤═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╤═     ┃              ┃                 ▐
+▌  ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼┏━━━━━━━━━━━━━━━━━━━━━━━━━━┓           ▐
+▌                                           ┃▒▒▒▒▒▒▒▒  M S G  ▒▒▒▒▒▒▒▒┃        ◢xxx▐
+▌    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░       ┃▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒┃     ◢xxxxxx▐
+▌    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░       ┗━━━━━━━━━━━━━━━━━━━━━━━━━━┛ ◢xxxxxxxxx▐
+▌    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░                                 ◢xxxxxxxxxxxx▐
+▌    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░                              ◢xxxxxxxxxxxxxxx▐
+▌                                                               ◢xxxxxxxxxxxxxxxxxx▐
+▌  ▕▓▓▏     ▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂     ▕▓▓▏                        ◢xxxxxxxxxxxxxxxxxxxxx▐
+▌  ▕▓▓▏  m   m  m   ◉  m  p   m  ▕▓▓▏       ┌───┐         ◢xxxxxxxxxxxxxxxxxxxxxxxx▐
+▌▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇   │ 8 │      ◢xxxxxxxxxxxxxxxxxxxxxxxxxxx▐
+▌███████████████████████████████████████    │  ▪│   ◢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx▐
+▌aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa │aaa│◢xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx▐
+▌aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa │aaa│aa █━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━▐
+▌aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa │aaa│aa █                              ▐
+4naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa │aaa│aa █   n     n      n     n    n  6
+▙▄▄▄▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄000▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▄▄▟
 
 [legend]
 ▛▀▜▌▐▙▄▟ = $wall

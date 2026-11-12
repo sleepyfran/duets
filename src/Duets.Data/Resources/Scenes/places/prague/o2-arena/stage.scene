@@ -2,20 +2,24 @@
 # screens, the floor packed and the stands rising on both sides.
 
 [art]
-▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
-▌x◣             ═╤═══╤═══╤═══╤═══╤═══╤═              ◢x▐
-▌xx◣              ▼   ▼   ▼   ▼   ▼   ▼             ◢xx▐
-▌xxx◣       ┏━━━━┓                    ┏━━━━┓       ◢xxx▐
-▌xxxx◣      ┃░░░░┃ ░░░░░░░░░░░░░░░░░░ ┃░░░░┃      ◢xxxx▐
-▌xxxxx◣     ┗━━━━┛ ░░░░░░░░░░░░░░░░░░ ┗━━━━┛     ◢xxxxx▐
-▌xxxxxx◣           ░░░░░░░░░░░░░░░░░░           ◢xxxxxx▐
-▌xxxxxxx◣        ▕▓▓▏   ▂▂▂▂▂▂▂▂   ▕▓▓▏        ◢xxxxxxx▐
-▌xxxxxxxx◣  ┌─┐  ▕▓▓▏ m  m ◉ m p  m▕▓▓▏       ◢xxxxxxxx▐
-▌xxxxxxxxx◣ │8│▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇    ◢xxxxxxxxx▐
-▌xxxxxxxxxx◣│ │██████████████████████████   ◢xxxxxxxxxx▐
-▌━━━━━━━━━━ │a│aaaaaaaaaaaaaaaaaaaaaaaaaaaaan━━━━━━━━━━▐
-4naaaaaaaaaa│a│aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaan6
-▙▄▄▄▄▄11▄▄▄▄▄▄000▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▟
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌x◣                   ═╤═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╤═                    ◢x▐
+▌xxx◣                  ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼                   ◢xxx▐
+▌xxxxx◣                   ┏━━━━━━┓                ┏━━━━━━┓                   ◢xxxxx▐
+▌xxxxxxx◣                 ┃░░░░░░┃ ░░░░░░░░░░░░░░ ┃░░░░░░┃                 ◢xxxxxxx▐
+▌xxxxxxxxx◣               ┃░░░░░░┃ ░░░░░░░░░░░░░░ ┃░░░░░░┃               ◢xxxxxxxxx▐
+▌xxxxxxxxxxx◣             ┗━━━━━━┛ ░░░░░░░░░░░░░░ ┗━━━━━━┛             ◢xxxxxxxxxxx▐
+▌xxxxxxxxxxxxx◣                    ░░░░░░░░░░░░░░                    ◢xxxxxxxxxxxxx▐
+▌xxxxxxxxxxxxxxx◣                  ░░░░░░░░░░░░░░                  ◢xxxxxxxxxxxxxxx▐
+▌xxxxxxxxxxxxxxxxx◣        ▕▓▓▏    ▂▂▂▂▂▂▂▂▂▂▂▂▂▂    ▕▓▓▏        ◢xxxxxxxxxxxxxxxxx▐
+▌xxxxxxxxxxxxxxxxxxx◣  ┌─┐ ▕▓▓▏ m   m   m ◉ m  p   m ▕▓▓▏      ◢xxxxxxxxxxxxxxxxxxx▐
+▌xxxxxxxxxxxxxxxxxxxxx◣│8│▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ ◢xxxxxxxxxxxxxxxxxxxxx▐
+▌xxxxxxxxxxxxxxxxxxxxx │ │██████████████████████████████████  xxxxxxxxxxxxxxxxxxxxx▐
+▌━━━━━━━━━━━━━━━━━━━━━ │a│aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaan ━━━━━━━━━━━━━━━━━━━━━▐
+▌aaaaaaaaaaaaaaaaaaaaaa│a│aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa▐
+▌aaaaaaaaaaaaaaaaaaaaaa│a│aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa▐
+4naaaaaaaaaaaaaaaaaaaaa│a│aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaan6
+▙▄▄▄▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄000▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▄▄▟
 
 [legend]
 ▛▀▜▌▐▙▄▟ = $wall

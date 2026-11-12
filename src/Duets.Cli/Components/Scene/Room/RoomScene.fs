@@ -18,7 +18,7 @@ let private template state =
     let place = Queries.World.currentPlace state
     let room = Queries.World.currentRoom state
 
-    Scenes.resolve cityId place room.RoomType
+    Scenes.resolve (sceneWidth AnsiConsole.Profile.Width) cityId place room.RoomType
 
 /// Returns whether the current room has a template to show.
 let canShow state =

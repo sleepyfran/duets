@@ -98,8 +98,11 @@ Rooms are seen from the side, like the streets: a cut through the building
 with the ceiling on top, the back wall in the middle and the floor at the
 bottom. Check `rooms/bar.scene` for an example.
 
-- Keep rooms 56 columns wide and around 10 rows tall (12 at most, big stages
-  can go up to 14).
+- Keep rooms 56 columns wide and around 10 rows tall (12 at most, small
+  stages can go up to 14).
+- Stages of big venues are bigger: 84 columns and up to 18 rows for arenas and
+  112 columns and up to 20 rows for stadiums. Terminals too narrow for them
+  get the next template that fits, so keep a 56 column one as a fallback.
 - The first row is the ceiling (`▛▀▜`), the last one the floor (`▙▄▟`) and
   the sides are the walls (`▌ ▐`), all with `$wall`.
 - Things hang from the ceiling (lamps, lights, speakers), windows, shelves,

@@ -2,20 +2,26 @@
 # huge stage with screens in the middle of the pitch.
 
 [art]
-▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
-▌▣▣ wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww ▣▣▐
-▌║║aaa wwww╔════════════════════════════════╗wwww aaa║║▐
-▌║║███▖    ║ ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼  ║    ▗███║║▐
-▌║║aaaaaa  ║ ┌─────┐ ┌───────────┐ ┌─────┐  ║  aaaaaa║║▐
-▌║║██████▖ ║ │SSSSS│ │LLLLLLLLLLL│ │SSSSS│  ║ ▗██████║║▐
-▌║║aaaaaaaa║ └─────┘ └───────────┘ └─────┘  ║aaaaaaaa║║▐
-▌║║██┌───┐█║ ┌───┐ ▕█▏  ╿ ◯ ◯ ╿  ▕█▏ ┌───┐  ║████████║║▐
-▌║║██│ 8 │█║ │ 7 │ ▕█▏  │ ◯◉◯ │  ▕█▏ │ 9 │  ║████████║║▐
-4 n  │   │ ║ │   │m▕█▏ m ▆▆▆▆▆ p ▕█▏m│   │  ║   n   n  6
-▌━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━▐
-▌▓AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA▓▐
-▌ naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaan ▐
-▙▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄33▄▄▄▄▟
+▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+▌▣▣ wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww ▣▣▐
+▌║║aaaa  wwwwwwwwwwwwwwwww ╔════════════════════════════════════════════════════════╗ wwwwwwwwwwwwwwwww  aaaa║║▐
+▌║║█████▖                  ║ ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼  ║                  ▗█████║║▐
+▌║║aaaaaaaa                ║                                                        ║                aaaaaaaa║║▐
+▌║║█████████▖              ║ ┌──────────┐ ┌──────────────────────────┐ ┌──────────┐ ║              ▗█████████║║▐
+▌║║aaaaaaaaaaaa            ║ │SSSSSSSSSS│ │LLLLLLLLLLLLLLLLLLLLLLLLLL│ │SSSSSSSSSS│ ║            aaaaaaaaaaaa║║▐
+▌║║█████████████▖          ║ │SSSSSSSSSS│ │LLLLLLLLLLLLLLLLLLLLLLLLLL│ │SSSSSSSSSS│ ║          ▗█████████████║║▐
+▌║║aaaaaaaaaaaaaaaa        ║ └──────────┘ └──────────────────────────┘ └──────────┘ ║        aaaaaaaaaaaaaaaa║║▐
+▌║║██┌───┐██████████▖      ║  ┌───┐  ▕█▏▕█▏         ╿ ◯ ◯ ╿          ▕█▏▕█▏  ┌───┐  ║      ▗█████████████████║║▐
+▌║║aa│ 8 │aaaaaaaaaaaaa    ║  │ 7 │  ▕█▏▕█▏         │ ◯◉◯ │          ▕█▏▕█▏  │ 9 │  ║    aaaaaaaaaaaaaaaaaaaa║║▐
+4  n  │   │                ║  │   │ m▕█▏▕█▏ m   m  ▆▆▆▆▆▆▆▆▆ p  m  m ▕█▏▕█▏m │   │  ║                  n   n   6
+▌━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━▐
+▌▓AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA▓▐
+▌ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ▐
+▌ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ▐
+▌ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ▐
+▌ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ▐
+▌ naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaan ▐
+▙▄▄▄▄▄▄▄11▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄0000▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄2222▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄33▄▄▄▄▄▄▄▄▄▟
 
 [legend]
 ▛▀▜▌▐▙▄▟ = $wall

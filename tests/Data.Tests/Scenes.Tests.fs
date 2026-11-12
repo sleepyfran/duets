@@ -229,7 +229,7 @@ let ``tryResolve picks the most specific template available`` () =
         |> Map.ofList
 
     let resolveIn templates cityId =
-        tryResolve templates cityId bar RoomType.Bar
+        tryResolve templates 120 cityId bar RoomType.Bar
         |> Option.map (_.Art >> List.head)
 
     resolveIn templates NewYork |> should equal (Some "place")
@@ -252,7 +252,7 @@ let ``tryResolve prefers tags over the city and tiers over the generic ones`` ()
         |> Map.ofList
 
     let resolveIn templates place =
-        tryResolve templates Prague place RoomType.Stage
+        tryResolve templates 120 Prague place RoomType.Stage
         |> Option.map (_.Art >> List.head)
 
     let arena = concertSpace 18000
@@ -268,9 +268,33 @@ let ``tryResolve prefers tags over the city and tiers over the generic ones`` ()
     resolveIn templates (concertSpace 100) |> should equal (Some "city")
 
 [<Test>]
+let ``tryResolve skips templates wider than the given width`` () =
+    let templates =
+        [ "rooms/stage", parseOk "[art]\nsmall"
+          "rooms/concert-space.stage.stadium", parseOk "[art]\nhuge-stage" ]
+        |> Map.ofList
+
+    let resolveIn width =
+        tryResolve templates width Prague (concertSpace 60000) RoomType.Stage
+        |> Option.map (_.Art >> List.head)
+
+    resolveIn 120 |> should equal (Some "huge-stage")
+    resolveIn 8 |> should equal (Some "small")
+    resolveIn 4 |> should equal None
+
+[<Test>]
 let ``all templates of the game are valid`` () =
     (* Throws if any template is broken. *)
     Scenes.all.Value |> Map.isEmpty |> should equal false
+
+[<Test>]
+let ``all room templates fit in the widest scene`` () =
+    Scenes.all.Value
+    |> Map.filter (fun key template ->
+        not (key.StartsWith "skylines/") && template.Width > 120)
+    |> Map.keys
+    |> List.ofSeq
+    |> should be Empty
 
 [<Test>]
 let ``every room type except streets has a default template`` () =
@@ -290,7 +314,7 @@ let ``every room type except streets has a default template`` () =
 
     roomTypes
     |> List.filter (fun roomType ->
-        Scenes.resolve Prague place roomType |> Option.isNone)
+        Scenes.resolve 56 Prague place roomType |> Option.isNone)
     |> should be Empty
 
 [<Test>]

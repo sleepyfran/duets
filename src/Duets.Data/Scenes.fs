@@ -557,9 +557,13 @@ let candidateKeys (cityId: CityId) (place: Place) (roomType: RoomType) =
       $"rooms/{placeType}.{room}"
       $"rooms/{room}" ]
 
-/// Returns the template for the given room from the given templates, if any.
-let tryResolve (templates: Map<string, Template>) cityId place roomType =
-    candidateKeys cityId place roomType |> List.tryPick templates.TryFind
+/// Returns the template for the given room from the given templates that fits
+/// in the given width, if any.
+let tryResolve (templates: Map<string, Template>) maxWidth cityId place roomType =
+    candidateKeys cityId place roomType
+    |> List.tryPick (fun key ->
+        templates.TryFind key
+        |> Option.filter (fun template -> template.Width <= maxWidth))
 
 let private scenesFolder = Files.dataFolder "Scenes"
 
@@ -598,9 +602,9 @@ let all = lazy (loadFrom scenesFolder)
 /// All the landmarks of the game.
 let landmarks = lazy (loadLandmarksFrom scenesFolder)
 
-/// Returns the template for the given room, if any.
-let resolve cityId place roomType =
-    tryResolve all.Value cityId place roomType
+/// Returns the template for the given room that fits in the given width, if any.
+let resolve maxWidth cityId place roomType =
+    tryResolve all.Value maxWidth cityId place roomType
 
 let private hasAirport (zone: Zone) =
     zone.Streets.Nodes
