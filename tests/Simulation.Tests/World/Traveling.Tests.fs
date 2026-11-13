@@ -53,7 +53,7 @@ let ``traveling to another place inside the same city but in the same region con
         WorldMoveToPlace(
             Diff(
                 (NewYork, barInBrooklynNewYork.Id, Ids.Bookstore.readingRoom),
-                (NewYork, cafeInBrooklynNewYork.Id, Ids.Common.cafe)
+                (NewYork, cafeInBrooklynNewYork.Id, Ids.Metro.platform)
             )
         )
         |> Simulation.tickOne dummyState

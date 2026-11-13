@@ -4,38 +4,59 @@ open Duets.Common
 open Duets.Entities
 open Duets.Simulation
 
-/// Returns a range of population values that a place can have, meaning
-/// that the place's population will be a random number between the two
-/// values.
-let private placePopulationRange (place: Place) =
-    match place.PlaceType with
-    | Airport -> 0, 10
-    | Bar -> 1, 10
-    | Bookstore -> 1, 5
-    | Cafe -> 1, 5
-    | CarDealer _ -> 1, 2
-    | Casino -> 1, 10
-    | Cinema -> 5, 30
-    | ConcertSpace concertSpace ->
-        1,
-        (min 20 concertSpace.Capacity) (* TODO: Base this on whether there's any concert or not and the assistance to the concert. *)
-    | Gym -> 1, 5
-    | Home -> 0, 0 (* Homes are private *)
-    | Hotel _ -> 1, 5
-    | Hospital -> 1, 2
-    | MetroStation -> 1, 20
-    | MerchandiseWorkshop -> 0, 0
-    | RadioStudio _ ->
-        (* Radio studios will only be populated by the band. *)
-        0, 0
-    | RehearsalSpace _ ->
-        (* Rehearsal spaces will only be populated by the band. *)
-        0, 0
-    | Restaurant -> 1, 10 (* TODO: Base this on the type of restaurant. *)
-    | Studio _ ->
-        (* Studios will only be populated by the producer and the band. *)
-        0, 0
-    | Street -> 1, 20 (* TODO: Base this on the current time of day. *)
+/// Returns the population range of places that follow the usual daily routine,
+/// like streets or metro platforms.
+let private dailyRoutineRange dayMoment =
+    match dayMoment with
+    | EarlyMorning
+    | Midnight -> 0, 3
+    | Morning
+    | Night -> 1, 6
+    | Midday
+    | Afternoon
+    | Evening -> 2, 9
+
+/// Returns the population range of places that get busier at night, like bars.
+let private nightlifeRange dayMoment =
+    match dayMoment with
+    | Evening
+    | Night
+    | Midnight -> 2, 10
+    | _ -> 0, 4
+
+/// Returns a range of population values that a room can have, meaning that
+/// the room's population will be a random number between the two values.
+let private roomPopulationRange (place: Place) (room: Room) dayMoment =
+    match place.PlaceType, room.RoomType with
+    (* Private places will only be populated by their specific NPCs. *)
+    | Home, _
+    | MerchandiseWorkshop, _
+    | Studio _, _ -> 0, 0
+    | RadioStudio _, RoomType.Lobby
+    | RehearsalSpace _, RoomType.Lobby -> 0, 3
+    | _, RoomType.Backstage
+    | _, RoomType.Bedroom
+    | _, RoomType.Kitchen
+    | _, RoomType.LivingRoom
+    | _, RoomType.MasteringRoom
+    | _, RoomType.RecordingRoom
+    | _, RoomType.RehearsalRoom
+    | _, RoomType.Stage
+    | _, RoomType.Workshop -> 0, 0
+    | _, RoomType.Bar -> nightlifeRange dayMoment
+    | _, RoomType.BoardingGate -> 2, 10
+    | _, RoomType.Cafe -> 0, 6
+    | _, RoomType.CasinoFloor -> 2, 10
+    | _, RoomType.ChangingRoom -> 0, 3
+    | _, RoomType.Gym -> 1, 6
+    | _, RoomType.Lobby -> 0, 4
+    | _, RoomType.Platform
+    | _, RoomType.Street -> dailyRoutineRange dayMoment
+    | _, RoomType.ReadingRoom -> 0, 5
+    | _, RoomType.Restaurant _ -> 1, 8
+    | _, RoomType.ScreeningRoom -> 0, 15
+    | _, RoomType.SecurityControl -> 1, 5
+    | _, RoomType.ShowRoom -> 0, 3
 
 /// Returns a random known NPC in the given city, if any.
 let private allKnownNpcs cityId state =
@@ -43,21 +64,28 @@ let private allKnownNpcs cityId state =
     |> List.map (fun relationship ->
         Queries.Characters.find state relationship.Character)
 
-let private generateForPlaceWithSpecificNpcs place state =
+let private generateForRoomWithSpecificNpcs place (room: Room) state =
     let bandMembers =
         Queries.Bands.currentBandMembersWithoutPlayableCharacter state
         |> List.map (_.CharacterId >> Queries.Characters.find state)
 
-    match place.PlaceType with
-    | RehearsalSpace _ -> bandMembers
-    | Studio studio -> studio.Producer :: bandMembers
+    match place.PlaceType, room.RoomType with
+    | RehearsalSpace _, RoomType.RehearsalRoom -> bandMembers
+    | Studio studio, _ -> studio.Producer :: bandMembers
     | _ -> []
 
-/// Generates an effect that puts a random number of people in the given place,
-/// keeping in mind the place's population range, which depends on the place type
-/// and whether it is private or not (like a home or a studio).
-let generateForPlace cityId place state =
-    let numberOfPeople = placePopulationRange place ||> RandomGen.genBetween
+/// Generates an effect that puts a random number of people in the given room,
+/// keeping in mind the room's population range, which depends on the type of
+/// the room and place and the time of the day.
+let generateForRoom cityId (place: Place) roomId state =
+    let room = Queries.World.roomById cityId place.Id roomId
+
+    let dayMoment =
+        Queries.Calendar.today state |> Calendar.Query.dayMomentOf
+
+    let numberOfPeople =
+        roomPopulationRange place room dayMoment ||> RandomGen.genBetween
+
     let knownNpcs = allKnownNpcs cityId state
 
     let randomNpcs =
@@ -86,6 +114,6 @@ let generateForPlace cityId place state =
             ([], knownNpcs)
         |> fst
 
-    let placeSpecificNpcs = generateForPlaceWithSpecificNpcs place state
+    let roomSpecificNpcs = generateForRoomWithSpecificNpcs place room state
 
-    randomNpcs @ placeSpecificNpcs |> WorldPeopleInCurrentRoomChanged
+    randomNpcs @ roomSpecificNpcs |> WorldPeopleInCurrentRoomChanged

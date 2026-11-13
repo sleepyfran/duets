@@ -4,48 +4,90 @@ open FsUnit
 open NUnit.Framework
 open Test.Common
 
+open Duets.Data.World
 open Duets.Entities
 open Duets.Simulation
 
 let private knownCharacter = dummyCharacter3
 
-let private airport =
-    Queries.World.placesByTypeInCity Prague PlaceTypeIndex.Airport |> List.head
+let private firstPlace placeType =
+    Queries.World.placesByTypeInCity Prague placeType |> List.head
 
-let private hotel =
-    Queries.World.placesByTypeInCity Prague PlaceTypeIndex.Hotel |> List.head
-
-let private home =
-    Queries.World.placesByTypeInCity Prague PlaceTypeIndex.Home |> List.head
+let private airport = firstPlace PlaceTypeIndex.Airport
+let private concertSpace = firstPlace PlaceTypeIndex.ConcertSpace
+let private home = firstPlace PlaceTypeIndex.Home
+let private hotel = firstPlace PlaceTypeIndex.Hotel
+let private rehearsalSpace = firstPlace PlaceTypeIndex.RehearsalSpace
 
 let private extractCharacters =
     function
     | WorldPeopleInCurrentRoomChanged(characters) -> characters
     | _ -> failwith "Unexpected effect"
 
+let private generate place roomId state =
+    World.Population.generateForRoom Prague place roomId state
+    |> extractCharacters
+
+let private stateAt dayMoment =
+    let date = dummyToday |> Calendar.Transform.changeDayMoment dayMoment
+
+    { dummyState with
+        Today = date }
+
 [<SetUp>]
 let setup = RandomGen.reset
 
 [<Test>]
-let ``generateForPlace does not generate anyone at home`` () =
-    World.Population.generateForPlace Prague home dummyState
-    |> extractCharacters
+let ``generateForRoom does not generate anyone at home`` () =
+    generate home Ids.Home.livingRoom dummyState |> should haveLength 0
+
+[<Test>]
+let ``generateForRoom does not generate anyone in a hotel bedroom`` () =
+    generate hotel Ids.Home.bedroom dummyState |> should haveLength 0
+
+[<Test>]
+let ``generateForRoom does not generate anyone in the backstage`` () =
+    generate concertSpace Ids.ConcertSpace.backstage dummyState
     |> should haveLength 0
 
 [<Test>]
-let ``generateForPlace generates people depending on place type`` () =
-    World.Population.generateForPlace Prague airport dummyState
-    |> extractCharacters
+let ``generateForRoom generates people depending on room type`` () =
+    generate airport Ids.Common.lobby dummyState
     |> _.Length
-    |> should be (inRange 0 10)
+    |> should be (inRange 0 4)
 
-    World.Population.generateForPlace Prague hotel dummyState
-    |> extractCharacters
+    generate hotel Ids.Common.lobby dummyState
     |> _.Length
-    |> should be (inRange 1 5)
+    |> should be (inRange 0 4)
 
 [<Test>]
-let ``generateForPlace should add known people if character has relationships and does not add duplicates``
+let ``generateForRoom generates fewer people on the street at midnight`` () =
+    let street = firstPlace PlaceTypeIndex.Street
+
+    for _ in 1..20 do
+        generate street street.Rooms.StartingNode (stateAt Midnight)
+        |> _.Length
+        |> should be (inRange 0 3)
+
+[<Test>]
+let ``generateForRoom only adds band members to the rehearsal room`` () =
+    let bandMemberIds =
+        Queries.Bands.currentBandMembersWithoutPlayableCharacter dummyState
+        |> List.map _.CharacterId
+
+    let isBandMember (character: Character) =
+        bandMemberIds |> List.contains character.Id
+
+    generate rehearsalSpace (Ids.RehearsalRoom.room 1) dummyState
+    |> List.filter isBandMember
+    |> should haveLength bandMemberIds.Length
+
+    generate rehearsalSpace Ids.Common.lobby dummyState
+    |> List.filter isBandMember
+    |> should haveLength 0
+
+[<Test>]
+let ``generateForRoom should add known people if character has relationships and does not add duplicates``
     ()
     =
     (* Force adding known people. *)
@@ -75,7 +117,6 @@ let ``generateForPlace should add known people if character has relationships an
         )
         |> State.Root.applyEffect dummyState
 
-    World.Population.generateForPlace Prague airport stateWithRelationship
-    |> extractCharacters
+    generate airport Ids.Common.lobby stateWithRelationship
     |> List.filter (fun character -> character.Id = knownCharacter.Id)
     |> should haveLength 1

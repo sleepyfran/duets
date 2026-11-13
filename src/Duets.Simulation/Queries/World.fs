@@ -151,15 +151,9 @@ module World =
     /// Returns all the NPCs that are currently in the same coordinates as the
     /// character.
     let peopleInCurrentPlace state =
-        let room = currentRoom state
-
-        (* Prevent private rooms from being populated. *)
-        match room.RoomType with
-        | RoomType.Bedroom -> [], []
-        | _ ->
-            state.PeopleInCurrentPosition
-            |> List.partition (fun person ->
-                Relationship.withCharacter person.Id state |> Option.isSome)
+        state.PeopleInCurrentPosition
+        |> List.partition (fun person ->
+            Relationship.withCharacter person.Id state |> Option.isSome)
 
     /// Returns all connected places to the current street that match the given
     /// query. If the place is not a street, nothing is returned.

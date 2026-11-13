@@ -64,10 +64,11 @@ let private removeItemsRequiredByPlaceIfNeeded previousCoords currentCoords _ =
 
 let private generateNpcs previousCoords currentCoords state =
     let generateNpcs () =
-        let cityId, placeId, _ = currentCoords
+        let cityId, placeId, roomId = currentCoords
         let place = Queries.World.placeInCityById cityId placeId
 
-        World.Population.generateForPlace cityId place state |> List.singleton
+        World.Population.generateForRoom cityId place roomId state
+        |> List.singleton
 
     ifCoordsDiffer previousCoords currentCoords generateNpcs
 
@@ -84,7 +85,9 @@ let private changeSituationIfNeeded previousCoords currentCoords state =
 let internal run effect =
     match effect with
     | WorldEnterRoom(Diff(before, after)) ->
-        [ removeItemsIfNeeded before after ] |> ContinueChain |> Some
+        [ removeItemsIfNeeded before after; generateNpcs before after ]
+        |> ContinueChain
+        |> Some
     | WorldMoveToPlace(Diff(before, after)) ->
         [ removeItemsRequiredByPlaceIfNeeded before after
           generateNpcs before after
