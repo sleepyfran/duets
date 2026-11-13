@@ -7,6 +7,7 @@ open Duets.Entities
 open Duets.Entities.SituationTypes
 open Duets.Entities.World.Place.Type
 open Duets.Simulation
+open Duets.Simulation.Navigation
 
 let placeNameWithOpeningInfo placeDetails currentlyOpen =
     match currentlyOpen with
@@ -197,3 +198,26 @@ let roomSceneHeader roomType placeName dayMoment =
     $"""{roomName roomType |> Duets.Common.String.titleCase |> Styles.room}, {placeName |> Styles.place} {Styles.faded "·"} {Generic.dayMomentName dayMoment |> Styles.time}"""
 
 let roomSceneExits exits = $"Exits: {exits}."
+
+let pathAction cityId action =
+    match action with
+    | Pathfinding.GoOut(fromPlace, toStreet) ->
+        $"""{Styles.action "Leave"} {fromPlace.Name |> Styles.place} and {Styles.action "walk"} to {toStreet.Name |> Styles.place}"""
+    | Pathfinding.Enter(fromStreet, toPlace) ->
+        $"""{Styles.action "Enter"} {toPlace.Name |> Styles.place} from {fromStreet.Name |> Styles.place}"""
+    | Pathfinding.TakeMetro(fromStation, toStation, throughLine) ->
+        let fromStation = Queries.World.placeInCityById cityId fromStation.PlaceId
+        let toStation = Queries.World.placeInCityById cityId toStation.PlaceId
+
+        $"""{Styles.action "Take the metro"} from {fromStation.Name |> Styles.place} to {toStation.Name |> Styles.place} through the {Styles.line throughLine} line"""
+    | Pathfinding.Walk(fromStreet, toStreet, _) ->
+        $"""{Styles.action "Walk"} from {fromStreet.Name |> Styles.place} to {toStreet.Name |> Styles.place}"""
+
+let routeNextStep (destination: Place) nextStep stepsLeft travelTime =
+    let steps = if stepsLeft = 1 then "1 step" else $"{stepsLeft} steps"
+
+    $"""{Emoji.compass} To {destination.Name |> Styles.place} {Styles.faded $"({steps}, ~{travelTime} min left)"}: {nextStep}"""
+
+let routeArrived (destination: Place) =
+    $"{Emoji.compass} You've arrived at {destination.Name |> Styles.place}"
+    |> Styles.success

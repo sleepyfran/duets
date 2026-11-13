@@ -69,7 +69,7 @@ let private showPlaceChoice city placesInCity places =
 
     let selectedPlace =
         showCancellableChoicePrompt
-            Command.mapChoosePlace
+            Command.gpsChoosePlace
             Generic.back
             (fun place -> placeWithInfo city place specialProperties)
             places
@@ -85,7 +85,7 @@ let private showPlaceTypeChoice
     let availablePlaceTypes = placesInCity |> List.ofSeq |> List.map _.Key
 
     showCancellableChoicePrompt
-        Command.mapChoosePlaceTypePrompt
+        Command.gpsChoosePlaceTypePrompt
         Generic.cancel
         World.placeTypeName
         availablePlaceTypes

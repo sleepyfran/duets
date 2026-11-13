@@ -10,6 +10,7 @@ open Duets.Common
 open Duets.Entities
 open Duets.Entities.SituationTypes
 open Duets.Simulation
+open Duets.Simulation.Navigation
 
 let private commandsFromInteractions interactions =
     interactions
@@ -121,7 +122,7 @@ let private commandsFromInteractions interactions =
                       items
                       knownPeople
                       unknownPeople ]
-            | FreeRoamInteraction.Map -> [ MapCommand.get ]
+            | FreeRoamInteraction.Map -> [ GpsCommand.get ]
             | FreeRoamInteraction.Move(direction, roomId) ->
                 [ MovementCommand.create direction roomId ]
             | FreeRoamInteraction.Phone -> [ PhoneCommand.get ]
@@ -222,6 +223,19 @@ let private filterAttributesForInfoBar =
         | CharacterAttribute.Drunkenness when amount > 0 -> Some(attr, amount)
         | _ -> None)
 
+/// Returns the directions left in the current route and stops it on arrival.
+let private updateRoute state =
+    match Route.current state with
+    | Some(destination, []) ->
+        World.routeArrived destination |> showMessage
+        Route.stop ()
+        None
+    | Some(destination, directions) -> Some(destination, directions)
+    | None ->
+        (* The destination is in another city or can no longer be reached. *)
+        Route.stop ()
+        None
+
 type WorldMode =
     | IgnoreDescription
     | ShowDescription
@@ -262,6 +276,17 @@ let worldScene mode =
 
         showRoomInfo interactionsWithState
     | IgnoreDescription -> ()
+
+    let route = updateRoute state
+
+    let routeLine =
+        route
+        |> Option.map (fun (destination, directions) ->
+            World.routeNextStep
+                destination
+                (World.pathAction cityId (List.head directions))
+                directions.Length
+                (TravelTime.byPublicTransport directions))
 
     let characterAttributes =
         Queries.Characters.allPlayableCharacterAttributes (State.get ())
@@ -308,8 +333,13 @@ let worldScene mode =
                 characterAttributes
                 situation
                 currentPlace
+                routeLine
         | FreeRoam ->
-            Command.commonPrompt today currentDayMoment characterAttributes
+            Command.commonPrompt
+                today
+                currentDayMoment
+                characterAttributes
+                routeLine
 
     let commands =
         commandsFromInteractions interactionsWithState

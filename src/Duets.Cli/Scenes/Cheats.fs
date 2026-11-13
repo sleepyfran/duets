@@ -21,7 +21,7 @@ let cheatsScene () =
         |> Styles.prompt
 
     let commands =
-        leaveCommand :: ExitCommand.get :: MapCommand.get :: Cheats.Index.all
+        leaveCommand :: ExitCommand.get :: GpsCommand.get :: Cheats.Index.all
 
     commands
     |> (@)

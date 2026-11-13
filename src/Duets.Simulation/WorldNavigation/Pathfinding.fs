@@ -33,7 +33,7 @@ let private directionsToNode' directions cityId currentNode destinationNode =
         let targetPlace = Queries.World.placeInCityById cityId destinationNode
 
         match currentPlace.PlaceType with
-        | MetroStation ->
+        | MetroStation when currentPlace.ZoneId <> targetPlace.ZoneId ->
             goToStreetByMetro
                 cityId
                 currentPlace

@@ -54,6 +54,7 @@
         <Compile Include="Components\BarChart.fs"/>
         <Compile Include="Components\ProgressBar.fs"/>
         <Compile Include="Components\Map.fs"/>
+        <Compile Include="Components\Route.fs"/>
         <Compile Include="Components\Notification.fs"/>
         <Compile Include="Components\Table.fs"/>
         <Compile Include="Components\Calendar.fs"/>
@@ -86,7 +87,7 @@
         <Compile Include="Components\Commands\Exit.Command.fs"/>
         <Compile Include="Components\Commands\Help.Command.fs"/>
         <Compile Include="Components\Commands\Look.Command.fs"/>
-        <Compile Include="Components\Commands\Map.Command.fs"/>
+        <Compile Include="Components\Commands\Gps.Command.fs"/>
         <Compile Include="Components\Commands\Me.Command.fs"/>
         <Compile Include="Components\Commands\Movement.Command.fs"/>
         <Compile Include="Components\Commands\Phone.Command.fs"/>

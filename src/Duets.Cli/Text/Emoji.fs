@@ -98,6 +98,9 @@ let car = ":oncoming_automobile:"
 /// Returns the correct emoji for a metro.
 let metro = ":metro:"
 
+/// Emoji for the directions that the player is following.
+let compass = ":compass:"
+
 /// Returns the correct emoji for the given weather.
 let weather w =
     match w with

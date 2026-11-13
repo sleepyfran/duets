@@ -20,9 +20,12 @@ let inputHintCandidates (names: string list) remaining =
 let inputHintUnknown =
     $"""{Styles.danger "Unknown command."} {Styles.hint "Type 'help' to see what you can do"}"""
 
-let commonPrompt date dayMoment attributes =
+let commonPrompt date dayMoment attributes route =
+    let routeLine =
+        route |> Option.map (fun line -> $"{line}\n") |> Option.defaultValue ""
+
     $"""{Generic.infoBar date dayMoment attributes}
-{Styles.prompt "What do you want to do? Type 'help' if you're lost"}"""
+{routeLine}{Styles.prompt "What do you want to do? Type 'help' if you're lost"}"""
 
 let adjustDrumsDescription =
     "Allows you to adjust the drum settings. Doesn't do much, but it's important to play comfortably"
@@ -192,21 +195,30 @@ let meBirthdayAge birthday age =
 let wrongUsage usageSample =
     Styles.error $"Can't recognize that. Use as: {usageSample}"
 
-let mapDescription =
-    "Shows all the places in the current city that you can travel to"
+let gpsDescription =
+    $"""Opens your GPS to pick a place in the current city and guides you there step by step. Use {Styles.information "gps stop"} to turn the guidance off"""
 
-let mapChoosePlaceTypePrompt =
-    Styles.prompt "Which type of place do you want to travel to?"
+let gpsStopped = Styles.hint "You turn off the GPS guidance"
 
-let mapChoosePlace = Styles.prompt "Which place do you want to travel to?"
+let gpsNoActiveRoute =
+    Styles.error "Your GPS isn't guiding you anywhere right now"
 
-let mapCurrentCity cityId =
-    Styles.header
-        $"""You are currently in {Generic.cityName cityId |> Styles.highlight}"""
-
-let mapTip =
+let gpsFollowTip =
     Styles.faded
-        "Tip: In order to travel anywhere outside this city, use the airport to fly to another city"
+        $"""Tip: The GPS will show the next step above the prompt until you get there. Use {Styles.information "gps stop"} to turn it off"""
+
+let gpsChoosePlaceTypePrompt =
+    Styles.prompt "What kind of place are you looking for?"
+
+let gpsChoosePlace = Styles.prompt "Where do you want to go?"
+
+let gpsCurrentCity cityId =
+    Styles.header
+        $"""{Emoji.compass} GPS in {Generic.cityName cityId |> Styles.highlight}"""
+
+let gpsTip =
+    Styles.faded
+        "Tip: The GPS only knows about this city. To go somewhere else, head to the airport and fly there"
 
 let boardPlaneDescription flight =
     $"Boards your plane to {Generic.cityName flight.Destination}"

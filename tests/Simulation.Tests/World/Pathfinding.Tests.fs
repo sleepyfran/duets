@@ -223,6 +223,45 @@ let ``directionsToNode navigates through multiple metro transfers`` () =
         failwith
             "Expected to find a path between Hollywood and LAX via multiple metro transfers"
 
+[<Test>]
+let ``directionsToNode goes out of a metro station in the same zone as the destination``
+    ()
+    =
+    let kTownBroadcastTower =
+        Identity.Reproducible.create "K-Town Broadcast Tower"
+        |> Queries.World.placeInCityById LosAngeles
+
+    let koreatownStation =
+        Queries.World.placesByTypeInCity
+            LosAngeles
+            PlaceTypeIndex.MetroStation
+        |> List.find (fun place -> place.ZoneId = kTownBroadcastTower.ZoneId)
+
+    let result =
+        Pathfinding.directionsToNode
+            LosAngeles
+            koreatownStation.Id
+            kTownBroadcastTower.Id
+
+    match result with
+    | Some directions ->
+        match List.head directions with
+        | Pathfinding.GoOut(fromPlace, _) ->
+            fromPlace.Id |> should equal koreatownStation.Id
+        | _ -> failwith "Expected first direction to be GoOut"
+
+        directions
+        |> List.exists (function
+            | Pathfinding.TakeMetro _ -> true
+            | _ -> false)
+        |> should equal false
+
+        match List.last directions with
+        | Pathfinding.Enter(_, targetPlace) ->
+            targetPlace.Id |> should equal kTownBroadcastTower.Id
+        | _ -> failwith "Expected last direction to be Enter"
+    | None ->
+        failwith "Expected to find a path from the station to the destination"
 
 [<Test>]
 let ``directionsToNode handles multiple exits`` () =
