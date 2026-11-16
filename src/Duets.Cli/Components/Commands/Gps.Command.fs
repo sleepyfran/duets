@@ -42,7 +42,7 @@ module rec GpsCommand =
             $"Estimated travel time: ~{estimatedTravelTime |> Styles.time} minutes"
             |> showMessage
 
-            Route.follow destination
+            Route.follow city.Id destination directions
 
             Command.gpsFollowTip |> showMessage
             showContinuationPrompt ()
@@ -56,7 +56,7 @@ module rec GpsCommand =
             fun args ->
                 match args with
                 | [ "stop" ] ->
-                    match Route.current (State.get ()) with
+                    match Route.current () with
                     | Some _ ->
                         Route.stop ()
                         Command.gpsStopped |> showMessage

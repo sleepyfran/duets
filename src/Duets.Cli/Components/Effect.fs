@@ -334,6 +334,10 @@ let private displayEffect effect =
             previousLevel
             currentLevel
         |> showMessage
+    | WorldEnterRoom(Diff(before, after))
+    | WorldMoveToPlace(Diff(before, after)) ->
+        Route.advance before after
+        |> Option.iter (Text.World.World.routeArrived >> showMessage)
     | Wait _ ->
         let today = Queries.Calendar.today (State.get ())
 

@@ -223,19 +223,6 @@ let private filterAttributesForInfoBar =
         | CharacterAttribute.Drunkenness when amount > 0 -> Some(attr, amount)
         | _ -> None)
 
-/// Returns the directions left in the current route and stops it on arrival.
-let private updateRoute state =
-    match Route.current state with
-    | Some(destination, []) ->
-        World.routeArrived destination |> showMessage
-        Route.stop ()
-        None
-    | Some(destination, directions) -> Some(destination, directions)
-    | None ->
-        (* The destination is in another city or can no longer be reached. *)
-        Route.stop ()
-        None
-
 type WorldMode =
     | IgnoreDescription
     | ShowDescription
@@ -277,10 +264,8 @@ let worldScene mode =
         showRoomInfo interactionsWithState
     | IgnoreDescription -> ()
 
-    let route = updateRoute state
-
     let routeLine =
-        route
+        Route.current ()
         |> Option.map (fun (destination, directions) ->
             World.routeNextStep
                 destination

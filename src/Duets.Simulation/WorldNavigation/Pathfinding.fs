@@ -25,6 +25,25 @@ let directionsToNode cityId originNode destinationNode =
     | false -> None
     | true -> directionsToNode' [] cityId originNode destinationNode
 
+/// Returns the node that the player reaches after following the given action.
+let targetNode action =
+    match action with
+    | GoOut(_, street) -> street.Id
+    | Enter(_, place) -> place.Id
+    | TakeMetro(_, toStation, _) -> toStation.PlaceId
+    | Walk(_, toStreet, _) -> toStreet.Id
+
+/// Returns the directions left after the player moves to the given node,
+/// recalculating them only when the node is not part of the given directions.
+let advanceDirections cityId currentNode destinationNode directions =
+    let reachedStepIndex =
+        directions
+        |> List.tryFindIndex (fun action -> targetNode action = currentNode)
+
+    match reachedStepIndex with
+    | Some index -> directions |> List.skip (index + 1) |> Some
+    | None -> directionsToNode cityId currentNode destinationNode
+
 let private directionsToNode' directions cityId currentNode destinationNode =
     if currentNode = destinationNode then
         Some(List.rev directions)

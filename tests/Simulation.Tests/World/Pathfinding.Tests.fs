@@ -279,3 +279,77 @@ let ``directionsToNode handles multiple exits`` () =
             if Map.count place.Exits > 1 then
                 failwith
                     "directionsToNode is currently not able to deal with multiple exits properly, implement it!"))
+
+[<Test>]
+let ``advanceDirections drops the directions up to the reached node`` () =
+    let hotelEmperador =
+        Identity.Reproducible.create "Hotel Emperador"
+        |> Queries.World.placeInCityById Madrid
+
+    let estudioUno =
+        Identity.Reproducible.create "Estudio Uno"
+        |> Queries.World.placeInCityById Madrid
+
+    let directions =
+        Pathfinding.directionsToNode Madrid hotelEmperador.Id estudioUno.Id
+        |> Option.get
+
+    let reachedNode = directions |> List.item 1 |> Pathfinding.targetNode
+
+    let result =
+        Pathfinding.advanceDirections
+            Madrid
+            reachedNode
+            estudioUno.Id
+            directions
+
+    result |> should equal (Some(List.skip 2 directions))
+
+[<Test>]
+let ``advanceDirections returns no directions when reaching the destination``
+    ()
+    =
+    let pretAManger =
+        Identity.Reproducible.create "Pret a Manger"
+        |> Queries.World.placeInCityById London
+
+    let cafeNero =
+        Identity.Reproducible.create "Cafe Nero"
+        |> Queries.World.placeInCityById London
+
+    let directions =
+        Pathfinding.directionsToNode London pretAManger.Id cafeNero.Id
+        |> Option.get
+
+    let result =
+        Pathfinding.advanceDirections London cafeNero.Id cafeNero.Id directions
+
+    result |> should equal (Some List.empty<Pathfinding.PathAction>)
+
+[<Test>]
+let ``advanceDirections recalculates when leaving the expected path`` () =
+    let hotelEmperador =
+        Identity.Reproducible.create "Hotel Emperador"
+        |> Queries.World.placeInCityById Madrid
+
+    let casaLabra =
+        Identity.Reproducible.create "Casa Labra"
+        |> Queries.World.placeInCityById Madrid
+
+    let estudioUno =
+        Identity.Reproducible.create "Estudio Uno"
+        |> Queries.World.placeInCityById Madrid
+
+    let directions =
+        Pathfinding.directionsToNode Madrid hotelEmperador.Id estudioUno.Id
+        |> Option.get
+
+    let result =
+        Pathfinding.advanceDirections
+            Madrid
+            casaLabra.Id
+            estudioUno.Id
+            directions
+
+    result
+    |> should equal (Pathfinding.directionsToNode Madrid casaLabra.Id estudioUno.Id)
