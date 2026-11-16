@@ -179,6 +179,32 @@ Recursive scene dispatcher in `Program.fs`: each scene returns the next scene.
 - **Test core logic**: All game mechanics in Simulation should have tests
 - **Follow the effect pattern**: Actions return effects, effects modify state, state triggers more effects
 
+# Code Style
+
+## Matching
+
+Don't match directly on a piped or point-free expression. Bind the value to a `let` with a name that explains it, then match on that:
+
+```fsharp
+(* Bad *)
+match directions |> List.tryFindIndex (targetNode >> (=) currentNode) with
+...
+
+result
+|> function
+    | Some x -> ...
+
+(* Good *)
+let reachedStepIndex =
+    directions
+    |> List.tryFindIndex (fun action -> targetNode action = currentNode)
+
+match reachedStepIndex with
+...
+```
+
+Prefer explicit lambdas (`fun action -> targetNode action = currentNode`) over composed predicates like `(targetNode >> (=) currentNode)`.
+
 # Code Comments
 
 Follow this whenever you write or edit F# code (modules, functions, types, record fields, inline comments, tests). Comments here are short and plain. They say **what** something is or does, in one sentence, and stay out of the way. The code explains the how. An inline comment only appears when the why isn't obvious from the code. When in doubt, write less, or nothing.
